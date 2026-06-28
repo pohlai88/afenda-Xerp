@@ -16,7 +16,7 @@
     { "path": "./packages/permissions" },
     { "path": "./packages/feature-flags" },
     { "path": "./packages/metadata-ui" },
-    { "path": "./packages/metadata" },
+    { "path": "./packages/ui-composition" },
     { "path": "./packages/ai-governance" },
     { "path": "./packages/architecture-authority" },
     { "path": "./packages/appshell" }

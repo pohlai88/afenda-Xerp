@@ -138,8 +138,8 @@
     },
     {
       "registryId": "PKG-011",
-      "packageName": "@afenda/metadata",
-      "path": "packages/metadata",
+      "packageName": "@afenda/ui-composition",
+      "path": "packages/ui-composition",
       "layer": "Metadata",
       "lifecycle": "active",
       "purpose": "Metadata architecture authority contracts",
@@ -364,7 +364,7 @@
       "authorityLevel": "platform"
     },
     {
-      "packageName": "@afenda/metadata",
+      "packageName": "@afenda/ui-composition",
       "ownerDomain": "Metadata Authority",
       "authorityLevel": "metadata"
     },
@@ -427,7 +427,7 @@
     "@afenda/ui": "Design",
     "@afenda/execution": "Foundation",
     "@afenda/storage": "Foundation",
-    "@afenda/metadata": "Metadata",
+    "@afenda/ui-composition": "Metadata",
     "@afenda/metadata-ui": "Metadata",
     "@afenda/entitlements": "Integration",
     "@afenda/feature-flags": "Integration",
@@ -506,7 +506,7 @@
     },
     {
       "from": "@afenda/erp",
-      "to": "@afenda/metadata",
+      "to": "@afenda/ui-composition",
       "classification": "Approved"
     },
     {
@@ -551,7 +551,7 @@
     },
     {
       "from": "@afenda/storybook",
-      "to": "@afenda/metadata",
+      "to": "@afenda/ui-composition",
       "classification": "Approved"
     },
     {
@@ -581,7 +581,7 @@
     },
     {
       "from": "@afenda/metadata-ui",
-      "to": "@afenda/metadata",
+      "to": "@afenda/ui-composition",
       "classification": "Approved"
     },
     {

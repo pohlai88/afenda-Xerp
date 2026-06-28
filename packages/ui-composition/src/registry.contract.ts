@@ -164,7 +164,7 @@ export interface RegistryEntry {
   /**
    * Package responsible for the entry.
    *
-   * Example: `@afenda/metadata`, `@afenda/metadata-ui`
+   * Example: `@afenda/ui-composition`, `@afenda/metadata-ui`
    */
   readonly ownerPackage: RegistryOwnerPackage;
 

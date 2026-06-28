@@ -68,7 +68,7 @@ export const layerContract: LayerContract = {
     "@afenda/execution": "Foundation",
     "@afenda/storage": "Foundation",
     "@afenda/accounting-standards": "Foundation",
-    "@afenda/metadata": "Metadata",
+    "@afenda/ui-composition": "Metadata",
     "@afenda/metadata-ui": "Metadata",
     "@afenda/entitlements": "Integration",
     "@afenda/feature-flags": "Integration",

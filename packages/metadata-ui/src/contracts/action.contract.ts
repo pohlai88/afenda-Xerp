@@ -2,7 +2,7 @@
  * Metadata action contracts.
  *
  * Authority:
- * - Re-exports action vocabulary from @afenda/metadata.
+ * - Re-exports action vocabulary from @afenda/ui-composition.
  * - Adds metadata-ui render and handler contracts.
  *
  * Security:
@@ -10,7 +10,7 @@
  * - Handlers are consumer-owned; results align with server-action-security vocabulary.
  */
 
-import type { MetadataAction as MetadataAuthorityAction } from "@afenda/metadata";
+import type { MetadataAction as MetadataAuthorityAction } from "@afenda/ui-composition";
 
 export type {
   MetadataAction,
@@ -20,7 +20,7 @@ export type {
   MetadataActionKind,
   MetadataActionTarget,
   MetadataActionVisibilityState,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 
 /**
  * Error codes aligned with server-action-security vocabulary.

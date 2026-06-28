@@ -3,7 +3,7 @@
  *
  * Authority:
  * - Defines normalized diagnostics snapshot shapes for metadata UI rendering.
- * - Consumes governed vocabulary from @afenda/metadata — does not redefine it.
+ * - Consumes governed vocabulary from @afenda/ui-composition — does not redefine it.
  * - Does not execute logging, tracing, or observability services.
  */
 
@@ -21,7 +21,7 @@ import type {
   RendererCapability,
   SectionType,
   SurfaceType,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 
 import type { MetadataUiRenderContext } from "./render-context.contract.js";
 

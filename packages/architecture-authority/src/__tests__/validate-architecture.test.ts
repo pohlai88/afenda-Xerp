@@ -52,7 +52,7 @@ describe("validateArchitecture", () => {
         "@afenda/execution": "workspace:*",
         "@afenda/feature-flags": "workspace:*",
         "@afenda/kernel": "workspace:*",
-        "@afenda/metadata": "workspace:*",
+        "@afenda/ui-composition": "workspace:*",
         "@afenda/metadata-ui": "workspace:*",
         "@afenda/observability": "workspace:*",
         "@afenda/permissions": "workspace:*",
@@ -67,11 +67,11 @@ describe("validateArchitecture", () => {
         "@afenda/entitlements": "workspace:*",
       }),
       workspace("@afenda/kernel"),
-      workspace("@afenda/metadata", {
+      workspace("@afenda/ui-composition", {
         "@afenda/enterprise-knowledge": "workspace:*",
       }),
       workspace("@afenda/metadata-ui", {
-        "@afenda/metadata": "workspace:*",
+        "@afenda/ui-composition": "workspace:*",
         "@afenda/ui": "workspace:*",
       }),
       workspace("@afenda/observability"),
@@ -83,7 +83,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/storybook", {
         "@afenda/appshell": "workspace:*",
         "@afenda/design-system": "workspace:*",
-        "@afenda/metadata": "workspace:*",
+        "@afenda/ui-composition": "workspace:*",
         "@afenda/metadata-ui": "workspace:*",
         "@afenda/ui": "workspace:*",
       }),
@@ -136,7 +136,7 @@ describe("validateArchitecture", () => {
         "@afenda/execution": "workspace:*",
         "@afenda/feature-flags": "workspace:*",
         "@afenda/kernel": "workspace:*",
-        "@afenda/metadata": "workspace:*",
+        "@afenda/ui-composition": "workspace:*",
         "@afenda/metadata-ui": "workspace:*",
         "@afenda/observability": "workspace:*",
         "@afenda/permissions": "workspace:*",
@@ -146,11 +146,11 @@ describe("validateArchitecture", () => {
       workspace("@afenda/feature-flags", {
         "@afenda/entitlements": "workspace:*",
       }),
-      workspace("@afenda/metadata", {
+      workspace("@afenda/ui-composition", {
         "@afenda/enterprise-knowledge": "workspace:*",
       }),
       workspace("@afenda/metadata-ui", {
-        "@afenda/metadata": "workspace:*",
+        "@afenda/ui-composition": "workspace:*",
         "@afenda/ui": "workspace:*",
       }),
       workspace("@afenda/permissions", {

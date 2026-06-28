@@ -13,7 +13,7 @@
  * is never named globals.css; each package owns one afenda-<package>.css.
  *
  * DO NOT import fixture CSS here (metadata-ui/fixtures.css).
- * DO NOT import @afenda/metadata (pure contract package — no CSS).
+ * DO NOT import @afenda/ui-composition (pure contract package — no CSS).
  */
 
 /* ── Cascade layer order ─────────────────────────────────────────────────── */

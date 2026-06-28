@@ -43,7 +43,7 @@ This package is **governance-only**. It has no runtime dependencies on other Afe
 | `@afenda/execution` | Foundation | Platform Authority |
 | `@afenda/kernel` | Platform | Platform Authority |
 | `@afenda/storage` | Foundation | Platform Authority |
-| `@afenda/metadata` | Metadata | Metadata Authority |
+| `@afenda/ui-composition` | Metadata | Metadata Authority |
 | `@afenda/metadata-ui` | Metadata | Metadata Authority |
 | `@afenda/entitlements` | Integration | Platform Authority |
 | `@afenda/feature-flags` | Integration | Platform Authority |
@@ -103,7 +103,7 @@ import {
   isLayerDependencyAllowed,     // (fromLayer, toLayer) => boolean
 } from "@afenda/architecture-authority";
 
-const layer = getPackageLayer("@afenda/metadata"); // → "Metadata"
+const layer = getPackageLayer("@afenda/ui-composition"); // → "Metadata"
 const ok = isLayerDependencyAllowed("Metadata", "Design"); // → true
 const bad = isLayerDependencyAllowed("Design", "Metadata"); // → false
 ```

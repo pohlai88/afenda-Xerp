@@ -1,7 +1,7 @@
 import {
   createRegistryEntry,
   getRendererCapabilityForSectionType,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 
 import { createMetadataRendererDefinition } from "../registry/create-metadata-renderer-definition.js";
 import { MetadataUiError } from "../runtime/metadata-ui-error.js";

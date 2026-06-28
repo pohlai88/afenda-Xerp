@@ -78,7 +78,7 @@ export const designSystemCssManifest = [
     legacy: true,
     allowedImporters: ["apps/*", "@afenda/ui", "@afenda/storybook"],
     prohibitedImporters: [
-      "@afenda/metadata",
+      "@afenda/ui-composition",
       "@afenda/metadata-ui",
       "@afenda/appshell",
     ],

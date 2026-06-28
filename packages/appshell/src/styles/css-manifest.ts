@@ -19,7 +19,7 @@ export const appShellCssManifest = [
       "@afenda/appshell/storybook",
       "@afenda/storybook",
     ],
-    prohibitedImporters: ["@afenda/metadata", "@afenda/metadata-ui"],
+    prohibitedImporters: ["@afenda/ui-composition", "@afenda/metadata-ui"],
     classNamespace: "app-shell-",
     propertyNamespace: "--app-shell-",
   },
@@ -39,7 +39,7 @@ export const appShellCssManifest = [
     allowedImporters: ["@afenda/appshell"],
     prohibitedImporters: [
       "apps/*",
-      "@afenda/metadata",
+      "@afenda/ui-composition",
       "@afenda/metadata-ui",
       "@afenda/ui",
     ],
@@ -61,7 +61,7 @@ export const appShellCssManifest = [
     allowedImporters: ["@afenda/appshell"],
     prohibitedImporters: [
       "apps/*",
-      "@afenda/metadata",
+      "@afenda/ui-composition",
       "@afenda/metadata-ui",
       "@afenda/ui",
     ],

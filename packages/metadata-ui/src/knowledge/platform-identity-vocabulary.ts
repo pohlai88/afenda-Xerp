@@ -9,4 +9,4 @@ export {
   resolvePlatformIdentityKnowledgeBusinessTitle,
   resolvePlatformIdentityKnowledgeCanonicalDefinition,
   resolvePlatformIdentityKnowledgeLabel,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";

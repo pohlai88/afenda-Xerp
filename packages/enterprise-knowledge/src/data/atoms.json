@@ -395,7 +395,7 @@
     "lineage": {
       "origin": "Metadata-driven ERP UI patterns.",
       "evolution": [],
-      "currentAuthority": "PAS-001 shape · @afenda/metadata consumers",
+      "currentAuthority": "PAS-001 shape · @afenda/ui-composition consumers",
       "futureDirection": "Canonical surface registry alignment."
     },
     "misconceptions": [
@@ -760,7 +760,7 @@
       "applicable": ["engineering", "platform"],
       "notApplicable": ["accounting"],
       "exceptions": [
-        "@afenda/metadata owns UI rendering metadata, not PAS-004 knowledge"
+        "@afenda/ui-composition owns UI rendering metadata, not PAS-004 knowledge"
       ]
     },
     "lifecycle": "accepted",

@@ -19,7 +19,7 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
 const INTEGRATION_PACKAGES = [
   "@afenda/design-system",
   "@afenda/ui",
-  "@afenda/metadata",
+  "@afenda/ui-composition",
   "@afenda/metadata-ui",
   "@afenda/appshell",
 ] as const;
@@ -29,7 +29,7 @@ type IntegrationPackage = (typeof INTEGRATION_PACKAGES)[number];
 const PACKAGE_ROOTS: Record<IntegrationPackage, string> = {
   "@afenda/design-system": join(repoRoot, "packages/design-system"),
   "@afenda/ui": join(repoRoot, "packages/ui"),
-  "@afenda/metadata": join(repoRoot, "packages/metadata"),
+  "@afenda/ui-composition": join(repoRoot, "packages/ui-composition"),
   "@afenda/metadata-ui": join(repoRoot, "packages/metadata-ui"),
   "@afenda/appshell": join(repoRoot, "packages/appshell"),
 };
@@ -134,7 +134,7 @@ function productionSourceFiles(pkg: IntegrationPackage): string[] {
 }
 
 function checkMetadataContractOnly(violations: DownstreamViolation[]): void {
-  const metadataRoot = PACKAGE_ROOTS["@afenda/metadata"];
+  const metadataRoot = PACKAGE_ROOTS["@afenda/ui-composition"];
   const files = collectSourceFiles(metadataRoot, {
     extensions: [".ts", ".tsx", ".css"],
     skipDirs: ["node_modules", "dist", "__tests__"],
@@ -146,7 +146,7 @@ function checkMetadataContractOnly(violations: DownstreamViolation[]): void {
         rule: "metadata-contract-only",
         file: rel(file),
         message:
-          "@afenda/metadata must not ship CSS or TSX implementation files",
+          "@afenda/ui-composition must not ship CSS or TSX implementation files",
       });
     }
 
@@ -160,7 +160,7 @@ function checkMetadataContractOnly(violations: DownstreamViolation[]): void {
         violations.push({
           rule: "metadata-no-ui-imports",
           file: rel(file),
-          message: `@afenda/metadata must not import ${prohibited}`,
+          message: `@afenda/ui-composition must not import ${prohibited}`,
         });
       }
     }
@@ -169,7 +169,7 @@ function checkMetadataContractOnly(violations: DownstreamViolation[]): void {
       violations.push({
         rule: "metadata-no-css",
         file: rel(file),
-        message: "@afenda/metadata must not import CSS",
+        message: "@afenda/ui-composition must not import CSS",
       });
     }
   }
@@ -395,7 +395,7 @@ function checkDependencyGraph(violations: DownstreamViolation[]): void {
     [],
     [
       "@afenda/ui",
-      "@afenda/metadata",
+      "@afenda/ui-composition",
       "@afenda/metadata-ui",
       "@afenda/appshell",
     ]
@@ -404,12 +404,12 @@ function checkDependencyGraph(violations: DownstreamViolation[]): void {
   checkPackageDependency(violations, "@afenda/ui", "@afenda/design-system", [
     "@afenda/metadata-ui",
     "@afenda/appshell",
-    "@afenda/metadata",
+    "@afenda/ui-composition",
   ]);
 
   checkPackageDependency(
     violations,
-    "@afenda/metadata",
+    "@afenda/ui-composition",
     [],
     [
       "@afenda/ui",
@@ -422,13 +422,13 @@ function checkDependencyGraph(violations: DownstreamViolation[]): void {
   checkPackageDependency(
     violations,
     "@afenda/metadata-ui",
-    ["@afenda/metadata", "@afenda/ui"],
+    ["@afenda/ui-composition", "@afenda/ui"],
     ["@afenda/appshell"]
   );
 
   checkPackageDependency(violations, "@afenda/appshell", "@afenda/ui", [
     "@afenda/metadata-ui",
-    "@afenda/metadata",
+    "@afenda/ui-composition",
   ]);
 
   checkProductionImports(
@@ -441,14 +441,14 @@ function checkDependencyGraph(violations: DownstreamViolation[]): void {
   checkProductionImports(
     violations,
     "@afenda/appshell",
-    ["@afenda/metadata-ui", "@afenda/metadata"],
+    ["@afenda/metadata-ui", "@afenda/ui-composition"],
     "appshell-no-metadata-ui-import"
   );
 
   checkRequiredProductionImport(
     violations,
     "@afenda/metadata-ui",
-    "@afenda/metadata",
+    "@afenda/ui-composition",
     "metadata-ui-consumes-metadata"
   );
 

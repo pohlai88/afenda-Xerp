@@ -29,7 +29,8 @@ Spawned agent or main agent must Read:
 
 1. `.cursor/skills/enterprise-frontend-audit/SKILL.md` — performance section
 2. `.cursor/skills/enterprise-frontend-audit/reference/performance.md`
-3. `.cursor/skills/vendor/agent-skills/skills/performance-optimization/SKILL.md` — measure-first checklist
+3. `.cursor/skills/vendor/agent-skills/skills/performance-optimization/SKILL.md` — measure-first workflow
+4. `.cursor/references/performance-checklist.md` — CWV targets and anti-patterns
 
 ### 3. Spawn analysis Task
 

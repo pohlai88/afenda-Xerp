@@ -1,4 +1,4 @@
-# `@afenda/metadata`
+# `@afenda/ui-composition`
 
 **Architecture layer:** Metadata  
 **Lifecycle:** Active  
@@ -8,14 +8,14 @@
 
 ## What this package is
 
-`@afenda/metadata` is the **governance authority** for the Afenda metadata architecture. It freezes ownership of metadata vocabulary, surface definitions, layout arrangements, section content zones, renderer resolution rules, registry governance, presentation modes, and runtime execution context before any Metadata UI implementation begins.
+`@afenda/ui-composition` is the **governance authority** for the Afenda metadata architecture. It freezes ownership of metadata vocabulary, surface definitions, layout arrangements, section content zones, renderer resolution rules, registry governance, presentation modes, and runtime execution context before any Metadata UI implementation begins.
 
 This package is **governance-only**. It contains no UI components, no renderers, no React code, no business logic, and no database access. It has zero runtime dependencies on other Afenda packages.
 
 ## Source layout
 
 ```txt
-packages/metadata/src/
+packages/ui-composition/src/
   governance/
     cross-package-authority.contract.ts   # inter-package boundaries
     metadata-authority-map.contract.ts    # authority map (derives from domain contracts)
@@ -65,21 +65,21 @@ Each domain contract also exports `*_CONTRACT_OWNERSHIPS` and `*_CONTRACT_PROHIB
 
 ## Package dependency rule
 
-`@afenda/metadata-ui` **must** depend on `@afenda/metadata` and consume its authority contracts. These two packages must never be merged. The prohibition is encoded in `metadataUiIntegrationRule` (also available on `crossPackageAuthority.metadataUiIntegrationRule`).
+`@afenda/metadata-ui` **must** depend on `@afenda/ui-composition` and consume its authority contracts. These two packages must never be merged. The prohibition is encoded in `metadataUiIntegrationRule` (also available on `crossPackageAuthority.metadataUiIntegrationRule`).
 
 ## Architecture dependency graph
 
 ```txt
 @afenda/design-system ──┐
                         ├──▶ @afenda/metadata-ui   (TIP-007, implementation)
-@afenda/metadata ───────┘
+@afenda/ui-composition ───────┘
 ```
 
 ## Installation
 
 ```bash
 # Workspace-internal only. Not published to npm.
-pnpm add @afenda/metadata --workspace
+pnpm add @afenda/ui-composition --workspace
 ```
 
 ## Usage
@@ -109,7 +109,7 @@ import {
   presentationContract,
   runtimeContract,
   METADATA_CONTRACT_VERSION,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 
 const surfaceAuthority = metadataAuthorityMap.surface;
 console.log(SURFACE_TYPES);
@@ -145,7 +145,7 @@ import type {
   MetadataRuntimeState,
   MetadataGovernanceErrorCode,
   SerializedMetadataGovernanceError,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 ```
 
 - `RendererCompatibilityRule.sectionType` is typed as `SectionType` — a non-governed section type is a compile error.
@@ -172,9 +172,9 @@ Registry entries should be created with `createRegistryEntry()` so `RegistryEntr
 ## Commands
 
 ```bash
-pnpm --filter @afenda/metadata typecheck
-pnpm --filter @afenda/metadata test:run
-pnpm --filter @afenda/metadata build
+pnpm --filter @afenda/ui-composition typecheck
+pnpm --filter @afenda/ui-composition test:run
+pnpm --filter @afenda/ui-composition build
 ```
 
 ## Governance rules
@@ -184,7 +184,7 @@ pnpm --filter @afenda/metadata build
 | Consume approved contracts from this package | Invent new metadata authority domains |
 | Generate metadata schemas from approved governed arrays | Invent layout, surface, or section types outside governed arrays |
 | Implement renderers in `@afenda/metadata-ui` | Invent registry or runtime architecture |
-| Create tests for metadata governance | Merge `@afenda/metadata` into `@afenda/metadata-ui` |
+| Create tests for metadata governance | Merge `@afenda/ui-composition` into `@afenda/metadata-ui` |
 
 See `metadataAiGovernanceRules` for the full machine-readable rule set (`may`, `mayNot`, `must`).
 

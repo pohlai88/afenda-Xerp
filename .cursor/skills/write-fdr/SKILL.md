@@ -118,7 +118,7 @@ Full template → [TEMPLATES.md §A](TEMPLATES.md). Required sections:
 
 ## 3 · File path planning — boundary rules
 
-Same as write-tip §3:
+Status vocabulary (closed set — ADR-0012):
 
 - Edit only paths under `runtimeOwner` from registry entry
 - Cross-package imports must appear in dependency-registry
@@ -168,7 +168,7 @@ Required GIVEN clauses for Afenda enterprise features:
 
 ## 6 · ADR authoring
 
-Unchanged from write-tip §6. File path: `docs/adr/ADR-NNNN-short-title.md`.
+ADR template: file path `docs/adr/ADR-NNNN-short-title.md` — see §6 below.
 
 ---
 

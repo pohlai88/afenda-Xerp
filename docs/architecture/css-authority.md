@@ -51,7 +51,7 @@ apps/erp
 | `@afenda/metadata-ui` | `@afenda/appshell` CSS |
 | `@afenda/appshell` | `@afenda/metadata-ui` CSS |
 | `@afenda/ui` | `@afenda/metadata-ui` or `@afenda/appshell` CSS |
-| `@afenda/metadata` | ANY CSS (pure contract package) |
+| `@afenda/ui-composition` | ANY CSS (pure contract package) |
 | `@afenda/design-system` | ANY downstream package CSS |
 | production app globals | any `fixtures.css` file |
 
@@ -294,7 +294,7 @@ export const packageCssManifest = [
     requiresTailwindTheme: false,       // true only for @theme bridge files
     internalOnly: true,                 // optional — shares exportPath; skip duplicate-export check
     allowedImporters: ["apps/*"],
-    prohibitedImporters: ["@afenda/metadata"],
+    prohibitedImporters: ["@afenda/ui-composition"],
     classNamespace: "metadata-",        // leading class prefix contract
     propertyNamespace: "none",          // custom-property prefix contract
   },

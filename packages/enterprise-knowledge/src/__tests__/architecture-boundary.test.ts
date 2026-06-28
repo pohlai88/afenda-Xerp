@@ -14,7 +14,7 @@ const packageJson = JSON.parse(
 const PROHIBITED_RUNTIME_DEPENDENCIES = [
   "@afenda/architecture-authority",
   "@afenda/database",
-  "@afenda/metadata",
+  "@afenda/ui-composition",
   "@afenda/metadata-ui",
   "@afenda/kernel",
   "@afenda/ui",

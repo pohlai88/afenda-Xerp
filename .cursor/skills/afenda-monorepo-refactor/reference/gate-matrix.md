@@ -76,7 +76,7 @@ Do **not** run gates in `audit` or `plan` mode unless user explicitly requests. 
 
 ## stabilize mode
 
-Use full `afenda-implementation-health` gate set for approved scope. Minimum:
+Use `@afenda-governed-implementer` (Plan Compliance Matrix + Phase 0 + gates from `afenda-coding-session/VERIFICATION.md`) for approved scope. Minimum:
 
 ```bash
 pnpm --filter <scope> typecheck

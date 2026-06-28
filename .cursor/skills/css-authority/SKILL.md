@@ -6,6 +6,17 @@ disable-model-invocation: false
 
 # @afenda/css-authority — Authority Skill (PAS-005)
 
+## PAS rollout status (mirror header — sync on slice close)
+
+| Field | Value |
+| --- | --- |
+| **Runtime status** | B26–B37 delivered — 569-token registry (465 afenda + 44 appshell + 14 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
+| **Remaining slices** | none — optional enhancements only |
+
+> Canonical: [`docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md) · Closure: [`pas-status-index.md`](../../docs/PAS/pas-status-index.md)
+
+---
+
 ## Boundary (one sentence)
 
 `@afenda/css-authority` **owns CSS token authority — authority JSON sources, generated CSS Authority Registry (`CSS-TOKEN-*`), vendored shadcn theme, Afenda extension CSS, and consumption validation; it never owns TIP-004 variant/recipe/state registries, React UI primitives, AppShell block TSX, or app composition beyond CSS exports.**

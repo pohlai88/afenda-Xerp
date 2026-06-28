@@ -18,7 +18,7 @@
   "dependencies": {
     "@afenda/appshell": "workspace:*",
     "@afenda/design-system": "workspace:*",
-    "@afenda/metadata": "workspace:*",
+    "@afenda/ui-composition": "workspace:*",
     "@afenda/metadata-ui": "workspace:*",
     "@afenda/ui": "workspace:*",
     "@tanstack/react-table": "^8.21.3",

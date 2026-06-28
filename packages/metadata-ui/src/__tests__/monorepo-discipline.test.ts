@@ -134,9 +134,8 @@ describe("metadata-ui monorepo discipline", () => {
   });
 
   it("consumes metadata and UI governance as runtime workspace dependencies", () => {
-    expect([...declaredRuntimeDependencies].sort()).toEqual([
-      "@afenda/metadata",
-      "@afenda/ui",
-    ]);
+    expect([...declaredRuntimeDependencies].sort()).toEqual(
+      ["@afenda/ui", "@afenda/ui-composition"].sort()
+    );
   });
 });

@@ -6,6 +6,23 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 
 ---
 
+## PAS-001 Kernel Authority — Enterprise Accepted
+
+| Field | Value |
+| --- | --- |
+| **Status** | Enterprise Accepted — kernel contracts, runtime gates operational |
+| **Authority** | PAS-001 · `@afenda/kernel` · Platform |
+| **Maturity** | `enterprise_accepted` · `implemented` · `runtime_proven` |
+| **Runtime status** | Enterprise Accepted — kernel contracts, 29 delivered slices, runtime gates operational |
+| **Remaining slices** | B18 — public exports parity (PAS §6.3–§6.4) |
+| **Runtime evidence** | `packages/kernel/`, PAS-001 canonical doc, `kernel-package-layout.contract.ts`, `check:kernel-package-structure` |
+| **Gates** | `pnpm --filter @afenda/kernel typecheck`, `pnpm --filter @afenda/kernel test:run`, `pnpm quality:kernel-context-surface`, `pnpm check:accounting-domain-contracts`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries`, `pnpm architecture:cycles`, `pnpm architecture:drift` |
+| **Result** | Kernel platform vocabulary, execution context, identity constitution (ADR-0021–0023), and PAS §6.1 package-tree sync operational |
+
+**Next sequence item:** Slice B18 — public exports parity ([`slice/b18-6.3-public-exports-parity.md`](slice/b18-6.3-public-exports-parity.md)).
+
+---
+
 ## PAS-005 CSS Authority — greenfield scaffold (MVP Authority)
 
 | Field | Value |
@@ -16,7 +33,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Runtime status** | B26–B37 delivered — 569-token registry (465 afenda + 44 appshell + 14 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
 | **Remaining slices** | none — optional enhancements only |
 | **Runtime evidence** | `afenda-ui.css` → `afenda-tokens.css` + `afenda-css-authority.css`; B30 shim; thin JSON-backed registry; R23–R30 + domain-sync + bridge-sync + visual contract + docs pixel baselines |
-| **Gates** | `pnpm check:css-visual-regression`, `pnpm check:css-authority-bridge-sync`, `pnpm check:css-authority-domain-sync`, `pnpm check:css-governance`, `pnpm check:css-authority-consumption`, `pnpm quality:boundaries` |
+| **Gates** | `pnpm check:css-visual-regression`, `pnpm check:css-authority-bridge-sync`, `pnpm check:css-authority-domain-sync`, `pnpm check:css-governance`, `pnpm check:css-authority-consumption`, `pnpm check:css-authority-conformance`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
 | **Result** | CSS Authority owns generator-synced runtime bridge; design-system token shim; Storybook composed ERP/metadata-ui spot-check reference |
 
 **Next sequence item:** none — PAS-005 MVP slice sequence closed (see [PAS-005 §14](PAS-005-CSS-AUTHORITY-STANDARD.md#14-remaining-work-post-mvp)).
@@ -91,7 +108,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Status** | Closed — B33–B37 delivered; PKGR04 promoted 2026-06-28 |
 | **Authority** | PAS-004B · PAS-004A baseline · PAS-001 §4.1 / ADR-0021 · `PKGR04_ENTERPRISE_KNOWLEDGE` |
 | **Maturity** | `enterprise_accepted` (40/40 scorecard) |
-| **Runtime status** | All B33–B36 gates operational; registry authority PAS-004B |
+| **Runtime status** | B33–B37 closed — scorecard 40/40; PKGR04 authority PAS-004B |
 | **Remaining slices** | none |
 | **Runtime evidence** | B33–B36 governance scripts under `scripts/governance/check-knowledge-*` |
 | **Gates (B33+)** | all §13.3 gates ✓ |

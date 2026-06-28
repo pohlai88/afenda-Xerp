@@ -36,7 +36,7 @@ Version:
 0.1.0
 ```
 
-This package is the **implementation layer** for governed metadata rendering. It consumes `@afenda/metadata` contracts and renders governed metadata surfaces, layouts, sections, states, actions, diagnostics, and renderer resolution.
+This package is the **implementation layer** for governed metadata rendering. It consumes `@afenda/ui-composition` contracts and renders governed metadata surfaces, layouts, sections, states, actions, diagnostics, and renderer resolution.
 
 This package must **not** redefine metadata authority. It must not invent new surface types, layout types, section types, runtime states, presentation modes, density modes, or registry rules.
 
@@ -48,7 +48,7 @@ Implement `@afenda/metadata-ui` as the official Afenda metadata rendering packag
 
 It must:
 
-* consume `@afenda/metadata`
+* consume `@afenda/ui-composition`
 * render governed surfaces
 * render governed layouts
 * render governed sections
@@ -210,7 +210,7 @@ Create `packages/metadata-ui/package.json` with:
 Allowed dependencies:
 
 ```txt
-@afenda/metadata
+@afenda/ui-composition
 @afenda/design-system
 @afenda/ui
 react
@@ -352,9 +352,9 @@ Do not import `@afenda/metadata-ui/client` from server components. Surfaces unde
 
 ---
 
-# 5. Required Dependency on `@afenda/metadata`
+# 5. Required Dependency on `@afenda/ui-composition`
 
-This package must consume the following from `@afenda/metadata`:
+This package must consume the following from `@afenda/ui-composition`:
 
 ```ts
 import type {
@@ -368,7 +368,7 @@ import type {
   RendererCapability,
   RendererCompatibilityRule,
   RegistryEntry,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 
 import {
   SURFACE_TYPES,
@@ -380,7 +380,7 @@ import {
   runtimeContract,
   metadataAuthorityMap,
   crossPackageAuthority,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 ```
 
 Rules:
@@ -407,7 +407,7 @@ Must export:
 export const metadataUiContract = {
   packageName: "@afenda/metadata-ui",
   authority: "metadata-ui",
-  consumes: "@afenda/metadata",
+  consumes: "@afenda/ui-composition",
   owns: [
     "metadata rendering",
     "surface composition",
@@ -443,7 +443,7 @@ src/contracts/render-context.contract.ts
 Must define:
 
 ```ts
-import type { MetadataRuntimeContext } from "@afenda/metadata";
+import type { MetadataRuntimeContext } from "@afenda/ui-composition";
 
 export interface MetadataUiRenderContext {
   readonly runtime: MetadataRuntimeContext;
@@ -477,7 +477,7 @@ import type {
   RendererCapability,
   SectionType,
   RegistryEntry,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 
 import type { ReactNode } from "react";
 import type { MetadataUiRenderContext } from "./render-context.contract";
@@ -501,9 +501,9 @@ export interface MetadataRendererDefinition<TInput = unknown> {
 
 Rules:
 
-* `sectionType` must use `SectionType` from `@afenda/metadata`.
-* `capability` must use `RendererCapability` from `@afenda/metadata`.
-* `registry.authority` must use `MetadataAuthorityKey` from `@afenda/metadata`.
+* `sectionType` must use `SectionType` from `@afenda/ui-composition`.
+* `capability` must use `RendererCapability` from `@afenda/ui-composition`.
+* `registry.authority` must use `MetadataAuthorityKey` from `@afenda/ui-composition`.
 * Renderer definitions may render UI, but may not define metadata authority.
 
 ---
@@ -618,7 +618,7 @@ MetadataModuleSurface
 Surface props:
 
 ```ts
-import type { SurfaceType } from "@afenda/metadata";
+import type { SurfaceType } from "@afenda/ui-composition";
 import type { ReactNode } from "react";
 import type { MetadataUiRenderContext } from "../contracts/render-context.contract";
 
@@ -666,7 +666,7 @@ WizardLayout
 Layout props:
 
 ```ts
-import type { LayoutType } from "@afenda/metadata";
+import type { LayoutType } from "@afenda/ui-composition";
 import type { ReactNode } from "react";
 import type { MetadataUiRenderContext } from "../contracts/render-context.contract";
 
@@ -713,7 +713,7 @@ ActionSection
 Section props:
 
 ```ts
-import type { SectionType } from "@afenda/metadata";
+import type { SectionType } from "@afenda/ui-composition";
 import type { ReactNode } from "react";
 import type { MetadataUiRenderContext } from "../contracts/render-context.contract";
 
@@ -763,7 +763,7 @@ MetadataMaintenanceState
 
 Rules:
 
-* States must use `MetadataRuntimeState` from `@afenda/metadata`.
+* States must use `MetadataRuntimeState` from `@afenda/ui-composition`.
 * States must be accessible.
 * Error state must not expose stack traces by default.
 * Forbidden state must not reveal hidden permission internals.
@@ -886,7 +886,7 @@ resolveVisibility(input, context)
 
 Rules:
 
-* Use modes from `@afenda/metadata`.
+* Use modes from `@afenda/ui-composition`.
 * Do not create local presentation modes.
 * Do not create local density modes.
 * Visibility must respect:
@@ -990,7 +990,7 @@ metadata-ui-boundary.test.ts
 
 Must verify:
 
-* package imports `@afenda/metadata`
+* package imports `@afenda/ui-composition`
 * package does not redefine governed arrays
 * package does not import `@afenda/database`
 * package does not import `@afenda/permissions`
@@ -1055,11 +1055,11 @@ governed-types-consumption.test.ts
 
 Must verify:
 
-* all surface types come from `@afenda/metadata`
-* all layout types come from `@afenda/metadata`
-* all section types come from `@afenda/metadata`
-* all runtime states come from `@afenda/metadata`
-* all renderer capabilities come from `@afenda/metadata`
+* all surface types come from `@afenda/ui-composition`
+* all layout types come from `@afenda/ui-composition`
+* all section types come from `@afenda/ui-composition`
+* all runtime states come from `@afenda/ui-composition`
+* all renderer capabilities come from `@afenda/ui-composition`
 
 ---
 
@@ -1105,7 +1105,7 @@ METADATA_AUTHORITY_KEYS
 
 Exception:
 
-* test files may mention them only when asserting imports from `@afenda/metadata`
+* test files may mention them only when asserting imports from `@afenda/ui-composition`
 
 ---
 
@@ -1113,11 +1113,11 @@ Exception:
 
 ## FTR-MDUI-001 — Metadata Contract Consumption
 
-`@afenda/metadata-ui` must consume governed contracts from `@afenda/metadata`.
+`@afenda/metadata-ui` must consume governed contracts from `@afenda/ui-composition`.
 
 Acceptance:
 
-* imports governed types from `@afenda/metadata`
+* imports governed types from `@afenda/ui-composition`
 * does not redefine metadata authority
 * tests prove no local duplicates exist
 
@@ -1273,7 +1273,7 @@ Acceptance:
 
 Do:
 
-* consume `@afenda/metadata`
+* consume `@afenda/ui-composition`
 * render metadata from governed contracts
 * use `@afenda/ui` primitives where appropriate
 * use `@afenda/design-system` for design vocabulary
@@ -1326,7 +1326,7 @@ Do not:
 TIP-007 is done only when:
 
 * `@afenda/metadata-ui` package exists
-* package depends on `@afenda/metadata`
+* package depends on `@afenda/ui-composition`
 * all required files exist
 * server/client/shared entry points exist
 * renderer registry is implemented
@@ -1363,9 +1363,9 @@ pnpm --filter @afenda/metadata-ui build
 Run dependency package gates:
 
 ```bash
-pnpm --filter @afenda/metadata typecheck
-pnpm --filter @afenda/metadata test
-pnpm --filter @afenda/metadata build
+pnpm --filter @afenda/ui-composition typecheck
+pnpm --filter @afenda/ui-composition test
+pnpm --filter @afenda/ui-composition build
 ```
 
 Run monorepo gates:

@@ -30,6 +30,9 @@
     "format:mdx:check": "prettier --check \"**/*.mdx\"",
     "format:check": "biome ci .",
     "ci:biome": "biome ci .",
+    "check:biome-lsp": "biome check --config-path=biome.lsp.jsonc .",
+    "check:biome-config": "biome check biome.jsonc biome.lsp.jsonc biome.project.jsonc",
+    "doctor:ultracite": "ultracite doctor",
     "check": "pnpm ci:biome && pnpm typecheck && pnpm test:run:all",
     "ci": "pnpm ci:biome && pnpm typecheck && pnpm test:run:all && pnpm build && pnpm quality",
     "check:css-governance": "tsx scripts/css/check-css-governance.mts",
@@ -231,7 +234,7 @@
   },
   "devDependencies": {
     "@better-auth/cli": "^1.4.21",
-    "@biomejs/biome": "2.4.16",
+    "@biomejs/biome": "2.5.1",
     "@testing-library/jest-dom": "catalog:",
     "@types/node": "^22.15.30",
     "@vitejs/plugin-react": "catalog:",

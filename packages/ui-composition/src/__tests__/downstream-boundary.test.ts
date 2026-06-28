@@ -11,10 +11,10 @@ import {
 
 function getMetadataImportPolicy() {
   const entry = crossPackageAuthority.packages.find(
-    (candidate) => candidate.package === "@afenda/metadata"
+    (candidate) => candidate.package === "@afenda/ui-composition"
   );
   if (!entry) {
-    throw new Error("Missing authority entry for @afenda/metadata");
+    throw new Error("Missing authority entry for @afenda/ui-composition");
   }
   return entry.importPolicy;
 }
@@ -54,7 +54,7 @@ function collectSourceFiles(directory: string): string[] {
   return files;
 }
 
-describe("@afenda/metadata downstream boundary", () => {
+describe("@afenda/ui-composition downstream boundary", () => {
   it("declares only @afenda/enterprise-knowledge as runtime dependency (PAS-004B B34)", () => {
     const packageJson = JSON.parse(
       readFileSync(join(import.meta.dirname, "../../package.json"), "utf8")

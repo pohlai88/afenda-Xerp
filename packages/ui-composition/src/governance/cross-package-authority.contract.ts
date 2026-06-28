@@ -16,7 +16,7 @@
 export const CROSS_PACKAGE_NAMES = [
   "@afenda/css-authority",
   "@afenda/design-system",
-  "@afenda/metadata",
+  "@afenda/ui-composition",
   "@afenda/metadata-ui",
   "@afenda/appshell",
   "@afenda/ui",
@@ -107,11 +107,11 @@ export interface CrossPackageAuthority {
 }
 
 export const metadataUiIntegrationRule = [
-  "@afenda/metadata-ui must depend on @afenda/metadata and consume its contracts.",
-  "@afenda/metadata and @afenda/metadata-ui must never be merged.",
-  "@afenda/metadata must never import @afenda/metadata-ui.",
+  "@afenda/metadata-ui must depend on @afenda/ui-composition and consume its contracts.",
+  "@afenda/ui-composition and @afenda/metadata-ui must never be merged.",
+  "@afenda/ui-composition must never import @afenda/metadata-ui.",
   "@afenda/metadata-ui must not redefine governed metadata arrays.",
-  "@afenda/metadata-ui may implement renderers, but renderer governance belongs to @afenda/metadata.",
+  "@afenda/metadata-ui may implement renderers, but renderer governance belongs to @afenda/ui-composition.",
 ].join(" ");
 
 export const crossPackageAuthority = {
@@ -161,7 +161,7 @@ export const crossPackageAuthority = {
         mayImportFrom: [],
         mayNotImportFrom: [
           "@afenda/design-system",
-          "@afenda/metadata",
+          "@afenda/ui-composition",
           "@afenda/metadata-ui",
           "@afenda/appshell",
           "@afenda/ui",
@@ -206,7 +206,7 @@ export const crossPackageAuthority = {
       importPolicy: {
         mayImportFrom: [],
         mayNotImportFrom: [
-          "@afenda/metadata",
+          "@afenda/ui-composition",
           "@afenda/metadata-ui",
           "@afenda/appshell",
           "@afenda/ui",
@@ -217,7 +217,7 @@ export const crossPackageAuthority = {
     },
 
     {
-      package: "@afenda/metadata",
+      package: "@afenda/ui-composition",
       role: "Metadata authority — architecture governance",
 
       owns: [
@@ -290,7 +290,7 @@ export const crossPackageAuthority = {
         mayImportFrom: [
           "@afenda/design-system",
           "@afenda/css-authority",
-          "@afenda/metadata",
+          "@afenda/ui-composition",
           "@afenda/ui",
         ],
         mayNotImportFrom: [
@@ -325,7 +325,7 @@ export const crossPackageAuthority = {
         mayImportFrom: [
           "@afenda/design-system",
           "@afenda/css-authority",
-          "@afenda/metadata",
+          "@afenda/ui-composition",
           "@afenda/metadata-ui",
           "@afenda/ui",
         ],
@@ -359,7 +359,7 @@ export const crossPackageAuthority = {
       importPolicy: {
         mayImportFrom: ["@afenda/design-system", "@afenda/css-authority"],
         mayNotImportFrom: [
-          "@afenda/metadata",
+          "@afenda/ui-composition",
           "@afenda/metadata-ui",
           "@afenda/appshell",
           "@afenda/permissions",
@@ -395,7 +395,7 @@ export const crossPackageAuthority = {
         mayImportFrom: [],
         mayNotImportFrom: [
           "@afenda/design-system",
-          "@afenda/metadata",
+          "@afenda/ui-composition",
           "@afenda/metadata-ui",
           "@afenda/appshell",
           "@afenda/ui",
@@ -429,7 +429,7 @@ export const crossPackageAuthority = {
       ],
 
       importPolicy: {
-        mayImportFrom: ["@afenda/metadata", "@afenda/permissions"],
+        mayImportFrom: ["@afenda/ui-composition", "@afenda/permissions"],
         mayNotImportFrom: [
           "@afenda/design-system",
           "@afenda/metadata-ui",

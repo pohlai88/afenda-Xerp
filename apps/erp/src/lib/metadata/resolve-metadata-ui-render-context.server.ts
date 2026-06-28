@@ -1,9 +1,9 @@
 import type { OperatingContext } from "@afenda/kernel";
-import { createMetadataRuntimeContext } from "@afenda/metadata";
 import {
   createMetadataUiRenderContext,
   type MetadataUiRenderContext,
 } from "@afenda/metadata-ui/server";
+import { createMetadataRuntimeContext } from "@afenda/ui-composition";
 
 import { formatActiveWorkspaceId } from "@/lib/context/active-workspace-id.contract";
 

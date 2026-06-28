@@ -1,4 +1,5 @@
 {
+  "biome.configurationPath": "biome.lsp.jsonc",
   "biome.lsp.bin": {
     "darwin-arm64": "./node_modules/@biomejs/cli-darwin-arm64/biome",
     "darwin-x64": "./node_modules/@biomejs/cli-darwin-x64/biome",
@@ -7,8 +8,10 @@
     "win32-arm64": "./node_modules/@biomejs/cli-win32-arm64/biome.exe",
     "win32-x64": "./node_modules/@biomejs/cli-win32-x64/biome.exe"
   },
+  "biome.lsp.trace.server": "off",
   "biome.lsp.watcher.kind": "none",
   "biome.requireConfiguration": true,
+  "biome.runFromTemporaryLocation": false,
   "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnPaste": false,
   "editor.formatOnSave": true,
@@ -22,7 +25,10 @@
       "**/.git",
       "**/dist",
       "**/.tsbuild",
-      "**/_reference"
+      "**/_reference",
+      "**/docs",
+      "**/.cursor",
+      "**/packages/ai-governance"
     ]
   },
   "typescript.preferences.includePackageJsonAutoImports": "auto",
@@ -46,6 +52,9 @@
   },
   "[jsonc]": {
     "editor.defaultFormatter": "biomejs.biome"
+  },
+  "files.associations": {
+    "*.mdc": "markdown"
   },
   "[markdown]": {
     "biome.enabled": false,
@@ -100,9 +109,14 @@
     "**/coverage/**": true,
     "**/dist/**": true,
     "**/node_modules/**": true,
-    "**/out/**": true
+    "**/out/**": true,
+    "**/docs/**": true,
+    "**/.cursor/**": true,
+    "**/packages/ai-governance/**": true,
+    "**/storybook-static/**": true
   },
   "search.exclude": {
-    "**/_reference": true
+    "**/_reference": true,
+    "**/.cursor": true
   }
 }

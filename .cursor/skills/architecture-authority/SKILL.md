@@ -11,9 +11,9 @@ disable-model-invocation: false
 | Field | Value |
 | --- | --- |
 | **Runtime status** | B1–B27 delivered — registries, composite gates, lifecycle enforcement, skill chain synced |
-| **Remaining slices** | none — Enterprise Accepted rollout: [PAS-002A](../../../docs/PAS/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) B38+ (closed) |
+| **Remaining slices** | none |
 
-> **Maturity labels:** `implementation_status: partial` (PAS-002) = MVP Authority not yet Enterprise Accepted. `runtime stance: contracts-only` = **permanent** — no ERP hot-path execution even at Enterprise Accepted. See [PAS-002A §1.4](../../../docs/PAS/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md#14-resolving-the-partial--none-confusion).
+> **Maturity labels:** PAS-002 = MVP charter; **Enterprise Accepted** on `PKGR02` is attested via [PAS-002A](../../../docs/PAS/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) B38–B42. `runtime stance: contracts-only` = **permanent** — no ERP hot-path execution even at Enterprise Accepted. See [PAS-002A §1.4](../../../docs/PAS/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md#14-resolving-the-partial--none-confusion).
 
 > Canonical: [`docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md`](../../../docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md) · Enterprise hardening: [`PAS-002A`](../../../docs/PAS/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 

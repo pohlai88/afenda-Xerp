@@ -53,7 +53,7 @@ describe("@afenda/appshell downstream governance wiring", () => {
     expect(violations).toEqual([]);
   });
 
-  it("does not import @afenda/metadata from production source", () => {
+  it("does not import @afenda/ui-composition from production source", () => {
     const violations: string[] = [];
 
     for (const filePath of collectProductionSourceFiles(srcRoot)) {

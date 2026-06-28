@@ -1,4 +1,4 @@
-import type { LayoutType } from "@afenda/metadata";
+import type { LayoutType } from "@afenda/ui-composition";
 
 import type { MetadataLayoutProps } from "../contracts/layout.contract.js";
 import { DashboardLayout } from "../layouts/index.js";

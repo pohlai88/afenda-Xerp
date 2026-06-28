@@ -50,7 +50,7 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/erp` | `@afenda/entitlements` | Approved | TIP-007A | — |
 | `@afenda/erp` | `@afenda/enterprise-knowledge` | Approved | PAS-004 | — |
 | `@afenda/erp` | `@afenda/kernel` | Approved | — | — |
-| `@afenda/erp` | `@afenda/metadata` | Approved | — | — |
+| `@afenda/erp` | `@afenda/ui-composition` | Approved | — | — |
 | `@afenda/erp` | `@afenda/metadata-ui` | Approved | — | — |
 | `@afenda/erp` | `@afenda/observability` | Approved | — | — |
 | `@afenda/erp` | `@afenda/permissions` | Approved | TIP-010 | — |
@@ -59,15 +59,15 @@ Validation at baseline is against the **proposed model** pending ADR-0003 accept
 | `@afenda/execution` | `@afenda/kernel` | Approved | — | — |
 | `@afenda/execution` | `@afenda/observability` | Approved | — | — |
 | `@afenda/feature-flags` | `@afenda/entitlements` | Approved | — | — |
-| `@afenda/metadata-ui` | `@afenda/metadata` | Approved | — | — |
+| `@afenda/metadata-ui` | `@afenda/ui-composition` | Approved | — | — |
 | `@afenda/metadata-ui` | `@afenda/ui` | Approved | — | — |
-| `@afenda/metadata` | `@afenda/enterprise-knowledge` | Approved | PAS-004 | — |
+| `@afenda/ui-composition` | `@afenda/enterprise-knowledge` | Approved | PAS-004 | — |
 | `@afenda/permissions` | `@afenda/auth` | Approved | — | — |
 | `@afenda/permissions` | `@afenda/database` | Approved | — | — |
 | `@afenda/permissions` | `@afenda/kernel` | Approved | TIP-007 | — |
 | `@afenda/storybook` | `@afenda/appshell` | Approved | — | — |
 | `@afenda/storybook` | `@afenda/design-system` | Approved | — | — |
-| `@afenda/storybook` | `@afenda/metadata` | Approved | — | — |
+| `@afenda/storybook` | `@afenda/ui-composition` | Approved | — | — |
 | `@afenda/storybook` | `@afenda/metadata-ui` | Approved | — | — |
 | `@afenda/storybook` | `@afenda/ui` | Approved | — | — |
 | `@afenda/ui` | `@afenda/css-authority` | Approved | PAS-005 | — |
@@ -114,16 +114,16 @@ Third-party npm packages are not validated by `pnpm quality:architecture` worksp
 | `@afenda/docs` | `@afenda/enterprise-knowledge` |
 | `@afenda/email` | *(none)* |
 | `@afenda/entitlements` | `@afenda/database` |
-| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/entitlements`, `@afenda/enterprise-knowledge`, `@afenda/execution`, `@afenda/feature-flags`, `@afenda/kernel`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/storage`, `@afenda/ui` |
+| `@afenda/erp` | `@afenda/appshell`, `@afenda/auth`, `@afenda/database`, `@afenda/design-system`, `@afenda/entitlements`, `@afenda/enterprise-knowledge`, `@afenda/execution`, `@afenda/feature-flags`, `@afenda/kernel`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `@afenda/observability`, `@afenda/permissions`, `@afenda/storage`, `@afenda/ui` |
 | `@afenda/execution` | `@afenda/kernel`, `@afenda/observability` |
 | `@afenda/feature-flags` | `@afenda/entitlements` |
 | `@afenda/kernel` | *(none)* |
-| `@afenda/metadata` | `@afenda/enterprise-knowledge` |
-| `@afenda/metadata-ui` | `@afenda/metadata`, `@afenda/ui` |
+| `@afenda/ui-composition` | `@afenda/enterprise-knowledge` |
+| `@afenda/metadata-ui` | `@afenda/ui-composition`, `@afenda/ui` |
 | `@afenda/observability` | *(none)* |
 | `@afenda/permissions` | `@afenda/auth`, `@afenda/database`, `@afenda/kernel` |
 | `@afenda/storage` | *(none)* |
-| `@afenda/storybook` | `@afenda/appshell`, `@afenda/design-system`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/ui` |
+| `@afenda/storybook` | `@afenda/appshell`, `@afenda/design-system`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `@afenda/ui` |
 | `@afenda/testing` | *(none — workspace runtime)* |
 | `@afenda/typescript-config` | *(none)* |
 | `@afenda/ui` | `@afenda/css-authority`, `@afenda/design-system` |
@@ -148,8 +148,8 @@ Third-party npm packages are not validated by `pnpm quality:architecture` worksp
   → @afenda/execution → @afenda/kernel
   → @afenda/feature-flags → @afenda/entitlements → @afenda/database
   → @afenda/kernel
-  → @afenda/metadata
-  → @afenda/metadata-ui → @afenda/metadata
+  → @afenda/ui-composition
+  → @afenda/metadata-ui → @afenda/ui-composition
   → @afenda/metadata-ui → @afenda/ui
   → @afenda/observability
   → @afenda/permissions → @afenda/auth
@@ -160,7 +160,7 @@ Third-party npm packages are not validated by `pnpm quality:architecture` worksp
 @afenda/storybook
   → @afenda/appshell
   → @afenda/design-system
-  → @afenda/metadata
+  → @afenda/ui-composition
   → @afenda/metadata-ui
   → @afenda/ui → @afenda/design-system
 

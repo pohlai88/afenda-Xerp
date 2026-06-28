@@ -15,5 +15,5 @@
     "**/*.test.ts",
     "**/*.test.tsx"
   ],
-  "references": [{ "path": "../metadata" }]
+  "references": [{ "path": "../ui-composition" }]
 }

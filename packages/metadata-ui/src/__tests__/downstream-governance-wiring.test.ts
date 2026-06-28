@@ -27,13 +27,13 @@ function collectProductionSourceFiles(directory: string): string[] {
 }
 
 describe("@afenda/metadata-ui downstream governance wiring", () => {
-  it("consumes metadata contracts from @afenda/metadata", () => {
+  it("consumes metadata contracts from @afenda/ui-composition", () => {
     const wiringSource = readFileSync(
       join(srcRoot, "wiring/governance.ts"),
       "utf8"
     );
 
-    expect(wiringSource).toContain("@afenda/metadata");
+    expect(wiringSource).toContain("@afenda/ui-composition");
   });
 
   it("consumes UI governance slot resolver from @afenda/ui/governance", () => {

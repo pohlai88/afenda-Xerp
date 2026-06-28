@@ -2,7 +2,7 @@ import type {
   RegistryEntry,
   RendererCapability,
   SectionType,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 import type { ReactNode } from "react";
 
 import type { MetadataUiRenderContext } from "../contracts/render-context.contract.js";

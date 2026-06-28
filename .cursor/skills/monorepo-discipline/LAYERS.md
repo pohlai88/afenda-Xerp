@@ -17,8 +17,8 @@
 │  Can import: Platform, Design, Foundation, Integration, Metadata│
 ├─────────────────────────────────────────────────────────────────┤
 │  Rank 3 — Metadata                  Rank 3 — Integration        │
-│  @afenda/metadata                   @afenda/entitlements        │
-│  @afenda/metadata-ui                @afenda/feature-flags       │
+│  @afenda/ui-composition                   @afenda/entitlements        │
+│  @afenda/ui-composition-ui                @afenda/feature-flags       │
 │  Can import: Platform, Design       @afenda/testing             │
 │                                     Can import: Platform, Foundation
 ├─────────────────────────────────────────────────────────────────┤
@@ -41,7 +41,7 @@
 |----------------|-----------------------|--------|
 | `@afenda/observability` | `@afenda/erp` | Platform must not import Application |
 | `@afenda/ui` | `@afenda/appshell` | Design must not import ERPSpine |
-| `@afenda/kernel` | `@afenda/metadata` | Foundation must not import Metadata |
+| `@afenda/kernel` | `@afenda/ui-composition` | Foundation must not import Metadata |
 | `@afenda/entitlements` | `@afenda/appshell` | Integration must not import ERPSpine |
 | Any `packages/*` | `@afenda/erp` | Packages must not import apps |
 | `@afenda/auth` | `@afenda/database` | Platform same-layer: allowed, but creates tight coupling |
@@ -54,7 +54,7 @@
 | Design | Yes | e.g. @afenda/ui may import @afenda/design-system |
 | Foundation | Yes | e.g. @afenda/kernel may import @afenda/execution |
 | Integration | Yes | e.g. @afenda/entitlements may import @afenda/feature-flags |
-| Metadata | No | @afenda/metadata and @afenda/metadata-ui must not cross-import |
+| Metadata | No | @afenda/ui-composition and @afenda/ui-composition-ui must not cross-import |
 | ERPSpine | No | (single package currently) |
 | Domain | No | Domain packages must not import each other |
 | Application | No | Apps must not import each other |

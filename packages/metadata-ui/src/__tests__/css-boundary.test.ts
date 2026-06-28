@@ -3,7 +3,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 const metadataUiRoot = join(import.meta.dirname, "../..");
-const metadataRoot = join(metadataUiRoot, "../metadata");
+const metadataRoot = join(metadataUiRoot, "../ui-composition");
 
 const productionCss = readFileSync(
   join(metadataUiRoot, "src/afenda-metadata-ui.css"),
@@ -89,7 +89,7 @@ describe("metadata-ui CSS boundary", () => {
     }
   });
 
-  it("@afenda/metadata has no CSS files", () => {
+  it("@afenda/ui-composition has no CSS files", () => {
     const metadataSrcStyles = join(metadataRoot, "src/styles");
     expect(existsSync(metadataSrcStyles)).toBe(false);
   });

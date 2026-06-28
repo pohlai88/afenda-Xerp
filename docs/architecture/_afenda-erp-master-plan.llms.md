@@ -186,7 +186,7 @@ Phase 9  ACCOUNTING READINESS GATE ──► TIP-014+ only after pass
 | TIP-002 | AI Governance | **Complete** | ADR-0007 | — |
 | TIP-003 | Design System Authority | **Complete (authority)** | Contracts, token registry | No runtime UI (by design) |
 | TIP-004 | Design System Contracts + UI consumption | **Complete** | TIP-004 policy, ui-guard | — |
-| TIP-005 | Metadata Authority | **Complete (authority)** | `@afenda/metadata` | — |
+| TIP-005 | Metadata Authority | **Complete (authority)** | `@afenda/ui-composition` | — |
 | TIP-006 | AppShell Authority | **Complete** | 93 `.tsx`, CSS, blocks, `src/contracts/` | — |
 | TIP-007 | ERP Platform Authority | **Complete** | Platform entity barrel + drift tests | — |
 | TIP-007A | Feature Manifest Governance | **Complete** | Manifest → nav → ERP routes | — |
@@ -281,7 +281,7 @@ Validation
 | ExecutionContext | **Exists** | `execution-context.contract.ts` |
 | Consolidation resolution | **Implemented** | `consolidation-scope-resolution.server.ts` + ERP resolver |
 
-> v4 listed PermissionContext, AuditContext, ApprovalContext, MetadataContext, FeatureFlagContext, EntitlementContext, CorrelationContext as "Missing" — **superseded**. Audit/approval/metadata/feature/entitlement concerns are distributed across `@afenda/observability`, `@afenda/permissions`, `@afenda/metadata`, `@afenda/feature-flags`, `@afenda/entitlements`, and ERP runtime — not separate kernel context files.
+> v4 listed PermissionContext, AuditContext, ApprovalContext, MetadataContext, FeatureFlagContext, EntitlementContext, CorrelationContext as "Missing" — **superseded**. Audit/approval/metadata/feature/entitlement concerns are distributed across `@afenda/observability`, `@afenda/permissions`, `@afenda/ui-composition`, `@afenda/feature-flags`, `@afenda/entitlements`, and ERP runtime — not separate kernel context files.
 
 ---
 

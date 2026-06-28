@@ -37,13 +37,13 @@ describe("metadata-ui UI governance wiring", () => {
     expect(wiringSource).toContain("@afenda/ui/governance");
   });
 
-  it("still imports metadata contracts from @afenda/metadata", () => {
+  it("still imports metadata contracts from @afenda/ui-composition", () => {
     const wiringSource = readFileSync(
       join(srcRoot, "wiring/governance.ts"),
       "utf8"
     );
 
-    expect(wiringSource).toContain("@afenda/metadata");
+    expect(wiringSource).toContain("@afenda/ui-composition");
   });
 
   it("does not import resolveAppShellSlotClassName from production source", () => {

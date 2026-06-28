@@ -9,7 +9,7 @@ Governance index: [`README.md`](README.md) · TIP-004 policy: [`tip-004-policy.m
 ```txt
 @afenda/design-system   → tokens, recipes, CSS variables, visual policy
 @afenda/ui              → governed React primitives + recipe slot resolution
-@afenda/metadata        → metadata contracts only (no CSS, no React)
+@afenda/ui-composition        → metadata contracts only (no CSS, no React)
 @afenda/metadata-ui     → metadata contracts + UI governance consumption
 @afenda/appshell        → UI governance consumption for shell chrome
 apps/erp                → composes AppShell + Metadata UI + approved CSS
@@ -26,16 +26,16 @@ Downstream packages **consume** authority. They do not redefine tokens, recipe m
 @afenda/ui
   └─ may depend on @afenda/design-system
 
-@afenda/metadata
+@afenda/ui-composition
   └─ must not depend on ui, metadata-ui, appshell, or design-system
 
 @afenda/metadata-ui
-  └─ may depend on @afenda/metadata, @afenda/ui
+  └─ may depend on @afenda/ui-composition, @afenda/ui
   └─ must not depend on @afenda/appshell
 
 @afenda/appshell
   └─ may depend on @afenda/ui
-  └─ must not depend on @afenda/metadata-ui or @afenda/metadata
+  └─ must not depend on @afenda/metadata-ui or @afenda/ui-composition
 
 apps/erp
   └─ may depend on all packages above
@@ -106,16 +106,16 @@ Story title: `Governance/Composed ERP Shell` (`apps/storybook/stories/governance
 | AppShell root | `data-afenda-density` | `densityToAttribute()` via `@afenda/ui/governance` |
 | Metadata UI root | `data-metadata-density` | `resolveMetadataUiDensityAttribute()` in metadata-ui wiring |
 
-Metadata runtime density (`compact` | `default` | `comfortable`) stays contract-only in `@afenda/metadata`. ERP and Storybook must use `metadataRuntimeDensityToGovernedDensity()` from `@afenda/metadata-ui/server` when passing density to AppShell — **no local `standard` → `default` maps**.
+Metadata runtime density (`compact` | `default` | `comfortable`) stays contract-only in `@afenda/ui-composition`. ERP and Storybook must use `metadataRuntimeDensityToGovernedDensity()` from `@afenda/metadata-ui/server` when passing density to AppShell — **no local `standard` → `default` maps**.
 
 ## Metadata vs Metadata UI boundary
 
 | Concern | Owner |
 |---------|--------|
-| Runtime context, density modes, presentation contracts | `@afenda/metadata` |
+| Runtime context, density modes, presentation contracts | `@afenda/ui-composition` |
 | React renderers, structural CSS, action hierarchy DOM hooks | `@afenda/metadata-ui` |
 
-Metadata UI imports `@afenda/metadata` for contracts and `@afenda/ui/governance` for slot classes. It must not import `@afenda/appshell`.
+Metadata UI imports `@afenda/ui-composition` for contracts and `@afenda/ui/governance` for slot classes. It must not import `@afenda/appshell`.
 
 ## AppShell vs Metadata UI boundary
 
@@ -168,7 +168,7 @@ pnpm check:css-governance
 pnpm check:downstream-integration
 pnpm --filter @afenda/design-system typecheck test build
 pnpm --filter @afenda/ui typecheck test build check:governance
-pnpm --filter @afenda/metadata typecheck test build
+pnpm --filter @afenda/ui-composition typecheck test build
 pnpm --filter @afenda/metadata-ui typecheck test build
 pnpm --filter @afenda/appshell typecheck test build
 pnpm --filter @afenda/erp typecheck test build

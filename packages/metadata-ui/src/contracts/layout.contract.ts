@@ -3,11 +3,11 @@
  *
  * Authority:
  * - Defines layout props for metadata-ui composition.
- * - Consumes LayoutType from @afenda/metadata — does not redefine layout vocabulary.
+ * - Consumes LayoutType from @afenda/ui-composition — does not redefine layout vocabulary.
  * - Does not own design tokens or metadata authority.
  */
 
-import type { LayoutType } from "@afenda/metadata";
+import type { LayoutType } from "@afenda/ui-composition";
 import type { ReactNode } from "react";
 
 import type { MetadataUiRenderContext } from "./render-context.contract.js";
@@ -154,7 +154,7 @@ export interface MetadataLayoutProps {
   readonly slots: MetadataLayoutSlots;
 
   /**
-   * Governed layout type from @afenda/metadata.
+   * Governed layout type from @afenda/ui-composition.
    */
   readonly type: LayoutType;
 }

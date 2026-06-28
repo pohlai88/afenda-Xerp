@@ -3,5 +3,6 @@
     "context7-plugin": {
       "enabled": true
     }
-  }
+  },
+  "biome.configurationPath": "biome.lsp.jsonc"
 }

@@ -61,7 +61,7 @@ describe("RegistryEntry", () => {
     const entry = createRegistryEntry({
       id: "layout.dashboard",
       authority: "layout",
-      ownerPackage: "@afenda/metadata",
+      ownerPackage: "@afenda/ui-composition",
       lifecycle: "active",
       version: "0.1.0",
     });

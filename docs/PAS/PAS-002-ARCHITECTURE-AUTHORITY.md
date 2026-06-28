@@ -17,9 +17,9 @@
 | **Authority status** | `accepted_for_boundary` |
 | **Implementation status** | `implemented` — MVP Authority closed; Enterprise Accepted via [PAS-002A](PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) B38–B42 |
 | **Evidence level** | `runtime_partial` |
-| **Runtime status** | B1–B27 delivered — registries, composite gates, lifecycle enforcement, skill chain synced; Enterprise Accepted rollout in [PAS-002A](PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) |
-| **Remaining slices** | none — enterprise hardening continues in [PAS-002A](PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) (B38+) |
-| **Consumers** | `@afenda/kernel`, `@afenda/design-system`, `@afenda/ui`, `@afenda/appshell`, `@afenda/metadata`, `@afenda/metadata-ui`, `apps/erp` |
+| **Runtime status** | B1–B27 delivered — registries, composite gates, lifecycle enforcement, skill chain synced |
+| **Remaining slices** | none |
+| **Consumers** | `@afenda/kernel`, `@afenda/design-system`, `@afenda/ui`, `@afenda/appshell`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp` |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
 | **Slice directory** | `docs/PAS/slice/` |
@@ -38,7 +38,7 @@
 | 7 | `pnpm check:foundation-disposition` |
 
 > **Maturity is part of authority.**
-> PAS-002 reserves package/layer/ownership/dependency boundary and supports serialized implementation. Treat registry and gate contracts as **partial** authority until [PAS-002A](PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) B42 attestation promotes **Enterprise Accepted**.
+> PAS-002 reserves package/layer/ownership/dependency boundary and supports serialized implementation. **Enterprise Accepted** maturity on `PKGR02_ARCHITECTURE_AUTHORITY` is attested via [PAS-002A](PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) B38–B42 — treat PAS-002 as MVP charter; treat PAS-002A as runtime authority for PKGR02.
 
 > **Canonical location:** `docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md`
 > **Package-local tree:** [`packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md`](../../packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md)

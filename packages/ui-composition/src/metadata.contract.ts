@@ -65,7 +65,7 @@ export interface MetadataContract {
   readonly owns: readonly MetadataContractOwnership[];
 
   /**
-   * Explicitly forbidden responsibilities for @afenda/metadata.
+   * Explicitly forbidden responsibilities for @afenda/ui-composition.
    */
   readonly prohibits: readonly MetadataContractProhibition[];
   readonly version: typeof METADATA_CONTRACT_VERSION;

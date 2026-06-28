@@ -112,7 +112,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed layout chrome from `@afenda/metadata-ui`. Each governed `LayoutType` from `@afenda/metadata` maps to a typed wrapper. Structural hooks and container queries only — visual tokens wire through `@afenda/ui/governance` (`resolveMetadataUiSlotClassName`). See Metadata/Authority Preview.",
+          "Governed layout chrome from `@afenda/metadata-ui`. Each governed `LayoutType` from `@afenda/ui-composition` maps to a typed wrapper. Structural hooks and container queries only — visual tokens wire through `@afenda/ui/governance` (`resolveMetadataUiSlotClassName`). See Metadata/Authority Preview.",
       },
     },
     a11y: metadataStoryA11y,

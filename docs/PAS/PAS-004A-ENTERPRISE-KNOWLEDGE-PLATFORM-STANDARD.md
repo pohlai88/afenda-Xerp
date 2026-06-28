@@ -22,8 +22,8 @@
 | **Implementation status** | `delivered` |
 | **Evidence level** | `json_authority` |
 | **Runtime status** | B24–B32 delivered — 24 atoms, JSON authority, ERP consumer, glossary parity, scorecard 30/30 |
-| **Remaining slices** | none — Enterprise Accepted continues in [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) |
-| **Consumers** | `@afenda/metadata`, `@afenda/metadata-ui`, `apps/erp`, `docs/architecture/glossary.md` |
+| **Remaining slices** | none |
+| **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `docs/architecture/glossary.md` |
 | **Change model** | `serialized-slices` (B25+) |
 | **Quality target** | Enterprise **9.5 / 10** |
 | **Slice directory** | `docs/PAS/slice/` |
@@ -127,7 +127,7 @@ PAS-004A is the **rollout standard** for turning the seed platform into **Produc
 
 ## 3.2 Prohibited imports
 
-Same as PAS-004 §10: `@afenda/architecture-authority`, `@afenda/database`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/ui`, `@afenda/appshell`, `apps/erp`, auth SDKs, React, Next.js, Drizzle, HTTP clients.
+Same as PAS-004 §10: `@afenda/architecture-authority`, `@afenda/database`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `@afenda/ui`, `@afenda/appshell`, `apps/erp`, auth SDKs, React, Next.js, Drizzle, HTTP clients.
 
 ## 3.3 Import rule
 
@@ -391,7 +391,7 @@ Execute in order. Do not skip consumer proof before claiming Production Candidat
 | ---: | --- | --- |
 | 1 | [B25 JSON data authority + new contracts](slice/b25-10-json-data-authority.md) | `atoms.json`, `edges.json`, `accepting-authority.registry.ts`, typed `KnowledgeEvidence`, `KnowledgeReasoning`, `effectiveFrom`/`Until`, richer edge types, rename Relationship → Edge, `check:knowledge-json-authority` | **Delivered · 2026-06-28** |
 | 2 | [B26 Kernel mapping gate](slice/b26-kernel-mapping-gate.md) | `implementationMapping` path lint vs `packages/kernel/src/**`; authority registry validates | **Delivered · 2026-06-28** |
-| 3 | [B27 Consumer proof](slice/b27-consumer-proof.md) | `@afenda/metadata` or `apps/erp` imports `getKnowledgeAtom` for ≥1 surface | **Delivered · 2026-06-28** |
+| 3 | [B27 Consumer proof](slice/b27-consumer-proof.md) | `@afenda/ui-composition` or `apps/erp` imports `getKnowledgeAtom` for ≥1 surface | **Delivered · 2026-06-28** |
 | 4 | [B28 Glossary sync gate](slice/b28-glossary-sync-gate.md) | glossary body atom IDs ⊆ registry; header authority unchanged | **Delivered · 2026-06-28** |
 | 5 | [B29 Coverage expansion + quality scoring](slice/b29-coverage-expansion.md) | typed corpus + quality helper | **Delivered · 2026-06-28** |
 | 6 | [B30 Enterprise Accepted attestation](slice/b30-enterprise-accepted-attestation.md) | §11 scorecard 30/30; disposition evidence | **Delivered · 2026-06-28** |

@@ -26,7 +26,7 @@ export const CSS_BUDGETS: Record<string, CssBudget> = {
   "@afenda/ui": { maxFiles: 1, generatedOnly: false },
   "@afenda/metadata-ui": { maxFiles: 2, generatedOnly: false },
   "@afenda/appshell": { maxFiles: 3, generatedOnly: false },
-  "@afenda/metadata": { maxFiles: 0, generatedOnly: true },
+  "@afenda/ui-composition": { maxFiles: 0, generatedOnly: true },
 };
 
 // ── Complete file inventory ──────────────────────────────────────────────────
@@ -145,7 +145,7 @@ export const CSS_FILE_REGISTRY: readonly CssFileEntry[] = [
     generated: false,
   },
 
-  // ── @afenda/metadata (0 files — pure contract) ─────────────────────────
+  // ── @afenda/ui-composition (0 files — pure contract) ─────────────────────────
   // (intentionally empty)
 ] as const;
 

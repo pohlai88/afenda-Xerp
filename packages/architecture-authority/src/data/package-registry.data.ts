@@ -140,8 +140,8 @@ const ACTIVE_PACKAGES = [
   },
   {
     registryId: "PKG-011",
-    packageName: "@afenda/metadata",
-    path: "packages/metadata",
+    packageName: "@afenda/ui-composition",
+    path: "packages/ui-composition",
     layer: "Metadata",
     lifecycle: "active",
     purpose: "Metadata architecture authority contracts",

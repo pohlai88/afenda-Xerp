@@ -1,8 +1,8 @@
 {
-  "name": "@afenda/metadata",
+  "name": "@afenda/ui-composition",
   "version": "0.2.0",
   "private": true,
-  "description": "Governed metadata authority contracts for Afenda",
+  "description": "Governed UI composition authority contracts for Afenda (surfaces, layouts, sections, renderers)",
   "type": "module",
   "exports": {
     ".": {

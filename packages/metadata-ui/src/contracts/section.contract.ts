@@ -3,10 +3,10 @@
  *
  * Authority:
  * - Defines section props for metadata-ui composition.
- * - Consumes SectionType from @afenda/metadata — does not redefine section vocabulary.
+ * - Consumes SectionType from @afenda/ui-composition — does not redefine section vocabulary.
  */
 
-import type { SectionType } from "@afenda/metadata";
+import type { SectionType } from "@afenda/ui-composition";
 import type { ReactNode } from "react";
 
 import type { MetadataUiRenderContext } from "./render-context.contract.js";
@@ -173,7 +173,7 @@ export interface MetadataSectionProps {
   readonly state?: MetadataSectionState;
 
   /**
-   * Governed section type from @afenda/metadata.
+   * Governed section type from @afenda/ui-composition.
    */
   readonly type: SectionType;
 }

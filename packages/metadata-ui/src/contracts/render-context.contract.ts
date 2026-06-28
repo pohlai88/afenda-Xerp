@@ -3,10 +3,10 @@
  *
  * Authority:
  * - Defines metadata-ui render boundary types and vocabulary.
- * - Wraps MetadataRuntimeContext from @afenda/metadata — does not duplicate it.
+ * - Wraps MetadataRuntimeContext from @afenda/ui-composition — does not duplicate it.
  */
 
-import type { MetadataRuntimeContext } from "@afenda/metadata";
+import type { MetadataRuntimeContext } from "@afenda/ui-composition";
 
 export const METADATA_UI_RENDER_SOURCES = [
   "client",
@@ -143,7 +143,7 @@ export interface CreateMetadataUiRenderContextInput {
    */
   readonly hydration?: MetadataUiHydrationMode;
   /**
-   * Metadata runtime context from @afenda/metadata.
+   * Metadata runtime context from @afenda/ui-composition.
    */
   readonly runtime: MetadataRuntimeContext;
 

@@ -15,7 +15,7 @@ const PROHIBITED_RUNTIME_DEPENDENCIES = [
   "@afenda/architecture-authority",
   "@afenda/database",
   "@afenda/design-system",
-  "@afenda/metadata",
+  "@afenda/ui-composition",
   "@afenda/metadata-ui",
   "@afenda/kernel",
   "@afenda/ui",

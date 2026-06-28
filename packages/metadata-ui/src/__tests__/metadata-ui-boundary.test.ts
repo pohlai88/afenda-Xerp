@@ -10,8 +10,8 @@ const packageJson = JSON.parse(
 ) as { dependencies?: Record<string, string> };
 
 describe("metadata-ui boundary", () => {
-  it("depends on @afenda/metadata and @afenda/ui governance", () => {
-    expect(packageJson.dependencies?.["@afenda/metadata"]).toBeDefined();
+  it("depends on @afenda/ui-composition and @afenda/ui governance", () => {
+    expect(packageJson.dependencies?.["@afenda/ui-composition"]).toBeDefined();
     expect(packageJson.dependencies?.["@afenda/ui"]).toBe("workspace:*");
   });
 

@@ -24,7 +24,7 @@ Handoff from: docs/PAS/slice/b27-consumer-proof.md
    scripts/governance/check-knowledge-consumer-proof.mts
    package.json
    docs/PAS/slice/b27-consumer-proof.md
-4. Prohibited   — packages/metadata runtime dep (zero-deps policy); atom corpus edits; kernel edits; registry disposition mutation (B30)
+4. Prohibited   — packages/ui-composition runtime dep (zero-deps policy); atom corpus edits; kernel edits; registry disposition mutation (B30)
 5. Authority    — PAS-004A §4.3 · PAS-004 consumer rules · enterprise-knowledge skill
 6. Gates        —
    pnpm --filter @afenda/erp typecheck

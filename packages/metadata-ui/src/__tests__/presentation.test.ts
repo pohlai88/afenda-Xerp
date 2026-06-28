@@ -1,7 +1,7 @@
 import {
   createMetadataRuntimeContext,
   type MetadataRuntimeState,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 import { describe, expect, it } from "vitest";
 import {
   sampleReadonlyRenderContext,

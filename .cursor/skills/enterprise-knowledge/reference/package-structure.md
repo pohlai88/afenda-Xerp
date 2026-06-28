@@ -114,7 +114,7 @@ All public contracts must remain **JSON-serializable** at boundaries. No functio
 | Allowed | Prohibited |
 | --- | --- |
 | Zero runtime dependencies (MVP) | `@afenda/architecture-authority` (circular authority risk) |
-| Local registry, policy, tests | `@afenda/database`, `@afenda/metadata`, `@afenda/ui` |
+| Local registry, policy, tests | `@afenda/database`, `@afenda/ui-composition`, `@afenda/ui` |
 | Dev: `@afenda/typescript-config`, vitest | `apps/erp`, auth SDKs, React, Next.js |
 
 Architecture-authority **registers** this package in `package-registry.data.ts`; prefer root governance scripts over import cycles.

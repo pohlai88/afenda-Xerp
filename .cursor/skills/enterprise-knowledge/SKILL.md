@@ -10,9 +10,9 @@ disable-model-invocation: false
 
 | PAS | Runtime status | Remaining slices |
 | --- | --- | --- |
-| **PAS-004** (charter) | Charter MVP — 12 seed atoms, `check:knowledge-conformance` | none — see PAS-004A |
-| **PAS-004A** (rollout) | B24–B32 delivered — 24 atoms, JSON authority, ERP consumer, scorecard 30/30 | none — see PAS-004B |
-| **PAS-004B** (Enterprise Accepted) | B33–B37 closed — scorecard 40/40 | none — PKGR04 authority PAS-004B |
+| **PAS-004** (charter) | Charter MVP — 12 seed atoms, `check:knowledge-conformance`; rollout in PAS-004A | none — superseded by PAS-004A |
+| **PAS-004A** (rollout) | B24–B32 delivered — 24 atoms, JSON authority, ERP consumer, glossary parity, scorecard 30/30 | none |
+| **PAS-004B** (Enterprise Accepted) | B33–B37 closed — scorecard 40/40; PKGR04 authority PAS-004B | none |
 
 > Canonical: [`PAS-004`](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [`PAS-004A`](../../../docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [`PAS-004B`](../../../docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 

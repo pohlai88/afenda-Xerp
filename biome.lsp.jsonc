@@ -1,0 +1,12 @@
+{
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  // Editor / Biome LSP — no type-aware project scanner (~10s graph load crashes LSP on startup).
+  // CI and pnpm lint use biome.jsonc (includes ultracite/biome/type-aware).
+  "extends": [
+    "ultracite/biome/core",
+    "ultracite/biome/react",
+    "ultracite/biome/next",
+    "ultracite/biome/vitest",
+    "./biome.project.jsonc"
+  ]
+}

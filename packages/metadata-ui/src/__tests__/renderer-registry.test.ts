@@ -1,4 +1,4 @@
-import { createRegistryEntry } from "@afenda/metadata";
+import { createRegistryEntry } from "@afenda/ui-composition";
 import { describe, expect, it } from "vitest";
 
 import {

@@ -20,11 +20,17 @@ Task arrives
 ├── Docs/matrix drift suspected? ────────→ documentation-drift
 ├── Any code edit? ──────────────────────→ coding-consistency-bundle (mandatory)
 ├── UI/CSS/visual? ──────────────────────→ ui-consistency-bundle (mandatory)
+├── Docs MDX content (apps/docs)? ───────→ docs-editorial-design
 ├── Kernel boundary? ────────────────────→ kernel-authority
 ├── Enterprise knowledge? ───────────────→ enterprise-knowledge
 ├── CSS tokens PAS-005? ─────────────────→ css-authority
 ├── Pre-merge review? ───────────────────→ /afenda-review command
 ├── Ship decision? ──────────────────────→ /afenda-ship command
+├── Underspecified request? ─────────────→ vendor `interview-me` (eval keep)
+├── Rough idea before FDR? ──────────────→ vendor `idea-refine` (eval keep)
+├── High-stakes adversarial review? ─────→ vendor `doubt-driven-development` (eval keep)
+├── Deprecation / migration? ────────────→ vendor `deprecation-and-migration` (eval keep)
+├── Browser runtime debug (DevTools)? ───→ vendor `browser-testing-with-devtools` (eval keep)
 └── Full frontend maturity audit? ───────→ enterprise-frontend-audit
 ```
 
@@ -39,6 +45,27 @@ Task arrives
 | PAS parallel batch | `@fdr-orchestrator` + `/afenda-fdr-batch` |
 | Which skill applies? | `/using-afenda-skills` (this skill) |
 | Vibe-coding / bundle preflight audit | `@vibe-coding-violation-auditor` |
+
+## Vendor reference skills (evaluated — on-demand only)
+
+Full scores: [`.cursor/skills/vendor/EVALUATION.md`](../vendor/EVALUATION.md).
+
+| Keep (wired or optional) | Path |
+| --- | --- |
+| Code review framework | `.cursor/skills/vendor/agent-skills/skills/code-review-and-quality/SKILL.md` |
+| Security hardening | `.cursor/skills/vendor/agent-skills/skills/security-and-hardening/SKILL.md` |
+| TDD / Prove-It | `.cursor/skills/vendor/agent-skills/skills/test-driven-development/SKILL.md` |
+| Ship / launch checklist | `.cursor/skills/vendor/agent-skills/skills/shipping-and-launch/SKILL.md` |
+| Performance (measure-first) | `.cursor/skills/vendor/agent-skills/skills/performance-optimization/SKILL.md` |
+| Interview / ideation / doubt / deprecation / DevTools | See EVALUATION.md optional table |
+
+## Reference checklists (promoted from vendor)
+
+| Checklist | Path |
+| --- | --- |
+| Security | `.cursor/references/security-checklist.md` |
+| Performance | `.cursor/references/performance-checklist.md` |
+| Orchestration | `.cursor/references/orchestration-patterns.md` |
 
 ## Implementer bundles (mandatory hops)
 

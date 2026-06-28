@@ -36,7 +36,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Governed section chrome from `@afenda/metadata-ui`. Each governed `SectionType` from `@afenda/metadata` (list, stat, chart, form, detail, audit, action) has a typed wrapper. All emit `data-metadata-section`, structural slot hooks, and container queries. Design tokens are not owned here — the consuming shell applies visual styling.",
+          "Governed section chrome from `@afenda/metadata-ui`. Each governed `SectionType` from `@afenda/ui-composition` (list, stat, chart, form, detail, audit, action) has a typed wrapper. All emit `data-metadata-section`, structural slot hooks, and container queries. Design tokens are not owned here — the consuming shell applies visual styling.",
       },
     },
     a11y: metadataStoryA11y,

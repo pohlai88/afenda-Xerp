@@ -5,7 +5,7 @@ import "@afenda/appshell/afenda-appshell.css";
 import "@afenda/metadata-ui/afenda-metadata-ui.css";
 
 import { ApplicationShell } from "@afenda/appshell";
-import { createMetadataRuntimeContext } from "@afenda/metadata";
+import { createMetadataRuntimeContext } from "@afenda/ui-composition";
 import type { MetadataRenderableAction } from "@afenda/metadata-ui";
 import {
   createMetadataUiRenderContext,

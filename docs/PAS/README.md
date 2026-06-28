@@ -87,8 +87,8 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 | [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | `@afenda/accounting-standards` | Foundation | Production Candidate |
 | [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | MVP Authority (constitutional charter) |
 | [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Production Candidate (post-MVP rollout; derived from PAS-004) |
-| [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Enterprise Accepted rollout (kernel bridge + multi-consumer; derived from PAS-004A) |
-| [PAS-005](PAS-005-CSS-AUTHORITY-STANDARD.md) | `@afenda/css-authority` | Design | MVP Authority — B26–B33 delivered; runtime cutover live |
+| [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Enterprise Accepted (B33–B37; scorecard 40/40; derived from PAS-004A) |
+| [PAS-005](PAS-005-CSS-AUTHORITY-STANDARD.md) | `@afenda/css-authority` | Design | MVP Authority — B26–B37 delivered; 569-token registry; runtime cutover live |
 
 Package-local annotated trees:
 
@@ -109,6 +109,7 @@ Each PAS has a corresponding Cursor agent skill for IDE-optimized enforcement:
 | PAS-002 | `.cursor/skills/architecture-authority/SKILL.md` |
 | PAS-003 | `.cursor/skills/accounting-standards-authority/SKILL.md` |
 | PAS-004 | `.cursor/skills/enterprise-knowledge/SKILL.md` |
+| PAS-005 | `.cursor/skills/css-authority/SKILL.md` |
 
 Appendix (temporary borrow refs): [PAS-003 Appendix A](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#appendix-a--borrow-reference-inventory-temporary)
 

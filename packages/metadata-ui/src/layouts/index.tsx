@@ -1,4 +1,4 @@
-import type { LayoutType } from "@afenda/metadata";
+import type { LayoutType } from "@afenda/ui-composition";
 
 import type { MetadataSpecificLayoutProps } from "../contracts/layout.contract.js";
 import { MetadataLayout } from "./metadata-layout.js";

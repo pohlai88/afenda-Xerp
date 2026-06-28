@@ -2,7 +2,7 @@
  * Metadata package version.
  *
  * Purpose:
- * - Tracks the publishable package version of `@afenda/metadata`.
+ * - Tracks the publishable package version of `@afenda/ui-composition`.
  * - Should align with `package.json` during governance releases.
  *
  * Bump when:

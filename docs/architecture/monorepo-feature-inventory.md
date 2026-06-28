@@ -89,7 +89,7 @@ Source of truth: [`package-registry.md`](package-registry.md) (22 active workspa
 | `@afenda/design-system` | [`packages/design-system/`](../packages/design-system/) | Token registry, recipes, CSS generation — **no runtime UI** (by design) |
 | `@afenda/ui` | [`packages/ui/`](../packages/ui/) | Governed primitives ([`src/components/`](../packages/ui/src/components/)), `resolvePrimitiveGovernance()` |
 | `@afenda/appshell` | [`packages/appshell/`](../packages/appshell/) | App shell, dashboard, navigation, shadcn-studio blocks ([`src/shadcn-studio/blocks/`](../packages/appshell/src/shadcn-studio/blocks/)) |
-| `@afenda/metadata` | [`packages/metadata/`](../packages/metadata/) | Layout/surface/renderer/action contracts |
+| `@afenda/ui-composition` | [`packages/ui-composition/`](../packages/ui-composition/) | Layout/surface/renderer/action contracts |
 | `@afenda/metadata-ui` | [`packages/metadata-ui/`](../packages/metadata-ui/) | Metadata renderers, layouts, surfaces ([`src/renderers/`](../packages/metadata-ui/src/renderers/)) |
 
 ### Governance / tooling
@@ -369,7 +369,7 @@ Generated during inventory implementation (2026-06-25). Commands run from repo r
 | PKG-008 | `packages/execution` | ✓ |
 | PKG-009 | `packages/feature-flags` | ✓ |
 | PKG-010 | `packages/kernel` | ✓ |
-| PKG-011 | `packages/metadata` | ✓ |
+| PKG-011 | `packages/ui-composition` | ✓ |
 | PKG-012 | `packages/metadata-ui` | ✓ |
 | PKG-013 | `packages/observability` | ✓ |
 | PKG-014 | `packages/permissions` | ✓ |

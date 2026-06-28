@@ -22,8 +22,8 @@
 | **Authority status** | `accepted_for_boundary` |
 | **Implementation status** | `mvp_delivered` — B26–B37 slice sequence complete (2026-06-28) |
 | **Evidence level** | `runtime` — `afenda-ui.css` cutover live; 569-token JSON-backed registry; R23–R30 + domain-sync + bridge-sync + visual contract + docs pixel baselines pass |
-| **Runtime status** | B26–B37 delivered — 569-token registry (465 afenda + 44 appshell + 14 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines wired |
-| **Remaining slices** | none — optional enhancements only (R15 studio raw values, post-v1 shim removal) |
+| **Runtime status** | B26–B37 delivered — 569-token registry (465 afenda + 44 appshell + 14 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
+| **Remaining slices** | none — optional enhancements only |
 | **Consumers** | `@afenda/ui`, `@afenda/appshell`, `apps/erp`, `apps/storybook` |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
@@ -39,13 +39,15 @@
 | 3 | `pnpm --filter @afenda/css-authority build` |
 | 4 | `pnpm check:css-authority-conformance` |
 | 5 | `pnpm check:css-authority-consumption` |
-| 6 | `pnpm check:css-authority-bridge-sync` |
-| 7 | `pnpm check:css-visual-regression` |
-| 8 | `pnpm check:css-governance` |
-| 9 | `pnpm quality:boundaries` |
+| 6 | `pnpm check:css-authority-domain-sync` |
+| 7 | `pnpm check:css-authority-bridge-sync` |
+| 8 | `pnpm check:css-visual-regression` |
+| 9 | `pnpm check:css-governance` |
+| 10 | `pnpm check:foundation-disposition` |
+| 11 | `pnpm quality:boundaries` |
 
 > **Maturity is part of authority.**
-> MVP Authority is delivered for B26–B33. Do not claim Enterprise Accepted until B36 attestation closes.
+> MVP Authority is delivered for B26–B37 (569-token registry; consumption + domain-sync + bridge + visual contract + docs pixel baselines). Do not claim Enterprise Accepted — optional Production Candidate attestation remains out of scope.
 
 > **Canonical location:** `docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md`
 > **Package-local pointer:** [`packages/css-authority/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../packages/css-authority/PAS-005-CSS-AUTHORITY-STANDARD.md)

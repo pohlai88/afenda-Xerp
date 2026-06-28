@@ -41,7 +41,7 @@
 | PKG015_STORAGE | `@afenda/storage` | green-lane | yes | see fdr-015-tenant-storage |
 | PKG008_EXECUTION | `@afenda/execution` | green-lane | yes | — |
 | PKG005_DOCS | `@afenda/docs` | blue-lane | no | see fdr-005-docs-app |
-| PKG011_METADATA | `@afenda/metadata` | green-lane | yes | see fdr-011-metadata-authority |
+| PKG011_METADATA | `@afenda/ui-composition` | green-lane | yes | see fdr-011-metadata-authority |
 | PKG012_METADATA_UI | `@afenda/metadata-ui` | amber-lane | no | see fdr-012-metadata-renderers |
 | PKG016_TESTING | `@afenda/testing` | blue-lane | no | see fdr-016-test-utilities |
 | PKG017_TS_CONFIG | `@afenda/typescript-config` | blue-lane | no | see fdr-017-ts-config |

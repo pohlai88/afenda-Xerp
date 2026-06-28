@@ -1,7 +1,7 @@
 import {
   type CreateMetadataRuntimeContextInput,
   createMetadataRuntimeContext,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 
 import type {
   CreateMetadataUiRenderContextInput,

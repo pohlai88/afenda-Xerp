@@ -23,9 +23,9 @@
 | **Authority status** | `accepted_for_implementation` |
 | **Implementation status** | `partial` |
 | **Evidence level** | `registry` |
-| **Runtime status** | Charter MVP delivered — 12 seed atoms, `check:knowledge-conformance`; platform rollout in PAS-004A; Enterprise Accepted in PAS-004B |
-| **Remaining slices** | none — see [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) |
-| **Consumers** | `@afenda/metadata`, `@afenda/metadata-ui`, `apps/erp`, `docs/architecture/glossary.md` |
+| **Runtime status** | Charter MVP — 12 seed atoms, `check:knowledge-conformance`; rollout in PAS-004A |
+| **Remaining slices** | none — superseded by PAS-004A |
+| **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `docs/architecture/glossary.md` |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
 | **Slice directory** | `docs/PAS/slice/` |
@@ -58,7 +58,7 @@
 
 **Hard stops summary:**
 
-* **Prohibited imports:** `@afenda/architecture-authority`, `@afenda/database`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/ui`, `@afenda/appshell`, `apps/erp`, auth SDKs, UI frameworks.
+* **Prohibited imports:** `@afenda/architecture-authority`, `@afenda/database`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `@afenda/ui`, `@afenda/appshell`, `apps/erp`, auth SDKs, UI frameworks.
 * **Must never own:** kernel wire/parser behavior, journal posting, ledger persistence, UI components, DB migrations, package registry rows, tenant-editable knowledge stores, graph databases, scoring engines.
 
 **Required gates:** see §13.
@@ -335,7 +335,7 @@ Atoms connect via typed edges in `KNOWLEDGE_RELATIONSHIPS`. MVP types: `contains
 | --- | --- |
 | `@afenda/enterprise-knowledge` registry | **Authoritative** for accepted meaning |
 | `docs/architecture/glossary.md` | Synced view — demoted representation |
-| `@afenda/metadata` labels | Rendering — imports meaning, does not own it |
+| `@afenda/ui-composition` labels | Rendering — imports meaning, does not own it |
 | AI / copilot context | Must cite atom IDs and acceptance state |
 
 When glossary and registry diverge, **registry wins** until a slice updates the representation.

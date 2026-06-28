@@ -27,7 +27,7 @@ describe("cross-package authority contract", () => {
 
   it("states metadata-ui must consume metadata contracts", () => {
     expect(metadataUiIntegrationRule).toContain(
-      "@afenda/metadata-ui must depend on @afenda/metadata"
+      "@afenda/metadata-ui must depend on @afenda/ui-composition"
     );
     expect(crossPackageAuthority.metadataUiIntegrationRule).toBe(
       metadataUiIntegrationRule
@@ -43,7 +43,7 @@ describe("cross-package authority contract", () => {
 
   it("prohibits metadata from importing metadata-ui", () => {
     expect(metadataUiIntegrationRule).toContain(
-      "@afenda/metadata must never import @afenda/metadata-ui"
+      "@afenda/ui-composition must never import @afenda/metadata-ui"
     );
   });
 
@@ -105,12 +105,12 @@ describe("cross-package authority contract", () => {
   it("allows metadata-ui to import metadata", () => {
     const metadataUiEntry = getEntry("@afenda/metadata-ui");
     expect(metadataUiEntry.importPolicy.mayImportFrom).toContain(
-      "@afenda/metadata"
+      "@afenda/ui-composition"
     );
   });
 
   it("forbids metadata from importing metadata-ui", () => {
-    const metadataEntry = getEntry("@afenda/metadata");
+    const metadataEntry = getEntry("@afenda/ui-composition");
     expect(metadataEntry.importPolicy.mayNotImportFrom).toContain(
       "@afenda/metadata-ui"
     );
@@ -133,14 +133,16 @@ describe("cross-package authority contract", () => {
   });
 
   it("restricts renderer governance to metadata and implementation to metadata-ui", () => {
-    expect(getEntry("@afenda/metadata").owns).toContain("renderer-governance");
+    expect(getEntry("@afenda/ui-composition").owns).toContain(
+      "renderer-governance"
+    );
     expect(getEntry("@afenda/metadata-ui").owns).toContain(
       "renderer-implementation"
     );
     expect(getEntry("@afenda/metadata-ui").mayNotOwn).toContain(
       "renderer-governance"
     );
-    expect(getEntry("@afenda/metadata").mayNotOwn).toContain(
+    expect(getEntry("@afenda/ui-composition").mayNotOwn).toContain(
       "renderer-implementation"
     );
   });

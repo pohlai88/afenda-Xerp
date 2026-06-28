@@ -1,4 +1,4 @@
-import type { SurfaceType } from "@afenda/metadata";
+import type { SurfaceType } from "@afenda/ui-composition";
 
 import type { MetadataSpecificSurfaceProps } from "../contracts/surface.contract.js";
 import { MetadataSurface } from "./metadata-surface.js";

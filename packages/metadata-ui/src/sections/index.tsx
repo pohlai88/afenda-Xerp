@@ -1,4 +1,4 @@
-import type { SectionType } from "@afenda/metadata";
+import type { SectionType } from "@afenda/ui-composition";
 
 import type { MetadataSpecificSectionProps } from "../contracts/section.contract.js";
 import { MetadataSection } from "./metadata-section.js";

@@ -19,7 +19,7 @@
 | **Evidence level** | `concept` |
 | **Runtime status** | B0 skeleton + PAS published; versioned standard registries not started |
 | **Remaining slices** | B1 — accounting standard family registry (next) |
-| **Consumers** | `@afenda/kernel`, `@afenda/accounting`, `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/metadata`, `@afenda/metadata-ui`, `apps/erp` |
+| **Consumers** | `@afenda/kernel`, `@afenda/accounting`, `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp` |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
 | **Slice directory** | `docs/PAS/slice/` |
@@ -118,7 +118,7 @@ Consumer direction:
 @afenda/intercompany
 @afenda/tax
 @afenda/finance
-@afenda/metadata
+@afenda/ui-composition
 @afenda/metadata-ui
 apps/erp
   → @afenda/accounting-standards

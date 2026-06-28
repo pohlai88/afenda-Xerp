@@ -96,7 +96,7 @@ export const DarkTheme: Story = {
 | `Primitives/` | `@afenda/ui` governed components |
 | `ERP/` | `@afenda/appshell` shell + blocks |
 | `Blocks/` | Dashboard shadcn-studio blocks |
-| `Metadata/` | `@afenda/metadata-ui` renderers |
+| `Metadata/` | `@afenda/ui-composition-ui` renderers |
 | `Governance/` | Authority / recipe audit stories |
 
 ---
@@ -363,7 +363,7 @@ When adding a new component directory, always add BOTH `<dir>/*.tsx` and `<dir>/
 **Fix**: In `apps/storybook/.storybook/main.ts` `viteFinal`, aliases are in this mandatory order:
 1. CSS sub-paths (`/afenda-ui.css`, `/afenda-appshell.css`, etc.)
 2. Sub-paths (`@afenda/ui/governance/*`, `@afenda/ui/lib/*`)
-3. Root packages (`@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui`, `@afenda/metadata`)
+3. Root packages (`@afenda/ui`, `@afenda/appshell`, `@afenda/ui-composition-ui`, `@afenda/ui-composition`)
 4. Mocks (`next/link`, `next/image`)
 
 Never reorder. The `@afenda/appshell` alias points to `packages/appshell/src/index.ts`.

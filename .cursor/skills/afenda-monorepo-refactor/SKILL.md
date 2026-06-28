@@ -21,7 +21,7 @@ Governed refactoring for the `@afenda/*` pnpm + Turborepo workspace. Combines mo
 | PAS kernel slice planning | `/pas-slice-planner` |
 | Layer/import rules reference | `/monorepo-discipline` |
 | Implementation execution | `/afenda-coding-session` |
-| Post-refactor repair + gates | `/afenda-implementation-health` |
+| Post-refactor repair + gates | `@afenda-governed-implementer` |
 | Registry / FDR lane edits | `foundation-registry-owner` agent |
 
 This skill **orchestrates** refactors. It does not replace upstream authority docs or registry owners.
@@ -35,7 +35,7 @@ This skill **orchestrates** refactors. It does not replace upstream authority do
 | `audit` (default when scope unclear) | Safety assessment | No | Refactor matrix + risk verdict + recommended slices |
 | `plan` | Serialized slice plan | No | Numbered slices + paste-ready `/afenda-coding-session` commands |
 | `execute` | One approved slice | Yes | Implementation + gates + completion evidence |
-| `stabilize` | Post-refactor health | Yes | Delegates repair loop to implementation-health patterns |
+| `stabilize` | Post-refactor health | Yes | Delegates repair loop to `@afenda-governed-implementer` |
 
 If no keyword is given and the user names a concrete single slice, use `execute`. Otherwise default to `audit` or `plan`.
 
@@ -283,7 +283,7 @@ List next serialized slices with one-line objective each.
 
 ```text
 /afenda-monorepo-refactor audit move resolveFoo from apps/erp to @afenda/kernel
-/afenda-monorepo-refactor plan extract shared wire types from @afenda/metadata to @afenda/kernel
+/afenda-monorepo-refactor plan extract shared wire types from @afenda/ui-composition to @afenda/kernel
 /afenda-monorepo-refactor execute Slice B — move implementation per plan above
 /afenda-monorepo-refactor stabilize @afenda/kernel after extract slice
 ```

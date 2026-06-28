@@ -216,7 +216,7 @@ A Workspace is **not a database table** — it is a resolved context object asse
 
 A Surface identifies which page or module section the user is viewing. It is used by:
 
-- The Metadata Authority (`@afenda/metadata`) to resolve which layout, columns, and actions to render
+- The Metadata Authority (`@afenda/ui-composition`) to resolve which layout, columns, and actions to render
 - Feature flag evaluation (a feature may be enabled on one surface but not another)
 - Analytics and error reporting (correlate errors to a specific ERP screen)
 

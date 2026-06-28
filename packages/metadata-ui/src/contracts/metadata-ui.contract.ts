@@ -3,10 +3,10 @@
  *
  * Authority:
  * - Defines package-level ownership and boundary rules for @afenda/metadata-ui.
- * - Does not define metadata vocabulary — that belongs to @afenda/metadata.
+ * - Does not define metadata vocabulary — that belongs to @afenda/ui-composition.
  */
 
-import { METADATA_CONTRACT_VERSION } from "@afenda/metadata";
+import { METADATA_CONTRACT_VERSION } from "@afenda/ui-composition";
 
 export const METADATA_UI_CONTRACT_VERSION = "0.1.0" as const;
 
@@ -14,7 +14,7 @@ export const METADATA_UI_PACKAGE_NAME = "@afenda/metadata-ui" as const;
 
 export const METADATA_UI_AUTHORITY = "metadata-ui" as const;
 
-export const METADATA_UI_CONSUMES = ["@afenda/metadata"] as const;
+export const METADATA_UI_CONSUMES = ["@afenda/ui-composition"] as const;
 
 export const METADATA_UI_OWNS = [
   "metadata rendering",

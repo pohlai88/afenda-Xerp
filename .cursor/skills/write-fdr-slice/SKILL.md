@@ -315,4 +315,4 @@ Do not invoke fdr-slice-implementer until repaired.
 | `foundation-registry-owner` | Registry mutations only |
 | `enterprise-erp-standards` | SAP/Oracle gate mapping + Clean Core levels |
 | `ENTERPRISE-BENCHMARK.md` | 30-pt scoring, evidence grades, hard fail rules |
-| `write-tip-slice` | Archive only — historical TIP repair |
+| `write-tip-slice` | **Removed** — use this skill for all new slices |

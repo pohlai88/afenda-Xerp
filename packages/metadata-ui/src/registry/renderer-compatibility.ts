@@ -2,7 +2,7 @@ import {
   RENDERER_COMPATIBILITY_RULES,
   type RendererCapability,
   type SectionType,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 
 export function isRendererCapabilityCompatible(
   capability: RendererCapability,

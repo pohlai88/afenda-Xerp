@@ -55,5 +55,5 @@ export const metadataActionsDocs = {
 
 export const metadataStatesDocs = {
   component:
-    "Runtime state placeholders aligned with `@afenda/metadata` vocabulary. Optional `slots.icon`, `slots.action`, and `slots.detail` are shell-provided only; metadata-ui renders slot locations, not icons or decoration.",
+    "Runtime state placeholders aligned with `@afenda/ui-composition` vocabulary. Optional `slots.icon`, `slots.action`, and `slots.detail` are shell-provided only; metadata-ui renders slot locations, not icons or decoration.",
 } as const;

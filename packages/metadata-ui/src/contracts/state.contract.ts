@@ -3,10 +3,10 @@
  *
  * Authority:
  * - Defines state placeholder props for metadata-ui composition.
- * - Consumes MetadataRuntimeState from @afenda/metadata — does not redefine state vocabulary.
+ * - Consumes MetadataRuntimeState from @afenda/ui-composition — does not redefine state vocabulary.
  */
 
-import type { MetadataRuntimeState } from "@afenda/metadata";
+import type { MetadataRuntimeState } from "@afenda/ui-composition";
 import type { ReactNode } from "react";
 
 export interface MetadataStateCopy {

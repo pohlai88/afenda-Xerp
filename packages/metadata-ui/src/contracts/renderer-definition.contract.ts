@@ -3,14 +3,14 @@
  *
  * Authority:
  * - Defines renderer registry and resolution contracts for metadata-ui.
- * - Consumes RegistryEntry, RendererCapability, SectionType from @afenda/metadata.
+ * - Consumes RegistryEntry, RendererCapability, SectionType from @afenda/ui-composition.
  */
 
 import type {
   RegistryEntry,
   RendererCapability,
   SectionType,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 import type { ReactNode } from "react";
 
 import type { MetadataUiRenderContext } from "./render-context.contract.js";
@@ -64,7 +64,7 @@ export interface MetadataRendererGovernance {
    */
   readonly priority: number;
   /**
-   * Registry entry from @afenda/metadata.
+   * Registry entry from @afenda/ui-composition.
    */
   readonly registry: RegistryEntry;
 

@@ -73,7 +73,7 @@ Same-rank layers (e.g. Design and Foundation both at rank 2) do not imply cross-
 | `@afenda/ui` | Design | 2 |
 | `@afenda/execution` | Foundation | 2 |
 | `@afenda/storage` | Foundation | 2 |
-| `@afenda/metadata` | Metadata | 3 |
+| `@afenda/ui-composition` | Metadata | 3 |
 | `@afenda/metadata-ui` | Metadata | 3 |
 | `@afenda/entitlements` | Integration | 3 |
 | `@afenda/feature-flags` | Integration | 3 |

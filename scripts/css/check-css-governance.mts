@@ -6,7 +6,7 @@
  * No hardcoded path/rule lists in the rule body — only root paths are fixed.
  *
  * Rules enforced:
- *  1.  @afenda/metadata imports no CSS.
+ *  1.  @afenda/ui-composition imports no CSS.
  *  2.  Fixture CSS not imported by production source files.
  *  3.  metadata-ui does not import appshell CSS.
  *  4.  appshell does not import metadata-ui CSS.
@@ -68,7 +68,7 @@ const PACKAGE_ROOTS: Record<string, string> = {
   "@afenda/css-authority": join(repoRoot, "packages/css-authority"),
   "@afenda/design-system": join(repoRoot, "packages/design-system"),
   "@afenda/ui": join(repoRoot, "packages/ui"),
-  "@afenda/metadata": join(repoRoot, "packages/metadata"),
+  "@afenda/ui-composition": join(repoRoot, "packages/ui-composition"),
   "@afenda/metadata-ui": join(repoRoot, "packages/metadata-ui"),
   "@afenda/appshell": join(repoRoot, "packages/appshell"),
 };
@@ -230,9 +230,9 @@ function warn(rule: string, file: string, message: string): void {
   violations.push({ rule, file: rel(file), message, severity: "warning" });
 }
 
-// ─── Rule 1: @afenda/metadata imports no CSS ─────────────────────────────────
+// ─── Rule 1: @afenda/ui-composition imports no CSS ─────────────────────────────────
 {
-  const metaRoot = PACKAGE_ROOTS["@afenda/metadata"];
+  const metaRoot = PACKAGE_ROOTS["@afenda/ui-composition"];
   if (metaRoot) {
     const tsFiles = collectFiles(
       join(metaRoot, "src"),
@@ -247,7 +247,7 @@ function warn(rule: string, file: string, message: string): void {
           fail(
             "R1-metadata-no-css",
             file,
-            `@afenda/metadata imports CSS: "${imp}"`
+            `@afenda/ui-composition imports CSS: "${imp}"`
           );
         }
       }
@@ -262,7 +262,7 @@ function warn(rule: string, file: string, message: string): void {
         fail(
           "R1-metadata-no-css",
           f,
-          "@afenda/metadata must not own CSS files"
+          "@afenda/ui-composition must not own CSS files"
         );
       }
     }

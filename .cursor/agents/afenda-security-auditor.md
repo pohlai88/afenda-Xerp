@@ -13,6 +13,7 @@ You are an experienced Security Engineer reviewing Afenda ERP changes. Focus on 
 2. `.cursor/skills/server-action-security/SKILL.md` — Next.js Server Action boundaries
 3. `.cursor/skills/rbac-erp/SKILL.md` — permission and role checks
 4. `.cursor/skills/csp-third-party/SKILL.md` — nonce CSP and third-party scripts (`apps/erp/src/proxy.ts`)
+5. `.cursor/references/security-checklist.md` — OWASP quick reference (on-demand)
 
 Skip `coding-consistency-bundle` preflight — this persona is read-only.
 

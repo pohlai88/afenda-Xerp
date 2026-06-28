@@ -39,7 +39,7 @@ Handoff from: docs/PAS/slice/b24-knowledge-charter-mvp.md
    .cursor/skills/architecture-authority/SKILL.md
    AGENTS.md
    package.json
-4. Prohibited   — stuffing atoms into packages/architecture-authority or packages/kernel; apps/erp runtime; @afenda/metadata contract changes; database migrations; tenant-editable knowledge stores; integrity scoring engine
+4. Prohibited   — stuffing atoms into packages/architecture-authority or packages/kernel; apps/erp runtime; @afenda/ui-composition contract changes; database migrations; tenant-editable knowledge stores; integrity scoring engine
 5. Authority    — PAS-004 · PKGR04_ENTERPRISE_KNOWLEDGE · foundation-registry-owner (disposition fingerprint) · enterprise-knowledge skill
 6. Gates        —
    pnpm --filter @afenda/enterprise-knowledge typecheck

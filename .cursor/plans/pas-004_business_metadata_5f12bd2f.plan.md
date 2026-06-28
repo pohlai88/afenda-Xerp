@@ -54,7 +54,7 @@ flowchart LR
   EK["@afenda/enterprise-knowledge"]
   AA["@afenda/architecture-authority"]
   Kernel["@afenda/kernel"]
-  Meta["@afenda/metadata"]
+  Meta["@afenda/ui-composition"]
 
   PAS004 -->|"governs"| EK
   AA -->|"registers package + dependency rules"| EK
@@ -81,7 +81,7 @@ flowchart LR
 
 Follow the **PAS-003 skeleton pattern**: dedicated `package.json`, `tsconfig`, `vitest`, minimal dependency on `@afenda/kernel` (types only if needed), tombstone pointer in package root.
 
-**Not the same as `@afenda/metadata`:** metadata owns UI surface/section/action rendering; enterprise-knowledge owns **accepted business meaning** — orthogonal concerns.
+**Not the same as `@afenda/ui-composition`:** metadata owns UI surface/section/action rendering; enterprise-knowledge owns **accepted business meaning** — orthogonal concerns.
 
 ## Three layers (unchanged philosophy)
 
@@ -102,7 +102,7 @@ Chapters 1–4 remain technology-free.
 ### 1. Charter document
 [`docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) — ten chapters, First Principles, constitutional sentence. Maturity **MVP Authority**.
 
-**Boundary (§2):** `@afenda/enterprise-knowledge` **owns the enterprise knowledge platform — authoritative acceptance, Knowledge Atoms, domains, relationships, integrity dimensions, and conformance; it never owns kernel wire contracts, business master data runtime, UI rendering ([`@afenda/metadata`](packages/metadata/src/metadata.contract.ts)), accounting-standard rules, database migrations, package lifecycle registries, external learning portals, scoring algorithms, or tenant-specific knowledge.**
+**Boundary (§2):** `@afenda/enterprise-knowledge` **owns the enterprise knowledge platform — authoritative acceptance, Knowledge Atoms, domains, relationships, integrity dimensions, and conformance; it never owns kernel wire contracts, business master data runtime, UI rendering ([`@afenda/ui-composition`](packages/ui-composition/src/metadata.contract.ts)), accounting-standard rules, database migrations, package lifecycle registries, external learning portals, scoring algorithms, or tenant-specific knowledge.**
 
 ### 2. Package scaffold
 Create `packages/enterprise-knowledge/`:
@@ -160,7 +160,7 @@ Architecture-authority skill gets one line: *package boundary questions for `@af
 
 **Allowed:** `@afenda/kernel` (read-only types if needed), local registry/policy/tests.
 
-**Prohibited:** `@afenda/architecture-authority` (avoid circular authority), `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/database`, `apps/erp`, auth SDKs, UI frameworks.
+**Prohibited:** `@afenda/architecture-authority` (avoid circular authority), `@afenda/ui-composition`, `@afenda/ui-composition-ui`, `@afenda/database`, `apps/erp`, auth SDKs, UI frameworks.
 
 Architecture-authority **may import** enterprise-knowledge only for governance validation if cycle-free — prefer root script reading both packages without a runtime import cycle.
 

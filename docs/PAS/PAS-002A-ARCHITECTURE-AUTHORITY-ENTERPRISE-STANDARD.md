@@ -21,7 +21,7 @@
 | **Authority status** | `accepted_for_boundary` |
 | **Implementation status** | `delivered` |
 | **Evidence level** | `runtime_proven` |
-| **Runtime status** | B38–B42 delivered — kernel non-duplication, ownership sign-off, governance consumer proof, disposition completeness, Enterprise Accepted attestation |
+| **Runtime status** | B38–B42 delivered — four new gates operational; ownership attested 2026-06-28 |
 | **Remaining slices** | none |
 | **Consumers** | `@afenda/kernel`, all registered workspace packages, `scripts/quality/**`, `scripts/governance/**`, `docs/architecture/*.md` derived views |
 | **Change model** | `serialized-slices` (B38+) |

@@ -14,7 +14,7 @@ The `@afenda/architecture-authority` package enforces these rules automatically 
 Rank 6 — Application  : @afenda/erp, @afenda/docs, @afenda/storybook
 Rank 5 — Domain       : (future domain packages)
 Rank 4 — ERPSpine     : @afenda/appshell
-Rank 3 — Metadata     : @afenda/metadata, @afenda/metadata-ui
+Rank 3 — Metadata     : @afenda/ui-composition, @afenda/ui-composition-ui
 Rank 3 — Integration  : @afenda/entitlements, @afenda/feature-flags, @afenda/testing
 Rank 2 — Foundation   : @afenda/execution, @afenda/storage, @afenda/accounting-standards
 Rank 2 — Design       : @afenda/design-system, @afenda/ui
@@ -86,7 +86,7 @@ Use **`turbo gen workspace --copy`** from the repo root — no custom generators
 |------------------|-----------|--------------|
 | Foundation authority (kernel contracts) | `packages/accounting-standards` | `@afenda/kernel` |
 | Platform authority (zero runtime deps) | `packages/enterprise-knowledge` | none |
-| Contract-heavy metadata | `packages/metadata` | none — heavier tree |
+| Contract-heavy metadata | `packages/ui-composition` | none — heavier tree |
 | React/UI (Design layer only) | `packages/ui` | many — ask before use |
 
 **Do not copy:** `packages/kernel` wholesale (wrong layout gates). **Do not scaffold:** `crm`, `hrm`, `procurement`, `inventory` — blocked by `pnpm check:business-master-data-scaffold`.

@@ -3,10 +3,10 @@
  *
  * Authority:
  * - Defines governed configuration for metadata-ui section renderers.
- * - Consumes SectionType from @afenda/metadata — does not redefine vocabulary.
+ * - Consumes SectionType from @afenda/ui-composition — does not redefine vocabulary.
  */
 
-import type { SectionType } from "@afenda/metadata";
+import type { SectionType } from "@afenda/ui-composition";
 import type { ComponentType } from "react";
 
 import type { MetadataSectionProps } from "../contracts/section.contract.js";

@@ -23,9 +23,9 @@
 | **Authority status** | `approved_for_implementation` |
 | **Implementation status** | `delivered` — B33–B37 complete; PKGR04 authority PAS-004B |
 | **Evidence level** | `pas_document` + B33–B36 governance gates + registry promotion |
-| **Runtime status** | PAS-004B closed 2026-06-28; PKGR04 authority PAS-004B via `foundation-registry-owner` |
+| **Runtime status** | B33–B37 closed — scorecard 40/40; PKGR04 authority PAS-004B |
 | **Remaining slices** | none |
-| **Consumers** | `@afenda/metadata`, `@afenda/metadata-ui`, `apps/erp`, `apps/docs`, `docs/architecture/glossary.md` |
+| **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `apps/docs`, `docs/architecture/glossary.md` |
 | **Change model** | `serialized-slices` (B33+) |
 | **Quality target** | Enterprise **9.5 / 10** |
 | **Slice directory** | `docs/PAS/slice/` |
@@ -147,7 +147,7 @@
 
 ## 3.2 Prohibited imports
 
-Same as PAS-004 / PAS-004A: `@afenda/architecture-authority`, `@afenda/database`, `@afenda/metadata`, `@afenda/metadata-ui`, `@afenda/ui`, `@afenda/appshell`, `apps/erp`, auth SDKs, React, Next.js, Drizzle, HTTP clients.
+Same as PAS-004 / PAS-004A: `@afenda/architecture-authority`, `@afenda/database`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `@afenda/ui`, `@afenda/appshell`, `apps/erp`, auth SDKs, React, Next.js, Drizzle, HTTP clients.
 
 ## 3.3 Consumer import rule
 
@@ -191,7 +191,7 @@ Consumers **may** import `@afenda/enterprise-knowledge` for vocabulary resolutio
 | Consumer | Proof | Slice |
 | --- | --- | --- |
 | `apps/erp` | Existing — extend only via new slices | B32 (closed) |
-| `@afenda/metadata` | Static gate: metadata resolves ≥3 platform identity labels from atoms | B34 |
+| `@afenda/ui-composition` | Static gate: metadata resolves ≥3 platform identity labels from atoms | B34 |
 | `apps/docs` | Docs vocabulary helper + MDX identity blocks cite atom IDs | B35 |
 
 **Rule:** Operational copy stays in consumer contracts; **accepted meaning** (titles, canonical definitions) comes from atoms.
@@ -234,7 +234,7 @@ Extends Production Candidate scorecard with Enterprise Accepted rows:
 Everything in PAS-004 §11 and PAS-004A §5, plus:
 
 - **Kernel identity parsers, prefix registries, or wire asserts** (PAS-001 / ADR-0021)
-- **Metadata section/action rendering** (`@afenda/metadata`)
+- **Metadata section/action rendering** (`@afenda/ui-composition`)
 - **Docs editorial CSS or MDX layout** (`apps/docs`)
 - **Enterprise Accepted maturity claims** without B37 scorecard ≥ 38/40
 - **Graph engines, ontology engines, or “knowledge platform v2”** scope creep
@@ -321,7 +321,7 @@ Execute in order. Do not skip consumer proof before B37 attestation.
 **Do not add in this package (correct home):**
 
 - ID parse/prefix implementation → `packages/kernel/src/identity/`
-- Metadata section registry rows → `@afenda/metadata`
+- Metadata section registry rows → `@afenda/ui-composition`
 - Docs editorial tokens → `apps/docs` CSS layers (PAS-005)
 
 ---

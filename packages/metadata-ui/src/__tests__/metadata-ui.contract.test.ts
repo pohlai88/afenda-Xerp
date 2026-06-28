@@ -24,7 +24,7 @@ describe("metadataUiContract", () => {
 
   it("consumes metadata authority without owning metadata vocabulary", () => {
     expect(metadataUiContract.consumes).toEqual(METADATA_UI_CONSUMES);
-    expect(metadataUiContract.consumes).toContain("@afenda/metadata");
+    expect(metadataUiContract.consumes).toContain("@afenda/ui-composition");
 
     expect(METADATA_UI_DOES_NOT_OWN).toContain("metadata authority");
     expect(METADATA_UI_DOES_NOT_OWN).toContain("metadata vocabulary");

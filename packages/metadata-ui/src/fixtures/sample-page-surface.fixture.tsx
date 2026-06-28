@@ -1,4 +1,4 @@
-import type { SurfaceType } from "@afenda/metadata";
+import type { SurfaceType } from "@afenda/ui-composition";
 
 import type { MetadataRenderableAction } from "../contracts/action.contract.js";
 import type {

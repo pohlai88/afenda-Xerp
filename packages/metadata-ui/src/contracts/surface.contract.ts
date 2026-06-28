@@ -3,10 +3,10 @@
  *
  * Authority:
  * - Defines surface props for metadata-ui composition.
- * - Consumes SurfaceType and MetadataAction from @afenda/metadata.
+ * - Consumes SurfaceType and MetadataAction from @afenda/ui-composition.
  */
 
-import type { SurfaceType } from "@afenda/metadata";
+import type { SurfaceType } from "@afenda/ui-composition";
 import type { ReactNode } from "react";
 
 import type { MetadataRenderableAction } from "./action.contract.js";
@@ -229,7 +229,7 @@ export interface MetadataSurfaceProps {
   readonly state?: MetadataSurfaceState;
 
   /**
-   * Governed surface type from @afenda/metadata.
+   * Governed surface type from @afenda/ui-composition.
    */
   readonly type: SurfaceType;
 }

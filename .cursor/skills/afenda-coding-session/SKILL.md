@@ -97,7 +97,7 @@ never *redefine* it locally.
 | **Architecture** | `packages/architecture-authority` | Allowed dependency directions, package boundaries | Cross-import outside declared boundaries |
 | **Design System** | `packages/design-system` | Tokens, recipes, CSS variables | Define local tokens / recipes / variants |
 | **UI Primitive Governance** | `packages/ui` | Governed primitives, `resolvePrimitiveGovernance()` | Add `className` to `@afenda/ui` primitives |
-| **Metadata UI** | `packages/metadata`, `packages/metadata-ui` | Metadata contracts, layouts | Invent local metadata contracts |
+| **Metadata UI** | `packages/ui-composition`, `packages/metadata-ui` | UI composition contracts, layouts | Invent local metadata contracts |
 | **Kernel / Multi-tenancy** | `packages/kernel` | Operating-context + tenant resolution | Inline tenant/context lookups |
 | **Database** | `packages/database` | Schema, migrations, RLS | Hand-edit migrations; raw cross-tenant queries |
 | **Permission** | `packages/permissions`, `packages/entitlements` | Capabilities, policy checks | Define local permission constants |

@@ -1,4 +1,3 @@
-import type { MetadataDensityMode } from "@afenda/metadata";
 import type {
   Density,
   MetadataUiRecipeSlot,
@@ -8,6 +7,7 @@ import {
   densityToAttribute,
   resolveMetadataUiSlotClassName,
 } from "@afenda/ui/governance";
+import type { MetadataDensityMode } from "@afenda/ui-composition";
 
 import { joinClassNames } from "../rendering/join-class-names.js";
 

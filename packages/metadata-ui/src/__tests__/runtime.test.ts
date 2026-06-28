@@ -25,7 +25,9 @@ describe("runtime boundary contracts", () => {
 
 describe("assertMetadataUiBoundary", () => {
   it("allows metadata-ui dependencies", () => {
-    expect(() => assertMetadataUiBoundary("@afenda/metadata")).not.toThrow();
+    expect(() =>
+      assertMetadataUiBoundary("@afenda/ui-composition")
+    ).not.toThrow();
   });
 
   it("rejects forbidden package imports", () => {

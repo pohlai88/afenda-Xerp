@@ -3,10 +3,10 @@
  *
  * Authority:
  * - Defines registry resolution input and registry interface for metadata-ui.
- * - Consumes SectionType and RendererCapability from @afenda/metadata.
+ * - Consumes SectionType and RendererCapability from @afenda/ui-composition.
  */
 
-import type { RendererCapability, SectionType } from "@afenda/metadata";
+import type { RendererCapability, SectionType } from "@afenda/ui-composition";
 
 import type { MetadataUiRenderContext } from "../contracts/render-context.contract.js";
 import type { MetadataRendererDefinition } from "../contracts/renderer-definition.contract.js";

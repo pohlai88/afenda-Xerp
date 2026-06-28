@@ -71,7 +71,7 @@ const OWNERSHIP_ROWS = [
     authorityLevel: "platform",
   },
   {
-    packageName: "@afenda/metadata",
+    packageName: "@afenda/ui-composition",
     ownerDomain: "Metadata Authority",
     authorityLevel: "metadata",
   },

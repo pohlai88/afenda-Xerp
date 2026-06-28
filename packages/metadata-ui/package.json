@@ -47,7 +47,7 @@
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
   },
   "dependencies": {
-    "@afenda/metadata": "workspace:*",
+    "@afenda/ui-composition": "workspace:*",
     "@afenda/ui": "workspace:*"
   },
   "peerDependencies": {

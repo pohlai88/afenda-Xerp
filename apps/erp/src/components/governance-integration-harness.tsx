@@ -1,7 +1,6 @@
 "use client";
 
 import { ApplicationShell } from "@afenda/appshell";
-import { createMetadataRuntimeContext } from "@afenda/metadata";
 import type { MetadataRenderableAction } from "@afenda/metadata-ui";
 import {
   createMetadataUiRenderContext,
@@ -13,6 +12,7 @@ import {
 } from "@afenda/metadata-ui/server";
 import { Button } from "@afenda/ui";
 import type { GovernedUiComponentName } from "@afenda/ui/governance";
+import { createMetadataRuntimeContext } from "@afenda/ui-composition";
 import { useMemo, useState } from "react";
 
 export type GovernanceIntegrationHarnessGovernedComponents = Extract<
@@ -176,7 +176,7 @@ export function GovernanceIntegrationHarness() {
           id: "integration.surface.workspace",
           title: "Governance integration surface",
           description:
-            "AppShell chrome wraps a metadata surface that consumes @afenda/metadata contracts and @afenda/ui governance.",
+            "AppShell chrome wraps a metadata surface that consumes @afenda/ui-composition contracts and @afenda/ui governance.",
         }}
         presentation={{
           chrome: "standard",

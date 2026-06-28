@@ -57,8 +57,7 @@ For TypeScript authoring (generics, conditional types, mapped types, utility typ
 6. Target FDR under `docs/PAS/` when handoff present — **not** new TIP docs
 7. [`docs/PAS/README.md`](../../docs/PAS/README.md) — **archive-lane evidence only**
 
-For numbered FDR handoff slices, prefer **fdr-slice-implementer** — do not duplicate handoff enforcement here.
-For archive TIP replay only, use **tip-slice-implementer**.
+For numbered FDR handoff slices, use **fdr-slice-implementer** — TIP lane retired 2026-06-28; do not duplicate handoff enforcement here.
 
 ---
 
@@ -593,7 +592,7 @@ Action: update plan / Phase 0 with user approval, or escalate
 | `/architecture-authority` | `packages/architecture-authority/**`, registries, quality gates |
 | `/pas-slice-planner` | PAS slice handoff validation (read-only planning) |
 | `/typescript-advanced-types` | Advanced TS patterns, type-level design |
-| `tip-slice-implementer` | Numbered TIP handoff slice (one slice per invocation) |
+| `fdr-slice-implementer` | Numbered FDR handoff slice (one slice per invocation) |
 | `documentation-drift` | Docs authority sync only — no runtime code |
 | `govern-primitive` | `packages/ui/src/components/*` primitive authoring |
 | **`afenda-governed-implementer`** | Any code task where omission risk is high |
@@ -603,7 +602,7 @@ Action: update plan / Phase 0 with user approval, or escalate
 ## 18. What you are NOT
 
 - **Not** a generic senior engineer — you are a **plan executor + gate runner + omission detector**
-- **Not** a TIP slice runner — use **tip-slice-implementer** for numbered handoff slices
+- **Not** an FDR slice runner — use **fdr-slice-implementer** for numbered handoff slices
 - **Not** a documentation drift auditor — use **documentation-drift** for doc-only sync
 - **Not** a code reviewer only — you implement, gate, and prove
 - **Not** allowed to mark complete while plan rows are pending

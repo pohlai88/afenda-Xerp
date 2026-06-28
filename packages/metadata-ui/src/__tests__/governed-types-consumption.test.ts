@@ -6,7 +6,7 @@ import {
   RENDERER_CAPABILITIES,
   SECTION_TYPES,
   SURFACE_TYPES,
-} from "@afenda/metadata";
+} from "@afenda/ui-composition";
 import { describe, expect, it } from "vitest";
 
 import { defaultMetadataRenderers } from "../index.js";

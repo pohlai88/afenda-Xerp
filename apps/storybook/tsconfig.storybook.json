@@ -35,7 +35,7 @@
       "@afenda/metadata-ui/server": [
         "../../packages/metadata-ui/src/server.ts"
       ],
-      "@afenda/metadata": ["../../packages/metadata/src/index.ts"],
+      "@afenda/ui-composition": ["../../packages/ui-composition/src/index.ts"],
       "@afenda/design-system/css/afenda-design-system.css": [
         "../../packages/design-system/dist/css/afenda-design-system.css"
       ],

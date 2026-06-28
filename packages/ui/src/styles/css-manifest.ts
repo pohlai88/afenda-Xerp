@@ -19,7 +19,7 @@ export const uiCssManifest = [
     productionSafe: true,
     requiresTailwindTheme: true,
     allowedImporters: ["apps/*", "@afenda/storybook"],
-    prohibitedImporters: ["@afenda/metadata"],
+    prohibitedImporters: ["@afenda/ui-composition"],
     classNamespace: "data-attr-only",
     propertyNamespace: ["--afenda-", "none"] as const,
   },

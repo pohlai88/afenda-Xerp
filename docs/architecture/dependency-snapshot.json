@@ -1,6 +1,6 @@
 {
   "fingerprint": "ARCH-BASELINE-2026-06-27-v3",
-  "generatedAt": "2026-06-28T02:14:44.948Z",
+  "generatedAt": "2026-06-28T03:34:31.559Z",
   "runtimeEdges": [
     {
       "from": "@afenda/accounting-standards",
@@ -80,10 +80,6 @@
     },
     {
       "from": "@afenda/erp",
-      "to": "@afenda/metadata"
-    },
-    {
-      "from": "@afenda/erp",
       "to": "@afenda/metadata-ui"
     },
     {
@@ -103,6 +99,10 @@
       "to": "@afenda/ui"
     },
     {
+      "from": "@afenda/erp",
+      "to": "@afenda/ui-composition"
+    },
+    {
       "from": "@afenda/execution",
       "to": "@afenda/kernel"
     },
@@ -115,16 +115,12 @@
       "to": "@afenda/entitlements"
     },
     {
-      "from": "@afenda/metadata",
-      "to": "@afenda/enterprise-knowledge"
-    },
-    {
-      "from": "@afenda/metadata-ui",
-      "to": "@afenda/metadata"
-    },
-    {
       "from": "@afenda/metadata-ui",
       "to": "@afenda/ui"
+    },
+    {
+      "from": "@afenda/metadata-ui",
+      "to": "@afenda/ui-composition"
     },
     {
       "from": "@afenda/permissions",
@@ -148,15 +144,15 @@
     },
     {
       "from": "@afenda/storybook",
-      "to": "@afenda/metadata"
-    },
-    {
-      "from": "@afenda/storybook",
       "to": "@afenda/metadata-ui"
     },
     {
       "from": "@afenda/storybook",
       "to": "@afenda/ui"
+    },
+    {
+      "from": "@afenda/storybook",
+      "to": "@afenda/ui-composition"
     },
     {
       "from": "@afenda/ui",
@@ -165,6 +161,10 @@
     {
       "from": "@afenda/ui",
       "to": "@afenda/design-system"
+    },
+    {
+      "from": "@afenda/ui-composition",
+      "to": "@afenda/enterprise-knowledge"
     }
   ]
 }

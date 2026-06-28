@@ -56,7 +56,7 @@ Filesystem reality — `package.json` exists under `apps/*` or `packages/*`.
 | PKG-008 | `@afenda/execution` | `packages/execution` | Foundation | active | Durable execution and workflow registry | Platform Authority | Yes | `active` |
 | PKG-009 | `@afenda/feature-flags` | `packages/feature-flags` | Integration | active | Deployment flags and rollout evaluation | Platform Authority | Yes | `active` |
 | PKG-010 | `@afenda/kernel` | `packages/kernel` | Platform | active | Platform kernel — branded IDs, Result, and execution contracts | Platform Authority | Yes | `active` |
-| PKG-011 | `@afenda/metadata` | `packages/metadata` | Metadata | active | Metadata architecture authority contracts | Metadata Authority | Yes | `active` |
+| PKG-011 | `@afenda/ui-composition` | `packages/ui-composition` | Metadata | active | Metadata architecture authority contracts | Metadata Authority | Yes | `active` |
 | PKG-012 | `@afenda/metadata-ui` | `packages/metadata-ui` | Metadata | active | Metadata-driven rendering contracts | Metadata Authority | Yes | `active` |
 | PKG-013 | `@afenda/observability` | `packages/observability` | Platform | active | Logging, tracing, and audit authority | Platform Authority | Yes | `active` |
 | PKG-014 | `@afenda/permissions` | `packages/permissions` | Platform | active | Authorization and policy engine authority | Platform Authority | Yes | `active` |
@@ -114,7 +114,7 @@ Audit trail for registry mutations. Material changes require fingerprint bump on
 | 2026-06-20 | Created | — | Baseline registry (PKG-001–018 active, PKG-R01–R05 reserved) | ADR-0001 |
 | 2026-06-20 | Activated | PKG-019 | `@afenda/architecture-authority` promoted from planned to active | TIP-001C |
 | 2026-06-20 | Activated | PKG-020 | `@afenda/ai-governance` registered active | ADR-0007 |
-| 2026-06-20 | Activated | PKG-011 | `@afenda/metadata` registered active (metadata authority) | TIP-005 |
+| 2026-06-20 | Activated | PKG-011 | `@afenda/ui-composition` registered active (metadata authority) | TIP-005 |
 | 2026-06-20 | Accepted | — | ADR-0007 AI Development Governance | ADR-0007 |
 | 2026-06-23 | Fingerprint bump | — | `ARCH-BASELINE-2026-06-23-v2` — TIP-000D documentation authority closeout (ADR-0009–0013) | ADR-0012 |
 | 2026-06-24 | Activated (contracts-only) | PKG-R01 | `@afenda/accounting` promoted active; filesystem pending TIP-014 Slice 2 | ADR-0015 |

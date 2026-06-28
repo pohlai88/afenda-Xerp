@@ -3,23 +3,23 @@
 **Architecture layer:** Metadata (rank 3)  
 **Lifecycle:** Active  
 **Registry ID:** PKG-012  
-**Runtime depends on:** `@afenda/metadata` only
+**Runtime depends on:** `@afenda/ui-composition` only
 
 ## What this package is
 
-`@afenda/metadata-ui` is the **Metadata UI implementation layer**. It consumes governed contracts from `@afenda/metadata` and implements renderers, surfaces, layouts, sections, states, diagnostics, and registry resolution.
+`@afenda/metadata-ui` is the **Metadata UI implementation layer**. It consumes governed contracts from `@afenda/ui-composition` and implements renderers, surfaces, layouts, sections, states, diagnostics, and registry resolution.
 
-This package is **implementation**, not authority. Vocabulary and governance live in `@afenda/metadata`.
+This package is **implementation**, not authority. Vocabulary and governance live in `@afenda/ui-composition`.
 
 ## Monorepo rules
 
 | Rule | Status |
 | --- | --- |
-| Import via package name only (`@afenda/metadata`, not deep paths) | Enforced in source |
+| Import via package name only (`@afenda/ui-composition`, not deep paths) | Enforced in source |
 | Public surface is `index.ts`, `client.ts`, `server.ts` only | `package.json#exports` |
 | No imports from `@afenda/appshell`, `@afenda/permissions`, `@afenda/database` | `runtime.contract.ts` |
 | Internal deps use `workspace:*` | `package.json` |
-| Layer: Metadata — may import Platform + Design only when declared | Currently `@afenda/metadata` only |
+| Layer: Metadata — may import Platform + Design only when declared | Currently `@afenda/ui-composition` only |
 
 Verification:
 
@@ -28,10 +28,10 @@ pnpm --filter @afenda/metadata-ui test:run
 pnpm --filter @afenda/architecture-authority test:run
 ```
 
-## Relationship to `@afenda/metadata`
+## Relationship to `@afenda/ui-composition`
 
 ```
-@afenda/metadata ──▶ @afenda/metadata-ui
+@afenda/ui-composition ──▶ @afenda/metadata-ui
   (vocabulary)         (rendering implementation)
 ```
 
@@ -190,7 +190,7 @@ Manifest: `src/styles/css-manifest.ts`. Governance: `pnpm check:css-governance`.
 
 | AI may | AI may not |
 | --- | --- |
-| Implement renderers consuming `@afenda/metadata` contracts | Define new metadata authority domains |
+| Implement renderers consuming `@afenda/ui-composition` contracts | Define new metadata authority domains |
 | Register renderers via `createMetadataRendererRegistry` | Redefine governed metadata vocabulary arrays |
 | Add fixtures and composition components | Import `@afenda/permissions` or execute permission checks |
 | Use `@afenda/ui` when adopted (add explicit `package.json` dependency first) | Rely on hoisted phantom dependencies |

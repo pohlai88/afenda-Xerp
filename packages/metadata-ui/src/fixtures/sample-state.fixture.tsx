@@ -1,4 +1,4 @@
-import type { MetadataRuntimeState } from "@afenda/metadata";
+import type { MetadataRuntimeState } from "@afenda/ui-composition";
 import type { ReactNode } from "react";
 
 import type {

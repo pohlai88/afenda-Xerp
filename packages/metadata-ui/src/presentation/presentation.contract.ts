@@ -3,7 +3,7 @@
  *
  * Authority:
  * - Defines governed visibility vocabulary for presentation resolvers.
- * - Consumes runtime modes from @afenda/metadata — does not redefine them.
+ * - Consumes runtime modes from @afenda/ui-composition — does not redefine them.
  */
 
 export const METADATA_VISIBILITY_STATES = [

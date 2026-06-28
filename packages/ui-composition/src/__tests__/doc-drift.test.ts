@@ -82,7 +82,7 @@ describe("metadata documentation drift", () => {
     }
   });
 
-  it("does not keep a legacy src/contracts tree under packages/metadata", () => {
+  it("does not keep a legacy src/contracts tree under packages/ui-composition", () => {
     const legacyContractsDirectory = join(packageRoot, "src/contracts");
 
     expect(() => readdirSync(legacyContractsDirectory)).toThrow();

@@ -2,7 +2,7 @@
 /**
  * PAS-004B §4.2 — B34: Metadata consumer import proof gate.
  *
- * Validates @afenda/metadata resolves ≥3 platform identity labels from atoms
+ * Validates @afenda/ui-composition resolves ≥3 platform identity labels from atoms
  * via getKnowledgeAtom without enterprise-knowledge importing metadata.
  */
 
@@ -13,9 +13,9 @@ import { fileURLToPath } from "node:url";
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const metadataKnowledgeDir = join(
   repoRoot,
-  "packages/metadata/src/knowledge"
+  "packages/ui-composition/src/knowledge"
 );
-const metadataPackageJson = join(repoRoot, "packages/metadata/package.json");
+const metadataPackageJson = join(repoRoot, "packages/ui-composition/package.json");
 const enterpriseKnowledgeSrc = join(
   repoRoot,
   "packages/enterprise-knowledge/src"
@@ -50,7 +50,7 @@ const packageJson = JSON.parse(readFileSync(metadataPackageJson, "utf8")) as {
 
 if (!packageJson.dependencies?.["@afenda/enterprise-knowledge"]) {
   errors.push(
-    "packages/metadata/package.json must declare @afenda/enterprise-knowledge dependency"
+    "packages/ui-composition/package.json must declare @afenda/enterprise-knowledge dependency"
   );
 }
 
@@ -75,7 +75,7 @@ for (const filePath of collectTsFiles(metadataKnowledgeDir)) {
 
 if (!hasEnterpriseKnowledgeImport) {
   errors.push(
-    "packages/metadata/src/knowledge/** must import @afenda/enterprise-knowledge"
+    "packages/ui-composition/src/knowledge/** must import @afenda/enterprise-knowledge"
   );
 }
 
@@ -99,15 +99,15 @@ const hasConsumerTest = readdirSync(testDir, { withFileTypes: true }).some(
 
 if (!hasConsumerTest) {
   errors.push(
-    "packages/metadata must include platform-identity-vocabulary consumer test"
+    "packages/ui-composition must include platform-identity-vocabulary consumer test"
   );
 }
 
 for (const filePath of collectTsFiles(enterpriseKnowledgeSrc)) {
   const content = readFileSync(filePath, "utf8");
   if (
-    content.includes('from "@afenda/metadata"') ||
-    content.includes("from '@afenda/metadata'")
+    content.includes('from "@afenda/ui-composition"') ||
+    content.includes("from '@afenda/ui-composition'")
   ) {
     errors.push(
       `enterprise-knowledge must not import metadata: ${filePath.replace(repoRoot, "")}`

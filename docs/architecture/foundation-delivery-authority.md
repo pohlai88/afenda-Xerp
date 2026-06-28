@@ -21,7 +21,7 @@
 | ARCH domain architecture roadmaps | `docs/PAS/PAS-NNN-*.md` |
 | FDR and TIP delivery trees | `docs/PAS/slice/*.md` handoffs |
 | FDR / TIP status indexes | [`PAS/README.md`](../PAS/README.md) index |
-| `/write-fdr`, `/write-arch-slice`, `/write-tip` | `/pas-slice-planner`, `/afenda-coding-session`, package authority skills |
+| `/write-fdr`, `/write-fdr-slice` (retired: `/write-arch-slice`, `/write-tip`) | `/pas-slice-planner`, `/afenda-coding-session`, package authority skills |
 
 Do not recreate parallel markdown delivery registries outside `docs/PAS/`.
 
