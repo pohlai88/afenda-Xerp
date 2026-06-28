@@ -1,6 +1,11 @@
 ---
 name: enterprise-erp-standards
 description: Encodes SAP/Oracle delivery discipline as concrete Afenda guardrails — 30-point enterprise readiness scoring, 10 enterprise gates (G1–G10), Clean Core levels A–D, ISO/IEC 25010 NFRs, DORA targets, SoD evidence, and package-by-package targets. Use before touching red-lane or amber-lane packages, when evaluating Phase 9 readiness, or when authoring PAS docs at enterprise 9.5 benchmark. Full scoring and package targets in pas-slice-planner/ENTERPRISE-BENCHMARK.md.
+disable-model-invocation: true
+paths:
+  - packages/**
+  - apps/erp/**
+  - docs/PAS/**
 ---
 
 # Enterprise ERP Standards (SAP / Oracle Benchmark)

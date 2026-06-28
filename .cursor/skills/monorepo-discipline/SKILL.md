@@ -2,6 +2,10 @@
 name: monorepo-discipline
 description: Enforces monorepo import discipline, package layering rules, circular dependency prevention, and internal export surface governance for the @afenda workspace. References the architecture-authority layer registry. Use when adding imports between packages, creating a new package, scaffolding with pnpm scaffold:package, reviewing package.json dependencies, or when the user mentions cross-package imports, circular dependencies, layer violations, or workspace governance.
 disable-model-invocation: true
+paths:
+  - packages/**
+  - pnpm-workspace.yaml
+  - turbo.json
 ---
 
 # monorepo-discipline

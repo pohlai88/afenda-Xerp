@@ -9,6 +9,10 @@ description: >-
   Use when: adding shadcn primitives, adapting shadcn/studio blocks, bridging CSS tokens,
   composing @afenda/ui in consumer packages, or running the studio toolbar/MCP workflow.
 disable-model-invocation: true
+paths:
+  - packages/ui/**
+  - packages/appshell/src/shadcn-studio/**
+  - packages/shadcn-studio/**
 ---
 
 # Afenda shadcn Components & shadcn/studio

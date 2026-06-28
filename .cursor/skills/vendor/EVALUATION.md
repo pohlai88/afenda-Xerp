@@ -41,7 +41,7 @@ Source: [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) at
 | code-review-and-quality | 3 | 4 | 3 | 4 | **keep** | `afenda-code-reviewer`, `/afenda-review` | Wired mandatory read; five-axis depth |
 | code-simplification | 2 | 4 | 4 | 3 | **merge** | `afenda-code-reviewer`, `AGENTS.md` | Chesterton's Fence → review skill notes |
 | context-engineering | 2 | 3 | 4 | 2 | **drop** | `using-afenda-skills`, `.cursor/rules/` | Superseded by Afenda rules + bundles |
-| debugging-and-error-recovery | 2 | 4 | 4 | 4 | **merge** | `error-handling`, `afenda-coding-session` | Triage checklist → native error-handling |
+| debugging-and-error-recovery | 2 | 4 | 4 | 4 | **merge** | `platform-error-handling`, `afenda-coding-session` | Triage checklist → native error-handling |
 | deprecation-and-migration | 1 | 4 | 4 | 4 | **keep** | `pas-slice-planner` rollback partial, `afenda-drizzle-migration` | No native general deprecation lifecycle |
 | documentation-and-adrs | 3 | 2 | 4 | 2 | **drop** | `pas-slice-planner`, `docs/adr/` | Conflicts with PAS/PAS authority |
 | doubt-driven-development | 1 | 5 | 4 | 5 | **keep** | none | Adversarial fresh-context review; unique |
@@ -50,14 +50,14 @@ Source: [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) at
 | idea-refine | 1 | 4 | 4 | 3 | **keep** | none | Pre-PAS ideation; planner assumes handoff |
 | incremental-implementation | 4 | 5 | 3 | 2 | **merge** | `afenda-coding-session`, `agent-multi-file.mdc` | Vertical slices in Phase 0/1 |
 | interview-me | 1 | 5 | 4 | 4 | **keep** | none | Intent extraction before spec/PAS |
-| observability-and-instrumentation | 4 | 5 | 3 | 3 | **merge** | `observability-usage`, `pino-erp-logger` | RED/USE/on-call → native observability |
+| observability-and-instrumentation | 4 | 5 | 3 | 3 | **merge** | `platform-observability-usage`, `pino-erp-logger` | RED/USE/on-call → native observability |
 | performance-optimization | 3 | 4 | 3 | 4 | **keep** | `/afenda-webperf`, enterprise-frontend-audit | Wired in webperf command |
 | planning-and-task-breakdown | 4 | 5 | 4 | 3 | **merge** | `pas-slice-planner`, `pas-slice-planner` | PAS handoffs supersede generic planning |
 | security-and-hardening | 3 | 4 | 3 | 4 | **keep** | `afenda-security-auditor`, `csp-third-party`, `rbac-erp` | Wired mandatory read |
 | shipping-and-launch | 3 | 3 | 3 | 3 | **keep** | `/afenda-ship`, `enterprise-erp-standards` | Launch checklist context for ship |
 | source-driven-development | 3 | 5 | 4 | 3 | **merge** | `afenda-coding-session`, Next.js MCP rules | Cite-from-docs policy already in rules |
 | spec-driven-development | 4 | 2 | 3 | 2 | **drop** | `pas-slice-planner`, `pas-slice-planner` | Generic spec vs PAS/PAS chain |
-| test-driven-development | 3 | 5 | 3 | 4 | **keep** | `afenda-test-engineer`, `test-coverage`, `/afenda-test` | Prove-It / red-green wired |
+| test-driven-development | 3 | 5 | 3 | 4 | **keep** | `afenda-test-engineer`, `platform-test-coverage`, `/afenda-test` | Prove-It / red-green wired |
 | using-agent-skills | 5 | 3 | 2 | 1 | **drop** | `using-afenda-skills` | Fully superseded |
 
 ---
@@ -80,11 +80,11 @@ Source: [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) at
 | --- | --- | --- |
 | orchestration-patterns.md | **drop** (vendor) | [`.cursor/references/orchestration-patterns.md`](../../references/orchestration-patterns.md) |
 | definition-of-done.md | **merge** | `afenda-coding-session` §11 Completion Report |
-| testing-patterns.md | **drop** | `test-coverage`, `AGENTS.md` Testing |
+| testing-patterns.md | **drop** | `platform-test-coverage`, `AGENTS.md` Testing |
 | security-checklist.md | **keep** | [`.cursor/references/security-checklist.md`](../../references/security-checklist.md) ✅ promoted |
 | performance-checklist.md | **keep** | [`.cursor/references/performance-checklist.md`](../../references/performance-checklist.md) ✅ promoted |
 | accessibility-checklist.md | **drop** | `enterprise-frontend-audit/reference/ux.md` |
-| observability-checklist.md | **merge** | `observability-usage`, `pino-erp-logger` |
+| observability-checklist.md | **merge** | `platform-observability-usage`, `pino-erp-logger` |
 
 ---
 
@@ -103,11 +103,11 @@ Source: [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills) at
 
 | Vendor skill | Merge into |
 | --- | --- |
-| api-and-interface-design | `api-contract/SKILL.md` §design principles |
+| api-and-interface-design | `platform-api-contract/SKILL.md` §design principles |
 | code-simplification | `afenda-code-reviewer` or `code-review-and-quality` keep ref |
-| debugging-and-error-recovery | `error-handling/SKILL.md` |
+| debugging-and-error-recovery | `platform-error-handling/SKILL.md` |
 | incremental-implementation | `afenda-coding-session/SKILL.md` §slices (already implicit) |
-| observability-and-instrumentation | `observability-usage` + `pino-erp-logger` |
+| observability-and-instrumentation | `platform-observability-usage` + `pino-erp-logger` |
 | planning-and-task-breakdown | `pas-slice-planner/SKILL.md` |
 | source-driven-development | `afenda-coding-session` + `agent-discipline.mdc` note |
 

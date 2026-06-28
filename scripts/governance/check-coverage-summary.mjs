@@ -3,7 +3,7 @@
  *
  * Reads Vitest `coverage-summary.json` for tier-1 foundation packages and
  * enforces ratchet floors (2026-06-26 baseline). Target Template B per
- * `.cursor/skills/test-coverage/THRESHOLDS.md` — see waiver notes per package.
+ * `.cursor/skills/platform-test-coverage/THRESHOLDS.md` — see waiver notes per package.
  */
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";

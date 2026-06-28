@@ -30,7 +30,7 @@ Error:
 
 ### Relationship to the api-contract skill
 
-The [api-contract skill](../../.cursor/skills/api-contract/SKILL.md) documents a **flat** `{ data }` / `{ code, message }` shape for greenfield or non-governed handlers. That skill remains valid for:
+The [platform-api-contract skill](../../.cursor/skills/platform-api-contract/SKILL.md) documents a **flat** `{ data }` / `{ code, message }` shape for greenfield or non-governed handlers. That skill remains valid for:
 
 - Legacy or public alias routes not yet on the registry
 - External integrations that cannot consume the governed envelope

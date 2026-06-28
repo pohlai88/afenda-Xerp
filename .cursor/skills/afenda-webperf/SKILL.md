@@ -78,3 +78,15 @@ pnpm ui:guard:scan
 - **Invoke directly when:** `/afenda-webperf` or performance questions on UI diff
 - **Do not invoke from:** personas
 - **May combine with:** `/afenda-ship` optional fifth spawn for UI-heavy PRs
+
+---
+
+## Verification
+
+Webperf command complete when:
+
+1. Mandatory reads completed (enterprise-frontend-audit performance + vendor checklist)
+2. Analysis Task output uses PASS | CONCERNS | FAIL template with file:line evidence
+3. Measurements recommended section lists concrete tools/routes (measure-first — no speculative fixes)
+
+Optional gates run with Shell evidence when CSS authority touched.

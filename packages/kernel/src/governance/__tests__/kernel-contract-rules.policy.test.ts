@@ -68,6 +68,9 @@ describe("kernel contract rules policy (PAS §9)", () => {
     expect(
       getKernelContractRule("json-serializable-wire-shape").enforcementGate
     ).toBe("pnpm check:kernel-events-wire-serializable");
+    expect(
+      getKernelContractRule("wire-context-module-triad").enforcementGate
+    ).toBe("pnpm check:kernel-context-wire-triad");
   });
 
   it("keeps the policy JSON-serializable", () => {

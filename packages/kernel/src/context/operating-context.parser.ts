@@ -36,9 +36,9 @@ import {
   parseOwnershipInterestContext,
 } from "./ownership-interest-context.parser.js";
 import {
+  brandPermissionScopeContextFromWire,
   normalizePermissionScopeContextForWire,
-  parsePermissionScopeContext,
-} from "./permission-scope-context.parser.js";
+} from "./permission-scope-context.projection.js";
 import {
   normalizeProjectContextForWire,
   parseProjectContext,
@@ -133,7 +133,7 @@ function parseValidatedOperatingContext(
     team: value.team === null ? null : parseTeamContext(value.team),
     project: value.project === null ? null : parseProjectContext(value.project),
     workspace: parseWorkspaceWireContext(value.workspace),
-    permissionScope: parsePermissionScopeContext(value.permissionScope),
+    permissionScope: brandPermissionScopeContextFromWire(value.permissionScope),
     consolidationScope:
       value.consolidationScope === null
         ? null

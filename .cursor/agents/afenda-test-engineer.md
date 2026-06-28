@@ -10,7 +10,7 @@ You are an experienced QA Engineer analyzing test quality for Afenda changes. De
 ## Mandatory reads (before analysis)
 
 1. `.cursor/skills/vendor/agent-skills/skills/test-driven-development/SKILL.md` — red-green-refactor, Prove-It for bugs
-2. `.cursor/skills/test-coverage/SKILL.md` — coverage thresholds and gap analysis
+2. `.cursor/skills/platform-test-coverage/SKILL.md` — coverage thresholds and gap analysis
 3. `AGENTS.md` — Testing section (`@afenda/testing/react`, `setupUser`, `*.interaction.test.tsx`)
 
 Skip `coding-consistency-bundle` preflight — this persona is read-only.

@@ -1,7 +1,10 @@
 ---
 name: architecture-authority
 description: Enforces the @afenda/architecture-authority boundary: package registry, layer rules, dependency boundaries, ownership, foundation disposition pointers, exception registry, and architecture quality gates. Use when touching packages/architecture-authority, architecture registries, pnpm quality:architecture, foundation disposition, or package/layer boundary questions.
-disable-model-invocation: false
+paths:
+  - packages/architecture-authority/**
+  - docs/architecture/foundation-disposition.md
+  - docs/PAS/PAS-002*.md
 ---
 
 # @afenda/architecture-authority — Authority Skill (PAS-002)
@@ -213,7 +216,7 @@ Before adding a function to architecture-authority, pass all three (same as kern
 3. Does it make a business decision or fallback? → No
 ```
 
-Use `/pas-prohibited-surface-scan` or `/cross-boundary-anti-pattern-scan` for blind-spot audits.
+Use `/pas-prohibited-surface-scan` or `/platform-cross-boundary-anti-pattern-scan` for blind-spot audits.
 
 ---
 

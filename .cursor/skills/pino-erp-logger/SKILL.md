@@ -8,6 +8,9 @@ description: >-
   Use when adding logging to a Server Component, Server Action, API handler,
   background job, new package, or when debugging missing/noisy log output.
 disable-model-invocation: true
+paths:
+  - apps/erp/**
+  - packages/observability/**
 ---
 
 # Pino ERP Logger

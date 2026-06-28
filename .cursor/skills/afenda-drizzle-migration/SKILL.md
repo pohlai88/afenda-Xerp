@@ -1,6 +1,9 @@
 ---
 name: afenda-drizzle-migration
 description: Governs Drizzle ORM schema changes and migration generation for the @afenda/database package. Use whenever a schema file in packages/database/src/schema/ is added or modified, or when generating, applying, or repairing migrations. Enforces the governance contract (migration-governance.contract.ts) and journal integrity automatically.
+paths:
+  - packages/database/**
+  - **/drizzle/**
 ---
 
 # Afenda Drizzle Migration Governance

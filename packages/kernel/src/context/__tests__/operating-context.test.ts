@@ -1,9 +1,5 @@
-import {
-  createTestEnterpriseId,
-  DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
-} from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
-
+import { createTestEnterpriseId } from "../../identity/index.js";
 import { assertWireOperatingContext } from "../operating-context.assert.js";
 import type { OperatingContextWireContext } from "../operating-context.contract.js";
 import {
@@ -12,6 +8,7 @@ import {
   parseUnknownOperatingContext,
   serializeOperatingContext,
 } from "../operating-context.parser.js";
+import { DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS } from "../permission-grant-vocabulary.contract.js";
 
 const TENANT_ID = createTestEnterpriseId(
   "tenant",

@@ -6,6 +6,10 @@ description: >-
   Storybook visual verification, when debugging missing styles, or when setting
   Phase 0 gates for shell/UI CSS work. Apps import CSS from dist/, not src/.
 disable-model-invocation: true
+paths:
+  - packages/appshell/src/**/*.css
+  - packages/ui/src/**/*.css
+  - packages/metadata-ui/**/*.css
 ---
 
 # Package CSS dist sync

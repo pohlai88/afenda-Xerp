@@ -1,5 +1,5 @@
-import { createTestEnterpriseId } from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
+import { createTestEnterpriseId } from "../../identity/index.js";
 
 import { assertWireOrganizationUnitContext } from "../organization-unit-context.assert.js";
 import type { OrganizationUnitWireContext } from "../organization-unit-context.contract.js";

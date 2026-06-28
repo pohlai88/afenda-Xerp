@@ -88,3 +88,9 @@ Paste into **every** implementer prompt:
 - **Invoke directly when:** user asks how to run a PAS parallel batch or needs invocation template
 - **Always pair with:** `@afenda-orchestrator` for actual batch execution
 - **Do not invoke from:** personas; do not replace `afenda-orchestrator.md`
+
+---
+
+## Verification
+
+Batch contract satisfied when caller provides complete slot table; actual execution verified by `@afenda-orchestrator` Batch Completion Summary (manifest PASS, combined diff containment, consolidated gates).

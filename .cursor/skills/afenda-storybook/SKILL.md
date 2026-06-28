@@ -1,6 +1,9 @@
 ---
 name: afenda-storybook
 description: Authoritative workflow for writing, fixing, and running Storybook stories in the Afenda ERP monorepo. Covers story file structure, Meta/StoryObj patterns, Governed UI governed-primitive rules in stories, _storybook/ fixture-composition pattern, tsconfig.storybook.json include rules, common recurring errors with their root causes and fixes, MCP preview workflow, and acceptance gates. Use when writing new stories, debugging Storybook build errors, adding blocks to Storybook, or running story tests.
+disable-model-invocation: true
+paths:
+  - apps/storybook/**
 ---
 
 # Afenda Storybook Skill

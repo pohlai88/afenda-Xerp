@@ -1,16 +1,14 @@
-import {
-  createTestEnterpriseId,
-  DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
-} from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
+import { createTestEnterpriseId } from "../../identity/index.js";
+import { DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS } from "../permission-grant-vocabulary.contract.js";
 
 import { assertWirePermissionScopeContext } from "../permission-scope-context.assert.js";
 import type { PermissionScopeWireContext } from "../permission-scope-context.contract.js";
 import {
+  brandPermissionScopeContextFromUnknownWire,
+  brandPermissionScopeContextFromWire,
   normalizePermissionScopeContextForWire,
-  parsePermissionScopeContext,
-  parseUnknownPermissionScopeContext,
-} from "../permission-scope-context.parser.js";
+} from "../permission-scope-context.projection.js";
 
 const TENANT_ID = createTestEnterpriseId(
   "tenant",
@@ -52,15 +50,15 @@ const VALID_WIRE: PermissionScopeWireContext = {
   elevations: DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
 };
 
-describe("permission scope context wire triad (PAS-001 §4.4)", () => {
-  it("parses valid wire and round-trips through normalize", () => {
-    const context = parsePermissionScopeContext(VALID_WIRE);
+describe("permission scope context kernel projection (OperatingContext branding)", () => {
+  it("brands valid wire and round-trips through normalize", () => {
+    const context = brandPermissionScopeContextFromWire(VALID_WIRE);
 
     expect(normalizePermissionScopeContextForWire(context)).toEqual(VALID_WIRE);
   });
 
-  it("parses unknown JSON ingress via parseUnknownPermissionScopeContext", () => {
-    const context = parseUnknownPermissionScopeContext(
+  it("brands unknown JSON ingress via brandPermissionScopeContextFromUnknownWire", () => {
+    const context = brandPermissionScopeContextFromUnknownWire(
       structuredClone(VALID_WIRE) as unknown
     );
 
@@ -73,7 +71,7 @@ describe("permission scope context wire triad (PAS-001 §4.4)", () => {
       teamId: ORG_ID,
     };
 
-    const context = parsePermissionScopeContext(orgBackedWire);
+    const context = brandPermissionScopeContextFromWire(orgBackedWire);
 
     expect(`${context.teamId}`).toBe(ORG_ID);
   });
@@ -89,7 +87,9 @@ describe("permission scope context wire triad (PAS-001 §4.4)", () => {
     };
 
     expect(
-      normalizePermissionScopeContextForWire(parsePermissionScopeContext(wire))
+      normalizePermissionScopeContextForWire(
+        brandPermissionScopeContextFromWire(wire)
+      )
     ).toEqual(wire);
   });
 
@@ -101,7 +101,7 @@ describe("permission scope context wire triad (PAS-001 §4.4)", () => {
 
   it("rejects invalid grantScopeType before branding", () => {
     expect(() =>
-      parsePermissionScopeContext({
+      brandPermissionScopeContextFromWire({
         ...VALID_WIRE,
         grantScopeType: "ghost",
       } as unknown as PermissionScopeWireContext)
@@ -122,7 +122,7 @@ describe("permission scope context wire triad (PAS-001 §4.4)", () => {
 
   it("rejects invalid tenant id family before branding", () => {
     expect(() =>
-      parsePermissionScopeContext({
+      brandPermissionScopeContextFromWire({
         ...VALID_WIRE,
         tenantId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       })
@@ -131,7 +131,7 @@ describe("permission scope context wire triad (PAS-001 §4.4)", () => {
 
   it("rejects invalid membershipId family before branding", () => {
     expect(() =>
-      parsePermissionScopeContext({
+      brandPermissionScopeContextFromWire({
         ...VALID_WIRE,
         membershipId: "rol_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       })
@@ -140,7 +140,7 @@ describe("permission scope context wire triad (PAS-001 §4.4)", () => {
 
   it("rejects invalid roleId family before branding", () => {
     expect(() =>
-      parsePermissionScopeContext({
+      brandPermissionScopeContextFromWire({
         ...VALID_WIRE,
         roleId: "mem_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       })
@@ -149,7 +149,7 @@ describe("permission scope context wire triad (PAS-001 §4.4)", () => {
 
   it("rejects invalid entityGroupId family before branding", () => {
     expect(() =>
-      parsePermissionScopeContext({
+      brandPermissionScopeContextFromWire({
         ...VALID_WIRE,
         entityGroupId: "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       })

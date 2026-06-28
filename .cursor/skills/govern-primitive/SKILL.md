@@ -1,6 +1,12 @@
 ---
 name: govern-primitive
 description: Audits and upgrades @afenda/ui primitive components (author layer) and consumer packages (appshell, metadata-ui, erp wiring) to 9.5 enterprise governance quality. Covers resolvePrimitiveGovernance(), forwardRef, slot factories, GovernedXxxProps, Governed UI className policy, shadcn-studio block integration, and static checker verification. Use when reviewing packages/ui/src/components OR when composing @afenda/ui in packages/appshell, packages/metadata-ui, or apps/erp.
+paths:
+  - packages/ui/src/components/**
+  - packages/appshell/**
+  - packages/metadata-ui/**
+  - apps/erp/**
+disable-model-invocation: true
 ---
 
 # govern-primitive

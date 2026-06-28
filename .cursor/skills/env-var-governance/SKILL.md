@@ -2,6 +2,10 @@
 name: env-var-governance
 description: Enforces environment variable naming, access, typing, and scoping rules for the @afenda/erp Next.js app and all workspace packages. Covers NEXT_PUBLIC_ restrictions, type-safe env module pattern, startup fast-fail, .env.example maintenance, and Vercel preview/production scoping. Use when adding environment variables, reviewing env access in components or services, configuring Vercel environments, or when the user mentions env vars, secrets, NEXT_PUBLIC_, or process.env.
 disable-model-invocation: true
+paths:
+  - apps/erp/**
+  - packages/**
+  - .env*
 ---
 
 # env-var-governance

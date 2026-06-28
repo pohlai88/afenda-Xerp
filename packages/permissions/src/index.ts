@@ -120,6 +120,10 @@ export {
 } from "./policy-engine.js";
 export {
   type assertPermissionScopeContextJsonSerializable,
+  assertPermissionScopeContextOptionalText,
+  assertPermissionScopeContextText,
+  type assertPermissionScopeContextWireSerializable,
+  assertWirePermissionScopeContext,
   isDeniedScopedMembershipResolution,
   isMatchedScopedMembershipResolution,
   isMembershipActive,
@@ -127,13 +131,17 @@ export {
   type MembershipScopeType,
   type MembershipStatus,
   membershipMatchesGrantScope,
+  normalizePermissionScopeContextForWire,
   type PermissionScopeContext,
   type PermissionScopeWireContext,
+  parsePermissionScopeContext,
+  parseUnknownPermissionScopeContext,
   type ResolvePermissionScopeInput,
   resolvePermissionScopeContext,
   resolveScopedMembership,
   type ScopedMembershipResolution,
   selectNarrowestMatchingMembership,
+  serializePermissionScopeContext,
 } from "./scope/index.js";
 export {
   getTenantAccessBlockReason,

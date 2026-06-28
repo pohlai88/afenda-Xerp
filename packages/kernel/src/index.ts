@@ -24,6 +24,8 @@ export {
   assertWireTeamContext,
   assertWireTenantContext,
   brandPercentageNumber,
+  brandPermissionScopeContextFromUnknownWire,
+  brandPermissionScopeContextFromWire,
   CONSOLIDATION_TREATMENTS,
   type ConsolidationEntityScope,
   type ConsolidationScopeContext,

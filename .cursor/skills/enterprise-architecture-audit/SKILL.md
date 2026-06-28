@@ -144,11 +144,11 @@ Do not skip phases on full-platform audits without explicit `phase-only` contrac
 | 1 | architecture-authority | `.cursor/skills/architecture-authority/SKILL.md` | **Always** |
 | 2 | enterprise-erp-standards | `.cursor/skills/enterprise-erp-standards/SKILL.md` | **Always** |
 | 3 | pas-codebase-bridge | `.cursor/skills/pas-codebase-bridge/SKILL.md` | Phase 1, 8 |
-| 4 | cross-boundary-anti-pattern-scan | `.cursor/skills/cross-boundary-anti-pattern-scan/SKILL.md` | Phase 1, 4 |
+| 4 | platform-cross-boundary-anti-pattern-scan | `.cursor/skills/platform-cross-boundary-anti-pattern-scan/SKILL.md` | Phase 1, 4 |
 | 5 | multi-tenancy-erp | `.cursor/skills/multi-tenancy-erp/SKILL.md` | Phase 1, 5 |
 | 6 | kernel-authority | `.cursor/skills/kernel-authority/SKILL.md` | Kernel / identity scope |
-| 7 | observability-usage | `.cursor/skills/observability-usage/SKILL.md` | Audit / logging scope |
-| 8 | api-contract | `.cursor/skills/api-contract/SKILL.md` | API / contract scope |
+| 7 | platform-observability-usage | `.cursor/skills/platform-observability-usage/SKILL.md` | Audit / logging scope |
+| 8 | platform-api-contract | `.cursor/skills/platform-api-contract/SKILL.md` | API / contract scope |
 | 9 | monorepo-discipline | `.cursor/skills/monorepo-discipline/SKILL.md` | Topology / packages |
 | 10 | enterprise-frontend-audit | `.cursor/skills/enterprise-frontend-audit/SKILL.md` | Phase 3 frontend — **audit only** |
 

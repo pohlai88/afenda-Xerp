@@ -16,9 +16,21 @@ export {
   resolveScopedMembership,
   type ScopedMembershipResolution,
 } from "./membership-resolution.js";
+export {
+  type assertPermissionScopeContextJsonSerializable,
+  assertPermissionScopeContextOptionalText,
+  assertPermissionScopeContextText,
+  type assertPermissionScopeContextWireSerializable,
+  assertWirePermissionScopeContext,
+} from "./permission-scope-context.assert.js";
 export type {
-  assertPermissionScopeContextJsonSerializable,
   PermissionScopeContext,
   PermissionScopeWireContext,
 } from "./permission-scope-context.contract.js";
+export {
+  normalizePermissionScopeContextForWire,
+  parsePermissionScopeContext,
+  parseUnknownPermissionScopeContext,
+  serializePermissionScopeContext,
+} from "./permission-scope-context.parser.js";
 export type { RoleScope } from "./role-scope.contract.js";

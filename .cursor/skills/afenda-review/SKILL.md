@@ -53,3 +53,15 @@ Trivial — post the reviewer report verbatim to the user. No synthesis required
 - **Invoke directly when:** user runs `/afenda-review` or asks for pre-merge review (single lens)
 - **Do not invoke from:** personas or other skills
 - **Prefer `/afenda-ship` when:** auth, payments, data access, config, or blast radius is non-trivial
+
+---
+
+## Verification
+
+Review command complete when:
+
+1. Scope determined (`git diff` or PR context)
+2. Single `afenda-code-reviewer` Task spawned with `readonly: true`
+3. Reviewer report posted verbatim to user
+
+Optional (if user requests): run gates recommended in reviewer report with Shell evidence.

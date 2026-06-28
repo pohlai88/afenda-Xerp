@@ -1,114 +1,120 @@
 ---
 name: using-afenda-skills
-description: Discovers and invokes Afenda skills, agents, and orchestrator commands. Use when starting a session or when you need to discover which skill, persona, or bundle applies to the current task. Meta-skill only — not a persona, not an orchestrator.
+description: Discovers and invokes Afenda skills, agents, and orchestrator commands. Use when starting a session, when you need to discover which skill or bundle applies, or when the user asks which skill to use. Meta-skill only — not a persona, not an orchestrator.
+disable-model-invocation: true
 ---
 
 # Using Afenda Skills
 
-## Overview
+## Rules vs skills (Cursor)
 
-Afenda encodes engineering workflow in **skills** (how), **personas** (who), and **commands** (when). This meta-skill routes tasks to the correct entry point without loading all 57+ skills into context.
+| | Rules (`.cursor/rules/`) | Skills (`.cursor/skills/`) |
+| --- | --- | --- |
+| Loaded | Every matching conversation | When relevant, `paths` match, or `/skill-name` |
+| Purpose | Always-on conventions (short) | Multi-step workflows |
+| Best for | Phase 0 announce, orchestration bans | PAS authority, bundles, gates |
 
-## Discovery tree
+**Do not duplicate** the same instruction in a rule and a skill — rules win on conflict. Full catalog: [README.md](README.md).
 
-When a task arrives, identify the lane and apply the corresponding skill or agent:
+## Skill classes
+
+| Class | Pattern | Invoke |
+| --- | --- | --- |
+| Meta | `using-*` | `/using-afenda-skills` |
+| Bundle | `*-bundle` | Attach or name explicitly |
+| Command | `afenda-*` | `/afenda-ship`, `/afenda-review`, … |
+| Authority | `*-authority` | Auto via `paths` or Read skill |
+| PAS / domain | `pas-*`, `afenda-*`, `*-erp` | `paths` + description |
+
+## Phase discovery (Afenda + vendor)
+
+### Define / Plan
 
 ```
-Task arrives
-├── PAS foundation work? ────────────────→ pas-slice-planner → afenda-governed-implementer | @afenda-orchestrator
-├── Registry lane change? ───────────────→ foundation-registry-owner
-├── Docs/matrix drift suspected? ────────→ documentation-drift
-├── Any code edit? ──────────────────────→ coding-consistency-bundle (mandatory)
-├── UI/CSS/visual? ──────────────────────→ ui-consistency-bundle (mandatory)
-├── Docs MDX content (apps/docs)? ───────→ docs-editorial-design
-├── Kernel boundary? ────────────────────→ kernel-authority
-├── Enterprise knowledge? ───────────────→ enterprise-knowledge
-├── CSS tokens PAS-005? ─────────────────→ css-authority
-├── Pre-merge review? ───────────────────→ /afenda-review command
-├── Ship decision? ──────────────────────→ /afenda-ship command
-├── Underspecified request? ─────────────→ vendor `interview-me` (eval keep)
-├── Rough idea before PAS slice? ────────→ vendor `idea-refine` (eval keep)
-├── High-stakes adversarial review? ─────→ vendor `doubt-driven-development` (eval keep)
-├── Deprecation / migration? ────────────→ vendor `deprecation-and-migration` (eval keep)
-├── Browser runtime debug (DevTools)? ───→ vendor `browser-testing-with-devtools` (eval keep)
-├── Full frontend maturity audit? ───────→ enterprise-frontend-audit
-└── Full platform architecture audit? ─→ enterprise-architecture-audit + @enterprise-architecture-audit-orchestrator
+Underspecified? ──────────→ vendor interview-me
+Rough idea? ──────────────→ vendor idea-refine
+PAS foundation slice? ────→ pas-slice-planner → @afenda-governed-implementer | @afenda-orchestrator
+Registry lane change? ────→ @foundation-registry-owner
+Docs/matrix drift? ───────→ @documentation-drift
 ```
 
-## Orchestrator commands
+### Build
 
-| User intent | Entry |
-| --- | --- |
-| Single-perspective code review | `/afenda-review` or `@afenda-code-reviewer` |
-| Go/no-go before merge | `/afenda-ship` |
-| Test strategy / coverage gaps | `/afenda-test` |
-| Web performance audit | `/afenda-webperf` |
-| Full platform architecture audit (read-only) | `enterprise-architecture-audit` + `@enterprise-architecture-audit-orchestrator` |
-| PAS parallel batch | `@afenda-orchestrator` + `/afenda-batch` |
-| Which skill applies? | `/using-afenda-skills` (this skill) |
-| Vibe-coding / bundle preflight audit | `@vibe-coding-violation-auditor` |
+```
+Any code edit? ───────────→ coding-consistency-bundle (mandatory)
+UI/CSS/visual? ─────────→ ui-consistency-bundle (mandatory)
+Kernel boundary? ─────────→ kernel-authority
+CSS tokens PAS-005? ──────→ css-authority
+Tailwind / package CSS? ──→ afenda-tailwind
+Enterprise knowledge? ────→ enterprise-knowledge
+Docs MDX (apps/docs)? ────→ docs-editorial-design
+shadcn/studio blocks? ────→ afenda-shadcn-components + shadcn-studio
+Drizzle migrations? ──────→ afenda-drizzle-migration
+Multi-tenancy? ───────────→ multi-tenancy-erp
+Library API uncertain? ───→ Context7 MCP (resolve ID → query docs)
+```
 
-## Vendor reference skills (evaluated — on-demand only)
+### Verify / Review / Ship
 
-Full scores: [`.cursor/skills/vendor/EVALUATION.md`](../vendor/EVALUATION.md).
+```
+Tests / coverage? ────────→ /afenda-test (+ vendor test-driven-development)
+Pre-merge review? ────────→ /afenda-review
+Ship go/no-go? ───────────→ /afenda-ship
+Web perf audit? ──────────→ /afenda-webperf
+PAS parallel batch? ──────→ @afenda-orchestrator + /afenda-batch
+Adversarial review? ──────→ vendor doubt-driven-development
+Deprecation? ─────────────→ vendor deprecation-and-migration
+Browser DevTools? ────────→ vendor browser-testing-with-devtools
+Platform audit? ──────────→ enterprise-architecture-audit + orchestrator
+Frontend audit? ──────────→ enterprise-frontend-audit
+```
 
-| Keep (wired or optional) | Path |
-| --- | --- |
-| Code review framework | `.cursor/skills/vendor/agent-skills/skills/code-review-and-quality/SKILL.md` |
-| Security hardening | `.cursor/skills/vendor/agent-skills/skills/security-and-hardening/SKILL.md` |
-| TDD / Prove-It | `.cursor/skills/vendor/agent-skills/skills/test-driven-development/SKILL.md` |
-| Ship / launch checklist | `.cursor/skills/vendor/agent-skills/skills/shipping-and-launch/SKILL.md` |
-| Performance (measure-first) | `.cursor/skills/vendor/agent-skills/skills/performance-optimization/SKILL.md` |
-| Interview / ideation / doubt / deprecation / DevTools | See EVALUATION.md optional table |
-
-## Reference checklists (promoted from vendor)
-
-| Checklist | Path |
-| --- | --- |
-| Security | `.cursor/references/security-checklist.md` |
-| Performance | `.cursor/references/performance-checklist.md` |
-| Orchestration | `.cursor/references/orchestration-patterns.md` |
-
-## Implementer bundles (mandatory hops)
+## Mandatory bundles
 
 | Bundle | When |
 | --- | --- |
-| `coding-consistency-bundle` | Any file edit by implementer agents |
+| `coding-consistency-bundle` | Any implementer file edit |
 | `ui-consistency-bundle` | UI, CSS, or visual changes |
 
-Orchestrators (`afenda-orchestrator`, `/afenda-ship`) paste bundle read lists into implementer prompts — personas do not invoke bundles themselves when spawned `readonly: true`.
+Orchestrators paste bundle read lists into implementer prompts — personas do not invoke bundles when `readonly: true`.
 
-## Governing rules
+## Commands
 
-From `.cursor/references/orchestration-patterns.md`:
-
-1. **User or slash-command is the orchestrator.** Personas do not call personas.
-2. **Only one endorsed fan-out pattern:** parallel independent reports → merge in main agent (like `/afenda-ship`).
-3. **Sequential lifecycle** stays **user-driven** — no LLM lifecycle orchestrator.
-4. **Never build:** meta-router persona, persona-chains, deep persona trees.
-
-## Skill rules
-
-1. Check for an applicable skill before starting work.
-2. Skills are workflows, not suggestions — follow verification steps.
-3. Multiple skills can apply across a lifecycle; invoke them in user-driven sequence, not via a router agent.
-4. When in doubt on foundation work, read `docs/PAS/README.md` and `foundation-disposition.registry.ts` before coding.
-
-## Quick reference — common lanes
-
-| Lane | Skill / agent |
+| Intent | Entry |
 | --- | --- |
-| Governed implementation | `afenda-governed-implementer` |
-| PAS slice (handoff present) | `afenda-governed-implementer` |
-| PAS batch | `@afenda-orchestrator` |
+| Code review | `/afenda-review` or `@afenda-code-reviewer` |
+| Ship | `/afenda-ship` |
+| Tests | `/afenda-test` |
+| Web perf | `/afenda-webperf` |
+| PAS batch | `@afenda-orchestrator` + `/afenda-batch` |
+| Which skill? | `/using-afenda-skills` |
+
+## OSS fallback
+
+When no native skill matches:
+
+```bash
+npx skills find <query>
+```
+
+Install only into `vendor/` after [EVALUATION.md](../vendor/EVALUATION.md) scoring. Never drop OSS skills into native root.
+
+## Orchestration (hard stops)
+
+From [orchestration-patterns.md](../references/orchestration-patterns.md):
+
+1. User or slash-command orchestrates — personas do not call personas
+2. Only endorsed fan-out: parallel reports → merge (`/afenda-ship`)
+3. No meta-router persona or persona chains
+
+## Quick lanes
+
+| Lane | Entry |
+| --- | --- |
+| Governed implementation | `@afenda-governed-implementer` |
 | Architecture / registries | `architecture-authority` |
-| SAP/Oracle red-amber gates | `enterprise-erp-standards` |
-| shadcn/studio promotion | `afenda-shadcn-components` |
-| Drizzle migrations | `afenda-drizzle-migration` |
-| Multi-tenancy | `multi-tenancy-erp` |
+| Tailwind v4 | `afenda-tailwind` |
+| SAP/Oracle gates | `enterprise-erp-standards` |
+| shadcn promotion | `afenda-shadcn-components` |
 
-## Composition
-
-- **Invoke directly when:** session start, ambiguous task routing, or user asks "which skill applies?"
-- **Invoke at:** user message or `/using-afenda-skills` — not from other personas or subagents.
-- **Do not invoke from:** review personas, implementer personas, or orchestrator merge steps. Routing belongs here and in `AGENTS.md`, not in persona chains.
+Full inventory: [README.md](README.md).

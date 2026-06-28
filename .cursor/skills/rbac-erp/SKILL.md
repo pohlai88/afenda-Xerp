@@ -10,6 +10,9 @@ description: >-
   writing a guarded Server Action, handling a PolicyGateError, adding a policy rule,
   or debugging an AuthorizationDeniedError.
 disable-model-invocation: true
+paths:
+  - packages/permissions/**
+  - apps/erp/**
 ---
 
 # RBAC — `@afenda/permissions` (Foundation phase 05)

@@ -2,6 +2,8 @@
 name: server-action-security
 description: Audits and hardens Next.js Server Actions for enterprise security — session re-verification, IDOR prevention, role-based authorization, input validation gates, and safe return value shaping. Use when writing or reviewing Server Actions ("use server" files), when adding mutations, when the user mentions auth, authorization, session, or security in the context of Next.js actions.
 disable-model-invocation: true
+paths:
+  - apps/erp/**
 ---
 
 # server-action-security
@@ -32,7 +34,7 @@ Render-time session gating is not a security boundary. Every Server Action is a 
 2. **Return early on auth failure.** Never fall through to the business logic if the session check fails.
 3. **Check resource ownership before mutation.** Fetching a record by ID from user input is an IDOR risk. Always verify `resource.ownerId === session.user.id` (or equivalent) before mutating.
 4. **Validate role before privileged operations.** Role claims from the session must be re-read from the DB or a signed token — never trust a role passed in the request body.
-5. **Zod parse before any IO.** See `schema-validation` skill for parse patterns.
+5. **Zod parse before any IO.** See `platform-schema-validation` skill for parse patterns.
 6. **Never throw to the client.** Uncaught throws surface stack traces in dev and expose error shapes in prod. Always return `{ ok: false, code, userMessage }`.
 7. **Shape the return value.** Only return fields the UI actually needs. No internal DB columns, no `createdAt` unless the UI renders it, no status enum internals.
 

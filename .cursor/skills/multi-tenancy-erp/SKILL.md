@@ -1,3 +1,17 @@
+---
+name: multi-tenancy-erp
+description: >-
+  Multi-tenancy architecture for @afenda/database and apps/erp — 7-tier domain hierarchy,
+  tenant context propagation, RLS patterns, legal entity scoping, and kernel context registry
+  integration. Use when implementing tenant isolation, hierarchy IDs, row-level security,
+  or when the user mentions multi-tenancy, tenant context, legal entity, or RLS.
+disable-model-invocation: true
+paths:
+  - packages/kernel/**
+  - packages/database/**
+  - apps/erp/**
+---
+
 # Multi-Tenancy Architecture — `@afenda/database` + `apps/erp`
 
 > Glossary: all capitalized terms (Tenant, Legal Entity, Entity Group, etc.) are defined in

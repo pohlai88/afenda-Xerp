@@ -209,6 +209,27 @@ export const MULTI_TENANCY_GOVERNANCE_GATES = [
   },
 ] as const;
 
+/** PAS-001A ERP consumer integration gates (B71–B74). */
+export const PAS_001A_GOVERNANCE_GATES = [
+  {
+    checkScript: "check:permission-scope-permissions-surface",
+    gateFile:
+      "scripts/governance/check-permission-scope-permissions-surface.mts",
+    sliceReference: "PAS-001A B71 — permission-scope permissions parser owner",
+  },
+  {
+    checkScript: "check:erp-operating-context-spine",
+    gateFile: "scripts/governance/check-erp-operating-context-spine.mts",
+    sliceReference: "PAS-001A B72 — ERP operating-context spine gate",
+  },
+  {
+    checkScript: "check:metadata-context-authorization-bridge",
+    gateFile:
+      "scripts/governance/check-metadata-context-authorization-bridge.mts",
+    sliceReference: "PAS-001A B74 — metadata context authorization bridge",
+  },
+] as const;
+
 /** Acceptance checklist items — gate requires every item to be checked `[x]`. */
 export const MULTI_TENANCY_DELIVERY_ACCEPTANCE_CHECKLIST = [
   "Glossary defines all 11 terms with do-not-confuse notes",

@@ -110,3 +110,16 @@ Additional when applicable:
 - **Invoke directly when:** user runs `/afenda-ship` or asks for go/no-go before merge
 - **Do not invoke from:** personas
 - **Not for:** PAS parallel implementation batches — use `@afenda-orchestrator` + `/afenda-batch`
+
+---
+
+## Verification
+
+Ship command complete only when:
+
+1. Four persona Tasks spawned in **one parallel turn** (unless skip fan-out rule applies)
+2. Merge deduplicates Critical/Important across reports
+3. Afenda gates from `VERIFICATION.md` run with **Shell evidence** for changed paths
+4. Ship Decision template posted with GO | NO-GO, blockers, rollback plan, and gate table
+
+Hard fail: sequential persona spawn; gate PASS claimed without output; GO with unresolved Critical findings.

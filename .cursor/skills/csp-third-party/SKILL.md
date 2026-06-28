@@ -7,6 +7,9 @@ description: >-
   CSP policy, adding analytics/payment/chat widgets, debugging CSP errors, or onboarding
   to the ERP security pipeline.
 disable-model-invocation: true
+paths:
+  - apps/erp/src/proxy.ts
+  - apps/erp/src/lib/security/**
 ---
 
 # CSP — `apps/erp` (architecture + third-party)

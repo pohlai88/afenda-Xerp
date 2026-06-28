@@ -2,6 +2,9 @@
 name: pas-prohibited-surface-scan
 description: Scans an Afenda package for exports, functions, types, and patterns that the Package Authority Standard explicitly prohibits being in that package. Complements pas-codebase-bridge (which finds what is missing) by finding what should not be present. Use when asked to find violations, audit what does not belong, review boundary pollution, check "what should not be in kernel", or confirm a package is clean before a governance gate.
 disable-model-invocation: true
+paths:
+  - packages/**
+  - docs/PAS/**
 ---
 
 # PAS Prohibited Surface Scan

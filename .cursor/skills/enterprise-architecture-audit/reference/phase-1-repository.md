@@ -55,7 +55,7 @@ Run or cite: `pnpm quality:boundaries` · `pnpm architecture:dependencies`
 | Audit / logging | `@afenda/observability` | | |
 | Outbox / jobs | `@afenda/execution` | | |
 
-Use `.cursor/skills/cross-boundary-anti-pattern-scan/SKILL.md` for semantic leaks.
+Use `.cursor/skills/platform-cross-boundary-anti-pattern-scan/SKILL.md` for semantic leaks.
 
 ---
 

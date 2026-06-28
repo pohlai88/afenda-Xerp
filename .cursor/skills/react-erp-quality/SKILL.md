@@ -2,6 +2,8 @@
 name: react-erp-quality
 description: React quality gate for Afenda ERP — accessibility (ARIA live regions, chart labels, focus management), hooks discipline (no useEffect for derived state, stable deps), RSC vs client boundaries, composition patterns (no boolean-prop explosion), and bundle/waterfall prevention. Use after every UI block install, when writing new components, or when fixing accessibility warnings. Companion to afenda-ui-quality (run after Phase 5). Enforces react-best-practices, react-hooks, and vercel-composition-patterns rules scoped to this monorepo.
 disable-model-invocation: true
+paths:
+  - apps/erp/**
 ---
 
 # React ERP Quality — Accessibility · Hooks · Composition · Performance

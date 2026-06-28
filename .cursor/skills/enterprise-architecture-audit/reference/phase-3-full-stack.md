@@ -35,7 +35,7 @@ End-to-end review across the platform. Map each row to Afenda paths and gates.
 | **Configuration** | env governance skill | `env-var-governance` patterns | | |
 | **Secrets** | no .env in repo; Vercel/Supabase | grep + docs | | |
 | **Feature Flags** | `packages/feature-flags/` | PKG tests | | |
-| **Error Handling** | ProblemDetail, server-action-result | error-handling skill patterns | | |
+| **Error Handling** | ProblemDetail, server-action-result | platform-error-handling skill patterns | | |
 | **Accessibility** | frontend audit Phase 8 | WCAG checklist | | |
 | **Localization** | kernel LocalizationContext | kernel context tests | | |
 | **Internationalization** | next-intl if present | apps grep | | |

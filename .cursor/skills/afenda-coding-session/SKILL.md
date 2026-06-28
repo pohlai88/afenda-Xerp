@@ -503,5 +503,5 @@ Any `Fail` row must be resolved or escalated before the session is reported comp
 - All quality gates + changed-files→gate matrix → [VERIFICATION.md](VERIFICATION.md)
 - Governed UI author layer (primitive authoring) → `.cursor/skills/govern-primitive/SKILL.md`
 - Multi-tenancy architecture → `docs/architecture/multi-tenancy.md`
-- CSS governance → `.cursor/skills/afenda-css-tailwind-stylelint/SKILL.md`
+- CSS / Tailwind governance → `.cursor/skills/afenda-tailwind/SKILL.md`
 - Next.js App Router (live docs) → `nextjs-docs://llms-index` via MCP before writing

@@ -1,6 +1,6 @@
 ---
 name: afenda-test
-description: Thin wrapper spawning afenda-test-engineer with TDD and test-coverage skills. Use for test strategy, coverage gaps, or Prove-It analysis on a change.
+description: Thin wrapper spawning afenda-test-engineer with TDD and platform-test-coverage skills. Use for test strategy, coverage gaps, or Prove-It analysis on a change.
 disable-model-invocation: true
 ---
 
@@ -28,7 +28,7 @@ git diff
 Main agent or subagent must Read:
 
 1. `.cursor/skills/vendor/agent-skills/skills/test-driven-development/SKILL.md`
-2. `.cursor/skills/test-coverage/SKILL.md`
+2. `.cursor/skills/platform-test-coverage/SKILL.md`
 3. `AGENTS.md` Testing section
 
 ### 3. Spawn one persona
@@ -57,3 +57,15 @@ pnpm --filter @afenda/<package> test:run
 
 - **Invoke directly when:** `/afenda-test` or test/coverage questions on current change
 - **Do not invoke from:** personas or implementer agents mid-edit
+
+---
+
+## Verification
+
+Test command complete when:
+
+1. Mandatory skills Read (`test-driven-development`, `platform-test-coverage`, `AGENTS.md` Testing)
+2. Single `afenda-test-engineer` Task spawned with diff + Prove-It instruction
+3. Test engineer report posted verbatim
+
+Optional: `pnpm --filter @afenda/<package> test:run` when user requests verification.

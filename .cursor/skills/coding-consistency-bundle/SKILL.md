@@ -2,6 +2,10 @@
 name: coding-consistency-bundle
 description: Mandatory preflight and skill bundle for Afenda implementer agents. Use when attached, invoked as /coding-consistency-bundle, named in the user message, or referenced by afenda-governed-implementer and PAS slice agents. Requires exact preflight announcement, Read-tool receipt, and Phase 0 before any file edit; hard stop if violated. Covers afenda-coding-session, architecture-authority, pas-slice-planner, kernel-authority, enterprise-knowledge, TypeScript discipline, and AGENTS.md.
 disable-model-invocation: true
+paths:
+  - packages/**
+  - apps/**
+  - scripts/**
 ---
 
 <!--
@@ -145,3 +149,16 @@ If a required authority file is missing, stop with a **Blocker Report** — do n
 - Preflight receipt template: [reference/preflight-receipt.md](reference/preflight-receipt.md)
 - Hard-stop script: [reference/hard-stop.md](reference/hard-stop.md)
 - Violation audit subagent: [../../agents/vibe-coding-violation-auditor.md](../../agents/vibe-coding-violation-auditor.md) — counts vibe-coding violations; appends [../../audit/vibe-coding-violations.jsonl](../../audit/vibe-coding-violations.jsonl)
+
+---
+
+## Verification
+
+Before ending any implementer coding turn:
+
+1. Preflight announcement + receipt posted **before** first file edit
+2. Phase 0 (six lines) and Completion Report (§11) posted with drift-prevention table
+3. Gates from [afenda-coding-session/VERIFICATION.md](../afenda-coding-session/VERIFICATION.md) run for changed paths — **paste Shell output**
+4. No unresolved drift-prevention **Fail** rows
+
+Hard fail: edit before preflight; skill claimed without `Read` in same turn; gate claimed without command output.

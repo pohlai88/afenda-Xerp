@@ -1,39 +1,25 @@
 ---
 description: >-
-  Mandatory coding-session contract — state scope before edits, end with Completion
-  Report. Prevents architectural drift across all packages.
+  Mandatory coding-session contract — announce before edits, link to skill for
+  Phase 0 / Completion Report. Prevents architectural drift across all packages.
 alwaysApply: true
 ---
 
 # Afenda Coding Session (always on)
 
-Full skill: `.cursor/skills/afenda-coding-session/SKILL.md` — invoke with `/afenda-coding-session` for implementation detail.
+**Skill (full workflow):** [`.cursor/skills/afenda-coding-session/SKILL.md`](../skills/afenda-coding-session/SKILL.md) — invoke with `/afenda-coding-session` for §0–§11 detail, hard stops, and gate matrix ([VERIFICATION.md](../skills/afenda-coding-session/VERIFICATION.md)).
 
-**Announce at start of every coding turn:** "I'm using afenda-coding-session — stating the execution contract before edits."
+**Catalog:** [`.cursor/skills/README.md`](../skills/README.md) · **Routing:** [`.cursor/rules/skills-routing.mdc`](skills-routing.mdc)
 
-## Phase 0 — before any Write/StrReplace (mandatory)
+## Every coding turn
 
-State all six lines. Do **not** edit code until done:
+1. **Announce:** `I'm using afenda-coding-session — stating the execution contract before edits.`
+2. **Before any Write/StrReplace:** Post **Phase 0** (all six lines) per skill §0 — do not edit until done.
+3. **Implement:** Follow skill §3–§10; hard stops at skill §0.1.
+4. **Before ending turn:** Post **Completion Report** per skill §11 (drift-prevention table + gate evidence).
 
-1. **Objective** — one sentence
-2. **Allowed layer** — single package/path (see skill §2)
-3. **Files to change** — explicit list
-4. **Prohibited** — packages/paths off limits
-5. **Authority** — Architecture · Design System · UI Governance · Metadata · Kernel · Database · Permission
-6. **Acceptance gates** — which `pnpm` commands will run
+If upstream contract is missing: **stop and report** — no local registries, tokens, permissions, or tenant resolvers.
 
-Before claiming "no pending decision" or "no migration planned", search **`docs/adr/`** and **`docs/PAS/`** — not PRs alone.
+**PAS foundation work:** read [`foundation-delivery-authority.md`](../../docs/architecture/foundation-delivery-authority.md) and derive Phase 0 from registry + `docs/PAS/slice/` handoffs.
 
-If upstream contract is missing: **stop and report**. No local registries, tokens, permissions, or tenant resolvers.
-
-**PAS:** For foundation/package work, read [`foundation-delivery-authority.md`](../../docs/architecture/foundation-delivery-authority.md) and derive Phase 0 from registry + `docs/PAS/slice/` handoffs.
-
-## Phase 1 — implement
-
-Follow skill §3–§10. Hard stops (skill §0.1): consumer defining owned contracts, unauthorized cross-package imports, hand-edited migrations, mocking governance instead of canonical resolvers.
-
-## Phase 2 — before ending turn (mandatory)
-
-Post the **Completion Report** (skill §11): objective, files changed, authority followed, drift-prevention pass/fail table, gates run, known gaps.
-
-Any drift row **Fail** → fix or escalate. Code without evidence is not done.
+Implementer agents: attach [`coding-consistency-bundle`](../skills/coding-consistency-bundle/SKILL.md) — bundle preflight runs **before** Phase 0.

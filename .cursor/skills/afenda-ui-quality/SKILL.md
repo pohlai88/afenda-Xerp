@@ -2,6 +2,10 @@
 name: afenda-ui-quality
 description: End-to-end workflow for building, installing, normalizing, and verifying high-quality UI blocks in the Afenda ERP repo. Covers shadcn-studio /cui /rui /iui block lifecycle, Governed UI governance normalization (strip className from @afenda/ui primitives in consumer code, move styles to afenda-*.css with var(--afenda-*) tokens), govern-primitive audit (9.5/10 checklist), and built-in visual quality gate (9.5/10 visualization). Canonical policy: docs/governance/governed-ui-policy.md. Use when installing shadcn-studio blocks, creating new UI surfaces, auditing existing components, or running the normalization pipeline.
 disable-model-invocation: true
+paths:
+  - packages/ui/**
+  - packages/appshell/**
+  - apps/erp/**
 ---
 
 # Afenda UI Quality — Build · Normalize · Verify

@@ -14,6 +14,14 @@ description: >
   auditing CSS token registry or shadcn-first consumption, or producing a remediation plan
   with unified diffs.
 disable-model-invocation: true
+paths:
+  - apps/erp/**
+  - apps/storybook/**
+  - packages/ui/**
+  - packages/appshell/**
+  - packages/metadata-ui/**
+  - packages/css-authority/**
+  - packages/design-system/**
 ---
 
 # Enterprise Frontend Audit
@@ -83,8 +91,7 @@ External skill references (attach via user-attached skills):
 - `react-best-practices` — 69 Vercel React/Next.js performance rules
 - `anthropic-frontend-design` — premium visual design direction
 - `frontend-design-review` — UX quality pillar scoring
-- `tailwind-design-system` — Tailwind v4 `@theme`, `@custom-variant`, CSS-first config
-- `tailwind-utility-classes` — utility composition patterns
+- `afenda-tailwind` — Afenda Tailwind v4 authority (layered styling, import order, v3 banlist)
 - `frontend-skill` — visual direction, hierarchy, motion for led surfaces
 
 ---
@@ -97,7 +104,7 @@ Do not guess Tailwind v4 or shadcn behavior from memory. Use this sequence:
 2. **shadcn-studio skill** — read `.cursor/skills/shadcn-studio/SKILL.md` before any MCP `/cui` workflow
 3. **`npx skills find <query>`** — discover OSS agent skills (tailwind, shadcn, a11y)
 4. **GitHub MCP** — search `shadcn-ui/ui` for token/CSS examples
-5. **User-attached skills** — apply `tailwind-design-system` for `@theme` / `@custom-variant dark`
+5. **User-attached skills** — apply `afenda-tailwind` for `@theme inline` / layered styling rules
 
 Link skills and Context7 queries only — do not embed full Tailwind tutorials in audit output.
 

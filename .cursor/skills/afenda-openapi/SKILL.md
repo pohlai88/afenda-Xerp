@@ -2,6 +2,8 @@
 name: afenda-openapi
 description: Analyzes, audits, and extends Afenda's contract-driven OpenAPI 3.1 implementation under apps/erp/src/server/api/contracts/openapi/. Use when adding new API contracts, improving OpenAPI quality (summary, description, examples, deprecated flag, tags, file upload content type), running drift gates, or evaluating completeness against best practices. Covers the full pipeline: ApiRouteContract → zod-openapi generator → afenda-internal-v1.openapi.json snapshot.
 disable-model-invocation: true
+paths:
+  - apps/erp/src/server/api/**
 ---
 
 # Afenda OpenAPI Skill

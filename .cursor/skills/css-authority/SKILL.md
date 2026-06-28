@@ -1,7 +1,10 @@
 ---
 name: css-authority
 description: Enforces @afenda/css-authority — CSS token authority via authority JSON sources, generated CSS-TOKEN-* registry, vendored shadcn theme, and consumption validation. Use when touching packages/css-authority, adding CSS custom properties, PAS-005 slices, or check:css-governance gates.
-disable-model-invocation: false
+paths:
+  - packages/css-authority/**
+  - docs/PAS/PAS-005*.md
+  - docs/architecture/css-authority.md
 ---
 
 # @afenda/css-authority — Authority Skill (PAS-005)

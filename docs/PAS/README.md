@@ -60,6 +60,7 @@ Agents should read **`runtime_status`** + **`remaining_slices`** first when resu
 |---|---|
 | `PAS-001` | First package authority standard |
 | `PAS-NNN` | Sequentially assigned, never reused |
+| `PAS-NNNA` | Derived extension standard (e.g. PAS-001A ERP integration, PAS-004B kernel consumer) — does not amend parent §1–§16 unless explicit amendment slice |
 
 Numbering is assigned when a package is promoted to Platform or Foundation layer, or when its boundary requires formal governance.
 
@@ -82,6 +83,7 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 | Standard | Package | Layer | Maturity |
 |---|---|---|---|
 | [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `@afenda/kernel` | Platform | Enterprise Accepted |
+| [PAS-001A](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) | `apps/erp` (kernel consumer) | Application | Production Candidate (B71–B75 delivered 2026-06-29; derived from PAS-001) |
 | [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | `@afenda/architecture-authority` | Platform | MVP Authority |
 | [PAS-002A](PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) | `@afenda/architecture-authority` | Platform | Enterprise Accepted (B38–B42 delivered) |
 | [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | `@afenda/accounting-standards` | Foundation | Production Candidate |
@@ -108,6 +110,7 @@ Each PAS has a corresponding Cursor agent skill for IDE-optimized enforcement:
 | PAS | Agent Skill |
 |---|---|
 | PAS-001 | `.cursor/skills/kernel-authority/SKILL.md` |
+| PAS-001A | `.cursor/skills/kernel-authority/SKILL.md` + `multi-tenancy-erp` |
 | PAS-002 | `.cursor/skills/architecture-authority/SKILL.md` |
 | PAS-003 | `.cursor/skills/accounting-standards-authority/SKILL.md` |
 | PAS-004 | `.cursor/skills/enterprise-knowledge/SKILL.md` |

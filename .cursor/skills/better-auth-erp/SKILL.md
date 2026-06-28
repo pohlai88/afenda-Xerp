@@ -11,6 +11,9 @@ description: >-
   email verification, adding a new auth plugin, debugging a missing/stale session,
   or extending the auth audit pipeline.
 disable-model-invocation: true
+paths:
+  - packages/auth/**
+  - apps/erp/**
 ---
 
 # Better Auth — `@afenda/auth` (Governed UI)

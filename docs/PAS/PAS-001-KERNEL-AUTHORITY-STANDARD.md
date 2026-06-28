@@ -17,13 +17,14 @@
 | **Authority status** | `enterprise_accepted` |
 | **Implementation status** | `implemented` |
 | **Evidence level** | `runtime_proven` |
-| **Runtime status** | Enterprise Accepted — kernel contracts, 45 delivered slices, runtime gates operational |
-| **Remaining slices** | none — B18 Delivered ([`slice/b18-6.3-public-exports-parity.md`](slice/b18-6.3-public-exports-parity.md)) |
+| **Runtime status** | Enterprise Accepted — kernel contracts, §13 catalog + B49–B70 closure delivered, runtime gates operational |
+| **Remaining slices** | none — B70 Delivered ([`slice/b70-kernel-test-import-hygiene.md`](slice/b70-kernel-test-import-hygiene.md)) |
 | **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, future governed domain packages |
 | **Change model** | Serialized kernel slices only |
 | **Quality target** | Enterprise **9.5 / 10** |
 | **Slice directory** | `docs/PAS/slice/` |
 | **ADR prerequisites** | ADR-0021, ADR-0022, ADR-0023 |
+| **Continuation PAS** | [PAS-001A](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) — Kernel ERP consumer integration (B71–B75 delivered; Production Candidate attested 2026-06-29); does not amend this document |
 
 #### Required gates
 
@@ -32,11 +33,12 @@
 | 1 | `pnpm --filter @afenda/kernel typecheck` |
 | 2 | `pnpm --filter @afenda/kernel test:run` |
 | 3 | `pnpm quality:kernel-context-surface` |
-| 4 | `pnpm check:accounting-domain-contracts` |
-| 5 | `pnpm check:foundation-disposition` |
-| 6 | `pnpm quality:boundaries` |
-| 7 | `pnpm architecture:cycles` |
-| 8 | `pnpm architecture:drift` |
+| 4 | `pnpm check:kernel-context-wire-triad` |
+| 5 | `pnpm check:accounting-domain-contracts` |
+| 6 | `pnpm check:foundation-disposition` |
+| 7 | `pnpm quality:boundaries` |
+| 8 | `pnpm architecture:cycles` |
+| 9 | `pnpm architecture:drift` |
 
 > **Maturity is part of authority.**
 > PAS-001 is fully implemented, gated, documented, and drift-protected. Kernel contracts, slice catalog, and runtime gates may be treated as enterprise authority.
@@ -59,13 +61,15 @@
 
 **Required gates:** see §14.1
 
-**Slice entrypoint:** `docs/PAS/slice/` (30 delivered slices — §13 catalog) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
+**Slice entrypoint:** `docs/PAS/slice/` · [`pas-status-index.md`](pas-status-index.md) (§13 catalog + B49–B70 closure) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
 
 **Registry:** `@afenda/kernel` → `packages/kernel` in `foundation-disposition.registry.ts`; accounting vocabulary → `PKGR01_ACCOUNTING` at `@afenda/kernel/erp-domain/accounting`
 
 **Enterprise knowledge boundary:** Accepted business meaning, Knowledge Atoms, domains, and acceptance chains → [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) / `@afenda/enterprise-knowledge`. Kernel retains wire shapes only — never duplicate meaning authority.
 
 **Identity slice gate:** Kernel identity runtime (Slice B) starts only after ADR-0021, ADR-0022, and ADR-0023 are **Accepted** (§4.1)
+
+**Closure waivers (B67 — do not treat as missing implementation):** `FiscalCalendarId` / `FiscalPeriodId` quarantined on `@afenda/kernel/erp-domain/accounting` until Finance ADR; planned additive `AppErrorCode` values deferred; `PermissionScopeContext` kernel slot documented in drift registry (`refactorStatus: completed`).
 
 ---
 
@@ -1342,7 +1346,7 @@ Every kernel contract must satisfy:
 13. No source-incompatible example stubs in canonical docs.
 14. **Wire context triad** — contexts with wire ingress use `*.contract.ts`, `*.assert.ts`, and `*.parser.ts`; branded context only after validation (see §4.4).
 
-**Runtime authority:** `packages/kernel/src/governance/kernel-contract-rules.policy.ts` — `KERNEL_CONTRACT_RULES`, `KERNEL_CONTRACT_RULES_POLICY`. Gate: `pnpm check:kernel-contract-rules`. Rule 14 is documented standard — dedicated gate deferred until triad split migration completes.
+**Runtime authority:** `packages/kernel/src/governance/kernel-contract-rules.policy.ts` — `KERNEL_CONTRACT_RULES`, `KERNEL_CONTRACT_RULES_POLICY`. Gates: `pnpm check:kernel-context-wire-triad` (B69 Delivered) · `pnpm check:kernel-contract-rules`.
 
 ---
 
@@ -1507,6 +1511,7 @@ Run these before accepting any kernel package change:
 pnpm --filter @afenda/kernel typecheck
 pnpm --filter @afenda/kernel test:run
 pnpm quality:kernel-context-surface
+pnpm check:kernel-context-wire-triad
 pnpm check:accounting-domain-contracts
 pnpm check:foundation-disposition
 pnpm quality:boundaries

@@ -10,6 +10,14 @@ description: >
   Includes visual conformance checklist, hard stops, and completion scoring.
   Use whenever touching CSS, component visual props, tokens, or any UI surface.
 disable-model-invocation: true
+paths:
+  - apps/erp/**
+  - apps/storybook/**
+  - packages/ui/**
+  - packages/appshell/**
+  - packages/metadata-ui/**
+  - packages/css-authority/**
+  - packages/design-system/**
 ---
 
 <!--
@@ -83,13 +91,13 @@ Read the **correct governing skill** based on what files change:
 | Surface | Files | Governing skill | Required reads |
 |---------|-------|-----------------|---------------|
 | **Docs editorial** | `apps/docs/**` | `docs-editorial-design` | `.cursor/skills/docs-editorial-design/SKILL.md` |
-| **ERP app UI** | `apps/erp/**` | `afenda-ui-quality` + `react-erp-quality` + `css-authority` | `.cursor/skills/afenda-ui-quality/SKILL.md` |
-| **UI primitives** | `packages/ui/**` | `govern-primitive` + `css-authority` | `.cursor/skills/govern-primitive/SKILL.md` |
-| **AppShell chrome** | `packages/appshell/**` | `afenda-ui-quality` + `afenda-shadcn-components` | `.cursor/skills/afenda-ui-quality/SKILL.md` |
+| **ERP app UI** | `apps/erp/**` | `afenda-ui-quality` + `react-erp-quality` + `afenda-tailwind` | `.cursor/skills/afenda-ui-quality/SKILL.md` + `.cursor/skills/afenda-tailwind/SKILL.md` |
+| **UI primitives** | `packages/ui/**` | `govern-primitive` + `afenda-tailwind` | `.cursor/skills/govern-primitive/SKILL.md` + `.cursor/skills/afenda-tailwind/SKILL.md` |
+| **AppShell chrome** | `packages/appshell/**` | `afenda-ui-quality` + `afenda-shadcn-components` + `afenda-tailwind` | `.cursor/skills/afenda-ui-quality/SKILL.md` + `.cursor/skills/afenda-tailwind/SKILL.md` |
 | **Studio / shadcn blocks** | `packages/appshell/src/shadcn-studio/**` | `afenda-shadcn-components` + `shadcn-studio` | both SKILL.md files |
 | **Metadata UI** | `packages/metadata-ui/**` | `afenda-ui-quality` (consumer layer) | `.cursor/skills/afenda-ui-quality/SKILL.md` |
-| **CSS authority** | `packages/css-authority/**` | `css-authority` | `.cursor/skills/css-authority/SKILL.md` |
-| **Design tokens (shim)** | `packages/design-system/**` | `architecture-authority` + `css-authority` | `.cursor/skills/architecture-authority/SKILL.md` |
+| **CSS authority** | `packages/css-authority/**` | `css-authority` + `afenda-tailwind` | `.cursor/skills/css-authority/SKILL.md` + `.cursor/skills/afenda-tailwind/SKILL.md` |
+| **Design tokens (shim)** | `packages/design-system/**` | `architecture-authority` + `css-authority` + `afenda-tailwind` | `.cursor/skills/architecture-authority/SKILL.md` + `.cursor/skills/afenda-tailwind/SKILL.md` |
 | **Cross-surface** | Multiple packages | All applicable skills above | Read all |
 
 **Unknown surface** → stop with Blocker Report. Do not guess.
@@ -306,3 +314,16 @@ Post after every coding turn that touches UI:
 - Docs editorial authority: `.cursor/skills/docs-editorial-design/SKILL.md`
 - ERP/AppShell authority: `.cursor/skills/afenda-ui-quality/SKILL.md`
 - Primitive authority: `.cursor/skills/govern-primitive/SKILL.md`
+
+---
+
+## Verification
+
+Turn is complete only when:
+
+1. Preflight announcement + receipt posted before first edit
+2. Phase 0 and UI Consistency Completion Report posted
+3. Surface gate commands run — output pasted (see **Verification gates by surface** above)
+4. Fix-first: every violation found in-turn is fixed or escalated via Blocker Report
+
+Hard fail: `className` on governed primitive after claim of done; gate claimed without Shell output; permission asked for a found violation.

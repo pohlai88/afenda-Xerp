@@ -1,14 +1,17 @@
 import { describe, expect, it } from "vitest";
+import type { assertHierarchyContextJsonSerializable } from "../context/hierarchy-id-boundary.assert.js";
+import type { DeriveConsolidationScopeWireInput } from "../context/hierarchy-id-boundary.contract.js";
 import {
-  type BrandedOwnershipInterestContext,
   brandDeriveConsolidationScopeTrustInput,
   brandOwnershipInterestContext,
-  type DeriveConsolidationScopeWireInput,
   normalizeEntityGroupIdForWire,
   normalizeTenantIdForWire,
   toOwnershipInterestWireContext,
-} from "../context/hierarchy-id-boundary.contract.js";
-import type { OwnershipInterestWireContext } from "../context/ownership-interest-context.contract.js";
+} from "../context/hierarchy-id-boundary.parser.js";
+import type {
+  BrandedOwnershipInterestContext,
+  OwnershipInterestWireContext,
+} from "../context/ownership-interest-context.contract.js";
 import { parseOwnershipInterestContext } from "../context/ownership-interest-context.parser.js";
 import {
   createTestEnterpriseId,
@@ -58,9 +61,7 @@ describe("identity — hierarchy parse", () => {
 
 describe("hierarchy-id-boundary.contract", () => {
   it("keeps hierarchy wire contexts JSON-serializable at compile time", () => {
-    type _Guard =
-      import("../context/hierarchy-id-boundary.contract.js").assertHierarchyContextJsonSerializable;
-    const guard: _Guard = true;
+    const guard: assertHierarchyContextJsonSerializable = true;
     expect(guard).toBe(true);
   });
 

@@ -13,13 +13,13 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Status** | Enterprise Accepted — kernel contracts, runtime gates operational |
 | **Authority** | PAS-001 · `@afenda/kernel` · Platform |
 | **Maturity** | `enterprise_accepted` · `implemented` · `runtime_proven` |
-| **Runtime status** | Enterprise Accepted — kernel contracts, 45 delivered slices, runtime gates operational |
-| **Remaining slices** | none — B18 Delivered ([`slice/b18-6.3-public-exports-parity.md`](slice/b18-6.3-public-exports-parity.md)) |
-| **Runtime evidence** | `packages/kernel/`, PAS-001 canonical doc, `kernel-package-layout.contract.ts`, `check:kernel-package-structure` |
-| **Gates** | `pnpm --filter @afenda/kernel typecheck`, `pnpm --filter @afenda/kernel test:run`, `pnpm quality:kernel-context-surface`, `pnpm check:accounting-domain-contracts`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries`, `pnpm architecture:cycles`, `pnpm architecture:drift` |
+| **Runtime status** | Enterprise Accepted — kernel contracts, §13 catalog + B49–B70 closure delivered, runtime gates operational |
+| **Remaining slices** | none — B70 Delivered ([`slice/b70-kernel-test-import-hygiene.md`](slice/b70-kernel-test-import-hygiene.md)) |
+| **Runtime evidence** | `packages/kernel/`, PAS-001 canonical doc, `kernel-package-layout.contract.ts`, `check:kernel-package-structure`, `check:kernel-context-wire-triad` |
+| **Gates** | `pnpm --filter @afenda/kernel typecheck`, `pnpm --filter @afenda/kernel test:run`, `pnpm quality:kernel-context-surface`, `pnpm check:kernel-context-wire-triad`, `pnpm check:kernel-identity-governance`, `pnpm check:kernel-zero-runtime-deps`, `pnpm check:accounting-domain-contracts`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries`, `pnpm architecture:cycles`, `pnpm architecture:drift` |
 | **Result** | Kernel platform vocabulary, execution context, identity constitution (ADR-0021–0023), and PAS §6.1 package-tree sync operational |
 
-**Next sequence item:** none — PAS-001 kernel authority slices complete.
+**Next sequence item:** none — PAS-001 Enterprise Accepted closed; consumer integration under [PAS-001A](#pas-001a-kernel-erp-consumer-integration--production-candidate) attested (B75 Delivered).
 
 | Slice | Doc | Status |
 | --- | --- | --- |
@@ -32,6 +32,10 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B54 | [b54-kernel-project-wire-triad.md](slice/b54-kernel-project-wire-triad.md) | Delivered |
 | B55 | [b55-kernel-policy-wire-triad.md](slice/b55-kernel-policy-wire-triad.md) | Delivered |
 | B57 | [b57-kernel-permission-wire-triad.md](slice/b57-kernel-permission-wire-triad.md) | Delivered |
+| B67 | [b67-pas001-doc-attestation-closure.md](slice/b67-pas001-doc-attestation-closure.md) | Delivered |
+| B68 | [b68-hierarchy-id-boundary-wire-triad.md](slice/b68-hierarchy-id-boundary-wire-triad.md) | Delivered |
+| B69 | [b69-kernel-context-wire-triad-gate.md](slice/b69-kernel-context-wire-triad-gate.md) | Delivered |
+| B70 | [b70-kernel-test-import-hygiene.md](slice/b70-kernel-test-import-hygiene.md) | Delivered |
 | B58 | [b58-metadata-ui-permission-diagnostics.md](slice/b58-metadata-ui-permission-diagnostics.md) | Delivered |
 | B59 | [b59-live-metadata-authorization-evaluation.md](slice/b59-live-metadata-authorization-evaluation.md) | Delivered |
 | B60 | [b60-api-route-metadata-authorization-bridge.md](slice/b60-api-route-metadata-authorization-bridge.md) | Delivered |
@@ -41,6 +45,31 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B64 | [b64-erp-metadata-action-bridge.md](slice/b64-erp-metadata-action-bridge.md) | Delivered |
 | B65 | [b65-metadata-context-required-preview.md](slice/b65-metadata-context-required-preview.md) | Delivered |
 | B66 | [b66-metadata-test-type-stabilization.md](slice/b66-metadata-test-type-stabilization.md) | Delivered |
+
+---
+
+## PAS-001A Kernel ERP Consumer Integration — Production Candidate
+
+| Field | Value |
+| --- | --- |
+| **Status** | Delivered — Production Candidate (B71–B75 complete; attested 2026-06-29) |
+| **Authority** | PAS-001A · derived from PAS-001 · `apps/erp/src/lib/context/` |
+| **Maturity** | `production_candidate` · `delivered` · `runtime` |
+| **Runtime status** | Permission-scope wire triad in `@afenda/permissions`; kernel projection-only; ERP spine + metadata bridge gates operational |
+| **Remaining slices** | none — B75 Delivered ([`slice/b75-pas001a-production-candidate-attestation.md`](slice/b75-pas001a-production-candidate-attestation.md)) |
+| **Runtime evidence** | [PAS-001A](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md), `context-integration-registry.ts`, `check:erp-operating-context-spine`, `check:permission-scope-permissions-surface`, `check:metadata-context-authorization-bridge` |
+| **Gates** | Baseline table in PAS-001A §0; all §6 scorecard gates green at B75 |
+| **Result** | ERP runtime speaks kernel operating-context vocabulary end-to-end through permissions, resolver spine, metadata bridge, and governance gates |
+
+**Next sequence item:** none — PAS-001A closed; kernel consumer integration attested.
+
+| Slice | Doc | Status |
+| --- | --- | --- |
+| B71 | [b71-permission-scope-permissions-parser.md](slice/b71-permission-scope-permissions-parser.md) | Delivered |
+| B72 | [b72-erp-operating-context-spine-gate.md](slice/b72-erp-operating-context-spine-gate.md) | Delivered |
+| B73 | [b73-kernel-erp-doc-drift-closure.md](slice/b73-kernel-erp-doc-drift-closure.md) | Delivered |
+| B74 | [b74-metadata-context-authorization-bridge.md](slice/b74-metadata-context-authorization-bridge.md) | Delivered |
+| B75 | [b75-pas001a-production-candidate-attestation.md](slice/b75-pas001a-production-candidate-attestation.md) | Delivered |
 
 ---
 

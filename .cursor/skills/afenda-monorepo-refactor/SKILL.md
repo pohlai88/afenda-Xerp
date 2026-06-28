@@ -1,7 +1,10 @@
 ---
 name: afenda-monorepo-refactor
-description: Plans and executes governed monorepo refactors in the Afenda workspace — package extraction, layer fixes, export moves, consumer migrations, and boundary repairs. Serializes work into safe slices, enforces architecture-authority layer rules, runs scoped gates, and chains to pas-codebase-bridge, cross-boundary-anti-pattern-scan, and afenda-coding-session. Use when refactoring across packages, moving code between layers, extracting shared libraries, fixing import violations, or migrating consumers after contract changes.
+description: Plans and executes governed monorepo refactors in the Afenda workspace — package extraction, layer fixes, export moves, consumer migrations, and boundary repairs. Serializes work into safe slices, enforces architecture-authority layer rules, runs scoped gates, and chains to pas-codebase-bridge, platform-cross-boundary-anti-pattern-scan, and afenda-coding-session. Use when refactoring across packages, moving code between layers, extracting shared libraries, fixing import violations, or migrating consumers after contract changes.
 disable-model-invocation: true
+paths:
+  - packages/**
+  - apps/**
 ---
 
 # Afenda Monorepo Refactor
@@ -17,7 +20,7 @@ Governed refactoring for the `@afenda/*` pnpm + Turborepo workspace. Combines mo
 | Phase | Delegate to |
 |-------|-------------|
 | PAS/PAS compliance audit | `/pas-codebase-bridge` |
-| Semantic boundary scan | `/cross-boundary-anti-pattern-scan` |
+| Semantic boundary scan | `/platform-cross-boundary-anti-pattern-scan` |
 | PAS kernel slice planning | `/pas-slice-planner` |
 | Layer/import rules reference | `/monorepo-discipline` |
 | Implementation execution | `/afenda-coding-session` |
@@ -128,7 +131,7 @@ Run before `plan` or `execute`:
 1. **Layer check** — source → target import direction legal per `layer-registry.data.ts`
 2. **Ownership check** — behavior belongs to target authority (not just convenient location)
 3. **Export surface** — target `package.json#exports` and `src/index.ts` can absorb new public API
-4. **Semantic scan** — `/cross-boundary-anti-pattern-scan` on source folder when moving platform/kernel/metadata code
+4. **Semantic scan** — `/platform-cross-boundary-anti-pattern-scan` on source folder when moving platform/kernel/metadata code
 5. **PAS/PAS** — `/pas-codebase-bridge` when scope is PAS- or PAS-governed
 
 Output a **refactor risk matrix**:

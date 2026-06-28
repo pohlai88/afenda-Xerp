@@ -131,7 +131,7 @@ export const KERNEL_CONTRACT_RULES = {
     pasRuleNumber: 14,
     description:
       "Wire context triad — *.contract.ts, *.assert.ts, *.parser.ts for wire ingress; branded context only after validation.",
-    enforcementGate: null,
+    enforcementGate: "pnpm check:kernel-context-wire-triad",
   },
 } satisfies Record<KernelContractRuleId, KernelContractRule>;
 
@@ -142,6 +142,7 @@ export const KERNEL_CONTRACT_RULES_POLICY = {
     "check:kernel-events-wire-serializable",
     "check:kernel-identity-surface",
     "check:kernel-context-surface",
+    "check:kernel-context-wire-triad",
     "check:kernel-prohibited-ownership",
     "check:kernel-zero-runtime-deps",
   ],

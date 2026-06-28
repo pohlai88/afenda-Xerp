@@ -1,3 +1,11 @@
+---
+name: afenda-docs-writing
+description: Governed MDX and prose authoring for docs/PAS, docs/adr, and architecture docs — structure, enrichment, duplicate-title checks, and Afenda editorial standards. Use when writing or revising PAS slices, ADRs, architecture docs, or when the user mentions documentation prose outside apps/docs MDX.
+disable-model-invocation: true
+paths:
+  - docs/**
+---
+
 # Afenda Docs Writing
 
 Governed MDX authoring for `apps/docs/content/docs/` on Fumadocs MDX + Afenda editorial typography.

@@ -4,6 +4,10 @@ description: >-
   shadcn/studio MCP workflow — /cui, /rui, /iui, /ftc block generation, theme
   presets, toolbar, and install paths. Use when using shadcn/studio MCP, PAS-005A
   slices, generating blocks, or running the studio toolbar against Storybook or apps.
+paths:
+  - packages/ui/**
+  - packages/shadcn-studio/**
+  - apps/storybook/**
 ---
 
 # shadcn/studio

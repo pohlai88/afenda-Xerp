@@ -16,6 +16,7 @@ import {
   MULTI_TENANCY_DOC_REFERENCE,
   MULTI_TENANCY_GOVERNANCE_GATES,
   MULTI_TENANCY_DELIVERY_DOC,
+  PAS_001A_GOVERNANCE_GATES,
 } from "./delivery-evidence-surface-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -116,6 +117,25 @@ export function checkDeliveryEvidenceSurface(): DeliveryEvidenceSurfaceViolation
           rule: "gate-file-missing",
           file: gatePath,
           message: `Governance gate file missing for ${gate.checkScript}`,
+        });
+      }
+    }
+
+    for (const gate of PAS_001A_GOVERNANCE_GATES) {
+      if (!packageJsonContent.includes(`"${gate.checkScript}"`)) {
+        violations.push({
+          rule: "pas001a-check-script-missing",
+          file: packageJsonPath,
+          message: `package.json must define PAS-001A script ${gate.checkScript}`,
+        });
+      }
+
+      const gatePath = join(repoRoot, gate.gateFile);
+      if (!existsSync(gatePath)) {
+        violations.push({
+          rule: "pas001a-gate-file-missing",
+          file: gatePath,
+          message: `PAS-001A governance gate file missing for ${gate.checkScript}`,
         });
       }
     }

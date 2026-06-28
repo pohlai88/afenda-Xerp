@@ -9,7 +9,8 @@ import type {
   PermissionGrantScopeType,
 } from "@afenda/kernel";
 
-export interface PermissionScopeContext {
+/** JSON/wire format — plain string ids and JSON primitives. Parse via parser at ingress. */
+export interface PermissionScopeWireContext {
   readonly companyId: string | null;
   readonly elevations: PermissionGrantElevationFlags;
   readonly entityGroupId: string | null;
@@ -22,8 +23,8 @@ export interface PermissionScopeContext {
   readonly tenantId: string;
 }
 
-/** Wire-format alias — plain string ids, JSON-serializable at rest. */
-export type PermissionScopeWireContext = PermissionScopeContext;
+/** Canonical resolved grant scope — plain string ids at rest. */
+export interface PermissionScopeContext extends PermissionScopeWireContext {}
 
 type JsonPrimitive = string | number | boolean | null;
 
@@ -47,3 +48,6 @@ type _PermissionScopeWireSerializable =
  */
 export type assertPermissionScopeContextJsonSerializable =
   _PermissionScopeWireSerializable extends true ? true : never;
+
+export type assertPermissionScopeContextWireSerializable =
+  assertPermissionScopeContextJsonSerializable;

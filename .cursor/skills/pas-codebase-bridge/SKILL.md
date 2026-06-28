@@ -2,6 +2,9 @@
 name: pas-codebase-bridge
 description: Audits an Afenda Package Authority Standard against the actual monorepo source. Produces a source-truth completeness matrix, drift list, current-vs-target classification, consumer-impact summary, and next serialized slice recommendation without editing code.
 disable-model-invocation: true
+paths:
+  - docs/PAS/**
+  - packages/**
 ---
 
 # PAS Codebase Bridge

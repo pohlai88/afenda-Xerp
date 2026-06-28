@@ -63,17 +63,19 @@ export {
   parseUnknownEntityGroupContext,
   serializeEntityGroupContext,
 } from "./entity-group-context.parser.js";
-// ── Hierarchy id boundary (Foundation phase 08 Slice 6) ───────────────────────────────────
+// ── Hierarchy id boundary (Foundation phase 08 Slice 6 / B68 wire triad) ─────────────────
+export type { assertHierarchyContextJsonSerializable } from "./hierarchy-id-boundary.assert.js";
+export type {
+  DeriveConsolidationScopeTrustInput,
+  DeriveConsolidationScopeWireInput,
+} from "./hierarchy-id-boundary.contract.js";
 export {
-  type assertHierarchyContextJsonSerializable,
   brandDeriveConsolidationScopeTrustInput,
   brandOwnershipInterestContext,
-  type DeriveConsolidationScopeTrustInput,
-  type DeriveConsolidationScopeWireInput,
   normalizeEntityGroupIdForWire,
   normalizeTenantIdForWire,
   toOwnershipInterestWireContext,
-} from "./hierarchy-id-boundary.contract.js";
+} from "./hierarchy-id-boundary.parser.js";
 export {
   assertLegalEntityCompanyRelationship,
   type assertLegalEntityContextWireSerializable,
@@ -226,11 +228,13 @@ export {
   type PermissionScopeWireContext,
 } from "./permission-scope-context.contract.js";
 export {
+  brandPermissionScopeContextFromUnknownWire,
+  brandPermissionScopeContextFromWire,
   normalizePermissionScopeContextForWire,
   parsePermissionScopeContext,
   parseUnknownPermissionScopeContext,
   serializePermissionScopeContext,
-} from "./permission-scope-context.parser.js";
+} from "./permission-scope-context.projection.js";
 export {
   assertProjectContextOptionalText,
   assertProjectContextSlug,

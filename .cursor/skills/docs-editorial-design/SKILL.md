@@ -11,6 +11,8 @@ description: >
   Tailwind v4, Vercel Geist, Stripe-style editorial restraint, and Linear-style
   quiet interface discipline. Target: 9.5 / 10 on visual scoring rubric.
 disable-model-invocation: true
+paths:
+  - apps/docs/**
 ---
 
 # docs-editorial-design

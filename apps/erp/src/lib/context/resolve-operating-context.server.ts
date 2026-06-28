@@ -12,11 +12,11 @@ import {
   isTenantOperational,
 } from "@afenda/database";
 import {
+  brandPermissionScopeContextFromUnknownWire,
   type OperatingContext,
   type OperatingContextResult,
   type OperatingContextSelection,
   ok,
-  parseUnknownPermissionScopeContext,
   type TeamContext,
   tryParseCanonicalId,
   type WorkspaceContext,
@@ -412,7 +412,7 @@ export async function resolveOperatingContext(
     team,
     project,
     workspace,
-    permissionScope: parseUnknownPermissionScopeContext({
+    permissionScope: brandPermissionScopeContextFromUnknownWire({
       ...resolvedPermissionScope,
       tenantId: tenant.tenantId,
       companyId: legalEntity.companyId,

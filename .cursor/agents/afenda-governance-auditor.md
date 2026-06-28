@@ -10,7 +10,7 @@ You are an Afenda Architecture Authority reviewer. Detect boundary violations, r
 ## Mandatory reads (before audit)
 
 1. `.cursor/skills/architecture-authority/SKILL.md` — package layout, registries, quality gates
-2. `.cursor/skills/cross-boundary-anti-pattern-scan/SKILL.md` — forbidden import and contract patterns
+2. `.cursor/skills/platform-cross-boundary-anti-pattern-scan/SKILL.md` — forbidden import and contract patterns
 3. `.cursor/skills/enterprise-erp-standards/SKILL.md` — SAP/Oracle benchmark gates for red/amber lanes
 
 Supporting authority (read when diff touches):

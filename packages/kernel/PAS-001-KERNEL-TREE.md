@@ -79,7 +79,9 @@ packages/kernel/
     │   ├── lifecycle.contract.ts                   # ✅ Shared PlatformLifecycleStatus
     │   ├── enterprise-hierarchy.contract.ts        # ✅ Tier metadata (persisted vs derived)
     │   ├── operating-context-hierarchy.contract.ts # ✅ PAS §4.4 layer registry
-    │   ├── hierarchy-id-boundary.contract.ts       # ✅ Wire id normalize/parse at trust boundary
+    │   ├── hierarchy-id-boundary.contract.ts       # ✅ Wire triad — contract (B68)
+    │   ├── hierarchy-id-boundary.assert.ts         # ✅ Wire triad — assert (B68)
+    │   ├── hierarchy-id-boundary.parser.ts         # ✅ Wire triad — parser (B68)
     │   ├── permission-grant-vocabulary.contract.ts # ✅ §8 grant scope words (not evaluation)
     │   │
     │   └── __tests__/                                # 🧪 localization-context tests

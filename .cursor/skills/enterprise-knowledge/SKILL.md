@@ -1,7 +1,9 @@
 ---
 name: enterprise-knowledge
 description: Enforces @afenda/enterprise-knowledge — accepted enterprise meaning via Knowledge Atoms, acceptance chains, domains, and integrity. Use when touching packages/enterprise-knowledge, adding or querying Knowledge Atoms, resolving vocabulary conflicts, enforcing acceptance chains, or working on PAS-004 slices.
-disable-model-invocation: false
+paths:
+  - packages/enterprise-knowledge/**
+  - docs/PAS/PAS-004*.md
 ---
 
 # @afenda/enterprise-knowledge — Authority Skill (PAS-004 / PAS-004A)

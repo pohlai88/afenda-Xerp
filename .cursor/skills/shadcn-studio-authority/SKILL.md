@@ -1,7 +1,9 @@
 ---
 name: shadcn-studio-authority
 description: Enforces @afenda/shadcn-studio — shadcn/studio theme surface, preset runtime, MCP install targets, and governed presentation inventory (PAS-005A). Use when touching packages/shadcn-studio, theme presets, ThemeCustomizer, PAS-005A slices, or shadcn-studio MCP cwd.
-disable-model-invocation: false
+paths:
+  - packages/shadcn-studio/**
+  - docs/PAS/PAS-005A*.md
 ---
 
 # @afenda/shadcn-studio — Authority Skill (PAS-005A)

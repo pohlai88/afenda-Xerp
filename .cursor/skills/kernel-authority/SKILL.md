@@ -1,7 +1,9 @@
 ---
 name: kernel-authority
 description: Enforces the @afenda/kernel boundary: zero-dependency platform vocabulary, branded IDs, operating context contracts, execution context, authority registries, and guarded runtime exceptions only.
-disable-model-invocation: false
+paths:
+  - packages/kernel/**
+  - docs/PAS/PAS-001*.md
 ---
 
 # @afenda/kernel — Authority Skill (PAS-001)
@@ -10,10 +12,20 @@ disable-model-invocation: false
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | Enterprise Accepted — kernel contracts, 33 delivered slices, runtime gates operational |
-| **Remaining slices** | none — B18 Delivered ([`docs/PAS/slice/b18-6.3-public-exports-parity.md`](../../../docs/PAS/slice/b18-6.3-public-exports-parity.md)) |
+| **Runtime status** | Enterprise Accepted — kernel contracts, §13 catalog + B49–B70 closure delivered, runtime gates operational |
+| **Remaining slices** | none — B70 Delivered ([`docs/PAS/slice/b70-kernel-test-import-hygiene.md`](../../../docs/PAS/slice/b70-kernel-test-import-hygiene.md)) |
 
-> Canonical: [`docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`](../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+### PAS-001A — Kernel ERP consumer integration (derived; does not reopen PAS-001)
+
+| Field | Value |
+| --- | --- |
+| **Runtime status** | Production Candidate — closed (B71–B75 Delivered 2026-06-29) |
+| **Remaining slices** | none — [`b75-pas001a-production-candidate-attestation.md`](../../../docs/PAS/slice/b75-pas001a-production-candidate-attestation.md) |
+| **Canonical** | [`PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md`](../../../docs/PAS/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
+
+> PAS-001: [`docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`](../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+
+**Doctrine:** Kernel is not ERP runtime — kernel is the accepted vocabulary consumed by ERP runtime. Load PAS-001A §0 + §3 Context Map + §4 Governance Rules when touching `apps/erp/src/lib/context/**`, permission-scope wiring, or `CONTEXT_INTEGRATION_WIRING`. Pair with `multi-tenancy-erp`.
 
 ---
 
@@ -194,7 +206,7 @@ bad data enters wire → assert rejects → parser applies parse* → branded co
 
 No silent `as TenantId` casts. No default tenant/company/org fallback. Downstream code must never receive unvalidated wire shapes as branded context.
 
-**Reference:** `localization-context.{contract,assert,parser}.ts`. **Transitional:** `hierarchy-id-boundary.contract.ts` still colocates assert + parse — split on next touch.
+**Reference:** `localization-context.{contract,assert,parser}.ts` · `hierarchy-id-boundary.{contract,assert,parser}.ts` (B68 wire triad).
 
 ### Pure derivation (allowed in kernel)
 

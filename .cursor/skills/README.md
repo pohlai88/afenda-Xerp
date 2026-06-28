@@ -1,0 +1,196 @@
+# Afenda Skills Catalog
+
+Machine-readable index for agents and humans. **Do not load this entire file into context** — use [`using-afenda-skills/SKILL.md`](using-afenda-skills/SKILL.md) for routing.
+
+**Cursor compliance:** [Rules vs skills](https://cursor.com/learn/customizing-agents) — rules (`.cursor/rules/`) are always-on and minimal; skills load on-demand via `description`, `paths`, or explicit `/skill-name`. Do not duplicate the same instruction in both.
+
+**Naming:** directory name = YAML `name` (lowercase hyphens). See [Naming standard](#naming-standard) below.
+
+---
+
+## How to route
+
+1. User message or `/using-afenda-skills` → read meta-skill discovery tree
+2. Any implementer code edit → `coding-consistency-bundle` (mandatory)
+3. UI/CSS/visual → `ui-consistency-bundle` (mandatory)
+4. Full inventory → this file
+
+---
+
+## Meta and bundles
+
+| Skill | Class | `paths` | Trigger | Gates |
+| --- | --- | --- | --- | --- |
+| `using-afenda-skills` | Meta | — | Session start, "which skill applies?" | — |
+| `coding-consistency-bundle` | Bundle | `packages/**`, `apps/**`, `scripts/**` | Any implementer file edit | Phase 0 + bundle preflight |
+| `ui-consistency-bundle` | Bundle | `apps/erp/**`, `apps/storybook/**`, `packages/ui/**`, `packages/appshell/**`, `packages/metadata-ui/**`, `packages/css-authority/**`, `packages/design-system/**` | UI/CSS/visual work | `pnpm ui:guard:scan` |
+
+Both bundles: `disable-model-invocation: true` — explicit attach or slash only.
+
+---
+
+## Commands (explicit invoke)
+
+| Skill | Slash | Class | Trigger |
+| --- | --- | --- | --- |
+| `afenda-ship` | `/afenda-ship` | Command | Pre-merge go/no-go |
+| `afenda-review` | `/afenda-review` | Command | Single-perspective review |
+| `afenda-test` | `/afenda-test` | Command | Test strategy / coverage |
+| `afenda-batch` | `/afenda-batch` | Command | PAS parallel batch manifest |
+| `afenda-webperf` | `/afenda-webperf` | Command | Web performance audit |
+
+All commands: `disable-model-invocation: true`.
+
+---
+
+## Define / Plan
+
+| Skill | Class | `paths` | Trigger |
+| --- | --- | --- | --- |
+| `pas-slice-planner` | PAS | `docs/PAS/**`, `packages/architecture-authority/**` | PAS slice planning, handoffs |
+| `pas-codebase-bridge` | PAS | `docs/PAS/**`, `packages/**` | PAS ↔ codebase alignment |
+| `pas-prohibited-surface-scan` | PAS | `packages/**`, `docs/PAS/**` | Prohibited surface audit |
+| vendor `interview-me` | Vendor | — | Underspecified request |
+| vendor `idea-refine` | Vendor | — | Rough idea before PAS slice |
+
+---
+
+## Build — Authority (PAS constitutional)
+
+| Skill | Class | `paths` | Trigger | Gates |
+| --- | --- | --- | --- | --- |
+| `architecture-authority` | Authority | `packages/architecture-authority/**`, `docs/architecture/foundation-disposition.md` | Registries, layer rules, disposition | `pnpm quality:architecture` |
+| `css-authority` | Authority | `packages/css-authority/**`, `docs/PAS/PAS-005*.md` | PAS-005 tokens, CSS-TOKEN-* | `pnpm check:css-governance` |
+| `kernel-authority` | Authority | `packages/kernel/**`, `docs/PAS/PAS-001*.md` | Kernel boundary | kernel gates |
+| `accounting-standards-authority` | Authority | `packages/accounting-standards-authority/**` | Accounting standards | — |
+| `shadcn-studio-authority` | Authority | `packages/shadcn-studio/**`, `docs/PAS/PAS-005A*.md` | Studio presentation PAS | — |
+| `enterprise-knowledge` | Enterprise | `packages/enterprise-knowledge/**`, `docs/PAS/PAS-004*.md` | Knowledge atoms, PAS-004 | `pnpm check:knowledge-conformance` |
+| `enterprise-erp-standards` | Enterprise | `packages/**`, `apps/erp/**` | SAP/Oracle red-amber gates | — |
+
+---
+
+## Build — UI / CSS / Design
+
+| Skill | Class | `paths` | Trigger | Gates |
+| --- | --- | --- | --- | --- |
+| `afenda-tailwind` | Afenda domain | `**/*.css`, `apps/erp/**`, `packages/ui/**`, `packages/appshell/**` | Tailwind v4, globals.css | `pnpm quality:css` |
+| `govern-primitive` | UI author | `packages/ui/src/components/**` | @afenda/ui primitive authoring | `pnpm --filter @afenda/ui check:governance` |
+| `afenda-ui-quality` | UI pipeline | `packages/ui/**`, `packages/appshell/**`, `apps/erp/**` | shadcn/studio normalization | `pnpm ui:guard` |
+| `afenda-shadcn-components` | UI pipeline | `packages/ui/**`, `packages/appshell/src/shadcn-studio/**` | Block promotion, MCP | Gates A–G |
+| `shadcn-studio` | UI MCP | `packages/ui/**` | shadcn/studio MCP workflows | — |
+| `package-css-dist-sync` | UI infra | `packages/**/src/**/*.css` | Package CSS dist sync | `pnpm check:package-css-dist-sync` |
+| `afenda-storybook` | UI | `apps/storybook/**` | Storybook stories | — |
+| `docs-editorial-design` | Docs UI | `apps/docs/**` | Fumadocs editorial design | — |
+
+---
+
+## Build — ERP domain
+
+| Skill | Class | `paths` | Trigger |
+| --- | --- | --- | --- |
+| `multi-tenancy-erp` | ERP | `packages/kernel/**`, `packages/database/**`, `apps/erp/**` | Tenant context, RLS |
+| `rbac-erp` | ERP | `packages/permissions/**`, `apps/erp/**` | RBAC, grants |
+| `better-auth-erp` | ERP | `apps/erp/**`, `packages/auth/**` | Better Auth integration |
+| `react-erp-quality` | ERP | `apps/erp/**` | ERP React/Next patterns |
+| `csp-third-party` | ERP security | `apps/erp/src/proxy.ts`, `apps/erp/src/lib/security/**` | CSP, third-party scripts |
+| `server-action-security` | ERP security | `apps/erp/**` | Server actions, auth |
+| `pino-erp-logger` | ERP ops | `apps/erp/**`, `packages/observability/**` | Structured logging |
+| `afenda-openapi` | ERP API | `apps/erp/src/server/api/**` | OpenAPI contracts |
+| `platform-api-contract` | Platform | `apps/erp/src/server/**`, `packages/**/contracts/**` | API contract shape |
+
+---
+
+## Build — Platform / cross-cutting
+
+| Skill | Class | `paths` | Trigger |
+| --- | --- | --- | --- |
+| `afenda-coding-session` | Session | — (via bundle) | Implementer execution contract |
+| `afenda-drizzle-migration` | Afenda domain | `packages/database/**`, `**/drizzle/**` | Drizzle migrations |
+| `afenda-docs-writing` | Docs | `docs/**` | PAS/ADR prose |
+| `monorepo-discipline` | Platform | `packages/**`, `pnpm-workspace.yaml`, `turbo.json` | Package scaffold, boundaries |
+| `env-var-governance` | Platform | `apps/erp/**`, `**/.env*` | Env vars, secrets |
+| `platform-error-handling` | Platform | `packages/**`, `apps/**` | Error taxonomy |
+| `platform-type-safety` | Platform | `**/*.{ts,tsx}` | TypeScript discipline |
+| `platform-schema-validation` | Platform | `**/*.{ts,tsx}` | Zod schemas |
+| `platform-test-coverage` | Platform | `**/*.{test,spec}.{ts,tsx}` | Coverage gaps |
+| `platform-observability-usage` | Platform | `packages/observability/**`, `apps/erp/**` | Logs, metrics |
+| `platform-cross-boundary-anti-pattern-scan` | Platform | `packages/**` | Cross-package anti-patterns |
+| `afenda-monorepo-refactor` | Refactor | `packages/**` | Stabilize → implementer |
+
+---
+
+## Verify / Review / Ship
+
+| Skill | Class | `paths` | Trigger |
+| --- | --- | --- | --- |
+| `afenda-test` | Command | — | `/afenda-test` |
+| `enterprise-frontend-audit` | Audit | `apps/erp/**`, `packages/ui/**`, `packages/appshell/**` | Full frontend maturity audit |
+| `enterprise-architecture-audit` | Audit | — | Full platform audit (read-only) |
+| vendor `test-driven-development` | Vendor | — | TDD / Prove-It (wired in `/afenda-test`) |
+| vendor `code-review-and-quality` | Vendor | — | Five-axis review (wired in `/afenda-review`) |
+| vendor `security-and-hardening` | Vendor | — | Security audit persona |
+| vendor `performance-optimization` | Vendor | — | Wired in `/afenda-webperf` |
+| vendor `shipping-and-launch` | Vendor | — | Wired in `/afenda-ship` |
+
+---
+
+## Reference (on-demand only)
+
+| Skill | Class | Notes |
+| --- | --- | --- |
+| `css-architecture` | Reference | BEM/SMACSS patterns; not Afenda authority |
+| `supabase` | Reference | Supabase OSS; use when touching Supabase |
+| `supabase-postgres-best-practices` | Reference | Postgres via Supabase lens |
+
+Install OSS skills via `npx skills find <query>` — add to `vendor/` only after [`vendor/EVALUATION.md`](vendor/EVALUATION.md) scoring. Never copy OSS into native root without eval.
+
+---
+
+## Personas (not skills)
+
+Personas live in [`.cursor/agents/`](../agents/) — orchestration layer, not skill workflows:
+
+| Persona | When |
+| --- | --- |
+| `@afenda-governed-implementer` | Governed PAS implementation |
+| `@afenda-orchestrator` | PAS parallel batches |
+| `@foundation-registry-owner` | Registry mutations |
+| `@afenda-code-reviewer` | Pre-merge review |
+| `/afenda-ship` fan-out personas | See `afenda-ship` skill |
+
+---
+
+## Naming standard
+
+| Class | Pattern | `disable-model-invocation` | `paths` |
+| --- | --- | --- | --- |
+| Meta | `using-*` | `true` | omit |
+| Bundle | `*-bundle` | `true` | implementer globs |
+| Command | `afenda-*` (matches slash) | `true` | omit |
+| Authority | `*-authority` | omit or `false` | package + PAS doc globs |
+| PAS | `pas-*` | `true` | `docs/PAS/**` |
+| Afenda domain | `afenda-*` | usually `true` | lane globs |
+| ERP | `*-erp` | `true` | `apps/erp/**`, domain packages |
+| Enterprise | `enterprise-*` | `true` | scope globs |
+| Platform | `platform-*` | `true` | broad globs |
+| Reference | catalog-tagged | `true` | omit |
+
+**Platform skills** use the `platform-*` prefix (2026-06-29 rename from unprefixed cross-cutting skills).
+
+**Anatomy:** SKILL.md under 500 lines; `reference/` for depth; `scripts/` for validators. Test descriptions in a fresh chat (YAML frontmatter only).
+
+**Migration:** Run `/migrate-to-skills` once to audit eligible rules — do not migrate the five `alwaysApply: true` session rules or path-scoped `.mdc` files.
+
+---
+
+## Shared references (not skills)
+
+| File | Purpose |
+| --- | --- |
+| [`.cursor/references/orchestration-patterns.md`](../references/orchestration-patterns.md) | Fan-out, persona rules |
+| [`.cursor/references/security-checklist.md`](../references/security-checklist.md) | Security review |
+| [`.cursor/references/performance-checklist.md`](../references/performance-checklist.md) | Performance review |
+
+---
+
+Last updated: 2026-06-29 — platform-* renames, rule trim, Verification anatomy on bundles/commands.

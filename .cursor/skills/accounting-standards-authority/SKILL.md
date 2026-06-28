@@ -1,7 +1,9 @@
 ---
 name: accounting-standards-authority
 description: Enforces the @afenda/accounting-standards boundary: versioned IFRS/MFRS/SFRS authority metadata, standards-to-process routing, posting validation contracts, and evidence snapshots — never journal posting, ledger mutation, or Kernel IFRS logic.
-disable-model-invocation: false
+paths:
+  - packages/accounting-standards-authority/**
+  - docs/PAS/PAS-003*.md
 ---
 
 # @afenda/accounting-standards — Authority Skill (PAS-003)

@@ -1,7 +1,10 @@
 ---
 name: pas-slice-planner
 description: Discovers live docs/PAS/slice/*.md files, reads PAS-001 parent authority and target slice handoff, validates prohibitions and prerequisites, then produces a section-by-section /afenda-coding-session execution plan. Each step is announced and rendered before the next begins. Use for planning or reviewing PAS-001 kernel identity slices. This skill does NOT edit files; series is detected from the live folder, not hardcoded.
-disable-model-invocation: false
+paths:
+  - docs/PAS/**
+  - packages/architecture-authority/**
+disable-model-invocation: true
 ---
 
 # PAS Slice Planner
