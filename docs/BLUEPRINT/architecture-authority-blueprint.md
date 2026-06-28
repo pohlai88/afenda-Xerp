@@ -10,26 +10,26 @@
 | **Parent** | [Platform North Star](../architecture/afenda-platform-north-star.md) · [Platform Architecture Authority North Star](../NORTHSTAR/architecture-authority-north-star.md) |
 | **Platform rollup** | [Afenda Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) § Governance family |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) · [ADR-0004](../adr/ADR-0004-ownership-governance.md) · [ADR-0014](../adr/ADR-0014-foundation-disposition-registry.md) · [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) |
-| **Derived documents** | PAS-002 · PAS-002A · `@afenda/architecture-authority` package tree |
+| **Derived documents** | [ARCHITECTURE-AUTHORITY PAS family](../PAS/ARCHITECTURE-AUTHORITY/README.md) · `@afenda/architecture-authority` package tree |
 | **Maturity** | Enterprise |
 | **Runtime stance** | Documentation only — references registries; does not duplicate PKG tables |
 | **Total PAS at maturity** | `2` (PAS-002 charter · PAS-002A enterprise extension) |
 | **Live PAS today** | `2` |
-| **Planned PAS** | `0` |
+| **Planned PAS** | `0` (in-box amendment slices for NS §15 △ capabilities — not new boxes) |
 | **Does not confer** | Business domain meaning, contracts, slice handoffs, registry row edits, acceptance gate execution |
 | **Machine registry** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) · `PKGR02_ARCHITECTURE_AUTHORITY` |
 | **Quality target** | Enterprise **10 / 10** |
 | **Evidence standard** | [doc-evidence-standard.md](../../.cursor/skills/kernel-authority/reference/doc-evidence-standard.md) |
-| **Last reviewed** | 2026-06-29 |
-| **Next document** | [PAS-002](../PAS/PAS-002-ARCHITECTURE-AUTHORITY.md) · [PAS-002A](../PAS/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) |
+| **Last reviewed** | 2026-06-29 (NS §4 · PAS family nest · §3.2 sync) |
+| **Next document** | [PAS-002](../PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) · [PAS-002A](../PAS/ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) |
 
-> **One sentence:** One Platform-layer **Architecture authority** box owns six registry classes, composite architecture gates, and governance-consumer proof — wired end-to-end from constitutional laws through Domain North Star, PAS, package surfaces, CI gates, and every workspace package that asks *"Is this allowed?"*
+> **One sentence:** One Platform-layer **Architecture authority** box owns six registry classes, surface-stability and extension vocabulary (Domain NS §3.2–§3.3), composite architecture gates, and governance-consumer proof — wired end-to-end from constitutional laws through Domain North Star, PAS family, package surfaces, CI gates, and every workspace package that asks *"Is this allowed?"*
 
 ---
 
 # 0. Agent Quick Path
 
-**Read order:** [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) → [Platform NS](../architecture/afenda-platform-north-star.md) → [Domain NS §1–§12](../NORTHSTAR/architecture-authority-north-star.md) → **this document** → [PAS-002](../PAS/PAS-002-ARCHITECTURE-AUTHORITY.md) → [PAS-002A](../PAS/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) → Slice → Code.
+**Read order:** [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) → [Platform NS](../architecture/afenda-platform-north-star.md) → [Domain NS §1–§12](../NORTHSTAR/architecture-authority-north-star.md) → **this document** → [ARCHITECTURE-AUTHORITY README](../PAS/ARCHITECTURE-AUTHORITY/README.md) → [PAS-002](../PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) → [PAS-002A](../PAS/ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) → [Slice SSOT](../PAS/ARCHITECTURE-AUTHORITY/SLICE/README.md) → Code.
 
 **This document answers:**
 
@@ -81,7 +81,7 @@ Business **why the authority domain exists:** [Domain NS §1](../NORTHSTAR/archi
 | Platform Blueprint | Governance family row | Rollup — not duplicate §4 |
 | ADRs | As cited | Blockers §8 · Reasoning sources |
 
-**Capability → box rule:** Domain NS §13 maps all ten §4 capabilities to **Architecture authority** — one box, multiple internal registry surfaces (§5.1).
+**Capability → box rule:** Domain NS §13 maps all sixteen §4 capabilities to **Architecture authority** — one box, multiple internal registry surfaces (§5.1).
 
 | Domain NS §4 capability | Blueprint §4 box | Domain NS Decision ID |
 | --- | --- | --- |
@@ -95,6 +95,14 @@ Business **why the authority domain exists:** [Domain NS §1](../NORTHSTAR/archi
 | Architecture quality attestation | **Architecture authority** | D1 |
 | Kernel adjacency discipline | **Architecture authority** | D2 |
 | Governance consumer proof | **Architecture authority** | D3 |
+| Extension boundary registry | **Architecture authority** | E10 · △ PAS pending |
+| Contract surface attestation | **Architecture authority** | E11 · △ PAS pending |
+| Golden-path scaffolding governance | **Architecture authority** | E12 · △ PAS pending |
+| Target-state declaration | **Architecture authority** | E15 · △ PAS pending |
+| Architecture system membership | **Architecture authority** | △ PAS pending |
+| Reference pattern catalog | **Architecture authority** | E14 · △ PAS pending |
+
+**Planned surfaces (Domain NS §15 · §17):** Six Production/MVP capabilities above share the live box — implement via PAS amendment slices when △ items E11–E15 close; no new Blueprint box required (§3.1 matrix).
 
 ---
 
@@ -118,8 +126,8 @@ Machine assignments: [`layer-registry.data.ts`](../../packages/architecture-auth
 
 | Question | Architecture authority (this domain) | Result |
 | --- | --- | --- |
-| Different **business capability** (Domain NS §4 EFR)? | All ten capabilities serve one constitutional authority domain | **Single box** |
-| Different **lifecycle** (Domain NS §8)? | Package lifecycle (§8.1) vs disposition (§8.2) are orthogonal **tracks inside one box** — not separate deployables | **Single box** — dual lifecycle in §5.1 |
+| Different **business capability** (Domain NS §4 EFR)? | All sixteen capabilities serve one constitutional authority domain | **Single box** |
+| Different **lifecycle** (Domain NS §8)? | Package (§8.1) · disposition (§8.2) · surface (§8.4) · catalog entry (§8.5) are orthogonal **tracks inside one box** | **Single box** — multi-lifecycle in §5.1 |
 | Different **ownership**? | One Architecture Authority steward for all registry classes | **Single box** |
 | **Independent deployment** candidate? | One `@afenda/architecture-authority` workspace package | **Single box** |
 | Separate **regulatory responsibility**? | Governance metadata — not LoB regulation | **Single box** |
@@ -133,11 +141,15 @@ Machine assignments: [`layer-registry.data.ts`](../../packages/architecture-auth
 
 # 3.2 Canonical Dependency Categories
 
+Aligned with [Domain NS §3.3](../NORTHSTAR/architecture-authority-north-star.md) — Blueprint adds **Configuration** for static registry data.
+
 | Category | Architecture authority usage |
 | --- | --- |
 | **Compile-time** | Consumer packages import `@afenda/architecture-authority` root or `/surface` only — no deep paths |
-| **Runtime** | **None at ERP request time** — `contracts-only` stance permanent (Domain NS P8) |
-| **Metadata** | Disposition registry rows reference PAS paths, evidence files, gate names |
+| **Runtime-ERP** | **None at ERP request time** — `contracts-only` stance permanent (Domain NS P8 · I10) |
+| **Metadata-only** | Disposition rows reference PAS paths, evidence files, gate names — no behavioral coupling |
+| **Agent-skill** | Agent orchestration reads governance docs, registries, slice handoffs — not product runtime |
+| **Documentation-derived** | `docs/architecture/*.md` derived views — never authoritative over registry SSOT |
 | **Configuration** | Layer and dependency matrices are static registry data — not tenant flags |
 | **Knowledge** | Lists `@afenda/enterprise-knowledge` in package registry — does not store atoms |
 
@@ -182,6 +194,10 @@ Rollup: [Platform Blueprint — Governance family](../architecture/afenda-archit
 | B5 | Domain NS §12 D1–D3 | T1 | Capability → box map | [`architecture-authority-north-star.md`](../NORTHSTAR/architecture-authority-north-star.md) |
 | B6 | PKG-019 · PKGR02 | T4 | Live status sync | [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) |
 | B7 | Runtime truth | T5 | B1–B27 · B38–B42 delivered | [`pas-status-index.md`](../PAS/pas-status-index.md) |
+| B8 | Domain NS E10 | T3 | Extension boundary vocabulary | [Domain NS §3 · §4](../NORTHSTAR/architecture-authority-north-star.md) |
+| B9 | Domain NS E11–E15 | T3/T6 △ | Planned Production surfaces | [Domain NS §15](../NORTHSTAR/architecture-authority-north-star.md) |
+| B10 | Domain NS E16 · §5.2 | T6 | Registry conflict resolution | [Domain NS §5.2](../NORTHSTAR/architecture-authority-north-star.md) |
+| B11 | Domain NS D4 · D5 | T1/T3 | Minimal depends · four-domain placement | [Domain NS §12](../NORTHSTAR/architecture-authority-north-star.md) |
 
 ---
 
@@ -189,7 +205,7 @@ Rollup: [Platform Blueprint — Governance family](../architecture/afenda-archit
 
 | Blueprint box | Owns (architectural) | Never owns (explicit exclusions) | Domain NS trace |
 | --- | --- | --- | --- |
-| **Architecture authority** | Package registry · Layer registry · Ownership registry · Disposition registry · Dependency/boundary rules · Exception registry · Reservation map (metadata) · Lifecycle registry · Surface index · Workspace discovery · Composite architecture gates · Governance consumer proof contracts | Kernel identity parsers/wire asserts · Business master data records · Enterprise Knowledge atoms · Authorization evaluation · Accounting posting · UI rendering · Database migrations · ERP request-time governance execution | §4 all capabilities · §9.1 · §9.2 |
+| **Architecture authority** | Package registry · Layer registry · Ownership registry · Disposition registry · Dependency/boundary rules · Exception registry · Reservation map (metadata) · Lifecycle registry · Surface index · Workspace discovery · Composite architecture gates · Governance consumer proof contracts · *Planned:* extension boundary · surface stability attestation · golden-path scaffold · target-state · system membership (NS §15 △) | Kernel identity parsers/wire asserts · Business master data records · Enterprise Knowledge atoms · Authorization evaluation · Accounting posting · UI rendering · Database migrations · ERP request-time governance execution | §4 all capabilities · §9.1 · §9.2 |
 
 **Never-owns targets (name siblings):** **Kernel** (identity) · **Enterprise Knowledge** (atoms) · **Authorization** (permissions runtime) · **Visual Token Authority** · all **LoB domain** runtimes · **apps/erp** (delivery only consumes gates).
 
@@ -255,6 +271,12 @@ Platform Architecture Authority (one box)
 | Reservation map | Kernel | domain ownership metadata only | Reservation declared | Knowledge |
 | All registries | Architecture gates | evidence → CI attestation | Governance attestation completed | Compile-time |
 | Architecture gates | All workspace packages | merge-time proof | Architecture drift detected | Compile-time |
+| Surface registry | Consumer packages | stability class attestation | Surface released · Surface deprecated | Compile-time △ |
+| Scaffold tooling | Package registry | golden-path pre-check | Package scaffold initiated · Package scaffold rejected | Metadata △ |
+| Disposition + ownership | Registry conflict resolver | incompatible truth | Registry conflict detected | Metadata △ |
+| Periodic review | All registries | compliance closure | Compliance assessment completed | Metadata △ |
+
+**Planned surfaces (Domain NS §15 · △ E11–E15):** Extension boundary registry · surface stability attestation · golden-path scaffold catalog · target-state landscape · system membership · reference patterns — in-box PAS-002 amendment slices; events above marked △ until PAS operational.
 
 ---
 
@@ -317,6 +339,7 @@ Platform Architecture Authority (one box)
 | E5 | Disposition truth matches delivery evidence | Disposition completeness gate (B41) |
 | E6 | Docs claim only what registries prove | documentation-drift + architecture:drift |
 | E7 | Agents read surface registry before inferring structure | PAS §4.11 · check:architecture-authority-surface |
+| E8 | Scaffold and catalog-entry lifecycles follow Domain NS §8.5 before registry row | `pnpm scaffold:package` · slice catalog (△ PAS amendment) |
 
 ---
 
@@ -330,7 +353,7 @@ Platform Architecture Authority (one box)
 | **Disposition subagents** | `foundation-disposition.registry.ts` | Edits via `foundation-registry-owner` only | `pnpm check:foundation-disposition` |
 | **Documentation drift agent** | NS · Blueprint · PAS · registry parity | Read-only cross-check | `pnpm check:documentation-drift` |
 | **Coding agents** | Skill + slice handoff + §0 quick path | Phase 0 from slice — not Blueprint prose | `/afenda-coding-session` |
-| **Scaffold tooling** | `pnpm scaffold:package` | Registry row before filesystem | Architecture + disposition gates |
+| **Scaffold tooling** | `pnpm scaffold:package` | Registry row before filesystem; [Domain NS §8.5](../NORTHSTAR/architecture-authority-north-star.md) catalog-entry lifecycle | Architecture + disposition gates |
 
 ---
 
@@ -390,7 +413,9 @@ PAS-002 and PAS-002A **satisfy** all conditions:
 9. Required ADRs exist ✓
 10. §4.3 impact row exists ✓
 
-No new PAS until a **new Blueprint box** passes §3.1 (none planned).
+**No new PAS for a new Blueprint box** until §3.1 passes (none planned).
+
+**In-box PAS amendment** is permitted for Domain NS §15 △ capabilities (extension boundary · surface attestation · golden-path scaffold · target-state · system membership) — same **Architecture authority** box; new slices under [`ARCHITECTURE-AUTHORITY/SLICE/`](../PAS/ARCHITECTURE-AUTHORITY/SLICE/README.md); no new PKG or PKGR row without ADR.
 
 ---
 
@@ -526,8 +551,10 @@ Sync §10 · pas-status-index · PKGR02 evidence · documentation-drift
 | --- | --- |
 | Domain North Star | [`architecture-authority-north-star.md`](../NORTHSTAR/architecture-authority-north-star.md) |
 | Platform Blueprint | [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md) |
-| PAS-002 | [`PAS-002-ARCHITECTURE-AUTHORITY.md`](../PAS/PAS-002-ARCHITECTURE-AUTHORITY.md) |
-| PAS-002A | [`PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md`](../PAS/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) |
+| PAS-002 | [`ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md`](../PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) |
+| PAS-002A | [`ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md`](../PAS/ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) |
+| PAS family README | [`ARCHITECTURE-AUTHORITY/README.md`](../PAS/ARCHITECTURE-AUTHORITY/README.md) |
+| Slice SSOT | [`ARCHITECTURE-AUTHORITY/SLICE/`](../PAS/ARCHITECTURE-AUTHORITY/SLICE/README.md) |
 | Package tree | [`PAS-002-ARCHITECTURE-TREE.md`](../../packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md) |
 | Surface registry | [`architecture-authority-surface-registry.ts`](../../packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts) |
 

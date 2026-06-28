@@ -1,6 +1,6 @@
 # Afenda ERP — Architecture Glossary
 
-> **Authority (meaning):** Accepted enterprise vocabulary lives in [`@afenda/enterprise-knowledge`](../../packages/enterprise-knowledge/) — see [PAS-004](../PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md). This glossary is a **synced representation** for human readers; when it conflicts with the Knowledge Atom registry, the registry wins until a slice updates this view.
+> **Authority (meaning):** Accepted enterprise vocabulary lives in [`@afenda/enterprise-knowledge`](../../packages/enterprise-knowledge/) — see [PAS-004](../PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md). This glossary is a **synced representation** for human readers; when it conflicts with the Knowledge Atom registry, the registry wins until a slice updates this view.
 >
 > **Revision:** 2026-06-28 | PAS-004 representation demotion · Foundation phase 07 / Foundation phase 08 scope.
 >

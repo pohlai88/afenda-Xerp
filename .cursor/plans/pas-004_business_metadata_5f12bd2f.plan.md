@@ -74,7 +74,7 @@ flowchart LR
 | Path | `packages/enterprise-knowledge/` |
 | Layer | **Platform** (same tier as kernel, architecture-authority — cross-cutting, not a business module) |
 | Registry lane | `PKGR04_ENTERPRISE_KNOWLEDGE` (new — via `foundation-registry-owner`) |
-| PAS doc | `docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md` |
+| PAS doc | `docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md` |
 | Skill | `.cursor/skills/enterprise-knowledge/` |
 | Maturity | MVP Authority |
 | Runtime stance | `contracts-only` (registry + policy + gates; no DB, no HTTP, no UI) |
@@ -100,7 +100,7 @@ Chapters 1–4 remain technology-free.
 ## Deliverables (MVP slice)
 
 ### 1. Charter document
-[`docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) — ten chapters, First Principles, constitutional sentence. Maturity **MVP Authority**.
+[`docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) — ten chapters, First Principles, constitutional sentence. Maturity **MVP Authority**.
 
 **Boundary (§2):** `@afenda/enterprise-knowledge` **owns the enterprise knowledge platform — authoritative acceptance, Knowledge Atoms, domains, relationships, integrity dimensions, and conformance; it never owns kernel wire contracts, business master data runtime, UI rendering ([`@afenda/ui-composition`](packages/ui-composition/src/metadata.contract.ts)), accounting-standard rules, database migrations, package lifecycle registries, external learning portals, scoring algorithms, or tenant-specific knowledge.**
 
@@ -152,7 +152,7 @@ Architecture-authority skill gets one line: *package boundary questions for `@af
 [`docs/architecture/glossary.md`](docs/architecture/glossary.md) — synced view; authority = PAS-004 + `@afenda/enterprise-knowledge` registry.
 
 ### 7. Tombstone, slice, cross-links
-- [`docs/PAS/slice/b24-knowledge-charter-mvp.md`](docs/PAS/slice/b24-knowledge-charter-mvp.md) — Allowed layer: **`packages/enterprise-knowledge`** + `docs/PAS/`; Prohibited: stuffing atoms into architecture-authority or kernel.
+- [`docs/PAS/CSS-AUTHORITY/SLICE/b24-knowledge-charter-mvp.md`](docs/PAS/CSS-AUTHORITY/SLICE/b24-knowledge-charter-mvp.md) — Allowed layer: **`packages/enterprise-knowledge`** + `docs/PAS/`; Prohibited: stuffing atoms into architecture-authority or kernel.
 - Register in [`docs/PAS/README.md`](docs/PAS/README.md), [`pas-status-index.md`](docs/PAS/pas-status-index.md), [`AGENTS.md`](AGENTS.md).
 - PAS-001/PAS-002 pointers: *acceptance/meaning → PAS-004 / `@afenda/enterprise-knowledge`; shapes/package maps stay in kernel / architecture-authority.*
 

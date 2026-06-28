@@ -2,7 +2,7 @@
 
 Lightweight closure registry for Package Authority Standards. Runtime evidence lives in [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md).
 
-**Kernel slice SSOT:** [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) — individual `b*.md` handoffs (B49–B106). Legacy `docs/PAS/slice/` handoffs retired; closure records for PAS-002–005 families live in this index only.
+**Kernel slice SSOT:** [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) — individual `b*.md` handoffs (B49–B106). **Architecture Authority slice SSOT:** [`ARCHITECTURE-AUTHORITY/SLICE/`](ARCHITECTURE-AUTHORITY/SLICE/README.md) — B1–B27 · B38–B42 handoffs. **CSS Authority slice SSOT:** [`CSS-AUTHORITY/SLICE/`](CSS-AUTHORITY/SLICE/README.md) — B27–B43 handoffs. Legacy flat `docs/PAS/slice/` removed for kernel and architecture-authority families; closure records for PAS-002–005 families live in this index and family catalogs.
 
 **Header sync rule:** Every PAS doc and authority skill must mirror **Runtime status** and **Remaining slices** in the PAS authority metadata table (see [`pas-doc-template.md`](../../.cursor/skills/kernel-authority/reference/pas-doc-template.md)). Update all three surfaces when closing a slice.
 
@@ -107,7 +107,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Gates** | `pnpm check:css-visual-regression`, `pnpm check:css-authority-bridge-sync`, `pnpm check:css-authority-domain-sync`, `pnpm check:css-governance`, `pnpm check:css-authority-consumption`, `pnpm check:css-authority-conformance`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
 | **Result** | CSS Authority owns generator-synced runtime bridge; design-system token shim; Storybook composed ERP/metadata-ui spot-check reference |
 
-**Next sequence item:** none for PAS-005 MVP — optional enhancements only; presentation continuation closed under [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) (B42p).
+**Next sequence item:** none for PAS-005 MVP — optional enhancements only; presentation continuation closed under [PAS-005A](CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) (B42p).
 
 ---
 
@@ -120,7 +120,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Maturity** | `mvp_authority` · `implemented` · `presentation-runtime` |
 | **Runtime status** | B42p delivered — delegating-flip policy registry (68 rows); zero new flips; strangler sequence complete |
 | **Remaining slices** | none — strangler complete; optional ERP feature delegating per block when a11y parity lands |
-| **Runtime evidence** | [PAS-005A canonical doc](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md), `packages/shadcn-studio/src/theme/`, `apps/storybook/stories/shadcn-studio-*.stories.tsx`, `shadcn-studio.config.json` |
+| **Runtime evidence** | [PAS-005A canonical doc](CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md), `packages/shadcn-studio/src/theme/`, `apps/storybook/stories/shadcn-studio-*.stories.tsx`, `shadcn-studio.config.json` |
 | **Gates** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/shadcn-studio test:run`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
 | **Result** | Derived presentation authority from PAS-005 — theme presets, MCP inventory, appshell bridge, ERP CSS import (B42–B42p complete) |
 
@@ -137,7 +137,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Maturity** | `retirement_candidate` · `accepted_for_planning` · `partial` · `planning` |
 | **Runtime status** | B43 delivered — doctrine authored; design-system package still active; css-authority 605-token live; shadcn-studio B42p complete |
 | **Remaining slices** | B44 migration study + readiness gate (next) · B45 CSS unify · B46 internalize UI registries (conditional) · B47 delete package · B48 appshell consolidation · B49 attestation (optional) |
-| **Runtime evidence** | [PAS-005B canonical doc](PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md), [ADR-0025](../adr/ADR-0025-design-system-retirement.md) |
+| **Runtime evidence** | [PAS-005B canonical doc](CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md), [ADR-0025](../adr/ADR-0025-design-system-retirement.md) |
 | **Gates** | `pnpm check:documentation-drift`, `pnpm check:foundation-disposition`; B44+ adds `pnpm check:design-system-retirement-readiness` |
 | **Result** | Controlled retirement map — five hard rules; package deletion blocked until ADR Accepted + B44 green + foundation-registry-owner |
 
@@ -216,15 +216,15 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 | Slice | Doc | Status |
 | --- | --- | --- |
-| B24 | b24-knowledge-charter-mvp.md | Delivered |
-| B25 | b25-10-json-data-authority.md | Delivered |
-| B26 | b26-kernel-mapping-gate.md | Delivered |
-| B27 | b27-consumer-proof.md | Delivered |
-| B28 | b28-glossary-sync-gate.md | Delivered |
-| B29 | b29-coverage-expansion.md | Delivered |
-| B30 | b30-enterprise-accepted-attestation.md | Delivered |
-| B31 | b31-ontology-completion.md | Delivered |
-| B32 | b32-erp-consumer-integration.md | Delivered |
+| B24 | [b24-knowledge-charter-mvp.md](ENTERPRISE-KNOWLEDGE/SLICE/b24-knowledge-charter-mvp.md) | Delivered |
+| B25 | [b25-10-json-data-authority.md](ENTERPRISE-KNOWLEDGE/SLICE/b25-10-json-data-authority.md) | Delivered |
+| B26 | [b26-kernel-mapping-gate.md](ENTERPRISE-KNOWLEDGE/SLICE/b26-kernel-mapping-gate.md) | Delivered |
+| B27 | [b27-consumer-proof.md](ENTERPRISE-KNOWLEDGE/SLICE/b27-consumer-proof.md) | Delivered |
+| B28 | [b28-glossary-sync-gate.md](ENTERPRISE-KNOWLEDGE/SLICE/b28-glossary-sync-gate.md) | Delivered |
+| B29 | [b29-coverage-expansion.md](ENTERPRISE-KNOWLEDGE/SLICE/b29-coverage-expansion.md) | Delivered |
+| B30 | [b30-enterprise-accepted-attestation.md](ENTERPRISE-KNOWLEDGE/SLICE/b30-enterprise-accepted-attestation.md) | Delivered |
+| B31 | [b31-ontology-completion.md](ENTERPRISE-KNOWLEDGE/SLICE/b31-ontology-completion.md) | Delivered |
+| B32 | [b32-erp-consumer-integration.md](ENTERPRISE-KNOWLEDGE/SLICE/b32-erp-consumer-integration.md) | Delivered |
 
 **Next sequence item:** PAS-004B closed — PKGR04 promoted to PAS-004B (scorecard 40/40).
 
@@ -245,11 +245,11 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 | Slice | Doc | Status |
 | --- | --- | --- |
-| B33 | b33-kernel-identity-mapping-gate.md | Delivered |
-| B34 | b34-metadata-consumer-proof.md | Delivered |
-| B35 | b35-docs-consumer-proof.md | Delivered |
-| B36 | b36-acceptance-graph-queries.md | Delivered |
-| B37 | b37-enterprise-accepted-attestation.md | Attested |
+| B33 | [b33-kernel-identity-mapping-gate.md](ENTERPRISE-KNOWLEDGE/SLICE/b33-kernel-identity-mapping-gate.md) | Delivered |
+| B34 | [b34-metadata-consumer-proof.md](ENTERPRISE-KNOWLEDGE/SLICE/b34-metadata-consumer-proof.md) | Delivered |
+| B35 | [b35-docs-consumer-proof.md](ENTERPRISE-KNOWLEDGE/SLICE/b35-docs-consumer-proof.md) | Delivered |
+| B36 | [b36-acceptance-graph-queries.md](ENTERPRISE-KNOWLEDGE/SLICE/b36-acceptance-graph-queries.md) | Delivered |
+| B37 | [b37-enterprise-accepted-attestation.md](ENTERPRISE-KNOWLEDGE/SLICE/b37-enterprise-accepted-attestation.md) | Attested |
 
 ---
 
@@ -261,24 +261,24 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Authority** | PAS-004C · PAS-004B baseline · PAS-001 kernel refs · `PKGR04_ENTERPRISE_KNOWLEDGE` |
 | **Maturity** | `production_candidate` — scorecard **58/58** |
 | **Runtime status** | B38–B48 delivered — North Star semantic model + all consumer projections (metadata, ERP, docs); PKGR04 authority PAS-004C |
-| **Remaining slices** | none — operational closure in [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) |
-| **Runtime evidence** | [PAS-004C canonical doc](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · B46 attestation · B47 · B48 |
+| **Remaining slices** | none — operational closure in [PAS-004D](ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) |
+| **Runtime evidence** | [PAS-004C canonical doc](ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · B46 attestation · B47 · B48 |
 | **Gates (B38+)** | all §13.1–§13.3 gates ✓ |
 | **Result** | North Star semantic model delivered — Concept → Contextual Meaning → Vocabulary → Consumer Projection → Realization |
 
 | Slice | Doc | Phase | Status |
 | --- | --- | --- | --- |
-| B38 | b38-pas004c-concept-vocabulary.md | 1 Semantic Core | Delivered |
-| B39 | b39-pas004c-contextual-meaning.md | 1 Semantic Core | Delivered |
-| B40 | b40-pas004c-domain-axis-split.md | 1 Semantic Core | Delivered |
-| B41 | b41-pas004c-accepted-vs-applicable.md | 1 Semantic Core | Delivered |
-| B43 | b43-pas004c-consumer-profiles.md | 2 Consumption | Delivered |
-| B44 | b44-pas004c-realization-mapping.md | 2 Consumption | Delivered |
-| B42 | b42-pas004c-semantic-edges.md | 3 Governance | Delivered |
-| B45 | b45-pas004c-lifecycle-transition-governance.md | 3 Governance | Delivered |
-| B46 | b46-pas004c-semantic-attestation.md | 3 Governance | Delivered |
-| B47 | b47-pas004c-consumer-projection-adoption.md | post-close Adoption | Delivered |
-| B48 | b48-pas004c-docs-consumer-projection-adoption.md | post-close Adoption | Delivered |
+| B38 | [b38-pas004c-concept-vocabulary.md](ENTERPRISE-KNOWLEDGE/SLICE/b38-pas004c-concept-vocabulary.md) | 1 Semantic Core | Delivered |
+| B39 | [b39-pas004c-contextual-meaning.md](ENTERPRISE-KNOWLEDGE/SLICE/b39-pas004c-contextual-meaning.md) | 1 Semantic Core | Delivered |
+| B40 | [b40-pas004c-domain-axis-split.md](ENTERPRISE-KNOWLEDGE/SLICE/b40-pas004c-domain-axis-split.md) | 1 Semantic Core | Delivered |
+| B41 | [b41-pas004c-accepted-vs-applicable.md](ENTERPRISE-KNOWLEDGE/SLICE/b41-pas004c-accepted-vs-applicable.md) | 1 Semantic Core | Delivered |
+| B43 | [b43-pas004c-consumer-profiles.md](ENTERPRISE-KNOWLEDGE/SLICE/b43-pas004c-consumer-profiles.md) | 2 Consumption | Delivered |
+| B44 | [b44-pas004c-realization-mapping.md](ENTERPRISE-KNOWLEDGE/SLICE/b44-pas004c-realization-mapping.md) | 2 Consumption | Delivered |
+| B42 | [b42-pas004c-semantic-edges.md](ENTERPRISE-KNOWLEDGE/SLICE/b42-pas004c-semantic-edges.md) | 3 Governance | Delivered |
+| B45 | [b45-pas004c-lifecycle-transition-governance.md](ENTERPRISE-KNOWLEDGE/SLICE/b45-pas004c-lifecycle-transition-governance.md) | 3 Governance | Delivered |
+| B46 | [b46-pas004c-semantic-attestation.md](ENTERPRISE-KNOWLEDGE/SLICE/b46-pas004c-semantic-attestation.md) | 3 Governance | Delivered |
+| B47 | [b47-pas004c-consumer-projection-adoption.md](ENTERPRISE-KNOWLEDGE/SLICE/b47-pas004c-consumer-projection-adoption.md) | post-close Adoption | Delivered |
+| B48 | [b48-pas004c-docs-consumer-projection-adoption.md](ENTERPRISE-KNOWLEDGE/SLICE/b48-pas004c-docs-consumer-projection-adoption.md) | post-close Adoption | Delivered |
 
 **Next sequence item:** [PAS-004D operational closure](#pas-004d-enterprise-knowledge-operational-closure--b49b54-proposed) — B49 authority mirror sync.
 
@@ -293,13 +293,13 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Maturity** | `idea` → `production_candidate` on B54 attestation |
 | **Runtime status** | PAS-004C closed (58/58); closure audit gaps queued — mirror sync, legacy retirement, corpus depth |
 | **Remaining slices** | B49 — authority mirror sync (next) · B50 legacy retirement · B51 corpus depth · B52 vocabulary richness · B53 ERP-domain bridge · B54 attestation |
-| **Runtime evidence** | [PAS-004D canonical doc](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · B49 handoff |
+| **Runtime evidence** | [PAS-004D canonical doc](ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · B49 handoff |
 | **Gates (B49+)** | inherit PAS-004C §13.1 + new `check:knowledge-authority-mirror` (B49) through `check:knowledge-erp-domain-bridge` (B53) |
 | **Result** | Target **70/70** scorecard (≥66) — operational closure without ontology-engine scope creep |
 
 | Slice | Doc | Phase | Status |
 | --- | --- | --- | --- |
-| B49 | b49-pas004d-authority-mirror-sync.md | 1 Mirror sync | In progress |
+| B49 | [b49-pas004d-authority-mirror-sync.md](ENTERPRISE-KNOWLEDGE/SLICE/b49-pas004d-authority-mirror-sync.md) | 1 Mirror sync | In progress |
 | B50 | b50-pas004d-legacy-surface-retirement.md | 2 Legacy API | Proposed |
 | B51 | b51-pas004d-corpus-depth.md | 3 Corpus depth | Proposed |
 | B52 | b52-pas004d-vocabulary-richness.md | 3 Vocabulary | Proposed |
@@ -358,11 +358,13 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 | Slice | Doc | Status |
 | --- | --- | --- |
-| B38 | b38-pas002a-kernel-boundary-gate.md | Delivered |
-| B39 | b39-pas002a-ownership-signoff.md | Delivered |
-| B40 | b40-pas002a-governance-consumer-proof.md | Delivered |
-| B41 | b41-pas002a-disposition-completeness.md | Delivered |
-| B42 | b42-pas002a-enterprise-accepted-attestation.md | Delivered |
+| B38 | `ARCHITECTURE-AUTHORITY/SLICE/b38-pas002a-kernel-boundary-gate.md` | Delivered |
+| B39 | `ARCHITECTURE-AUTHORITY/SLICE/b39-pas002a-ownership-signoff.md` | Delivered |
+| B40 | `ARCHITECTURE-AUTHORITY/SLICE/b40-pas002a-governance-consumer-proof.md` | Delivered |
+| B41 | `ARCHITECTURE-AUTHORITY/SLICE/b41-pas002a-disposition-completeness.md` | Delivered |
+| B42 | `ARCHITECTURE-AUTHORITY/SLICE/b42-pas002a-enterprise-accepted-attestation.md` | Delivered |
+
+> Slice doc paths: `docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/<filename>` — family SSOT for PAS-002 / PAS-002A handoffs.
 
 ---
 
@@ -380,30 +382,32 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 | Slice | PAS § | Doc | Status |
 | --- | --- | --- | --- |
-| B1 | §4.1 Package registry | `b1-4.1-package-registry.md` | Delivered |
-| B2 | §4.2 Layer registry | `b2-4.2-layer-registry.md` | Delivered |
-| B3 | §4.3 Ownership registry | `b3-4.3-ownership-registry.md` | Delivered |
-| B4 | §4.4 Foundation disposition | `b4-4.4-foundation-disposition-registry.md` | Delivered |
-| B5 | §4.5 Boundary rules | `b5-4.5-boundary-rules.md` | Delivered |
-| B6 | §4.6 Exception registry | `b6-4.6-exception-registry.md` | Delivered |
-| B7 | §4.7 Architecture gates | `b7-4.7-architecture-gates.md` | Delivered |
-| B8 | §4.10 BMD authority | `b8-4.10-bmd-authority.md` | Delivered |
-| B9 | §6 Package structure | `b9-6-package-structure-and-exports.md` | Delivered |
-| B10 | §14 Agent skill | `b10-architecture-authority-skill.md` | Delivered |
-| B11 | §4.11 Canonical doc sync | `b11-canonical-doc-registry-sync.md` | Delivered |
-| B12 | §4.6 Exception contract | `b12-4.6-exception-contract-alignment.md` | Delivered |
-| B13 | §4.7 Composite disposition | `b13-4.7-composite-gate-foundation-disposition.md` | Delivered |
-| B14 | §4.11 Validator surface | `b14-4.11-validator-surface-parity.md` | Delivered |
-| B15 | §4.9 Lifecycle enforcement | `b15-4.9-lifecycle-enforcement.md` | Delivered |
-| B18 | §0 Disposition row | `b18-pkgr02-architecture-authority-disposition.md` | Delivered |
-| B19 | §4.3 Ownership parity | `b19-4.3-ownership-registry-parity.md` | Delivered |
-| B20 | §6.3 Map immutability | `b20-registry-map-immutability.md` | Delivered |
-| B21 | §14 Doc/runtime parity | `b21-14-doc-runtime-parity.md` | Delivered |
-| B22 | §3.3 Import boundary | `b22-3.3-governance-import-boundary.md` | Delivered |
-| B23 | §4.10 BMD comment sync | `b23-4.10-bmd-authority-comment-sync.md` | Delivered |
-| B24 | §14 Skill/runtime parity | `b24-14-skill-runtime-parity.md` | Delivered |
-| B25 | §4.9 Lifecycle expiry metadata | `b25-4.9-lifecycle-expiry-metadata.md` | Delivered |
-| B26 | §4.9 Lifecycle determinism | `b26-4.9-lifecycle-determinism.md` | Delivered |
-| B27 | §4.4 Disposition coverage | `b27-4.4-disposition-coverage-gap-closure.md` | Delivered |
+| B1 | §4.1 Package registry | `ARCHITECTURE-AUTHORITY/SLICE/b1-4.1-package-registry.md` | Delivered |
+| B2 | §4.2 Layer registry | `ARCHITECTURE-AUTHORITY/SLICE/b2-4.2-layer-registry.md` | Delivered |
+| B3 | §4.3 Ownership registry | `ARCHITECTURE-AUTHORITY/SLICE/b3-4.3-ownership-registry.md` | Delivered |
+| B4 | §4.4 Foundation disposition | `ARCHITECTURE-AUTHORITY/SLICE/b4-4.4-foundation-disposition-registry.md` | Delivered |
+| B5 | §4.5 Boundary rules | `ARCHITECTURE-AUTHORITY/SLICE/b5-4.5-boundary-rules.md` | Delivered |
+| B6 | §4.6 Exception registry | `ARCHITECTURE-AUTHORITY/SLICE/b6-4.6-exception-registry.md` | Delivered |
+| B7 | §4.7 Architecture gates | `ARCHITECTURE-AUTHORITY/SLICE/b7-4.7-architecture-gates.md` | Delivered |
+| B8 | §4.10 BMD authority | `ARCHITECTURE-AUTHORITY/SLICE/b8-4.10-bmd-authority.md` | Delivered |
+| B9 | §6 Package structure | `ARCHITECTURE-AUTHORITY/SLICE/b9-6-package-structure-and-exports.md` | Delivered |
+| B10 | §14 Agent skill | `ARCHITECTURE-AUTHORITY/SLICE/b10-architecture-authority-skill.md` | Delivered |
+| B11 | §4.11 Canonical doc sync | `ARCHITECTURE-AUTHORITY/SLICE/b11-canonical-doc-registry-sync.md` | Delivered |
+| B12 | §4.6 Exception contract | `ARCHITECTURE-AUTHORITY/SLICE/b12-4.6-exception-contract-alignment.md` | Delivered |
+| B13 | §4.7 Composite disposition | `ARCHITECTURE-AUTHORITY/SLICE/b13-4.7-composite-gate-foundation-disposition.md` | Delivered |
+| B14 | §4.11 Validator surface | `ARCHITECTURE-AUTHORITY/SLICE/b14-4.11-validator-surface-parity.md` | Delivered |
+| B15 | §4.9 Lifecycle enforcement | `ARCHITECTURE-AUTHORITY/SLICE/b15-4.9-lifecycle-enforcement.md` | Delivered |
+| B18 | §0 Disposition row | `ARCHITECTURE-AUTHORITY/SLICE/b18-pkgr02-architecture-authority-disposition.md` | Delivered |
+| B19 | §4.3 Ownership parity | `ARCHITECTURE-AUTHORITY/SLICE/b19-4.3-ownership-registry-parity.md` | Delivered |
+| B20 | §6.3 Map immutability | `ARCHITECTURE-AUTHORITY/SLICE/b20-registry-map-immutability.md` | Delivered |
+| B21 | §14 Doc/runtime parity | `ARCHITECTURE-AUTHORITY/SLICE/b21-14-doc-runtime-parity.md` | Delivered |
+| B22 | §3.3 Import boundary | `ARCHITECTURE-AUTHORITY/SLICE/b22-3.3-governance-import-boundary.md` | Delivered |
+| B23 | §4.10 BMD comment sync | `ARCHITECTURE-AUTHORITY/SLICE/b23-4.10-bmd-authority-comment-sync.md` | Delivered |
+| B24 | §14 Skill/runtime parity | `ARCHITECTURE-AUTHORITY/SLICE/b24-14-skill-runtime-parity.md` | Delivered |
+| B25 | §4.9 Lifecycle expiry metadata | `ARCHITECTURE-AUTHORITY/SLICE/b25-4.9-lifecycle-expiry-metadata.md` | Delivered |
+| B26 | §4.9 Lifecycle determinism | `ARCHITECTURE-AUTHORITY/SLICE/b26-4.9-lifecycle-determinism.md` | Delivered |
+| B27 | §4.4 Disposition coverage | `ARCHITECTURE-AUTHORITY/SLICE/b27-4.4-disposition-coverage-gap-closure.md` | Delivered |
+
+> Slice doc paths: `docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/<filename>` — family SSOT for PAS-002 handoffs B1–B27.
 
 **Notes:** §4.8 dependency registry and §4.12 workspace discovery remain covered by the runtime-delivered row and B5/B7 evidence paths.

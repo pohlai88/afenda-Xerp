@@ -14,9 +14,9 @@
 | **Maturity** | Production Candidate — peer-reviewed 2026-06-29 (9.95/10) |
 | **Runtime stance** | Documentation only |
 | **Does not confer** | Package boundaries, PAS authority, contracts, runtime authority, implementation, slices |
-| **Quality target** | Enterprise **10 / 10** (Enterprise Accepted blocked on §15 exit criteria) |
+| **Quality target** | Enterprise **10 / 10** (Enterprise Accepted blocked on §16 exit criteria) |
 | **Evidence standard** | `.cursor/skills/kernel-authority/reference/doc-evidence-standard.md` |
-| **Last reviewed** | 2026-06-29 |
+| **Last reviewed** | 2026-06-29 (gap closure amendment) |
 | **Package / PAS inventory** | See [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) — not declared here |
 | **Next document** | [Enterprise Knowledge Blueprint](../BLUEPRINT/enterprise-knowledge-blueprint.md) |
 
@@ -30,7 +30,7 @@
 
 **Read order:** [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) → [Knowledge Constitutional Laws](../CONSTITUTION/knowledge-constitutional-laws.md) → Platform NS → this document §1–§12 → [Enterprise Knowledge Blueprint](../BLUEPRINT/enterprise-knowledge-blueprint.md) → Enterprise Knowledge PAS family → Slice → Code.
 
-**This document answers:** how meaning becomes authoritative; how concepts, atoms, and representations relate; how evidence conflicts resolve.
+**This document answers:** how meaning becomes authoritative; how concepts, atoms, terms, and representations relate; where meaning binds (applicability); how evidence conflicts resolve; how agents and stewards consume vocabulary safely.
 
 **This document never answers:** atom registry paths, conformance gate commands, or wire type definitions.
 
@@ -63,8 +63,8 @@ The Enterprise Knowledge domain exists because **accepted business meaning must 
 | --- | --- |
 | **Mission** | Govern how enterprise meaning becomes authoritative, discoverable, and consumable — through acceptance graphs, epistemic status, evidence precedence, and representation sync. |
 | **Success definition** | Every contested term has a Knowledge Atom (or explicit non-binding proposal) with complete acceptance metadata; all glossaries and UI labels derive from atoms — never the reverse. |
-| **Scope** | Knowledge hierarchy · classification · epistemic status · semantic stability · acceptance graph · evidence precedence · conflict resolution · promotion pipeline · integrity dimensions · conformance. |
-| **Out of scope** | Wire shapes · package topology · external standard citation engines · journal posting · UI rendering · tenant-editable stores · numeric integrity scoring (deferred). |
+| **Scope** | Knowledge hierarchy · classification · epistemic status · semantic stability · acceptance graph · evidence precedence · conflict resolution · promotion pipeline · integrity dimensions · applicability · knowledge terms · exposure policy · stewardship · discovery · conformance. |
+| **Out of scope** | Wire shapes · package topology · external standard citation engines · journal posting · UI rendering · tenant-editable stores · master data record ownership · numeric integrity scoring (deferred). |
 
 ---
 
@@ -74,6 +74,9 @@ The Enterprise Knowledge domain exists because **accepted business meaning must 
 | --- | --- |
 | **Knowledge Concept** | Abstract enterprise idea before acceptance (e.g. "Customer") — may anchor multiple atoms over time. |
 | **Knowledge Atom** | Smallest composable unit of **accepted** enterprise meaning — concept made binding through acceptance. |
+| **Knowledge Term** | Label, synonym, or locale variant linked to one atom — derived, never authoritative alone. |
+| **Preferred term** | The canonical label for an atom within a locale or audience — one preferred per scope. |
+| **Synonym** | Alternate label mapping to the same atom — must not become a parallel atom. |
 | **Representation** | Derived view (glossary, UI label, AI context) importing atoms — never authoritative. |
 | **Acceptance event** | Primary asset — who accepted, when, why, with which evidence. |
 | **Accepting authority** | Typed entity (standards body, board, architecture committee) — not a string label. |
@@ -83,10 +86,16 @@ The Enterprise Knowledge domain exists because **accepted business meaning must 
 | **Evidence precedence** | Ordered source hierarchy when evidence conflicts (§3.4). |
 | **Knowledge classification** | Kind of knowledge — definition, principle, rule, policy, standard, decision, fact (§3.2). |
 | **Integrity profile** | Presence across ten constitutional dimensions — not a single score. |
+| **Knowledge domain** | Declared scope bucket (Platform, Accounting, HRM, …) — not a package or layer. |
+| **Applicability scope** | Where an atom binds: global, domain, legal-entity class, jurisdiction overlay. |
+| **Applicability exception** | Explicit carve-out when a rule or definition does not apply. |
+| **Exposure tier** | Audience and automation safety for an atom — public platform through restricted (§3.7). |
+| **Misconception** | Common wrong interpretation explicitly rejected on an atom — anti-pattern registry. |
+| **Glossary steward** | Domain role accountable for triage, review, and representation sync — not HR master data. |
 
 ## 3.1 Knowledge hierarchy
 
-Three layers — do not collapse:
+Four layers — do not collapse:
 
 ```text
 Knowledge Concept          (abstract — enterprise idea)
@@ -94,11 +103,13 @@ Knowledge Concept          (abstract — enterprise idea)
         ▼
 Knowledge Atom             (accepted meaning — binding when epistemic status permits)
         │
+        ├─► Knowledge Term(s)  (labels · synonyms · locale variants — derived, non-authoritative)
+        │
         ▼
 Representation             (glossary · UI · AI · docs — derived, never authoritative)
 ```
 
-**Rule:** One concept may have many atoms over time (supersession). One atom may have many representations simultaneously ([LAW K7](../CONSTITUTION/knowledge-constitutional-laws.md)).
+**Rule:** One concept may have many atoms over time (supersession). One atom may have many terms and many representations simultaneously ([LAW K7](../CONSTITUTION/knowledge-constitutional-laws.md)). Synonyms attach as terms — never as parallel atoms (P13).
 
 ## 3.2 Knowledge classification
 
@@ -170,7 +181,86 @@ Consumers need to know **how likely meaning is to change**:
 | **Experimental** | MVP / pilot — not production-automation safe | Explicit exposure policy |
 | **Historical** | Frozen — query only | Must not drive new work |
 
-**Source:** Enterprise Knowledge charter PAS §3 · §5 · §8 · peer review 2026-06-29 (T5/T6)
+## 3.6 Applicability and scope
+
+Enterprises operate under **concurrent contexts**. Applicability sits between epistemic acceptance and consumer binding:
+
+```text
+Knowledge Atom (Accepted)
+        │
+        ▼
+Applicability scope        (global · domain · legal-entity class · jurisdiction overlay)
+        │
+        ├─► Applicability exception(s)
+        │
+        ▼
+Consumer binding           (validation · UI · agent · docs)
+```
+
+| Scope type | Example | Binding |
+| --- | --- | --- |
+| **Global platform** | Tenant, Legal entity | All consumers unless excepted |
+| **Domain** | Accounting-only term | LoB modules in scope only |
+| **Legal-entity class** | Holding vs subsidiary meaning | Entity routing |
+| **Jurisdiction overlay** | Malaysia statutory wording | Concurrent with group policy |
+
+**Rule:** Global promotion of a Rule or Policy atom at Production+ without declared scope is forbidden (I9). Jurisdiction for **external accounting citation** defers to Accounting Standards Authority — Knowledge resolves **accepted meaning** scope only.
+
+## 3.7 Exposure and automation trust
+
+Consumers and agents need to know **who may see** and **who may enforce** meaning:
+
+| Exposure tier | Meaning | Automation |
+| --- | --- | --- |
+| **Public platform** | Safe for docs, UI, all agents | Cite atom ID + epistemic status + stability |
+| **Engineering only** | Internal architecture vocabulary | Implement-mode agents only |
+| **Advisory** | May appear in suggestions — not mandatory | Never auto-enforce |
+| **Restricted** | Human-only; excluded from agent context | Hard stop |
+
+**Rule:** Experimental semantic stability requires explicit exposure tier — never default to public platform (§3.5).
+
+## 3.8 Stewardship roles
+
+Operational governance — distinct from **accepting authority** (who ratifies truth):
+
+| Role | Accountability |
+| --- | --- |
+| **Glossary owner** | End-to-end vocabulary health for a knowledge domain |
+| **Glossary steward** | Triage proposals · assign review · sync representations |
+| **Subject matter expert** | Domain correctness during Candidate review |
+| **Proposal submitter** | Any practitioner surfacing contested or missing meaning |
+
+**Rule:** Stewardship roles govern **process** — only accepting authorities create binding truth.
+
+## 3.9 Localization
+
+Platform atoms remain **locale-neutral** in meaning. Localization is representation — not a new atom:
+
+```text
+Knowledge Atom (locale-neutral accepted meaning)
+        │
+        ├─► Knowledge Term (en · preferred)
+        ├─► Knowledge Term (ms-MY · preferred)
+        └─► Representation (glossary page per locale)
+```
+
+**Rule:** Translation does not create binding meaning — it surfaces accepted meaning in another locale. Locale parity is a representation quality target (§6).
+
+## 3.10 Knowledge registry taxonomy
+
+*Registry* is not one concept. Enterprise Knowledge owns **five distinct registry classes** at business level — each with one purpose:
+
+| Registry class | Purpose | Answers |
+| --- | --- | --- |
+| **Concept registry** | Abstract anchors for supersession chains | What enterprise idea persists across atoms? |
+| **Atom registry** | Authoritative accepted meaning | What is binding platform truth? |
+| **Relationship registry** | Typed semantic edges | How do meanings connect? |
+| **Term registry** | Labels, synonyms, locales | How is meaning labeled — not redefined? |
+| **Representation registry** | Published consumer views | What do glossaries/UI show? |
+
+**Rule:** Composite consumers may read multiple registries — SSOT remains per class. Do not collapse atom and term registries in prose (analogous to Architecture Authority §3.1).
+
+**Source:** Enterprise Knowledge charter PAS §3 · §5 · §8 · semantic model peer review · gap closure 2026-06-29 (T5/T6)
 
 ---
 
@@ -192,8 +282,15 @@ Consumers need to know **how likely meaning is to change**:
 | **Conflict resolution engine** | Advanced | Precedence + escalation when sources disagree | §5.2 |
 | **Conformance enforcement** | Production | Gates reject incomplete acceptance metadata | Platform extension PAS |
 | **Kernel consumer alignment** | Production | Shape ≠ meaning — mapping only | Kernel consumer PAS |
+| **Applicability resolution** | Production | Scope + exceptions before consumer binding | §3.6 · P4 |
+| **Knowledge term model** | Production | Synonyms and locale labels — not parallel atoms | §3.1 · §3.9 · P13 |
+| **Exposure and agent grounding** | Advanced | Audience tiers + cite atom ID + status + stability | §3.7 |
+| **Stewardship workflow** | Production | Owner · steward · SME · proposal intake | §3.8 · §8.6 |
+| **Vocabulary discovery** | Production | Find atoms by concept, term, domain, status | §3.10 |
+| **Misconception coverage** | Production | Rejected anti-patterns on Production+ atoms | §3 · charter PAS |
+| **Trust certification** | Advanced | Explicit automation-safe attestation beyond Accepted | §3.7 · §6 |
 
-**Enterprise Accepted blockers:** Evidence precedence operational · conflict resolution in conformance · epistemic status on all Production+ atoms · promotion pipeline proven for one domain glossary.
+**Enterprise Accepted blockers:** Evidence precedence operational · conflict resolution in conformance · epistemic status on all Production+ atoms · promotion pipeline proven for one domain glossary · applicability on all Production+ Rule/Policy atoms · exposure tier on all Production+ atoms.
 
 ---
 
@@ -213,6 +310,7 @@ Consumers need to know **how likely meaning is to change**:
 | P10 | **Topology ≠ semantics** | Registries are not glossaries | Architecture Authority lists packages only |
 | P11 | **Concept precedes atom** | Abstract ideas outlive single acceptance | Concept anchors supersession chain |
 | P12 | **Promotion is constitutional** | Glossary-first breaks epistemology | Domain NS §3 → atom → representation only |
+| P13 | **One meaning, many terms** | Synonym atoms fork truth | Terms attach to atoms — never parallel atoms |
 
 ## 5.1 Domain invariants
 
@@ -226,6 +324,8 @@ Consumers need to know **how likely meaning is to change**:
 | I6 | AI-generated prose without acceptance metadata is never mandatory-binding. |
 | I7 | Epistemic status and implementation lifecycle are recorded separately. |
 | I8 | Evidence conflicts escalate — never silent merge of incompatible sources. |
+| I9 | Production+ Rule or Policy atoms declare applicability scope — global binding without scope is forbidden. |
+| I10 | Knowledge atoms define **what an entity means**; Architecture Authority reservation registry defines **who owns entity identifiers** — never conflated ([ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md)). |
 
 ## 5.2 Knowledge conflict resolution
 
@@ -252,7 +352,11 @@ When sources disagree (IFRS vs corporate policy, ADR vs developer guide, glossar
 | **Acceptance completeness** | Mandatory atoms have full chains at Production+ | Integrity profile |
 | **Conflict honesty** | Zero silent merges of conflicting sources | Conflict resolution log |
 | **Representation sync** | Glossary/UI match registry or cite divergence | Drift checks |
-| **Agent-safe vocabulary** | Copilots cite atom ID + epistemic status | Exposure policy |
+| **Agent-safe vocabulary** | Copilots cite atom ID + epistemic status + exposure tier | Exposure policy · §3.7 |
+| **Steward responsiveness** | Proposal triage within agreed SLA | Steward workflow log |
+| **Locale parity** | Production+ atoms have approved preferred terms per supported locale | Term registry audit |
+| **Discovery coverage** | Zero contested Production terms unreachable by domain browse | Discovery index |
+| **Applicability honesty** | 100% Production+ Rule/Policy atoms declare scope | Applicability facet audit |
 
 ---
 
@@ -269,6 +373,13 @@ When sources disagree (IFRS vs corporate policy, ADR vs developer guide, glossar
 | **Conflict resolved** | Knowledge Decision atom closes disagreement |
 | **Representation synced** | Glossary/UI updated from registry |
 | **Promotion completed** | Domain NS §3 term became atom |
+| **Meaning proposal submitted** | Practitioner surfaced missing or contested meaning — pre-Candidate |
+| **Steward review assigned** | Proposal routed to domain steward |
+| **Term proposed** | Synonym or locale label submitted — atom must exist |
+| **Synonym conflict detected** | Two labels claim preferred status for same scope |
+| **Preferred term changed** | Canonical label updated — lineage preserved |
+| **Representation drift detected** | Glossary/UI diverged from atom registry |
+| **Quarterly vocabulary review completed** | Steward attestation of domain health |
 
 ---
 
@@ -324,6 +435,16 @@ Knowledge Atom (accepted meaning + epistemic status + stability)
 
 **Rule:** Reverse flow is forbidden — glossary → atom without Domain NS §3 row requires new NS amendment first.
 
+## 8.6 Proposal intake lifecycle
+
+Practitioner-driven intake — upstream of §8.1 atom lifecycle:
+
+```text
+Observed need → Proposal submitted → Steward triage → Under review (Candidate) → Accepted / Rejected
+```
+
+**Rule:** **Meaning proposal submitted** is pre-Candidate intake. **Meaning proposed** (§7) means the atom is already in formal review.
+
 ---
 
 # 9. Boundary and Dependencies
@@ -331,17 +452,19 @@ Knowledge Atom (accepted meaning + epistemic status + stability)
 ## 9.1 This domain owns (business)
 
 - How meaning becomes authoritative (epistemology)
-- Concept → Atom → Representation hierarchy
+- Concept → Atom → Term → Representation hierarchy
 - Epistemic status, classification, semantic stability
 - Evidence precedence and knowledge conflict resolution
 - Promotion pipeline from Domain NS §3
 - Acceptance graph, integrity dimensions, conformance policy
+- Applicability scope, knowledge terms, exposure policy, stewardship workflow
 
 ## 9.2 This domain never owns (business)
 
 - Wire contract shapes (Platform Kernel — shape)
 - Package/layer registries (Platform Architecture Authority — structure)
 - External standard citation chains (Accounting Standards Authority — external authority)
+- Business master data **records** and entity identifier **ownership** (LoB runtime · reservation registry)
 - Journal posting · UI rendering · tenant-editable stores
 - AI-generated binding truth without acceptance
 
@@ -353,10 +476,12 @@ Knowledge Atom (accepted meaning + epistemic status + stability)
 | **Domain North Stars §3** | Vocabulary promotion upstream |
 | **Platform Kernel** | Implementation mapping — shape only |
 | **All ERP domains** | Consume meaning — must not fork |
+| **Architecture Authority reservation map** | Meaning alignment for entity names — not ownership of records (I10) |
 
 | Provides to (domain) | What flows |
 | --- | --- |
 | **All domains** | Accepted terminology and decisions |
+| **Architecture Authority reservation map** | Vocabulary for entity labels — runtime MDM stays in domain packages |
 | **Platform Kernel ERP wire catalog** | Meaning alignment for wire labels |
 | **Presentation / Metadata UX** | Authoritative labels |
 | **Agent orchestration** | Citable atoms + epistemic status |
@@ -403,6 +528,11 @@ Enterprise Knowledge is **Platform Meaning** — one of four non-overlapping con
 | **Silent evidence conflict** | Wrong precedence applied | §5.2 · I8 |
 | **Lifecycle/epistemic confusion** | "Implemented" mistaken for "true" | §3.3 · §8.2 |
 | **Historical overwrite** | Audit cannot replay past meaning | LAW K8 · supersession lineage |
+| **Synonym atom fork** | Parallel atoms for same meaning | P13 · term registry |
+| **Over-exposure** | Restricted terms in agent context | §3.7 · exposure tier |
+| **Scope collapse** | Global binding breaks local modules | §3.6 · I9 |
+| **Meaning/MDM conflation** | Entity ownership disputes | I10 · ADR-0020 |
+| **Locale drift** | Translations redefine meaning | §3.9 · atoms locale-neutral |
 
 ---
 
@@ -416,7 +546,10 @@ Enterprise Knowledge is **Platform Meaning** — one of four non-overlapping con
 | **Stability signaling** | Consumers know change likelihood |
 | **Multidimensional integrity** | Ten dimensions — not one score |
 | **Promotion discipline** | Domain NS §3 upstream of all glossaries |
-| **AI-readiness** | Atoms citeable with status + stability |
+| **AI-readiness** | Atoms citeable with status + stability + exposure |
+| **Discoverability** | Contested terms reachable in one hop from domain vocabulary |
+| **Locale neutrality** | Atoms carry meaning; terms carry locale |
+| **Registry class separation** | Five registry classes — never collapsed in prose |
 
 ---
 
@@ -438,10 +571,27 @@ Enterprise Knowledge is **Platform Meaning** — one of four non-overlapping con
 | E10 | Conflict resolution model | △ | T6 | Peer review · §5.2 — implement in PAS |
 | E11 | Semantic stability levels | △ | T6 | Peer review · §3.5 — implement in PAS |
 | E12 | Constitutional promotion pipeline | ✓ | T1 | §8.5 · LAW K7 |
+| E13 | Knowledge term layer (synonyms not atoms) | ✓ | T5 | Semantic model PAS · peer review §3.1 |
+| E14 | Applicability and scope model | △ | T6 | Gap closure §3.6 — implement in PAS conformance |
+| E15 | Exposure and agent grounding tiers | △ | T6 | Gap closure §3.7 — implement in PAS |
+| E16 | Stewardship and proposal intake | △ | T6 | Gap closure §3.8 · §8.6 |
+| E17 | Five registry classes at business level | ✓ | T6 | Gap closure §3.10 |
+| E18 | Meaning vs MDM reservation boundary | ✓ | T0 | [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) · I10 |
 | D1 | Representations not authority | ✓ | T5 | LAW K2 |
 | D2 | Shape ≠ meaning | ✓ | T5 | LAW K6 |
 
-**Provenance:** Production Candidate — peer-reviewed 9.95/10 (2026-06-29). Enterprise Accepted requires §15 exit criteria.
+**Provenance:** Production Candidate — peer-reviewed 9.95/10 (2026-06-29); gap closure amendment 2026-06-29. Enterprise Accepted requires §16 exit criteria.
+
+## 12.2 Decision log
+
+| Date | Decision | Rationale | Evidence |
+| --- | --- | --- | --- |
+| 2026-06-29 | Add Knowledge Term layer between Atom and Representation | Runtime semantic model already separates terms; NS must not lag PAS | E13 |
+| 2026-06-29 | Add §3.6 applicability — mirror Accounting NS jurisdiction pattern for meaning scope | Global terms break in concurrent ERP contexts | E14 |
+| 2026-06-29 | Add §3.7 exposure tiers for agent grounding | OpenMetadata/DataHub context-layer pattern; atoms already carry exposure in registry | E15 |
+| 2026-06-29 | Add §3.8 stewardship roles + §8.6 proposal intake | SAPterm / industry glossary governance best practices | E16 |
+| 2026-06-29 | Add §3.10 five registry classes | Prevent atom/term/representation collapse — Architecture Authority §3.1 analogue | E17 |
+| 2026-06-29 | I10 meaning vs reservation boundary | ADR-0020 master data authority — Knowledge owns meaning not record ownership | E18 |
 
 ---
 
@@ -462,6 +612,13 @@ Capability → Blueprint box names only. Detail: [Enterprise Knowledge Blueprint
 | Integrity dimensions | **Enterprise knowledge** |
 | Conformance enforcement | **Enterprise knowledge** |
 | Kernel consumer alignment | **Enterprise knowledge** |
+| Applicability resolution | **Enterprise knowledge** |
+| Knowledge term model | **Enterprise knowledge** |
+| Exposure and agent grounding | **Enterprise knowledge** |
+| Stewardship workflow | **Enterprise knowledge** |
+| Vocabulary discovery | **Enterprise knowledge** |
+| Misconception coverage | **Enterprise knowledge** |
+| Trust certification | **Enterprise knowledge** |
 
 ---
 
@@ -474,7 +631,8 @@ Capability → Blueprint box names only. Detail: [Enterprise Knowledge Blueprint
 | Add atom or relationship | Platform PAS slice + conformance |
 | Resolve evidence conflict | §5.2 · Knowledge Decision atom |
 | Sync glossary/UI | Representation consumer — registry wins |
-| Promote to Enterprise Accepted | §15 exit criteria |
+| Add synonym or locale term | Term registry — atom must exist |
+| Promote to Enterprise Accepted | §16 exit criteria |
 
 ## 14.5 Knowledge governance decision matrix
 
@@ -483,8 +641,12 @@ Capability → Blueprint box names only. Detail: [Enterprise Knowledge Blueprint
 | New **business term meaning** | Domain North Star §3 → promotion → atom |
 | New **architectural decision meaning** | ADR + Decision-class atom |
 | **Glossary / UI label** | Representation only — atom must exist |
+| **Synonym / locale label** | Term registry — atom must exist · P13 |
+| **Applicability scope change** | Accepting authority + §3.6 facet |
+| **Exposure tier change** | Accepting authority + §3.7 |
 | **Wire shape / branded ID** | Platform Kernel — not Knowledge |
 | **Package allowed / layer** | Platform Architecture Authority |
+| **Entity identifier ownership** | Architecture Authority reservation registry — not Knowledge (I10) |
 | **IFRS paragraph citation** | Accounting Standards Authority |
 | **Evidence conflict** | §3.4 precedence → §5.2 escalation |
 | **Epistemic promotion** | Accepting authority + integrity profile |
@@ -492,15 +654,21 @@ Capability → Blueprint box names only. Detail: [Enterprise Knowledge Blueprint
 
 ---
 
-# 15. Sync and Enterprise Accepted path
+# 15. Domain Evolution
 
-| Downstream | Sync rule |
-| --- | --- |
-| Enterprise Knowledge Blueprint §4 | Every §13 row maps to Enterprise knowledge box |
-| Platform Blueprint | Knowledge family row references this domain NS · rollup |
-| Domain North Stars §3 | Upstream of promotion pipeline — constitutional |
-| All glossaries | Must derive from atoms — §8.5 |
-| Enterprise Knowledge PAS family | Implement △ items E8–E11 |
+**May evolve here:** new §4 capabilities · §6 outcome targets · §7 events · vocabulary (§3) · exposure tiers · locale support matrix
+
+**Must not evolve here:** runtime rules (PAS) · slice order (PAS §10) · registry file paths · PAS inventory (Blueprint §10)
+
+**Long-term direction:**
+
+- **Core → Advanced:** numeric integrity scoring (deferred) · trust certification automation · federated domain glossaries under one atom spine
+- **Representation expansion:** additional consumer projections (email, PDF, native) — same atoms, new representations
+- **Tenant overlay (gated):** customer-specific wording as representation only — never platform atom authority without ADR
+
+---
+
+# 16. Enterprise Accepted path
 
 ## Enterprise Accepted exit criteria
 
@@ -514,5 +682,21 @@ Capability → Blueprint box names only. Detail: [Enterprise Knowledge Blueprint
 | 6 | Promotion pipeline proven for one domain | Domain NS §3 → glossary sync |
 | 7 | Zero △ peer-review items (E8–E11) | Evidence register ✓ |
 | 8 | Knowledge Laws K1–K8 referenced in PAS charter | Doc cross-links |
+| 9 | Applicability scope on all Production+ Rule/Policy atoms | §3.6 facet |
+| 10 | Exposure tier on all Production+ atoms | §3.7 facet |
+| 11 | Knowledge Term layer operational for Production+ atoms | §3.1 · term registry |
+| 12 | Zero △ gap-closure items (E14–E16) | Evidence register ✓ |
 
-**Last synced with PAS:** Charter MVP · semantic model closed · peer review 9.95/10 (2026-06-29) · **Maturity:** Production Candidate
+**Last synced with PAS:** Charter MVP · semantic model closed · gap closure amendment 2026-06-29 · **Maturity:** Production Candidate
+
+---
+
+# 17. Sync
+
+| Downstream | Sync rule |
+| --- | --- |
+| Enterprise Knowledge Blueprint §4 | Every §13 row maps to Enterprise knowledge box |
+| Platform Blueprint | Knowledge family row references this domain NS · rollup |
+| Domain North Stars §3 | Upstream of promotion pipeline — constitutional |
+| All glossaries | Must derive from atoms — §8.5 |
+| Enterprise Knowledge PAS family | Implement △ items E8–E11 · E14–E16 |

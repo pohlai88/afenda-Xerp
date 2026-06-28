@@ -199,4 +199,4 @@ This package may only be changed by:
 ## Further reading
 
 - Implementation spec: `doc/Foundation phase 05.md`
-- Delivery record: `docs/PAS/slice/[Complete (authority only)] tip-005-metadata-authority.md`
+- Delivery record: `docs/PAS/pas-status-index.md` (TIP-005 metadata authority — closure registry)

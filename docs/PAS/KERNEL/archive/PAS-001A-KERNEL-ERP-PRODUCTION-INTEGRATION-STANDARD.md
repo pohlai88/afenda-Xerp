@@ -29,7 +29,7 @@
 | **Consumers** | `apps/erp`, `@afenda/permissions`, `@afenda/appshell`, `@afenda/metadata-ui`, `@afenda/ui-composition` |
 | **Change model** | `serialized-slices` (B71+) |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/slice/` |
+| **Slice directory** | `docs/PAS/CSS-AUTHORITY/SLICE/` |
 | **ADR prerequisites** | ADR-0011 (multi-level company) · ADR-0014 (foundation delivery) · ADR-0021–0023 (identity — read-only for branding paths) |
 
 #### Required gates (baseline — must pass before any B71+ merge)
@@ -113,7 +113,7 @@ PAS-001 closes when **kernel vocabulary is enterprise-gated**. Production ERP st
 3. Documentation and runtime matrix reflect **actual paths** (no stale kernel resolver files)
 4. Governance gates enforce the spine **without manual review**
 
-PAS-001A is the **kernel consumer integration PAS** — analogous to [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) (kernel consumer proof), but for **operating-context consumer wiring**.
+PAS-001A is the **kernel consumer integration PAS** — analogous to [PAS-004B](ENTERPRISE-KNOWLEDGE/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) (kernel consumer proof), but for **operating-context consumer wiring**.
 
 ## 1.2 Enterprise framing
 
@@ -332,11 +332,11 @@ If kernel vocabulary change is required → **stop**, open PAS-001 amendment sli
 
 | Slice | Doc | PAS section | Status | Closes |
 | --- | --- | --- | --- | --- |
-| B71 | [b71-permission-scope-permissions-parser.md](slice/b71-permission-scope-permissions-parser.md) | §2.2 D1–D2 · §4.2 | **Delivered** | Permission parser owner; kernel projection-only; gate `check:permission-scope-permissions-surface` |
-| B72 | [b72-erp-operating-context-spine-gate.md](slice/b72-erp-operating-context-spine-gate.md) | §2.3 · §3 | **Delivered** | `check:erp-operating-context-spine`; integration registry + context map enforcement |
-| B73 | [b73-kernel-erp-doc-drift-closure.md](slice/b73-kernel-erp-doc-drift-closure.md) | §1.3 D5 · §4.3 | **Delivered** | Runtime matrix + delivery doc + PAS-001 §9 rule-14 prose sync |
-| B74 | [b74-metadata-context-authorization-bridge.md](slice/b74-metadata-context-authorization-bridge.md) | §1.3 D6 · §3 | **Delivered** | Metadata UI authorization uses verified operating context |
-| B75 | [b75-pas001a-production-candidate-attestation.md](slice/b75-pas001a-production-candidate-attestation.md) | §6 · §4.3 | **Delivered** | Production Candidate scorecard + pas-status-index promotion |
+| B71 | [b71-permission-scope-permissions-parser.md](SLICE/b71-permission-scope-permissions-parser.md) | §2.2 D1–D2 · §4.2 | **Delivered** | Permission parser owner; kernel projection-only; gate `check:permission-scope-permissions-surface` |
+| B72 | [b72-erp-operating-context-spine-gate.md](SLICE/b72-erp-operating-context-spine-gate.md) | §2.3 · §3 | **Delivered** | `check:erp-operating-context-spine`; integration registry + context map enforcement |
+| B73 | [b73-kernel-erp-doc-drift-closure.md](SLICE/b73-kernel-erp-doc-drift-closure.md) | §1.3 D5 · §4.3 | **Delivered** | Runtime matrix + delivery doc + PAS-001 §9 rule-14 prose sync |
+| B74 | [b74-metadata-context-authorization-bridge.md](SLICE/b74-metadata-context-authorization-bridge.md) | §1.3 D6 · §3 | **Delivered** | Metadata UI authorization uses verified operating context |
+| B75 | [b75-pas001a-production-candidate-attestation.md](SLICE/b75-pas001a-production-candidate-attestation.md) | §6 · §4.3 | **Delivered** | Production Candidate scorecard + pas-status-index promotion |
 
 **Dependency order:** B71 → B72 → B73 → B74 → B75 (B73 may parallel B72 only after B71 merges).
 
@@ -413,7 +413,7 @@ PAS-001A proves the runtime layer speaks the words.
 | Artifact | Path |
 | --- | --- |
 | Parent PAS | [PAS-001-KERNEL-AUTHORITY-STANDARD.md](PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
-| Consumer PAS analogue | [PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) |
+| Consumer PAS analogue | [ENTERPRISE-KNOWLEDGE/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md](ENTERPRISE-KNOWLEDGE/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) |
 | Kernel tree | [packages/kernel/PAS-001-KERNEL-TREE.md](../../packages/kernel/PAS-001-KERNEL-TREE.md) |
 | Context registry | [packages/kernel/src/context/context-registry.ts](../../packages/kernel/src/context/context-registry.ts) |
 | Drift registry | [packages/kernel/src/governance/kernel-boundary-drift.registry.ts](../../packages/kernel/src/governance/kernel-boundary-drift.registry.ts) |

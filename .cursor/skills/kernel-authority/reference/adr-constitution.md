@@ -144,7 +144,7 @@ When an ADR is **Accepted**, update traceability targets:
 | Domain North Star | §12 D# | [add / amend / none] |
 | Blueprint | §4 box `[NAME]` | [add / amend / none] |
 | PAS | PAS-NNN §4.x | [add / amend / none] |
-| Slice | `docs/PAS/slice/…` | [new slice / none] |
+| Slice | `docs/PAS/CSS-AUTHORITY/SLICE/…` | [new slice / none] |
 | Registry | PKGR… | [via foundation-registry-owner / none] |
 | Gates | `pnpm …` | [new gate / none] |
 

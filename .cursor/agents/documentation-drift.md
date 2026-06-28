@@ -141,7 +141,7 @@ Edit in dependency order:
 1. **Runtime truth matrix** — evidence table
 2. **`pas-status-index.md`** — canonical statuses for PAS slices
 3. **Parent PAS docs** — runtime status + remaining slices fields
-4. **Individual slice handoffs** under `docs/PAS/slice/` — align status, verdict, remaining gaps
+4. **Individual slice handoffs** under `docs/PAS/CSS-AUTHORITY/SLICE/` — align status, verdict, remaining gaps
 5. **pre-accounting-foundation-roadmap.md** — phase narrative only if gates changed (historical phase labels OK with banner)
 6. **Master plan v5** — high-level summary; link to matrix/index, never duplicate stale audits
 7. **ADR acceptance gates** — check off completed items only with evidence

@@ -7,7 +7,7 @@
 | **Owner** | Design Authority / Architecture Authority |
 | **Supersedes** | — |
 | **Superseded by** | — |
-| **Related PAS** | [PAS-005B](../PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) |
+| **Related PAS** | [PAS-005B](../PAS/CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) |
 
 ---
 
@@ -33,7 +33,7 @@ PAS-005 §8 explicitly prohibited deleting `@afenda/design-system` in v1 (`do-no
 
 ### 1. Adopt PAS-005B as the retirement authority
 
-`docs/PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md` governs all work to retire `@afenda/design-system`. Maturity label: **`retirement_candidate`** (controlled deprecation — not MVP feature work).
+`docs/PAS/CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md` governs all work to retire `@afenda/design-system`. Maturity label: **`retirement_candidate`** (controlled deprecation — not MVP feature work).
 
 ### 2. Preserve constitutional split
 
@@ -110,9 +110,9 @@ ADR-0025 is **satisfied** when:
 
 ## References
 
-- [PAS-005B](../PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md)
-- [PAS-005](../PAS/PAS-005-CSS-AUTHORITY-STANDARD.md) §8
-- [PAS-005A](../PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md)
+- [PAS-005B](../PAS/CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md)
+- [PAS-005](../PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) §8
+- [PAS-005A](../PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md)
 - [ADR-0017](ADR-0017-shadcn-studio-ui-delivery-acceleration.md)
 - [ADR-0014](ADR-0014-foundation-disposition-registry.md)
 - [governed-ui-policy.md](../governance/governed-ui-policy.md)

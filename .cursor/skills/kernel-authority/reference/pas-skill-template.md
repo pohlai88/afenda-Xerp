@@ -158,7 +158,7 @@ Before editing any <package-name> file, state these six lines:
                      (+ gates from PAS §13.1)
 ```
 
-**Implementation work:** a validated slice handoff is **mandatory**. Paste the 9-field block from `docs/PAS/slice/<file>.md` into Phase 0 before any code edit — do not invent scope from SKILL or PAS prose alone.
+**Implementation work:** a validated slice handoff is **mandatory**. Paste the 9-field block from `docs/PAS/CSS-AUTHORITY/SLICE/<file>.md` into Phase 0 before any code edit — do not invent scope from SKILL or PAS prose alone.
 
 Documentation-only slices (skill regen, PAS edit) may use the six-line block above without a slice file.
 

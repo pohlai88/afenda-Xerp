@@ -16,7 +16,7 @@ Delivery work was tracked across multiple artifacts with conflicting status:
 
 - Master plan v4 two-track model (Track A governance + Track B UI)
 - ADR-0001 Phase 1 TIP definitions (TIP-001–012)
-- Individual `docs/PAS/slice/[status] tip-*.md` files with stale statuses
+- Individual `docs/PAS/CSS-AUTHORITY/SLICE/[status] tip-*.md` files with stale statuses
 - Merged delivery doc `tip-007-012-enterprise-group-operating-context.md`
 
 AI agents need a **single ordered delivery sequence** with explicit phase gates — especially for the pre-accounting foundation that must complete before Accounting Core.

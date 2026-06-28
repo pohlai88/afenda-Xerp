@@ -38,7 +38,7 @@ When the task touches a foundation or domain package listed in [`foundation-disp
 1. Read [`foundation-delivery-authority.md`](../../../docs/architecture/foundation-delivery-authority.md) — PAS workflow and authority hierarchy.
 2. Read the registry entry: `lane`, `gates`, `prohibited`, `allowedAgents`, `runtimeOwner`.
 3. Read [`afenda-runtime-truth-matrix.md`](../../../docs/architecture/afenda-runtime-truth-matrix.md) for evidence status.
-4. Read parent PAS under `docs/PAS/` and target slice under `docs/PAS/slice/` — copy one §Handoff block into Phase 0.
+4. Read parent PAS under `docs/PAS/` and target slice under `docs/PAS/CSS-AUTHORITY/SLICE/` — copy one §Handoff block into Phase 0.
 5. At session end, §11 Completion Report closes slice gaps + enterprise attestation (enterprise-erp-standards §9).
 
 **Do not author canonical standards outside `docs/PAS/`.** Registry edits → `foundation-registry-owner` only.

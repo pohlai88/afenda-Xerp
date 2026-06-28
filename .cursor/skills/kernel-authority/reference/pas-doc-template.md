@@ -57,7 +57,7 @@ Place a **PAS authority metadata table** immediately after the document title (a
 | **Consumers** | `@afenda/<consumer>`, `apps/erp` |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/slice/` |
+| **Slice directory** | `docs/PAS/CSS-AUTHORITY/SLICE/` |
 | **Blueprint box** | `<Box name in afenda-architecture-blueprint.md>` |
 | **Total slices planned** | `<N>` — declare count at PAS authoring time; update on discovery |
 | **Delivered slices** | `<N> of <Total>` |
@@ -91,7 +91,7 @@ Place a **PAS authority metadata table** immediately after the document title (a
 
 **Required gates:** see §13.1
 
-**Slice entrypoint:** `docs/PAS/slice/` · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
+**Slice entrypoint:** `docs/PAS/CSS-AUTHORITY/SLICE/` · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
 
 **Escalation:** [Authority Escalation Matrix](doc-boundary-contract.md#authority-escalation-matrix) · [Change Classification](doc-boundary-contract.md#change-classification-matrix) · [ADR Constitution](adr-constitution.md)
 

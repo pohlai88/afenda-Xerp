@@ -158,7 +158,7 @@ LAYER C — Governance & acceptance (§14–§19)  authority · evolution · EAC
 
 # 3. Enterprise Vocabulary
 
-> **Business meanings only** — canonical input for [PAS-004 / `@afenda/enterprise-knowledge`](../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md).
+> **Business meanings only** — canonical input for [PAS-004 / `@afenda/enterprise-knowledge`](../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md).
 > PAS derives terminology atoms from here — do not invent terms in PAS without amending this section.
 
 | Term | Business meaning (one line) | Not confused with | Source (✓) | PAS-004 atom (when promoted) |
@@ -557,7 +557,7 @@ Platform documentation gates: [Platform North Star §13](../../docs/architecture
 | --- | --- |
 | Platform North Star | [`afenda-platform-north-star.md`](../../docs/architecture/afenda-platform-north-star.md) |
 | Architecture Blueprint | [`afenda-architecture-blueprint.md`](../../docs/architecture/afenda-architecture-blueprint.md) |
-| Enterprise Knowledge (PAS-004) | [`PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) |
+| Enterprise Knowledge (PAS-004) | [`PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) |
 | Boundary contract | [`doc-boundary-contract.md`](doc-boundary-contract.md) |
 | Evidence standard | [`doc-evidence-standard.md`](doc-evidence-standard.md) |
 | ADR Constitution | [`adr-constitution.md`](adr-constitution.md) |

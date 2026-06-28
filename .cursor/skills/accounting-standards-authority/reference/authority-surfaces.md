@@ -2,7 +2,7 @@
 
 `@afenda/accounting-standards` contract shapes — skill adapter for PAS-003 §4.
 
-← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-003 §4](../../../../docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#4-authority-surfaces)
+← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-003 §4](../../../../docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#4-authority-surfaces)
 
 **Status legend:** `Current` = on disk · `Target` = PAS slice not yet delivered
 

@@ -8,9 +8,9 @@
 >
 > It never re-specifies business meaning, package maps, or full PAS contracts.
 
-Copy to `docs/PAS/slice/<bN>-<pas-section>-<slug>.md` (non-kernel PAS families — legacy tree removed; recreate per-family slice dirs when those tracks resume).
+Copy to `docs/PAS/CSS-AUTHORITY/SLICE/<bN>-<pas-section>-<slug>.md` (non-kernel PAS families — legacy tree removed; recreate per-family slice dirs when those tracks resume).
 
-**Kernel family (PAS-001 / 001A / 001B):** copy to `docs/PAS/KERNEL/SLICE/<bN>-<pas-section>-<slug>.md` — SSOT. Do not author kernel slices under `docs/PAS/slice/`.
+**Kernel family (PAS-001 / 001A / 001B):** copy to `docs/PAS/KERNEL/SLICE/<bN>-<pas-section>-<slug>.md` — SSOT. Do not author kernel slices under `docs/PAS/CSS-AUTHORITY/SLICE/`.
 
 ← Index: [pas-template.md](pas-template.md) · Boundaries: [doc-boundary-contract.md](doc-boundary-contract.md)
 

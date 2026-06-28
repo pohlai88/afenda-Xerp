@@ -10,10 +10,11 @@
 | **Constitutional laws** | [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) — LAW 10 (evidence traceability) |
 | **Derived document** | [Accounting Standards Blueprint](../BLUEPRINT/accounting-standards-blueprint.md) · [Platform Blueprint rollup](../architecture/afenda-architecture-blueprint.md) |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) · [ADR-0010](../adr/ADR-0010-no-accounting-before-foundation-gate.md) · [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) |
-| **Maturity** | Production Candidate — peer-reviewed 2026-06-29 (9.8/10) |
+| **Maturity** | Production Candidate — gap analysis enhanced 2026-06-29 |
+| **NS profile** | Streamlined (§1–§15 + condensed §16–§19) — peer review 9.8/10 baseline; ERP-parity enhancements in this revision |
 | **Runtime stance** | Documentation only |
 | **Does not confer** | Package boundaries, PAS authority, contracts, runtime authority, implementation, slices |
-| **Quality target** | Enterprise **10 / 10** (Enterprise Accepted blocked on §15 exit criteria) |
+| **Quality target** | Enterprise **10 / 10** (Enterprise Accepted blocked on §15 + §16 EAC) |
 | **Evidence standard** | `.cursor/skills/kernel-authority/reference/doc-evidence-standard.md` |
 | **Last reviewed** | 2026-06-29 |
 | **Package / PAS inventory** | See [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) — not declared here |
@@ -68,8 +69,8 @@ The Accounting Standards Authority domain exists because **external authority co
 | --- | --- |
 | **Mission** | Govern how Afenda consumes external accounting authorities — recording cited evidence, resolving jurisdiction and effective dates, applying precedence when authorities conflict, and returning deterministic validation before financial state mutates. |
 | **Success definition** | No production workflow relies on uncited or unversioned standard references; every validation traces to external authority metadata; historical transactions replay against the edition effective on transaction date — not today's edition. |
-| **Scope** | External authority hierarchy · jurisdiction resolution · source-type taxonomy · authority version evidence · effective-date resolution · conflict precedence · process routing · deterministic validation · evidence snapshots. |
-| **Out of scope** | Owning or amending external standards · journal creation · ledger mutation · consolidation calculation · tax filing · transfer-pricing rate policy · UI rendering · AI-only accounting judgment · statutory filing execution. |
+| **Scope** | External authority hierarchy · parallel accounting books · reporting context profiles · jurisdiction resolution · authority instruments · source-type taxonomy · authority version evidence · effective-date resolution · scope gates · conflict precedence · process routing · cross-representation routing · deterministic validation · explanation metadata · evidence snapshots · authority supersession awareness. |
+| **Out of scope** | Owning or amending external standards · journal creation · ledger mutation · chart-of-accounts mapping execution · consolidation calculation · tax filing · transfer-pricing rate policy · XBRL instance generation · UI rendering · AI-only accounting judgment · statutory filing execution · final professional sign-off. |
 
 ---
 
@@ -92,6 +93,17 @@ Business meanings — not registry implementation types.
 | **Conflict precedence** | Ordered rules when statutory law, mandatory standard, regulator guidance, and company policy disagree (§5.2). |
 | **Standards-backed validation** | Deterministic pass/info/warning/block citing external evidence — not generative advice. |
 | **Evidence snapshot** | Durable record of publisher, publication, edition, paragraph refs, and license status at validation time. |
+| **Accounting book** | Named parallel financial representation (group IFRS, local statutory, tax, management) — routing metadata, not the general ledger engine. |
+| **Reporting purpose** | Why validation runs: statutory, group consolidation, tax, management, regulatory disclosure (§3.4). |
+| **Representation level** | How deeply a book mirrors source activity: balance, journal, subledger, adjustment-only — metadata for consumers, not posting depth. |
+| **Accounting principle assignment** | Which external framework binds an accounting book for an entity — parallel to SAP accounting principles on ledgers (T3 △). |
+| **Reporting context profile** | Resolved bundle: entity + jurisdiction + book + reporting purpose + standard families (§3.5). |
+| **Authority instrument** | Kind of cited authority: standard, interpretation, amendment, implementation guidance, exposure draft (§3.6). |
+| **Binding strength** | Mandatory, optional, illustrative, superseded — feeds precedence before company policy (§3.6). |
+| **Scope gate** | Deterministic pre-check whether a standard applies to a fact pattern — before rule evaluation. |
+| **Judgment escalation** | Validation outcome requiring qualified human sign-off — not AI inference or silent pass. |
+| **Cross-representation routing** | Maps one process context to multiple applicable authorities across books — routing only, not account mapping. |
+| **Authority supersession** | External edition or instrument replaced by a newer binding version — consumers must re-validate open work. |
 
 ## 3.1 External authority hierarchy
 
@@ -101,16 +113,19 @@ External evidence chains through a fixed hierarchy — every validation rule mus
 Authority Body          (IFRS Foundation, FASB, MASB, …)
         │
         ▼
-Publication             (Bound volume, compendium, regulatory gazette)
+Publication             (Bound volume · compendium · regulatory gazette · digital disclosure taxonomy)
         │
         ▼
-Edition                 (2026 Required IFRS · 2025 MFRS, …)
+Edition                 (2026 Required IFRS · 2025 MFRS · IFRS taxonomy 2024-03-16, …)
         │
         ▼
-Standard                (IFRS 10 · IAS 28 · …)
+Authority instrument    (Standard · interpretation · amendment · implementation guidance)
         │
         ▼
-Paragraph               (B86 · 27 · … — reference only)
+Standard / instrument ref (IFRS 10 · IFRIC 12 · …)
+        │
+        ▼
+Paragraph / element ref   (B86 · taxonomy element — reference only)
         │
         ▼
 Validation Rule         (Deterministic Afenda rule citing the chain above)
@@ -124,23 +139,29 @@ IFRS Foundation → 2026 Bound Volume → IFRS 10 → Paragraph B86 → rule:hol
 
 **Rule:** Afenda records references and metadata — never reproduces copyrighted standard text in registries or validation output.
 
-## 3.2 Jurisdiction layer
+**Rule:** Afenda records references and metadata — never reproduces copyrighted standard text in registries or validation output. **Digital disclosure taxonomies** (e.g. IFRS/US-GAAP XBRL) are **publications** in this hierarchy; XBRL **instance generation** belongs to Reporting runtime.
 
-Enterprises operate under **concurrent** reporting contexts. Jurisdiction sits **above** standard family selection:
+## 3.2 Jurisdiction and parallel books layer
+
+Enterprises operate under **concurrent** reporting contexts. Jurisdiction sits **above** standard family selection; **accounting books** express parallel representations enterprises expect from SAP, Oracle, and NetSuite multi-book patterns (T3 △):
 
 ```text
-Legal Entity / Reporting Context
+Legal Entity
         │
         ▼
 Jurisdiction            (Malaysia · Singapore · EU · US · …)
         │
-        ├─► Group reporting framework     (often IFRS)
-        ├─► Statutory local framework     (often MFRS · SFRS · local GAAP)
-        ├─► Regulatory overlay            (stock exchange · central bank)
-        └─► Company accounting manual     (group policy)
+        ├─► Accounting book (group IFRS)     + reporting purpose: group consolidation
+        ├─► Accounting book (local statutory)+ reporting purpose: statutory
+        ├─► Accounting book (tax)            + reporting purpose: tax
+        ├─► Accounting book (management)     + reporting purpose: management
+        └─► Regulatory overlay               + reporting purpose: regulatory disclosure
+        │
+        ▼
+Standard family per book (IFRS · MFRS · local GAAP · tax basis · …)
 ```
 
-The same group may apply IFRS for consolidation, MFRS for statutory entities, and local tax rules simultaneously. Routing must accept **jurisdiction + reporting purpose** — not a single global family flag.
+The same group may apply IFRS for consolidation, MFRS for statutory entities, and local tax rules simultaneously. Routing must accept **reporting context profile** — not a single global family flag.
 
 ## 3.3 Authority source types
 
@@ -157,6 +178,55 @@ Do not collapse all rule origins into "standard." Five distinct source types car
 **Rule:** Company and project policies are **recorded and cited** — they are not external standards and must not be labeled as IFRS/MFRS.
 
 **Source:** Accounting Standards PAS §1 · §4 · IFRS Foundation (T3)
+
+## 3.4 Reporting purpose taxonomy
+
+| Reporting purpose | Typical accounting book | Example framework |
+| --- | --- | --- |
+| **Statutory** | Local statutory book | MFRS · SFRS · local GAAP |
+| **Group consolidation** | Group reporting book | IFRS · US GAAP |
+| **Tax** | Tax book | Tax basis · deferred tax overlay |
+| **Management** | Management book | Group policy · management adjustments |
+| **Regulatory disclosure** | Disclosure overlay | Exchange · central bank rules |
+
+**Rule:** Purpose drives **which authorities** apply — not how journals post.
+
+## 3.5 Reporting context profile resolution
+
+```text
+Entity + jurisdiction + accounting book + reporting purpose + transaction date
+        │
+        ▼
+Reporting context profile (resolved metadata bundle)
+        │
+        ▼
+Applicable standard families + editions + active rule packs
+```
+
+## 3.6 Authority instruments and binding strength
+
+| Instrument | Example | Typical binding strength |
+| --- | --- | --- |
+| **Standard** | IFRS 10 | Mandatory when legally required |
+| **Interpretation** | IFRIC 12 | Mandatory when referenced by framework |
+| **Amendment** | Annual improvements | Mandatory from effective date |
+| **Implementation guidance** | Illustrative examples | Illustrative — not sole block basis |
+| **Exposure draft** | Pending standard | Non-binding — routing only |
+
+**Binding strength** values: mandatory · optional · illustrative · superseded. Feeds §5.2 precedence below statutory law.
+
+## 3.7 Sector and industry framework scope
+
+Standard families may include sector frameworks without implying full implementation in early slices:
+
+| Family scope | Example | Notes |
+| --- | --- | --- |
+| **General IFRS/US GAAP** | IFRS 10 · IFRS 16 | Initial PAS focus |
+| **Insurance** | IFRS 17 | Family slot — rules planned |
+| **Public sector** | IPSAS | Family slot — jurisdiction-driven |
+| **SME** | IFRS for SMEs | Family slot — entity-size routing |
+
+**Rule:** Sector families use the same consumption hierarchy — no abbreviated citation chain.
 
 ---
 
@@ -177,10 +247,20 @@ Do not collapse all rule origins into "standard." Five distinct source types car
 | **Validation result contract** | Production | Pass/info/warning/block with full citation chain | PAS §4.7 |
 | **Evidence snapshots for audit** | Enterprise | Historical replay with paragraph-level metadata | §12.1 |
 | **Group relationship routing** | Production | Holding/subsidiary/JV/associate → IFRS 10/11/IAS 28 refs | PAS §4.4 |
+| **Parallel accounting book routing** | Advanced | Entity + book + purpose → framework assignment | §3.2 · §3.4 · T3 △ |
+| **Reporting context profile** | Enterprise | Resolved bundle for edition and rule selection | §3.5 |
+| **Authority instrument taxonomy** | Production | Standard · interpretation · amendment · guidance · exposure draft | §3.6 |
+| **Scope gate assessment** | Production | Standard applicability pre-check before rules | §3 vocabulary |
+| **Cross-representation routing** | Advanced | One context → multiple book-specific authorities | §3 vocabulary · T3 △ |
+| **Versioned rule packs** | Production | Per-standard deterministic rule bundles (IFRS pack first) | PAS §4.8 |
+| **Consumer validation input contract** | Production | Wire-safe facts boundary for downstream packages | PAS §4.5 |
+| **Explanation and disclosure metadata** | Production | UI · AI · audit summaries with boundary statements | PAS §4.10 |
+| **Authority supersession awareness** | Enterprise | Edition/amendment ingestion · consumer re-validation signal | §7 · §8.7 |
+| **Judgment escalation outcomes** | Production | Escalate-to-accountant — not block or silent pass | P12 · §3 vocabulary |
 
 **Capability maturity key:** Idea · MVP · Production · Enterprise
 
-**Enterprise Accepted blockers:** Effective-date resolution implemented · conflict precedence operational · jurisdiction routing in registries · citation metadata complete on all Production+ rules · one consumer workflow proof.
+**Enterprise Accepted blockers:** Effective-date resolution implemented · conflict precedence operational · reporting context profile in routing · citation metadata complete on all Production+ rules · explanation registry operational · one consumer workflow proof · authority supersession path defined.
 
 ---
 
@@ -198,6 +278,8 @@ Do not collapse all rule origins into "standard." Five distinct source types car
 | P8 | **Honest maturity** | External authority model incomplete at MVP | Production Candidate until §15 exit criteria met |
 | P9 | **Jurisdiction is concurrent** | One entity may report under multiple frameworks | Routing accepts jurisdiction + reporting purpose |
 | P10 | **Policies ≠ standards** | Company manual is not IFRS | Source type taxonomy enforced in citations |
+| P11 | **Severity is policy-gated** | Warning ≠ block without consumer policy | Consumers promote severity; rules default conservative |
+| P12 | **Judgment zones escalate honestly** | Some outcomes require professional judgment | Return escalation — not AI inference or silent pass |
 
 ## 5.1 Domain invariants
 
@@ -209,6 +291,8 @@ Do not collapse all rule origins into "standard." Five distinct source types car
 | I4 | Routing suggests relevant authorities — never posts journals or decides final treatment. |
 | I5 | Generative AI does not produce blocking validation outcomes without deterministic rule backing. |
 | I6 | Copyrighted standard text is referenced — not reproduced in registries or outputs. |
+| I7 | Cross-representation routing cites authorities per book — never executes account mapping. |
+| I8 | Superseded authority editions trigger consumer re-validation — not silent continuation on stale rules. |
 
 ## 5.2 Conflict precedence model
 
@@ -236,7 +320,10 @@ When authorities conflict, apply this order unless jurisdiction-specific law man
 | **Historical replay accuracy** | Validations reproducible for any prior transaction date | Effective-date resolution tests |
 | **Zero embedded IFRS in posting code** | Consumption layer only | Prohibited-surface scans |
 | **Deterministic validation** | Zero generative-AI-only blocking gates | Rule implementation review |
-| **Jurisdiction correctness** | Concurrent frameworks resolved per entity context | Jurisdiction routing coverage |
+| **Parallel book correctness** | Each book resolves correct framework | Book + purpose routing audit |
+| **Scope gate accuracy** | No block when standard out of scope | Scope gate test suite |
+| **Supersession hygiene** | Open drafts re-validated after edition change | Supersession event tests |
+| **Explanation completeness** | Production+ rules have explanation keys | Explanation registry audit |
 | **Consumer proof** | One workflow proves end-to-end consumption | Enterprise Accepted exit criterion |
 
 ---
@@ -255,6 +342,11 @@ Standards vocabulary events — not runtime dispatches.
 | **Validation requested** | Consumer submitted wire-safe facts for standards-backed checking |
 | **Validation blocked** | Blocking rule failed with full external citation chain |
 | **Evidence snapshot recorded** | Citation metadata durably captured for audit replay |
+| **Authority edition superseded** | External body published replacement edition — consumers notified |
+| **Authority amendment ingested** | Amendment metadata recorded with effective dates |
+| **Scope excluded** | Standard determined not applicable — validation skipped honestly |
+| **Judgment escalation requested** | Outcome requires qualified accountant sign-off |
+| **Reporting profile resolved** | Entity + book + purpose bundle established for validation |
 
 ---
 
@@ -281,16 +373,20 @@ Proposed → Accepted (full citation chain) → Active → Amended → Retired
 ## 8.4 Effective-date resolution (business flow)
 
 ```text
-Transaction date + jurisdiction + reporting purpose
+Transaction date + reporting context profile (§3.5)
         │
         ▼
 Applicable authority edition (not "current" edition)
         │
-        ▼
-Active validation rules for that edition
+        ├─► Annual vs interim application period metadata
+        ├─► First-time adoption / transition context (routing only)
+        └─► Early adoption flag when optional standard adopted early
         │
         ▼
-Deterministic result + evidence snapshot
+Active validation rules for that edition + rule pack version
+        │
+        ▼
+Scope gate (if applicable) → Deterministic result + evidence snapshot
 ```
 
 **Example:** A 2023-08-15 transaction in a Malaysian group entity resolves to the IFRS/MFRS editions **effective on that date** — not the 2026 bound volume retrieved today.
@@ -298,8 +394,32 @@ Deterministic result + evidence snapshot
 ## 8.5 Standards-backed validation result
 
 ```text
-Requested → Edition resolved → Evaluated → Pass / Info / Warning / Block → Snapshotted (audit)
+Requested → Profile resolved → Edition resolved → Scope gated → Evaluated
+        → Pass / Info / Warning / Block / Judgment escalation → Snapshotted (audit)
 ```
+
+## 8.6 Reporting context profile
+
+```text
+Entity identified → Jurisdiction resolved → Book + purpose selected
+        → Framework families assigned → Profile active → Profile amended / retired
+```
+
+## 8.7 Authority edition supersession
+
+```text
+Edition effective → Amendment published → Supersession announced
+        → Consumers notified → Open validations re-run → Historical snapshots preserved
+```
+
+## 8.8 First-time adoption context (routing metadata only)
+
+```text
+Adoption election recorded → Transition edition bundle selected → Routing rules active
+        → Transition complete → Standard ongoing edition resolution (§8.4)
+```
+
+**Rule:** Transition **routing** lives here; transition **journal logic** lives in Accounting runtime.
 
 ---
 
@@ -307,23 +427,31 @@ Requested → Edition resolved → Evaluated → Pass / Info / Warning / Block �
 
 ## 9.1 This domain owns (business)
 
-- External authority consumption model (§3.1–§3.3)
+- External authority consumption model (§3.1–§3.7)
+- Parallel accounting book and reporting purpose routing metadata
+- Reporting context profile resolution
 - Jurisdiction and concurrent-framework resolution
-- Effective-date resolution and conflict precedence
-- Deterministic validation rules, results, and evidence snapshots
+- Authority instrument and binding-strength taxonomy
+- Effective-date resolution (including transition routing metadata)
+- Scope gates and cross-representation routing
+- Conflict precedence and judgment escalation outcomes
+- Deterministic validation rules, results, explanations, and evidence snapshots
+- Authority supersession awareness and consumer notification contract
 - Honest distinction: consumption layer vs external authority bodies
 
 ## 9.2 This domain never owns (business)
 
 - **External standard-setting** (IFRS Foundation, FASB, MASB, …)
 - Journal posting and ledger mutation (Accounting runtime)
+- Chart-of-accounts mapping execution across books (Accounting runtime)
 - Consolidation calculations (Consolidation domain)
 - Intercompany eliminations (Intercompany domain)
 - Tax computation and statutory filing (Tax domain)
-- Financial statement generation (Reporting domain)
+- Financial statement generation and XBRL instance filing (Reporting domain)
 - Enterprise identity vocabulary (Platform Kernel — consumes only)
 - Contested term meaning beyond citations (Enterprise Knowledge)
 - UI rendering without rule/atom citations (Presentation domain)
+- Final professional or legal sign-off on judgment zones
 
 ## 9.3 Cross-domain dependencies (business domains only)
 
@@ -339,9 +467,36 @@ Requested → Edition resolved → Evaluated → Pass / Info / Warning / Block �
 | --- | --- |
 | **Accounting runtime** | Standards-backed validation before posting |
 | **Consolidation / Intercompany / Tax / Finance / Reporting** | Routing, precedence, and citation evidence |
-| **ERP surfaces and assistants** | Explanation keys tied to external citation chain |
+| **ERP surfaces and assistants** | Explanation keys · boundary statements · citation chain |
 
-## 9.4 Reusable external-authority pattern
+## 9.4 Four orthogonal platform domains
+
+Accounting Standards Authority is **External Authority Consumption** — one of four non-overlapping constitutional domains:
+
+```text
+                    Platform North Star
+                            │
+        ┌───────────────────┼───────────────────┐
+        ▼                   ▼                   ▼
+ Platform Language    Platform Meaning    Platform Structure
+    (Kernel)         (Enterprise Knowledge)  (Architecture Authority)
+        │                   │                   │
+        └───────────────────┼───────────────────┘
+                            ▼
+                  External Authority Consumption
+              (Accounting Standards Authority · future Tax NS · …)
+```
+
+| Domain | Question |
+| --- | --- |
+| **Kernel** | *What does the platform say?* (wire shape) |
+| **Architecture Authority** | *What is allowed?* (structure) |
+| **Enterprise Knowledge** | *How does truth become accepted?* (meaning) |
+| **Accounting Standards Authority** | *Which external accounting authority applies?* (citation) |
+
+**Rule:** Shape ≠ meaning ≠ structure ≠ external citation.
+
+## 9.5 Reusable external-authority pattern
 
 This domain establishes a pattern extensible beyond accounting:
 
@@ -379,6 +534,11 @@ Future domains (tax, payroll, ESG, ISO, banking, healthcare) should reuse consum
 | **Policy labeled as standard** | False IFRS claims | §3.3 · P10 |
 | **Unresolved precedence conflict** | Silent wrong treatment | §5.2 block/warning escalation |
 | **Copyright reproduction** | Licensing violation | I6 · reference-only paragraphs |
+| **Parallel book mis-routing** | Wrong framework per book | §3.2 · §3.4 · book routing |
+| **Supersession drift** | Stale rules on open transactions | I8 · §8.7 |
+| **Scope false positive** | Blocking when standard not applicable | Scope gates |
+| **Judgment zone collapse** | AI or automation replaces accountant | P12 · escalation outcomes |
+| **Cross-book mapping in consumption** | Treatment logic in wrong layer | I7 · Accounting runtime owns mapping |
 
 ---
 
@@ -394,6 +554,10 @@ Future domains (tax, payroll, ESG, ISO, banking, healthcare) should reuse consum
 | **Precedence clarity** | Conflicts escalated — not silently resolved |
 | **Separation** | No runtime dependency on posting packages |
 | **License hygiene** | Reference metadata includes license status |
+| **Book concurrency** | Multiple books per entity without single-family assumption |
+| **Supersession signaling** | Consumers notified when editions change |
+| **Judgment honesty** | Escalation outcomes explicit in results |
+| **AI grounding** | Explanations cite registry evidence + boundary statements |
 
 ---
 
@@ -417,8 +581,23 @@ Every Production+ validation rule and evidence snapshot must record this chain �
 | **License status** | Referenced · Licensed · Internal | Production+ |
 | **Source type** | External standard · National · Regulatory · Company · Project | Production+ |
 | **Jurisdiction** | MY · SG · EU · Global group | Production+ when jurisdiction-specific |
+| **Accounting book** | Group IFRS · Local statutory | Production+ when book-specific |
+| **Reporting purpose** | Statutory · Group · Tax | Production+ |
+| **Authority instrument** | Standard · Interpretation | Production+ when not primary standard |
+| **Binding strength** | Mandatory · Illustrative | Production+ |
 
-## 12.2 Evidence Register
+## 12.2 Decision Reasoning Log
+
+| Decision ID | Claim | Because | Source (E#) | Therefore |
+| --- | --- | --- | --- | --- |
+| D1 | External authority ≠ Afenda | IFRS Foundation sets standards | E3 | Consumption never claims standard-setting |
+| D2 | Standards separate from posting | Version drift in posting modules | E2 | Blueprint declares separate box |
+| D3 | Kernel consumes, never defines IFRS | Permanent coupling if types in Kernel | E4 | Branded IDs only at boundary |
+| D4 | Parallel books are routing metadata | SAP/Oracle/NetSuite multi-book is enterprise norm | E11–E13 △ | Book + purpose in profile — not ledger engine |
+| D5 | Interpretation layer in hierarchy | IFRIC/SIC are binding citation targets | E3 · §3.6 | Instrument type on citation chain |
+| D6 | Citation ≠ accepted term meaning | Same word may have Knowledge atom | E4 · [Enterprise Knowledge NS](../NORTHSTAR/enterprise-knowledge-north-star.md) | §14.5 matrix splits ownership |
+
+## 12.3 Evidence Register
 
 | ID | Claim | Source class | Tier | Reference |
 | --- | --- | --- | --- | --- |
@@ -428,15 +607,25 @@ Every Production+ validation rule and evidence snapshot must record this chain �
 | E4 | Consumption layer boundary | ✓ | T5 | Accounting Standards PAS §1–§2 |
 | E5 | Group relationship routing | ✓ | T5 | Accounting Standards PAS §4.4 |
 | E6 | Blueprint standards box live | ✓ | T1 | Architecture Blueprint · Accounting standards authority |
-| E7 | External authority hierarchy formalized | ✓ | T6 | Peer review 2026-06-29 · §3.1 |
-| E8 | Jurisdiction concurrency model | △ | T6 | Peer review 2026-06-29 · §3.2 — implement in PAS B4+ |
-| E9 | Conflict precedence model | △ | T6 | Peer review 2026-06-29 · §5.2 — implement in PAS |
-| E10 | Effective-date resolution | △ | T6 | Peer review 2026-06-29 · §8.4 — implement in PAS B3+ |
-| D1 | External authority ≠ Afenda | ✓ | T3 | IFRS Foundation ownership · Philosophy §1 |
-| D2 | Standards separate from posting | ✓ | T0 | ADR-0020 · Blueprint decomposition |
-| D3 | Kernel consumes, never defines IFRS | ✓ | T5 | Accounting Standards PAS §3.4 |
+| E7 | External authority hierarchy formalized | ✓ | T6 | Gap analysis 2026-06-29 · §3.1 |
+| E8 | Jurisdiction + parallel book model | △ | T6 | §3.2 · §3.4 — implement in PAS B4+ / B13+ |
+| E9 | Conflict precedence model | △ | T6 | §5.2 — implement in PAS validation engine |
+| E10 | Effective-date + profile resolution | △ | T6 | §8.4 · §8.6 — implement in PAS B3+ |
+| E11 | SAP accounting principles on ledgers | ✓ | T3 | SAP KB 3530183 · S/4HANA ledger scoping |
+| E12 | Oracle primary/secondary ledger parallel accounting | ✓ | T3 | Oracle Fusion — secondary ledgers · conversion levels |
+| E13 | NetSuite multi-book accounting | ✓ | T3 | NetSuite Multi-Book · accounting books per standard |
+| E14 | IFRS taxonomy as publication type | △ | T3 | IFRS XBRL taxonomy · py-xbrl reference pattern |
 
-**Provenance:** Production Candidate — peer-reviewed 9.8/10 (2026-06-29). Enterprise Accepted requires §15 exit criteria — not structure changes alone.
+**Provenance:** Production Candidate — gap-analysis enhanced 2026-06-29. Enterprise Accepted requires §15 + §16 EAC — implementation closes E8–E10 △.
+
+## 12.4 Evidence lifecycle obligations
+
+| Document maturity | Required evidence action |
+| --- | --- |
+| **Idea → MVP** | §1 Philosophy + core §4 rows have Source; △ marked |
+| **MVP → Production** | §3 core vocabulary · §4 Production rows ✓ or △ with slice |
+| **Production → Enterprise** | E8–E10 closed · §15 exit criteria · §16 EAC pass |
+| **Any amendment** | Update `Last reviewed` · Decision log · sync Blueprint §4.2 |
 
 ---
 
@@ -456,6 +645,17 @@ Every Production+ validation rule and evidence snapshot must record this chain �
 | Deterministic validation rules | **Accounting standards authority** |
 | Validation result contract | **Accounting standards authority** |
 | Evidence snapshots for audit | **Accounting standards authority** |
+| Group relationship routing | **Accounting standards authority** |
+| Parallel accounting book routing | **Accounting standards authority** |
+| Reporting context profile | **Accounting standards authority** |
+| Authority instrument taxonomy | **Accounting standards authority** |
+| Scope gate assessment | **Accounting standards authority** |
+| Cross-representation routing | **Accounting standards authority** |
+| Versioned rule packs | **Accounting standards authority** |
+| Consumer validation input contract | **Accounting standards authority** |
+| Explanation and disclosure metadata | **Accounting standards authority** |
+| Authority supersession awareness | **Accounting standards authority** |
+| Judgment escalation outcomes | **Accounting standards authority** |
 
 ---
 
@@ -480,7 +680,15 @@ Every Production+ validation rule and evidence snapshot must record this chain �
 | **Transaction-date edition** logic | Effective-date resolution capability |
 | **Precedence conflict** handling | §5.2 model + escalation in validation result |
 | **Posting / ledger** behavior | Accounting runtime — not this domain |
-| **Business term meaning** | Enterprise Knowledge · Domain NS §3 |
+| **Business term meaning** | Enterprise Knowledge · [Enterprise Knowledge NS](../NORTHSTAR/enterprise-knowledge-north-star.md) §3 |
+| **IFRS paragraph citation** | Accounting Standards Authority · §12.1 |
+| **Accepted meaning of "control" / "associate"** | Enterprise Knowledge atom — not citation chain |
+| **UI label for standard name** | Representation from Knowledge atom |
+| **Accounting book / COA mapping execution** | Accounting runtime |
+| **XBRL instance filing** | Reporting runtime |
+| **New accounting book or purpose** | This NS §3.4 + PAS routing |
+| **Authority supersession policy** | §8.7 + PAS edition registry |
+| **Judgment escalation policy** | §5 P12 + consumer workflow config |
 
 ---
 
@@ -490,7 +698,7 @@ Every Production+ validation rule and evidence snapshot must record this chain �
 | --- | --- |
 | Accounting Standards Blueprint §4 | Every §13 row maps to Accounting standards authority box |
 | Platform Blueprint — Accounting & finance | Standards box upstream of all runtime boxes · rollup |
-| Accounting Standards PAS | Trace to §4 capabilities; implement §3.1–§3.3 · §5.2 · §8.4 in slices |
+| Accounting Standards PAS | Trace to §4 capabilities; implement △ items E8–E10 in slices B3+ · B4+ · B13+ |
 
 ## Enterprise Accepted exit criteria
 
@@ -498,12 +706,78 @@ Promote from Production Candidate only when **all** are true:
 
 | # | Criterion | Evidence |
 | --- | --- | --- |
-| 1 | External authority hierarchy operational in registries | Body → paragraph chain in PAS §4 |
-| 2 | Jurisdiction resolution in routing | Concurrent frameworks per entity |
-| 3 | Effective-date resolution implemented | Transaction date → edition → rule |
+| 1 | External authority hierarchy operational in registries | Body → instrument → paragraph chain in PAS §4 |
+| 2 | Reporting context profile in routing | Entity + book + purpose → frameworks |
+| 3 | Effective-date resolution implemented | Transaction date → edition → rule pack |
 | 4 | Conflict precedence operational | §5.2 model in validation engine |
-| 5 | §12.1 citation metadata on all Production+ rules | Publisher through license status |
-| 6 | One consumer workflow proof | End-to-end validation before posting |
-| 7 | Zero △ peer-review items (E8–E10) remain open | Evidence register upgraded to ✓ |
+| 5 | §12.1 citation metadata on all Production+ rules | Publisher through binding strength |
+| 6 | Explanation registry operational | PAS §4.10 keys on Production+ rules |
+| 7 | Scope gates on applicable rule families | Scope excluded events in tests |
+| 8 | One consumer workflow proof | End-to-end validation before posting |
+| 9 | Authority supersession path defined | Edition supersession event + consumer contract |
+| 10 | Zero △ peer-review items (E8–E10) remain open | Evidence register upgraded to ✓ |
 
-**Last synced with PAS:** Accounting Standards PAS published · B0 skeleton · B1+ planned (2026-06-29) · **Maturity:** Production Candidate · **Peer review:** 9.8/10 (2026-06-29)
+**Last synced with PAS:** Accounting Standards PAS published · B0 skeleton · B1–B11 planned · B13+ for parallel-book extensions (2026-06-29) · **Maturity:** Production Candidate · **Enhancement:** ERP-parity gap analysis 2026-06-29
+
+---
+
+# 16. Enterprise Acceptance Criteria (document EAC)
+
+| Criterion | Gate | Traces to |
+| --- | --- | --- |
+| §1 Philosophy cited ✓ | Manual review | §1 Source |
+| §2 Identity complete | Manual review | §2 |
+| §3 Vocabulary — parallel book + instrument terms | Manual review | §3.1–§3.7 |
+| §4 EFR complete — every Production+ row sourced | Evidence audit | §4 · §12.3 |
+| §5 Principles P1–P12 | Manual review | §5 |
+| §6 Outcomes + KPIs | Manual review | §6 |
+| §7 Business events — core + supersession | Manual review | §7 |
+| §8 Lifecycles — profile · supersession · transition | Manual review | §8.4–§8.8 |
+| §9 Boundaries + four-domain diagram | Manual review | §9.4 |
+| §10 Risks mitigated | Manual review | §10 |
+| §11 Quality attributes | Manual review | §11 |
+| §12 Register + decision log complete | Manual review | §12.2–§12.4 |
+| §13 maps every §4 capability to Blueprint box | Manual review | §13 |
+| §1–§12 contain no package names or PAS IDs | Boundary contract | Hygiene |
+| Blueprint authorable without redefining domain | Manual review | Full §1–§12 |
+
+---
+
+# 17. Document Sync Obligations
+
+| Change in this document | Then update |
+| --- | --- |
+| New §4 capability | §13 row · [Accounting Standards Blueprint](../BLUEPRINT/accounting-standards-blueprint.md) §4.2 |
+| New §3 vocabulary term | PAS-004 promotion slice via Enterprise Knowledge |
+| New §7 event | Blueprint §5.1 integration table · PAS event surface |
+| Parallel book / profile model | PAS slice catalog B13+ |
+| Boundary change | Blueprint §4.2 · Platform Blueprint rollup |
+| Business meaning stable; implementation only | Blueprint or PAS — not §1–§12 |
+
+---
+
+# 18. Required Reviews and References
+
+## Before accepting amendments
+
+- [ ] §1–§12 complete; no package names or PAS IDs in §1–§12
+- [ ] §13 traces every §4 capability to Accounting standards authority box
+- [ ] §14.5 matrix covers Knowledge vs citation split
+- [ ] [doc-boundary-contract.md](../../.cursor/skills/kernel-authority/reference/doc-boundary-contract.md) passes
+- [ ] [doc-evidence-standard.md](../../.cursor/skills/kernel-authority/reference/doc-evidence-standard.md) — E8–E10 △ have slice owners
+- [ ] `pnpm check:documentation-drift` passes after Blueprint sync
+
+## References
+
+| Document | Role |
+| --- | --- |
+| Platform North Star | [`afenda-platform-north-star.md`](../architecture/afenda-platform-north-star.md) |
+| Enterprise Knowledge North Star | [`enterprise-knowledge-north-star.md`](../NORTHSTAR/enterprise-knowledge-north-star.md) |
+| Accounting Standards Blueprint | [`accounting-standards-blueprint.md`](../BLUEPRINT/accounting-standards-blueprint.md) |
+| Accounting Standards PAS | [`PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md`](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) |
+
+---
+
+# 19. Final Doctrine
+
+**Accounting Standards covenant:** Afenda **consumes** external accounting authority — it never **becomes** it. Every validation cites a versioned chain from authority body through instrument to paragraph reference; every parallel book and reporting purpose resolves through an honest reporting context profile; conflicts escalate, supersession notifies, and judgment zones return escalation — not AI invention or silent pass. Posting, mapping, consolidation, tax, and filing stay downstream. If business meaning of consumption changes, amend §1–§12 first — then Blueprint and PAS.

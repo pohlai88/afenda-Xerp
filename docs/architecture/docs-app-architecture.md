@@ -80,7 +80,7 @@ This document defines how Afenda's **documentation delivery application** (`apps
 | Concern | Owner | Notes |
 |---------|-------|-------|
 | Architecture registries | `docs/architecture/` | Human truth; update via Architecture Authority |
-| PAS slice specs | `docs/PAS/slice/` | Evidence artifacts; not auto-synced to Fumadocs |
+| PAS slice specs | `docs/PAS/CSS-AUTHORITY/SLICE/` | Evidence artifacts; not auto-synced to Fumadocs |
 | ADRs | `docs/adr/` | Constitutional; never overridden by docs app content |
 | ERP product UI | `apps/erp/` | No imports from `@afenda/docs` |
 | Governed UI primitives | `packages/ui/` | Optional later slice; requires Governed UI approval |

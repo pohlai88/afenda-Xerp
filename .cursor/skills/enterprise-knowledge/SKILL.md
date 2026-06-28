@@ -3,7 +3,7 @@ name: enterprise-knowledge
 description: Enforces @afenda/enterprise-knowledge — accepted enterprise meaning via Knowledge Atoms, acceptance chains, domains, and integrity. Use when touching packages/enterprise-knowledge, adding or querying Knowledge Atoms, resolving vocabulary conflicts, enforcing acceptance chains, or working on PAS-004 slices.
 paths:
   - packages/enterprise-knowledge/**
-  - docs/PAS/PAS-004*.md
+  - docs/PAS/ENTERPRISE-KNOWLEDGE/**
 ---
 
 # @afenda/enterprise-knowledge — Authority Skill (PAS-004 / PAS-004A–D)
@@ -18,7 +18,7 @@ paths:
 | **PAS-004C** (semantic model) | B38–B48 delivered — scorecard **58/58**; PKGR04 authority PAS-004C | none — superseded by PAS-004D |
 | **PAS-004D** (operational closure) | B49 in progress — mirror sync + legacy retirement + corpus depth (proposed B50–B54) | B49 → B54 |
 
-> Canonical: [`PAS-004`](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [`PAS-004A`](../../../docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [`PAS-004B`](../../../docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · [`PAS-004C`](../../../docs/PAS/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · [`PAS-004D`](../../../docs/PAS/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+> Canonical: [`PAS-004`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [`PAS-004A`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [`PAS-004B`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · [`PAS-004C`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · [`PAS-004D`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
 ---
 
@@ -46,12 +46,12 @@ Apply this skill when touching:
 
 **Kernel boundary:** Branded IDs and wire contracts live in `@afenda/kernel` ([PAS-001](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). Atoms **reference** kernel shapes via `implementationMapping`; never duplicate parsers.
 
-**Architecture authority boundary:** Package/layer/dependency listing → [PAS-002](../../../docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md) / `.cursor/skills/architecture-authority/SKILL.md`. Do **not** store Knowledge Atoms in architecture-authority.
+**Architecture authority boundary:** Package/layer/dependency listing → [PAS-002](../../../docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) / `.cursor/skills/architecture-authority/SKILL.md`. Do **not** store Knowledge Atoms in architecture-authority.
 
-| PAS-004A rollout | [PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md](../../../docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · B25–B32 slices (closed) |
-| PAS-004B rollout | [PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md](../../../docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · B33–B37 closed · **kernel-authority mandatory** |
-| PAS-004C rollout | [PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md](../../../docs/PAS/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · B38–B48 closed · **kernel-authority on B44 realization paths** |
-| PAS-004D rollout | [PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md](../../../docs/PAS/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · B49+ · **kernel-authority on B53 erp-domain bridge only** |
+| PAS-004A rollout | [ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · B25–B32 slices (closed) |
+| PAS-004B rollout | [ENTERPRISE-KNOWLEDGE/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · B33–B37 closed · **kernel-authority mandatory** |
+| PAS-004C rollout | [ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · B38–B48 closed · **kernel-authority on B44 realization paths** |
+| PAS-004D rollout | [PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · B49+ · **kernel-authority on B53 erp-domain bridge only** |
 
 ---
 
@@ -140,7 +140,7 @@ Before editing any enterprise-knowledge file, state these six lines:
                      pnpm quality:boundaries
 ```
 
-If a slice handoff exists, paste the 9-field block from `docs/PAS/slice/<file>.md` into Phase 0 first.
+If a slice handoff exists, paste the 9-field block from `docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/<file>.md` into Phase 0 first.
 
 ---
 
@@ -151,12 +151,12 @@ For new enterprise-knowledge slices, read in this order:
 1. This file (SKILL.md) — boundary, hard stops, Phase 0
 2. [reference/authority-surfaces.md](reference/authority-surfaces.md) — TypeScript shapes + Status labels
 3. [reference/package-structure.md](reference/package-structure.md) — folder tree + source truth order
-4. [docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) — §0 Agent Quick Path
-5. Target slice under `docs/PAS/slice/` — 9-field handoff when implementing
+4. [docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) — §0 Agent Quick Path
+5. Target slice under `docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/` — 9-field handoff when implementing
 
 **Maturity:** Enterprise Accepted (PAS-004B B33–B37, 40/40). Semantic model closed (PAS-004C B38–B48, **58/58**). Operational closure active (PAS-004D B49+). Read **`kernel-authority`** before B53 erp-domain bridge atoms.
 
-**Slice gate:** PAS-004C closed. **Active slice: B49** — mirror sync before B50 legacy retirement. Next: [B49 authority mirror sync](../../../docs/PAS/slice/b49-pas004d-authority-mirror-sync.md).
+**Slice gate:** PAS-004C closed. **Active slice: B49** — mirror sync before B50 legacy retirement. Next: [B49 authority mirror sync](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b49-pas004d-authority-mirror-sync.md).
 
 ---
 
@@ -323,5 +323,5 @@ Knowledge becomes authoritative through acceptance — not through being written
 
 - [Authority surfaces](reference/authority-surfaces.md)
 - [Package structure](reference/package-structure.md)
-- [PAS-004 canonical doc](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)
-- [Slice B24 handoff](../../../docs/PAS/slice/b24-knowledge-charter-mvp.md)
+- [PAS-004 canonical doc](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)
+- [Slice B24 handoff](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b24-knowledge-charter-mvp.md)

@@ -10,7 +10,7 @@ const metadataDocPaths = [
   join(packageRoot, "doc/Foundation phase 05.md"),
   join(
     packageRoot,
-    "../../docs/PAS/slice/[Complete (authority only)] tip-005-metadata-authority.md"
+    "../../docs/PAS/pas-status-index.md"
   ),
   join(packageRoot, "../metadata-ui/README.md"),
 ];

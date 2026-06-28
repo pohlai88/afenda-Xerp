@@ -25,7 +25,7 @@
 | **Agent skills** | `kernel-authority` · `/afenda-coding-session` |
 | **Upstream** | [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §3.4 · Kernel NS §3.2 ERP wire vocabulary |
 | **Legacy archive** | [KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md](archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
-| **Continuation** | Complements [PAS-003](../PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) · meaning in [PAS-004](../PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) |
+| **Continuation** | Complements [PAS-003](../ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) · meaning in [PAS-004](../PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) |
 | **Last reviewed** | 2026-06-29 |
 
 #### Required gates

@@ -33,7 +33,7 @@ Single entry for Tailwind work in the Afenda monorepo. Scoped to `packages/css-a
 | UI fix-first preflight, surface routing | `ui-consistency-bundle` |
 | shadcn normalization pipeline | `afenda-ui-quality` |
 
-Canonical docs: [`docs/architecture/css-authority.md`](../../../docs/architecture/css-authority.md) · PAS-005: [`docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../../docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md)
+Canonical docs: [`docs/architecture/css-authority.md`](../../../docs/architecture/css-authority.md) · PAS-005: [`docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../../docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md)
 
 ## Layered styling model
 

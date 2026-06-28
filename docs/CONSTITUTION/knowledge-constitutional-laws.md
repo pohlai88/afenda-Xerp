@@ -155,4 +155,4 @@ Amend only by ADR + Enterprise Knowledge domain owner review. PAS-004 charter §
 | --- | --- |
 | [Enterprise Knowledge North Star](../NORTHSTAR/enterprise-knowledge-north-star.md) | Full domain specification |
 | [Platform Constitutional Laws](platform-constitutional-laws.md) | Platform-wide laws (LAW 1 · LAW 4 · LAW 10) |
-| [PAS-004 charter](../PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | Implementation charter |
+| [PAS-004 charter](../PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | Implementation charter |

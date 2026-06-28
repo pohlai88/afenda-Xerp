@@ -2,7 +2,7 @@
 
 `@afenda/enterprise-knowledge` contract shapes — skill adapter for PAS-004 §5–§12.
 
-← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-004 §5–§12](../../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)
+← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-004 §5–§12](../../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)
 
 **Status legend:** `Current` = on disk in `packages/enterprise-knowledge/src/` · `Target` = PAS slice not yet delivered
 
@@ -53,7 +53,7 @@ Status: Current — `packages/enterprise-knowledge/src/contracts/knowledge-atom.
 ```ts
 export const ENTERPRISE_KNOWLEDGE_POLICY = {
   pasSection: "4.1",
-  charterDoc: "docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md",
+  charterDoc: "docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md",
   constitutionalSentence:
     "Enterprise knowledge exists when meaning is accepted, reasoning is understood, evidence is trusted, relationships are preserved, decisions are explainable, and evolution is traceable.",
   firstPrinciple:

@@ -79,6 +79,36 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 
 ---
 
+## Domain folder layout
+
+Each governed domain owns a **nested folder** under `docs/PAS/` — same pattern as [`KERNEL/`](KERNEL/README.md):
+
+```text
+docs/PAS/
+├── README.md                    ← this index
+├── pas-status-index.md          ← slice closure registry
+└── <DOMAIN-FOLDER>/
+    ├── README.md                ← family index + agent read order
+    ├── PAS-NNN-*.md             ← canonical long-form PAS documents
+    ├── archive/                 ← optional (kernel only today)
+    └── SLICE/
+        ├── README.md            ← slice family SSOT pointer
+        ├── *-slice-catalog.md   ← build order / closure table
+        └── b<N>-*.md            ← one handoff per slice
+```
+
+| Domain folder | PAS IDs | Slice catalog |
+| --- | --- | --- |
+| [`KERNEL/`](KERNEL/README.md) | PAS-001 · PAS-001A · PAS-001B | [`kernel-slice-catalog.md`](KERNEL/SLICE/kernel-slice-catalog.md) |
+| [`ARCHITECTURE-AUTHORITY/`](ARCHITECTURE-AUTHORITY/README.md) | PAS-002 · PAS-002A | [`architecture-authority-slice-catalog.md`](ARCHITECTURE-AUTHORITY/SLICE/architecture-authority-slice-catalog.md) |
+| [`ACCOUNTING-STANDARDS/`](ACCOUNTING-STANDARDS/README.md) | PAS-003 | [`accounting-slice-catalog.md`](ACCOUNTING-STANDARDS/SLICE/accounting-slice-catalog.md) |
+| [`ENTERPRISE-KNOWLEDGE/`](ENTERPRISE-KNOWLEDGE/README.md) | PAS-004–PAS-004D | [`enterprise-knowledge-slice-catalog.md`](ENTERPRISE-KNOWLEDGE/SLICE/enterprise-knowledge-slice-catalog.md) |
+| [`CSS-AUTHORITY/`](CSS-AUTHORITY/README.md) | PAS-005 · PAS-005A · PAS-005B | [`css-authority-slice-catalog.md`](CSS-AUTHORITY/SLICE/css-authority-slice-catalog.md) |
+
+**Legacy:** flat `docs/PAS/slice/` was removed — slice handoffs live only under `<DOMAIN-FOLDER>/SLICE/`.
+
+---
+
 ## Index
 
 | Standard | Package | Layer | Maturity |
@@ -86,17 +116,17 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 | [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | `@afenda/kernel` | Platform | Enterprise Accepted |
 | [PAS-001A](KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | `apps/erp` (kernel consumer) | Application | Production Candidate (B71–B75 delivered 2026-06-29) |
 | [PAS-001B](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | `@afenda/kernel` (`erp-domain/`) | Platform | Catalog Authority (B76–B106 delivered; 28/28 vocabulary modules) |
-| [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | `@afenda/architecture-authority` | Platform | MVP Authority |
-| [PAS-002A](PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) | `@afenda/architecture-authority` | Platform | Enterprise Accepted (B38–B42 delivered) |
-| [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | `@afenda/accounting-standards` | Foundation | Production Candidate |
-| [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | MVP Authority (constitutional charter) |
-| [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Production Candidate (post-MVP rollout; derived from PAS-004) |
-| [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Enterprise Accepted (B33–B37; scorecard 40/40; derived from PAS-004A) |
-| [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Production Candidate — B38–B48 delivered; scorecard 58/58; derived from PAS-004B |
-| [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Proposed — B49–B54; mirror sync, legacy retirement, corpus depth; derived from PAS-004C |
-| [PAS-005](PAS-005-CSS-AUTHORITY-STANDARD.md) | `@afenda/css-authority` | Design | MVP Authority — B26–B37 delivered; 605-token registry; runtime cutover live |
-| [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) | `@afenda/shadcn-studio` | Design / Presentation | MVP Authority — B38–B42p delivered; strangler sequence complete; derived from PAS-005 |
-| [PAS-005B](PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) | `@afenda/design-system` (retiring) | Design / Deprecation | Retirement Candidate — B43 delivered; B44 readiness gate next; derived from PAS-005 + PAS-005A |
+| [PAS-002](ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) | `@afenda/architecture-authority` | Platform | MVP Authority |
+| [PAS-002A](ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) | `@afenda/architecture-authority` | Platform | Enterprise Accepted (B38–B42 delivered) |
+| [PAS-003](ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | `@afenda/accounting-standards` | Foundation | Production Candidate |
+| [PAS-004](ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | MVP Authority (constitutional charter) |
+| [PAS-004A](ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Production Candidate (post-MVP rollout; derived from PAS-004) |
+| [PAS-004B](ENTERPRISE-KNOWLEDGE/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Enterprise Accepted (B33–B37; scorecard 40/40; derived from PAS-004A) |
+| [PAS-004C](ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Production Candidate — B38–B48 delivered; scorecard 58/58; derived from PAS-004B |
+| [PAS-004D](ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Proposed — B49–B54; mirror sync, legacy retirement, corpus depth; derived from PAS-004C |
+| [PAS-005](CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) | `@afenda/css-authority` | Design | MVP Authority — B26–B37 delivered; 605-token registry; runtime cutover live |
+| [PAS-005A](CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) | `@afenda/shadcn-studio` | Design / Presentation | MVP Authority — B38–B42p delivered; strangler sequence complete; derived from PAS-005 |
+| [PAS-005B](CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) | `@afenda/design-system` (retiring) | Design / Deprecation | Retirement Candidate — B43 delivered; B44 readiness gate next; derived from PAS-005 + PAS-005A |
 
 Package-local annotated trees:
 
@@ -117,6 +147,55 @@ Platform Kernel chain SSOT: [`KERNEL/README.md`](KERNEL/README.md) · slices: [`
 
 Agent read order: [Kernel North Star](../NORTHSTAR/kernel-north-star.md) → [Kernel Blueprint](../BLUEPRINT/kernel-blueprint.md) → [KERNEL/README.md](KERNEL/README.md) → [KERNEL/SLICE/README.md](KERNEL/SLICE/README.md).
 
+### Accounting Standards PAS family (composed governance layer)
+
+Accounting Standards chain SSOT: [`ACCOUNTING-STANDARDS/README.md`](ACCOUNTING-STANDARDS/README.md) · slices: [`ACCOUNTING-STANDARDS/SLICE/`](ACCOUNTING-STANDARDS/SLICE/README.md) · catalog: [`accounting-slice-catalog.md`](ACCOUNTING-STANDARDS/SLICE/accounting-slice-catalog.md).
+
+| Composed SSOT | Package |
+| --- | --- |
+| [ACCOUNTING-STANDARDS/PAS-003](ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | `@afenda/accounting-standards` |
+
+Agent read order: [Accounting Standards North Star](../NORTHSTAR/accounting-standards-north-star.md) → [Accounting Standards Blueprint](../BLUEPRINT/accounting-standards-blueprint.md) → [ACCOUNTING-STANDARDS/README.md](ACCOUNTING-STANDARDS/README.md) → [ACCOUNTING-STANDARDS/SLICE/README.md](ACCOUNTING-STANDARDS/SLICE/README.md).
+
+### Architecture Authority PAS family (composed governance layer)
+
+Architecture Authority chain SSOT: [`ARCHITECTURE-AUTHORITY/README.md`](ARCHITECTURE-AUTHORITY/README.md) · slices: [`ARCHITECTURE-AUTHORITY/SLICE/`](ARCHITECTURE-AUTHORITY/SLICE/README.md) · catalog: [`architecture-authority-slice-catalog.md`](ARCHITECTURE-AUTHORITY/SLICE/architecture-authority-slice-catalog.md).
+
+| Composed SSOT | Package |
+| --- | --- |
+| [ARCHITECTURE-AUTHORITY/PAS-002](ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) | `@afenda/architecture-authority` |
+| [ARCHITECTURE-AUTHORITY/PAS-002A](ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) | `@afenda/architecture-authority` |
+
+Agent read order: [Architecture Authority North Star](../NORTHSTAR/architecture-authority-north-star.md) → [Architecture Authority Blueprint](../BLUEPRINT/architecture-authority-blueprint.md) → [ARCHITECTURE-AUTHORITY/README.md](ARCHITECTURE-AUTHORITY/README.md) → [ARCHITECTURE-AUTHORITY/SLICE/README.md](ARCHITECTURE-AUTHORITY/SLICE/README.md).
+
+Package-local annotated tree: [`packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md`](../../packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md)
+
+### CSS Authority PAS family (composed governance layer)
+
+Design Token Authority chain SSOT: [`CSS-AUTHORITY/README.md`](CSS-AUTHORITY/README.md) · slices: [`CSS-AUTHORITY/SLICE/`](CSS-AUTHORITY/SLICE/README.md) · catalog: [`css-authority-slice-catalog.md`](CSS-AUTHORITY/SLICE/css-authority-slice-catalog.md).
+
+| Composed SSOT | Package |
+| --- | --- |
+| [CSS-AUTHORITY/PAS-005](CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) | `@afenda/css-authority` |
+| [CSS-AUTHORITY/PAS-005A](CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) | `@afenda/shadcn-studio` |
+| [CSS-AUTHORITY/PAS-005B](CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) | `@afenda/design-system` (retiring) |
+
+Agent read order: [Design Token Authority North Star](../NORTHSTAR/css-authority-north-star.md) → [CSS Authority Blueprint](../BLUEPRINT/css-authority-blueprint.md) → [CSS-AUTHORITY/README.md](CSS-AUTHORITY/README.md) → [CSS-AUTHORITY/SLICE/README.md](CSS-AUTHORITY/SLICE/README.md).
+
+### Enterprise Knowledge PAS family (composed governance layer)
+
+Enterprise Knowledge chain SSOT: [`ENTERPRISE-KNOWLEDGE/README.md`](ENTERPRISE-KNOWLEDGE/README.md) · slices: [`ENTERPRISE-KNOWLEDGE/SLICE/`](ENTERPRISE-KNOWLEDGE/SLICE/README.md) · catalog: [`enterprise-knowledge-slice-catalog.md`](ENTERPRISE-KNOWLEDGE/SLICE/enterprise-knowledge-slice-catalog.md).
+
+| Composed SSOT | Package |
+| --- | --- |
+| [ENTERPRISE-KNOWLEDGE/PAS-004](ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | `@afenda/enterprise-knowledge` |
+| [ENTERPRISE-KNOWLEDGE/PAS-004A](ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | `@afenda/enterprise-knowledge` |
+| [ENTERPRISE-KNOWLEDGE/PAS-004B](ENTERPRISE-KNOWLEDGE/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | `@afenda/enterprise-knowledge` |
+| [ENTERPRISE-KNOWLEDGE/PAS-004C](ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) | `@afenda/enterprise-knowledge` |
+| [ENTERPRISE-KNOWLEDGE/PAS-004D](ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) | `@afenda/enterprise-knowledge` |
+
+Agent read order: [Enterprise Knowledge North Star](../NORTHSTAR/enterprise-knowledge-north-star.md) → [Enterprise Knowledge Blueprint](../BLUEPRINT/enterprise-knowledge-blueprint.md) → [ENTERPRISE-KNOWLEDGE/README.md](ENTERPRISE-KNOWLEDGE/README.md) → [ENTERPRISE-KNOWLEDGE/SLICE/README.md](ENTERPRISE-KNOWLEDGE/SLICE/README.md).
+
 ---
 
 ## Agent skill entrypoints
@@ -136,7 +215,7 @@ Each PAS has a corresponding Cursor agent skill for IDE-optimized enforcement:
 | PAS-005B | `.cursor/skills/css-authority/SKILL.md` + `.cursor/skills/shadcn-studio-authority/SKILL.md` |
 | Accessibility (cross-PAS) | `.cursor/skills/afenda-accessibility/SKILL.md` |
 
-Appendix (temporary borrow refs): [PAS-003 Appendix A](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#appendix-a--borrow-reference-inventory-temporary)
+Appendix (temporary borrow refs): [PAS-003 Appendix A](ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#appendix-a--borrow-reference-inventory-temporary)
 
 ---
 
@@ -145,7 +224,7 @@ Appendix (temporary borrow refs): [PAS-003 Appendix A](PAS-003-ACCOUNTING-STANDA
 0. Confirm the package or domain authority appears in [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md) with status, layer, and **why separate** ([ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)).
 1. Assign the next `PAS-NNN` number from the index above.
 2. Copy templates from `.cursor/skills/kernel-authority/reference/pas-template.md` (index) and the split files `pas-doc-template.md`, `pas-skill-template.md`, `pas-slice-template.md`, `pas-reference-templates.md`.
-3. Create `docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md`.
-4. Register it in the index table above.
+3. Create or reuse a domain folder: `docs/PAS/<DOMAIN-FOLDER>/` with `README.md`, canonical `PAS-NNN-*.md`, and `SLICE/` (catalog + handoffs). Mirror [`KERNEL/`](KERNEL/README.md) layout.
+4. Register it in the index table and domain folder table above.
 5. Create the corresponding Cursor skill under `.cursor/skills/<package-name>-authority/SKILL.md`.
 6. Add a tombstone pointer in `packages/<package-name>/` if the package is in the monorepo.

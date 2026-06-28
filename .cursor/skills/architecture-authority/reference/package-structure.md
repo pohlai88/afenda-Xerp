@@ -2,7 +2,7 @@
 
 `@afenda/architecture-authority` folder tree, exports, and governance rules.
 
-← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-002 §6](../../../../docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md#6-package-structure-standard)
+← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-002 §6](../../../../docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md#6-package-structure-standard)
 
 **Source truth order:**
 
@@ -10,7 +10,7 @@
 2. [`architecture-authority-package-layout.contract.ts`](../../../../packages/architecture-authority/src/contracts/architecture-authority-package-layout.contract.ts) — §6.1 folders, §6.2 target paths, §6.3 forbidden structure, subpath exports (Slice B9)
 3. [`architecture-authority-surface-registry.ts`](../../../../packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts) — data modules, validators, doc sync targets
 4. [`package.json`](../../../../packages/architecture-authority/package.json) — public export keys
-5. [PAS-002 §6](../../../../docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md#6-package-structure-standard) — forbidden paths and export policy
+5. [PAS-002 §6](../../../../docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md#6-package-structure-standard) — forbidden paths and export policy
 6. This reference — skill adapter summary
 
 **Rule:** Do not list slice targets as "future" when they are already on disk. PAS-002 §4.1–§4.12 runtime is delivered.

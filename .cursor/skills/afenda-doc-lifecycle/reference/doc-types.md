@@ -155,7 +155,7 @@ Per doc type authoring rules for **AUTHOR** intent. Load when writing or amendin
 | Field | Value |
 | --- | --- |
 | **Template** | `.cursor/skills/kernel-authority/reference/pas-slice-template.md` |
-| **Target path** | `docs/PAS/KERNEL/SLICE/<slug>.md` (kernel family SSOT; legacy `docs/PAS/slice/` removed) |
+| **Target path** | `docs/PAS/KERNEL/SLICE/<slug>.md` (kernel family SSOT; legacy `docs/PAS/CSS-AUTHORITY/SLICE/` removed) |
 | **Skill** | `pas-slice-planner` |
 | **Pre-fill from** | PAS §12 row · PAS §4 surface for this slice |
 | **Downstream** | `@afenda-governed-implementer` via 9-field handoff |

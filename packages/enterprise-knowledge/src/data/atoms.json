@@ -844,7 +844,7 @@
       {
         "evidenceId": "metadata_evidence_1",
         "type": "decision",
-        "source": "docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md"
+        "source": "docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md"
       }
     ],
     "structuredReasoning": {
@@ -951,7 +951,7 @@
       {
         "evidenceId": "double_entry_evidence_1",
         "type": "decision",
-        "source": "docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md"
+        "source": "docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md"
       }
     ],
     "structuredReasoning": {
@@ -1043,7 +1043,7 @@
       {
         "evidenceId": "accounting_equation_evidence_1",
         "type": "decision",
-        "source": "docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md"
+        "source": "docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md"
       }
     ],
     "structuredReasoning": {
@@ -1260,7 +1260,7 @@
       {
         "evidenceId": "ifrs_10_evidence_1",
         "type": "decision",
-        "source": "docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md"
+        "source": "docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md"
       },
       {
         "evidenceId": "ifrs_10_evidence_2",

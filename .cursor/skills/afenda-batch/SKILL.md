@@ -51,7 +51,7 @@ After orchestrator batch manifest PASS:
 ```text
 Task × N (parallel) → afenda-governed-implementer
   each prompt MUST include:
-    - complete 9-field handoff block from docs/PAS/slice/
+    - complete 9-field handoff block from docs/PAS/CSS-AUTHORITY/SLICE/
     - coding-consistency-bundle read list (from .cursor/skills/coding-consistency-bundle/SKILL.md)
 Wait → combined diff containment → consolidated gates → documentation-drift (if docs/matrix changed)
 ```

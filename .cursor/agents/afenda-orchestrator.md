@@ -67,7 +67,7 @@ Provide exact Slot table before this agent can produce a batch manifest.
 3. [`docs/PAS/pas-status-index.md`](../../docs/PAS/pas-status-index.md) — slice closure registry and next sequence
 4. [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) — `allowedAgents`, `runtimeOwner`, `prohibited` per entry
 5. [`.cursor/skills/enterprise-erp-standards/SKILL.md`](../skills/enterprise-erp-standards/SKILL.md) — batch must not skip any controls
-6. Target slice handoffs under `docs/PAS/slice/` for each slot — verify 9-field handoff blocks exist
+6. Target slice handoffs under `docs/PAS/CSS-AUTHORITY/SLICE/` for each slot — verify 9-field handoff blocks exist
 
 ### Mandatory pre-flight emit
 
@@ -95,7 +95,7 @@ Before invoking any implementer, produce a batch manifest in your response. **No
 
 | Slot | Slice | # | Type | Registry entry | Runtime owner | Field 3 files (summarized) | Gates | Conflict status |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| A | `bNN-slug` | N | Research | PKG-NNN | docs-only | `docs/PAS/slice/...` | `check:doc-drift` | PASS / FAIL |
+| A | `bNN-slug` | N | Research | PKG-NNN | docs-only | `docs/PAS/CSS-AUTHORITY/SLICE/...` | `check:doc-drift` | PASS / FAIL |
 
 ---
 
@@ -103,7 +103,7 @@ Before invoking any implementer, produce a batch manifest in your response. **No
 
 Stop and output a Batch Repair Report if any condition is true:
 
-1. Any slice file is missing from `docs/PAS/slice/`.
+1. Any slice file is missing from `docs/PAS/CSS-AUTHORITY/SLICE/`.
 2. Any slice is missing from [`pas-status-index.md`](../../docs/PAS/pas-status-index.md).
 3. Any slice lacks a complete 9-field handoff block (`pas-slice-planner` must repair first).
 4. Any handoff Field 3 uses globs, directory-only paths, "related files", or "as needed".

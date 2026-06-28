@@ -1,6 +1,6 @@
 # PAS-002 — Architecture Authority Package Tree (package-local)
 
-> **Canonical PAS:** [`docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md`](../docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md)
+> **Canonical PAS:** [`docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md`](../docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md)
 >
 > **Runtime authority (code wins over prose):**
 > [`src/surface/architecture-authority-surface-registry.ts`](src/surface/architecture-authority-surface-registry.ts) ·

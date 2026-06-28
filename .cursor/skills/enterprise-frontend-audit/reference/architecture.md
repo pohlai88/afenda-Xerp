@@ -178,7 +178,7 @@ Compare implementation against these documents (read before Phase 10):
 docs/PAS/README.md                                    ← PAS index
 docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md         ← kernel boundary
 docs/adr/                                             ← all ADRs
-docs/PAS/slice/                                       ← active slice handoffs
+docs/PAS/CSS-AUTHORITY/SLICE/                                       ← active slice handoffs
 docs/architecture/afenda-runtime-truth-matrix.md      ← runtime authority
 docs/architecture/foundation-disposition.md           ← lane vocabulary
 packages/architecture-authority/src/data/

@@ -26,7 +26,7 @@
 | **Evidence level** | `runtime` — full catalog vocabulary; unified + legacy domain gates green; foundation modules re-scaffolded (B106) |
 | **Runtime status** | 28-module catalog; all slugs delivered under `erp-domain/{slug}/`; unified layout + vocabulary gates operational; `accounting` + `inventory` match governed scaffold contract |
 | **Remaining slices** | none — catalog vocabulary complete; metadata-ui permission bridge deferred to PAS-001A |
-| **Continuation** | Complements [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md); does not replace PKGR02 inventory runtime |
+| **Continuation** | Complements [PAS-003](../../ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md); does not replace PKGR02 inventory runtime |
 | **Agent skills** | **`kernel-authority`** (mandatory) · `/afenda-coding-session` · `/coding-consistency-bundle` |
 | **Registry lane** | `PKGR01B_ERP_DOMAIN_CATALOG` · `@afenda/kernel` |
 

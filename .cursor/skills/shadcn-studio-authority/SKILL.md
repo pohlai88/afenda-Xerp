@@ -3,7 +3,7 @@ name: shadcn-studio-authority
 description: Enforces @afenda/shadcn-studio — shadcn/studio theme surface, preset runtime, MCP install targets, and governed presentation inventory (PAS-005A). Use when touching packages/shadcn-studio, theme presets, ThemeCustomizer, PAS-005A slices, or shadcn-studio MCP cwd.
 paths:
   - packages/shadcn-studio/**
-  - docs/PAS/PAS-005A*.md
+  - docs/PAS/CSS-AUTHORITY/PAS-005A*.md
 ---
 
 # @afenda/shadcn-studio — Authority Skill (PAS-005A)
@@ -13,9 +13,9 @@ paths:
 | Field | Value |
 | --- | --- |
 | **Runtime status** | B42p delivered — ERP + Storybook import `@afenda/shadcn-studio/shadcn-studio.css`; delegating-flip policy registry (68 rows); legacy `shadcn-studio/` path deleted (B42h); strangler complete |
-| **Remaining slices** | B44–B49 under [PAS-005B](../../../docs/PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) — appshell consolidation (B48); optional delegating per block |
+| **Remaining slices** | B44–B49 under [PAS-005B](../../../docs/PAS/CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) — appshell consolidation (B48); optional delegating per block |
 
-> Canonical: [`docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md`](../../../docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) · Parent: [`PAS-005`](../../../docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md) · Retirement: [`PAS-005B`](../../../docs/PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+> Canonical: [`docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md`](../../../docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) · Parent: [`PAS-005`](../../../docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) · Retirement: [`PAS-005B`](../../../docs/PAS/CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
 ---
 

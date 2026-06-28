@@ -2,7 +2,7 @@
 
 Detailed TypeScript shapes for `@afenda/architecture-authority` authority surfaces.
 
-← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-002 §4](../../../../docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md#4-authority-surfaces)
+← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-002 §4](../../../../docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md#4-authority-surfaces)
 
 **Status labels used in this file:**
 

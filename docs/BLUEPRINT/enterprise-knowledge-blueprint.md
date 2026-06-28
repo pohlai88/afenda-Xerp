@@ -19,24 +19,24 @@
 | **Planned PAS** | `0` |
 | **Does not confer** | Business domain meaning without acceptance, contracts, slice handoffs, gate execution |
 | **Machine registry** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) · `PKGR04_ENTERPRISE_KNOWLEDGE` |
-| **Quality target** | Enterprise **10 / 10** (Enterprise Accepted blocked on Domain NS §15) |
+| **Quality target** | Enterprise **10 / 10** (Enterprise Accepted blocked on Domain NS §16) |
 | **Evidence standard** | [doc-evidence-standard.md](../../.cursor/skills/kernel-authority/reference/doc-evidence-standard.md) |
 | **Last reviewed** | 2026-06-29 |
-| **Next document** | [PAS-004](../PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [PAS-004C](../PAS/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) (runtime truth) |
+| **Next document** | [PAS-004](../PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [PAS-004C](../PAS/ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) (runtime truth) |
 
-> **One sentence:** One Platform-layer **Enterprise knowledge** box owns Concept → Atom → Representation epistemology, acceptance graphs, and conformance — wired end-to-end from Knowledge Constitutional Laws through Domain North Star, the PAS-004 family, JSON authority, consumer projections, and every surface that must cite meaning instead of inventing it.
+> **One sentence:** One Platform-layer **Enterprise knowledge** box owns Concept → Atom → Term → Representation epistemology, acceptance graphs, and conformance — wired end-to-end from Knowledge Constitutional Laws through Domain North Star, the PAS-004 family, JSON authority, consumer projections, and every surface that must cite meaning instead of inventing it.
 
 ---
 
 # 0. Agent Quick Path
 
-**Read order:** [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) → [Knowledge Constitutional Laws](../CONSTITUTION/knowledge-constitutional-laws.md) → [Platform NS](../architecture/afenda-platform-north-star.md) → [Domain NS §1–§12](../NORTHSTAR/enterprise-knowledge-north-star.md) → **this document** → [PAS-004](../PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) → [PAS-004C](../PAS/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) (runtime) → Slice → Code.
+**Read order:** [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) → [Knowledge Constitutional Laws](../CONSTITUTION/knowledge-constitutional-laws.md) → [Platform NS](../architecture/afenda-platform-north-star.md) → [Domain NS §1–§12](../NORTHSTAR/enterprise-knowledge-north-star.md) → **this document** → [PAS-004](../PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) → [PAS-004C](../PAS/ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) (runtime) → Slice → Code.
 
 **This document answers:**
 
 - What **Blueprint box** owns platform **meaning** (not shape, structure, or external citation)
 - Why meaning is **one box** separate from Kernel, Architecture Authority, Accounting Standards, and representations (§3.1)
-- How **Concept → Atom → Representation** and promotion pipeline compose (§5.1 · §5.5)
+- How **Concept → Atom → Term → Representation** and promotion pipeline compose (§5.1 · §5.5)
 - **Full-stack integration** from laws → atoms → gates → consumer projections (§5.2–§5.4)
 - Box **owns / never owns** (§4.2) · four orthogonal domains (§5.2)
 
@@ -101,6 +101,13 @@ Business **why acceptance creates authority:** [Domain NS §1](../NORTHSTAR/ente
 | Conflict resolution engine | **Enterprise knowledge** | D1 |
 | Conformance enforcement | **Enterprise knowledge** | D1 |
 | Kernel consumer alignment | **Enterprise knowledge** | D2 |
+| Applicability resolution | **Enterprise knowledge** | D1 |
+| Knowledge term model | **Enterprise knowledge** | D1 |
+| Exposure and agent grounding | **Enterprise knowledge** | D1 |
+| Stewardship workflow | **Enterprise knowledge** | D1 |
+| Vocabulary discovery | **Enterprise knowledge** | D1 |
+| Misconception coverage | **Enterprise knowledge** | D1 |
+| Trust certification | **Enterprise knowledge** | D1 |
 
 ---
 
@@ -126,7 +133,7 @@ Machine assignments: [`layer-registry.data.ts`](../../packages/architecture-auth
 
 | Question | Enterprise knowledge | Result |
 | --- | --- | --- |
-| Different **business capability** (Domain NS §4)? | All fourteen capabilities serve one epistemology domain | **Single box** |
+| Different **business capability** (Domain NS §4)? | All twenty-one capabilities serve one epistemology domain | **Single box** |
 | Different **lifecycle**? | Epistemic vs implementation lifecycles are **parallel tracks inside one box** (NS §8.1–§8.2) | **Single box** |
 | Different **ownership**? | Enterprise Knowledge Authority owns meaning | **Single box** |
 | **Independent deployment**? | One `@afenda/enterprise-knowledge` package | **Single box** |
@@ -189,7 +196,7 @@ packages/enterprise-knowledge/
 | B1 | ADR-0026 | T0 | Platform knowledge capability | [`docs/adr/ADR-0026`](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) |
 | B2 | Knowledge Laws K1–K8 | T1 | Acceptance · representations · shape≠meaning | [`knowledge-constitutional-laws.md`](../CONSTITUTION/knowledge-constitutional-laws.md) |
 | B3 | Domain NS §12 D1–D2 | T1 | Capability → box | [`enterprise-knowledge-north-star.md`](../NORTHSTAR/enterprise-knowledge-north-star.md) |
-| B4 | PAS-004C 58/58 | T5 | Semantic model delivered | [`PAS-004C`](../PAS/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) |
+| B4 | PAS-004C 58/58 | T5 | Semantic model delivered | [`PAS-004C`](../PAS/ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) |
 | B5 | PKG-024 · PKGR04 | T4 | Live · green-lane · authority PAS-004C | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
 | B6 | Peer review 9.95/10 | T6 | Production Candidate NS | Domain NS §12 provenance |
 
@@ -199,7 +206,7 @@ packages/enterprise-knowledge/
 
 | Blueprint box | Owns (architectural) | Never owns (explicit exclusions) | Domain NS trace |
 | --- | --- | --- | --- |
-| **Enterprise knowledge** | Knowledge Concept · Knowledge Atom · acceptance graph · epistemic status · classification · semantic stability · evidence precedence · conflict resolution · integrity dimensions · JSON/TS registry authority · consumer projection profiles · kernel meaning mapping (not wire) · conformance policy · promotion pipeline enforcement | Wire contract shapes · package/layer registries · IFRS paragraph citation chains · journal posting · UI rendering · tenant-editable stores · AI binding truth without acceptance · graph DB / ontology engine runtime | §4 · §9.1 · §9.2 |
+| **Enterprise knowledge** | Knowledge Concept · Knowledge Atom · Knowledge Term · acceptance graph · epistemic status · classification · semantic stability · evidence precedence · conflict resolution · applicability · exposure policy · stewardship · integrity dimensions · JSON/TS registry authority · consumer projection profiles · kernel meaning mapping (not wire) · conformance policy · promotion pipeline enforcement | Wire contract shapes · package/layer registries · IFRS paragraph citation chains · journal posting · UI rendering · tenant-editable stores · business master data record ownership · AI binding truth without acceptance · graph DB / ontology engine runtime | §4 · §9.1 · §9.2 |
 
 **Never-owns targets:** **Kernel** (shape) · **Architecture authority** (structure) · **Accounting standards authority** (external citation) · **Representations** (glossary, UI, docs — consumers) · all **LoB runtimes**.
 
@@ -240,7 +247,7 @@ Enterprise knowledge (this box)
 
 # 5.1 Cross-box Composition — Meaning Surfaces (Internal)
 
-> Maps Domain NS §3.1–§3.5 to PAS-004 family surfaces inside **Enterprise knowledge**. Not separate Blueprint boxes.
+> Maps Domain NS §3.1–§3.10 to PAS-004 family surfaces inside **Enterprise knowledge**. Not separate Blueprint boxes.
 
 ```text
 Enterprise knowledge (one box)
@@ -250,13 +257,20 @@ Enterprise knowledge (one box)
         ├─ Kernel consumer alignment ──────── PAS-004B · kernel-mapping gates
         ├─ Knowledge Concept ──────────────── PAS-004C · concepts.json
         ├─ Contextual meaning / Perspective ─ PAS-004C · perspectives.json
-        ├─ KnowledgeTerm vocabulary ───────── PAS-004C · terms.json
+        ├─ KnowledgeTerm vocabulary ───────── PAS-004C · terms.json (NS §3.1 · §3.9)
         ├─ Classification (NS §3.2) ───────── atom kind facet
         ├─ Epistemic status (NS §3.3) ─────── truth binding facet
         ├─ Evidence precedence (NS §3.4) ──── conformance + conflict (△ → slices)
         ├─ Semantic stability (NS §3.5) ───── stability facet
+        ├─ Applicability scope (NS §3.6) ──── applicability facet (△ → slices)
+        ├─ Exposure tiers (NS §3.7) ───────── exposure facet (△ → slices)
+        ├─ Stewardship intake (NS §3.8) ───── process — not runtime registry
+        ├─ Five registry classes (NS §3.10) ─ concept · atom · relationship · term · representation
         ├─ Acceptance graph ───────────────── PAS-004B · acceptance-graph queries
         ├─ Consumer profiles ──────────────── PAS-004C · knowledge-consumer.projection
+        ├─ Discovery queries ──────────────── PAS-004C · query/ (acceptance graph · search)
+        ├─ Misconceptions facet ───────────── PAS-004C · atom misconception metadata (△ → slices)
+        ├─ Trust certification ────────────── PAS-004D · attestation (proposed)
         ├─ Realization mapping ────────────── PAS-004C · kernel paths (read-only)
         ├─ Transition governance ──────────── PAS-004C · transition-rules.registry
         └─ Operational closure ────────────── PAS-004D · mirror sync · corpus depth (proposed)
@@ -266,11 +280,14 @@ Enterprise knowledge (one box)
 | --- | --- | --- | --- | --- |
 | Domain NS §3 row | Knowledge Concept | promotion upstream | Promotion completed | Knowledge |
 | Knowledge Concept | Knowledge Atom | concept anchors atoms | Meaning proposed | Metadata |
+| Knowledge Atom | Knowledge Term | labels/synonyms/locale | Term proposed | Metadata |
 | Accepting authority | Knowledge Atom | acceptance chain | Meaning accepted | Metadata |
 | Knowledge Atom | Consumer projection | atom → ERP/docs/metadata view | Representation synced | Compile-time |
 | Knowledge Atom | Glossary representation | atom → human-readable | Representation synced | Knowledge |
 | Conflicting evidence | Conflict resolution | precedence → Candidate or Decision atom | Evidence conflict detected · Conflict resolved | Metadata |
+| Applicability scope | Consumer binding | scope + exceptions before enforce | — | Metadata |
 | Kernel wire type | Implementation mapping | shape reference — not definition | — | Compile-time |
+| Architecture reservation map | Meaning alignment | entity name vocabulary — not record ownership (NS I10) | — | Knowledge |
 
 ---
 
@@ -352,6 +369,9 @@ Enterprise knowledge (one box)
 | E6 | Supersession preserves lineage | LAW K8 · transition governance |
 | E7 | Evidence conflicts escalate — no silent merge | Domain NS I8 · §5.2 conflict model |
 | E8 | AI prose without acceptance ≠ mandatory binding | Domain NS I6 · exposure policy |
+| E9 | Master data records ≠ accepted meaning | Domain NS I9 · ADR-0020 MDM boundary |
+| E10 | Architecture lists packages — never stores atoms | Domain NS I10 · PAS-002 boundary |
+| E11 | Applicability scope before consumer enforcement | Domain NS P13 · applicability facet |
 
 ---
 
@@ -366,7 +386,7 @@ Enterprise knowledge (one box)
 | **docs/architecture/glossary.md** | Synced representation | Registry wins (I2) | `check:glossary-knowledge-sync` |
 | **@afenda/kernel** | `implementationMapping` / realization refs | Read-only path validation | `check:knowledge-kernel-mapping` |
 | **All ERP domains** | Terminology at boundaries | Must not fork atoms locally | conformance + domain PAS |
-| **Agent orchestration** | Skill + atom ID + epistemic status | Cite — do not invent | enterprise-knowledge skill |
+| **Agent orchestration** | Skill + atom ID + epistemic status + exposure tier | Cite — do not invent | enterprise-knowledge skill |
 
 ---
 
@@ -375,7 +395,7 @@ Enterprise knowledge (one box)
 ```text
 Knowledge Laws K1–K8
         ↓
-Domain NS §3.1–§3.5 · §8.5 promotion pipeline
+Domain NS §3.1–§3.10 · §8.5 promotion pipeline
         ↓
 Domain Blueprint §5.1 (this doc)
         ↓
@@ -414,9 +434,11 @@ Knowledge Concept (optional abstract anchor)     ← PAS-004C concepts.json
         ▼
 Knowledge Atom (accepted meaning + epistemic status + stability)
         │
+        ├─► Knowledge Term (labels · synonyms · locale)   ← PAS-004C terms.json (NS §3.1 · §3.9)
+        │
         ├─► Glossary representation              ← docs/architecture/glossary.md
         ├─► UI / metadata labels                  ← ui-composition · metadata-ui
-        ├─► AI / copilot context                  ← atom ID + status in prompts
+        ├─► AI / copilot context                  ← atom ID + status + exposure tier in prompts
         └─► Documentation views                   ← apps/docs
 ```
 
@@ -480,12 +502,12 @@ Tenant-specific knowledge stores and graph-database ontology engines are **out o
 | Layer | Platform |
 | Why separate | §4 Reasoning → PAS-004 §1–§2 |
 | §4.2 Owns / never owns | PAS-004 §0 boundary · §5 prohibited |
-| Status | live · Production Candidate ceiling until Domain NS §15 |
+| Status | live · Production Candidate ceiling until Domain NS §16 |
 | Governing PAS | PAS-004 charter · PAS-004A–004D derived |
 | §5 consumers | PAS metadata `Consumers` |
 | §5.1 surfaces | PAS-004A–004C implementation map |
 | §5.5 promotion | SYNC workflow · enterprise-knowledge skill |
-| NS §15 exit criteria | PAS §11 Enterprise Accepted attestation |
+| NS §16 exit criteria | PAS §11 Enterprise Accepted attestation |
 
 **PAS family roles:**
 
@@ -593,7 +615,7 @@ Sync glossary · consumer projections · pas-status-index
 - [ ] §4 box traces to Domain NS §4 + §13
 - [ ] §3.1 explains separation from Kernel · Architecture · Accounting Standards
 - [ ] §4.2 complete · §4.3 present
-- [ ] §5.1 maps NS §3.1–§3.5 to PAS family
+- [ ] §5.1 maps NS §3.1–§3.10 to PAS family
 - [ ] §5.2 full-stack + four-domain diagram
 - [ ] §5.3 consumers match Platform Blueprint
 - [ ] §5.4 · §5.5 promotion pipeline documented
@@ -607,8 +629,8 @@ Sync glossary · consumer projections · pas-status-index
 | Domain North Star | [`enterprise-knowledge-north-star.md`](../NORTHSTAR/enterprise-knowledge-north-star.md) |
 | Knowledge Laws | [`knowledge-constitutional-laws.md`](../CONSTITUTION/knowledge-constitutional-laws.md) |
 | Platform Blueprint | [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md) |
-| PAS-004 charter | [`PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](../PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) |
-| PAS-004C runtime | [`PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md`](../PAS/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) |
+| PAS-004 charter | [`PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](../PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) |
+| PAS-004C runtime | [`PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md`](../PAS/ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) |
 | Architecture Authority Blueprint | [`architecture-authority-blueprint.md`](architecture-authority-blueprint.md) |
 | Accounting Standards Blueprint | [`accounting-standards-blueprint.md`](accounting-standards-blueprint.md) |
 

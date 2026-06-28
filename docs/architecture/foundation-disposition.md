@@ -84,4 +84,4 @@
 
 Legacy delivery trees were **retired 2026-06-27**. Do not recreate them.
 
-**New work:** follow [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — PAS parent standard → registry entry → `docs/PAS/slice/` handoff → `afenda-coding-session` §0 → gates → runtime matrix. Index: [`PAS/README.md`](../PAS/README.md).
+**New work:** follow [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — PAS parent standard → registry entry → `docs/PAS/CSS-AUTHORITY/SLICE/` handoff → `afenda-coding-session` §0 → gates → runtime matrix. Index: [`PAS/README.md`](../PAS/README.md).

@@ -27,6 +27,38 @@ export const PAS_KERNEL_STANDARD =
 /** Kernel slice handoff SSOT (legacy `docs/PAS/slice/` removed from repo). */
 export const PAS_KERNEL_SLICE_DIR = "docs/PAS/KERNEL/SLICE" as const;
 
+/** Accounting Standards PAS family composed SSOT. */
+export const PAS_ACCOUNTING_STANDARDS_STANDARD =
+  "docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md" as const;
+
+/** Accounting Standards slice handoff SSOT. */
+export const PAS_ACCOUNTING_STANDARDS_SLICE_DIR =
+  "docs/PAS/ACCOUNTING-STANDARDS/SLICE" as const;
+
+/** CSS Authority PAS family composed SSOT. */
+export const PAS_CSS_AUTHORITY_STANDARD =
+  "docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md" as const;
+
+/** CSS Authority slice handoff SSOT. */
+export const PAS_CSS_AUTHORITY_SLICE_DIR =
+  "docs/PAS/CSS-AUTHORITY/SLICE" as const;
+
+/** Architecture Authority PAS family composed SSOT. */
+export const PAS_ARCHITECTURE_AUTHORITY_STANDARD =
+  "docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md" as const;
+
+/** Architecture Authority slice handoff SSOT. */
+export const PAS_ARCHITECTURE_AUTHORITY_SLICE_DIR =
+  "docs/PAS/ARCHITECTURE-AUTHORITY/SLICE" as const;
+
+/** Enterprise Knowledge PAS family composed SSOT. */
+export const PAS_ENTERPRISE_KNOWLEDGE_STANDARD =
+  "docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md" as const;
+
+/** Enterprise Knowledge slice handoff SSOT. */
+export const PAS_ENTERPRISE_KNOWLEDGE_SLICE_DIR =
+  "docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE" as const;
+
 /** @deprecated Alias — use {@link PAS_KERNEL_SLICE_DIR}. */
 export const PAS_SLICE_DIR = PAS_KERNEL_SLICE_DIR;
 

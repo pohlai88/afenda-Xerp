@@ -54,7 +54,7 @@ For TypeScript authoring (generics, conditional types, mapped types, utility typ
 3. [`docs/architecture/afenda-runtime-truth-matrix.md`](../../docs/architecture/afenda-runtime-truth-matrix.md)
 4. Relevant ADRs in `docs/adr/` — search before claiming "no pending decision"
 5. [`docs/PAS/pas-status-index.md`](../../docs/PAS/pas-status-index.md) — slice closure registry + next sequence
-6. Parent PAS + target slice under `docs/PAS/slice/` when handoff present — copy one §Handoff block into Phase 0
+6. Parent PAS + target slice under `docs/PAS/CSS-AUTHORITY/SLICE/` when handoff present — copy one §Handoff block into Phase 0
 
 This agent is the canonical implementer for numbered PAS slice handoffs — one slice per invocation with full Phase 0–§11 enforcement.
 

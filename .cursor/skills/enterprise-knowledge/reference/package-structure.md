@@ -2,7 +2,7 @@
 
 `@afenda/enterprise-knowledge` folder tree, exports, and governance rules.
 
-← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-004 §10](../../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · Rollout: [PAS-004A §6.2](../../../../docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md)
+← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-004 §10](../../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · Rollout: [PAS-004A §6.2](../../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md)
 
 **Source truth order:**
 
@@ -143,7 +143,7 @@ pnpm check:foundation-disposition
 
 | Layer | Home | Role |
 | --- | --- | --- |
-| Charter | `docs/PAS/PAS-004-*.md` | Technology-free constitution |
+| Charter | `docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-*.md` | Technology-free constitution |
 | Platform | `packages/enterprise-knowledge/` | Atom registry + conformance |
 | Representations | glossary, metadata, AI context | Consumers — not authority |
 

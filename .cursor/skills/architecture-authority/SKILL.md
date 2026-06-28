@@ -4,7 +4,7 @@ description: Enforces the @afenda/architecture-authority boundary: package regis
 paths:
   - packages/architecture-authority/**
   - docs/architecture/foundation-disposition.md
-  - docs/PAS/PAS-002*.md
+  - docs/PAS/ARCHITECTURE-AUTHORITY/**
 ---
 
 # @afenda/architecture-authority — Authority Skill (PAS-002)
@@ -16,9 +16,9 @@ paths:
 | **Runtime status** | B1–B27 delivered — registries, composite gates, lifecycle enforcement, skill chain synced |
 | **Remaining slices** | none |
 
-> **Maturity labels:** PAS-002 = MVP charter; **Enterprise Accepted** on `PKGR02` is attested via [PAS-002A](../../../docs/PAS/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) B38–B42. `runtime stance: contracts-only` = **permanent** — no ERP hot-path execution even at Enterprise Accepted. See [PAS-002A §1.4](../../../docs/PAS/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md#14-resolving-the-partial--none-confusion).
+> **Maturity labels:** PAS-002 = MVP charter; **Enterprise Accepted** on `PKGR02` is attested via [PAS-002A](../../../docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) B38–B42. `runtime stance: contracts-only` = **permanent** — no ERP hot-path execution even at Enterprise Accepted. See [PAS-002A §1.4](../../../docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md#14-resolving-the-partial--none-confusion).
 
-> Canonical: [`docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md`](../../../docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md) · Enterprise hardening: [`PAS-002A`](../../../docs/PAS/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+> Canonical: [`ARCHITECTURE-AUTHORITY/PAS-002`](../../../docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) · Enterprise hardening: [`PAS-002A`](../../../docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) · Slices: [`ARCHITECTURE-AUTHORITY/SLICE/`](../../../docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/README.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
 ---
 
@@ -42,7 +42,7 @@ Apply this skill when touching:
 
 **Kernel boundary:** Canonical enterprise ID families, parsers, and wire contracts live in `@afenda/kernel` ([PAS-001](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). Do not duplicate ID semantics here.
 
-**Enterprise knowledge boundary:** Knowledge Atoms and accepted business meaning → [PAS-004](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) / `.cursor/skills/enterprise-knowledge/SKILL.md`. Package listing for `@afenda/enterprise-knowledge` belongs here; atom source files do not.
+**Enterprise knowledge boundary:** Knowledge Atoms and accepted business meaning → [PAS-004](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) / `.cursor/skills/enterprise-knowledge/SKILL.md`. Package listing for `@afenda/enterprise-knowledge` belongs here; atom source files do not.
 
 ---
 
@@ -132,7 +132,7 @@ Before editing any architecture-authority file, state these six lines:
                      (+ relevant gates from Required gates below)
 ```
 
-If a slice handoff exists, paste the 9-field block from `docs/PAS/slice/<file>.md` into Phase 0 first.
+If a slice handoff exists, paste the 9-field block from `docs/PAS/CSS-AUTHORITY/SLICE/<file>.md` into Phase 0 first.
 
 ---
 
@@ -143,8 +143,8 @@ If a slice handoff exists, paste the 9-field block from `docs/PAS/slice/<file>.m
 3. [reference/package-structure.md](reference/package-structure.md) — folder tree, exports, forbidden paths
 4. [packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md](../../../packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md) — annotated package-local tree (B9)
 5. [src/surface/architecture-authority-surface-registry.ts](../../../packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts) — machine-readable surface index (wins over PAS prose drift)
-6. [docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md](../../../docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md) — §0 Agent Quick Path; deeper sections when slice cites them
-7. Target slice under `docs/PAS/slice/` — 9-field handoff when implementing
+6. [docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md](../../../docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) — §0 Agent Quick Path; deeper sections when slice cites them
+7. Target slice under `docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/` — 9-field handoff when implementing
 
 **Slice gate:** Runtime for PAS-002 §4.1–§4.12 is delivered. Foundation disposition registry mutations require ADR-0014 acceptance and `foundation-registry-owner`.
 

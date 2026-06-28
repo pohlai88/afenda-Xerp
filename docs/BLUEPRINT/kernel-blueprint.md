@@ -9,12 +9,12 @@
 | **Scope** | Platform Kernel — vocabulary, catalog, consumer integration |
 | **Parent** | [Platform North Star](../architecture/afenda-platform-north-star.md) · [Kernel North Star](../NORTHSTAR/kernel-north-star.md) |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) |
-| **Maturity** | Enterprise Accepted — reverse-engineered from accepted PAS authority |
+| **Maturity** | Enterprise Accepted — peer-enhanced from Kernel NS (2026-06-29) |
 | **Runtime stance** | Documentation only — references registries |
 | **Total PAS at maturity** | 3 root PAS (PAS-001, PAS-001A, PAS-001B) |
 | **Live PAS today** | 3 |
 | **Quality target** | Enterprise **10 / 10** |
-| **Last reviewed** | 2026-06-29 |
+| **Last reviewed** | 2026-06-29 (synced with Kernel NS peer-enhancement) |
 | **Next document** | [KERNEL PAS](../PAS/KERNEL/README.md) |
 
 > **One sentence:** Three Blueprint boxes — **Kernel Vocabulary**, **Kernel Domain Vocabulary Catalog**, and **ERP Integration Spine** — decompose platform substrate language from ERP consumer integration proof so full-stack wiring cannot break silently.
@@ -55,12 +55,20 @@ This Blueprint maps [Kernel North Star](../NORTHSTAR/kernel-north-star.md) §4 c
 | Kernel NS §4 capability | Blueprint §4 box | NS Decision ID |
 | --- | --- | --- |
 | Shared enterprise identity | Kernel Vocabulary | D1 (E1, E2) |
-| Operating scope hierarchy | Kernel Vocabulary | D1 |
-| Execution traceability | Kernel Vocabulary | D1 |
+| Operating scope hierarchy | Kernel Vocabulary | D1 (E3) |
+| Multi-scope consistency | Kernel Vocabulary | D5 (E10) |
+| Effective dating vocabulary | Kernel Vocabulary | D1 |
+| Execution traceability | Kernel Vocabulary | D4 (E9) |
 | Result and error vocabulary | Kernel Vocabulary | D1 |
 | Policy decision vocabulary | Kernel Vocabulary | D1 |
-| Domain event envelope | Kernel Vocabulary | D1 |
+| Domain event envelope | Kernel Vocabulary | D3 (E8) |
+| Localization code vocabulary | Kernel Vocabulary | D6 (E5) |
+| Platform entity authority registry | Kernel Vocabulary | D1 (E5) |
+| Business reference identity families | Kernel Vocabulary | D1 (E4, E5) |
 | Minimal async context frame | Kernel Vocabulary | D1 |
+| Tenant lifecycle vocabulary | Kernel Vocabulary | D1 (E11) |
+| Actor and integration identity | Kernel Vocabulary | D1 (E12) |
+| Tenant extension boundary | Kernel Vocabulary | D1 |
 | ERP domain wire catalog | Kernel Domain Vocabulary Catalog | D1 (E4, E7) |
 | Consumer integration proof | ERP Integration Spine | D1 (E6) |
 
@@ -116,37 +124,56 @@ Use before adding, splitting, or merging a Blueprint box.
 
 ## 3.3 Kernel concept dependency map
 
-Conceptual layering only — **no runtime, APIs, package names, or implementation**. Shows how platform substrate concepts depend on each other before ERP wire terms and consumer proof.
+Conceptual layering only — **no runtime, APIs, package names, or implementation**. Aligns with [Kernel NS §3.4](../NORTHSTAR/kernel-north-star.md) identity taxonomy and §4 capabilities.
 
 ```text
-Enterprise Identity
+Tenant Boundary + Tenant Lifecycle (vocabulary)
         │
         ▼
-Operating Context          ← hierarchy of scope boundaries
+Enterprise Identity + Identity Families
         │
-        ├──► Permission Scope Vocabulary ──► (grant-scope words only; evaluation outside kernel)
+        ├──► Platform Entity Authority Registry   ← ownership metadata only
+        │           │
+        │           ▼
+        │    Business Reference Identity Families ← cross-module ref brands
         │
         ▼
-Execution Context          ← correlation · execution attempt · actor reference
+Operating Scope + Active Scope Set
         │
+        ├──► Multi-Scope Consistency Rule         ← linked refs must match scope
+        ├──► Effective Scope (as-of vocabulary)
+        ├──► Permission Scope Vocabulary        ← grant-scope words; evaluation outside kernel
+        │
+        ▼
+Actor Kind + Integration Identity
+        │
+        ▼
+Execution Context + Correlation / Causation
+        │
+        ├──► Distributed Trace Context (W3C-aligned vocabulary)
         ├──► Result / Error Vocabulary
         │
         ▼
-Domain Event Envelope      ← what happened (shape only; dispatch outside kernel)
+Domain Event Envelope                         ← CloudEvents-style metadata; dispatch outside kernel
         │
         ▼
-Async Context Frame        ← minimal propagation contract (optional runtime primitive)
+Localization Code Vocabulary                  ← locale · IANA tz · currency · UOM codes
         │
         ▼
-ERP Wire Vocabulary        ← domain business labels at wire layer (Catalog box)
+Async Context Frame                           ← run/get/fork isolation; parallel-safe propagation
+        │
+        ├──► Tenant Extension Boundary          ← custom fields must not fork kernel brands
         │
         ▼
-Consumer Integration Proof ← ERP Integration Spine (PAS-001A — not substrate)
+ERP Wire Vocabulary                           ← Catalog box (shape only)
+        │
+        ▼
+Consumer Integration Proof                    ← ERP Integration Spine (PAS-001A — not substrate)
 ```
 
-**Reading rule:** Downward arrows are **conceptual dependency** (later concepts assume earlier vocabulary). **ERP Integration Spine** is proof that consumers wire the stack — it is not a concept inside Kernel Vocabulary.
+**Reading rule:** Downward arrows are **conceptual dependency** (later concepts assume earlier vocabulary). **ERP Integration Spine** proves consumers wire the stack — including scope consistency checks ([Kernel NS §8.2](../NORTHSTAR/kernel-north-star.md)) — it is not a concept inside Kernel Vocabulary.
 
-**Source:** PAS-001 §4.1 · §4.3 · §4.4 · §4.10 · §4.11 · PAS-001B catalog · PAS-001A §2.1
+**Source:** Kernel NS §3.1–§3.4 · §4 · PAS-001 §4.1–§4.11 · PAS-001B · PAS-001A §2.1
 
 ---
 
@@ -156,15 +183,25 @@ Distinguishes **platform wire-safe language** (kernel substrate) from **enterpri
 
 | Vocabulary | Owner | Blueprint box | Meaning authority |
 | --- | --- | --- | --- |
-| **Identity** | Kernel | Kernel Vocabulary | Platform + ADR-0021–0023 |
-| **Operating scope** | Kernel | Kernel Vocabulary | Platform + ADR-0011 |
-| **Execution trace** | Kernel | Kernel Vocabulary | PAS-001 §4.3 |
+| **Tenant boundary + lifecycle** | Kernel | Kernel Vocabulary | Kernel NS §3.1 · §8.3 · E11 (T3) |
+| **Identity + identity families** | Kernel | Kernel Vocabulary | ADR-0021–0023 · PAS-001 §4.1 |
+| **Platform entity authority** | Kernel | Kernel Vocabulary | PAS-001 §4.6 — reservation metadata only |
+| **Business reference identity** | Kernel | Kernel Vocabulary | PAS-001 §4.7 · ADR-0020 — ref families only |
+| **Operating scope + active scope set** | Kernel | Kernel Vocabulary | ADR-0011 · PAS-001 §4.4 |
+| **Multi-scope consistency** | Kernel | Kernel Vocabulary | Kernel NS §5.1 I3 · D5 · E10 |
+| **Effective scope (as-of)** | Kernel | Kernel Vocabulary | Kernel NS §3.1 · §4 effective dating |
+| **Execution trace + correlation/causation** | Kernel | Kernel Vocabulary | PAS-001 §4.3 · D4 · E9 |
+| **Distributed trace context** | Kernel | Kernel Vocabulary | W3C Trace Context (T3) · observability consumes |
+| **Actor kind + integration identity** | Kernel | Kernel Vocabulary | Kernel NS §3.1 · E12 (T3) |
 | **Result / error** | Kernel | Kernel Vocabulary | PAS-001 §4.2 |
 | **Permission scope words** | Kernel | Kernel Vocabulary | PAS-001 §8 *(evaluation: `@afenda/permissions`)* |
-| **Event envelope** | Kernel | Kernel Vocabulary | PAS-001 §4.10 |
+| **Event envelope** | Kernel | Kernel Vocabulary | PAS-001 §4.10 · D3 · E8 (CloudEvents-aligned) |
+| **Localization code brands** | Kernel | Kernel Vocabulary | PAS-001 §4.5 · D6 — codes only, not formatting |
 | **Async context frame** | Kernel | Kernel Vocabulary | PAS-001 §4.11 |
-| **ERP wire terms** | Kernel catalog | Kernel Domain Vocabulary Catalog | Wire shape: PAS-001B · Business label trace: Domain NS §3 |
-| **Business meaning** | Enterprise Knowledge | *(PAS-004 — outside kernel boxes)* | `@afenda/enterprise-knowledge` atoms |
+| **Tenant extension boundary** | Kernel | Kernel Vocabulary | Kernel NS §3.1 · §5.1 I6 |
+| **Contract stability tiers** | Kernel | Kernel Vocabulary | Kernel NS §3.3 |
+| **ERP wire terms** | Kernel catalog | Kernel Domain Vocabulary Catalog | Wire shape: PAS-001B · Meaning: Enterprise Knowledge |
+| **Business meaning** | Enterprise Knowledge | *(PAS-004 — outside kernel boxes)* | Knowledge atoms · LAW K6 |
 | **Integration proof** | ERP application layer | ERP Integration Spine | PAS-001A §2.1 · B71–B75 *(consumes kernel — not substrate)* |
 
 **Hard rule:** Do not store contested business definitions in kernel contracts. Promote meaning to Enterprise Knowledge; retain wire-safe enum/shape in Catalog box only after NS + knowledge alignment.
@@ -177,7 +214,7 @@ Distinguishes **platform wire-safe language** (kernel substrate) from **enterpri
 
 | Blueprint box | Registry PKG | Layer | Status | PAS | Why separate |
 | --- | --- | --- | --- | --- | --- |
-| **Kernel Vocabulary** | `@afenda/kernel` | Platform | **live** | PAS-001 | Core cross-package language — identity, context, errors, events |
+| **Kernel Vocabulary** | `@afenda/kernel` | Platform | **live** | PAS-001 | Core substrate — identity, scope, trace, errors, events, localization codes, entity authority metadata, business ref families, tenant lifecycle words |
 | **Kernel Domain Vocabulary Catalog** | `@afenda/kernel` (`erp-domain/*`) | Platform | **live** | PAS-001B | ERP wire terms scale independently of core kernel closure |
 | **ERP Integration Spine** | `apps/erp` + consumer packages | Application integration | **live** | PAS-001A | Vocabulary closure ≠ production wiring proof; **consumes** kernel — not substrate |
 
@@ -187,7 +224,7 @@ Distinguishes **platform wire-safe language** (kernel substrate) from **enterpri
 
 | Blueprint box | Owns (architectural) | Never owns |
 | --- | --- | --- |
-| **Kernel Vocabulary** | Branded IDs · execution/operating context shapes · result/error vocabulary · permission *words* · event envelope · async context frame contract · decision matrix | DB schema · auth sessions · permission evaluation · API routes · UI · business workflows · formatting · posting |
+| **Kernel Vocabulary** | Branded IDs · identity families · tenant boundary/lifecycle words · operating/effective scope shapes · multi-scope consistency vocabulary · actor/integration identity words · execution context · correlation/causation/trace context · result/error vocabulary · permission *words* · event envelope · localization code brands · platform entity authority registry · business reference identity families · async context frame · contract stability tiers · decision matrix | DB schema · auth sessions · permission evaluation · API routes · UI · business workflows · formatting · translation · posting · tenant provisioning execution · master-data resolution · event dispatch/outbox |
 | **Kernel Domain Vocabulary Catalog** | ERP domain wire enums/contracts under `erp-domain/*` · domain ID branded types at wire layer | Ledger posting · domain services · master-data rows · operational workflows |
 | **ERP Integration Spine** | Resolver spine · context integration registry · untrusted field rejection · AppShell/metadata context bridge **proof** | New kernel vocabulary · kernel parsers for permission wire ingress · duplicate scope models · **any claim to be platform substrate** |
 
@@ -214,8 +251,8 @@ External client (browser / API / job)
         │
         ▼
 ┌───────────────────────────────────────────────────────────────┐
-│  ERP Integration Spine (PAS-001A)                        │
-│  apps/erp — tenant hint → grant scope resolve → assemble OC   │
+│  ERP Integration Spine (PAS-001A)                             │
+│  tenant boundary → grant scope → assemble OC → scope check    │
 └───────────────────────────┬───────────────────────────────────┘
                             │
         ┌───────────────────┼───────────────────┐
@@ -253,51 +290,62 @@ External client (browser / API / job)
 
 ```text
 HTTP / Server Action / RSC
-  → apps/erp tenant-domain.server.ts
+  → apps/erp tenant-domain.server.ts          ← tenant boundary established
   → apps/erp resolve-grant-scope.server.ts
-  → @afenda/permissions parse*/assert*     ← wire ingress owner
-  → apps/erp brandPermissionScopeFromWire  ← @afenda/kernel projection
+  → @afenda/permissions parse*/assert*        ← wire ingress owner
+  → apps/erp brandPermissionScopeFromWire     ← @afenda/kernel projection
   → apps/erp resolve-consolidation-scope
-  → OperatingContext (kernel branded shape)
+  → OperatingContext (kernel branded shape)   ← scope branded
+  → scope consistency check (integration)     ← fail-closed on mismatch (NS §8.2)
   → authorize-api-route / AppShell / metadata-workspace
 ```
 
 **Broken-system anti-patterns this prevents:**
 
-| Failure | Symptom | Guard |
-| --- | --- | --- |
-| Parallel scope model in ERP | Inconsistent authorization | `check:erp-operating-context-spine` |
-| Parser in kernel for permissions | Circular deps · wrong owner | `wireIngress: false` on kernel projection |
-| Resolver in kernel | Platform core imports DB/auth | PAS-001 §5 prohibited ownership |
-| Metadata local scope fork | UI actions bypass ERP spine | B74 metadata bridge gate |
-| Catalog term without NS/Knowledge | Business meaning drift | PAS-004 + NS §3 alignment |
-| Vocabulary change without integration retest | Production ignores new shapes | PAS-001A attestation on consumer change |
+| Failure | Symptom | Guard | Kernel NS trace |
+| --- | --- | --- | --- |
+| Parallel scope model in ERP | Inconsistent authorization | `check:erp-operating-context-spine` | §10 vocabulary fork |
+| Parser in kernel for permissions | Circular deps · wrong owner | `wireIngress: false` on kernel projection | P4 |
+| Resolver in kernel | Platform core imports DB/auth | PAS-001 §5 prohibited ownership | P1a · §9.2 |
+| Metadata local scope fork | UI actions bypass ERP spine | B74 metadata bridge gate | P6 |
+| Catalog term without NS/Knowledge | Business meaning drift | PAS-004 + NS §3 alignment | P8 · I4 |
+| Vocabulary change without integration retest | Production ignores new shapes | PAS-001A attestation on consumer change | P6 |
+| Cross-entity scope linkage | Compliance / audit failure | Scope consistency at integration boundary | P7 · I3 · D5 |
+| Tenant context bleed | Cross-tenant data exposure | Fail-closed tenant boundary · no cross-tenant token cache | P3 · P10 · I2 |
+| Tenant extension forks kernel brands | Parallel wire vocabulary per tenant | Extension boundary — custom fields non-authoritative | I6 |
+| Event black box | Async failures untraceable | Correlation + causation on envelope paths | P9 · I7 · D3/D4 |
 
 ---
 
 ## 5.2 Declared consumers (by box)
 
-| Consumer | Consumes box | Integration category |
-| --- | --- | --- |
-| `@afenda/permissions` | Kernel Vocabulary + Spine | Runtime — parse owner; kernel projection |
-| `@afenda/auth` | Kernel Vocabulary | Compile-time — actor IDs |
-| `@afenda/database` | Kernel Vocabulary | Runtime — stores rows referenced by IDs |
-| `@afenda/observability` | Kernel Vocabulary | Runtime — correlation + envelope |
-| `@afenda/appshell` | Spine output | Runtime — branded operating context |
-| `@afenda/metadata-ui` | Spine output | Runtime — authorization bridge |
-| `@afenda/enterprise-knowledge` | Catalog alignment | Knowledge — meaning vs wire shape |
-| All domain packages | Vocabulary + Catalog | Compile-time wire imports |
-| `apps/erp` | All three boxes | Integration spine owner |
+Maps [Kernel NS §9.3 Provides to](../NORTHSTAR/kernel-north-star.md) at architectural level.
+
+| Consumer | Consumes box | What flows (from Kernel NS) | Integration category |
+| --- | --- | --- | --- |
+| `@afenda/auth` | Kernel Vocabulary | Tenant boundary · actor kind vocabulary | Runtime — session consumes; does not define |
+| `@afenda/permissions` | Kernel Vocabulary + Spine | Grant-scope words · operating scope projection | Runtime — parse owner; kernel projection |
+| `@afenda/database` | Kernel Vocabulary | Branded ID families for foreign references | Runtime — stores rows referenced by IDs |
+| `@afenda/observability` | Kernel Vocabulary | Correlation · causation · trace context words | Runtime — backends consume envelope metadata |
+| `@afenda/execution` | Kernel Vocabulary | Event envelope · trace metadata vocabulary | Runtime — dispatch owns; kernel names only |
+| `@afenda/appshell` | Spine output | Branded operating context | Runtime |
+| `@afenda/metadata-ui` | Spine output | Authorization bridge context | Runtime |
+| `@afenda/enterprise-knowledge` | Catalog alignment | Wire shape ↔ atom meaning alignment | Knowledge — LAW K6 |
+| All domain packages | Vocabulary + Catalog | Shared scope · identity · error · wire vocabulary | Compile-time wire imports |
+| `apps/erp` | All three boxes | Integration spine owner · attestation | Application integration |
 
 ---
 
 # 6. Blocked and Planned
 
-| Item | Status | Gate |
+| Item | Status | Gate / notes |
 | --- | --- | --- |
-| New enterprise ID families (customer, supplier, …) | **planned** | Domain PAS slices per PAS-001 §4.1.6 |
-| `FiscalCalendarId` / `FiscalPeriodId` promotion | **blocked** | Finance ADR |
+| Business reference identity family **expansion** (new ref types beyond delivered PAS-001 §4.7 set) | **planned** | Kernel NS §4 amendment + PAS-001 slice — vocabulary **delivered** at Enterprise; new families need amendment |
+| Effective dating vocabulary in production consumers | **planned** | Spine/ERP attestation — words in NS; resolver "as-of" elsewhere |
+| Actor/integration identity on all protected paths | **planned** | Identity + spine consumer alignment |
+| `FiscalCalendarId` / `FiscalPeriodId` promotion | **blocked** | Finance ADR — not localization/fiscal calendar in kernel (I8) |
 | Ledger/posting in kernel | **blocked** | ADR-0010 · PKGR01 disposition |
+| Tenant provisioning execution in kernel | **blocked** | Kernel NS §9.2 — Identity / Persistence / Platform ops |
 | PAS-001 vocabulary reopen | **closed** | Amendment slice only |
 
 ---
@@ -317,11 +365,13 @@ Before authoring a new kernel-scoped PAS:
 
 # 8. Blueprint → PAS Handoff
 
-| Blueprint box | Root PAS (composed) | Legacy archive | Agent skill |
-| --- | --- | --- | --- |
-| Kernel Vocabulary | [PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | [archive PAS-001](../PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `kernel-authority` |
-| Kernel Domain Vocabulary Catalog | [PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | [archive PAS-001B](../PAS/KERNEL/archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) | `kernel-authority` |
-| ERP Integration Spine | [PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | [archive PAS-001A](../PAS/KERNEL/archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) | `kernel-authority` + `multi-tenancy-erp` |
+**PAS directory layout:** Kernel PAS family lives under [`docs/PAS/KERNEL/`](../PAS/KERNEL/README.md) with slice handoffs in [`KERNEL/SLICE/`](../PAS/KERNEL/SLICE/README.md). All domains follow the same nested pattern — see [`docs/PAS/README.md`](../PAS/README.md) § Domain folder layout.
+
+| Blueprint box | Root PAS (composed) | Family README | Slice SSOT | Legacy archive | Agent skill |
+| --- | --- | --- | --- | --- | --- |
+| Kernel Vocabulary | [PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | [KERNEL/README](../PAS/KERNEL/README.md) | [KERNEL/SLICE](../PAS/KERNEL/SLICE/README.md) | [archive PAS-001](../PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `kernel-authority` |
+| Kernel Domain Vocabulary Catalog | [PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | [KERNEL/README](../PAS/KERNEL/README.md) | [KERNEL/SLICE](../PAS/KERNEL/SLICE/README.md) | [archive PAS-001B](../PAS/KERNEL/archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) | `kernel-authority` |
+| ERP Integration Spine | [PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | [KERNEL/README](../PAS/KERNEL/README.md) | [KERNEL/SLICE](../PAS/KERNEL/SLICE/README.md) | [archive PAS-001A](../PAS/KERNEL/archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) | `kernel-authority` + `multi-tenancy-erp` |
 
 **Handoff fields for PAS authors:**
 
@@ -370,8 +420,14 @@ When Platform Blueprint and this document diverge, **Platform Blueprint + ADR-00
 | B4 | Full-stack gate set | ✓ | T5 | PAS-001 §14.1 · PAS-001A §0 required gates |
 | B5 | Concept dependency ordering | ✓ | T5 | PAS-001 §4.1 · §4.3 · §4.4 · §4.10 · §4.11 |
 | B6 | Wire vs business meaning split | ✓ | T1/T5 | Kernel NS §3.1–§3.2 · PAS-004 boundary · §3.4 above |
+| B7 | Multi-scope consistency substrate invariant | ✓ | T3/T5 | Kernel NS D5 · E10 · §5.1 I3 |
+| B8 | CloudEvents-aligned event envelope metadata | ✓ | T3/T5 | Kernel NS D3 · E8 · PAS-001 §4.10 |
+| B9 | W3C distributed trace vocabulary at boundary | ✓ | T3/T5 | Kernel NS D4 · E9 · PAS-001 §4.3 |
+| B10 | Localization owns code brands not formatting | ✓ | T5 | Kernel NS D6 · PAS-001 §4.5 · I8 |
+| B11 | Platform entity authority + business ref identity | ✓ | T0/T5 | ADR-0020 · PAS-001 §4.6–§4.7 · Kernel NS §3.4 |
+| B12 | SaaS tenant lifecycle vocabulary (words only) | ✓ | T3/T5 | Kernel NS E11 · §8.3 — execution outside kernel |
 
-**Provenance:** **Enterprise Accepted — reverse-engineered from accepted PAS authority** (2026-06-29). Amend via `/afenda-doc-lifecycle` AUTHOR intent.
+**Provenance:** **Enterprise Accepted — peer-enhanced from Kernel NS + accepted PAS authority** (2026-06-29). Amend via `/afenda-doc-lifecycle` AUTHOR intent.
 
 ---
 
@@ -405,6 +461,6 @@ For any kernel-related coding agent:
 | New consumer package | §5.1 + §5.2 · PAS-001A extension if spine touch |
 | New ERP domain wire module | §4 Catalog box · PAS-001B slice |
 | Slice close | PAS §12 · §9 inventory · Blueprint §10 counts |
-| NS capability change | Kernel NS §4 + §13 · this §2 trace table · §3.3 concept map |
+| NS capability change | Kernel NS §4 + §13 · this §2 trace table · §3.3 concept map · §3.4 ownership · §4.2 · §5.1 anti-patterns |
 
-**Last reviewed:** 2026-06-29 · **Maturity:** Enterprise Accepted (reverse-engineered)
+**Last reviewed:** 2026-06-29 · **Maturity:** Enterprise Accepted (peer-enhanced — synced with Kernel NS)

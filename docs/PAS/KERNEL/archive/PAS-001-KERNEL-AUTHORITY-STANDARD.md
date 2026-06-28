@@ -18,11 +18,11 @@
 | **Implementation status** | `implemented` |
 | **Evidence level** | `runtime_proven` |
 | **Runtime status** | Enterprise Accepted — kernel contracts, §13 catalog + B49–B70 closure delivered, runtime gates operational |
-| **Remaining slices** | none — B70 Delivered ([`slice/b70-kernel-test-import-hygiene.md`](slice/b70-kernel-test-import-hygiene.md)) |
+| **Remaining slices** | none — B70 Delivered ([`SLICE/b70-kernel-test-import-hygiene.md`](SLICE/b70-kernel-test-import-hygiene.md)) |
 | **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, future governed domain packages |
 | **Change model** | Serialized kernel slices only |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/slice/` |
+| **Slice directory** | `docs/PAS/CSS-AUTHORITY/SLICE/` |
 | **ADR prerequisites** | ADR-0021, ADR-0022, ADR-0023 |
 | **Continuation PAS** | [PAS-001A](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) — consumer integration (B71–B75 closed) · [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) — ERP domain vocabulary catalog (B76–B106 closed; 28/28 delivered) |
 
@@ -63,11 +63,11 @@
 
 **Required gates:** see §14.1
 
-**Slice entrypoint:** `docs/PAS/slice/` · [`pas-status-index.md`](pas-status-index.md) (§13 catalog + B49–B70 closure) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
+**Slice entrypoint:** `docs/PAS/CSS-AUTHORITY/SLICE/` · [`pas-status-index.md`](pas-status-index.md) (§13 catalog + B49–B70 closure) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
 
 **Registry:** `@afenda/kernel` → `packages/kernel` in `foundation-disposition.registry.ts`; accounting vocabulary → `PKGR01_ACCOUNTING` at `@afenda/kernel/erp-domain/accounting`
 
-**Enterprise knowledge boundary:** Accepted business meaning, Knowledge Atoms, domains, and acceptance chains → [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) / `@afenda/enterprise-knowledge`. Kernel retains wire shapes only — never duplicate meaning authority.
+**Enterprise knowledge boundary:** Accepted business meaning, Knowledge Atoms, domains, and acceptance chains → [PAS-004](ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) / `@afenda/enterprise-knowledge`. Kernel retains wire shapes only — never duplicate meaning authority.
 
 **Identity slice gate:** Kernel identity runtime (Slice B) starts only after ADR-0021, ADR-0022, and ADR-0023 are **Accepted** (§4.1)
 
@@ -1255,7 +1255,7 @@ Additional subpaths require a serialized slice and PAS §6.4 governance update b
 
 ## 6.4 Public export governance (delivered)
 
-PAS §6.4 subpaths are **delivered** for the eight-key baseline above. Runtime matched since B16 slice (`docs/PAS/slice/b16-6.2-package-structure.md`).
+PAS §6.4 subpaths are **delivered** for the eight-key baseline above. Runtime matched since B16 slice (`docs/PAS/CSS-AUTHORITY/SLICE/b16-6.2-package-structure.md`).
 
 Additive policy for future subpaths:
 
@@ -1460,53 +1460,53 @@ A kernel change is accepted only when all criteria pass.
 
 # 13. Slice Catalog
 
-Index of kernel implementation slices under `docs/PAS/slice/`. Handoff format: 9 fields — see [pas-slice-template.md](../../.cursor/skills/kernel-authority/reference/pas-slice-template.md).
+Index of kernel implementation slices under `docs/PAS/CSS-AUTHORITY/SLICE/`. Handoff format: 9 fields — see [pas-slice-template.md](../../.cursor/skills/kernel-authority/reference/pas-slice-template.md).
 
-Slice naming: `b<N>-<pas-section>-<slug>.md` · optional companion: `<file>-prohibited.md` (example: [b5-prohibited.md](slice/b5-prohibited.md)).
+Slice naming: `b<N>-<pas-section>-<slug>.md` · optional companion: `<file>-prohibited.md` (example: [b5-prohibited.md](SLICE/b5-prohibited.md)).
 
 | Slice file | ID | PAS § | Status | Type | Prerequisite |
 | --- | --- | --- | --- | --- | --- |
-| [b2-4.1.2-module-location.md](slice/b2-4.1.2-module-location.md) | B2 | §4.1.2 | Delivered | Implementation | Constitutional baseline (§4.1.1) |
-| [b3-4.1.1-three-layer-stack.md](slice/b3-4.1.1-three-layer-stack.md) | B3 | §4.1.1 | Delivered | Implementation | None |
-| [b5.md](slice/b5.md) | B5 | §4.1.5 | Delivered | Implementation | B4 primitive references |
-| [b5a-4.1.6-forbidden-platform-floor.md](slice/b5a-4.1.6-forbidden-platform-floor.md) | B5a | §4.1.6 | Delivered | Implementation | B4 |
-| [b6-4.17.md](slice/b6-4.17.md) | B6 | §4.1.7 | Delivered | Implementation | B5 |
-| [b7-4.1.8.md](slice/b7-4.1.8.md) | B7 | §4.1.8 | Delivered | Implementation | B6 |
-| [b8-4.1.9-audit.md](slice/b8-4.1.9-audit.md) | B8 | §4.1.9 | Delivered | Implementation | B7 |
-| [b8a-4.1.9-consumer.md](slice/b8a-4.1.9-consumer.md) | B8a | §4.1.9 | Delivered | Implementation | B8 |
-| [b9-4.1.11-auth.md](slice/b9-4.1.11-auth.md) | B9 | §4.1.11 | Delivered | Implementation | B8 |
-| [b10-4.1.10-api-ingress.md](slice/b10-4.1.10-api-ingress.md) | B10 | §4.1.10 | Delivered | Implementation | B8 |
-| [b11-4.1.13-tenant-human-reference-policy.md](slice/b11-4.1.13-tenant-human-reference-policy.md) | B11 | §4.1.13 | Delivered | Implementation | B5 |
-| [b11-4.1.14-promotion-checklist.md](slice/b11-4.1.14-promotion-checklist.md) | B11 | §4.1.14 | Delivered | Implementation | B9 |
-| [b12-4.1.12-postgres-persistence.md](slice/b12-4.1.12-postgres-persistence.md) | B12 | §4.1.12 | Delivered | Implementation | B8 |
-| [b13-4.1.3-canonical-format-quality.md](slice/b13-4.1.3-canonical-format-quality.md) | B13 | §4.1.3 | Delivered | Implementation | B7 |
-| [b14-4.5-localization.md](slice/b14-4.5-localization.md) | B14 | §4.5 | Delivered | Implementation | B4 |
-| [b15-4.3-execution-context.md](slice/b15-4.3-execution-context.md) | B15 | §4.3 | Delivered | Implementation | B3 |
-| [b15-4.6-platform-entity-authority.md](slice/b15-4.6-platform-entity-authority.md) | B15 | §4.6 | Delivered | Implementation | B3 |
-| [b15-4.7-business-reference-identity.md](slice/b15-4.7-business-reference-identity.md) | B15 | §4.7 | Delivered | Implementation | B4 |
-| [b15-4.8-accounting-domain-vocabulary.md](slice/b15-4.8-accounting-domain-vocabulary.md) | B15 | §4.8 | Delivered | Implementation | B5a |
-| [b15-4.9-policy-decision-vocabulary.md](slice/b15-4.9-policy-decision-vocabulary.md) | B15 | §4.9 | Delivered | Implementation | B14 |
-| [b16-4.2-result-error-vocabulary-quality.md](slice/b16-4.2-result-error-vocabulary-quality.md) | B16 | §4.2 | Delivered | Implementation | B3 |
-| [b16-5-kernel-prohibited-ownership.md](slice/b16-5-kernel-prohibited-ownership.md) | B16 | §5 | Delivered | Implementation | B3 |
-| [b16-6.2-package-structure.md](slice/b16-6.2-package-structure.md) | B16 | §6.2 | Delivered | Implementation | B15-4.3 |
-| [b16-7-decision-matrix.md](slice/b16-7-decision-matrix.md) | B16-7 | §7 | Delivered | Implementation | B16-5 |
-| [b16-8-permission-model-standard.md](slice/b16-8-permission-model-standard.md) | B16-8 | §8 | Delivered | Implementation | B15-4.9 |
-| [b16-9-kernel-contract-rules.md](slice/b16-9-kernel-contract-rules.md) | B16 | §9 | Delivered | Implementation | B16-5 |
-| [b16-10-runtime-rules.md](slice/b16-10-runtime-rules.md) | B16 | §10 | Delivered | Implementation | Propagation runtime |
-| [b17-11-implementation-sequence.md](slice/b17-11-implementation-sequence.md) | B17 | §11 | Delivered | Implementation | B16-6.2 |
-| [b18-6.3-public-exports-parity.md](slice/b18-6.3-public-exports-parity.md) | B18 | §6.3 | Delivered | Evidence-sync | B16-6.2 |
-| [b49-kernel-tenant-wire-triad.md](slice/b49-kernel-tenant-wire-triad.md) | B49 | §4.4 | Delivered | Evidence-sync | Tenant wire triad runtime + ADR-0022 ERP split-ID |
-| [b50-kernel-company-org-wire-triad.md](slice/b50-kernel-company-org-wire-triad.md) | B50 | §4.4 | Delivered | Implementation | B49 |
-| [b51-kernel-parent-org-wire.md](slice/b51-kernel-parent-org-wire.md) | B51 | §4.4 | Delivered | Implementation | B50 |
-| [b52-kernel-full-hierarchy-wire-closure.md](slice/b52-kernel-full-hierarchy-wire-closure.md) | B52 | §4.4 | Delivered | Implementation | B51 |
-| [b53-kernel-propagation-frame-wire.md](slice/b53-kernel-propagation-frame-wire.md) | B53 | §4.11 | Delivered | Implementation | B16 §10 |
-| [b54-kernel-project-wire-triad.md](slice/b54-kernel-project-wire-triad.md) | B54 | §4.11 | Delivered | Implementation | B52 |
-| [b55-kernel-policy-wire-triad.md](slice/b55-kernel-policy-wire-triad.md) | B55 | §4.9 | Delivered | Implementation | B15-4.9 |
-| [b57-kernel-permission-wire-triad.md](slice/b57-kernel-permission-wire-triad.md) | B57 | §8 | Delivered | Implementation | B55 |
-| [b67-pas001-doc-attestation-closure.md](slice/b67-pas001-doc-attestation-closure.md) | B67 | §14 | Delivered | Evidence-sync | B57 |
-| [b68-hierarchy-id-boundary-wire-triad.md](slice/b68-hierarchy-id-boundary-wire-triad.md) | B68 | §4.4 | Delivered | Implementation | B67 |
-| [b69-kernel-context-wire-triad-gate.md](slice/b69-kernel-context-wire-triad-gate.md) | B69 | §9 | Delivered | Implementation | B68 |
-| [b70-kernel-test-import-hygiene.md](slice/b70-kernel-test-import-hygiene.md) | B70 | §3.3 | Delivered | Implementation | B69 |
+| [b2-4.1.2-module-location.md](SLICE/b2-4.1.2-module-location.md) | B2 | §4.1.2 | Delivered | Implementation | Constitutional baseline (§4.1.1) |
+| [b3-4.1.1-three-layer-stack.md](SLICE/b3-4.1.1-three-layer-stack.md) | B3 | §4.1.1 | Delivered | Implementation | None |
+| [b5.md](SLICE/b5.md) | B5 | §4.1.5 | Delivered | Implementation | B4 primitive references |
+| [b5a-4.1.6-forbidden-platform-floor.md](SLICE/b5a-4.1.6-forbidden-platform-floor.md) | B5a | §4.1.6 | Delivered | Implementation | B4 |
+| [b6-4.17.md](SLICE/b6-4.17.md) | B6 | §4.1.7 | Delivered | Implementation | B5 |
+| [b7-4.1.8.md](SLICE/b7-4.1.8.md) | B7 | §4.1.8 | Delivered | Implementation | B6 |
+| [b8-4.1.9-audit.md](SLICE/b8-4.1.9-audit.md) | B8 | §4.1.9 | Delivered | Implementation | B7 |
+| [b8a-4.1.9-consumer.md](SLICE/b8a-4.1.9-consumer.md) | B8a | §4.1.9 | Delivered | Implementation | B8 |
+| [b9-4.1.11-auth.md](SLICE/b9-4.1.11-auth.md) | B9 | §4.1.11 | Delivered | Implementation | B8 |
+| [b10-4.1.10-api-ingress.md](SLICE/b10-4.1.10-api-ingress.md) | B10 | §4.1.10 | Delivered | Implementation | B8 |
+| [b11-4.1.13-tenant-human-reference-policy.md](SLICE/b11-4.1.13-tenant-human-reference-policy.md) | B11 | §4.1.13 | Delivered | Implementation | B5 |
+| [b11-4.1.14-promotion-checklist.md](SLICE/b11-4.1.14-promotion-checklist.md) | B11 | §4.1.14 | Delivered | Implementation | B9 |
+| [b12-4.1.12-postgres-persistence.md](SLICE/b12-4.1.12-postgres-persistence.md) | B12 | §4.1.12 | Delivered | Implementation | B8 |
+| [b13-4.1.3-canonical-format-quality.md](SLICE/b13-4.1.3-canonical-format-quality.md) | B13 | §4.1.3 | Delivered | Implementation | B7 |
+| [b14-4.5-localization.md](SLICE/b14-4.5-localization.md) | B14 | §4.5 | Delivered | Implementation | B4 |
+| [b15-4.3-execution-context.md](SLICE/b15-4.3-execution-context.md) | B15 | §4.3 | Delivered | Implementation | B3 |
+| [b15-4.6-platform-entity-authority.md](SLICE/b15-4.6-platform-entity-authority.md) | B15 | §4.6 | Delivered | Implementation | B3 |
+| [b15-4.7-business-reference-identity.md](SLICE/b15-4.7-business-reference-identity.md) | B15 | §4.7 | Delivered | Implementation | B4 |
+| [b15-4.8-accounting-domain-vocabulary.md](SLICE/b15-4.8-accounting-domain-vocabulary.md) | B15 | §4.8 | Delivered | Implementation | B5a |
+| [b15-4.9-policy-decision-vocabulary.md](SLICE/b15-4.9-policy-decision-vocabulary.md) | B15 | §4.9 | Delivered | Implementation | B14 |
+| [b16-4.2-result-error-vocabulary-quality.md](SLICE/b16-4.2-result-error-vocabulary-quality.md) | B16 | §4.2 | Delivered | Implementation | B3 |
+| [b16-5-kernel-prohibited-ownership.md](SLICE/b16-5-kernel-prohibited-ownership.md) | B16 | §5 | Delivered | Implementation | B3 |
+| [b16-6.2-package-structure.md](SLICE/b16-6.2-package-structure.md) | B16 | §6.2 | Delivered | Implementation | B15-4.3 |
+| [b16-7-decision-matrix.md](SLICE/b16-7-decision-matrix.md) | B16-7 | §7 | Delivered | Implementation | B16-5 |
+| [b16-8-permission-model-standard.md](SLICE/b16-8-permission-model-standard.md) | B16-8 | §8 | Delivered | Implementation | B15-4.9 |
+| [b16-9-kernel-contract-rules.md](SLICE/b16-9-kernel-contract-rules.md) | B16 | §9 | Delivered | Implementation | B16-5 |
+| [b16-10-runtime-rules.md](SLICE/b16-10-runtime-rules.md) | B16 | §10 | Delivered | Implementation | Propagation runtime |
+| [b17-11-implementation-sequence.md](SLICE/b17-11-implementation-sequence.md) | B17 | §11 | Delivered | Implementation | B16-6.2 |
+| [b18-6.3-public-exports-parity.md](SLICE/b18-6.3-public-exports-parity.md) | B18 | §6.3 | Delivered | Evidence-sync | B16-6.2 |
+| [b49-kernel-tenant-wire-triad.md](SLICE/b49-kernel-tenant-wire-triad.md) | B49 | §4.4 | Delivered | Evidence-sync | Tenant wire triad runtime + ADR-0022 ERP split-ID |
+| [b50-kernel-company-org-wire-triad.md](SLICE/b50-kernel-company-org-wire-triad.md) | B50 | §4.4 | Delivered | Implementation | B49 |
+| [b51-kernel-parent-org-wire.md](SLICE/b51-kernel-parent-org-wire.md) | B51 | §4.4 | Delivered | Implementation | B50 |
+| [b52-kernel-full-hierarchy-wire-closure.md](SLICE/b52-kernel-full-hierarchy-wire-closure.md) | B52 | §4.4 | Delivered | Implementation | B51 |
+| [b53-kernel-propagation-frame-wire.md](SLICE/b53-kernel-propagation-frame-wire.md) | B53 | §4.11 | Delivered | Implementation | B16 §10 |
+| [b54-kernel-project-wire-triad.md](SLICE/b54-kernel-project-wire-triad.md) | B54 | §4.11 | Delivered | Implementation | B52 |
+| [b55-kernel-policy-wire-triad.md](SLICE/b55-kernel-policy-wire-triad.md) | B55 | §4.9 | Delivered | Implementation | B15-4.9 |
+| [b57-kernel-permission-wire-triad.md](SLICE/b57-kernel-permission-wire-triad.md) | B57 | §8 | Delivered | Implementation | B55 |
+| [b67-pas001-doc-attestation-closure.md](SLICE/b67-pas001-doc-attestation-closure.md) | B67 | §14 | Delivered | Evidence-sync | B57 |
+| [b68-hierarchy-id-boundary-wire-triad.md](SLICE/b68-hierarchy-id-boundary-wire-triad.md) | B68 | §4.4 | Delivered | Implementation | B67 |
+| [b69-kernel-context-wire-triad-gate.md](SLICE/b69-kernel-context-wire-triad-gate.md) | B69 | §9 | Delivered | Implementation | B68 |
+| [b70-kernel-test-import-hygiene.md](SLICE/b70-kernel-test-import-hygiene.md) | B70 | §3.3 | Delivered | Implementation | B69 |
 
 **Planning artifacts (not formal slice handoffs):** `b4.md`, `b7-4.1.9.md` — superseded by delivered slices above.
 

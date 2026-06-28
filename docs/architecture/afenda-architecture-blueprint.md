@@ -145,7 +145,7 @@ accounting   consolidation  intercompany   tax        finance
 
 | Blueprint box | Package | Layer | Status | Why separate | PAS |
 | --- | --- | --- | --- | --- | --- |
-| Accounting standards authority | `@afenda/accounting-standards` | Foundation | **live** | Versioned IFRS/MFRS/SFRS evidence and deterministic validation — not posting | [PAS-003](../PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) |
+| Accounting standards authority | `@afenda/accounting-standards` | Foundation | **live** | Versioned IFRS/MFRS/SFRS evidence and deterministic validation — not posting | [PAS-003](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) |
 | Accounting vocabulary (contracts) | `@afenda/kernel` (`erp-domain/accounting`) | Platform | **live** | Wire vocabulary only; not ledger runtime ([ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md)) | [PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
 | Accounting runtime | `@afenda/accounting` | Domain | **blocked** | Journal posting, ledger mutation, COA runtime — distinct from standards | Planned PAS-006+ (after ADR-0010 gate) |
 | Consolidation runtime | `@afenda/consolidation` | Domain | **planned** | Group consolidation calculations — not standards metadata | Planned PAS (TBD) |
@@ -297,7 +297,7 @@ This Blueprint must **not** contain:
 - Dependency edge lists (use [`dependency-registry.md`](dependency-registry.md))
 - Lane / gate / evidence rows (use [`foundation-disposition.md`](foundation-disposition.md))
 - Runtime API shapes, TypeScript contracts, or SQL schema
-- Slice handoffs (`docs/PAS/slice/`)
+- Slice handoffs (`docs/PAS/CSS-AUTHORITY/SLICE/`)
 - Implementation sequences (live inside each PAS §10–§12)
 - Feature implementation roadmaps outside PAS §10–§12
 

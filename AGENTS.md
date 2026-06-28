@@ -176,9 +176,9 @@ Read in order:
 
 **Kernel enforcement:** [`.cursor/skills/kernel-authority/SKILL.md`](.cursor/skills/kernel-authority/SKILL.md)
 
-**Enterprise knowledge (PAS-004):** [`.cursor/skills/enterprise-knowledge/SKILL.md`](.cursor/skills/enterprise-knowledge/SKILL.md) · [`docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · `@afenda/enterprise-knowledge` — accepted business meaning; glossary is a representation only.
+**Enterprise knowledge (PAS-004):** [`.cursor/skills/enterprise-knowledge/SKILL.md`](.cursor/skills/enterprise-knowledge/SKILL.md) · [`docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · `@afenda/enterprise-knowledge` — accepted business meaning; glossary is a representation only.
 
-**CSS authority (PAS-005):** [`.cursor/skills/css-authority/SKILL.md`](.cursor/skills/css-authority/SKILL.md) · [`docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md`](docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md) · `@afenda/css-authority` — runtime CSS token registry (`CSS-TOKEN-*`); `@afenda/design-system` retains Governed UI variant/recipe TS + `--afenda-*` token shim (B30 monolith deprecated).
+**CSS authority (PAS-005):** [`.cursor/skills/css-authority/SKILL.md`](.cursor/skills/css-authority/SKILL.md) · [`docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md`](docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) · `@afenda/css-authority` — runtime CSS token registry (`CSS-TOKEN-*`); `@afenda/design-system` retains Governed UI variant/recipe TS + `--afenda-*` token shim (B30 monolith deprecated).
 
 **Accounting Core (`Foundation phase 15+` runtime)** is blocked until ADR-0010 **and** a new ADR amends `PKGR01_ACCOUNTING` prohibited rules.
 

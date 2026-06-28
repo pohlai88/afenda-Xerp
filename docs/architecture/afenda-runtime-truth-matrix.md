@@ -117,7 +117,7 @@ Future studio blocks: agents follow `afenda-shadcn-components` — not a separat
 
 **Missing directories (recorded, not invented):**
 
-- `docs/tip/` — does not exist; slice handoffs live in [`docs/PAS/slice/`](../PAS/slice/)
+- `docs/tip/` — does not exist; slice handoffs live in [`docs/PAS/CSS-AUTHORITY/SLICE/`](../PAS/slice/)
 - `docs/roadmap/` — does not exist; replaced by `pre-accounting-foundation-roadmap.md`
 - `packages/features-*` — no feature packages exist
 

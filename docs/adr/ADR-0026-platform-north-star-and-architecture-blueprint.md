@@ -15,7 +15,7 @@
 
 Afenda's Package Authority Standards (PAS) already contain package definition, boundaries, slice catalogs, implementation sequences, gates, and doctrine. No intermediate document is required between PAS and code.
 
-However, PAS documents **standardize** packages — they must not **discover** them. Evidence: [PAS-003](../PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) lists consumers such as `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, and `@afenda/finance` that do not appear in [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) or [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts). Agents and implementers therefore lack an authoritative forward-looking decomposition that explains **why** each package exists and **what capability** it presents before a PAS is authored.
+However, PAS documents **standardize** packages — they must not **discover** them. Evidence: [PAS-003](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) lists consumers such as `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, and `@afenda/finance` that do not appear in [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) or [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts). Agents and implementers therefore lack an authoritative forward-looking decomposition that explains **why** each package exists and **what capability** it presents before a PAS is authored.
 
 Machine registries answer **what exists today** (census). They do not express platform-level **why**, planned domain decomposition, or capability intent. The master plan (`_afenda-erp-master-plan.llms.md`) mixed vision with delivery roadmap and is demoted to roadmap-only per this ADR.
 
@@ -58,7 +58,7 @@ ADR (optional — cross-cutting decisions only)
   >
 PAS (per-package authority + §12 Slice Catalog)
   >
-Slice (docs/PAS/slice/*.md — work order; Slice N of M declared per slice)
+Slice (docs/PAS/CSS-AUTHORITY/SLICE/*.md — work order; Slice N of M declared per slice)
   >
 Code
 ```
@@ -161,6 +161,6 @@ Template index: `.cursor/skills/kernel-authority/reference/pas-template.md`
 ## References
 
 - [ADR-0000](ADR-0000-architecture-constitution.md) — Architecture Constitution
-- [PAS-003](../PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) — phantom consumer evidence
+- [PAS-003](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) — phantom consumer evidence
 - [foundation-delivery-authority.md](../architecture/foundation-delivery-authority.md)
 - [docs/PAS/README.md](../PAS/README.md)

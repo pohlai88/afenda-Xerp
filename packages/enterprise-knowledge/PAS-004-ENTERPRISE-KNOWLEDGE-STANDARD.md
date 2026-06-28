@@ -2,7 +2,7 @@
 
 **Role:** Constitutional charter for enterprise knowledge acceptance (technology-free §1–§4 in canonical doc).
 
-Canonical: [docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md](../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)
+Canonical: [docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md](../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)
 
 Agent skill: [.cursor/skills/enterprise-knowledge/SKILL.md](../../.cursor/skills/enterprise-knowledge/SKILL.md)
 

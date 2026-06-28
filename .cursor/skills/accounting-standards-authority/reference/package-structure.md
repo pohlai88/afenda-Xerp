@@ -2,7 +2,7 @@
 
 `@afenda/accounting-standards` folder tree, exports, and governance rules.
 
-← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-003 §6](../../../../docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#6-package-structure-standard)
+← Back to [SKILL.md](../SKILL.md) | Canonical: [PAS-003 §6](../../../../docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#6-package-structure-standard)
 
 **Source truth order:**
 

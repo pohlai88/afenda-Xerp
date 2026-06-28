@@ -152,7 +152,7 @@ ADR (when a cross-cutting decision is needed)
         ↓
 PAS-NNN  ← feature spec; one per package/domain
         ↓
-docs/PAS/slice/bN-*.md  ← work order; one per implementation unit
+docs/PAS/CSS-AUTHORITY/SLICE/bN-*.md  ← work order; one per implementation unit
         ↓
 Code (packages/** + apps/**)
         ↓

@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **Directory (SSOT)** | `docs/PAS/KERNEL/SLICE/` |
-| **Legacy** | `docs/PAS/slice/` — **removed from repo**; do not restore for kernel Phase 0 |
+| **Legacy** | `docs/PAS/CSS-AUTHORITY/SLICE/` — **removed from repo**; do not restore for kernel Phase 0 |
 | **Template** | [pas-slice-template.md](../../../../.cursor/skills/kernel-authority/reference/pas-slice-template.md) |
 | **Catalog** | [kernel-slice-catalog.md](kernel-slice-catalog.md) |
 | **Slice range** | B49–B106 (48 individual handoffs) |

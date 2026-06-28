@@ -286,7 +286,7 @@ Post this block at end of every coding turn. Full templates → [reference/deliv
 - UX + accessibility: [reference/ux.md](reference/ux.md)
 - All deliverable templates: [reference/deliverables.md](reference/deliverables.md)
 - Scoring rubric: [reference/scoring.md](reference/scoring.md)
-- PAS-005 / css-authority: `docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md` · `docs/architecture/css-authority.md`
+- PAS-005 / css-authority: `docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md` · `docs/architecture/css-authority.md`
 - Governed UI policy: `docs/governance/governed-ui-policy.md`
 - UI guard gates: `docs/governance/ui-guard.md`
 - PAS index: `docs/PAS/README.md`

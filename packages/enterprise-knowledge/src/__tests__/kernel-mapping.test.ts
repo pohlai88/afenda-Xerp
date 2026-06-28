@@ -72,7 +72,7 @@ describe("Knowledge kernel mapping (PAS-004A §4.2 · B26)", () => {
         {
           evidenceId: "test_evidence_1",
           type: "policy",
-          source: "docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md",
+          source: "docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md",
         },
       ],
       implementationMapping: {

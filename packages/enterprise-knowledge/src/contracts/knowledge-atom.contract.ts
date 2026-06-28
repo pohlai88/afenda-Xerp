@@ -292,7 +292,7 @@ export interface KnowledgeRelationship {
 
 export const ENTERPRISE_KNOWLEDGE_POLICY = {
   pasSection: "4.1",
-  charterDoc: "docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md",
+  charterDoc: "docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md",
   constitutionalSentence:
     "Enterprise knowledge exists when meaning is accepted, reasoning is understood, evidence is trusted, relationships are preserved, decisions are explainable, and evolution is traceable.",
   firstPrinciple:

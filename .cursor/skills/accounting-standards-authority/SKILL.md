@@ -2,8 +2,8 @@
 name: accounting-standards-authority
 description: Enforces the @afenda/accounting-standards boundary: versioned IFRS/MFRS/SFRS authority metadata, standards-to-process routing, posting validation contracts, and evidence snapshots — never journal posting, ledger mutation, or Kernel IFRS logic.
 paths:
-  - packages/accounting-standards-authority/**
-  - docs/PAS/PAS-003*.md
+  - packages/accounting-standards/**
+  - docs/PAS/ACCOUNTING-STANDARDS/**
 ---
 
 # @afenda/accounting-standards — Authority Skill (PAS-003)
@@ -15,7 +15,7 @@ paths:
 | **Runtime status** | B0 skeleton + PAS published; versioned standard registries not started |
 | **Remaining slices** | B1 — accounting standard family registry (next) |
 
-> Canonical: [`docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md`](../../../docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+> Canonical: [`docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md`](../../../docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) · Slices: [`ACCOUNTING-STANDARDS/SLICE/`](../../../docs/PAS/ACCOUNTING-STANDARDS/SLICE/README.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
 ---
 
@@ -116,7 +116,7 @@ Before editing any accounting-standards file, state these six lines:
                      pnpm quality:boundaries
 ```
 
-If a slice handoff exists, paste the 9-field block from `docs/PAS/slice/<file>.md` into Phase 0 first.
+If a slice handoff exists, paste the 9-field block from `docs/PAS/CSS-AUTHORITY/SLICE/<file>.md` into Phase 0 first.
 
 ---
 
@@ -125,9 +125,9 @@ If a slice handoff exists, paste the 9-field block from `docs/PAS/slice/<file>.m
 1. This file (SKILL.md) — boundary, hard stops, Phase 0
 2. [reference/authority-surfaces.md](reference/authority-surfaces.md) — contract shapes (Status: Target until slice delivers)
 3. [reference/package-structure.md](reference/package-structure.md) — current vs target tree
-4. [docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md](../../../docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) — §0 Agent Quick Path
-5. Target slice under `docs/PAS/slice/` — 9-field handoff when implementing
-6. [PAS-003 Appendix A](../../../docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#appendix-a--borrow-reference-inventory-temporary) — **temporary** borrow inventory (implementation hints only; not canonical authority)
+4. [docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md](../../../docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) — §0 Agent Quick Path
+5. Next slice: [docs/PAS/ACCOUNTING-STANDARDS/SLICE/](../../../docs/PAS/ACCOUNTING-STANDARDS/SLICE/README.md) — paste 9-field handoff into Phase 0
+6. [PAS-003 Appendix A](../../../docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#appendix-a--borrow-reference-inventory-temporary) — **temporary** borrow inventory (implementation hints only; not canonical authority)
 
 **Maturity:** Production Candidate — not Enterprise Accepted until consumer workflow proof (PAS-003 §11.6).
 

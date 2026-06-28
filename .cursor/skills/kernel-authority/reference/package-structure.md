@@ -147,7 +147,7 @@ See `kernel-boundary-drift.registry.ts` for the full refactor lock list.
 
 ## Slice delivery checklist (new folders or subpaths)
 
-1. Deliver implementation in a serialized PAS slice under `docs/PAS/slice/`
+1. Deliver implementation in a serialized PAS slice under `docs/PAS/CSS-AUTHORITY/SLICE/`
 2. Update `kernel-package-layout.contract.ts` (`CURRENT_SRC_TOP_LEVEL`, `TARGET_PATHS`, or `SUBPATH_EXPORTS`)
 3. Update `PAS-001-KERNEL-TREE.md` and PAS §6.1 summary if top-level layout changes
 4. Register `package.json` export + add tests

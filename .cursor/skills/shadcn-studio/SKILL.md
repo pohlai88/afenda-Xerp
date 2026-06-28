@@ -12,7 +12,7 @@ paths:
 
 # shadcn/studio
 
-**Authority:** [PAS-005A](../../docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) · [ADR-0017](../../docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) · `.cursor/rules/shadcn-studio.instructions.mdc`
+**Authority:** [PAS-005A](../../docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) · [ADR-0017](../../docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) · `.cursor/rules/shadcn-studio.instructions.mdc`
 
 **Agent skill (boundary):** [shadcn-studio-authority](../shadcn-studio-authority/SKILL.md)
 
@@ -141,7 +141,7 @@ MCP install (packages/shadcn-studio)
 
 **Remaining (B42i):** thin MCP wrapper strangler; Governed UI className strip on MCP blocks.
 
-Handoff: [`docs/PAS/slice/b42h-pas005a-legacy-tree-delete.md`](../../docs/PAS/slice/b42h-pas005a-legacy-tree-delete.md) · next: [`b42i`](../../docs/PAS/slice/) (proposed)
+Handoff: [`docs/PAS/CSS-AUTHORITY/SLICE/b42h-pas005a-legacy-tree-delete.md`](../../docs/PAS/CSS-AUTHORITY/SLICE/b42h-pas005a-legacy-tree-delete.md) · next: [`b42i`](../../docs/PAS/CSS-AUTHORITY/SLICE/) (proposed)
 
 ---
 

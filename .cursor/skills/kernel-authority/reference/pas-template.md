@@ -243,7 +243,7 @@ On every slice **Delivered**:
 | [adr-constitution.md](adr-constitution.md) | (reference) | ADR lifecycle, supersession, traceability |
 | [pas-doc-template.md](pas-doc-template.md) | `docs/PAS/PAS-NNN-*.md` | Authoring PAS body |
 | [pas-skill-template.md](pas-skill-template.md) | `.cursor/skills/<pkg>-authority/SKILL.md` | Agent skill adapter |
-| [pas-slice-template.md](pas-slice-template.md) | `docs/PAS/slice/*.md` | Slice handoff |
+| [pas-slice-template.md](pas-slice-template.md) | `docs/PAS/CSS-AUTHORITY/SLICE/*.md` | Slice handoff |
 | [pas-reference-templates.md](pas-reference-templates.md) | `reference/*.md` | TS shapes, trees |
 | [adr-constitution.md](adr-constitution.md) | (reference) | ADR lifecycle · supersession · traceability |
 
