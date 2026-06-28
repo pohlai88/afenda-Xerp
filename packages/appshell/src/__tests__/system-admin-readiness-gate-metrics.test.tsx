@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import {
   type SystemAdminReadinessGateMetric,
   SystemAdminReadinessGateMetrics,
-} from "../shadcn-studio/blocks/system-admin-readiness-gate-metrics";
+} from "../presentation/blocks/system-admin-readiness-gate-metrics";
 
 const defaultMetrics = [
   {

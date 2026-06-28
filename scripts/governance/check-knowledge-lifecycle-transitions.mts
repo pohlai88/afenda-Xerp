@@ -1,4 +1,5 @@
 #!/usr/bin/env tsx
+
 /**
  * PAS-004C §4.8 — B45: lifecycle transition governance gate.
  *
@@ -8,8 +9,8 @@
  * 3. validateKnowledgeLifecycleTransitions() returns empty for full corpus.
  */
 
-import { KNOWLEDGE_TRANSITION_RULES } from "../../packages/enterprise-knowledge/src/data/transition-rules.registry.ts";
 import { ENTERPRISE_KNOWLEDGE_ATOMS } from "../../packages/enterprise-knowledge/src/data/knowledge.registry.ts";
+import { KNOWLEDGE_TRANSITION_RULES } from "../../packages/enterprise-knowledge/src/data/transition-rules.registry.ts";
 import { validateKnowledgeLifecycleTransitions } from "../../packages/enterprise-knowledge/src/policy/knowledge-transition.policy.ts";
 
 const errors: string[] = [];
@@ -36,7 +37,9 @@ if (ENTERPRISE_KNOWLEDGE_ATOMS.length !== 24) {
   );
 }
 
-errors.push(...validateKnowledgeLifecycleTransitions(ENTERPRISE_KNOWLEDGE_ATOMS));
+errors.push(
+  ...validateKnowledgeLifecycleTransitions(ENTERPRISE_KNOWLEDGE_ATOMS)
+);
 
 if (errors.length > 0) {
   console.error("check:knowledge-lifecycle-transitions: FAIL");

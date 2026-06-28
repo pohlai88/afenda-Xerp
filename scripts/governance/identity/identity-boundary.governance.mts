@@ -23,6 +23,8 @@ export const IDENTITY_BOUNDARY_SCAN_ROOTS = [
   "packages/auth/src",
   "packages/permissions/src",
   "packages/execution/src",
+  "packages/metadata-ui/src",
+  "packages/ui-composition/src",
 ] as const;
 
 export const IDENTITY_BOUNDARY_ALLOWLIST_PREFIXES = [
@@ -100,6 +102,16 @@ function isAllowlisted(relativePath: string): boolean {
   );
 }
 
+/** Strip string literals so `it("… as TenantId …")` does not false-positive cast rules. */
+export function stripStringLiteralsForIdentityBoundaryScan(
+  source: string
+): string {
+  return source
+    .replace(/"(?:\\.|[^"\\])*"/g, '""')
+    .replace(/'(?:\\.|[^'\\])*'/g, "''")
+    .replace(/`(?:\\.|[^`\\])*`/g, "``");
+}
+
 export function collectIdentityBoundaryViolations(
   sources: readonly IdentityBoundarySource[]
 ): IdentityBoundaryViolation[] {
@@ -114,13 +126,22 @@ export function collectIdentityBoundaryViolations(
     const legacyBrandMatches = file.source.match(
       FORBIDDEN_LEGACY_BRAND_PATTERN
     );
-    const castMatches = file.source.match(FORBIDDEN_ENTERPRISE_ID_CAST_PATTERN);
+    const codeWithoutStringLiterals =
+      stripStringLiteralsForIdentityBoundaryScan(file.source);
+    const castMatches = codeWithoutStringLiterals.match(
+      FORBIDDEN_ENTERPRISE_ID_CAST_PATTERN
+    );
     const canonicalCastMatches = [
-      ...(file.source.match(FORBIDDEN_CANONICAL_ENTERPRISE_ID_CAST_PATTERN) ??
-        []),
-      ...(file.source.match(FORBIDDEN_CANONICAL_ID_CAST_PATTERN) ?? []),
+      ...(codeWithoutStringLiterals.match(
+        FORBIDDEN_CANONICAL_ENTERPRISE_ID_CAST_PATTERN
+      ) ?? []),
+      ...(codeWithoutStringLiterals.match(
+        FORBIDDEN_CANONICAL_ID_CAST_PATTERN
+      ) ?? []),
     ];
-    const aliasMatches = file.source.match(LOCAL_ID_ALIAS_PATTERN);
+    const aliasMatches = codeWithoutStringLiterals.match(
+      LOCAL_ID_ALIAS_PATTERN
+    );
     const brandImportMatches = file.source.match(
       FORBIDDEN_KERNEL_BRAND_IMPORT_PATTERN
     );

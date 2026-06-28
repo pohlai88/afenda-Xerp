@@ -201,7 +201,8 @@ export function checkErpContextSurface(): ErpContextSurfaceViolation[] {
     for (const needle of [
       "resolveLegalEntityContext",
       "resolveGrantScope",
-      "verifyProjectSelection",
+      "verifyProjectBoundary",
+      "toProjectContext",
       "denyOperatingContext",
     ] as const) {
       if (!operatingContextSource.includes(needle)) {

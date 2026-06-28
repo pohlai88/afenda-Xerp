@@ -120,6 +120,8 @@ export const OPERATING_CONTEXT_ERROR_CODES = [
   "ENTITY_GROUP_NOT_FOUND",
   "ENTITY_GROUP_NOT_OPERATIONAL",
   "ENTITY_GROUP_SCOPE_MISMATCH",
+  "PROJECT_NOT_FOUND",
+  "PROJECT_NOT_OPERATIONAL",
   "PROJECT_SCOPE_MISMATCH",
 ] as const;
 
@@ -143,6 +145,7 @@ export interface OperatingContextSelection {
   readonly organizationId?: string | null;
   readonly organizationSlug?: string | null;
   readonly projectId?: string | null;
+  readonly projectSlug?: string | null;
   readonly surfaceId?: string | null;
   readonly teamId?: string | null;
   readonly tenantSlug: string;

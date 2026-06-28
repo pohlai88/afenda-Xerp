@@ -1,8 +1,8 @@
 import { setupUser } from "@afenda/testing/react";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { AppShellLanguageDropdown } from "../shadcn-studio/blocks/app-shell-language-dropdown";
-import { defaultAppShellLanguages } from "../shadcn-studio/data/app-shell.language.data";
+import { AppShellLanguageDropdown } from "../presentation/blocks/app-shell-language-dropdown";
+import { defaultAppShellLanguages } from "../presentation/data/app-shell.language.data";
 
 describe("AppShellLanguageDropdown", () => {
   it("renders the trigger without TIP-004 consumer violations", () => {

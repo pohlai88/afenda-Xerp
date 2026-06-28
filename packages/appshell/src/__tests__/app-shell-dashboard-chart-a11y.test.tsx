@@ -1,8 +1,8 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { AppShellDashboardSparklineStat } from "../shadcn-studio/blocks/app-shell-dashboard-sparkline-stat";
-import { defaultAppShellDashboardSparklineMetrics } from "../shadcn-studio/data/app-shell.dashboard.data";
+import { AppShellDashboardSparklineStat } from "../presentation/blocks/app-shell-dashboard-sparkline-stat";
+import { defaultAppShellDashboardSparklineMetrics } from "../presentation/data/app-shell.dashboard.data";
 
 describe("AppShellDashboardSparklineStat accessibility", () => {
   it("exposes the chart as a labelled image", () => {
@@ -29,13 +29,13 @@ describe("AppShellDashboardSparklineStat accessibility", () => {
 describe("AppShellDashboardRevenueChart accessibility", () => {
   it("labels the primary revenue variance chart as an image", async () => {
     const { AppShellDashboardRevenueChart } = await import(
-      "../shadcn-studio/blocks/app-shell-dashboard-revenue-chart"
+      "../presentation/blocks/app-shell-dashboard-revenue-chart"
     );
     const { buildRevenueBarChartLabel } = await import(
-      "../shadcn-studio/blocks/app-shell-dashboard-revenue-chart"
+      "../presentation/blocks/app-shell-dashboard-revenue-chart"
     );
     const { defaultAppShellDashboardRevenueBars } = await import(
-      "../shadcn-studio/data/app-shell.dashboard.data"
+      "../presentation/data/app-shell.dashboard.data"
     );
 
     render(<AppShellDashboardRevenueChart />);

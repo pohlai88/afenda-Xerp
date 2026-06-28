@@ -59,6 +59,12 @@ function createMetadataDiagnosticsRuntimeSnapshot(
     ...(runtime.correlationId === undefined
       ? {}
       : { correlationId: runtime.correlationId }),
+    ...(runtime.policyDecision === undefined
+      ? {}
+      : { policyDecision: runtime.policyDecision }),
+    ...(runtime.permissionModelDescriptors === undefined
+      ? {}
+      : { permissionModelDescriptors: runtime.permissionModelDescriptors }),
   };
 }
 

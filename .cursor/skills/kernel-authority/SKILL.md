@@ -10,7 +10,7 @@ disable-model-invocation: false
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | Enterprise Accepted — kernel contracts, 31 delivered slices, runtime gates operational |
+| **Runtime status** | Enterprise Accepted — kernel contracts, 33 delivered slices, runtime gates operational |
 | **Remaining slices** | none — B18 Delivered ([`docs/PAS/slice/b18-6.3-public-exports-parity.md`](../../../docs/PAS/slice/b18-6.3-public-exports-parity.md)) |
 
 > Canonical: [`docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`](../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)

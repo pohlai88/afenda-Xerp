@@ -1,12 +1,13 @@
 import { type AfendaDatabase, getDb, outboxEvents } from "@afenda/database";
-import type {
-  ClaimOutboxEventsInput,
-  MarkOutboxDeadLetterInput,
-  MarkOutboxFailedInput,
-  MarkOutboxPublishedInput,
-  OutboxEventRecord,
-  OutboxPersistencePort,
-  ReleaseOutboxClaimInput,
+import {
+  type ClaimOutboxEventsInput,
+  type MarkOutboxDeadLetterInput,
+  type MarkOutboxFailedInput,
+  type MarkOutboxPublishedInput,
+  type OutboxEventRecord,
+  type OutboxPersistencePort,
+  type ReleaseOutboxClaimInput,
+  toDomainEventFromOutboxRecord,
 } from "@afenda/execution";
 import { and, eq, lte, sql } from "drizzle-orm";
 
@@ -18,7 +19,8 @@ function toIsoString(value: Date | string | null): string | null {
   return value instanceof Date ? value.toISOString() : value;
 }
 
-function mapRowToRecord(
+/** Maps a Drizzle outbox row to the execution persistence record shape. */
+export function mapDrizzleOutboxRowToRecord(
   row: typeof outboxEvents.$inferSelect
 ): OutboxEventRecord {
   return {
@@ -45,6 +47,10 @@ function mapRowToRecord(
     summary: row.summary,
     tenantId: row.tenantId,
   };
+}
+
+function assertOutboxRecordDomainEventBridge(record: OutboxEventRecord): void {
+  toDomainEventFromOutboxRecord(record);
 }
 
 export function createDrizzleOutboxPersistenceAdapter(
@@ -85,7 +91,29 @@ export function createDrizzleOutboxPersistenceAdapter(
             .returning();
 
           if (updated !== undefined) {
-            claimed.push(mapRowToRecord(updated));
+            const record = mapDrizzleOutboxRowToRecord(updated);
+
+            try {
+              assertOutboxRecordDomainEventBridge(record);
+              claimed.push(record);
+            } catch (error: unknown) {
+              await tx
+                .update(outboxEvents)
+                .set({
+                  attempts: updated.attempts + 1,
+                  availableAt: new Date(input.nowIso),
+                  failedAt: new Date(input.nowIso),
+                  lastError:
+                    error instanceof Error
+                      ? error.message
+                      : "Outbox row failed DomainEvent bridge validation.",
+                  lockedAt: null,
+                  lockedBy: null,
+                  status: "failed",
+                  updatedAt: sql`now()`,
+                })
+                .where(eq(outboxEvents.id, updated.id));
+            }
           }
         }
 

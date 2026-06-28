@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **As-of date** | 2026-06-27 |
+| **As-of date** | 2026-06-28 |
 | **Audit** | [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md) |
 | **Roadmap** | [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) (Phases 0–9 complete) |
 | **Implementation authority** | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) (PAS — ADR-0014) |
@@ -24,7 +24,7 @@
 | **Design System** | `packages/design-system/` | `PKG004_DESIGN` — amber-lane | **partially-implemented** | Token registry, recipes, governance scripts, contrast tests; **no runtime UI** (by design) | FDR/design-authority closeout if promoted to green-lane | Maintain governance gates |
 | **UI Primitives** | `packages/ui/src/components/` | `fdr-018-governed-primitives` — Not started | **implemented** | 58 component files; 68+ tests; `resolvePrimitiveGovernance()`; stories | ADR-0008 ref-as-prop migration deferred; FDR amber closeout pending | FDR Research + ADR-0008 track |
 | **UI Consumption (TIP-004)** | `scripts/governance/ui-guard.mjs`, `docs/governance/tip-004-policy.md` | `fdr-018-ui-consumption` — Not started | **implemented** | Gate D/F scripts; consumer rules in AGENTS.md | FDR not reconciled with tip-004 **Complete** archive | Research Slice 1; `pnpm ui:guard:scan` on changes |
-| **shadcn/studio (ADR-0017)** | `packages/appshell/src/shadcn-studio/` · agent skill [`.cursor/skills/afenda-shadcn-components/`](../../.cursor/skills/afenda-shadcn-components/SKILL.md) | [`ADR-0017`](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) Proposed | **implemented** | 29+ governed blocks; `STUDIO-PATTERN-MAP.md`; `afenda-appshell-studio.css`; 3-layer token chain; per-block promotion pipeline (Q1–Q3 filter); `pnpm ui:guard` A–G | ADR-0017 acceptance; MCP `shadcn` cwd wiring (`apps/erp` → `packages/ui`) | Accept ADR-0017; MCP cwd fix — **no bulk migration FDR** |
+| **shadcn/studio (ADR-0017 · PAS-005A)** | `@afenda/shadcn-studio` · `packages/appshell/src/presentation/` · `packages/appshell/src/shadcn-studio-bridge/` · agent skill [`.cursor/skills/afenda-shadcn-components/`](../../.cursor/skills/afenda-shadcn-components/SKILL.md) | `PKGR05A_SHADCN_STUDIO` — **green-lane** (PAS-005A B38–B42l ✓) · [`ADR-0017`](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) Accepted | **implemented** | MCP product `@afenda/shadcn-studio` (67 parity registry entries); wrapper strangler registry (38+ entries, 4 delegating statistics cards); MCP a11y article/footnote contract; bridge exports; `STUDIO-PATTERN-MAP.md`; `afenda-appshell-studio.css` B42l consolidation; `legacy-studio-consumer-scan.test.ts`; B42h deleted legacy `shadcn-studio/` path | Remaining block stranglers (~45 MCP blocks); optional TIP-004 className strip on MCP lab blocks | B42m+ strangler batches |
 | **AppShell** | `packages/appshell/` · `packages/appshell/src/auth-shell/` · `apps/erp/src/app/(auth)/` | `fdr-001-shell-composition` **29/30 audit-adjusted** · `fdr-001-manifest-nav` Complete · ARCH-AUTH-002 **Complete — 29/30** · ARCH-AUTH-003 **Complete — 29/30** | **implemented** | 93+ `.tsx`; auth-shell lanes + `.af-auth-shell` CSS; tenant brand panel (`logoUrl`/`brandColor`); 18+ package auth-shell tests; `check:auth-shell-boundary` exit 0 (single `(auth)` segment); ERP `(auth)` async layout + `resolveTenantAuthBrand`; canonical URLs `/sign-in`, `/mfa`, … (no `/v2/` prefix); legacy v1 shell decommissioned 2026-06-26; system-admin Appearance settings; first ERP `@afenda/storage` upload route | Live R2 env smoke in deployed preview; registry promotion for PKG-015 ERP consumer | Deployed storage smoke; `foundation-registry-owner` when promoting PKG-015 ERP lane |
 | **Tenant settings (appearance)** | `packages/database/src/tenant-settings/` · `apps/erp/src/lib/system-admin/` | ARCH-AUTH-003 · fdr-007-tenant-auth-branding | **implemented** | `tenant_settings.appearance` jsonb + governed migration `20260626103428_acoustic_sphinx`; Zod contract + service section; admin save + logo upload API; resolver tests | — | — |
 | **Metadata UI** | `packages/metadata-ui/` | `fdr-012-metadata-renderers` — Partially Implemented | **implemented** | Renderers + ERP `/metadata-workspace` route; production proof tests | Registry row `PKG012_METADATA_UI` pending | Registry-sync Slice 2 |
@@ -64,15 +64,17 @@
 
 ---
 
-## shadcn/studio — agent workflow (normalized 2026-06-25)
+## shadcn/studio — agent workflow (normalized 2026-06-28)
 
 | Concern | Authority | Implementation model |
 | --- | --- | --- |
-| **New block promotion** | [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md) | Per-block MCP/CLI pipeline only — install → Q1–Q3 filter → STUDIO-PATTERN-MAP → gates |
-| **Token / CSS bridge** | `packages/design-system` Part B/C → `afenda-appshell-studio.css` | Automatic flow for shadcn utilities and semantic tones — no manual per-utility mapping |
-| **Constitutional** | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) | Proposed — Architecture Authority acceptance pending |
+| **MCP product / install cwd** | `@afenda/shadcn-studio` · [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md) | `packages/shadcn-studio` — `/cui`, `/rui`, parity registry |
+| **Governed Afenda blocks** | `packages/appshell/src/presentation/blocks/` | Production block TSX + `STUDIO-PATTERN-MAP.md`; legacy `shadcn-studio/` path **deleted** (B42h) |
+| **Bridge re-exports** | `packages/appshell/src/shadcn-studio-bridge/` | Thin wrappers from `@afenda/shadcn-studio` MCP inventory |
+| **New block promotion** | [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md) | Per-block MCP pipeline — install → Q1–Q3 filter → STUDIO-PATTERN-MAP → gates |
+| **Token / CSS bridge** | `packages/design-system` Part B/C → `afenda-appshell-studio.css` | Automatic flow for shadcn utilities and semantic tones — **retained** after B42h |
+| **Constitutional** | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) | Accepted |
 | **Bulk Tailwind migration** | **Not scheduled** | Superseded by decision filter + `ui:guard`; waiver `shell-composition-studio-deferral` permanent |
-| **MCP wiring** | `.cursor/skills/shadcn-studio/SKILL.md` | Install cwd `packages/ui`; align `.cursor/mcp.json` `shadcn` server cwd (follow-up) |
 
 Future studio blocks: agents follow `afenda-shadcn-components` — not a separate FDR upgrade track.
 

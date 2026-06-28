@@ -7,13 +7,16 @@
  */
 
 import { readFileSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { ARCHITECTURE_BASELINE_FINGERPRINT } from "../../packages/architecture-authority/src/index.ts";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
-const ownershipDocPath = join(repoRoot, "docs/architecture/ownership-registry.md");
+const ownershipDocPath = join(
+  repoRoot,
+  "docs/architecture/ownership-registry.md"
+);
 
 const errors: string[] = [];
 const content = readFileSync(ownershipDocPath, "utf8");

@@ -11,15 +11,15 @@
 | **Layer** | Design / Presentation |
 | **Package role** | Standalone shadcn/studio product — theme surface, preset runtime, MCP seed path, governed blocks and primitives |
 | **Runtime stance** | `presentation-runtime` (theme preset application, settings persistence, lab verification) |
-| **Registry lane** | `amber-lane` — `PKGR05A_SHADCN_STUDIO` · PKG-026 |
+| **Registry lane** | `green-lane` — `PKGR05A_SHADCN_STUDIO` · PKG-026 |
 | **Package owner** | Design Authority |
 | **Agent skill** | `shadcn-studio-authority` · `.cursor/skills/shadcn-studio-authority/SKILL.md` (target — create on first implementation slice) |
 | **Maturity** | MVP Authority (`mvp_authority`) |
 | **Authority status** | `accepted_for_boundary` |
 | **Implementation status** | `implemented` (Phase 1) |
 | **Evidence level** | `presentation-runtime` |
-| **Runtime status** | B42c delivered — live MCP @ss-blocks install; placeholders removed; appshell legacy delete still blocked |
-| **Remaining slices** | B42d — appshell re-export bridge + legacy delete after extended parity |
+| **Runtime status** | B42l delivered — statistics cards delegating after MCP a11y parity; studio CSS consolidation documented; wrapper registry ≥38 entries |
+| **Remaining slices** | Ongoing block strangler maintenance (~45 MCP blocks); TIP-004 className strip deferred per block — not blocking green-lane acceptance |
 | **Consumers** | `apps/storybook` (lab), `apps/erp` (post B42 only), `@afenda/appshell` (transitional re-export until cutover) |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
@@ -61,7 +61,7 @@
 
 **Slice entrypoint:** [`docs/PAS/slice/b38-pas005a-scaffold.md`](slice/b38-pas005a-scaffold.md) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
 
-**Registry:** `PKGR05A_SHADCN_STUDIO` — **amber-lane** in `foundation-disposition.registry.ts` (PKG-026)
+**Registry:** `PKGR05A_SHADCN_STUDIO` — **green-lane** in `foundation-disposition.registry.ts` (PKG-026)
 
 **Phase 1 rule:** Build the standalone product **Afenda-free**. Do not wire `@afenda/css-authority` or ERP globals until B42.
 
@@ -71,13 +71,13 @@
 
 `@afenda/shadcn-studio` is the **presentation-layer product** derived from [PAS-005](PAS-005-CSS-AUTHORITY-STANDARD.md). Where PAS-005 defines *what CSS tokens mean* and how Afenda consumes them at runtime, PAS-005A defines *how shadcn/studio themes, presets, primitives, and blocks are authored, installed, switched, and verified* as a cohesive package.
 
-Phase 1 delivers a **standalone shadcn/studio stack** with no dependency on Afenda governance packages. Phase 2 (slice B42) integrates the product into Afenda ERP: retarget MCP promotion, map presets to css-authority bridge, delete legacy `packages/appshell/src/shadcn-studio/`, and wire ERP via governed exports.
+Phase 1 delivers a **standalone shadcn/studio stack** with no dependency on Afenda governance packages. Phase 2 (slice B42+) integrates the product into Afenda ERP: retarget MCP promotion, map presets to css-authority bridge, relocate governed blocks to `packages/appshell/src/presentation/` (legacy `shadcn-studio/` path deleted in B42h), and wire ERP via governed exports and bridge.
 
 > **What this package answers:** Which shadcn CSS variables constitute the base theme? Which named presets exist? How does runtime preset switching work? Where do MCP-installed primitives and blocks live? How is the product verified in lab/Storybook?
 
 > **What it must not answer:** What is the canonical Afenda token for `--surface-elevated`? Which ERP route renders this block? Does the user have permission? What is the accounting posting rule?
 
-Constitutional delivery acceleration remains [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md). ADR-0017 promotion targets will be **amended on B42** to point at `@afenda/shadcn-studio` instead of `packages/appshell/src/shadcn-studio/`.
+Constitutional delivery acceleration remains [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md). ADR-0017 promotion targets point at `@afenda/shadcn-studio` for MCP seed; governed Afenda blocks live under `packages/appshell/src/presentation/` (B42h).
 
 ---
 
@@ -213,7 +213,7 @@ MCP `/rui` seeds Radix-based primitives. Phase 1 uses **stock shadcn className p
 
 MCP `/cui` seeds Pro blocks. Each block requires Storybook story + test before B41 close.
 
-**Legacy rule:** Do **not** migrate from `packages/appshell/src/shadcn-studio/`. Re-seed via MCP. Delete appshell legacy on B42 cutover.
+**Legacy rule:** Do **not** migrate from deleted `packages/appshell/src/shadcn-studio/` path. Re-seed via MCP into `@afenda/shadcn-studio`; governed Afenda blocks live under `packages/appshell/src/presentation/` (B42h relocation).
 
 **Status:** Target
 
@@ -239,11 +239,11 @@ Minimum proof:
 
 - Import chain: `afenda-ui.css` → shadcn-studio theme alignment
 - Map `--app-shell-studio-*` bridge (today in appshell CSS) to css-authority domain sync
-- Retarget ADR-0017 promotion pipeline terminus
-- Delete `packages/appshell/src/shadcn-studio/` and `afenda-appshell-studio.css` after parity proof
+- Retarget ADR-0017 promotion pipeline terminus (`@afenda/shadcn-studio`)
+- Relocate governed blocks to `packages/appshell/src/presentation/` — legacy `shadcn-studio/` path deleted (B42h); **`afenda-appshell-studio.css` retained**
 - Enable `pnpm ui:guard` on promoted blocks
 
-**Status:** Deferred (B42)
+**Status:** Delivered — B42 integration bridge + B42h legacy path delete + B42i wrapper strangler (Phase 1)
 
 ---
 
@@ -254,7 +254,7 @@ Minimum proof:
 - **TIP-004 governed primitive policy** on `@afenda/ui` — separate governance slice
 - **AppShell chrome** (`application-shell`, `dashboard-shell`, `dashboard-sidebar`) — `@afenda/appshell` / TIP-006
 - **ERP routes, server actions, data fetching** — `apps/erp`
-- **Legacy studio migration** — do not move `packages/appshell/src/shadcn-studio/`; re-seed and delete
+- **Legacy studio migration** — do not copy deleted `shadcn-studio/` TSX; re-seed via MCP; governed blocks under `presentation/`
 - **Direct `_reference/` runtime imports** — read-only catalog
 - **Permission, tenant, or execution context resolution**
 - **New npm dependencies** without ADR-0003 / dependency-registry entry (applies from B40 onward)
@@ -475,11 +475,20 @@ pnpm ui:guard
 | B39 | [Theme presets + SettingsProvider + ThemeCustomizer](slice/b39-pas005a-theme-presets.md) | Delivered |
 | B40 | [MCP seed — theme, primitives, blocks](slice/b40-pas005a-mcp-seed.md) | Delivered (manual seed equivalent) |
 | B41 | Lab / Storybook verification | Delivered |
-| B42 | Afenda integration — css-authority bridge, ADR-0017 retarget, metadata-ui hook, legacy delete | **Partial** — [`slice/b42-pas005a-afenda-integration.md`](slice/b42-pas005a-afenda-integration.md) |
-| B42b | Legacy parity inventory + delete planning | **Delivered** — [`slice/b42b-pas005a-legacy-delete-planning.md`](slice/b42b-pas005a-legacy-delete-planning.md) |
+| B42 | Afenda integration — css-authority bridge, ADR-0017 retarget, metadata-ui hook, bridge + legacy path delete | **Delivered** — legacy delete in B42h; Phase 1 wrappers in B42i — [`slice/b42-pas005a-afenda-integration.md`](slice/b42-pas005a-afenda-integration.md) |
+| B42b | Legacy parity inventory + delete planning | **Delivered (planning)** — **Superseded** by B42h execution — [`slice/b42b-pas005a-legacy-delete-planning.md`](slice/b42b-pas005a-legacy-delete-planning.md) |
 | B42c | MCP live re-seed — replace B40 placeholders | **Delivered** — [`slice/b42c-pas005a-mcp-live-reseed.md`](slice/b42c-pas005a-mcp-live-reseed.md) |
+| B42d | Appshell re-export bridge + parity registry | **Delivered** — [`slice/b42d-pas005a-appshell-reexport-bridge.md`](slice/b42d-pas005a-appshell-reexport-bridge.md) |
+| B42e | Extended `/cui` batch — account-settings + dashboard | **Delivered** — [`slice/b42e-pas005a-extended-cui-batch.md`](slice/b42e-pas005a-extended-cui-batch.md) |
+| B42f | Dashboard/shell bridge expansion | **Delivered** — [`slice/b42f-pas005a-dashboard-shell-bridge-expansion.md`](slice/b42f-pas005a-dashboard-shell-bridge-expansion.md) |
+| B42g | Residual shell/content parity — delete gate open | **Delivered** — [`slice/b42g-pas005a-residual-shell-content-parity.md`](slice/b42g-pas005a-residual-shell-content-parity.md) |
+| B42h | Legacy tree delete — `presentation/` relocation | **Delivered** — [`slice/b42h-pas005a-legacy-tree-delete.md`](slice/b42h-pas005a-legacy-tree-delete.md) |
+| B42i | MCP wrapper strangler — Phase 1 statistics/shell/dashboard | **Delivered** — [`slice/b42i-pas005a-mcp-wrapper-strangler.md`](slice/b42i-pas005a-mcp-wrapper-strangler.md) |
+| B42j | Wrapper expansion + delegating flip + MCP className policy | **Delivered** — [`slice/b42j-pas005a-wrapper-expansion-delegating-flip.md`](slice/b42j-pas005a-wrapper-expansion-delegating-flip.md) |
+| B42k | Statistics MCP a11y parity + delegating flip | **Delivered** — [`slice/b42k-pas005a-statistics-a11y-delegating-flip.md`](slice/b42k-pas005a-statistics-a11y-delegating-flip.md) |
+| B42l | afenda-appshell-studio.css consolidation | **Delivered** — [`slice/b42l-pas005a-studio-css-consolidation.md`](slice/b42l-pas005a-studio-css-consolidation.md) |
 
-**Next sequence item:** B42d — appshell re-export bridge + legacy delete
+**Next sequence item:** Ongoing block strangler maintenance — no blocking PAS-005A slices remain
 
 ---
 

@@ -139,6 +139,8 @@ describe("operating context contract surface", () => {
       "MISSING_LEGAL_ENTITY_SELECTION"
     );
     expect(OPERATING_CONTEXT_ERROR_CODES).toContain("ENTITY_GROUP_NOT_FOUND");
+    expect(OPERATING_CONTEXT_ERROR_CODES).toContain("PROJECT_NOT_FOUND");
+    expect(OPERATING_CONTEXT_ERROR_CODES).toContain("PROJECT_NOT_OPERATIONAL");
     expect(OPERATING_CONTEXT_ERROR_CODES).toContain("PROJECT_SCOPE_MISMATCH");
   });
 

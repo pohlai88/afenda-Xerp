@@ -4,7 +4,7 @@ import {
   buildSparklineSeriesSummary,
   formatSparklineCurrency,
   formatSparklineDateLabel,
-} from "../shadcn-studio/blocks/app-shell-dashboard-sparkline-stat";
+} from "../presentation/blocks/app-shell-dashboard-sparkline-stat";
 
 describe("sparkline view model", () => {
   it("formats currency and dates for tooltips", () => {

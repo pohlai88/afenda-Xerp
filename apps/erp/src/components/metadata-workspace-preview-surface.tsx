@@ -1,16 +1,18 @@
 import type { MetadataUiRenderContext } from "@afenda/metadata-ui/server";
 import {
+  MetadataForbiddenState,
   MetadataLayout,
   MetadataPageSurface,
   MetadataSection,
   MetadataState,
   resolveMetadataPlatformIdentityDimensionLabel,
 } from "@afenda/metadata-ui/server";
-
+import { MetadataWorkspacePreviewActions } from "@/components/metadata-workspace-preview-actions.client";
+import { isMetadataAuthorizationDenialPreviewContext } from "@/lib/metadata/metadata-authorization-preview.server";
 import {
-  METADATA_WORKSPACE_PREVIEW_ACTIONS,
   METADATA_WORKSPACE_PREVIEW_SECTION_ID,
   METADATA_WORKSPACE_PREVIEW_SURFACE_ID,
+  resolveMetadataWorkspacePreviewActions,
 } from "@/lib/metadata/metadata-workspace-preview.contract";
 
 interface MetadataWorkspacePreviewSurfaceProps {
@@ -85,20 +87,32 @@ export function MetadataWorkspacePreviewSurface({
   companyDisplayName,
   organizationDisplayName,
 }: MetadataWorkspacePreviewSurfaceProps) {
+  const authorizationDenied =
+    isMetadataAuthorizationDenialPreviewContext(context);
+  const actions = resolveMetadataWorkspacePreviewActions({
+    authorizationDenied,
+  });
+
   return (
     <MetadataPageSurface
-      actions={METADATA_WORKSPACE_PREVIEW_ACTIONS}
       context={context}
       diagnostics={{
         layoutRendererKey: "metadata.layout.erp-workspace-preview",
-        surfaceRendererKey: "metadata.surface.erp-workspace-preview",
-        note: "Production ERP metadata workspace preview — server render context only.",
+        surfaceRendererKey: authorizationDenied
+          ? "metadata.surface.erp-workspace-denial-preview"
+          : "metadata.surface.erp-workspace-preview",
+        note: authorizationDenied
+          ? "Evaluated authorization denial — verbose metadata diagnostics for policy and permission model."
+          : "Production ERP metadata workspace preview — server render context only.",
       }}
       identity={{
         id: METADATA_WORKSPACE_PREVIEW_SURFACE_ID,
-        title: "Metadata workspace preview",
-        description:
-          "Governed metadata renderers composed from server-verified operating context.",
+        title: authorizationDenied
+          ? "Authorization denial preview"
+          : "Metadata workspace preview",
+        description: authorizationDenied
+          ? "Evaluated RBAC denial rendered as a governed metadata error surface with verbose diagnostics."
+          : "Governed metadata renderers composed from server-verified operating context.",
       }}
       presentation={{
         chrome: "standard",
@@ -106,7 +120,13 @@ export function MetadataWorkspacePreviewSurface({
         width: "contained",
       }}
       slots={{
-        content: (
+        toolbar: <MetadataWorkspacePreviewActions actions={actions} />,
+        content: authorizationDenied ? (
+          <MetadataForbiddenState
+            message="Permission evaluation denied access to this workspace boundary. Review the diagnostics panel for policy decision and permission model details."
+            title="Access denied"
+          />
+        ) : (
           <MetadataLayout
             context={context}
             identity={{
@@ -153,7 +173,10 @@ export function MetadataWorkspacePreviewSurface({
         ),
       }}
       state={{
-        visibility: "visible",
+        visibility: authorizationDenied ? "readonly" : "visible",
+        ...(authorizationDenied
+          ? { reason: "authorization_denied" as const }
+          : {}),
       }}
     />
   );

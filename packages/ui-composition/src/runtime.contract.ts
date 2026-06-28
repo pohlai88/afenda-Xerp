@@ -5,6 +5,8 @@ import type {
   PresentationMode,
 } from "./metadata.types.js";
 import { METADATA_CONTRACT_VERSION } from "./metadata.version.js";
+import type { MetadataRuntimePermissionModelDescriptor } from "./metadata-permission-vocabulary.contract.js";
+import type { MetadataRuntimePolicyDecision } from "./metadata-policy-vocabulary.contract.js";
 
 export type MetadataRuntimeActorId = string;
 export type MetadataRuntimeTenantId = string;
@@ -27,8 +29,10 @@ export const RUNTIME_CONTRACT_OWNERSHIPS = [
   "correlation-identity",
   "readonly-mode",
   "permission-key-carrier",
+  "permission-model-descriptor-carrier",
   "capability-key-carrier",
   "feature-flag-key-carrier",
+  "policy-decision-carrier",
 ] as const;
 
 export type RuntimeContractOwnership =
@@ -73,6 +77,7 @@ export interface MetadataRuntimeContext {
   readonly entityGroupId?: MetadataRuntimeEntityGroupId;
   readonly featureFlags?: readonly MetadataRuntimeFeatureFlagKey[];
   readonly organizationId?: MetadataRuntimeOrganizationId;
+  readonly permissionModelDescriptors?: readonly MetadataRuntimePermissionModelDescriptor[];
 
   /**
    * Permission, capability, and feature-flag carriers.
@@ -81,6 +86,7 @@ export interface MetadataRuntimeContext {
    * It must not execute permission checks or feature-flag services.
    */
   readonly permissions?: readonly MetadataRuntimePermissionKey[];
+  readonly policyDecision?: MetadataRuntimePolicyDecision;
   readonly presentationMode: PresentationMode;
   readonly projectId?: MetadataRuntimeProjectId;
 
@@ -114,7 +120,9 @@ export interface CreateMetadataRuntimeContextInput {
   readonly entityGroupId?: MetadataRuntimeEntityGroupId;
   readonly featureFlags?: readonly MetadataRuntimeFeatureFlagKey[];
   readonly organizationId?: MetadataRuntimeOrganizationId;
+  readonly permissionModelDescriptors?: readonly MetadataRuntimePermissionModelDescriptor[];
   readonly permissions?: readonly MetadataRuntimePermissionKey[];
+  readonly policyDecision?: MetadataRuntimePolicyDecision;
   readonly presentationMode?: PresentationMode;
   readonly projectId?: MetadataRuntimeProjectId;
   readonly readonlyMode?: boolean;
@@ -178,6 +186,12 @@ export function createMetadataRuntimeContext(
     ...(input.permissions === undefined
       ? {}
       : { permissions: input.permissions }),
+    ...(input.permissionModelDescriptors === undefined
+      ? {}
+      : { permissionModelDescriptors: input.permissionModelDescriptors }),
+    ...(input.policyDecision === undefined
+      ? {}
+      : { policyDecision: input.policyDecision }),
     ...(input.capabilities === undefined
       ? {}
       : { capabilities: input.capabilities }),

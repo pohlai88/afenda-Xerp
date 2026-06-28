@@ -14,8 +14,8 @@ import { spawnSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { RETIRED_KERNEL_REPO_PATHS } from "../../packages/kernel/src/contracts/kernel-package-layout.contract.ts";
 import { KERNEL_OPERATING_CONTEXT_WIRE_INGRESS_MODULES } from "../../packages/kernel/src/context/context-registry.ts";
+import { RETIRED_KERNEL_REPO_PATHS } from "../../packages/kernel/src/contracts/kernel-package-layout.contract.ts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,

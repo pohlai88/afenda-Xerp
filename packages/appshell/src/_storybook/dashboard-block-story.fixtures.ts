@@ -13,7 +13,7 @@ import {
   defaultAppShellDashboardRegionalSales,
   defaultAppShellDashboardSparklineMetrics,
   defaultAppShellDashboardTransactions,
-} from "../shadcn-studio/data/app-shell.dashboard.data";
+} from "../presentation/data/app-shell.dashboard.data";
 
 export {
   DEFAULT_APP_SHELL_DASHBOARD_COMPARISON_LABEL,

@@ -4,18 +4,24 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 import {
+  IDENTITY_MODULE_BRAND_FILES,
   IDENTITY_MODULE_FAMILY_FILES,
   IDENTITY_MODULE_LAYOUT_POLICY,
+  IDENTITY_MODULE_PRIMITIVE_FILES,
   IDENTITY_MODULE_ROOT_BARREL,
   IDENTITY_MODULE_SUBFOLDERS,
+  isIdentityModuleBrandFile,
   isIdentityModuleFamilyFile,
+  isIdentityModulePrimitiveFile,
   isIdentityModuleSubfolder,
   RETIRED_KERNEL_PLATFORM_ID_PATHS,
 } from "../governance/identity-module-layout.contract.js";
 
 const kernelRoot = fileURLToPath(new URL("../../..", import.meta.url));
 const identityDir = join(kernelRoot, "src/identity");
+const brandDir = join(identityDir, "brand");
 const familiesDir = join(identityDir, "families");
+const primitivesDir = join(identityDir, "primitives");
 
 describe("identity module location (PAS-001 §4.1.2)", () => {
   it("exports layout policy aligned with PAS §4.1.2", () => {
@@ -26,13 +32,19 @@ describe("identity module location (PAS-001 §4.1.2)", () => {
     );
   });
 
-  it("narrows subfolder and family file names at the boundary", () => {
+  it("narrows subfolder, family, brand, and primitive file names at the boundary", () => {
     expect(isIdentityModuleSubfolder("wire")).toBe(true);
     expect(isIdentityModuleSubfolder("contracts")).toBe(false);
     expect(isIdentityModuleFamilyFile("tenant-hierarchy-id.contract.ts")).toBe(
       true
     );
     expect(isIdentityModuleFamilyFile("hierarchy-id.contract.ts")).toBe(false);
+    expect(isIdentityModuleBrandFile("brand.contract.ts")).toBe(true);
+    expect(isIdentityModuleBrandFile("legacy-brand.contract.ts")).toBe(false);
+    expect(isIdentityModulePrimitiveFile("locale-code.contract.ts")).toBe(true);
+    expect(isIdentityModulePrimitiveFile("legacy-locale.contract.ts")).toBe(
+      false
+    );
   });
 
   it("keeps only index.ts at identity root", () => {
@@ -69,6 +81,18 @@ describe("identity module location (PAS-001 §4.1.2)", () => {
     }
   });
 
+  it("keeps approved brand contract files only", () => {
+    const files = readdirSync(brandDir).filter((entry) =>
+      statSync(join(brandDir, entry)).isFile()
+    );
+
+    expect(files.sort()).toEqual([...IDENTITY_MODULE_BRAND_FILES].sort());
+
+    for (const fileName of files) {
+      expect(isIdentityModuleBrandFile(fileName), fileName).toBe(true);
+    }
+  });
+
   it("keeps approved family contract files only", () => {
     const files = readdirSync(familiesDir).filter((entry) =>
       statSync(join(familiesDir, entry)).isFile()
@@ -78,6 +102,18 @@ describe("identity module location (PAS-001 §4.1.2)", () => {
 
     for (const fileName of files) {
       expect(isIdentityModuleFamilyFile(fileName), fileName).toBe(true);
+    }
+  });
+
+  it("keeps approved primitive module files only", () => {
+    const files = readdirSync(primitivesDir).filter((entry) =>
+      statSync(join(primitivesDir, entry)).isFile()
+    );
+
+    expect(files.sort()).toEqual([...IDENTITY_MODULE_PRIMITIVE_FILES].sort());
+
+    for (const fileName of files) {
+      expect(isIdentityModulePrimitiveFile(fileName), fileName).toBe(true);
     }
   });
 

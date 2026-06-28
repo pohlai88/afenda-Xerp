@@ -1,14 +1,14 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { ApplicationShellPlaceholderContent } from "../app-shell.placeholder";
-import { DEFAULT_APP_SHELL_DASHBOARD_LABEL } from "../shadcn-studio/data/app-shell.dashboard.data";
+import { DEFAULT_APP_SHELL_DASHBOARD_LABEL } from "../presentation/data/app-shell.dashboard.data";
 import {
   DEFAULT_APP_SHELL_PLACEHOLDER_DASHBOARD_LABEL,
   DEFAULT_APP_SHELL_PLACEHOLDER_MODULE_PERFORMANCE_TITLE,
   DEFAULT_APP_SHELL_PLACEHOLDER_RECENT_ORDERS_TITLE,
   defaultAppShellPlaceholderKpiCards,
   defaultAppShellPlaceholderOrders,
-} from "../shadcn-studio/data/app-shell.placeholder.data";
+} from "../presentation/data/app-shell.placeholder.data";
 
 describe("ApplicationShellPlaceholderContent", () => {
   it("renders the ERP overview dashboard without TIP-004 consumer violations", () => {

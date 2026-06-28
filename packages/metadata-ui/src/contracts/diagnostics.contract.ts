@@ -15,6 +15,8 @@ import type {
   MetadataRuntimeCorrelationId,
   MetadataRuntimeEntityGroupId,
   MetadataRuntimeOrganizationId,
+  MetadataRuntimePermissionModelDescriptor,
+  MetadataRuntimePolicyDecision,
   MetadataRuntimeProjectId,
   MetadataRuntimeState,
   MetadataRuntimeTeamId,
@@ -78,6 +80,16 @@ export interface MetadataDiagnosticsRuntimeSnapshot {
    * Whether diagnostics are allowed to be shown.
    */
   readonly diagnosticsEnabled: boolean;
+
+  /**
+   * Optional permission model descriptor wire snapshots (PAS-001 §8) carried from runtime context.
+   */
+  readonly permissionModelDescriptors?: readonly MetadataRuntimePermissionModelDescriptor[];
+
+  /**
+   * Optional kernel policy decision wire snapshot (PAS-001 §4.9) carried from runtime context.
+   */
+  readonly policyDecision?: MetadataRuntimePolicyDecision;
 
   /**
    * Whether the current metadata surface is readonly.

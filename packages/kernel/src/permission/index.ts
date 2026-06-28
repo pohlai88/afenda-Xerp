@@ -3,15 +3,25 @@ export {
   isPermissionAction,
   PERMISSION_ACTIONS,
 } from "./permission-action.contract.js";
+export {
+  assertPermissionModelDescriptor,
+  type assertPermissionModelDescriptorJsonSerializable,
+  assertWirePermissionModelDescriptor,
+} from "./permission-model.assert.js";
 export type {
-  assertPermissionModelDescriptorJsonSerializable,
   PermissionModelDescriptor,
+  PermissionModelWireDescriptor,
 } from "./permission-model.contract.js";
 export {
   composeModuleActionWireKey,
   isPermissionModelDescriptor,
   PERMISSION_MODEL_PATTERN,
 } from "./permission-model.contract.js";
+export {
+  normalizePermissionModelDescriptorForWire,
+  parseUnknownPermissionModelDescriptor,
+  serializePermissionModelDescriptor,
+} from "./permission-model.parser.js";
 export type { PermissionModelScope } from "./permission-model-scope.contract.js";
 export {
   isPermissionModelScope,

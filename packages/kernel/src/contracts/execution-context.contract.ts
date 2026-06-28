@@ -96,17 +96,3 @@ export function createExecutionContext(
     traceId: input.traceId ?? null,
   };
 }
-
-export function assertExecutionContext(
-  context: ExecutionContext
-): ExecutionContext {
-  if (!context.executionId.trim()) {
-    throw new Error("executionId is required.");
-  }
-
-  if (!context.correlationId.trim()) {
-    throw new Error("correlationId is required.");
-  }
-
-  return context;
-}

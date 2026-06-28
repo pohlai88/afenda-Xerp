@@ -65,7 +65,11 @@ function collectCssFiles(dir: string): string[] {
 }
 
 function tokenNamesForAuthority(
-  authority: "shadcn-theme" | "afenda-extensions" | "appshell" | "auth-editorial"
+  authority:
+    | "shadcn-theme"
+    | "afenda-extensions"
+    | "appshell"
+    | "auth-editorial"
 ): Set<string> {
   return new Set(
     CSS_AUTHORITY_TOKENS.filter((token) => token.authority === authority).map(
@@ -112,7 +116,10 @@ function stripCssComments(content: string): string {
   return content.replace(/\/\*[\s\S]*?\*\//g, "");
 }
 
-function isAuthorityTokenDefinition(content: string, tokenName: string): boolean {
+function isAuthorityTokenDefinition(
+  content: string,
+  tokenName: string
+): boolean {
   const defRe = new RegExp(
     `^\\s*${escapeRegExp(tokenName)}\\s*:\\s*([^;\\n]+)`,
     "m"
@@ -209,7 +216,10 @@ for (const token of CSS_AUTHORITY_TOKENS) {
   if (token.lifecycle === "removed" && allowedVars.has(token.name.slice(2))) {
     fail(
       "R25-removed-lifecycle",
-      join(repoRoot, "packages/css-authority/src/generated/css-authority-registry.ts"),
+      join(
+        repoRoot,
+        "packages/css-authority/src/generated/css-authority-registry.ts"
+      ),
       `Removed token ${token.id} (${token.name}) must not be consumable`
     );
   }
@@ -220,7 +230,11 @@ const vendoredTheme = join(
   "packages/css-authority/src/css/vendored/shadcn-theme.css"
 );
 if (!existsSync(vendoredTheme)) {
-  fail("R26-vendored-theme-present", vendoredTheme, "Vendored shadcn-theme.css is missing");
+  fail(
+    "R26-vendored-theme-present",
+    vendoredTheme,
+    "Vendored shadcn-theme.css is missing"
+  );
 }
 
 const errors = violations.filter((v) => v.severity === "error");

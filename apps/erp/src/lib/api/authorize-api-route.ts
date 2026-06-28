@@ -326,6 +326,7 @@ function buildAuthorizationFailureFromEvaluation(input: {
   readonly correlationId: string;
   readonly decision: AuthorizationDecision;
   readonly method: string;
+  readonly operatingContext?: OperatingContext | null;
   readonly path: string;
   readonly permissionKey: string;
 }): ApiRouteAuthorizationFailure {
@@ -339,6 +340,12 @@ function buildAuthorizationFailureFromEvaluation(input: {
       input.code === "policy_gated"
         ? { gateDecision: input.decision.result }
         : { denialCode: input.code },
+    evaluation: {
+      authorizationDenialCode: input.code,
+      decision: input.decision,
+      operatingContext: input.operatingContext ?? null,
+      permissionKey: input.permissionKey,
+    },
   });
 
   logAuthorizationDenial({
@@ -498,6 +505,7 @@ export async function authorizeApiRoute(
         correlationId: input.correlationId,
         decision: evaluation.decision,
         method: input.method,
+        operatingContext: operatingResolution.operatingContext,
         path: input.path,
         permissionKey,
       });
@@ -536,6 +544,7 @@ export async function authorizeApiRoute(
       correlationId: input.correlationId,
       decision: evaluation.decision,
       method: input.method,
+      operatingContext: null,
       path: input.path,
       permissionKey,
     });

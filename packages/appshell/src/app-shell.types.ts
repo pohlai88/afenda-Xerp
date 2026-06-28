@@ -7,12 +7,12 @@ import type {
 import {
   DEFAULT_APPLICATION_SHELL_ROLE_LABEL,
   DEFAULT_APPLICATION_SHELL_SEARCH_TRIGGER_LABEL,
-} from "./shadcn-studio/data/app-shell.chrome.constants";
+} from "./presentation/data/app-shell.chrome.constants";
 import type {
   AppShellMenuItem,
   AppShellRecipientItem,
-} from "./shadcn-studio/data/app-shell.data";
-import type { AppShellProfileMenuGroup } from "./shadcn-studio/data/app-shell.profile.data";
+} from "./presentation/data/app-shell.data";
+import type { AppShellProfileMenuGroup } from "./presentation/data/app-shell.profile.data";
 
 export type {
   ApplicationShellIdentity,

@@ -1,11 +1,14 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  assertPolicyDecision,
+  assertWirePolicyDecision,
   getPolicyDecisionKind,
   getPolicyDenialReason,
   isPolicyDecision,
   isPolicyDecisionKind,
   isPolicyDenialReason,
+  normalizePolicyDecisionForWire,
   POLICY_DECISION_KINDS,
   POLICY_DENIAL_REASONS,
   POLICY_VOCABULARY_AUTHORITY,
@@ -13,6 +16,9 @@ import {
   type PolicyDecision,
   type PolicyDecisionKind,
   type PolicyDenialReason,
+  type PolicyWireDecision,
+  parseUnknownPolicyDecision,
+  serializePolicyDecision,
 } from "../index.js";
 
 const MANUAL_DECISION_KINDS: PolicyDecisionKind[] = [
@@ -152,6 +158,33 @@ describe("PolicyDecision discriminated union", () => {
       expect(isPolicyDecision(parsed)).toBe(true);
       expect(parsed).toEqual(sample);
     }
+  });
+});
+
+describe("policy decision wire triad exports", () => {
+  it("exports wire triad symbols from policy barrel", () => {
+    expect(typeof assertPolicyDecision).toBe("function");
+    expect(typeof assertWirePolicyDecision).toBe("function");
+    expect(typeof parseUnknownPolicyDecision).toBe("function");
+    expect(typeof normalizePolicyDecisionForWire).toBe("function");
+    expect(typeof serializePolicyDecision).toBe("function");
+  });
+
+  it("normalizes typed decisions to JSON-safe wire shapes", () => {
+    const wire: PolicyWireDecision = normalizePolicyDecisionForWire({
+      kind: "deny",
+      reason: "forbidden",
+    });
+
+    expect(wire).toEqual({ kind: "deny", reason: "forbidden" });
+    expect(serializePolicyDecision({ kind: "allow" })).toEqual({
+      kind: "allow",
+    });
+  });
+
+  it("assertPolicyDecision validates typed decisions", () => {
+    const decision: PolicyDecision = { kind: "gate", reason: "plan_required" };
+    expect(assertPolicyDecision(decision)).toEqual(decision);
   });
 });
 

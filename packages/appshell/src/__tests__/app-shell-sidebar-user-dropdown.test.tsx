@@ -5,12 +5,12 @@ import { describe, expect, it } from "vitest";
 import {
   AppShellSidebarUserDropdown,
   type AppShellSidebarUserDropdownProps,
-} from "../shadcn-studio/blocks/app-shell-sidebar-user-dropdown";
+} from "../presentation/blocks/app-shell-sidebar-user-dropdown";
 import {
   DEFAULT_APP_SHELL_SIDEBAR_USER_DISPLAY_NAME,
   DEFAULT_APP_SHELL_SIDEBAR_USER_ROLE_LABEL,
   defaultAppShellSidebarUserLogoutAction,
-} from "../shadcn-studio/data/app-shell.sidebar-user.data";
+} from "../presentation/data/app-shell.sidebar-user.data";
 
 function renderSidebarUserDropdown(
   props: Partial<AppShellSidebarUserDropdownProps> = {}

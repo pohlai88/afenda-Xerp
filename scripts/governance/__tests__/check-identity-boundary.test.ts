@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   collectIdentityBoundaryViolations,
   collectUnsafeIdCastViolations,
+  IDENTITY_BOUNDARY_SCAN_ROOTS,
 } from "../identity/identity-boundary.governance.mts";
 
 describe("check:identity-boundary", () => {
@@ -81,6 +82,32 @@ describe("check:identity-boundary", () => {
     ]);
 
     expect(violations).toEqual([]);
+  });
+
+  it("does not flag enterprise ID type names inside test description strings", () => {
+    const violations = collectIdentityBoundaryViolations([
+      {
+        path: "apps/erp/src/lib/context/__tests__/operating-context.mappers.test.ts",
+        source: `
+          describe("toTenantContext", () => {
+            it("brands enterpriseId as TenantId — not uuid PK", () => {
+              expect(true).toBe(true);
+            });
+          });
+        `,
+      },
+    ]);
+
+    expect(violations).toEqual([]);
+  });
+
+  it("scans metadata-ui and ui-composition consumer roots", () => {
+    expect(IDENTITY_BOUNDARY_SCAN_ROOTS).toEqual(
+      expect.arrayContaining([
+        "packages/metadata-ui/src",
+        "packages/ui-composition/src",
+      ])
+    );
   });
 
   it("flags legacy brandRequiredId usage in consumer packages", () => {

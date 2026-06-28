@@ -36,6 +36,7 @@ export {
   type IdentityProhibitedPatternDefinition,
   type IdentityProhibitedPatternId,
   type IdentityPromotionPasChecklistStep,
+  type IdentityPromotionPasChecklistStepDefinition,
   type IdentityPromotionRequirementDefinition,
   type IdentityPromotionRequirementId,
   type IdFamily,
@@ -62,5 +63,6 @@ export {
   type PlatformIdFamilyDefinition,
   type PlatformIdFamilyTypeName,
   PRIMITIVE_ID_FAMILY_COUNT,
+  PRIMITIVE_ID_FAMILY_KEYS,
   REGISTRY_FAMILY_COUNT,
 } from "./id-family.registry.js";

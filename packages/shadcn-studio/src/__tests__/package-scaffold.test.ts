@@ -31,12 +31,17 @@ const ALLOWED_RUNTIME_DEPENDENCIES = [
   "@radix-ui/react-label",
   "@radix-ui/react-select",
   "@radix-ui/react-slot",
+  "@tanstack/react-table",
   "class-variance-authority",
   "clsx",
   "cmdk",
   "lucide-react",
   "next-themes",
   "radix-ui",
+  "react-19-credit-card",
+  "react-payment-inputs",
+  "recharts",
+  "sonner",
   "tailwind-merge",
 ] as const;
 

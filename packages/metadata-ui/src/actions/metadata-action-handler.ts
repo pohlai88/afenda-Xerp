@@ -4,6 +4,7 @@ import type {
   MetadataActionFailureResult,
   MetadataActionResult,
   MetadataActionSuccessResult,
+  MetadataActionWireResult,
 } from "../contracts/action.contract.js";
 
 export function createMetadataActionSuccess(
@@ -68,4 +69,24 @@ export function destructiveActionMissingConfirm(
   action: MetadataAction
 ): boolean {
   return isDestructiveMetadataAction(action) && action.confirm === undefined;
+}
+
+/** Strip internal diagnostics for JSON-safe wire egress. */
+export function toMetadataActionWireResult(
+  result: MetadataActionResult
+): MetadataActionWireResult {
+  switch (result.ok) {
+    case true:
+      return result.message === undefined
+        ? { ok: true, actionKey: result.actionKey }
+        : { ok: true, actionKey: result.actionKey, message: result.message };
+    case false: {
+      const { actionKey, code, userMessage } = result;
+      return { ok: false, actionKey, code, userMessage };
+    }
+    default: {
+      const _exhaustive: never = result;
+      return _exhaustive;
+    }
+  }
 }

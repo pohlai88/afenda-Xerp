@@ -1,8 +1,5 @@
-import type {
-  AppError,
-  AppErrorCode,
-  ValidationFieldError,
-} from "@afenda/kernel";
+import type { AppError, ValidationFieldError } from "@afenda/kernel";
+import { toAppErrorWire } from "@afenda/kernel";
 
 export interface ServerActionSuccess<TData> {
   readonly data: TData;
@@ -10,7 +7,7 @@ export interface ServerActionSuccess<TData> {
 }
 
 export interface ServerActionFailure {
-  readonly code: AppErrorCode;
+  readonly code: AppError["code"];
   readonly fields?: readonly ValidationFieldError[];
   readonly ok: false;
   readonly userMessage: string;
@@ -27,18 +24,20 @@ export function serverActionSuccess<TData>(
 }
 
 export function serverActionFailure(error: AppError): ServerActionFailure {
-  if (error.code === "VALIDATION_ERROR") {
+  const wire = toAppErrorWire(error);
+
+  if (wire.code === "VALIDATION_ERROR") {
     return {
       ok: false,
-      code: error.code,
-      userMessage: error.userMessage,
-      ...(error.fields === undefined ? {} : { fields: error.fields }),
+      code: wire.code,
+      userMessage: wire.userMessage,
+      ...(wire.fields === undefined ? {} : { fields: wire.fields }),
     };
   }
 
   return {
     ok: false,
-    code: error.code,
-    userMessage: error.userMessage,
+    code: wire.code,
+    userMessage: wire.userMessage,
   };
 }

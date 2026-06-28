@@ -19,6 +19,15 @@ const ORG_ID = createTestEnterpriseId(
   "01ARZ3NDEKTSV4RRFFQ69G5FAV"
 );
 const ENTITY_GROUP_PK = "880e8400-e29b-41d4-a716-446655440003";
+const ENTITY_GROUP_ID = createTestEnterpriseId(
+  "entityGroup",
+  "01ARZ3NDEKTSV4RRFFQ69G5FAV"
+);
+const PROJECT_PK = "990e8400-e29b-41d4-a716-446655440004";
+const PROJECT_ID = createTestEnterpriseId(
+  "project",
+  "01ARZ3NDEKTSV4RRFFQ69G5FCV"
+);
 const ACTOR_ID = "user-001";
 const MEMBERSHIP_ID = createTestEnterpriseId(
   "membership",
@@ -39,6 +48,7 @@ const companyRow = {
   enterpriseId: COMPANY_ID,
   tenantId: TENANT_PK,
   entityGroupId: null,
+  entityGroupEnterpriseId: null,
   slug: "dev-company",
   legalName: "Dev Company Pty Ltd",
   displayName: "Dev Company",
@@ -62,10 +72,24 @@ const organizationRow = {
   slug: "dev-hq",
   name: "Dev HQ",
   type: "department",
+  parentOrganizationEnterpriseId: null,
   parentOrganizationId: null,
   status: "active" as const,
   effectiveFrom: null,
   effectiveTo: null,
+};
+
+const projectRow = {
+  id: PROJECT_PK,
+  enterpriseId: PROJECT_ID,
+  tenantId: TENANT_PK,
+  companyId: COMPANY_PK,
+  companyEnterpriseId: COMPANY_ID,
+  organizationUnitId: ORG_PK,
+  organizationUnitEnterpriseId: ORG_ID,
+  slug: "alpha-project",
+  displayName: "Alpha Project",
+  status: "active" as const,
 };
 
 const companyMembership: MembershipContract = {
@@ -92,6 +116,9 @@ vi.mock("@afenda/database", async (importOriginal) => {
     findEntityGroupById: vi.fn(),
     findOrganizationByCompanyAndSlug: vi.fn(),
     findOrganizationById: vi.fn(),
+    findProjectByTenantAndSlug: vi.fn(),
+    findProjectById: vi.fn(),
+    findProjectByEnterpriseId: vi.fn(),
   };
 });
 
@@ -125,6 +152,7 @@ import {
   findCompanyByTenantAndSlug,
   findEntityGroupById,
   findOrganizationByCompanyAndSlug,
+  findProjectByTenantAndSlug,
   findTenantBySlug,
 } from "@afenda/database";
 import { logOperatingContextResolution } from "@/lib/context/log-operating-context-resolution.server";
@@ -205,7 +233,7 @@ describe("resolveOperatingContext", () => {
     const orgMembership: MembershipContract = {
       ...companyMembership,
       scopeType: "organization",
-      organizationId: ORG_ID,
+      organizationId: ORG_PK,
     };
 
     const result = await resolveOperatingContext({
@@ -278,6 +306,7 @@ describe("resolveOperatingContext", () => {
     vi.mocked(findCompanyByTenantAndSlug).mockResolvedValueOnce({
       ...companyRow,
       entityGroupId: ENTITY_GROUP_PK,
+      entityGroupEnterpriseId: ENTITY_GROUP_ID,
     });
     vi.mocked(findEntityGroupById).mockResolvedValueOnce(null);
 
@@ -297,8 +326,10 @@ describe("resolveOperatingContext", () => {
     }
   });
 
-  it("rejects project selection hints until TIP-030", async () => {
+  it("rejects project selection when lookup misses", async () => {
     vi.mocked(findTenantBySlug).mockResolvedValueOnce(tenantRow);
+    vi.mocked(findCompanyByTenantAndSlug).mockResolvedValueOnce(companyRow);
+    vi.mocked(findProjectByTenantAndSlug).mockResolvedValueOnce(null);
 
     const result = await resolveOperatingContext({
       actorUserId: ACTOR_ID,
@@ -306,13 +337,38 @@ describe("resolveOperatingContext", () => {
       memberships: [companyMembership],
       selection: {
         tenantSlug: "dev-local",
-        projectId: "project-001",
+        companySlug: "dev-company",
+        projectSlug: "missing-project",
       },
     });
 
     expect(result.ok).toBe(false);
     if (!result.ok) {
-      expect(result.error.code).toBe("PROJECT_SCOPE_MISMATCH");
+      expect(result.error.code).toBe("PROJECT_NOT_FOUND");
+    }
+  });
+
+  it("resolves project selection within tenant and company scope", async () => {
+    vi.mocked(findTenantBySlug).mockResolvedValueOnce(tenantRow);
+    vi.mocked(findCompanyByTenantAndSlug).mockResolvedValueOnce(companyRow);
+    vi.mocked(findProjectByTenantAndSlug).mockResolvedValueOnce(projectRow);
+    vi.mocked(findCompanyById).mockResolvedValue(companyRow);
+
+    const result = await resolveOperatingContext({
+      actorUserId: ACTOR_ID,
+      correlationId: "corr-009",
+      memberships: [companyMembership],
+      selection: {
+        tenantSlug: "dev-local",
+        companySlug: "dev-company",
+        projectSlug: "alpha-project",
+      },
+    });
+
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value.project?.projectId).toBe(PROJECT_ID);
+      expect(result.value.workspace.projectId).toBe(PROJECT_PK);
     }
   });
 });

@@ -16,9 +16,10 @@ Afenda ERP must ship enterprise-grade UI surfaces (workspace dashboards, system-
 
 **shadcn/studio** is an approved external source of copy-and-paste shadcn blocks, templates, and MCP-driven UI generation. The monorepo already integrates it operationally:
 
-- **47** `.tsx` files under `packages/appshell/src/shadcn-studio/blocks/` (29 production block components, plus stories, column defs, and shared utils)
+- **47+** `.tsx` files under `packages/appshell/src/presentation/blocks/` (governed Afenda blocks; legacy `shadcn-studio/` path deleted B42h)
+- MCP product `@afenda/shadcn-studio` with install cwd `packages/shadcn-studio` (PAS-005A B38+)
 - MCP wrapper at `.cursor/mcp/shadcn-studio.mjs` (upstream `shadcn-studio-mcp@latest`)
-- Install registry in `packages/ui/components.json` (`@ss-blocks`, `@ss-components`, `@shadcn-studio`)
+- Install registry in `packages/shadcn-studio/components.json` (`@ss-blocks`, `@ss-components`)
 - Normalization pipeline via `STUDIO-PATTERN-MAP.md` and `afenda-appshell-studio.css`
 - Enforcement via `pnpm ui:guard` (Gates A–G)
 
@@ -57,7 +58,7 @@ Discover (_reference catalog / MCP /iui or /cui / adaptation guide §3)
   → Promote CSS (packages/appshell/src/styles/afenda-appshell-studio.css — reusable patterns only, ≥2 blocks; migrate to css-authority on cutover)
   → Govern block under PAS-005A (@afenda/shadcn-studio inventory)
   → Storybook story + test (*.stories.tsx; *.test.tsx or *.interaction.test.tsx)
-  → Wire in apps/erp via @afenda/appshell exports until legacy delete (PAS-005A B42+)
+  → Wire in apps/erp via @afenda/appshell exports (bridge + `presentation/blocks/` until B42i wrapper strangler)
   → pnpm ui:guard:scan → pnpm ui:guard → pnpm ui:guard:proof
 ```
 
@@ -97,8 +98,9 @@ When adapting studio output, edit in this order:
 
 1. **`apps/erp/`** — route wiring and data fetching only
 2. **`apps/storybook/`** — visual verification stories
-3. **`packages/appshell/src/shadcn-studio/blocks/`** — governed block components
-4. **`packages/ui/`** — primitives only with explicit approval; never keep governed blocks in `packages/ui/src/components/shadcn-studio/blocks/`
+3. **`packages/appshell/src/presentation/blocks/`** — governed Afenda block components (legacy `shadcn-studio/blocks/` path deleted B42h)
+4. **`packages/shadcn-studio/src/blocks/`** — MCP seed inventory (`@afenda/shadcn-studio`)
+5. **`packages/ui/`** — primitives only with explicit approval; never keep governed blocks in `packages/ui/src/components/shadcn-studio/blocks/`
 
 ### 6. Prohibited (unless ADR-0005 exception)
 
@@ -173,7 +175,7 @@ This ADR is satisfied when:
 - Agent operational authority: [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md)
 - MCP wiring: [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md)
 - UI enforcement: [`docs/governance/ui-guard.md`](../governance/ui-guard.md) · [`docs/governance/tip-004-policy.md`](../governance/tip-004-policy.md)
-- Pattern map: [`packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md`](../../packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md)
+- Pattern map: [`packages/appshell/src/presentation/STUDIO-PATTERN-MAP.md`](../../packages/appshell/src/presentation/STUDIO-PATTERN-MAP.md)
 - FDR shell: [`docs/PAS/[Partially Implemented] fdr-001-shell-composition.md`](../delivery/FDR/[Partially%20Implemented]%20fdr-001-shell-composition.md)
 - Related ADRs: [ADR-0002](./ADR-0002-layer-governance.md) · [ADR-0003](./ADR-0003-dependency-governance.md) · [ADR-0007](./ADR-0007-ai-development-governance.md) · [ADR-0014](./ADR-0014-foundation-disposition-registry.md)
 - shadcn/studio docs: https://shadcnstudio.com/docs/getting-started/shadcn-studio-template-nextjs
@@ -257,7 +259,7 @@ This ADR is satisfied when:
 |---------|----------|-------------------|
 | `/iui` | Discover blocks for a new ERP surface | Cross-check adaptation guide §3; collect candidates before install |
 | `/cui` | Customize from an existing shadcn/studio block | **Collect all blocks first; install last**; then normalize |
-| `/rui` | Refine an existing appshell block | Stay in `packages/appshell/src/shadcn-studio/blocks/` |
+| `/rui` | Refine an existing appshell block | Stay in `packages/appshell/src/presentation/blocks/` or `@afenda/shadcn-studio/src/blocks/` |
 | `/ftc` | Figma design → code | Requires Figma MCP; same govern pipeline as `/cui` |
 
 **MCP servers (two roles):**
@@ -275,7 +277,7 @@ This ADR is satisfied when:
 
 ## Appendix C — Already-adapted blocks registry
 
-Production block components under `packages/appshell/src/shadcn-studio/blocks/` (as of 2026-06-25). Excludes `*.stories.tsx`, `*.columns.tsx`, `*.utils.tsx`, and shared `.ts` helpers.
+Production block components under `packages/appshell/src/presentation/blocks/` (as of 2026-06-28; legacy `shadcn-studio/blocks/` path deleted B42h). Excludes `*.stories.tsx`, `*.columns.tsx`, `*.utils.tsx`, and shared `.ts` helpers.
 
 | Component | File | Likely MCP / template source |
 |-----------|------|------------------------------|
@@ -342,7 +344,7 @@ Copy and fill before any shadcn/studio block edit. Do not start Write/StrReplace
 
 ```txt
 1. Objective         — <exact block or surface change, one sentence>
-2. Allowed layer     — packages/appshell/src/shadcn-studio/blocks/ | apps/erp/src/... | apps/storybook/...
+2. Allowed layer     — packages/appshell/src/presentation/blocks/ | packages/shadcn-studio/src/blocks/ | apps/erp/src/... | apps/storybook/...
 3. Files to change   — <explicit list>
 4. Prohibited        — packages/ui/components/ui/* (unless approved); direct _reference import;
                        className on @afenda/ui; unregistered npm deps; AppShell shell replacement

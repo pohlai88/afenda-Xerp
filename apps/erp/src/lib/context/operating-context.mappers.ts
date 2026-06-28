@@ -117,7 +117,7 @@ function toLegalEntityContext(
   return {
     companyId: parseCompanyId(row.enterpriseId),
     tenantId,
-    entityGroupId: parseOptionalEntityGroupId(row.entityGroupId),
+    entityGroupId: parseOptionalEntityGroupId(row.entityGroupEnterpriseId),
     slug: row.slug,
     legalName: row.legalName,
     displayName: row.displayName,
@@ -140,13 +140,13 @@ function toOrganizationUnitContext(
   tenantId: TenantId
 ): OrganizationUnitContext {
   return parseUnknownOrganizationUnitContext({
-    organizationUnitId: row.id,
+    organizationUnitId: row.enterpriseId,
     tenantId,
-    companyId: row.companyId,
+    companyId: row.companyEnterpriseId,
     slug: row.slug,
     displayName: row.name,
     organizationUnitType: toOrganizationUnitType(row.type),
-    parentOrganizationUnitId: row.parentOrganizationId,
+    parentOrganizationUnitId: row.parentOrganizationEnterpriseId,
     status: row.status,
     effectiveFrom: formatIsoDateOnly(row.effectiveFrom),
     effectiveTo: formatIsoDateOnly(row.effectiveTo),
@@ -158,11 +158,11 @@ function toEntityGroupContext(
   tenantId: TenantId
 ): EntityGroupContext {
   return parseUnknownEntityGroupContext({
-    entityGroupId: row.id,
+    entityGroupId: row.enterpriseId,
     tenantId,
     slug: row.slug,
     displayName: row.displayName,
-    parentLegalEntityId: row.parentLegalEntityId,
+    parentLegalEntityId: row.parentLegalEntityEnterpriseId,
     status: row.status,
   });
 }

@@ -59,7 +59,7 @@
 | PKGR03_ACCOUNTING_STANDARDS | `@afenda/accounting-standards` | blue-lane | no | see PAS-003 |
 | PKGR04_ENTERPRISE_KNOWLEDGE | `@afenda/enterprise-knowledge` | green-lane | no | see PAS-004C |
 | PKGR05_CSS_AUTHORITY | `@afenda/css-authority` | amber-lane | no | see PAS-005 · B26–B33 delivered |
-| PKGR05A_SHADCN_STUDIO | `@afenda/shadcn-studio` | amber-lane | no | see PAS-005A · B38–B41 delivered; B42 partial |
+| PKGR05A_SHADCN_STUDIO | `@afenda/shadcn-studio` | green-lane | no | see PAS-005A · B38–B42l delivered; block strangler backlog ongoing |
 | PAS_AUTHORITY | `docs/PAS` | archive-lane | no | — |
 
 > Registry `knownGaps` deprecated (always `[]`). Gap detail lives in PAS slice handoffs under [`docs/PAS/`](../PAS/README.md).

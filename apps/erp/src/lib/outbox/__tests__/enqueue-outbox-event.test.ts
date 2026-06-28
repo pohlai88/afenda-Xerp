@@ -36,4 +36,36 @@ describe("enqueueOutboxEvent", () => {
       })
     ).rejects.toBeInstanceOf(ApiRouteError);
   });
+
+  it("stores internal tenant PK in metadata when tenantId is not canonical", async () => {
+    const tenantPk = "018f9f8c-9f1a-7c2b-9c20-000000000099";
+    const captured: Record<string, unknown>[] = [];
+
+    const db = {
+      insert: () => ({
+        values: (row: Record<string, unknown>) => {
+          captured.push(row);
+          return {
+            returning: async () => [{ id: "row-1" }],
+          };
+        },
+      }),
+    };
+
+    await enqueueOutboxEvent(
+      {
+        actorId: "actor-1",
+        companyId: "company-1",
+        correlationId: "corr-1",
+        eventType: "workspace.dashboard.layout.updated",
+        payload: { ok: true },
+        tenantId: tenantPk,
+      },
+      db as never
+    );
+
+    expect(captured[0]?.["metadata"]).toEqual(
+      expect.objectContaining({ tenantPk })
+    );
+  });
 });

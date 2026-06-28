@@ -16,6 +16,13 @@ export const ORGANIZATION_ACCESS_BLOCK_REASON: Record<string, string> = {
   archived: "Organization unit is archived and workspace access is blocked.",
 };
 
+export const PROJECT_ACCESS_BLOCK_REASON: Record<string, string> = {
+  draft: "Project is still in draft and workspace access is blocked.",
+  on_hold: "Project is on hold and workspace access is blocked.",
+  completed: "Project is completed and workspace access is blocked.",
+  cancelled: "Project is cancelled and workspace access is blocked.",
+};
+
 export const ENTITY_GROUP_ACCESS_BLOCK_REASON: Record<string, string> = {
   suspended: "Corporate group is suspended and workspace access is blocked.",
   archived: "Corporate group is archived and workspace access is blocked.",

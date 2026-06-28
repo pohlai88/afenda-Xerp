@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { AppShellModuleWorkspaceChrome } from "../shadcn-studio/blocks/app-shell-module-workspace-chrome.js";
+import { AppShellModuleWorkspaceChrome } from "../presentation/blocks/app-shell-module-workspace-chrome.js";
 
 describe("AppShellModuleWorkspaceChrome", () => {
   it("renders the module heading", () => {

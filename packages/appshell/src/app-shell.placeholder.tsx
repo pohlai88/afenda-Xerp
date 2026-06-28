@@ -26,7 +26,7 @@ import {
   defaultAppShellPlaceholderOrders,
   defaultAppShellPlaceholderSparklineCards,
   formatPlaceholderSparklineChartLabel,
-} from "./shadcn-studio/data/app-shell.placeholder.data";
+} from "./presentation/data/app-shell.placeholder.data";
 
 export type ApplicationShellPlaceholderGovernedComponents = Extract<
   GovernedUiComponentName,

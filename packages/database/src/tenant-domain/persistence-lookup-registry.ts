@@ -130,6 +130,18 @@ export const MULTI_TENANCY_LOOKUP_FUNCTIONS = [
     name: "findOwnershipInterestsByEntityGroup",
     file: "ownership-interest/ownership-interest-lookup.service.ts",
   },
+  {
+    name: "findProjectByTenantAndSlug",
+    file: "project/project-lookup.service.ts",
+  },
+  {
+    name: "findProjectById",
+    file: "project/project-lookup.service.ts",
+  },
+  {
+    name: "findProjectByEnterpriseId",
+    file: "project/project-lookup.service.ts",
+  },
 ] as const;
 
 /** Accounting schema filenames that must not exist in this slice. */

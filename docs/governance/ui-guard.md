@@ -83,9 +83,9 @@ Enterprise criteria from the CSS bridge evaluation — cross-reference for pre-m
 
 | ID | Criterion | Evidence |
 |----|-----------|----------|
-| **B1** | Reusable patterns in `afenda-appshell-studio.css` | [`STUDIO-PATTERN-MAP.md`](../../packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md) |
+| **B1** | Reusable patterns in `afenda-appshell-studio.css` | [`STUDIO-PATTERN-MAP.md`](../../packages/appshell/src/presentation/STUDIO-PATTERN-MAP.md) |
 | **B5** | `mapStockButtonProps` sunset | Gate D pass 7 + Gate G NS4 |
-| **B6** | Single MCP install cwd (`packages/ui`) | `shadcn-studio.config.json` |
+| **B6** | Single MCP install cwd (`packages/shadcn-studio`) | `shadcn-studio.config.json` |
 | **B7** | Legacy class guard on deprecated prefixes | `studio-legacy-class-guard.test.ts` |
 | **B8** | Direct studio CSS import ban (manifest + R22) | Gate E R22 + `css-manifest.test.ts` |
 
@@ -156,7 +156,7 @@ Promotion pipeline: [block-pipeline-reference.md](../../.cursor/skills/afenda-sh
 |-------|--------|----------|
 | **NS1** | Staging path refs in production packages | 0 |
 | **NS2** | Forbidden `shadcn-studio` staging imports | 0 |
-| **NS3** | Raw Tailwind in `shadcn-studio/blocks/*.tsx` | 0 |
+| **NS3** | Raw Tailwind in `presentation/blocks/*.tsx` | 0 |
 | **NS4** | `mapStockButtonProps` in production | 0 (tests exempt) |
 | **NS5** | Non-Lucide icons in studio blocks | 0 |
 

@@ -15,6 +15,16 @@ export type ApiRouteAuthorizationDenialCode =
   | "missing_context"
   | "missing_session";
 
+/**
+ * Server-only evaluation artifact for metadata diagnostics — never sent in API envelopes.
+ */
+export interface ApiRouteAuthorizationEvaluationArtifact {
+  readonly authorizationDenialCode: AuthorizationDenialCode;
+  readonly decision: AuthorizationDecision;
+  readonly operatingContext: OperatingContext | null;
+  readonly permissionKey: string;
+}
+
 export interface ApiRouteAuthorizationInput {
   readonly actorId: string | null;
   readonly correlationId: string;
@@ -38,6 +48,8 @@ export interface ApiRouteAuthorizationFailure {
   readonly correlationId: string;
   readonly denialCode: ApiRouteAuthorizationDenialCode;
   readonly details?: unknown;
+  /** Server-only RBAC evaluation artifact — not included in API error envelopes. */
+  readonly evaluation?: ApiRouteAuthorizationEvaluationArtifact;
   readonly kind: "failure";
   readonly message: string;
 }

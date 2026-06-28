@@ -60,6 +60,28 @@ export interface OwnershipInterestInsertRow {
   votingPercentage: string;
 }
 
+/** Lookup read model with uuid PKs for FK ops and enterprise IDs for kernel wire. */
+export interface OwnershipInterestLookupRow {
+  readonly childLegalEntityEnterpriseId: string;
+  readonly childLegalEntityId: string;
+  readonly consolidationTreatment: ConsolidationTreatment;
+  readonly controlType: OwnershipControlType;
+  readonly effectiveFrom: string;
+  readonly effectiveTo: string | null;
+  readonly enterpriseId: string;
+  readonly entityGroupEnterpriseId: string;
+  readonly entityGroupId: string;
+  readonly id: string;
+  readonly nonControllingInterestApplicable: boolean;
+  readonly ownershipPercentage: number;
+  readonly parentLegalEntityEnterpriseId: string;
+  readonly parentLegalEntityId: string;
+  readonly status: CompanyStatus;
+  readonly tenantEnterpriseId: string;
+  readonly tenantId: string;
+  readonly votingPercentage: number;
+}
+
 /** Authority read model aligned with multi-tenancy.md ownership interest fields. */
 export interface OwnershipInterestAuthorityRecord {
   readonly childLegalEntityId: string;
@@ -195,6 +217,60 @@ export function buildOwnershipInterestInsertRow(
     effectiveFrom: input.effectiveFrom,
     effectiveTo,
     status: input.status ?? "active",
+  };
+}
+
+export function toOwnershipInterestLookupRow(input: {
+  readonly childLegalEntityEnterpriseId: string | null;
+  readonly childLegalEntityId: string;
+  readonly consolidationMethod: ConsolidationMethod;
+  readonly controlType: OwnershipControlType;
+  readonly effectiveFrom: string;
+  readonly effectiveTo: string | null;
+  readonly enterpriseId: string | null;
+  readonly entityGroupEnterpriseId: string | null;
+  readonly entityGroupId: string;
+  readonly id: string;
+  readonly nonControllingInterestApplicable: boolean;
+  readonly ownershipPercentage: string;
+  readonly parentLegalEntityEnterpriseId: string | null;
+  readonly parentLegalEntityId: string;
+  readonly status: CompanyStatus;
+  readonly tenantEnterpriseId: string | null;
+  readonly tenantId: string;
+  readonly votingPercentage: string;
+}): OwnershipInterestLookupRow | null {
+  if (
+    input.enterpriseId === null ||
+    input.tenantEnterpriseId === null ||
+    input.entityGroupEnterpriseId === null ||
+    input.parentLegalEntityEnterpriseId === null ||
+    input.childLegalEntityEnterpriseId === null
+  ) {
+    return null;
+  }
+
+  return {
+    id: input.id,
+    enterpriseId: input.enterpriseId,
+    tenantId: input.tenantId,
+    tenantEnterpriseId: input.tenantEnterpriseId,
+    entityGroupId: input.entityGroupId,
+    entityGroupEnterpriseId: input.entityGroupEnterpriseId,
+    parentLegalEntityId: input.parentLegalEntityId,
+    parentLegalEntityEnterpriseId: input.parentLegalEntityEnterpriseId,
+    childLegalEntityId: input.childLegalEntityId,
+    childLegalEntityEnterpriseId: input.childLegalEntityEnterpriseId,
+    ownershipPercentage: parsePercentage(input.ownershipPercentage),
+    votingPercentage: parsePercentage(input.votingPercentage),
+    controlType: input.controlType,
+    consolidationTreatment: consolidationMethodToTreatment(
+      input.consolidationMethod
+    ),
+    nonControllingInterestApplicable: input.nonControllingInterestApplicable,
+    effectiveFrom: input.effectiveFrom,
+    effectiveTo: input.effectiveTo,
+    status: input.status,
   };
 }
 

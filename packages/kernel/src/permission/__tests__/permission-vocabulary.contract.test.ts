@@ -173,6 +173,26 @@ describe("PermissionModelDescriptor structural guard", () => {
       expect(parsed).toEqual(sample);
     }
   });
+
+  it("allows extra keys on lenient isPermissionModelDescriptor guard", () => {
+    expect(
+      isPermissionModelDescriptor({
+        ...validDescriptor,
+        extra: true,
+      })
+    ).toBe(true);
+  });
+});
+
+describe("permission model wire triad exports", () => {
+  it("re-exports parse and serialize from permission barrel", async () => {
+    const barrel = await import("../index.js");
+    expect(typeof barrel.parseUnknownPermissionModelDescriptor).toBe(
+      "function"
+    );
+    expect(typeof barrel.serializePermissionModelDescriptor).toBe("function");
+    expect(typeof barrel.assertWirePermissionModelDescriptor).toBe("function");
+  });
 });
 
 describe("composeModuleActionWireKey", () => {

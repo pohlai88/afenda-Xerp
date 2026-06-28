@@ -20,6 +20,7 @@ import {
   markOutboxFoundationRegistered,
 } from "@/lib/outbox/execution-spine-state.server";
 import { createLoggingOutboxEventDispatcher } from "@/lib/outbox/logging-outbox-dispatcher.server";
+import { createMetadataUiOutboxEventDispatcher } from "@/lib/outbox/metadata-ui-outbox-dispatcher.server";
 import { registerOutboxSchedule } from "@/lib/outbox/register-outbox-schedule.server";
 import { verifyOutboxWorkerRelease } from "@/lib/outbox/verify-outbox-worker-release.server";
 import { createApiHandlerLogger } from "@/server/api/runtime/api-handler-logging";
@@ -38,7 +39,9 @@ export async function registerOutboxFoundation(): Promise<void> {
 
   const publishService = createOutboxPublishService({
     canonicalIdBodyGenerator: persistenceCanonicalIdBodyGenerator,
-    dispatcher: createLoggingOutboxEventDispatcher(),
+    dispatcher: createMetadataUiOutboxEventDispatcher(
+      createLoggingOutboxEventDispatcher()
+    ),
     persistence: createDrizzleOutboxPersistenceAdapter(),
   });
 

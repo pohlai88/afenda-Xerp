@@ -17,29 +17,12 @@ export interface PermissionModelDescriptor {
   readonly scope: PermissionModelScope;
 }
 
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
-
-type _PermissionModelDescriptorSerializable =
-  AssertJsonSerializable<PermissionModelDescriptor>;
-
-/**
- * Compile-time guard — permission model descriptor must remain JSON-serializable.
- * No runtime overhead.
- */
-export type assertPermissionModelDescriptorJsonSerializable =
-  _PermissionModelDescriptorSerializable extends true ? true : never;
+/** JSON-safe wire shape for permission model descriptors at ingress/egress. */
+export interface PermissionModelWireDescriptor {
+  readonly action: PermissionAction;
+  readonly module: string;
+  readonly scope: PermissionModelScope;
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;

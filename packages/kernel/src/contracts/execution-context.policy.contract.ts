@@ -7,10 +7,38 @@
  */
 
 import {
+  normalizeCompanyIdForWire,
+  normalizeCorrelationIdForWire,
+  normalizeExecutionIdForWire,
+  normalizeOrganizationIdForWire,
+  normalizeTenantIdForWire,
+  normalizeUserIdForWire,
+  parseCorrelationId,
+  parseExecutionId,
+  parseOptionalCompanyId,
+  parseOptionalOrganizationId,
+  parseOptionalTenantId,
+  parseOptionalUserId,
+} from "../identity/index.js";
+import {
   EXECUTION_CONTEXT_SOURCES,
   type ExecutionContext,
   type ExecutionContextSource,
 } from "./execution-context.contract.js";
+
+/** JSON/wire format for execution context — plain string ids and JSON primitives. */
+export interface ExecutionContextWire {
+  readonly actorId: string | null;
+  readonly companyId: string | null;
+  readonly correlationId: string;
+  readonly executionId: string;
+  readonly organizationId: string | null;
+  readonly source: ExecutionContextSource;
+  readonly spanId: string | null;
+  readonly startedAt: string;
+  readonly tenantId: string | null;
+  readonly traceId: string | null;
+}
 
 /** PAS §4.3 required concepts — additive trace/span fields are optional on the interface. */
 export const EXECUTION_CONTEXT_REQUIRED_FIELDS = [
@@ -118,4 +146,49 @@ export function assertExecutionContext(
   }
 
   return context;
+}
+
+/** Egress — branded execution context to JSON-safe wire shape. */
+export function serializeExecutionContext(
+  context: ExecutionContext
+): ExecutionContextWire {
+  return {
+    actorId: normalizeUserIdForWire(context.actorId),
+    companyId: normalizeCompanyIdForWire(context.companyId),
+    correlationId: normalizeCorrelationIdForWire(context.correlationId),
+    executionId: normalizeExecutionIdForWire(context.executionId),
+    organizationId: normalizeOrganizationIdForWire(context.organizationId),
+    source: context.source,
+    spanId: context.spanId,
+    startedAt: context.startedAt,
+    tenantId:
+      context.tenantId === null
+        ? null
+        : normalizeTenantIdForWire(context.tenantId),
+    traceId: context.traceId,
+  };
+}
+
+/** Ingress — wire payload to branded execution context after structural guard. */
+export function parseExecutionContextWire(
+  wire: ExecutionContextWire
+): ExecutionContext {
+  if (!isExecutionContext(wire)) {
+    throw new Error(
+      "ExecutionContextWire is missing required PAS §4.3 fields or contains invalid values."
+    );
+  }
+
+  return {
+    actorId: parseOptionalUserId(wire.actorId),
+    companyId: parseOptionalCompanyId(wire.companyId),
+    correlationId: parseCorrelationId(wire.correlationId),
+    executionId: parseExecutionId(wire.executionId),
+    organizationId: parseOptionalOrganizationId(wire.organizationId),
+    source: wire.source,
+    spanId: wire.spanId,
+    startedAt: wire.startedAt,
+    tenantId: parseOptionalTenantId(wire.tenantId),
+    traceId: wire.traceId,
+  };
 }

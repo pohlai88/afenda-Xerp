@@ -19,9 +19,9 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -b && node --input-type=module -e \"import { copyFileSync } from 'node:fs'; copyFileSync('src/styles/shadcn-studio.css', 'dist/shadcn-studio.css');\"",
+    "build": "tsc -b && tsc-alias -p tsconfig.json && node --input-type=module -e \"import { copyFileSync } from 'node:fs'; copyFileSync('src/styles/shadcn-studio.css', 'dist/shadcn-studio.css');\"",
     "dev": "tsc -b --watch",
-    "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit",
+    "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit && tsc -p tsconfig.stories.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
@@ -33,27 +33,37 @@
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.3.0",
+    "@tanstack/react-table": "^8.21.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "lucide-react": "^0.525.0",
     "next-themes": "^0.4.6",
     "radix-ui": "^1.6.0",
+    "react-19-credit-card": "^1.0.5",
+    "react-payment-inputs": "^1.2.0",
+    "recharts": "3.8.0",
+    "sonner": "^2.0.7",
     "tailwind-merge": "^3.6.0"
   },
   "peerDependencies": {
+    "next": "^16.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
     "@afenda/testing": "workspace:*",
     "@afenda/typescript-config": "workspace:*",
+    "@storybook/react": "^10.4.6",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@types/react-payment-inputs": "^1.1.4",
+    "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
+    "tsc-alias": "^1.8.10",
     "vitest": "catalog:"
   }
 }

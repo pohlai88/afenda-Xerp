@@ -1,3 +1,7 @@
+import {
+  formatMetadataRuntimePermissionModelDescriptors,
+  formatMetadataRuntimePolicyDecision,
+} from "@afenda/ui-composition";
 import type {
   MetadataBoundaryWarningProps,
   MetadataDiagnosticsProps,
@@ -130,6 +134,26 @@ function createDiagnosticsItems({
       key: "runtime-state",
       label: "Runtime state",
       value: runtime.runtimeState,
+    },
+    {
+      key: "policy-decision",
+      label: "Policy decision",
+      value:
+        runtime.policyDecision === undefined
+          ? undefined
+          : formatMetadataRuntimePolicyDecision(runtime.policyDecision),
+      verboseOnly: true,
+    },
+    {
+      key: "permission-model",
+      label: "Permission model",
+      value:
+        runtime.permissionModelDescriptors === undefined
+          ? undefined
+          : formatMetadataRuntimePermissionModelDescriptors(
+              runtime.permissionModelDescriptors
+            ),
+      verboseOnly: true,
     },
     {
       key: "density-mode",

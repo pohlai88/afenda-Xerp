@@ -42,7 +42,7 @@ describe("check-css-bridge-negative-search probes", () => {
 
   it("NS2 allows appshell shadcn-studio/blocks local paths", () => {
     const content =
-      'import { Block } from "../shadcn-studio/blocks/app-shell-menu-trigger";';
+      'import { Block } from "../presentation/blocks/app-shell-menu-trigger";';
     expect(
       probeNs2StagingImports(
         content,
@@ -56,7 +56,7 @@ describe("check-css-bridge-negative-search probes", () => {
       'export function X() { return <div className="flex gap-2 p-4" />; }';
     const hits = probeNs3BlockTailwind(
       content,
-      "packages/appshell/src/shadcn-studio/blocks/app-shell-menu-trigger.tsx"
+      "packages/appshell/src/presentation/blocks/app-shell-menu-trigger.tsx"
     );
     expect(hits.length).toBeGreaterThan(0);
     expect(hits[0]).toMatch(/semantic classes only/);
@@ -68,7 +68,7 @@ describe("check-css-bridge-negative-search probes", () => {
     expect(
       probeNs3BlockTailwind(
         content,
-        "packages/appshell/src/shadcn-studio/blocks/app-shell-menu-trigger.tsx"
+        "packages/appshell/src/presentation/blocks/app-shell-menu-trigger.tsx"
       )
     ).toEqual([]);
   });
@@ -104,7 +104,7 @@ describe("check-css-bridge-negative-search probes", () => {
     const content = 'import { FaUser } from "react-icons/fa";';
     const hits = probeNs5NonLucideIcons(
       content,
-      "packages/appshell/src/shadcn-studio/blocks/app-shell-profile-dropdown.tsx"
+      "packages/appshell/src/presentation/blocks/app-shell-profile-dropdown.tsx"
     );
     expect(hits).toHaveLength(1);
     expect(hits[0]).toMatch(/Non-Lucide icon import/);
@@ -115,7 +115,7 @@ describe("check-css-bridge-negative-search probes", () => {
     expect(
       probeNs5NonLucideIcons(
         content,
-        "packages/appshell/src/shadcn-studio/blocks/app-shell-profile-dropdown.tsx"
+        "packages/appshell/src/presentation/blocks/app-shell-profile-dropdown.tsx"
       )
     ).toEqual([]);
   });

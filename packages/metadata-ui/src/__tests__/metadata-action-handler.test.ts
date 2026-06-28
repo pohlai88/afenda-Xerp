@@ -7,6 +7,7 @@ import {
   destructiveActionMissingConfirm,
   isMetadataActionFailure,
   isMetadataActionSuccess,
+  toMetadataActionWireResult,
 } from "../actions/metadata-action-handler.js";
 
 describe("metadata action handler helpers", () => {
@@ -66,5 +67,46 @@ describe("metadata action handler helpers", () => {
         },
       })
     ).toBe(true);
+  });
+
+  it("round-trips action results to wire shape without reason", () => {
+    const failure = createMetadataActionFailure(
+      "delete",
+      "FORBIDDEN",
+      "Denied.",
+      "internal audit reason"
+    );
+
+    expect(toMetadataActionWireResult(failure)).toEqual({
+      ok: false,
+      actionKey: "delete",
+      code: "FORBIDDEN",
+      userMessage: "Denied.",
+    });
+    expect("reason" in toMetadataActionWireResult(failure)).toBe(false);
+
+    expect(
+      toMetadataActionWireResult(createMetadataActionSuccess("save"))
+    ).toEqual({
+      ok: true,
+      actionKey: "save",
+    });
+
+    expect(
+      toMetadataActionWireResult(createMetadataActionSuccess("save", "Saved."))
+    ).toEqual({
+      ok: true,
+      actionKey: "save",
+      message: "Saved.",
+    });
+
+    expect(
+      JSON.parse(JSON.stringify(toMetadataActionWireResult(failure)))
+    ).toEqual({
+      ok: false,
+      actionKey: "delete",
+      code: "FORBIDDEN",
+      userMessage: "Denied.",
+    });
   });
 });

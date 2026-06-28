@@ -11,11 +11,13 @@ export {
   type OwnershipInterestAuthorityRecord,
   OwnershipInterestCycleError,
   type OwnershipInterestInsertRow,
+  type OwnershipInterestLookupRow,
   OwnershipInterestValidationError,
   type OwnershipInterestWriteInput,
   resolveInvesteeLegalEntityId,
   resolveNonControllingInterestApplicable,
   toOwnershipInterestAuthorityRecord,
+  toOwnershipInterestLookupRow,
 } from "./ownership-interest.contract.js";
 export {
   type InsertOwnershipInterestInput,

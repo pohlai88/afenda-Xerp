@@ -22,8 +22,8 @@
     "src/_storybook/**/*.ts",
     "src/_storybook/**/*.tsx",
     "src/app-shell*.tsx",
-    "src/shadcn-studio/**/*.ts",
-    "src/shadcn-studio/**/*.tsx",
+    "src/presentation/**/*.ts",
+    "src/presentation/**/*.tsx",
     "src/dashboard/**/*.ts",
     "src/dashboard/**/*.tsx"
   ],

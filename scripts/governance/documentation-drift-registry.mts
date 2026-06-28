@@ -98,7 +98,10 @@ export const STALE_DELIVERY_MARKERS = [
   },
   {
     file: ".cursor/skills/kernel-authority/SKILL.md",
-    forbidden: ["@afenda/kernel/accounting-domain", "contracts/accounting-domain/"],
+    forbidden: [
+      "@afenda/kernel/accounting-domain",
+      "contracts/accounting-domain/",
+    ],
     rule: "kernel-authority-skill-retired-accounting-domain-path",
   },
 ] as const;

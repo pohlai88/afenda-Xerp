@@ -2,6 +2,7 @@ import { randomUUID } from "node:crypto";
 import { type AfendaDatabase, getDb, outboxEvents } from "@afenda/database";
 import type { ExecutionJsonObject, ExecutionPayload } from "@afenda/execution";
 import { isExecutionJsonObject, isExecutionPayload } from "@afenda/execution";
+import { isCanonicalEnterpriseId } from "@afenda/kernel";
 
 import { ApiRouteError } from "@/server/api/runtime/api-validation";
 
@@ -70,6 +71,22 @@ function assertScopedOutboxWrite(input: EnqueueOutboxEventInput): void {
   }
 }
 
+function buildOutboxMetadata(
+  metadata: ExecutionJsonObject | undefined,
+  tenantId: string
+): ExecutionJsonObject {
+  const base = metadata ?? {};
+
+  if (isCanonicalEnterpriseId(tenantId)) {
+    return base;
+  }
+
+  return {
+    ...base,
+    tenantPk: tenantId,
+  };
+}
+
 export async function enqueueOutboxEvent(
   input: EnqueueOutboxEventInput,
   db?: AfendaDatabase
@@ -90,7 +107,7 @@ export async function enqueueOutboxEvent(
       eventType: input.eventType,
       eventVersion: input.eventVersion ?? "1.0",
       executionRunId: input.executionRunId ?? null,
-      metadata: input.metadata ?? {},
+      metadata: buildOutboxMetadata(input.metadata, input.tenantId),
       organizationId: input.organizationId ?? null,
       payload: input.payload,
       reason: input.reason ?? null,

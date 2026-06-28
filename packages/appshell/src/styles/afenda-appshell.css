@@ -1353,7 +1353,8 @@
     font-weight: var(--font-weight-label-sm);
   }
 
-  /* KPI widget chrome → afenda-appshell-studio.css (.app-shell-studio-metric-card) */
+  /* KPI widget chrome → afenda-appshell-studio.css (.app-shell-studio-metric-card)
+   * Statistics metric cards → block-local .app-shell-statistics-metric-* below (B42l) */
 
   .app-shell-readiness-gate-status-row {
     display: inline-flex;

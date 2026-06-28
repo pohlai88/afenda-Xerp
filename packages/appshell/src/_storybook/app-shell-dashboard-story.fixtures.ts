@@ -1,5 +1,5 @@
 import type { ApplicationShellDashboardDemoProps } from "../dashboard";
-import { DEFAULT_APP_SHELL_DASHBOARD_LABEL } from "../shadcn-studio/data/app-shell.dashboard.data";
+import { DEFAULT_APP_SHELL_DASHBOARD_LABEL } from "../presentation/data/app-shell.dashboard.data";
 import {
   FINANCE_DENIED_BLOCK_STORY_RENDER_CONTEXT,
   PERMISSIVE_BLOCK_STORY_RENDER_CONTEXT,

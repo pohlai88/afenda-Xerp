@@ -8,8 +8,8 @@
  * Kernel does **not** generate or allocate human reference numbers.
  */
 
-import type { Brand } from "../brand/brand.contract.js";
-import { unbrand } from "../brand/brand.contract.js";
+import type { Brand } from "../brand/index.js";
+import { unbrand } from "../brand/index.js";
 
 /** ADR-0023 governed scopes — parity with `@afenda/database` tenant-human-reference registry. */
 export const TENANT_HUMAN_REFERENCE_SCOPES = [

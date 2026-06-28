@@ -48,6 +48,10 @@ export const sampleDiagnosticsRuntimeContextInput = {
 export const sampleReadonlyRuntimeContextInput = {
   ...sampleRuntimeContextInput,
   readonlyMode: true,
+  policyDecision: { kind: "gate", reason: "forbidden" },
+  permissionModelDescriptors: [
+    { module: "fixture.orders", action: "read", scope: "legal_entity" },
+  ],
 } satisfies CreateMetadataRuntimeContextInput;
 
 export const sampleRuntimeContext = createMetadataRuntimeContext(

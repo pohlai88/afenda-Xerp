@@ -1,14 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { parseProductId, parseTenantId } from "../../families/index.js";
 import {
-  isCanonicalEnterpriseId,
-  isCanonicalEnterpriseIdForFamily,
-  isRegisteredCanonicalEnterpriseId,
   parseCanonicalId,
   parseRegisteredCanonicalEnterpriseId,
   tryParseCanonicalId,
   tryParseRegisteredCanonicalEnterpriseId,
 } from "../canonical-id-parser.contract.js";
+import {
+  isCanonicalEnterpriseId,
+  isCanonicalEnterpriseIdForFamily,
+  isRegisteredCanonicalEnterpriseId,
+} from "../canonical-id-validator.contract.js";
 import { InvalidCanonicalIdError } from "../invalid-canonical-id.error.js";
 
 const VALID_TENANT = "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV";

@@ -1,8 +1,10 @@
 # Slice B42b — Appshell Legacy Parity Inventory & Delete Planning (PAS-005A §11.1 · §11.4)
 
+> **Superseded (2026-06-28):** Delete preconditions and planning inventory remain historical evidence. **Filesystem delete executed in B42h** — legacy `shadcn-studio/` path removed; governed blocks relocated to `packages/appshell/src/presentation/`. See [`b42h-pas005a-legacy-tree-delete.md`](b42h-pas005a-legacy-tree-delete.md).
+
 **Prerequisite:** B42 delivered (partial) — ERP CSS chain, metadata-ui theme hook, ADR-0017 retarget, `PKGR05A_SHADCN_STUDIO` promoted (`amber-lane`)
 
-**Status:** Planning delivered (2026-06-28) — **delete blocked** until block parity + MCP re-seed
+**Status:** Planning delivered (2026-06-28) — **Superseded by B42h** — delete executed via `presentation/` relocation
 
 **Type:** Research + Planning (implementation slice follows parity proof)
 
@@ -39,7 +41,7 @@ Handoff from: docs/PAS/slice/b42b-pas005a-legacy-delete-planning.md
 
 ## Parity snapshot (2026-06-28)
 
-| Surface | Legacy (`packages/appshell/src/shadcn-studio`) | Target (`packages/shadcn-studio`) | Parity |
+| Surface | Legacy (deleted `packages/appshell/src/shadcn-studio` — B42h) | Target (`packages/shadcn-studio`) | Parity |
 | --- | ---: | ---: | --- |
 | Production block TSX (excl. stories) | **63** | **2** (placeholder-hero, placeholder-form) | **3%** |
 | UI primitives (`src/components/ui/`) | 0 (uses `@afenda/ui` in blocks) | **5** (button, card, input, label, select) | B40 minimum met |
@@ -48,7 +50,7 @@ Handoff from: docs/PAS/slice/b42b-pas005a-legacy-delete-planning.md
 | Assets | 1 illustration | 0 | Follow block re-seed |
 | Storybook stories (legacy tree) | ~25 `.stories.tsx` in appshell | 3 lab stories in `apps/storybook/stories/shadcn-studio-*.stories.tsx` | Lab only on target |
 
-**Verdict:** **DELETE BLOCKED.** Parity rule from B42/B42b requires functional block inventory in `@afenda/shadcn-studio` before removing legacy tree.
+**Verdict:** **DELETE BLOCKED at planning time (2026-06-28).** Superseded — delete executed in B42h via `presentation/` relocation. Historical parity snapshot below retained as evidence.
 
 ## Legacy block inventory (production TSX)
 
@@ -150,7 +152,7 @@ Agent environment note: MCP shadcn-studio server was unavailable during B40; man
 - [x] Delete preconditions documented
 - [x] MCP operator checklist
 - [x] Explicit **delete blocked** attestation
-- [ ] Filesystem delete (deferred — follow-on slice)
+- [x] Filesystem delete (executed B42h — `presentation/` relocation)
 - [ ] MCP live re-seed (deferred — operator)
 
 ## Related slices

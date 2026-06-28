@@ -387,11 +387,13 @@ export {
   type OwnershipInterestAuthorityRecord,
   OwnershipInterestCycleError,
   type OwnershipInterestInsertRow,
+  type OwnershipInterestLookupRow,
   OwnershipInterestValidationError,
   type OwnershipInterestWriteInput,
   resolveInvesteeLegalEntityId,
   resolveNonControllingInterestApplicable,
   toOwnershipInterestAuthorityRecord,
+  toOwnershipInterestLookupRow,
 } from "./ownership-interest/ownership-interest.contract.js";
 export {
   type InsertOwnershipInterestInput,
@@ -517,6 +519,13 @@ export {
   type UpdateProjectInput,
   updateProject,
 } from "./project/project.service.js";
+export {
+  findProjectByEnterpriseId,
+  findProjectById,
+  findProjectByTenantAndSlug,
+  isProjectOperational,
+  type ProjectLookupRow,
+} from "./project/project-lookup.service.js";
 export {
   assertRlsTenantFilter,
   DEFAULT_RLS_GRANT_ELEVATION_FLAGS,

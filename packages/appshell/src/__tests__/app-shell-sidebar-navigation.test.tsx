@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { BarChart3Icon, UsersIcon } from "lucide-react";
 import { describe, expect, it } from "vitest";
 import { ApplicationShell } from "../app-shell";
-import type { AppShellMenuItem } from "../shadcn-studio/data/app-shell.data";
+import type { AppShellMenuItem } from "../presentation/data/app-shell.data";
 
 const navigationWithActiveRoute = [
   {

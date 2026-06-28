@@ -12,14 +12,14 @@ import type {
   ApplicationShellOperatingContext,
   ApplicationShellResolvedChrome,
 } from "./app-shell.types";
-import { AppShellActivityDialog } from "./shadcn-studio/blocks/app-shell-activity-dialog";
-import { AppShellLanguageDropdown } from "./shadcn-studio/blocks/app-shell-language-dropdown";
-import { AppShellMenuTrigger } from "./shadcn-studio/blocks/app-shell-menu-trigger";
-import { AppShellNotificationDropdown } from "./shadcn-studio/blocks/app-shell-notification-dropdown";
-import { AppShellProfileDropdown } from "./shadcn-studio/blocks/app-shell-profile-dropdown";
-import { AppShellSearchDialog } from "./shadcn-studio/blocks/app-shell-search-dialog";
-import { countDefaultAppShellUnreadNotifications } from "./shadcn-studio/data/app-shell.notification.data";
-import type { AppShellProfileMenuGroup } from "./shadcn-studio/data/app-shell.profile.data";
+import { countDefaultAppShellUnreadNotifications } from "./presentation/data/app-shell.notification.data";
+import type { AppShellProfileMenuGroup } from "./presentation/data/app-shell.profile.data";
+import { AppShellActivityDialog } from "./presentation/wrappers/app-shell-activity-dialog.wrapper";
+import { AppShellLanguageDropdown } from "./presentation/wrappers/app-shell-language-dropdown.wrapper";
+import { AppShellMenuTrigger } from "./presentation/wrappers/app-shell-menu-trigger.wrapper";
+import { AppShellNotificationDropdown } from "./presentation/wrappers/app-shell-notification-dropdown.wrapper";
+import { AppShellProfileDropdown } from "./presentation/wrappers/app-shell-profile-dropdown.wrapper";
+import { AppShellSearchDialog } from "./presentation/wrappers/app-shell-search-dialog.wrapper";
 import { joinAppShellGovernedClassName } from "./wiring/governance";
 
 export type AppShellHeaderGovernedComponents = Extract<

@@ -11,6 +11,7 @@ import {
   AFENDA_COMPANY_SLUG_HEADER,
   AFENDA_ORGANIZATION_ID_HEADER,
   AFENDA_ORGANIZATION_SLUG_HEADER,
+  AFENDA_PROJECT_SLUG_HEADER,
 } from "./api-route-context";
 
 export type ApiRouteOperatingContextFailureCode =
@@ -114,6 +115,10 @@ export async function resolveVerifiedApiRouteOperatingContext(input: {
       organizationId: readOptionalHeader(
         input.request,
         AFENDA_ORGANIZATION_ID_HEADER
+      ),
+      projectSlug: readOptionalHeader(
+        input.request,
+        AFENDA_PROJECT_SLUG_HEADER
       ),
       projectId: readOptionalHeader(input.request, "x-afenda-project-id"),
       teamId: readOptionalHeader(input.request, "x-afenda-team-id"),

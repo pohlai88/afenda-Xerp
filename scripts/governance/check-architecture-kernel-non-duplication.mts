@@ -11,8 +11,8 @@ import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  scanArchitectureKernelNonDuplication,
   type ArchitectureKernelScanTarget,
+  scanArchitectureKernelNonDuplication,
 } from "../../packages/architecture-authority/src/policy/architecture-kernel-non-duplication.policy.ts";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -35,12 +35,12 @@ function collectSourceFiles(directory: string): string[] {
   return files;
 }
 
-const targets: ArchitectureKernelScanTarget[] = collectSourceFiles(scanRoot).map(
-  (absolutePath) => ({
-    relativePath: relative(repoRoot, absolutePath),
-    content: readFileSync(absolutePath, "utf8"),
-  })
-);
+const targets: ArchitectureKernelScanTarget[] = collectSourceFiles(
+  scanRoot
+).map((absolutePath) => ({
+  relativePath: relative(repoRoot, absolutePath),
+  content: readFileSync(absolutePath, "utf8"),
+}));
 
 const violations = scanArchitectureKernelNonDuplication(targets);
 

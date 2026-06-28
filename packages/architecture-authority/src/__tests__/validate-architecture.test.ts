@@ -26,6 +26,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/appshell", {
         "@afenda/ui": "workspace:*",
         "@afenda/kernel": "workspace:*",
+        "@afenda/shadcn-studio": "workspace:*",
       }),
       workspace("@afenda/auth", {
         "@afenda/database": "workspace:*",

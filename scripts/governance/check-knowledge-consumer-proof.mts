@@ -6,8 +6,8 @@
  * getKnowledgeAtom (or getEnterpriseKnowledgePreferredWording wrapper) in apps/erp.
  */
 
-import { readFileSync, readdirSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { readdirSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");

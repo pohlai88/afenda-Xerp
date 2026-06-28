@@ -84,7 +84,7 @@ const MEMBERSHIP_ID = createTestEnterpriseId(
   "01ARZ3NDEKTSV4RRFFQ69G5M02"
 );
 const ROLE_ID = createTestEnterpriseId("role", "01ARZ3NDEKTSV4RRFFQ69G5R02");
-const ACTOR_ID = createTestEnterpriseId("user", "01ARZ3NDEKTSV4RRFFQ69G5U02");
+const ACTOR_ID = createTestEnterpriseId("user", "01ARZ3NDEKTSV4RRFFQ69G5FAV");
 
 function createMockOperatingContext(
   overrides: Partial<OperatingContext> = {}
@@ -205,11 +205,11 @@ describe("switchOperatingContextAction", () => {
     });
     expect(persistAuthSessionActiveWorkspaceIdMock).toHaveBeenCalledWith({
       sessionId: "sess-switch-test",
-      activeWorkspaceId: "tenant-001:company-001:root",
+      activeWorkspaceId: `${TENANT_ID}:${COMPANY_ID}:root`,
     });
     if (result.ok) {
       expect(result.data.operatingContext.legalEntityLabel).toBe("Dev Company");
-      expect(result.data.workspace.companyId).toBe("company-001");
+      expect(result.data.workspace.companyId).toBe(`${COMPANY_ID}`);
     }
   });
 
@@ -235,7 +235,7 @@ describe("switchOperatingContextAction", () => {
     expect(recordActionAuditMock).toHaveBeenCalledWith(
       expect.objectContaining({
         action: "auth.workspace.context_switched",
-        actorUserId: "user-001",
+        actorUserId: `${ACTOR_ID}`,
       })
     );
   });

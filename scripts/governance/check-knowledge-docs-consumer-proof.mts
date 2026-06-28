@@ -3,7 +3,7 @@
  * PAS-004B §4.2 — B35 / PAS-004C B48: Docs consumer import proof gate.
  */
 
-import { readFileSync, readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -19,7 +19,11 @@ const enterpriseKnowledgeSrc = join(
   "packages/enterprise-knowledge/src"
 );
 
-const REQUIRED_ATOM_IDS = ["tenant", "legal_entity", "organization_unit"] as const;
+const REQUIRED_ATOM_IDS = [
+  "tenant",
+  "legal_entity",
+  "organization_unit",
+] as const;
 
 const errors: string[] = [];
 

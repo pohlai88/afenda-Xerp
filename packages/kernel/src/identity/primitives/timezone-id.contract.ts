@@ -1,4 +1,4 @@
-import { unbrand } from "../brand/brand.contract.js";
+import { unbrand } from "../brand/index.js";
 import type { PrimitiveReference } from "./primitive-brand.contract.js";
 import { rejectIfMisclassifiedId } from "./primitive-brand.helpers.js";
 

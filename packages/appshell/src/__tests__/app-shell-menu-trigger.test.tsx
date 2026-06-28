@@ -2,8 +2,8 @@ import { setupUser } from "@afenda/testing/react";
 import { SidebarProvider } from "@afenda/ui";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import type { AppShellMenuTriggerProps } from "../shadcn-studio/blocks/app-shell-menu-trigger";
-import { AppShellMenuTrigger } from "../shadcn-studio/blocks/app-shell-menu-trigger";
+import type { AppShellMenuTriggerProps } from "../presentation/blocks/app-shell-menu-trigger";
+import { AppShellMenuTrigger } from "../presentation/blocks/app-shell-menu-trigger";
 
 function renderMenuTrigger(props?: AppShellMenuTriggerProps) {
   return render(

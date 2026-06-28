@@ -8,9 +8,7 @@
  * 3. ai profile includes misconceptions + structuredReasoning facets.
  */
 
-import {
-  KNOWLEDGE_CONSUMER_PROFILES,
-} from "../../packages/enterprise-knowledge/src/contracts/knowledge-consumer-profile.contract.ts";
+import { KNOWLEDGE_CONSUMER_PROFILES } from "../../packages/enterprise-knowledge/src/contracts/knowledge-consumer-profile.contract.ts";
 import {
   KNOWLEDGE_CONSUMER_PROFILE_EVIDENCE_ATOM_IDS,
   validateKnowledgeConsumerProfiles,

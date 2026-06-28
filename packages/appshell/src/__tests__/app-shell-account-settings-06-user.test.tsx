@@ -6,7 +6,7 @@ import {
   type AppShellAccountSettings06PasskeyRow,
   type AppShellAccountSettings06SessionRow,
   AppShellAccountSettings06User,
-} from "../shadcn-studio/blocks/app-shell-account-settings-06-user";
+} from "../presentation/blocks/app-shell-account-settings-06-user";
 
 const sessions: AppShellAccountSettings06SessionRow[] = [
   {

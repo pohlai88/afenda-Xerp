@@ -133,171 +133,171 @@ export type {
   AppShellAccountSettings02NotificationChannel,
   AppShellAccountSettings02NotificationItem,
   AppShellAccountSettings02NotificationSection,
-} from "./shadcn-studio/blocks/account-settings-02/content/app-shell-account-settings-02-all-notifications";
+} from "./presentation/blocks/account-settings-02/content/app-shell-account-settings-02-all-notifications";
 export type {
   AppShellAccountSettings02BrowserItem,
   AppShellAccountSettings02BrowserNotificationProps,
-} from "./shadcn-studio/blocks/account-settings-02/content/app-shell-account-settings-02-browser-notification";
+} from "./presentation/blocks/account-settings-02/content/app-shell-account-settings-02-browser-notification";
 export type {
   AppShellAccountSettings02DndDay,
   AppShellAccountSettings02DoNotDisturbProps,
-} from "./shadcn-studio/blocks/account-settings-02/content/app-shell-account-settings-02-do-not-disturb";
+} from "./presentation/blocks/account-settings-02/content/app-shell-account-settings-02-do-not-disturb";
 export type {
   AppShellAccountSettings02InboxItem,
   AppShellAccountSettings02InboxPreferenceProps,
-} from "./shadcn-studio/blocks/account-settings-02/content/app-shell-account-settings-02-inbox-preference";
-export type { AppShellAccountSettings03DangerZoneProps } from "./shadcn-studio/blocks/account-settings-03/content/app-shell-account-settings-03-danger-zone";
+} from "./presentation/blocks/account-settings-02/content/app-shell-account-settings-02-inbox-preference";
+export type { AppShellAccountSettings03DangerZoneProps } from "./presentation/blocks/account-settings-03/content/app-shell-account-settings-03-danger-zone";
 export type {
   AppShellAccountSettings03ExportRow,
   AppShellAccountSettings03WorkspaceDataProps,
-} from "./shadcn-studio/blocks/account-settings-03/content/app-shell-account-settings-03-workspace-data";
-export type { AppShellAccountSettings03WorkspaceDetailProps } from "./shadcn-studio/blocks/account-settings-03/content/app-shell-account-settings-03-workspace-detail";
+} from "./presentation/blocks/account-settings-03/content/app-shell-account-settings-03-workspace-data";
+export type { AppShellAccountSettings03WorkspaceDetailProps } from "./presentation/blocks/account-settings-03/content/app-shell-account-settings-03-workspace-detail";
 export type {
   AppShellAccountSettings03TimezoneOption,
   AppShellAccountSettings03WorkspaceNameProps,
-} from "./shadcn-studio/blocks/account-settings-03/content/app-shell-account-settings-03-workspace-name";
-export type { AppShellAccountSettings03WorkspaceOrganizationsProps } from "./shadcn-studio/blocks/account-settings-03/content/app-shell-account-settings-03-workspace-organizations";
+} from "./presentation/blocks/account-settings-03/content/app-shell-account-settings-03-workspace-name";
+export type { AppShellAccountSettings03WorkspaceOrganizationsProps } from "./presentation/blocks/account-settings-03/content/app-shell-account-settings-03-workspace-organizations";
 export type {
   AppShellAccountSettings04IntegrationApp,
   AppShellAccountSettings04IntegrationSectionProps,
-} from "./shadcn-studio/blocks/account-settings-04/content/app-shell-account-settings-04-integration-section";
+} from "./presentation/blocks/account-settings-04/content/app-shell-account-settings-04-integration-section";
 export type {
   AppShellAccountSettings07AddOnRow,
   AppShellAccountSettings07AddOnsProps,
-} from "./shadcn-studio/blocks/account-settings-07/content/app-shell-account-settings-07-add-ons";
-export type { AppShellAccountSettings07AiGatewayProps } from "./shadcn-studio/blocks/account-settings-07/content/app-shell-account-settings-07-ai-gateway";
+} from "./presentation/blocks/account-settings-07/content/app-shell-account-settings-07-add-ons";
+export type { AppShellAccountSettings07AiGatewayProps } from "./presentation/blocks/account-settings-07/content/app-shell-account-settings-07-ai-gateway";
 export type {
   AppShellAccountSettings07AllBillingProps,
   AppShellAccountSettings07UsageRow,
-} from "./shadcn-studio/blocks/account-settings-07/content/app-shell-account-settings-07-all-billing";
-export type { AppShellAccountSettings07PaymentMethodProps } from "./shadcn-studio/blocks/account-settings-07/content/app-shell-account-settings-07-payment-method";
-export type { AppShellAccountSettings07SpendManagementProps } from "./shadcn-studio/blocks/account-settings-07/content/app-shell-account-settings-07-spend-management";
-export type { AppShellAccountSettings01Props } from "./shadcn-studio/blocks/app-shell-account-settings-01";
-export { AppShellAccountSettings01 } from "./shadcn-studio/blocks/app-shell-account-settings-01";
+} from "./presentation/blocks/account-settings-07/content/app-shell-account-settings-07-all-billing";
+export type { AppShellAccountSettings07PaymentMethodProps } from "./presentation/blocks/account-settings-07/content/app-shell-account-settings-07-payment-method";
+export type { AppShellAccountSettings07SpendManagementProps } from "./presentation/blocks/account-settings-07/content/app-shell-account-settings-07-spend-management";
+export type { AppShellAccountSettings01Props } from "./presentation/blocks/app-shell-account-settings-01";
+export { AppShellAccountSettings01 } from "./presentation/blocks/app-shell-account-settings-01";
 export {
   AppShellAccountSettings02,
   type AppShellAccountSettings02Props,
-} from "./shadcn-studio/blocks/app-shell-account-settings-02";
+} from "./presentation/blocks/app-shell-account-settings-02";
 export {
   AppShellAccountSettings03,
   type AppShellAccountSettings03Props,
-} from "./shadcn-studio/blocks/app-shell-account-settings-03";
+} from "./presentation/blocks/app-shell-account-settings-03";
 export {
   AppShellAccountSettings04,
   type AppShellAccountSettings04Props,
-} from "./shadcn-studio/blocks/app-shell-account-settings-04";
+} from "./presentation/blocks/app-shell-account-settings-04";
 export {
   AppShellAccountSettings05,
   type AppShellAccountSettings05MemberRow,
   type AppShellAccountSettings05PendingInviteRow,
   type AppShellAccountSettings05Props,
   type AppShellAccountSettings05RoleOption,
-} from "./shadcn-studio/blocks/app-shell-account-settings-05";
+} from "./presentation/blocks/app-shell-account-settings-05";
 export {
   AppShellAccountSettings06,
   type AppShellAccountSettings06GovernedComponents,
   type AppShellAccountSettings06MfaEnrollPhase,
   type AppShellAccountSettings06Props,
   type AppShellAccountSettings06SessionRow,
-} from "./shadcn-studio/blocks/app-shell-account-settings-06";
+} from "./presentation/blocks/app-shell-account-settings-06";
 export {
   AppShellAccountSettings06Policy,
   type AppShellAccountSettings06PolicyGovernedComponents,
   type AppShellAccountSettings06PolicyProps,
-} from "./shadcn-studio/blocks/app-shell-account-settings-06-policy";
+} from "./presentation/blocks/app-shell-account-settings-06-policy";
 export {
   type AppShellAccountSettings06PasskeyRow,
   AppShellAccountSettings06User,
   type AppShellAccountSettings06UserGovernedComponents,
   type AppShellAccountSettings06UserProps,
-} from "./shadcn-studio/blocks/app-shell-account-settings-06-user";
+} from "./presentation/blocks/app-shell-account-settings-06-user";
 export {
   AppShellAccountSettings07,
   type AppShellAccountSettings07PlanAlert,
   type AppShellAccountSettings07Props,
-} from "./shadcn-studio/blocks/app-shell-account-settings-07";
-export { AppShellAccountSettingsPanelSection } from "./shadcn-studio/blocks/app-shell-account-settings-panel-section";
-export type { AppShellActivityDialogProps } from "./shadcn-studio/blocks/app-shell-activity-dialog";
-export { AppShellActivityDialog } from "./shadcn-studio/blocks/app-shell-activity-dialog";
+} from "./presentation/blocks/app-shell-account-settings-07";
+export { AppShellAccountSettingsPanelSection } from "./presentation/blocks/app-shell-account-settings-panel-section";
+export type { AppShellActivityDialogProps } from "./presentation/blocks/app-shell-activity-dialog";
+export { AppShellActivityDialog } from "./presentation/blocks/app-shell-activity-dialog";
 export type {
   AppShellActivityFeedGovernedComponents,
   AppShellActivityFeedProps,
-} from "./shadcn-studio/blocks/app-shell-activity-feed";
-export { AppShellActivityFeed } from "./shadcn-studio/blocks/app-shell-activity-feed";
+} from "./presentation/blocks/app-shell-activity-feed";
+export { AppShellActivityFeed } from "./presentation/blocks/app-shell-activity-feed";
 export type {
   AppShellApplicationShell02GovernedComponents,
   AppShellApplicationShell02Section,
   AppShellApplicationShell02SystemAdminChromeProps,
   AppShellApplicationShell02UserProfile,
-} from "./shadcn-studio/blocks/app-shell-application-shell-02";
-export { AppShellApplicationShell02SystemAdminChrome } from "./shadcn-studio/blocks/app-shell-application-shell-02";
-export type { AppShellContextSwitcherProps } from "./shadcn-studio/blocks/app-shell-context-switcher";
+} from "./presentation/blocks/app-shell-application-shell-02";
+export { AppShellApplicationShell02SystemAdminChrome } from "./presentation/blocks/app-shell-application-shell-02";
+export type { AppShellContextSwitcherProps } from "./presentation/blocks/app-shell-context-switcher";
 export {
   AppShellContextSwitcher,
   type AppShellContextSwitcherGovernedComponents,
-} from "./shadcn-studio/blocks/app-shell-context-switcher";
-export type { AppShellDashboardStatisticsLineTrendsGovernedComponents } from "./shadcn-studio/blocks/app-shell-dashboard-statistics-line-trends";
+} from "./presentation/blocks/app-shell-context-switcher";
+export type { AppShellDashboardStatisticsLineTrendsGovernedComponents } from "./presentation/blocks/app-shell-dashboard-statistics-line-trends";
 export {
   AppShellDashboardStatisticsLineTrends,
   type AppShellDashboardStatisticsLineTrendsProps,
-} from "./shadcn-studio/blocks/app-shell-dashboard-statistics-line-trends";
-export type { AppShellDashboardStatisticsMetricsGovernedComponents } from "./shadcn-studio/blocks/app-shell-dashboard-statistics-metrics";
-export { AppShellDashboardStatisticsMetrics } from "./shadcn-studio/blocks/app-shell-dashboard-statistics-metrics";
-export type { AppShellLanguageDropdownProps } from "./shadcn-studio/blocks/app-shell-language-dropdown";
-export { AppShellLanguageDropdown } from "./shadcn-studio/blocks/app-shell-language-dropdown";
+} from "./presentation/blocks/app-shell-dashboard-statistics-line-trends";
+export type { AppShellDashboardStatisticsMetricsGovernedComponents } from "./presentation/blocks/app-shell-dashboard-statistics-metrics";
+export { AppShellDashboardStatisticsMetrics } from "./presentation/blocks/app-shell-dashboard-statistics-metrics";
+export type { AppShellLanguageDropdownProps } from "./presentation/blocks/app-shell-language-dropdown";
+export { AppShellLanguageDropdown } from "./presentation/blocks/app-shell-language-dropdown";
 export type {
   AppShellMenuTriggerGovernedComponents,
   AppShellMenuTriggerProps,
-} from "./shadcn-studio/blocks/app-shell-menu-trigger";
-export { AppShellMenuTrigger } from "./shadcn-studio/blocks/app-shell-menu-trigger";
-export type { AppShellModuleWorkspaceChromeProps } from "./shadcn-studio/blocks/app-shell-module-workspace-chrome";
-export { AppShellModuleWorkspaceChrome } from "./shadcn-studio/blocks/app-shell-module-workspace-chrome";
+} from "./presentation/blocks/app-shell-menu-trigger";
+export { AppShellMenuTrigger } from "./presentation/blocks/app-shell-menu-trigger";
+export type { AppShellModuleWorkspaceChromeProps } from "./presentation/blocks/app-shell-module-workspace-chrome";
+export { AppShellModuleWorkspaceChrome } from "./presentation/blocks/app-shell-module-workspace-chrome";
 export type {
   AppShellNotificationDropdownGovernedComponents,
   AppShellNotificationDropdownProps,
-} from "./shadcn-studio/blocks/app-shell-notification-dropdown";
-export { AppShellNotificationDropdown } from "./shadcn-studio/blocks/app-shell-notification-dropdown";
+} from "./presentation/blocks/app-shell-notification-dropdown";
+export { AppShellNotificationDropdown } from "./presentation/blocks/app-shell-notification-dropdown";
 export type {
   AppShellProfileDropdownGovernedComponents,
   AppShellProfileDropdownProps,
-} from "./shadcn-studio/blocks/app-shell-profile-dropdown";
-export { AppShellProfileDropdown } from "./shadcn-studio/blocks/app-shell-profile-dropdown";
+} from "./presentation/blocks/app-shell-profile-dropdown";
+export { AppShellProfileDropdown } from "./presentation/blocks/app-shell-profile-dropdown";
 export type {
   AppShellSearchDialogGovernedComponents,
   AppShellSearchDialogProps,
-} from "./shadcn-studio/blocks/app-shell-search-dialog";
+} from "./presentation/blocks/app-shell-search-dialog";
 export {
   AppShellSearchCommand,
   AppShellSearchDialog,
-} from "./shadcn-studio/blocks/app-shell-search-dialog";
+} from "./presentation/blocks/app-shell-search-dialog";
 export type {
   AppShellSidebarUserDropdownGovernedComponents,
   AppShellSidebarUserDropdownProps,
-} from "./shadcn-studio/blocks/app-shell-sidebar-user-dropdown";
-export { AppShellSidebarUserDropdown } from "./shadcn-studio/blocks/app-shell-sidebar-user-dropdown";
-export type { StatisticsActivityCardGovernedComponents } from "./shadcn-studio/blocks/statistics-activity-card";
-export { StatisticsActivityCard } from "./shadcn-studio/blocks/statistics-activity-card";
-export type { StatisticsLeadsCardGovernedComponents } from "./shadcn-studio/blocks/statistics-leads-card";
-export { StatisticsLeadsCard } from "./shadcn-studio/blocks/statistics-leads-card";
+} from "./presentation/blocks/app-shell-sidebar-user-dropdown";
+export { AppShellSidebarUserDropdown } from "./presentation/blocks/app-shell-sidebar-user-dropdown";
+export type { StatisticsActivityCardGovernedComponents } from "./presentation/blocks/statistics-activity-card";
+export { StatisticsActivityCard } from "./presentation/blocks/statistics-activity-card";
+export type { StatisticsLeadsCardGovernedComponents } from "./presentation/blocks/statistics-leads-card";
+export { StatisticsLeadsCard } from "./presentation/blocks/statistics-leads-card";
 export type {
   StatisticsLineTrendsCardGovernedComponents,
   StatisticsLineTrendsCardProps,
   StatisticsTrendSeries,
-} from "./shadcn-studio/blocks/statistics-line-trends-card";
-export { StatisticsLineTrendsCard } from "./shadcn-studio/blocks/statistics-line-trends-card";
-export type { StatisticsProfileTrafficCardGovernedComponents } from "./shadcn-studio/blocks/statistics-profile-traffic-card";
-export { StatisticsProfileTrafficCard } from "./shadcn-studio/blocks/statistics-profile-traffic-card";
-export type { StatisticsRevenueCardGovernedComponents } from "./shadcn-studio/blocks/statistics-revenue-card";
-export { StatisticsRevenueCard } from "./shadcn-studio/blocks/statistics-revenue-card";
+} from "./presentation/blocks/statistics-line-trends-card";
+export { StatisticsLineTrendsCard } from "./presentation/blocks/statistics-line-trends-card";
+export type { StatisticsProfileTrafficCardGovernedComponents } from "./presentation/blocks/statistics-profile-traffic-card";
+export { StatisticsProfileTrafficCard } from "./presentation/blocks/statistics-profile-traffic-card";
+export type { StatisticsRevenueCardGovernedComponents } from "./presentation/blocks/statistics-revenue-card";
+export { StatisticsRevenueCard } from "./presentation/blocks/statistics-revenue-card";
 export type {
   SystemAdminReadinessGateMetric,
   SystemAdminReadinessGateMetricsGovernedComponents,
-} from "./shadcn-studio/blocks/system-admin-readiness-gate-metrics";
-export { SystemAdminReadinessGateMetrics } from "./shadcn-studio/blocks/system-admin-readiness-gate-metrics";
+} from "./presentation/blocks/system-admin-readiness-gate-metrics";
+export { SystemAdminReadinessGateMetrics } from "./presentation/blocks/system-admin-readiness-gate-metrics";
 export {
   DEFAULT_APPLICATION_SHELL_ROLE_LABEL,
   DEFAULT_APPLICATION_SHELL_SEARCH_TRIGGER_LABEL,
-} from "./shadcn-studio/data/app-shell.chrome.constants";
+} from "./presentation/data/app-shell.chrome.constants";
 export {
   DEFAULT_APP_SHELL_DASHBOARD_COMPARISON_LABEL,
   DEFAULT_APP_SHELL_DASHBOARD_LABEL,
@@ -308,7 +308,7 @@ export {
   defaultAppShellDashboardRegionalSales,
   defaultAppShellDashboardSparklineMetrics,
   defaultAppShellDashboardTransactions,
-} from "./shadcn-studio/data/app-shell.dashboard.data";
+} from "./presentation/data/app-shell.dashboard.data";
 export type {
   AppShellDashboardInvoiceRow,
   AppShellDashboardKpiMetric,
@@ -320,7 +320,7 @@ export type {
   AppShellInvoiceId,
   AppShellTransactionDirection,
   AppShellTrendDirection,
-} from "./shadcn-studio/data/app-shell.dashboard.types";
+} from "./presentation/data/app-shell.dashboard.types";
 export type {
   AppShellActivityActor,
   AppShellActivityFileCardItem,
@@ -336,40 +336,40 @@ export type {
   AppShellNavIconId,
   AppShellNavItemSerializable,
   AppShellRecipientItem,
-} from "./shadcn-studio/data/app-shell.data";
+} from "./presentation/data/app-shell.data";
 export {
   defaultAppShellActivities,
   resolveAppShellNavIcon,
-} from "./shadcn-studio/data/app-shell.data";
-export type { AppShellLanguageOption } from "./shadcn-studio/data/app-shell.language.data";
+} from "./presentation/data/app-shell.data";
+export type { AppShellLanguageOption } from "./presentation/data/app-shell.language.data";
 export {
   DEFAULT_APP_SHELL_LANGUAGE_ID,
   defaultAppShellLanguages,
-} from "./shadcn-studio/data/app-shell.language.data";
+} from "./presentation/data/app-shell.language.data";
 export {
   DEFAULT_APP_SHELL_MAIN_CONTENT_LABEL,
   DEFAULT_APP_SHELL_MAIN_TITLE_ID,
-} from "./shadcn-studio/data/app-shell.main.constants";
+} from "./presentation/data/app-shell.main.constants";
 export type {
   AppShellNotificationActor,
   AppShellNotificationApprovalItem,
   AppShellNotificationAttachmentItem,
   AppShellNotificationItem,
   AppShellNotificationSimpleItem,
-} from "./shadcn-studio/data/app-shell.notification.data";
+} from "./presentation/data/app-shell.notification.data";
 export {
   countDefaultAppShellUnreadNotifications,
   countUnreadAppShellNotifications,
   defaultAppShellGeneralNotifications,
   defaultAppShellInboxNotifications,
-} from "./shadcn-studio/data/app-shell.notification.data";
+} from "./presentation/data/app-shell.notification.data";
 export type {
   AppShellPlaceholderKpiCard,
   AppShellPlaceholderModuleRow,
   AppShellPlaceholderOrderRow,
   AppShellPlaceholderSparklineCard,
   AppShellPlaceholderTrendDirection,
-} from "./shadcn-studio/data/app-shell.placeholder.data";
+} from "./presentation/data/app-shell.placeholder.data";
 export {
   APP_SHELL_PLACEHOLDER_MODULE_PERFORMANCE_SECTION_ID,
   APP_SHELL_PLACEHOLDER_RECENT_ORDERS_SECTION_ID,
@@ -383,11 +383,11 @@ export {
   defaultAppShellPlaceholderModules,
   defaultAppShellPlaceholderOrders,
   defaultAppShellPlaceholderSparklineCards,
-} from "./shadcn-studio/data/app-shell.placeholder.data";
+} from "./presentation/data/app-shell.placeholder.data";
 export type {
   AppShellProfileMenuGroup,
   AppShellProfileMenuItem,
-} from "./shadcn-studio/data/app-shell.profile.data";
+} from "./presentation/data/app-shell.profile.data";
 export {
   DEFAULT_APP_SHELL_PROFILE_AVATAR_SRC,
   DEFAULT_APP_SHELL_PROFILE_DISPLAY_NAME,
@@ -397,14 +397,14 @@ export {
   defaultAppShellProfileAdminActions,
   defaultAppShellProfileLogoutAction,
   defaultAppShellProfileMenuGroups,
-} from "./shadcn-studio/data/app-shell.profile.data";
+} from "./presentation/data/app-shell.profile.data";
 export type {
   AppShellSearchInteraction,
   AppShellSearchParticipant,
   AppShellSearchSuggestion,
   AppShellSearchUser,
   AppShellSearchUserStatusTone,
-} from "./shadcn-studio/data/app-shell.search.data";
+} from "./presentation/data/app-shell.search.data";
 export {
   DEFAULT_APP_SHELL_PARTICIPANT_OVERFLOW_LABEL,
   DEFAULT_APP_SHELL_SEARCH_CLOSE_HINT,
@@ -423,7 +423,7 @@ export {
   filterAppShellSearchInteractions,
   filterAppShellSearchSuggestions,
   filterAppShellSearchUsers,
-} from "./shadcn-studio/data/app-shell.search.data";
+} from "./presentation/data/app-shell.search.data";
 export {
   DEFAULT_APP_SHELL_SIDEBAR_USER_AVATAR_SRC,
   DEFAULT_APP_SHELL_SIDEBAR_USER_DISPLAY_NAME,
@@ -432,12 +432,13 @@ export {
   DEFAULT_APP_SHELL_SIDEBAR_USER_ROLE_LABEL,
   defaultAppShellSidebarUserLogoutAction,
   defaultAppShellSidebarUserMenuItems,
-} from "./shadcn-studio/data/app-shell.sidebar-user.data";
+} from "./presentation/data/app-shell.sidebar-user.data";
 export {
   DEFAULT_STATISTICS_COMPONENT_10_LABEL,
   DEFAULT_STATISTICS_METRIC_REPORT_CAPTION,
-} from "./shadcn-studio/data/statistics-component-10.data";
+} from "./presentation/data/statistics-component-10.data";
 export {
   DEFAULT_STATISTICS_LINE_TRENDS_LABEL,
   defaultStatisticsLineTrendsCards,
-} from "./shadcn-studio/data/statistics-line-trends.data";
+} from "./presentation/data/statistics-line-trends.data";
+export * from "./shadcn-studio-bridge/index.js";

@@ -1,6 +1,6 @@
-import type { Brand } from "../brand/brand.contract.js";
-import { unbrand } from "../brand/brand.contract.js";
-import { isCanonicalEnterpriseId } from "../canonical/canonical-id-parser.contract.js";
+import type { Brand } from "../brand/index.js";
+import { unbrand } from "../brand/index.js";
+import { isCanonicalEnterpriseId } from "../canonical/canonical-id-validator.contract.js";
 import { assertUuidV7WireForm } from "../postgres/uuid-v7-format.contract.js";
 import { TENANT_HUMAN_REFERENCE_PATTERN } from "../primitives/primitive-brand.helpers.js";
 

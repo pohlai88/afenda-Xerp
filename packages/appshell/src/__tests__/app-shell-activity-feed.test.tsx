@@ -1,7 +1,7 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { AppShellActivityFeed } from "../shadcn-studio/blocks/app-shell-activity-feed";
-import { defaultAppShellActivities } from "../shadcn-studio/data/app-shell.data";
+import { AppShellActivityFeed } from "../presentation/blocks/app-shell-activity-feed";
+import { defaultAppShellActivities } from "../presentation/data/app-shell.data";
 
 describe("AppShellActivityFeed", () => {
   it("renders the ERP activity feed with accessible list semantics", () => {

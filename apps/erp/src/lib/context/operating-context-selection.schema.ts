@@ -5,6 +5,7 @@ export const operatingContextSelectionHintsSchema = z
   .object({
     companySlug: z.string().trim().min(1).max(128).optional(),
     organizationSlug: z.string().trim().min(1).max(128).optional(),
+    projectSlug: z.string().trim().min(1).max(128).optional(),
   })
   .strict();
 

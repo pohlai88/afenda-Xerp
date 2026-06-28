@@ -1,21 +1,18 @@
-import type { OwnershipInterestAuthorityRecord } from "@afenda/database";
+import type { OwnershipInterestLookupRow } from "@afenda/database";
 import {
   type OwnershipInterestContext,
   parseUnknownOwnershipInterestContext,
 } from "@afenda/kernel";
 
 export function toOwnershipInterestContext(
-  record: OwnershipInterestAuthorityRecord
+  record: OwnershipInterestLookupRow
 ): OwnershipInterestContext {
-  const childLegalEntityId =
-    record.childLegalEntityId ?? record.investeeLegalEntityId;
-
   return parseUnknownOwnershipInterestContext({
-    ownershipInterestId: record.ownershipInterestId,
-    tenantId: record.tenantId,
-    entityGroupId: record.entityGroupId,
-    parentLegalEntityId: record.parentLegalEntityId,
-    childLegalEntityId,
+    ownershipInterestId: record.enterpriseId,
+    tenantId: record.tenantEnterpriseId,
+    entityGroupId: record.entityGroupEnterpriseId,
+    parentLegalEntityId: record.parentLegalEntityEnterpriseId,
+    childLegalEntityId: record.childLegalEntityEnterpriseId,
     ownershipPercentage: record.ownershipPercentage,
     votingPercentage: record.votingPercentage,
     controlType: record.controlType,

@@ -11,6 +11,10 @@ import {
   KERNEL_PROHIBITED_OWNERSHIP_CONCERN_IDS,
   listKernelProhibitedOwnershipConcerns,
 } from "../../packages/kernel/src/governance/kernel-prohibited-ownership.contract.ts";
+import {
+  extractPasBulletLabels,
+  slicePasSection,
+} from "./kernel-pas-section.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -29,24 +33,7 @@ const FORBIDDEN_KERNEL_IMPORT_PATTERNS = [
 ] as const;
 
 function extractPasSection5Labels(source: string): string[] {
-  const sectionStart = source.indexOf("# 5. What Kernel Must Never Own");
-  const sectionEnd = source.indexOf("# 6. Package Structure Standard");
-
-  if (sectionStart === -1 || sectionEnd === -1 || sectionEnd <= sectionStart) {
-    throw new Error("Could not locate PAS §5 boundaries in PAS-001.");
-  }
-
-  const section = source.slice(sectionStart, sectionEnd);
-  const labels: string[] = [];
-
-  for (const line of section.split("\n")) {
-    const match = /^\*\s+(.+)\s*$/.exec(line.trim());
-    if (match?.[1]) {
-      labels.push(match[1]);
-    }
-  }
-
-  return labels;
+  return extractPasBulletLabels(slicePasSection(source, 5, 6));
 }
 
 function collectSourceFiles(dir: string): string[] {

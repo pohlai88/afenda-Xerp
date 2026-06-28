@@ -60,8 +60,16 @@ export function buildCanonicalEnterpriseIdRegex(prefix: string): RegExp {
   return cached;
 }
 
-/** Governance compatibility alias — prefer `CANONICAL_ID_PATTERN_SOURCE`. */
+/**
+ * Governance compatibility alias — prefer `CANONICAL_ID_PATTERN_SOURCE`.
+ *
+ * @deprecated Use `CANONICAL_ID_PATTERN_SOURCE` — generic regex is format-tier only.
+ */
 export const ANY_CANONICAL_ENTERPRISE_ID_PATTERN = CANONICAL_ID_PATTERN_SOURCE;
 
-/** Governance compatibility alias — prefer `CANONICAL_ID_PATTERN`. */
+/**
+ * Governance compatibility alias — prefer `CANONICAL_ID_PATTERN`.
+ *
+ * @deprecated Use `CANONICAL_ID_PATTERN` — generic regex is format-tier only.
+ */
 export const ANY_CANONICAL_ENTERPRISE_ID_REGEX = CANONICAL_ID_PATTERN;

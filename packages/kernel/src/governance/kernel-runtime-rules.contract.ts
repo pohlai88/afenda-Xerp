@@ -94,9 +94,11 @@ export const KERNEL_APPROVED_RUNTIME_PRIMITIVES = {
     label: "Async context propagation only.",
     evidencePaths: [
       "packages/kernel/src/propagation/kernel-context-frame.contract.ts",
+      "packages/kernel/src/propagation/kernel-context-frame.assert.ts",
+      "packages/kernel/src/propagation/kernel-context-frame.parser.ts",
       "packages/kernel/src/propagation/kernel-context.ts",
       "packages/kernel/src/propagation/index.ts",
-      "packages/kernel/src/__tests__/kernel-context.test.ts",
+      "packages/kernel/src/propagation/__tests__/kernel-context.test.ts",
     ],
     apiSurface: [
       "kernelContext.run",

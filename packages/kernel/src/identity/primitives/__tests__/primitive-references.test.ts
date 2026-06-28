@@ -3,6 +3,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
+import { IDENTITY_MODULE_PRIMITIVE_FILES } from "../../governance/identity-module-layout.contract.js";
 import {
   PRIMITIVE_REFERENCE_COUNT,
   PRIMITIVE_REFERENCE_KEYS,
@@ -19,15 +20,11 @@ import {
 
 const primitiveDir = fileURLToPath(new URL("../", import.meta.url));
 
-const PRIMITIVE_CONTRACT_FILES = [
-  "locale-code.contract.ts",
-  "timezone-id.contract.ts",
-  "date-format.contract.ts",
-  "number-format.contract.ts",
-  "currency-code.contract.ts",
-  "country-code.contract.ts",
-  "uom-code.contract.ts",
-] as const;
+const PRIMITIVE_CONTRACT_FILES = IDENTITY_MODULE_PRIMITIVE_FILES.filter(
+  (fileName) =>
+    fileName.endsWith(".contract.ts") &&
+    fileName !== "primitive-brand.contract.ts"
+);
 
 describe("primitive references (PAS-001 §4.1.5 / Slice B4–B5)", () => {
   it("registers seven primitive references outside ID_FAMILIES", () => {
@@ -112,6 +109,23 @@ describe("primitive references (PAS-001 §4.1.5 / Slice B4–B5)", () => {
   it("accepts uppercase UOM code", () => {
     expect(parseUomCode("kg")).toBe("KG");
     expect(parseUomCode("PCS")).toBe("PCS");
+  });
+
+  it("serializes all seven primitive types as JSON strings", () => {
+    const samples = [
+      { branded: parseLocaleCode("en-US"), wire: "en-US" },
+      { branded: parseTimezoneId("UTC"), wire: "UTC" },
+      { branded: parseDateFormat("yyyy-MM-dd"), wire: "yyyy-MM-dd" },
+      { branded: parseNumberFormat("#,##0.00"), wire: "#,##0.00" },
+      { branded: parseCurrencyCode("MYR"), wire: "MYR" },
+      { branded: parseCountryCode("my"), wire: "MY" },
+      { branded: parseUomCode("kg"), wire: "KG" },
+    ];
+
+    for (const { branded, wire } of samples) {
+      expect(JSON.stringify(branded)).toBe(JSON.stringify(wire));
+      expect(JSON.parse(JSON.stringify(branded))).toBe(wire);
+    }
   });
 
   it("does not import parseCanonicalId or ID_FAMILIES in primitive contracts", () => {

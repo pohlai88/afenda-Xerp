@@ -1,12 +1,21 @@
 import { createTestEnterpriseId } from "@afenda/kernel";
+import {
+  InMemoryPolicyDataSource,
+  PERMISSION_REGISTRY,
+} from "@afenda/permissions";
 import { describe, expect, it } from "vitest";
 
 import {
   createModuleRouteOperatingContext,
+  createModuleRoutePermissionDataSource,
   MODULE_ROUTE_TEST_TENANT_ID,
 } from "@/lib/modules/__tests__/module-route-test-fixtures";
 
-import { resolveMetadataUiRenderContextFromOperatingContext } from "../resolve-metadata-ui-render-context.server";
+import { resolveMetadataAuthorizationFromOperatingContext } from "../resolve-metadata-authorization.server";
+import {
+  resolveMetadataUiRenderContextFromOperatingContext,
+  resolveMetadataUiRenderContextFromOperatingContextAsync,
+} from "../resolve-metadata-ui-render-context.server";
 
 const TEST_ENTITY_GROUP_ID = createTestEnterpriseId(
   "entityGroup",
@@ -29,7 +38,7 @@ describe("resolveMetadataUiRenderContextFromOperatingContext", () => {
 
     const context = resolveMetadataUiRenderContextFromOperatingContext({
       operatingContext,
-      permissions: ["workspace.dashboard.read"],
+      permissions: ["workspace.dashboard_read"],
       capabilities: ["metadata.workspace.preview"],
     });
 
@@ -41,7 +50,7 @@ describe("resolveMetadataUiRenderContextFromOperatingContext", () => {
       operatingContext.legalEntity.companyId
     );
     expect(context.runtime.correlationId).toBe("corr-metadata-bridge-test");
-    expect(context.runtime.permissions).toEqual(["workspace.dashboard.read"]);
+    expect(context.runtime.permissions).toEqual(["workspace.dashboard_read"]);
     expect(context.runtime.capabilities).toEqual([
       "metadata.workspace.preview",
     ]);
@@ -51,6 +60,49 @@ describe("resolveMetadataUiRenderContextFromOperatingContext", () => {
     expect(context.runtime.entityGroupId).toBeUndefined();
     expect(context.runtime.teamId).toBeUndefined();
     expect(context.runtime.projectId).toBeUndefined();
+    expect(context.runtime.policyDecision).toEqual({ kind: "allow" });
+    expect(context.runtime.permissionModelDescriptors).toEqual([
+      {
+        module: "workspace",
+        action: "read",
+        scope: "legal_entity",
+      },
+    ]);
+  });
+
+  it("composes metadata runtime from live authorization evaluation", async () => {
+    const operatingContext = createModuleRouteOperatingContext({
+      correlationId: "corr-live-metadata-bridge",
+    });
+
+    const permissionDataSource = createModuleRoutePermissionDataSource([
+      PERMISSION_REGISTRY.workspace.dashboard.read,
+    ]);
+
+    const authorization =
+      await resolveMetadataAuthorizationFromOperatingContext({
+        operatingContext,
+        permissionDataSource,
+        policyDataSource: new InMemoryPolicyDataSource(),
+      });
+
+    const context =
+      await resolveMetadataUiRenderContextFromOperatingContextAsync({
+        operatingContext,
+        authorization,
+      });
+
+    expect(context.runtime.policyDecision).toEqual({ kind: "allow" });
+    expect(context.runtime.permissions).toEqual([
+      PERMISSION_REGISTRY.workspace.dashboard.read,
+    ]);
+    expect(context.runtime.permissionModelDescriptors).toEqual([
+      {
+        module: "workspace",
+        action: "read",
+        scope: "legal_entity",
+      },
+    ]);
   });
 
   it("maps optional hierarchy scope carriers when operating context slots are set", () => {

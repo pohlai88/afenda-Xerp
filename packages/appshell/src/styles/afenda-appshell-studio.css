@@ -1,6 +1,13 @@
 /**
  * @afenda/appshell — Canonical shadcn/studio pattern layer.
  *
+ * PAS-005A B42l — Consolidation intent (no css-authority JSON mutation):
+ * - Reusable cross-block patterns live here (.app-shell-studio-*).
+ * - Block-local statistics card geometry (.app-shell-statistics-metric-*) stays in
+ *   afenda-appshell.css — intentionally separate namespace, not duplicated here.
+ * - KPI/sparkline dashboard widgets consume §B–C; governed statistics cards consume
+ *   afenda-appshell.css §statistics-metric until a future css-authority alignment slice.
+ *
  * Purpose: Reusable visual patterns extracted from shadcn/studio MCP output.
  * Apps MUST NOT import this file directly — it is an internal implementation
  * detail of afenda-appshell.css, which @imports it.
@@ -20,7 +27,9 @@
  * L. Auth         — login-page-04 + error-page-02 (.app-shell-studio-auth-*)
  *
  * NOTE: Statistics metric (§G) and trend (§H) patterns are block-local geometry
- * in afenda-appshell.css. Chart token bridge vars are defined in Section A below.
+ * in afenda-appshell.css (.app-shell-statistics-metric-*). Do not duplicate those
+ * selectors here — B42l verified namespace split (studio-metric vs statistics-metric).
+ * Chart token bridge vars are defined in Section A below.
  *
  * Rule: New studio patterns land here only when reusable across ≥2 blocks.
  * Block-local geometry stays in afenda-appshell.css.

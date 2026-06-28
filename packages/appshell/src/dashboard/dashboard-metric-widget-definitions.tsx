@@ -1,11 +1,11 @@
-import { AppShellDashboardKpiStat } from "../shadcn-studio/blocks/app-shell-dashboard-kpi-stat";
-import { AppShellDashboardStatisticsExpenseCard } from "../shadcn-studio/blocks/app-shell-dashboard-statistics-expense-card";
-import { AppShellDashboardStatisticsIncomeCard } from "../shadcn-studio/blocks/app-shell-dashboard-statistics-income-card";
+import { AppShellDashboardKpiStat } from "../presentation/blocks/app-shell-dashboard-kpi-stat";
 import {
   DEFAULT_APP_SHELL_DASHBOARD_COMPARISON_LABEL,
   defaultAppShellDashboardKpiMetrics,
   defaultAppShellDashboardSparklineMetrics,
-} from "../shadcn-studio/data/app-shell.dashboard.data";
+} from "../presentation/data/app-shell.dashboard.data";
+import { AppShellDashboardStatisticsExpenseCard } from "../presentation/wrappers/dashboard/statistics-expense-card.wrapper";
+import { AppShellDashboardStatisticsIncomeCard } from "../presentation/wrappers/dashboard/statistics-income-card.wrapper";
 import type {
   DashboardKpiWidgetId,
   DashboardSparklineWidgetId,

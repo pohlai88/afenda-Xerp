@@ -19,12 +19,25 @@ export type Result<TValue, E = Error> =
   | ResultSuccess<TValue>
   | ResultFailure<E>;
 
+/** Wire-safe result alias — PAS-001 §4.2 string error boundary. */
+export type WireResult<TValue> = Result<TValue, string>;
+
 export function ok<TValue>(value: TValue): ResultSuccess<TValue> {
   return { ok: true, value };
 }
 
 export function err<E = Error>(error: E): ResultFailure<E> {
   return { ok: false, error };
+}
+
+/** Wire-safe success helper — PAS-001 §4.2 string error boundary. */
+export function okWire<T>(value: T): ResultSuccess<T> {
+  return { ok: true, value };
+}
+
+/** Wire-safe failure helper — JSON-serializable string error egress. */
+export function errWire(message: string): ResultFailure<string> {
+  return { ok: false, error: message };
 }
 
 export function isOk<TValue, E>(

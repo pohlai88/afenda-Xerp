@@ -9,8 +9,8 @@ import {
   MANIFEST_MODULE_IDS,
   MANIFEST_MODULE_NAV_ICON_MAP,
 } from "../contracts/navigation.contract.js";
-import type { AppShellMenuItem } from "../shadcn-studio/data/app-shell.data";
-import { resolveAppShellNavIcon } from "../shadcn-studio/data/app-shell.data";
+import type { AppShellMenuItem } from "../presentation/data/app-shell.data";
+import { resolveAppShellNavIcon } from "../presentation/data/app-shell.data";
 
 export type {
   ManifestModuleId,

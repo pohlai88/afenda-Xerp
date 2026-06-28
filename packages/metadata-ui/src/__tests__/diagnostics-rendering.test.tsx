@@ -76,6 +76,59 @@ describe("diagnostics rendering", () => {
     ).not.toBeNull();
   });
 
+  it("shows policy decision in verbose diagnostics when runtime carries wire snapshot", () => {
+    const policyContext = createMetadataUiRenderContext({
+      runtime: {
+        ...sampleDiagnosticsRuntimeContext,
+        policyDecision: { kind: "gate", reason: "plan_required" },
+      },
+      source: "static-preview",
+      diagnosticsLevel: "verbose",
+    });
+    const policySnapshot = createMetadataDiagnosticsSnapshot(policyContext);
+
+    render(
+      <MetadataDiagnosticsPanel
+        context={policyContext}
+        snapshot={policySnapshot}
+      />
+    );
+
+    expect(screen.getByText("gate:plan_required")).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-diagnostics-key="policy-decision"]')
+    ).not.toBeNull();
+  });
+
+  it("shows permission model descriptors in verbose diagnostics when runtime carries wire snapshots", () => {
+    const permissionContext = createMetadataUiRenderContext({
+      runtime: {
+        ...sampleDiagnosticsRuntimeContext,
+        permissionModelDescriptors: [
+          { module: "fixture.orders", action: "read", scope: "legal_entity" },
+        ],
+      },
+      source: "static-preview",
+      diagnosticsLevel: "verbose",
+    });
+    const permissionSnapshot =
+      createMetadataDiagnosticsSnapshot(permissionContext);
+
+    render(
+      <MetadataDiagnosticsPanel
+        context={permissionContext}
+        snapshot={permissionSnapshot}
+      />
+    );
+
+    expect(
+      screen.getByText("fixture.orders.read@legal_entity")
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-diagnostics-key="permission-model"]')
+    ).not.toBeNull();
+  });
+
   it("renders structured render trace with runtime state", () => {
     const traceSnapshot = createMetadataDiagnosticsSnapshot(
       sampleDiagnosticsRenderContext,

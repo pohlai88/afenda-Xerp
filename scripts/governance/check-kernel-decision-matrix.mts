@@ -12,6 +12,7 @@ import {
   type KernelDecisionMatrixBelongsInKernel,
   listKernelDecisionMatrixRows,
 } from "../../packages/kernel/src/governance/kernel-decision-matrix.contract.ts";
+import { slicePasSection } from "./kernel-pas-section.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -74,14 +75,7 @@ function isTableSeparator(cells: string[]): boolean {
 }
 
 function extractPasSection7Rows(source: string): PasDecisionMatrixRow[] {
-  const sectionStart = source.indexOf("# 7. Decision Matrix");
-  const sectionEnd = source.indexOf("# 8. Permission Model Standard");
-
-  if (sectionStart === -1 || sectionEnd === -1 || sectionEnd <= sectionStart) {
-    throw new Error("Could not locate PAS §7 boundaries in PAS-001.");
-  }
-
-  const section = source.slice(sectionStart, sectionEnd);
+  const section = slicePasSection(source, 7, 8);
   const rows: PasDecisionMatrixRow[] = [];
 
   for (const line of section.split("\n")) {

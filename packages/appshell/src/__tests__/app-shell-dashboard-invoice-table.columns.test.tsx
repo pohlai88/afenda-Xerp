@@ -8,9 +8,9 @@ import {
   formatInvoiceCurrency,
   formatIssuedDate,
   resolveInvoiceStatusLabelFromFilterValue,
-} from "../shadcn-studio/blocks/app-shell-dashboard-invoice-table.columns";
-import type { AppShellDashboardInvoiceRow } from "../shadcn-studio/data/app-shell.dashboard.types";
-import { asAppShellInvoiceId } from "../shadcn-studio/data/app-shell.dashboard.types";
+} from "../presentation/blocks/app-shell-dashboard-invoice-table.columns";
+import type { AppShellDashboardInvoiceRow } from "../presentation/data/app-shell.dashboard.types";
+import { asAppShellInvoiceId } from "../presentation/data/app-shell.dashboard.types";
 
 describe("app-shell-dashboard-invoice-table.columns", () => {
   it("formats invoice currency and issued dates", () => {

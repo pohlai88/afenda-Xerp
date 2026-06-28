@@ -4,6 +4,10 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY } from "@/lib/context/operating-context-protected-surface.registry";
+import {
+  isPreAuthServerActionExempt,
+  PRE_AUTH_SERVER_ACTION_EXEMPT_PATHS,
+} from "@/lib/context/pre-auth-server-action.exempt";
 import { rejectUntrustedAuthorityFields } from "@/lib/context/reject-untrusted-authority-fields";
 import { UNTRUSTED_CLIENT_AUTHORITY_FIELD_KEYS } from "@/lib/context/untrusted-client-authority.server";
 import { parseProtectedActionInput } from "@/lib/server-actions/parse-protected-action-input";
@@ -103,6 +107,10 @@ describe("operating-context integration — protected server actions", () => {
 
   for (const relativePath of protectedServerActions) {
     it(`${relativePath} resolves operating context via resolveActionOperatingContext`, () => {
+      if (isPreAuthServerActionExempt(relativePath)) {
+        return;
+      }
+
       const source = readAppSource(relativePath);
       const delegatesOperatingContext =
         source.includes("resolveActionOperatingContext") ||
@@ -111,11 +119,30 @@ describe("operating-context integration — protected server actions", () => {
     });
 
     it(`${relativePath} does not trust session for tenant scope`, () => {
+      if (isPreAuthServerActionExempt(relativePath)) {
+        return;
+      }
+
       const source = readAppSource(relativePath);
       expect(source).not.toMatch(/session\.user\.tenantId/);
       expect(source).not.toMatch(/session\.user\.companyId/);
     });
   }
+
+  it("pre-auth server actions are exempt from operating context resolution", () => {
+    expect(PRE_AUTH_SERVER_ACTION_EXEMPT_PATHS).toEqual(
+      expect.arrayContaining([
+        "src/lib/auth/auth-mfa-challenge.action.ts",
+        "src/lib/auth/security-review.action.ts",
+      ])
+    );
+
+    for (const exemptPath of PRE_AUTH_SERVER_ACTION_EXEMPT_PATHS) {
+      expect(protectedServerActions).toContain(exemptPath);
+      const source = readAppSource(exemptPath);
+      expect(source).not.toContain("resolveActionOperatingContext");
+    }
+  });
 
   for (const relativePath of protectedServerActions.filter((path) =>
     path.includes("/actions/")

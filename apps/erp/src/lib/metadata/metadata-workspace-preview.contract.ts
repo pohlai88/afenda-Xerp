@@ -29,3 +29,18 @@ export const METADATA_WORKSPACE_PREVIEW_ACTIONS = [
     },
   },
 ] as const satisfies readonly MetadataRenderableAction[];
+
+export function resolveMetadataWorkspacePreviewActions(input: {
+  readonly authorizationDenied: boolean;
+}): readonly MetadataRenderableAction[] {
+  return METADATA_WORKSPACE_PREVIEW_ACTIONS.map((action) => {
+    if (action.key !== "refresh-workspace-preview") {
+      return action;
+    }
+
+    return {
+      ...action,
+      visibility: input.authorizationDenied ? "disabled" : "visible",
+    } satisfies MetadataRenderableAction;
+  });
+}

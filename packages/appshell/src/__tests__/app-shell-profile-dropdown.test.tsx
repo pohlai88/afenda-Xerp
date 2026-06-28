@@ -5,12 +5,12 @@ import { describe, expect, it } from "vitest";
 import {
   AppShellProfileDropdown,
   type AppShellProfileDropdownProps,
-} from "../shadcn-studio/blocks/app-shell-profile-dropdown";
+} from "../presentation/blocks/app-shell-profile-dropdown";
 import {
   DEFAULT_APP_SHELL_PROFILE_DISPLAY_NAME,
   DEFAULT_APP_SHELL_PROFILE_EMAIL,
   defaultAppShellProfileLogoutAction,
-} from "../shadcn-studio/data/app-shell.profile.data";
+} from "../presentation/data/app-shell.profile.data";
 
 function renderProfileDropdown(
   props: Partial<AppShellProfileDropdownProps> = {}

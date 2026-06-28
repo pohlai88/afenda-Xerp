@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { buildDashboardPaginationRange } from "../shadcn-studio/blocks/app-shell-dashboard-pagination";
+import { buildDashboardPaginationRange } from "../presentation/blocks/app-shell-dashboard-pagination";
 
 describe("buildDashboardPaginationRange", () => {
   it("returns an empty range when totalPages is zero", () => {

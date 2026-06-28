@@ -27,7 +27,7 @@ function listBlockEntries(): string[] {
     .sort();
 }
 
-describe("B42c MCP live seed inventory", () => {
+describe("MCP live seed inventory (B42c + B42e + B42f + B42g)", () => {
   it("seeds at least five ui primitives under src/components/ui/", () => {
     const uiFiles = listUiPrimitiveFiles();
     expect(uiFiles.length).toBeGreaterThanOrEqual(5);
@@ -38,18 +38,30 @@ describe("B42c MCP live seed inventory", () => {
         "input.tsx",
         "label.tsx",
         "select.tsx",
+        "table.tsx",
+        "chart.tsx",
       ])
     );
   });
 
   it("installs live MCP blocks under src/components/shadcn-studio/blocks/", () => {
     const blockEntries = listBlockEntries();
-    expect(blockEntries.length).toBeGreaterThanOrEqual(4);
+    expect(blockEntries.length).toBeGreaterThanOrEqual(20);
     expect(blockEntries).toEqual(
       expect.arrayContaining([
+        "account-settings-01",
+        "account-settings-07",
+        "error-page-02",
         "hero-section-01",
         "login-page-04",
+        "menu-trigger.tsx",
+        "sidebar-user-dropdown.tsx",
         "statistics-card-01.tsx",
+        "statistics-card-03.tsx",
+        "statistics-trend-card.tsx",
+        "datatable-invoice.tsx",
+        "widget-sales-by-countries.tsx",
+        "widget-total-earning.tsx",
       ])
     );
   });

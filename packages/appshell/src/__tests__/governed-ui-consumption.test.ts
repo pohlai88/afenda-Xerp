@@ -96,7 +96,7 @@ describe("governed UI consumption (TIP-004)", () => {
   it("shell composition: AppShellModuleWorkspaceChrome passes TIP-004 (no @afenda/ui className)", () => {
     const blockPath = join(
       srcDir,
-      "shadcn-studio/blocks/app-shell-module-workspace-chrome.tsx"
+      "presentation/blocks/app-shell-module-workspace-chrome.tsx"
     );
     const repoRelative = relative(
       join(packageRoot, "../.."),

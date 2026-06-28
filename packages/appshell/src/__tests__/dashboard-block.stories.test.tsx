@@ -2,18 +2,18 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import * as invoiceTableStories from "../shadcn-studio/blocks/app-shell-dashboard-invoice-table.stories";
-import * as kpiStatStories from "../shadcn-studio/blocks/app-shell-dashboard-kpi-stat.stories";
-import * as moduleEarningsStories from "../shadcn-studio/blocks/app-shell-dashboard-module-earnings.stories";
-import * as paymentHistoryStories from "../shadcn-studio/blocks/app-shell-dashboard-payment-history.stories";
-import * as recentTransactionsStories from "../shadcn-studio/blocks/app-shell-dashboard-recent-transactions.stories";
-import * as regionalSalesStories from "../shadcn-studio/blocks/app-shell-dashboard-regional-sales.stories";
-import * as revenueChartStories from "../shadcn-studio/blocks/app-shell-dashboard-revenue-chart.stories";
-import * as sparklineStatStories from "../shadcn-studio/blocks/app-shell-dashboard-sparkline-stat.stories";
-import * as statisticsExpenseCardStories from "../shadcn-studio/blocks/app-shell-dashboard-statistics-expense-card.stories";
-import * as statisticsIncomeCardStories from "../shadcn-studio/blocks/app-shell-dashboard-statistics-income-card.stories";
-import * as statisticsLineTrendsStories from "../shadcn-studio/blocks/app-shell-dashboard-statistics-line-trends.stories";
-import * as statisticsMetricsStories from "../shadcn-studio/blocks/app-shell-dashboard-statistics-metrics.stories";
+import * as invoiceTableStories from "../presentation/blocks/app-shell-dashboard-invoice-table.stories";
+import * as kpiStatStories from "../presentation/blocks/app-shell-dashboard-kpi-stat.stories";
+import * as moduleEarningsStories from "../presentation/blocks/app-shell-dashboard-module-earnings.stories";
+import * as paymentHistoryStories from "../presentation/blocks/app-shell-dashboard-payment-history.stories";
+import * as recentTransactionsStories from "../presentation/blocks/app-shell-dashboard-recent-transactions.stories";
+import * as regionalSalesStories from "../presentation/blocks/app-shell-dashboard-regional-sales.stories";
+import * as revenueChartStories from "../presentation/blocks/app-shell-dashboard-revenue-chart.stories";
+import * as sparklineStatStories from "../presentation/blocks/app-shell-dashboard-sparkline-stat.stories";
+import * as statisticsExpenseCardStories from "../presentation/blocks/app-shell-dashboard-statistics-expense-card.stories";
+import * as statisticsIncomeCardStories from "../presentation/blocks/app-shell-dashboard-statistics-income-card.stories";
+import * as statisticsLineTrendsStories from "../presentation/blocks/app-shell-dashboard-statistics-line-trends.stories";
+import * as statisticsMetricsStories from "../presentation/blocks/app-shell-dashboard-statistics-metrics.stories";
 import {
   composePortableStories,
   composePortableStory,
@@ -206,7 +206,7 @@ describe("Dashboard block stories (portable CSF)", () => {
   });
 
   it("C5: dashboard block stories import Lucide icons only", () => {
-    const blockDir = join(import.meta.dirname, "../shadcn-studio/blocks");
+    const blockDir = join(import.meta.dirname, "../presentation/blocks");
     const blockFiles = readdirSync(blockDir).filter(
       (name) => name.endsWith(".tsx") && !name.endsWith(".stories.tsx")
     );

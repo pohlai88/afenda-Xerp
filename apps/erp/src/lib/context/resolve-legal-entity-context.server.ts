@@ -30,6 +30,8 @@ export interface ResolvedLegalEntityContext {
   /** Internal uuid PK for database FK lookups — not branded `CompanyId`. */
   readonly companyPk: string;
   readonly entityGroup: EntityGroupContext | null;
+  /** Internal uuid PK for entity group FK lookups — not branded `EntityGroupId`. */
+  readonly entityGroupPk: string | null;
   readonly legalEntity: LegalEntityContext;
 }
 
@@ -219,8 +221,9 @@ export async function resolveLegalEntityContext(
     companyResult.value,
     input.tenant.tenantId
   );
-  const entityGroupRow = legalEntity.entityGroupId
-    ? await findEntityGroupById(legalEntity.entityGroupId, input.db)
+  const entityGroupUuid = companyResult.value.entityGroupId;
+  const entityGroupRow = entityGroupUuid
+    ? await findEntityGroupById(entityGroupUuid, input.db)
     : null;
 
   const entityGroupBoundaryError = verifyEntityGroupBoundary({
@@ -234,6 +237,8 @@ export async function resolveLegalEntityContext(
   }
 
   return ok({
+    companyPk: companyResult.value.id,
+    entityGroupPk: entityGroupRow?.id ?? null,
     legalEntity,
     entityGroup: entityGroupRow
       ? toEntityGroupContext(entityGroupRow, input.tenant.tenantId)

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { AppShellApplicationShell02SystemAdminChrome } from "../shadcn-studio/blocks/app-shell-application-shell-02";
+import { AppShellApplicationShell02SystemAdminChrome } from "../presentation/blocks/app-shell-application-shell-02";
 
 describe("AppShellApplicationShell02SystemAdminChrome", () => {
   it("renders section nav from system-admin sections", () => {

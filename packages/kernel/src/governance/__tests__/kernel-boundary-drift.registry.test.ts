@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  ENTERPRISE_ID_FAMILIES,
+  FORBIDDEN_PLATFORM_FLOOR_ID_SYMBOLS,
+  ID_FAMILIES,
+} from "../../identity/registry/id-family.registry.js";
+import {
   getKernelBoundaryDriftEntry,
   isKernelBoundaryDriftEntryId,
   isKernelBoundaryDriftPath,
@@ -39,7 +44,22 @@ describe("kernel boundary drift registry (PAS-001 refactor lock)", () => {
       "accounting-id-forbidden-floor-symbols"
     );
     expect(entry.disposition).toBe("quarantine_subpath_only");
+    expect(entry.refactorStatus).toBe("pending");
     expect(entry.ownerTarget).toContain("@afenda/accounting");
+    expect(entry.kernelPath).toBe(
+      "packages/kernel/src/erp-domain/accounting/accounting-id.contract.ts"
+    );
+
+    for (const symbol of FORBIDDEN_PLATFORM_FLOOR_ID_SYMBOLS) {
+      expect(entry.rationale).toContain(symbol);
+    }
+
+    const enterpriseTypeNames = ENTERPRISE_ID_FAMILIES.map(
+      (family) => ID_FAMILIES[family].typeName
+    );
+    for (const forbidden of FORBIDDEN_PLATFORM_FLOOR_ID_SYMBOLS) {
+      expect(enterpriseTypeNames).not.toContain(forbidden);
+    }
   });
 
   it("confirms CountryCode primitive belongs in kernel", () => {
@@ -77,6 +97,25 @@ describe("kernel boundary drift registry (PAS-001 refactor lock)", () => {
     expect(isKernelBoundaryDriftEntryId("unknown-entry")).toBe(false);
     expect(KERNEL_BOUNDARY_DRIFT_ENTRIES["contracts-brand-shim"].id).toBe(
       "contracts-brand-shim"
+    );
+  });
+
+  it("remains JSON-serializable for documentation and drift gates", () => {
+    const serialized = JSON.parse(
+      JSON.stringify({
+        policy: KERNEL_BOUNDARY_DRIFT_POLICY,
+        entries: listKernelBoundaryDriftEntries(),
+      })
+    ) as {
+      policy: typeof KERNEL_BOUNDARY_DRIFT_POLICY;
+      entries: ReturnType<typeof listKernelBoundaryDriftEntries>;
+    };
+
+    expect(serialized.policy.entryCount).toBe(
+      KERNEL_BOUNDARY_DRIFT_ENTRY_IDS.length
+    );
+    expect(serialized.entries).toHaveLength(
+      KERNEL_BOUNDARY_DRIFT_ENTRY_IDS.length
     );
   });
 });

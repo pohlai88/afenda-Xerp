@@ -18,6 +18,8 @@ const parentLegalEntityCompany = alias(
   companies,
   "parent_legal_entity_company"
 );
+const parentOrganization = alias(organizations, "parent_organization");
+const companyEntityGroup = alias(entityGroups, "company_entity_group");
 
 export interface TenantLookupRow {
   readonly enterpriseId: string;
@@ -35,6 +37,7 @@ export interface CompanyLookupRow {
   readonly effectiveFrom: string | null;
   readonly effectiveTo: string | null;
   readonly enterpriseId: string;
+  readonly entityGroupEnterpriseId: string | null;
   readonly entityGroupId: string | null;
   readonly fiscalCalendarId: string | null;
   readonly id: string;
@@ -51,6 +54,7 @@ const companyLookupSelect = {
   enterpriseId: companies.enterpriseId,
   tenantId: companies.tenantId,
   entityGroupId: companies.entityGroupId,
+  entityGroupEnterpriseId: companyEntityGroup.enterpriseId,
   slug: companies.slug,
   legalName: companies.legalName,
   displayName: companies.displayName,
@@ -84,6 +88,7 @@ export interface OrganizationLookupRow {
   readonly enterpriseId: string;
   readonly id: string;
   readonly name: string;
+  readonly parentOrganizationEnterpriseId: string | null;
   readonly parentOrganizationId: string | null;
   readonly slug: string;
   readonly status: OrganizationStatus;
@@ -101,6 +106,7 @@ const organizationLookupSelect = {
   name: organizations.name,
   type: organizations.type,
   parentOrganizationId: organizations.parentOrganizationId,
+  parentOrganizationEnterpriseId: parentOrganization.enterpriseId,
   status: organizations.status,
   effectiveFrom: organizations.effectiveFrom,
   effectiveTo: organizations.effectiveTo,
@@ -115,6 +121,7 @@ type CompanyLookupSelectRow = {
   readonly displayName: string;
   readonly effectiveFrom: string | null;
   readonly effectiveTo: string | null;
+  readonly entityGroupEnterpriseId: string | null;
   readonly entityGroupId: string | null;
   readonly enterpriseId: string | null;
   readonly fiscalCalendarId: string | null;
@@ -135,6 +142,7 @@ type OrganizationLookupSelectRow = {
   readonly enterpriseId: string | null;
   readonly id: string;
   readonly name: string;
+  readonly parentOrganizationEnterpriseId: string | null;
   readonly parentOrganizationId: string | null;
   readonly slug: string;
   readonly status: OrganizationStatus;
@@ -264,6 +272,10 @@ export async function findCompanyByTenantAndSlug(
   const [row] = await db
     .select(companyLookupSelect)
     .from(companies)
+    .leftJoin(
+      companyEntityGroup,
+      eq(companies.entityGroupId, companyEntityGroup.id)
+    )
     .where(and(eq(companies.tenantId, tenantId), eq(companies.slug, slug)))
     .limit(1);
 
@@ -277,6 +289,10 @@ export async function findCompanyById(
   const [row] = await db
     .select(companyLookupSelect)
     .from(companies)
+    .leftJoin(
+      companyEntityGroup,
+      eq(companies.entityGroupId, companyEntityGroup.id)
+    )
     .where(eq(companies.id, companyId))
     .limit(1);
 
@@ -292,6 +308,10 @@ export async function findOrganizationByCompanyAndSlug(
     .select(organizationLookupSelect)
     .from(organizations)
     .innerJoin(companies, eq(organizations.companyId, companies.id))
+    .leftJoin(
+      parentOrganization,
+      eq(organizations.parentOrganizationId, parentOrganization.id)
+    )
     .where(
       and(eq(organizations.companyId, companyId), eq(organizations.slug, slug))
     )
@@ -308,6 +328,10 @@ export async function findOrganizationById(
     .select(organizationLookupSelect)
     .from(organizations)
     .innerJoin(companies, eq(organizations.companyId, companies.id))
+    .leftJoin(
+      parentOrganization,
+      eq(organizations.parentOrganizationId, parentOrganization.id)
+    )
     .where(eq(organizations.id, organizationId))
     .limit(1);
 
@@ -349,6 +373,10 @@ export async function findActiveCompaniesByEntityGroupId(
   const rows = await db
     .select(companyLookupSelect)
     .from(companies)
+    .leftJoin(
+      companyEntityGroup,
+      eq(companies.entityGroupId, companyEntityGroup.id)
+    )
     .where(
       and(
         eq(companies.entityGroupId, entityGroupId),

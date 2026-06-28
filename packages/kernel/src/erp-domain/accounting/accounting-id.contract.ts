@@ -1,5 +1,5 @@
-import type { Brand } from "../../identity/brand/brand.contract.js";
-import { unbrand } from "../../identity/brand/brand.contract.js";
+import type { Brand } from "../../identity/brand/index.js";
+import { unbrand } from "../../identity/brand/index.js";
 
 function brandTrimRequired<T extends string>(
   value: string | Brand<string, T>,

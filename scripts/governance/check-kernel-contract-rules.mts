@@ -7,10 +7,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import {
-  KERNEL_CONTRACT_RULE_IDS,
-  KERNEL_CONTRACT_RULES,
-} from "../../packages/kernel/src/governance/kernel-contract-rules.policy.ts";
+import { KERNEL_CONTRACT_RULE_IDS } from "../../packages/kernel/src/governance/kernel-contract-rules.policy.ts";
 import { RETIRED_KERNEL_PLATFORM_ID_PATHS } from "../../packages/kernel/src/identity/governance/identity-module-layout.contract.ts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -224,17 +221,9 @@ function findModuleScopeSideEffects(
 export function checkKernelContractRules(): KernelContractRulesViolation[] {
   const violations: KernelContractRulesViolation[] = [];
 
-  if (KERNEL_CONTRACT_RULES.length !== 14) {
-    violations.push({
-      rule: "policy-rule-count",
-      file: join(kernelSrcRoot, "governance/kernel-contract-rules.policy.ts"),
-      message: `Expected 14 PAS §9 rules, found ${KERNEL_CONTRACT_RULES.length}`,
-    });
-  }
-
   if (KERNEL_CONTRACT_RULE_IDS.length !== 14) {
     violations.push({
-      rule: "policy-rule-id-count",
+      rule: "policy-rule-count",
       file: join(kernelSrcRoot, "governance/kernel-contract-rules.policy.ts"),
       message: `Expected 14 PAS §9 rule ids, found ${KERNEL_CONTRACT_RULE_IDS.length}`,
     });

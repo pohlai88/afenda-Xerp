@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { AppShellModuleWorkspaceChrome } from "./shadcn-studio/blocks/app-shell-module-workspace-chrome.js";
+import { AppShellModuleWorkspaceChrome } from "./presentation/blocks/app-shell-module-workspace-chrome.js";
 
 const meta = {
   title: "AppShell/Module Workspace Chrome",

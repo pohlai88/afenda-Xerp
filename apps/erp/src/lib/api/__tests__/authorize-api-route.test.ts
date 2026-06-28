@@ -329,6 +329,17 @@ describe("authorizeApiRoute", () => {
 
     expect(result.apiCode).toBe("forbidden");
     expect(result.denialCode).toBe("permission_denied");
+    expect(result.evaluation).toEqual({
+      authorizationDenialCode: "permission_denied",
+      decision: expect.objectContaining({
+        permissionKey: PERMISSION_REGISTRY.workspace.dashboard.read,
+        result: "deny",
+      }),
+      operatingContext: expect.objectContaining({
+        tenant: expect.objectContaining({ tenantId: TENANT_ID }),
+      }),
+      permissionKey: PERMISSION_REGISTRY.workspace.dashboard.read,
+    });
   });
 
   it("allows authorized actor with verified operating context", async () => {

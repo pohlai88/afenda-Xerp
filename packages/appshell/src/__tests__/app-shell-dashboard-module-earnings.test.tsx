@@ -6,8 +6,8 @@ import {
   buildModuleEarningsSummary,
   buildRankedModuleEarningRows,
   computeTotalModuleEarnings,
-} from "../shadcn-studio/blocks/app-shell-dashboard-module-earnings";
-import { defaultAppShellDashboardModuleEarnings } from "../shadcn-studio/data/app-shell.dashboard.data";
+} from "../presentation/blocks/app-shell-dashboard-module-earnings";
+import { defaultAppShellDashboardModuleEarnings } from "../presentation/data/app-shell.dashboard.data";
 
 describe("AppShellDashboardModuleEarnings", () => {
   it("ranks modules by revenue amount descending", () => {

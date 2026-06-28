@@ -21,3 +21,10 @@ export {
   type UpdateProjectInput,
   updateProject,
 } from "./project.service.js";
+export {
+  findProjectByEnterpriseId,
+  findProjectById,
+  findProjectByTenantAndSlug,
+  isProjectOperational,
+  type ProjectLookupRow,
+} from "./project-lookup.service.js";

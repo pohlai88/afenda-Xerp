@@ -1,4 +1,4 @@
-import type { Brand } from "../brand/brand.contract.js";
+import type { Brand } from "../brand/index.js";
 
 /**
  * PAS-001 §4.1.5 — nominal brand for globally shared primitive references.

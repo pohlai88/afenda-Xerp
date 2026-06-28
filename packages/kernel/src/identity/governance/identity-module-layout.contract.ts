@@ -41,6 +41,33 @@ export const IDENTITY_MODULE_FAMILY_FILES = [
 export type IdentityModuleFamilyFile =
   (typeof IDENTITY_MODULE_FAMILY_FILES)[number];
 
+/** Approved contract files under `identity/brand/` (PAS §4.1.2 brand utility layout). */
+export const IDENTITY_MODULE_BRAND_FILES = [
+  "index.ts",
+  "brand.contract.ts",
+] as const;
+
+export type IdentityModuleBrandFile =
+  (typeof IDENTITY_MODULE_BRAND_FILES)[number];
+
+/** Approved files under `identity/primitives/` (PAS §4.1.5 primitive reference layout). */
+export const IDENTITY_MODULE_PRIMITIVE_FILES = [
+  "index.ts",
+  "primitive-brand.contract.ts",
+  "primitive-brand.helpers.ts",
+  "primitive-reference.registry.ts",
+  "locale-code.contract.ts",
+  "timezone-id.contract.ts",
+  "date-format.contract.ts",
+  "number-format.contract.ts",
+  "currency-code.contract.ts",
+  "country-code.contract.ts",
+  "uom-code.contract.ts",
+] as const;
+
+export type IdentityModulePrimitiveFile =
+  (typeof IDENTITY_MODULE_PRIMITIVE_FILES)[number];
+
 /** Retired flat `contracts/platform-id*` paths — must not reappear (repo-relative). */
 export const RETIRED_KERNEL_PLATFORM_ID_PATHS = [
   "packages/kernel/src/contracts/platform-id.contract.ts",
@@ -52,6 +79,7 @@ export const IDENTITY_MODULE_LAYOUT_PROHIBITED_PATTERNS = [
   "duplicate platform-id*.ts paths",
   "external ulid npm dependency in kernel",
   "second branding pattern",
+  "direct brand.contract.js import outside brand/index.ts barrel",
   "human number generation in Kernel",
   "flat .ts files at identity root (except index.ts)",
   "unapproved identity subfolders",
@@ -65,6 +93,8 @@ export const IDENTITY_MODULE_LAYOUT_POLICY = {
   rootBarrel: IDENTITY_MODULE_ROOT_BARREL,
   subfolders: IDENTITY_MODULE_SUBFOLDERS,
   familyContractFiles: IDENTITY_MODULE_FAMILY_FILES,
+  brandContractFiles: IDENTITY_MODULE_BRAND_FILES,
+  primitiveContractFiles: IDENTITY_MODULE_PRIMITIVE_FILES,
   retiredPlatformIdPaths: RETIRED_KERNEL_PLATFORM_ID_PATHS,
   prohibitedPatterns: IDENTITY_MODULE_LAYOUT_PROHIBITED_PATTERNS,
 } as const;
@@ -79,4 +109,16 @@ export function isIdentityModuleFamilyFile(
   value: string
 ): value is IdentityModuleFamilyFile {
   return (IDENTITY_MODULE_FAMILY_FILES as readonly string[]).includes(value);
+}
+
+export function isIdentityModuleBrandFile(
+  value: string
+): value is IdentityModuleBrandFile {
+  return (IDENTITY_MODULE_BRAND_FILES as readonly string[]).includes(value);
+}
+
+export function isIdentityModulePrimitiveFile(
+  value: string
+): value is IdentityModulePrimitiveFile {
+  return (IDENTITY_MODULE_PRIMITIVE_FILES as readonly string[]).includes(value);
 }

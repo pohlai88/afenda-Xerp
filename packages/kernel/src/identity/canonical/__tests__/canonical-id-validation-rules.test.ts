@@ -2,12 +2,14 @@ import { describe, expect, it } from "vitest";
 
 import { parseTenantId } from "../../families/index.js";
 import {
-  isCanonicalEnterpriseId,
-  isCanonicalEnterpriseIdForFamily,
-  isRegisteredCanonicalEnterpriseId,
   parseCanonicalId,
   tryParseCanonicalId,
 } from "../canonical-id-parser.contract.js";
+import {
+  isCanonicalEnterpriseId,
+  isCanonicalEnterpriseIdForFamily,
+  isRegisteredCanonicalEnterpriseId,
+} from "../canonical-id-validator.contract.js";
 import { InvalidCanonicalIdError } from "../invalid-canonical-id.error.js";
 
 const VALID_TENANT = "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV";
@@ -84,5 +86,19 @@ describe("canonical ID validation rules (PAS-001 §4.1.8)", () => {
   it("throws InvalidCanonicalIdError from parse* on invalid input", () => {
     expect(() => parseTenantId("")).toThrow(InvalidCanonicalIdError);
     expect(() => parseTenantId("   ")).toThrow(/TenantId is required/i);
+  });
+
+  it.each([
+    "I",
+    "L",
+    "O",
+    "U",
+  ] as const)("rejects Crockford-excluded %s in ULID body", (char) => {
+    const validBody = "01ARZ3NDEKTSV4RRFFQ69G5FAV";
+    const invalidBody = `${validBody.slice(0, -1)}${char}`;
+    expect(isCanonicalEnterpriseId(`ten_${invalidBody}`)).toBe(false);
+    expect(() => parseTenantId(`ten_${invalidBody}`)).toThrow(
+      /invalid canonical ID format/i
+    );
   });
 });

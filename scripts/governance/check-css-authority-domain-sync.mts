@@ -7,10 +7,9 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
-import type { CssAuthorityDomainSource } from "../../packages/css-authority/src/contracts/css-authority.contract.ts";
 import { parseCustomPropertyDefinitions } from "../../packages/css-authority/scripts/sync-domain-authority.ts";
 import { parseRootCustomProperties } from "../../packages/css-authority/scripts/sync-shadcn-theme-authority.ts";
+import type { CssAuthorityDomainSource } from "../../packages/css-authority/src/contracts/css-authority.contract.ts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -23,9 +22,9 @@ const authoritiesRoot = join(
 );
 
 interface DomainExpectation {
+  readonly expectedCount: number;
   readonly jsonFile: string;
   readonly label: string;
-  readonly expectedCount: number;
 }
 
 function loadDomainTokenCount(jsonFile: string): number {

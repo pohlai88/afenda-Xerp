@@ -98,6 +98,16 @@ describe("@afenda/appshell CSS manifest", () => {
     expect(css).not.toMatch(/^\s*--afenda-[^\n:]+\s*:/m);
   });
 
+  it("B42l consolidation — studio CSS has no statistics-metric selector rules (comments only)", () => {
+    const studioCss = readFileSync(studioPath, "utf8");
+    const shellCss = readFileSync(cssPath, "utf8");
+    expect(studioCss).toContain("PAS-005A B42l");
+    expect(studioCss).toContain(".app-shell-studio-metric-");
+    expect(studioCss).not.toMatch(/^\s*\.app-shell-statistics-metric-/m);
+    expect(shellCss).toMatch(/^\s*\.app-shell-statistics-metric-card/m);
+    expect(shellCss).not.toMatch(/^\s*\.app-shell-studio-metric-card/m);
+  });
+
   it("afenda-appshell-studio.css contains no @theme inline block", () => {
     const css = readFileSync(studioPath, "utf8");
     expect(css).not.toContain("@theme inline");

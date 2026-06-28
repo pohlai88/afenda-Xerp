@@ -26,11 +26,11 @@ import type { GovernedUiComponentName } from "@afenda/ui/governance";
 import { ChevronRightIcon } from "lucide-react";
 
 import type { ApplicationShellResolvedChrome } from "./app-shell.types";
-import { AppShellSidebarUserDropdown } from "./shadcn-studio/blocks/app-shell-sidebar-user-dropdown";
+import { AppShellSidebarUserDropdown } from "./presentation/blocks/app-shell-sidebar-user-dropdown";
 import type {
   AppShellMenuItem,
   AppShellRecipientItem,
-} from "./shadcn-studio/data/app-shell.data";
+} from "./presentation/data/app-shell.data";
 import { joinAppShellGovernedClassName } from "./wiring/governance";
 
 export type AppShellSidebarGovernedComponents = Extract<

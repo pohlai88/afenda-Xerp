@@ -493,6 +493,22 @@ type _AssertEnterpriseFamilyCount =
     ? true
     : never;
 
+/** Frozen PAS §4.1.4 primitive family keys — order matches authority table. */
+export const PRIMITIVE_ID_FAMILY_KEYS = [
+  "localeCode",
+  "timezoneId",
+  "dateFormat",
+  "numberFormat",
+  "currencyCode",
+  "countryCode",
+  "uomCode",
+] as const satisfies readonly IdFamily[];
+
+type _AssertPrimitiveFamilyCount =
+  (typeof PRIMITIVE_ID_FAMILY_KEYS)["length"] extends typeof PRIMITIVE_ID_FAMILY_COUNT
+    ? true
+    : never;
+
 export type EnterpriseIdFamily = (typeof ENTERPRISE_ID_FAMILY_KEYS)[number];
 
 /**
@@ -569,14 +585,38 @@ export function getEnterpriseIdFamiliesByCategory(
   );
 }
 
+/** Full registry order: enterprise keys then primitive keys. */
+const PLATFORM_ID_FAMILY_KEYS = [
+  ...ENTERPRISE_ID_FAMILY_KEYS,
+  ...PRIMITIVE_ID_FAMILY_KEYS,
+] as const satisfies readonly IdFamily[];
+
+type _AssertPlatformRegistryTotal =
+  (typeof PLATFORM_ID_FAMILY_KEYS)["length"] extends typeof REGISTRY_FAMILY_COUNT
+    ? true
+    : never;
+
 /** @deprecated Use ID_FAMILIES — governance compatibility alias. */
-export const PLATFORM_ID_FAMILY_REGISTRY = Object.values(ID_FAMILIES);
+export const PLATFORM_ID_FAMILY_REGISTRY = PLATFORM_ID_FAMILY_KEYS.map(
+  (family) => ID_FAMILIES[family]
+);
 
 export type PlatformIdFamilyTypeName =
   (typeof ID_FAMILIES)[IdFamily]["typeName"];
 
-export const PLATFORM_ID_FAMILY_TYPE_NAMES = Object.values(ID_FAMILIES).map(
-  (entry) => entry.typeName
+export const PLATFORM_ID_FAMILY_TYPE_NAMES = PLATFORM_ID_FAMILY_KEYS.map(
+  (family) => ID_FAMILIES[family].typeName
+) as readonly PlatformIdFamilyTypeName[];
+
+const PLATFORM_ID_FAMILY_BY_TYPE_NAME: Readonly<
+  Record<PlatformIdFamilyTypeName, IdFamilyDefinition>
+> = Object.freeze(
+  Object.fromEntries(
+    PLATFORM_ID_FAMILY_KEYS.map((family) => {
+      const definition = ID_FAMILIES[family];
+      return [definition.typeName, definition] as const;
+    })
+  ) as Record<PlatformIdFamilyTypeName, IdFamilyDefinition>
 );
 
 export function getIdFamilyDefinition(family: IdFamily): IdFamilyDefinition {
@@ -589,9 +629,7 @@ export type PlatformIdFamilyDefinition = IdFamilyDefinition;
 export function getPlatformIdFamilyDefinition(
   typeName: PlatformIdFamilyTypeName
 ): IdFamilyDefinition {
-  const entry = Object.values(ID_FAMILIES).find(
-    (family) => family.typeName === typeName
-  );
+  const entry = PLATFORM_ID_FAMILY_BY_TYPE_NAME[typeName];
 
   if (entry === undefined) {
     throw new Error(`Unknown platform id family: ${typeName}`);
@@ -942,6 +980,7 @@ export const IDENTITY_PROHIBITED_PATTERN_IDS = [
   "legacy-brand-helper-at-consumer-boundary",
   "local-enterprise-id-type-alias",
   "unchecked-brand-required-id",
+  "direct-brand-contract-import-bypass",
   "primitive-through-enterprise-parser",
   "forbidden-platform-floor-id-export",
   "duplicate-platform-id-registry",
@@ -954,6 +993,7 @@ export const IDENTITY_PROHIBITED_PATTERN_IDS = [
   "foreign-key-to-enterprise-id",
   "rls-on-enterprise-id-or-human-reference",
   "throwing-parser-for-ui-form-validation",
+  "primitive-module-layout-drift",
 ] as const;
 
 export type IdentityProhibitedPatternId =
@@ -1012,6 +1052,13 @@ export const IDENTITY_PROHIBITED_PATTERNS = {
     id: "unchecked-brand-required-id",
     summary:
       "Kernel must not expose trim-only brand helpers that mint enterprise IDs without prefix/body validation.",
+    authority: "PAS-001",
+    enforcementGate: "check:kernel-identity-surface",
+  },
+  "direct-brand-contract-import-bypass": {
+    id: "direct-brand-contract-import-bypass",
+    summary:
+      "Kernel modules must import Brand/unbrand via identity/brand/index.js — not brand.contract.js directly.",
     authority: "PAS-001",
     enforcementGate: "check:kernel-identity-surface",
   },
@@ -1095,6 +1142,13 @@ export const IDENTITY_PROHIBITED_PATTERNS = {
       "UI form validation should use non-throwing validators — not family `parse*` throw paths.",
     authority: "PAS-001",
     enforcementGate: null,
+  },
+  "primitive-module-layout-drift": {
+    id: "primitive-module-layout-drift",
+    summary:
+      "Primitive module files must match IDENTITY_MODULE_PRIMITIVE_FILES — no unapproved layout drift.",
+    authority: "PAS-001",
+    enforcementGate: "check:kernel-identity-surface",
   },
 } as const satisfies Record<
   IdentityProhibitedPatternId,

@@ -3,7 +3,7 @@ import type { AppShellMainProps } from "./app-shell.types";
 import {
   DEFAULT_APP_SHELL_MAIN_CONTENT_LABEL,
   DEFAULT_APP_SHELL_MAIN_TITLE_ID,
-} from "./shadcn-studio/data/app-shell.main.constants";
+} from "./presentation/data/app-shell.main.constants";
 
 export type AppShellMainGovernedComponents = Extract<
   GovernedUiComponentName,

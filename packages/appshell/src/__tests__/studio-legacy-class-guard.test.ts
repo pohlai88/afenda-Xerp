@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
-const blocksRoot = join(import.meta.dirname, "../shadcn-studio/blocks");
+const blocksRoot = join(import.meta.dirname, "../presentation/blocks");
 
 const FORBIDDEN_CLASS_PREFIXES = [
   "app-shell-dashboard-kpi-",

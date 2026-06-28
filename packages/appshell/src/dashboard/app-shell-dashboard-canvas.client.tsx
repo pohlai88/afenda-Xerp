@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useState } from "react";
 
-import { DEFAULT_APP_SHELL_DASHBOARD_LABEL } from "../shadcn-studio/data/app-shell.dashboard.data";
+import { DEFAULT_APP_SHELL_DASHBOARD_LABEL } from "../presentation/data/app-shell.dashboard.data";
 import { DashboardGridLayoutAdapter } from "./dashboard-grid-layout-adapter.client";
 import { DashboardGridWidget } from "./dashboard-grid-widget.client";
 import type { DashboardLayoutPreset } from "./dashboard-layout.contract";

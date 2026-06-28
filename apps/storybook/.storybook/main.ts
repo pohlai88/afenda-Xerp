@@ -19,6 +19,7 @@ const designSystemRoot = join(appRoot, "../../packages/design-system");
 const metadataUiRoot = join(appRoot, "../../packages/metadata-ui");
 const metadataRoot = join(appRoot, "../../packages/ui-composition");
 const shadcnStudioRoot = join(appRoot, "../../packages/shadcn-studio");
+const shadcnStudioSrcRoot = join(shadcnStudioRoot, "src");
 const testingRoot = join(appRoot, "../../packages/testing");
 const nextLinkMock = join(testingRoot, "src/mocks/next-link.tsx");
 const nextImageMock = join(testingRoot, "src/mocks/next-image.tsx");
@@ -35,6 +36,7 @@ const config: StorybookConfig = {
     "../../../packages/ui/src/**/*.stories.@(ts|tsx)",
     "../../../packages/appshell/src/**/*.stories.@(ts|tsx)",
     "../../../packages/metadata-ui/src/**/*.stories.@(ts|tsx)",
+    "../../../packages/shadcn-studio/src/**/*.stories.@(ts|tsx)",
   ],
   addons: [
     getAbsolutePath("@storybook/addon-docs"),
@@ -106,6 +108,22 @@ const config: StorybookConfig = {
       {
         find: "@afenda/shadcn-studio",
         replacement: join(shadcnStudioRoot, "src/index.ts"),
+      },
+      {
+        find: "@/components/ui",
+        replacement: join(shadcnStudioSrcRoot, "components/ui"),
+      },
+      {
+        find: "@/components/shadcn-studio",
+        replacement: join(shadcnStudioSrcRoot, "components/shadcn-studio"),
+      },
+      {
+        find: "@/lib/utils",
+        replacement: join(shadcnStudioSrcRoot, "lib/utils.ts"),
+      },
+      {
+        find: "@/hooks",
+        replacement: join(shadcnStudioSrcRoot, "hooks"),
       },
       {
         find: "@afenda/metadata-ui/fixtures.css",
@@ -182,6 +200,13 @@ const config: StorybookConfig = {
       "@afenda/ui/governance": join(governanceRoot, "index.ts"),
       "@afenda/ui/lib/utils": join(uiSrcRoot, "lib/utils.ts"),
       "@afenda/ui": join(uiSrcRoot, "index.ts"),
+      "@/components/ui": join(shadcnStudioSrcRoot, "components/ui"),
+      "@/components/shadcn-studio": join(
+        shadcnStudioSrcRoot,
+        "components/shadcn-studio"
+      ),
+      "@/lib/utils": join(shadcnStudioSrcRoot, "lib/utils.ts"),
+      "@/hooks": join(shadcnStudioSrcRoot, "hooks"),
       "@": uiSrcRoot,
       "#": uiSrcRoot,
       "next/link": nextLinkMock,

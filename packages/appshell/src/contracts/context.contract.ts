@@ -86,7 +86,7 @@ export const APPSHELL_CONTEXT_CONSUMPTION_MODULES = [
     displayTypes: ["ApplicationShellOperatingContext"],
   },
   {
-    path: "shadcn-studio/blocks/app-shell-context-switcher.tsx",
+    path: "presentation/blocks/app-shell-context-switcher.tsx",
     role: "Context switch UI (host wires server action)",
     kernelTypes: [],
     displayTypes: [

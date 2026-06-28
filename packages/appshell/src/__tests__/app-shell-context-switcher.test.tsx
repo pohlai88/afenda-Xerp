@@ -2,7 +2,7 @@ import { openMenu, setupUser } from "@afenda/testing/react";
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 
-import { AppShellContextSwitcher } from "../shadcn-studio/blocks/app-shell-context-switcher";
+import { AppShellContextSwitcher } from "../presentation/blocks/app-shell-context-switcher";
 
 const multiTargetOptions = {
   targets: [

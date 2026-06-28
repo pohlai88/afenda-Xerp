@@ -11,7 +11,7 @@
  */
 
 import { readFileSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
@@ -60,14 +60,19 @@ for (const e of atomErrors) {
 }
 atomIds = new Set(
   atomsRaw
-    .filter((r): r is { atomId: string } => typeof (r as Record<string, unknown>).atomId === "string")
+    .filter(
+      (r): r is { atomId: string } =>
+        typeof (r as Record<string, unknown>).atomId === "string"
+    )
     .map((r) => r.atomId)
 );
 
 // ── 3. B24 atom ID preservation ──────────────────────────────────────────
 for (const id of B24_ATOM_IDS) {
   if (!atomIds.has(id)) {
-    errors.push(`atoms.json: B24 atom ID "${id}" is missing — rename requires a supersession slice`);
+    errors.push(
+      `atoms.json: B24 atom ID "${id}" is missing — rename requires a supersession slice`
+    );
   }
 }
 if (atomsRaw.length < B24_ATOM_IDS.length) {
@@ -77,7 +82,10 @@ if (atomsRaw.length < B24_ATOM_IDS.length) {
 }
 
 const jsonAtomIds = atomsRaw
-  .filter((r): r is { atomId: string } => typeof (r as Record<string, unknown>).atomId === "string")
+  .filter(
+    (r): r is { atomId: string } =>
+      typeof (r as Record<string, unknown>).atomId === "string"
+  )
   .map((r) => r.atomId);
 const b24Prefix = jsonAtomIds.slice(0, B24_ATOM_IDS.length);
 if (b24Prefix.join(",") !== B24_ATOM_IDS.join(",")) {
@@ -113,10 +121,14 @@ try {
     );
   }
   if (/atomId:\s*["']/.test(loaderSrc) || /acceptanceChain:/.test(loaderSrc)) {
-    errors.push("knowledge.registry.ts: contains inline atom literal — corpus must live in atoms.json");
+    errors.push(
+      "knowledge.registry.ts: contains inline atom literal — corpus must live in atoms.json"
+    );
   }
   if (!/parseAtomCorpus\(/.test(loaderSrc)) {
-    errors.push("knowledge.registry.ts: must load atoms via parseAtomCorpus() after JSON validation");
+    errors.push(
+      "knowledge.registry.ts: must load atoms via parseAtomCorpus() after JSON validation"
+    );
   }
 } catch (err: unknown) {
   const message = err instanceof Error ? err.message : String(err);

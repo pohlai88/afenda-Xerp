@@ -44,15 +44,19 @@ describe("resolveAllowedContextOptions", () => {
   it("expands entity_group membership into multiple company switch targets", async () => {
     vi.mocked(findEntityGroupById).mockResolvedValueOnce({
       id: GROUP_ID,
+      enterpriseId: "entgrp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
       tenantId: TENANT_ID,
       slug: "dev-group",
       displayName: "Dev Group",
       parentLegalEntityId: COMPANY_A_ID,
+      parentLegalEntityEnterpriseId: "co_01ARZ3NDEKTSV4RRFFQ69G5CAV",
       status: "active",
     });
     vi.mocked(findActiveCompaniesByEntityGroupId).mockResolvedValueOnce([
       {
         id: COMPANY_A_ID,
+        enterpriseId: "co_01ARZ3NDEKTSV4RRFFQ69G5CAV",
+        entityGroupEnterpriseId: "entgrp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         tenantId: TENANT_ID,
         entityGroupId: GROUP_ID,
         slug: "company-a",
@@ -70,6 +74,8 @@ describe("resolveAllowedContextOptions", () => {
       },
       {
         id: COMPANY_B_ID,
+        enterpriseId: "co_01ARZ3NDEKTSV4RRFFQ69G5CBV",
+        entityGroupEnterpriseId: "entgrp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         tenantId: TENANT_ID,
         entityGroupId: GROUP_ID,
         slug: "company-b",
@@ -91,8 +97,10 @@ describe("resolveAllowedContextOptions", () => {
       if (companyId === COMPANY_A_ID) {
         return {
           id: COMPANY_A_ID,
+          enterpriseId: "co_01ARZ3NDEKTSV4RRFFQ69G5CAV",
           tenantId: TENANT_ID,
           entityGroupId: GROUP_ID,
+          entityGroupEnterpriseId: "entgrp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
           slug: "company-a",
           legalName: "Company A Pty Ltd",
           displayName: "Company A",
@@ -110,8 +118,10 @@ describe("resolveAllowedContextOptions", () => {
       if (companyId === COMPANY_B_ID) {
         return {
           id: COMPANY_B_ID,
+          enterpriseId: "co_01ARZ3NDEKTSV4RRFFQ69G5CBV",
           tenantId: TENANT_ID,
           entityGroupId: GROUP_ID,
+          entityGroupEnterpriseId: "entgrp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
           slug: "company-b",
           legalName: "Company B Pty Ltd",
           displayName: "Company B",

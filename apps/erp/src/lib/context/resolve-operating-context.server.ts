@@ -2,6 +2,9 @@ import {
   type AfendaDatabase,
   findOrganizationByCompanyAndSlug,
   findOrganizationById,
+  findProjectByEnterpriseId,
+  findProjectById,
+  findProjectByTenantAndSlug,
   findTeamById,
   findTenantBySlug,
   getTenantAccessBlockReason,
@@ -15,6 +18,7 @@ import {
   ok,
   parseUnknownPermissionScopeContext,
   type TeamContext,
+  tryParseCanonicalId,
   type WorkspaceContext,
 } from "@afenda/kernel";
 import type { MembershipContract } from "@afenda/permissions";
@@ -28,7 +32,7 @@ import {
   toTeamContext,
   toTenantContext,
 } from "./operating-context.mappers";
-import { verifyProjectSelection } from "./operating-context.resolution.contract";
+import { verifyProjectBoundary } from "./operating-context.resolution.contract";
 import { resolveConsolidationScope } from "./resolve-consolidation-scope.server";
 import {
   loadActorMemberships,
@@ -36,6 +40,7 @@ import {
 } from "./resolve-grant-scope.server";
 import { resolveLegalEntityContext } from "./resolve-legal-entity-context.server";
 import { toSurfaceContext } from "./surface-context.resolution.server.js";
+import { toProjectContext } from "./to-project-context";
 import { toWorkflowContext } from "./workflow-context.resolution.server.js";
 
 function resolveTeamContext(input: {
@@ -57,6 +62,29 @@ function resolveTeamContext(input: {
   }
 
   return toTeamContext(input.organizationUnit);
+}
+
+async function resolveProjectLookupRow(input: {
+  readonly db: AfendaDatabase | undefined;
+  readonly projectIdHint: string | null;
+  readonly projectSlug: string | null;
+  readonly tenantPk: string;
+}): Promise<Awaited<ReturnType<typeof findProjectByTenantAndSlug>> | null> {
+  const db = input.db;
+
+  if (input.projectSlug) {
+    return findProjectByTenantAndSlug(input.tenantPk, input.projectSlug, db);
+  }
+
+  if (!input.projectIdHint) {
+    return null;
+  }
+
+  if (tryParseCanonicalId(input.projectIdHint, "project") !== null) {
+    return findProjectByEnterpriseId(input.projectIdHint, db);
+  }
+
+  return findProjectById(input.projectIdHint, db);
 }
 
 export interface ResolveOperatingContextInput {
@@ -103,15 +131,6 @@ export async function resolveOperatingContext(
     });
   }
 
-  const projectSelectionError = verifyProjectSelection(input.selection);
-  if (projectSelectionError) {
-    return denyOperatingContext({
-      correlationId: input.correlationId,
-      tenantSlug,
-      error: projectSelectionError,
-    });
-  }
-
   const tenant = toTenantContext(tenantRow);
   const memberships =
     input.memberships ??
@@ -140,16 +159,13 @@ export async function resolveOperatingContext(
     });
   }
 
-  const { entityGroup, legalEntity } = legalEntityResult.value;
+  const { companyPk, entityGroup, entityGroupPk, legalEntity } =
+    legalEntityResult.value;
 
   const organizationSlug = input.selection.organizationSlug?.trim() || null;
   const organizationIdHint = input.selection.organizationId?.trim() || null;
   let organizationRow = organizationSlug
-    ? await findOrganizationByCompanyAndSlug(
-        legalEntity.companyId,
-        organizationSlug,
-        db
-      )
+    ? await findOrganizationByCompanyAndSlug(companyPk, organizationSlug, db)
     : null;
 
   if (!organizationRow && organizationIdHint) {
@@ -191,7 +207,7 @@ export async function resolveOperatingContext(
       });
     }
 
-    if (organizationRow.companyId !== legalEntity.companyId) {
+    if (organizationRow.companyId !== companyPk) {
       return denyOperatingContext({
         correlationId: input.correlationId,
         tenantSlug,
@@ -242,7 +258,7 @@ export async function resolveOperatingContext(
       });
     }
 
-    if (teamRow.companyId !== legalEntity.companyId) {
+    if (teamRow.companyId !== companyPk) {
       return denyOperatingContext({
         correlationId: input.correlationId,
         tenantSlug,
@@ -290,6 +306,36 @@ export async function resolveOperatingContext(
     });
   }
 
+  const projectSlug = input.selection.projectSlug?.trim() || null;
+  const projectIdHint = input.selection.projectId?.trim() || null;
+  const projectRow = await resolveProjectLookupRow({
+    tenantPk: tenantRow.id,
+    projectSlug,
+    projectIdHint,
+    db,
+  });
+
+  const projectBoundaryError = verifyProjectBoundary({
+    tenantId: tenantRow.id,
+    companyId: companyPk,
+    organizationId,
+    projectSlug,
+    projectIdHint,
+    projectRow,
+  });
+
+  if (projectBoundaryError) {
+    return denyOperatingContext({
+      correlationId: input.correlationId,
+      tenantSlug,
+      error: projectBoundaryError,
+    });
+  }
+
+  const project = projectRow
+    ? toProjectContext(projectRow, tenant.tenantId)
+    : null;
+
   const surfaceSelection = input.selection.surfaceId?.trim() || null;
   if (surfaceSelection && !toSurfaceContext(surfaceSelection)) {
     return denyOperatingContext({
@@ -321,15 +367,15 @@ export async function resolveOperatingContext(
     tenantId: tenant.tenantId,
     companyId: legalEntity.companyId,
     organizationId,
-    projectId: null,
+    projectId: projectRow?.id ?? null,
   };
 
   const grantScopeResult = await resolveGrantScope({
     actorUserId: input.actorUserId,
     tenantId: tenant.tenantId,
-    companyId: legalEntity.companyId,
+    companyId: companyPk,
     organizationId,
-    entityGroupId: entityGroup?.entityGroupId ?? null,
+    entityGroupId: entityGroupPk,
     teamId: team?.teamId ?? null,
     projectId: workspace.projectId,
     memberships,
@@ -344,7 +390,7 @@ export async function resolveOperatingContext(
     });
   }
 
-  const { permissionScope } = grantScopeResult.value;
+  const { permissionScope: resolvedPermissionScope } = grantScopeResult.value;
 
   const reportingDate = new Date().toISOString().slice(0, 10);
   const { consolidationScope, ownershipInterests } =
@@ -364,9 +410,17 @@ export async function resolveOperatingContext(
     ownershipInterests,
     organizationUnit,
     team,
-    project: null,
+    project,
     workspace,
-    permissionScope: parseUnknownPermissionScopeContext(permissionScope),
+    permissionScope: parseUnknownPermissionScopeContext({
+      ...resolvedPermissionScope,
+      tenantId: tenant.tenantId,
+      companyId: legalEntity.companyId,
+      entityGroupId: entityGroup?.entityGroupId ?? null,
+      organizationId: organizationUnit?.organizationUnitId ?? null,
+      teamId: team?.teamId ?? null,
+      projectId: project?.projectId ?? null,
+    }),
     consolidationScope,
     surface: toSurfaceContext(surfaceSelection),
     workflow: toWorkflowContext({

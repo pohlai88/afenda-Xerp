@@ -4,13 +4,15 @@ import {
   isAfendaAuthSessionLinked,
   toAfendaAuthIdentity,
 } from "@afenda/auth";
+import { PERMISSION_REGISTRY } from "@afenda/permissions";
 import { headers } from "next/headers";
 import { forbidden, redirect } from "next/navigation";
 import { connection } from "next/server";
-
 import { MetadataWorkspacePreviewSurface } from "@/components/metadata-workspace-preview-surface";
+import { authorizeApiRoute } from "@/lib/api/authorize-api-route";
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
-import { resolveMetadataUiRenderContextFromOperatingContext } from "@/lib/metadata/resolve-metadata-ui-render-context.server";
+import { isEvaluatedApiRouteAuthorizationDenial } from "@/lib/metadata/resolve-metadata-authorization-from-api-route.server";
+import { resolveMetadataUiRenderContextFromApiRouteAuthorization } from "@/lib/metadata/resolve-metadata-ui-render-context.server";
 import { requiresProtectedLayoutConnection } from "@/lib/security/csp-strategy";
 
 export default async function MetadataWorkspacePreviewPage() {
@@ -18,7 +20,8 @@ export default async function MetadataWorkspacePreviewPage() {
     await connection();
   }
 
-  const session = await getAfendaAuthSession(await headers());
+  const requestHeaders = await headers();
+  const session = await getAfendaAuthSession(requestHeaders);
 
   if (!session) {
     redirect("/sign-in");
@@ -38,9 +41,46 @@ export default async function MetadataWorkspacePreviewPage() {
   }
 
   const operatingContext = operatingResult.value;
-  const metadataContext = resolveMetadataUiRenderContextFromOperatingContext({
-    operatingContext,
+  const authorizationRequest = new Request(
+    "http://localhost/metadata-workspace",
+    {
+      headers: requestHeaders,
+    }
+  );
+
+  const authorizationResult = await authorizeApiRoute({
+    actorId: identity.userId,
+    correlationId: operatingContext.correlationId,
+    method: "GET",
+    path: "/metadata-workspace",
+    permission: {
+      permissionKey: PERMISSION_REGISTRY.workspace.dashboard.read,
+    },
+    protectionLevel: "tenant-protected",
+    request: authorizationRequest,
   });
+
+  if (
+    authorizationResult.kind === "failure" &&
+    !isEvaluatedApiRouteAuthorizationDenial(authorizationResult)
+  ) {
+    forbidden();
+  }
+
+  const metadataContext =
+    await resolveMetadataUiRenderContextFromApiRouteAuthorization({
+      authorizationResult,
+    });
+
+  if (metadataContext === null) {
+    forbidden();
+  }
+
+  const previewOperatingContext = isEvaluatedApiRouteAuthorizationDenial(
+    authorizationResult
+  )
+    ? authorizationResult.evaluation.operatingContext
+    : operatingContext;
 
   return (
     <AppShellMain
@@ -49,12 +89,12 @@ export default async function MetadataWorkspacePreviewPage() {
       title="Metadata workspace"
     >
       <MetadataWorkspacePreviewSurface
-        companyDisplayName={operatingContext.legalEntity.displayName}
+        companyDisplayName={previewOperatingContext.legalEntity.displayName}
         context={metadataContext}
         organizationDisplayName={
-          operatingContext.organizationUnit?.displayName ?? null
+          previewOperatingContext.organizationUnit?.displayName ?? null
         }
-        tenantDisplayName={operatingContext.tenant.displayName}
+        tenantDisplayName={previewOperatingContext.tenant.displayName}
       />
     </AppShellMain>
   );

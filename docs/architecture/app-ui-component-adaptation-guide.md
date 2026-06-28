@@ -93,7 +93,7 @@ For every `className` string in MCP-installed block TSX, ask in order (canonical
 
 **Q2 — Is this a visual/semantic class on a plain HTML element?**
 (text colors, backgrounds, typography, borders, spacing, focus rings)
-→ Query [`STUDIO-PATTERN-MAP.md`](../../packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md) first.
+→ Query [`STUDIO-PATTERN-MAP.md`](../../packages/appshell/src/presentation/STUDIO-PATTERN-MAP.md) first.
 → No match + pattern used in ≥2 blocks: add to `afenda-appshell-studio.css`, then use the studio class.
 → No match + 1 block only: use Afenda semantic Tailwind (`text-success` not `text-green-600`).
 
@@ -105,11 +105,11 @@ For every `className` string in MCP-installed block TSX, ask in order (canonical
 ### Locked promotion pipeline
 
 ```txt
-MCP install (packages/ui cwd)
+MCP install (packages/shadcn-studio cwd)
   → normalize (3-question decision filter above)
   → STUDIO-PATTERN-MAP lookup
   → afenda-appshell-studio.css (reusable patterns only, ≥2 blocks)
-  → move to packages/appshell/src/shadcn-studio/blocks/
+  → move to packages/appshell/src/presentation/blocks/
   → gates A–G (pnpm ui:guard:scan → ui:guard → ui:guard:proof)
 ```
 
@@ -123,7 +123,7 @@ Sources reviewed via `/iui` (shadcn/studio MCP, 2026-06-24):
 - Category: `dashboard-and-application` — all sub-blocks
 - Category: `datatable` — all sub-blocks
 - Category: `ecommerce` — announcement-banner only
-- `/cui` existing appshell blocks: 39 blocks in `packages/appshell/src/shadcn-studio/blocks/`
+- `/cui` existing appshell blocks: governed blocks in `packages/appshell/src/presentation/blocks/`
 
 ### Candidate Decision Table
 
@@ -150,7 +150,7 @@ Sources reviewed via `/iui` (shadcn/studio MCP, 2026-06-24):
 | **shopping-cart, checkout, product-list** (eCommerce) | shadcn/studio `/iui` | — | 1/10 | n/a | n/a | None | **Rejected** |
 | **social-proof, testimonials** | shadcn/studio `/iui` | — | 1/10 | n/a | n/a | None | **Rejected** |
 
-**Existing adapted blocks (already in `packages/appshell/src/shadcn-studio/blocks/` — do not re-adapt):**
+**Existing adapted blocks (already in `packages/appshell/src/presentation/blocks/` — do not re-adapt):**
 
 | Block | Evidence file |
 |-------|--------------|
@@ -313,7 +313,7 @@ Prove reuse, governance, accessibility, and primitive ownership first.
 |--------------|---------------------|---------|
 | Page-level screen content | `apps/erp/src/app/(protected)/` | Users page, Settings page, Module placeholders |
 | App-shell/chrome/navigation | `packages/appshell/src/` | `AppShell`, `AppShellMain`, nav, context switcher |
-| Dashboard blocks (KPI, chart, activity) | `packages/appshell/src/shadcn-studio/blocks/` | `AppShellDashboardKpiStat`, revenue chart, sparkline |
+| Dashboard blocks (KPI, chart, activity) | `packages/appshell/src/presentation/blocks/` | `AppShellDashboardKpiStat`, revenue chart, sparkline |
 | Metadata-driven section renderer | `packages/metadata-ui/src/` | Default section renderers (TIP-UI-04) |
 | Reusable primitive (Button, Card, Table, etc.) | `packages/ui/src/components/` | 58 existing primitives — do not add without governance |
 | Design token, recipe, variant | `packages/design-system/src/` | Token registry, `generate-tokens-css.ts`, recipes |
@@ -321,7 +321,7 @@ Prove reuse, governance, accessibility, and primitive ownership first.
 | Operating context / tenant resolution | `packages/kernel/src/context/` | `context-registry.ts`, consolidation scope resolver |
 | Business master data contracts | Domain packages (`PKG-R02–R05`) — **not yet activated** | Customer, Product, Employee, Warehouse (post Phase 1) |
 
-**Rule for new blocks in `packages/appshell/src/shadcn-studio/blocks/`:**
+**Rule for new blocks in `packages/appshell/src/presentation/blocks/`:**
 1. Block receives typed props only — no local data fetching.
 2. Block imports `@afenda/ui` via zero-`className` governed pattern.
 3. Block has a matching Storybook story in `apps/storybook/`.
@@ -411,7 +411,7 @@ When a future agent is authorized to implement one approved pattern, use this pr
 
 Phase 0:
 1. Objective: Implement [PATTERN_NAME] for [SURFACE] in [PACKAGE].
-2. Allowed layer: [e.g. apps/erp/src/app/(protected)/system-admin/ OR packages/appshell/src/shadcn-studio/blocks/]
+2. Allowed layer: [e.g. apps/erp/src/app/(protected)/system-admin/ OR packages/appshell/src/presentation/blocks/]
 3. Files to change:
    - [list explicitly, e.g. apps/erp/src/app/(protected)/system-admin/settings/page.tsx]
 4. Prohibited:
@@ -541,4 +541,4 @@ If the drift guard does not currently scan this file, add it to the documentatio
 ---
 
 *Document generated 2026-06-24 via Afenda AI Documentation Authoring Agent.*
-*Reviewed against: shadcn/studio blocks catalog, `packages/appshell/src/shadcn-studio/blocks/`, `apps/erp/src/app/(protected)/`, `afenda-runtime-truth-matrix.md`, [`pas-status-index.md`](../PAS/pas-status-index.md).*
+*Reviewed against: shadcn/studio blocks catalog, `packages/appshell/src/presentation/blocks/`, `apps/erp/src/app/(protected)/`, `afenda-runtime-truth-matrix.md`, [`pas-status-index.md`](../PAS/pas-status-index.md).*

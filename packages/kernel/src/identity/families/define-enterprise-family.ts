@@ -1,4 +1,4 @@
-import { type Brand, unbrand } from "../brand/brand.contract.js";
+import { type Brand, unbrand } from "../brand/index.js";
 import type { CanonicalIdBodyGenerator } from "../canonical/canonical-id-body-generator.contract.js";
 import { CANONICAL_ID_SEPARATOR } from "../canonical/canonical-id-format.contract.js";
 import { createCanonicalId } from "../canonical/canonical-id-generator.contract.js";
@@ -23,8 +23,7 @@ export function defineEnterpriseFamily<TFamily extends EnterpriseIdFamily>(
   type Id = EnterpriseBrand<TFamily>;
 
   function parse(value: string): Id {
-    parseCanonicalId(value, family);
-    return value as Id;
+    return parseCanonicalId(value, family) as unknown as Id;
   }
 
   function create(generator: CanonicalIdBodyGenerator): Id {

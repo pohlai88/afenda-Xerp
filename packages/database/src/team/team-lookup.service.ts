@@ -1,4 +1,5 @@
 import { and, eq } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 
 import type { AfendaDatabase } from "../db.js";
 import { getDb } from "../db.js";
@@ -9,6 +10,8 @@ import {
   organizationLookupSelect,
 } from "../workspace/workspace-lookup.service.js";
 import { TEAM_ORGANIZATION_UNIT_TYPE } from "./team.constants.js";
+
+const parentOrganization = alias(organizations, "parent_organization");
 
 export type TeamLookupRow = OrganizationLookupRow;
 
@@ -23,6 +26,7 @@ function toTeamLookupRow(
         readonly slug: string;
         readonly name: string;
         readonly type: string;
+        readonly parentOrganizationEnterpriseId: string | null;
         readonly parentOrganizationId: string | null;
         readonly status: OrganizationLookupRow["status"];
         readonly effectiveFrom: string | null;
@@ -49,6 +53,10 @@ export async function findTeamById(
     .select(organizationLookupSelect)
     .from(organizations)
     .innerJoin(companies, eq(organizations.companyId, companies.id))
+    .leftJoin(
+      parentOrganization,
+      eq(organizations.parentOrganizationId, parentOrganization.id)
+    )
     .where(
       and(
         eq(organizations.id, teamId),
@@ -69,6 +77,10 @@ export async function findTeamByCompanyAndSlug(
     .select(organizationLookupSelect)
     .from(organizations)
     .innerJoin(companies, eq(organizations.companyId, companies.id))
+    .leftJoin(
+      parentOrganization,
+      eq(organizations.parentOrganizationId, parentOrganization.id)
+    )
     .where(
       and(
         eq(organizations.companyId, companyId),

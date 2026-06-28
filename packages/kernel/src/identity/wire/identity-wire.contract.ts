@@ -1,4 +1,4 @@
-import type { Brand } from "../brand/brand.contract.js";
+import type { Brand } from "../brand/index.js";
 import type { CanonicalId } from "../canonical/canonical-id.contract.js";
 import {
   type ParsedRegisteredCanonicalEnterpriseId,
@@ -18,9 +18,9 @@ export function parseWireCanonicalId<TFamily extends EnterpriseIdFamily>(
 }
 
 /** Family-unknown wire ingress — resolves prefix via `ID_FAMILIES` before parse. */
-export function parseWireRegisteredCanonicalId<
-  TFamily extends EnterpriseIdFamily = EnterpriseIdFamily,
->(value: string): ParsedRegisteredCanonicalEnterpriseId<TFamily> {
+export function parseWireRegisteredCanonicalId(
+  value: string
+): ParsedRegisteredCanonicalEnterpriseId {
   return parseRegisteredCanonicalEnterpriseId(value);
 }
 

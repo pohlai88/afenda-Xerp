@@ -14,7 +14,8 @@ describe("ERP context module wiring (post-extraction)", () => {
 
     expect(source).toContain("resolveLegalEntityContext");
     expect(source).toContain("resolveGrantScope");
-    expect(source).toContain("verifyProjectSelection");
+    expect(source).toContain("verifyProjectBoundary");
+    expect(source).toContain("toProjectContext");
     expect(source).toContain("denyOperatingContext");
     expect(source).not.toContain("resolveScopedMembership");
     expect(source).not.toContain("resolvePermissionScopeContext");

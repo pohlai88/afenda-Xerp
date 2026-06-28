@@ -135,6 +135,32 @@ export {
   METADATA_PACKAGE_VERSION,
 } from "./metadata.version.js";
 export type {
+  MetadataRuntimePermissionAction,
+  MetadataRuntimePermissionModelDescriptor,
+  MetadataRuntimePermissionModelScope,
+} from "./metadata-permission-vocabulary.contract.js";
+export {
+  formatMetadataRuntimePermissionModelDescriptor,
+  formatMetadataRuntimePermissionModelDescriptors,
+  isMetadataRuntimePermissionAction,
+  isMetadataRuntimePermissionModelDescriptor,
+  isMetadataRuntimePermissionModelScope,
+  METADATA_RUNTIME_PERMISSION_ACTIONS,
+  METADATA_RUNTIME_PERMISSION_MODEL_SCOPES,
+} from "./metadata-permission-vocabulary.contract.js";
+export type {
+  MetadataRuntimePolicyDecision,
+  MetadataRuntimePolicyDecisionKind,
+  MetadataRuntimePolicyDenialReason,
+} from "./metadata-policy-vocabulary.contract.js";
+export {
+  formatMetadataRuntimePolicyDecision,
+  isMetadataRuntimePolicyDecisionKind,
+  isMetadataRuntimePolicyDenialReason,
+  METADATA_RUNTIME_POLICY_DECISION_KINDS,
+  METADATA_RUNTIME_POLICY_DENIAL_REASONS,
+} from "./metadata-policy-vocabulary.contract.js";
+export type {
   PresentationContract,
   PresentationContractOwnership,
   PresentationContractProhibition,

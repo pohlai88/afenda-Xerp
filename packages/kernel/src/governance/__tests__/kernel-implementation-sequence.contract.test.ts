@@ -14,7 +14,7 @@ import {
 const PAS_SECTION_11_DEFERRED = [
   "FiscalCalendarContext",
   "CurrencyContext",
-  "fiscal period state outside already-approved accounting-domain vocabulary",
+  "fiscal period state outside already-approved erp-domain accounting vocabulary",
   "fiscal year start month",
   "period open/close/lock runtime status",
   "functional/base/reporting currency decisions",

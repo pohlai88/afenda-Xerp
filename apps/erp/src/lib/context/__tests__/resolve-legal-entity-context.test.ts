@@ -42,6 +42,7 @@ const companyRow = {
   enterpriseId: COMPANY_ID,
   tenantId: TENANT_PK,
   entityGroupId: null,
+  entityGroupEnterpriseId: null,
   slug: "dev-company",
   legalName: "Dev Company Pty Ltd",
   displayName: "Dev Company",
@@ -150,7 +151,8 @@ describe("resolveLegalEntityContext", () => {
   it("rejects missing entity group for grouped legal entities", async () => {
     vi.mocked(findCompanyByTenantAndSlug).mockResolvedValueOnce({
       ...companyRow,
-      entityGroupId: ENTITY_GROUP_A_ID,
+      entityGroupId: ENTITY_GROUP_PK,
+      entityGroupEnterpriseId: ENTITY_GROUP_A_ID,
     });
     vi.mocked(findEntityGroupById).mockResolvedValueOnce(null);
 
@@ -227,6 +229,7 @@ describe("resolveLegalEntityContext", () => {
         ...companyRow,
         id: SUBSIDIARY_PK,
         enterpriseId: SUBSIDIARY_ID,
+        entityGroupEnterpriseId: ENTITY_GROUP_B_ID,
         slug: "subsidiary-co",
         displayName: "Subsidiary Co",
       },

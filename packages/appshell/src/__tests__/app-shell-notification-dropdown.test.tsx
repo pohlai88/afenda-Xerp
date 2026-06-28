@@ -1,10 +1,10 @@
 import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
-import { AppShellNotificationDropdown } from "../shadcn-studio/blocks/app-shell-notification-dropdown";
+import { AppShellNotificationDropdown } from "../presentation/blocks/app-shell-notification-dropdown";
 import {
   countDefaultAppShellUnreadNotifications,
   defaultAppShellInboxNotifications,
-} from "../shadcn-studio/data/app-shell.notification.data";
+} from "../presentation/data/app-shell.notification.data";
 
 describe("AppShellNotificationDropdown", () => {
   it("renders the trigger without TIP-004 consumer violations", () => {

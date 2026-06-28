@@ -8,6 +8,7 @@ export const AFENDA_COMPANY_ID_HEADER = "x-afenda-company-id";
 export const AFENDA_COMPANY_SLUG_HEADER = "x-afenda-company-slug";
 export const AFENDA_ORGANIZATION_ID_HEADER = "x-afenda-organization-id";
 export const AFENDA_ORGANIZATION_SLUG_HEADER = "x-afenda-organization-slug";
+export const AFENDA_PROJECT_SLUG_HEADER = "x-afenda-project-slug";
 export const AFENDA_WORKSPACE_ID_HEADER = "x-afenda-workspace-id";
 
 export type ApiRouteProtectionLevel =

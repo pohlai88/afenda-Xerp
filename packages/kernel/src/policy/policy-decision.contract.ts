@@ -14,12 +14,10 @@ export const POLICY_DECISION_KINDS = [
 
 export type PolicyDecisionKind = (typeof POLICY_DECISION_KINDS)[number];
 
-const KIND_SET = new Set<string>(POLICY_DECISION_KINDS);
-
 export function isPolicyDecisionKind(
   value: string
 ): value is PolicyDecisionKind {
-  return KIND_SET.has(value);
+  return (POLICY_DECISION_KINDS as readonly string[]).includes(value);
 }
 
 export type PolicyDecision =
@@ -27,6 +25,13 @@ export type PolicyDecision =
   | { readonly kind: "deny"; readonly reason: PolicyDenialReason }
   | { readonly kind: "gate"; readonly reason: PolicyDenialReason }
   | { readonly kind: "defer"; readonly reason?: PolicyDenialReason };
+
+/** JSON-safe wire shape — reason is plain string matching `PolicyDenialReason` literals. */
+export type PolicyWireDecision =
+  | { readonly kind: "allow" }
+  | { readonly kind: "deny"; readonly reason: string }
+  | { readonly kind: "gate"; readonly reason: string }
+  | { readonly kind: "defer"; readonly reason?: string };
 
 export function isPolicyDecision(value: unknown): value is PolicyDecision {
   if (typeof value !== "object" || value === null) {

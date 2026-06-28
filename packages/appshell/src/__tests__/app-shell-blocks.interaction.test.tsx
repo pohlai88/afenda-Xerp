@@ -6,12 +6,12 @@ import {
 } from "@afenda/testing/react";
 import { render, within } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { AppShellActivityDialog } from "../shadcn-studio/blocks/app-shell-activity-dialog";
-import { AppShellContextSwitcher } from "../shadcn-studio/blocks/app-shell-context-switcher";
-import { AppShellLanguageDropdown } from "../shadcn-studio/blocks/app-shell-language-dropdown";
-import { AppShellNotificationDropdown } from "../shadcn-studio/blocks/app-shell-notification-dropdown";
-import { AppShellProfileDropdown } from "../shadcn-studio/blocks/app-shell-profile-dropdown";
-import { DEFAULT_APP_SHELL_PROFILE_DISPLAY_NAME } from "../shadcn-studio/data/app-shell.profile.data";
+import { AppShellActivityDialog } from "../presentation/blocks/app-shell-activity-dialog";
+import { AppShellContextSwitcher } from "../presentation/blocks/app-shell-context-switcher";
+import { AppShellLanguageDropdown } from "../presentation/blocks/app-shell-language-dropdown";
+import { AppShellNotificationDropdown } from "../presentation/blocks/app-shell-notification-dropdown";
+import { AppShellProfileDropdown } from "../presentation/blocks/app-shell-profile-dropdown";
+import { DEFAULT_APP_SHELL_PROFILE_DISPLAY_NAME } from "../presentation/data/app-shell.profile.data";
 
 describe("AppShell block interactions", () => {
   vi.setConfig({ testTimeout: INTERACTION_TEST_TIMEOUT_MS });

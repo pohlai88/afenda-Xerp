@@ -308,3 +308,19 @@ Phase 9  ACCOUNTING READINESS GATE ───────────────
 **Runtime gate debt (not doc-only):** `pnpm --filter @afenda/auth test:run` exit **1** — 2 failures in `auth.integration.test.ts` multiSession scenarios (~L337).
 
 *Refresh by documentation-drift agent — evidence-backed, 2026-06-25*
+
+## 18. PAS-005A B42g/B42h — presentation path cutover (2026-06-28)
+
+**Trigger:** Documentation-drift after B42g parity registry closure and B42h legacy tree delete (`shadcn-studio/` → `presentation/` relocation).
+
+| Drift found | Resolution |
+| --- | --- |
+| Runtime matrix shadcn row cited `packages/appshell/src/shadcn-studio/` and ADR-0017 Proposed | Updated to `@afenda/shadcn-studio` + `presentation/` + bridge; ADR-0017 Accepted; B42i gap |
+| PAS-005A §14 sequence stopped at B42c; header claimed legacy delete blocked | Extended through B42h; next item B42i |
+| `pas-status-index` B42d–B42g rows said "legacy retained" / B42b "delete blocked" | Aligned to B42h delivered; B42b marked Superseded |
+| `b42b` planning doc presented delete as blocked current truth | Superseded banner + B42h execution pointer; historical inventory retained |
+| ADR-0017, adaptation guide, tip-004, ui-guard, css-authority cited old paths | Retargeted to `presentation/blocks/`; MCP cwd `packages/shadcn-studio` |
+| `architecture-authority-baseline.md` fingerprint v5 vs constant v4 | Corrected doc to `ARCH-BASELINE-2026-06-28-v4` (no registry bump) |
+| `foundation-disposition.md` sync view said B42 partial | Updated to B38–B42h delivered; B42i next |
+
+*Refresh by documentation-drift agent — evidence-backed, 2026-06-28*

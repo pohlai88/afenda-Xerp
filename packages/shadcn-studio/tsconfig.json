@@ -10,5 +10,14 @@
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],
-  "exclude": ["dist", "node_modules", "**/*.test.ts", "**/*.test.tsx"]
+  "exclude": [
+    "dist",
+    "node_modules",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.stories.ts",
+    "**/*.stories.tsx",
+    "src/_storybook/shadcn-studio-theme.decorator.tsx",
+    "src/_storybook/shadcn-studio-theme-lab.compositions.tsx"
+  ]
 }

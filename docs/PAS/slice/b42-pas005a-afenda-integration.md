@@ -2,13 +2,13 @@
 
 **Prerequisite:** B41 delivered — Storybook lab proof; `@afenda/storybook typecheck` green
 
-**Status:** Delivered (2026-06-28) — partial B42: ERP CSS chain, metadata-ui hook, ADR-0017 retarget; **deferred:** appshell legacy delete (parity), PKGR05A registry (registry-owner)
+**Status:** Delivered (2026-06-28) — integration bridge complete; legacy path delete closed in **B42h** (`presentation/` relocation); **remaining:** B42i MCP wrapper strangler
 
 **Type:** Implementation
 
 **Risk class:** High — cross-package cutover (css-authority, appshell, ADR-0017, metadata-ui consumer path)
 
-**Clean Core impact:** A→B — retarget promotion pipeline; delete legacy appshell studio after parity proof
+**Clean Core impact:** A→B — retarget promotion pipeline; legacy `shadcn-studio/` path deleted via `presentation/` relocation (B42h)
 
 ## Purpose
 

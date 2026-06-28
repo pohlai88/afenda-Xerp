@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   type AppErrorCode,
   AppErrors,
+  toAppErrorWire,
 } from "../contracts/app-error.contract.js";
 
 describe("AppError contract", () => {
@@ -39,5 +40,16 @@ describe("AppError contract", () => {
     const error = AppErrors.internal(new Error("db connection lost"));
     expect(error.userMessage).not.toContain("db");
     expect(error.userMessage).not.toContain("connection");
+  });
+
+  it("strips non-serializable cause for wire egress and round-trips", () => {
+    const error = AppErrors.internal(new Error("db connection lost"));
+    const wire = toAppErrorWire(error);
+
+    expect("cause" in wire).toBe(false);
+    expect(JSON.parse(JSON.stringify(wire))).toEqual({
+      code: "INTERNAL_ERROR",
+      userMessage: "Something went wrong. Please try again.",
+    });
   });
 });

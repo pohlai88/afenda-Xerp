@@ -8,11 +8,17 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
+  IDENTITY_MODULE_BRAND_FILES,
+  IDENTITY_MODULE_PRIMITIVE_FILES,
+} from "../../packages/kernel/src/identity/governance/identity-module-layout.contract.ts";
+import {
   ENTERPRISE_ID_FAMILIES,
   FORBIDDEN_PLATFORM_FLOOR_ID_SYMBOLS,
   ID_FAMILIES,
   PLATFORM_ID_FAMILY_REGISTRY,
 } from "../../packages/kernel/src/identity/registry/id-family.registry.ts";
+import { collectDirectBrandContractImportViolations } from "./identity/kernel-brand-barrel.governance.mts";
+import { collectPrimitiveContractSourceViolations } from "./identity/kernel-primitives.governance.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -105,6 +111,12 @@ const APPROVED_FAMILY_FILES = new Set([
   "enterprise-hierarchy-id.contract.ts",
   "business-reference-id.contract.ts",
 ]);
+
+const APPROVED_BRAND_FILES = new Set<string>(IDENTITY_MODULE_BRAND_FILES);
+
+const APPROVED_PRIMITIVE_FILES = new Set<string>(
+  IDENTITY_MODULE_PRIMITIVE_FILES
+);
 
 const APPROVED_IDENTITY_SUBFOLDERS = new Set([
   "brand",
@@ -374,11 +386,9 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
   }
 
   const canonicalValidatorPath = identitySources.canonicalValidator;
+  let canonicalValidatorSource = "";
   if (existsSync(canonicalValidatorPath)) {
-    const canonicalValidatorSource = readFileSync(
-      canonicalValidatorPath,
-      "utf8"
-    );
+    canonicalValidatorSource = readFileSync(canonicalValidatorPath, "utf8");
     if (
       !hasExportedCallable(canonicalValidatorSource, "isCanonicalEnterpriseId")
     ) {
@@ -397,6 +407,19 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
     });
   }
 
+  if (
+    !hasExportedCallable(
+      canonicalValidatorSource,
+      "isRegisteredCanonicalEnterpriseId"
+    )
+  ) {
+    violations.push({
+      rule: "missing-registry-tier-validator",
+      file: canonicalValidatorPath,
+      message: "Missing isRegisteredCanonicalEnterpriseId export",
+    });
+  }
+
   const prefixRegistrySource = readFileSync(
     identitySources.prefixRegistry,
     "utf8"
@@ -409,19 +432,6 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
       rule: "missing-prefix-registry",
       file: identitySources.prefixRegistry,
       message: "Missing isRegisteredEnterpriseIdPrefix export",
-    });
-  }
-
-  if (
-    !hasExportedCallable(
-      canonicalParserSource,
-      "isRegisteredCanonicalEnterpriseId"
-    )
-  ) {
-    violations.push({
-      rule: "missing-registry-tier-validator",
-      file: identitySources.canonicalParser,
-      message: "Missing isRegisteredCanonicalEnterpriseId export",
     });
   }
 
@@ -550,6 +560,94 @@ export function checkKernelIdentitySurface(): IdentitySurfaceViolation[] {
       });
     }
   }
+
+  const brandDir = join(repoRoot, "packages/kernel/src/identity/brand");
+  for (const entry of readdirSync(brandDir)) {
+    const entryPath = join(brandDir, entry);
+    if (!statSync(entryPath).isFile()) {
+      if (entry === "__tests__") {
+        continue;
+      }
+      violations.push({
+        rule: "unexpected-brand-subfolder",
+        file: entryPath,
+        message: `${entry}/ is not allowed under identity/brand/ except __tests__/`,
+      });
+      continue;
+    }
+
+    if (!APPROVED_BRAND_FILES.has(entry)) {
+      violations.push({
+        rule: "unexpected-brand-contract-file",
+        file: entryPath,
+        message: `${entry} is outside the PAS §4.1.2 approved brand contract layout`,
+      });
+    }
+  }
+
+  const primitivesDir = join(
+    repoRoot,
+    "packages/kernel/src/identity/primitives"
+  );
+  for (const entry of readdirSync(primitivesDir)) {
+    const entryPath = join(primitivesDir, entry);
+    if (!statSync(entryPath).isFile()) {
+      if (entry === "__tests__") {
+        continue;
+      }
+      violations.push({
+        rule: "unexpected-primitives-subfolder",
+        file: entryPath,
+        message: `${entry}/ is not allowed under identity/primitives/ except __tests__/`,
+      });
+      continue;
+    }
+
+    if (!APPROVED_PRIMITIVE_FILES.has(entry)) {
+      violations.push({
+        rule: "primitive-module-layout-drift",
+        file: entryPath,
+        message: `${entry} is outside the PAS §4.1.5 approved primitive module layout`,
+      });
+    }
+  }
+
+  function collectKernelTypeScriptFiles(directory: string): string[] {
+    const files: string[] = [];
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const entryPath = join(directory, entry.name);
+      if (entry.isDirectory()) {
+        files.push(...collectKernelTypeScriptFiles(entryPath));
+        continue;
+      }
+      if (entry.name.endsWith(".ts") || entry.name.endsWith(".tsx")) {
+        files.push(entryPath);
+      }
+    }
+    return files;
+  }
+
+  violations.push(
+    ...collectDirectBrandContractImportViolations(
+      collectKernelTypeScriptFiles(join(repoRoot, "packages/kernel/src")).map(
+        (filePath) => ({
+          path: filePath.slice(repoRoot.length + 1).replace(/\\/g, "/"),
+          source: readFileSync(filePath, "utf8"),
+        })
+      )
+    )
+  );
+
+  violations.push(
+    ...collectPrimitiveContractSourceViolations(
+      collectKernelTypeScriptFiles(
+        join(repoRoot, "packages/kernel/src/identity/primitives")
+      ).map((filePath) => ({
+        path: filePath.slice(repoRoot.length + 1).replace(/\\/g, "/"),
+        source: readFileSync(filePath, "utf8"),
+      }))
+    )
+  );
 
   return violations;
 }

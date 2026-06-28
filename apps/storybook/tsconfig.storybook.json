@@ -80,10 +80,10 @@
     "../../packages/appshell/src/_storybook/*.tsx",
     "../../packages/appshell/src/_storybook/**/*.ts",
     "../../packages/appshell/src/_storybook/**/*.tsx",
-    "../../packages/appshell/src/shadcn-studio/blocks/*.tsx",
-    "../../packages/appshell/src/shadcn-studio/blocks/**/*.tsx",
-    "../../packages/appshell/src/shadcn-studio/blocks/*.ts",
-    "../../packages/appshell/src/shadcn-studio/blocks/**/*.ts",
+    "../../packages/appshell/src/presentation/blocks/*.tsx",
+    "../../packages/appshell/src/presentation/blocks/**/*.tsx",
+    "../../packages/appshell/src/presentation/blocks/*.ts",
+    "../../packages/appshell/src/presentation/blocks/**/*.ts",
     "../../packages/metadata-ui/src/**/*.stories.ts",
     "../../packages/metadata-ui/src/**/*.stories.tsx",
     "../../packages/metadata-ui/src/_storybook/*.ts",
@@ -97,7 +97,9 @@
     "../../packages/shadcn-studio/src/*.ts",
     "../../packages/shadcn-studio/src/*.tsx",
     "../../packages/shadcn-studio/src/**/*.ts",
-    "../../packages/shadcn-studio/src/**/*.tsx"
+    "../../packages/shadcn-studio/src/**/*.tsx",
+    "../../packages/shadcn-studio/src/**/*.stories.ts",
+    "../../packages/shadcn-studio/src/**/*.stories.tsx"
   ],
   "exclude": [
     "../../packages/appshell/src/**/__tests__/**",

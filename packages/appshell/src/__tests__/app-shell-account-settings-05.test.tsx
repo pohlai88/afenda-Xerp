@@ -6,7 +6,7 @@ import {
   AppShellAccountSettings05,
   type AppShellAccountSettings05MemberRow,
   type AppShellAccountSettings05PendingInviteRow,
-} from "../shadcn-studio/blocks/app-shell-account-settings-05";
+} from "../presentation/blocks/app-shell-account-settings-05";
 
 const roleOptions = [
   { label: "Tenant admin", value: "role_admin" },

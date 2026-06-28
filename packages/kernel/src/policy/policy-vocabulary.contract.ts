@@ -35,7 +35,7 @@ export function getPolicyDecisionKind(
   if (!isPolicyDecisionKind(value)) {
     return null;
   }
-  return value as PolicyDecisionKind;
+  return value;
 }
 
 export function getPolicyDenialReason(
@@ -44,5 +44,5 @@ export function getPolicyDenialReason(
   if (!isPolicyDenialReason(value)) {
     return null;
   }
-  return value as PolicyDenialReason;
+  return value;
 }

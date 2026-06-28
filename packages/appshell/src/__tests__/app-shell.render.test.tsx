@@ -3,8 +3,8 @@ import { HomeIcon } from "lucide-react";
 import { describe, expect, it } from "vitest";
 import { createAppShellTestUserId } from "../__tests__/app-shell-test-user-id.js";
 import { ApplicationShell } from "../app-shell";
-import type { AppShellMenuItem } from "../shadcn-studio/data/app-shell.data";
-import { countDefaultAppShellUnreadNotifications } from "../shadcn-studio/data/app-shell.notification.data";
+import type { AppShellMenuItem } from "../presentation/data/app-shell.data";
+import { countDefaultAppShellUnreadNotifications } from "../presentation/data/app-shell.notification.data";
 
 function testUserId(body?: string) {
   return createAppShellTestUserId(body);

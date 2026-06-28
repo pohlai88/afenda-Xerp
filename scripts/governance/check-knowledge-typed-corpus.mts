@@ -6,11 +6,10 @@
  */
 
 import { readFileSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-
-import { validateAtomCorpus } from "../../packages/enterprise-knowledge/src/data/knowledge-data.schema.ts";
 import { KNOWLEDGE_ATOM_IDS } from "../../packages/enterprise-knowledge/src/data/knowledge.registry.ts";
+import { validateAtomCorpus } from "../../packages/enterprise-knowledge/src/data/knowledge-data.schema.ts";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const atomsPath = join(
@@ -45,7 +44,9 @@ const jsonIds = atomsRaw
   )
   .map((r) => r.atomId);
 if (jsonIds.join(",") !== KNOWLEDGE_ATOM_IDS.join(",")) {
-  errors.push("atoms.json: atomId order diverges from KNOWLEDGE_ATOM_IDS registry");
+  errors.push(
+    "atoms.json: atomId order diverges from KNOWLEDGE_ATOM_IDS registry"
+  );
 }
 
 if (errors.length > 0) {

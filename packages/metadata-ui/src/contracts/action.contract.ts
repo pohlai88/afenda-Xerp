@@ -108,6 +108,24 @@ export type MetadataActionResult =
   | MetadataActionSuccessResult
   | MetadataActionFailureResult;
 
+export interface MetadataActionSuccessWireResult {
+  readonly actionKey: string;
+  readonly message?: string;
+  readonly ok: true;
+}
+
+export interface MetadataActionFailureWireResult {
+  readonly actionKey: string;
+  readonly code: MetadataActionErrorCode;
+  readonly ok: false;
+  readonly userMessage: string;
+}
+
+/** JSON-safe metadata action result — omits internal `reason` on failures. */
+export type MetadataActionWireResult =
+  | MetadataActionSuccessWireResult
+  | MetadataActionFailureWireResult;
+
 /**
  * Consumer-owned handler. Wire to a Server Action that re-verifies session,
  * validates input, checks ownership, and returns MetadataActionResult.

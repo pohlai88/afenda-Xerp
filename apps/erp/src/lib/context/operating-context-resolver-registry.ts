@@ -34,7 +34,7 @@ export const OPERATING_CONTEXT_RESOLVER_PIPELINE = [
     id: "resolve-org-team-project",
     step: "Resolve organization unit/team/project if selected",
     module: "resolve-operating-context.server.ts",
-    delegate: "verifyProjectSelection",
+    delegate: "verifyProjectBoundary",
   },
   {
     id: "verify-membership-grant",

@@ -17,7 +17,7 @@
       "!!**/next-env.d.ts",
       "!!**/pnpm-lock.yaml",
       // ── Project-specific exclusions ──────────────────────────────────────────
-      // Documentation: markdown / MDX / Cursor rules — not Biome-owned (see .vscode/settings.json).
+      // Documentation + editor-only scopes — not Biome LSP-owned (see .vscode/settings.json + scripts/governance/biome-editor-policy.mjs).
       "!!**/docs",
       "!!**/*.md",
       "!!**/*.mdx",
@@ -160,6 +160,8 @@
           "suspicious": {
             "noArrayIndexKey": "off",
             "noDocumentCookie": "off",
+            "noAlert": "off",
+            "noShadowRestrictedNames": "off",
             "useAwait": "off",
             "noMisplacedAssertion": "off",
             "noEmptyBlockStatements": "off",
@@ -167,6 +169,7 @@
           },
           "performance": {
             "noNamespaceImport": "off",
+            "noDynamicNamespaceImportAccess": "off",
             "noBarrelFile": "off",
             "noImgElement": "off",
             "useTopLevelRegex": "off",
@@ -175,6 +178,7 @@
           },
           "a11y": {
             "useValidAnchor": "off",
+            "noAmbiguousAnchorText": "off",
             "noLabelWithoutControl": "off",
             "useAriaPropsSupportedByRole": "off",
             "noStaticElementInteractions": "off",

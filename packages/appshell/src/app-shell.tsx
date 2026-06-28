@@ -13,7 +13,7 @@ import { AppShellSidebar } from "./app-shell-sidebar";
 import {
   defaultAppShellPages,
   defaultAppShellRecipients,
-} from "./shadcn-studio/data/app-shell.data";
+} from "./presentation/data/app-shell.data";
 import {
   joinAppShellGovernedClassName,
   resolveAppShellDensityAttribute,

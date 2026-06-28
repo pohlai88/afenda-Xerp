@@ -103,6 +103,7 @@ export async function buildOperatingContextSelectionFromRequest(input?: {
       companyId: mergedIds.companyId,
       organizationSlug,
       organizationId: mergedIds.organizationId,
+      projectSlug: input?.selection?.projectSlug ?? null,
       projectId: input?.selection?.projectId ?? null,
       teamId: input?.selection?.teamId ?? null,
       surfaceId: input?.selection?.surfaceId ?? null,

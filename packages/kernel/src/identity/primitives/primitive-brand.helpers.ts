@@ -1,5 +1,5 @@
-import type { Brand } from "../brand/brand.contract.js";
-import { isCanonicalEnterpriseId } from "../canonical/canonical-id-parser.contract.js";
+import type { Brand } from "../brand/index.js";
+import { isCanonicalEnterpriseId } from "../canonical/canonical-id-validator.contract.js";
 
 /** Detects tenant human reference shape (e.g. EMP-000123) for misclassification guards. */
 export const TENANT_HUMAN_REFERENCE_PATTERN = /^[A-Z][A-Z0-9]*-[A-Z0-9-]+$/;

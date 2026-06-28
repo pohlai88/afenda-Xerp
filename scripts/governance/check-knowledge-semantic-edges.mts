@@ -16,11 +16,11 @@ import {
   KNOWLEDGE_EDGE_TYPES,
   SEMANTIC_EDGE_TYPES,
 } from "../../packages/enterprise-knowledge/src/contracts/knowledge-edge.contract.ts";
+import { ENTERPRISE_KNOWLEDGE_ATOMS } from "../../packages/enterprise-knowledge/src/data/knowledge.registry.ts";
 import {
   validateEdgeCorpus,
   validateSemanticEdgeCorpus,
 } from "../../packages/enterprise-knowledge/src/data/knowledge-data.schema.ts";
-import { ENTERPRISE_KNOWLEDGE_ATOMS } from "../../packages/enterprise-knowledge/src/data/knowledge.registry.ts";
 import {
   ENTERPRISE_KNOWLEDGE_CONCEPTS,
   ENTERPRISE_KNOWLEDGE_TERMS,
@@ -55,19 +55,17 @@ let edgesRaw: unknown[] = [];
 try {
   const text = readFileSync(join(dataDir, "edges.json"), "utf8");
   const parsed: unknown = JSON.parse(text);
-  if (!Array.isArray(parsed)) {
-    errors.push("edges.json: root must be a JSON array");
-  } else {
+  if (Array.isArray(parsed)) {
     edgesRaw = parsed;
+  } else {
+    errors.push("edges.json: root must be a JSON array");
   }
 } catch (err: unknown) {
   const message = err instanceof Error ? err.message : String(err);
   errors.push(`edges.json: invalid JSON — ${message}`);
 }
 
-const atomIds = new Set(
-  ENTERPRISE_KNOWLEDGE_ATOMS.map((atom) => atom.atomId)
-);
+const atomIds = new Set(ENTERPRISE_KNOWLEDGE_ATOMS.map((atom) => atom.atomId));
 const atomConceptById = new Map(
   ENTERPRISE_KNOWLEDGE_ATOMS.flatMap((atom) =>
     atom.conceptId ? [[atom.atomId, atom.conceptId] as const] : []

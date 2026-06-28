@@ -5,7 +5,7 @@ import { describe, expect, it, vi } from "vitest";
 import {
   AppShellAccountSettings06,
   type AppShellAccountSettings06SessionRow,
-} from "../shadcn-studio/blocks/app-shell-account-settings-06";
+} from "../presentation/blocks/app-shell-account-settings-06";
 
 const sessions: AppShellAccountSettings06SessionRow[] = [
   {

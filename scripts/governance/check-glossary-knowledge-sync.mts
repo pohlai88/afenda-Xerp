@@ -8,7 +8,7 @@
  */
 
 import { readFileSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { KNOWLEDGE_ATOM_IDS } from "../../packages/enterprise-knowledge/src/data/knowledge.registry.ts";
@@ -29,11 +29,7 @@ if (!glossary.includes(authorityHeader)) {
 const manifestMatch = glossary.match(
   /<!--\s*knowledge-atom-ids:\s*([^>]+)\s*-->/
 );
-if (!manifestMatch?.[1]) {
-  errors.push(
-    'glossary.md: missing <!-- knowledge-atom-ids: ... --> manifest comment'
-  );
-} else {
+if (manifestMatch?.[1]) {
   const manifestIds = manifestMatch[1]
     .split(",")
     .map((id) => id.trim())
@@ -62,8 +58,14 @@ if (!manifestMatch?.[1]) {
 
   const unique = new Set(manifestIds);
   if (unique.size !== manifestIds.length) {
-    errors.push("glossary.md: duplicate atom IDs in knowledge-atom-ids manifest");
+    errors.push(
+      "glossary.md: duplicate atom IDs in knowledge-atom-ids manifest"
+    );
   }
+} else {
+  errors.push(
+    "glossary.md: missing <!-- knowledge-atom-ids: ... --> manifest comment"
+  );
 }
 
 if (errors.length > 0) {

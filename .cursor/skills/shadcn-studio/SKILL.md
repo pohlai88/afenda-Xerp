@@ -17,9 +17,9 @@ description: >-
 | Phase | Scope | Install cwd | Blocks home |
 | --- | --- | --- | --- |
 | **Phase 1 (delivered B38–B41)** | Standalone `@afenda/shadcn-studio` — Afenda-free | `packages/shadcn-studio` | `packages/shadcn-studio/src/blocks/` |
-| **Phase 2 (B42 — next)** | Afenda integration — css-authority, ERP, metadata-ui hook, delete appshell legacy | `packages/shadcn-studio` | Governed promotion per ADR-0017 (updated on B42) |
+| **Phase 2 (B42 — delivered through B42h)** | Afenda integration — css-authority, ERP, metadata-ui hook, bridge, legacy path delete | `packages/shadcn-studio` | Governed Afenda blocks under `packages/appshell/src/presentation/blocks/` |
 
-**Do not migrate** from `packages/appshell/src/shadcn-studio/` — re-seed via MCP; delete legacy on B42 after parity.
+**Do not migrate** from deleted `packages/appshell/src/shadcn-studio/` path — re-seed via MCP into `@afenda/shadcn-studio`; governed Afenda blocks live under `presentation/` (B42h).
 
 ---
 
@@ -37,7 +37,8 @@ description: >-
 | Primitives | `packages/shadcn-studio/src/components/ui/` |
 | Blocks (seed) | `packages/shadcn-studio/src/blocks/` |
 | Lab stories | `apps/storybook/stories/shadcn-studio-*.stories.tsx` |
-| Legacy (delete on B42) | `packages/appshell/src/shadcn-studio/` — **do not copy** |
+| Governed Afenda blocks | `packages/appshell/src/presentation/blocks/` — **legacy `shadcn-studio/` path deleted (B42h)** |
+| Bridge | `packages/appshell/src/shadcn-studio-bridge/` |
 
 Toolbar:
 
@@ -121,19 +122,22 @@ Storybook: `shadcn-studio-theme-lab`, `shadcn-studio-primitives`, `shadcn-studio
 
 ---
 
-## Verification (Phase 2 — B42, not yet active)
+## Verification (Phase 2 — B42h delivered; B42i next)
 
-After B42 slice closes:
+After B42 integration bridge + B42h legacy path delete:
 
 ```txt
 MCP install (packages/shadcn-studio)
   → normalize (STUDIO-PATTERN-MAP, governed @afenda/ui)
   → css-authority / ERP globals chain
-  → delete packages/appshell/src/shadcn-studio/
+  → bridge via packages/appshell/src/shadcn-studio-bridge/
+  → governed blocks under packages/appshell/src/presentation/blocks/
   → pnpm ui:guard:scan → pnpm ui:guard → pnpm ui:guard:proof
 ```
 
-Handoff: [`docs/PAS/slice/b42-pas005a-afenda-integration.md`](../../docs/PAS/slice/b42-pas005a-afenda-integration.md)
+**Remaining (B42i):** thin MCP wrapper strangler; TIP-004 className strip on MCP blocks.
+
+Handoff: [`docs/PAS/slice/b42h-pas005a-legacy-tree-delete.md`](../../docs/PAS/slice/b42h-pas005a-legacy-tree-delete.md) · next: [`b42i`](../../docs/PAS/slice/) (proposed)
 
 ---
 

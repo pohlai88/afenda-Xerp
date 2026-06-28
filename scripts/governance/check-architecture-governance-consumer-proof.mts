@@ -7,7 +7,7 @@
  */
 
 import { readdirSync, readFileSync } from "node:fs";
-import { join, dirname } from "node:path";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
@@ -28,7 +28,10 @@ const GOVERNANCE_ALLOWLIST = new Set([
 
 const errors: string[] = [];
 
-function collectFiles(directory: string, predicate: (name: string) => boolean): string[] {
+function collectFiles(
+  directory: string,
+  predicate: (name: string) => boolean
+): string[] {
   const files: string[] = [];
   for (const entry of readdirSync(directory, { withFileTypes: true })) {
     if (!entry.isFile()) {
@@ -63,10 +66,7 @@ function scanFile(filePath: string, allowlisted: boolean): void {
       );
     }
 
-    if (
-      !allowlisted &&
-      RELATIVE_DEEP_IMPORT_PATTERN.test(specifier)
-    ) {
+    if (!allowlisted && RELATIVE_DEEP_IMPORT_PATTERN.test(specifier)) {
       errors.push(
         `${relativePath}: deep relative architecture-authority import (${specifier}) — use src/index.ts or src/surface/ only`
       );
@@ -78,10 +78,15 @@ for (const filePath of collectFiles(
   governanceDir,
   (name) => name.startsWith("check-") && name.endsWith(".mts")
 )) {
-  scanFile(filePath, GOVERNANCE_ALLOWLIST.has(filePath.split(/[/\\]/).pop() ?? ""));
+  scanFile(
+    filePath,
+    GOVERNANCE_ALLOWLIST.has(filePath.split(/[/\\]/).pop() ?? "")
+  );
 }
 
-for (const filePath of collectFiles(qualityDir, (name) => name.endsWith(".mjs"))) {
+for (const filePath of collectFiles(qualityDir, (name) =>
+  name.endsWith(".mjs")
+)) {
   scanFile(filePath, false);
 }
 
@@ -90,9 +95,11 @@ const qualitySources = collectFiles(qualityDir, (name) => name.endsWith(".mjs"))
   .join("\n");
 
 if (
-  !qualitySources.includes("validateArchitecture") &&
-  !qualitySources.includes("quality:architecture") &&
-  !qualitySources.includes("loadArchitectureAuthority")
+  !(
+    qualitySources.includes("validateArchitecture") ||
+    qualitySources.includes("quality:architecture") ||
+    qualitySources.includes("loadArchitectureAuthority")
+  )
 ) {
   errors.push(
     "scripts/quality/*.mjs must reference validateArchitecture, loadArchitectureAuthority, or quality:architecture"

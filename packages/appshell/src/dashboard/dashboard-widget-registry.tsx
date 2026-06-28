@@ -1,18 +1,18 @@
-import { AppShellDashboardInvoiceTable } from "../shadcn-studio/blocks/app-shell-dashboard-invoice-table";
-import { AppShellDashboardModuleEarnings } from "../shadcn-studio/blocks/app-shell-dashboard-module-earnings";
-import { AppShellDashboardPaymentHistory } from "../shadcn-studio/blocks/app-shell-dashboard-payment-history";
-import { AppShellDashboardRecentTransactions } from "../shadcn-studio/blocks/app-shell-dashboard-recent-transactions";
-import { AppShellDashboardRegionalSales } from "../shadcn-studio/blocks/app-shell-dashboard-regional-sales";
-import { AppShellDashboardRevenueChart } from "../shadcn-studio/blocks/app-shell-dashboard-revenue-chart";
-import { AppShellDashboardStatisticsLineTrends } from "../shadcn-studio/blocks/app-shell-dashboard-statistics-line-trends";
-import { AppShellDashboardStatisticsMetrics } from "../shadcn-studio/blocks/app-shell-dashboard-statistics-metrics";
 import {
   defaultAppShellDashboardInvoices,
   defaultAppShellDashboardModuleEarnings,
   defaultAppShellDashboardPaymentHistory,
   defaultAppShellDashboardRegionalSales,
   defaultAppShellDashboardTransactions,
-} from "../shadcn-studio/data/app-shell.dashboard.data";
+} from "../presentation/data/app-shell.dashboard.data";
+import { AppShellDashboardInvoiceTable } from "../presentation/wrappers/dashboard/invoice-table.wrapper";
+import { AppShellDashboardModuleEarnings } from "../presentation/wrappers/dashboard/module-earnings.wrapper";
+import { AppShellDashboardPaymentHistory } from "../presentation/wrappers/dashboard/payment-history.wrapper";
+import { AppShellDashboardRecentTransactions } from "../presentation/wrappers/dashboard/recent-transactions.wrapper";
+import { AppShellDashboardRegionalSales } from "../presentation/wrappers/dashboard/regional-sales.wrapper";
+import { AppShellDashboardRevenueChart } from "../presentation/wrappers/dashboard/revenue-chart.wrapper";
+import { AppShellDashboardStatisticsLineTrends } from "../presentation/wrappers/dashboard/statistics-line-trends.wrapper";
+import { AppShellDashboardStatisticsMetrics } from "../presentation/wrappers/dashboard/statistics-metrics.wrapper";
 import {
   createKpiMetricWidgetDefinitions,
   createSparklineMetricWidgetDefinitions,

@@ -4,10 +4,13 @@ import type { AppError } from "../contracts/app-error.contract.js";
 import { AppErrors } from "../contracts/app-error.contract.js";
 import {
   err,
+  errWire,
   isErr,
   isOk,
   ok,
+  okWire,
   type Result,
+  type WireResult,
 } from "../contracts/result.contract.js";
 
 describe("result contract", () => {
@@ -63,5 +66,15 @@ describe("result contract", () => {
     if (isErr(failure)) {
       expect(failure.error.code).toBe("NOT_FOUND");
     }
+  });
+
+  it("creates wire-safe okWire and errWire results", () => {
+    const success: WireResult<{ id: string }> = okWire({ id: "tenant-1" });
+    const failure = errWire("validation failed");
+
+    expect(isOk(success)).toBe(true);
+    expect(success.value).toEqual({ id: "tenant-1" });
+    expect(isErr(failure)).toBe(true);
+    expect(failure.error).toBe("validation failed");
   });
 });

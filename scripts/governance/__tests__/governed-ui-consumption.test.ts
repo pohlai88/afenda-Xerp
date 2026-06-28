@@ -168,7 +168,7 @@ describe("checkConsumerGateDPolicies", () => {
   it("rejects raw Tailwind utilities in studio block className", () => {
     const violations = checkConsumerGateDPolicies(
       `<div className="flex gap-4 app-shell-dashboard-widget">`,
-      "packages/appshell/src/shadcn-studio/blocks/example-block.tsx"
+      "packages/appshell/src/presentation/blocks/example-block.tsx"
     );
     expect(violations.some((v) => v.includes("raw Tailwind"))).toBe(true);
   });
@@ -176,7 +176,7 @@ describe("checkConsumerGateDPolicies", () => {
   it("allows app-shell semantic classes in studio blocks", () => {
     const violations = checkConsumerGateDPolicies(
       `<div className="app-shell-studio-metric-card"><span className="sr-only">Label</span></div>`,
-      "packages/appshell/src/shadcn-studio/blocks/example-block.tsx"
+      "packages/appshell/src/presentation/blocks/example-block.tsx"
     );
     expect(violations).toEqual([]);
   });
@@ -184,7 +184,7 @@ describe("checkConsumerGateDPolicies", () => {
   it("rejects non-Lucide icon imports in studio blocks", () => {
     const violations = checkConsumerGateDPolicies(
       `import { FaBeer } from "react-icons/fa";`,
-      "packages/appshell/src/shadcn-studio/blocks/example-block.tsx"
+      "packages/appshell/src/presentation/blocks/example-block.tsx"
     );
     expect(violations.some((v) => v.includes("Non-Lucide"))).toBe(true);
   });

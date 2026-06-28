@@ -11,6 +11,7 @@ import {
   resolveInvesteeLegalEntityId,
   resolveNonControllingInterestApplicable,
   toOwnershipInterestAuthorityRecord,
+  toOwnershipInterestLookupRow,
 } from "../ownership-interest/ownership-interest.contract.js";
 
 describe("ownership interest consolidation treatment", () => {
@@ -112,6 +113,75 @@ describe("ownership interest contract", () => {
     expect(record.investeeLegalEntityId).toBe("child-1");
     expect(record.consolidationTreatment).toBe("full_consolidation");
     expect(record.nonControllingInterestApplicable).toBe(true);
+  });
+
+  it("maps persisted rows with enterprise joins to lookup rows", () => {
+    const row = toOwnershipInterestLookupRow({
+      id: "interest-1",
+      enterpriseId: "own_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+      tenantId: "tenant-uuid",
+      tenantEnterpriseId: "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+      entityGroupId: "group-uuid",
+      entityGroupEnterpriseId: "egp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+      parentLegalEntityId: "parent-uuid",
+      parentLegalEntityEnterpriseId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5C02",
+      childLegalEntityId: "child-uuid",
+      childLegalEntityEnterpriseId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5FBV",
+      ownershipPercentage: "51.00",
+      votingPercentage: "51.00",
+      controlType: "control",
+      consolidationMethod: "full",
+      nonControllingInterestApplicable: true,
+      effectiveFrom: "2026-01-01",
+      effectiveTo: null,
+      status: "active",
+    });
+
+    expect(row).toEqual({
+      id: "interest-1",
+      enterpriseId: "own_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+      tenantId: "tenant-uuid",
+      tenantEnterpriseId: "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+      entityGroupId: "group-uuid",
+      entityGroupEnterpriseId: "egp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+      parentLegalEntityId: "parent-uuid",
+      parentLegalEntityEnterpriseId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5C02",
+      childLegalEntityId: "child-uuid",
+      childLegalEntityEnterpriseId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5FBV",
+      ownershipPercentage: 51,
+      votingPercentage: 51,
+      controlType: "control",
+      consolidationTreatment: "full_consolidation",
+      nonControllingInterestApplicable: true,
+      effectiveFrom: "2026-01-01",
+      effectiveTo: null,
+      status: "active",
+    });
+  });
+
+  it("returns null when any enterprise ID join is missing", () => {
+    expect(
+      toOwnershipInterestLookupRow({
+        id: "interest-1",
+        enterpriseId: null,
+        tenantId: "tenant-uuid",
+        tenantEnterpriseId: "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        entityGroupId: "group-uuid",
+        entityGroupEnterpriseId: "egp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        parentLegalEntityId: "parent-uuid",
+        parentLegalEntityEnterpriseId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5C02",
+        childLegalEntityId: "child-uuid",
+        childLegalEntityEnterpriseId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5FBV",
+        ownershipPercentage: "51.00",
+        votingPercentage: "51.00",
+        controlType: "control",
+        consolidationMethod: "full",
+        nonControllingInterestApplicable: true,
+        effectiveFrom: "2026-01-01",
+        effectiveTo: null,
+        status: "active",
+      })
+    ).toBeNull();
   });
 
   it("rejects effectiveTo before effectiveFrom", () => {

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { AppShellActivityDialog } from "../shadcn-studio/blocks/app-shell-activity-dialog";
+import { AppShellActivityDialog } from "../presentation/blocks/app-shell-activity-dialog";
 
 describe("AppShellActivityDialog", () => {
   it("renders the trigger without TIP-004 consumer violations", () => {

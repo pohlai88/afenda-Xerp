@@ -13,7 +13,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Status** | Enterprise Accepted — kernel contracts, runtime gates operational |
 | **Authority** | PAS-001 · `@afenda/kernel` · Platform |
 | **Maturity** | `enterprise_accepted` · `implemented` · `runtime_proven` |
-| **Runtime status** | Enterprise Accepted — kernel contracts, 31 delivered slices, runtime gates operational |
+| **Runtime status** | Enterprise Accepted — kernel contracts, 42 delivered slices, runtime gates operational |
 | **Remaining slices** | none — B18 Delivered ([`slice/b18-6.3-public-exports-parity.md`](slice/b18-6.3-public-exports-parity.md)) |
 | **Runtime evidence** | `packages/kernel/`, PAS-001 canonical doc, `kernel-package-layout.contract.ts`, `check:kernel-package-structure` |
 | **Gates** | `pnpm --filter @afenda/kernel typecheck`, `pnpm --filter @afenda/kernel test:run`, `pnpm quality:kernel-context-surface`, `pnpm check:accounting-domain-contracts`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries`, `pnpm architecture:cycles`, `pnpm architecture:drift` |
@@ -26,6 +26,18 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B18 | [b18-6.3-public-exports-parity.md](slice/b18-6.3-public-exports-parity.md) | Delivered |
 | B49 | [b49-kernel-tenant-wire-triad.md](slice/b49-kernel-tenant-wire-triad.md) | Delivered |
 | B50 | [b50-kernel-company-org-wire-triad.md](slice/b50-kernel-company-org-wire-triad.md) | Delivered |
+| B51 | [b51-kernel-parent-org-wire.md](slice/b51-kernel-parent-org-wire.md) | Delivered |
+| B52 | [b52-kernel-full-hierarchy-wire-closure.md](slice/b52-kernel-full-hierarchy-wire-closure.md) | Delivered |
+| B53 | [b53-kernel-propagation-frame-wire.md](slice/b53-kernel-propagation-frame-wire.md) | Delivered |
+| B54 | [b54-kernel-project-wire-triad.md](slice/b54-kernel-project-wire-triad.md) | Delivered |
+| B55 | [b55-kernel-policy-wire-triad.md](slice/b55-kernel-policy-wire-triad.md) | Delivered |
+| B57 | [b57-kernel-permission-wire-triad.md](slice/b57-kernel-permission-wire-triad.md) | Delivered |
+| B58 | [b58-metadata-ui-permission-diagnostics.md](slice/b58-metadata-ui-permission-diagnostics.md) | Delivered |
+| B59 | [b59-live-metadata-authorization-evaluation.md](slice/b59-live-metadata-authorization-evaluation.md) | Delivered |
+| B60 | [b60-api-route-metadata-authorization-bridge.md](slice/b60-api-route-metadata-authorization-bridge.md) | Delivered |
+| B61 | [b61-metadata-authorization-denial-preview.md](slice/b61-metadata-authorization-denial-preview.md) | Delivered |
+| B62 | [b62-metadata-authorization-bridge-hardening.md](slice/b62-metadata-authorization-bridge-hardening.md) | Delivered |
+| B63 | [b63-metadata-authorization-stabilization.md](slice/b63-metadata-authorization-stabilization.md) | Delivered |
 
 ---
 
@@ -50,16 +62,16 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 
 | Field | Value |
 | --- | --- |
-| **Status** | Delivered — B38–B41 complete (2026-06-28) |
+| **Status** | Delivered — B38–B42l complete (2026-06-28) |
 | **Authority** | PAS-005A · `PKGR05A_SHADCN_STUDIO` · PKG-026 · `@afenda/shadcn-studio` |
 | **Maturity** | `mvp_authority` · `implemented` · `presentation-runtime` |
-| **Runtime status** | B42d delivered — appshell re-export bridge + parity registry; legacy delete blocked (~6% parity) |
-| **Remaining slices** | B42e — extended `/cui` batches (dashboard, account-settings per B42b); legacy delete when `deleteBlocked === false` |
+| **Runtime status** | B42l delivered — statistics cards delegating after MCP a11y parity; studio CSS consolidation documented |
+| **Remaining slices** | Ongoing block strangler maintenance (~45 MCP blocks); TIP-004 className strip deferred per block |
 | **Runtime evidence** | [PAS-005A canonical doc](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md), `packages/shadcn-studio/src/theme/`, `apps/storybook/stories/shadcn-studio-*.stories.tsx`, `shadcn-studio.config.json` |
 | **Gates** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/shadcn-studio test:run`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
 | **Result** | Derived presentation authority from PAS-005 — standalone shadcn/studio product before Afenda bridge |
 
-**Next sequence item:** B42e — extended `/cui` batches + legacy delete gate when parity registry reports `deleteBlocked: false`.
+**Next sequence item:** Ongoing block strangler maintenance — `PKGR05A_SHADCN_STUDIO` promoted to `green-lane` (2026-06-28)
 
 | Slice | Doc | Status |
 | --- | --- | --- |
@@ -67,10 +79,18 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B39 | [b39-pas005a-theme-presets.md](slice/b39-pas005a-theme-presets.md) | Delivered |
 | B40 | [b40-pas005a-mcp-seed.md](slice/b40-pas005a-mcp-seed.md) | Delivered (manual seed equivalent) |
 | B41 | [b41-pas005a-lab-verification.md](slice/b41-pas005a-lab-verification.md) | Delivered |
-| B42 | [b42-pas005a-afenda-integration.md](slice/b42-pas005a-afenda-integration.md) | Delivered (partial — legacy delete deferred) |
-| B42b | [b42b-pas005a-legacy-delete-planning.md](slice/b42b-pas005a-legacy-delete-planning.md) | Delivered (planning — delete blocked) |
+| B42 | [b42-pas005a-afenda-integration.md](slice/b42-pas005a-afenda-integration.md) | Delivered (integration bridge; legacy delete closed in B42h) |
+| B42b | [b42b-pas005a-legacy-delete-planning.md](slice/b42b-pas005a-legacy-delete-planning.md) | Delivered (planning — **Superseded** by B42h delete execution) |
 | B42c | [b42c-pas005a-mcp-live-reseed.md](slice/b42c-pas005a-mcp-live-reseed.md) | Delivered (live MCP re-seed) |
-| B42d | [b42d-pas005a-appshell-reexport-bridge.md](slice/b42d-pas005a-appshell-reexport-bridge.md) | Delivered (bridge + parity registry; legacy retained) |
+| B42d | [b42d-pas005a-appshell-reexport-bridge.md](slice/b42d-pas005a-appshell-reexport-bridge.md) | Delivered (bridge + parity registry) |
+| B42e | [b42e-pas005a-extended-cui-batch.md](slice/b42e-pas005a-extended-cui-batch.md) | Delivered (account-settings + dashboard batch) |
+| B42f | [b42f-pas005a-dashboard-shell-bridge-expansion.md](slice/b42f-pas005a-dashboard-shell-bridge-expansion.md) | Delivered (dashboard/shell batch + bridge expansion) |
+| B42g | [b42g-pas005a-residual-shell-content-parity.md](slice/b42g-pas005a-residual-shell-content-parity.md) | Delivered (full parity registry; delete gate opened for B42h) |
+| B42h | [b42h-pas005a-legacy-tree-delete.md](slice/b42h-pas005a-legacy-tree-delete.md) | Delivered (legacy tree deleted; presentation/ relocation) |
+| B42i | [b42i-pas005a-mcp-wrapper-strangler.md](slice/b42i-pas005a-mcp-wrapper-strangler.md) | Delivered (wrapper registry + Phase 1 strangler) |
+| B42j | [b42j-pas005a-wrapper-expansion-delegating-flip.md](slice/b42j-pas005a-wrapper-expansion-delegating-flip.md) | Delivered (shell chrome + dashboard wrappers + MCP className policy) |
+| B42k | [b42k-pas005a-statistics-a11y-delegating-flip.md](slice/b42k-pas005a-statistics-a11y-delegating-flip.md) | Delivered (MCP a11y + four statistics delegating flip) |
+| B42l | [b42l-pas005a-studio-css-consolidation.md](slice/b42l-pas005a-studio-css-consolidation.md) | Delivered (studio CSS consolidation + manifest invariant) |
 
 ---
 
@@ -197,13 +217,13 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | --- | --- |
 | **Status** | Complete |
 | **Runtime status** | PAS §6.1, package tree, skill adapter, and runtime layout synchronized |
-| **Remaining slices** | B18 — public exports parity (PAS §6.3–§6.4) |
+| **Remaining slices** | none — B18 Delivered ([`slice/b18-6.3-public-exports-parity.md`](slice/b18-6.3-public-exports-parity.md)) |
 | **Authority** | PAS-001 §6.1, pas-codebase-bridge, `kernel-package-layout.contract.ts` |
 | **Runtime evidence** | `packages/kernel/PAS-001-KERNEL-TREE.md`, `kernel-boundary-drift.registry.ts`, `.cursor/skills/kernel-authority/` |
 | **Gates** | `pnpm --filter @afenda/kernel test:run`, `pnpm check:kernel-package-structure`, `pnpm architecture:drift`, `pnpm quality:architecture` |
 | **Result** | PAS §6.1, package-local tree, skill adapter, and runtime package layout are synchronized |
 
-**Next sequence item:** Kernel public API/export closure (PAS §6.3–§6.4) — see [`slice/b18-6.3-public-exports-parity.md`](slice/b18-6.3-public-exports-parity.md).
+**Next sequence item:** none — kernel public API/export closure complete (B18 Delivered).
 
 ---
 

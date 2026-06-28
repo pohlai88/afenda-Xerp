@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { AppShellAccountSettings01 } from "../shadcn-studio/blocks/app-shell-account-settings-01";
+import { AppShellAccountSettings01 } from "../presentation/blocks/app-shell-account-settings-01";
 
 describe("AppShellAccountSettings01", () => {
   it("renders promoted default sections when slots are not provided", () => {

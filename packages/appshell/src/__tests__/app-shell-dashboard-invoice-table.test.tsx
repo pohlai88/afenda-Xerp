@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 
-import { AppShellDashboardInvoiceTable } from "../shadcn-studio/blocks/app-shell-dashboard-invoice-table";
+import { AppShellDashboardInvoiceTable } from "../presentation/blocks/app-shell-dashboard-invoice-table";
 
 describe("AppShellDashboardInvoiceTable", () => {
   it("renders invoice ledger region with summary metrics", () => {

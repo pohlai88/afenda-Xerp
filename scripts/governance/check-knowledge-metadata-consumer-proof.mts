@@ -6,7 +6,7 @@
  * via getKnowledgeAtom without enterprise-knowledge importing metadata.
  */
 
-import { readFileSync, readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -15,7 +15,10 @@ const metadataKnowledgeDir = join(
   repoRoot,
   "packages/ui-composition/src/knowledge"
 );
-const metadataPackageJson = join(repoRoot, "packages/ui-composition/package.json");
+const metadataPackageJson = join(
+  repoRoot,
+  "packages/ui-composition/package.json"
+);
 const enterpriseKnowledgeSrc = join(
   repoRoot,
   "packages/enterprise-knowledge/src"
@@ -80,7 +83,9 @@ if (!hasEnterpriseKnowledgeImport) {
 }
 
 if (!hasProjectKnowledgeAtomUsage) {
-  errors.push("metadata consumer must call projectKnowledgeAtom (PAS-004C B47)");
+  errors.push(
+    "metadata consumer must call projectKnowledgeAtom (PAS-004C B47)"
+  );
 }
 
 if (resolvesRequiredAtoms < REQUIRED_PLATFORM_IDENTITY_ATOMS.length) {

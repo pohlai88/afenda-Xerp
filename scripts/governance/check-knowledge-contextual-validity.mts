@@ -22,7 +22,9 @@ for (const e of policyErrors) {
 }
 
 for (const atomId of CONTEXTUAL_VALIDITY_EVIDENCE_ATOM_IDS) {
-  const atom = ENTERPRISE_KNOWLEDGE_ATOMS.find((entry) => entry.atomId === atomId);
+  const atom = ENTERPRISE_KNOWLEDGE_ATOMS.find(
+    (entry) => entry.atomId === atomId
+  );
   if (!atom?.contextualValidity) {
     continue;
   }

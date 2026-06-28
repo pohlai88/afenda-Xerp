@@ -30,7 +30,6 @@ const PAS_SECTION_9_DESCRIPTIONS = [
 describe("kernel contract rules policy (PAS §9)", () => {
   it("registers exactly 14 PAS §9 rules", () => {
     expect(KERNEL_CONTRACT_RULE_IDS).toHaveLength(14);
-    expect(KERNEL_CONTRACT_RULES).toHaveLength(14);
     expect(KERNEL_CONTRACT_RULES_POLICY.ruleCount).toBe(14);
     expect(listKernelContractRules()).toHaveLength(14);
   });
@@ -74,5 +73,18 @@ describe("kernel contract rules policy (PAS §9)", () => {
   it("keeps the policy JSON-serializable", () => {
     expect(() => JSON.stringify(KERNEL_CONTRACT_RULES_POLICY)).not.toThrow();
     expect(() => JSON.stringify(listKernelContractRules())).not.toThrow();
+    expect(() => JSON.stringify(KERNEL_CONTRACT_RULES)).not.toThrow();
+  });
+
+  it("preserves ordered list API after Record registry migration", () => {
+    expect(Object.keys(KERNEL_CONTRACT_RULES)).toEqual([
+      ...KERNEL_CONTRACT_RULE_IDS,
+    ]);
+    expect(listKernelContractRules().map((rule) => rule.id)).toEqual([
+      ...KERNEL_CONTRACT_RULE_IDS,
+    ]);
+    expect(listKernelContractRules().map((rule) => rule.pasRuleNumber)).toEqual(
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+    );
   });
 });

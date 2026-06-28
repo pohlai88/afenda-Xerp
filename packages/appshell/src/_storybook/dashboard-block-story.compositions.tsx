@@ -1,8 +1,8 @@
 import type { ComponentType, ReactNode } from "react";
 import { densityToAttribute } from "@afenda/ui/governance";
 
-import { AppShellDashboardInvoiceTable } from "../shadcn-studio/blocks/app-shell-dashboard-invoice-table";
-import { AppShellDashboardRegionalSales } from "../shadcn-studio/blocks/app-shell-dashboard-regional-sales";
+import { AppShellDashboardInvoiceTable } from "../presentation/blocks/app-shell-dashboard-invoice-table";
+import { AppShellDashboardRegionalSales } from "../presentation/blocks/app-shell-dashboard-regional-sales";
 
 /** Pads a single dashboard block the same way the shell main region does in Storybook. */
 export function DashboardBlockStoryCanvas({

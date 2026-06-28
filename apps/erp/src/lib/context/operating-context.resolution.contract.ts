@@ -1,7 +1,10 @@
-import type { EntityGroupLookupRow } from "@afenda/database";
+import type { EntityGroupLookupRow, ProjectLookupRow } from "@afenda/database";
 import type { OperatingContextError } from "@afenda/kernel";
 
-import { ENTITY_GROUP_ACCESS_BLOCK_REASON } from "./context-errors";
+import {
+  ENTITY_GROUP_ACCESS_BLOCK_REASON,
+  PROJECT_ACCESS_BLOCK_REASON,
+} from "./context-errors";
 
 export interface EntityGroupBoundaryInput {
   readonly entityGroupId: string | null;
@@ -46,19 +49,72 @@ export function verifyEntityGroupBoundary(
   return null;
 }
 
+export interface ProjectBoundaryInput {
+  readonly companyId: string;
+  readonly organizationId: string | null;
+  readonly projectIdHint?: string | null;
+  readonly projectRow: ProjectLookupRow | null;
+  readonly projectSlug?: string | null;
+  readonly tenantId: string;
+}
+
 /**
- * Project scope is planned for TIP-030 — reject any client hint until persistence exists.
+ * Verifies a resolved project row matches tenant, company, and optional org scope.
+ * Fail-closed when a client hint cannot be verified.
  */
-export function verifyProjectSelection(input: {
-  readonly projectId?: string | null;
-}): OperatingContextError | null {
-  const projectId = input.projectId?.trim();
-  if (!projectId) {
+export function verifyProjectBoundary(
+  input: ProjectBoundaryInput
+): OperatingContextError | null {
+  const projectSlug = input.projectSlug?.trim() || null;
+  const projectIdHint = input.projectIdHint?.trim() || null;
+
+  if (!(projectSlug || projectIdHint)) {
     return null;
   }
 
-  return {
-    code: "PROJECT_SCOPE_MISMATCH",
-    userMessage: "Project scope is not available in this workspace yet.",
-  };
+  if (!input.projectRow) {
+    return {
+      code: "PROJECT_NOT_FOUND",
+      userMessage: "Selected project was not found in this workspace.",
+    };
+  }
+
+  if (input.projectRow.tenantId !== input.tenantId) {
+    return {
+      code: "PROJECT_SCOPE_MISMATCH",
+      userMessage: "Project does not belong to this tenant.",
+    };
+  }
+
+  if (input.projectRow.companyId !== input.companyId) {
+    return {
+      code: "PROJECT_SCOPE_MISMATCH",
+      userMessage: "Project does not belong to the selected legal entity.",
+    };
+  }
+
+  const organizationId = input.organizationId;
+  const projectOrganizationId = input.projectRow.organizationUnitId;
+
+  if (
+    organizationId &&
+    projectOrganizationId &&
+    projectOrganizationId !== organizationId
+  ) {
+    return {
+      code: "PROJECT_SCOPE_MISMATCH",
+      userMessage: "Project does not belong to the selected organization unit.",
+    };
+  }
+
+  if (input.projectRow.status !== "active") {
+    return {
+      code: "PROJECT_NOT_OPERATIONAL",
+      userMessage:
+        PROJECT_ACCESS_BLOCK_REASON[input.projectRow.status] ??
+        "Project is not available.",
+    };
+  }
+
+  return null;
 }

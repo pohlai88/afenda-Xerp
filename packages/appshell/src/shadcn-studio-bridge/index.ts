@@ -1,18 +1,51 @@
 /**
- * PAS-005A B42d — appshell re-export bridge for live @afenda/shadcn-studio MCP blocks.
+ * PAS-005A B42d/B42f — appshell re-export bridge for live @afenda/shadcn-studio MCP blocks.
  *
- * Legacy governed blocks remain under ../shadcn-studio/ until parity registry reports deleteBlocked: false.
+ * Legacy governed blocks remain under ../presentation/ until parity registry reports deleteBlocked: false.
  * Do not copy legacy TSX — extend via MCP /cui batches only.
  */
 
 export {
+  AccountSettings01Block as AppShellPresentationAccountSettings01,
+  AccountSettings02Block as AppShellPresentationAccountSettings02,
+  AccountSettings03Block as AppShellPresentationAccountSettings03,
+  AccountSettings04Block as AppShellPresentationAccountSettings04,
+  AccountSettings05Block as AppShellPresentationAccountSettings05,
+  AccountSettings06Block as AppShellPresentationAccountSettings06,
+  AccountSettings07Block as AppShellPresentationAccountSettings07,
+  ActivityDialogBlock as AppShellPresentationActivityDialog,
+  ChartEarningReportBlock as AppShellPresentationChartEarningReport,
+  ChartSalesMetricsBlock as AppShellPresentationChartSalesMetrics,
   computeStudioBlockParitySummary,
+  DatatableInvoiceBlock as AppShellPresentationDatatableInvoice,
+  ErrorPage02Block as AppShellPresentationAuthErrorPage02,
   HeroSection01Block as AppShellPresentationHeroSection01,
+  LanguageDropdownBlock as AppShellPresentationLanguageDropdown,
   LEGACY_APPSHELL_STUDIO_BLOCK_COUNT,
   LoginPage04Block as AppShellPresentationLoginPage04,
+  MenuTriggerBlock as AppShellPresentationMenuTrigger,
+  NotificationDropdownBlock as AppShellPresentationNotificationDropdown,
+  ProfileDropdownBlock as AppShellPresentationProfileDropdown,
+  SearchDialogBlock as AppShellPresentationSearchDialog,
   SHADCN_STUDIO_BLOCK_PARITY_REGISTRY,
+  SidebarUserDropdownBlock as AppShellPresentationSidebarUserDropdown,
+  StatisticsActivityCardBlock as AppShellPresentationStatisticsActivityCard,
   StatisticsCard01Block as AppShellPresentationStatisticsCard01,
+  StatisticsCard02Block as AppShellPresentationStatisticsCard02,
+  StatisticsCard03Block as AppShellPresentationStatisticsCard03,
+  StatisticsIncomeCardBlock as AppShellPresentationStatisticsIncomeCard,
+  StatisticsLeadsCardBlock as AppShellPresentationStatisticsLeadsCard,
+  StatisticsLineTrendsCardBlock as AppShellPresentationStatisticsLineTrendsCard,
+  StatisticsOrdersProgressCardBlock as AppShellPresentationStatisticsOrdersProgressCard,
+  StatisticsProfileTrafficCardBlock as AppShellPresentationStatisticsProfileTrafficCard,
+  StatisticsRevenueCardBlock as AppShellPresentationStatisticsRevenueCard,
+  StatisticsSalesOverviewCardBlock as AppShellPresentationStatisticsSalesOverviewCard,
+  StatisticsTrendCardBlock as AppShellPresentationStatisticsTrendCard,
   type StudioBlockParityEntry,
   type StudioBlockParityStatus,
   type StudioBlockParitySummary,
+  WidgetPaymentHistoryBlock as AppShellPresentationWidgetPaymentHistory,
+  WidgetSalesByCountriesBlock as AppShellPresentationWidgetSalesByCountries,
+  WidgetTotalEarningBlock as AppShellPresentationWidgetTotalEarning,
+  WidgetTransactionsBlock as AppShellPresentationWidgetTransactions,
 } from "@afenda/shadcn-studio";

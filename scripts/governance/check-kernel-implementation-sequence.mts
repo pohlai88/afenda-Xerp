@@ -12,6 +12,10 @@ import {
   KERNEL_IMPLEMENTATION_SEQUENCE_DEFERRED_PATHS,
   listKernelImplementationSequenceSteps,
 } from "../../packages/kernel/src/governance/kernel-implementation-sequence.contract.ts";
+import {
+  extractPasBulletLabels,
+  slicePasSection,
+} from "./kernel-pas-section.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -22,32 +26,13 @@ const pasPath = join(repoRoot, "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md");
 const packageJsonPath = join(repoRoot, "package.json");
 
 function extractPasSection11Deferred(source: string): string[] {
-  const sectionStart = source.indexOf("# 11. Implementation Sequence");
-  const sectionEnd = source.indexOf("# 12. Enterprise Acceptance Criteria");
-
-  if (sectionStart === -1 || sectionEnd === -1 || sectionEnd <= sectionStart) {
-    throw new Error("Could not locate PAS §11 boundaries in PAS-001.");
-  }
-
-  const section = source.slice(sectionStart, sectionEnd);
+  const section = slicePasSection(source, 11, 12);
   const deferredStart = section.indexOf("Do not add in kernel:");
   if (deferredStart === -1) {
     throw new Error("Could not locate PAS §11 deferred additions list.");
   }
 
-  const deferredSection = section.slice(deferredStart);
-  const labels: string[] = [];
-
-  for (const line of deferredSection.split("\n")) {
-    const match = /^\*\s+(.+)\s*$/.exec(line.trim());
-    if (!match?.[1]) {
-      continue;
-    }
-
-    labels.push(match[1].replace(/^`|`$/g, ""));
-  }
-
-  return labels;
+  return extractPasBulletLabels(section.slice(deferredStart));
 }
 
 const pasDeferred = extractPasSection11Deferred(readFileSync(pasPath, "utf8"));

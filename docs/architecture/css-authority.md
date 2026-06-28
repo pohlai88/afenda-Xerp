@@ -220,7 +220,7 @@ implementation detail loaded by `afenda-appshell.css` via `@import "./afenda-app
 - **Block-local geometry** (readiness gate status dots, dashboard grid placement) stays in `afenda-appshell.css`
 - **Reusable patterns** shared across ≥2 blocks land in `afenda-appshell-studio.css`
 
-Pattern map and migration notes: `packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md`.
+Pattern map and migration notes: `packages/appshell/src/presentation/STUDIO-PATTERN-MAP.md`.
 Normalization workflow: **3-question decision filter** in [afenda-shadcn-components SKILL §2](../../.cursor/skills/afenda-shadcn-components/SKILL.md).
 
 ### Manifest `internalOnly`

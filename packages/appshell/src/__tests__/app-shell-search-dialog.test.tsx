@@ -6,8 +6,8 @@ import {
   AppShellSearchCommand,
   AppShellSearchDialog,
   type AppShellSearchDialogProps,
-} from "../shadcn-studio/blocks/app-shell-search-dialog";
-import { defaultAppShellSearchSuggestions } from "../shadcn-studio/data/app-shell.search.data";
+} from "../presentation/blocks/app-shell-search-dialog";
+import { defaultAppShellSearchSuggestions } from "../presentation/data/app-shell.search.data";
 
 function renderSearchDialog(props: Partial<AppShellSearchDialogProps> = {}) {
   return render(

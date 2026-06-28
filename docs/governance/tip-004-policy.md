@@ -86,7 +86,7 @@ Policy source: [`packages/ui/scripts/check-design-system-consumption.ts`](../../
 
 | Package | CSS surface | Blocks / wiring |
 |---------|-------------|-----------------|
-| `packages/appshell` | `afenda-appshell.css` | shadcn-studio blocks under `src/shadcn-studio/blocks/` |
+| `packages/appshell` | `afenda-appshell.css` | Governed presentation blocks under `src/presentation/blocks/` |
 | `packages/metadata-ui` | `afenda-metadata-ui.css` | metadata renderers |
 | `apps/erp` | `globals.css` (imports package CSS) | page wiring |
 
@@ -155,8 +155,8 @@ Apps import **`@afenda/appshell/afenda-appshell.css` only** — never `afenda-ap
 1. Install cwd: `packages/ui` (`components.json` lives there)
 2. Stage raw MCP output in `packages/ui/src/components/shadcn-studio/` (never ship from here)
 3. **Normalize:** apply the **3-question decision filter** (Q1 governed primitive → Q2 visual/semantic → Q3 layout/structural)
-4. Consult [`STUDIO-PATTERN-MAP.md`](../../packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md); add reusable patterns to `afenda-appshell-studio.css` only when ≥2 blocks need them
-5. Move to `packages/appshell/src/shadcn-studio/blocks/`
+4. Consult [`STUDIO-PATTERN-MAP.md`](../../packages/appshell/src/presentation/STUDIO-PATTERN-MAP.md); add reusable patterns to `afenda-appshell-studio.css` only when ≥2 blocks need them
+5. Move to `packages/appshell/src/presentation/blocks/`
 6. Run `pnpm ui:guard:scan` → `pnpm ui:guard` → `pnpm ui:guard:proof`
 
 Apps import **`@afenda/appshell/afenda-appshell.css` only** — never `afenda-appshell-studio.css` directly.

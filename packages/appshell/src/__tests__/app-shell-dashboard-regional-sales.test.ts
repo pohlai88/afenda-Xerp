@@ -2,13 +2,13 @@ import { describe, expect, it } from "vitest";
 import {
   computeDashboardShare,
   computeWeightedDashboardTrend,
-} from "../shadcn-studio/blocks/app-shell-dashboard-breakdown.utils";
+} from "../presentation/blocks/app-shell-dashboard-breakdown.utils";
 import {
   buildRankedRegionalSalesRows,
   buildRegionalSalesSummary,
-} from "../shadcn-studio/blocks/app-shell-dashboard-regional-sales";
-import type { AppShellDashboardRegionalSalesRow } from "../shadcn-studio/data/app-shell.dashboard.types";
-import { asAppShellDashboardRowId } from "../shadcn-studio/data/app-shell.dashboard.types";
+} from "../presentation/blocks/app-shell-dashboard-regional-sales";
+import type { AppShellDashboardRegionalSalesRow } from "../presentation/data/app-shell.dashboard.types";
+import { asAppShellDashboardRowId } from "../presentation/data/app-shell.dashboard.types";
 
 const sampleRows = [
   {

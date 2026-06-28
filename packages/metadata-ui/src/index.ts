@@ -14,6 +14,7 @@ export {
   isDestructiveMetadataAction,
   isMetadataActionFailure,
   isMetadataActionSuccess,
+  toMetadataActionWireResult,
 } from "./actions/metadata-action-handler.js";
 export {
   compareRenderableActions,
@@ -35,6 +36,7 @@ export type {
   MetadataActionContext,
   MetadataActionErrorCode,
   MetadataActionFailureResult,
+  MetadataActionFailureWireResult,
   MetadataActionGroup,
   MetadataActionHandler,
   MetadataActionKind,
@@ -42,8 +44,10 @@ export type {
   MetadataActionResult,
   MetadataActionResultHandler,
   MetadataActionSuccessResult,
+  MetadataActionSuccessWireResult,
   MetadataActionTarget,
   MetadataActionVisibilityState,
+  MetadataActionWireResult,
   MetadataRenderableAction,
 } from "./contracts/action.contract.js";
 export {
@@ -72,6 +76,17 @@ export type {
   MetadataSpecificLayoutProps,
 } from "./contracts/layout.contract.js";
 export { METADATA_LAYOUT_REGIONS } from "./contracts/layout.contract.js";
+export type {
+  MetadataUiRenderRefreshEventName,
+  MetadataUiRenderRefreshHint,
+  MetadataUiRenderRefreshSurface,
+} from "./contracts/metadata-domain-event-vocabulary.contract.js";
+export {
+  isMetadataUiRenderRefreshEventName,
+  METADATA_UI_RENDER_REFRESH_EVENT_NAMES,
+  METADATA_UI_RENDER_REFRESH_SURFACES,
+  resolveMetadataUiRenderRefreshHint,
+} from "./contracts/metadata-domain-event-vocabulary.contract.js";
 export type { MetadataUiContract } from "./contracts/metadata-ui.contract.js";
 export {
   METADATA_UI_AUTHORITY,

@@ -5,8 +5,8 @@ import { describe, expect, it } from "vitest";
 import {
   AppShellDashboardKpiStat,
   formatChangePercentage,
-} from "../shadcn-studio/blocks/app-shell-dashboard-kpi-stat";
-import { asAppShellDashboardRowId } from "../shadcn-studio/data/app-shell.dashboard.types";
+} from "../presentation/blocks/app-shell-dashboard-kpi-stat";
+import { asAppShellDashboardRowId } from "../presentation/data/app-shell.dashboard.types";
 
 describe("AppShellDashboardKpiStat", () => {
   it("formats positive, zero, and negative change percentages", () => {

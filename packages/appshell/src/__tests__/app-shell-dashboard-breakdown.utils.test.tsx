@@ -7,7 +7,7 @@ import {
   formatDashboardCurrency,
   parseDashboardAmount,
   TrendIndicator,
-} from "../shadcn-studio/blocks/app-shell-dashboard-breakdown.utils";
+} from "../presentation/blocks/app-shell-dashboard-breakdown.utils";
 
 describe("app-shell-dashboard-breakdown.utils", () => {
   it("parses formatted dashboard currency amounts", () => {
