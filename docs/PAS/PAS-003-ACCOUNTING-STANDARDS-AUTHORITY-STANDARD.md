@@ -22,7 +22,7 @@
 | **Consumers** | See [Architecture Blueprint — Accounting domain](../architecture/afenda-architecture-blueprint.md#accounting--finance-domain): `@afenda/kernel` (live), `@afenda/accounting` (blocked), `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/reporting` (planned), `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp` (live surfaces) |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/slice/` |
+| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
 | **ADR prerequisites** | ADR-0013 · consumer packages declared in [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) |
 
 #### Required gates
@@ -40,9 +40,9 @@
 > PAS-003 is implementable and may guide package creation, contracts, tests, and slices. It is **not Enterprise Accepted** until the package exists, required gates pass, versioned standard registries are implemented, rule evidence is tested, and at least one consuming workflow proves standards-backed validation.
 
 > **Canonical location:** `docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md`
-> **Package-local pointer:** [`packages/accounting-standards/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md`](../../packages/accounting-standards/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md)
+> **Domain North Star:** [`accounting-standards-north-star.md`](../NORTHSTAR/accounting-standards-north-star.md)
 > **Kernel identity boundary (do not duplicate):** [PAS-001 §4.1](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [PAS-001 context](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
-> **Blueprint (consumer discovery):** [Architecture Blueprint — Accounting domain](../architecture/afenda-architecture-blueprint.md#accounting--finance-domain) · [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)
+> **Blueprint (consumer discovery):** [Accounting Standards Blueprint](../BLUEPRINT/accounting-standards-blueprint.md) · [Platform Blueprint — Accounting domain](../architecture/afenda-architecture-blueprint.md#accounting--finance-domain) · [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)
 
 ---
 
@@ -59,7 +59,7 @@
 
 **Required gates:** see §13.1.
 
-**Slice entrypoint:** `docs/PAS/slice/` · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
+**Closure registry:** [`pas-status-index.md`](pas-status-index.md) · Session: `/afenda-coding-session`
 
 **Registry:** `PKGR03_ACCOUNTING_STANDARDS` · `PKG-023` in `packages/architecture-authority/src/data/package-registry.data.ts`.
 
@@ -568,7 +568,7 @@ This proves what standard/version was used at validation time.
 
 ```text
 packages/accounting-standards/
-├── PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md   # tombstone → docs/PAS
+├── PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md
 ├── package.json
 ├── tsconfig.json
 ├── tsconfig.vitest.json
@@ -988,108 +988,3 @@ Consolidation owns **group calculation**.
 Intercompany owns **markup and elimination policy**.
 Tax owns **tax treatment and filing**.
 UI/AI own **explanation delivery grounded in this package**.
-
----
-
-# Appendix A — Borrow reference inventory (temporary)
-
-> **Status:** Temporary research appendix · **not Enterprise Accepted authority**
-> **Purpose:** Guide B1–B11 implementation slices with prior art from the `pohlai88` org and selected OSS pattern repos.
-> **Reviewed:** 2026-06-27 (GitHub MCP code search)
-> **Rule:** Borrow **shapes, enums, citation patterns, and rule IDs** only. Do not copy ledger posting, full standard text, or runtime engines into `@afenda/accounting-standards`. Remove or fold this appendix into slice handoffs once B12 governance sync closes.
-
-## A.1 Scope of this appendix
-
-| Label | Meaning |
-| --- | --- |
-| **Tier A** | Safe pattern borrow into `@afenda/accounting-standards` (metadata + validation contracts) |
-| **Tier B** | Borrow rule/evidence shape only — do not import runtime or ledger logic |
-| **Tier C** | Monitoring / build-time ideas — not runtime package code |
-| **Exclude** | Do not borrow — wrong layer or prohibited by PAS-003 §5 |
-
-Official IFRS/MFRS/SFRS text remains **cite + paraphrase only** ([IFRS Foundation](https://www.ifrs.org/issued-standards/list-of-standards/), MASB for MFRS). Never embed full standard prose in source.
-
-## A.2 Self repo — `pohlai88/afenda-Xerp`
-
-GitHub code search returned **no indexed hits** as of 2026-06-27 (local PAS-003 / B0 skeleton not yet pushed).
-
-| Local path | Status | PAS slice |
-| --- | --- | --- |
-| `docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md` | Canonical authority | Publish |
-| `packages/accounting-standards/src/index.ts` | B0 skeleton | B0 ✓ |
-| `.cursor/skills/accounting-standards-authority/` | Skill adapter | B0 ✓ |
-
-## A.3 Org prior art — `pohlai88/*` (primary borrow pool)
-
-### Tier A — port patterns into accounting-standards
-
-| Repository | Path | Borrow for | Target PAS § / slice |
-| --- | --- | --- | --- |
-| [aibos-erp](https://github.com/pohlai88/aibos-erp) | `packages/accounting/src/types/standards.ts` | `StandardReference`, `StandardCrosswalk`, `Jurisdiction`, compliance report shapes | §4.2–§4.3 · B2–B3 |
-| [NEXUS-KERNEL](https://github.com/pohlai88/NEXUS-KERNEL) | `src/manifest.ts` | `BusinessStandardSchema` enum (`IFRS`, `MFRS`, `LOCAL`, `INTERNAL`) | §4.1 · B1 |
-| [AIBOS-METADATA](https://github.com/pohlai88/AIBOS-METADATA) | `metadata-studio/seed/standard-packs/finance-ifrs-core.csv` | Standard pack keys (`MFRS15_REVENUE`, etc.) | §4.4 · B4 |
-| [AFENDA-NEXUS](https://github.com/pohlai88/AFENDA-NEXUS) | `docs/ifrs-kpmg-generator.md` | `FinancialStatementAST`, localization layer (IFRS → MFRS/SFRS/MPERS) | Build-time generator · post-B8 |
-| [AFENDA-NEXUS](https://github.com/pohlai88/AFENDA-NEXUS) | `packages/modules/finance/src/slices/lease/calculators/sale-leaseback.ts` | IFRS 16 cited pure calculator pattern | §4.9 · B9 |
-| [AFENDA-NEXUS](https://github.com/pohlai88/AFENDA-NEXUS) | `packages/modules/finance/src/slices/gl/calculators/parallel-ledger.ts` | Multi-GAAP parallel ledger **vocabulary** (not runtime) | Consumer reference only |
-| [smart-ledger-pro](https://github.com/pohlai88/smart-ledger-pro) | `src/lib/schemas.ts` | `AccountingStandardSchema` enum | §4.1 · B1 |
-| [AI-BOS-Finance](https://github.com/pohlai88/AI-BOS-Finance) | `apps/kernel/src/metadata-studio/seed/standard-packs/finance-ifrs-core.csv` | Extended finance standard packs (tier1/tier2) | §4.4 · B4 |
-
-### Tier B — evidence / rule shape only
-
-| Repository | Path | Borrow | Do not borrow |
-| --- | --- | --- | --- |
-| [AIBOS-PLATFORM](https://github.com/pohlai88/AIBOS-PLATFORM) | `kernel/finance/compliance/mfrs-ifrs-validator.ts` | `ruleId`, `requirement`, severity union, validation result shape | GL account / journal validation runtime |
-| [aibos_v6_vanilla](https://github.com/pohlai88/aibos_v6_vanilla) | `packages/backend/ledger/domain/mfrs_compliance_engine.py` | `MFRSStandard` enum list, `MFRSRule` / disclosure dataclass shapes | SQLite engine, `eval()` custom logic, ledger DB |
-| [aibos-erp](https://github.com/pohlai88/aibos-erp) | `packages/accounting/src/services/intercompany-validator.utility.ts` | IFRS 10 / MFRS 10 citation on validation messages | IC mirroring calculation |
-| [aibos-erpBOS](https://github.com/pohlai88/aibos-erpBOS) | `ui-runbook/M44-MULTI-GAAP-LOCAL-STAT.md` | ASEAN IFRS/MFRS/SFRS/MPERS matrix vocabulary | UI runbook prose as authority |
-
-### Tier C — monitoring / ingestion ideas
-
-| Repository | Path | Use |
-| --- | --- | --- |
-| [aibos_backend](https://github.com/pohlai88/aibos_backend) | `scripts/regulatory_monitor.py` | MASB RSS (`masb.org.my`) for MFRS version drift alerts → §4.3 `retrievedAt` / `authorityStatus` |
-| [AFENDA-NEXUS](https://github.com/pohlai88/AFENDA-NEXUS) | `docs/ifrs-kpmg-generator.md` | Build-time PDF→AST pipeline (KPMG illustrative FS) — **not** runtime package |
-
-## A.4 External OSS — pattern references (not dependencies)
-
-No drop-in npm IFRS registry library was found. Useful **pattern** repos:
-
-| Repository | Path | Borrow for | Target slice |
-| --- | --- | --- | --- |
-| [erpax/erpax](https://github.com/erpax/erpax) | `src/ifrs/16/` (`types.ts`, `validate.ts`, `translations.ts`) | Modular IFRS 16 package layout + tests | B8–B9 |
-| [teren-papercutlabs/jaz-ai](https://github.com/teren-papercutlabs/jaz-ai) | `cli/src/core/calc/lease.ts` | Paragraph cites (IFRS 16.26, 36–37, 31–32), pure calculator | B9 |
-| [marchouze/scrooge](https://github.com/marchouze/scrooge) | `prototype/platform/semantic/ifrs-classification-entries.ts` | `ifrsRef: "IAS 1 §54"` citation chains, semantic entry registry | B10–B11 |
-| [stefbach/v0-lexora-accounting-saa-s](https://github.com/stefbach/v0-lexora-accounting-saa-s) | `lib/accounting/leases-ifrs16.ts` | Short IFRS 16 lessee exemption summary | B9 |
-| [kjteng/LeaseReg-Software](https://github.com/kjteng/LeaseReg-Software) | *(repo root)* | MFRS 16 Malaysia lease domain vocabulary | B9 (MFRS lane) |
-| [nclamvn/Viet-ERP](https://github.com/nclamvn/Viet-ERP) | `apps/Accounting/src/lib/vas/ifrs-mapping.ts` | Local GAAP → IFRS mapping `adjustmentType` enum | B4 (future LOCAL_POLICY) |
-| [ilias-m-n/ExtractAccStds_GPT_MP](https://github.com/ilias-m-n/ExtractAccStds_GPT_MP) | `utility/prompts.py` | Build-time standard-name extraction prompts | Generator tooling only |
-
-## A.5 Explicit exclusions (do not borrow into this package)
-
-| Source | Reason |
-| --- | --- |
-| `mfrs_compliance_engine.py` runtime engine | Ledger-coupled, DB persistence, wrong layer |
-| `mfrs-ifrs-validator.ts` in kernel/compliance path | GL validation belongs in Accounting runtime |
-| KPMG/PwC/Deloitte illustrative PDF body text | Copyright — summary + URL cite only (PAS-003 §8.16–§8.17) |
-| Full IASB XBRL taxonomy files | External authority evidence; store edition + URL, not embedded taxonomy |
-| Angular/Java ERP modules (e.g. `ghacupha/erp-client`) | UI/runtime modules — pattern ideas only |
-
-## A.6 Suggested slice → borrow map
-
-| Slice | Primary borrow source | Deliverable in `packages/accounting-standards/` |
-| --- | --- | --- |
-| B1 | `NEXUS-KERNEL/manifest.ts` + PAS-003 §4.1 | `accounting-standard-family.registry.ts` |
-| B2–B3 | `aibos-erp/standards.ts` | Standard + version contracts/registries |
-| B4 | PAS-003 routing + `AIBOS-METADATA` CSV pack keys | `standard-process-routing.registry.ts` |
-| B5–B7 | PAS-003 §4.5–§4.7 + Tier B result shapes | Validation input/rule/result contracts |
-| B8–B9 | `erpax/ifrs/16` or `jaz-ai/lease.ts` | IFRS 16 rule pack + warning proof |
-| B10–B11 | `scrooge/ifrs-classification-entries.ts` | Explanation + evidence snapshot contracts |
-
-## A.7 Appendix retirement
-
-Remove or archive this appendix when:
-
-* B1–B11 slices cite their borrow sources in individual `docs/PAS/slice/*.md` handoffs, and
-* B12 enterprise-acceptance sync confirms no agent treats this appendix as canonical authority.
-
-Until then, agents may read Appendix A for **implementation hints only** — PAS §0–§15 and slice handoffs remain the authority.

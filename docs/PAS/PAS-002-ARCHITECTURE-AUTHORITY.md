@@ -22,7 +22,7 @@
 | **Consumers** | `@afenda/kernel`, `@afenda/design-system`, `@afenda/ui`, `@afenda/appshell`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp` |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/slice/` |
+| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
 | **ADR prerequisites** | ADR-0009, ADR-0010, ADR-0011, ADR-0012, ADR-0013, ADR-0014, ADR-0020 |
 
 #### Required gates
@@ -41,8 +41,8 @@
 > PAS-002 reserves package/layer/ownership/dependency boundary and supports serialized implementation. **Enterprise Accepted** maturity on `PKGR02_ARCHITECTURE_AUTHORITY` is attested via [PAS-002A](PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) B38–B42 — treat PAS-002 as MVP charter; treat PAS-002A as runtime authority for PKGR02.
 
 > **Canonical location:** `docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md`
+> **Domain North Star:** [`architecture-authority-north-star.md`](../NORTHSTAR/architecture-authority-north-star.md)
 > **Package-local tree:** [`packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md`](../../packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md)
-> **Package-local pointer:** `packages/architecture-authority/PAS-002-ARCHITECTURE-AUTHORITY-STANDARD.md` *(tombstone — Delivered B10)*
 > **Runtime surface index:** `packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts`
 > **Kernel identity boundary (do not duplicate):** [PAS-001 §4.1](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
 
@@ -61,7 +61,7 @@
 
 **Required gates:** see §13.1.
 
-**Slice entrypoint:** `docs/PAS/slice/` · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
+**Closure registry:** [`pas-status-index.md`](pas-status-index.md) · Session: `/afenda-coding-session`
 
 **Registry:** `PKGR02_ARCHITECTURE_AUTHORITY` · machine authority: `packages/architecture-authority/src/data/foundation-disposition.registry.ts` · surface map: `src/surface/architecture-authority-surface-registry.ts`
 
@@ -633,7 +633,7 @@ A change is accepted only when all criteria pass.
 
 # 12. Slice Catalog
 
-Index of implementation slices for this PAS. **Runtime for §4.1–§4.12 and §6 layout governance is delivered** in `packages/architecture-authority/src/`; slice handoffs B1–B11 are authored under `docs/PAS/slice/`.
+Index of implementation slices for this PAS. **Runtime for §4.1–§4.12 and §6 layout governance is delivered** in `packages/architecture-authority/src/`; closure records B1–B27 are indexed in [`pas-status-index.md`](pas-status-index.md).
 
 | Slice file                                  | ID  | PAS §   | Status      | Type           | Prerequisite     |
 | ------------------------------------------- | --- | ------- | ----------- | -------------- | ---------------- |

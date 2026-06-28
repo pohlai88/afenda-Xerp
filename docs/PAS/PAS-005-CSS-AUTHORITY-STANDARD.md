@@ -27,7 +27,7 @@
 | **Consumers** | `@afenda/ui`, `@afenda/appshell`, `apps/erp`, `apps/storybook` |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/slice/` |
+| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
 | **ADR prerequisites** | none |
 
 #### Required gates
@@ -50,7 +50,8 @@
 > MVP Authority is delivered for B26–B37 (605-token registry; consumption + domain-sync + bridge + visual contract + docs pixel baselines). Do not claim Enterprise Accepted — optional Production Candidate attestation remains out of scope.
 
 > **Canonical location:** `docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md`
-> **Package-local pointer:** [`packages/css-authority/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../packages/css-authority/PAS-005-CSS-AUTHORITY-STANDARD.md)
+> **Domain North Star:** [`css-authority-north-star.md`](../NORTHSTAR/css-authority-north-star.md)
+> **Domain Blueprint:** [`css-authority-blueprint.md`](../BLUEPRINT/css-authority-blueprint.md) · [Platform Blueprint — Design system](../architecture/afenda-architecture-blueprint.md)
 > **Operational derived view:** [`docs/architecture/css-authority.md`](../architecture/css-authority.md)
 > **shadcn/studio delivery:** [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md)
 > **Legacy Governed UI TS governance:** `@afenda/design-system` (CSS surface deprecated — not deleted in v1)
@@ -83,7 +84,7 @@ PAS-005 (this document)
 
 **Required gates:** see §13.
 
-**Slice entrypoint:** `docs/PAS/slice/` · Closure registry: [`pas-status-index.md`](pas-status-index.md) · Session: `/afenda-coding-session`
+**Closure registry:** [`pas-status-index.md`](pas-status-index.md) · Session: `/afenda-coding-session`
 
 ---
 
@@ -230,12 +231,12 @@ Storybook composed spot-check: `apps/storybook/stories/governance-integration-co
 | Slice | Scope | Status |
 | ----- | ----- | ------ |
 | B26 | Greenfield scaffold + PAS-005 | **Delivered · 2026-06-28** |
-| B27 | [Vendored shadcn theme + generator](slice/b27-pas005-shadcn-theme.md) | **Delivered · 2026-06-28** |
-| B28 | [R23–R27 consumption gates + baseline scan](slice/b28-pas005-consumption-gates.md) | **Delivered · 2026-06-28** |
-| B29 | [Strangler cutover `afenda-ui.css`](slice/b29-pas005-ui-cutover.md) | **Delivered · 2026-06-28** |
-| B30 | [Deprecate design-system CSS monolith (shim)](slice/b30-pas005-deprecate-ds-css.md) | **Delivered · 2026-06-28** |
-| B33 | [Visual regression contract gate](slice/b33-pas005-visual-regression.md) | **Delivered · 2026-06-28** |
-| B37 | [Playwright pixel baselines](slice/b37-pas005-pixel-baselines.md) | **Delivered · 2026-06-28** |
+| B27 | Vendored shadcn theme + generator | **Delivered · 2026-06-28** |
+| B28 | R23–R27 consumption gates + baseline scan | **Delivered · 2026-06-28** |
+| B29 | Strangler cutover `afenda-ui.css` | **Delivered · 2026-06-28** |
+| B30 | Deprecate design-system CSS monolith (shim) | **Delivered · 2026-06-28** |
+| B33 | Visual regression contract gate | **Delivered · 2026-06-28** |
+| B37 | Playwright pixel baselines | **Delivered · 2026-06-28** |
 
 ---
 

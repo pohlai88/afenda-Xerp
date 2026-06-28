@@ -26,7 +26,7 @@
 | **Consumers** | `@afenda/kernel`, all registered workspace packages, `scripts/quality/**`, `scripts/governance/**`, `docs/architecture/*.md` derived views |
 | **Change model** | `serialized-slices` (B38+) |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/slice/` |
+| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
 | **ADR prerequisites** | ADR-0004 (ownership) · ADR-0014 (foundation disposition) · ADR-0020 (BMD authority) · ADR-0021 (identity constitution — read-only for non-duplication gate) |
 
 #### Required gates
@@ -58,6 +58,7 @@
 > **Kernel wire boundary (mandatory read):** [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) · `.cursor/skills/kernel-authority/SKILL.md`
 > **Governance baseline (closed):** [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) · `.cursor/skills/architecture-authority/SKILL.md`
 > **Canonical location:** `docs/PAS/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md`
+> **Domain North Star:** [`architecture-authority-north-star.md`](../NORTHSTAR/architecture-authority-north-star.md)
 
 ---
 
@@ -87,7 +88,7 @@
 
 **Required gates:** §13
 
-**First implementation slice:** [b38-pas002a-kernel-boundary-gate](slice/b38-pas002a-kernel-boundary-gate.md)
+**Closure registry:** [`pas-status-index.md`](pas-status-index.md)
 
 **Planner / registry:** `pas-slice-planner` · disposition changes → `foundation-registry-owner` only
 
@@ -339,11 +340,11 @@ Execute in order. Do not skip consumer proof or disposition completeness before 
 
 | Order | Slice | Delivers | Status |
 | ---: | --- | --- | --- |
-| 1 | [B38 Kernel boundary gate](slice/b38-pas002a-kernel-boundary-gate.md) | `architecture-kernel-non-duplication.policy.ts` + `check:architecture-kernel-non-duplication` | **Delivered** |
-| 2 | [B39 Ownership baseline sign-off](slice/b39-pas002a-ownership-signoff.md) | ADR-0004 attestation + `check:architecture-ownership-signoff` | **Delivered** |
-| 3 | [B40 Governance consumer proof](slice/b40-pas002a-governance-consumer-proof.md) | import-surface gate for scripts/governance + quality | **Delivered** |
-| 4 | [B41 Disposition completeness](slice/b41-pas002a-disposition-completeness.md) | package ↔ disposition parity gate | **Delivered** |
-| 5 | [B42 Enterprise Accepted attestation](slice/b42-pas002a-enterprise-accepted-attestation.md) | Scorecard 30/30; PKGR02 → PAS-002A | **Delivered** |
+| 1 | B38 Kernel boundary gate | `architecture-kernel-non-duplication.policy.ts` + `check:architecture-kernel-non-duplication` | **Delivered** |
+| 2 | B39 Ownership baseline sign-off | ADR-0004 attestation + `check:architecture-ownership-signoff` | **Delivered** |
+| 3 | B40 Governance consumer proof | import-surface gate for scripts/governance + quality | **Delivered** |
+| 4 | B41 Disposition completeness | package ↔ disposition parity gate | **Delivered** |
+| 5 | B42 Enterprise Accepted attestation | Scorecard 30/30; PKGR02 → PAS-002A | **Delivered** |
 
 **Do not add in this package (correct home):**
 

@@ -28,7 +28,7 @@
 | **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `apps/docs`, `docs/architecture/glossary.md` |
 | **Change model** | `serialized-slices` (one slice per session) |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/slice/` |
+| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
 | **ADR prerequisites** | ADR-0021 (Accepted) · PAS-001B inventory/procurement contracts (read-only for B53 refs) |
 
 #### Required gates (inherit from PAS-004C — always)
@@ -82,7 +82,7 @@
 - **Prohibited:** edit `foundation-disposition.registry.ts` in implementer slices — delegate **B54** to `foundation-registry-owner`
 - **Required:** serialized slices B49 → B50 → B51 → B52 → B53 → B54
 
-**First slice:** [b49-pas004d-authority-mirror-sync.md](slice/b49-pas004d-authority-mirror-sync.md)
+**First slice:** b49-pas004d-authority-mirror-sync.md
 
 ---
 
@@ -238,12 +238,12 @@ No new package modules unless B50 requires a thin normalization helper under `sr
 
 | Order | Slice | Delivers | Status |
 | ---: | --- | --- | --- |
-| 1 | [B49 Authority mirror sync](slice/b49-pas004d-authority-mirror-sync.md) | Mirror gate + doc hygiene | **In progress** (doc sync) |
-| 2 | [B50 Legacy retirement](slice/b50-pas004d-legacy-surface-retirement.md) | (proposed) | Not started |
-| 3 | [B51 Corpus depth](slice/b51-pas004d-corpus-depth.md) | (proposed) | Not started |
-| 4 | [B52 Vocabulary richness](slice/b52-pas004d-vocabulary-richness.md) | (proposed) | Not started |
-| 5 | [B53 ERP-domain bridge](slice/b53-pas004d-erp-domain-bridge.md) | (proposed) | Not started |
-| 6 | [B54 Operational attestation](slice/b54-pas004d-operational-closure-attestation.md) | (proposed) | Not started |
+| 1 | B49 Authority mirror sync | Mirror gate + doc hygiene | **In progress** (doc sync) |
+| 2 | B50 Legacy retirement | (proposed) | Not started |
+| 3 | B51 Corpus depth | (proposed) | Not started |
+| 4 | B52 Vocabulary richness | (proposed) | Not started |
+| 5 | B53 ERP-domain bridge | (proposed) | Not started |
+| 6 | B54 Operational attestation | (proposed) | Not started |
 
 ---
 
@@ -279,9 +279,9 @@ See metadata table §Required gates (PAS-004D).
 
 | Slice | PAS § | Purpose | Status | Prerequisite |
 | --- | --- | --- | --- | --- |
-| [b49-pas004d-authority-mirror-sync.md](slice/b49-pas004d-authority-mirror-sync.md) | §4.1 | Mirror gate + doc hygiene | In progress | B48 closed |
-| [b50-pas004d-legacy-surface-retirement.md](slice/b50-pas004d-legacy-surface-retirement.md) | §4.2 | (proposed) | Not started | B49 |
-| [b51-pas004d-corpus-depth.md](slice/b51-pas004d-corpus-depth.md) | §4.3 | (proposed) | Not started | B50 |
-| [b52-pas004d-vocabulary-richness.md](slice/b52-pas004d-vocabulary-richness.md) | §4.4 | (proposed) | Not started | B51 |
-| [b53-pas004d-erp-domain-bridge.md](slice/b53-pas004d-erp-domain-bridge.md) | §4.5 | (proposed) | Not started | B52 |
-| [b54-pas004d-operational-closure-attestation.md](slice/b54-pas004d-operational-closure-attestation.md) | §4.6 | (proposed) | Not started | B53 |
+| b49-pas004d-authority-mirror-sync.md | §4.1 | Mirror gate + doc hygiene | In progress | B48 closed |
+| b50-pas004d-legacy-surface-retirement.md | §4.2 | (proposed) | Not started | B49 |
+| b51-pas004d-corpus-depth.md | §4.3 | (proposed) | Not started | B50 |
+| b52-pas004d-vocabulary-richness.md | §4.4 | (proposed) | Not started | B51 |
+| b53-pas004d-erp-domain-bridge.md | §4.5 | (proposed) | Not started | B52 |
+| b54-pas004d-operational-closure-attestation.md | §4.6 | (proposed) | Not started | B53 |

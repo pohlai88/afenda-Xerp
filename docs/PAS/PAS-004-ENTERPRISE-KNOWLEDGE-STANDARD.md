@@ -30,7 +30,7 @@
 | **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `docs/architecture/glossary.md` |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/slice/` |
+| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
 | **ADR prerequisites** | none |
 
 #### Required gates
@@ -46,7 +46,8 @@
 > Charter MVP is delivered; Production Candidate rollout lives in [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md). Do not claim Enterprise Accepted from this document alone.
 
 > **Canonical location:** `docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`
-> **Package-local pointer:** [`packages/enterprise-knowledge/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](../../packages/enterprise-knowledge/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)
+> **Domain North Star:** [`enterprise-knowledge-north-star.md`](../NORTHSTAR/enterprise-knowledge-north-star.md)
+> **Domain Blueprint:** [`enterprise-knowledge-blueprint.md`](../BLUEPRINT/enterprise-knowledge-blueprint.md) · [Platform Blueprint — Knowledge](../architecture/afenda-architecture-blueprint.md)
 > **Kernel wire boundary (do not duplicate):** [PAS-001 §4](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
 > **Package map boundary (do not duplicate):** [PAS-002 §0](PAS-002-ARCHITECTURE-AUTHORITY.md) · `.cursor/skills/architecture-authority/SKILL.md`
 
@@ -65,7 +66,7 @@
 
 **Required gates:** see §13.
 
-**Slice entrypoint:** `docs/PAS/slice/b24-knowledge-charter-mvp.md` · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
+**Closure registry:** [`pas-status-index.md`](pas-status-index.md) · Session: `/afenda-coding-session`
 
 **Registry:** `PKGR04_ENTERPRISE_KNOWLEDGE` · `PKG-024` in `packages/architecture-authority/src/data/package-registry.data.ts`
 
@@ -354,7 +355,7 @@ packages/enterprise-knowledge/
 ├── tsconfig.json
 ├── tsconfig.vitest.json
 ├── vitest.config.ts
-├── PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md   # tombstone pointer only
+├── PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md
 └── src/
     ├── index.ts
     ├── contracts/knowledge-atom.contract.ts   # all vocabulary types (single contract module)
@@ -438,9 +439,9 @@ pnpm check:documentation-drift
 
 | Slice | Purpose | Status |
 | --- | --- | --- |
-| [b24-knowledge-charter-mvp](slice/b24-knowledge-charter-mvp.md) | Charter doc, package scaffold, PKGR04, seed registry, gates, skill | Delivered (2026-06-28) |
+| b24-knowledge-charter-mvp | Charter doc, package scaffold, PKGR04, seed registry, gates, skill | Delivered (2026-06-28) |
 
-**Post-MVP rollout:** [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) (B25–B32 closed) · [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) (B33+ Enterprise Accepted) · first slice [B25 JSON data authority](slice/b25-10-json-data-authority.md)
+**Post-MVP rollout:** [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) (B25–B32 closed) · [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) (B33+ Enterprise Accepted) · first slice B25 JSON data authority
 
 ---
 

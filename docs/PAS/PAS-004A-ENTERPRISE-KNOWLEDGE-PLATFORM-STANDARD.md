@@ -26,7 +26,7 @@
 | **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `docs/architecture/glossary.md` |
 | **Change model** | `serialized-slices` (B25+) |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/slice/` |
+| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
 | **ADR prerequisites** | none |
 
 #### Required gates
@@ -75,7 +75,7 @@
 
 **Required gates:** §13
 
-**First implementation slice:** [b25-10-json-data-authority](slice/b25-10-json-data-authority.md)
+**Closure registry:** [`pas-status-index.md`](pas-status-index.md)
 
 **Planner / registry:** `pas-slice-planner` · disposition changes → `foundation-registry-owner` only
 
@@ -310,8 +310,8 @@ See PAS-004 §10. Seed TS registry is **transitional**, not target architecture.
 ```text
 packages/enterprise-knowledge/
 ├── package.json
-├── PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md      # tombstone → PAS-004
-├── PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md  # tombstone → PAS-004A
+├── PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md
+├── PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md
 └── src/
     ├── index.ts
     ├── contracts/
@@ -389,14 +389,14 @@ Execute in order. Do not skip consumer proof before claiming Production Candidat
 
 | Order | Slice | Delivers |
 | ---: | --- | --- |
-| 1 | [B25 JSON data authority + new contracts](slice/b25-10-json-data-authority.md) | `atoms.json`, `edges.json`, `accepting-authority.registry.ts`, typed `KnowledgeEvidence`, `KnowledgeReasoning`, `effectiveFrom`/`Until`, richer edge types, rename Relationship → Edge, `check:knowledge-json-authority` | **Delivered · 2026-06-28** |
-| 2 | [B26 Kernel mapping gate](slice/b26-kernel-mapping-gate.md) | `implementationMapping` path lint vs `packages/kernel/src/**`; authority registry validates | **Delivered · 2026-06-28** |
-| 3 | [B27 Consumer proof](slice/b27-consumer-proof.md) | `@afenda/ui-composition` or `apps/erp` imports `getKnowledgeAtom` for ≥1 surface | **Delivered · 2026-06-28** |
-| 4 | [B28 Glossary sync gate](slice/b28-glossary-sync-gate.md) | glossary body atom IDs ⊆ registry; header authority unchanged | **Delivered · 2026-06-28** |
-| 5 | [B29 Coverage expansion + quality scoring](slice/b29-coverage-expansion.md) | typed corpus + quality helper | **Delivered · 2026-06-28** |
-| 6 | [B30 Enterprise Accepted attestation](slice/b30-enterprise-accepted-attestation.md) | §11 scorecard 30/30; disposition evidence | **Delivered · 2026-06-28** |
-| 7 | [B31 Ontology completion](slice/b31-ontology-completion.md) | 24-atom typed JSON corpus | **Delivered · 2026-06-28** |
-| 8 | [B32 ERP consumer integration](slice/b32-erp-consumer-integration.md) | system-admin titles + glossary manifest parity | **Delivered · 2026-06-28** |
+| 1 | B25 JSON data authority + new contracts | `atoms.json`, `edges.json`, `accepting-authority.registry.ts`, typed `KnowledgeEvidence`, `KnowledgeReasoning`, `effectiveFrom`/`Until`, richer edge types, rename Relationship → Edge, `check:knowledge-json-authority` | **Delivered · 2026-06-28** |
+| 2 | B26 Kernel mapping gate | `implementationMapping` path lint vs `packages/kernel/src/**`; authority registry validates | **Delivered · 2026-06-28** |
+| 3 | B27 Consumer proof | `@afenda/ui-composition` or `apps/erp` imports `getKnowledgeAtom` for ≥1 surface | **Delivered · 2026-06-28** |
+| 4 | B28 Glossary sync gate | glossary body atom IDs ⊆ registry; header authority unchanged | **Delivered · 2026-06-28** |
+| 5 | B29 Coverage expansion + quality scoring | typed corpus + quality helper | **Delivered · 2026-06-28** |
+| 6 | B30 Enterprise Accepted attestation | §11 scorecard 30/30; disposition evidence | **Delivered · 2026-06-28** |
+| 7 | B31 Ontology completion | 24-atom typed JSON corpus | **Delivered · 2026-06-28** |
+| 8 | B32 ERP consumer integration | system-admin titles + glossary manifest parity | **Delivered · 2026-06-28** |
 
 **Do not add in this package (correct home):**
 
@@ -418,7 +418,7 @@ A PAS-004A track is **Enterprise 9.5 ready** only when **≥ 28.5 / 30** on this
 | 4 | Consumer proof (≥1 production import path) | 3 | B27 test or static import gate |
 | 5 | Glossary representation sync | 2 | B28 gate |
 | 6 | PAS-004 §1–§4 unchanged | 2 | Doc drift check |
-| 7 | Slice handoffs 9-field complete for B25–B27 | 2 | `docs/PAS/slice/` |
+| 7 | Slice handoffs 9-field complete for B25–B27 | 2 | [`pas-status-index.md`](pas-status-index.md) |
 | 8 | Skill + bundle preflight documented | 2 | enterprise-knowledge SKILL |
 | 9 | Honest coverage statement (seed vs target) | 2 | PAS-004A §12 table |
 | 10 | Foundation disposition gates listed | 2 | PKGR04 row |
@@ -528,8 +528,8 @@ When in doubt:
 | [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Wire contracts — **reference only** via `implementationMapping` |
 | [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | Package registry — lists PKG-024 |
 | [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | Accounting metadata — orthogonal |
-| [B24 slice](slice/b24-knowledge-charter-mvp.md) | MVP delivered 2026-06-28 |
-| [B25 slice](slice/b25-10-json-data-authority.md) | First PAS-004A implementation |
+| B24 slice | MVP delivered 2026-06-28 |
+| B25 slice | First PAS-004A implementation |
 | [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | Enterprise Accepted rollout — B33+ kernel identity + multi-consumer proof |
 | [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) | Semantic model — closed B38–B48 |
 | [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) | Operational closure — B49+ proposed |
@@ -540,13 +540,13 @@ When in doubt:
 
 | Slice | PAS § | Purpose | Status | Prerequisite |
 | --- | --- | --- | --- | --- |
-| [b25-10-json-data-authority](slice/b25-10-json-data-authority.md) | §4.1–§4.9 · §10 | JSON authority + typed evidence/reasoning/edge/authority contracts + gate | **Delivered · 2026-06-28** | B24 delivered |
-| [b26-kernel-mapping-gate](slice/b26-kernel-mapping-gate.md) | §4.2 | `implementationMapping` path validation + authority registry lint | **Delivered · 2026-06-28** | B25 |
-| [b27-consumer-proof](slice/b27-consumer-proof.md) | §4.4 | metadata/erp import proof | **Delivered · 2026-06-28** | B25 |
-| [b28-glossary-sync-gate](slice/b28-glossary-sync-gate.md) | §4.4 | glossary ↔ registry drift gate | **Delivered · 2026-06-28** | B25 |
-| [b29-coverage-expansion](slice/b29-coverage-expansion.md) | §12 | Typed corpus + 16 atoms + quality helper | **Delivered · 2026-06-28** | B28 |
-| [b30-enterprise-accepted-attestation](slice/b30-enterprise-accepted-attestation.md) | §11 | 9.5 scorecard + disposition evidence | **Delivered · 2026-06-28** | B29 |
-| [b31-ontology-completion](slice/b31-ontology-completion.md) | §12 | 24-atom Production Candidate corpus | **Delivered · 2026-06-28** | B30 |
-| [b32-erp-consumer-integration](slice/b32-erp-consumer-integration.md) | §4.4 | ERP system-admin titles + glossary manifest parity | **Delivered · 2026-06-28** | B31 |
+| b25-10-json-data-authority | §4.1–§4.9 · §10 | JSON authority + typed evidence/reasoning/edge/authority contracts + gate | **Delivered · 2026-06-28** | B24 delivered |
+| b26-kernel-mapping-gate | §4.2 | `implementationMapping` path validation + authority registry lint | **Delivered · 2026-06-28** | B25 |
+| b27-consumer-proof | §4.4 | metadata/erp import proof | **Delivered · 2026-06-28** | B25 |
+| b28-glossary-sync-gate | §4.4 | glossary ↔ registry drift gate | **Delivered · 2026-06-28** | B25 |
+| b29-coverage-expansion | §12 | Typed corpus + 16 atoms + quality helper | **Delivered · 2026-06-28** | B28 |
+| b30-enterprise-accepted-attestation | §11 | 9.5 scorecard + disposition evidence | **Delivered · 2026-06-28** | B29 |
+| b31-ontology-completion | §12 | 24-atom Production Candidate corpus | **Delivered · 2026-06-28** | B30 |
+| b32-erp-consumer-integration | §4.4 | ERP system-admin titles + glossary manifest parity | **Delivered · 2026-06-28** | B31 |
 
 Handoff files for B27–B32 are authored when the prior slice closes.

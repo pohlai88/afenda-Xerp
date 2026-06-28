@@ -28,7 +28,7 @@
 | **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `apps/docs`, `docs/architecture/glossary.md` |
 | **Change model** | `serialized-slices` (one slice per session) |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/slice/` |
+| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
 | **ADR prerequisites** | ADR-0021 (Accepted) — read-only for kernel realization refs |
 
 #### Required gates (inherit from PAS-004B — always)
@@ -508,25 +508,25 @@ Same as PAS-004B: **contracts-only**. No runtime npm dependencies. All helpers r
 
 | Order | Slice | Delivers |
 | ---: | --- | --- |
-| 1 | [B38 Concept + Vocabulary](slice/b38-pas004c-concept-vocabulary.md) | KnowledgeConcept, KnowledgeTerm, concepts.json, terms.json, conceptId on atoms |
-| 2 | [B39 Contextual Meaning](slice/b39-pas004c-contextual-meaning.md) | KnowledgePerspective, perspectives.json |
-| 3 | [B40 Domain Axis Split](slice/b40-pas004c-domain-axis-split.md) | domainClass registry, query by class |
-| 4 | [B41 Accepted vs Applicable](slice/b41-pas004c-accepted-vs-applicable.md) | contextualValidity facet, multi-framework coexistence |
+| 1 | B38 Concept + Vocabulary | KnowledgeConcept, KnowledgeTerm, concepts.json, terms.json, conceptId on atoms |
+| 2 | B39 Contextual Meaning | KnowledgePerspective, perspectives.json |
+| 3 | B40 Domain Axis Split | domainClass registry, query by class |
+| 4 | B41 Accepted vs Applicable | contextualValidity facet, multi-framework coexistence |
 
 ### Phase 2 — Consumption Layer
 
 | Order | Slice | Delivers |
 | ---: | --- | --- |
-| 5 | [B43 Consumer Profiles](slice/b43-pas004c-consumer-profiles.md) | KnowledgeConsumerProfile, projection helpers |
-| 6 | [B44 Realization Mapping](slice/b44-pas004c-realization-mapping.md) | realizationMapping kinds, kernel refs (kernel-authority) |
+| 5 | B43 Consumer Profiles | KnowledgeConsumerProfile, projection helpers |
+| 6 | B44 Realization Mapping | realizationMapping kinds, kernel refs (kernel-authority) |
 
 ### Phase 3 — Governance Hardening
 
 | Order | Slice | Delivers |
 | ---: | --- | --- |
-| 7 | [B42 Semantic Edges](slice/b42-pas004c-semantic-edges.md) | expanded edge vocabulary (after B43/B44) |
-| 8 | [B45 Lifecycle Transitions](slice/b45-pas004c-lifecycle-transition-governance.md) | KnowledgeTransitionRule, canTransitionLifecycle |
-| 9 | [B46 Semantic Attestation](slice/b46-pas004c-semantic-attestation.md) | scorecard ≥55/58; PKGR04 → PAS-004C |
+| 7 | B42 Semantic Edges | expanded edge vocabulary (after B43/B44) |
+| 8 | B45 Lifecycle Transitions | KnowledgeTransitionRule, canTransitionLifecycle |
+| 9 | B46 Semantic Attestation | scorecard ≥55/58; PKGR04 → PAS-004C |
 
 ---
 
@@ -593,7 +593,7 @@ pnpm check:knowledge-lifecycle-transitions    # B45
 
 Every PAS-004C slice must:
 
-1. Copy 9-field handoff from slice doc under `docs/PAS/slice/`
+1. Copy 9-field handoff from slice doc under [`pas-status-index.md`](pas-status-index.md)
 2. Attach `/coding-consistency-bundle` + `enterprise-knowledge` + **`kernel-authority`** when realization touches kernel
 3. Post §11 Completion Report with drift table
 4. Never edit `foundation-disposition.registry.ts` — delegate `foundation-registry-owner` (B46)
@@ -649,16 +649,16 @@ When in doubt:
 
 | Slice | PAS § | Purpose | Status | Prerequisite |
 | --- | --- | --- | --- | --- |
-| [b38-pas004c-concept-vocabulary](slice/b38-pas004c-concept-vocabulary.md) | §4.1 | KnowledgeConcept + KnowledgeTerm + conceptId backfill | Delivered | B37 closed |
-| [b39-pas004c-contextual-meaning](slice/b39-pas004c-contextual-meaning.md) | §4.2 | KnowledgePerspective registry | Delivered | B38 |
-| [b40-pas004c-domain-axis-split](slice/b40-pas004c-domain-axis-split.md) | §4.5 | domainClass axis | Delivered | B39 |
-| [b41-pas004c-accepted-vs-applicable](slice/b41-pas004c-accepted-vs-applicable.md) | §4.6 | contextualValidity | Delivered | B40 |
-| [b43-pas004c-consumer-profiles](slice/b43-pas004c-consumer-profiles.md) | §4.3 | Consumer projection profiles | Delivered | B41 |
-| [b44-pas004c-realization-mapping](slice/b44-pas004c-realization-mapping.md) | §4.4 | Broadened realization kinds | Delivered | B43 |
-| [b42-pas004c-semantic-edges](slice/b42-pas004c-semantic-edges.md) | §4.7 | Semantic edge vocabulary | Delivered | B44 |
-| [b45-pas004c-lifecycle-transition-governance](slice/b45-pas004c-lifecycle-transition-governance.md) | §4.8 | Transition rules | Delivered | B42 |
-| [b46-pas004c-semantic-attestation](slice/b46-pas004c-semantic-attestation.md) | §4.9 · §11 | Scorecard ≥55/58 + registry promotion | Delivered | B45 |
-| [b47-pas004c-consumer-projection-adoption](slice/b47-pas004c-consumer-projection-adoption.md) | §4.3 | ERP + metadata projection adoption | Delivered | B46 |
-| [b48-pas004c-docs-consumer-projection-adoption](slice/b48-pas004c-docs-consumer-projection-adoption.md) | §4.3 | Docs projection adoption | Delivered | B47 |
+| b38-pas004c-concept-vocabulary | §4.1 | KnowledgeConcept + KnowledgeTerm + conceptId backfill | Delivered | B37 closed |
+| b39-pas004c-contextual-meaning | §4.2 | KnowledgePerspective registry | Delivered | B38 |
+| b40-pas004c-domain-axis-split | §4.5 | domainClass axis | Delivered | B39 |
+| b41-pas004c-accepted-vs-applicable | §4.6 | contextualValidity | Delivered | B40 |
+| b43-pas004c-consumer-profiles | §4.3 | Consumer projection profiles | Delivered | B41 |
+| b44-pas004c-realization-mapping | §4.4 | Broadened realization kinds | Delivered | B43 |
+| b42-pas004c-semantic-edges | §4.7 | Semantic edge vocabulary | Delivered | B44 |
+| b45-pas004c-lifecycle-transition-governance | §4.8 | Transition rules | Delivered | B42 |
+| b46-pas004c-semantic-attestation | §4.9 · §11 | Scorecard ≥55/58 + registry promotion | Delivered | B45 |
+| b47-pas004c-consumer-projection-adoption | §4.3 | ERP + metadata projection adoption | Delivered | B46 |
+| b48-pas004c-docs-consumer-projection-adoption | §4.3 | Docs projection adoption | Delivered | B47 |
 
-**Next:** [PAS-004D operational closure](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · [B49 authority mirror sync](slice/b49-pas004d-authority-mirror-sync.md)
+**Next:** [PAS-004D operational closure](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · B49 authority mirror sync

@@ -23,7 +23,7 @@
 | **Consumers** | `apps/storybook` (lab), `apps/erp` (post B42 only), `@afenda/appshell` (transitional re-export until cutover) |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/slice/` |
+| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
 | **ADR prerequisites** | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) (Accepted) |
 
 #### Required gates
@@ -42,8 +42,6 @@
 > **Derived from PAS-005.** PAS-005 owns the **CSS-TOKEN registry**, Afenda token bridge, consumption gates (R23–R30), and `afenda-ui.css` runtime cutover. PAS-005A owns the **shadcn/studio presentation product** — vendored shadcn theme surface, runtime theme presets, ThemeCustomizer, MCP seed pipeline, and governed block/primitive inventory. Integration between the two is a **deferred slice (B42)**, not a prerequisite for Phase 1 standalone delivery.
 
 > **Canonical location:** `docs/PAS/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md`
-> **Package-local pointer:** `packages/shadcn-studio/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md` (create with package scaffold)
-
 ---
 
 # 0. Agent Quick Path
@@ -59,7 +57,7 @@
 
 **Required gates:** see §13.1
 
-**Slice entrypoint:** [`docs/PAS/slice/b38-pas005a-scaffold.md`](slice/b38-pas005a-scaffold.md) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
+**Closure registry:** [`pas-status-index.md`](pas-status-index.md) · Session: `/afenda-coding-session`
 
 **Registry:** `PKGR05A_SHADCN_STUDIO` — **green-lane** in `foundation-disposition.registry.ts` (PKG-026)
 
@@ -230,7 +228,7 @@ Minimum proof:
 - Representative primitive renders (`Button`, `Card`, `DataTable`)
 - At least one MCP-seeded block story
 
-**Status:** **Delivered** — B41 lab verification · evidence: `shadcn-studio-theme-lab.stories.tsx`, `apps/storybook/.storybook/preview.tsx`, slice [b41-pas005a-lab-verification.md](slice/b41-pas005a-lab-verification.md)
+**Status:** **Delivered** — B41 lab verification · evidence: `shadcn-studio-theme-lab.stories.tsx`, `apps/storybook/.storybook/preview.tsx`, slice b41-pas005a-lab-verification.md
 
 ## 4.8 Afenda integration bridge (B42 — delivered)
 
@@ -474,26 +472,26 @@ pnpm ui:guard
 
 | Slice | Scope | Status |
 | --- | --- | --- |
-| B38 | [Package scaffold + MCP retarget](slice/b38-pas005a-scaffold.md) | Delivered |
-| B39 | [Theme presets + SettingsProvider + ThemeCustomizer](slice/b39-pas005a-theme-presets.md) | Delivered |
-| B40 | [MCP seed — theme, primitives, blocks](slice/b40-pas005a-mcp-seed.md) | Delivered (manual seed equivalent) |
+| B38 | Package scaffold + MCP retarget | Delivered |
+| B39 | Theme presets + SettingsProvider + ThemeCustomizer | Delivered |
+| B40 | MCP seed — theme, primitives, blocks | Delivered (manual seed equivalent) |
 | B41 | Lab / Storybook verification | Delivered |
-| B42 | Afenda integration — css-authority bridge, ADR-0017 retarget, metadata-ui hook, bridge + legacy path delete | **Delivered** — legacy delete in B42h; Phase 1 wrappers in B42i — [`slice/b42-pas005a-afenda-integration.md`](slice/b42-pas005a-afenda-integration.md) |
-| B42b | Legacy parity inventory + delete planning | **Delivered (planning)** — **Superseded** by B42h execution — [`slice/b42b-pas005a-legacy-delete-planning.md`](slice/b42b-pas005a-legacy-delete-planning.md) |
-| B42c | MCP live re-seed — replace B40 placeholders | **Delivered** — [`slice/b42c-pas005a-mcp-live-reseed.md`](slice/b42c-pas005a-mcp-live-reseed.md) |
-| B42d | Appshell re-export bridge + parity registry | **Delivered** — [`slice/b42d-pas005a-appshell-reexport-bridge.md`](slice/b42d-pas005a-appshell-reexport-bridge.md) |
-| B42e | Extended `/cui` batch — account-settings + dashboard | **Delivered** — [`slice/b42e-pas005a-extended-cui-batch.md`](slice/b42e-pas005a-extended-cui-batch.md) |
-| B42f | Dashboard/shell bridge expansion | **Delivered** — [`slice/b42f-pas005a-dashboard-shell-bridge-expansion.md`](slice/b42f-pas005a-dashboard-shell-bridge-expansion.md) |
-| B42g | Residual shell/content parity — delete gate open | **Delivered** — [`slice/b42g-pas005a-residual-shell-content-parity.md`](slice/b42g-pas005a-residual-shell-content-parity.md) |
-| B42h | Legacy tree delete — `presentation/` relocation | **Delivered** — [`slice/b42h-pas005a-legacy-tree-delete.md`](slice/b42h-pas005a-legacy-tree-delete.md) |
-| B42i | MCP wrapper strangler — Phase 1 statistics/shell/dashboard | **Delivered** — [`slice/b42i-pas005a-mcp-wrapper-strangler.md`](slice/b42i-pas005a-mcp-wrapper-strangler.md) |
-| B42j | Wrapper expansion + delegating flip + MCP className policy | **Delivered** — [`slice/b42j-pas005a-wrapper-expansion-delegating-flip.md`](slice/b42j-pas005a-wrapper-expansion-delegating-flip.md) |
-| B42k | Statistics MCP a11y parity + delegating flip | **Delivered** — [`slice/b42k-pas005a-statistics-a11y-delegating-flip.md`](slice/b42k-pas005a-statistics-a11y-delegating-flip.md) |
-| B42l | afenda-appshell-studio.css consolidation | **Delivered** — [`slice/b42l-pas005a-studio-css-consolidation.md`](slice/b42l-pas005a-studio-css-consolidation.md) |
-| B42m | Marketing/auth/chart/statistics strangler batch | **Delivered** — [`slice/b42m-pas005a-marketing-auth-chart-strangler-batch.md`](slice/b42m-pas005a-marketing-auth-chart-strangler-batch.md) |
-| B42n | Account-settings content strangler batch | **Delivered** — [`slice/b42n-pas005a-account-settings-content-strangler-batch.md`](slice/b42n-pas005a-account-settings-content-strangler-batch.md) |
-| B42o | Residual parity wrapperPath closure | **Delivered** — [`slice/b42o-pas005a-residual-parity-wrapper-closure.md`](slice/b42o-pas005a-residual-parity-wrapper-closure.md) |
-| B42p | Governed UI policy closure + delegating-flip maintenance | **Delivered** — [`slice/b42p-pas005a-tip004-delegating-flip-policy-closure.md`](slice/b42p-pas005a-tip004-delegating-flip-policy-closure.md) |
+| B42 | Afenda integration — css-authority bridge, ADR-0017 retarget, metadata-ui hook, bridge + legacy path delete | **Delivered** — legacy delete in B42h; Phase 1 wrappers in B42i |
+| B42b | Legacy parity inventory + delete planning | **Delivered (planning)** — **Superseded** by B42h execution |
+| B42c | MCP live re-seed — replace B40 placeholders | **Delivered** |
+| B42d | Appshell re-export bridge + parity registry | **Delivered** |
+| B42e | Extended `/cui` batch — account-settings + dashboard | **Delivered** |
+| B42f | Dashboard/shell bridge expansion | **Delivered** |
+| B42g | Residual shell/content parity — delete gate open | **Delivered** |
+| B42h | Legacy tree delete — `presentation/` relocation | **Delivered** |
+| B42i | MCP wrapper strangler — Phase 1 statistics/shell/dashboard | **Delivered** |
+| B42j | Wrapper expansion + delegating flip + MCP className policy | **Delivered** |
+| B42k | Statistics MCP a11y parity + delegating flip | **Delivered** |
+| B42l | afenda-appshell-studio.css consolidation | **Delivered** |
+| B42m | Marketing/auth/chart/statistics strangler batch | **Delivered** |
+| B42n | Account-settings content strangler batch | **Delivered** |
+| B42o | Residual parity wrapperPath closure | **Delivered** |
+| B42p | Governed UI policy closure + delegating-flip maintenance | **Delivered** |
 
 **Next sequence item:** none — strangler complete; optional ERP feature delegating per block when a11y parity lands
 

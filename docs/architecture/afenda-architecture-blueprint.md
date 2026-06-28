@@ -87,14 +87,20 @@ Narrative **why** only. Paths, PKG IDs, and lifecycle: [`package-registry.md`](p
 | Family | Representative packages | Why it exists | Capability presented |
 | --- | --- | --- | --- |
 | **Governance** | `@afenda/architecture-authority`, `@afenda/ai-governance` | Prevent architectural entropy; enforce registry-first rules | "Is this package/layer/dependency allowed?" |
+
+**Domain blueprint (Architecture authority):** [`docs/BLUEPRINT/architecture-authority-blueprint.md`](../BLUEPRINT/architecture-authority-blueprint.md) — registry surfaces, E2E integration chain, PAS-002/002A handoff. **Domain North Star:** [`docs/NORTHSTAR/architecture-authority-north-star.md`](../NORTHSTAR/architecture-authority-north-star.md).
 | **Kernel & context** | `@afenda/kernel` | Single wire vocabulary for IDs, contexts, ERP domain catalog | Serializable platform contracts at boundaries |
 | **Identity & access** | `@afenda/auth`, `@afenda/permissions`, `@afenda/entitlements` | Separate authentication, authorization, and capability gating | Secure, tenant-scoped operations |
 | **Persistence** | `@afenda/database` | One schema and migration authority | Tenant-safe data access |
 | **Knowledge** | `@afenda/enterprise-knowledge` | Accepted enterprise meaning is not duplicated in kernel or registries | Discoverable atoms with acceptance chains |
+
+**Domain blueprint (Enterprise knowledge):** [`docs/BLUEPRINT/enterprise-knowledge-blueprint.md`](../BLUEPRINT/enterprise-knowledge-blueprint.md) — Concept → Atom → Representation, promotion pipeline, PAS-004 family E2E. **Domain North Star:** [`docs/NORTHSTAR/enterprise-knowledge-north-star.md`](../NORTHSTAR/enterprise-knowledge-north-star.md).
 | **Standards** | `@afenda/accounting-standards` | Versioned IFRS/MFRS evidence is not embedded in posting code | Standards-backed validation before workflows |
 | **Execution & storage** | `@afenda/execution`, `@afenda/storage` | Durable jobs and tenant object storage without domain coupling | Reliable async and file handling |
 | **Observability** | `@afenda/observability` | Audit and diagnostics are platform-owned | Traceable, redacted operational evidence |
 | **Design system** | `@afenda/css-authority`, `@afenda/ui`, `@afenda/shadcn-studio` | Visual tokens and primitives are centralized | Consistent governed UI |
+
+**Domain blueprint (Design Token Authority / CSS authority):** [`docs/BLUEPRINT/css-authority-blueprint.md`](../BLUEPRINT/css-authority-blueprint.md) — token spine, theme hierarchy, authority JSON → registry → consumption E2E. **Domain North Star:** [`docs/NORTHSTAR/css-authority-north-star.md`](../NORTHSTAR/css-authority-north-star.md).
 | **Metadata UX** | `@afenda/ui-composition`, `@afenda/metadata-ui` | Metadata describes UI; renderers consume authority | Composable ERP surfaces |
 | **ERP shell** | `@afenda/appshell` | Shell chrome separated from primitives and domain | Navigation and layout spine |
 | **Applications** | `apps/erp`, `apps/docs`, `apps/storybook` | Delivery surfaces compose authorities | Operator-facing product |
@@ -117,6 +123,8 @@ Forward-looking **business domain** map. Status values:
 ### Accounting & finance domain
 
 The accounting domain is **intentionally decomposed**. Standards authority, posting runtime, group reporting, intercompany, tax, and management finance are separate boxes — not one monolith.
+
+**Domain blueprint (Accounting standards authority):** [`docs/BLUEPRINT/accounting-standards-blueprint.md`](../BLUEPRINT/accounting-standards-blueprint.md) — authority consumption layer, E2E integration chain, PAS-003 handoff. **Domain North Star:** [`docs/NORTHSTAR/accounting-standards-north-star.md`](../NORTHSTAR/accounting-standards-north-star.md).
 
 ```text
                     @afenda/accounting-standards (PAS-003)

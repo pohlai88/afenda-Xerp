@@ -45,8 +45,6 @@
 > **Maturity is part of authority.** `retirement_candidate` means the **retirement map is governed** — not that `@afenda/design-system` is deleted. Package deletion requires ADR-0025 Accepted + B44 readiness green + `foundation-registry-owner`.
 
 > **Canonical location:** `docs/PAS/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md`
-> **Package-local pointer:** [`packages/design-system/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md`](../../packages/design-system/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) (tombstone only)
-
 ---
 
 # 0. Agent Quick Path
@@ -188,7 +186,7 @@ Before B45, B44 must produce:
 
 | Slice | Scope | Status |
 | --- | --- | --- |
-| B43 | [Author PAS-005B + ADR-0025 + skill sync](slice/b43-pas005b-author-retirement-pas.md) | **Delivered** |
+| B43 | Author PAS-005B + ADR-0025 + skill sync | **Delivered** |
 | B44 | Migration study + `check:design-system-retirement-readiness` | Not started |
 | B45 | CSS chain unification — remove design-system shim from `afenda-ui.css` | Not started |
 | B46 | Internalize governance registries (conditional on B44) | Not started |

@@ -28,7 +28,7 @@
 | **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `apps/docs`, `docs/architecture/glossary.md` |
 | **Change model** | `serialized-slices` (B33+) |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/slice/` |
+| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
 | **ADR prerequisites** | ADR-0021 (Accepted) · ADR-0022 · ADR-0023 (identity constitution — read-only for mapping validation) |
 
 #### Required gates
@@ -312,11 +312,11 @@ Execute in order. Do not skip consumer proof before B37 attestation.
 
 | Order | Slice | Delivers | Status |
 | ---: | --- | --- | --- |
-| 1 | [B33 Kernel identity mapping gate](slice/b33-kernel-identity-mapping-gate.md) | `knowledge-kernel-identity-mapping.policy.ts` + `check:knowledge-kernel-identity-mapping` | **Delivered** |
-| 2 | [B34 Metadata consumer proof](slice/b34-metadata-consumer-proof.md) | metadata vocabulary gate (≥3 identity labels) | **Delivered** |
-| 3 | [B35 Docs consumer proof](slice/b35-docs-consumer-proof.md) | docs vocabulary helper + `check:knowledge-docs-consumer-proof` | **Delivered** |
-| 4 | [B36 Acceptance graph queries](slice/b36-acceptance-graph-queries.md) | `knowledge-graph.query.ts` + gate | **Delivered** |
-| 5 | [B37 Enterprise Accepted attestation](slice/b37-enterprise-accepted-attestation.md) | Combined scorecard ≥38/40; PKGR04 → PAS-004B | **Attested** (registry delegated) |
+| 1 | B33 Kernel identity mapping gate | `knowledge-kernel-identity-mapping.policy.ts` + `check:knowledge-kernel-identity-mapping` | **Delivered** |
+| 2 | B34 Metadata consumer proof | metadata vocabulary gate (≥3 identity labels) | **Delivered** |
+| 3 | B35 Docs consumer proof | docs vocabulary helper + `check:knowledge-docs-consumer-proof` | **Delivered** |
+| 4 | B36 Acceptance graph queries | `knowledge-graph.query.ts` + gate | **Delivered** |
+| 5 | B37 Enterprise Accepted attestation | Combined scorecard ≥38/40; PKGR04 → PAS-004B | **Attested** (registry delegated) |
 
 **Do not add in this package (correct home):**
 
@@ -436,7 +436,7 @@ When in doubt:
 | [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Wire + identity constitution — **reference only** |
 | [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) | Identity mapping validation authority (B33) |
 | [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | Package registry — lists PKG-024 |
-| [B32 slice](slice/b32-erp-consumer-integration.md) | ERP consumer baseline |
+| B32 slice | ERP consumer baseline |
 
 ---
 
@@ -444,10 +444,10 @@ When in doubt:
 
 | Slice | PAS § | Purpose | Status | Prerequisite |
 | --- | --- | --- | --- | --- |
-| [b33-kernel-identity-mapping-gate](slice/b33-kernel-identity-mapping-gate.md) | §4.1 | ADR-0021 identity path validation + gate | **Delivered** | 2026-06-28 |
-| [b34-metadata-consumer-proof](slice/b34-metadata-consumer-proof.md) | §4.2 | Metadata vocabulary import proof | **Delivered** | 2026-06-28 |
-| [b35-docs-consumer-proof](slice/b35-docs-consumer-proof.md) | §4.2 | Docs atom citation + gate | **Delivered** | 2026-06-28 |
-| [b36-acceptance-graph-queries](slice/b36-acceptance-graph-queries.md) | §4.3 | Four query helpers + gate | **Delivered** | 2026-06-28 |
-| [b37-enterprise-accepted-attestation](slice/b37-enterprise-accepted-attestation.md) | §4.4 | Scorecard ≥38/40 attestation | **Attested** | registry delegated |
+| b33-kernel-identity-mapping-gate | §4.1 | ADR-0021 identity path validation + gate | **Delivered** | 2026-06-28 |
+| b34-metadata-consumer-proof | §4.2 | Metadata vocabulary import proof | **Delivered** | 2026-06-28 |
+| b35-docs-consumer-proof | §4.2 | Docs atom citation + gate | **Delivered** | 2026-06-28 |
+| b36-acceptance-graph-queries | §4.3 | Four query helpers + gate | **Delivered** | 2026-06-28 |
+| b37-enterprise-accepted-attestation | §4.4 | Scorecard ≥38/40 attestation | **Attested** | registry delegated |
 
 **Superseded by:** [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md)
