@@ -44,6 +44,9 @@
     "./dist/css/tokens.css",
     "./dist/css/afenda-design-system.css"
   ],
+  "dependencies": {
+    "@afenda/css-authority": "workspace:*"
+  },
   "devDependencies": {
     "@afenda/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "catalog:",

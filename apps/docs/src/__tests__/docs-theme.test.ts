@@ -175,6 +175,7 @@ describe("@afenda/docs theme", () => {
     expect(globalsCss).toContain(`var(${docsProseAccentCssVariables.default})`);
     expect(globalsCss).toContain(`var(${docsProseAccentCssVariables.hover})`);
     expect(globalsCss).toContain("#nd-page .prose a");
+    expect(globalsCss).toContain(":not([data-card])");
   });
 
   it("ships editorial noise and illustration surface layers", () => {
@@ -190,11 +191,11 @@ describe("@afenda/docs theme", () => {
     expect(surfaceCss).toContain("feTurbulence");
   });
 
-  it("uses fd tokens for block feedback highlight", () => {
+  it("uses a subtle feedback highlight wash in globals.css", () => {
     const globalsCss = readDocsFile("src/app/globals.css");
 
-    expect(globalsCss).toContain("var(--color-fd-primary)");
-    expect(globalsCss).toContain("var(--color-fd-primary-foreground)");
+    expect(globalsCss).toContain("var(--docs-feedback-highlight)");
+    expect(globalsCss).toContain("::highlight(fd-feedback-text)");
   });
 
   it("maps editorial blocks to fd tokens in docs-editorial-blocks.css", () => {
@@ -205,6 +206,72 @@ describe("@afenda/docs theme", () => {
     );
     expect(blocksCss).toContain(
       `${docsEditorialBlockVariables.accent}: ${docsEditorialBlockVariables.accentValue}`
+    );
+  });
+
+  it("loads editorial material tokens before the fd bridge", () => {
+    const globalsCss = readDocsFile("src/app/globals.css");
+    const tokensImport = globalsCss.indexOf("./docs-editorial-tokens.css");
+    const shellImport = globalsCss.indexOf("./docs-luxury-shell.css");
+
+    expect(tokensImport).toBeGreaterThan(-1);
+    expect(shellImport).toBeGreaterThan(tokensImport);
+  });
+
+  it("bridges Fumadocs fd tokens via @theme inline in luxury shell", () => {
+    const shellCss = readDocsFile("src/app/docs-luxury-shell.css");
+
+    expect(shellCss).toContain("@theme inline");
+    expect(shellCss).toContain(
+      "--color-fd-background: var(--docs-editorial-canvas)"
+    );
+    expect(shellCss).toContain(
+      "--color-fd-primary: var(--docs-editorial-fd-primary)"
+    );
+    expect(shellCss).not.toMatch(
+      /:is\(\.dark[\s\S]*--color-fd-primary:\s*oklch\(/m
+    );
+    expect(shellCss).not.toMatch(
+      /#nd-toc[\s\S]{0,400}docs-prose-accent/
+    );
+    expect(shellCss).not.toMatch(/@theme\s*\{/);
+  });
+
+  it("routes dark fd-primary through editorial tokens, not inline OKLCH", () => {
+    const tokensCss = readDocsFile("src/app/docs-editorial-tokens.css");
+    const shellCss = readDocsFile("src/app/docs-luxury-shell.css");
+
+    expect(tokensCss).toContain("--docs-editorial-fd-primary:");
+    expect(tokensCss).toContain("--docs-editorial-fd-primary-foreground:");
+    expect(shellCss).toContain(
+      "--color-fd-primary: var(--docs-editorial-fd-primary)"
+    );
+    expect(shellCss).not.toMatch(
+      /--color-fd-primary:\s*oklch\(/m
+    );
+  });
+
+  it("forbids brand accent on Fumadocs card hover titles", () => {
+    const componentsCss = readDocsFile("src/app/docs-fumadocs-components.css");
+
+    expect(componentsCss).not.toMatch(
+      /a:where\(\.nd-card, \[data-card\]\):hover[\s\S]{0,200}docs-prose-accent/
+    );
+    expect(componentsCss).not.toMatch(
+      /:where\(\.nd-card, \[data-card\]\):hover[\s\S]{0,200}:is\(h3[\s\S]{0,80}docs-prose-accent/
+    );
+    expect(componentsCss).toMatch(
+      /:where\(\.nd-card, \[data-card\]\)[\s\S]{0,400}color: var\(--docs-color-heading\)/
+    );
+  });
+
+  it("keeps step badges and inline TOC chrome off brand accent", () => {
+    const componentsCss = readDocsFile("src/app/docs-fumadocs-components.css");
+
+    expect(componentsCss).toContain(".nd-steps > li::before");
+    expect(componentsCss).toContain("background-color: var(--docs-color-heading)");
+    expect(componentsCss).toMatch(
+      /\.nd-inline-toc a:hover[\s\S]*var\(--docs-color-heading\)/
     );
   });
 });

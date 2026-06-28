@@ -1,14 +1,27 @@
+import { normalizeCompanyIdForWire } from "@afenda/kernel";
 import {
   type ConsolidationScopeContext,
+  type ConsolidationScopeWireContext,
   type DeriveConsolidationScopeWireInput,
   isOwnershipInterestEffectiveAt,
   normalizeEntityGroupIdForWire,
   normalizeTenantIdForWire,
+  parseConsolidationScopeContext,
 } from "@afenda/kernel/context";
 
 import { mergeInvesteeConsolidationScopeEntry } from "./consolidation-scope-investee-merge.policy.js";
 
 export type DeriveConsolidationScopeInput = DeriveConsolidationScopeWireInput;
+
+function requiredWireString(value: string | null, label: string): string {
+  if (value === null) {
+    throw new Error(
+      `${label} wire normalization produced null from required branded value.`
+    );
+  }
+
+  return value;
+}
 
 /**
  * Governed non-accounting consolidation scope derivation (TIP-008A).
@@ -19,9 +32,6 @@ export type DeriveConsolidationScopeInput = DeriveConsolidationScopeWireInput;
 export function deriveConsolidationScopeContext(
   input: DeriveConsolidationScopeInput
 ): ConsolidationScopeContext {
-  const tenantId = normalizeTenantIdForWire(input.tenantId);
-  const entityGroupId = normalizeEntityGroupIdForWire(input.entityGroupId);
-
   const effectiveInterests = input.ownershipInterests.filter((interest) =>
     isOwnershipInterestEffectiveAt(interest, input.reportingDate)
   );
@@ -38,19 +48,33 @@ export function deriveConsolidationScopeContext(
       ownershipPercentage: interest.ownershipPercentage,
     } satisfies ConsolidationScopeContext["legalEntities"][number];
 
+    const companyKey = requiredWireString(
+      normalizeCompanyIdForWire(interest.childLegalEntityId),
+      "companyId"
+    );
+
     legalEntitiesByCompanyId.set(
-      interest.childLegalEntityId,
+      companyKey,
       mergeInvesteeConsolidationScopeEntry(
-        legalEntitiesByCompanyId.get(interest.childLegalEntityId),
+        legalEntitiesByCompanyId.get(companyKey),
         incoming
       )
     );
   }
 
-  return {
-    tenantId,
-    entityGroupId,
+  const wire: ConsolidationScopeWireContext = {
+    tenantId: normalizeTenantIdForWire(input.tenantId),
+    entityGroupId: normalizeEntityGroupIdForWire(input.entityGroupId),
     reportingDate: input.reportingDate,
-    legalEntities: [...legalEntitiesByCompanyId.values()],
+    legalEntities: [...legalEntitiesByCompanyId.values()].map((entry) => ({
+      companyId: requiredWireString(
+        normalizeCompanyIdForWire(entry.companyId),
+        "companyId"
+      ),
+      consolidationTreatment: entry.consolidationTreatment,
+      ownershipPercentage: entry.ownershipPercentage,
+    })),
   };
+
+  return parseConsolidationScopeContext(wire);
 }

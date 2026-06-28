@@ -1,5 +1,8 @@
 import type { OwnershipInterestAuthorityRecord } from "@afenda/database";
-import type { OwnershipInterestContext } from "@afenda/kernel";
+import {
+  type OwnershipInterestContext,
+  parseUnknownOwnershipInterestContext,
+} from "@afenda/kernel";
 
 export function toOwnershipInterestContext(
   record: OwnershipInterestAuthorityRecord
@@ -7,7 +10,7 @@ export function toOwnershipInterestContext(
   const childLegalEntityId =
     record.childLegalEntityId ?? record.investeeLegalEntityId;
 
-  return {
+  return parseUnknownOwnershipInterestContext({
     ownershipInterestId: record.ownershipInterestId,
     tenantId: record.tenantId,
     entityGroupId: record.entityGroupId,
@@ -21,5 +24,5 @@ export function toOwnershipInterestContext(
     effectiveFrom: record.effectiveFrom,
     effectiveTo: record.effectiveTo,
     status: record.status,
-  };
+  });
 }

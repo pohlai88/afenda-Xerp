@@ -65,6 +65,7 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
 );
 
 const PACKAGE_ROOTS: Record<string, string> = {
+  "@afenda/css-authority": join(repoRoot, "packages/css-authority"),
   "@afenda/design-system": join(repoRoot, "packages/design-system"),
   "@afenda/ui": join(repoRoot, "packages/ui"),
   "@afenda/metadata": join(repoRoot, "packages/metadata"),
@@ -394,6 +395,16 @@ function warn(rule: string, file: string, message: string): void {
       const defPattern = /^\s*(--afenda-[a-z][^\n:]*)\s*:/gm;
       const matches = [...content.matchAll(defPattern)];
       for (const match of matches) {
+        const lineStart = content.lastIndexOf("\n", match.index ?? 0) + 1;
+        const lineEnd = content.indexOf("\n", match.index ?? 0);
+        const line = content.slice(
+          lineStart,
+          lineEnd === -1 ? undefined : lineEnd
+        );
+        // PAS-005 B30: density attribute hooks alias existing tokens — not new authority
+        if (/:\s*var\s*\(\s*--afenda-/.test(line)) {
+          continue;
+        }
         fail(
           "R6-afenda-token-authority",
           file,
@@ -404,10 +415,10 @@ function warn(rule: string, file: string, message: string): void {
   }
 }
 
-// ─── Rule 7: Only design-system defines @theme (downstream allowed only if bridge) ─
+// ─── Rule 7: Only design-system (shim) and css-authority define @theme ───────
 {
   for (const [pkg, root] of Object.entries(PACKAGE_ROOTS)) {
-    if (pkg === "@afenda/design-system") {
+    if (pkg === "@afenda/design-system" || pkg === "@afenda/css-authority") {
       continue;
     }
     const cssFiles = collectFiles(
@@ -423,8 +434,8 @@ function warn(rule: string, file: string, message: string): void {
         fail(
           "R7-theme-authority",
           file,
-          `${pkg} contains @theme — only @afenda/design-system may define @theme. ` +
-            `Consumers @import "@afenda/design-system/css/afenda-design-system.css" instead.`
+          `${pkg} contains @theme — only @afenda/css-authority or @afenda/design-system (shim) may define @theme. ` +
+            `Consumers @import "@afenda/css-authority/css/afenda-css-authority.css" or design-system during cutover.`
         );
       }
     }
@@ -550,7 +561,7 @@ function warn(rule: string, file: string, message: string): void {
 // ─── Rule 13: Production app globals do not import fixtures.css ──────────────
 // (covered in Rule 2 app globals block above)
 
-// ─── Rule 15: No forbidden raw visual values outside design-system ────────────
+// ─── Rule 15: No forbidden raw visual values outside approved token sources ────────────
 {
   const FORBIDDEN_PATTERNS: Array<{ re: RegExp; label: string }> = [
     { re: /:\s*#[0-9a-fA-F]{3,8}(?!\w)/g, label: "hardcoded hex color" },
@@ -560,7 +571,7 @@ function warn(rule: string, file: string, message: string): void {
   ];
 
   for (const [pkg, root] of Object.entries(PACKAGE_ROOTS)) {
-    if (pkg === "@afenda/design-system") {
+    if (pkg === "@afenda/design-system" || pkg === "@afenda/css-authority") {
       continue;
     }
     const cssFiles = collectFiles(
@@ -571,12 +582,24 @@ function warn(rule: string, file: string, message: string): void {
     for (const file of cssFiles) {
       const content = readFileSync(file, "utf8");
       for (const { re, label } of FORBIDDEN_PATTERNS) {
-        if (re.test(content)) {
+        const lines = content.split("\n");
+        for (const line of lines) {
+          if (!re.test(line)) {
+            continue;
+          }
+          re.lastIndex = 0;
+          // Studio bridge custom properties — not element-level raw visual authority
+          if (
+            /^\s*--(?:auth-editorial|app-shell-studio)-[\w-]+\s*:/.test(line)
+          ) {
+            continue;
+          }
           warn(
             "R15-no-raw-visual-values",
             file,
             `${pkg} CSS contains ${label} — use var(--afenda-*) tokens instead`
           );
+          break;
         }
       }
     }

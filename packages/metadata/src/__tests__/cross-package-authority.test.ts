@@ -121,7 +121,7 @@ describe("cross-package authority contract", () => {
 
   it("keeps import allow and deny lists disjoint per package", () => {
     for (const entry of crossPackageAuthority.packages) {
-      const denied = new Set(entry.importPolicy.mayNotImportFrom);
+      const denied = new Set<string>(entry.importPolicy.mayNotImportFrom);
       const overlap = entry.importPolicy.mayImportFrom.filter((packageName) =>
         denied.has(packageName)
       );

@@ -261,6 +261,30 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
+    registryId: "PKG-024",
+    packageName: "@afenda/enterprise-knowledge",
+    path: "packages/enterprise-knowledge",
+    layer: "Platform",
+    lifecycle: "active",
+    purpose:
+      "Accepted enterprise meaning — Knowledge Atoms, domains, acceptance chains, relationships, and conformance (PAS-004)",
+    publicApiOwner: "Enterprise Knowledge Authority",
+    layerDepExempt: false,
+    filesystemRequired: true,
+  },
+  {
+    registryId: "PKG-025",
+    packageName: "@afenda/css-authority",
+    path: "packages/css-authority",
+    layer: "Design",
+    lifecycle: "active",
+    purpose:
+      "CSS Authority Registry — vendored shadcn theme, extensions, CSS-TOKEN-* governance (PAS-005)",
+    publicApiOwner: "CSS Authority",
+    layerDepExempt: false,
+    filesystemRequired: true,
+  },
+  {
     registryId: "PKG-R01",
     packageName: "@afenda/accounting",
     path: "packages/accounting",

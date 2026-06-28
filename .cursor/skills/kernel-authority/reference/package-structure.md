@@ -33,6 +33,7 @@ packages/kernel/
     │   ├── erp-domain-layout.contract.ts
     │   └── accounting/             # @afenda/kernel/erp-domain/accounting
     ├── context/                    # §4.4 operating-context shapes + context-registry.ts
+    │                               # Wire ingress: *.contract.ts + *.assert.ts + *.parser.ts (§4.4 triad)
     ├── identity/                   # §4.1 nested module (brand, canonical, families, wire, …)
     ├── governance/                 # §9 PAS self-governance (@afenda/kernel/governance)
     ├── permission/                 # §8 vocabulary (@afenda/kernel/permission)

@@ -274,6 +274,22 @@ Tenant                 ← SaaS and security boundary
 | Audit writing | `@afenda/observability` |
 | Runtime execution | `@afenda/execution` |
 
+### Wire context module triad (PAS-001 §4.4)
+
+When a context accepts wire input (API, events, imports):
+
+| File | Role |
+| --- | --- |
+| `*.contract.ts` | `FooContext` (branded) + `WireFooContext` (JSON-safe plain fields) |
+| `*.assert.ts` | Block invalid wire values before any brand is applied |
+| `*.parser.ts` | `parseFooContext(wire)` using identity `parse*` / `to*` only |
+
+```text
+bad data → wire → assert rejects → parser → branded context → safe downstream consumption
+```
+
+Branded context is an **output** of parsing, never assumed from untrusted input. Reference: `localization-context.{contract,assert,parser}.ts`.
+
 ---
 
 ## Localization and Global Format Vocabulary

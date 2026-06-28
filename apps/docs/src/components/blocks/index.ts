@@ -22,6 +22,7 @@ export type {
   DocsGuideCardGridProps,
   DocsGuideCardGridVariant,
   DocsGuideCardItem,
+  DocsIdentityBlockProps,
   DocsInlineTocItem,
   DocsInlineTocProps,
   DocsInlineTocVariant,
@@ -39,6 +40,7 @@ export { DocsCodePanel } from "./docs-code-panel";
 export { DocsFeatureStrip } from "./docs-feature-strip";
 export { DocsFileTree } from "./docs-file-tree";
 export { DocsGuideCardGrid } from "./docs-guide-card-grid";
+export { DocsIdentityBlock } from "./docs-identity-block";
 export { DocsInlineToc } from "./docs-inline-toc";
 export { DocsPropTable } from "./docs-prop-table";
 export { DocsStepsPanel } from "./docs-steps-panel";

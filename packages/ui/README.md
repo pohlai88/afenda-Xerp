@@ -26,20 +26,22 @@ Manifest: `src/styles/css-manifest.ts`. Governance: `pnpm check:css-governance`.
 
 ### CSS entrypoint
 
-`@afenda/ui` owns exactly **one** CSS file. It bundles the design-system theme
-bridge and the primitive structural hooks:
+`@afenda/ui` owns exactly **one** CSS file. It composes the design-system token
+shim, the CSS Authority runtime bundle, and primitive structural hooks:
 
 | Import | Use when |
 | --- | --- |
 | `@afenda/ui/afenda-ui.css` | Tailwind v4 apps — the single, recommended UI entry |
 | `@afenda/design-system/css/afenda-tokens.css` | Token-only surfaces (no `@afenda/ui` primitive hooks) |
+| `@afenda/design-system/css/afenda-design-system.css` | **Deprecated** B30 shim — prefer `afenda-ui.css` |
 
 ```css
 @import "@afenda/ui/afenda-ui.css";
 ```
 
-`afenda-ui.css` itself `@import`s `@afenda/design-system/css/afenda-design-system.css`
-(the generated `@theme` bridge + tokens) — you never import that directly.
+`afenda-ui.css` `@import`s `@afenda/design-system/css/afenda-tokens.css` and
+`@afenda/css-authority/css/afenda-css-authority.css` — do not import the
+deprecated `afenda-design-system.css` monolith shim in new code.
 
 ## Authority surface recipes (pre-wiring)
 

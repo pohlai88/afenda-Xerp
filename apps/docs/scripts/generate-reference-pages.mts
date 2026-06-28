@@ -83,6 +83,8 @@ function renderSystemAdminTable(catalog: SystemAdminCatalog): string {
 
   return `# System admin sections reference
 
+> **Deprecated standalone page.** Prefer [Roles and permissions](/docs/configure-tenant/roles-and-permissions) or [Admin areas](/docs/configure-tenant/generated/admin-sections). This file remains for deep links and catalog sync parity only.
+
 | Section | Path | Read permission |
 | --- | --- | --- |
 ${rows}
@@ -90,18 +92,38 @@ ${rows}
 }
 
 function renderPermissionsTable(catalog: PermissionsCatalog): string {
-  const rows = catalog.permissions
-    .map(
-      (permission) =>
-        `| \`${permission.key}\` | ${permission.domain} | ${permission.action} |`
+  const byDomain = new Map<string, PermissionsCatalog["permissions"]>();
+
+  for (const permission of catalog.permissions) {
+    const existing = byDomain.get(permission.domain) ?? [];
+    existing.push(permission);
+    byDomain.set(permission.domain, existing);
+  }
+
+  const sections = [...byDomain.entries()]
+    .sort(([leftDomain], [rightDomain]) =>
+      leftDomain.localeCompare(rightDomain)
     )
-    .join("\n");
+    .map(([domain, permissions]) => {
+      const rows = permissions
+        .map(
+          (permission) => `| \`${permission.key}\` | ${permission.action} |`
+        )
+        .join("\n");
+
+      return `## ${domain}
+
+| Key | Action |
+| --- | --- |
+${rows}`;
+    })
+    .join("\n\n");
 
   return `# Permission keys reference
 
-| Key | Domain | Action |
-| --- | --- | --- |
-${rows}
+Grouped by domain for scanability. Prefer [Roles and permissions](/docs/configure-tenant/roles-and-permissions) for editorial guidance.
+
+${sections}
 `;
 }
 

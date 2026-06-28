@@ -1,0 +1,7 @@
+# PAS-004B — Enterprise Knowledge Kernel & Consumer Standard
+
+> **Tombstone pointer only.** Canonical document:
+
+[`docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md`](../../docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md)
+
+Parent: [`PAS-004A`](../../docs/PAS/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · Charter: [`PAS-004`](../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)

@@ -1,12 +1,75 @@
 ---
 name: coding-consistency-bundle
-description: Mandatory skill bundle for Afenda implementer agents — afenda-coding-session, architecture-authority, pas-slice-planner, TypeScript discipline, and repo coding standards. Read before any file edit when invoked via afenda-governed-implementer, fdr-slice-implementer, foundation-registry-owner, or PAS slice batches.
-disable-model-invocation: false
+description: Mandatory preflight and skill bundle for Afenda implementer agents. Use when attached, invoked as /coding-consistency-bundle, named in the user message, or referenced by afenda-governed-implementer and PAS slice agents. Requires exact preflight announcement, Read-tool receipt, and Phase 0 before any file edit; hard stop if violated. Covers afenda-coding-session, architecture-authority, pas-slice-planner, kernel-authority, enterprise-knowledge, TypeScript discipline, and AGENTS.md.
+disable-model-invocation: true
 ---
+
+<!--
+Operator mandate (verbatim — recorded 2026-06-28 — do not paraphrase or soften):
+
+NOW USE /create-skill TO UPDATE THE SKILL OF /coding-consistency-bundle ; WHENEVER THE BUNDLE SKILL IS USING, PREFLIGHT SHOWING FIRST COIDNG... THE AGENT IS USING CODING CONSISTENY BUNDLE..
+
+IF IT IS NOT PREFLIGHT, THEN HARD STOP AND SHOWING THE SCRIPT... FUCK THE MOTHER SON OF BITH AGENT... USE THE SKILL!!!
+
+U DIDNT RECORD WHAT I SAID HUH.. I SIAD COMMENTED
+-->
 
 # Coding Consistency Bundle
 
-Single entrypoint for implementer agents. **Read this table before any file edit.**
+Single entrypoint for implementer agents.
+
+## Mandatory preflight (first — before any file edit)
+
+**When this skill is attached, invoked, or named:** preflight showing first coding. The **first user-visible line** of the agent reply must be exactly (operator mandate — same words, same order):
+
+```txt
+THE AGENT IS USING CODING CONSISTENY BUNDLE..
+```
+
+No exceptions. No preamble. No edits before this line and the preflight receipt below.
+
+<!-- IF IT IS NOT PREFLIGHT, THEN HARD STOP AND SHOWING THE SCRIPT... USE THE SKILL!!! -->
+
+### Automatic enforcement (hooks — no manual run)
+
+Cursor hooks record violations to `.cursor/audit/vibe-coding-violations.jsonl` automatically:
+
+- **Session start** — reset preflight session
+- **Read** — track bundle/kernel/session skill reads
+- **Write before bundle Read** — **V002** appended + approval ask
+- **Stop after coding turn** — missing announcement / §11 → **V001/V007/V010** appended + scorecard followup
+
+See `.cursor/hooks/bundle-preflight-policy.mjs`. Deep transcript audit (optional): subagent `vibe-coding-violation-auditor`.
+
+### Preflight order
+
+1. Output the announcement line above.
+2. `Read` this file (`.cursor/skills/coding-consistency-bundle/SKILL.md`).
+3. `Read` every **applicable** row from the table below — use the `Read` tool; list paths in the receipt.
+4. `Read` every skill the user **attached** or **named** in the message (e.g. `kernel-authority`) even if the table says "only when path X".
+5. Post **Preflight Receipt** — [reference/preflight-receipt.md](reference/preflight-receipt.md).
+6. Announce: `I'm using afenda-coding-session — stating the execution contract before edits.`
+7. Post **Phase 0** — all six lines from afenda-coding-session §0.
+
+**Only then** may the agent use Write / StrReplace / EditNotebook / Delete on repo files.
+
+If the user required read-only preflight, stop after Phase 0 until they say **proceed**.
+
+### Hard stop
+
+If the agent edited files, claimed a skill, or claimed gates **before** steps 1–5 (and Phase 0 when coding):
+
+- **Stop immediately.** Do not continue edits in that turn.
+- Paste the hard-stop script from [reference/hard-stop.md](reference/hard-stop.md).
+- Restart from step 1 in the next reply.
+
+Claiming "I used skill X" without a `Read` on that path **in the same turn** counts as a preflight violation.
+
+---
+
+## Bundle table
+
+**Read applicable rows before any file edit.**
 
 | # | Skill | Path | When required |
 | --- | --- | --- | --- |
@@ -16,7 +79,10 @@ Single entrypoint for implementer agents. **Read this table before any file edit
 | 4 | architecture-authority | `.cursor/skills/architecture-authority/SKILL.md` | `packages/architecture-authority/**`, registries, `pnpm quality:architecture` |
 | 5 | pas-slice-planner | `.cursor/skills/pas-slice-planner/SKILL.md` | PAS slice handoffs — validate 9-field block before coding |
 | 6 | Repo Ultracite standards | `AGENTS.md` (repo root) | **Always** — formatting, React, testing, security |
-| 7 | kernel-authority | `.cursor/skills/kernel-authority/SKILL.md` | `packages/kernel/**` only |
+| 7 | kernel-authority | `.cursor/skills/kernel-authority/SKILL.md` | `packages/kernel/**` **or user names it** **or** PAS/kernel wire boundary (e.g. PAS-004 `implementationMapping`) |
+| 8 | enterprise-knowledge | `.cursor/skills/enterprise-knowledge/SKILL.md` | `packages/enterprise-knowledge/**`, PAS-004 slices, Knowledge Atom registry |
+
+**User-named skills override narrow "when" cells** — if the user says `kernel-authority`, row 7 is required regardless of path.
 
 **Orchestrators** (`fdr-orchestrator`, parent agents launching parallel slices) must paste this bundle into every implementer prompt.
 
@@ -63,6 +129,7 @@ When handoff is under `docs/PAS/slice/`:
 
 | Domain | Skill path |
 | --- | --- |
+| Enterprise knowledge (PAS-004) | `.cursor/skills/enterprise-knowledge/SKILL.md` |
 | Enterprise SAP/Oracle gates | `.cursor/skills/enterprise-erp-standards/SKILL.md` |
 | UI primitive authoring | `.cursor/skills/govern-primitive/SKILL.md` |
 | Package CSS dist | `.cursor/skills/package-css-dist-sync/SKILL.md` |
@@ -70,3 +137,11 @@ When handoff is under `docs/PAS/slice/`:
 | Multi-tenancy | `.cursor/skills/multi-tenancy-erp/SKILL.md` |
 
 If a required authority file is missing, stop with a **Blocker Report** — do not improvise.
+
+---
+
+## References
+
+- Preflight receipt template: [reference/preflight-receipt.md](reference/preflight-receipt.md)
+- Hard-stop script: [reference/hard-stop.md](reference/hard-stop.md)
+- Violation audit subagent: [../../agents/vibe-coding-violation-auditor.md](../../agents/vibe-coding-violation-auditor.md) — counts vibe-coding violations; appends [../../audit/vibe-coding-violations.jsonl](../../audit/vibe-coding-violations.jsonl)

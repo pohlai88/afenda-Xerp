@@ -5,14 +5,39 @@ description: Afenda coding session contract, TIP handoffs, and documentation dri
 
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Callout } from "fumadocs-ui/components/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
 
 Contributions follow **PAS slice handoffs**, **architecture authority**, and automated drift guards. This page describes the workflow — delivery specs remain in `docs/PAS/slice/`.
 
 ## Before you code
 
-1. Read [tip-status-index.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/README.md) for canonical TIP status.
-2. Read [afenda-runtime-truth-matrix.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/afenda-runtime-truth-matrix.md) for runtime evidence.
-3. Copy **one** handoff block from the target TIP — implement one slice per session.
+<Steps>
+
+<Step>
+
+### Read TIP status
+
+Read [tip-status-index.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/README.md) for canonical TIP status.
+
+</Step>
+
+<Step>
+
+### Read runtime evidence
+
+Read [afenda-runtime-truth-matrix.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/afenda-runtime-truth-matrix.md) for runtime evidence.
+
+</Step>
+
+<Step>
+
+### Copy one handoff block
+
+Copy **one** handoff block from the target TIP — implement one slice per session.
+
+</Step>
+
+</Steps>
 
 ## afenda-coding-session contract
 
@@ -20,12 +45,57 @@ Every coding turn:
 
 **Phase 0 (before edits):**
 
-1. Objective — one sentence
-2. Allowed layer — single package path
-3. Files to change — explicit list
-4. Prohibited — off-limits packages
-5. Authority — ADR / TIP / skill
-6. Acceptance gates — `pnpm` commands
+<Steps>
+
+<Step>
+
+### Objective
+
+State the objective in one sentence.
+
+</Step>
+
+<Step>
+
+### Allowed layer
+
+Name the single package path you may edit.
+
+</Step>
+
+<Step>
+
+### Files to change
+
+List the explicit files expected to change.
+
+</Step>
+
+<Step>
+
+### Prohibited paths
+
+List packages and paths that are off limits.
+
+</Step>
+
+<Step>
+
+### Authority
+
+Cite the ADR, TIP, or skill that governs the work.
+
+</Step>
+
+<Step>
+
+### Acceptance gates
+
+List the `pnpm` commands that must pass before completion.
+
+</Step>
+
+</Steps>
 
 **Phase 2 (before ending):** Post §11 Completion Report with drift-prevention table and gate output.
 

@@ -55,6 +55,27 @@ export const PACKAGE_CSS_DIST_PACKAGES = [
     ],
   },
   {
+    name: "@afenda/css-authority",
+    buildCommand: "pnpm --filter @afenda/css-authority build",
+    syncCommand:
+      "pnpm sync:package-css-dist -- --package @afenda/css-authority",
+    sourcePathPrefix: "packages/css-authority/src/css/",
+    pairs: [
+      {
+        src: "packages/css-authority/src/css/afenda-runtime-bridge.css",
+        dist: "packages/css-authority/dist/css/afenda-runtime-bridge.css",
+      },
+      {
+        src: "packages/css-authority/src/css/vendored/shadcn-theme.css",
+        dist: "packages/css-authority/dist/css/vendored/shadcn-theme.css",
+      },
+      {
+        src: "packages/css-authority/src/css/afenda-css-authority.css",
+        dist: "packages/css-authority/dist/css/afenda-css-authority.css",
+      },
+    ],
+  },
+  {
     name: "@afenda/metadata-ui",
     buildCommand: "pnpm --filter @afenda/metadata-ui build",
     syncCommand: "pnpm sync:package-css-dist -- --package @afenda/metadata-ui",

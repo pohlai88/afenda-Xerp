@@ -27,23 +27,55 @@ packages/kernel/
     │   ├── index.ts                      # ✅ Public @afenda/kernel/context barrel
     │   ├── context-registry.ts           # 📋 REQUIRED + SUPPORT module registry
     │   │
+    │   │── Wire ingress triad (PAS §4.4 — recommended per context with wire input):
+    │   │     <name>-context.contract.ts · <name>-context.assert.ts · <name>-context.parser.ts
+    │   │     wire → assert → parse* → branded context (no silent casts)
+    │   │
     │   │── ── §4.4 REQUIRED shapes (gate-enforced) ──────────────────────────
     │   ├── tenant-context.contract.ts              # ✅ TenantContext
-    │   ├── entity-group-context.contract.ts        # ✅ EntityGroupContext
-    │   ├── legal-entity-context.contract.ts        # ✅ LegalEntityContext
+    │   ├── entity-group-context.contract.ts        # ✅ EntityGroupContext + EntityGroupWireContext
+    │   ├── entity-group-context.assert.ts          # ✅ §4.4 wire assert (tenant/group/company ids)
+    │   ├── entity-group-context.parser.ts          # ✅ §4.4 parse/normalize trust boundary
+    │   └── __tests__/entity-group-context.test.ts  # 🧪 wire triad (10 cases)
+    │   ├── legal-entity-context.contract.ts        # ✅ LegalEntityContext + Wire* shapes
+    │   ├── legal-entity-context.assert.ts          # ✅ §4.4 wire assert (tenant/company/group ids)
+    │   ├── legal-entity-context.parser.ts          # ✅ §4.4 parse/normalize trust boundary
+    │   └── __tests__/legal-entity-context.test.ts  # 🧪 wire triad (16 cases)
     │   ├── ownership-interest-context.contract.ts  # ✅ OwnershipInterestContext (+ date predicate)
-    │   ├── organization-unit-context.contract.ts   # ✅ OrganizationUnitContext
-    │   ├── team-context.contract.ts                # ✅ TeamContext  ← shape only, not team DB
-    │   ├── project-context.contract.ts             # ✅ ProjectContext
-    │   ├── operating-context.contract.ts           # ✅ OperatingContext + error codes + selection hints
-    │   ├── permission-scope-context.contract.ts      # ✅ scope slot (resolver → @afenda/permissions)
-    │   ├── consolidation-scope-context.contract.ts # ✅ ConsolidationScopeContext
+    │   ├── ownership-interest-context.assert.ts  # ✅ §4.4 wire assert (tenant/group/company/oi ids)
+    │   ├── ownership-interest-context.parser.ts  # ✅ §4.4 parse/normalize trust boundary
+    │   ├── organization-unit-context.contract.ts   # ✅ OrganizationUnitContext + Wire* shapes
+    │   ├── organization-unit-context.assert.ts     # ✅ §4.4 wire assert (tenant/org/company ids)
+    │   ├── organization-unit-context.parser.ts     # ✅ §4.4 parse/normalize trust boundary
+    │   └── __tests__/organization-unit-context.test.ts # 🧪 wire triad (14 cases)
+    │   ├── team-context.contract.ts                # ✅ TeamContext + TeamWireContext
+    │   ├── team-context.assert.ts                  # ✅ §4.4 wire assert (tenant/team/org ids)
+    │   ├── team-context.parser.ts                  # ✅ §4.4 parse/normalize trust boundary
+    │   └── __tests__/team-context.test.ts          # 🧪 wire triad
+    │   ├── project-context.contract.ts             # ✅ ProjectContext + ProjectWireContext
+    │   ├── project-context.assert.ts               # ✅ §4.4 wire assert (tenant/project/org/company ids)
+    │   ├── project-context.parser.ts               # ✅ §4.4 parse/normalize trust boundary
+    │   └── __tests__/project-context.test.ts       # 🧪 wire triad (11 cases)
+    │   ├── operating-context.contract.ts           # ✅ OperatingContext + OperatingContextWireContext
+    │   ├── operating-context.assert.ts             # ✅ §4.4 composed wire assert (delegates child triads)
+    │   ├── operating-context.parser.ts             # ✅ §4.4 parse/normalize composed trust boundary
+    │   └── __tests__/operating-context.test.ts     # 🧪 wire triad (8 cases)
+    │   ├── permission-scope-context.contract.ts      # ✅ PermissionScopeContext + Wire* shapes
+    │   ├── permission-scope-context.assert.ts        # ✅ §4.4 wire assert (grant scope + ids)
+    │   ├── permission-scope-context.parser.ts        # ✅ §4.4 parse/normalize trust boundary
+    │   └── __tests__/permission-scope-context.test.ts # 🧪 wire triad (12 cases)
+    │   ├── consolidation-scope-context.contract.ts # ✅ ConsolidationScopeContext + Wire* shapes
+    │   ├── consolidation-scope-context.assert.ts # ✅ §4.4 wire assert (tenant/group/company ids)
+    │   ├── consolidation-scope-context.parser.ts # ✅ §4.4 parse/normalize trust boundary
+    │   └── __tests__/consolidation-scope-context.test.ts # 🧪 wire triad
     │   │
     │   │── ── §4.4 SUPPORT shapes / metadata ───────────────────────────────
     │   ├── workspace-context.contract.ts           # ✅ WorkspaceContext
     │   ├── surface-context.contract.ts             # ✅ SurfaceContext (shape only)
     │   ├── workflow-context.contract.ts            # ✅ WorkflowContext (shape only)
-    │   ├── localization-context.contract.ts        # ✅ §4.5 LocalizationContext + wire parse/serialize
+    │   ├── localization-context.contract.ts        # ✅ §4.5 LocalizationContext + Wire* shapes
+    │   ├── localization-context.assert.ts          # ✅ §4.4 wire assert (fail closed before brand)
+    │   ├── localization-context.parser.ts          # ✅ §4.4 parse/serialize trust boundary
     │   ├── lifecycle.contract.ts                   # ✅ Shared PlatformLifecycleStatus
     │   ├── enterprise-hierarchy.contract.ts        # ✅ Tier metadata (persisted vs derived)
     │   ├── operating-context-hierarchy.contract.ts # ✅ PAS §4.4 layer registry

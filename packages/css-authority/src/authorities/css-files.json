@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "owner": "@afenda/css-authority",
+  "files": [
+    {
+      "path": "packages/css-authority/src/css/vendored/shadcn-theme.css",
+      "owner": "shadcn",
+      "introducedIn": "shadcn@4.11.0",
+      "lifecycle": "stable"
+    },
+    {
+      "path": "packages/css-authority/src/css/afenda-runtime-bridge.css",
+      "owner": "@afenda/css-authority",
+      "introducedIn": "PAS-005-B29",
+      "lifecycle": "stable"
+    },
+    {
+      "path": "packages/css-authority/src/css/afenda-css-authority.css",
+      "owner": "@afenda/css-authority",
+      "definesPackage": "@afenda/css-authority",
+      "introducedIn": "PAS-005-B27",
+      "lifecycle": "stable"
+    }
+  ]
+}

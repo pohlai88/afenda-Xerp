@@ -1,6 +1,7 @@
 import { type SQL, sql } from "drizzle-orm";
 import { type AnyPgColumn, check } from "drizzle-orm/pg-core";
 
+import type { EnterpriseIdColumn } from "./enterprise-id-column.js";
 import {
   buildEnterpriseIdCheckPattern,
   type EnterpriseIdFamilyKey,
@@ -14,7 +15,7 @@ import {
  * TypeScript parser + Postgres CHECK two-layer enforcement (PAS §4.1).
  */
 export function enterpriseIdFormatCheck(
-  column: AnyPgColumn,
+  column: AnyPgColumn | EnterpriseIdColumn,
   family: EnterpriseIdFamilyKey,
   constraintName?: string
 ) {

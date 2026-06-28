@@ -4,23 +4,62 @@ description: "REST API ภายในของ Afenda ERP ภายใต้ /a
 full: true
 ---
 
+import { Card, Cards } from "fumadocs-ui/components/card";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
 แคตตาล็อก OpenAPI 3.1 ที่ขับเคลื่อนจาก registri สำหรับเส้นทาง `/api/internal/v1/**` ที่ได้รับการกำกับดูแล สร้างจาก `API_CONTRACTS` — อย่าแก้ไขหน้าปฏิบัติการด้วยตนเอง
+
+<Tabs items={["Auth", "System Admin", "Inventory", "Workspace", "Platform"]}>
+
+<Tab value="Auth">
+
+<Cards>
+  <Card title="List session memberships" href="./auth-memberships-get" description="GET /auth/memberships" />
+</Cards>
+
+</Tab>
+
+<Tab value="System Admin">
 
 <Cards>
   <Card title="Assign membership role" href="./system-admin-memberships-role-post" description="POST /system-admin/memberships/role" />
-  <Card title="Create product" href="./inventory-products-post" description="POST /inventory/products" />
-  <Card title="Create warehouse" href="./inventory-warehouses-post" description="POST /inventory/warehouses" />
-  <Card title="Get dashboard layout" href="./workspace-dashboard-layout-get" description="GET /workspace/dashboard-layout" />
-  <Card title="Get ERP health status" href="./health-get" description="GET /health" />
-  <Card title="Initiate tenant brand logo upload" href="./storage-tenant-brand-logo-post" description="POST /storage/tenant-brand-logo" />
   <Card title="Invite user" href="./system-admin-users-invite-post" description="POST /system-admin/users/invite" />
   <Card title="List audit events" href="./system-admin-audit-events-get" description="GET /system-admin/audit-events" />
+</Cards>
+
+</Tab>
+
+<Tab value="Inventory">
+
+<Cards>
+  <Card title="Create product" href="./inventory-products-post" description="POST /inventory/products" />
+  <Card title="Create warehouse" href="./inventory-warehouses-post" description="POST /inventory/warehouses" />
   <Card title="List products" href="./inventory-products-get" description="GET /inventory/products" />
-  <Card title="List session memberships" href="./auth-memberships-get" description="GET /auth/memberships" />
   <Card title="List stock levels" href="./inventory-stock-levels-get" description="GET /inventory/stock-levels" />
   <Card title="List warehouses" href="./inventory-warehouses-get" description="GET /inventory/warehouses" />
   <Card title="Record stock movement" href="./inventory-stock-movements-post" description="POST /inventory/stock-movements" />
-  <Card title="Report client-side error" href="./client-error-post" description="POST /client-error" />
+</Cards>
+
+</Tab>
+
+<Tab value="Workspace">
+
+<Cards>
+  <Card title="Get dashboard layout" href="./workspace-dashboard-layout-get" description="GET /workspace/dashboard-layout" />
   <Card title="Reset dashboard layout" href="./workspace-dashboard-layout-delete" description="DELETE /workspace/dashboard-layout" />
   <Card title="Update dashboard layout" href="./workspace-dashboard-layout-put" description="PUT /workspace/dashboard-layout" />
 </Cards>
+
+</Tab>
+
+<Tab value="Platform">
+
+<Cards>
+  <Card title="Get ERP health status" href="./health-get" description="GET /health" />
+  <Card title="Initiate tenant brand logo upload" href="./storage-tenant-brand-logo-post" description="POST /storage/tenant-brand-logo" />
+  <Card title="Report client-side error" href="./client-error-post" description="POST /client-error" />
+</Cards>
+
+</Tab>
+
+</Tabs>

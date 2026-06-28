@@ -2,6 +2,110 @@
 
 Lightweight closure registry for Package Authority Standards slices. Runtime evidence lives in [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md).
 
+**Header sync rule:** Every PAS doc and authority skill must mirror **Runtime status** and **Remaining slices** in the PAS authority metadata table (see [`pas-doc-template.md`](../../.cursor/skills/kernel-authority/reference/pas-doc-template.md)). Update all three surfaces when closing a slice.
+
+---
+
+## PAS-005 CSS Authority — greenfield scaffold (MVP Authority)
+
+| Field | Value |
+| --- | --- |
+| **Status** | Delivered — B26–B35 complete; CSS theme contract gate wired |
+| **Authority** | PAS-005 · `PKGR05_CSS_AUTHORITY` · PKG-025 |
+| **Maturity** | `mvp_authority` · `accepted_for_boundary` · `mvp_delivered` · `runtime` |
+| **Runtime status** | B26–B35 delivered — 568-token registry (465 afenda + 43 appshell + 14 auth-editorial + 46 shadcn); consumption + bridge + visual contract gates pass |
+| **Remaining slices** | B36 — Enterprise Accepted attestation (proposed) · B37 — Playwright pixel baselines (optional) |
+| **Runtime evidence** | `afenda-ui.css` → `afenda-tokens.css` + `afenda-css-authority.css`; B30 shim; 568-token registry; R23–R27 + bridge-sync + visual contract gates |
+| **Gates** | `pnpm check:css-visual-regression`, `pnpm check:css-authority-bridge-sync`, `pnpm check:css-governance`, `pnpm check:css-authority-consumption`, `pnpm quality:boundaries` |
+| **Result** | CSS Authority owns generator-synced runtime bridge; design-system token shim; Storybook composed ERP/metadata-ui spot-check reference |
+
+**Next sequence item:** B36 — Enterprise Accepted attestation (see [PAS-005 §14](PAS-005-CSS-AUTHORITY-STANDARD.md#14-remaining-work-post-mvp)).
+
+| Slice | Doc | Status |
+| --- | --- | --- |
+| B26 | scaffold | Delivered |
+| B27 | [b27-pas005-shadcn-theme.md](slice/b27-pas005-shadcn-theme.md) | Delivered |
+| B28 | [b28-pas005-consumption-gates.md](slice/b28-pas005-consumption-gates.md) | Delivered |
+| B29 | [b29-pas005-ui-cutover.md](slice/b29-pas005-ui-cutover.md) | Delivered |
+| B30 | [b30-pas005-deprecate-ds-css.md](slice/b30-pas005-deprecate-ds-css.md) | Delivered |
+| B33 | [b33-pas005-visual-regression.md](slice/b33-pas005-visual-regression.md) | Delivered |
+| B34 | [b34-pas005-registry-expansion.md](slice/b34-pas005-registry-expansion.md) | Delivered |
+| B35 | [b35-pas005-disposition-sync.md](slice/b35-pas005-disposition-sync.md) | Delivered |
+
+---
+
+## PAS-004 Enterprise Knowledge — charter MVP (MVP Authority)
+
+| Field | Value |
+| --- | --- |
+| **Status** | Delivered — MVP Authority (partial implementation) |
+| **Authority** | PAS-004 · `PKGR04_ENTERPRISE_KNOWLEDGE` · PKG-024 |
+| **Maturity** | `mvp_authority` · `accepted_for_implementation` · `partial` · `registry` |
+| **Runtime status** | Charter MVP — 12 seed atoms, `check:knowledge-conformance`; rollout in PAS-004A |
+| **Remaining slices** | none — superseded by PAS-004A |
+| **Runtime evidence** | PAS-004 canonical doc, `@afenda/enterprise-knowledge` package (12 atoms), agent skill, Architecture Authority registries, `check:knowledge-conformance` |
+| **Gates** | `pnpm --filter @afenda/enterprise-knowledge typecheck`, `pnpm --filter @afenda/enterprise-knowledge test:run`, `pnpm check:knowledge-conformance`, `pnpm quality:boundaries`, `pnpm check:foundation-disposition` |
+| **Result** | Constitutional charter (technology-free §1–§4), seed Knowledge Atom registry, glossary demoted to representation; Enterprise Accepted **not** claimed — scoring engine and tenant knowledge out of scope |
+
+**Next sequence item:** Superseded by [PAS-004A](#pas-004a-enterprise-knowledge-platform--b24b32-slice-closure-production-candidate) (B24–B32 delivered).
+
+---
+
+## PAS-004A Enterprise Knowledge Platform — B24–B32 slice closure (Production Candidate)
+
+| Field | Value |
+| --- | --- |
+| **Status** | Delivered — Production Candidate (B24–B32; registry synced 2026-06-28) |
+| **Authority** | PAS-004A · PAS-004 charter · PAS-001 kernel references · `PKGR04_ENTERPRISE_KNOWLEDGE` |
+| **Maturity** | `production_candidate` · `accepted_for_implementation` · `delivered` · `json_authority` |
+| **Runtime status** | B24–B32 delivered — 24 atoms, JSON authority, ERP consumer, glossary parity, scorecard 30/30 |
+| **Remaining slices** | none |
+| **Runtime evidence** | PAS-004A canonical doc, B24–B32 slice handoffs, `atoms.json` / `edges.json` (24 atoms), ERP consumer + system-admin titles, full glossary manifest |
+| **Gates** | `pnpm --filter @afenda/enterprise-knowledge typecheck`, `pnpm --filter @afenda/enterprise-knowledge test:run`, `pnpm check:knowledge-conformance`, `pnpm check:knowledge-json-authority`, `pnpm check:knowledge-kernel-mapping`, `pnpm check:knowledge-consumer-proof`, `pnpm check:glossary-knowledge-sync`, `pnpm check:knowledge-typed-corpus`, `pnpm quality:boundaries`, `pnpm check:foundation-disposition` |
+| **Result** | JSON authority, kernel mapping, ERP consumer + UI titles, glossary full parity, typed corpus **24/24**; B30 scorecard **30/30** |
+
+**Supersedes:** [PAS-004 MVP section below](#pas-004-enterprise-knowledge--charter-mvp-mvp-authority) for runtime truth — charter doc remains constitutional authority for §1–§4.
+
+| Slice | Doc | Status |
+| --- | --- | --- |
+| B24 | [b24-knowledge-charter-mvp.md](slice/b24-knowledge-charter-mvp.md) | Delivered |
+| B25 | [b25-10-json-data-authority.md](slice/b25-10-json-data-authority.md) | Delivered |
+| B26 | [b26-kernel-mapping-gate.md](slice/b26-kernel-mapping-gate.md) | Delivered |
+| B27 | [b27-consumer-proof.md](slice/b27-consumer-proof.md) | Delivered |
+| B28 | [b28-glossary-sync-gate.md](slice/b28-glossary-sync-gate.md) | Delivered |
+| B29 | [b29-coverage-expansion.md](slice/b29-coverage-expansion.md) | Delivered |
+| B30 | [b30-enterprise-accepted-attestation.md](slice/b30-enterprise-accepted-attestation.md) | Delivered |
+| B31 | [b31-ontology-completion.md](slice/b31-ontology-completion.md) | Delivered |
+| B32 | [b32-erp-consumer-integration.md](slice/b32-erp-consumer-integration.md) | Delivered |
+
+**Next sequence item:** [PAS-004B](#pas-004b-enterprise-knowledge-kernel--consumer--b33b37-enterprise-accepted) — B33 kernel identity mapping gate.
+
+---
+
+## PAS-004B Enterprise Knowledge Kernel & Consumer — B33–B37 (Enterprise Accepted)
+
+| Field | Value |
+| --- | --- |
+| **Status** | Proposed — PAS-004B authored; implementation not started |
+| **Authority** | PAS-004B · PAS-004A baseline · PAS-001 §4.1 / ADR-0021 · `PKGR04_ENTERPRISE_KNOWLEDGE` |
+| **Maturity** | `enterprise_accepted` (target) · `accepted_for_implementation` · `not_started` · `pas_document` |
+| **Runtime status** | PAS-004B canonical doc + B33 handoff; PAS-004A B24–B32 remains live runtime truth |
+| **Remaining slices** | B33 — [b33-kernel-identity-mapping-gate.md](slice/b33-kernel-identity-mapping-gate.md) (next) |
+| **Runtime evidence** | `docs/PAS/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md`, B33 handoff |
+| **Gates (baseline)** | All PAS-004A §13 gates + `pnpm check:documentation-drift` |
+| **Gates (B33+)** | `pnpm check:knowledge-kernel-identity-mapping` (B33) · metadata/docs/acceptance-graph gates (B34–B36) |
+| **Result target** | Kernel identity bridge, metadata + docs consumer proof, acceptance graph queries, combined scorecard ≥38/40 |
+
+**Supersedes:** PAS-004A for **maturity claims** only after B37 — platform runtime from 004A remains until B33+ delivers.
+
+| Slice | Doc | Status |
+| --- | --- | --- |
+| B33 | [b33-kernel-identity-mapping-gate.md](slice/b33-kernel-identity-mapping-gate.md) | Next |
+| B34 | [b34-metadata-consumer-proof.md](slice/b34-metadata-consumer-proof.md) | Proposed |
+| B35 | [b35-docs-consumer-proof.md](slice/b35-docs-consumer-proof.md) | Proposed |
+| B36 | [b36-acceptance-graph-queries.md](slice/b36-acceptance-graph-queries.md) | Proposed |
+| B37 | [b37-enterprise-accepted-attestation.md](slice/b37-enterprise-accepted-attestation.md) | Proposed |
+
 ---
 
 ## PAS-003 Accounting Standards Authority — publish (Production Candidate)
@@ -11,9 +115,11 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Status** | Published — Production Candidate |
 | **Authority** | PAS-003 · `PKGR03_ACCOUNTING_STANDARDS` · PKG-023 |
 | **Maturity** | `production_candidate` · `accepted_for_implementation` · `not_started` · `concept` |
+| **Runtime status** | B0 skeleton + PAS published; versioned standard registries not started |
+| **Remaining slices** | B1 — accounting standard family registry (next) |
 | **Runtime evidence** | PAS-003 canonical doc, B0 package skeleton, agent skill, Architecture Authority registries |
 | **Gates** | `pnpm --filter @afenda/accounting-standards typecheck`, `pnpm --filter @afenda/accounting-standards test:run`, `pnpm quality:architecture`, `pnpm architecture:cycles`, `pnpm architecture:drift`, `pnpm quality:boundaries` |
-| **Result** | PAS-003 optimized (YAML, Kernel boundary, Current vs Target §6); B0 skeleton + skill delivered; Enterprise Accepted **not** claimed |
+| **Result** | PAS-003 optimized (YAML, Kernel boundary, Current vs Target §6); B0 skeleton + skill delivered; [Appendix A borrow inventory](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#appendix-a--borrow-reference-inventory-temporary) added (temporary); Enterprise Accepted **not** claimed |
 
 **Next sequence item:** Slice B1 — accounting standard family registry ([`slice/b1-4.1-accounting-standard-family-registry.md`](slice/b1-4.1-accounting-standard-family-registry.md)).
 
@@ -24,6 +130,8 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | Field | Value |
 | --- | --- |
 | **Status** | Complete |
+| **Runtime status** | PAS §6.1, package tree, skill adapter, and runtime layout synchronized |
+| **Remaining slices** | B18 — public exports parity (PAS §6.3–§6.4) |
 | **Authority** | PAS-001 §6.1, pas-codebase-bridge, `kernel-package-layout.contract.ts` |
 | **Runtime evidence** | `packages/kernel/PAS-001-KERNEL-TREE.md`, `kernel-boundary-drift.registry.ts`, `.cursor/skills/kernel-authority/` |
 | **Gates** | `pnpm --filter @afenda/kernel test:run`, `pnpm check:kernel-package-structure`, `pnpm architecture:drift`, `pnpm quality:architecture` |
@@ -38,6 +146,8 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | Field | Value |
 | --- | --- |
 | **Status** | Complete |
+| **Runtime status** | B1–B27 delivered — registries, composite gates, lifecycle enforcement, skill chain synced |
+| **Remaining slices** | none |
 | **Authority** | PAS-002 §4–§6 · §14, `architecture-authority-package-layout.contract.ts`, `architecture-authority-surface-registry.ts` |
 | **Runtime evidence** | `packages/architecture-authority/src/`, `.cursor/skills/architecture-authority/` |
 | **Gates** | `pnpm --filter @afenda/architecture-authority test:run`, `pnpm check:architecture-authority-surface`, `pnpm quality:architecture`, `pnpm check:foundation-disposition`, `pnpm architecture:cycles`, `pnpm architecture:drift`, `pnpm quality:boundaries` |

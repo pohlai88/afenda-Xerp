@@ -5,33 +5,31 @@
  * Parse ids at explicit trust boundaries via `parse*` helpers.
  */
 import {
-  type CompanyId,
   type EntityGroupId,
   normalizeEntityGroupIdForWire,
   normalizeTenantIdForWire,
-  type OwnershipInterestId,
-  parseOptionalCompanyId,
   parseOptionalEntityGroupId,
-  parseOptionalOwnershipInterestId,
   parseOptionalTenantId,
   type TenantId,
-  toCompanyId,
-  toEntityGroupId,
-  toOwnershipInterestId,
-  toTenantId,
 } from "../identity/index.js";
-import type { ConsolidationScopeContext } from "./consolidation-scope-context.contract.js";
-import type { EntityGroupContext } from "./entity-group-context.contract.js";
-import type { OwnershipInterestContext } from "./ownership-interest-context.contract.js";
+import type { ConsolidationScopeWireContext } from "./consolidation-scope-context.contract.js";
+import type { EntityGroupWireContext } from "./entity-group-context.contract.js";
+import type {
+  BrandedOwnershipInterestContext,
+  OwnershipInterestContext,
+  OwnershipInterestWireContext,
+} from "./ownership-interest-context.contract.js";
+import {
+  normalizeOwnershipInterestContextForWire,
+  parseOwnershipInterestContext,
+} from "./ownership-interest-context.parser.js";
 
-/** Wire-format alias — plain string ids, JSON-serializable at rest. */
-export type OwnershipInterestWireContext = OwnershipInterestContext;
-
-/** Wire-format alias — plain string ids, JSON-serializable at rest. */
-export type ConsolidationScopeWireContext = ConsolidationScopeContext;
-
-/** Wire-format alias — plain string ids, JSON-serializable at rest. */
-export type EntityGroupWireContext = EntityGroupContext;
+export type { ConsolidationScopeWireContext } from "./consolidation-scope-context.contract.js";
+export type { EntityGroupWireContext } from "./entity-group-context.contract.js";
+export type {
+  BrandedOwnershipInterestContext,
+  OwnershipInterestWireContext,
+} from "./ownership-interest-context.contract.js";
 
 type JsonPrimitive = string | number | boolean | null;
 
@@ -81,22 +79,6 @@ export interface DeriveConsolidationScopeTrustInput {
   readonly tenantId: TenantId;
 }
 
-export interface BrandedOwnershipInterestContext
-  extends Omit<
-    OwnershipInterestContext,
-    | "tenantId"
-    | "entityGroupId"
-    | "ownershipInterestId"
-    | "parentLegalEntityId"
-    | "childLegalEntityId"
-  > {
-  readonly childLegalEntityId: CompanyId;
-  readonly entityGroupId: EntityGroupId;
-  readonly ownershipInterestId: OwnershipInterestId;
-  readonly parentLegalEntityId: CompanyId;
-  readonly tenantId: TenantId;
-}
-
 export {
   normalizeEntityGroupIdForWire,
   normalizeTenantIdForWire,
@@ -128,46 +110,16 @@ export function brandDeriveConsolidationScopeTrustInput(
   };
 }
 
+/** @deprecated Prefer `parseOwnershipInterestContext` — retained for TIP-008A callers. */
 export function brandOwnershipInterestContext(
   wire: OwnershipInterestWireContext
 ): BrandedOwnershipInterestContext {
-  const tenantId = parseOptionalTenantId(wire.tenantId);
-  const entityGroupId = parseOptionalEntityGroupId(wire.entityGroupId);
-  const ownershipInterestId = parseOptionalOwnershipInterestId(
-    wire.ownershipInterestId
-  );
-  const parentLegalEntityId = parseOptionalCompanyId(wire.parentLegalEntityId);
-  const childLegalEntityId = parseOptionalCompanyId(wire.childLegalEntityId);
-
-  if (
-    tenantId === null ||
-    entityGroupId === null ||
-    ownershipInterestId === null ||
-    parentLegalEntityId === null ||
-    childLegalEntityId === null
-  ) {
-    throw new Error("Ownership interest context ids are required.");
-  }
-
-  return {
-    ...wire,
-    tenantId,
-    entityGroupId,
-    ownershipInterestId,
-    parentLegalEntityId,
-    childLegalEntityId,
-  };
+  return parseOwnershipInterestContext(wire);
 }
 
+/** @deprecated Prefer `normalizeOwnershipInterestContextForWire` — retained for TIP-008A callers. */
 export function toOwnershipInterestWireContext(
   branded: BrandedOwnershipInterestContext
 ): OwnershipInterestWireContext {
-  return {
-    ...branded,
-    tenantId: toTenantId(branded.tenantId),
-    entityGroupId: toEntityGroupId(branded.entityGroupId),
-    ownershipInterestId: toOwnershipInterestId(branded.ownershipInterestId),
-    parentLegalEntityId: toCompanyId(branded.parentLegalEntityId),
-    childLegalEntityId: toCompanyId(branded.childLegalEntityId),
-  };
+  return normalizeOwnershipInterestContextForWire(branded);
 }

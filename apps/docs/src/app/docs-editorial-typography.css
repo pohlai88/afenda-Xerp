@@ -111,3 +111,23 @@
   line-height: var(--docs-leading-normal);
   color: var(--docs-color-body);
 }
+
+/* Breadcrumb — parent trail only (current page title lives in DocsTitle) */
+#nd-page > .docs-page-breadcrumb {
+  font-size: var(--docs-text-meta);
+  font-weight: 500;
+  line-height: var(--docs-leading-ui);
+  letter-spacing: var(--docs-tracking-overline);
+  text-transform: uppercase;
+  color: var(--docs-color-muted);
+}
+
+#nd-page > .docs-page-breadcrumb a {
+  color: var(--docs-color-muted);
+  text-decoration: none;
+  transition: color 120ms ease;
+}
+
+#nd-page > .docs-page-breadcrumb a:hover {
+  color: var(--docs-color-heading);
+}

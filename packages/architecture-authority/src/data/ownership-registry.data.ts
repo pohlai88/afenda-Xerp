@@ -26,6 +26,11 @@ const OWNERSHIP_ROWS = [
     authorityLevel: "design",
   },
   {
+    packageName: "@afenda/css-authority",
+    ownerDomain: "CSS Authority",
+    authorityLevel: "design",
+  },
+  {
     packageName: "@afenda/docs",
     ownerDomain: "Application Authority",
     authorityLevel: "application",
@@ -118,6 +123,11 @@ const OWNERSHIP_ROWS = [
   {
     packageName: "@afenda/accounting-standards",
     ownerDomain: "Financial Reporting Standards Authority",
+    authorityLevel: "platform",
+  },
+  {
+    packageName: "@afenda/enterprise-knowledge",
+    ownerDomain: "Enterprise Knowledge Authority",
     authorityLevel: "platform",
   },
 ] as const satisfies readonly PackageOwnership[];

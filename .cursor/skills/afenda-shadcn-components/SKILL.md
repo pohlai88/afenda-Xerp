@@ -65,30 +65,25 @@ The token system uses a deliberate 3-layer chain. Studio blocks consume
 shadcn or shell intermediaries, not raw `--afenda-*` directly:
 
 ```
-@afenda/design-system (Part A)   → --afenda-*  (source tokens)
-@afenda/design-system (Part B)   → --card, --primary, --border, etc.  (shadcn layer)
+@afenda/design-system (Part A)   → --afenda-*  (afenda-tokens.css — TS shim)
+@afenda/css-authority (Part B–F) → --card, --primary, --border, @theme  (runtime bridge)
 @afenda/appshell                 → --app-shell-*  (shell geometry + trend colors)
 @afenda/appshell-studio          → --app-shell-studio-*  (studio block bridge)
 ```
 
-**Part B** (`afenda-design-system.css`) maps `--afenda-*` → shadcn shorthand vars:
+**Runtime bridge** (`@afenda/css-authority/css/afenda-css-authority.css` via `afenda-ui.css`) maps `--afenda-*` → shadcn shorthand vars:
 
 ```css
-/* Part B — actual token names (source: generate-tokens-css.ts) */
+/* Part B — synced from generate-tokens-css.ts → afenda-runtime-bridge.css */
 :root {
-  --background:   var(--afenda-semantic-surface-canvas);   /* NOT color-surface-canvas */
+  --background:   var(--afenda-semantic-surface-canvas);
   --foreground:   var(--afenda-semantic-text-primary);
   --card:         var(--afenda-semantic-surface-card);
-  --popover:      var(--afenda-semantic-surface-overlay);  /* NOT surface-card */
-  --primary:      var(--afenda-semantic-accent-bg);        /* NOT color-primary-600 */
-  --muted:        var(--afenda-semantic-surface-muted);
-  --destructive:  var(--afenda-color-destructive);         /* NOT status-tone-danger-solid */
-  --border:       var(--afenda-semantic-border-default);   /* NOT color-border-default */
-  --ring:         var(--afenda-semantic-border-focus);     /* NOT color-primary-400 */
-  --radius:       var(--afenda-radius-base);
-  /* + chart-1..8, sidebar-*, font stacks — see css-bridge-reference.md */
+  /* … see packages/css-authority/src/css/afenda-runtime-bridge.css */
 }
 ```
+
+**Deprecated:** importing `afenda-design-system.css` monolith directly — B30 shim re-exports tokens + css-authority bundle.
 
 **Studio bridge** (`afenda-appshell-studio.css`) bridges through shadcn and shell vars:
 

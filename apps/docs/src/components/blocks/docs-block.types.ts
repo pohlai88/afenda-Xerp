@@ -146,3 +146,11 @@ export interface DocsPropTableProps {
   readonly rows: readonly DocsPropTableRow[];
   readonly variant?: DocsPropTableVariant;
 }
+
+export interface DocsIdentityBlockProps {
+  readonly packageName: string;
+  readonly path: string;
+  readonly port: number | string;
+  readonly pkgCode: string;
+  readonly owner: string;
+}

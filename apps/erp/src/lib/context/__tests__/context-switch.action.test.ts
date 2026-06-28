@@ -1,6 +1,8 @@
 import {
+  createTestEnterpriseId,
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
   type OperatingContext,
+  parseUnknownPermissionScopeContext,
 } from "@afenda/kernel";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -45,7 +47,10 @@ vi.mock("@/lib/server-actions/record-action-audit", () => ({
   recordActionAudit: recordActionAuditMock,
 }));
 
-import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
+import {
+  testLegalEntityCurrencyFields,
+  testStandaloneLegalEntityProfileFields,
+} from "@/lib/context/__tests__/legal-entity-test-fixtures";
 import { switchOperatingContextAction } from "../context-switch.action";
 
 const sampleSession = {
@@ -66,14 +71,26 @@ const sampleSession = {
   },
 } as const;
 
-const TENANT_ID = "tenant-001";
-const COMPANY_ID = "company-001";
+const TENANT_ID = createTestEnterpriseId(
+  "tenant",
+  "01ARZ3NDEKTSV4RRFFQ69G5T02"
+);
+const COMPANY_ID = createTestEnterpriseId(
+  "company",
+  "01ARZ3NDEKTSV4RRFFQ69G5C02"
+);
+const MEMBERSHIP_ID = createTestEnterpriseId(
+  "membership",
+  "01ARZ3NDEKTSV4RRFFQ69G5M02"
+);
+const ROLE_ID = createTestEnterpriseId("role", "01ARZ3NDEKTSV4RRFFQ69G5R02");
+const ACTOR_ID = createTestEnterpriseId("user", "01ARZ3NDEKTSV4RRFFQ69G5U02");
 
 function createMockOperatingContext(
   overrides: Partial<OperatingContext> = {}
 ): OperatingContext {
   return {
-    actor: { userId: "user-001" },
+    actor: { userId: ACTOR_ID },
     correlationId: "corr-switch-test",
     tenant: {
       tenantId: TENANT_ID,
@@ -92,12 +109,7 @@ function createMockOperatingContext(
       registrationNumber: null,
       taxRegistrationNumber: null,
       ...testLegalEntityCurrencyFields(),
-      reportingCurrency: null,
-      companyType: "standalone",
-      fiscalCalendarId: null,
-      effectiveFrom: null,
-      effectiveTo: null,
-      status: "active",
+      ...testStandaloneLegalEntityProfileFields(),
     },
     ownershipInterests: [],
     organizationUnit: null,
@@ -109,7 +121,7 @@ function createMockOperatingContext(
       organizationId: null,
       projectId: null,
     },
-    permissionScope: {
+    permissionScope: parseUnknownPermissionScopeContext({
       grantScopeType: "company",
       tenantId: TENANT_ID,
       entityGroupId: null,
@@ -117,10 +129,10 @@ function createMockOperatingContext(
       organizationId: null,
       teamId: null,
       projectId: null,
-      membershipId: "membership-001",
-      roleId: "role-001",
+      membershipId: MEMBERSHIP_ID,
+      roleId: ROLE_ID,
       elevations: DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
-    },
+    }),
     consolidationScope: null,
     surface: null,
     workflow: null,
@@ -212,7 +224,7 @@ describe("switchOperatingContextAction", () => {
         },
       },
       operatingContext: createMockOperatingContext({
-        actor: { userId: "user-001" },
+        actor: { userId: ACTOR_ID },
       }),
     });
 

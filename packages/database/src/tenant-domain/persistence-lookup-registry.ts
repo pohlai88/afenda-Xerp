@@ -99,6 +99,10 @@ export const MULTI_TENANCY_LOOKUP_FUNCTIONS = [
     file: "workspace/workspace-lookup.service.ts",
   },
   {
+    name: "findTenantByEnterpriseId",
+    file: "workspace/workspace-lookup.service.ts",
+  },
+  {
     name: "findTenantById",
     file: "workspace/workspace-lookup.service.ts",
   },

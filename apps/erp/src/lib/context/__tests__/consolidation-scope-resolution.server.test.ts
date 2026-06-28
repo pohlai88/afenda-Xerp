@@ -4,7 +4,9 @@ import { fileURLToPath } from "node:url";
 import {
   createTestEnterpriseId,
   type OwnershipInterestContext,
+  type OwnershipInterestWireContext,
   parseEntityGroupId,
+  parseOwnershipInterestContext,
   parseTenantId,
 } from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
@@ -45,21 +47,28 @@ const ERP_CONSOLIDATION_FILES = [
   "consolidation-scope-investee-merge.policy.ts",
 ] as const;
 
-const SAMPLE_OWNERSHIP_INTEREST: OwnershipInterestContext = {
-  ownershipInterestId: OI1,
-  tenantId: TENANT,
-  entityGroupId: GROUP,
-  parentLegalEntityId: PARENT,
-  childLegalEntityId: CHILD1,
-  ownershipPercentage: 100,
-  votingPercentage: 100,
-  controlType: "control",
-  consolidationTreatment: "full_consolidation",
-  nonControllingInterestApplicable: false,
-  effectiveFrom: "2026-01-01",
-  effectiveTo: null,
-  status: "active",
-};
+function ownershipInterest(
+  overrides: Partial<OwnershipInterestWireContext> = {}
+): OwnershipInterestContext {
+  return parseOwnershipInterestContext({
+    ownershipInterestId: OI1,
+    tenantId: TENANT,
+    entityGroupId: GROUP,
+    parentLegalEntityId: PARENT,
+    childLegalEntityId: CHILD1,
+    ownershipPercentage: 100,
+    votingPercentage: 100,
+    controlType: "control",
+    consolidationTreatment: "full_consolidation",
+    nonControllingInterestApplicable: false,
+    effectiveFrom: "2026-01-01",
+    effectiveTo: null,
+    status: "active",
+    ...overrides,
+  });
+}
+
+const SAMPLE_OWNERSHIP_INTEREST = ownershipInterest();
 
 describe("consolidation-scope-resolution.server", () => {
   it("maps investee legal entities to consolidation treatments without arithmetic", () => {
@@ -69,13 +78,12 @@ describe("consolidation-scope-resolution.server", () => {
       reportingDate: "2026-06-01",
       ownershipInterests: [
         SAMPLE_OWNERSHIP_INTEREST,
-        {
-          ...SAMPLE_OWNERSHIP_INTEREST,
+        ownershipInterest({
           ownershipInterestId: OI2,
           childLegalEntityId: CHILD2,
           consolidationTreatment: "equity_method",
           ownershipPercentage: 30,
-        },
+        }),
       ],
     });
 
@@ -138,14 +146,13 @@ describe("consolidation-scope-resolution.server", () => {
       reportingDate: "2026-06-01",
       ownershipInterests: [
         SAMPLE_OWNERSHIP_INTEREST,
-        {
-          ...SAMPLE_OWNERSHIP_INTEREST,
+        ownershipInterest({
           ownershipInterestId: createTestEnterpriseId(
             "ownershipInterest",
             "01ARZ3NDEKTSV4RRFFQ69G5FEV"
           ),
           ownershipPercentage: 51,
-        },
+        }),
       ],
     });
 

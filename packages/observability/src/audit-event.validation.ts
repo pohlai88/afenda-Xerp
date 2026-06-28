@@ -1,4 +1,8 @@
 import {
+  type AuditInternalEntityPkLabel,
+  assertAuditInternalEntityPkWire,
+} from "./contracts/audit-entity-identity.guard.js";
+import {
   AUDIT_ACTOR_TYPES,
   AUDIT_EVENT_VERSION,
   AUDIT_EVENT_VERSIONS,
@@ -21,16 +25,12 @@ import {
   AUDIT_SOURCES,
   type AuditSource,
 } from "./contracts/audit-source.contract.js";
+import { AuditValidationError } from "./contracts/audit-validation.error.js";
 
 const MAX_METADATA_DEPTH = 10;
 const MAX_METADATA_KEYS = 100;
 
-export class AuditValidationError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "AuditValidationError";
-  }
-}
+export { AuditValidationError };
 
 function failValidation(message: string): never {
   throw new AuditValidationError(message);
@@ -240,6 +240,102 @@ export function assertAuditMetadata(
   return metadata;
 }
 
+function normalizeOptionalInternalEntityPk(
+  value: string | null | undefined,
+  label: AuditInternalEntityPkLabel
+): string | null {
+  if (value === undefined || value === null) {
+    return null;
+  }
+
+  return assertAuditInternalEntityPkWire(value, label);
+}
+
+function assertInternalPkMetadataValue(
+  value: AuditMetadataPrimitive | readonly AuditMetadataPrimitive[],
+  label: AuditInternalEntityPkLabel,
+  path: string
+): string {
+  if (typeof value !== "string") {
+    failValidation(
+      `Audit metadata value at "${path}" must be a string internal entity PK.`
+    );
+  }
+
+  return assertAuditInternalEntityPkWire(value, label);
+}
+
+function validateDualFieldMetadataPks(metadata: AuditEventMetadata): void {
+  if (metadata["entityPk"] !== undefined) {
+    assertInternalPkMetadataValue(
+      metadata["entityPk"] as AuditMetadataPrimitive,
+      "EntityPk",
+      "metadata.entityPk"
+    );
+  }
+
+  if (metadata["tenantPk"] !== undefined) {
+    assertInternalPkMetadataValue(
+      metadata["tenantPk"] as AuditMetadataPrimitive,
+      "TenantPk",
+      "metadata.tenantPk"
+    );
+  }
+}
+
+function mergeDualFieldMetadataPks(
+  metadata: AuditEventMetadata,
+  targetPk: string | null,
+  tenantPk: string | null
+): AuditEventMetadata {
+  const merged: Record<
+    string,
+    | AuditMetadataPrimitive
+    | readonly AuditMetadataPrimitive[]
+    | AuditEventMetadata
+  > = { ...metadata };
+
+  if (targetPk !== null) {
+    const metadataEntityPk =
+      merged["entityPk"] === undefined
+        ? null
+        : assertInternalPkMetadataValue(
+            merged["entityPk"] as AuditMetadataPrimitive,
+            "EntityPk",
+            "metadata.entityPk"
+          );
+
+    if (metadataEntityPk !== null && metadataEntityPk !== targetPk) {
+      failValidation(
+        "Audit metadata.entityPk conflicts with targetPk — supply one internal entity PK source."
+      );
+    }
+
+    merged["entityPk"] = targetPk;
+  }
+
+  if (tenantPk !== null) {
+    const metadataTenantPk =
+      merged["tenantPk"] === undefined
+        ? null
+        : assertInternalPkMetadataValue(
+            merged["tenantPk"] as AuditMetadataPrimitive,
+            "TenantPk",
+            "metadata.tenantPk"
+          );
+
+    if (metadataTenantPk !== null && metadataTenantPk !== tenantPk) {
+      failValidation(
+        "Audit metadata.tenantPk conflicts with tenantPk — supply one internal tenant PK source."
+      );
+    }
+
+    merged["tenantPk"] = tenantPk;
+  }
+
+  return merged as AuditEventMetadata;
+}
+
 export function parseWriteAuditEventInput(
   input: WriteAuditEventInput
 ): AuditEventInsertRow {
@@ -264,6 +360,21 @@ export function parseWriteAuditEventInput(
     AUDIT_FIELD_LIMITS.targetId
   );
   const metadata = assertAuditMetadata(input.metadata);
+  validateDualFieldMetadataPks(metadata);
+
+  const targetPk = normalizeOptionalInternalEntityPk(
+    input.targetPk,
+    "EntityPk"
+  );
+  const tenantPk = normalizeOptionalInternalEntityPk(
+    input.tenantPk,
+    "TenantPk"
+  );
+  const resolvedMetadata = mergeDualFieldMetadataPks(
+    metadata,
+    targetPk,
+    tenantPk
+  );
 
   return {
     tenantId,
@@ -333,11 +444,7 @@ export function parseWriteAuditEventInput(
       "userAgent",
       AUDIT_FIELD_LIMITS.userAgent
     ),
-    metadata: {
-      ...metadata,
-      ...(targetId ? { entityPk: targetId } : {}),
-      ...(tenantId ? { tenantPk: tenantId } : {}),
-    },
+    metadata: resolvedMetadata,
   };
 }
 

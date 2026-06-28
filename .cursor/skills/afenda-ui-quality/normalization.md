@@ -12,7 +12,7 @@
 globals.css (apps/erp)
   @layer theme, base, components, utilities;   ← declared first, deterministic cascade
   @import "tailwindcss"                         ← Tailwind v4 base, @theme, utilities
-  @import "@afenda/ui/afenda-ui.css"            ← design-system @theme bridge + primitive hooks
+  @import "@afenda/ui/afenda-ui.css"            ← tokens shim + css-authority @theme + primitive hooks
   @import "@afenda/appshell/afenda-appshell.css"
   @import "@afenda/metadata-ui/afenda-metadata-ui.css" layer(components)
   @import "shadcn/tailwind.css"
@@ -24,7 +24,8 @@ globals.css (apps/erp)
 ```
 afenda-ui.css (packages/ui)
   @layer theme, base, components, utilities;
-  @import "@afenda/design-system/css/afenda-design-system.css"  ← --afenda-* vars + @theme
+  @import "@afenda/design-system/css/afenda-tokens.css"           ← --afenda-* shim
+  @import "@afenda/css-authority/css/afenda-css-authority.css"  ← bridge + @theme
   @layer components {
     [data-component="Button"] { ... }           ← structural hooks only, no color
   }

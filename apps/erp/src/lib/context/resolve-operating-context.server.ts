@@ -13,6 +13,7 @@ import {
   type OperatingContextResult,
   type OperatingContextSelection,
   ok,
+  parseUnknownPermissionScopeContext,
   type TeamContext,
   type WorkspaceContext,
 } from "@afenda/kernel";
@@ -364,7 +365,7 @@ export async function resolveOperatingContext(
     team,
     project: null,
     workspace,
-    permissionScope,
+    permissionScope: parseUnknownPermissionScopeContext(permissionScope),
     consolidationScope,
     surface: toSurfaceContext(surfaceSelection),
     workflow: toWorkflowContext({

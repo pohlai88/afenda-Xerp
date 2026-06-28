@@ -923,6 +923,7 @@ export {
   findEntityGroupById,
   findOrganizationByCompanyAndSlug,
   findOrganizationById,
+  findTenantByEnterpriseId,
   findTenantById,
   findTenantBySlug,
   type OrganizationLookupRow,

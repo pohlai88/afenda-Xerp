@@ -18,13 +18,13 @@ const isCI = Boolean(process.env["CI"]);
 const webServer = process.env["PLAYWRIGHT_SKIP_WEBSERVER"]
   ? null
   : {
-      command: `pnpm exec next dev --port ${port}`,
+      command: `pnpm exec next start --port ${port}`,
       cwd: docsRoot,
       env: {
         ...process.env,
-        NODE_ENV: "development",
+        NODE_ENV: "production",
       },
-      reuseExistingServer: !isCI,
+      reuseExistingServer: process.env["PLAYWRIGHT_REUSE_SERVER"] === "true",
       timeout: 120_000,
       url: baseURL,
     };

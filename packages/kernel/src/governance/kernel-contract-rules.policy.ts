@@ -1,7 +1,7 @@
 /**
  * PAS-001 §9 — kernel contract rules policy registry.
  *
- * Authority-only metadata: documents the 13 contract rules every kernel contract
+ * Authority-only metadata: documents the 14 contract rules every kernel contract
  * must satisfy and which governance gates enforce each rule.
  */
 
@@ -19,6 +19,7 @@ export const KERNEL_CONTRACT_RULE_IDS = [
   "no-duplicated-contract-pattern",
   "no-greenfield-brand-error-replacement",
   "no-incompatible-doc-stubs",
+  "wire-context-module-triad",
 ] as const;
 
 export type KernelContractRuleId = (typeof KERNEL_CONTRACT_RULE_IDS)[number];
@@ -122,6 +123,14 @@ export const KERNEL_CONTRACT_RULES = [
     pasSection: "9",
     pasRuleNumber: 13,
     description: "No source-incompatible example stubs in canonical docs.",
+    enforcementGate: null,
+  },
+  {
+    id: "wire-context-module-triad",
+    pasSection: "9",
+    pasRuleNumber: 14,
+    description:
+      "Wire context triad — *.contract.ts, *.assert.ts, *.parser.ts for wire ingress; branded context only after validation.",
     enforcementGate: null,
   },
 ] as const satisfies readonly KernelContractRule[];

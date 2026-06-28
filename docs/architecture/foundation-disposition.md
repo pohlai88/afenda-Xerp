@@ -5,7 +5,7 @@
 | **Authority** | ADR-0014 |
 | **Workflow** | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — **read before implementation** |
 | **Source of truth** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
-| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-27-v18` |
+| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-28-v21` |
 | **Enforcement** | `pnpm check:foundation-disposition` |
 
 > **Read-only view.** This document is synced from the typed registry. Do not treat this file as authority — edit the registry (via `foundation-registry-owner`) and re-sync this view.
@@ -57,6 +57,8 @@
 | PKG022_EMAIL | `@afenda/email` | blue-lane | no | — |
 | PKGR02_ARCHITECTURE_AUTHORITY | `@afenda/architecture-authority` | green-lane | yes | see PAS-002 |
 | PKGR03_ACCOUNTING_STANDARDS | `@afenda/accounting-standards` | blue-lane | no | see PAS-003 |
+| PKGR04_ENTERPRISE_KNOWLEDGE | `@afenda/enterprise-knowledge` | green-lane | no | see PAS-004A |
+| PKGR05_CSS_AUTHORITY | `@afenda/css-authority` | amber-lane | no | see PAS-005 · B26–B33 delivered |
 | PAS_AUTHORITY | `docs/PAS` | archive-lane | no | — |
 
 > Registry `knownGaps` deprecated (always `[]`). Gap detail lives in PAS slice handoffs under [`docs/PAS/`](../PAS/README.md).

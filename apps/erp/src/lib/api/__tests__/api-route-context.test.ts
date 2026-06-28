@@ -1,7 +1,10 @@
 import type { OperatingContext } from "@afenda/kernel";
 import { DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS } from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
-import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
+import {
+  testGroupCompanyLegalEntityProfileFields,
+  testLegalEntityCurrencyFields,
+} from "@/lib/context/__tests__/legal-entity-test-fixtures";
 import {
   AFENDA_TENANT_ID_HEADER,
   AFENDA_WORKSPACE_ID_HEADER,
@@ -51,12 +54,7 @@ function createOperatingContextFixture(
       registrationNumber: null,
       taxRegistrationNumber: null,
       ...testLegalEntityCurrencyFields(),
-      reportingCurrency: null,
-      companyType: "subsidiary",
-      fiscalCalendarId: null,
-      effectiveFrom: null,
-      effectiveTo: null,
-      status: "active",
+      ...testGroupCompanyLegalEntityProfileFields(),
     },
     ownershipInterests: [],
     organizationUnit: null,

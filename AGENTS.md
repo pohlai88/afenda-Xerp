@@ -174,9 +174,13 @@ Read in order:
 
 **Kernel enforcement:** [`.cursor/skills/kernel-authority/SKILL.md`](.cursor/skills/kernel-authority/SKILL.md)
 
+**Enterprise knowledge (PAS-004):** [`.cursor/skills/enterprise-knowledge/SKILL.md`](.cursor/skills/enterprise-knowledge/SKILL.md) · [`docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · `@afenda/enterprise-knowledge` — accepted business meaning; glossary is a representation only.
+
+**CSS authority (PAS-005):** [`.cursor/skills/css-authority/SKILL.md`](.cursor/skills/css-authority/SKILL.md) · [`docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md`](docs/PAS/PAS-005-CSS-AUTHORITY-STANDARD.md) · `@afenda/css-authority` — runtime CSS token registry (`CSS-TOKEN-*`); `@afenda/design-system` retains TIP-004 variant/recipe TS + `--afenda-*` token shim (B30 monolith deprecated).
+
 **Accounting Core (`TIP-015+` runtime)** is blocked until ADR-0010 **and** a new ADR amends `PKGR01_ACCOUNTING` prohibited rules.
 
-Verify doc hygiene: `pnpm check:documentation-drift` · `pnpm check:foundation-disposition`
+Verify doc hygiene: `pnpm check:documentation-drift` · `pnpm check:foundation-disposition` · `pnpm check:knowledge-conformance` · `pnpm check:css-visual-regression`
 
 When documentation status, PAS slices, ADR acceptance, registry lanes, or runtime-truth evidence may be stale, delegate to [`.cursor/agents/documentation-drift.md`](.cursor/agents/documentation-drift.md) before planning or coding from docs.
 
@@ -184,7 +188,12 @@ When documentation status, PAS slices, ADR acceptance, registry lanes, or runtim
 | --- | --- |
 | Plan PAS slice execution | `pas-slice-planner` |
 | Implement governed work | [`afenda-governed-implementer`](.cursor/agents/afenda-governed-implementer.md) |
+| Audit vibe-coding / bundle preflight violations | [`vibe-coding-violation-auditor`](.cursor/agents/vibe-coding-violation-auditor.md) |
 | Registry edit | [`foundation-registry-owner`](.cursor/agents/foundation-registry-owner.md) |
+| New package filesystem scaffold | [`monorepo-discipline`](.cursor/skills/monorepo-discipline/SKILL.md) — `turbo gen workspace --copy` from `accounting-standards` or `enterprise-knowledge` |
+| Enterprise knowledge (PAS-004) | [`.cursor/skills/enterprise-knowledge/SKILL.md`](.cursor/skills/enterprise-knowledge/SKILL.md) |
+| CSS authority (PAS-005) | [`.cursor/skills/css-authority/SKILL.md`](.cursor/skills/css-authority/SKILL.md) |
+| Any UI / CSS / visual change (docs OR erp OR primitives) | [`.cursor/skills/ui-consistency-bundle/SKILL.md`](.cursor/skills/ui-consistency-bundle/SKILL.md) — fix-first, no permission asking |
 
 ---
 

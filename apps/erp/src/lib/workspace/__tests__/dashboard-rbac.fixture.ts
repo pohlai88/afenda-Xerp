@@ -7,7 +7,10 @@ import type {
   TenantContract,
 } from "@afenda/permissions";
 import { InMemoryPermissionDataSource } from "@afenda/permissions";
-import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
+import {
+  testLegalEntityCurrencyFields,
+  testStandaloneLegalEntityProfileFields,
+} from "@/lib/context/__tests__/legal-entity-test-fixtures";
 import type { ResolveOperatingContextInput } from "@/lib/context/resolve-operating-context.server";
 
 export const DASHBOARD_RBAC_ACTOR_ID = createTestEnterpriseId(
@@ -47,12 +50,7 @@ export function createDashboardRbacOperatingContextFixture() {
       registrationNumber: "DEV-001",
       taxRegistrationNumber: null,
       ...testLegalEntityCurrencyFields(),
-      reportingCurrency: null,
-      companyType: "standalone" as const,
-      fiscalCalendarId: null,
-      effectiveFrom: null,
-      effectiveTo: null,
-      status: "active" as const,
+      ...testStandaloneLegalEntityProfileFields(),
     },
     organizationUnit: null,
     ownershipInterests: [],

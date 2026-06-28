@@ -6,6 +6,17 @@ disable-model-invocation: false
 
 # @afenda/accounting-standards — Authority Skill (PAS-003)
 
+## PAS rollout status (mirror header — sync on slice close)
+
+| Field | Value |
+| --- | --- |
+| **Runtime status** | B0 skeleton + PAS published; versioned standard registries not started |
+| **Remaining slices** | B1 — accounting standard family registry (next) |
+
+> Canonical: [`docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md`](../../../docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+
+---
+
 ## Boundary (one sentence)
 
 `@afenda/accounting-standards` **owns versioned accounting-standard authority metadata, standard-to-process routing, validation contracts, rule identifiers, explanation metadata, and evidence snapshots; it never owns journal posting execution, ledger persistence, consolidation calculation, tax filing, transfer-pricing rate policy, UI rendering, or AI-only accounting judgment.**
@@ -114,6 +125,7 @@ If a slice handoff exists, paste the 9-field block from `docs/PAS/slice/<file>.m
 3. [reference/package-structure.md](reference/package-structure.md) — current vs target tree
 4. [docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md](../../../docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) — §0 Agent Quick Path
 5. Target slice under `docs/PAS/slice/` — 9-field handoff when implementing
+6. [PAS-003 Appendix A](../../../docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#appendix-a--borrow-reference-inventory-temporary) — **temporary** borrow inventory (implementation hints only; not canonical authority)
 
 **Maturity:** Production Candidate — not Enterprise Accepted until consumer workflow proof (PAS-003 §11.6).
 

@@ -20,6 +20,9 @@ function workspace(
 describe("validateArchitecture", () => {
   it("passes for the baseline workspace graph", () => {
     const workspaces: DiscoveredWorkspace[] = [
+      workspace("@afenda/accounting-standards", {
+        "@afenda/kernel": "workspace:*",
+      }),
       workspace("@afenda/appshell", {
         "@afenda/ui": "workspace:*",
         "@afenda/kernel": "workspace:*",
@@ -29,9 +32,13 @@ describe("validateArchitecture", () => {
         "@afenda/kernel": "workspace:*",
       }),
       workspace("@afenda/database", { "@afenda/observability": "workspace:*" }),
-      workspace("@afenda/design-system"),
+      workspace("@afenda/design-system", {
+        "@afenda/css-authority": "workspace:*",
+      }),
+      workspace("@afenda/css-authority"),
       workspace("@afenda/docs"),
       workspace("@afenda/email"),
+      workspace("@afenda/enterprise-knowledge"),
       workspace("@afenda/entitlements", { "@afenda/database": "workspace:*" }),
       workspace("@afenda/erp", {
         "@afenda/appshell": "workspace:*",
@@ -39,6 +46,7 @@ describe("validateArchitecture", () => {
         "@afenda/database": "workspace:*",
         "@afenda/design-system": "workspace:*",
         "@afenda/entitlements": "workspace:*",
+        "@afenda/enterprise-knowledge": "workspace:*",
         "@afenda/execution": "workspace:*",
         "@afenda/feature-flags": "workspace:*",
         "@afenda/kernel": "workspace:*",
@@ -78,7 +86,10 @@ describe("validateArchitecture", () => {
       workspace("@afenda/storage"),
       workspace("@afenda/testing"),
       workspace("@afenda/typescript-config"),
-      workspace("@afenda/ui", { "@afenda/design-system": "workspace:*" }),
+      workspace("@afenda/ui", {
+        "@afenda/css-authority": "workspace:*",
+        "@afenda/design-system": "workspace:*",
+      }),
       workspace("@afenda/architecture-authority"),
       workspace("@afenda/ai-governance", {
         "@afenda/architecture-authority": "workspace:*",
@@ -104,7 +115,9 @@ describe("validateArchitecture", () => {
       workspace("@afenda/appshell", { "@afenda/ui": "workspace:*" }),
       workspace("@afenda/auth", { "@afenda/database": "workspace:*" }),
       workspace("@afenda/database", { "@afenda/observability": "workspace:*" }),
-      workspace("@afenda/design-system"),
+      workspace("@afenda/design-system", {
+        "@afenda/css-authority": "workspace:*",
+      }),
       workspace("@afenda/docs"),
       workspace("@afenda/email"),
       workspace("@afenda/entitlements", { "@afenda/database": "workspace:*" }),

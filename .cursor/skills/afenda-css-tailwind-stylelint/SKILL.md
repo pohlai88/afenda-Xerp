@@ -24,7 +24,9 @@ Scoped to the Afenda monorepo (`packages/design-system`, `apps/erp`, `apps/story
 3. **`@layer base`** applies semantic defaults
 4. Apps import package CSS — do not duplicate `@import "tailwindcss"` in consumers
 
-Canonical token authority: `@afenda/design-system` (`afenda-design-system.css`)
+Canonical token authority: `@afenda/css-authority` (PAS-005) + `@afenda/design-system/css/afenda-tokens.css` (`--afenda-*` shim). Prefer shadcn vars (`--foreground`, `--border`) in new ERP CSS.
+
+Legacy `@import "@afenda/design-system/css/afenda-design-system.css"` is a **B30 deprecation shim** — prefer `@afenda/ui/afenda-ui.css`.
 
 ERP app entry: `apps/erp/src/app/globals.css` (imports `@afenda/ui`, `@afenda/appshell`, etc.)
 

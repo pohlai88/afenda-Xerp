@@ -20,8 +20,8 @@ export const docsProseAccentValues = {
     hover: "oklch(0.4 0.1 254)",
   },
   dark: {
-    default: "oklch(0.72 0.06 254)",
-    hover: "oklch(0.78 0.05 254)",
+    default: "oklch(0.76 0.045 254)",
+    hover: "oklch(0.82 0.04 254)",
   },
 } as const;
 
@@ -107,11 +107,20 @@ export const docsSurfaceVariables = {
 /** Luxury shell palette — fd token overrides in docs-luxury-shell.css */
 export const docsLuxuryShellStylesheet = "./docs-luxury-shell.css" as const;
 
+/** Import order: editorial tokens must precede luxury shell bridge. */
+export const docsThemeImportOrder = [
+  "./docs-editorial-palette.css",
+  "./docs-editorial-tokens.css",
+  "./docs-luxury-shell.css",
+] as const;
+
 export const docsEditorialPrimitiveNames = [
   "canvas",
+  "rail",
   "paper",
   "text",
   "text-muted",
+  "text-subtle",
   "border",
   "border-subtle",
   "surface-muted",
@@ -119,6 +128,8 @@ export const docsEditorialPrimitiveNames = [
   "prose-accent",
   "callout-warn",
   "ring",
+  "fd-primary",
+  "fd-primary-foreground",
 ] as const;
 
 /** Editorial MDX block token chain in docs-editorial-blocks.css (:where(.nd-page)). */

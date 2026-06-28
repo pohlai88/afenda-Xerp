@@ -2,7 +2,7 @@
   "mcpServers": {
     "shadcn": {
       "command": "npx",
-      "args": ["-y", "shadcn@latest", "mcp", "-c", "apps/erp"]
+      "args": ["-y", "shadcn@latest", "mcp", "-c", "packages/ui"]
     },
     "shadcn-studio": {
       "command": "node",

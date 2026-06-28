@@ -37,6 +37,8 @@ over-colored developer portal   ERP product screen
 
 This skill governs **visual authority only** for `apps/docs/`. It does **not** govern ERP app UI, AppShell, shadcn primitives, metadata-ui, or product screens.
 
+**Entry point:** Always enter through [`ui-consistency-bundle`](../ui-consistency-bundle/SKILL.md) — it routes here for `apps/docs/**` changes. Do not invoke this skill standalone without completing the bundle preflight first.
+
 ---
 
 ## Opening statement

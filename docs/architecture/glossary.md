@@ -1,8 +1,10 @@
 # Afenda ERP — Architecture Glossary
 
-> **Authority:** This glossary is the canonical vocabulary for all platform, domain, and UI design decisions.
-> When a term here conflicts with informal usage elsewhere, this document wins.
-> Revision: 2026-06-22 | TIP-007 / TIP-008 scope.
+> **Authority (meaning):** Accepted enterprise vocabulary lives in [`@afenda/enterprise-knowledge`](../../packages/enterprise-knowledge/) — see [PAS-004](../PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md). This glossary is a **synced representation** for human readers; when it conflicts with the Knowledge Atom registry, the registry wins until a slice updates this view.
+>
+> **Revision:** 2026-06-28 | PAS-004 representation demotion · TIP-007 / TIP-008 scope.
+>
+> <!-- knowledge-atom-ids: legal_entity, organization_unit, workspace, surface, payload, invariant, contract, metadata, double_entry, accounting_equation, organization_split, ifrs_10, tenant, entity_group, ownership_interest, consolidation_scope, operating_context, permission_scope, project, team, localization_context, workflow_context, business_reference, human_reference -->
 
 ---
 

@@ -10,7 +10,10 @@ import {
   API_TEST_ROLE_ID,
   API_TEST_TENANT_ID,
 } from "@/lib/api/__tests__/api-id-test-fixtures";
-import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
+import {
+  testLegalEntityCurrencyFields,
+  testStandaloneLegalEntityProfileFields,
+} from "@/lib/context/__tests__/legal-entity-test-fixtures";
 
 export const MODULE_ROUTE_TEST_TENANT_ID = API_TEST_TENANT_ID;
 export const MODULE_ROUTE_TEST_COMPANY_ID = API_TEST_COMPANY_ID;
@@ -41,12 +44,7 @@ export function createModuleRouteOperatingContext(input?: {
       registrationNumber: null,
       taxRegistrationNumber: null,
       ...testLegalEntityCurrencyFields(),
-      reportingCurrency: null,
-      companyType: "standalone",
-      fiscalCalendarId: null,
-      effectiveFrom: null,
-      effectiveTo: null,
-      status: "active",
+      ...testStandaloneLegalEntityProfileFields(),
     },
     ownershipInterests: [],
     organizationUnit: null,

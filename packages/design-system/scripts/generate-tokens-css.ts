@@ -143,10 +143,9 @@ function buildTokensCss(): string {
 ${buildTokenBlocks()}`;
 }
 
-function buildThemePartsCss(): string {
-  return `/* ── Part A: Afenda design tokens ─────────────────────────────────────────── */
-${buildTokenBlocks()}
-/* ── Part B: Dark mode variant + shadcn bridge vars ──────────────────────── */
+/** Parts B–F only — synced to @afenda/css-authority (PAS-005 B30). Requires Part A tokens first. */
+function buildRuntimeBridgePartsCss(): string {
+  return `/* ── Part B: Dark mode variant + shadcn bridge vars ──────────────────────── */
 /* @custom-variant processes only when Tailwind v4 is active in the pipeline. */
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -459,32 +458,38 @@ ${buildFontWeightThemeBlock()}
 `;
 }
 
-function buildDesignSystemCss(): string {
+function buildRuntimeBridgeCssFile(): string {
   return `/**
  * @generated — do not edit manually.
- * Source: packages/design-system/src/registries/token.registry.ts
+ * PAS-005 B30: Parts B–F synced from design-system token registry.
+ * Source: packages/design-system/scripts/generate-tokens-css.ts
  * Regenerate: pnpm --filter @afenda/design-system build
  *
- * Canonical design-system CSS. NOT named globals.css — that name is reserved
- * for the app composition entry (apps/<app>/src/app/globals.css).
- *
- * Tailwind v4 four-step architecture:
- *   Part A  Design tokens  (--afenda-* custom properties)
- *   Part B  Bridge layer   (@custom-variant dark + shadcn :root vars)
- *   Part C  Utility map    (@theme inline maps Tailwind bg-, text-, shadow-, rounded-)
- *   Part D  Base styles    (@layer base — NO @apply, direct var() refs only)
- *
- * Usage: @import "@afenda/design-system/css/afenda-design-system.css";
+ * Requires @afenda/design-system/css/afenda-tokens.css before this import.
  */
+${buildRuntimeBridgePartsCss()}`;
+}
 
-${buildThemePartsCss()}`;
+function buildDesignSystemShimCss(tokensImport: string): string {
+  return `/**
+ * @generated — do not edit manually.
+ * @deprecated PAS-005 B30 — prefer @afenda/design-system/css/afenda-tokens.css
+ *   + @afenda/css-authority/css/afenda-css-authority.css (same composition as @afenda/ui/afenda-ui.css).
+ * Strangler deprecation shim — composes token authority + CSS Authority runtime bundle.
+ * Regenerate: pnpm --filter @afenda/design-system build
+ */
+@import "${tokensImport}";
+@import "@afenda/css-authority/css/afenda-css-authority.css";
+`;
 }
 
 const count = allTokens.length;
 const darkCount = darkTokens.length;
 
 const tokensCss = buildTokensCss();
-const designSystemCss = buildDesignSystemCss();
+const srcDesignSystemCss = buildDesignSystemShimCss("./afenda-tokens.css");
+const distDesignSystemCss = buildDesignSystemShimCss("./tokens.css");
+const runtimeBridgeCss = buildRuntimeBridgeCssFile();
 
 // 1. tokens.css — raw --afenda-* vars only
 const distTokensPath = join(packageRoot, "dist/css/tokens.css");
@@ -495,20 +500,28 @@ const srcTokensPath = join(packageRoot, "src/css/afenda-tokens.css");
 mkdirSync(dirname(srcTokensPath), { recursive: true });
 writeFileSync(srcTokensPath, tokensCss, "utf8");
 
-// 2. afenda-design-system.css — complete Tailwind v4 theme (Parts A–D, no tailwind import)
+// 2. afenda-design-system.css — B30 deprecation shim (tokens + css-authority)
 const distDesignSystemPath = join(
   packageRoot,
   "dist/css/afenda-design-system.css"
 );
 mkdirSync(dirname(distDesignSystemPath), { recursive: true });
-writeFileSync(distDesignSystemPath, designSystemCss, "utf8");
+writeFileSync(distDesignSystemPath, distDesignSystemCss, "utf8");
 
 const srcDesignSystemPath = join(
   packageRoot,
   "src/css/afenda-design-system.css"
 );
 mkdirSync(dirname(srcDesignSystemPath), { recursive: true });
-writeFileSync(srcDesignSystemPath, designSystemCss, "utf8");
+writeFileSync(srcDesignSystemPath, srcDesignSystemCss, "utf8");
+
+// 3. PAS-005 B30 — sync runtime bridge (Parts B–F) into css-authority (single source)
+const cssAuthorityBridgePath = join(
+  packageRoot,
+  "../css-authority/src/css/afenda-runtime-bridge.css"
+);
+mkdirSync(dirname(cssAuthorityBridgePath), { recursive: true });
+writeFileSync(cssAuthorityBridgePath, runtimeBridgeCss, "utf8");
 
 console.log(
   `✓ Generated dist/css/tokens.css                (${count} tokens, ${darkCount} with dark overrides)`
@@ -517,8 +530,11 @@ console.log(
   `✓ Generated src/css/afenda-tokens.css          (${count} tokens, ${darkCount} with dark overrides)`
 );
 console.log(
-  `✓ Generated dist/css/afenda-design-system.css  (${count} tokens, ${darkCount} with dark overrides)`
+  "✓ Generated dist/css/afenda-design-system.css  (B30 deprecation shim)"
 );
 console.log(
-  `✓ Generated src/css/afenda-design-system.css   (${count} tokens, ${darkCount} with dark overrides)`
+  "✓ Generated src/css/afenda-design-system.css   (B30 deprecation shim)"
+);
+console.log(
+  `✓ Synced css-authority afenda-runtime-bridge.css (${count} tokens, ${darkCount} with dark overrides)`
 );

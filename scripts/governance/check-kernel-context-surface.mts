@@ -15,6 +15,7 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { RETIRED_KERNEL_REPO_PATHS } from "../../packages/kernel/src/contracts/kernel-package-layout.contract.ts";
+import { KERNEL_OPERATING_CONTEXT_WIRE_INGRESS_MODULES } from "../../packages/kernel/src/context/context-registry.ts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -211,6 +212,31 @@ export function checkKernelContextSurface(): KernelContextViolation[] {
         file: path,
         message: `Supporting context module ${file} is missing`,
       });
+    }
+  }
+
+  for (const triad of KERNEL_OPERATING_CONTEXT_WIRE_INGRESS_MODULES) {
+    for (const file of [triad.contract, triad.assert, triad.parser] as const) {
+      const path = join(contextRoot, file);
+      if (!existsSync(path)) {
+        violations.push({
+          rule: "wire-ingress-module-missing",
+          file: path,
+          message: `Wire ingress triad file missing for ${triad.slug}: ${file}`,
+        });
+      }
+
+      const contractPath = join(contextRoot, triad.contract);
+      if (existsSync(contractPath)) {
+        const contractSource = readFileSync(contractPath, "utf8");
+        if (!contractSource.includes(`interface ${triad.wireType}`)) {
+          violations.push({
+            rule: "wire-type-missing",
+            file: contractPath,
+            message: `${triad.contract} must export wire interface ${triad.wireType}`,
+          });
+        }
+      }
     }
   }
 

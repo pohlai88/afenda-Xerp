@@ -21,6 +21,17 @@ disable-model-invocation: false
 
 # @afenda/<name> — Authority Skill (PAS-NNN)
 
+## PAS rollout status (mirror header — sync on slice close)
+
+| Field | Value |
+| --- | --- |
+| **Runtime status** | `<paste runtime_status from PAS YAML>` |
+| **Remaining slices** | `<paste remaining_slices — or `none`>` |
+
+> Canonical: `docs/PAS/PAS-NNN-*.md` frontmatter + header · Closure registry: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+
+---
+
 ## Boundary (one sentence)
 
 <Paste §2 verbatim — bold key owns / never owns terms>

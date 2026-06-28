@@ -44,8 +44,12 @@ export interface WriteAuditEventInput {
   readonly result: AuditResult;
   readonly source?: AuditSource | "app" | "auth" | "cron";
   readonly targetId?: string | null;
+  /** Internal UUID v7 PK for target row — stored in metadata.entityPk when set. */
+  readonly targetPk?: string | null;
   readonly targetType: string;
   readonly tenantId?: string | null;
+  /** Internal UUID v7 PK for tenant row — stored in metadata.tenantPk when set. */
+  readonly tenantPk?: string | null;
   readonly userAgent?: string | null;
 }
 

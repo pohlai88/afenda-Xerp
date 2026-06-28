@@ -92,7 +92,11 @@ export default async function DocsSlugPage({ params }: DocsSlugPageProps) {
 
   return (
     <div id="main-content" className="contents">
-    <DocsPage full={page.data.full} toc={page.data.toc}>
+    <DocsPage
+      full={page.data.full}
+      toc={page.data.toc}
+      breadcrumb={{ includePage: false, className: "docs-page-breadcrumb" }}
+    >
       <DocsTitle className="docs-type-display">{page.data.title}</DocsTitle>
       <DocsDescription className="docs-type-summary">
         {page.data.description}

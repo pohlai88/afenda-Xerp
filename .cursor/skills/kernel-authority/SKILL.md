@@ -6,6 +6,17 @@ disable-model-invocation: false
 
 # @afenda/kernel — Authority Skill (PAS-001)
 
+## PAS rollout status (mirror header — sync on slice close)
+
+| Field | Value |
+| --- | --- |
+| **Runtime status** | Enterprise Accepted — kernel contracts, 29 delivered slices, runtime gates operational |
+| **Remaining slices** | B18 — public exports parity (PAS §6.3–§6.4) |
+
+> Canonical: [`docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`](../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+
+---
+
 ## Boundary (one sentence)
 
 The kernel defines **cross-package facts, branded vocabulary, wire-safe contracts, and execution context primitives**; it never implements business behavior, persistence, transport, rendering, formatting, authorization evaluation, accounting logic, or external integration.
@@ -165,6 +176,25 @@ Before any kernel contract is merged:
 - [ ] No duplicated current-source contract pattern (extend existing `brand.contract.ts` / `platform-id.contract.ts` style)
 - [ ] No greenfield replacement of existing brand or `AppErrors.*` helpers without a dedicated migration slice
 - [ ] No source-incompatible example stubs in canonical docs or reference files
+- [ ] **Wire context triad** (when context accepts wire input): `*.contract.ts` + `*.assert.ts` + `*.parser.ts` — branded context only after `parse*` validation (PAS-001 §4.4, §9 rule 14)
+
+### Wire context module triad (PAS-001 §4.4)
+
+Every context with wire input must have three sibling modules:
+
+```text
+<name>-context.contract.ts   # branded internal + Wire* types
+<name>-context.assert.ts     # reject invalid wire before branding
+<name>-context.parser.ts     # wire → branded via identity parse* only
+```
+
+```text
+bad data enters wire → assert rejects → parser applies parse* → branded context
+```
+
+No silent `as TenantId` casts. No default tenant/company/org fallback. Downstream code must never receive unvalidated wire shapes as branded context.
+
+**Reference:** `localization-context.{contract,assert,parser}.ts`. **Transitional:** `hierarchy-id-boundary.contract.ts` still colocates assert + parse — split on next touch.
 
 ### Pure derivation (allowed in kernel)
 

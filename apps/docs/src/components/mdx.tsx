@@ -24,17 +24,10 @@ import type { ComponentProps, ReactNode } from "react";
 import { OpenAPIPage } from "@/components/api-page.client";
 import { AutoTypeTable } from "@/components/auto-type-table";
 import {
-  DocsAccordionPanel,
-  DocsAnnouncementBar,
-  DocsCallout,
-  DocsCodePanel,
   DocsFeatureStrip,
   DocsFileTree,
   DocsGuideCardGrid,
-  DocsInlineToc,
-  DocsPropTable,
-  DocsStepsPanel,
-  DocsTabbedPanel,
+  DocsIdentityBlock,
 } from "@/components/blocks";
 import { DocsSiteGraph } from "@/components/docs-site-graph";
 import { GeneratedReference } from "@/components/generated-reference";
@@ -53,8 +46,10 @@ import { Mermaid } from "@/components/mermaid";
  *
  * Graph View: pass `graph={buildGraph()}` from `@/lib/build-graph`.
  *
- * Afenda editorial blocks (Slice 5.1): copied from packages/ui reference catalog —
- * zero @afenda/ui runtime imports; styled via docs-editorial-blocks.css.
+ * Afenda editorial blocks (Slice 5.1): actively used blocks only in the global
+ * registry — DocsGuideCardGrid, DocsFeatureStrip, DocsFileTree, DocsIdentityBlock.
+ * Alternate Fumadocs wrappers (DocsCallout, DocsStepsPanel, etc.) remain in
+ * `@/components/blocks` for direct import or Storybook but are not registered here.
  *
  * Slice C: all markdown images use ImageZoom via the `img` slot.
  */
@@ -125,17 +120,10 @@ export function getMDXComponents(
     CodeBlockTabs,
     CodeBlockTabsList,
     CodeBlockTabsTrigger,
-    DocsAccordionPanel,
-    DocsAnnouncementBar,
-    DocsCallout,
-    DocsCodePanel,
     DocsFeatureStrip,
     DocsFileTree,
     DocsGuideCardGrid,
-    DocsInlineToc,
-    DocsPropTable,
-    DocsStepsPanel,
-    DocsTabbedPanel,
+    DocsIdentityBlock,
     DocsSiteGraph,
     GeneratedReference,
     DynamicCodeBlock,

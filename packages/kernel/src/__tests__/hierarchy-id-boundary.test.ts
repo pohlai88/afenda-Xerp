@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import {
-  type assertHierarchyContextJsonSerializable,
   type BrandedOwnershipInterestContext,
   brandDeriveConsolidationScopeTrustInput,
   brandOwnershipInterestContext,
@@ -9,10 +8,10 @@ import {
   normalizeTenantIdForWire,
   toOwnershipInterestWireContext,
 } from "../context/hierarchy-id-boundary.contract.js";
-import type { OwnershipInterestContext } from "../context/ownership-interest-context.contract.js";
+import type { OwnershipInterestWireContext } from "../context/ownership-interest-context.contract.js";
+import { parseOwnershipInterestContext } from "../context/ownership-interest-context.parser.js";
 import {
   createTestEnterpriseId,
-  parseCompanyId,
   parseEntityGroupId,
   parseOwnershipInterestId,
   parseTenantId,
@@ -28,7 +27,7 @@ const OWNERSHIP = createTestEnterpriseId("ownershipInterest");
 const PARENT = createTestEnterpriseId("company");
 const CHILD = createTestEnterpriseId("company", "01ARZ3NDEKTSV4RRFFQ69G5FBV");
 
-const SAMPLE_WIRE_INTEREST: OwnershipInterestContext = {
+const SAMPLE_WIRE_INTEREST: OwnershipInterestWireContext = {
   ownershipInterestId: OWNERSHIP,
   tenantId: TENANT,
   entityGroupId: ENTITY_GROUP,
@@ -44,6 +43,9 @@ const SAMPLE_WIRE_INTEREST: OwnershipInterestContext = {
   status: "active",
 };
 
+const SAMPLE_BRANDED_INTEREST =
+  parseOwnershipInterestContext(SAMPLE_WIRE_INTEREST);
+
 describe("identity — hierarchy parse", () => {
   it("round-trips OwnershipInterestId and EntityGroupId", () => {
     const ownershipInterestId = parseOwnershipInterestId(OWNERSHIP);
@@ -56,7 +58,8 @@ describe("identity — hierarchy parse", () => {
 
 describe("hierarchy-id-boundary.contract", () => {
   it("keeps hierarchy wire contexts JSON-serializable at compile time", () => {
-    type _Guard = assertHierarchyContextJsonSerializable;
+    type _Guard =
+      import("../context/hierarchy-id-boundary.contract.js").assertHierarchyContextJsonSerializable;
     const guard: _Guard = true;
     expect(guard).toBe(true);
   });
@@ -95,14 +98,14 @@ describe("hierarchy-id-boundary.contract", () => {
       tenantId: parseTenantId(TENANT),
       entityGroupId: ENTITY_GROUP,
       reportingDate: "2026-06-01",
-      ownershipInterests: [SAMPLE_WIRE_INTEREST],
+      ownershipInterests: [SAMPLE_BRANDED_INTEREST],
     };
 
     const trustInput = brandDeriveConsolidationScopeTrustInput(wireInput);
 
     expect(toTenantId(trustInput.tenantId)).toBe(TENANT);
     expect(toEntityGroupId(trustInput.entityGroupId)).toBe(ENTITY_GROUP);
-    expect(trustInput.ownershipInterests).toEqual([SAMPLE_WIRE_INTEREST]);
+    expect(trustInput.ownershipInterests).toEqual([SAMPLE_BRANDED_INTEREST]);
   });
 
   it("rejects invalid tenant id at explicit trust boundary", () => {
@@ -118,12 +121,8 @@ describe("hierarchy-id-boundary.contract", () => {
 });
 
 describe("hierarchy-id-boundary.contract — branded company ids", () => {
-  it("accepts branded company ids for parent and child legal entities", () => {
-    const branded = brandOwnershipInterestContext({
-      ...SAMPLE_WIRE_INTEREST,
-      parentLegalEntityId: toCompanyId(parseCompanyId(PARENT)),
-      childLegalEntityId: toCompanyId(parseCompanyId(CHILD)),
-    });
+  it("brands distinct parent and child legal entity company ids", () => {
+    const branded = brandOwnershipInterestContext(SAMPLE_WIRE_INTEREST);
 
     expect(toCompanyId(branded.parentLegalEntityId)).toBe(PARENT);
     expect(toCompanyId(branded.childLegalEntityId)).toBe(CHILD);

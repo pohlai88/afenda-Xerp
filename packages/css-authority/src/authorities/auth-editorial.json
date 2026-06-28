@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "domain": "auth-editorial",
+  "owner": "@afenda/appshell",
+  "tokens": [
+    {
+      "id": "CSS-TOKEN-555",
+      "name": "--auth-editorial-border",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "border",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-556",
+      "name": "--auth-editorial-brand-muted",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "text",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-557",
+      "name": "--auth-editorial-brand-text",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "text",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-558",
+      "name": "--auth-editorial-font-mono",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "typography",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-559",
+      "name": "--auth-editorial-font-serif",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "typography",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-560",
+      "name": "--auth-editorial-forest",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "surface",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-561",
+      "name": "--auth-editorial-forest-raised",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "surface",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-562",
+      "name": "--auth-editorial-ink",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "text",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-563",
+      "name": "--auth-editorial-ink-muted",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "text",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-564",
+      "name": "--auth-editorial-paper",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "surface",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-565",
+      "name": "--auth-editorial-parchment",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "surface",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-566",
+      "name": "--auth-editorial-ring",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "border",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-567",
+      "name": "--auth-editorial-shadow-md",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "shadow",
+      "editable": false
+    },
+    {
+      "id": "CSS-TOKEN-568",
+      "name": "--auth-editorial-shadow-sm",
+      "owner": "@afenda/appshell",
+      "authority": "auth-editorial",
+      "lifecycle": "stable",
+      "source": "packages/appshell/src/styles/afenda-appshell-studio.css",
+      "introducedIn": "PAS-005-B34",
+      "category": "shadow",
+      "editable": false
+    }
+  ]
+}

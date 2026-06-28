@@ -21,6 +21,8 @@
     "pretest:e2e": "pnpm --filter @afenda/testing build",
     "test:e2e": "playwright test",
     "test:e2e:smoke": "playwright test --grep @smoke",
+    "pretest:visual": "pnpm build",
+    "test:visual": "playwright test --grep @visual",
     "test:e2e:install": "playwright install chromium",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const d of ['.next', 'out', '.source']) rmSync(d, { recursive: true, force: true })\""
   },

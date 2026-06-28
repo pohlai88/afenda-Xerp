@@ -1,64 +1,48 @@
----
-pas_id: PAS-001
-package: "@afenda/kernel"
-layer: Platform
-runtime_stance: contracts-first
-registry_lane: "@afenda/kernel (packages/kernel); PKGR01_ACCOUNTING (erp-domain/accounting subpath)"
-skill: kernel-authority
-maturity: enterprise_accepted
-authority_status: enterprise_accepted
-implementation_status: implemented
-evidence_level: runtime_proven
-consumers:
-  - "@afenda/auth"
-  - "@afenda/permissions"
-  - "@afenda/execution"
-  - "@afenda/observability"
-  - "@afenda/appshell"
-  - apps/erp
-change_model: serialized-slices
-quality_target: "9.5"
-required_gates:
-  - pnpm --filter @afenda/kernel typecheck
-  - pnpm --filter @afenda/kernel test:run
-  - pnpm quality:kernel-context-surface
-  - pnpm check:accounting-domain-contracts
-  - pnpm check:foundation-disposition
-  - pnpm quality:boundaries
-  - pnpm architecture:cycles
-  - pnpm architecture:drift
-adr_prerequisites:
-  - ADR-0021
-  - ADR-0022
-  - ADR-0023
-slice_dir: docs/PAS/slice/
----
-
 # PAS-001 — Kernel Authority Standard
 
-> **PAS maturity:** `Enterprise Accepted`
-> **Authority status:** `enterprise_accepted`
-> **Implementation status:** `implemented`
-> **Evidence level:** `runtime_proven`
->
+| Field | Value |
+| --- | --- |
+| **PAS ID** | PAS-001 |
+| **Document class** | `package_authority_standard` |
+| **Document role** | `kernel_platform_authority` |
+| **Canonical filename** | `PAS-001-KERNEL-AUTHORITY-STANDARD.md` |
+| **Package** | `@afenda/kernel` |
+| **Layer** | Platform |
+| **Package role** | Zero-dependency platform vocabulary and execution context substrate |
+| **Runtime stance** | Contracts-first; no database, no HTTP, no auth runtime, no UI runtime |
+| **Registry lane** | `@afenda/kernel` (packages/kernel); `PKGR01_ACCOUNTING` (erp-domain/accounting subpath) |
+| **Package owner** | Platform Authority |
+| **Agent skill** | `kernel-authority` · `.cursor/skills/kernel-authority/SKILL.md` |
+| **Maturity** | Enterprise Accepted (`enterprise_accepted`) |
+| **Authority status** | `enterprise_accepted` |
+| **Implementation status** | `implemented` |
+| **Evidence level** | `runtime_proven` |
+| **Runtime status** | Enterprise Accepted — kernel contracts, 29 delivered slices, runtime gates operational |
+| **Remaining slices** | B18 — public exports parity (PAS §6.3–§6.4) |
+| **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, future governed domain packages |
+| **Change model** | Serialized kernel slices only |
+| **Quality target** | Enterprise **9.5 / 10** |
+| **Slice directory** | `docs/PAS/slice/` |
+| **ADR prerequisites** | ADR-0021, ADR-0022, ADR-0023 |
+
+#### Required gates
+
+| # | Gate command |
+| --- | --- |
+| 1 | `pnpm --filter @afenda/kernel typecheck` |
+| 2 | `pnpm --filter @afenda/kernel test:run` |
+| 3 | `pnpm quality:kernel-context-surface` |
+| 4 | `pnpm check:accounting-domain-contracts` |
+| 5 | `pnpm check:foundation-disposition` |
+| 6 | `pnpm quality:boundaries` |
+| 7 | `pnpm architecture:cycles` |
+| 8 | `pnpm architecture:drift` |
+
 > **Maturity is part of authority.**
 > PAS-001 is fully implemented, gated, documented, and drift-protected. Kernel contracts, slice catalog, and runtime gates may be treated as enterprise authority.
 
-> **Agent skill entrypoint:** `.cursor/skills/kernel-authority/SKILL.md`
 > **Canonical location:** `docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`
 > **Package-local tree map:** `packages/kernel/PAS-001-KERNEL-TREE.md`
-
-| Field             | Value                                                                                                                                                |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Package           | `@afenda/kernel`                                                                                                                                     |
-| Layer             | Platform                                                                                                                                             |
-| Package role      | Zero-dependency platform vocabulary and execution context substrate                                                                                  |
-| Runtime stance    | Contracts-first; no database, no HTTP, no auth runtime, no UI runtime                                                                                |
-| Package owner     | Platform Authority                                                                                                                                   |
-| Consumer packages | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, future governed domain packages |
-| Change model      | Serialized kernel slices only                                                                                                                        |
-| Quality target    | Enterprise 9.5 / 10                                                                                                                                  |
-| PAS maturity      | `Enterprise Accepted`                                                                                                                                |
 
 ---
 
@@ -78,6 +62,8 @@ slice_dir: docs/PAS/slice/
 **Slice entrypoint:** `docs/PAS/slice/` (29 delivered slices — §13 catalog) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
 
 **Registry:** `@afenda/kernel` → `packages/kernel` in `foundation-disposition.registry.ts`; accounting vocabulary → `PKGR01_ACCOUNTING` at `@afenda/kernel/erp-domain/accounting`
+
+**Enterprise knowledge boundary:** Accepted business meaning, Knowledge Atoms, domains, and acceptance chains → [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) / `@afenda/enterprise-knowledge`. Kernel retains wire shapes only — never duplicate meaning authority.
 
 **Identity slice gate:** Kernel identity runtime (Slice B) starts only after ADR-0021, ADR-0022, and ADR-0023 are **Accepted** (§4.1)
 
@@ -698,6 +684,45 @@ Rules:
 * Consolidation scope is accounting-readiness metadata only.
 * Accounting readiness is a gate signal, not accounting runtime.
 
+### Wire context module triad (recommended standard)
+
+Every context shape that accepts **wire input** (API payloads, events, imports, session replay) must use three sibling modules — no guessing, no silent branding:
+
+```text
+packages/kernel/src/context/
+├── <name>-context.contract.ts   # Internal branded context + Wire* wire context types
+├── <name>-context.assert.ts     # Reject invalid wire values before branding (fail closed)
+└── <name>-context.parser.ts     # parse*Wire* → branded context via identity parse* only
+```
+
+| Module | Owns | Must not |
+| --- | --- | --- |
+| `*.contract.ts` | `FooContext` (branded), `WireFooContext` (plain JSON-safe fields), compile-time wire-serializable guards | Call `parse*` at import time; load or resolve data |
+| `*.assert.ts` | Structural checks on wire input (required keys, enum membership, non-empty strings, date format) before any brand is applied | Apply brands; import ERP/database |
+| `*.parser.ts` | `parseFooContext(wire): FooContext` using `parseTenantId`, `parseLocaleCode`, etc. from `@afenda/kernel/identity` | Silent fallback; `as TenantId` casts; default tenant/company/org |
+
+**Ingress flow (mandatory mental model):**
+
+```text
+bad data enters wire
+  → assert rejects (throws / Result error — no brand created)
+  → parser applies identity parse* at trust boundary
+  → branded context exists only after validation
+  → downstream modules cannot accidentally consume sick context
+```
+
+**Rules:**
+
+1. Branded context types are **outputs** of parsers — never inputs from untrusted wire without parsing.
+2. Wire interfaces use plain `string` (or JSON primitives) for ids and codes; internal context uses branded types from `identity/`.
+3. Parsers delegate id/code validation to existing `parse*` / `to*` helpers — do not duplicate regex or family rules in context modules.
+4. Assert modules may be compile-time only (e.g. `AssertJsonSerializable`) **or** runtime guards — both belong in `*.assert.ts`, not mixed into contract barrels.
+5. Serialize functions (`serializeFooContext`) live in `*.parser.ts` alongside parse (mirror: `localization-context` today).
+
+**Reference implementation:** `localization-context.{contract,assert,parser}.ts` — wire ingress triad (PAS §4.4 rule 14).
+
+**Contexts without wire ingress** (shape-only slots filled by ERP resolvers) may remain contract-only when no JSON boundary exists. **`LegalEntityContext`** uses the wire triad when ingress is required; ERP DB resolvers map persisted rows via `parse*` at the trusted mapper boundary (`operating-context.mappers.ts`).
+
 Ownership split:
 
 | Concern                    | Owner                   |
@@ -1315,8 +1340,9 @@ Every kernel contract must satisfy:
 11. No duplicated current-source contract pattern.
 12. No greenfield replacement of existing brand or error helpers.
 13. No source-incompatible example stubs in canonical docs.
+14. **Wire context triad** — contexts with wire ingress use `*.contract.ts`, `*.assert.ts`, and `*.parser.ts`; branded context only after validation (see §4.4).
 
-**Runtime authority:** `packages/kernel/src/governance/kernel-contract-rules.policy.ts` — `KERNEL_CONTRACT_RULES`, `KERNEL_CONTRACT_RULES_POLICY`. Gate: `pnpm check:kernel-contract-rules`.
+**Runtime authority:** `packages/kernel/src/governance/kernel-contract-rules.policy.ts` — `KERNEL_CONTRACT_RULES`, `KERNEL_CONTRACT_RULES_POLICY`. Gate: `pnpm check:kernel-contract-rules`. Rule 14 is documented standard — dedicated gate deferred until triad split migration completes.
 
 ---
 

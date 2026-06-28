@@ -1,32 +1,54 @@
 /**
- * Afenda Docs — editorial material tokens for MDX blocks.
- * Maps PALETTE-REFERENCE primitives; consumed by docs-editorial-blocks.css.
+ * Afenda Docs — editorial material tokens (Layer 1).
+ * All OKLCH literals for shell + blocks live here; fd bridge reads via @theme inline.
  */
 
 :root {
-  --docs-editorial-canvas: oklch(0.985 0.003 95);
-  --docs-editorial-paper: oklch(0.998 0.001 95);
-  --docs-editorial-text: oklch(0.34 0.014 265);
-  --docs-editorial-text-muted: oklch(0.52 0.012 265);
-  --docs-editorial-border: oklch(0.88 0.006 95);
+  --docs-editorial-canvas: oklch(0.985 0.005 85);
+  --docs-editorial-rail: oklch(0.972 0.004 95);
+  --docs-editorial-paper: oklch(0.998 0.003 85);
+  --docs-editorial-text: oklch(0.28 0.016 265);
+  --docs-editorial-text-muted: oklch(0.48 0.014 265);
+  --docs-editorial-text-subtle: oklch(0.58 0.012 265);
+  --docs-editorial-border: oklch(0.86 0.012 85);
   --docs-editorial-border-subtle: oklch(0.92 0.004 95);
-  --docs-editorial-surface-muted: oklch(0.955 0.004 95);
-  --docs-editorial-surface-hover: oklch(0.935 0.005 95);
-  --docs-editorial-prose-accent: oklch(0.48 0.17 254);
-  --docs-editorial-callout-warn: oklch(0.52 0.12 75);
-  --docs-editorial-ring: oklch(0.52 0.06 255);
+  --docs-editorial-surface-muted: oklch(0.965 0.006 85);
+  --docs-editorial-surface-hover: oklch(0.94 0.01 85);
+  --docs-editorial-prose-accent: var(--docs-prose-accent);
+  --docs-editorial-callout-warn: oklch(0.58 0.03 85);
+  --docs-editorial-ring: var(--docs-focus-ring);
+  --docs-editorial-overlay: oklch(0.16 0.006 260 / 0.42);
+  --docs-editorial-fd-info: oklch(0.52 0.025 265);
+  --docs-editorial-fd-warning: oklch(0.58 0.03 85);
+  --docs-editorial-fd-error: oklch(0.52 0.04 25);
+  --docs-editorial-fd-success: oklch(0.52 0.03 155);
+  --docs-editorial-fd-idea: oklch(0.56 0.025 85);
+  /* Light chrome primary follows editorial text (fd bridge default). */
+  --docs-editorial-fd-primary: var(--docs-editorial-text);
+  --docs-editorial-fd-primary-foreground: var(--docs-editorial-canvas);
 }
 
-.dark {
-  --docs-editorial-canvas: oklch(0.2 0.008 265);
-  --docs-editorial-paper: oklch(0.24 0.008 265);
-  --docs-editorial-text: oklch(0.88 0.006 95);
-  --docs-editorial-text-muted: oklch(0.74 0.008 85);
-  --docs-editorial-border: oklch(0.31 0.006 260);
+:is(.dark, [data-theme="dark"]) {
+  --docs-editorial-canvas: oklch(0.165 0.006 265);
+  --docs-editorial-rail: oklch(0.135 0.004 260);
+  --docs-editorial-paper: oklch(0.19 0.006 265);
+  --docs-editorial-text: oklch(0.93 0.007 95);
+  --docs-editorial-text-muted: oklch(0.62 0.008 85);
+  --docs-editorial-text-subtle: oklch(0.56 0.006 260);
+  --docs-editorial-border: oklch(0.32 0.006 265);
   --docs-editorial-border-subtle: oklch(0.25 0.005 260);
-  --docs-editorial-surface-muted: oklch(0.205 0.005 260);
-  --docs-editorial-surface-hover: oklch(0.235 0.006 260);
-  --docs-editorial-prose-accent: oklch(0.72 0.14 254);
-  --docs-editorial-callout-warn: oklch(0.72 0.1 75);
-  --docs-editorial-ring: oklch(0.72 0.055 255);
+  --docs-editorial-surface-muted: oklch(0.21 0.006 265);
+  --docs-editorial-surface-hover: oklch(0.26 0.006 265);
+  --docs-editorial-prose-accent: var(--docs-prose-accent);
+  --docs-editorial-callout-warn: oklch(0.62 0.02 85);
+  --docs-editorial-ring: var(--docs-focus-ring);
+  --docs-editorial-overlay: oklch(0.05 0.01 265 / 0.6);
+  --docs-editorial-fd-info: oklch(0.58 0.018 265);
+  --docs-editorial-fd-warning: oklch(0.62 0.02 85);
+  --docs-editorial-fd-error: oklch(0.58 0.025 25);
+  --docs-editorial-fd-success: oklch(0.6 0.018 155);
+  --docs-editorial-fd-idea: oklch(0.62 0.015 85);
+  /* Dark chrome primary = warm ivory for buttons/skip-link (not brand blue). */
+  --docs-editorial-fd-primary: oklch(0.92 0.006 95);
+  --docs-editorial-fd-primary-foreground: oklch(0.17 0.008 265);
 }

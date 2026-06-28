@@ -192,7 +192,7 @@ Step 4 → registry or aggregate file   (import step 3)
 Step 5 → barrel index                 (import step 4)
 Step 6 → governance / gate scripts    (import registry)
 Step 7 → tests                        (import barrels + governance)
-Step 8 → doc sync                     (status, evidence, runtime matrix)
+Step 8 → doc sync                     (status, evidence, runtime matrix, PAS runtime_status + remaining_slices, skill mirror, pas-status-index)
 ```
 
 Flag any circular import risk. Name the mitigation for each.

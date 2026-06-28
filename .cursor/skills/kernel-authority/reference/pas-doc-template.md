@@ -10,7 +10,7 @@ Copy this file to `docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md`.
 
 ## PAS maturity labels
 
-Copy this table into every new PAS header block (below the title) when `maturity` is set.
+Copy the maturity labels table into agent skills when explaining PAS maturity. The **PAS authority metadata table** (below the title) is the canonical header — not YAML frontmatter.
 
 | Label | Meaning | Can be coded? | Can be treated as authority? |
 | --- | --- | ---: | ---: |
@@ -22,69 +22,56 @@ Copy this table into every new PAS header block (below the title) when `maturity
 
 **Header block pattern** (adapt values per PAS):
 
-```markdown
-> **PAS maturity:** `<Label>`
-> **Authority status:** `<authority_status>`
-> **Implementation status:** `<implementation_status>`
-> **Evidence level:** `<evidence_level>`
->
-> **Maturity is part of authority.**
-> <One sentence on what this label allows and what it forbids claiming.>
-```
+Place a **PAS authority metadata table** immediately after the document title (and any constitutional/derivation blockquotes). List **required gates** in a separate numbered table (`#### Required gates`) — one command per row — never inline in the metadata table.
+
+**Runtime status** — factual one-liner: what packages, gates, registries, or cutovers are **live** today (not aspirational).
+
+**Remaining slices** — ordered continuation queue. Use `none` when the planned sequence is closed; use `(proposed)` for backlog items without a handoff file yet. Update on **every slice close** — sync metadata table, maturity blockquote, skill, and [`pas-status-index.md`](../../../../docs/PAS/pas-status-index.md).
 
 ---
 
 ## Copy block — canonical PAS document
 
 ~~~markdown
----
-pas_id: PAS-NNN
-package: "@afenda/<name>"
-layer: Platform | Foundation | Application | UI
-runtime_stance: contracts-only | runtime | composition | UI
-registry_lane: PKGRxx_<NAME>
-skill: <package-name>-authority
-maturity: idea | mvp_authority | production_candidate | enterprise_accepted
-authority_status: draft | accepted_for_boundary | accepted_for_implementation | enterprise_accepted
-implementation_status: not_started | partial | implemented
-evidence_level: concept | runtime_partial | runtime_proven
-consumers:
-  - "@afenda/<consumer>"
-  - apps/erp
-change_model: serialized-slices | open
-quality_target: "9.5"
-required_gates:
-  - pnpm --filter @afenda/<name> typecheck
-  - pnpm --filter @afenda/<name> test:run
-adr_prerequisites: []
-slice_dir: docs/PAS/slice/
----
-
 # PAS-NNN — <Package Name> Authority Standard
 
-> **PAS maturity:** `<Idea | MVP Authority | Production Candidate | Enterprise Accepted | Deprecated / Superseded>`
-> **Authority status:** `<authority_status>`
-> **Implementation status:** `<implementation_status>`
-> **Evidence level:** `<evidence_level>`
->
+| Field | Value |
+| --- | --- |
+| **PAS ID** | PAS-NNN |
+| **Document class** | `package_authority_standard` |
+| **Document role** | `<semantic_role_slug>` |
+| **Canonical filename** | `PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md` |
+| **Package** | `@afenda/<name>` |
+| **Layer** | `<Platform / Foundation / Application / UI>` |
+| **Package role** | `<one sentence>` |
+| **Runtime stance** | `contracts-only` |
+| **Registry lane** | `PKGRxx_<NAME>` |
+| **Package owner** | `<Platform Authority / etc.>` |
+| **Agent skill** | `<package-name>-authority` · `.cursor/skills/<package-name>-authority/SKILL.md` |
+| **Maturity** | `<Label>` (`<maturity_slug>`) |
+| **Authority status** | `<authority_status>` |
+| **Implementation status** | `<implementation_status>` |
+| **Evidence level** | `<evidence_level>` |
+| **Runtime status** | <one sentence — live runtime truth> |
+| **Remaining slices** | none \| B<N> — slug (next) |
+| **Consumers** | `@afenda/<consumer>`, `apps/erp` |
+| **Change model** | `serialized-slices` |
+| **Quality target** | Enterprise **9.5 / 10** |
+| **Slice directory** | `docs/PAS/slice/` |
+| **ADR prerequisites** | none |
+
+#### Required gates
+
+| # | Gate command |
+| --- | --- |
+| 1 | `pnpm --filter @afenda/<name> typecheck` |
+| 2 | `pnpm --filter @afenda/<name> test:run` |
+
 > **Maturity is part of authority.**
 > <One sentence on what this label allows and what it forbids claiming.>
 
-> **Agent skill entrypoint:** `.cursor/skills/<package-name>-authority/SKILL.md`
 > **Canonical location:** `docs/PAS/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md`
 > **Package-local pointer:** `packages/<package-name>/PAS-NNN-<PACKAGE-NAME>-AUTHORITY-STANDARD.md`
-
-| Field             | Value                                           |
-| ----------------- | ----------------------------------------------- |
-| Package           | `@afenda/<name>`                                |
-| Layer             | `<Platform / Foundation / Application / UI>`    |
-| Package role      | `<one sentence>`                                |
-| Runtime stance    | `<contracts-only / runtime / composition / UI>` |
-| Package owner     | `<Platform Authority / etc.>`                   |
-| Consumer packages | `<list>`                                        |
-| Change model      | `<serialized slices / open>`                    |
-| Quality target    | Enterprise 9.5 / 10                             |
-| PAS maturity      | `<Idea | MVP Authority | Production Candidate | Enterprise Accepted>` |
 
 ---
 
@@ -284,8 +271,58 @@ One paragraph. What this package is. What it is not.
 When in doubt blockquote pair (may belong / belongs outside).
 
 Closing lines: who owns words / decisions / behavior (if applicable).
+
+---
+
+# 16. Appendix — borrow reference inventory (optional, temporary)
+
+Use when a PAS has prior art in other repos or OSS pattern libraries. Mark clearly as **temporary** until slice handoffs absorb the references.
+
+~~~markdown
+# Appendix A — Borrow reference inventory (temporary)
+
+> **Status:** Temporary research appendix · **not Enterprise Accepted authority**
+> **Purpose:** Guide implementation slices with prior art references.
+> **Rule:** Borrow shapes/citations only — not ledger runtime, full standard text, or wrong-layer engines.
+
+## A.1 Borrow tier legend
+
+| Label | Meaning |
+| --- | --- |
+| **Tier A** | Safe pattern borrow into this package |
+| **Tier B** | Rule/evidence shape only — no runtime import |
+| **Tier C** | Build-time / monitoring ideas |
+| **Exclude** | Wrong layer — do not borrow |
+
+## A.2 Self repo
+
+| Path | Status | Target slice |
+| --- | --- | --- |
+| `<local paths>` | … | … |
+
+## A.3 Org / OSS prior art
+
+| Repository | Path | Borrow for | Target PAS § / slice | Tier |
+| --- | --- | --- | --- | --- |
+| `<owner/repo>` | `<path>` | `<what to reuse>` | §4.x · Bn | A / B / C |
+
+## A.4 Explicit exclusions
+
+| Source | Reason |
+| --- | --- |
+| … | … |
+
+## A.5 Slice → borrow map
+
+| Slice | Primary source | Deliverable |
+| --- | --- | --- |
+| B1 | … | … |
+
+## A.6 Appendix retirement
+
+Remove when slice handoffs cite sources and governance sync (B12 or equivalent) closes.
 ~~~
 
 ---
 
-**After copy:** fill YAML frontmatter; run [publish checklist](pas-template.md#publish-validation-checklist).
+**After copy:** fill the PAS authority metadata table; run [publish checklist](pas-template.md#publish-validation-checklist).

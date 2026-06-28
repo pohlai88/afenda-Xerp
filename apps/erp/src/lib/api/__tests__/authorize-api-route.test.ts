@@ -6,7 +6,11 @@ import {
   PERMISSION_REGISTRY,
 } from "@afenda/permissions";
 import { describe, expect, it } from "vitest";
-import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
+import {
+  testGroupCompanyLegalEntityProfileFields,
+  testLegalEntityCurrencyFields,
+  testStandaloneLegalEntityProfileFields,
+} from "@/lib/context/__tests__/legal-entity-test-fixtures";
 import { TENANT_SLUG_HEADER } from "@/lib/context/context.constants";
 import type { ResolveOperatingContextInput } from "@/lib/context/resolve-operating-context.server";
 import {
@@ -65,12 +69,7 @@ function createMockOperatingContext(
       registrationNumber: null,
       taxRegistrationNumber: null,
       ...testLegalEntityCurrencyFields(),
-      reportingCurrency: null,
-      companyType: "standalone",
-      fiscalCalendarId: null,
-      effectiveFrom: null,
-      effectiveTo: null,
-      status: "active",
+      ...testStandaloneLegalEntityProfileFields(),
     },
     ownershipInterests: [],
     organizationUnit: null,
@@ -533,12 +532,7 @@ describe("authorizeApiRoute", () => {
               registrationNumber: null,
               taxRegistrationNumber: null,
               ...testLegalEntityCurrencyFields(),
-              reportingCurrency: null,
-              companyType: "standalone",
-              fiscalCalendarId: null,
-              effectiveFrom: null,
-              effectiveTo: null,
-              status: "active",
+              ...testStandaloneLegalEntityProfileFields(),
             },
             workspace: {
               tenantId: TENANT_ID,
@@ -652,12 +646,7 @@ describe("authorizeApiRoute", () => {
               registrationNumber: null,
               taxRegistrationNumber: null,
               ...testLegalEntityCurrencyFields(),
-              reportingCurrency: null,
-              companyType: "subsidiary",
-              fiscalCalendarId: null,
-              effectiveFrom: null,
-              effectiveTo: null,
-              status: "active",
+              ...testGroupCompanyLegalEntityProfileFields(),
             },
             workspace: {
               tenantId: TENANT_ID,
@@ -770,12 +759,7 @@ describe("authorizeApiRoute", () => {
               registrationNumber: null,
               taxRegistrationNumber: null,
               ...testLegalEntityCurrencyFields(),
-              reportingCurrency: null,
-              companyType: "subsidiary",
-              fiscalCalendarId: null,
-              effectiveFrom: null,
-              effectiveTo: null,
-              status: "active",
+              ...testGroupCompanyLegalEntityProfileFields(),
             },
             workspace: {
               tenantId: TENANT_ID,

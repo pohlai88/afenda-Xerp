@@ -47,7 +47,11 @@ maturity: mvp_authority | production_candidate | enterprise_accepted
 authority_status: <see pas-doc-template.md>
 implementation_status: not_started | partial | implemented
 evidence_level: concept | runtime_partial | runtime_proven
+runtime_status: <one sentence — what is live at runtime today>
+remaining_slices: []   # or list of "B<N> — slug (proposed|next)" — update on every slice close
 ```
+
+**Header visibility rule:** `runtime_status` and `remaining_slices` must appear in **both** YAML frontmatter **and** the markdown header block (below evidence level) so agents see continuation work without scrolling. Mirror the same values in the package authority **SKILL.md** `## PAS rollout status` section. Sync with [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md) when closing slices.
 
 **Living examples:**
 
@@ -55,7 +59,9 @@ evidence_level: concept | runtime_partial | runtime_proven
 | --- | --- |
 | PAS-001 | Enterprise Accepted |
 | PAS-002 | MVP Authority |
-| PAS-003 | Production Candidate |
+| PAS-003 | Production Candidate (+ [Appendix A borrow inventory](../../../docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#appendix-a--borrow-reference-inventory-temporary) — temporary) |
+
+Optional **Appendix A — Borrow reference inventory (temporary)** for PAS docs with prior art: see [pas-doc-template.md §16](pas-doc-template.md#16-appendix--borrow-reference-inventory-optional-temporary). Not Enterprise Accepted authority; retire when slice handoffs absorb references.
 
 ---
 
@@ -135,6 +141,7 @@ Before merging a new PAS + skill:
 
 - [ ] YAML frontmatter complete; no placeholders in committed PAS doc
 - [ ] **Maturity label** set in YAML + §header block (see [PAS maturity labels](#pas-maturity-labels))
+- [ ] **`runtime_status` + `remaining_slices`** in YAML, header block, matching skill, and [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 - [ ] §0 Agent Quick Path present in PAS doc
 - [ ] §2 boundary ≤2 sentences
 - [ ] §7 decision matrix has ≥8 rows with explicit Yes/No answers

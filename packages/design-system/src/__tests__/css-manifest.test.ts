@@ -86,6 +86,16 @@ describe("@afenda/design-system CSS manifest", () => {
       expect(entry.requiresTailwindTheme).toBe(true);
     }
   });
+
+  it("afenda-design-system.css is a B30 deprecation shim (not a monolith)", () => {
+    const css = readFileSync(
+      join(packageRoot, "src/css/afenda-design-system.css"),
+      "utf8"
+    );
+    expect(css).toContain("@deprecated");
+    expect(css).toContain("@afenda/css-authority/css/afenda-css-authority.css");
+    expect(css).not.toMatch(/@theme\s*(inline)?\s*\{/);
+  });
 });
 
 describe("@afenda/design-system CSS budget", () => {

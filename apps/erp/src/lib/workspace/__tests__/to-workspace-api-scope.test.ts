@@ -1,22 +1,53 @@
 import type { OperatingContext } from "@afenda/kernel";
-import { DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS } from "@afenda/kernel";
+import {
+  createTestEnterpriseId,
+  DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
+} from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
-import { testLegalEntityCurrencyFields } from "@/lib/context/__tests__/legal-entity-test-fixtures";
+import {
+  testLegalEntityCurrencyFields,
+  testStandaloneLegalEntityProfileFields,
+} from "@/lib/context/__tests__/legal-entity-test-fixtures";
 import { toWorkspaceApiScope } from "../to-workspace-api-scope";
 
+const TEST_TENANT_ID = createTestEnterpriseId(
+  "tenant",
+  "01ARZ3NDEKTSV4RRFFQ69G5T01"
+);
+const TEST_COMPANY_ID = createTestEnterpriseId(
+  "company",
+  "01ARZ3NDEKTSV4RRFFQ69G5C01"
+);
+const TEST_USER_ID = createTestEnterpriseId(
+  "user",
+  "01ARZ3NDEKTSV4RRFFQ69G5U01"
+);
+const TEST_MEMBERSHIP_ID = createTestEnterpriseId(
+  "membership",
+  "01ARZ3NDEKTSV4RRFFQ69G5M01"
+);
+const TEST_ROLE_ID = createTestEnterpriseId(
+  "role",
+  "01ARZ3NDEKTSV4RRFFQ69G5R01"
+);
+const TEST_CORRELATION_ID = createTestEnterpriseId(
+  "correlation",
+  "01ARZ3NDEKTSV4RRFFQ69G5X01"
+);
+
 const BASE_OPERATING_CONTEXT = {
-  actor: { userId: "user-001" },
-  correlationId: "corr-001",
+  actor: { userId: TEST_USER_ID },
+  correlationId: TEST_CORRELATION_ID,
   tenant: {
-    tenantId: "tenant-001",
+    tenantId: TEST_TENANT_ID,
     slug: "acme",
     displayName: "Acme",
     status: "active",
   },
   entityGroup: null,
   legalEntity: {
-    companyId: "company-001",
-    tenantId: "tenant-001",
+    companyId: TEST_COMPANY_ID,
+    tenantId: TEST_TENANT_ID,
     entityGroupId: null,
     slug: "acme-co",
     legalName: "Acme Co",
@@ -24,33 +55,28 @@ const BASE_OPERATING_CONTEXT = {
     registrationNumber: null,
     taxRegistrationNumber: null,
     ...testLegalEntityCurrencyFields(),
-    reportingCurrency: null,
-    companyType: "standalone",
-    fiscalCalendarId: null,
-    effectiveFrom: null,
-    effectiveTo: null,
-    status: "active",
+    ...testStandaloneLegalEntityProfileFields(),
   },
   ownershipInterests: [],
   organizationUnit: null,
   team: null,
   project: null,
   workspace: {
-    tenantId: "tenant-001",
-    companyId: "company-001",
+    tenantId: TEST_TENANT_ID,
+    companyId: TEST_COMPANY_ID,
     organizationId: null,
     projectId: null,
   },
   permissionScope: {
     grantScopeType: "tenant",
-    tenantId: "tenant-001",
+    tenantId: TEST_TENANT_ID,
     entityGroupId: null,
     companyId: null,
     organizationId: null,
     teamId: null,
     projectId: null,
-    membershipId: "membership-001",
-    roleId: "role-001",
+    membershipId: TEST_MEMBERSHIP_ID,
+    roleId: TEST_ROLE_ID,
     elevations: DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
   },
   consolidationScope: null,
@@ -71,9 +97,12 @@ describe("toWorkspaceApiScope", () => {
       toWorkspaceApiScope({
         ...BASE_OPERATING_CONTEXT,
         organizationUnit: {
-          organizationUnitId: "org-001",
-          tenantId: "tenant-001",
-          companyId: "company-001",
+          organizationUnitId: createTestEnterpriseId(
+            "organization",
+            "01ARZ3NDEKTSV4RRFFQ69G5O01"
+          ),
+          tenantId: TEST_TENANT_ID,
+          companyId: TEST_COMPANY_ID,
           slug: "hq",
           displayName: "HQ",
           organizationUnitType: "department",

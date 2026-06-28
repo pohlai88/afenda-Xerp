@@ -300,6 +300,9 @@ importers:
       '@afenda/design-system':
         specifier: workspace:*
         version: link:../../packages/design-system
+      '@afenda/enterprise-knowledge':
+        specifier: workspace:*
+        version: link:../../packages/enterprise-knowledge
       '@afenda/entitlements':
         specifier: workspace:*
         version: link:../../packages/entitlements
@@ -640,6 +643,18 @@ importers:
         specifier: 'catalog:'
         version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
 
+  packages/css-authority:
+    devDependencies:
+      '@afenda/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      tsx:
+        specifier: ^4.20.3
+        version: 4.22.4
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
+
   packages/database:
     dependencies:
       '@afenda/observability':
@@ -675,6 +690,10 @@ importers:
         version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
 
   packages/design-system:
+    dependencies:
+      '@afenda/css-authority':
+        specifier: workspace:*
+        version: link:../css-authority
     devDependencies:
       '@afenda/typescript-config':
         specifier: workspace:*
@@ -700,6 +719,15 @@ importers:
       tsx:
         specifier: ^4.20.3
         version: 4.22.4
+      vitest:
+        specifier: 'catalog:'
+        version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
+
+  packages/enterprise-knowledge:
+    devDependencies:
+      '@afenda/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
       vitest:
         specifier: 'catalog:'
         version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
@@ -910,6 +938,9 @@ importers:
 
   packages/ui:
     dependencies:
+      '@afenda/css-authority':
+        specifier: workspace:*
+        version: link:../css-authority
       '@afenda/design-system':
         specifier: workspace:*
         version: link:../design-system

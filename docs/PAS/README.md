@@ -35,6 +35,25 @@ Template source: [`.cursor/skills/kernel-authority/reference/pas-template.md`](.
 
 ---
 
+## PAS header fields (continuation queue)
+
+Every PAS above **Idea** maturity carries two **continuation fields** in the **PAS authority metadata table** (immediately after the document title):
+
+| Field | Purpose |
+| --- | --- |
+| **Runtime status** | One factual sentence — what is **live** today (packages, gates, registries, cutovers) |
+| **Remaining slices** | Ordered queue of work to continue; `none` when the planned sequence is closed; `(proposed)` when no handoff file exists yet |
+
+**Sync surfaces on every slice close:**
+
+1. PAS doc — metadata table + required-gates table + maturity blockquote
+2. Package authority skill — `## PAS rollout status` section
+3. [`pas-status-index.md`](pas-status-index.md) — section table + next sequence item
+
+Agents should read **`runtime_status`** + **`remaining_slices`** first when resuming PAS work.
+
+---
+
 ## Numbering convention
 
 | Format | Meaning |
@@ -65,6 +84,10 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 | [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `@afenda/kernel` | Platform | Enterprise Accepted |
 | [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | `@afenda/architecture-authority` | Platform | MVP Authority |
 | [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | `@afenda/accounting-standards` | Foundation | Production Candidate |
+| [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | MVP Authority (constitutional charter) |
+| [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Production Candidate (post-MVP rollout; derived from PAS-004) |
+| [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Enterprise Accepted rollout (kernel bridge + multi-consumer; derived from PAS-004A) |
+| [PAS-005](PAS-005-CSS-AUTHORITY-STANDARD.md) | `@afenda/css-authority` | Design | MVP Authority — B26–B33 delivered; runtime cutover live |
 
 Package-local annotated trees:
 
@@ -84,6 +107,9 @@ Each PAS has a corresponding Cursor agent skill for IDE-optimized enforcement:
 | PAS-001 | `.cursor/skills/kernel-authority/SKILL.md` |
 | PAS-002 | `.cursor/skills/architecture-authority/SKILL.md` |
 | PAS-003 | `.cursor/skills/accounting-standards-authority/SKILL.md` |
+| PAS-004 | `.cursor/skills/enterprise-knowledge/SKILL.md` |
+
+Appendix (temporary borrow refs): [PAS-003 Appendix A](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#appendix-a--borrow-reference-inventory-temporary)
 
 ---
 

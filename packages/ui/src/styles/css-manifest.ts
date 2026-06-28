@@ -4,9 +4,9 @@
  * Source of truth for the single CSS file owned and exported by @afenda/ui.
  * Consumed by: governance script, css-manifest tests, downstream READMEs.
  *
- * afenda-ui.css is hand-authored. It @imports the design-system theme bridge
- * (@afenda/design-system/css/afenda-design-system.css) and adds primitive
- * structural hooks. It does NOT define --afenda-* tokens or @theme.
+ * afenda-ui.css is hand-authored. It @imports afenda-tokens (design-system shim)
+ * and @afenda/css-authority/css/afenda-css-authority.css for shadcn bridge +
+ * @theme + base. It adds primitive structural hooks only.
  */
 import type { CssManifest } from "../governance/css-manifest.js";
 

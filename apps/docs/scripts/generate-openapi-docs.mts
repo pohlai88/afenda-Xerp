@@ -167,6 +167,32 @@ interface OpenApiDocument {
 
 const HTTP_METHODS = ["get", "post", "put", "delete"] as const;
 
+type ApiDomain = "Auth" | "System Admin" | "Inventory" | "Workspace" | "Platform";
+
+const API_DOMAIN_TAB_ORDER: readonly ApiDomain[] = [
+  "Auth",
+  "System Admin",
+  "Inventory",
+  "Workspace",
+  "Platform",
+] as const;
+
+function classifyApiDomain(openApiPath: string): ApiDomain {
+  if (openApiPath.startsWith("/auth/")) {
+    return "Auth";
+  }
+  if (openApiPath.startsWith("/system-admin/")) {
+    return "System Admin";
+  }
+  if (openApiPath.startsWith("/inventory/")) {
+    return "Inventory";
+  }
+  if (openApiPath.startsWith("/workspace/")) {
+    return "Workspace";
+  }
+  return "Platform";
+}
+
 function slugify(value: string): string {
   return value
     .replace(/^\//, "")
@@ -217,17 +243,48 @@ export default function Layout(props) {
 function buildIndexMdx(input: {
   readonly cards: readonly {
     readonly description: string;
+    readonly domain: ApiDomain;
     readonly href: string;
     readonly title: string;
   }[];
   readonly config: OpenApiLocaleConfig;
 }): string {
-  const cardLines = input.cards
-    .map(
-      (card) =>
-        `  <Card title=${JSON.stringify(card.title)} href=${JSON.stringify(card.href)} description=${JSON.stringify(card.description)} />`
-    )
-    .join("\n");
+  const cardsByDomain = new Map<ApiDomain, typeof input.cards>();
+  for (const domain of API_DOMAIN_TAB_ORDER) {
+    cardsByDomain.set(domain, []);
+  }
+
+  for (const card of input.cards) {
+    const bucket = cardsByDomain.get(card.domain) ?? [];
+    bucket.push(card);
+    cardsByDomain.set(card.domain, bucket);
+  }
+
+  const activeDomains = API_DOMAIN_TAB_ORDER.filter(
+    (domain) => (cardsByDomain.get(domain)?.length ?? 0) > 0
+  );
+
+  const tabItems = activeDomains.map((domain) => JSON.stringify(domain)).join(", ");
+
+  const tabSections = activeDomains
+    .map((domain) => {
+      const domainCards = cardsByDomain.get(domain) ?? [];
+      const cardLines = domainCards
+        .map(
+          (card) =>
+            `  <Card title=${JSON.stringify(card.title)} href=${JSON.stringify(card.href)} description=${JSON.stringify(card.description)} />`
+        )
+        .join("\n");
+
+      return `<Tab value=${JSON.stringify(domain)}>
+
+<Cards>
+${cardLines}
+</Cards>
+
+</Tab>`;
+    })
+    .join("\n\n");
 
   return `---
 title: ${JSON.stringify(input.config.indexTitle)}
@@ -235,11 +292,16 @@ description: ${JSON.stringify(input.config.indexDescription)}
 full: true
 ---
 
+import { Card, Cards } from "fumadocs-ui/components/card";
+import { Tab, Tabs } from "fumadocs-ui/components/tabs";
+
 ${input.config.indexIntro}
 
-<Cards>
-${cardLines}
-</Cards>
+<Tabs items={[${tabItems}]}>
+
+${tabSections}
+
+</Tabs>
 `;
 }
 
@@ -249,7 +311,12 @@ function generateLocaleDocs(input: {
 }): number {
   mkdirSync(input.config.outputDir, { recursive: true });
 
-  const cards: { description: string; href: string; title: string }[] = [];
+  const cards: {
+    description: string;
+    domain: ApiDomain;
+    href: string;
+    title: string;
+  }[] = [];
 
   for (const [openApiPath, pathItem] of Object.entries(input.paths)) {
     for (const method of HTTP_METHODS) {
@@ -272,6 +339,7 @@ function generateLocaleDocs(input: {
         title,
         description: `${method.toUpperCase()} ${openApiPath}`,
         href: `./${fileName.replace(/\.mdx$/, "")}`,
+        domain: classifyApiDomain(openApiPath),
       });
     }
   }

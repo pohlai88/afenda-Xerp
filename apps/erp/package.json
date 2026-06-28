@@ -24,6 +24,7 @@
     "@afenda/database": "workspace:*",
     "@afenda/design-system": "workspace:*",
     "@afenda/entitlements": "workspace:*",
+    "@afenda/enterprise-knowledge": "workspace:*",
     "@afenda/execution": "workspace:*",
     "@afenda/feature-flags": "workspace:*",
     "@tanstack/react-table": "^8.21.3",

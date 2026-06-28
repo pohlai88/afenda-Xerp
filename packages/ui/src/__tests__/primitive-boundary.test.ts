@@ -69,11 +69,15 @@ describe("primitive package boundary", () => {
     }
   });
 
-  it("afenda-ui.css imports the design-system entry and defines no :root authority", () => {
+  it("afenda-ui.css imports token shim + css-authority and defines no :root authority", () => {
     const css = readFileSync(join(srcRoot, "styles", "afenda-ui.css"), "utf8");
     expect(css).toContain(
-      '@import "@afenda/design-system/css/afenda-design-system.css"'
+      '@import "@afenda/design-system/css/afenda-tokens.css"'
     );
+    expect(css).toContain(
+      '@import "@afenda/css-authority/css/afenda-css-authority.css"'
+    );
+    expect(css).not.toContain("afenda-design-system.css");
     expect(css).not.toMatch(/:root\s*\{/u);
     expect(css).not.toMatch(/^\s*--afenda-/mu);
   });

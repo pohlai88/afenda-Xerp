@@ -3,8 +3,8 @@
 @import "fumadocs-ui/css/preset.css";
 @import "fumadocs-openapi/css/preset.css";
 @import "./docs-editorial-palette.css";
-@import "./docs-luxury-shell.css";
 @import "./docs-editorial-tokens.css";
+@import "./docs-luxury-shell.css";
 @import "./docs-editorial-surface.css";
 @import "./docs-editorial-typography.css";
 @import "./docs-editorial-spacing.css";
@@ -42,15 +42,12 @@
 
 #nd-page .prose h2 {
   margin-block: 0;
-  padding-block-end: var(--docs-space-1);
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: var(--docs-text-section);
-  font-weight: 400;
+  font-weight: 600;
   line-height: var(--docs-leading-section);
-  letter-spacing: var(--docs-tracking-section);
-  color: var(--docs-color-editorial);
-  font-optical-sizing: auto;
-  border-bottom: 1px solid var(--docs-divider);
+  letter-spacing: var(--docs-tracking-body);
+  color: var(--docs-color-heading);
 }
 
 #nd-page .prose h3 {
@@ -96,7 +93,9 @@
   color: var(--docs-color-heading);
 }
 
-#nd-page .prose a {
+#nd-page .prose a:where(
+  :not(.nd-card):not([data-card]):not(.afenda-docs-guide-grid__link)
+) {
   color: var(--docs-prose-accent);
   font-weight: 400;
   text-decoration: underline;
@@ -105,7 +104,9 @@
   transition: color 120ms ease;
 }
 
-#nd-page .prose a:hover {
+#nd-page .prose a:where(
+  :not(.nd-card):not([data-card]):not(.afenda-docs-guide-grid__link)
+):hover {
   color: var(--docs-prose-accent-hover);
   text-decoration-thickness: 1.5px;
 }
@@ -219,12 +220,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  #nd-page .prose a {
+  #nd-page .prose a:where(
+    :not(.nd-card):not([data-card]):not(.afenda-docs-guide-grid__link)
+  ) {
     transition: none;
   }
 }
 
 ::highlight(fd-feedback-text) {
-  background-color: var(--color-fd-primary);
-  color: var(--color-fd-primary-foreground);
+  background-color: var(--docs-feedback-highlight);
+  color: inherit;
 }

@@ -234,4 +234,4 @@ reserved for the app composition entry. Apps consume it transitively via
 | Export | Purpose | Note |
 |---|---|---|
 | `./css/afenda-tokens.css` | Raw `--afenda-*` token variables | No `@theme`; usable without Tailwind v4 |
-| `./css/afenda-design-system.css` | Full Tailwind v4 `@theme` bridge | Requires Tailwind v4 pipeline; imported by `@afenda/ui` |
+| `./css/afenda-design-system.css` | **Deprecated B30 shim** — re-exports tokens + css-authority bundle | Prefer `@afenda/ui/afenda-ui.css` |

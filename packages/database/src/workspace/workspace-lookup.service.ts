@@ -111,6 +111,25 @@ export async function findTenantBySlug(
   return row ?? null;
 }
 
+/** Resolves canonical enterprise tenant ID (`ten_*`) to internal uuid PK row. */
+export async function findTenantByEnterpriseId(
+  enterpriseId: string,
+  db: AfendaDatabase = getDb()
+): Promise<TenantLookupRow | null> {
+  const [row] = await db
+    .select({
+      id: tenants.id,
+      slug: tenants.slug,
+      name: tenants.name,
+      status: tenants.status,
+    })
+    .from(tenants)
+    .where(eq(tenants.enterpriseId, enterpriseId))
+    .limit(1);
+
+  return row ?? null;
+}
+
 export async function findCompanyByTenantAndSlug(
   tenantId: string,
   slug: string,

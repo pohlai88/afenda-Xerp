@@ -14,14 +14,19 @@ for the app composition entry only — no package may use that name.**
 
 ```
 @afenda/design-system
-  Owns: raw tokens, semantic tokens, Tailwind @theme bridge, --afenda-* authority
-  Files (generated): ./css/afenda-tokens.css, ./css/afenda-design-system.css
+  Owns: raw --afenda-* tokens (TIP-004 TS governance + generated afenda-tokens.css)
+  Files (generated): ./css/afenda-tokens.css, ./css/afenda-design-system.css (B30 deprecation shim)
+  May import from: @afenda/css-authority (shim only)
+
+@afenda/css-authority  (PAS-005)
+  Owns: vendored shadcn theme, CSS Authority Registry, runtime bridge (Parts B–F)
+  Files: ./css/afenda-css-authority.css (generated bundle)
   May import from: (nothing upstream)
 
 @afenda/ui
-  Owns: ONE entry — design-system theme bridge + primitive structural hooks
-  File: ./afenda-ui.css   (@imports @afenda/design-system/css/afenda-design-system.css)
-  May import from: @afenda/design-system
+  Owns: ONE entry — token shim + css-authority runtime + primitive structural hooks
+  File: ./afenda-ui.css   (@imports afenda-tokens.css + afenda-css-authority.css)
+  May import from: @afenda/design-system, @afenda/css-authority
 
 @afenda/metadata-ui
   Owns: metadata renderer structural CSS (+ storybook-only fixture CSS)
@@ -64,7 +69,7 @@ cascade stays deterministic regardless of `@import` order changes.
 
 | Layer | Content | Owner |
 |---|---|---|
-| `theme` | Design tokens + `@theme` bridge (`--afenda-*`, utility map) | `@afenda/design-system` (via `afenda-ui.css`) |
+| `theme` | Design tokens + `@theme` bridge (`--afenda-*`, utility map) | `@afenda/design-system` tokens + `@afenda/css-authority` runtime (via `afenda-ui.css`) |
 | `base` | Element/base styles (html, body, h1–h6, resets) | design-system + `shadcn/tailwind.css` |
 | `components` | `@afenda/ui` primitive hooks, `@afenda/appshell` `.app-shell-*` (incl. `.app-shell-studio-*` via studio layer), `@afenda/metadata-ui` `.metadata-*` | ui / appshell / metadata-ui |
 | `utilities` | Tailwind utilities + app-level overrides (always win) | Tailwind / app |
@@ -149,11 +154,15 @@ Building an app (Tailwind v4)?
 
 Need only design-system token variables (no UI primitives)?
   → @import "@afenda/design-system/css/afenda-tokens.css"
+
+Need legacy single-file shim (deprecated — B30)?
+  → @import "@afenda/design-system/css/afenda-design-system.css"
+     (re-exports tokens + @afenda/css-authority/css/afenda-css-authority.css)
 ```
 
-`@afenda/ui/afenda-ui.css` already `@import`s
-`@afenda/design-system/css/afenda-design-system.css` (the generated `@theme`
-bridge + tokens) — never import that design-system file directly from an app.
+`@afenda/ui/afenda-ui.css` `@import`s `@afenda/design-system/css/afenda-tokens.css` and
+`@afenda/css-authority/css/afenda-css-authority.css` — **do not** import the deprecated
+design-system monolith shim from new app code.
 
 ```
 Rendering metadata-ui fixtures or composed Storybook?
@@ -195,12 +204,13 @@ implementation detail loaded by `afenda-appshell.css` via `@import "./afenda-app
 
 ## AppShell studio pattern layer
 
-`@afenda/appshell` owns **two** CSS source files (budget: `maxSourceFiles: 2`):
+`@afenda/appshell` owns **three** CSS source files (budget: `maxSourceFiles: 3`):
 
 | File | Role | Import rule |
 |---|---|---|
 | `afenda-appshell.css` | Shell structural chrome, block-local geometry, readiness-gate overrides | **Public** — `@import "@afenda/appshell/afenda-appshell.css"` |
 | `afenda-appshell-studio.css` | Reusable shadcn/studio visual patterns (metric cards, sparklines) | **Internal** — `@import` from `afenda-appshell.css` only |
+| `auth-shell/auth-shell.css` | Auth shell BEM layer (`.af-auth-shell*`) | **Internal** — `@import` from `afenda-appshell.css` only |
 
 ### Purpose and namespace
 

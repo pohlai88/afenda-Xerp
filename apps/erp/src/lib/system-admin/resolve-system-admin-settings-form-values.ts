@@ -1,5 +1,7 @@
 import type { OperatingContext } from "@afenda/kernel";
 
+import { getSystemAdminSectionKnowledgeTitle } from "@/lib/knowledge/enterprise-knowledge-vocabulary.server";
+
 import {
   SYSTEM_ADMIN_SETTINGS_FIELD_LABELS,
   SYSTEM_ADMIN_SETTINGS_SECTION_COPY,
@@ -66,7 +68,7 @@ export function resolveSystemAdminSettingsFormValues(
 
     return {
       sectionId: sectionCopy.sectionId,
-      title: sectionCopy.title,
+      title: getSystemAdminSectionKnowledgeTitle(sectionCopy.sectionId),
       description: sectionCopy.description,
       fields: fieldIds.map((fieldId) => ({
         fieldId,

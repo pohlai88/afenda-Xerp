@@ -16,6 +16,7 @@ describe("resolveSystemAdminSettingsFormValues", () => {
     const tenantSection = formValues.sections.find(
       (section) => section.sectionId === "tenant"
     );
+    expect(tenantSection?.title).toBe("Customer account / tenant");
     expect(tenantSection?.fields).toEqual(
       expect.arrayContaining([
         expect.objectContaining({

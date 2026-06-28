@@ -75,7 +75,8 @@ export const designSystemCssManifest = [
     purpose: "theme-bridge",
     productionSafe: true,
     requiresTailwindTheme: true,
-    allowedImporters: ["apps/*", "@afenda/ui"],
+    legacy: true,
+    allowedImporters: ["apps/*", "@afenda/ui", "@afenda/storybook"],
     prohibitedImporters: [
       "@afenda/metadata",
       "@afenda/metadata-ui",

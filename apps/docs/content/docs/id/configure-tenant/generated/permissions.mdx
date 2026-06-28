@@ -7,33 +7,67 @@ noIndex: true
 
 # Permission keys reference
 
-| Key | Domain | Action |
-| --- | --- | --- |
-| `accounting.coa_manage` | accounting | coa_manage |
-| `accounting.coa_read` | accounting | coa_read |
-| `accounting.fiscal_period_close` | accounting | fiscal_period_close |
-| `accounting.fiscal_period_manage` | accounting | fiscal_period_manage |
-| `accounting.fiscal_period_read` | accounting | fiscal_period_read |
-| `accounting.journal_approve` | accounting | journal_approve |
-| `accounting.journal_post` | accounting | journal_post |
-| `accounting.journal_read` | accounting | journal_read |
-| `accounting.journal_reverse` | accounting | journal_reverse |
-| `dashboard.module_earnings` | dashboard | module_earnings |
-| `dashboard.regional_sales` | dashboard | regional_sales |
-| `finance.cards_read` | finance | cards_read |
-| `finance.invoices_read` | finance | invoices_read |
-| `finance.transactions_read` | finance | transactions_read |
-| `hr.employee_read` | hr | employee_read |
-| `inventory.product_manage` | inventory | product_manage |
-| `inventory.product_read` | inventory | product_read |
-| `inventory.stock_adjust` | inventory | stock_adjust |
-| `inventory.warehouse_manage` | inventory | warehouse_manage |
-| `inventory.warehouse_read` | inventory | warehouse_read |
-| `system_admin.audit_read` | system_admin | audit_read |
-| `system_admin.modules_manage` | system_admin | modules_manage |
-| `system_admin.permissions_manage` | system_admin | permissions_manage |
-| `system_admin.roles_manage` | system_admin | roles_manage |
-| `system_admin.users_manage` | system_admin | users_manage |
-| `system_admin.users_read` | system_admin | users_read |
-| `workspace.dashboard_read` | workspace | dashboard_read |
-| `workspace.dashboard_write` | workspace | dashboard_write |
+Grouped by domain for scanability. Prefer [Roles and permissions](/docs/configure-tenant/roles-and-permissions) for editorial guidance.
+
+## accounting
+
+| Key | Action |
+| --- | --- |
+| `accounting.coa_manage` | coa_manage |
+| `accounting.coa_read` | coa_read |
+| `accounting.fiscal_period_close` | fiscal_period_close |
+| `accounting.fiscal_period_manage` | fiscal_period_manage |
+| `accounting.fiscal_period_read` | fiscal_period_read |
+| `accounting.journal_approve` | journal_approve |
+| `accounting.journal_post` | journal_post |
+| `accounting.journal_read` | journal_read |
+| `accounting.journal_reverse` | journal_reverse |
+
+## dashboard
+
+| Key | Action |
+| --- | --- |
+| `dashboard.module_earnings` | module_earnings |
+| `dashboard.regional_sales` | regional_sales |
+
+## finance
+
+| Key | Action |
+| --- | --- |
+| `finance.cards_read` | cards_read |
+| `finance.invoices_read` | invoices_read |
+| `finance.transactions_read` | transactions_read |
+
+## hr
+
+| Key | Action |
+| --- | --- |
+| `hr.employee_read` | employee_read |
+
+## inventory
+
+| Key | Action |
+| --- | --- |
+| `inventory.product_manage` | product_manage |
+| `inventory.product_read` | product_read |
+| `inventory.stock_adjust` | stock_adjust |
+| `inventory.warehouse_manage` | warehouse_manage |
+| `inventory.warehouse_read` | warehouse_read |
+
+## system_admin
+
+| Key | Action |
+| --- | --- |
+| `system_admin.audit_read` | audit_read |
+| `system_admin.modules_manage` | modules_manage |
+| `system_admin.permissions_manage` | permissions_manage |
+| `system_admin.roles_manage` | roles_manage |
+| `system_admin.users_manage` | users_manage |
+| `system_admin.users_read` | users_read |
+
+## workspace
+
+| Key | Action |
+| --- | --- |
+| `workspace.dashboard_read` | dashboard_read |
+| `workspace.dashboard_write` | dashboard_write |

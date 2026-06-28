@@ -21,10 +21,11 @@ export interface CssBudget {
 }
 
 export const CSS_BUDGETS: Record<string, CssBudget> = {
+  "@afenda/css-authority": { maxFiles: 4, generatedOnly: false },
   "@afenda/design-system": { maxFiles: 2, generatedOnly: true },
   "@afenda/ui": { maxFiles: 1, generatedOnly: false },
   "@afenda/metadata-ui": { maxFiles: 2, generatedOnly: false },
-  "@afenda/appshell": { maxFiles: 2, generatedOnly: false },
+  "@afenda/appshell": { maxFiles: 3, generatedOnly: false },
   "@afenda/metadata": { maxFiles: 0, generatedOnly: true },
 };
 
@@ -50,6 +51,27 @@ export interface CssFileEntry {
 }
 
 export const CSS_FILE_REGISTRY: readonly CssFileEntry[] = [
+  // ── @afenda/css-authority (PAS-005) ─────────────────────────────────────
+  {
+    package: "@afenda/css-authority",
+    path: "src/css/afenda-runtime-bridge.css",
+    role: "generated-theme",
+    generated: true,
+  },
+  {
+    package: "@afenda/css-authority",
+    path: "src/css/vendored/shadcn-theme.css",
+    role: "authored-structural",
+    generated: false,
+  },
+  {
+    package: "@afenda/css-authority",
+    path: "src/css/afenda-css-authority.css",
+    role: "generated-theme",
+    generated: true,
+    exportPath: "./css/afenda-css-authority.css",
+  },
+
   // ── @afenda/design-system (2 files, both generated) ─────────────────────
   // Canonical theme/tokens. Never named globals.css — that name is app-only.
   {
@@ -93,7 +115,7 @@ export const CSS_FILE_REGISTRY: readonly CssFileEntry[] = [
     exportPath: "./fixtures.css",
   },
 
-  // ── @afenda/appshell (2 files) ──────────────────────────────────────────
+  // ── @afenda/appshell (3 files) ──────────────────────────────────────────
   {
     package: "@afenda/appshell",
     path: "src/styles/afenda-appshell.css",
@@ -110,6 +132,16 @@ export const CSS_FILE_REGISTRY: readonly CssFileEntry[] = [
     package: "@afenda/appshell",
     path: "src/styles/afenda-appshell-studio.css",
     role: "authored-studio-patterns",
+    generated: false,
+  },
+  {
+    /**
+     * Internal @import-only layer — not a standalone package.json export.
+     * Consumed by afenda-appshell.css via `@import "../auth-shell/auth-shell.css"`.
+     */
+    package: "@afenda/appshell",
+    path: "src/auth-shell/auth-shell.css",
+    role: "authored-structural",
     generated: false,
   },
 

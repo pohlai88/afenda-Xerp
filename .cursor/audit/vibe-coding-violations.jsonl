@@ -1,0 +1,1 @@
+{"schema":"vibe-coding-violation/v1","note":"Append-only ledger. One JSON object per line per violation. Automatic hooks + vibe-coding-violation-auditor subagent."}

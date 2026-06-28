@@ -7,7 +7,7 @@
 | **Owner** | Architecture Authority |
 | **TIP (archive)** | TIP-001A — Architecture Baseline Discovery |
 | **FDR** | [`foundation-disposition.md`](foundation-disposition.md) · [`foundation-delivery-authority.md`](foundation-delivery-authority.md) |
-| **Fingerprint** | `ARCH-BASELINE-2026-06-27-v2` |
+| **Fingerprint** | `ARCH-BASELINE-2026-06-27-v3` |
 | **Active workspaces** | 22 |
 | **Planned workspaces** | 0 |
 
@@ -121,6 +121,7 @@ Audit trail for registry mutations. Material changes require fingerprint bump on
 | 2026-06-27 | Retired (filesystem) | PKG-R01 | `@afenda/accounting` package removed; vocabulary in `@afenda/kernel/erp-domain/accounting` | ADR-0020 |
 | 2026-06-27 | Fingerprint bump | — | `ARCH-BASELINE-2026-06-27-v1` — ADR-0020 inventory package retirement | ADR-0020 |
 | 2026-06-27 | Fingerprint bump | — | `ARCH-BASELINE-2026-06-27-v2` — ADR-0020 accounting consolidation + stock runtime Slice 3 | ADR-0020 |
+| 2026-06-28 | Fingerprint bump | PKG-024, PKG-025 | `ARCH-BASELINE-2026-06-27-v3` — PAS-004A enterprise-knowledge + PAS-005 css-authority registry entries | PAS-004A |
 
 ---
 

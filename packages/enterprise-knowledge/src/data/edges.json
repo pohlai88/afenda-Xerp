@@ -1,0 +1,69 @@
+[
+  {
+    "edgeId": "legal_entity_contains_organization_unit",
+    "type": "contains",
+    "fromAtomId": "legal_entity",
+    "toAtomId": "organization_unit",
+    "note": "Statutory company contains operational org tree."
+  },
+  {
+    "edgeId": "legal_entity_owns_double_entry",
+    "type": "owns",
+    "fromAtomId": "legal_entity",
+    "toAtomId": "double_entry",
+    "note": "Company books follow double-entry principle."
+  },
+  {
+    "edgeId": "organization_unit_operates_workspace",
+    "type": "operates",
+    "fromAtomId": "organization_unit",
+    "toAtomId": "workspace",
+    "note": "Org selection participates in workspace snapshot."
+  },
+  {
+    "edgeId": "metadata_related_surface",
+    "type": "related",
+    "fromAtomId": "metadata",
+    "toAtomId": "surface",
+    "note": "UI metadata renders by surface id."
+  },
+  {
+    "edgeId": "payload_related_contract",
+    "type": "related",
+    "fromAtomId": "payload",
+    "toAtomId": "contract",
+    "note": "API payloads conform to wire contracts."
+  },
+  {
+    "edgeId": "invariant_related_accounting_equation",
+    "type": "related",
+    "fromAtomId": "invariant",
+    "toAtomId": "accounting_equation",
+    "note": "Equation is an accounting invariant."
+  },
+  {
+    "edgeId": "organization_split_governs_legal_entity",
+    "type": "governs",
+    "fromAtomId": "organization_split",
+    "toAtomId": "legal_entity"
+  },
+  {
+    "edgeId": "organization_split_governs_organization_unit",
+    "type": "governs",
+    "fromAtomId": "organization_split",
+    "toAtomId": "organization_unit"
+  },
+  {
+    "edgeId": "ifrs_10_governs_legal_entity",
+    "type": "governs",
+    "fromAtomId": "ifrs_10",
+    "toAtomId": "legal_entity",
+    "note": "Control assessment routes via legal entity relationships."
+  },
+  {
+    "edgeId": "double_entry_values_accounting_equation",
+    "type": "values",
+    "fromAtomId": "double_entry",
+    "toAtomId": "accounting_equation"
+  }
+]

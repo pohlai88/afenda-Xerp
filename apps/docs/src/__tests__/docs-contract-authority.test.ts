@@ -38,14 +38,14 @@ describe("@afenda/docs contract authority", () => {
     expect(docsSeedSections.length).toBeGreaterThan(0);
   });
 
-  it("mirrors prose accent tokens in TypeScript contract", () => {
+  it("mirrors editorial block tokens in docs-editorial-tokens.css", () => {
     const css = readFileSync(
-      join(process.cwd(), "src/app/docs-editorial-palette.css"),
+      join(process.cwd(), "src/app/docs-editorial-tokens.css"),
       "utf8"
     );
 
     for (const name of docsEditorialPrimitiveNames) {
-      expect(css).toContain(`--docs-${name}`);
+      expect(css).toContain(`--docs-editorial-${name}`);
     }
   });
 

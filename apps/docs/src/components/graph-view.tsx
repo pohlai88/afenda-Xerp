@@ -165,7 +165,7 @@ function ClientOnly({
   const linkColor: ForceGraph2DProps["linkColor"] = (link) => {
     const container = containerRef.current;
     if (!container) {
-      return "#999";
+      return "color-mix(in oklab, currentColor 50%, transparent)";
     }
     const style = getComputedStyle(container);
     const hoverNode = hoveredRef.current;

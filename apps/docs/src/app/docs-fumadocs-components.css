@@ -1,7 +1,7 @@
 /**
  * Afenda Docs — component overrides on Fumadocs preset styles.
  *
- * Shell colours use --color-fd-* from fumadocs-ui/css/neutral.css.
+ * Shell colours use --color-fd-* via @theme inline bridge (docs-luxury-shell.css).
  * Prose accent uses --docs-prose-accent from docs-editorial-palette.css.
  */
 
@@ -80,53 +80,75 @@
   opacity: 1;
 }
 
-/* ─── Cards — soft surfaces for editorial density ───────────────────────── */
+/* ─── Cards — Fumadocs 16 uses [data-card] on link surfaces (not .nd-card) ─ */
 
-#nd-page .nd-card {
-  gap: var(--docs-gap-inline);
-  padding: var(--docs-inset-component);
-  background-color: color-mix(
-    in oklch,
-    var(--color-fd-card) 88%,
-    var(--color-fd-article)
-  );
-  border-color: color-mix(in oklch, var(--color-fd-border) 60%, transparent);
-  transition: border-color 150ms ease, background-color 150ms ease;
+#nd-page .prose a:where(.nd-card, [data-card]) {
+  color: inherit;
+  font-weight: inherit;
+  text-decoration: none;
 }
 
-#nd-page .nd-card :is(h3, h4, .font-medium, .font-semibold) {
+#nd-page .prose a:where(.nd-card, [data-card]):hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+#nd-page :where(.nd-card, [data-card]) {
+  gap: var(--docs-gap-inline);
+  padding: var(--docs-inset-comfort);
+  background-color: var(--color-fd-card);
+  border: 1px solid var(--docs-divider);
+  border-radius: 0.625rem;
+  box-shadow: none;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+#nd-page .prose a:where(.nd-card, [data-card]):hover,
+#nd-page .prose a:where(.nd-card, [data-card]):focus-visible {
+  background-color: color-mix(
+    in oklch,
+    var(--color-fd-card) 94%,
+    var(--color-fd-foreground) 6%
+  );
+}
+
+#nd-page :where(.nd-card, [data-card]) :is(h3, h4, .font-medium, .font-semibold) {
   font-size: var(--docs-text-ui);
   font-weight: 500;
   line-height: var(--docs-leading-ui);
   color: var(--docs-color-heading);
 }
 
-#nd-page .nd-card :is(p, .text-fd-muted-foreground, .text-fd-card-foreground) {
+#nd-page :where(.nd-card, [data-card]) :is(p, .text-fd-muted-foreground, .text-fd-card-foreground) {
   font-size: var(--docs-text-meta);
   font-weight: 400;
   line-height: var(--docs-leading-normal);
   color: var(--docs-color-body);
 }
 
-#nd-page .nd-card :is(strong, b) {
+#nd-page :where(.nd-card, [data-card]) :is(strong, b) {
   font-weight: 400;
   color: var(--docs-color-body);
 }
 
-.nd-card {
-  transition: box-shadow 150ms ease;
+#nd-page :where(.nd-card, [data-card]):hover {
+  border-color: var(--docs-divider-strong);
+  box-shadow:
+    0 1px 2px oklch(0 0 0 / 0.06),
+    0 8px 24px oklch(0 0 0 / 0.08);
+  transform: translateY(-1px);
 }
 
-.nd-card:hover {
+.dark #nd-page :where(.nd-card, [data-card]):hover {
+  border-color: var(--docs-divider-strong);
   box-shadow:
-    0 2px 6px oklch(0 0 0 / 0.04),
-    0 0 0 1px var(--color-fd-border);
-}
-
-.dark .nd-card:hover {
-  box-shadow:
-    0 2px 6px oklch(0 0 0 / 0.18),
-    0 0 0 1px var(--color-fd-border);
+    0 1px 0 oklch(1 0 0 / 0.03) inset,
+    0 10px 28px oklch(0 0 0 / 0.28);
+  transform: translateY(-1px);
 }
 
 /* ─── Steps ───────────────────────────────────────────────────────────────── */
@@ -140,7 +162,7 @@
   font-weight: 500;
   font-variant-numeric: tabular-nums;
   color: var(--color-fd-primary-foreground);
-  background-color: var(--docs-prose-accent);
+  background-color: var(--docs-color-heading);
 }
 
 /* ─── TypeTable ───────────────────────────────────────────────────────────── */
@@ -169,7 +191,7 @@
 .nd-type-table code {
   padding: 0.1rem 0.3rem;
   font-size: 0.8125rem;
-  color: var(--docs-prose-accent);
+  color: var(--docs-color-body);
   background-color: var(--color-fd-muted);
   border-radius: 0.25rem;
 }
@@ -189,7 +211,7 @@
 }
 
 .nd-inline-toc a:hover {
-  color: var(--docs-prose-accent);
+  color: var(--docs-color-heading);
 }
 
 [data-rehype-pretty-code-figure] [data-highlighted-chars] {
@@ -236,9 +258,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nd-card,
+  #nd-page :where(.nd-card, [data-card]),
   .nd-inline-toc a,
   [data-rehype-pretty-code-figure] button[aria-label="Copy code"] {
     transition: none;
+  }
+
+  #nd-page :where(.nd-card, [data-card]):hover {
+    transform: none;
   }
 }

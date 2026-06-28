@@ -13,6 +13,7 @@ catalogBindings:
   - system-admin
 ---
 
+import { Step, Steps } from "fumadocs-ui/components/steps";
 import { Callout } from "fumadocs-ui/components/callout";
 
 ## Overview
@@ -27,17 +28,79 @@ Start with read-only keys. Add manage, post, or approve keys only when a documen
 
 ## Configure roles
 
-1. Open **System Admin → Roles** (`/system-admin/roles`).
-2. Create or edit a role and attach the minimum permission keys required for the job function.
-3. Prefer read-only keys (`*_read`) until a workflow requires manage/post/approve actions.
-4. Document why elevated keys exist — auditors and future admins need context.
+<Steps>
+
+<Step>
+
+### Open Roles
+
+Open **System Admin → Roles** (`/system-admin/roles`).
+
+</Step>
+
+<Step>
+
+### Attach minimum keys
+
+Create or edit a role and attach the minimum permission keys required for the job function.
+
+</Step>
+
+<Step>
+
+### Prefer read-only first
+
+Prefer read-only keys (`*_read`) until a workflow requires manage/post/approve actions.
+
+</Step>
+
+<Step>
+
+### Document elevated access
+
+Document why elevated keys exist — auditors and future admins need context.
+
+</Step>
+
+</Steps>
 
 ## Audit permission coverage
 
-1. Open **System Admin → Permissions** (`/system-admin/permissions`).
-2. Compare role assignments against the governed key catalog below.
-3. Remove unused keys from roles to reduce privilege surface.
-4. Repeat after module upgrades — new keys may appear in the synced catalog.
+<Steps>
+
+<Step>
+
+### Open Permissions
+
+Open **System Admin → Permissions** (`/system-admin/permissions`).
+
+</Step>
+
+<Step>
+
+### Compare assignments
+
+Compare role assignments against the governed key catalog below.
+
+</Step>
+
+<Step>
+
+### Remove unused keys
+
+Remove unused keys from roles to reduce privilege surface.
+
+</Step>
+
+<Step>
+
+### Re-audit after upgrades
+
+Repeat after module upgrades — new keys may appear in the synced catalog.
+
+</Step>
+
+</Steps>
 
 ## Permission keys
 

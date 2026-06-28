@@ -6,6 +6,17 @@ disable-model-invocation: false
 
 # @afenda/architecture-authority — Authority Skill (PAS-002)
 
+## PAS rollout status (mirror header — sync on slice close)
+
+| Field | Value |
+| --- | --- |
+| **Runtime status** | B1–B27 delivered — registries, composite gates, lifecycle enforcement, skill chain synced |
+| **Remaining slices** | none |
+
+> Canonical: [`docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md`](../../../docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+
+---
+
 ## Boundary (one sentence)
 
 `@afenda/architecture-authority` **owns architecture registries, package lifecycle truth, layer rules, dependency boundaries, ownership records, drift policy, and architecture quality gates; it never owns product behavior, business master data, Kernel identity primitives, UI behavior, database migrations, auth/session behavior, or ERP module implementation.**
@@ -25,6 +36,8 @@ Apply this skill when touching:
 - foundation disposition status (read-only unless delegated to `foundation-registry-owner`)
 
 **Kernel boundary:** Canonical enterprise ID families, parsers, and wire contracts live in `@afenda/kernel` ([PAS-001](../../../docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md)). Do not duplicate ID semantics here.
+
+**Enterprise knowledge boundary:** Knowledge Atoms and accepted business meaning → [PAS-004](../../../docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) / `.cursor/skills/enterprise-knowledge/SKILL.md`. Package listing for `@afenda/enterprise-knowledge` belongs here; atom source files do not.
 
 ---
 

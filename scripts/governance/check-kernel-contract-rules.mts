@@ -224,19 +224,19 @@ function findModuleScopeSideEffects(
 export function checkKernelContractRules(): KernelContractRulesViolation[] {
   const violations: KernelContractRulesViolation[] = [];
 
-  if (KERNEL_CONTRACT_RULES.length !== 13) {
+  if (KERNEL_CONTRACT_RULES.length !== 14) {
     violations.push({
       rule: "policy-rule-count",
       file: join(kernelSrcRoot, "governance/kernel-contract-rules.policy.ts"),
-      message: `Expected 13 PAS §9 rules, found ${KERNEL_CONTRACT_RULES.length}`,
+      message: `Expected 14 PAS §9 rules, found ${KERNEL_CONTRACT_RULES.length}`,
     });
   }
 
-  if (KERNEL_CONTRACT_RULE_IDS.length !== 13) {
+  if (KERNEL_CONTRACT_RULE_IDS.length !== 14) {
     violations.push({
       rule: "policy-rule-id-count",
       file: join(kernelSrcRoot, "governance/kernel-contract-rules.policy.ts"),
-      message: `Expected 13 PAS §9 rule ids, found ${KERNEL_CONTRACT_RULE_IDS.length}`,
+      message: `Expected 14 PAS §9 rule ids, found ${KERNEL_CONTRACT_RULE_IDS.length}`,
     });
   }
 

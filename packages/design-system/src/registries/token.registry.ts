@@ -16,12 +16,13 @@ import {
 /**
  * Afenda ERP v2 token authority (TIP-004B, hardened).
  *
- * Single source of truth for every governed design value. `generate-tokens-css`
+ * Single source of truth for every governed design value (TIP-004 TS). `generate-tokens-css`
  * reverse-renders this registry into:
- *   src/css/afenda-tokens.css          (raw --afenda-* vars, grouped by `group`)
- *   src/css/afenda-design-system.css   (Parts A–D, full Tailwind v4 theme)
+ *   src/css/afenda-tokens.css                    (raw --afenda-* vars, grouped by `group`)
+ *   src/css/afenda-design-system.css             (B30 deprecation shim — tokens + css-authority)
+ *   packages/css-authority/.../afenda-runtime-bridge.css  (Parts B–F, synced on build)
  *
- * Authority layers (mirrors the generated CSS section order):
+ * Runtime CSS token authority (shadcn + @theme): `@afenda/css-authority` (PAS-005).
  *   RAW       literal oklch()/px/rem values — light in `value`, dark in `darkValue`
  *   SEMANTIC  intent aliases — `var(--afenda-*)`, never new literals, no darkValue
  *   ERP STATE operational surface states — RAW literals with dark overrides

@@ -52,6 +52,8 @@ export const KERNEL_IMPLEMENTATION_SEQUENCE_STEPS = [
     label: "Add `LocalizationContext` shape.",
     evidencePaths: [
       "packages/kernel/src/context/localization-context.contract.ts",
+      "packages/kernel/src/context/localization-context.assert.ts",
+      "packages/kernel/src/context/localization-context.parser.ts",
     ],
     gateScripts: [],
   },

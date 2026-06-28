@@ -49,7 +49,7 @@ describe("@afenda/docs routes", () => {
     const components = getMDXComponents();
 
     expect(components.a).toBeDefined();
-    expect(components["DocsCallout"]).toBeDefined();
+    expect(components["DocsIdentityBlock"]).toBeDefined();
     expect(components["DocsGuideCardGrid"]).toBeDefined();
     expect(components["DocsSiteGraph"]).toBeDefined();
     expect(components.img).toBeDefined();

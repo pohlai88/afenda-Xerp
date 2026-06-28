@@ -1,71 +1,50 @@
----
-pas_id: PAS-002
-package: "@afenda/architecture-authority"
-layer: Platform
-runtime_stance: contracts-only
-registry_lane: PKGR02_ARCHITECTURE_AUTHORITY
-skill: architecture-authority
-maturity: mvp_authority
-authority_status: accepted_for_boundary
-implementation_status: partial
-evidence_level: runtime_partial
-consumers:
-  - "@afenda/kernel"
-  - "@afenda/design-system"
-  - "@afenda/ui"
-  - "@afenda/appshell"
-  - "@afenda/metadata"
-  - "@afenda/metadata-ui"
-  - apps/erp
-change_model: serialized-slices
-quality_target: "9.5"
-required_gates:
-  - pnpm --filter @afenda/architecture-authority typecheck
-  - pnpm --filter @afenda/architecture-authority test:run
-  - pnpm quality:architecture
-  - pnpm architecture:cycles
-  - pnpm architecture:drift
-  - pnpm quality:boundaries
-  - pnpm check:foundation-disposition
-adr_prerequisites:
-  - ADR-0009
-  - ADR-0010
-  - ADR-0011
-  - ADR-0012
-  - ADR-0013
-  - ADR-0014
-  - ADR-0020
-slice_dir: docs/PAS/slice/
----
-
 # PAS-002 — Architecture Authority Standard
 
-> **PAS maturity:** `MVP Authority`
-> **Authority status:** `accepted_for_boundary`
-> **Implementation status:** `partial`
-> **Evidence level:** `runtime_partial`
->
+| Field | Value |
+| --- | --- |
+| **PAS ID** | PAS-002 |
+| **Document class** | `package_authority_standard` |
+| **Document role** | `architecture_registry_authority` |
+| **Canonical filename** | `PAS-002-ARCHITECTURE-AUTHORITY.md` |
+| **Package** | `@afenda/architecture-authority` |
+| **Layer** | Platform |
+| **Package role** | Defines package registry, layer authority, ownership, dependency rules, drift rules, and architecture gates |
+| **Runtime stance** | `contracts-only` |
+| **Registry lane** | `PKGR02_ARCHITECTURE_AUTHORITY` |
+| **Package owner** | Architecture Authority |
+| **Agent skill** | `architecture-authority` · `.cursor/skills/architecture-authority/SKILL.md` |
+| **Maturity** | MVP Authority (`mvp_authority`) |
+| **Authority status** | `accepted_for_boundary` |
+| **Implementation status** | `partial` |
+| **Evidence level** | `runtime_partial` |
+| **Runtime status** | B1–B27 delivered — registries, composite gates, lifecycle enforcement, skill chain synced |
+| **Remaining slices** | none |
+| **Consumers** | `@afenda/kernel`, `@afenda/design-system`, `@afenda/ui`, `@afenda/appshell`, `@afenda/metadata`, `@afenda/metadata-ui`, `apps/erp` |
+| **Change model** | `serialized-slices` |
+| **Quality target** | Enterprise **9.5 / 10** |
+| **Slice directory** | `docs/PAS/slice/` |
+| **ADR prerequisites** | ADR-0009, ADR-0010, ADR-0011, ADR-0012, ADR-0013, ADR-0014, ADR-0020 |
+
+#### Required gates
+
+| # | Gate command |
+| --- | --- |
+| 1 | `pnpm --filter @afenda/architecture-authority typecheck` |
+| 2 | `pnpm --filter @afenda/architecture-authority test:run` |
+| 3 | `pnpm quality:architecture` |
+| 4 | `pnpm architecture:cycles` |
+| 5 | `pnpm architecture:drift` |
+| 6 | `pnpm quality:boundaries` |
+| 7 | `pnpm check:foundation-disposition` |
+
 > **Maturity is part of authority.**
 > PAS-002 reserves package/layer/ownership/dependency boundary and supports serialized implementation. Treat registry and gate contracts as **partial** authority until promoted to Enterprise Accepted.
 
-> **Agent skill entrypoint:** `.cursor/skills/architecture-authority/SKILL.md` *(Delivered — Slice B10)*
-> **Canonical location:** `docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY-STANDARD.md`
+> **Canonical location:** `docs/PAS/PAS-002-ARCHITECTURE-AUTHORITY.md`
 > **Package-local tree:** [`packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md`](../../packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md)
 > **Package-local pointer:** `packages/architecture-authority/PAS-002-ARCHITECTURE-AUTHORITY-STANDARD.md` *(tombstone — Delivered B10)*
 > **Runtime surface index:** `packages/architecture-authority/src/surface/architecture-authority-surface-registry.ts`
 > **Kernel identity boundary (do not duplicate):** [PAS-001 §4.1](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
-
-| Field             | Value                                                                                                        |
-| ----------------- | ------------------------------------------------------------------------------------------------------------ |
-| Package           | `@afenda/architecture-authority`                                                                             |
-| Layer             | Platform                                                                                                     |
-| Package role      | Defines package registry, layer authority, ownership, dependency rules, drift rules, and architecture gates. |
-| Runtime stance    | contracts-only                                                                                               |
-| Package owner     | Architecture Authority                                                                                       |
-| Consumer packages | Kernel, platform packages, UI packages, apps/erp, delivery governance                                        |
-| Change model      | serialized slices                                                                                            |
-| Quality target    | Enterprise 9.5 / 10                                                                                          |
-| PAS maturity      | `MVP Authority`                                                                                              |
 
 ---
 
@@ -87,6 +66,8 @@ slice_dir: docs/PAS/slice/
 **Registry:** `PKGR02_ARCHITECTURE_AUTHORITY` · machine authority: `packages/architecture-authority/src/data/foundation-disposition.registry.ts` · surface map: `src/surface/architecture-authority-surface-registry.ts`
 
 **Kernel boundary (read-only):** Canonical enterprise ID families, parsers, and wire contracts live in `@afenda/kernel` ([PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md)). Architecture authority records package/layer/dependency truth only — never ID format or parser behavior.
+
+**Enterprise knowledge boundary:** Knowledge Atoms, acceptance chains, and accepted business meaning → [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) / `@afenda/enterprise-knowledge` / `.cursor/skills/enterprise-knowledge/SKILL.md`. List `@afenda/enterprise-knowledge` in package registries here; do **not** store atoms in this package.
 
 ---
 

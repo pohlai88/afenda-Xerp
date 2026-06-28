@@ -1,12 +1,17 @@
 import {
-  brandRequiredCountryCode,
   brandRequiredCurrencyCode,
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
   isOwnershipInterestEffectiveAt,
-  type LegalEntityContext,
+  type LegalEntityWireContext,
   type OperatingContext,
   type OrganizationUnitContext,
   type OwnershipInterestContext,
+  type OwnershipInterestWireContext,
+  parseLegalEntityContext,
+  parseOwnershipInterestContext,
+  parseUnknownEntityGroupContext,
+  parseUnknownOrganizationUnitContext,
+  parseUnknownPermissionScopeContext,
 } from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
 import {
@@ -18,12 +23,12 @@ import {
 import type { AccountingReadinessContext } from "../accounting-readiness-context.types.js";
 import { deriveConsolidationScopeContext } from "../consolidation-scope-resolution.server.js";
 
-const SAMPLE_OWNERSHIP_INTEREST: OwnershipInterestContext = {
-  ownershipInterestId: "oi-1",
-  tenantId: "tenant-1",
-  entityGroupId: "group-1",
-  parentLegalEntityId: "parent-1",
-  childLegalEntityId: "child-1",
+const SAMPLE_OWNERSHIP_INTEREST_WIRE: OwnershipInterestWireContext = {
+  ownershipInterestId: "own_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  tenantId: "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  entityGroupId: "egp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  parentLegalEntityId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  childLegalEntityId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5FBV",
   ownershipPercentage: 100,
   votingPercentage: 100,
   controlType: "control",
@@ -34,24 +39,65 @@ const SAMPLE_OWNERSHIP_INTEREST: OwnershipInterestContext = {
   status: "active",
 };
 
-const SAMPLE_LEGAL_ENTITY: LegalEntityContext = {
-  companyId: "company-1",
-  tenantId: "tenant-1",
-  entityGroupId: "group-1",
+const SAMPLE_OWNERSHIP_INTEREST: OwnershipInterestContext =
+  parseOwnershipInterestContext(SAMPLE_OWNERSHIP_INTEREST_WIRE);
+
+const SAMPLE_LEGAL_ENTITY_WIRE: LegalEntityWireContext = {
+  tenantId: "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  entityGroupId: "egp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  companyId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
   slug: "acme-co",
   legalName: "Acme Co",
   displayName: "Acme Co",
   registrationNumber: null,
   taxRegistrationNumber: null,
-  countryCode: brandRequiredCountryCode("AU"),
-  baseCurrency: brandRequiredCurrencyCode("AUD"),
+  countryCode: "AU",
+  baseCurrency: "AUD",
   reportingCurrency: null,
   companyType: "standalone",
+  relationshipToHoldingCompany: null,
   fiscalCalendarId: null,
   effectiveFrom: "2026-01-01",
   effectiveTo: null,
   status: "active",
 };
+
+const SAMPLE_LEGAL_ENTITY = parseLegalEntityContext(SAMPLE_LEGAL_ENTITY_WIRE);
+
+const SAMPLE_ENTITY_GROUP = parseUnknownEntityGroupContext({
+  entityGroupId: "egp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  tenantId: "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  slug: "acme-group",
+  displayName: "Acme Group",
+  parentLegalEntityId: null,
+  status: "active",
+});
+
+const SAMPLE_ORGANIZATION_UNIT = parseUnknownOrganizationUnitContext({
+  organizationUnitId: "org_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  tenantId: "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  companyId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  slug: "finance-cc",
+  displayName: "Finance CC",
+  organizationUnitType: "cost_center",
+  parentOrganizationUnitId: null,
+  status: "active",
+  effectiveFrom: null,
+  effectiveTo: null,
+});
+
+const SAMPLE_PERMISSION_SCOPE = parseUnknownPermissionScopeContext({
+  grantScopeType: "organization",
+  tenantId: "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  entityGroupId: "egp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  companyId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  organizationId: "org_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  teamId: null,
+  projectId: null,
+  membershipId: "mem_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  roleId: "rol_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  elevations: DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
+});
 
 describe("resolveReportingCurrency", () => {
   it("falls back to base currency when reporting currency is unset", () => {
@@ -62,7 +108,7 @@ describe("resolveReportingCurrency", () => {
     expect(
       resolveReportingCurrency({
         ...SAMPLE_LEGAL_ENTITY,
-        reportingCurrency: "USD",
+        reportingCurrency: brandRequiredCurrencyCode("USD"),
       })
     ).toBe("USD");
   });
@@ -84,59 +130,32 @@ describe("isCostCenterOrganizationUnit", () => {
   });
 });
 
+const TENANT_WIRE_ID = "ten_01ARZ3NDEKTSV4RRFFQ69G5FAV";
+
 describe("toAccountingReadinessContext", () => {
   it("bundles required authority fields for future accounting modules", () => {
     const operatingContext = {
       actor: { userId: "user-1" },
       correlationId: "corr-1",
       tenant: {
-        tenantId: "tenant-1",
+        tenantId: TENANT_WIRE_ID,
         slug: "acme",
         displayName: "Acme",
         status: "active",
       },
-      entityGroup: {
-        entityGroupId: "group-1",
-        tenantId: "tenant-1",
-        slug: "acme-group",
-        displayName: "Acme Group",
-        parentLegalEntityId: null,
-        status: "active",
-      },
+      entityGroup: SAMPLE_ENTITY_GROUP,
       legalEntity: SAMPLE_LEGAL_ENTITY,
       ownershipInterests: [SAMPLE_OWNERSHIP_INTEREST],
-      organizationUnit: {
-        organizationUnitId: "org-1",
-        tenantId: "tenant-1",
-        companyId: "company-1",
-        slug: "finance",
-        displayName: "Finance",
-        organizationUnitType: "cost_center",
-        parentOrganizationUnitId: null,
-        status: "active",
-        effectiveFrom: null,
-        effectiveTo: null,
-      },
+      organizationUnit: SAMPLE_ORGANIZATION_UNIT,
       team: null,
       project: null,
       workspace: {
-        tenantId: "tenant-1",
-        companyId: "company-1",
-        organizationId: "org-1",
+        tenantId: TENANT_WIRE_ID,
+        companyId: "cmp_01ARZ3NDEKTSV4RRFFQ69G5FAV",
+        organizationId: "org_01ARZ3NDEKTSV4RRFFQ69G5FAV",
         projectId: null,
       },
-      permissionScope: {
-        grantScopeType: "organization",
-        tenantId: "tenant-1",
-        entityGroupId: "group-1",
-        companyId: "company-1",
-        organizationId: "org-1",
-        teamId: null,
-        projectId: null,
-        membershipId: "membership-1",
-        roleId: "role-1",
-        elevations: DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
-      },
+      permissionScope: SAMPLE_PERMISSION_SCOPE,
       consolidationScope: null,
       surface: null,
       workflow: null,
@@ -165,8 +184,8 @@ describe("deriveConsolidationScopeContext (ERP resolver)", () => {
     ).toBe(true);
 
     const scope = deriveConsolidationScopeContext({
-      tenantId: "tenant-1",
-      entityGroupId: "group-1",
+      tenantId: SAMPLE_OWNERSHIP_INTEREST.tenantId,
+      entityGroupId: SAMPLE_OWNERSHIP_INTEREST.entityGroupId,
       reportingDate: "2026-06-01",
       ownershipInterests: [SAMPLE_OWNERSHIP_INTEREST],
     });
@@ -180,29 +199,11 @@ const SAMPLE_READINESS: AccountingReadinessContext = {
   reportingCurrency: "USD",
   legalEntity: {
     ...SAMPLE_LEGAL_ENTITY,
-    reportingCurrency: "USD",
+    reportingCurrency: brandRequiredCurrencyCode("USD"),
     fiscalCalendarId: "fc-2026",
   },
-  entityGroup: {
-    entityGroupId: "group-1",
-    tenantId: "tenant-1",
-    displayName: "Acme Group",
-    slug: "acme-group",
-    parentLegalEntityId: null,
-    status: "active",
-  },
-  organizationUnit: {
-    organizationUnitId: "ou-cc-1",
-    tenantId: "tenant-1",
-    companyId: "company-1",
-    displayName: "Finance CC",
-    slug: "finance-cc",
-    organizationUnitType: "cost_center",
-    parentOrganizationUnitId: null,
-    status: "active",
-    effectiveFrom: null,
-    effectiveTo: null,
-  },
+  entityGroup: SAMPLE_ENTITY_GROUP,
+  organizationUnit: SAMPLE_ORGANIZATION_UNIT,
   ownershipInterests: [],
   consolidationScope: null,
 };
@@ -211,12 +212,12 @@ describe("toAccountingDomainContext", () => {
   it("maps readiness to domain wire context with matching tenant and company ids", () => {
     const domain = toAccountingDomainContext(SAMPLE_READINESS);
 
-    expect(domain.tenantId).toBe("tenant-1");
-    expect(domain.companyId).toBe("company-1");
+    expect(domain.tenantId).toBe(SAMPLE_LEGAL_ENTITY_WIRE.tenantId);
+    expect(domain.companyId).toBe(SAMPLE_LEGAL_ENTITY_WIRE.companyId);
     expect(domain.baseCurrency).toBe("AUD");
     expect(domain.reportingCurrency).toBe("USD");
-    expect(domain.entityGroupId).toBe("group-1");
-    expect(domain.organizationUnitId).toBe("ou-cc-1");
+    expect(domain.entityGroupId).toBe("egp_01ARZ3NDEKTSV4RRFFQ69G5FAV");
+    expect(domain.organizationUnitId).toBe("org_01ARZ3NDEKTSV4RRFFQ69G5FAV");
     expect(domain.fiscalCalendarId).toBe("fc-2026");
     expect(domain.companyType).toBe("standalone");
     expect(domain.countryCode).toBe("AU");

@@ -3,7 +3,7 @@ title: Storybook
 description: "@afenda/storybook — visual composition gate on port 6006, PKG-021."
 ---
 
-import { LayersIcon, PaletteIcon, TerminalIcon } from "lucide-react";
+import { LayersIcon, PaletteIcon } from "lucide-react";
 import { Accordion, Accordions } from "fumadocs-ui/components/accordion";
 import { Callout } from "fumadocs-ui/components/callout";
 import { DocsFeatureStrip } from "@/components/blocks/docs-feature-strip";
@@ -23,26 +23,29 @@ import { DocsFeatureStrip } from "@/components/blocks/docs-feature-strip";
 
 ## Identity
 
-| Field | Value |
-| --- | --- |
-| Package | `@afenda/storybook` |
-| Path | `apps/storybook/` |
-| Port | **6006** |
-| PKG code | PKG-021 |
-| Owner | Application Authority |
+<DocsIdentityBlock
+  owner="Application Authority"
+  packageName="@afenda/storybook"
+  path="apps/storybook/"
+  port={6006}
+  pkgCode="PKG-021"
+/>
 
 ## Purpose
 
 Composed stories from `@afenda/ui`, `@afenda/appshell`, and `@afenda/metadata-ui` — visual gate for governed primitives and shell blocks.
 
+## Run locally
+
+```bash
+pnpm --filter @afenda/storybook dev
+```
+
+Or from repo root: `pnpm storybook`
+
 <DocsFeatureStrip
-  title="Commands"
+  title="Storybook surface"
   items={[
-    {
-      title: "Dev server",
-      description: "pnpm --filter @afenda/storybook dev — port 6006",
-      icon: TerminalIcon,
-    },
     {
       title: "Story inventory",
       description: "Colocated under packages/ and apps/storybook/",
@@ -55,14 +58,6 @@ Composed stories from `@afenda/ui`, `@afenda/appshell`, and `@afenda/metadata-ui
     },
   ]}
 />
-
-## Run locally
-
-```bash
-pnpm --filter @afenda/storybook dev
-```
-
-Or from repo root: `pnpm storybook`
 
 ## Boundary rules
 

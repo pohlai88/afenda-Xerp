@@ -3,14 +3,15 @@
  * Sits behind Fumadocs solar #nd-page article card.
  */
 
-body {
+html body {
   position: relative;
   min-height: 100vh;
+  background-color: var(--docs-editorial-canvas);
   font-family: var(--font-sans);
   font-size: var(--docs-text-base);
   line-height: var(--docs-leading-normal);
   letter-spacing: var(--docs-tracking-body);
-  -webkit-font-smoothing: auto;
+  -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 

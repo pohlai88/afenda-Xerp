@@ -45,12 +45,14 @@ describe("@afenda/ui CSS manifest", () => {
     expect(purposes).not.toContain("fixture");
   });
 
-  it("afenda-ui.css imports the design-system theme bridge", () => {
+  it("afenda-ui.css imports tokens shim + css-authority runtime bundle", () => {
     const css = readFileSync(
       join(packageRoot, "src/styles/afenda-ui.css"),
       "utf8"
     );
-    expect(css).toContain("@afenda/design-system/css/afenda-design-system.css");
+    expect(css).toContain("@afenda/design-system/css/afenda-tokens.css");
+    expect(css).toContain("@afenda/css-authority/css/afenda-css-authority.css");
+    expect(css).not.toContain("afenda-design-system.css");
   });
 
   it("afenda-ui.css does not define --afenda-* tokens", () => {

@@ -1,0 +1,2216 @@
+[
+  {
+    "atomId": "legal_entity",
+    "fqn": "afenda.enterprise.legal_entity",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "statutory-law",
+        "evidence": ["double-entry bookkeeping tradition"]
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_accounting_authority",
+        "on": "2026-06"
+      },
+      {
+        "step": "ratified",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "regulatory",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 100,
+      "basis": ["IFRS", "SAP", "Oracle", "afenda_decision"]
+    },
+    "knowledgeDecision": {
+      "decision": "Afenda models Legal Entity as statutory ownership, not operating ownership.",
+      "alternativesConsidered": ["Business Unit", "Organization"],
+      "whyRejected": {
+        "Business Unit": "Operational, not statutory.",
+        "Organization": "Meaning differs across ERP vendors."
+      },
+      "impact": ["accounting", "security", "rls", "reporting", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "A registered statutory body that owns accounting books, tax identity, and statutory obligations.",
+      "business": "A company.",
+      "engineering": "LegalEntityContext / companies table row."
+    },
+    "knowledgeDomain": [
+      "accounting",
+      "security",
+      "taxation",
+      "reporting",
+      "identity"
+    ],
+    "applicability": {
+      "applicable": [
+        "accounting",
+        "finance",
+        "reporting",
+        "security",
+        "taxation"
+      ],
+      "notApplicable": ["engineering", "networking"],
+      "exceptions": []
+    },
+    "lifecycle": "ratified",
+    "lineage": {
+      "origin": "Statutory company law and double-entry bookkeeping.",
+      "evolution": [
+        "v1 generic organization label split into legal_entity + organization_unit"
+      ],
+      "currentAuthority": "PAS-001 shape · PAS-004 meaning",
+      "futureDirection": "Possible Business Partner convergence via approved slice."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Organization Unit",
+        "why": "Vendors overload organization",
+        "correct": "Org unit lives inside a legal entity."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Company (tenant UI) / Legal Entity (statutory)"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "implementationMapping": {
+      "upstreamContract": "LegalEntityContext",
+      "databaseTable": "companies",
+      "operatingContextField": "legalEntity",
+      "runtimeStatus": "implemented",
+      "persistenceClass": "persisted"
+    },
+    "ownedByPas": "PAS-004",
+    "typedEvidence": [
+      {
+        "evidenceId": "legal_entity_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/legal-entity-context.contract.ts"
+      },
+      {
+        "evidenceId": "legal_entity_evidence_2",
+        "type": "sop",
+        "source": "packages/database/src/schema/company.schema.ts"
+      }
+    ],
+    "structuredReasoning": {
+      "premises": [
+        "Statutory boundary for books, tax identity, consolidation, and RLS isolation."
+      ],
+      "inference": "Afenda models Legal Entity as statutory ownership, not operating ownership.",
+      "rules": ["PAS-004", "regulatory"],
+      "conclusion": "A registered statutory body that owns accounting books, tax identity, and statutory obligations.",
+      "alternatives": ["Business Unit", "Organization"]
+    }
+  },
+  {
+    "atomId": "organization_unit",
+    "fqn": "afenda.enterprise.organization_unit",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "operations-management"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_erp_authority",
+        "on": "2026-06"
+      },
+      {
+        "step": "ratified",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 95,
+      "basis": ["SAP", "Oracle", "afenda_decision"]
+    },
+    "knowledgeDecision": {
+      "decision": "Organization Unit is operational structure inside a company, not a company.",
+      "alternativesConsidered": ["Legal Entity", "Team"],
+      "whyRejected": {
+        "Legal Entity": "Statutory books boundary, not branch/department.",
+        "Team": "Execution grouping of people, not org tree node."
+      },
+      "impact": ["security", "rls", "operations", "reporting"]
+    },
+    "meaning": {
+      "canonical": "Operational node in the tree beneath a legal entity.",
+      "business": "Branch, department, site, or cost center.",
+      "engineering": "OrganizationUnitContext / organizations table."
+    },
+    "knowledgeDomain": ["platform", "security", "inventory", "manufacturing"],
+    "applicability": {
+      "applicable": ["platform", "security", "inventory", "manufacturing"],
+      "notApplicable": ["taxation"],
+      "exceptions": ["company_root type anchors company operating tree"]
+    },
+    "lifecycle": "ratified",
+    "lineage": {
+      "origin": "Industrial org-structure vocabulary.",
+      "evolution": ["Renamed from generic organization in Afenda v2 split"],
+      "currentAuthority": "PAS-001 shape · PAS-004 meaning",
+      "futureDirection": "Align field names organizationId vs organizationUnitId in wire slices."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Legal Entity",
+        "why": "Schema table named organizations",
+        "correct": "organizations rows are org units, not statutory companies."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Organization unit"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "implementationMapping": {
+      "upstreamContract": "OrganizationUnitContext",
+      "databaseTable": "organizations",
+      "operatingContextField": "organizationUnit",
+      "runtimeStatus": "implemented",
+      "persistenceClass": "persisted"
+    },
+    "ownedByPas": "PAS-004",
+    "typedEvidence": [
+      {
+        "evidenceId": "organization_unit_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/organization-unit-context.contract.ts"
+      },
+      {
+        "evidenceId": "organization_unit_evidence_2",
+        "type": "sop",
+        "source": "packages/database/src/schema/organization.schema.ts"
+      }
+    ],
+    "structuredReasoning": {
+      "premises": [
+        "Operational subdivision inside a legal entity for routing and scope."
+      ],
+      "inference": "Organization Unit is operational structure inside a company, not a company.",
+      "rules": ["PAS-004", "operational"],
+      "conclusion": "Operational node in the tree beneath a legal entity.",
+      "alternatives": ["Legal Entity", "Team"]
+    }
+  },
+  {
+    "atomId": "workspace",
+    "fqn": "afenda.enterprise.workspace",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-ui-context"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_erp_authority",
+        "on": "2026-06"
+      },
+      {
+        "step": "ratified",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "architectural",
+    "binding": "recommended",
+    "confidence": {
+      "score": 90,
+      "basis": ["afenda_decision", "engineering_convention"]
+    },
+    "knowledgeDecision": {
+      "decision": "Workspace is derived context, not an authority tier.",
+      "alternativesConsidered": ["Persisted workspace table", "Security scope"],
+      "whyRejected": {
+        "Persisted workspace table": "Duplicates membership + selection state.",
+        "Security scope": "Membership and permission scope grant access."
+      },
+      "impact": ["ui", "navigation", "defaults", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Active operating snapshot: tenant, company, org, project selections.",
+      "business": "Where I am working right now.",
+      "engineering": "WorkspaceContext assembled by apps/erp resolver."
+    },
+    "knowledgeDomain": ["platform", "identity"],
+    "applicability": {
+      "applicable": ["platform", "identity"],
+      "notApplicable": ["accounting", "taxation"],
+      "exceptions": []
+    },
+    "lifecycle": "ratified",
+    "lineage": {
+      "origin": "Multi-company ERP UI context switching.",
+      "evolution": [],
+      "currentAuthority": "PAS-001 shape · PAS-004 meaning",
+      "futureDirection": "Stable wire slice on OperatingContext."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Tenant",
+        "why": "Both appear in URL/subdomain flows",
+        "correct": "Tenant is isolation boundary; workspace is active selection inside tenant."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Workspace / working context"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "implementationMapping": {
+      "upstreamContract": "WorkspaceContext",
+      "operatingContextField": "workspace",
+      "runtimeStatus": "partial",
+      "persistenceClass": "derived"
+    },
+    "ownedByPas": "PAS-004",
+    "typedEvidence": [
+      {
+        "evidenceId": "workspace_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/workspace-context.contract.ts"
+      },
+      {
+        "evidenceId": "workspace_evidence_2",
+        "type": "policy",
+        "source": "packages/kernel/src/context/enterprise-hierarchy.contract.ts"
+      }
+    ],
+    "structuredReasoning": {
+      "premises": [
+        "Runtime snapshot of where a user is working; does not grant access."
+      ],
+      "inference": "Workspace is derived context, not an authority tier.",
+      "rules": ["PAS-004", "architectural"],
+      "conclusion": "Active operating snapshot: tenant, company, org, project selections.",
+      "alternatives": ["Persisted workspace table", "Security scope"]
+    }
+  },
+  {
+    "atomId": "surface",
+    "fqn": "afenda.enterprise.surface",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "ui-metadata"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_erp_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "architectural",
+    "binding": "recommended",
+    "confidence": {
+      "score": 88,
+      "basis": ["afenda_decision"]
+    },
+    "knowledgeDecision": {
+      "decision": "Surface is runtime screen identity, not business scope.",
+      "alternativesConsidered": ["Workspace", "Route path only"],
+      "whyRejected": {
+        "Workspace": "Business operating scope, not screen identifier.",
+        "Route path only": "Insufficient for metadata authority contracts."
+      },
+      "impact": ["metadata", "analytics", "feature_flags"]
+    },
+    "meaning": {
+      "canonical": "Dot-separated module path for the active ERP screen.",
+      "business": "Which screen or module you are viewing.",
+      "engineering": "SurfaceContext.surfaceId"
+    },
+    "knowledgeDomain": ["platform", "architecture"],
+    "applicability": {
+      "applicable": ["platform", "architecture"],
+      "notApplicable": ["accounting", "taxation", "inventory"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Metadata-driven ERP UI patterns.",
+      "evolution": [],
+      "currentAuthority": "PAS-001 shape · @afenda/metadata consumers",
+      "futureDirection": "Canonical surface registry alignment."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Workspace",
+        "why": "Both are runtime context fields",
+        "correct": "Surface = screen; workspace = business scope."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Screen / module"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "implementationMapping": {
+      "upstreamContract": "SurfaceContext",
+      "operatingContextField": "surface",
+      "runtimeStatus": "partial",
+      "persistenceClass": "derived"
+    },
+    "ownedByPas": "PAS-004",
+    "typedEvidence": [
+      {
+        "evidenceId": "surface_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/surface-context.contract.ts"
+      }
+    ],
+    "structuredReasoning": {
+      "premises": [
+        "Identifies active UI module/screen for metadata and analytics."
+      ],
+      "inference": "Surface is runtime screen identity, not business scope.",
+      "rules": ["PAS-004", "architectural"],
+      "conclusion": "Dot-separated module path for the active ERP screen.",
+      "alternatives": ["Workspace", "Route path only"]
+    }
+  },
+  {
+    "atomId": "payload",
+    "fqn": "afenda.engineering.payload",
+    "kind": "vocabulary",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "networking",
+        "evidence": ["packet header vs payload separation"]
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "engineering",
+    "binding": "optional",
+    "confidence": {
+      "score": 70,
+      "basis": ["engineering_convention"]
+    },
+    "knowledgeDecision": {
+      "decision": "Use Request data in tenant-facing docs; payload in engineering docs.",
+      "alternativesConsidered": ["Body", "Message", "Document"],
+      "whyRejected": {
+        "Body": "HTTP-specific; payload is transport-agnostic in Afenda governance.",
+        "Message": "Ambiguous with event messaging.",
+        "Document": "Implies file upload only."
+      },
+      "impact": ["api", "documentation", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Business information transmitted, separate from transport metadata.",
+      "business": "The data being sent — invoice, order, form submission.",
+      "engineering": "Request/message body distinct from headers/envelope."
+    },
+    "knowledgeDomain": ["engineering", "api", "integration"],
+    "applicability": {
+      "applicable": ["engineering", "api", "integration"],
+      "notApplicable": ["accounting", "hr"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Aerospace useful load → networking → API terminology.",
+      "evolution": [],
+      "currentAuthority": "PAS-004 vocabulary",
+      "futureDirection": "OpenAPI description alignment."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "File upload",
+        "why": "Both carry data",
+        "correct": "Payload is structured business content of any request."
+      }
+    ],
+    "exposure": {
+      "audience": "engineering_only",
+      "afendaPreferredWording": "Request data / business message"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "ownedByPas": "PAS-004",
+    "typedEvidence": [
+      {
+        "evidenceId": "payload_evidence_1",
+        "type": "decision",
+        "source": "docs/architecture/afenda-rest-api-governance.md"
+      }
+    ],
+    "structuredReasoning": {
+      "premises": [
+        "Separates transport envelope from business content in APIs."
+      ],
+      "inference": "Use Request data in tenant-facing docs; payload in engineering docs.",
+      "rules": ["PAS-004", "engineering"],
+      "conclusion": "Business information transmitted, separate from transport metadata.",
+      "alternatives": ["Body", "Message", "Document"]
+    }
+  },
+  {
+    "atomId": "invariant",
+    "fqn": "afenda.engineering.invariant",
+    "kind": "vocabulary",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "mathematics"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "engineering",
+    "binding": "optional",
+    "confidence": {
+      "score": 75,
+      "basis": ["engineering_convention"]
+    },
+    "knowledgeDecision": {
+      "decision": "Translate invariant to non-negotiable business rule in tenant docs.",
+      "alternativesConsidered": ["Constraint", "Validation rule"],
+      "whyRejected": {
+        "Constraint": "Database term; invariant is broader.",
+        "Validation rule": "Single check, not persistent truth."
+      },
+      "impact": ["engineering", "quality", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Condition that must remain true under allowed state transitions.",
+      "business": "Non-negotiable rule that must always hold.",
+      "engineering": "Invariant (DDD/mathematics borrowed term)."
+    },
+    "knowledgeDomain": ["engineering", "architecture"],
+    "applicability": {
+      "applicable": ["engineering", "architecture"],
+      "notApplicable": ["accounting", "hr"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Mathematics → DDD → Afenda assert layers.",
+      "evolution": [],
+      "currentAuthority": "PAS-004 vocabulary",
+      "futureDirection": "Link to kernel assert modules where applicable."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Policy",
+        "why": "Both restrict behavior",
+        "correct": "Invariant is always-true; policy may allow exceptions via approval."
+      }
+    ],
+    "exposure": {
+      "audience": "engineering_only",
+      "afendaPreferredWording": "Non-negotiable rule"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "ownedByPas": "PAS-004",
+    "typedEvidence": [
+      {
+        "evidenceId": "invariant_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/legal-entity-context.assert.ts"
+      }
+    ],
+    "structuredReasoning": {
+      "premises": [
+        "Expresses rules that must remain true under allowed operations."
+      ],
+      "inference": "Translate invariant to non-negotiable business rule in tenant docs.",
+      "rules": ["PAS-004", "engineering"],
+      "conclusion": "Condition that must remain true under allowed state transitions.",
+      "alternatives": ["Constraint", "Validation rule"]
+    }
+  },
+  {
+    "atomId": "contract",
+    "fqn": "afenda.engineering.contract",
+    "kind": "vocabulary",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "design-by-contract"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "engineering",
+    "binding": "optional",
+    "confidence": {
+      "score": 72,
+      "basis": ["engineering_convention"]
+    },
+    "knowledgeDecision": {
+      "decision": "Distinguish software contract from commercial/legal contract in all tenant docs.",
+      "alternativesConsidered": ["Interface", "Schema"],
+      "whyRejected": {
+        "Interface": "Too narrow for serializable wire + policy contracts.",
+        "Schema": "Structure only, not behavioral promise."
+      },
+      "impact": ["architecture", "documentation", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Promised interface and behavior between producers and consumers.",
+      "business": "Agreed specification (not a legal agreement).",
+      "engineering": "TypeScript contract file / wire shape."
+    },
+    "knowledgeDomain": ["engineering", "architecture", "platform"],
+    "applicability": {
+      "applicable": ["engineering", "architecture", "platform"],
+      "notApplicable": ["taxation"],
+      "exceptions": ["Legal contract is a separate business concept"]
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Design by Contract → Afenda PAS/kernel contracts.",
+      "evolution": [],
+      "currentAuthority": "PAS-004 vocabulary",
+      "futureDirection": "None"
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Legal contract",
+        "why": "Same English word",
+        "correct": "Software contract = interface promise; legal contract = commercial agreement."
+      }
+    ],
+    "exposure": {
+      "audience": "engineering_only",
+      "afendaPreferredWording": "Specification / agreed interface"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "ownedByPas": "PAS-004",
+    "typedEvidence": [
+      {
+        "evidenceId": "contract_evidence_1",
+        "type": "decision",
+        "source": "docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md"
+      }
+    ],
+    "structuredReasoning": {
+      "premises": [
+        "Names promised interface shape and behavior between packages."
+      ],
+      "inference": "Distinguish software contract from commercial/legal contract in all tenant docs.",
+      "rules": ["PAS-004", "engineering"],
+      "conclusion": "Promised interface and behavior between producers and consumers.",
+      "alternatives": ["Interface", "Schema"]
+    }
+  },
+  {
+    "atomId": "metadata",
+    "fqn": "afenda.engineering.metadata",
+    "kind": "vocabulary",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "information-science"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "informative",
+    "binding": "optional",
+    "confidence": {
+      "score": 65,
+      "basis": ["engineering_convention"]
+    },
+    "knowledgeDecision": {
+      "decision": "Enterprise knowledge is authoritative; metadata is a representation layer.",
+      "alternativesConsidered": [
+        "Enterprise Business Metadata as authority root"
+      ],
+      "whyRejected": {
+        "Enterprise Business Metadata as authority root": "Inverts acceptance epistemology; knowledge governs metadata."
+      },
+      "impact": ["architecture", "documentation", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Descriptive information about other data or assets.",
+      "business": "Information about information (e.g. field labels, tags).",
+      "engineering": "UI/metadata packages or HTTP headers — context-dependent."
+    },
+    "knowledgeDomain": ["engineering", "platform", "architecture"],
+    "applicability": {
+      "applicable": ["engineering", "platform"],
+      "notApplicable": ["accounting"],
+      "exceptions": [
+        "@afenda/metadata owns UI rendering metadata, not PAS-004 knowledge"
+      ]
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Information science.",
+      "evolution": ["PAS-004 demotes metadata to representation"],
+      "currentAuthority": "PAS-004 First Principles",
+      "futureDirection": "Knowledge representations consume atoms; metadata renders UI."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Enterprise knowledge",
+        "why": "Both describe things",
+        "correct": "Knowledge is accepted truth; metadata describes/assets tag data."
+      }
+    ],
+    "exposure": {
+      "audience": "engineering_only",
+      "afendaPreferredWording": "Descriptive information (not enterprise knowledge)"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "ownedByPas": "PAS-004",
+    "typedEvidence": [
+      {
+        "evidenceId": "metadata_evidence_1",
+        "type": "decision",
+        "source": "docs/PAS/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md"
+      }
+    ],
+    "structuredReasoning": {
+      "premises": [
+        "Data about data — not the same as enterprise knowledge authority."
+      ],
+      "inference": "Enterprise knowledge is authoritative; metadata is a representation layer.",
+      "rules": ["PAS-004", "informative"],
+      "conclusion": "Descriptive information about other data or assets.",
+      "alternatives": ["Enterprise Business Metadata as authority root"]
+    }
+  },
+  {
+    "atomId": "double_entry",
+    "fqn": "afenda.accounting.double_entry",
+    "kind": "principle",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "bookkeeping",
+        "evidence": ["Luca Pacioli tradition"]
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_accounting_authority",
+        "on": "2026-06"
+      },
+      {
+        "step": "ratified",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "standard",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 100,
+      "basis": ["IFRS", "GAAP", "afenda_decision"]
+    },
+    "knowledgeDecision": {
+      "decision": "Treat double-entry as accounting principle, not optional module behavior.",
+      "alternativesConsidered": ["Single-entry cash books"],
+      "whyRejected": {
+        "Single-entry cash books": "Insufficient for enterprise ERP statutory books."
+      },
+      "impact": ["accounting", "reporting", "audit"]
+    },
+    "meaning": {
+      "canonical": "Every transaction affects at least two accounts with equal debits and credits.",
+      "business": "Books must balance — every entry has two sides.",
+      "engineering": "Posting invariant for future accounting runtime."
+    },
+    "knowledgeDomain": ["accounting", "finance"],
+    "applicability": {
+      "applicable": ["accounting", "finance", "reporting"],
+      "notApplicable": ["inventory", "hr"],
+      "exceptions": []
+    },
+    "lifecycle": "ratified",
+    "lineage": {
+      "origin": "15th-century double-entry bookkeeping.",
+      "evolution": [],
+      "currentAuthority": "Accounting Authority · PAS-003 consumer",
+      "futureDirection": "Accounting Core activation gated by ADR."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Duplicate database rows",
+        "why": "Word double",
+        "correct": "Two-sided journal entry, not redundancy."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Double-entry bookkeeping"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "ownedByPas": "PAS-004",
+    "typedEvidence": [
+      {
+        "evidenceId": "double_entry_evidence_1",
+        "type": "decision",
+        "source": "docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md"
+      }
+    ],
+    "structuredReasoning": {
+      "premises": ["Foundation principle for ledger integrity and posting."],
+      "inference": "Treat double-entry as accounting principle, not optional module behavior.",
+      "rules": ["PAS-004", "standard"],
+      "conclusion": "Every transaction affects at least two accounts with equal debits and credits.",
+      "alternatives": ["Single-entry cash books"]
+    }
+  },
+  {
+    "atomId": "accounting_equation",
+    "fqn": "afenda.accounting.accounting_equation",
+    "kind": "rule",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "accounting-education"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_accounting_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "standard",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 100,
+      "basis": ["GAAP", "IFRS"]
+    },
+    "knowledgeDecision": {
+      "decision": "Preserve A = L + E as explicit knowledge rule for future posting validation.",
+      "alternativesConsidered": ["Module-specific balance checks only"],
+      "whyRejected": {
+        "Module-specific balance checks only": "Misses cross-module ledger integrity story."
+      },
+      "impact": ["accounting", "reporting"]
+    },
+    "meaning": {
+      "canonical": "Assets equal liabilities plus equity at all times.",
+      "business": "Balance sheet must balance.",
+      "engineering": "Ledger integrity rule for validation engines."
+    },
+    "knowledgeDomain": ["accounting", "finance"],
+    "applicability": {
+      "applicable": ["accounting", "finance"],
+      "notApplicable": ["manufacturing", "hr"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Fundamental accounting identity.",
+      "evolution": [],
+      "currentAuthority": "Accounting Authority",
+      "futureDirection": "PAS-003 validation contracts may reference this rule."
+    },
+    "misconceptions": [],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Accounting equation (A = L + E)"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "ownedByPas": "PAS-004",
+    "typedEvidence": [
+      {
+        "evidenceId": "accounting_equation_evidence_1",
+        "type": "decision",
+        "source": "docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md"
+      }
+    ],
+    "structuredReasoning": {
+      "premises": [
+        "Fundamental balance rule linking assets, liabilities, and equity."
+      ],
+      "inference": "Preserve A = L + E as explicit knowledge rule for future posting validation.",
+      "rules": ["PAS-004", "standard"],
+      "conclusion": "Assets equal liabilities plus equity at all times.",
+      "alternatives": ["Module-specific balance checks only"]
+    }
+  },
+  {
+    "atomId": "organization_split",
+    "fqn": "afenda.decision.organization_split",
+    "kind": "decision",
+    "acceptanceChain": [
+      {
+        "step": "observed",
+        "by": "afenda_erp_authority",
+        "on": "2025",
+        "evidence": ["generic organization confusion"]
+      },
+      {
+        "step": "proposed",
+        "by": "afenda_architecture_authority",
+        "on": "2026-01"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-03"
+      },
+      {
+        "step": "ratified",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "architectural",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 95,
+      "basis": ["SAP", "Oracle", "afenda_decision"]
+    },
+    "knowledgeDecision": {
+      "decision": "Split generic organization into legal_entity + organization_unit.",
+      "alternativesConsidered": ["Single organization table for everything"],
+      "whyRejected": {
+        "Single organization table for everything": "Collapses statutory and operational boundaries; breaks consolidation and RLS."
+      },
+      "impact": ["accounting", "security", "rls", "reporting", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Afenda v2 decision to stop using organization as a catch-all label.",
+      "business": "Company vs branch/department are different concepts.",
+      "engineering": "companies + organizations tables; LegalEntityContext + OrganizationUnitContext."
+    },
+    "knowledgeDomain": ["architecture", "platform", "accounting"],
+    "applicability": {
+      "applicable": ["architecture", "platform", "accounting", "security"],
+      "notApplicable": ["hr"],
+      "exceptions": []
+    },
+    "lifecycle": "ratified",
+    "lineage": {
+      "origin": "Multi-tenant ERP hierarchy design (TIP-007 / multi-tenancy.md).",
+      "evolution": [
+        "v1 organization represented statutory entities",
+        "v2 split into legal_entity + organization_unit"
+      ],
+      "currentAuthority": "Architecture Authority",
+      "futureDirection": "Wire field naming convergence (organizationId aliases documented)."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Reorganization project",
+        "why": "Word organization",
+        "correct": "Architecture vocabulary split, not HR reorg."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Company vs organization unit split"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "ownedByPas": "PAS-004",
+    "typedEvidence": [
+      {
+        "evidenceId": "organization_split_evidence_1",
+        "type": "decision",
+        "source": "docs/architecture/multi-tenancy.md"
+      },
+      {
+        "evidenceId": "organization_split_evidence_2",
+        "type": "decision",
+        "source": "docs/architecture/glossary.md"
+      }
+    ],
+    "structuredReasoning": {
+      "premises": [
+        "Separates statutory company from operational org unit for ERP clarity."
+      ],
+      "inference": "Split generic organization into legal_entity + organization_unit.",
+      "rules": ["PAS-004", "architectural"],
+      "conclusion": "Afenda v2 decision to stop using organization as a catch-all label.",
+      "alternatives": ["Single organization table for everything"]
+    }
+  },
+  {
+    "atomId": "ifrs_10",
+    "fqn": "afenda.standard.ifrs_10",
+    "kind": "standard",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "standard_body",
+        "on": "2011",
+        "evidence": ["IFRS 10"]
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_accounting_authority",
+        "on": "2026-07"
+      },
+      {
+        "step": "ratified",
+        "by": "afenda_architecture_authority",
+        "on": "2026-07"
+      }
+    ],
+    "authorityType": "standard",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 100,
+      "basis": ["IFRS", "afenda_decision"]
+    },
+    "knowledgeDecision": {
+      "decision": "Route subsidiary relationships to IFRS 10 control assessment vocabulary.",
+      "alternativesConsidered": ["Local GAAP control test only"],
+      "whyRejected": {
+        "Local GAAP control test only": "Not portable across global tenants."
+      },
+      "impact": ["accounting", "reporting", "consolidation", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "IFRS standard defining control for consolidation.",
+      "business": "Rule for which entities you combine in group accounts.",
+      "engineering": "Relationship routing in LegalEntityContext / ownership interests."
+    },
+    "knowledgeDomain": ["accounting", "taxation", "consolidation"],
+    "applicability": {
+      "applicable": ["accounting", "finance", "consolidation"],
+      "notApplicable": ["inventory", "manufacturing"],
+      "exceptions": ["Investment entities may have scope exemptions"]
+    },
+    "lifecycle": "ratified",
+    "lineage": {
+      "origin": "IASB IFRS 10 (2011).",
+      "evolution": [],
+      "currentAuthority": "Accounting Authority · PAS-003 consumer",
+      "futureDirection": "Track IASB amendments via PAS-003 evidence snapshots."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Ownership percentage alone",
+        "why": "Both used in consolidation",
+        "correct": "Control assessment, not percentage alone, drives consolidation."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "IFRS 10 (control / consolidation)"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "ownedByPas": "PAS-004",
+    "typedEvidence": [
+      {
+        "evidenceId": "ifrs_10_evidence_1",
+        "type": "decision",
+        "source": "docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md"
+      },
+      {
+        "evidenceId": "ifrs_10_evidence_2",
+        "type": "policy",
+        "source": "packages/kernel/src/context/legal-entity-context.contract.ts"
+      }
+    ],
+    "structuredReasoning": {
+      "premises": [
+        "Determines control and consolidated scope for group reporting."
+      ],
+      "inference": "Route subsidiary relationships to IFRS 10 control assessment vocabulary.",
+      "rules": ["PAS-004", "standard"],
+      "conclusion": "IFRS standard defining control for consolidation.",
+      "alternatives": ["Local GAAP control test only"]
+    }
+  },
+  {
+    "atomId": "tenant",
+    "fqn": "afenda.enterprise.tenant",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "saas-multi-tenancy"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 95,
+      "basis": ["afenda_decision"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Afenda isolates customer data at the SaaS subscription boundary."
+      ],
+      "inference": "Tenant is the root security and commercial isolation unit.",
+      "rules": ["PAS-004 §2 identity", "multi-tenancy ADR authority"],
+      "conclusion": "A SaaS customer boundary that owns subscription, slug namespace, and security isolation."
+    },
+    "knowledgeDecision": {
+      "decision": "Model Tenant as SaaS isolation boundary distinct from legal entity.",
+      "alternativesConsidered": ["Legal entity as tenant"],
+      "whyRejected": {
+        "Legal entity as tenant": "Statutory company is not the SaaS account boundary."
+      },
+      "impact": ["security", "identity", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "SaaS customer boundary — root security and subscription isolation unit.",
+      "business": "Customer account / tenant.",
+      "engineering": "tenants table row · tenant context resolution."
+    },
+    "knowledgeDomain": ["identity", "security"],
+    "applicability": {
+      "applicable": ["identity", "security"],
+      "notApplicable": ["accounting"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Multi-tenant SaaS platform design.",
+      "evolution": [],
+      "currentAuthority": "PAS-004",
+      "futureDirection": "Entitlement linkage via approved slice."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Legal Entity",
+        "why": "UI overload",
+        "correct": "Tenant is SaaS isolation; legal entity is statutory."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Tenant (SaaS customer boundary)"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "typedEvidence": [
+      {
+        "evidenceId": "tenant_evidence_1",
+        "type": "sop",
+        "source": "packages/database/src/schema/tenant.schema.ts"
+      }
+    ],
+    "ownedByPas": "PAS-004"
+  },
+  {
+    "atomId": "entity_group",
+    "fqn": "afenda.enterprise.entity_group",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "corporate-group-reporting"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_accounting_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "regulatory",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 92,
+      "basis": ["IFRS", "afenda_decision"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Groups of legal entities require a corporate umbrella for consolidation scope."
+      ],
+      "inference": "Entity Group ties related legal entities under one tenant.",
+      "rules": ["IFRS 10 group concepts", "PAS-001 hierarchy contracts"],
+      "conclusion": "Corporate umbrella under a tenant that groups related legal entities for reporting."
+    },
+    "knowledgeDecision": {
+      "decision": "Entity Group is optional corporate umbrella above legal entities.",
+      "alternativesConsidered": ["Flatten all companies under tenant"],
+      "whyRejected": {
+        "Flatten all companies under tenant": "Loses consolidation hierarchy semantics."
+      },
+      "impact": ["reporting", "consolidation", "identity"]
+    },
+    "meaning": {
+      "canonical": "Corporate group structure under a tenant; may represent a holding group.",
+      "business": "Entity group / corporate group.",
+      "engineering": "entity_groups table · consolidation scope parent."
+    },
+    "knowledgeDomain": ["reporting", "identity", "consolidation"],
+    "applicability": {
+      "applicable": ["reporting", "consolidation"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "TIP-008 entity group authority.",
+      "evolution": [],
+      "currentAuthority": "PAS-004",
+      "futureDirection": "Consolidation accounting deferred."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Legal Entity",
+        "why": "Group label confusion",
+        "correct": "Entity group is umbrella; legal entity is statutory company."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Entity group / corporate group"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "typedEvidence": [
+      {
+        "evidenceId": "entity_group_evidence_1",
+        "type": "sop",
+        "source": "packages/database/src/schema/entity-group.schema.ts"
+      }
+    ],
+    "ownedByPas": "PAS-004"
+  },
+  {
+    "atomId": "ownership_interest",
+    "fqn": "afenda.enterprise.ownership_interest",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "standard_body",
+        "on": "IFRS-10"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_accounting_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "regulatory",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 90,
+      "basis": ["IFRS"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Consolidation requires ownership relationships between legal entities."
+      ],
+      "inference": "Ownership interest encodes parent/subsidiary/associate relationships.",
+      "rules": ["IFRS 10 control model", "PAS-001 OwnershipInterestContext"],
+      "conclusion": "Typed relationship between legal entities describing control and consolidation treatment."
+    },
+    "knowledgeDecision": {
+      "decision": "Model ownership interest as first-class enterprise meaning separate from org unit tree.",
+      "alternativesConsidered": ["Encode only in org hierarchy"],
+      "whyRejected": {
+        "Encode only in org hierarchy": "Operating hierarchy != ownership/consolidation."
+      },
+      "impact": ["consolidation", "reporting"]
+    },
+    "meaning": {
+      "canonical": "Ownership relationship between legal entities for consolidation scope.",
+      "business": "Ownership / group relationship.",
+      "engineering": "OwnershipInterestContext · ownership interest persistence."
+    },
+    "knowledgeDomain": ["consolidation", "reporting", "accounting"],
+    "applicability": {
+      "applicable": ["consolidation", "reporting"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "IFRS 10 group structures.",
+      "evolution": [],
+      "currentAuthority": "PAS-004",
+      "futureDirection": "Link to consolidation engine when ADR approved."
+    },
+    "misconceptions": [],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Ownership interest / group relationship"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "typedEvidence": [
+      {
+        "evidenceId": "ownership_interest_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/ownership-interest-context.contract.ts"
+      }
+    ],
+    "ownedByPas": "PAS-004"
+  },
+  {
+    "atomId": "consolidation_scope",
+    "fqn": "afenda.enterprise.consolidation_scope",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "standard_body",
+        "on": "IFRS-10"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_accounting_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "regulatory",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 88,
+      "basis": ["IFRS"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Consolidated reporting requires an explicit scope of included entities."
+      ],
+      "inference": "Consolidation scope resolves which legal entities participate in group reporting.",
+      "rules": [
+        "IFRS 10 consolidation boundary",
+        "PAS-001 ConsolidationScopeContext"
+      ],
+      "conclusion": "Resolved scope of legal entities included in consolidated reporting for a context."
+    },
+    "knowledgeDecision": {
+      "decision": "Consolidation scope is derived authority context, not a UI label.",
+      "alternativesConsidered": ["Infer scope from org tree only"],
+      "whyRejected": {
+        "Infer scope from org tree only": "Org tree does not encode consolidation treatment."
+      },
+      "impact": ["consolidation", "reporting"]
+    },
+    "meaning": {
+      "canonical": "Scope of legal entities included in consolidated reporting.",
+      "business": "Consolidation scope / reporting group.",
+      "engineering": "ConsolidationScopeContext resolution."
+    },
+    "knowledgeDomain": ["consolidation", "reporting"],
+    "applicability": {
+      "applicable": ["consolidation", "reporting"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Group reporting requirements.",
+      "evolution": [],
+      "currentAuthority": "PAS-004",
+      "futureDirection": "Elimination engine deferred."
+    },
+    "misconceptions": [],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Consolidation scope"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "typedEvidence": [
+      {
+        "evidenceId": "consolidation_scope_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/consolidation-scope-context.contract.ts"
+      }
+    ],
+    "ownedByPas": "PAS-004"
+  },
+  {
+    "atomId": "operating_context",
+    "fqn": "afenda.enterprise.operating_context",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-platform-design"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 92,
+      "basis": ["afenda_decision", "SAP", "Oracle"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Afenda resolves operating context at ERP operating boundaries."
+      ],
+      "inference": "ERP modules consume one resolved operating context per request after permission verification.",
+      "rules": ["PAS-001 OperatingContext", "multi-tenancy isolation"],
+      "conclusion": "Server-resolved ERP operating snapshot composing tenant, legal entity, workspace, and scoped authorities."
+    },
+    "knowledgeDecision": {
+      "decision": "Operating context is a composed authority snapshot, not a user-editable preference.",
+      "alternativesConsidered": ["Defer to UI-only labels"],
+      "whyRejected": {
+        "Defer to UI-only labels": "Operating context requires accepted meaning."
+      },
+      "impact": ["identity", "security", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Server-resolved ERP operating snapshot composing tenant, legal entity, workspace, and scoped authorities.",
+      "business": "Operating context / where am I working.",
+      "engineering": "OperatingContext assembly · resolve-operating-context.server.ts"
+    },
+    "knowledgeDomain": ["identity", "security"],
+    "applicability": {
+      "applicable": ["identity", "security"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001 kernel context contracts.",
+      "evolution": [],
+      "currentAuthority": "PAS-004A",
+      "futureDirection": "Consumer proof via approved slice."
+    },
+    "misconceptions": [],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Operating context / where am I working."
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "typedEvidence": [
+      {
+        "evidenceId": "operating_context_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/operating-context.contract.ts"
+      }
+    ],
+    "implementationMapping": {
+      "upstreamContract": "OperatingContext",
+      "persistenceClass": "derived",
+      "runtimeStatus": "implemented"
+    },
+    "ownedByPas": "PAS-004"
+  },
+  {
+    "atomId": "permission_scope",
+    "fqn": "afenda.enterprise.permission_scope",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-platform-design"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 92,
+      "basis": ["afenda_decision", "SAP", "Oracle"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Afenda resolves permission scope at ERP operating boundaries."
+      ],
+      "inference": "Every API route resolves permission scope before business logic executes.",
+      "rules": ["PAS-001 PermissionScopeContext", "TIP-004 RBAC"],
+      "conclusion": "Resolved permission evaluation scope for the current actor within tenant and workspace boundaries."
+    },
+    "knowledgeDecision": {
+      "decision": "Permission scope is derived from membership and role grants, not from UI state.",
+      "alternativesConsidered": ["Defer to UI-only labels"],
+      "whyRejected": {
+        "Defer to UI-only labels": "Operating context requires accepted meaning."
+      },
+      "impact": ["identity", "security", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Resolved permission evaluation scope for the current actor within tenant and workspace boundaries.",
+      "business": "Permission scope / what the user may do here.",
+      "engineering": "PermissionScopeContext · authorize-api-route"
+    },
+    "knowledgeDomain": ["security", "identity"],
+    "applicability": {
+      "applicable": ["security", "identity"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001 kernel context contracts.",
+      "evolution": [],
+      "currentAuthority": "PAS-004A",
+      "futureDirection": "Consumer proof via approved slice."
+    },
+    "misconceptions": [],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Permission scope / what the user may do here."
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "typedEvidence": [
+      {
+        "evidenceId": "permission_scope_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/permission-scope-context.contract.ts"
+      }
+    ],
+    "implementationMapping": {
+      "upstreamContract": "PermissionScopeContext",
+      "operatingContextField": "permissionScope",
+      "persistenceClass": "derived",
+      "runtimeStatus": "implemented"
+    },
+    "ownedByPas": "PAS-004"
+  },
+  {
+    "atomId": "project",
+    "fqn": "afenda.enterprise.project",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-platform-design"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 92,
+      "basis": ["afenda_decision", "SAP", "Oracle"]
+    },
+    "structuredReasoning": {
+      "premises": ["Afenda resolves project at ERP operating boundaries."],
+      "inference": "Projects attach to workspace operating snapshots when enabled.",
+      "rules": ["PAS-001 ProjectContext"],
+      "conclusion": "Optional project dimension scoping work, budgets, or delivery within a workspace."
+    },
+    "knowledgeDecision": {
+      "decision": "Project is optional operating dimension — null when not applicable.",
+      "alternativesConsidered": ["Defer to UI-only labels"],
+      "whyRejected": {
+        "Defer to UI-only labels": "Operating context requires accepted meaning."
+      },
+      "impact": ["identity", "security", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Optional project dimension scoping work, budgets, or delivery within a workspace.",
+      "business": "Project.",
+      "engineering": "ProjectContext · project wire contracts"
+    },
+    "knowledgeDomain": ["identity"],
+    "applicability": {
+      "applicable": ["identity"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001 kernel context contracts.",
+      "evolution": [],
+      "currentAuthority": "PAS-004A",
+      "futureDirection": "Consumer proof via approved slice."
+    },
+    "misconceptions": [],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Project."
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "typedEvidence": [
+      {
+        "evidenceId": "project_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/project-context.contract.ts"
+      }
+    ],
+    "implementationMapping": {
+      "upstreamContract": "ProjectContext",
+      "operatingContextField": "project",
+      "persistenceClass": "derived",
+      "runtimeStatus": "implemented"
+    },
+    "ownedByPas": "PAS-004"
+  },
+  {
+    "atomId": "team",
+    "fqn": "afenda.enterprise.team",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-platform-design"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 92,
+      "basis": ["afenda_decision", "SAP", "Oracle"]
+    },
+    "structuredReasoning": {
+      "premises": ["Afenda resolves team at ERP operating boundaries."],
+      "inference": "Teams scope collaboration without replacing org structure.",
+      "rules": ["PAS-001 TeamContext"],
+      "conclusion": "Optional team dimension for collaborative ownership within a workspace."
+    },
+    "knowledgeDecision": {
+      "decision": "Team is optional operating dimension distinct from organization unit hierarchy.",
+      "alternativesConsidered": ["Defer to UI-only labels"],
+      "whyRejected": {
+        "Defer to UI-only labels": "Operating context requires accepted meaning."
+      },
+      "impact": ["identity", "security", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Optional team dimension for collaborative ownership within a workspace.",
+      "business": "Team.",
+      "engineering": "TeamContext · team wire contracts"
+    },
+    "knowledgeDomain": ["identity"],
+    "applicability": {
+      "applicable": ["identity"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001 kernel context contracts.",
+      "evolution": [],
+      "currentAuthority": "PAS-004A",
+      "futureDirection": "Consumer proof via approved slice."
+    },
+    "misconceptions": [],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Team."
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "typedEvidence": [
+      {
+        "evidenceId": "team_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/team-context.contract.ts"
+      }
+    ],
+    "implementationMapping": {
+      "upstreamContract": "TeamContext",
+      "operatingContextField": "team",
+      "persistenceClass": "derived",
+      "runtimeStatus": "implemented"
+    },
+    "ownedByPas": "PAS-004"
+  },
+  {
+    "atomId": "localization_context",
+    "fqn": "afenda.enterprise.localization_context",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-platform-design"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 92,
+      "basis": ["afenda_decision", "SAP", "Oracle"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Afenda resolves localization context at ERP operating boundaries."
+      ],
+      "inference": "Reports and UI copy respect localization context without duplicating meaning atoms.",
+      "rules": ["PAS-001 LocalizationContext"],
+      "conclusion": "Locale, currency, and formatting context applied to user-visible and statutory outputs."
+    },
+    "knowledgeDecision": {
+      "decision": "Localization context is resolved server-side and travels with operating context.",
+      "alternativesConsidered": ["Defer to UI-only labels"],
+      "whyRejected": {
+        "Defer to UI-only labels": "Operating context requires accepted meaning."
+      },
+      "impact": ["identity", "security", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Locale, currency, and formatting context applied to user-visible and statutory outputs.",
+      "business": "Localization / regional settings.",
+      "engineering": "LocalizationContext · next-intl integration boundary"
+    },
+    "knowledgeDomain": ["identity", "reporting"],
+    "applicability": {
+      "applicable": ["identity", "reporting"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001 kernel context contracts.",
+      "evolution": [],
+      "currentAuthority": "PAS-004A",
+      "futureDirection": "Consumer proof via approved slice."
+    },
+    "misconceptions": [],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Localization / regional settings."
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "typedEvidence": [
+      {
+        "evidenceId": "localization_context_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/localization-context.contract.ts"
+      }
+    ],
+    "implementationMapping": {
+      "upstreamContract": "LocalizationContext",
+      "persistenceClass": "derived",
+      "runtimeStatus": "partial"
+    },
+    "ownedByPas": "PAS-004"
+  },
+  {
+    "atomId": "workflow_context",
+    "fqn": "afenda.enterprise.workflow_context",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-platform-design"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 92,
+      "basis": ["afenda_decision", "SAP", "Oracle"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Afenda resolves workflow context at ERP operating boundaries."
+      ],
+      "inference": "Process modules attach workflow context without overloading workspace meaning.",
+      "rules": ["PAS-001 WorkflowContext"],
+      "conclusion": "Optional workflow state dimension for approval and process-scoped operations."
+    },
+    "knowledgeDecision": {
+      "decision": "Workflow context is nullable — present only during active process participation.",
+      "alternativesConsidered": ["Defer to UI-only labels"],
+      "whyRejected": {
+        "Defer to UI-only labels": "Operating context requires accepted meaning."
+      },
+      "impact": ["identity", "security", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Optional workflow state dimension for approval and process-scoped operations.",
+      "business": "Workflow context.",
+      "engineering": "WorkflowContext · execution package boundary"
+    },
+    "knowledgeDomain": ["identity"],
+    "applicability": {
+      "applicable": ["identity"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001 kernel context contracts.",
+      "evolution": [],
+      "currentAuthority": "PAS-004A",
+      "futureDirection": "Consumer proof via approved slice."
+    },
+    "misconceptions": [],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Workflow context."
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "typedEvidence": [
+      {
+        "evidenceId": "workflow_context_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/context/workflow-context.contract.ts"
+      }
+    ],
+    "implementationMapping": {
+      "upstreamContract": "WorkflowContext",
+      "operatingContextField": "workflow",
+      "persistenceClass": "derived",
+      "runtimeStatus": "implemented"
+    },
+    "ownedByPas": "PAS-004"
+  },
+  {
+    "atomId": "business_reference",
+    "fqn": "afenda.enterprise.business_reference",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-platform-design"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "regulatory",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 92,
+      "basis": ["afenda_decision", "SAP", "Oracle"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Afenda resolves business reference at ERP operating boundaries."
+      ],
+      "inference": "Parsers exist at trust boundaries; meaning stays in enterprise knowledge.",
+      "rules": ["PAS-001 §4.7 business reference identity", "ADR-0021"],
+      "conclusion": "Tenant-governed human administrative number family — not a canonical kernel ID."
+    },
+    "knowledgeDecision": {
+      "decision": "Business references are tenant-owned display numbers; kernel IDs remain immutable system identity.",
+      "alternativesConsidered": ["Defer to UI-only labels"],
+      "whyRejected": {
+        "Defer to UI-only labels": "Operating context requires accepted meaning."
+      },
+      "impact": ["identity", "security", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Tenant-governed human administrative number family — not a canonical kernel ID.",
+      "business": "Business reference number (customer no., employee no., …).",
+      "engineering": "Business reference wire · parse* at ingress only"
+    },
+    "knowledgeDomain": ["identity", "security"],
+    "applicability": {
+      "applicable": ["identity", "security"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001 kernel context contracts.",
+      "evolution": [],
+      "currentAuthority": "PAS-004A",
+      "futureDirection": "Consumer proof via approved slice."
+    },
+    "misconceptions": [],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Business reference number (customer no., employee no., …)."
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "typedEvidence": [
+      {
+        "evidenceId": "business_reference_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/identity/wire/business-reference-wire.contract.ts"
+      }
+    ],
+    "implementationMapping": {
+      "upstreamContract": "BusinessReferenceWire",
+      "persistenceClass": "authority_only",
+      "runtimeStatus": "implemented"
+    },
+    "ownedByPas": "PAS-004"
+  },
+  {
+    "atomId": "human_reference",
+    "fqn": "afenda.enterprise.human_reference",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-platform-design"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 92,
+      "basis": ["afenda_decision", "SAP", "Oracle"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Afenda resolves human reference at ERP operating boundaries."
+      ],
+      "inference": "Uniqueness and ingress are gated; meaning is accepted here, enforcement in kernel.",
+      "rules": ["PAS-001 §4.1.13 tenant human reference policy", "ADR-0023"],
+      "conclusion": "Tenant-scoped human-readable reference governed separately from kernel canonical IDs."
+    },
+    "knowledgeDecision": {
+      "decision": "Human references never become database primary keys or RLS keys in kernel-governed schemas.",
+      "alternativesConsidered": ["Defer to UI-only labels"],
+      "whyRejected": {
+        "Defer to UI-only labels": "Operating context requires accepted meaning."
+      },
+      "impact": ["identity", "security", "ai_reasoning"]
+    },
+    "meaning": {
+      "canonical": "Tenant-scoped human-readable reference governed separately from kernel canonical IDs.",
+      "business": "Human reference / admin number.",
+      "engineering": "tenant-human-reference.policy · ingress/egress normalization"
+    },
+    "knowledgeDomain": ["identity", "security"],
+    "applicability": {
+      "applicable": ["identity", "security"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001 kernel context contracts.",
+      "evolution": [],
+      "currentAuthority": "PAS-004A",
+      "futureDirection": "Consumer proof via approved slice."
+    },
+    "misconceptions": [],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Human reference / admin number."
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "typedEvidence": [
+      {
+        "evidenceId": "human_reference_evidence_1",
+        "type": "policy",
+        "source": "packages/kernel/src/identity/governance/tenant-human-reference.policy.ts"
+      }
+    ],
+    "ownedByPas": "PAS-004"
+  }
+]
