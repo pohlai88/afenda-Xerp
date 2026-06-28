@@ -50,6 +50,7 @@
 | PKG002_AUTH | `@afenda/auth` | amber-lane | yes | see pas-status-index (PKG registry) |
 | PKG009_FEATURE_FLAGS | `@afenda/feature-flags` | blue-lane | no | see pas-status-index (PKG registry) |
 | PKGR01_ACCOUNTING | `@afenda/kernel` | green-lane | no | see pas-status-index (PKG registry) |
+| PKGR01B_ERP_DOMAIN_CATALOG | `@afenda/kernel` | green-lane | no | see PAS-001B · B76–B77 |
 | PKGR02_INVENTORY | `@afenda/database` | green-lane | no | see pas-status-index (PKG registry) |
 | PKG004_DESIGN | `@afenda/design-system` | amber-lane | no | see design authority |
 | PKG020_AI_GOVERNANCE | `@afenda/ai-governance` | green-lane | no | see ADR-0007 |

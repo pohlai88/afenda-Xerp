@@ -61,7 +61,7 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | **Gates** | Baseline table in PAS-001A §0; all §6 scorecard gates green at B75 |
 | **Result** | ERP runtime speaks kernel operating-context vocabulary end-to-end through permissions, resolver spine, metadata bridge, and governance gates |
 
-**Next sequence item:** none — PAS-001A closed; kernel consumer integration attested.
+**Next sequence item:** none — PAS-001A closed; continue ERP domain vocabulary under [PAS-001B](#pas-001b-kernel-erp-domain-vocabulary-catalog--catalog-authority) (B79+ inventory recommended).
 
 | Slice | Doc | Status |
 | --- | --- | --- |
@@ -70,6 +70,29 @@ Lightweight closure registry for Package Authority Standards slices. Runtime evi
 | B73 | [b73-kernel-erp-doc-drift-closure.md](slice/b73-kernel-erp-doc-drift-closure.md) | Delivered |
 | B74 | [b74-metadata-context-authorization-bridge.md](slice/b74-metadata-context-authorization-bridge.md) | Delivered |
 | B75 | [b75-pas001a-production-candidate-attestation.md](slice/b75-pas001a-production-candidate-attestation.md) | Delivered |
+
+---
+
+## PAS-001B Kernel ERP Domain Vocabulary Catalog — Catalog Authority
+
+| Field | Value |
+| --- | --- |
+| **Status** | Delivered — Catalog Authority (B76–B78 complete; attested 2026-06-28) |
+| **Authority** | PAS-001B · derived from PAS-001 §4.8 · `packages/kernel/src/erp-domain/` |
+| **Maturity** | `catalog_authority` · `implemented` · `runtime` |
+| **Runtime status** | 28-module catalog; `accounting/` sole delivered folder; `check:erp-domain-layout` 10-point failure matrix; B78 audit closed |
+| **Remaining slices** | B79 inventory vocabulary (proposed); B80+ one module per slice |
+| **Runtime evidence** | [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) §9, `erp-domain-layout.contract.ts`, `check:erp-domain-layout`, `PKGR01B_ERP_DOMAIN_CATALOG` |
+| **Gates** | `pnpm check:erp-domain-layout`, `pnpm check:accounting-domain-contracts`, `pnpm --filter @afenda/kernel typecheck`, `pnpm check:foundation-disposition` |
+| **Result** | Catalog authority closed at 9.5/10 integration score; Rule 1–3 enforced; module promotion queue B79+ only |
+
+**Next sequence item:** B79 — `inventory` vocabulary slice (proposed; aligns with PKGR02 partial runtime).
+
+| Slice | Doc | Status |
+| --- | --- | --- |
+| B76 | [b76-pas001b-erp-domain-catalog-doc.md](slice/b76-pas001b-erp-domain-catalog-doc.md) | Delivered |
+| B77 | [b77-erp-domain-layout-gate.md](slice/b77-erp-domain-layout-gate.md) | Delivered |
+| B78 | [b78-pas001b-audit-closure.md](slice/b78-pas001b-audit-closure.md) | Delivered |
 
 ---
 

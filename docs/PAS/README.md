@@ -84,6 +84,7 @@ Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** 
 |---|---|---|---|
 | [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) | `@afenda/kernel` | Platform | Enterprise Accepted |
 | [PAS-001A](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) | `apps/erp` (kernel consumer) | Application | Production Candidate (B71–B75 delivered 2026-06-29; derived from PAS-001) |
+| [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) | `@afenda/kernel` (`erp-domain/`) | Platform | Catalog Authority (B76–B78 delivered 2026-06-28; derived from PAS-001 §4.8) |
 | [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | `@afenda/architecture-authority` | Platform | MVP Authority |
 | [PAS-002A](PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) | `@afenda/architecture-authority` | Platform | Enterprise Accepted (B38–B42 delivered) |
 | [PAS-003](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | `@afenda/accounting-standards` | Foundation | Production Candidate |
@@ -111,6 +112,7 @@ Each PAS has a corresponding Cursor agent skill for IDE-optimized enforcement:
 |---|---|
 | PAS-001 | `.cursor/skills/kernel-authority/SKILL.md` |
 | PAS-001A | `.cursor/skills/kernel-authority/SKILL.md` + `multi-tenancy-erp` |
+| PAS-001B | `.cursor/skills/kernel-authority/SKILL.md` |
 | PAS-002 | `.cursor/skills/architecture-authority/SKILL.md` |
 | PAS-003 | `.cursor/skills/accounting-standards-authority/SKILL.md` |
 | PAS-004 | `.cursor/skills/enterprise-knowledge/SKILL.md` |

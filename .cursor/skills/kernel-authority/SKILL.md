@@ -27,6 +27,16 @@ paths:
 
 **Doctrine:** Kernel is not ERP runtime — kernel is the accepted vocabulary consumed by ERP runtime. Load PAS-001A §0 + §3 Context Map + §4 Governance Rules when touching `apps/erp/src/lib/context/**`, permission-scope wiring, or `CONTEXT_INTEGRATION_WIRING`. Pair with `multi-tenancy-erp`.
 
+### PAS-001B — ERP domain vocabulary catalog (derived from PAS-001 §4.8)
+
+| Field | Value |
+| --- | --- |
+| **Runtime status** | Catalog Authority — B76–B78 closed (2026-06-28); 28-slug layout; `check:erp-domain-layout` 10-point matrix; B79 inventory queued |
+| **Remaining slices** | B79 inventory (proposed) · B80+ one module per slice |
+| **Canonical** | [`PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md`](../../../docs/PAS/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
+
+**Doctrine:** PAS-001B defines the ERP domain vocabulary **map** — without building ERP runtime. Rule 1: no filesystem folders for `catalog-only` modules. Load PAS-001B §0 hard rules when touching `packages/kernel/src/erp-domain/**`.
+
 ---
 
 ## Boundary (one sentence)

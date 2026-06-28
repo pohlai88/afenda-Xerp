@@ -170,9 +170,9 @@ packages/kernel/
     │       ├── platform-entity-authority.contract.ts  # ✅ §4.6 Platform entity map
     │       └── index.ts
     │
-    ├── erp-domain/                         # ✅ §4.8 ERP domain vocabulary modules
-    │   ├── erp-domain-layout.contract.ts   # 📋 module registry (accounting, future inventory, …)
-    │   └── accounting/                     # ✅ @afenda/kernel/erp-domain/accounting
+    ├── erp-domain/                         # ✅ §4.8 · PAS-001B ERP domain vocabulary catalog
+    │   ├── erp-domain-layout.contract.ts   # 📋 28-slug catalog + maturity (PAS-001B B77)
+    │   └── accounting/                     # ✅ delivered — @afenda/kernel/erp-domain/accounting
     │       ├── accounting-authority.contract.ts
     │       ├── accounting-domain-vocabulary.registry.ts
     │       ├── accounting-domain-vocabulary.policy.ts

@@ -476,6 +476,38 @@ const foundationDispositionEntries = [
     legacyTipEvidence: [],
   },
   {
+    id: "PKGR01B_ERP_DOMAIN_CATALOG",
+    packageId: "PKG-010",
+    packageName: "@afenda/kernel",
+    domain: "erp-domain-vocabulary-catalog",
+    lane: "green-lane",
+    runtimeOwner: "packages/kernel/src/erp-domain",
+    authority: "PAS-001B",
+    requiredBeforeAccounting: false,
+    evidence: [
+      "docs/PAS/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md",
+      "packages/kernel/src/erp-domain/erp-domain-layout.contract.ts",
+      "scripts/governance/check-erp-domain-layout.mts",
+    ],
+    knownGaps: [
+      "27 catalog-only modules await B79+ serialized vocabulary slices (inventory recommended first)",
+    ],
+    allowedAgents: ["kernel-context-agent", "foundation-registry-owner"],
+    prohibited: [
+      "do-not-create-catalog-only-module-folders",
+      "do-not-scaffold-multiple-erp-domain-modules-in-one-slice",
+      "do-not-promote-business-reference-ids-into-erp-domain",
+      "do-not-implement-erp-runtime-under-erp-domain",
+    ],
+    gates: [
+      "pnpm check:erp-domain-layout",
+      "pnpm check:accounting-domain-contracts",
+      "pnpm --filter @afenda/kernel typecheck",
+      "pnpm check:foundation-disposition",
+    ],
+    legacyTipEvidence: [],
+  },
+  {
     id: "PKGR02_INVENTORY",
     packageId: "PKG-R02",
     packageName: "@afenda/database",
