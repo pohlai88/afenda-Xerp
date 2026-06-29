@@ -12,6 +12,7 @@ import { ErpApplicationShell } from "@/components/erp-application-shell.client";
 import { SignOutButton } from "@/components/sign-out-button";
 import { WorkspaceContextSwitcher } from "@/components/workspace-context-switcher.client";
 import { resolveUnlinkedSessionRedirect } from "@/lib/auth/auth-redirect.policy";
+import { resolveProtectedPathActorUserIdFromSession } from "@/lib/auth/resolve-protected-path-actor.server";
 import { resolveAllowedContextOptions } from "@/lib/context/resolve-allowed-context-options.server";
 import { resolveContextSwitchPresentation } from "@/lib/context/resolve-context-switch-presentation";
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
@@ -55,8 +56,9 @@ export default async function ProtectedLayout({
   const requestHeaders = await headers();
   const activeRoutePath = resolveActiveRoutePathFromHeaders(requestHeaders);
   const identity = toAfendaAuthIdentity(session);
+  const actorUserId = resolveProtectedPathActorUserIdFromSession(session);
   const operatingResult = await resolveOperatingContextFromHeaders({
-    actorUserId: identity.userId,
+    actorUserId,
     activeWorkspaceId: session.metadata.activeWorkspaceId,
   });
 
@@ -77,7 +79,7 @@ export default async function ProtectedLayout({
     : undefined;
   const allowedContextOptions = operatingResult.ok
     ? await resolveAllowedContextOptions({
-        actorUserId: identity.userId,
+        actorUserId,
         selectedCompanySlug: operatingResult.value.legalEntity.slug,
         selectedOrganizationSlug:
           operatingResult.value.organizationUnit?.slug ?? null,

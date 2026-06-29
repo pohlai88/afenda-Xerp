@@ -123,6 +123,64 @@ export const CONTEXT_INTEGRATION_FUNCTIONS = [
   },
 ] as const;
 
+/** Auth actor wire — PAS-001 §4.1.11 ingress before operating-context actorUserId assembly. */
+export const AUTH_ACTOR_BRIDGE_WIRING = [
+  {
+    id: "auth-actor-protected-layout",
+    step: "Resolve wire actor id before protected AppShell operating context",
+    module: "app/(protected)/layout.tsx",
+    delegate: "resolveProtectedPathActorUserIdFromSession",
+  },
+  {
+    id: "auth-actor-module-page",
+    step: "Resolve wire actor id before module route operating context",
+    module: "app/(protected)/modules/[moduleId]/page.tsx",
+    delegate: "resolveProtectedPathActorUserIdFromSession",
+  },
+  {
+    id: "auth-actor-metadata-workspace",
+    step: "Resolve wire actor id before metadata workspace operating context",
+    module: "app/(protected)/metadata-workspace/page.tsx",
+    delegate: "resolveMetadataActorUserIdFromAfendaAuthSession",
+  },
+  {
+    id: "auth-actor-api-routes",
+    step: "Resolve wire actor id before API operating context",
+    module: "lib/api/authorize-api-route.ts",
+    delegate: "resolveWireActorUserIdFromAfendaAuthSession",
+  },
+  {
+    id: "auth-actor-server-actions",
+    step: "Resolve wire actor id before server action operating context",
+    module: "lib/server-actions/resolve-action-operating-context.server.ts",
+    delegate: "resolveWireActorUserIdFromAfendaAuthSession",
+  },
+  {
+    id: "auth-actor-system-admin",
+    step: "Resolve wire actor id before system admin operating context",
+    module: "lib/system-admin/resolve-system-admin-operating-context.server.ts",
+    delegate: "resolveProtectedPathActorUserIdFromSession",
+  },
+  {
+    id: "auth-actor-user-settings",
+    step: "Resolve wire actor id before user settings operating context",
+    module: "lib/user-settings/resolve-user-settings-context.server.ts",
+    delegate: "resolveProtectedPathActorUserIdFromSession",
+  },
+  {
+    id: "auth-actor-dashboard-widgets",
+    step: "Resolve wire actor id before dashboard widget RBAC loader",
+    module: "lib/workspace/load-dashboard-widget-render-context.server.ts",
+    delegate: "resolveProtectedPathActorUserIdFromSession",
+  },
+  {
+    id: "auth-actor-metadata-bridge",
+    step: "Resolve metadata actor id from governed auth wire ingress",
+    module: "lib/metadata/resolve-metadata-auth-actor.server.ts",
+    delegate: "parseAuthActorIdentityFromAfendaAuthSession",
+  },
+] as const;
+
 /** Auth-session bridge — linked platform user required before operating-context resolution. */
 export const AUTH_SESSION_BRIDGE_WIRING = [
   {

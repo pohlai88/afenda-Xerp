@@ -1,15 +1,12 @@
 import type { ApplicationShellContextSwitchTarget } from "@afenda/appshell";
-import {
-  getAfendaAuthSession,
-  isAfendaAuthSessionLinked,
-  toAfendaAuthIdentity,
-} from "@afenda/auth";
+import { getAfendaAuthSession, isAfendaAuthSessionLinked } from "@afenda/auth";
 import { findTenantBySlug } from "@afenda/database";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { buildAuthPath } from "@/lib/auth/auth-path.registry";
 import { resolvePostAuthTenantSlugFromRequest } from "@/lib/auth/resolve-post-auth-tenant-slug.server";
+import { resolveProtectedPathActorUserIdFromSession } from "@/lib/auth/resolve-protected-path-actor.server";
 import { validatePostLoginMembership } from "@/lib/auth/validate-post-login-membership.server";
 import { loadActorMemberships } from "@/lib/context/load-actor-memberships.server";
 import { resolveAllowedContextOptions } from "@/lib/context/resolve-allowed-context-options.server";
@@ -35,9 +32,9 @@ export async function loadAuthWorkspaceSelectPageData(): Promise<AuthWorkspaceSe
     redirect(buildAuthPath("accessDenied"));
   }
 
-  const identity = toAfendaAuthIdentity(session);
+  const actorUserId = resolveProtectedPathActorUserIdFromSession(session);
   const validation = await validatePostLoginMembership({
-    actorUserId: identity.userId,
+    actorUserId,
     tenantSlug,
   });
 
@@ -52,12 +49,12 @@ export async function loadAuthWorkspaceSelectPageData(): Promise<AuthWorkspaceSe
   }
 
   const memberships = await loadActorMemberships({
-    actorUserId: identity.userId,
+    actorUserId,
     tenantId: tenant.id,
   });
 
   const allowedOptions = await resolveAllowedContextOptions({
-    actorUserId: identity.userId,
+    actorUserId,
     memberships,
     selectedCompanySlug: "",
     selectedOrganizationSlug: null,
@@ -84,9 +81,9 @@ export async function loadAuthOrganizationSelectPageData(): Promise<AuthWorkspac
     redirect(buildAuthPath("accessDenied"));
   }
 
-  const identity = toAfendaAuthIdentity(session);
+  const actorUserId = resolveProtectedPathActorUserIdFromSession(session);
   const validation = await validatePostLoginMembership({
-    actorUserId: identity.userId,
+    actorUserId,
     tenantSlug,
   });
 
@@ -101,12 +98,12 @@ export async function loadAuthOrganizationSelectPageData(): Promise<AuthWorkspac
   }
 
   const memberships = await loadActorMemberships({
-    actorUserId: identity.userId,
+    actorUserId,
     tenantId: tenant.id,
   });
 
   const allowedOptions = await resolveAllowedContextOptions({
-    actorUserId: identity.userId,
+    actorUserId,
     memberships,
     selectedCompanySlug: "",
     selectedOrganizationSlug: null,

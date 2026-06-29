@@ -1,13 +1,8 @@
-import {
-  type AfendaAuthSession,
-  parseAuthActorIdentityFromAfendaAuthSession,
-  resolveWireActorUserIdFromAfendaAuthSession,
-} from "@afenda/auth";
-import {
-  normalizeUserIdForWire,
-  type OperatingContext,
-  toUserId,
-} from "@afenda/kernel";
+import type { AfendaAuthSession } from "@afenda/auth";
+import { parseAuthActorIdentityFromAfendaAuthSession } from "@afenda/auth";
+import { normalizeUserIdForWire, type OperatingContext } from "@afenda/kernel";
+
+import { resolveProtectedPathActorUserIdFromSession } from "@/lib/auth/resolve-protected-path-actor.server";
 
 /**
  * Metadata runtime actor id from a governed auth session (PAS-001 §4.1.11 ingress).
@@ -15,14 +10,10 @@ import {
 export function resolveMetadataActorUserIdFromAfendaAuthSession(
   session: AfendaAuthSession
 ): string {
-  const identity = parseAuthActorIdentityFromAfendaAuthSession(session);
-
-  if (identity.userId !== undefined) {
-    return toUserId(identity.userId);
-  }
-
-  return resolveWireActorUserIdFromAfendaAuthSession(session);
+  return resolveProtectedPathActorUserIdFromSession(session);
 }
+
+export { parseAuthActorIdentityFromAfendaAuthSession };
 
 /** Metadata runtime actor id from verified operating context (enterprise user wire). */
 export function resolveMetadataActorUserIdFromOperatingContext(

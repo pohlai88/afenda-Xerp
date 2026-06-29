@@ -1,12 +1,13 @@
 "use server";
 
-import { getAfendaAuthSession, toAfendaAuthIdentity } from "@afenda/auth";
+import { getAfendaAuthSession } from "@afenda/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { buildAuthPath } from "@/lib/auth/auth-path.registry";
 import { clearSecurityReviewFlowCookies } from "@/lib/auth/auth-security-review.cookies.server";
 import { resolvePostAuthTenantSlugFromRequest } from "@/lib/auth/resolve-post-auth-tenant-slug.server";
+import { resolveProtectedPathActorUserIdFromSession } from "@/lib/auth/resolve-protected-path-actor.server";
 import { validatePostLoginMembership } from "@/lib/auth/validate-post-login-membership.server";
 import { recordActionAudit } from "@/lib/server-actions/record-action-audit";
 
@@ -17,8 +18,8 @@ export async function acknowledgeSecurityReviewAction(): Promise<void> {
     redirect(buildAuthPath("signIn"));
   }
 
-  const identity = toAfendaAuthIdentity(session);
-  const actorUserId = identity.userId.trim();
+  const actorUserId =
+    resolveProtectedPathActorUserIdFromSession(session).trim();
 
   await recordActionAudit({
     action: "auth.security_review.acknowledged",

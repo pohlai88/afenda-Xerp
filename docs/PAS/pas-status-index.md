@@ -2,7 +2,7 @@
 
 Lightweight closure registry for Package Authority Standards. Runtime evidence lives in [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md).
 
-**Kernel slice SSOT:** [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) — individual `b*.md` handoffs (B49–B109). **Architecture Authority slice SSOT:** [`ARCHITECTURE-AUTHORITY/SLICE/`](ARCHITECTURE-AUTHORITY/SLICE/README.md) — B1–B27 · B38–B45 handoffs. **Accounting Standards slice SSOT:** [`ACCOUNTING-STANDARDS/SLICE/`](ACCOUNTING-STANDARDS/SLICE/README.md) — B0–B16 handoffs. **CSS Authority slice SSOT:** [`CSS-AUTHORITY/SLICE/`](CSS-AUTHORITY/SLICE/README.md) — B27–B43 handoffs. Legacy flat `docs/PAS/slice/` **tombstoned** for composed families (KERNEL, ARCHITECTURE-AUTHORITY, ACCOUNTING-STANDARDS, CSS-AUTHORITY); closure records live in this index and family catalogs.
+**Kernel slice SSOT:** [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) — individual `b*.md` handoffs (B49–B110). **Architecture Authority slice SSOT:** [`ARCHITECTURE-AUTHORITY/SLICE/`](ARCHITECTURE-AUTHORITY/SLICE/README.md) — B1–B27 · B38–B45 handoffs. **Accounting Standards slice SSOT:** [`ACCOUNTING-STANDARDS/SLICE/`](ACCOUNTING-STANDARDS/SLICE/README.md) — B0–B16 handoffs. **CSS Authority slice SSOT:** [`CSS-AUTHORITY/SLICE/`](CSS-AUTHORITY/SLICE/README.md) — B27–B44 handoffs. **Deprecated shim:** flat [`docs/PAS/slice/`](slice/README.md) — CSS Authority tombstones only; **will be deleted**. KERNEL · ARCHITECTURE-AUTHORITY · ACCOUNTING-STANDARDS · ENTERPRISE-KNOWLEDGE handoffs never live there. Closure records live in this index and family catalogs.
 
 **Header sync rule:** Every PAS doc and authority skill must mirror **Runtime status** and **Remaining slices** in the PAS authority metadata table (see [`pas-doc-template.md`](../../.cursor/skills/kernel-authority/reference/pas-doc-template.md)). Update all three surfaces when closing a slice.
 
@@ -15,8 +15,8 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | Enterprise Accepted — kernel contracts, runtime gates operational |
 | **Authority** | PAS-001 · `@afenda/kernel` · Platform |
 | **Maturity** | `enterprise_accepted` · `implemented` · `runtime_proven` |
-| **Runtime status** | Enterprise Accepted — kernel contracts, B49–B70 closure + B107–B109 amendment delivered, runtime gates operational |
-| **Remaining slices** | none — B109 Delivered ([`KERNEL/SLICE/b109-effective-dating-consumer-attestation.md`](KERNEL/SLICE/b109-effective-dating-consumer-attestation.md)) |
+| **Runtime status** | Enterprise Accepted — kernel contracts, B49–B70 closure + B107–B110 amendment delivered, runtime gates operational |
+| **Remaining slices** | none — B110 Delivered ([`KERNEL/SLICE/b110-auth-actor-protected-path-attestation.md`](KERNEL/SLICE/b110-auth-actor-protected-path-attestation.md)) |
 | **Runtime evidence** | `packages/kernel/`, [KERNEL/PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md), `kernel-package-layout.contract.ts`, `check:kernel-package-structure`, `check:kernel-context-wire-triad` |
 | **Gates** | `pnpm --filter @afenda/kernel typecheck`, `pnpm --filter @afenda/kernel test:run`, `pnpm quality:kernel-context-surface`, `pnpm check:kernel-context-wire-triad`, `pnpm check:kernel-identity-governance`, `pnpm check:kernel-zero-runtime-deps`, `pnpm check:accounting-domain-contracts`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries`, `pnpm architecture:cycles`, `pnpm architecture:drift` |
 | **Result** | Kernel platform vocabulary, execution context, identity constitution (ADR-0021–0023), and PAS §6.1 package-tree sync operational |
@@ -42,6 +42,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | B107 | [b107-tenant-saas-lifecycle-wire.md](KERNEL/SLICE/b107-tenant-saas-lifecycle-wire.md) | Delivered |
 | B108 | [b108-tenant-extension-boundary-wire.md](KERNEL/SLICE/b108-tenant-extension-boundary-wire.md) | Delivered |
 | B109 | [b109-effective-dating-consumer-attestation.md](KERNEL/SLICE/b109-effective-dating-consumer-attestation.md) | Delivered |
+| B110 | [b110-auth-actor-protected-path-attestation.md](KERNEL/SLICE/b110-auth-actor-protected-path-attestation.md) | Delivered |
 
 ---
 
@@ -138,18 +139,18 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | B43 delivered — canonical PAS + ADR-0025 Proposed (2026-06-29) |
 | **Authority** | PAS-005B · ADR-0025 · PKG004 `@afenda/design-system` (retiring) |
 | **Maturity** | `retirement_candidate` · `accepted_for_planning` · `partial` · `planning` |
-| **Runtime status** | B43 delivered — doctrine authored; design-system package still active; css-authority 605-token live; shadcn-studio B42p complete |
-| **Remaining slices** | B44 migration study + readiness gate (next) · B45 CSS unify · B46 internalize UI registries (conditional) · B47 delete package · B48 appshell consolidation · B49 attestation (optional) |
-| **Runtime evidence** | [PAS-005B canonical doc](CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md), [ADR-0025](../adr/ADR-0025-design-system-retirement.md) |
-| **Gates** | `pnpm check:documentation-drift`, `pnpm check:foundation-disposition`; B44+ adds `pnpm check:design-system-retirement-readiness` |
-| **Result** | Controlled retirement map — five hard rules; package deletion blocked until ADR Accepted + B44 green + foundation-registry-owner |
+| **Runtime status** | B43 delivered · B44 handoff authored (2026-06-29) — design-system package retired from workspace; design-authority in `@afenda/ui`; readiness gate green at pre-flight |
+| **Remaining slices** | B44 execute + attestation · B45–B49 (see PAS-005B §9) |
+| **Runtime evidence** | [PAS-005B canonical doc](CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md), [ADR-0025](../adr/ADR-0025-design-system-retirement.md), [B44 handoff](CSS-AUTHORITY/SLICE/b44-pas005b-migration-study-readiness-gate.md), `check:design-system-retirement-readiness` |
+| **Gates** | `pnpm check:documentation-drift`, `pnpm check:foundation-disposition`, `pnpm check:design-system-retirement-readiness` (B44+) |
+| **Result** | Controlled retirement map — readiness gate wired; B44 handoff ready for execution |
 
-**Next sequence item:** B44 — migration study + `check:design-system-retirement-readiness` gate
+**Next sequence item:** Execute [B44 handoff](CSS-AUTHORITY/SLICE/b44-pas005b-migration-study-readiness-gate.md) — migration study attestation
 
 | Slice | Doc | Status |
 | --- | --- | --- |
 | B43 | [b43-pas005b-author-retirement-pas.md](CSS-AUTHORITY/SLICE/b43-pas005b-author-retirement-pas.md) | Delivered |
-| B44 | (proposed — migration study + readiness gate) | Not started |
+| B44 | [b44-pas005b-migration-study-readiness-gate.md](CSS-AUTHORITY/SLICE/b44-pas005b-migration-study-readiness-gate.md) | Authored |
 | B45 | (proposed — CSS chain unification) | Not started |
 | B46 | (proposed — internalize UI registries, conditional) | Not started |
 | B47 | (proposed — delete package) | Not started |

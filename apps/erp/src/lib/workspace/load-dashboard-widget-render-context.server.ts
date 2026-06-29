@@ -1,11 +1,8 @@
 import type { SerializableDashboardWidgetRenderContext } from "@afenda/appshell";
-import {
-  getAfendaAuthSession,
-  isAfendaAuthSessionLinked,
-  toAfendaAuthIdentity,
-} from "@afenda/auth";
+import { getAfendaAuthSession, isAfendaAuthSessionLinked } from "@afenda/auth";
 import { headers } from "next/headers";
 
+import { resolveProtectedPathActorUserIdFromSession } from "@/lib/auth/resolve-protected-path-actor.server";
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
 
 import {
@@ -36,9 +33,9 @@ export async function loadDashboardWidgetRenderContextForRequest(
       : emptyDashboardWidgetRenderContext();
   }
 
-  const identity = toAfendaAuthIdentity(session);
+  const actorUserId = resolveProtectedPathActorUserIdFromSession(session);
   const operatingResult = await resolveOperatingContextFromHeaders({
-    actorUserId: identity.userId,
+    actorUserId,
   });
 
   if (!operatingResult.ok) {

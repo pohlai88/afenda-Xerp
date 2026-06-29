@@ -1,9 +1,5 @@
 import { AppShellMain } from "@afenda/appshell";
-import {
-  getAfendaAuthSession,
-  isAfendaAuthSessionLinked,
-  resolveWireActorUserIdFromAfendaAuthSession,
-} from "@afenda/auth";
+import { getAfendaAuthSession, isAfendaAuthSessionLinked } from "@afenda/auth";
 import { PERMISSION_REGISTRY } from "@afenda/permissions";
 import { headers } from "next/headers";
 import { forbidden, redirect } from "next/navigation";
@@ -46,7 +42,7 @@ export default async function MetadataWorkspacePreviewPage() {
   const actorUserId = resolveMetadataActorUserIdFromAfendaAuthSession(session);
   const correlationId = resolveCorrelationIdFromHeaders(requestHeaders);
   const operatingResult = await resolveOperatingContextFromHeaders({
-    actorUserId: resolveWireActorUserIdFromAfendaAuthSession(session),
+    actorUserId,
   });
 
   if (!operatingResult.ok) {

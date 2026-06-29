@@ -1,14 +1,11 @@
 import { AppShellMain } from "@afenda/appshell";
-import {
-  getAfendaAuthSession,
-  isAfendaAuthSessionLinked,
-  toAfendaAuthIdentity,
-} from "@afenda/auth";
+import { getAfendaAuthSession, isAfendaAuthSessionLinked } from "@afenda/auth";
 import { headers } from "next/headers";
 import { forbidden, notFound, redirect } from "next/navigation";
 import { connection } from "next/server";
 
 import { ModulePlaceholderEmptyState } from "@/components/module-placeholder-empty-state";
+import { resolveProtectedPathActorUserIdFromSession } from "@/lib/auth/resolve-protected-path-actor.server";
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
 import { guardModuleRoute } from "@/lib/modules/guard-module-route.server";
 import { resolveModulePlaceholderCopy } from "@/lib/modules/resolve-module-placeholder-copy";
@@ -37,10 +34,10 @@ export default async function ModulePlaceholderPage({
     redirect("/sign-in?error=unlinked");
   }
 
-  const identity = toAfendaAuthIdentity(session);
+  const actorUserId = resolveProtectedPathActorUserIdFromSession(session);
   const { moduleId } = await params;
   const operatingResult = await resolveOperatingContextFromHeaders({
-    actorUserId: identity.userId,
+    actorUserId,
   });
 
   if (!operatingResult.ok) {

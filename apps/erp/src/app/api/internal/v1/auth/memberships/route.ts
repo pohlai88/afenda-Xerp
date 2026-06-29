@@ -1,6 +1,7 @@
-import { isAfendaAuthSessionLinked, toAfendaAuthIdentity } from "@afenda/auth";
+import { isAfendaAuthSessionLinked } from "@afenda/auth";
 import { findTenantBySlug } from "@afenda/database";
 import { resolvePostAuthTenantSlugFromRequest } from "@/lib/auth/resolve-post-auth-tenant-slug.server";
+import { resolveProtectedPathActorUserIdFromSession } from "@/lib/auth/resolve-protected-path-actor.server";
 import { validatePostLoginMembership } from "@/lib/auth/validate-post-login-membership.server";
 import { loadActorMemberships } from "@/lib/context/load-actor-memberships.server";
 import { resolveAllowedContextOptions } from "@/lib/context/resolve-allowed-context-options.server";
@@ -34,9 +35,11 @@ export const GET = createApiHandler({
       );
     }
 
-    const identity = toAfendaAuthIdentity(context.session);
+    const actorUserId = resolveProtectedPathActorUserIdFromSession(
+      context.session
+    );
     const validation = await validatePostLoginMembership({
-      actorUserId: identity.userId,
+      actorUserId,
       tenantSlug,
     });
 
@@ -54,12 +57,12 @@ export const GET = createApiHandler({
     }
 
     const memberships = await loadActorMemberships({
-      actorUserId: identity.userId,
+      actorUserId,
       tenantId: tenant.id,
     });
 
     const allowedOptions = await resolveAllowedContextOptions({
-      actorUserId: identity.userId,
+      actorUserId,
       memberships,
       selectedCompanySlug: "",
       selectedOrganizationSlug: null,

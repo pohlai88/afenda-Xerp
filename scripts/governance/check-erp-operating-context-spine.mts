@@ -2,8 +2,9 @@
 /**
  * PAS-001A B72 — ERP operating-context integration spine gate.
  *
- * Verifies CONTEXT_INTEGRATION_WIRING and AUTH_SESSION_BRIDGE_WIRING entries
- * in apps/erp context-integration-registry.ts resolve to live modules/delegates.
+ * Verifies CONTEXT_INTEGRATION_WIRING, AUTH_SESSION_BRIDGE_WIRING, and
+ * AUTH_ACTOR_BRIDGE_WIRING entries in apps/erp context-integration-registry.ts
+ * resolve to live modules/delegates.
  */
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
@@ -99,15 +100,24 @@ function parseWiringEntries(
 function readIntegrationRegistry(): {
   readonly contextWiring: IntegrationWiringEntry[];
   readonly authBridgeWiring: IntegrationWiringEntry[];
+  readonly authActorBridgeWiring: IntegrationWiringEntry[];
 } {
   if (!existsSync(registryPath)) {
-    return { contextWiring: [], authBridgeWiring: [] };
+    return {
+      contextWiring: [],
+      authBridgeWiring: [],
+      authActorBridgeWiring: [],
+    };
   }
 
   const source = readFileSync(registryPath, "utf8");
   return {
     contextWiring: parseWiringEntries(source, "CONTEXT_INTEGRATION_WIRING"),
     authBridgeWiring: parseWiringEntries(source, "AUTH_SESSION_BRIDGE_WIRING"),
+    authActorBridgeWiring: parseWiringEntries(
+      source,
+      "AUTH_ACTOR_BRIDGE_WIRING"
+    ),
   };
 }
 
@@ -226,7 +236,8 @@ export function checkErpOperatingContextSpine(): ErpOperatingContextSpineViolati
     return violations;
   }
 
-  const { contextWiring, authBridgeWiring } = readIntegrationRegistry();
+  const { contextWiring, authBridgeWiring, authActorBridgeWiring } =
+    readIntegrationRegistry();
 
   if (contextWiring.length === 0) {
     violations.push({
@@ -244,13 +255,28 @@ export function checkErpOperatingContextSpine(): ErpOperatingContextSpineViolati
     });
   }
 
+  if (authActorBridgeWiring.length === 0) {
+    violations.push({
+      rule: "auth-actor-bridge-wiring-empty",
+      file: registryPath,
+      message: "AUTH_ACTOR_BRIDGE_WIRING must declare auth actor bridge entries",
+    });
+  }
+
   violations.push(...collectUniqueIds(contextWiring));
   violations.push(...collectUniqueIds(authBridgeWiring));
+  violations.push(...collectUniqueIds(authActorBridgeWiring));
   violations.push(
     ...collectWiringViolations(contextWiring, "CONTEXT_INTEGRATION_WIRING")
   );
   violations.push(
     ...collectWiringViolations(authBridgeWiring, "AUTH_SESSION_BRIDGE_WIRING")
+  );
+  violations.push(
+    ...collectWiringViolations(
+      authActorBridgeWiring,
+      "AUTH_ACTOR_BRIDGE_WIRING"
+    )
   );
 
   return violations;

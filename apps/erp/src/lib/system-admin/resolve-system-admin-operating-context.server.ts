@@ -1,12 +1,9 @@
-import {
-  getAfendaAuthSession,
-  isAfendaAuthSessionLinked,
-  toAfendaAuthIdentity,
-} from "@afenda/auth";
+import { getAfendaAuthSession, isAfendaAuthSessionLinked } from "@afenda/auth";
 import type { OperatingContext } from "@afenda/kernel";
 import { headers } from "next/headers";
 import { cache } from "react";
 
+import { resolveProtectedPathActorUserIdFromSession } from "@/lib/auth/resolve-protected-path-actor.server";
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
 
 export type SystemAdminOperatingContextResult =
@@ -40,9 +37,9 @@ export const resolveSystemAdminOperatingContext = cache(
       };
     }
 
-    const identity = toAfendaAuthIdentity(session);
+    const actorUserId = resolveProtectedPathActorUserIdFromSession(session);
     const operatingResult = await resolveOperatingContextFromHeaders({
-      actorUserId: identity.userId,
+      actorUserId,
     });
 
     if (!operatingResult.ok) {

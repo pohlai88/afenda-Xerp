@@ -90,6 +90,7 @@
     "check:erp-context-surface": "tsx scripts/governance/check-erp-context-surface.mts",
     "check:permission-scope-permissions-surface": "tsx scripts/governance/check-permission-scope-permissions-surface.mts",
     "check:erp-operating-context-spine": "tsx scripts/governance/check-erp-operating-context-spine.mts",
+    "check:erp-auth-actor-protected-path-attestation": "tsx scripts/governance/check-erp-auth-actor-protected-path-attestation.mts",
     "check:metadata-context-authorization-bridge": "tsx scripts/governance/check-metadata-context-authorization-bridge.mts",
     "check:permissions-scope-grants-surface": "tsx scripts/governance/check-permissions-scope-grants-surface.mts",
     "check:auth-user-id-rbac-boundary": "tsx scripts/governance/check-auth-user-id-rbac-boundary.mts",

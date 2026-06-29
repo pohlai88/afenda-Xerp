@@ -344,7 +344,7 @@ Maps [Kernel NS §9.3 Provides to](../NORTHSTAR/kernel-north-star.md) at archite
 | Effective dating vocabulary in production consumers | **delivered** | B109 — `check:kernel-effective-dating-consumer-attestation` · metadata bridge carriers |
 | Tenant SaaS lifecycle wire | **delivered** | B107 — `tenant-saas-lifecycle.*` wire triad |
 | Tenant extension boundary wire | **delivered** | B108 — `tenant-extension-boundary.*` wire triad |
-| Actor/integration identity on all protected paths | **planned** | Identity + spine consumer alignment |
+| Actor/integration identity on all protected paths | **delivered** | B110 — `check:erp-auth-actor-protected-path-attestation` · `AUTH_ACTOR_BRIDGE_WIRING` |
 | `FiscalCalendarId` / `FiscalPeriodId` promotion | **blocked** | Finance ADR — not localization/fiscal calendar in kernel (I8) |
 | Ledger/posting in kernel | **blocked** | ADR-0010 · PKGR01 disposition |
 | Tenant provisioning execution in kernel | **blocked** | Kernel NS §9.2 — Identity / Persistence / Platform ops |
