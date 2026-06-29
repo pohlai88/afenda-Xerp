@@ -39,7 +39,7 @@
 - Do not assemble operating context handler-local — use PAS-001A IS-002 spine
 - Do not claim R3 Delivered until R3a–R3d DoD gates pass — **closed 2026-06-30 (R3d Delivered)**
 
-**Execution:** R3a → R3b → R3c → R3d **Delivered** · **Remaining slices:** none
+**Execution:** R3a → R3b → R3c → R3d **Delivered** · S1 → S2 **Delivered** · **Remaining slices:** none
 
 ---
 
@@ -117,6 +117,8 @@ Governed envelope + ProblemDetail.
 | REST-INV-004 | Zero hand-edited OpenAPI (R3c) |
 | REST-INV-005 | Consumer impact on deprecated/breaking (R3d) |
 | REST-INV-006 | Ownership metadata on active contracts (R3d) |
+| REST-INV-007 | Every operation exposes REST method+path binding under `/api/internal/v1/` (S1) |
+| REST-INV-008 | Every operation links Zod schema modules to family schema authority (S2) |
 
 All REST-INV-* trace to PAS-API-001 API-001–API-016.
 
@@ -128,9 +130,7 @@ All REST-INV-* trace to PAS-API-001 API-001–API-016.
 | S-series catalog | [pas-api-rest-001-slice-catalog.md](./SLICE/pas-api-rest-001-slice-catalog.md) |
 | Guideline | [SLICE-BUILDING-GUIDELINE.md](../SLICE-BUILDING-GUIDELINE.md) |
 
-**S-series (canonical):** S1 → S10 — see [slice track](./SLICE/pas-api-rest-001-slice-track.md)
-
-**Legacy R3 bundles:** R3a–R3d **Delivered** — see track index · **Remaining slices:** none
+**S-series (canonical):** S1 → S10 — see [slice track](./SLICE/pas-api-rest-001-slice-track.md) · S1–S2 **Delivered**
 
 | R3 | [pas-001a-r3-api-contract-runtime.md](./SLICE/pas-001a-r3-api-contract-runtime.md) | Delivered (index) |
 | R3a | [pas-001a-r3a-handler-runtime-envelope.md](./SLICE/pas-001a-r3a-handler-runtime-envelope.md) | Delivered |

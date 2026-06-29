@@ -4,7 +4,7 @@
 
 **Prerequisite:** [PAS-API-001-S1](../SLICE/pas-api-001-s1-operation-identity-registry.md) in progress or Delivered · [ADR-0030](../../../adr/ADR-0030-erp-rest-api-contract-standard.md)
 
-**Status:** Production Accepted (R3a–R3d Delivered · IS-004 runtime) · S-track S1–S2 remain optional formal slices
+**Status:** Production Accepted (R3a–R3d Delivered · S1–S2 Delivered · IS-004 runtime)
 
 ---
 
@@ -12,8 +12,8 @@
 
 | Slice | Handoff | Closes | Status |
 | --- | --- | --- | --- |
-| S1 | [pas-api-rest-001-s1-rest-operation-binding.md](./pas-api-rest-001-s1-rest-operation-binding.md) | REST-INV path/method map | Planned |
-| S2 | [pas-api-rest-001-s2-rest-request-response-schema.md](./pas-api-rest-001-s2-rest-request-response-schema.md) | Schema-first REST modules | Planned |
+| S1 | [pas-api-rest-001-s1-rest-operation-binding.md](./pas-api-rest-001-s1-rest-operation-binding.md) | REST-INV path/method map | **Delivered** |
+| S2 | [pas-api-rest-001-s2-rest-request-response-schema.md](./pas-api-rest-001-s2-rest-request-response-schema.md) | Schema-first REST modules | **Delivered** |
 | S3 | [pas-api-rest-001-s3-rest-handler-runtime.md](./pas-api-rest-001-s3-rest-handler-runtime.md) | createApiHandler | Delivered (R3a) |
 | S4 | [pas-api-rest-001-s4-rest-ingress-validation.md](./pas-api-rest-001-s4-rest-ingress-validation.md) | Ingress Zod | Delivered (R3a) |
 | S5 | [pas-api-rest-001-s5-rest-egress-validation.md](./pas-api-rest-001-s5-rest-egress-validation.md) | Egress Zod | Delivered (R3a) |

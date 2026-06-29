@@ -100,7 +100,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Runtime evidence** | `apps/erp/src/server/api/contracts/core/**` · `pnpm check:api-family-conformance` · `pnpm check:api-contracts` |
 | **Gates** | `pnpm check:api-family-conformance` · `pnpm check:api-contracts` · `pnpm --filter @afenda/erp typecheck` · `pnpm --filter @afenda/erp test:run` |
 
-**Next sequence item (family):** none — REST R3 runtime closed; optional REST S-track binding slices remain unstarted.
+**Next sequence item (family):** none — REST S-track S1–S2 Delivered; R3 runtime closed.
 
 ---
 
@@ -109,13 +109,13 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | Field | Value |
 | --- | --- |
 | **PAS family** | [`API-CONTRACT/`](API-CONTRACT/README.md) |
-| **Status** | **Production Accepted (runtime)** · R3a–R3d Delivered · REST S-track S1–S10 optional |
+| **Status** | **Production Accepted (runtime)** · R3a–R3d Delivered · S1–S2 Delivered |
 | **Authority** | [PAS-API-REST-001](API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · [api-contract North Star](../NORTHSTAR/api-contract-north-star.md) · [ADR-0030](../adr/ADR-0030-erp-rest-api-contract-standard.md) |
 | **Runtime owner** | `apps/erp/src/server/api/` |
-| **Remaining slices** | none (R3) · optional S1–S10 — [REST S-track](API-CONTRACT/REST/SLICE/pas-api-rest-001-slice-track.md) |
+| **Remaining slices** | none — S1–S10 Delivered · [REST S-track](API-CONTRACT/REST/SLICE/pas-api-rest-001-slice-track.md) |
 | **Gates (R3 closure)** | `check:api-contracts` · `check:openapi-drift` · `check:api-route-catalog` · `lint:openapi` |
 
-**Next sequence item (REST runtime):** none — R3 closed; Enterprise Runtime criteria in [Blueprint §11](../BLUEPRINT/api-contract-blueprint.md#11-maturity-exit)
+**Next sequence item (REST runtime):** none — S-track and R3 closed; Enterprise Runtime criteria in [Blueprint §11](../BLUEPRINT/api-contract-blueprint.md#11-maturity-exit)
 
 ---
 

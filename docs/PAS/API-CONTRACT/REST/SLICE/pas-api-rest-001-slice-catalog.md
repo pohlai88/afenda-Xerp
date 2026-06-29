@@ -9,8 +9,8 @@
 
 | Slice | Name | Status | Legacy bundle |
 | --- | --- | --- | --- |
-| S1 | REST Operation Binding | Planned | — |
-| S2 | REST Request / Response Schema | Planned | — |
+| S1 | REST Operation Binding | **Delivered** | — |
+| S2 | REST Request / Response Schema | **Delivered** | — |
 | S3 | REST Handler Runtime | Delivered | R3a |
 | S4 | REST Ingress Validation | Delivered | R3a |
 | S5 | REST Egress Validation | Delivered | R3a |
@@ -20,6 +20,6 @@
 | S9 | REST Route Coverage Gate | Delivered | R3c |
 | S10 | REST Lifecycle Projection | Delivered | R3d |
 
-**Next implementable:** none (R3 closed) · optional S1–S2 formal slices
+**Next implementable:** none — S1–S2 and R3 closed
 
 **Legacy track:** [api-contract-slice-catalog.md](./api-contract-slice-catalog.md) (R3 index)

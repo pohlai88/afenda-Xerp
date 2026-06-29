@@ -13,9 +13,17 @@
 
 **Legacy ERP bundles:** R3a → R3b → R3c → R3d (see [track mapping](./pas-api-rest-001-slice-track.md))
 
-**Next implementable:** none (R3 track closed)
+**Next implementable:** none — S-track S1–S2 and R3 closed
 
 ---
+
+## S-series track
+
+| Slice | Handoff | Status |
+| --- | --- | --- |
+| S1 | [pas-api-rest-001-s1-rest-operation-binding.md](./pas-api-rest-001-s1-rest-operation-binding.md) | Delivered |
+| S2 | [pas-api-rest-001-s2-rest-request-response-schema.md](./pas-api-rest-001-s2-rest-request-response-schema.md) | Delivered |
+| S3–S10 | [pas-api-rest-001-slice-track.md](./pas-api-rest-001-slice-track.md) | Delivered (R3 bundles) |
 
 ## R3 legacy track
 
