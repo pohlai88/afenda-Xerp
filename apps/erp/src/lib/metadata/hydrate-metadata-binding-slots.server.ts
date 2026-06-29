@@ -6,6 +6,10 @@ import type {
 } from "./metadata-binding-slot-hydration.contract";
 import type { MetadataRuntimeContext } from "./metadata-runtime.contract";
 import type { MetadataUiBindingProjectionWire } from "./metadata-ui-binding.projection";
+import {
+  resolveMetadataKnowledgeLabelFromAtomRef,
+  resolveMetadataKnowledgeLabelFromFieldKey,
+} from "./resolve-metadata-knowledge-label.server";
 
 export type {
   MetadataBindingSlotHydrationTargetWire,
@@ -41,12 +45,27 @@ function resolveRuntimeBackedPreviewValue(
 
 function resolveSlotPreviewValue(
   fieldKey: string,
-  runtime: MetadataRuntimeContext
+  runtime: MetadataRuntimeContext,
+  labelAtomRef?: string
 ): string {
   const runtimeValue = resolveRuntimeBackedPreviewValue(fieldKey, runtime);
 
   if (runtimeValue !== undefined && runtimeValue.length > 0) {
     return runtimeValue;
+  }
+
+  const knowledgeLabelFromRef =
+    resolveMetadataKnowledgeLabelFromAtomRef(labelAtomRef);
+
+  if (knowledgeLabelFromRef !== undefined) {
+    return knowledgeLabelFromRef;
+  }
+
+  const knowledgeLabelFromFieldKey =
+    resolveMetadataKnowledgeLabelFromFieldKey(fieldKey);
+
+  if (knowledgeLabelFromFieldKey !== undefined) {
+    return knowledgeLabelFromFieldKey;
   }
 
   return `[preview:${fieldKey}]`;
@@ -64,7 +83,11 @@ export function hydrateMetadataBindingSlots(
       slotId: field.slotId,
       fieldKey: field.fieldKey,
       presentationKind: field.presentationKind,
-      value: resolveSlotPreviewValue(field.fieldKey, runtime),
+      value: resolveSlotPreviewValue(
+        field.fieldKey,
+        runtime,
+        field.labelAtomRef
+      ),
     }));
 
   const tableColumnTargets: MetadataBindingSlotHydrationTargetWire[] =
@@ -72,14 +95,20 @@ export function hydrateMetadataBindingSlots(
       domAttribute: AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE,
       slotId: column.slotId,
       fieldKey: column.columnKey,
-      value: resolveSlotPreviewValue(column.columnKey, runtime),
+      value: resolveSlotPreviewValue(
+        column.columnKey,
+        runtime,
+        column.labelAtomRef
+      ),
     })) ?? [];
 
   const stateTemplateTargets: MetadataBindingSlotHydrationTargetWire[] =
     binding.stateTemplates?.map((template) => ({
       domAttribute: AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE,
       slotId: template.slotId,
-      value: `[state:${template.stateKind}]`,
+      value:
+        resolveMetadataKnowledgeLabelFromAtomRef(template.messageAtomRef) ??
+        `[state:${template.stateKind}]`,
     })) ?? [];
 
   return {

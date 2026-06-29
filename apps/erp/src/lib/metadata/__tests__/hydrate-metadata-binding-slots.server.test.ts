@@ -1,3 +1,4 @@
+import type { MetadataBindingContractWire } from "@afenda/shadcn-studio";
 import { getMetadataBindingByBlockId } from "@afenda/shadcn-studio";
 import { describe, expect, it } from "vitest";
 import { hydrateMetadataBindingSlots } from "../hydrate-metadata-binding-slots.server";
@@ -34,5 +35,36 @@ describe("hydrateMetadataBindingSlots (PAS-001A R1c-2)", () => {
     }
 
     expect(() => JSON.stringify(hydration)).not.toThrow();
+  });
+
+  it("hydrates knowledge atom labels when runtime values are absent", () => {
+    const binding = {
+      metadataBindingId: "metadata-binding.test-tenant",
+      blockId: "test-tenant-block",
+      fields: [
+        {
+          fieldKey: "tenantId",
+          slotId: "tenant.id",
+          presentationKind: "readonly",
+          labelAtomRef: "atom.tenant.label",
+        },
+      ],
+    } satisfies MetadataBindingContractWire;
+
+    const runtime = createMetadataRuntimeContext({
+      tenantId: "",
+      actorId: "",
+      correlationId: "corr-knowledge",
+    });
+    const projection = projectMetadataUiBindingWire({ binding, runtime });
+    const hydration = hydrateMetadataBindingSlots({
+      binding,
+      projection,
+      runtime,
+    });
+
+    expect(hydration.slotTargets[0]?.value).toBe(
+      "Tenant (SaaS customer boundary)"
+    );
   });
 });

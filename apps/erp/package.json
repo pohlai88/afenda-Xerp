@@ -15,6 +15,7 @@
   "dependencies": {
     "@afenda/auth": "workspace:*",
     "@afenda/database": "workspace:*",
+    "@afenda/enterprise-knowledge": "workspace:*",
     "@afenda/kernel": "workspace:*",
     "@afenda/observability": "workspace:*",
     "@afenda/permissions": "workspace:*",
@@ -22,7 +23,8 @@
     "better-auth": "^1.6.19",
     "next": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@afenda/typescript-config": "workspace:*",

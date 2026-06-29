@@ -5,12 +5,16 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 const {
   findActiveCompanyMembershipForUserMock,
   findCompanyByIdMock,
+  findEntityGroupByIdMock,
+  findOwnershipInterestsByEntityGroupMock,
   findTenantByIdMock,
   getAfendaAuthSessionMock,
 } = vi.hoisted(() => ({
   getAfendaAuthSessionMock: vi.fn(),
   findTenantByIdMock: vi.fn(),
   findCompanyByIdMock: vi.fn(),
+  findEntityGroupByIdMock: vi.fn(),
+  findOwnershipInterestsByEntityGroupMock: vi.fn(),
   findActiveCompanyMembershipForUserMock: vi.fn(),
 }));
 
@@ -25,6 +29,8 @@ vi.mock("@afenda/auth", async (importOriginal) => {
 vi.mock("@afenda/database", () => ({
   findTenantById: findTenantByIdMock,
   findCompanyById: findCompanyByIdMock,
+  findEntityGroupById: findEntityGroupByIdMock,
+  findOwnershipInterestsByEntityGroup: findOwnershipInterestsByEntityGroupMock,
   findActiveCompanyMembershipForUser: findActiveCompanyMembershipForUserMock,
 }));
 
@@ -47,6 +53,15 @@ const USER_ENTERPRISE_ID = createTestEnterpriseId(
 );
 const PLATFORM_USER_ID = "usr_platform_001";
 const ACTIVE_WORKSPACE_ID = `${TENANT_PK}:${COMPANY_PK}:root`;
+const ENTITY_GROUP_PK = "770e8400-e29b-41d4-a716-446655440002";
+const ENTITY_GROUP_ENTERPRISE_ID = createTestEnterpriseId(
+  "entityGroup",
+  "01ARZ3NDEKTSV4RRFFQ69G5FBW"
+);
+const CHILD_COMPANY_ENTERPRISE_ID = createTestEnterpriseId(
+  "company",
+  "01ARZ3NDEKTSV4RRFFQ69G5FCV"
+);
 
 function createLinkedSession() {
   return normalizeAfendaAuthSession(
@@ -210,5 +225,96 @@ describe("operating-context spine integration", () => {
     const result = await resolveOperatingContext({ session });
 
     expect(result.ok).toBe(true);
+  });
+
+  it("resolveOperatingContext assembles consolidation scope for entity-group workspaces", async () => {
+    const session = createLinkedSession();
+
+    findTenantByIdMock.mockResolvedValueOnce({
+      id: TENANT_PK,
+      enterpriseId: TENANT_ENTERPRISE_ID,
+      slug: "dev-local",
+      name: "Dev Local",
+      status: "active",
+    });
+    findCompanyByIdMock.mockResolvedValueOnce({
+      id: COMPANY_PK,
+      enterpriseId: COMPANY_ENTERPRISE_ID,
+      tenantId: TENANT_PK,
+      entityGroupId: ENTITY_GROUP_PK,
+      entityGroupEnterpriseId: ENTITY_GROUP_ENTERPRISE_ID,
+      legalName: "Dev Local Co",
+      displayName: "Dev Local Co",
+      slug: "dev-local-co",
+      companyType: "standalone",
+      countryCode: "US",
+      baseCurrency: "USD",
+      fiscalCalendarId: null,
+      registrationNumber: null,
+      taxId: null,
+      effectiveFrom: "2026-01-01",
+      effectiveTo: null,
+      status: "active",
+    });
+    findEntityGroupByIdMock.mockResolvedValueOnce({
+      id: ENTITY_GROUP_PK,
+      enterpriseId: ENTITY_GROUP_ENTERPRISE_ID,
+      tenantId: TENANT_PK,
+      slug: "dev-group",
+      displayName: "Dev Group",
+      parentLegalEntityId: COMPANY_PK,
+      parentLegalEntityEnterpriseId: COMPANY_ENTERPRISE_ID,
+      status: "active",
+    });
+    findOwnershipInterestsByEntityGroupMock.mockResolvedValueOnce([
+      {
+        id: "ownership-001",
+        enterpriseId: createTestEnterpriseId(
+          "ownershipInterest",
+          "01ARZ3NDEKTSV4RRFFQ69G5FDV"
+        ),
+        tenantId: TENANT_PK,
+        tenantEnterpriseId: TENANT_ENTERPRISE_ID,
+        entityGroupId: ENTITY_GROUP_PK,
+        entityGroupEnterpriseId: ENTITY_GROUP_ENTERPRISE_ID,
+        parentLegalEntityId: COMPANY_PK,
+        parentLegalEntityEnterpriseId: COMPANY_ENTERPRISE_ID,
+        childLegalEntityId: "880e8400-e29b-41d4-a716-446655440003",
+        childLegalEntityEnterpriseId: CHILD_COMPANY_ENTERPRISE_ID,
+        ownershipPercentage: 100,
+        votingPercentage: 100,
+        controlType: "control",
+        consolidationTreatment: "full_consolidation",
+        nonControllingInterestApplicable: false,
+        effectiveFrom: "2026-01-01",
+        effectiveTo: null,
+        status: "active",
+      },
+    ]);
+    findActiveCompanyMembershipForUserMock.mockResolvedValueOnce({
+      scopeType: "company",
+      membershipEnterpriseId: createTestEnterpriseId(
+        "membership",
+        "01ARZ3NDEKTSV4RRFFQ69G5FAY"
+      ),
+      roleEnterpriseId: createTestEnterpriseId(
+        "role",
+        "01ARZ3NDEKTSV4RRFFQ69G5FAZ"
+      ),
+    });
+
+    const result = await resolveOperatingContext({ session });
+
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.value.entityGroup?.entityGroupId).toBe(
+        ENTITY_GROUP_ENTERPRISE_ID
+      );
+      expect(result.value.ownershipInterests).toHaveLength(1);
+      expect(result.value.consolidationScope?.entityGroupId).toBe(
+        ENTITY_GROUP_ENTERPRISE_ID
+      );
+      expect(result.value.consolidationScope?.legalEntities).toHaveLength(1);
+    }
   });
 });

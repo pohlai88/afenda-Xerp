@@ -2,11 +2,15 @@ import type { AfendaAuthSession } from "@afenda/auth";
 import {
   findActiveCompanyMembershipForUser,
   findCompanyById,
+  findEntityGroupById,
   findTenantById,
 } from "@afenda/database";
 import {
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
   err,
+  normalizeConsolidationScopeContextForWire,
+  normalizeEntityGroupContextForWire,
+  normalizeOwnershipInterestContextForWire,
   type OperatingContext,
   type OperatingContextError,
   type OperatingContextResult,
@@ -16,9 +20,19 @@ import {
 } from "@afenda/kernel";
 import {
   mapDbLegalEntityCompanyTypeToKernelWire,
+  toEntityGroupContext,
   toTenantContext,
 } from "./operating-context.mappers";
 import { parseActiveWorkspaceSelection } from "./parse-active-workspace-selection";
+import { resolveConsolidationScope } from "./resolve-consolidation-scope.server";
+
+function resolveReportingDate(effectiveFrom: string | null): string {
+  if (effectiveFrom !== null && effectiveFrom.trim().length > 0) {
+    return effectiveFrom.slice(0, 10);
+  }
+
+  return new Date().toISOString().slice(0, 10);
+}
 
 /** Builds kernel operating context from auth session + database workspace lookups. */
 export async function buildOperatingContextFromDatabaseSession(
@@ -103,6 +117,61 @@ export async function buildOperatingContextFromDatabaseSession(
   const legalEntityMapping = mapDbLegalEntityCompanyTypeToKernelWire(
     companyRow.companyType
   );
+  const reportingDate = resolveReportingDate(companyRow.effectiveFrom);
+
+  let entityGroupWire: OperatingContextWireContext["entityGroup"] = null;
+  let ownershipInterestWire: OperatingContextWireContext["ownershipInterests"] =
+    [];
+  let consolidationScopeWire: OperatingContextWireContext["consolidationScope"] =
+    null;
+
+  if (companyRow.entityGroupId) {
+    const entityGroupRow = await findEntityGroupById(companyRow.entityGroupId);
+
+    if (entityGroupRow === null) {
+      return err({
+        code: "ENTITY_GROUP_NOT_FOUND",
+        userMessage: "Corporate group for this legal entity was not found.",
+      } satisfies OperatingContextError);
+    }
+
+    if (entityGroupRow.tenantId !== tenantRow.id) {
+      return err({
+        code: "ENTITY_GROUP_SCOPE_MISMATCH",
+        userMessage: "Corporate group does not belong to this tenant.",
+      } satisfies OperatingContextError);
+    }
+
+    if (entityGroupRow.status !== "active") {
+      return err({
+        code: "ENTITY_GROUP_NOT_OPERATIONAL",
+        userMessage: "Corporate group is not available.",
+      } satisfies OperatingContextError);
+    }
+
+    const entityGroupContext = toEntityGroupContext(
+      entityGroupRow,
+      tenantRow.enterpriseId
+    );
+    const consolidation = await resolveConsolidationScope({
+      tenantEnterpriseId: tenantRow.enterpriseId,
+      tenantPk: tenantRow.id,
+      entityGroup: entityGroupContext,
+      entityGroupPk: companyRow.entityGroupId,
+      reportingDate,
+    });
+
+    entityGroupWire = normalizeEntityGroupContextForWire(entityGroupContext);
+    ownershipInterestWire = consolidation.ownershipInterests.map((interest) =>
+      normalizeOwnershipInterestContextForWire(interest)
+    );
+    consolidationScopeWire =
+      consolidation.consolidationScope === null
+        ? null
+        : normalizeConsolidationScopeContextForWire(
+            consolidation.consolidationScope
+          );
+  }
 
   const wire = {
     actor: { userId: enterpriseUserId },
@@ -116,7 +185,7 @@ export async function buildOperatingContextFromDatabaseSession(
         ? {}
         : { saasLifecyclePhase: tenant.saasLifecyclePhase }),
     },
-    entityGroup: null,
+    entityGroup: entityGroupWire,
     legalEntity: {
       tenantId: tenantRow.enterpriseId,
       entityGroupId: companyRow.entityGroupEnterpriseId,
@@ -137,7 +206,7 @@ export async function buildOperatingContextFromDatabaseSession(
       effectiveTo: companyRow.effectiveTo,
       status: companyRow.status,
     },
-    ownershipInterests: [],
+    ownershipInterests: ownershipInterestWire,
     organizationUnit: null,
     team: null,
     project: null,
@@ -159,7 +228,7 @@ export async function buildOperatingContextFromDatabaseSession(
       roleId: membershipRow.roleEnterpriseId,
       elevations: DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
     },
-    consolidationScope: null,
+    consolidationScope: consolidationScopeWire,
     surface: { surfaceId: "surface.metadata-workspace" },
     workflow: null,
   } satisfies OperatingContextWireContext;

@@ -297,6 +297,9 @@ importers:
       '@afenda/database':
         specifier: workspace:*
         version: link:../../packages/database
+      '@afenda/enterprise-knowledge':
+        specifier: workspace:*
+        version: link:../../packages/enterprise-knowledge
       '@afenda/kernel':
         specifier: workspace:*
         version: link:../../packages/kernel
@@ -321,6 +324,9 @@ importers:
       react-dom:
         specifier: 'catalog:'
         version: 19.2.7(react@19.2.7)
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@afenda/typescript-config':
         specifier: workspace:*

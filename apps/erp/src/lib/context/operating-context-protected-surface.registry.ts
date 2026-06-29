@@ -13,7 +13,8 @@ export interface OperatingContextProtectedSurfaceEntry {
   readonly delegate:
     | "resolveOperatingContext"
     | "resolveOperatingContextFromHeaders"
-    | "resolveApiRouteOperatingContext";
+    | "resolveApiRouteOperatingContext"
+    | "resolveActionOperatingContext";
   readonly id: string;
   readonly kind: OperatingContextProtectedSurfaceKind;
   readonly module: string;
@@ -46,8 +47,15 @@ export const OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY = [
     id: "protected-server-action-operating-context",
     kind: "protected-server-action",
     module: "lib/server-actions/resolve-action-operating-context.server.ts",
-    delegate: "resolveOperatingContextFromHeaders",
+    delegate: "resolveActionOperatingContext",
     routePattern: "server-action",
+  },
+  {
+    id: "protected-server-action-context-switch",
+    kind: "protected-server-action",
+    module: "lib/context/context-switch.action.ts",
+    delegate: "resolveActionOperatingContext",
+    routePattern: "server-action/context-switch",
   },
 ] as const satisfies readonly OperatingContextProtectedSurfaceEntry[];
 
