@@ -65,7 +65,7 @@ export const ERP_DOMAIN_MODULES = [
 
 export type ErpDomainModule = (typeof ERP_DOMAIN_MODULES)[number];
 
-/** PAS-001B §3 stable KV ids — cite in reviews, ADRs, and metadata binding bridges. */
+/** Canonical KV SSOT (PAS-001B §3.3) — module authority contracts mirror these values; layout gate point 12 enforces parity. */
 export const ERP_DOMAIN_MODULE_KV_IDS = {
   accounting: "KV-ACCT",
   controlling: "KV-CTRL",

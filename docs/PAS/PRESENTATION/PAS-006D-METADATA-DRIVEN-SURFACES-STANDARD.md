@@ -10,7 +10,7 @@
 | **Blueprint box** | shadcn/studio Presentation |
 | **Maturity** | Production Candidate |
 | **Runtime status** | Metadata binding contract + surface template registry live; **P06-008-R1 enforcement gate active** |
-| **Remaining slices** | P06-008-R2 (DOM slot markers) · PAS-001A-R1 (ERP protected-route render) |
+| **Remaining slices** | P06-008-R2 (DOM slot markers — [proposed handoff](./SLICE/p06-008-r2-dom-slot-markers.md); scaffold reverted 2026-06-29 pending block TSX pass) · PAS-001A-R1 (ERP protected-route render — deferred; see PAS-001A) |
 | **Depends on** | [PAS-006B](PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md) · [PAS-006C](PAS-006C-SURFACE-ACCEPTANCE-ACPA-STANDARD.md) for Accepted blocks |
 
 #### Required gates (target)
@@ -20,6 +20,7 @@
 | 1 | `pnpm --filter @afenda/shadcn-studio typecheck` |
 | 2 | `pnpm check:studio-metadata-binding` *(P06-008-R1 — active)* |
 | 3 | `pnpm check:studio-surface-template-registry` *(proposed — P06-009)* |
+| 4 | `pnpm check:studio-block-slot-markers` *(proposed — P06-008-R2)* |
 
 > **Maturity is part of authority.** Metadata **schema authority** lives outside presentation. This PAS owns **binding contracts** and **surface templates** only.
 
@@ -105,6 +106,7 @@ Greenfield metadata workspace UI rebuilds on this PAS — **not** retired metada
 | --- | --- | --- |
 | P06-008 | Metadata binding contract | **Delivered** |
 | P06-008-R1 | Metadata binding registry enforcement | **Delivered** |
+| P06-008-R2 | DOM slot markers (`data-afenda-slot`) | **Proposed** |
 | P06-009 | Surface template registry | **Delivered** |
 
 May parallelize after P06-004 with independent handoffs.

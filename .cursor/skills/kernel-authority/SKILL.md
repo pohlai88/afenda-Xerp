@@ -14,15 +14,15 @@ paths:
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | Enterprise Accepted — kernel contracts, §13 catalog + B49–B70 closure delivered, runtime gates operational |
-| **Remaining slices** | none — B70 Delivered ([`KERNEL/SLICE/b70-kernel-test-import-hygiene.md`](../../../docs/PAS/KERNEL/SLICE/b70-kernel-test-import-hygiene.md)) |
+| **Runtime status** | Enterprise Accepted — kernel contracts, B49–B70 + B107–B111 amendment closed, runtime gates operational |
+| **Remaining slices** | none — B111 Delivered ([`KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md`](../../../docs/PAS/KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md)) |
 
 ### PAS-001A — Kernel ERP consumer integration (derived; does not reopen PAS-001)
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | Production Candidate — closed (B71–B75 Delivered 2026-06-29) |
-| **Remaining slices** | none — [`KERNEL/SLICE/b75-pas001a-production-candidate-attestation.md`](../../../docs/PAS/KERNEL/SLICE/b75-pas001a-production-candidate-attestation.md) |
+| **Runtime status** | `runtime_partial` (ADR-0027 skeleton) — IS-001 live; B111 consumer wire only; full spine **not** on skeleton |
+| **Remaining slices** | PAS-001A-R1 — [`PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) §1.4 |
 | **Canonical** | [`PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) |
 
 > PAS-001: [`KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · Slices: [`KERNEL/SLICE/`](../../../docs/PAS/KERNEL/SLICE/README.md) · Index: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
@@ -33,8 +33,8 @@ paths:
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | Catalog Authority — B76–B106 closed; 28/28 modules delivered; foundation `accounting` + `inventory` scaffold-standardized |
-| **Remaining slices** | none — catalog vocabulary complete; metadata-ui permission bridge (PAS-001A) |
+| **Runtime status** | Catalog Authority — B76–B106 + KV1–KV3 closed; 28/28 modules; layout gate **12/12**; `./erp-domain/catalog`; per-module `*_MODULE_KV_ID` barrels |
+| **Remaining slices** | none — consumer metadata spine = PAS-001A-R1 (not PAS-001B) |
 | **Canonical** | [`PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
 
 **Doctrine:** PAS-001B defines the ERP domain vocabulary **map** — without building ERP runtime. Rule 1: no filesystem folders for `catalog-only` modules. Load PAS-001B §0 hard rules when touching `packages/kernel/src/erp-domain/**`.

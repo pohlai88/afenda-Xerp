@@ -19,8 +19,8 @@
 | **Authority status** | `enterprise_accepted` |
 | **Implementation status** | `implemented` — B76–B106 closed |
 | **Evidence level** | `runtime` — 28/28 delivered wire modules; unified gates green |
-| **Runtime status** | Full 28-slug wire catalog; layout + vocabulary gates operational; foundation modules scaffold-standardized (B106) |
-| **Remaining slices** | none |
+| **Runtime status** | Full 28-slug wire catalog; layout gate **12/12**; KV SSOT + per-module `*_MODULE_KV_ID` (KV1–KV3); `./erp-domain/catalog` export; metadata ERP bridge validates at trust boundary |
+| **Remaining slices** | none — catalog vocabulary complete (B76–B106 · KV1–KV3); consumer metadata spine deferred to [PAS-001A-R1](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) |
 | **Registry lane** | `PKGR01B_ERP_DOMAIN_CATALOG` · `@afenda/kernel` |
 | **Agent skills** | `kernel-authority` · `/afenda-coding-session` |
 | **Upstream** | [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §3.4 · Kernel NS §3.2 ERP wire vocabulary |
@@ -247,6 +247,27 @@ Arrows mean **vocabulary assumes earlier wire terms may appear in wire context**
 
 ---
 
+## 3.3 KV ID authority hierarchy
+
+Stable **KV-*** ids cross package boundaries. Slugs are catalog keys only — never cite slug alone in cross-package reviews.
+
+| Layer | Source | Role |
+| --- | --- | --- |
+| **SSOT** | `ERP_DOMAIN_MODULE_KV_IDS` in `erp-domain-layout.contract.ts` | Canonical slug → KV map for all 28 modules |
+| **Module mirror** | `{PREFIX}_MODULE_KV_ID` in each `{module}-authority.contract.ts` | Per-module export; **must match** SSOT for that slug |
+| **Enforcement** | Layout gate point **12** (`checkAuthorityKvIdParity`) + `erp-domain-authority-kv.contract.test.ts` | Gate scans authority contracts; test imports every `*_MODULE_KV_ID` barrel |
+| **Barrel export** | `@afenda/kernel/erp-domain/{slug}` | Exports `*_MODULE_KV_ID` for consumers |
+| **Presentation mirror** | `@afenda/shadcn-studio` `METADATA_BINDING_MODULE_KV_ID_BY_SLUG` | String-only subset for metadata blocks; no kernel import |
+| **ERP validation** | `apps/erp/src/lib/metadata/metadata-ui-binding.projection.ts` | Resolves slug via `@afenda/kernel/erp-domain/catalog` SSOT at trust boundary |
+
+**Rules:**
+
+1. When a binding carries a valid `erpDomainModuleSlug`, ERP projection **must** emit `ERP_DOMAIN_MODULE_KV_IDS[slug]` — binding-supplied `erpDomainKvId` cannot override SSOT.
+2. When a binding carries only `erpDomainKvId`, ERP passes it through **only** if the value is a known catalog KV id (`Object.values(ERP_DOMAIN_MODULE_KV_IDS)`).
+3. Cross-package reviews, ADRs, and metadata bridges cite **KV-*** (e.g. **KV-INV**), not slug alone.
+
+---
+
 # 4. Maturity models
 
 Two complementary models: **layout registry** (what exists on disk today) and **catalog lifecycle** (full promotion path to runtime PAS).
@@ -316,6 +337,7 @@ Enterprise Knowledge → Meaning (PAS-004)
 | **B80** | `procurement` wire promotion | KV-PROC · Delivered |
 | **B81–B105** | Remaining 25 module promotions | KV-* · Delivered |
 | **B106** | Foundation scaffold (`accounting`, `inventory`) | KV-ACCT · KV-INV · Delivered |
+| **KV1–KV3** | Per-module `*_MODULE_KV_ID`, barrels, gate #12, ERP SSOT bridge | KV-* · Delivered (2026-06-29) |
 
 Handoffs (SSOT): [SLICE/kernel-slice-catalog.md §4](SLICE/kernel-slice-catalog.md#4-pas-001b--erp-wire-vocabulary-catalog) — individual composed handoffs B76–B106 in [KERNEL/SLICE/](SLICE/) · legacy archive non-compliant per [slice-compliance-audit.md](SLICE/slice-compliance-audit.md)
 
@@ -343,8 +365,10 @@ See metadata **Required gates** table. Unified gate `check:erp-domain-delivered-
 8. `accounting` subpath missing
 9. Missing LoB metadata
 10. §3 catalog count disagrees with layout contract
+11. `ERP_DOMAIN_MODULE_KV_IDS` duplicate, missing slug, or extra key
+12. Authority contract `*_MODULE_KV_ID` mismatches `ERP_DOMAIN_MODULE_KV_IDS[slug]` (`checkAuthorityKvIdParity`)
 
-Enforcement: `scripts/governance/check-erp-domain-layout.mts`
+Enforcement: `scripts/governance/check-erp-domain-layout.mts` — **12/12** failure points (see script header + `ERP_DOMAIN_LAYOUT_GATE_FAILURE_MATRIX`).
 
 Full matrix: legacy [PAS-001B §7.1](archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md#71-checkerp-domain-layout-failure-matrix).
 

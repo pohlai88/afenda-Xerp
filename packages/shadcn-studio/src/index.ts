@@ -83,14 +83,13 @@ export {
   type BlockDataFieldWire,
   isBlockDataContractWire,
 } from "./contracts/block-data-contract.js";
-export {
-  isMetadataBindingContractWire,
-  type MetadataBindingContractWire,
-  type MetadataBindingDensity,
-  type MetadataBindingFieldPresentationKind,
-  type MetadataBindingFieldWire,
-  type MetadataBindingStateTemplateWire,
-  type MetadataBindingTableColumnWire,
+export type {
+  MetadataBindingContractWire,
+  MetadataBindingDensity,
+  MetadataBindingFieldPresentationKind,
+  MetadataBindingFieldWire,
+  MetadataBindingStateTemplateWire,
+  MetadataBindingTableColumnWire,
 } from "./contracts/metadata-binding.contract.js";
 export {
   isMetadataBindingWaiverReason,

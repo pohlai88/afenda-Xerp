@@ -55,12 +55,12 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Authority** | PAS-001A · derived from PAS-001 · `apps/erp/src/lib/context/` |
 | **Maturity** | `production_candidate` (doctrine) · `runtime_partial` (skeleton) · `historical_delivered` (B71–B75) |
 | **Runtime status** | IS-001 live in `@afenda/permissions`; IS-002/IS-003 partial — `TENANT_LIFECYCLE_BRIDGE_WIRING` only; no `resolve-operating-context.server.ts` on skeleton |
-| **Remaining slices** | PAS-001A-R1 (full operating-context spine + metadata consumer on PAS-006 ERP); companion B110-R1 auth actor attestation when protected routes exist |
+| **Remaining slices** | [R1a](KERNEL/SLICE/pas-001a-r1a-is002-operating-context-spine.md) IS-002 spine · [R1b](KERNEL/SLICE/pas-001a-r1b-protected-app-router-shell.md) protected shell · [R1c](KERNEL/SLICE/pas-001a-r1c-metadata-consumer-pas006.md) PAS-006 metadata · [R1d](KERNEL/SLICE/pas-001a-r1d-production-candidate-reclose.md) §6 re-close |
 | **Runtime evidence** | [KERNEL/PAS-001A](KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) §1.4 · §6.1, `context-integration-registry.ts`, `check:erp-operating-context-spine` (slim), `check:erp-tenant-lifecycle-extension-consumer-attestation`, `check:permission-scope-permissions-surface` |
 | **Gates** | Active: PAS-001A §0 rows 1–8, 10–11, 12–14, 16 · Archived: 9, 15 (legacy frontend) |
 | **Result** | Kernel consumer **doctrine** intact; **live ERP end-to-end spine proof** not restored until protected-route rebuild |
 
-**Next sequence item:** PAS-001A-R1 — after PAS-006 protected AppShell skeleton (P006-01).
+**Next sequence item:** PAS-001A-R1a → R1b → R1c → R1d ([kernel slice catalog](KERNEL/SLICE/kernel-slice-catalog.md#pas-001a-r1--skeleton-rebuild-proposed)).
 
 | Slice | Doc | Status |
 | --- | --- | --- |
@@ -70,6 +70,10 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | B74 | [b74-metadata-context-authorization-bridge.md](KERNEL/SLICE/b74-metadata-context-authorization-bridge.md) | Delivered (historical) · bridge archived ADR-0027 |
 | B75 | [b75-pas001a-production-candidate-attestation.md](KERNEL/SLICE/b75-pas001a-production-candidate-attestation.md) | Delivered (historical — pre-reset ERP) |
 | B111 | [b111-tenant-lifecycle-extension-consumer-attestation.md](KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md) | Delivered (skeleton consumer) |
+| R1a | [pas-001a-r1a-is002-operating-context-spine.md](KERNEL/SLICE/pas-001a-r1a-is002-operating-context-spine.md) | **Proposed** |
+| R1b | [pas-001a-r1b-protected-app-router-shell.md](KERNEL/SLICE/pas-001a-r1b-protected-app-router-shell.md) | **Proposed** |
+| R1c | [pas-001a-r1c-metadata-consumer-pas006.md](KERNEL/SLICE/pas-001a-r1c-metadata-consumer-pas006.md) | **Proposed** |
+| R1d | [pas-001a-r1d-production-candidate-reclose.md](KERNEL/SLICE/pas-001a-r1d-production-candidate-reclose.md) | **Proposed** |
 
 ---
 
@@ -80,13 +84,13 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | Delivered — Catalog Authority (B76–B106 complete; full 28-module vocabulary scaffold-standardized; attested 2026-06-28) |
 | **Authority** | PAS-001B · derived from PAS-001 §4.8 · `packages/kernel/src/erp-domain/` |
 | **Maturity** | `enterprise_accepted` · **`catalog_authority` role** — governs wire vocabulary map, not domain runtime |
-| **Runtime status** | 28-module catalog; all slugs delivered; unified + legacy domain gates operational; B106 re-scaffold for `accounting` + `inventory` |
-| **Remaining slices** | none — catalog vocabulary complete; metadata-ui permission bridge deferred to PAS-001A |
-| **Runtime evidence** | [KERNEL/PAS-001B](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md), `erp-domain/*`, `scaffold-foundation-erp-domain-modules.mts`, `check:erp-domain-delivered-vocabulary` |
-| **Gates** | `pnpm check:erp-domain-layout`, `pnpm check:erp-domain-delivered-vocabulary`, `pnpm --filter @afenda/kernel typecheck`, `pnpm check:foundation-disposition` |
+| **Runtime status** | 28-module catalog; all slugs delivered; layout gate **12/12**; KV SSOT + authority mirrors (KV1–KV3); `./erp-domain/catalog`; unified + legacy domain gates green; B106 foundation scaffold |
+| **Remaining slices** | none — B76–B106 + KV1–KV3 closed; ERP metadata consumer rebuild = [PAS-001A-R1](#pas-001a-kernel-erp-consumer-integration--production-candidate-doctrine--runtime-partial-adr-0027) |
+| **Runtime evidence** | [KERNEL/PAS-001B](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md), `erp-domain/*`, `erp-domain/catalog`, `check:erp-domain-layout`, `check:erp-domain-delivered-vocabulary`, `erp-domain-authority-kv.contract.test.ts` |
+| **Gates** | `pnpm check:erp-domain-layout`, `pnpm check:erp-domain-delivered-vocabulary`, `pnpm check:accounting-domain-contracts`, `pnpm check:inventory-domain-contracts`, `pnpm check:procurement-domain-contracts`, `pnpm --filter @afenda/kernel typecheck`, `pnpm check:foundation-disposition` |
 | **Result** | 28/28 vocabulary modules delivered; Rule 1–3 enforced |
 
-**Next sequence item:** none — B74 metadata bridge delivered under [PAS-001A](#pas-001a-kernel-erp-consumer-integration--production-candidate); catalog vocabulary complete.
+**Next sequence item:** none for catalog — **PAS-001A-R1** (ERP spine) is the only open kernel-family consumer slice; see [PAS-001A](#pas-001a-kernel-erp-consumer-integration--production-candidate-doctrine--runtime-partial-adr-0027).
 
 | Slice | Doc | Status |
 | --- | --- | --- |

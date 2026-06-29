@@ -14,7 +14,7 @@
 
 ```text
 PAS-001:  B49 → B55 · B57 · B67 → B70 · B107 → B111 (amendment)
-PAS-001A: B71 → B75
+PAS-001A: B71 → B75 · R1a → R1d (skeleton rebuild)
 PAS-001B: B76 → B106
 ```
 
@@ -54,6 +54,17 @@ PAS-001B: B76 → B106
 | B73 | [b73-kernel-erp-doc-drift-closure.md](./b73-kernel-erp-doc-drift-closure.md) | Delivered |
 | B74 | [b74-metadata-context-authorization-bridge.md](./b74-metadata-context-authorization-bridge.md) | Delivered |
 | B75 | [b75-pas001a-production-candidate-attestation.md](./b75-pas001a-production-candidate-attestation.md) | Delivered |
+
+## PAS-001A-R1 — skeleton rebuild (proposed)
+
+> ADR-0027 skeleton re-attestation. **Order:** R1a → R1b → R1c → R1d.
+
+| Slice | Handoff | Status |
+| --- | --- | --- |
+| R1a | [pas-001a-r1a-is002-operating-context-spine.md](./pas-001a-r1a-is002-operating-context-spine.md) | **Proposed** |
+| R1b | [pas-001a-r1b-protected-app-router-shell.md](./pas-001a-r1b-protected-app-router-shell.md) | **Proposed** |
+| R1c | [pas-001a-r1c-metadata-consumer-pas006.md](./pas-001a-r1c-metadata-consumer-pas006.md) | **Proposed** |
+| R1d | [pas-001a-r1d-production-candidate-reclose.md](./pas-001a-r1d-production-candidate-reclose.md) | **Proposed** |
 
 ## PAS-001B — B76–B106 (delivered)
 

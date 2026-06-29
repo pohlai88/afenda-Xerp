@@ -26,8 +26,17 @@ export interface MetadataUiBindingProjectionWire {
   readonly tenantId?: string;
 }
 
+const KNOWN_ERP_DOMAIN_KV_IDS = new Set<string>(
+  Object.values(ERP_DOMAIN_MODULE_KV_IDS)
+);
+
 function isErpDomainModuleSlug(value: string): value is ErpDomainModule {
   return (ERP_DOMAIN_MODULES as readonly string[]).includes(value);
+}
+
+/** True when value is a catalog KV id from ERP_DOMAIN_MODULE_KV_IDS SSOT. */
+export function isKnownErpDomainKvId(value: string): boolean {
+  return KNOWN_ERP_DOMAIN_KV_IDS.has(value);
 }
 
 function resolveErpDomainCatalogRefs(binding: MetadataBindingContractWire): {
@@ -44,7 +53,10 @@ function resolveErpDomainCatalogRefs(binding: MetadataBindingContractWire): {
     };
   }
 
-  if (binding.erpDomainKvId !== undefined) {
+  if (
+    binding.erpDomainKvId !== undefined &&
+    isKnownErpDomainKvId(binding.erpDomainKvId)
+  ) {
     return { erpDomainKvId: binding.erpDomainKvId };
   }
 
