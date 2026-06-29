@@ -453,7 +453,7 @@ Platform Kernel is **Platform Language** — one of four non-overlapping constit
 | E3 | Multi-level company / operating hierarchy | ✓ | T0 | [ADR-0011](../adr/ADR-0011-multi-level-company-model-foundational.md) §Decision |
 | E4 | Accounting vocabulary consolidated to platform wire layer | ✓ | T0 | [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) §Decision |
 | E5 | Kernel primitive vocabulary enterprise-gated | ✓ | T5 | [Kernel Vocabulary Authority](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) §4 · B49–B70 · B107–B109 |
-| E6 | Consumer integration production-attested | ✓ | T5 | [ERP Integration Spine Standard](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) §2.1 · B71–B75 |
+| E6 | Consumer integration doctrine production-attested (historical B71–B75); ERP runtime spine partial post ADR-0027 | ✓ | T5 | [ERP Integration Spine Standard](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) §1.4 · §6.1 · B111 skeleton consumer |
 | E7 | ERP wire vocabulary catalog delivered | ✓ | T5 | [ERP Wire Vocabulary Catalog](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) §0 · B76–B106 |
 | E8 | Event metadata interop — CloudEvents context attributes | ✓ | T3 | [CloudEvents 1.0 spec](https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/spec.md) · SAP AsyncAPI ecosystem |
 | E9 | Distributed trace context propagation | ✓ | T3 | [W3C Trace Context](https://www.w3.org/TR/trace-context/) |
@@ -605,7 +605,7 @@ See §5.1 I1–I8 — high-level rules agents must respect; TypeScript contracts
 | Platform Blueprint rollup | Kernel family row references this domain NS |
 | PAS-001 / PAS-001A / PAS-001B | Trace to §4 capabilities and §13 map |
 
-**Last synced with PAS:** PAS-001 Enterprise Accepted (B49–B70 · B107–B109) · PAS-001A Production Candidate · PAS-001B Catalog Authority · Enterprise Accepted (2026-06-29) · **Maturity:** Enterprise Accepted (peer-enhanced)
+**Last synced with PAS:** PAS-001 Enterprise Accepted (B49–B70 · B107–B111) · PAS-001A Production Candidate doctrine · runtime partial (ADR-0027 skeleton) · PAS-001B Catalog Authority · Enterprise Accepted (2026-06-29) · **Maturity:** Enterprise Accepted (peer-enhanced)
 
 ---
 

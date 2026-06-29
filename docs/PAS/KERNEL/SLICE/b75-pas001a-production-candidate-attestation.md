@@ -4,7 +4,7 @@
 
 **Prerequisite:** B71–B74 Delivered
 
-**Status:** Delivered (2026-06-28)
+**Status:** Delivered (2026-06-28) — **historical attestation on pre-reset ERP**; live runtime **partial** post [ADR-0027](../../adr/ADR-0027-frontend-presentation-reset.md). See [PAS-001A §6.1](../PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md#61-adr-0027-skeleton-scorecard-current) for skeleton scorecard. Re-attestation required at PAS-001A-R1.
 
 **Type:** Evidence-sync
 

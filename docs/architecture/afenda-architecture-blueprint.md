@@ -9,7 +9,7 @@
 | **Machine truth** | [package-registry.md](package-registry.md) · [layer-registry.md](layer-registry.md) · [dependency-registry.md](dependency-registry.md) · [foundation-disposition.md](foundation-disposition.md) |
 | **Does not confer** | Runtime APIs, contracts, slice handoffs, or registry rows |
 | **Total PAS at maturity** | `~15 root PAS · ~25+ total documents (including derived extensions)` |
-| **Live PAS today** | `11 documents` (PAS-001 family, PAS-002 family, PAS-003, PAS-004 family, **PAS-006**; PAS-005 family **retired for ERP**) |
+| **Live PAS today** | `15 documents` (PAS-001 family, PAS-002 family, PAS-003, PAS-004 family, **PAS-006 family**; PAS-005 family **retired for ERP**) |
 | **Last reviewed** | 2026-06-29 (ADR-0027 frontend presentation reset) |
 | **Planned PAS** | `9+ root PAS` (accounting runtime, consolidation, intercompany, tax, finance, reporting, HRM, CRM, procurement) |
 
@@ -102,8 +102,8 @@ Narrative **why** only. Paths, PKG IDs, and lifecycle: [`package-registry.md`](p
 | **Design system (ERP frontend)** | `@afenda/shadcn-studio` only | Stock shadcn/studio via MCP; unprefixed CSS vars; legacy `@afenda/css-authority`, `@afenda/ui`, `@afenda/appshell` **retired for ERP** ([ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md)) | Consistent shadcn/studio surfaces |
 
 **Domain blueprint (Presentation):** [`docs/BLUEPRINT/shadcn-studio-presentation-blueprint.md`](../BLUEPRINT/shadcn-studio-presentation-blueprint.md) — PKG-026 single box. **Domain North Star:** [`docs/NORTHSTAR/shadcn-studio-presentation-north-star.md`](../NORTHSTAR/shadcn-studio-presentation-north-star.md).
-| **Metadata UX** | `@afenda/ui-composition`, `@afenda/metadata-ui` | Metadata describes UI; renderers consume authority | Composable ERP surfaces |
-| **ERP shell** | `@afenda/appshell` | Shell chrome separated from primitives and domain | Navigation and layout spine |
+| **Metadata UX (ERP)** | `apps/erp/src/lib/metadata/` *(interim — ADR-0027)* | Metadata render contracts live in ERP until PAS-006D; legacy `@afenda/metadata-ui` **retired** | Composable surfaces via ERP-local runtime + B111 extension boundary |
+| **ERP shell (presentation)** | `apps/erp` · PAS-006A | Shell chrome on PAS-006 skeleton; legacy `@afenda/appshell` **retired** | Navigation and layout spine (P006-01 protected routes) |
 | **Applications** | `apps/erp`, `apps/docs`, `apps/storybook` | Delivery surfaces compose authorities | Operator-facing product |
 
 Each live family with a PAS is listed in [Blueprint → PAS traceability](#blueprint--pas-traceability) below.
@@ -227,8 +227,8 @@ This table is the canonical count. Every PAS row must trace back to a Blueprint 
 | PAS | Title | Blueprint box | Live slices / Total slices | Status |
 | --- | --- | --- | --- | --- |
 | PAS-001 | Kernel Authority Standard | Kernel & context | Multiple / TBD | Enterprise Accepted |
-| PAS-001A | Kernel ERP Production Integration | Kernel & context | Multiple / TBD | Production Candidate |
-| PAS-001B | Kernel ERP Domain Vocabulary | Kernel & context | Multiple / TBD | Production Candidate |
+| PAS-001A | ERP Integration Spine | Kernel & context | B71–B75 historical · B111 skeleton · PAS-001A-R1 pending | Production Candidate (doctrine) · runtime partial |
+| PAS-001B | Kernel ERP Domain Vocabulary Catalog | Kernel & context | B76–B106 closed | Enterprise Accepted · catalog authority |
 | PAS-002 | Architecture Authority | Governance | Multiple / TBD | MVP Authority |
 | PAS-002A | Architecture Authority extension | Governance | — / TBD | Enterprise Accepted |
 | PAS-003 | Accounting Standards Authority | Accounting standards authority | B0–B11 + B13–B16 delivered / B12 pending | Production Candidate |
@@ -237,7 +237,11 @@ This table is the canonical count. Every PAS row must trace back to a Blueprint 
 | PAS-004B | Enterprise Knowledge Kernel Consumer | Knowledge | — | Production Candidate |
 | PAS-004C | Enterprise Knowledge Semantic Model | Knowledge | — | Production Candidate |
 | PAS-004D | Enterprise Knowledge Operational Closure | Knowledge | — | Production Candidate |
-| PAS-006 | shadcn/studio Frontend Standard | Design (ERP) | Active — ADR-0027 | Production Candidate |
+| PAS-006 | shadcn/studio Frontend Standard (charter) | Design (ERP) | — | MVP Authority |
+| PAS-006A | shadcn/studio Product Standard | Design (ERP) | 1 / 1 | Production Candidate |
+| PAS-006B | Inventory & Production Pipeline | Design (ERP) | 0 / 3 | Proposed |
+| PAS-006C | Surface Acceptance (ACPA) | Design (ERP) | 0 / 3 | Proposed |
+| PAS-006D | Metadata-Driven Surfaces | Design (ERP) | 0 / 2 | Proposed |
 | PAS-005 | CSS Authority Standard | Design (archived) | Retired for ERP — B26–B37 historical | Retired |
 | PAS-005A | shadcn/studio Presentation | Design (archived) | Merged into PAS-006 | Retired |
 | PAS-005B | Design System Retirement | Design (archived) | Superseded by ADR-0027 cutover | Retired |
@@ -261,11 +265,11 @@ This table is the canonical count. Every PAS row must trace back to a Blueprint 
 
 | Blueprint box | Package / surface | PAS | Maturity (see PAS index) |
 | --- | --- | --- | --- |
-| Kernel | `@afenda/kernel` | PAS-001, PAS-001A, PAS-001B | Enterprise Accepted / Production Candidate |
+| Kernel | `@afenda/kernel` | PAS-001, PAS-001A, PAS-001B | Enterprise Accepted · PAS-001A doctrine PC · runtime partial (ADR-0027 skeleton) |
 | Architecture authority | `@afenda/architecture-authority` | PAS-002, PAS-002A | MVP / Enterprise Accepted |
 | Accounting standards | `@afenda/accounting-standards` | PAS-003 | Production Candidate |
 | Enterprise knowledge | `@afenda/enterprise-knowledge` | PAS-004 … PAS-004D | MVP → Production Candidate |
-| shadcn/studio (ERP frontend) | `@afenda/shadcn-studio` | PAS-006 | Production Candidate — sole ERP design authority |
+| shadcn/studio (ERP frontend) | `@afenda/shadcn-studio` | PAS-006, PAS-006A–006D | Production Candidate — not Enterprise Accepted until P06-010 |
 | CSS authority (archived) | `@afenda/css-authority` | PAS-005 | Retired for ERP |
 | Legacy UI/appshell (archived for ERP) | `@afenda/ui`, `@afenda/appshell` | — | Retired for ERP consumer paths |
 | Accounting runtime | `@afenda/accounting` | *Planned PAS-006+* | Not started — blocked |

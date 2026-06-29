@@ -63,6 +63,17 @@ export {
   CardTitle,
 } from "./components/ui/card.js";
 export {
+  BLOCK_LIFECYCLE_ORDER,
+  type BlockLifecycleState,
+  isValidBlockLifecycleTransition,
+} from "./registry/block-lifecycle.js";
+export { buildPresentationInventoryFromParity } from "./registry/build-presentation-inventory-from-parity.js";
+export {
+  PRESENTATION_INVENTORY_REGISTRY,
+  type PresentationInventoryEntry,
+  type PresentationLayerKind,
+} from "./registry/presentation-inventory.registry.js";
+export {
   computeStudioBlockParitySummary,
   SHADCN_STUDIO_BLOCK_PARITY_REGISTRY,
   type StudioBlockParityEntry,

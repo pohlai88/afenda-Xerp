@@ -216,7 +216,7 @@ Distinguishes **platform wire-safe language** (kernel substrate) from **enterpri
 | --- | --- | --- | --- | --- | --- |
 | **Kernel Vocabulary** | `@afenda/kernel` | Platform | **live** | PAS-001 | Core substrate — identity, scope, trace, errors, events, localization codes, entity authority metadata, business ref families, tenant lifecycle words |
 | **Kernel Domain Vocabulary Catalog** | `@afenda/kernel` (`erp-domain/*`) | Platform | **live** | PAS-001B | ERP wire terms scale independently of core kernel closure |
-| **ERP Integration Spine** | `apps/erp` + consumer packages | Application integration | **live** | PAS-001A | Vocabulary closure ≠ production wiring proof; **consumes** kernel — not substrate |
+| **ERP Integration Spine** | `apps/erp` + `@afenda/permissions` | Application integration | **partial** (ADR-0027 skeleton) | PAS-001A | Vocabulary closure ≠ production wiring proof; **consumes** kernel — not substrate; full IS-002/IS-003 **suspended** until PAS-001A-R1 |
 
 ---
 
@@ -236,7 +236,7 @@ Distinguishes **platform wire-safe language** (kernel substrate) from **enterpri
 | --- | --- | --- | --- | --- | --- |
 | **Kernel Vocabulary** | PAS-001 amendment | All platform + domain consumers | `@afenda/kernel` · all importers | `quality:kernel-*` · `check:kernel-*` | Identity / context ADRs if breaking |
 | **Kernel Domain Vocabulary Catalog** | PAS-001B slice | ERP domains using wire terms | `@afenda/kernel/erp-domain/*` | `check:accounting-domain-contracts` · domain vocab tests | ADR-0020 lineage |
-| **ERP Integration Spine** | PAS-001A slice | ERP surfaces · metadata · AppShell | `apps/erp` · `@afenda/permissions` · `@afenda/appshell` · `@afenda/metadata-ui` | `check:erp-operating-context-spine` · permission surface gate | ADR-0011 · ADR-0014 |
+| **ERP Integration Spine** | PAS-001A slice | ERP surfaces · metadata runtime (PAS-006) | `apps/erp` · `@afenda/permissions` · *(retired: `@afenda/appshell` · `@afenda/metadata-ui`)* | `check:erp-operating-context-spine` (slim) · `check:erp-tenant-lifecycle-extension-consumer-attestation` · permission surface gate | ADR-0011 · ADR-0014 · ADR-0027 |
 
 ---
 
@@ -286,7 +286,9 @@ External client (browser / API / job)
                 └───────────────────────┘
 ```
 
-### Integration spine (delivered — PAS-001A)
+### Integration spine (target — PAS-001A; partial on ADR-0027 skeleton)
+
+> **Current skeleton:** B111 `TENANT_LIFECYCLE_BRIDGE_WIRING` only. Flow below is **required target** for PAS-001A-R1 — see [PAS-001A §1.4](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md#14-adr-0027-runtime-suspension-2026-06-29).
 
 ```text
 HTTP / Server Action / RSC
@@ -297,7 +299,7 @@ HTTP / Server Action / RSC
   → apps/erp resolve-consolidation-scope
   → OperatingContext (kernel branded shape)   ← scope branded
   → scope consistency check (integration)     ← fail-closed on mismatch (NS §8.2)
-  → authorize-api-route / AppShell / metadata-workspace
+  → authorize-api-route / PAS-006 shell / metadata-workspace
 ```
 
 **Broken-system anti-patterns this prevents:**
@@ -392,7 +394,7 @@ Gates: PAS §13.1 — must include drift + boundary gates
 | PAS ID | Title | Box | Maturity | Slices | Composed | Legacy |
 | --- | --- | --- | --- | --- | --- | --- |
 | PAS-001 | Kernel Vocabulary Authority | Kernel Vocabulary | Enterprise Accepted | B49–B70 · B107–B109 closed | [KERNEL/PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | [archive](../PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
-| PAS-001A | ERP Integration Spine | ERP Integration Spine | Production Candidate | B71–B75 closed | [KERNEL/PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | [archive](../PAS/KERNEL/archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
+| PAS-001A | ERP Integration Spine | ERP Integration Spine | Production Candidate (doctrine) · runtime partial | B71–B75 historical · B111 skeleton · PAS-001A-R1 pending | [KERNEL/PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | [archive](../PAS/KERNEL/archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
 | PAS-001B | ERP Wire Vocabulary Catalog | Kernel Domain Vocabulary Catalog | Enterprise Accepted · `catalog_authority` role | B76–B106 closed | [KERNEL/PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | [archive](../PAS/KERNEL/archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
 
 **Live / Total slices:** 3 / 3 PAS · all slice catalogs closed at current maturity
