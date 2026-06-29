@@ -68,6 +68,11 @@ const OWNERSHIP_ROWS = [
     authorityLevel: "platform",
   },
   {
+    packageName: "@afenda/erp-module-foundation",
+    ownerDomain: "Platform Authority",
+    authorityLevel: "platform",
+  },
+  {
     packageName: "@afenda/feature-flags",
     ownerDomain: "Platform Authority",
     authorityLevel: "platform",

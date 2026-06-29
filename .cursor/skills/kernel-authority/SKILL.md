@@ -14,20 +14,20 @@ paths:
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | Enterprise Accepted — kernel contracts, B49–B70 + B107–B113 amendment closed, runtime gates operational |
+| **Runtime status** | Enterprise Accepted — kernel contracts, B49–B70 + B107–B113 amendment closed (B112 rounding/precision · B113 E12 actor/integration identity), runtime gates operational |
 | **Remaining slices** | none — B113 Delivered ([`KERNEL/SLICE/b113-actor-kind-integration-identity-vocabulary.md`](../../../docs/PAS/KERNEL/SLICE/b113-actor-kind-integration-identity-vocabulary.md)) |
 
 ### PAS-001A — ERP Integration Spine (derived; does not reopen PAS-001)
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | `integration-proven` (IS-001/IS-002/IS-003) · R1a–R1d Delivered · `check:erp-metadata-pas006-consumer` registered |
-| **Remaining slices** | none for R1 family |
-| **Canonical** | [`PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) |
+| **Runtime status** | `integration-proven` (IS-001/IS-002/IS-003) · R1a–R1d Delivered · R2 S2S attestation Delivered · B112-ERP format precision ingress Delivered · R3 API contract runtime **Planned** · `check:erp-metadata-pas006-consumer` · `check:erp-service-actor-s2s-attestation` · `check:erp-format-precision-ingress-attestation` registered · R3 gates `check:api-contracts` · `check:openapi-drift` Planned |
+| **Remaining slices** | R3a → R3b → R3c → R3d (Planned) — [`pas-001a-r3-api-contract-runtime.md`](../../../docs/PAS/API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) · [PAS-API-001](../../../docs/PAS/API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) · [PAS-API-REST-001](../../../docs/PAS/API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · [PAS-001A-API-BINDING](../../../docs/PAS/KERNEL/PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) |
+| **Canonical** | [`PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) · [`PAS-API-001`](../../../docs/PAS/API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) · [`PAS-API-REST-001`](../../../docs/PAS/API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) |
 
 > PAS-001: [`KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · Slices: [`KERNEL/SLICE/`](../../../docs/PAS/KERNEL/SLICE/README.md) · Index: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md) · **Lanes:** [`DEVELOPMENT-LANE-BOUNDARIES.md`](../../../docs/PAS/DEVELOPMENT-LANE-BOUNDARIES.md) (do not parallel PAS-005 CSS)
 
-**Doctrine:** Kernel is not ERP runtime — kernel is the accepted vocabulary consumed by ERP runtime. Load PAS-001A §0 + §3 Context Map + §4 Governance Rules when touching `apps/erp/src/lib/context/**`, permission-scope wiring, or `CONTEXT_INTEGRATION_WIRING`. Pair with `multi-tenancy-erp`.
+**Doctrine:** Kernel is not ERP runtime — kernel is the accepted vocabulary consumed by ERP runtime. Load PAS-001A §0 + §3 Context Map + §4 Governance Rules when touching `apps/erp/src/lib/context/**`, permission-scope wiring, or `CONTEXT_INTEGRATION_WIRING`. Pair with `multi-tenancy-erp`. **API contract (R3 Planned):** [api-contract North Star](../../../docs/NORTHSTAR/api-contract-north-star.md) · [PAS-API-001](../../../docs/PAS/API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) · [PAS-API-REST-001](../../../docs/PAS/API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · [PAS-001A-API-BINDING](../../../docs/PAS/KERNEL/PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) · [R3 handoff](../../../docs/PAS/API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md).
 
 ### PAS-001B — ERP Wire Vocabulary Catalog Standard (derived from PAS-001 §4.8)
 

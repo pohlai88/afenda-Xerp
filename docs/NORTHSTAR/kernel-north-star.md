@@ -605,7 +605,7 @@ See §5.1 I1–I8 — high-level rules agents must respect; TypeScript contracts
 | Platform Blueprint rollup | Kernel family row references this domain NS |
 | PAS-001 / PAS-001A / PAS-001B | Trace to §4 capabilities and §13 map |
 
-**Last synced with PAS:** PAS-001 Enterprise Accepted (B49–B70 · B107–B111) · PAS-001A Production Candidate doctrine · **runtime partial** (ADR-0027 skeleton · PAS-001A-R1 open) · PAS-001B Catalog Authority **KV1–KV3 closed** · Enterprise Accepted (2026-06-29) · **Maturity:** Enterprise Accepted (peer-enhanced)
+**Last synced with PAS:** PAS-001 Enterprise Accepted (B49–B70 · B107–B113) · PAS-001A Production Candidate doctrine · **integration-proven** (ADR-0027 skeleton · PAS-001A-R1/R2/R3 Delivered) · PAS-001B Catalog Authority **KV1–KV3 closed** · Enterprise Accepted (2026-06-30) · **Maturity:** Enterprise Accepted (peer-enhanced)
 
 ---
 

@@ -56,7 +56,7 @@ export const CONTEXT_INTEGRATION_WIRING = [
     id: "protected-api-routes",
     step: "Wire protected API routes",
     module: "server/api/runtime/create-api-handler.ts",
-    delegate: "assertRoutePermission",
+    delegate: "createApiHandler",
   },
   {
     id: "protected-api-operating-context",
@@ -186,6 +186,12 @@ export const METADATA_PAS006_CONSUMER_WIRING = [
     step: "Protected metadata workspace RSC consumes spine and PAS-006 registries",
     module: "app/(protected)/metadata-workspace/page.tsx",
     delegate: "resolveMetadataWorkspaceSurfaces",
+  },
+  {
+    id: "metadata-erp-domain-permission-registry-bridge",
+    step: "Bridge kernel erp-domain permission vocabulary to PERMISSION_REGISTRY for metadata authorization",
+    module: "lib/metadata/metadata-erp-domain-permission-registry.bridge.ts",
+    delegate: "METADATA_ERP_DOMAIN_PERMISSION_REGISTRY_BRIDGE",
   },
   {
     id: "metadata-operator-surface-resolver",

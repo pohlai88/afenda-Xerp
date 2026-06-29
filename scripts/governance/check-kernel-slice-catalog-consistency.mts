@@ -32,7 +32,7 @@ const HANDOFF_LINK_PATTERN =
 const REMAINING_SLICES_NONE_PATTERN =
   /\|\s*\*\*Remaining slices\*\*\s*\|\s*none/i;
 
-const DELIVERED_B_SLICE_COUNT = 55;
+const DELIVERED_B_SLICE_COUNT = 56;
 const R1_SLICE_COUNT = 4;
 
 function extractHandoffLinks(source: string): string[] {
@@ -56,7 +56,14 @@ function listIndexedHandoffFilesOnDisk(): string[] {
   );
 }
 
+function isB112ErpConsumerHandoff(fileName: string): boolean {
+  return /^b112-erp-/i.test(fileName);
+}
+
 function sliceIdFromFileName(fileName: string): string | null {
+  if (isB112ErpConsumerHandoff(fileName)) {
+    return null;
+  }
   const match = fileName.match(/^(b\d+)/i);
   return match?.[1]?.toUpperCase() ?? null;
 }
@@ -143,7 +150,7 @@ export function checkKernelSliceCatalogConsistency(): KernelSliceCatalogConsiste
   if (deliveredLinkedCount + R1_SLICE_COUNT !== DELIVERED_B_SLICE_COUNT + R1_SLICE_COUNT) {
     violations.push({
       rule: "catalog-delivered-count-mismatch",
-      message: `Catalog must index ${DELIVERED_B_SLICE_COUNT + R1_SLICE_COUNT} delivered handoffs (55 b + 4 R1); found ${deliveredLinkedCount + r1Count} indexed delivered entries`,
+      message: `Catalog must index ${DELIVERED_B_SLICE_COUNT + R1_SLICE_COUNT} delivered handoffs (${DELIVERED_B_SLICE_COUNT} b + ${R1_SLICE_COUNT} R1); found ${deliveredLinkedCount + r1Count} indexed delivered entries`,
     });
   }
 
@@ -183,11 +190,11 @@ export function checkKernelSliceCatalogConsistency(): KernelSliceCatalogConsiste
   const complianceAuditPath = join(sliceDir, "slice-compliance-audit.md");
   if (existsSync(complianceAuditPath)) {
     const auditSource = readFileSync(complianceAuditPath, "utf8");
-    if (!auditSource.includes("| **Total** | **58** | **58** |")) {
+    if (!auditSource.includes("| **Total** | **60** | **60** |")) {
       violations.push({
         rule: "slice-compliance-audit-count-stale",
         message:
-          "slice-compliance-audit.md Total row must read 58 | 58 for delivered vocabulary handoffs",
+          "slice-compliance-audit.md Total row must read 60 | 60 for delivered vocabulary handoffs",
       });
     }
   }

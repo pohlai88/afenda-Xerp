@@ -64,6 +64,7 @@ export const layerContract: LayerContract = {
     "@afenda/enterprise-knowledge": "Platform",
     "@afenda/shadcn-studio": "Design",
     "@afenda/execution": "Foundation",
+    "@afenda/erp-module-foundation": "Foundation",
     "@afenda/storage": "Foundation",
     "@afenda/accounting-standards": "Foundation",
     "@afenda/entitlements": "Integration",

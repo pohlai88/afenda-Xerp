@@ -231,6 +231,18 @@ export function checkClassificationPas004LabelTraces(
           });
         }
       }
+
+      if (entry.wireShapeRole === undefined) {
+        violations.push({
+          rule: "classification-wire-shape-role-missing",
+          file: join(
+            root,
+            ERP_DOMAIN_CONTRACTS_ROOT,
+            "catalog/wire-classification-label-traces.registry.ts"
+          ),
+          message: `${entry.constantExport} (${entry.contractFile}) must declare wireShapeRole (classification | enumeration | event)`,
+        });
+      }
     }
   }
 

@@ -164,13 +164,15 @@ Read in order:
 
 1. [`docs/NORTHSTAR/kernel-north-star.md`](docs/NORTHSTAR/kernel-north-star.md) — platform why + capability expectations ([ADR-0026](docs/adr/ADR-0026-platform-north-star-and-architecture-blueprint.md))
 2. [`docs/BLUEPRINT/kernel-blueprint.md`](docs/BLUEPRINT/kernel-blueprint.md) — discover packages/domains before PAS
-3. [`docs/PAS/README.md`](docs/PAS/README.md) — PAS index and canonical location rules
-4. [`docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`](docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) — kernel boundary (composed SSOT)
-5. [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](packages/architecture-authority/src/data/foundation-disposition.registry.ts) — machine authority
-6. [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](packages/architecture-authority/src/data/foundation-disposition.registry.ts) — lane vocabulary + entries (synced view)
-7. [`docs/PAS/pas-status-index.md`](docs/PAS/pas-status-index.md)
-8. [`.cursor/skills/enterprise-erp-standards/SKILL.md`](.cursor/skills/enterprise-erp-standards/SKILL.md) — SAP/Oracle gates (red/amber/blue lanes)
-9. Target presentation standard: [`docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md`](docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) — ERP frontend ([ADR-0027](docs/adr/ADR-0027-frontend-presentation-reset.md))
+3. [`docs/NORTHSTAR/api-contract-north-star.md`](docs/NORTHSTAR/api-contract-north-star.md) — governed HTTP contract domain ([ADR-0030](docs/adr/ADR-0030-erp-rest-api-contract-standard.md)) · [`api-contract-blueprint.md`](docs/BLUEPRINT/api-contract-blueprint.md)
+4. [`docs/PAS/README.md`](docs/PAS/README.md) — PAS index and canonical location rules
+5. [`docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`](docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) — kernel boundary (composed SSOT)
+6. [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](packages/architecture-authority/src/data/foundation-disposition.registry.ts) — machine authority
+7. [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](packages/architecture-authority/src/data/foundation-disposition.registry.ts) — lane vocabulary + entries (synced view)
+8. [`docs/PAS/pas-status-index.md`](docs/PAS/pas-status-index.md)
+9. [`.cursor/skills/enterprise-erp-standards/SKILL.md`](.cursor/skills/enterprise-erp-standards/SKILL.md) — SAP/Oracle gates (red/amber/blue lanes)
+10. Target presentation standard: [`docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md`](docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) — ERP frontend ([ADR-0027](docs/adr/ADR-0027-frontend-presentation-reset.md))
+11. Platform API contract: [`docs/NORTHSTAR/api-contract-north-star.md`](docs/NORTHSTAR/api-contract-north-star.md) · [ADR-0030](docs/adr/ADR-0030-erp-rest-api-contract-standard.md) · [`docs/BLUEPRINT/api-contract-blueprint.md`](docs/BLUEPRINT/api-contract-blueprint.md) · [PAS-API-001](docs/PAS/API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) · [PAS-API-REST-001](docs/PAS/API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · R3a–R3d Planned ([handoff](docs/PAS/API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md)) · [`.cursor/skills/afenda-openapi/SKILL.md`](.cursor/skills/afenda-openapi/SKILL.md)
 
 **Frontend presentation (PAS-006):** [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md) · [`docs/NORTHSTAR/shadcn-studio-presentation-north-star.md`](docs/NORTHSTAR/shadcn-studio-presentation-north-star.md) · [`docs/BLUEPRINT/shadcn-studio-presentation-blueprint.md`](docs/BLUEPRINT/shadcn-studio-presentation-blueprint.md) · `@afenda/shadcn-studio` — stock shadcn/studio via MCP; unprefixed CSS vars; **no** `ui:guard` or PAS-005 slice execution for ERP.
 

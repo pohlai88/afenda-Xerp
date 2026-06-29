@@ -1,0 +1,14 @@
+{
+  "auditCatalogId": "PAS-001-AUDIT-SLICES",
+  "parentAuthority": "PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD",
+  "hygieneBatch": "PAS-001-PAS-001A-audit-closure",
+  "closedAt": "2026-06-30",
+  "slices": {
+    "PAS-001-AUD-03": {
+      "name": "Package Structure and Public Export Audit",
+      "verdict": "Pass",
+      "previousVerdict": "Conditional Pass",
+      "note": "checkKernelPackageStructure export refactor delivered — scripts/governance/check-kernel-package-structure.mts exports checkKernelPackageStructure(); gate green with unit tests in scripts/governance/__tests__/check-kernel-package-structure.test.ts"
+    }
+  }
+}

@@ -39,6 +39,14 @@ const REQUIRED_METADATA_MODULES = [
     markers: ["projectMetadataUiBindingWire", "ERP_DOMAIN_MODULES"],
   },
   {
+    file: "lib/metadata/metadata-erp-domain-permission-registry.bridge.ts",
+    markers: [
+      "METADATA_ERP_DOMAIN_PERMISSION_REGISTRY_BRIDGE",
+      "isKernelWirePermissionRegistered",
+      "PERMISSION_REGISTRY",
+    ],
+  },
+  {
     file: "lib/metadata/resolve-metadata-ui-render-context.server.ts",
     markers: ["resolveMetadataUiRenderContextFromTenantContext"],
   },
@@ -264,6 +272,7 @@ if (isDirectRun) {
       "metadata-workspace-hydration.integration",
       "hydrate-metadata-binding-slots.server",
       "metadata-ui-binding.projection",
+      "metadata-erp-domain-permission-registry.bridge",
       "resolve-metadata-workspace-surfaces.server",
     ],
     { cwd: repoRoot, stdio: "inherit", shell: true }

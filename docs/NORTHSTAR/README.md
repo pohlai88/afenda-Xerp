@@ -16,6 +16,15 @@ Five constitutional platform domains — orthogonal concerns with minimal overla
 
 **Note:** Design Token Authority North Star is technology-independent; Blueprint box remains **CSS authority** (PAS-005) as today's primary web representation.
 
+## Cross-cutting platform North Stars
+
+HTTP contract governance spans Kernel integration spine, Platform API Contract family, Architecture Authority disposition, and ERP runtime wiring — it is **not** a sixth constitutional domain orthogonal to the five rows above. It is indexed here as a **cross-cutting integration North Star** so discovery order stays explicit without diluting domain boundaries.
+
+| Concern | North Star | Constitutional question | Authority ADR | Blueprint | Maturity |
+| --- | --- | --- | --- | --- | --- |
+| Platform API Contract | [api-contract-north-star.md](api-contract-north-star.md) | *How does the platform expose governed, auditable API contracts across styles?* | [ADR-0030](../adr/ADR-0030-erp-rest-api-contract-standard.md) | [api-contract-blueprint.md](../BLUEPRINT/api-contract-blueprint.md) | Enterprise **10 / 10** |
+
+**Read order insertion:** after Platform Kernel North Star when touching API exposure, internal v1 REST, OpenAPI publication, or PAS-API-REST-001 R3 slices.
 
 ## Constitutional law layers
 
@@ -50,4 +59,4 @@ PAS → Slice → Code
 
 **Template authority:** `.cursor/skills/kernel-authority/reference/north-star-template.md` · **Boundary contract:** `.cursor/skills/kernel-authority/reference/doc-boundary-contract.md`
 
-**Last updated:** 2026-06-29
+**Last updated:** 2026-06-30

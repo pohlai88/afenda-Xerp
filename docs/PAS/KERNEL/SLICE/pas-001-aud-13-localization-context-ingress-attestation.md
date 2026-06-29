@@ -60,4 +60,4 @@ Both delegates call kernel `parseUnknownLocalizationContext` via `parseLocalizat
 ## Deferred
 
 - Wire into live user-settings / system-admin server actions when those modules exist on disk
-- B112 — RoundingMode / DecimalPrecision kernel primitives (see [b112-rounding-decimal-precision-vocabulary-amendment.md](./b112-rounding-decimal-precision-vocabulary-amendment.md))
+- B112 format precision consumer — see [b112-erp-format-precision-consumer-attestation.md](./b112-erp-format-precision-consumer-attestation.md) (Delivered)

@@ -1,18 +1,24 @@
 import { describe, expect, it } from "vitest";
 import {
+  assertErpRuntimeModuleRegistry,
   assertModuleReadiness,
+  buildProcurementFoundationBundle,
   collectModuleReadinessFailures,
   defineErpRuntimeModule,
+  defineErpRuntimeModuleRegistry,
   defineModuleAuditMap,
-  defineModuleEventCatalog,
-  defineModuleKnowledgeMap,
   defineModuleMetadataBinding,
   defineModuleOutboxContract,
-  defineModuleOwnership,
   defineModulePermissionBinding,
-  defineModuleReadiness,
   ModuleReadinessAssertionError,
+  ModuleRegistryAssertionError,
 } from "../index.js";
+
+const PAS_001B_KV_CATALOG = {
+  procurement: "KV-PROC",
+  inventory: "KV-INV",
+  accounting: "KV-ACCT",
+} as const;
 
 const PROCUREMENT_KERNEL_PERMISSION_KEYS = [
   "procurement.requisition_read",
@@ -20,33 +26,14 @@ const PROCUREMENT_KERNEL_PERMISSION_KEYS = [
   "procurement.purchaseOrder_read",
 ] as const;
 
-const PROCUREMENT_AUDIT_ACTIONS = [
-  "requisition.submitted",
-  "purchase_order.sent",
-] as const;
-
-function buildProcurementFoundationBundle(
-  evidence?: Partial<
-    Record<
-      | "authority"
-      | "knowledge"
-      | "ownership"
-      | "database"
-      | "contextSpine"
-      | "permissions"
-      | "audit"
-      | "outbox"
-      | "metadata"
-      | "ui"
-      | "tests"
-      | "gates",
-      string
-    >
-  >
+function baseModuleInput(
+  overrides?: Partial<Parameters<typeof defineErpRuntimeModule>[0]>
 ) {
-  const module = defineErpRuntimeModule({
+  return {
     slug: "procurement",
     kvId: "KV-PROC",
+    permissionNamespace: "procurement",
+    routeSlug: "procurement",
     runtimePackage: "@afenda/procurement",
     wirePackage: "@afenda/kernel/erp-domain/procurement",
     ownerPackage: "@afenda/procurement",
@@ -54,154 +41,84 @@ function buildProcurementFoundationBundle(
     appOwner: "apps/erp",
     permissionOwner: "@afenda/permissions",
     knowledgeOwner: "@afenda/enterprise-knowledge",
-    lifecycle: "foundation",
-    runtimeStatus: "foundation_authorized",
-  });
-
-  const ownership = defineModuleOwnership({
-    wireVocabulary: "@afenda/kernel",
-    businessMeaning: "@afenda/enterprise-knowledge",
-    runtimeBehavior: "@afenda/procurement",
-    databaseSchema: "@afenda/database",
-    appIngress: "apps/erp",
-    permissionRegistry: "@afenda/permissions",
-    metadataBinding: "apps/erp",
-    presentation: "@afenda/shadcn-studio",
-  });
-
-  const knowledge = defineModuleKnowledgeMap({
-    module: "procurement",
-    kvId: "KV-PROC",
-    terms: [
-      {
-        term: "procurement_requisition",
-        status: "accepted",
-        requiredAction: "Maintain PAS-004 bridge.",
-        atomId: "procurement_requisition",
-        wireArtifact:
-          "packages/kernel/src/erp-domain/procurement/purchase-requisition-status.contract.ts",
-      },
-      {
-        term: "purchase_order",
-        status: "wire_only",
-        requiredAction: "Create PAS-004 atom before runtime behavior.",
-        wireArtifact:
-          "packages/kernel/src/erp-domain/procurement/purchase-order-status.contract.ts",
-      },
-    ],
-  });
-
-  const permissionBinding = defineModulePermissionBinding({
-    module: "procurement",
-    kvId: "KV-PROC",
-    registryNamespace: "procurement",
-    kernelPermissionKeys: [...PROCUREMENT_KERNEL_PERMISSION_KEYS],
-  });
-
-  const auditMap = defineModuleAuditMap({
-    module: "procurement",
-    kvId: "KV-PROC",
-    actions: [...PROCUREMENT_AUDIT_ACTIONS],
-  });
-
-  const eventCatalog = defineModuleEventCatalog({
-    module: "procurement",
-    events: [
-      "procurement.requisition.submitted",
-      "procurement.purchase_order.sent",
-    ],
-  });
-
-  const outboxContract = defineModuleOutboxContract({
-    module: "procurement",
-    entries: [
-      {
-        event: "procurement.purchase_order.sent",
-        requirement: "required",
-      },
-      {
-        event: "procurement.requisition.submitted",
-        requirement: "deferred",
-      },
-    ],
-  });
-
-  const metadataBinding = defineModuleMetadataBinding({
-    module: "procurement",
-    kvId: "KV-PROC",
-    surfaces: [
-      {
-        surfaceId: "procurement.requisitions.list",
-        route: "/modules/procurement/requisitions",
-        permissionKey: "procurement.requisition_read",
-        operatingContextRequired: true,
-        metadataSlotId: "procurement.requisitions.list",
-      },
-    ],
-  });
-
-  const readiness = defineModuleReadiness({
-    module: "procurement",
-    kvId: "KV-PROC",
-    matrix: {
-      authority: "required",
-      knowledge: "required",
-      ownership: "required",
-      database: "deferred",
-      contextSpine: "required",
-      permissions: "required",
-      audit: "required",
-      outbox: "deferred",
-      metadata: "deferred",
-      ui: "deferred",
-      tests: "required",
-      gates: "required",
-    },
-  });
-
-  return {
-    module,
-    ownership,
-    knowledge,
-    permissionBinding,
-    auditMap,
-    eventCatalog,
-    outboxContract,
-    metadataBinding,
-    readiness,
-    ...(evidence ? { evidence } : {}),
+    lifecycle: "foundation" as const,
+    runtimeStatus: "foundation_authorized" as const,
+    ...overrides,
   };
 }
 
 describe("erp-module-foundation define helpers", () => {
-  it("defines a governed ERP runtime module identity", () => {
+  it("defines a governed ERP runtime module identity with KV catalog parity", () => {
     const module = defineErpRuntimeModule({
-      slug: "procurement",
-      kvId: "KV-PROC",
-      runtimePackage: "@afenda/procurement",
-      wirePackage: "@afenda/kernel/erp-domain/procurement",
-      ownerPackage: "@afenda/procurement",
-      databaseOwner: "@afenda/database",
-      appOwner: "apps/erp",
-      permissionOwner: "@afenda/permissions",
-      knowledgeOwner: "@afenda/enterprise-knowledge",
-      lifecycle: "foundation",
-      runtimeStatus: "foundation_authorized",
+      ...baseModuleInput(),
+      erpDomainModuleKvIds: PAS_001B_KV_CATALOG,
     });
 
     expect(module.kvId).toBe("KV-PROC");
-    expect(module.lifecycle).toBe("foundation");
+    expect(module.permissionNamespace).toBe("procurement");
   });
 
-  it("rejects permission keys outside registry namespace", () => {
+  it("rejects KV catalog mismatch", () => {
+    expect(() =>
+      defineErpRuntimeModule({
+        ...baseModuleInput({ kvId: "KV-INV" }),
+        erpDomainModuleKvIds: PAS_001B_KV_CATALOG,
+      })
+    ).toThrow(/KV catalog parity/);
+  });
+
+  it("enforces exact permission parity when configured", () => {
     expect(() =>
       defineModulePermissionBinding({
         module: "procurement",
         kvId: "KV-PROC",
-        registryNamespace: "procurement",
-        kernelPermissionKeys: ["inventory.product_read"],
+        permissionNamespace: "procurement",
+        permissionParity: "exact",
+        kernelPermissionKeys: [...PROCUREMENT_KERNEL_PERMISSION_KEYS],
+        registryPermissionKeys: ["procurement.requisition_read"],
       })
-    ).toThrow(/registryNamespace/);
+    ).toThrow(/permission parity exact/);
+  });
+
+  it("rejects empty registryPermissionKeys when subset_allowed", () => {
+    expect(() =>
+      defineModulePermissionBinding({
+        module: "procurement",
+        kvId: "KV-PROC",
+        permissionNamespace: "procurement",
+        permissionParity: "subset_allowed",
+        kernelPermissionKeys: [...PROCUREMENT_KERNEL_PERMISSION_KEYS],
+        registryPermissionKeys: [],
+      })
+    ).toThrow(/non-empty registryPermissionKeys/);
+  });
+
+  it("rejects non-prefixed audit actions in module_prefixed mode", () => {
+    expect(() =>
+      defineModuleAuditMap({
+        module: "procurement",
+        kvId: "KV-PROC",
+        actions: ["requisition.submitted"],
+      })
+    ).toThrow(/must be prefixed/);
+  });
+
+  it("rejects weak metadata routes", () => {
+    expect(() =>
+      defineModuleMetadataBinding({
+        module: "procurement",
+        kvId: "KV-PROC",
+        surfaces: [
+          {
+            surfaceId: "procurement.test",
+            route: "/system/procurement-test",
+            routeKind: "erp_module_page",
+            permissionKey: "procurement.requisition_read",
+            operatingContextRequired: true,
+          },
+        ],
+      })
+    ).toThrow(/erp_module_page route must match/);
   });
 
   it("collects outbox failures when event is missing from catalog", () => {
@@ -260,5 +177,83 @@ describe("assertModuleReadiness", () => {
     expect(failures.some((failure) => failure.includes("authority"))).toBe(
       true
     );
+  });
+});
+
+describe("assertErpRuntimeModuleRegistry", () => {
+  it("passes for non-duplicated registry entries with KV catalog parity", () => {
+    const procurement = defineErpRuntimeModule(baseModuleInput());
+    const registry = defineErpRuntimeModuleRegistry({ modules: [procurement] });
+    const bundle = buildProcurementFoundationBundle({
+      authority: "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+      knowledge: "packages/enterprise-knowledge/src/data/atoms.json",
+      ownership: "docs/PAS/KERNEL/audit/procurement-foundation-gap-report.md",
+      contextSpine:
+        "apps/erp/src/lib/context/resolve-operating-context.server.ts",
+      permissions:
+        "packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts",
+      audit:
+        "packages/kernel/src/erp-domain/procurement/procurement-audit-actions.contract.ts",
+      tests:
+        "packages/erp-module-foundation/src/__tests__/module-foundation.test.ts",
+      gates: "scripts/governance/check-erp-module-foundation.mts",
+    });
+
+    const alignedBundle = {
+      ...bundle,
+      module: procurement,
+    };
+
+    const result = assertErpRuntimeModuleRegistry({
+      registry,
+      erpDomainModuleKvIds: PAS_001B_KV_CATALOG,
+      bundles: [alignedBundle],
+    });
+
+    expect(result.ok).toBe(true);
+    expect(result.moduleCount).toBe(1);
+  });
+
+  it("fails on duplicate permission keys across module bundles", () => {
+    const procurement = defineErpRuntimeModule(baseModuleInput());
+    const inventory = defineErpRuntimeModule({
+      slug: "inventory",
+      kvId: "KV-INV",
+      permissionNamespace: "inventory",
+      routeSlug: "inventory",
+      runtimePackage: "@afenda/database",
+      wirePackage: "@afenda/kernel/erp-domain/inventory",
+      ownerPackage: "@afenda/database",
+      databaseOwner: "@afenda/database",
+      appOwner: "apps/erp",
+      permissionOwner: "@afenda/permissions",
+      knowledgeOwner: "@afenda/enterprise-knowledge",
+      lifecycle: "runtime",
+      runtimeStatus: "runtime_authorized",
+    });
+
+    const registry = defineErpRuntimeModuleRegistry({
+      modules: [procurement, inventory],
+    });
+
+    const procurementBundle = buildProcurementFoundationBundle();
+    const inventoryBundle = {
+      ...procurementBundle,
+      module: inventory,
+      permissionBinding: defineModulePermissionBinding({
+        module: "inventory",
+        kvId: "KV-INV",
+        permissionNamespace: "procurement",
+        kernelPermissionKeys: ["procurement.requisition_read"],
+      }),
+    };
+
+    expect(() =>
+      assertErpRuntimeModuleRegistry({
+        registry,
+        erpDomainModuleKvIds: PAS_001B_KV_CATALOG,
+        bundles: [procurementBundle, inventoryBundle],
+      })
+    ).toThrow(ModuleRegistryAssertionError);
   });
 });

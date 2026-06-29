@@ -71,6 +71,7 @@ This Blueprint maps [Kernel North Star](../NORTHSTAR/kernel-north-star.md) §4 c
 | Tenant extension boundary | Kernel Vocabulary | D1 |
 | ERP domain wire catalog | Kernel Domain Vocabulary Catalog | D1 (E4, E7) |
 | Consumer integration proof | ERP Integration Spine | D1 (E6) |
+| Platform HTTP Contract (cross-cutting) | [Platform HTTP Contract Blueprint](api-contract-blueprint.md) · ERP Integration Spine box | ADR-0030 · [API Contract NS](../NORTHSTAR/api-contract-north-star.md) |
 
 ---
 

@@ -3,10 +3,10 @@
 | Field | Value |
 | --- | --- |
 | **SSOT directory** | `docs/PAS/KERNEL/SLICE/` |
-| **Individual handoffs** | 59 files (55 `b*.md` + 4 `pas-001a-r1*.md` + 1 `pas-001a-r2*.md`) |
+| **Individual handoffs** | 62 files (55 `b*.md` + 2 `b*-erp-*.md` consumer + 4 `pas-001a-r1*.md` + 1 `pas-001a-r2*.md` + 1 `pas-001a-r3*.md`) |
 | **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — do not use |
 | **Closure registry** | [pas-status-index.md](../../pas-status-index.md) |
-| **Last reviewed** | 2026-06-29 |
+| **Last reviewed** | 2026-06-30 |
 
 > **Catalog only.** Open the linked `b*.md` file for the 9-field handoff.
 
@@ -14,7 +14,8 @@
 
 ```text
 PAS-001:  B49 → B55 · B57 · B67 → B70 · B107 → B113 (amendment)
-PAS-001A: B71 → B75 · R1a → R1d · R2 (S2S attestation)
+PAS-001A: B71 → B75 · R1a → R1d · R2 (S2S attestation) · B112-ERP (format precision ingress)
+API-CONTRACT: R3a → R3d (see docs/PAS/API-CONTRACT/REST/SLICE/)
 PAS-001B: B76 → B106 · KV1–KV3
 ```
 
@@ -84,6 +85,16 @@ PAS-001B: B76 → B106 · KV1–KV3
 | Slice | Handoff | Status |
 | --- | --- | --- |
 | R2 | [pas-001a-r2-service-actor-s2s-attestation.md](./pas-001a-r2-service-actor-s2s-attestation.md) | **Delivered** |
+
+## PAS-001A-R3 — API contract runtime
+
+> **Moved to:** [`docs/PAS/API-CONTRACT/REST/SLICE/`](../../API-CONTRACT/REST/SLICE/api-contract-slice-catalog.md) — R3a–R3d · [PAS-API-001](../../API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) · [PAS-API-REST-001](../../API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md)
+
+## PAS-001A — B112-ERP format precision ingress (delivered)
+
+| Slice | Handoff | Status |
+| --- | --- | --- |
+| B112-ERP | [b112-erp-format-precision-consumer-attestation.md](./b112-erp-format-precision-consumer-attestation.md) | **Delivered** |
 
 ## PAS-001B — B76–B106 (delivered)
 

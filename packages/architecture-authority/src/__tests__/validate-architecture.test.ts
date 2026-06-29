@@ -38,14 +38,17 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
     workspace("@afenda/erp", {
       "@afenda/auth": "workspace:*",
       "@afenda/database": "workspace:*",
-      "@afenda/observability": "workspace:*",
-      "@afenda/shadcn-studio": "workspace:*",
+      "@afenda/enterprise-knowledge": "workspace:*",
       "@afenda/kernel": "workspace:*",
+      "@afenda/observability": "workspace:*",
+      "@afenda/permissions": "workspace:*",
+      "@afenda/shadcn-studio": "workspace:*",
     }),
     workspace("@afenda/execution", {
       "@afenda/kernel": "workspace:*",
       "@afenda/observability": "workspace:*",
     }),
+    workspace("@afenda/erp-module-foundation"),
     workspace("@afenda/feature-flags", {
       "@afenda/entitlements": "workspace:*",
     }),

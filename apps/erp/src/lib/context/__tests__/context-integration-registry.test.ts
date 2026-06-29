@@ -40,7 +40,7 @@ describe("context-integration-registry", () => {
   });
 
   it("declares PAS-001A R1c metadata PAS-006 consumer wiring", () => {
-    expect(METADATA_PAS006_CONSUMER_WIRING).toHaveLength(8);
+    expect(METADATA_PAS006_CONSUMER_WIRING).toHaveLength(9);
     expect(
       METADATA_PAS006_CONSUMER_WIRING.some(
         (entry) => entry.id === "metadata-binding-slot-hydration"

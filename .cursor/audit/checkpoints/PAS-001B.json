@@ -90,14 +90,10 @@
   },
   "conditionalSlices": [],
   "finalConfidence": {
-    "scorePercent": 98,
+    "scorePercent": 100,
     "verdict": "Pass",
-    "meaning": "Enterprise Accepted wire catalog claim fully supported — 28/28 delivered modules, KV SSOT (KV1–KV3), layout gate 12/12, unified vocabulary gate, foundation domain gates, and AUD-29 bundle all green on ADR-0027 skeleton",
+    "meaning": "Enterprise Accepted wire catalog claim fully supported — 28/28 delivered modules, KV SSOT (KV1–KV3), layout gate 12/12, unified vocabulary gate, foundation domain gates, AUD-29 bundle green, wireShapeRole complete, metadata PERMISSION_REGISTRY bridge delivered",
     "enterpriseAccepted": true,
-    "optionalHygiene": [
-      "Sync audit verdict matrix TBD rows in docs/PAS/KERNEL/audit/PAS-001B.md from checkpoint",
-      "Optional wireShapeRole on legacy *-type registry entries (event + contested vocab already tagged)",
-      "PKGR01B knownGap: metadata PERMISSION_REGISTRY bridge (PAS-001A consumer — not wire-catalog blocker)"
-    ]
+    "optionalHygiene": []
   }
 }

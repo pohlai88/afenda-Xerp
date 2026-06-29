@@ -440,6 +440,8 @@ request
 
 ## 6. Required Gates
 
+Authority: [PAS-001C — ERP Module Foundation Standard](../PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) §6.
+
 ```bash
 pnpm check:erp-module-foundation
 pnpm check:erp-module-ownership

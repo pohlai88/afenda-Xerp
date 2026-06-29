@@ -63,6 +63,7 @@ export const dependencyContract: DependencyContract = {
     "@afenda/ai-governance": ["@afenda/architecture-authority"],
     "@afenda/accounting-standards": ["@afenda/kernel"],
     "@afenda/enterprise-knowledge": [],
+    "@afenda/erp-module-foundation": [],
   },
   devOnlyExempt: [
     {

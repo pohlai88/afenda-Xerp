@@ -22,9 +22,9 @@ Verify that claimed **Delivered** implementation slices are actually closed: han
 | --- | --- | --- |
 | B2–B48 historical | Archive + §11 implementation sequence registry | `check:kernel-implementation-sequence` · `check:kernel-package-structure` · core identity/context/permission contracts on disk |
 | B49–B70 closure | 12 handoffs (`b49`–`b70`) | `check:kernel-context-wire-triad` · `context-registry.ts` · hierarchy boundary wire |
-| B107–B111 amendment | 5 handoffs (`b107`–`b111`) | Tenant lifecycle/extension wire triads · effective-dating consumer · ERP auth actor + lifecycle attestation gates |
+| B107–B113 amendment | 7 handoffs (`b107`–`b113`) | Tenant lifecycle/extension wire triads · effective-dating consumer · ERP auth actor + lifecycle attestation gates · rounding/precision vocabulary (B112) · actor/integration identity (B113) |
 | Catalog SSOT | `kernel-slice-catalog.md` · `slice-compliance-audit.md` | `check:kernel-slice-catalog-consistency` |
-| Future work redirect | PAS-001A · PAS-001B | Both declare `Remaining slices: none`; B112 indexed as **Planned** (ADR-0029) |
+| Future work redirect | PAS-001A · PAS-001B | Both declare `Remaining slices: none`; B112/B113 Delivered (2026-06-30) |
 
 ## Gate evidence (all green)
 
@@ -49,10 +49,10 @@ Verify that claimed **Delivered** implementation slices are actually closed: han
 | Slice catalog and status index agree | **Pass** — consistency gate |
 | Delivered slices have evidence | **Pass** — AUD-22 closure gate + track evidence paths |
 | No ghost slices | **Pass** — B110/B111/R1 handoffs restored; B110 ID collision removed |
-| Remaining slices truly none | **Pass** — PAS-001 · PAS-001A-R1 · pas-status-index |
+| Remaining slices truly none | **Pass** — PAS-001 · PAS-001A-R1/R2 · pas-status-index |
 | B2–B48 historical core surfaces | **Pass** — §11 sequence evidence + layout/identity contracts |
-| Amendment track traceable | **Pass** — B107–B111 handoffs + amendment gates |
-| Future work redirected | **Pass** — PAS-001A (consumers) · PAS-001B (erp-domain catalog) · B112 Planned |
+| Amendment track traceable | **Pass** — B107–B113 handoffs + amendment gates |
+| Future work redirected | **Pass** — PAS-001A (consumers · R2) · PAS-001B (erp-domain catalog) · B112/B113 Delivered |
 
 ## Gap closure log
 
@@ -67,7 +67,7 @@ Verify that claimed **Delivered** implementation slices are actually closed: han
 
 ### **Pass**
 
-PAS-001 delivered slice closure is proven by on-disk handoffs, executable gates, and catalog/index alignment. Vocabulary track is closed; future work is routed to PAS-001A, PAS-001B, or ADR-gated B112 — not hidden in consumer packages.
+PAS-001 delivered slice closure is proven by on-disk handoffs, executable gates, and catalog/index alignment. Vocabulary track is closed (B107–B113); future integration work is routed to PAS-001A (R2 delivered) and PAS-001B — not hidden in consumer packages.
 
 ## Handoff block (audit record)
 

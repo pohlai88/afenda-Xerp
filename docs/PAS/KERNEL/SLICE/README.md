@@ -5,7 +5,7 @@
 | **Catalog (full table)** | [kernel-slice-catalog.md](./kernel-slice-catalog.md) |
 | **Closure registry** | [pas-status-index.md](../../pas-status-index.md) |
 | **Lane boundaries** | [DEVELOPMENT-LANE-BOUNDARIES.md](../../DEVELOPMENT-LANE-BOUNDARIES.md) |
-| **Last reviewed** | 2026-06-29 |
+| **Last reviewed** | 2026-06-30 |
 
 > **Do not use** [`docs/PAS/slice/`](../../slice/README.md) for new work — deprecated shim only.
 
@@ -15,7 +15,7 @@
 
 ```text
 PAS-001:  B49 → B70 · B107 → B113 (amendment)
-PAS-001A: B71 → B75 · R1a → R1d · R2 (S2S attestation)
+PAS-001A: B71 → B75 · R1a → R1d · R2 · B112-ERP
 PAS-001B: B76 → B106
 ```
 
@@ -35,6 +35,16 @@ PAS-001B: B76 → B106
 | Slice | Handoff | Status |
 | --- | --- | --- |
 | R2 | [pas-001a-r2-service-actor-s2s-attestation.md](./pas-001a-r2-service-actor-s2s-attestation.md) | **Delivered** |
+
+## PAS-001A-R3 track (API contract runtime)
+
+> **Moved:** R3a–R3d handoffs live in [`docs/PAS/API-CONTRACT/REST/SLICE/`](../../API-CONTRACT/REST/SLICE/README.md) — [PAS-API-REST-001](../../API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · [api-contract North Star](../../../NORTHSTAR/api-contract-north-star.md).
+
+## PAS-001A — B112-ERP format precision ingress
+
+| Slice | Handoff | Status |
+| --- | --- | --- |
+| B112-ERP | [b112-erp-format-precision-consumer-attestation.md](./b112-erp-format-precision-consumer-attestation.md) | **Delivered** |
 
 ---
 

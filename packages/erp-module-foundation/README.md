@@ -2,7 +2,9 @@
 
 Reusable **factories and validators** for ERP runtime module foundation — not business runtime, not kernel wire vocabulary.
 
-Aligns with [`docs/PAS/KERNEL/template/erp-runtime-module-foundation.template.md`](../../docs/PAS/KERNEL/template/erp-runtime-module-foundation.template.md).
+**Authority:** [PAS-001C — ERP Module Foundation Standard](../../docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md)  
+**Slice:** ERP-MOD-FDN-003 — Enterprise acceptance (honest ~8.6–8.8/10 helper package; 9.5 requires live domain adoption)  
+**Fingerprint:** `ERP_MODULE_FOUNDATION-2026-06-30-v3`
 
 ## Why this package exists
 
@@ -14,37 +16,50 @@ Aligns with [`docs/PAS/KERNEL/template/erp-runtime-module-foundation.template.md
 | `@afenda/database` | Persistence |
 | `apps/erp` | Ingress and protected routes |
 
-Kernel must not own runtime, DB, auth, UI, workflows, or behavior.
+## Status ladder (PAS-001C)
+
+```text
+wire_only → foundation_authorized → foundation_verified → runtime_authorized → runtime_verified
+(+ blocked, deprecated, contracts_only, foundation_planned)
+```
+
+Enforced by `assertModuleStatusRequirements()`.
 
 ## Public helpers
 
 | Helper | Purpose |
 | --- | --- |
-| `defineErpRuntimeModule()` | Module identity, KV ID, owners, lifecycle |
-| `defineModuleOwnership()` | One owner per responsibility surface |
-| `defineModuleKnowledgeMap()` | PAS-004 meaning alignment |
-| `defineModulePermissionBinding()` | Kernel permission keys ↔ registry parity |
-| `defineModuleAuditMap()` | Audit action vocabulary usage |
-| `defineModuleEventCatalog()` | Event naming consistency |
-| `defineModuleOutboxContract()` | Outbox requirement decisions |
-| `defineModuleMetadataBinding()` | UI/metadata/context/permission binding |
-| `defineModuleReadiness()` | Readiness matrix |
-| `assertModuleReadiness()` | Gate/test assertion over full bundle |
+| `defineErpRuntimeModule()` | Module identity + optional KV catalog parity |
+| `defineErpRuntimeModuleRegistry()` | Cross-module registry |
+| `assertErpRuntimeModuleRegistry()` | Duplicate slug/KV/package/wire/permission/route/audit/event/operation enforcement |
+| `defineModuleRuntimeContract()` | Lifecycle, document families, gates |
+| `defineModulePolicy()` | Create/approve/post rules |
+| `defineModuleContextSpineConsumer()` | PAS-001A spine contract |
+| `defineModuleDatabaseBoundary()` | Table scope, RLS, migration |
+| `defineModuleOperationCatalog()` | Operation ↔ permission/audit/outbox linkage |
+| `defineModulePermissionBinding()` | `exact` \| `subset_allowed` \| `deferred` parity |
+| `assertModuleReadiness()` | Full bundle non-omission |
+| `assertModuleRuntimeCompleteness()` | Operation catalog completeness |
+| `renderModuleReadinessReport()` | Markdown readiness table (template §7) |
 
-## Usage (procurement foundation — wire phase)
+## Governance gates (all must exit 0)
 
-```ts
-import {
-  assertModuleReadiness,
-  defineErpRuntimeModule,
-  defineModuleKnowledgeMap,
-  defineModuleOwnership,
-  defineModuleReadiness,
-} from "@afenda/erp-module-foundation";
+```bash
+pnpm check:erp-module-foundation          # composite
+pnpm check:erp-module-ownership
+pnpm check:erp-module-knowledge-alignment
+pnpm check:erp-module-context-spine-consumer
+pnpm check:erp-module-permission-binding
+pnpm check:erp-module-audit-outbox
+pnpm check:erp-module-metadata-binding
+pnpm check:erp-module-database-boundary
+pnpm check:erp-module-no-kernel-runtime-leak
+pnpm check:erp-module-readiness
+pnpm quality:erp-module-foundation        # typecheck + test:run + composite gate
 ```
 
-See `src/__tests__/module-foundation.test.ts` for a KV-PROC foundation bundle example.
+## Reference bundle
 
-## Gates (future)
+`PROCUREMENT_FOUNDATION_BUNDLE` — KV-PROC wire-phase golden bundle used by gates and tests.
 
-Module-specific gates (e.g. `pnpm check:procurement-module-readiness`) should call `assertModuleReadiness()` with module bundle + evidence paths.
+See `src/__tests__/` for Prove-It coverage (49+ tests).

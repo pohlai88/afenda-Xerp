@@ -404,11 +404,30 @@ apps/erp/src/app/(protected)/modules/procurement/  # currently forbidden
 
 ---
 
-## G. Required Gate Proposal (Not Implemented)
+## G. Required Gate Proposal
+
+> **2026-06-30 update:** Platform foundation gates are **live** under [PAS-001C](../PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) (`@afenda/erp-module-foundation`, ERP-MOD-FDN-003). Procurement-specific composite gates below remain **proposed** until FDN-008.
 
 Gates split into **foundation readiness** (authorize foundation work) and **runtime consumer** (prove live procurement surfaces). Do not conflate wire gate with runtime readiness.
 
-### G.1 Foundation readiness gates (pre-runtime)
+### G.0 Platform foundation gates (live — PAS-001C)
+
+| Gate | What it checks |
+| --- | --- |
+| `pnpm check:erp-module-foundation` | Composite — all sub-gates below |
+| `pnpm check:erp-module-ownership` | Ownership surface parity |
+| `pnpm check:erp-module-knowledge-alignment` | PAS-004 term rules |
+| `pnpm check:erp-module-context-spine-consumer` | PAS-001A spine contract |
+| `pnpm check:erp-module-permission-binding` | Permission parity mode |
+| `pnpm check:erp-module-audit-outbox` | Audit/outbox catalog |
+| `pnpm check:erp-module-metadata-binding` | Route-kind validation |
+| `pnpm check:erp-module-database-boundary` | DB boundary (runtime status) |
+| `pnpm check:erp-module-no-kernel-runtime-leak` | Zero-deps package |
+| `pnpm check:erp-module-readiness` | Reference KV-PROC bundle + registry |
+
+Reference bundle: `PROCUREMENT_FOUNDATION_BUNDLE` in `@afenda/erp-module-foundation`.
+
+### G.1 Foundation readiness gates (pre-runtime — procurement-specific, proposed)
 
 | Gate | What it checks | Enforces |
 | --- | --- | --- |

@@ -1203,38 +1203,54 @@ PAS-001B cannot be treated as fully developed if any of these fail:
 
 # Audit Verdict Matrix
 
+_Synced from `.cursor/audit/checkpoints/PAS-001B.json` — `currentWave: DONE`, updated 2026-06-30T04:30:00Z._
+
 | Slice           | Audit area                        | Verdict |
 | --------------- | --------------------------------- | ------- |
-| PAS-001B-AUD-01 | Authority metadata and status     | TBD     |
-| PAS-001B-AUD-02 | PAS positioning and boundary      | TBD     |
-| PAS-001B-AUD-03 | Hard stop boundary                | TBD     |
-| PAS-001B-AUD-04 | Layout contract SSOT              | TBD     |
-| PAS-001B-AUD-05 | 28/28 module catalog              | TBD     |
-| PAS-001B-AUD-06 | Mandatory scaffold                | TBD     |
-| PAS-001B-AUD-07 | Delivered vs catalog-only folders | TBD     |
-| PAS-001B-AUD-08 | Package subpath exports           | TBD     |
-| PAS-001B-AUD-09 | KV ID SSOT and parity             | TBD     |
-| PAS-001B-AUD-10 | KV ID cross-package citation      | TBD     |
-| PAS-001B-AUD-11 | Metadata ERP bridge validation    | TBD     |
-| PAS-001B-AUD-12 | Wire vocabulary classification    | TBD     |
-| PAS-001B-AUD-13 | Identity duplication              | TBD     |
-| PAS-001B-AUD-14 | Permission vocabulary             | TBD     |
-| PAS-001B-AUD-15 | Audit action vocabulary           | TBD     |
-| PAS-001B-AUD-16 | Domain wire context               | TBD     |
-| PAS-001B-AUD-17 | Domain vocabulary registry        | TBD     |
-| PAS-001B-AUD-18 | Domain vocabulary policy          | TBD     |
-| PAS-001B-AUD-19 | Registry test integrity           | TBD     |
-| PAS-001B-AUD-20 | Layout gate 12/12 matrix          | TBD     |
-| PAS-001B-AUD-21 | Accounting domain contracts       | TBD     |
-| PAS-001B-AUD-22 | Inventory domain contracts        | TBD     |
-| PAS-001B-AUD-23 | Procurement domain contracts      | TBD     |
-| PAS-001B-AUD-24 | B76–B106 + KV1–KV3 closure        | TBD     |
-| PAS-001B-AUD-25 | Wire vs meaning split             | TBD     |
-| PAS-001B-AUD-26 | Conceptual dependency graph       | TBD     |
-| PAS-001B-AUD-27 | Foundation disposition            | TBD     |
-| PAS-001B-AUD-28 | Documentation drift               | TBD     |
-| PAS-001B-AUD-29 | Required gate compliance          | TBD     |
-| PAS-001B-AUD-30 | Enterprise Accepted confidence    | TBD     |
+| PAS-001B-AUD-01 | Authority metadata and status     | Pass    |
+| PAS-001B-AUD-02 | PAS positioning and boundary      | Pass    |
+| PAS-001B-AUD-03 | Hard stop boundary                | Pass    |
+| PAS-001B-AUD-04 | Layout contract SSOT              | Pass    |
+| PAS-001B-AUD-05 | 28/28 module catalog              | Pass    |
+| PAS-001B-AUD-06 | Mandatory scaffold                | Pass    |
+| PAS-001B-AUD-07 | Delivered vs catalog-only folders | Pass    |
+| PAS-001B-AUD-08 | Package subpath exports           | Pass    |
+| PAS-001B-AUD-09 | KV ID SSOT and parity             | Pass    |
+| PAS-001B-AUD-10 | KV ID cross-package citation      | Pass    |
+| PAS-001B-AUD-11 | Metadata ERP bridge validation    | Pass    |
+| PAS-001B-AUD-12 | Wire vocabulary classification    | Pass    |
+| PAS-001B-AUD-13 | Identity duplication              | Pass    |
+| PAS-001B-AUD-14 | Permission vocabulary             | Pass    |
+| PAS-001B-AUD-15 | Audit action vocabulary           | Pass    |
+| PAS-001B-AUD-16 | Domain wire context               | Pass    |
+| PAS-001B-AUD-17 | Domain vocabulary registry        | Pass    |
+| PAS-001B-AUD-18 | Domain vocabulary policy          | Pass    |
+| PAS-001B-AUD-19 | Registry test integrity           | Pass    |
+| PAS-001B-AUD-20 | Layout gate 12/12 matrix          | Pass    |
+| PAS-001B-AUD-21 | Accounting domain contracts       | Pass    |
+| PAS-001B-AUD-22 | Inventory domain contracts        | Pass    |
+| PAS-001B-AUD-23 | Procurement domain contracts      | Pass    |
+| PAS-001B-AUD-24 | B76–B106 + KV1–KV3 closure        | Pass    |
+| PAS-001B-AUD-25 | Wire vs meaning split             | Pass    |
+| PAS-001B-AUD-26 | Conceptual dependency graph       | Pass    |
+| PAS-001B-AUD-27 | Foundation disposition            | Pass    |
+| PAS-001B-AUD-28 | Documentation drift               | Pass    |
+| PAS-001B-AUD-29 | Required gate compliance          | Pass    |
+| PAS-001B-AUD-30 | Enterprise Accepted confidence    | Pass    |
+
+**Summary:** 30/30 Pass (0 Conditional, 0 Fail) · **Final confidence:** 100% — Enterprise Accepted · **Repair clusters closed:** C1 (AUD-10), C2 (AUD-12) · **Hygiene closed:** wireShapeRole on all classification traces · metadata PERMISSION_REGISTRY bridge (PAS-001A IS-003) · **Conditional slices:** none
+
+| Hard blocker (AUD-30)      | AUD reference              | Status |
+| -------------------------- | -------------------------- | ------ |
+| Layout contract SSOT       | AUD-04, AUD-20             | Pass   |
+| 28/28 delivered modules    | AUD-05, AUD-07             | Pass   |
+| Mandatory scaffold         | AUD-06, AUD-17             | Pass   |
+| KV ID SSOT parity          | AUD-09, AUD-24 KV1         | Pass   |
+| Package export rule        | AUD-08                     | Pass   |
+| No runtime under erp-domain | AUD-03, AUD-18, AUD-21..23 | Pass   |
+| Required gates             | AUD-29                     | Pass   |
+| B76–B106 closure           | AUD-24                     | Pass   |
+| Wire vs meaning split      | AUD-25, AUD-12             | Pass   |
 
 ---
 

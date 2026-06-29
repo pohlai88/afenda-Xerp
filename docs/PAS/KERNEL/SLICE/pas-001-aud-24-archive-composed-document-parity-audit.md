@@ -23,7 +23,7 @@ Verify the composed PAS-001 document correctly maps to the implementation archiv
 | Metadata | Metadata | Status, maturity, gates, slices | **Pass** — `enterprise_accepted`, B111 closure, 14 required gates aligned |
 | §0 | §0 | Agent quick path + section map | **Pass** — map verified; B67 waivers cross-linked (G-AUD24-02) |
 | §1–§7 | §1–§7 | Package def → decision matrix | **Pass** — composed defers detail to archive |
-| §4 | §4 | Authority surfaces | **Pass** — archive §4.1–§4.11 exhaustive; B107–B111 via slice/NS pointers |
+| §4 | §4 | Authority surfaces | **Pass** — archive §4.1–§4.11 exhaustive; B107–B113 via slice/NS pointers |
 | §8 | §9 | Contract rules | **Pass** — intentional skip of archive §8 in main map |
 | §9–§14 | §10–§16 | Runtime → doctrine | **Pass** |
 | §15 | — | References | **Pass** — composed-only navigation |
@@ -45,7 +45,7 @@ Verify the composed PAS-001 document correctly maps to the implementation archiv
 | --- | --- | --- |
 | G-AUD24-01 | Archive §14.2 had fewer recommended gates than composed §13.2 | **Fixed** — archive §14.2 synced (6 gates + parity link) |
 | G-AUD24-02 | B67 closure waivers only in archive §0 | **Fixed** — cross-link in composed §0 |
-| G-AUD24-03 | `pas-status-index.md` PAS-001 Gates row missing B107–B111 attestation gates | **Fixed** — gates appended |
+| G-AUD24-03 | `pas-status-index.md` PAS-001 Gates row missing B107–B113 attestation gates | **Fixed** — gates appended |
 | G-AUD24-04 | B107–B108 surfaces in composed §4 but not archive §4 body | **Accepted** — SLICE handoffs are SSOT for amendment detail |
 | G-AUD24-05 | Multi-scope / effective-dating prose not duplicated in archive §4 | **Accepted** — PAS-001A + B109 + gates prove closure |
 

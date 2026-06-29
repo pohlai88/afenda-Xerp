@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-29-v28" as const;
+  "FOUNDATION-DISPOSITION-2026-06-30-v29" as const;
 
 const foundationDispositionEntries = [
   {
@@ -457,10 +457,11 @@ const foundationDispositionEntries = [
     evidence: [
       "docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md",
       "packages/kernel/src/erp-domain/erp-domain-layout.contract.ts",
+      "packages/kernel/src/erp-domain/catalog/wire-classification-label-traces.registry.ts",
+      "apps/erp/src/lib/metadata/metadata-erp-domain-permission-registry.bridge.ts",
       "scripts/governance/check-erp-domain-layout.mts",
     ],
     knownGaps: [
-      "Metadata-ui PERMISSION_REGISTRY bridge for domain permission vocabularies (PAS-001A)",
       "Registry cites PAS-001B KV SSOT — 28 modules KV-ACCT..KV-AN via erp-domain-layout.contract.ts",
     ],
     allowedAgents: ["kernel-context-agent", "foundation-registry-owner"],
@@ -478,6 +479,45 @@ const foundationDispositionEntries = [
       "pnpm check:procurement-domain-contracts",
       "pnpm --filter @afenda/kernel typecheck",
       "pnpm check:foundation-disposition",
+    ],
+    legacyTipEvidence: [],
+  },
+  {
+    id: "PKGR01C_ERP_MODULE_FOUNDATION",
+    packageId: "PKG-027",
+    packageName: "@afenda/erp-module-foundation",
+    domain: "erp-module-foundation",
+    lane: "green-lane",
+    runtimeOwner: "packages/erp-module-foundation",
+    authority: "PAS-001C",
+    requiredBeforeAccounting: false,
+    evidence: [
+      "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+      "packages/erp-module-foundation/package.json",
+      "packages/erp-module-foundation/src/index.ts",
+      "scripts/governance/check-erp-module-foundation.mts",
+      "scripts/governance/erp-module-foundation-registry.mts",
+    ],
+    knownGaps: [],
+    allowedAgents: ["afenda-governed-implementer", "foundation-registry-owner"],
+    prohibited: [
+      "do-not-add-runtime-dependencies",
+      "do-not-import-kernel-in-package",
+      "do-not-implement-business-runtime",
+    ],
+    gates: [
+      "pnpm check:erp-module-foundation",
+      "pnpm check:erp-module-ownership",
+      "pnpm check:erp-module-knowledge-alignment",
+      "pnpm check:erp-module-context-spine-consumer",
+      "pnpm check:erp-module-permission-binding",
+      "pnpm check:erp-module-audit-outbox",
+      "pnpm check:erp-module-metadata-binding",
+      "pnpm check:erp-module-database-boundary",
+      "pnpm check:erp-module-no-kernel-runtime-leak",
+      "pnpm check:erp-module-readiness",
+      "pnpm --filter @afenda/erp-module-foundation typecheck",
+      "pnpm --filter @afenda/erp-module-foundation test:run",
     ],
     legacyTipEvidence: [],
   },
