@@ -10,34 +10,23 @@ import {
 const repoRoot = join(import.meta.dirname, "../../..");
 
 describe("check-downstream-integration", () => {
-  it("passes on the current repository state", () => {
+  it("passes on the ADR-0027 repository state", () => {
     const violations = checkDownstreamIntegration();
 
     expect(violations, formatDownstreamViolations(violations)).toEqual([]);
   });
 
-  it("flags fixture CSS in ERP globals", () => {
-    const globalsPath = join(repoRoot, "apps/erp/src/app/globals.css");
-    const original = readFileSync(globalsPath, "utf8");
-
-    expect(original).not.toContain("@afenda/metadata-ui/fixtures.css");
-    expect(original).not.toContain("@afenda/appshell/fixtures.css");
-  });
-
-  it("documents the approved ERP CSS import order", () => {
+  it("uses PAS-006 ERP globals import chain only", () => {
     const globals = readFileSync(
       join(repoRoot, "apps/erp/src/app/globals.css"),
       "utf8"
     );
 
-    const uiPos = globals.indexOf("@afenda/ui/afenda-ui.css");
-    const appshellPos = globals.indexOf("@afenda/appshell/afenda-appshell.css");
-    const metadataUiPos = globals.indexOf(
-      "@afenda/metadata-ui/afenda-metadata-ui.css"
-    );
-
-    expect(uiPos).toBeGreaterThan(-1);
-    expect(appshellPos).toBeGreaterThan(uiPos);
-    expect(metadataUiPos).toBeGreaterThan(appshellPos);
+    expect(globals).toContain("@afenda/shadcn-studio/shadcn-studio.css");
+    expect(globals).toContain('@import "tailwindcss"');
+    expect(globals).toContain('@import "shadcn/tailwind.css"');
+    expect(globals).not.toContain("@afenda/ui/");
+    expect(globals).not.toContain("@afenda/appshell/");
+    expect(globals).not.toContain("@afenda/metadata-ui/");
   });
 });

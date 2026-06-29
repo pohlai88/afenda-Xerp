@@ -24,7 +24,7 @@
       "!!**/*.mdc",
       "!!**/.cursor",
       "!!.cursor-biome-report.json",
-      "!!**/packages/ui/src/components/shadcn-studio",
+      "!!**/packages/shadcn-studio/src/components/shadcn-studio",
       "!!**/packages/ai-governance",
       "!!**/packages/*/scripts/**/*.js",
       "!!**/temp-docx",
@@ -66,8 +66,6 @@
         "packages/database/src/schema/index.ts",
         "packages/**/src/**/index.ts",
         "packages/**/src/public-api.ts",
-        "packages/metadata-ui/src/client.ts",
-        "packages/metadata-ui/src/server.ts",
         "drizzle.config.ts"
       ],
       "linter": {
@@ -122,11 +120,7 @@
       }
     },
     {
-      "includes": [
-        "**/packages/ui/**",
-        "**/packages/appshell/**",
-        "**/packages/shadcn-studio/**"
-      ],
+      "includes": ["**/packages/shadcn-studio/**"],
       "linter": {
         "rules": {
           "style": {
@@ -321,8 +315,7 @@
       "includes": [
         "**/packages/database/**",
         "**/packages/kernel/**",
-        "**/packages/ui-composition/**",
-        "**/packages/metadata-ui/**",
+        "**/packages/shadcn-studio/**",
         "**/packages/permissions/**",
         "**/packages/testing/**",
         "**/packages/entitlements/**",
@@ -332,7 +325,6 @@
         "**/packages/architecture-authority/**",
         "**/packages/accounting-standards/**",
         "**/packages/auth/**",
-        "**/packages/css-authority/**",
         "**/packages/enterprise-knowledge/**",
         "**/packages/storage/**"
       ],

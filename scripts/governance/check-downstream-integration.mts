@@ -1,13 +1,15 @@
 #!/usr/bin/env tsx
 /**
- * Downstream UI composition integration gate.
+ * ADR-0027 presentation-chain integration gate.
  *
- * Verifies package boundaries, CSS import order, density bridge authority,
- * recipe map authority, and dependency graph among css-authority → ui →
- * metadata / metadata-ui / appshell → apps/erp.
+ * Verifies the post-nuclear frontend stack:
+ *   @afenda/shadcn-studio → apps/erp | apps/storybook
+ *
+ * Legacy packages (@afenda/ui, appshell, metadata-ui, css-authority) must not
+ * exist on disk or appear in ERP/Storybook dependency graphs.
  */
 
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -16,43 +18,42 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   ""
 );
 
-const INTEGRATION_PACKAGES = [
+const RETIRED_PACKAGES = [
   "@afenda/ui",
   "@afenda/ui-composition",
   "@afenda/metadata-ui",
   "@afenda/appshell",
+  "@afenda/css-authority",
+  "@afenda/design-system",
 ] as const;
 
-type IntegrationPackage = (typeof INTEGRATION_PACKAGES)[number];
-
-const PACKAGE_ROOTS: Record<IntegrationPackage, string> = {
-  "@afenda/ui": join(repoRoot, "packages/ui"),
-  "@afenda/ui-composition": join(repoRoot, "packages/ui-composition"),
-  "@afenda/metadata-ui": join(repoRoot, "packages/metadata-ui"),
-  "@afenda/appshell": join(repoRoot, "packages/appshell"),
-};
+const RETIRED_PACKAGE_DIRS = [
+  "packages/ui",
+  "packages/ui-composition",
+  "packages/metadata-ui",
+  "packages/appshell",
+  "packages/css-authority",
+  "packages/design-system",
+] as const;
 
 const ERP_GLOBALS = join(repoRoot, "apps/erp/src/app/globals.css");
+const STORYBOOK_PREVIEW_CSS = join(
+  repoRoot,
+  "apps/storybook/.storybook/preview.css"
+);
 
 const APPROVED_ERP_CSS_IMPORTS = [
-  "tailwindcss",
-  "@afenda/ui/afenda-ui.css",
-  "@afenda/ui/afenda-ui-full.css",
-  "@afenda/ui/styles.css",
   "@afenda/shadcn-studio/shadcn-studio.css",
-  "@afenda/appshell/afenda-appshell.css",
-  "@afenda/appshell/appshell-full.css",
-  "@afenda/appshell/styles.css",
-  "@afenda/metadata-ui/afenda-metadata-ui.css",
-  "@afenda/metadata-ui/styles.css",
+  "tailwindcss",
   "shadcn/tailwind.css",
 ] as const;
 
-const FORBIDDEN_ERP_GLOBALS_IMPORTS = [
-  "@afenda/metadata-ui/fixtures.css",
-  "@afenda/appshell/fixtures.css",
-  "metadata-ui/fixtures",
-  "appshell/fixtures",
+const FORBIDDEN_ERP_CSS_IMPORTS = [
+  "@afenda/ui/",
+  "@afenda/appshell/",
+  "@afenda/metadata-ui/",
+  "@afenda/css-authority/",
+  "@afenda/design-system/",
 ] as const;
 
 const CSS_IMPORT_PATTERN = /@import\s+["']([^"']+)["']/g;
@@ -63,577 +64,172 @@ export interface DownstreamViolation {
   readonly rule: string;
 }
 
-function collectSourceFiles(
-  directory: string,
-  options: {
-    readonly extensions?: readonly string[];
-    readonly skipDirs?: readonly string[];
-  } = {}
-): string[] {
-  const extensions = options.extensions ?? [".ts", ".tsx", ".mts"];
-  const skipDirs = new Set(
-    options.skipDirs ?? ["node_modules", "dist", ".next"]
-  );
-
-  const files: string[] = [];
-
-  if (!existsSync(directory)) {
-    return files;
-  }
-
-  for (const entry of readdirSync(directory, { withFileTypes: true })) {
-    const absolutePath = join(directory, entry.name);
-
-    if (entry.isDirectory()) {
-      if (skipDirs.has(entry.name)) {
-        continue;
-      }
-      files.push(...collectSourceFiles(absolutePath, options));
-      continue;
-    }
-
-    if (extensions.some((extension) => entry.name.endsWith(extension))) {
-      files.push(absolutePath);
-    }
-  }
-
-  return files;
-}
-
 function rel(file: string): string {
   return relative(repoRoot, file).replace(/\\/g, "/");
 }
 
-function readPackageJson(pkg: IntegrationPackage): {
-  dependencies?: Record<string, string>;
-  devDependencies?: Record<string, string>;
-} {
-  return JSON.parse(
-    readFileSync(join(PACKAGE_ROOTS[pkg], "package.json"), "utf8")
-  ) as {
+function readJson(path: string): Record<string, unknown> {
+  return JSON.parse(readFileSync(path, "utf8")) as Record<string, unknown>;
+}
+
+function checkRetiredPackagesAbsent(
+  violations: DownstreamViolation[]
+): void {
+  for (const dir of RETIRED_PACKAGE_DIRS) {
+    const packageJsonPath = join(repoRoot, dir, "package.json");
+    if (existsSync(packageJsonPath)) {
+      violations.push({
+        rule: "retired-package-filesystem",
+        file: rel(packageJsonPath),
+        message: `${dir} must not exist after ADR-0027 — remove or archive-lane only`,
+      });
+    }
+  }
+}
+
+function checkConsumerDependencies(
+  violations: DownstreamViolation[],
+  consumerPath: string,
+  consumerLabel: string,
+  allowedRuntimeDeps: readonly string[]
+): void {
+  const packageJsonPath = join(repoRoot, consumerPath, "package.json");
+  if (!existsSync(packageJsonPath)) {
+    return;
+  }
+
+  const json = readJson(packageJsonPath) as {
     dependencies?: Record<string, string>;
     devDependencies?: Record<string, string>;
   };
-}
+  const runtimeDeps = json.dependencies ?? {};
+  const allowed = new Set(allowedRuntimeDeps);
 
-function packageImportsTarget(content: string, target: string): boolean {
-  return (
-    content.includes(`from "${target}"`) ||
-    content.includes(`from '${target}'`) ||
-    content.includes(`import("${target}")`) ||
-    content.includes(`import '${target}'`) ||
-    content.includes(`import "${target}"`)
-  );
-}
-
-function productionSourceFiles(pkg: IntegrationPackage): string[] {
-  return collectSourceFiles(join(PACKAGE_ROOTS[pkg], "src"), {
-    skipDirs: ["node_modules", "dist", "__tests__", "_storybook"],
-  }).filter((file) => !file.endsWith(".stories.tsx"));
-}
-
-function checkMetadataContractOnly(violations: DownstreamViolation[]): void {
-  const metadataRoot = PACKAGE_ROOTS["@afenda/ui-composition"];
-  const files = collectSourceFiles(metadataRoot, {
-    extensions: [".ts", ".tsx", ".css"],
-    skipDirs: ["node_modules", "dist", "__tests__"],
-  });
-
-  for (const file of files) {
-    if (/\.(css|tsx)$/.test(file)) {
+  for (const retired of RETIRED_PACKAGES) {
+    if (runtimeDeps[retired] || json.devDependencies?.[retired]) {
       violations.push({
-        rule: "metadata-contract-only",
-        file: rel(file),
-        message:
-          "@afenda/ui-composition must not ship CSS or TSX implementation files",
+        rule: "retired-package-dependency",
+        file: rel(packageJsonPath),
+        message: `${consumerLabel} must not depend on ${retired} (ADR-0027)`,
       });
     }
+  }
 
-    const content = readFileSync(file, "utf8");
-    for (const prohibited of [
-      "@afenda/ui",
-      "@afenda/metadata-ui",
-      "@afenda/appshell",
-    ]) {
-      if (packageImportsTarget(content, prohibited)) {
-        violations.push({
-          rule: "metadata-no-ui-imports",
-          file: rel(file),
-          message: `@afenda/ui-composition must not import ${prohibited}`,
-        });
-      }
+  for (const [dep, spec] of Object.entries(runtimeDeps)) {
+    if (!dep.startsWith("@afenda/")) {
+      continue;
     }
-
-    if (CSS_IMPORT_PATTERN.test(content)) {
+    if (spec !== "workspace:*") {
+      continue;
+    }
+    if (!allowed.has(dep)) {
       violations.push({
-        rule: "metadata-no-css",
-        file: rel(file),
-        message: "@afenda/ui-composition must not import CSS",
+        rule: "unexpected-workspace-dependency",
+        file: rel(packageJsonPath),
+        message: `${consumerLabel} declares unexpected runtime workspace dependency ${dep}`,
       });
     }
   }
 }
 
-function checkPackageDependency(
+function checkCssImports(
   violations: DownstreamViolation[],
-  pkg: IntegrationPackage,
-  required: string | readonly string[],
+  cssPath: string,
+  label: string,
+  required: readonly string[],
   forbidden: readonly string[]
 ): void {
-  const packageJson = readPackageJson(pkg);
-  const deps = {
-    ...packageJson.dependencies,
-    ...packageJson.devDependencies,
-  };
-
-  for (const dep of Array.isArray(required) ? required : [required]) {
-    if (!deps[dep]) {
-      violations.push({
-        rule: "required-dependency",
-        file: rel(join(PACKAGE_ROOTS[pkg], "package.json")),
-        message: `${pkg} must declare dependency on ${dep}`,
-      });
-    }
-  }
-
-  for (const dep of forbidden) {
-    if (deps[dep]) {
-      violations.push({
-        rule: "forbidden-dependency",
-        file: rel(join(PACKAGE_ROOTS[pkg], "package.json")),
-        message: `${pkg} must not depend on ${dep}`,
-      });
-    }
-  }
-}
-
-function checkProductionImports(
-  violations: DownstreamViolation[],
-  pkg: IntegrationPackage,
-  forbidden: readonly string[],
-  rule: string
-): void {
-  for (const file of productionSourceFiles(pkg)) {
-    const content = readFileSync(file, "utf8");
-    for (const target of forbidden) {
-      if (packageImportsTarget(content, target)) {
-        violations.push({
-          rule,
-          file: rel(file),
-          message: `${pkg} production source must not import ${target}`,
-        });
-      }
-    }
-  }
-}
-
-function checkRequiredProductionImport(
-  violations: DownstreamViolation[],
-  pkg: IntegrationPackage,
-  required: string,
-  rule: string
-): void {
-  const files = productionSourceFiles(pkg);
-  const hasImport = files.some((file) =>
-    packageImportsTarget(readFileSync(file, "utf8"), required)
-  );
-
-  if (!hasImport) {
+  if (!existsSync(cssPath)) {
     violations.push({
-      rule,
-      file: rel(join(PACKAGE_ROOTS[pkg], "src")),
-      message: `${pkg} production source must import ${required}`,
-    });
-  }
-}
-
-function checkDuplicateAuthority(
-  violations: DownstreamViolation[],
-  pkg: IntegrationPackage,
-  pattern: RegExp,
-  rule: string,
-  message: string
-): void {
-  if (pkg === "@afenda/ui") {
-    return;
-  }
-
-  for (const file of productionSourceFiles(pkg)) {
-    const content = readFileSync(file, "utf8");
-    if (pattern.test(content)) {
-      violations.push({
-        rule,
-        file: rel(file),
-        message,
-      });
-    }
-  }
-}
-
-function checkDownstreamTokenAuthority(
-  violations: DownstreamViolation[]
-): void {
-  const downstream: IntegrationPackage[] = [
-    "@afenda/ui",
-    "@afenda/metadata-ui",
-    "@afenda/appshell",
-  ];
-
-  for (const pkg of downstream) {
-    const cssFiles = collectSourceFiles(PACKAGE_ROOTS[pkg], {
-      extensions: [".css"],
-      skipDirs: ["node_modules", "dist", "__tests__"],
-    });
-
-    for (const file of cssFiles) {
-      const content = readFileSync(file, "utf8");
-      if (/^\s*--afenda-[a-z0-9-]+\s*:/m.test(content)) {
-        violations.push({
-          rule: "no-downstream-token-authority",
-          file: rel(file),
-          message: `${pkg} must not define --afenda-* token authority`,
-        });
-      }
-    }
-  }
-
-  const erpCssFiles = collectSourceFiles(join(repoRoot, "apps/erp/src"), {
-    extensions: [".css"],
-    skipDirs: ["node_modules", "dist", "__tests__"],
-  });
-
-  for (const file of erpCssFiles) {
-    const content = readFileSync(file, "utf8");
-    if (/^\s*--afenda-[a-z0-9-]+\s*:/m.test(content)) {
-      violations.push({
-        rule: "erp-no-token-authority",
-        file: rel(file),
-        message: "apps/erp must not define --afenda-* token authority in CSS",
-      });
-    }
-  }
-}
-
-function checkErpGlobalsCss(violations: DownstreamViolation[]): void {
-  if (!existsSync(ERP_GLOBALS)) {
-    violations.push({
-      rule: "erp-globals-exists",
-      file: "apps/erp/src/app/globals.css",
-      message: "ERP globals.css entrypoint is missing",
+      rule: "css-entry-missing",
+      file: rel(cssPath),
+      message: `${label} CSS entry is missing`,
     });
     return;
   }
 
-  const content = readFileSync(ERP_GLOBALS, "utf8");
-
+  const content = readFileSync(cssPath, "utf8");
   const imports = [...content.matchAll(CSS_IMPORT_PATTERN)].map(
-    (match) => match[1]
+    (match) => match[1] ?? ""
   );
 
-  for (const value of imports) {
-    for (const forbidden of FORBIDDEN_ERP_GLOBALS_IMPORTS) {
-      if (value.includes(forbidden)) {
-        violations.push({
-          rule: "erp-no-fixture-css",
-          file: rel(ERP_GLOBALS),
-          message: `ERP globals must not import fixture CSS (${value})`,
-        });
-      }
-    }
-  }
-
-  const packageImports = imports.filter(
-    (value) => value.startsWith("@afenda/") || value.startsWith("shadcn/")
-  );
-
-  for (const value of packageImports) {
-    if (!(APPROVED_ERP_CSS_IMPORTS as readonly string[]).includes(value)) {
+  for (const requiredImport of required) {
+    if (!imports.some((entry) => entry === requiredImport)) {
       violations.push({
-        rule: "erp-approved-css-imports",
-        file: rel(ERP_GLOBALS),
-        message: `Unapproved ERP CSS import: ${value}`,
+        rule: "css-import-missing",
+        file: rel(cssPath),
+        message: `${label} must @import "${requiredImport}"`,
       });
     }
   }
 
-  const uiIndex = imports.findIndex(
-    (value) =>
-      value.startsWith("@afenda/ui/") &&
-      (value.includes("afenda-ui") || value.endsWith("styles.css"))
-  );
-  const appshellIndex = imports.findIndex(
-    (value) =>
-      value.startsWith("@afenda/appshell/") &&
-      (value.includes("appshell") || value.endsWith("styles.css"))
-  );
-  const metadataUiIndex = imports.findIndex(
-    (value) =>
-      value.startsWith("@afenda/metadata-ui/") &&
-      (value.includes("metadata-ui") || value.endsWith("styles.css"))
-  );
-
-  if (
-    uiIndex >= 0 &&
-    appshellIndex >= 0 &&
-    metadataUiIndex >= 0 &&
-    !(uiIndex < appshellIndex && appshellIndex < metadataUiIndex)
-  ) {
-    violations.push({
-      rule: "erp-css-import-order",
-      file: rel(ERP_GLOBALS),
-      message:
-        "ERP globals CSS import order must be ui → appshell → metadata-ui",
-    });
-  }
-}
-
-function checkDependencyGraph(violations: DownstreamViolation[]): void {
-  checkPackageDependency(violations, "@afenda/ui", "@afenda/css-authority", [
-    "@afenda/metadata-ui",
-    "@afenda/appshell",
-    "@afenda/ui-composition",
-  ]);
-
-  checkPackageDependency(
-    violations,
-    "@afenda/ui-composition",
-    [],
-    ["@afenda/ui", "@afenda/metadata-ui", "@afenda/appshell"]
-  );
-
-  checkPackageDependency(
-    violations,
-    "@afenda/metadata-ui",
-    ["@afenda/ui-composition", "@afenda/ui"],
-    ["@afenda/appshell"]
-  );
-
-  checkPackageDependency(violations, "@afenda/appshell", "@afenda/ui", [
-    "@afenda/metadata-ui",
-    "@afenda/ui-composition",
-  ]);
-
-  checkProductionImports(
-    violations,
-    "@afenda/metadata-ui",
-    ["@afenda/appshell"],
-    "metadata-ui-no-appshell-import"
-  );
-
-  checkProductionImports(
-    violations,
-    "@afenda/appshell",
-    ["@afenda/metadata-ui", "@afenda/ui-composition"],
-    "appshell-no-metadata-ui-import"
-  );
-
-  checkRequiredProductionImport(
-    violations,
-    "@afenda/metadata-ui",
-    "@afenda/ui-composition",
-    "metadata-ui-consumes-metadata"
-  );
-
-  checkRequiredProductionImport(
-    violations,
-    "@afenda/metadata-ui",
-    "@afenda/ui/governance",
-    "metadata-ui-consumes-ui-governance"
-  );
-
-  checkRequiredProductionImport(
-    violations,
-    "@afenda/appshell",
-    "@afenda/ui/governance",
-    "appshell-consumes-ui-governance"
-  );
-}
-
-function checkCircularDependencies(violations: DownstreamViolation[]): void {
-  const graph = new Map<IntegrationPackage, IntegrationPackage[]>();
-
-  for (const pkg of INTEGRATION_PACKAGES) {
-    const packageJson = readPackageJson(pkg);
-    const deps = Object.keys({
-      ...packageJson.dependencies,
-      ...packageJson.devDependencies,
-    }).filter((dep): dep is IntegrationPackage =>
-      (INTEGRATION_PACKAGES as readonly string[]).includes(dep)
-    );
-    graph.set(pkg, deps);
-  }
-
-  const visiting = new Set<IntegrationPackage>();
-  const visited = new Set<IntegrationPackage>();
-  const stack: IntegrationPackage[] = [];
-
-  function visit(node: IntegrationPackage): void {
-    if (visited.has(node)) {
-      return;
-    }
-    if (visiting.has(node)) {
-      const cycleStart = stack.indexOf(node);
-      const cycle = [...stack.slice(cycleStart), node].join(" → ");
+  for (const forbiddenImport of forbidden) {
+    if (content.includes(forbiddenImport)) {
       violations.push({
-        rule: "no-circular-dependencies",
-        file: "package dependency graph",
-        message: `Circular dependency detected: ${cycle}`,
+        rule: "css-import-forbidden",
+        file: rel(cssPath),
+        message: `${label} must not import legacy path containing "${forbiddenImport}"`,
       });
-      return;
     }
-
-    visiting.add(node);
-    stack.push(node);
-
-    for (const dep of graph.get(node) ?? []) {
-      visit(dep);
-    }
-
-    stack.pop();
-    visiting.delete(node);
-    visited.add(node);
   }
 
-  for (const pkg of INTEGRATION_PACKAGES) {
-    visit(pkg);
-  }
-}
-
-function extractCssImportPaths(content: string): string[] {
-  const cssImports = [...content.matchAll(CSS_IMPORT_PATTERN)].map(
-    (match) => match[1]
-  );
-  const jsCssImports = [
-    ...content.matchAll(/import\s+["'](@afenda\/[^"']+\.css)["']/g),
-  ].map((match) => match[1]);
-
-  return [...cssImports, ...jsCssImports];
-}
-
-function checkStorybookComposedCss(violations: DownstreamViolation[]): void {
-  const composedStoryPaths = [
-    join(
-      repoRoot,
-      "apps/storybook/stories/governance-integration-composed.stories.tsx"
-    ),
-    join(repoRoot, "apps/erp/src/stories/governance-integration.stories.tsx"),
-  ];
-
-  for (const storyPath of composedStoryPaths) {
-    if (!existsSync(storyPath)) {
-      continue;
-    }
-
-    const content = readFileSync(storyPath, "utf8");
-    const imports = extractCssImportPaths(content);
-
-    const uiImport = imports.find((value) => value.startsWith("@afenda/ui/"));
-    const appshellImport = imports.find((value) =>
-      value.startsWith("@afenda/appshell/")
-    );
-    const metadataUiImport = imports.find((value) =>
-      value.startsWith("@afenda/metadata-ui/")
-    );
-
-    if (!(uiImport && appshellImport && metadataUiImport)) {
+  if (label === "ERP globals") {
+    const shadcnIdx = imports.indexOf("@afenda/shadcn-studio/shadcn-studio.css");
+    const tailwindIdx = imports.indexOf("tailwindcss");
+    const shadcnTailwindIdx = imports.indexOf("shadcn/tailwind.css");
+    if (
+      shadcnIdx > -1 &&
+      tailwindIdx > -1 &&
+      shadcnTailwindIdx > -1 &&
+      !(shadcnIdx < tailwindIdx && tailwindIdx < shadcnTailwindIdx)
+    ) {
       violations.push({
-        rule: "storybook-composed-css",
-        file: rel(storyPath),
+        rule: "css-import-order",
+        file: rel(cssPath),
         message:
-          "Composed integration story must import ui, appshell, and metadata-ui CSS",
-      });
-      continue;
-    }
-
-    const uiIndex = imports.indexOf(uiImport);
-    const appshellIndex = imports.indexOf(appshellImport);
-    const metadataUiIndex = imports.indexOf(metadataUiImport);
-
-    if (!(uiIndex < appshellIndex && appshellIndex < metadataUiIndex)) {
-      violations.push({
-        rule: "storybook-composed-css-order",
-        file: rel(storyPath),
-        message:
-          "Composed integration story CSS import order must be ui → appshell → metadata-ui",
+          "ERP globals.css import order must be shadcn-studio.css → tailwindcss → shadcn/tailwind.css",
       });
     }
   }
-}
-
-function checkLocalDensityBridgeDuplicates(
-  violations: DownstreamViolation[]
-): void {
-  const forbiddenPatterns = [
-    /density\s*===\s*["']standard["']\s*\?\s*["']default["']/,
-    /\bexport\s+const\s+DENSITY_ATTRIBUTES\b/,
-    /\bdensityAttributeMap\b/,
-    /\btoDensityAttribute\b/,
-    /\bfromDensityAttribute\b/,
-  ];
-
-  const downstream: IntegrationPackage[] = [
-    "@afenda/metadata-ui",
-    "@afenda/appshell",
-  ];
-
-  for (const pkg of downstream) {
-    for (const file of productionSourceFiles(pkg)) {
-      const content = readFileSync(file, "utf8");
-      for (const pattern of forbiddenPatterns) {
-        if (pattern.test(content)) {
-          violations.push({
-            rule: "no-local-density-bridge",
-            file: rel(file),
-            message: `${pkg} must not define duplicate density bridge helpers`,
-          });
-        }
-      }
-    }
-  }
-}
-
-function checkDuplicateRecipeMaps(violations: DownstreamViolation[]): void {
-  checkDuplicateAuthority(
-    violations,
-    "@afenda/metadata-ui",
-    /\bexport\s+const\s+APP_SHELL_RECIPE_SLOTS\b/,
-    "no-duplicate-appshell-recipes",
-    "@afenda/metadata-ui must not define AppShell recipe maps"
-  );
-  checkDuplicateAuthority(
-    violations,
-    "@afenda/appshell",
-    /\bexport\s+const\s+APP_SHELL_RECIPE_SLOTS\b/,
-    "no-duplicate-appshell-recipes",
-    "@afenda/appshell must not define duplicate AppShell recipe maps outside ui/governance"
-  );
-  checkDuplicateAuthority(
-    violations,
-    "@afenda/metadata-ui",
-    /\bexport\s+const\s+METADATA_UI_RECIPE_SLOTS\b/,
-    "no-duplicate-metadata-ui-recipes",
-    "@afenda/metadata-ui must not define duplicate Metadata UI recipe maps outside ui/governance"
-  );
-  checkDuplicateAuthority(
-    violations,
-    "@afenda/appshell",
-    /\bexport\s+const\s+METADATA_UI_RECIPE_SLOTS\b/,
-    "no-duplicate-metadata-ui-recipes",
-    "@afenda/appshell must not define Metadata UI recipe maps"
-  );
 }
 
 export function checkDownstreamIntegration(): DownstreamViolation[] {
   const violations: DownstreamViolation[] = [];
 
-  checkMetadataContractOnly(violations);
-  checkDependencyGraph(violations);
-  checkCircularDependencies(violations);
-  checkDuplicateRecipeMaps(violations);
-  checkLocalDensityBridgeDuplicates(violations);
-  checkDownstreamTokenAuthority(violations);
-  checkErpGlobalsCss(violations);
-  checkStorybookComposedCss(violations);
+  checkRetiredPackagesAbsent(violations);
+
+  checkConsumerDependencies(violations, "apps/erp", "apps/erp", [
+    "@afenda/auth",
+    "@afenda/database",
+    "@afenda/observability",
+    "@afenda/shadcn-studio",
+  ]);
+
+  checkConsumerDependencies(violations, "apps/storybook", "apps/storybook", [
+    "@afenda/shadcn-studio",
+    "@afenda/testing",
+  ]);
+
+  checkCssImports(
+    violations,
+    ERP_GLOBALS,
+    "ERP globals",
+    APPROVED_ERP_CSS_IMPORTS,
+    FORBIDDEN_ERP_CSS_IMPORTS
+  );
+
+  if (existsSync(STORYBOOK_PREVIEW_CSS)) {
+    const previewCss = readFileSync(STORYBOOK_PREVIEW_CSS, "utf8");
+    for (const forbidden of FORBIDDEN_ERP_CSS_IMPORTS) {
+      if (previewCss.includes(forbidden)) {
+        violations.push({
+          rule: "storybook-css-forbidden",
+          file: rel(STORYBOOK_PREVIEW_CSS),
+          message: `Storybook preview.css must not import legacy path "${forbidden}"`,
+        });
+      }
+    }
+  }
 
   return violations;
 }
@@ -659,7 +255,7 @@ function main(): void {
     return;
   }
 
-  console.log("downstream integration valid");
+  console.log("downstream integration valid (ADR-0027 presentation chain)");
 }
 
 const isDirectRun = (() => {

@@ -1,6 +1,6 @@
 {
-  "fingerprint": "ARCH-BASELINE-2026-06-28-v4",
-  "generatedAt": "2026-06-28T06:10:49.312Z",
+  "fingerprint": "ARCH-BASELINE-2026-06-29-v5",
+  "generatedAt": "2026-06-29T09:12:45.665Z",
   "runtimeEdges": [
     {
       "from": "@afenda/accounting-standards",
@@ -9,14 +9,6 @@
     {
       "from": "@afenda/ai-governance",
       "to": "@afenda/architecture-authority"
-    },
-    {
-      "from": "@afenda/appshell",
-      "to": "@afenda/kernel"
-    },
-    {
-      "from": "@afenda/appshell",
-      "to": "@afenda/ui"
     },
     {
       "from": "@afenda/auth",
@@ -31,20 +23,12 @@
       "to": "@afenda/observability"
     },
     {
-      "from": "@afenda/design-system",
-      "to": "@afenda/css-authority"
-    },
-    {
       "from": "@afenda/docs",
       "to": "@afenda/enterprise-knowledge"
     },
     {
       "from": "@afenda/entitlements",
       "to": "@afenda/database"
-    },
-    {
-      "from": "@afenda/erp",
-      "to": "@afenda/appshell"
     },
     {
       "from": "@afenda/erp",
@@ -56,55 +40,11 @@
     },
     {
       "from": "@afenda/erp",
-      "to": "@afenda/design-system"
-    },
-    {
-      "from": "@afenda/erp",
-      "to": "@afenda/enterprise-knowledge"
-    },
-    {
-      "from": "@afenda/erp",
-      "to": "@afenda/entitlements"
-    },
-    {
-      "from": "@afenda/erp",
-      "to": "@afenda/execution"
-    },
-    {
-      "from": "@afenda/erp",
-      "to": "@afenda/feature-flags"
-    },
-    {
-      "from": "@afenda/erp",
-      "to": "@afenda/kernel"
-    },
-    {
-      "from": "@afenda/erp",
-      "to": "@afenda/metadata-ui"
-    },
-    {
-      "from": "@afenda/erp",
       "to": "@afenda/observability"
     },
     {
       "from": "@afenda/erp",
-      "to": "@afenda/permissions"
-    },
-    {
-      "from": "@afenda/erp",
       "to": "@afenda/shadcn-studio"
-    },
-    {
-      "from": "@afenda/erp",
-      "to": "@afenda/storage"
-    },
-    {
-      "from": "@afenda/erp",
-      "to": "@afenda/ui"
-    },
-    {
-      "from": "@afenda/erp",
-      "to": "@afenda/ui-composition"
     },
     {
       "from": "@afenda/execution",
@@ -119,18 +59,6 @@
       "to": "@afenda/entitlements"
     },
     {
-      "from": "@afenda/metadata-ui",
-      "to": "@afenda/shadcn-studio"
-    },
-    {
-      "from": "@afenda/metadata-ui",
-      "to": "@afenda/ui"
-    },
-    {
-      "from": "@afenda/metadata-ui",
-      "to": "@afenda/ui-composition"
-    },
-    {
       "from": "@afenda/permissions",
       "to": "@afenda/auth"
     },
@@ -144,39 +72,7 @@
     },
     {
       "from": "@afenda/storybook",
-      "to": "@afenda/appshell"
-    },
-    {
-      "from": "@afenda/storybook",
-      "to": "@afenda/design-system"
-    },
-    {
-      "from": "@afenda/storybook",
-      "to": "@afenda/metadata-ui"
-    },
-    {
-      "from": "@afenda/storybook",
       "to": "@afenda/shadcn-studio"
-    },
-    {
-      "from": "@afenda/storybook",
-      "to": "@afenda/ui"
-    },
-    {
-      "from": "@afenda/storybook",
-      "to": "@afenda/ui-composition"
-    },
-    {
-      "from": "@afenda/ui",
-      "to": "@afenda/css-authority"
-    },
-    {
-      "from": "@afenda/ui",
-      "to": "@afenda/design-system"
-    },
-    {
-      "from": "@afenda/ui-composition",
-      "to": "@afenda/enterprise-knowledge"
     }
   ]
 }

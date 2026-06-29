@@ -2,23 +2,22 @@
 
 Monorepo for **Afenda ERP** — a Next.js-first, TypeScript-first, manufacturing-focused ERP platform.
 
-Phase 1 is governed by [ADR-0001](docs/adr/ADR-0001-phase-1-foundation-redefinition.md). Foundation Phases 0–9 are complete; ongoing package work uses [Package Authority Standards (PAS)](docs/PAS/README.md) and the [Foundation Disposition Registry](docs/PAS/README.md) (ADR-0014). Accounting runtime requires ADR + registry gap closure.
+Foundation work is governed by [Package Authority Standards (PAS)](docs/PAS/README.md) and the [Foundation Disposition Registry](packages/architecture-authority/src/data/foundation-disposition.registry.ts). ERP frontend presentation follows [ADR-0027](docs/adr/ADR-0027-frontend-presentation-reset.md) and [PAS-006](docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md).
 
 ## Repository structure
 
 ```
 afenda/
 ├── apps/
-│   ├── erp/                    # Primary ERP Next.js application (port 3000)
-│   └── docs/                   # Documentation delivery surface (port 3001)
+│   ├── erp/                    # ERP Next.js skeleton (auth + health + shell)
+│   ├── storybook/              # shadcn-studio block lab
+│   └── docs/                   # Documentation delivery surface
 ├── packages/
 │   ├── architecture-authority/ # Architecture maps, validators, governance (PAS-002)
+│   ├── shadcn-studio/          # Sole ERP presentation package (PAS-006)
+│   ├── accounting-standards/   # Accounting standards authority (PAS-003)
+│   ├── enterprise-knowledge/   # Enterprise knowledge atoms (PAS-004)
 │   ├── ai-governance/          # AI-assisted development governance
-│   ├── design-system/          # Design tokens and UI governance
-│   ├── metadata/               # Metadata architecture authority
-│   ├── metadata-ui/            # Metadata UI implementation
-│   ├── ui/                     # Shared UI primitives
-│   ├── appshell/               # ERP application shell (PAS-005A consumer)
 │   ├── auth/                   # Identity foundation
 │   ├── permissions/            # Authorization and policy engine
 │   ├── database/               # Persistence and schema authority
@@ -33,13 +32,14 @@ afenda/
 ├── docs/
 │   ├── adr/                    # Architecture Decision Records
 │   ├── PAS/                    # Package Authority Standards (canonical)
-│   ├── architecture/           # Human-readable registries (source of truth)
-│   ├── governance/             # Runtime policies + operational support docs
-│   └── ai/                     # AI development governance docs
+│   ├── NORTHSTAR/              # Domain north stars
+│   └── BLUEPRINT/              # Domain blueprints
 ├── biome.jsonc                 # Biome + Ultracite presets
 ├── turbo.json                  # Turborepo task pipeline
 └── vitest.config.ts            # Shared Vitest baseline
 ```
+
+**Retired (ADR-0027):** `@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui`, `@afenda/css-authority` — removed from the filesystem. Do not restore without a new ADR.
 
 Each package declares its role in its own `README.md`. Governance packages are authority-only; implementation packages consume them.
 
@@ -87,6 +87,7 @@ Run a single app:
 
 ```bash
 pnpm --filter @afenda/erp dev
+pnpm --filter @afenda/storybook storybook
 pnpm --filter @afenda/docs dev
 ```
 
@@ -109,7 +110,7 @@ Shared presets live in `@afenda/typescript-config`. All workspaces extend one of
 | Preset                      | Used by                                                               |
 | --------------------------- | --------------------------------------------------------------------- |
 | `strict-node.json`          | Node/library packages (kernel, auth, database, storage, …)            |
-| `strict-react-library.json` | React UI packages (design-system, ui, appshell, metadata-ui, testing) |
+| `strict-react-library.json` | React packages (`@afenda/shadcn-studio`, `@afenda/testing`)         |
 | `nextjs.json`               | Next.js apps (`apps/erp`, `apps/docs`)                                |
 | `test.json`                 | Vitest `tsconfig.vitest.json` overlays                                |
 
@@ -132,26 +133,17 @@ Packages are scoped as `@afenda/<name>` and compiled to `dist/` via TypeScript p
 | Layer         | Config                                                                                                        | Environment               |
 | ------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------- |
 | Root          | `vitest.config.ts` — shared pool, mock hygiene, CI reporters                                                  | orchestrates all projects |
-| Shared        | `vitest.shared.ts` — factories per [ARCH-TEST-002](docs/PAS/%5BComplete%5D%20ARCH-TEST-002-vitest-monorepo-workspace.md) | node · jsdom · DB forks |
+| Shared        | `vitest.shared.ts` — factories per workspace pattern                                                          | node · jsdom · DB forks   |
 | Package / app | `vitest.config.ts`                                                                                            | one project per workspace |
 
 **File layout:** co-locate tests under `src/__tests__/**/*.{test,spec}.{ts,tsx}`.
-
-**Quality stack (Foundation phase 09):**
-
-| Tool           | Role                                                         |
-| -------------- | ------------------------------------------------------------ |
-| Vitest         | Unit + integration + contract tests                          |
-| TypeScript     | Type correctness                                             |
-| Biome          | Lint/format                                                  |
-| Turbo          | Build + typecheck orchestration                              |
-| Custom scripts | Architecture, boundaries, migrations, exports, AI governance |
 
 ```bash
 pnpm check
 pnpm test:run
 pnpm quality                    # architecture + AI governance + release gates
-pnpm --filter @afenda/design-system test:run
+pnpm --filter @afenda/shadcn-studio test:run
+pnpm --filter @afenda/storybook storybook:build
 ```
 
 ## Architecture governance
@@ -163,26 +155,30 @@ pnpm quality:architecture
 pnpm quality:architecture-drift
 pnpm quality:ai-governance
 pnpm architecture:report
+pnpm check:downstream-integration   # ADR-0027 presentation chain
 ```
 
-**20 active workspace packages** are registered (PKG-001–PKG-020). See [`packages/architecture-authority/src/data/package-registry.data.ts`](packages/architecture-authority/src/data/package-registry.data.ts).
+See [`packages/architecture-authority/src/data/package-registry.data.ts`](packages/architecture-authority/src/data/package-registry.data.ts).
 
 ## Foundation status (PAS)
 
-Foundation Phases 0–9 are complete per [`_afenda-erp-master-plan.llms.md`](docs/architecture/_afenda-erp-master-plan.llms.md). Ongoing package work uses [Package Authority Standards (PAS)](docs/PAS/README.md) and the [slice closure registry](docs/PAS/pas-status-index.md).
+Ongoing package work uses [Package Authority Standards (PAS)](docs/PAS/README.md) and the [slice closure registry](docs/PAS/pas-status-index.md).
 
-Accounting runtime (`PKGR01_ACCOUNTING`) requires ADR-0010 **and** registry gap closure — see [`foundation-delivery-authority.md`](docs/PAS/README.md).
+ERP frontend presentation: [ADR-0027](docs/adr/ADR-0027-frontend-presentation-reset.md) · [PAS-006](docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md).
+
+Accounting runtime (`PKGR01_ACCOUNTING`) requires ADR-0010 **and** registry gap closure.
 
 ## What is intentionally deferred
 
-- ERP business domains (Accounting, Inventory, HRM, CRM, Procurement) — blocked until ADR + PAS closeout
+- ERP business domains (Accounting, Inventory, HRM, CRM, Procurement) — rebuild on shadcn-studio post-reset
+- Metadata workspace UI — greenfield on PAS-006, not legacy package revival
 - Accounting Core ledger runtime — ADR-0010 gate
 
 ## Documentation
 
 Full index: [`docs/README.md`](docs/README.md) — architecture registries, governance gates, delivery evidence, AI policy.
 
-UI guard (gates A–F): [`scripts/governance/ui-guard.mjs`](scripts/governance/ui-guard.mjs) · [`.cursor/rules/governed-ui-consumption.mdc`](.cursor/rules/governed-ui-consumption.mdc)
+Presentation skill: [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md)
 
 ## License
 
