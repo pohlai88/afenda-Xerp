@@ -1,4 +1,5 @@
 import type { ApiRouteContract } from "./api-contract";
+import { buildApiOperationRegistry } from "./core/index";
 import { authMembershipsGetContract } from "./auth/auth-memberships.contract";
 import { healthGetContract } from "./health.api-contract";
 import {
@@ -66,6 +67,9 @@ export const API_CONTRACTS = [
   systemAdminAuditEventsGetContract,
   tenantBrandLogoUploadPostContract,
 ] as const satisfies readonly ApiRouteContract<unknown, unknown>[];
+
+/** Family registry — branded operation ids + style bindings (PAS-API-001 API-002). */
+export const API_OPERATION_REGISTRY = buildApiOperationRegistry(API_CONTRACTS);
 
 export type ApiContractId = (typeof API_CONTRACTS)[number]["id"];
 

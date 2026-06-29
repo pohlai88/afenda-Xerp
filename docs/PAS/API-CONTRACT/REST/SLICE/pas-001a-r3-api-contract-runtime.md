@@ -4,7 +4,7 @@
 
 **Prerequisite:** [R2 S2S attestation](../../../KERNEL/SLICE/pas-001a-r2-service-actor-s2s-attestation.md) Delivered · [ADR-0030](../../../adr/ADR-0030-erp-rest-api-contract-standard.md) · [api-contract North Star](../../../NORTHSTAR/api-contract-north-star.md) · [api-contract Blueprint](../../../BLUEPRINT/api-contract-blueprint.md)
 
-**Status:** Planned (NOT Delivered — implement via R3a → R3d sub-slices)
+**Status:** Delivered (R3a–R3d complete · IS-004 Production Accepted runtime)
 
 **Type:** Track index (orchestrator — **do not implement from this file alone**)
 
@@ -14,10 +14,10 @@
 
 | Slice | Handoff | Closes | Status |
 | --- | --- | --- | --- |
-| **R3a** | [pas-001a-r3a-handler-runtime-envelope.md](./pas-001a-r3a-handler-runtime-envelope.md) | Handler + validation + envelope/ProblemDetail | **Planned** |
-| **R3b** | [pas-001a-r3b-service-actor-context-assembly.md](./pas-001a-r3b-service-actor-context-assembly.md) | Service-actor operating-context (R2 deferred) | **Planned** |
-| **R3c** | [pas-001a-r3c-route-coverage-drift-attestation.md](./pas-001a-r3c-route-coverage-drift-attestation.md) | Route coverage + OpenAPI drift gates | **Planned** |
-| **R3d** | [pas-001a-r3d-governance-metadata-closure.md](./pas-001a-r3d-governance-metadata-closure.md) | Ownership metadata + Production Accepted closure | **Planned** |
+| **R3a** | [pas-001a-r3a-handler-runtime-envelope.md](./pas-001a-r3a-handler-runtime-envelope.md) | Handler + validation + envelope/ProblemDetail | **Delivered** |
+| **R3b** | [pas-001a-r3b-service-actor-context-assembly.md](./pas-001a-r3b-service-actor-context-assembly.md) | Service-actor operating-context (R2 deferred) | **Delivered** |
+| **R3c** | [pas-001a-r3c-route-coverage-drift-attestation.md](./pas-001a-r3c-route-coverage-drift-attestation.md) | Route coverage + OpenAPI drift gates | **Delivered** |
+| **R3d** | [pas-001a-r3d-governance-metadata-closure.md](./pas-001a-r3d-governance-metadata-closure.md) | Ownership metadata + Production Accepted closure | **Delivered** |
 
 **Order:** R3a → R3b → R3c → R3d
 

@@ -13,8 +13,8 @@
 | **Parent** | [Platform API Contract North Star](../../NORTHSTAR/api-contract-north-star.md) |
 | **Child bindings** | [REST](REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · [RPC](RPC/PAS-API-RPC-001-GRPC-CONNECT-PROTOBUF-BINDING-STANDARD.md) · [GraphQL](GRAPHQL/PAS-API-GQL-001-GRAPHQL-BINDING-STANDARD.md) · [Event](EVENT/PAS-API-EVENT-001-EVENT-API-BINDING-STANDARD.md) · [Agent](AGENT/PAS-API-AGENT-001-AGENT-TOOL-API-BINDING-STANDARD.md) |
 | **Consumer binding** | [PAS-001A-API-BINDING](../KERNEL/PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) |
-| **Maturity** | Production Candidate (doctrine accepted; REST binding active) |
-| **Authority status** | `accepted` (family invariants) · `partial` (REST binding only active) |
+| **Maturity** | Production Accepted (family doctrine + REST runtime) · reserved bindings Planned |
+| **Authority status** | `accepted` (family invariants API-001–API-016 attested · REST binding Production Accepted) |
 | **Upstream** | [api-contract North Star](../../NORTHSTAR/api-contract-north-star.md) · [api-contract Blueprint](../../BLUEPRINT/api-contract-blueprint.md) · [ADR-0030](../../adr/ADR-0030-erp-rest-api-contract-standard.md) (REST binding ADR) |
 | **Last reviewed** | 2026-06-30 |
 
@@ -153,17 +153,17 @@ Extract packages only when multiple consumers need authority outside `apps/erp`.
 
 | Slice | Handoff | Status |
 | --- | --- | --- |
-| S1 | [pas-api-001-s1-operation-identity-registry.md](SLICE/pas-api-001-s1-operation-identity-registry.md) | Planned |
-| S2 | [pas-api-001-s2-schema-authority-model.md](SLICE/pas-api-001-s2-schema-authority-model.md) | Planned |
-| S3 | [pas-api-001-s3-validation-direction-model.md](SLICE/pas-api-001-s3-validation-direction-model.md) | Planned |
-| S4 | [pas-api-001-s4-actor-context-permission-policy.md](SLICE/pas-api-001-s4-actor-context-permission-policy.md) | Planned |
-| S5 | [pas-api-001-s5-error-correlation-audit-replay.md](SLICE/pas-api-001-s5-error-correlation-audit-replay.md) | Planned |
-| S6 | [pas-api-001-s6-lifecycle-breaking-change.md](SLICE/pas-api-001-s6-lifecycle-breaking-change.md) | Planned |
-| S7 | [pas-api-001-s7-consumer-impact-ownership.md](SLICE/pas-api-001-s7-consumer-impact-ownership.md) | Planned |
-| S8 | [pas-api-001-s8-governance-exception-model.md](SLICE/pas-api-001-s8-governance-exception-model.md) | Planned |
-| S9 | [pas-api-001-s9-family-gate-release-attestation.md](SLICE/pas-api-001-s9-family-gate-release-attestation.md) | Planned |
+| S1 | [pas-api-001-s1-operation-identity-registry.md](SLICE/pas-api-001-s1-operation-identity-registry.md) | Delivered |
+| S2 | [pas-api-001-s2-schema-authority-model.md](SLICE/pas-api-001-s2-schema-authority-model.md) | Delivered |
+| S3 | [pas-api-001-s3-validation-direction-model.md](SLICE/pas-api-001-s3-validation-direction-model.md) | Delivered |
+| S4 | [pas-api-001-s4-actor-context-permission-policy.md](SLICE/pas-api-001-s4-actor-context-permission-policy.md) | Delivered |
+| S5 | [pas-api-001-s5-error-correlation-audit-replay.md](SLICE/pas-api-001-s5-error-correlation-audit-replay.md) | Delivered |
+| S6 | [pas-api-001-s6-lifecycle-breaking-change.md](SLICE/pas-api-001-s6-lifecycle-breaking-change.md) | Delivered |
+| S7 | [pas-api-001-s7-consumer-impact-ownership.md](SLICE/pas-api-001-s7-consumer-impact-ownership.md) | Delivered |
+| S8 | [pas-api-001-s8-governance-exception-model.md](SLICE/pas-api-001-s8-governance-exception-model.md) | Delivered |
+| S9 | [pas-api-001-s9-family-gate-release-attestation.md](SLICE/pas-api-001-s9-family-gate-release-attestation.md) | Delivered |
 
-**Remaining slices:** S1 → S9 Planned · **Next:** S1
+**Remaining slices:** none — S1–S9 Delivered · **Gate:** `pnpm check:api-family-conformance`
 
 **Core contract surfaces (S-track target):** see [SLICE/pas-api-001-slice-track.md](SLICE/pas-api-001-slice-track.md)
 

@@ -137,7 +137,7 @@ export const SERVICE_ACTOR_BRIDGE_WIRING = [
     id: "service-actor-api-operating-context",
     step: "Internal API operating context branches on S2S ingress before session path",
     module: "lib/api/resolve-api-route-operating-context.ts",
-    delegate: "resolveApiRouteAuthActor",
+    delegate: "resolveApiRouteOperatingContext",
   },
 ] as const;
 

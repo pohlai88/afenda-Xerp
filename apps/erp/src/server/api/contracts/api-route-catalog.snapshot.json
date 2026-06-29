@@ -23,11 +23,17 @@
       "summary": "Get ERP health status",
       "description": "Returns service health and execution spine diagnostics for load balancers and monitoring probes. Public route; no session required.",
       "stability": "internal-stable",
-      "tags": ["health", "public"],
+      "tags": [
+        "health",
+        "public"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -52,11 +58,18 @@
       "summary": "List session memberships",
       "description": "Returns tenant memberships available to the authenticated user for workspace and organization selection after sign-in.",
       "stability": "internal-stable",
-      "tags": ["auth", "memberships", "public"],
+      "tags": [
+        "auth",
+        "memberships",
+        "public"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -81,11 +94,18 @@
       "summary": "Report client-side error",
       "description": "Ingests client-side JavaScript errors and telemetry from the ERP shell. Public route for pre-auth error reporting.",
       "stability": "internal-stable",
-      "tags": ["observability", "public", "telemetry"],
+      "tags": [
+        "observability",
+        "public",
+        "telemetry"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -110,11 +130,17 @@
       "summary": "Get dashboard layout",
       "description": "Returns the persisted dashboard widget layout for the active tenant, company, and organization context.",
       "stability": "internal-stable",
-      "tags": ["workspace", "dashboard"],
+      "tags": [
+        "workspace",
+        "dashboard"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -139,11 +165,17 @@
       "summary": "Update dashboard layout",
       "description": "Persists dashboard widget layout changes. Requires idempotency key and workspace dashboard write permission.",
       "stability": "internal-stable",
-      "tags": ["workspace", "dashboard"],
+      "tags": [
+        "workspace",
+        "dashboard"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -168,11 +200,17 @@
       "summary": "Reset dashboard layout",
       "description": "Resets the dashboard layout to the default configuration for the active operating context.",
       "stability": "internal-stable",
-      "tags": ["workspace", "dashboard"],
+      "tags": [
+        "workspace",
+        "dashboard"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -197,11 +235,17 @@
       "summary": "List products",
       "description": "Returns product master records for the active tenant. Requires inventory product read permission.",
       "stability": "internal-stable",
-      "tags": ["inventory", "products"],
+      "tags": [
+        "inventory",
+        "products"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -226,11 +270,17 @@
       "summary": "Create product",
       "description": "Creates a tenant-scoped product master record. Requires inventory product manage permission.",
       "stability": "internal-stable",
-      "tags": ["inventory", "products"],
+      "tags": [
+        "inventory",
+        "products"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -255,11 +305,17 @@
       "summary": "Update product",
       "description": "Updates a tenant-scoped product master record identified in the request body. Requires inventory product manage permission.",
       "stability": "internal-stable",
-      "tags": ["inventory", "products"],
+      "tags": [
+        "inventory",
+        "products"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -284,11 +340,17 @@
       "summary": "List stock levels",
       "description": "Returns quantity-on-hand snapshots for the active company. Requires inventory product read permission.",
       "stability": "internal-stable",
-      "tags": ["inventory", "stock"],
+      "tags": [
+        "inventory",
+        "stock"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -313,11 +375,17 @@
       "summary": "Record stock movement",
       "description": "Records a stock movement and updates quantity on hand. Requires inventory stock adjust permission.",
       "stability": "internal-stable",
-      "tags": ["inventory", "stock"],
+      "tags": [
+        "inventory",
+        "stock"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -342,11 +410,17 @@
       "summary": "List warehouses",
       "description": "Returns warehouse master records for the active company. Requires inventory warehouse read permission.",
       "stability": "internal-stable",
-      "tags": ["inventory", "warehouses"],
+      "tags": [
+        "inventory",
+        "warehouses"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -371,11 +445,17 @@
       "summary": "Create warehouse",
       "description": "Creates a company-scoped warehouse master record. Requires inventory warehouse manage permission.",
       "stability": "internal-stable",
-      "tags": ["inventory", "warehouses"],
+      "tags": [
+        "inventory",
+        "warehouses"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -400,11 +480,17 @@
       "summary": "Update warehouse",
       "description": "Updates a company-scoped warehouse master record identified in the request body. Requires inventory warehouse manage permission.",
       "stability": "internal-stable",
-      "tags": ["inventory", "warehouses"],
+      "tags": [
+        "inventory",
+        "warehouses"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -429,11 +515,17 @@
       "summary": "Invite user",
       "description": "Invites a new user to the tenant with a specified role. Audited mutation requiring system admin user management permission.",
       "stability": "internal-stable",
-      "tags": ["system-admin", "users"],
+      "tags": [
+        "system-admin",
+        "users"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -458,11 +550,17 @@
       "summary": "Assign membership role",
       "description": "Updates the role assigned to an existing membership within company scope. Audited mutation requiring system admin role management permission.",
       "stability": "internal-stable",
-      "tags": ["system-admin", "memberships"],
+      "tags": [
+        "system-admin",
+        "memberships"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -487,11 +585,17 @@
       "summary": "List audit events",
       "description": "Returns recent system administration audit events for the active tenant, company, and organization context.",
       "stability": "internal-stable",
-      "tags": ["system-admin", "audit"],
+      "tags": [
+        "system-admin",
+        "audit"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     },
@@ -516,11 +620,18 @@
       "summary": "Initiate tenant brand logo upload",
       "description": "Returns a presigned upload URL and metadata for uploading a tenant brand logo. Request body specifies filename, MIME type, and size.",
       "stability": "internal-stable",
-      "tags": ["storage", "system-admin", "appearance"],
+      "tags": [
+        "storage",
+        "system-admin",
+        "appearance"
+      ],
       "testPaths": [
         "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts",
         "apps/erp/src/server/api/__tests__/api-envelope.test.ts",
-        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts"
+        "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts",
+        "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts",
+        "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
+        "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts"
       ],
       "version": "v1"
     }

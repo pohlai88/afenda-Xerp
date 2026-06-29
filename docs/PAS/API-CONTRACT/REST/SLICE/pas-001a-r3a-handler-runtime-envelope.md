@@ -4,7 +4,7 @@
 
 **Prerequisite:** R2 Delivered · ADR-0030 Accepted · [PAS-API-REST-001](../PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) §2.5
 
-**Status:** Planned
+**Status:** Delivered
 
 **Type:** Implementation
 

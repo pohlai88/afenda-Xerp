@@ -49,7 +49,11 @@ const REQUIRED_S2S_MARKERS: readonly {
   },
   {
     file: "lib/api/resolve-api-route-operating-context.ts",
-    markers: ["resolveApiRouteAuthActor"],
+    markers: [
+      "resolveApiRouteAuthActor",
+      "resolveApiRouteOperatingContext",
+      "resolveOperatingContextOrchestrator",
+    ],
   },
 ];
 

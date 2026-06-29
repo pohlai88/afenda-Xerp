@@ -1,5 +1,17 @@
 # ERP Runtime Module Foundation Template
 
+> **Business authority:** [ERP Runtime Module Foundation North Star](../../../NORTHSTAR/erp-module-runtime-north-star.md) — §1–§12 business architecture; this file is **implementation SSOT**.
+>
+> **Temporary location:** `docs/PAS/KERNEL/template/` — migrates to `docs/PAS/ERP-MODULES/` when `@afenda/erp-modules` package is live.
+>
+> **Agreed package path law (supersedes `packages/{module}/` below):**
+>
+> ```text
+> packages/features/erp-modules/src/{module-slug}/
+> ```
+>
+> Reference exemplar: `procurement` (`KV-PROC`).
+
 ## 1. Module Identity
 
 Every ERP runtime module must declare a governed module identity.

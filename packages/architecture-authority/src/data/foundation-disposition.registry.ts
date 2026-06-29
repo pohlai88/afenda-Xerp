@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-30-v29" as const;
+  "FOUNDATION-DISPOSITION-2026-06-30-v30" as const;
 
 const foundationDispositionEntries = [
   {
@@ -29,6 +29,7 @@ const foundationDispositionEntries = [
       "erp-app-agent",
       "system-admin-agent",
       "foundation-registry-owner",
+      "afenda-governed-implementer",
     ],
     prohibited: [
       "do-not-create-accounting-package",
@@ -61,6 +62,7 @@ const foundationDispositionEntries = [
       "erp-app-agent",
       "kernel-context-agent",
       "foundation-registry-owner",
+      "afenda-governed-implementer",
     ],
     prohibited: [
       "do-not-create-accounting-package",

@@ -151,6 +151,15 @@ describe("API contract registry", () => {
     expect(violations).toEqual([]);
   });
 
+  it("keeps API_CONTRACTS JSON-serializable for catalog and OpenAPI pipelines", () => {
+    const serialized = JSON.parse(JSON.stringify(API_CONTRACTS));
+    expect(serialized).toHaveLength(API_CONTRACTS.length);
+    for (const contract of API_CONTRACTS) {
+      expect(typeof contract.id).toBe("string");
+      expect(typeof contract.path).toBe("string");
+    }
+  });
+
   it("keeps API_CONTRACTS aligned with GOVERNED_ROUTE_CONTRACT_EXPORTS", () => {
     const exportIds = Object.values(GOVERNED_ROUTE_CONTRACT_EXPORTS).map(
       (contract) => contract.id

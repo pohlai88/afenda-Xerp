@@ -25,14 +25,25 @@ export const API_ERROR_CODES = [
 
 export type ApiErrorCode = (typeof API_ERROR_CODES)[number];
 
-export interface ApiErrorDefinition {
+/**
+ * Style-agnostic governed error semantics (PAS-API-001 API-009).
+ * REST binding extends with {@link ApiRestErrorBindingExtension}.
+ */
+export interface ApiGovernedErrorDoctrine {
   readonly category: ApiErrorCategory;
   readonly code: ApiErrorCode;
-  readonly httpStatus: number;
   readonly logLevel: "debug" | "error" | "info" | "warn";
   readonly publicMessage: string;
   readonly retryable: boolean;
 }
+
+/** REST/OpenAPI binding projection — not part of family error doctrine. */
+export interface ApiRestErrorBindingExtension {
+  readonly httpStatus: number;
+}
+
+export type ApiErrorDefinition = ApiGovernedErrorDoctrine &
+  ApiRestErrorBindingExtension;
 
 export const API_ERROR_DEFINITIONS = {
   bad_request: {
@@ -127,4 +138,35 @@ export function resolveApiErrorCategory(code: ApiErrorCode): ApiErrorCategory {
 
 export function resolveApiErrorRetryable(code: ApiErrorCode): boolean {
   return getApiErrorDefinition(code).retryable;
+}
+
+export function toGovernedErrorDoctrine(
+  definition: ApiErrorDefinition
+): ApiGovernedErrorDoctrine {
+  return {
+    category: definition.category,
+    code: definition.code,
+    logLevel: definition.logLevel,
+    publicMessage: definition.publicMessage,
+    retryable: definition.retryable,
+  };
+}
+
+/** RFC 9457 ProblemDetail-class projection for REST binding attestation (R3a). */
+export interface ApiProblemDetailClassProjection {
+  readonly status: number;
+  readonly title: string;
+  readonly type: string;
+}
+
+export function projectProblemDetailClass(
+  code: ApiErrorCode
+): ApiProblemDetailClassProjection {
+  const definition = getApiErrorDefinition(code);
+
+  return {
+    status: definition.httpStatus,
+    title: definition.publicMessage,
+    type: `https://afenda.dev/problems/${code}`,
+  };
 }

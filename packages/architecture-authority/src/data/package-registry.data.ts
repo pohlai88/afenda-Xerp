@@ -303,6 +303,18 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
+    registryId: "PKG-027",
+    packageName: "@afenda/erp-module-foundation",
+    path: "packages/erp-module-foundation",
+    layer: "Foundation",
+    lifecycle: "active",
+    purpose:
+      "ERP runtime module foundation factories and validators — reference bundles, readiness gates (PAS-001C)",
+    publicApiOwner: "ERP Module Foundation Authority",
+    layerDepExempt: false,
+    filesystemRequired: true,
+  },
+  {
     registryId: "PKG-R01",
     packageName: "@afenda/accounting",
     path: "packages/accounting",

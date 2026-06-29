@@ -11,15 +11,15 @@
 | --- | --- | --- | --- |
 | S1 | REST Operation Binding | Planned | — |
 | S2 | REST Request / Response Schema | Planned | — |
-| S3 | REST Handler Runtime | Planned | R3a |
-| S4 | REST Ingress Validation | Planned | R3a |
-| S5 | REST Egress Validation | Planned | R3a |
-| S6 | REST Error Mapping | Planned | R3a |
-| S7 | OpenAPI Publication | Planned | R3c |
-| S8 | OpenAPI Drift Gate | Planned | R3c |
-| S9 | REST Route Coverage Gate | Planned | R3c |
-| S10 | REST Lifecycle Projection | Planned | R3d |
+| S3 | REST Handler Runtime | Delivered | R3a |
+| S4 | REST Ingress Validation | Delivered | R3a |
+| S5 | REST Egress Validation | Delivered | R3a |
+| S6 | REST Error Mapping | Delivered | R3a |
+| S7 | OpenAPI Publication | Delivered | R3c |
+| S8 | OpenAPI Drift Gate | Delivered | R3c |
+| S9 | REST Route Coverage Gate | Delivered | R3c |
+| S10 | REST Lifecycle Projection | Delivered | R3d |
 
-**Next implementable:** S1 or R3a (handler bundle)
+**Next implementable:** none (R3 closed) · optional S1–S2 formal slices
 
 **Legacy track:** [api-contract-slice-catalog.md](./api-contract-slice-catalog.md) (R3 index)

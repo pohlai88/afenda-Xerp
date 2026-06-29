@@ -46,4 +46,4 @@ Handoff from: docs/PAS/KERNEL/SLICE/pas-001a-r2-service-actor-s2s-attestation.md
 
 ## Deferred (PAS-001A API track)
 
-Full operating-context assembly for service actors (tenant/scope resolution without human session) remains out of scope for this scaffold slice.
+~~Full operating-context assembly for service actors (tenant/scope resolution without human session) remains out of scope for this scaffold slice.~~ **Closed by [R3b](../../API-CONTRACT/REST/SLICE/pas-001a-r3b-service-actor-context-assembly.md) (Delivered).**

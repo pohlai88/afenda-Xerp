@@ -12,8 +12,8 @@
 | **Consumer binding** | [PAS-001A-API-BINDING](../../KERNEL/PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) |
 | **Primary runtime owner** | `apps/erp/src/server/api/` |
 | **Exposure namespace** | `/api/internal/v1/**` at current maturity |
-| **Runtime stance** | `scaffold-delivered` — registry + generator + partial handler runtime live; **attestation closure Planned** via R3a–R3d |
-| **Maturity** | Production Candidate (scaffold); Enterprise Runtime after R3d |
+| **Runtime stance** | `production-accepted` — registry + generator + handler runtime attested · R3a–R3d Delivered |
+| **Maturity** | Production Accepted (runtime) · Enterprise Runtime criteria in Blueprint §11 |
 | **Agent skills** | `afenda-openapi` · `platform-api-contract` · `/afenda-coding-session` |
 | **Upstream** | [PAS-API-001](../PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) · [ADR-0030](../../adr/ADR-0030-erp-rest-api-contract-standard.md) |
 | **Last reviewed** | 2026-06-30 |
@@ -37,9 +37,9 @@
 - Do not implement REST binding logic in `packages/kernel/src/**`
 - Do not conflate human session and service-actor `authPolicy`
 - Do not assemble operating context handler-local — use PAS-001A IS-002 spine
-- Do not claim R3 Delivered until R3a–R3d DoD gates pass
+- Do not claim R3 Delivered until R3a–R3d DoD gates pass — **closed 2026-06-30 (R3d Delivered)**
 
-**Execution:** R3a → R3b → R3c → R3d · Session scope from slice 9-field handoff only
+**Execution:** R3a → R3b → R3c → R3d **Delivered** · **Remaining slices:** none
 
 ---
 
@@ -98,10 +98,10 @@ Governed envelope + ProblemDetail.
 | --- | --- | --- | --- |
 | 1 | `pnpm --filter @afenda/erp typecheck` | baseline | Active |
 | 2 | `pnpm --filter @afenda/erp test:run` | baseline | Active |
-| 3 | `pnpm check:api-contracts` | R3c · R3d | Planned |
-| 4 | `pnpm check:openapi-drift` | R3c · R3d | Planned |
-| 5 | `pnpm check:api-route-catalog` | R3c | Planned |
-| 6 | `pnpm lint:openapi` | R3c | Planned |
+| 3 | `pnpm check:api-contracts` | R3c · R3d | Active |
+| 4 | `pnpm check:openapi-drift` | R3c · R3d | Active |
+| 5 | `pnpm check:api-route-catalog` | R3c | Active |
+| 6 | `pnpm lint:openapi` | R3c | Active |
 | 7 | `pnpm check:erp-service-actor-s2s-attestation` | R3b | Active |
 | 8 | `pnpm export:openapi` | Any contract change | Active |
 
@@ -130,13 +130,13 @@ All REST-INV-* trace to PAS-API-001 API-001–API-016.
 
 **S-series (canonical):** S1 → S10 — see [slice track](./SLICE/pas-api-rest-001-slice-track.md)
 
-**Legacy R3 bundles:** R3a–R3d — mapped to S3–S10; see track index · **Next implementable:** S1 or R3a
+**Legacy R3 bundles:** R3a–R3d **Delivered** — see track index · **Remaining slices:** none
 
-| R3 | [pas-001a-r3-api-contract-runtime.md](./SLICE/pas-001a-r3-api-contract-runtime.md) | Planned (index) |
-| R3a | [pas-001a-r3a-handler-runtime-envelope.md](./SLICE/pas-001a-r3a-handler-runtime-envelope.md) | Planned |
-| R3b | [pas-001a-r3b-service-actor-context-assembly.md](./SLICE/pas-001a-r3b-service-actor-context-assembly.md) | Planned |
-| R3c | [pas-001a-r3c-route-coverage-drift-attestation.md](./SLICE/pas-001a-r3c-route-coverage-drift-attestation.md) | Planned |
-| R3d | [pas-001a-r3d-governance-metadata-closure.md](./SLICE/pas-001a-r3d-governance-metadata-closure.md) | Planned |
+| R3 | [pas-001a-r3-api-contract-runtime.md](./SLICE/pas-001a-r3-api-contract-runtime.md) | Delivered (index) |
+| R3a | [pas-001a-r3a-handler-runtime-envelope.md](./SLICE/pas-001a-r3a-handler-runtime-envelope.md) | Delivered |
+| R3b | [pas-001a-r3b-service-actor-context-assembly.md](./SLICE/pas-001a-r3b-service-actor-context-assembly.md) | Delivered |
+| R3c | [pas-001a-r3c-route-coverage-drift-attestation.md](./SLICE/pas-001a-r3c-route-coverage-drift-attestation.md) | Delivered |
+| R3d | [pas-001a-r3d-governance-metadata-closure.md](./SLICE/pas-001a-r3d-governance-metadata-closure.md) | Delivered |
 
 ---
 

@@ -4,7 +4,7 @@
 
 **Prerequisite:** R3a · R3b · R3c Delivered
 
-**Status:** Planned
+**Status:** Delivered
 
 **Type:** Evidence-sync + governance enforcement
 

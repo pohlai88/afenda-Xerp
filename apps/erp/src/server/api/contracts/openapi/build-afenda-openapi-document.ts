@@ -62,10 +62,12 @@ const AFENDA_OPENAPI_DOCUMENT_TAGS = [
   },
   {
     name: "inventory",
-    description: "Inventory master data — products and warehouses.",
+    description:
+      "Inventory domain — products, warehouses, stock levels, and movements.",
   },
   { name: "products", description: "Product master data operations." },
   { name: "warehouses", description: "Warehouse master data operations." },
+  { name: "stock", description: "Stock level queries and movement mutations." },
 ] as const;
 
 function isContractDeprecated(

@@ -9,4 +9,4 @@
 
 > **One sentence:** When activated, this folder owns `.proto` service definitions, Protobuf message evolution, RPC metadata, TypeScript generation gates, and RPC error mapping — not API family doctrine.
 
-**Slices:** [`SLICE/`](SLICE/) — reserved (`.gitkeep` only)
+**Slices:** [SLICE/pas-api-rpc-001-slice-track.md](SLICE/pas-api-rpc-001-slice-track.md) (S1–S10 Reserved)

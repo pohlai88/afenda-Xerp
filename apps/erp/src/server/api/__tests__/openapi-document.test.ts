@@ -109,11 +109,44 @@ describe("OpenAPI document generation", () => {
       },
       {
         name: "inventory",
-        description: "Inventory master data — products and warehouses.",
+        description:
+          "Inventory domain — products, warehouses, stock levels, and movements.",
       },
       { name: "products", description: "Product master data operations." },
       { name: "warehouses", description: "Warehouse master data operations." },
+      {
+        name: "stock",
+        description: "Stock level queries and movement mutations.",
+      },
     ]);
+  });
+
+  it("declares every operation tag at document level (PAS-001A R3c)", () => {
+    const declaredTagNames = new Set(
+      (document.tags ?? []).map((tag) => tag.name)
+    );
+
+    for (const contract of API_CONTRACTS) {
+      for (const tag of contract.tags) {
+        expect(declaredTagNames.has(tag)).toBe(true);
+      }
+    }
+
+    for (const pathItem of Object.values(document.paths ?? {})) {
+      for (const operation of Object.values(pathItem ?? {})) {
+        if (
+          typeof operation !== "object" ||
+          operation === null ||
+          !("tags" in operation)
+        ) {
+          continue;
+        }
+
+        for (const tag of (operation as { tags?: string[] }).tags ?? []) {
+          expect(declaredTagNames.has(tag)).toBe(true);
+        }
+      }
+    }
   });
 
   it("documents transport headers on success and standard error responses", () => {

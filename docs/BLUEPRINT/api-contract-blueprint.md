@@ -11,7 +11,7 @@
 | **Platform rollup** | [Kernel Blueprint](kernel-blueprint.md) §2 cross-cutting row |
 | **Authority ADR** | [ADR-0030](../adr/ADR-0030-erp-rest-api-contract-standard.md) (REST binding) · [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) · [ADR-0010](../adr/ADR-0010-no-accounting-before-foundation-gate.md) |
 | **Derived documents** | [PAS-API-001](../PAS/API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) · [PAS-API-REST-001](../PAS/API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · [PAS-001A-API-BINDING](../PAS/KERNEL/PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) · [R3 track](../PAS/API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) |
-| **Maturity** | Production Accepted — document **9.5 / 10**; REST R3 Planned |
+| **Maturity** | Production Accepted — document **9.5 / 10**; REST R3 **Delivered** (IS-004 runtime) |
 | **Runtime maturity** | Production Candidate — `createApiHandler` on internal v1 routes; R3 attestation Planned |
 | **Runtime stance** | Documentation only — references registries and runtime paths |
 | **Total PAS at maturity** | PAS-API-001 + style bindings + ERP consumer binding |
@@ -307,8 +307,8 @@ Implementers: copy **R3a–R3d 9-field handoff** into Phase 0 — do not re-deri
 | PAS ID | Name | Blueprint box | Status | Slice |
 | --- | --- | --- | --- | --- |
 | PAS-API-001 | Platform API Contract Authority | Platform API Contract | Production Candidate (doctrine) | — |
-| PAS-API-REST-001 | REST / OpenAPI Binding | REST style binding | Production Candidate (scaffold) | R3a → R3d Planned |
-| PAS-001A | ERP Integration Spine | ERP Integration Spine | Production Candidate | R1a–R1d · R2 Delivered · IS-004 R3 Planned |
+| PAS-API-REST-001 | REST / OpenAPI Binding | REST style binding | Production Accepted (runtime) | R3a–R3d Delivered |
+| PAS-001A | ERP Integration Spine | ERP Integration Spine | Production Candidate | R1a–R1d · R2 · IS-004 R3 Delivered |
 | PAS-001A-API-BINDING | ERP API Consumption | ERP Integration Spine (consumer) | Active | — |
 | PAS-API-RPC-001 | gRPC / Connect / Protobuf | RPC binding | Reserved | — |
 | PAS-API-GQL-001 | GraphQL | GraphQL binding | Reserved | — |
@@ -328,7 +328,7 @@ Implementers: copy **R3a–R3d 9-field handoff** into Phase 0 — do not re-deri
 
 | Target | Criteria |
 | --- | --- |
-| **Production Candidate → Production Accepted (runtime)** | R3 slice Delivered · `createApiHandler` on all governed internal v1 routes · ingress and egress validation proven · route coverage gate green · OpenAPI drift gate green · snapshot regenerated only via approved export command · North Star §16 EAC remains Enterprise 10 / 10 |
+| **Production Candidate → Production Accepted (runtime)** | R3 slice Delivered ✓ (2026-06-30) · `createApiHandler` on all governed internal v1 routes · ingress and egress validation proven · route coverage gate green · OpenAPI drift gate green · governance metadata enforced · snapshot regenerated only via approved export command |
 | **Production Accepted → Enterprise Runtime** | Zero orphan governed routes · 100% governed errors use ProblemDetail · 100% governed success responses use envelope with correlation · audit replay minimum attested · service-actor policy attested where applicable · breaking-change classification on contract diffs · consumer impact declared on deprecated/breaking operations · operation ownership metadata enforced in PAS |
 | **Public API tier** | ADR + North Star §4 amendment + Blueprint exposure row + PAS amendment + consumer migration policy |
 

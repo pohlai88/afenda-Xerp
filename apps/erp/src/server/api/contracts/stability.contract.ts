@@ -7,3 +7,10 @@ export const API_STABILITY_CLASSIFICATIONS = [
 
 export type ApiStabilityClassification =
   (typeof API_STABILITY_CLASSIFICATIONS)[number];
+
+/** PAS-API-001 API-012 — deprecated stability requires lifecycle migration when route stays active. */
+export function isDeprecatedStabilityClassification(
+  stability: ApiStabilityClassification
+): boolean {
+  return stability === "deprecated";
+}

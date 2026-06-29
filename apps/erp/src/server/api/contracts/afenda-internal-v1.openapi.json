@@ -70,7 +70,7 @@
     },
     {
       "name": "inventory",
-      "description": "Inventory master data — products and warehouses."
+      "description": "Inventory domain — products, warehouses, stock levels, and movements."
     },
     {
       "name": "products",
@@ -79,6 +79,10 @@
     {
       "name": "warehouses",
       "description": "Warehouse master data operations."
+    },
+    {
+      "name": "stock",
+      "description": "Stock level queries and movement mutations."
     }
   ],
   "servers": [
@@ -93,7 +97,10 @@
         "operationId": "internalV1HealthGet",
         "summary": "Get ERP health status",
         "description": "Returns service health and execution spine diagnostics for load balancers and monitoring probes. Public route; no session required.",
-        "tags": ["health", "public"],
+        "tags": [
+          "health",
+          "public"
+        ],
         "security": [],
         "x-afenda-auth-policy": "public",
         "x-afenda-context-policy": "none",
@@ -140,7 +147,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -412,7 +423,11 @@
         "operationId": "internalV1AuthMembershipsGet",
         "summary": "List session memberships",
         "description": "Returns tenant memberships available to the authenticated user for workspace and organization selection after sign-in.",
-        "tags": ["auth", "memberships", "public"],
+        "tags": [
+          "auth",
+          "memberships",
+          "public"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -474,7 +489,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -746,7 +765,11 @@
         "operationId": "internalV1Client-errorPost",
         "summary": "Report client-side error",
         "description": "Ingests client-side JavaScript errors and telemetry from the ERP shell. Public route for pre-auth error reporting.",
-        "tags": ["observability", "public", "telemetry"],
+        "tags": [
+          "observability",
+          "public",
+          "telemetry"
+        ],
         "security": [],
         "x-afenda-auth-policy": "public",
         "x-afenda-context-policy": "none",
@@ -803,7 +826,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1075,7 +1102,10 @@
         "operationId": "internalV1WorkspaceDashboard-layoutGet",
         "summary": "Get dashboard layout",
         "description": "Returns the persisted dashboard widget layout for the active tenant, company, and organization context.",
-        "tags": ["workspace", "dashboard"],
+        "tags": [
+          "workspace",
+          "dashboard"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -1173,7 +1203,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1443,7 +1477,10 @@
         "operationId": "internalV1WorkspaceDashboard-layoutPut",
         "summary": "Update dashboard layout",
         "description": "Persists dashboard widget layout changes. Requires idempotency key and workspace dashboard write permission.",
-        "tags": ["workspace", "dashboard"],
+        "tags": [
+          "workspace",
+          "dashboard"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -1562,7 +1599,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -1832,7 +1873,10 @@
         "operationId": "internalV1WorkspaceDashboard-layoutDelete",
         "summary": "Reset dashboard layout",
         "description": "Resets the dashboard layout to the default configuration for the active operating context.",
-        "tags": ["workspace", "dashboard"],
+        "tags": [
+          "workspace",
+          "dashboard"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -1930,7 +1974,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2202,7 +2250,10 @@
         "operationId": "internalV1InventoryProductsGet",
         "summary": "List products",
         "description": "Returns product master records for the active tenant. Requires inventory product read permission.",
-        "tags": ["inventory", "products"],
+        "tags": [
+          "inventory",
+          "products"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -2264,7 +2315,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2534,7 +2589,10 @@
         "operationId": "internalV1InventoryProductsPost",
         "summary": "Create product",
         "description": "Creates a tenant-scoped product master record. Requires inventory product manage permission.",
-        "tags": ["inventory", "products"],
+        "tags": [
+          "inventory",
+          "products"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -2617,7 +2675,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -2887,7 +2949,10 @@
         "operationId": "internalV1InventoryProductsPatch",
         "summary": "Update product",
         "description": "Updates a tenant-scoped product master record identified in the request body. Requires inventory product manage permission.",
-        "tags": ["inventory", "products"],
+        "tags": [
+          "inventory",
+          "products"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -2970,7 +3035,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3242,7 +3311,10 @@
         "operationId": "internalV1InventoryStock-levelsGet",
         "summary": "List stock levels",
         "description": "Returns quantity-on-hand snapshots for the active company. Requires inventory product read permission.",
-        "tags": ["inventory", "stock"],
+        "tags": [
+          "inventory",
+          "stock"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -3322,7 +3394,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3594,7 +3670,10 @@
         "operationId": "internalV1InventoryStock-movementsPost",
         "summary": "Record stock movement",
         "description": "Records a stock movement and updates quantity on hand. Requires inventory stock adjust permission.",
-        "tags": ["inventory", "stock"],
+        "tags": [
+          "inventory",
+          "stock"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -3695,7 +3774,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -3967,7 +4050,10 @@
         "operationId": "internalV1InventoryWarehousesGet",
         "summary": "List warehouses",
         "description": "Returns warehouse master records for the active company. Requires inventory warehouse read permission.",
-        "tags": ["inventory", "warehouses"],
+        "tags": [
+          "inventory",
+          "warehouses"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -4047,7 +4133,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -4317,7 +4407,10 @@
         "operationId": "internalV1InventoryWarehousesPost",
         "summary": "Create warehouse",
         "description": "Creates a company-scoped warehouse master record. Requires inventory warehouse manage permission.",
-        "tags": ["inventory", "warehouses"],
+        "tags": [
+          "inventory",
+          "warehouses"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -4418,7 +4511,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -4688,7 +4785,10 @@
         "operationId": "internalV1InventoryWarehousesPatch",
         "summary": "Update warehouse",
         "description": "Updates a company-scoped warehouse master record identified in the request body. Requires inventory warehouse manage permission.",
-        "tags": ["inventory", "warehouses"],
+        "tags": [
+          "inventory",
+          "warehouses"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -4789,7 +4889,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -5061,7 +5165,10 @@
         "operationId": "internalV1System-adminUsersInvitePost",
         "summary": "Invite user",
         "description": "Invites a new user to the tenant with a specified role. Audited mutation requiring system admin user management permission.",
-        "tags": ["system-admin", "users"],
+        "tags": [
+          "system-admin",
+          "users"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -5180,7 +5287,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -5452,7 +5563,10 @@
         "operationId": "internalV1System-adminMembershipsRolePost",
         "summary": "Assign membership role",
         "description": "Updates the role assigned to an existing membership within company scope. Audited mutation requiring system admin role management permission.",
-        "tags": ["system-admin", "memberships"],
+        "tags": [
+          "system-admin",
+          "memberships"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -5571,7 +5685,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -5843,7 +5961,10 @@
         "operationId": "internalV1System-adminAudit-eventsGet",
         "summary": "List audit events",
         "description": "Returns recent system administration audit events for the active tenant, company, and organization context.",
-        "tags": ["system-admin", "audit"],
+        "tags": [
+          "system-admin",
+          "audit"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -6002,7 +6123,11 @@
                               "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
                             }
                           },
-                          "required": ["hasMore", "limit", "nextCursor"],
+                          "required": [
+                            "hasMore",
+                            "limit",
+                            "nextCursor"
+                          ],
                           "additionalProperties": false
                         }
                       },
@@ -6019,7 +6144,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -6291,7 +6420,11 @@
         "operationId": "internalV1StorageTenant-brand-logoPost",
         "summary": "Initiate tenant brand logo upload",
         "description": "Returns a presigned upload URL and metadata for uploading a tenant brand logo. Request body specifies filename, MIME type, and size.",
-        "tags": ["storage", "system-admin", "appearance"],
+        "tags": [
+          "storage",
+          "system-admin",
+          "appearance"
+        ],
         "security": [
           {
             "AfendaSession": []
@@ -6374,7 +6507,11 @@
                       "const": true
                     }
                   },
-                  "required": ["data", "meta", "ok"],
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
                   "additionalProperties": false
                 }
               }
@@ -6664,7 +6801,10 @@
             "example": "dashboard"
           }
         },
-        "required": ["digest", "segment"],
+        "required": [
+          "digest",
+          "segment"
+        ],
         "description": "Client-reported error payload for observability ingestion (fire-and-forget)."
       },
       "DashboardLayoutPreset": {
@@ -6698,7 +6838,12 @@
             "example": 1
           }
         },
-        "required": ["columns", "items", "rowHeight", "version"],
+        "required": [
+          "columns",
+          "items",
+          "rowHeight",
+          "version"
+        ],
         "description": "Versioned dashboard widget grid preset."
       },
       "DashboardWidgetLayoutItem": {
@@ -6736,7 +6881,10 @@
               },
               {
                 "type": "string",
-                "enum": ["kpi-stats", "sparkline-stats"],
+                "enum": [
+                  "kpi-stats",
+                  "sparkline-stats"
+                ],
                 "description": "Legacy widget identifiers retained for stored layout migration.",
                 "example": "kpi-stats"
               }
@@ -6780,7 +6928,13 @@
             "example": 0
           }
         },
-        "required": ["h", "i", "w", "x", "y"],
+        "required": [
+          "h",
+          "i",
+          "w",
+          "x",
+          "y"
+        ],
         "description": "Single widget placement within the dashboard grid."
       },
       "InventoryProductCreateRequest": {
@@ -6802,10 +6956,17 @@
             "description": "Initial lifecycle status; defaults to draft.",
             "example": "draft",
             "type": "string",
-            "enum": ["draft", "active", "inactive"]
+            "enum": [
+              "draft",
+              "active",
+              "inactive"
+            ]
           }
         },
-        "required": ["displayName", "sku"],
+        "required": [
+          "displayName",
+          "sku"
+        ],
         "description": "Request body for creating a product master record."
       },
       "InventoryProductUpdateRequest": {
@@ -6833,10 +6994,16 @@
             "description": "Updated master data lifecycle status.",
             "example": "active",
             "type": "string",
-            "enum": ["draft", "active", "inactive"]
+            "enum": [
+              "draft",
+              "active",
+              "inactive"
+            ]
           }
         },
-        "required": ["productId"],
+        "required": [
+          "productId"
+        ],
         "description": "Request body for updating a product master record."
       },
       "InventoryStockMovementCreateRequest": {
@@ -6844,7 +7011,11 @@
         "properties": {
           "movementType": {
             "type": "string",
-            "enum": ["receipt", "issue", "adjustment"],
+            "enum": [
+              "receipt",
+              "issue",
+              "adjustment"
+            ],
             "description": "Stock movement classification.",
             "example": "receipt"
           },
@@ -6894,7 +7065,11 @@
             "description": "Initial lifecycle status; defaults to draft.",
             "example": "draft",
             "type": "string",
-            "enum": ["draft", "active", "inactive"]
+            "enum": [
+              "draft",
+              "active",
+              "inactive"
+            ]
           },
           "warehouseCode": {
             "type": "string",
@@ -6903,7 +7078,10 @@
             "example": "WH-MAIN"
           }
         },
-        "required": ["displayName", "warehouseCode"],
+        "required": [
+          "displayName",
+          "warehouseCode"
+        ],
         "description": "Request body for creating a warehouse master record."
       },
       "InventoryWarehouseUpdateRequest": {
@@ -6919,7 +7097,11 @@
             "description": "Updated master data lifecycle status.",
             "example": "active",
             "type": "string",
-            "enum": ["draft", "active", "inactive"]
+            "enum": [
+              "draft",
+              "active",
+              "inactive"
+            ]
           },
           "warehouseCode": {
             "description": "Updated company-scoped warehouse code.",
@@ -6934,7 +7116,9 @@
             "example": "9a8b7c6d-5e4f-3210-abcd-ef1234567890"
           }
         },
-        "required": ["warehouseId"],
+        "required": [
+          "warehouseId"
+        ],
         "description": "Request body for updating a warehouse master record."
       },
       "SystemAdminUserInviteRequest": {
@@ -6960,7 +7144,11 @@
             "example": "4dd643ff-7ec7-4666-9c88-50b7d3da34e4"
           }
         },
-        "required": ["displayName", "email", "roleId"],
+        "required": [
+          "displayName",
+          "email",
+          "roleId"
+        ],
         "description": "Request body for inviting a new user into the tenant."
       },
       "SystemAdminMembershipRoleRequest": {
@@ -6985,7 +7173,11 @@
             "example": "4dd643ff-7ec7-4666-9c88-50b7d3da34e4"
           }
         },
-        "required": ["companyId", "membershipId", "roleId"],
+        "required": [
+          "companyId",
+          "membershipId",
+          "roleId"
+        ],
         "description": "Request body for updating a membership role assignment."
       },
       "TenantBrandLogoUploadRequest": {
@@ -7000,7 +7192,11 @@
           },
           "mimeType": {
             "type": "string",
-            "enum": ["image/jpeg", "image/png", "image/webp"],
+            "enum": [
+              "image/jpeg",
+              "image/png",
+              "image/webp"
+            ],
             "description": "Content type of the file to upload.",
             "example": "image/png"
           },
@@ -7012,7 +7208,11 @@
             "example": 48640
           }
         },
-        "required": ["filename", "mimeType", "size"],
+        "required": [
+          "filename",
+          "mimeType",
+          "size"
+        ],
         "description": "Metadata for requesting a presigned upload URL for a tenant brand logo."
       },
       "HealthResponse": {
@@ -7030,24 +7230,40 @@
           },
           "status": {
             "type": "string",
-            "enum": ["ok", "degraded", "critical"],
+            "enum": [
+              "ok",
+              "degraded",
+              "critical"
+            ],
             "description": "Overall ERP health status derived from execution spine diagnostics.",
             "example": "ok"
           }
         },
-        "required": ["executionSpine", "service", "status"],
+        "required": [
+          "executionSpine",
+          "service",
+          "status"
+        ],
         "additionalProperties": false,
         "description": "Health probe payload for load balancers and monitoring integrations."
       },
       "ExecutionSpineOperationalStatus": {
         "type": "string",
-        "enum": ["healthy", "degraded", "critical"],
+        "enum": [
+          "healthy",
+          "degraded",
+          "critical"
+        ],
         "description": "Aggregate health of the execution spine (outbox, scheduler, worker alignment).",
         "example": "healthy"
       },
       "TriggerProviderState": {
         "type": "string",
-        "enum": ["active", "degraded", "unavailable"],
+        "enum": [
+          "active",
+          "degraded",
+          "unavailable"
+        ],
         "description": "Operational state of the Trigger.dev provider integration.",
         "example": "active"
       },
@@ -7294,7 +7510,11 @@
             "example": "2026-06-26T12:00:00.000Z"
           }
         },
-        "required": ["correlationId", "requestId", "timestamp"],
+        "required": [
+          "correlationId",
+          "requestId",
+          "timestamp"
+        ],
         "additionalProperties": false,
         "description": "Standard metadata envelope included on every API response."
       },
@@ -7373,7 +7593,11 @@
             "type": "string"
           }
         },
-        "required": ["companySlug", "isSelected", "label"],
+        "required": [
+          "companySlug",
+          "isSelected",
+          "label"
+        ],
         "additionalProperties": false,
         "description": "A selectable company or organization membership the caller may switch into."
       },
@@ -7387,7 +7611,9 @@
             "example": true
           }
         },
-        "required": ["accepted"],
+        "required": [
+          "accepted"
+        ],
         "additionalProperties": false,
         "description": "Acknowledgement response for client error ingestion."
       },
@@ -7400,7 +7626,10 @@
           },
           "source": {
             "type": "string",
-            "enum": ["default", "stored"],
+            "enum": [
+              "default",
+              "stored"
+            ],
             "description": "Whether the layout was loaded from tenant defaults or persisted storage.",
             "example": "stored"
           },
@@ -7419,7 +7648,11 @@
             "example": "2026-06-26T10:30:00.000Z"
           }
         },
-        "required": ["layout", "source", "updatedAt"],
+        "required": [
+          "layout",
+          "source",
+          "updatedAt"
+        ],
         "additionalProperties": false,
         "description": "Workspace dashboard layout with provenance metadata."
       },
@@ -7433,7 +7666,9 @@
             "example": true
           }
         },
-        "required": ["reset"],
+        "required": [
+          "reset"
+        ],
         "additionalProperties": false,
         "description": "Acknowledgement that the stored dashboard layout was reset."
       },
@@ -7448,7 +7683,9 @@
             "description": "Product master records for the active tenant."
           }
         },
-        "required": ["products"],
+        "required": [
+          "products"
+        ],
         "additionalProperties": false,
         "description": "List of product master records within tenant scope."
       },
@@ -7472,7 +7709,11 @@
           },
           "status": {
             "type": "string",
-            "enum": ["draft", "active", "inactive"],
+            "enum": [
+              "draft",
+              "active",
+              "inactive"
+            ],
             "description": "Master data lifecycle status.",
             "example": "draft"
           },
@@ -7482,7 +7723,13 @@
             "example": "1a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809"
           }
         },
-        "required": ["displayName", "productId", "sku", "status", "tenantId"],
+        "required": [
+          "displayName",
+          "productId",
+          "sku",
+          "status",
+          "tenantId"
+        ],
         "additionalProperties": false,
         "description": "Tenant-scoped product master data record."
       },
@@ -7495,7 +7742,9 @@
             "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
           }
         },
-        "required": ["productId"],
+        "required": [
+          "productId"
+        ],
         "additionalProperties": false,
         "description": "Identifier returned after a product create or update."
       },
@@ -7510,7 +7759,9 @@
             "description": "Stock level snapshots for the active company."
           }
         },
-        "required": ["stockLevels"],
+        "required": [
+          "stockLevels"
+        ],
         "additionalProperties": false,
         "description": "List of quantity-on-hand snapshots within company scope."
       },
@@ -7567,7 +7818,10 @@
             "example": "52.0000"
           }
         },
-        "required": ["movementId", "quantityOnHand"],
+        "required": [
+          "movementId",
+          "quantityOnHand"
+        ],
         "additionalProperties": false,
         "description": "Result returned after recording a stock movement."
       },
@@ -7582,7 +7836,9 @@
             "description": "Warehouse master records for the active company."
           }
         },
-        "required": ["warehouses"],
+        "required": [
+          "warehouses"
+        ],
         "additionalProperties": false,
         "description": "List of warehouse master records within company scope."
       },
@@ -7601,7 +7857,11 @@
           },
           "status": {
             "type": "string",
-            "enum": ["draft", "active", "inactive"],
+            "enum": [
+              "draft",
+              "active",
+              "inactive"
+            ],
             "description": "Master data lifecycle status.",
             "example": "draft"
           },
@@ -7641,7 +7901,9 @@
             "example": "9a8b7c6d-5e4f-3210-abcd-ef1234567890"
           }
         },
-        "required": ["warehouseId"],
+        "required": [
+          "warehouseId"
+        ],
         "additionalProperties": false,
         "description": "Identifier returned after a warehouse create or update."
       },
@@ -7659,7 +7921,10 @@
             "example": "1a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809"
           }
         },
-        "required": ["membershipId", "userId"],
+        "required": [
+          "membershipId",
+          "userId"
+        ],
         "additionalProperties": false,
         "description": "Identifiers for the invited user and pending membership."
       },
@@ -7677,7 +7942,10 @@
             "example": "4dd643ff-7ec7-4666-9c88-50b7d3da34e4"
           }
         },
-        "required": ["membershipId", "roleId"],
+        "required": [
+          "membershipId",
+          "roleId"
+        ],
         "additionalProperties": false,
         "description": "Confirmation of the updated membership role assignment."
       },
@@ -7692,7 +7960,9 @@
             "description": "Page of audit events matching the query filters."
           }
         },
-        "required": ["events"],
+        "required": [
+          "events"
+        ],
         "additionalProperties": false,
         "description": "Paginated list of system-admin audit events."
       },
@@ -7848,7 +8118,11 @@
             "example": false
           }
         },
-        "required": ["error", "meta", "ok"],
+        "required": [
+          "error",
+          "meta",
+          "ok"
+        ],
         "additionalProperties": false,
         "description": "Standard error envelope for governed internal API routes."
       },

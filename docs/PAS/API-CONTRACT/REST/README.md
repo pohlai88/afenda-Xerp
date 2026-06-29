@@ -4,8 +4,8 @@
 | --- | --- |
 | **Binding PAS** | [PAS-API-REST-001](PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) |
 | **Parent** | [PAS-API-001](../PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) |
-| **Status** | **Active** — internal v1 REST on `apps/erp` |
-| **Slices** | [SLICE/](SLICE/README.md) — R3a–R3d Planned |
+| **Status** | **Production Accepted (runtime)** — internal v1 REST on `apps/erp` |
+| **Slices** | [SLICE/](SLICE/README.md) — R3a–R3d **Delivered** · S-track S1–S2 optional |
 | **Last reviewed** | 2026-06-30 |
 
 > **One sentence:** Active REST/OpenAPI binding for `/api/internal/v1/**` — registry, OpenAPI publication, `createApiHandler`, and drift attestation.

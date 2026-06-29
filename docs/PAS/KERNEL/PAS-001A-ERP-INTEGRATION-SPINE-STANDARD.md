@@ -20,8 +20,8 @@
 | **Authority status** | `production_candidate` (doctrine + gates) · `integration-proven` (IS-002/IS-003) · `runtime_delivered` (IS-003 — `check:erp-metadata-pas006-consumer` registered) |
 | **Implementation status** | `historical_delivered` B71–B75 · `skeleton_consumer` B111 · `delivered` R1a–R1d · `delivered` R2 · `delivered` B112-ERP · `planned` R3 (API contract runtime) |
 | **Evidence level** | `runtime` — §6 matrix green at B75 **on pre-reset ERP**; **10/10 rows green on ADR-0027 skeleton** (see §6.1 · [R1d attestation](./SLICE/pas-001a-r1d-production-candidate-reclose.md)) · R2 S2S · B112-ERP format precision ingress Delivered |
-| **Runtime status** | IS-001 live; IS-002 full `CONTEXT_INTEGRATION_WIRING` + protected shell (R1a/R1b); IS-003 PAS-006 metadata consumer delivered (R1c) — `check:erp-metadata-pas006-consumer` · R2 service actor S2S — `check:erp-service-actor-s2s-attestation` · B112-ERP format precision — `check:erp-format-precision-ingress-attestation` · IS-004 REST Contract Runtime — **Planned** ([PAS-001A-API-BINDING](./PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) · [PAS-API-REST-001](../API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · R3a–R3d) |
-| **Remaining slices** | R3a → R3b → R3c → R3d (Planned) — [API-CONTRACT R3 track](../API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) |
+| **Runtime status** | IS-001 live; IS-002 full `CONTEXT_INTEGRATION_WIRING` + protected shell (R1a/R1b); IS-003 PAS-006 metadata consumer delivered (R1c) — `check:erp-metadata-pas006-consumer` · R2 service actor S2S — `check:erp-service-actor-s2s-attestation` · B112-ERP format precision — `check:erp-format-precision-ingress-attestation` · IS-004 REST Contract Runtime — **Delivered** ([PAS-001A-API-BINDING](./PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) · [PAS-API-REST-001](../API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · R3a–R3d) |
+| **Remaining slices** | none — R3a–R3d Delivered — [API-CONTRACT R3 track](../API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) |
 | **Integration consumers** | `apps/erp`, `@afenda/permissions` (live) · `@afenda/appshell`, `@afenda/metadata-ui`, `@afenda/ui-composition` (**retired** ADR-0027 — do not reference as live consumers) |
 | **Upstream** | [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §5.1 · Kernel NS §4 runtime integration proof |
 | **Legacy archive** | [archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
@@ -55,7 +55,7 @@
 | 16 | `pnpm check:erp-tenant-lifecycle-extension-consumer-attestation` | B111 | **Active** (skeleton consumer) |
 | 17 | `pnpm check:erp-service-actor-s2s-attestation` | R2 | **Active** (S2S service actor ingress) |
 | 18 | `pnpm check:erp-format-precision-ingress-attestation` | B112-ERP | **Active** (B112 format precision consumer ingress) |
-| 19 | `pnpm check:api-contracts` · `pnpm check:openapi-drift` | R3 | **Planned** ([API-CONTRACT R3 track](../API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) · [PAS-API-REST-001](../API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · [afenda-openapi skill](../../.cursor/skills/afenda-openapi/SKILL.md)) |
+| 19 | `pnpm check:api-contracts` · `pnpm check:openapi-drift` | R3 | **Active** ([API-CONTRACT R3 track](../API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) · [PAS-API-REST-001](../API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · R3d Delivered) |
 
 > **Maturity is part of authority.** PAS-001 Enterprise Accepted is closed — do not reopen kernel vocabulary under PAS-001A. Vocabulary closure ≠ runtime integration closure.
 
@@ -345,16 +345,17 @@ Post-reset ERP on PAS-006 skeleton. R1d attestation **2026-06-30** — **10/10 g
 | --- | --- | --- |
 | Company settings rounding mode + decimal precision kernel ingress | **Green** | B112-ERP Delivered · `pnpm check:erp-format-precision-ingress-attestation` ✓ · [b112-erp-format-precision-consumer-attestation.md](./SLICE/b112-erp-format-precision-consumer-attestation.md) |
 
-### 6.1.3 R3 — API contract runtime (planned)
+### 6.1.3 R3 — API contract runtime (delivered)
 
-> **Status:** Planned — runtime code lands in follow-on implementation batch. Do not claim Delivered until handoff DoD gates pass.
+> **Status:** Delivered — R3a–R3d attestation closure complete (2026-06-30). IS-004 Production Accepted runtime.
 
-| Criterion | Status | Gate evidence (target) |
+| Criterion | Status | Gate evidence |
 | --- | --- | --- |
-| Full `createApiHandler` on all governed `/api/internal/v1/**` routes | **Planned** | `pnpm check:api-contracts` |
-| Registry-first OpenAPI 3.1 publication — no hand-edited JSON | **Planned** | `pnpm check:openapi-drift` |
-| Service-actor operating-context assembly (R2 deferred work) | **Planned** | `pnpm check:erp-service-actor-s2s-attestation` |
-| Handler envelope, validation, ProblemDetail errors per ADR-0030 | **Planned** | `pnpm --filter @afenda/erp test:run` |
+| Full `createApiHandler` on all governed `/api/internal/v1/**` routes | **Green** | `pnpm check:api-contracts` ✓ |
+| Registry-first OpenAPI 3.1 publication — no hand-edited JSON | **Green** | `pnpm check:openapi-drift` ✓ |
+| Service-actor operating-context assembly (R2 deferred work) | **Green** | `pnpm check:erp-service-actor-s2s-attestation` ✓ |
+| Handler envelope, validation, ProblemDetail errors per ADR-0030 | **Green** | `pnpm --filter @afenda/erp test:run` ✓ |
+| Ownership metadata + consumer impact + audit replay minimum | **Green** | `pnpm check:api-contracts` (R3d governance) · `api-policy-contracts.test.ts` ✓ |
 
 **Handoff:** [API-CONTRACT R3 track](../API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) (R3a–R3d) · **PAS:** [PAS-API-REST-001](../API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · **Contract checklist:** [afenda-openapi skill](../../.cursor/skills/afenda-openapi/SKILL.md)
 

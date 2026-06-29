@@ -93,6 +93,56 @@ async function main(): Promise<void> {
     })
   );
 
+  const governanceExceptions = await import(
+    "../../apps/erp/src/server/api/contracts/core/api-exception.contract.ts"
+  );
+
+  violations.push(
+    ...governanceExceptions.collectGovernanceExceptionViolations(
+      governanceExceptions.API_GOVERNANCE_EXCEPTION_REGISTRY
+    )
+  );
+
+  const [ownershipPolicy, consumerImpactPolicy, auditReplayPolicy] =
+    await Promise.all([
+      import(
+        "../../apps/erp/src/server/api/contracts/core/api-ownership.contract.ts"
+      ),
+      import(
+        "../../apps/erp/src/server/api/contracts/core/api-consumer-impact.contract.ts"
+      ),
+      import(
+        "../../apps/erp/src/server/api/contracts/core/api-audit-replay.contract.ts"
+      ),
+    ]);
+
+  for (const contract of apiContractRegistry.API_CONTRACTS) {
+    try {
+      if (
+        contract.lifecycle === "active" ||
+        contract.lifecycle === "planned"
+      ) {
+        ownershipPolicy.assertActiveOperationOwnership(contract);
+      }
+      consumerImpactPolicy.resolveConsumerImpactDeclaration(contract);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      violations.push(`governance metadata: ${contract.id}: ${message}`);
+    }
+  }
+
+  try {
+    consumerImpactPolicy.assertRegistryConsumerImpactPolicy(
+      apiContractRegistry.API_CONTRACTS
+    );
+    auditReplayPolicy.assertRegistryCorrelationPolicy(
+      apiContractRegistry.API_CONTRACTS
+    );
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    violations.push(`governance registry: ${message}`);
+  }
+
   if (violations.length > 0) {
     console.error("API contract drift detected:\n");
     for (const violation of violations) {

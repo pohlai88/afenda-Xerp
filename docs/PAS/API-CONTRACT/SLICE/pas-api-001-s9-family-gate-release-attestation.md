@@ -4,7 +4,7 @@
 | --- | --- |
 | **Slice ID** | PAS-API-001-S9 |
 | **Parent PAS** | [PAS-API-001](../PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) |
-| **Status** | Planned |
+| **Status** | Delivered |
 | **Scope** | Attest API-001–API-016 across active bindings |
 | **Prerequisite** | S1–S8 Delivered · PAS-API-REST-001 partial acceptable |
 

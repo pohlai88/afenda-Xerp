@@ -1,6 +1,8 @@
 import type { ZodType } from "zod";
 
 import type { ApiAuthPolicy } from "./auth-policy.contract";
+import type { ApiConsumerImpactDeclaration } from "./core/api-consumer-impact.contract";
+import type { ApiOperationOwnershipOverride } from "./core/api-ownership.contract";
 import type { ApiContextPolicy } from "./context-policy.contract";
 import type { ApiRouteLifecycleStatus } from "./lifecycle.contract";
 import type { ApiRateLimitPolicy } from "./rate-limit.contract";
@@ -36,24 +38,60 @@ export interface ApiPaginationPolicy {
 
 export interface ApiRouteContract<TRequest, TResponse> {
   readonly audit?: ApiAuditPolicy;
+  /**
+   * Actor policy source (PAS-API-001 API-006).
+   * Resolved via {@link resolveActorPolicy} — declaration only, not evaluation.
+   */
   readonly authPolicy: ApiAuthPolicy;
   readonly cache: ApiCachePolicy;
+  /**
+   * Consumer impact classes (PAS-API-001 API-014).
+   * Required on deprecated/breaking transitions; inferred for active internal v1 when omitted.
+   */
+  readonly consumerImpact?: ApiConsumerImpactDeclaration;
+  /**
+   * Operating context policy (PAS-API-001 API-007).
+   * Resolved via {@link resolveOperatingContextPolicyDeclaration}.
+   */
   readonly contextPolicy: ApiContextPolicy;
   /** Optional route narrative; generator falls back to a stability formula when omitted. */
   readonly description?: string;
   readonly documentationPath: string;
+  /**
+   * Stable cross-style operation identity (PAS-API-001 API-001).
+   * Branded as {@link ApiOperationId} in {@link API_OPERATION_REGISTRY}.
+   */
   readonly id: string;
   readonly idempotency?: ApiIdempotencyPolicy;
   readonly lifecycle: ApiRouteLifecycleStatus;
   readonly method: ApiHttpMethod;
   readonly owner: "apps/erp";
+  /**
+   * Governance ownership dimensions (PAS-API-001 API-016).
+   * Partial override; {@link resolveOperationOwnership} fills defaults.
+   */
+  readonly ownership?: ApiOperationOwnershipOverride;
   readonly pagination?: ApiPaginationPolicy;
   readonly path: string;
+  /**
+   * Permission capability intent (PAS-API-001 API-008).
+   * Resolved via {@link resolvePermissionDeclaration} — not authorization evaluation.
+   */
   readonly permission?: ApiRoutePermissionPolicy;
   readonly rateLimitPolicy: ApiRateLimitPolicy;
   readonly requestSchema: ZodType<TRequest>;
+  /**
+   * Canonical request schema authority pointer (PAS-API-001 API-003).
+   * Branded via {@link parseApiSchemaAuthorityRef} at validation boundary.
+   * Ingress validation (API-004) applies per {@link resolveValidationDirectionPolicy}.
+   */
   readonly requestSchemaRef: string;
   readonly responseSchema: ZodType<TResponse>;
+  /**
+   * Canonical response schema authority pointer (PAS-API-001 API-003).
+   * Branded via {@link parseApiSchemaAuthorityRef} at validation boundary.
+   * Egress validation (API-005) applies per {@link resolveValidationDirectionPolicy}.
+   */
   readonly responseSchemaRef: string;
   readonly runtime: ApiRuntime;
   readonly stability: ApiStabilityClassification;
@@ -63,3 +101,6 @@ export interface ApiRouteContract<TRequest, TResponse> {
   readonly testPaths: readonly string[];
   readonly version: "v1";
 }
+
+/** PAS-API-001 family layer — single barrel; prefer over deep `core/*` paths. */
+export * from "./core/index";

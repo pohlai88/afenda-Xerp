@@ -1,12 +1,12 @@
-/** Reference procurement foundation bundle — re-exports production bundle for docs/tests. */
-// biome-ignore lint/performance/noBarrelFile: intentional reference re-export surface
 export {
   buildProcurementFoundationBundle,
   PROCUREMENT_FOUNDATION_BUNDLE,
   PROCUREMENT_FOUNDATION_EVIDENCE,
+  PROCUREMENT_REFERENCE_AUDIT_ACTIONS,
+  PROCUREMENT_REFERENCE_EVENTS,
+  PROCUREMENT_REFERENCE_KERNEL_PERMISSION_KEYS,
+  PROCUREMENT_RUNTIME_MODULE,
+  REFERENCE_KV_CATALOG,
   REFERENCE_PROCUREMENT_FOUNDATION_BUNDLE,
-} from "../../../procurement/src/procurement.foundation.bundle.js";
-
-export const REFERENCE_KV_CATALOG = {
-  procurement: "KV-PROC",
-} as const;
+} from "./build-procurement-foundation-bundle.js";
+export type { ProcurementFoundationEvidence } from "./build-procurement-foundation-bundle.js";

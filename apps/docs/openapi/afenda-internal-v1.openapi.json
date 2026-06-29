@@ -70,7 +70,7 @@
     },
     {
       "name": "inventory",
-      "description": "Inventory master data — products and warehouses."
+      "description": "Inventory domain — products, warehouses, stock levels, and movements."
     },
     {
       "name": "products",
@@ -79,6 +79,10 @@
     {
       "name": "warehouses",
       "description": "Warehouse master data operations."
+    },
+    {
+      "name": "stock",
+      "description": "Stock level queries and movement mutations."
     }
   ],
   "servers": [

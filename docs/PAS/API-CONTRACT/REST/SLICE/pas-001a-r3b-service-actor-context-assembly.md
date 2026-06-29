@@ -4,7 +4,7 @@
 
 **Prerequisite:** [R3a](./pas-001a-r3a-handler-runtime-envelope.md) Delivered · [R2](../../../KERNEL/SLICE/pas-001a-r2-service-actor-s2s-attestation.md) Delivered
 
-**Status:** Planned
+**Status:** Delivered
 
 **Type:** Implementation
 

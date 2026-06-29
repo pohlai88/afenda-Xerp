@@ -13,9 +13,9 @@
 | Slice | Handoff | Closes | Status |
 | --- | --- | --- | --- |
 | R3 | [pas-001a-r3-api-contract-runtime.md](./pas-001a-r3-api-contract-runtime.md) | Track index | Planned |
-| R3a | [pas-001a-r3a-handler-runtime-envelope.md](./pas-001a-r3a-handler-runtime-envelope.md) | Handler + envelope | Planned |
-| R3b | [pas-001a-r3b-service-actor-context-assembly.md](./pas-001a-r3b-service-actor-context-assembly.md) | S2S context | Planned |
-| R3c | [pas-001a-r3c-route-coverage-drift-attestation.md](./pas-001a-r3c-route-coverage-drift-attestation.md) | Drift gates | Planned |
-| R3d | [pas-001a-r3d-governance-metadata-closure.md](./pas-001a-r3d-governance-metadata-closure.md) | Production Accepted | Planned |
+| R3a | [pas-001a-r3a-handler-runtime-envelope.md](./pas-001a-r3a-handler-runtime-envelope.md) | Handler + envelope | Delivered |
+| R3b | [pas-001a-r3b-service-actor-context-assembly.md](./pas-001a-r3b-service-actor-context-assembly.md) | S2S context | Delivered |
+| R3c | [pas-001a-r3c-route-coverage-drift-attestation.md](./pas-001a-r3c-route-coverage-drift-attestation.md) | Drift gates | Delivered |
+| R3d | [pas-001a-r3d-governance-metadata-closure.md](./pas-001a-r3d-governance-metadata-closure.md) | Production Accepted | Delivered |
 
 **Moved from:** `docs/PAS/API-CONTRACT/SLICE/` → `docs/PAS/API-CONTRACT/REST/SLICE/` (2026-06-30 API family restructure).

@@ -4,7 +4,7 @@
 
 **Prerequisite:** [R3a](./pas-001a-r3a-handler-runtime-envelope.md) · [R3b](./pas-001a-r3b-service-actor-context-assembly.md) Delivered
 
-**Status:** Planned
+**Status:** Delivered
 
 **Type:** Implementation
 

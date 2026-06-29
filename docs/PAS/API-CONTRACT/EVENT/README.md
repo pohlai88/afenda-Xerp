@@ -7,4 +7,4 @@
 | **Status** | Reserved — asynchronous integration only |
 | **Last reviewed** | 2026-06-30 |
 
-**Slices:** [`SLICE/`](SLICE/) — reserved
+**Slices:** [SLICE/pas-api-event-001-slice-track.md](SLICE/pas-api-event-001-slice-track.md) — S1–S10 Reserved
