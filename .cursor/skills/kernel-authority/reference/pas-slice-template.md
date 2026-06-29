@@ -252,7 +252,7 @@ When Type is Research or Evidence-sync:
 - [ ] **`## DoD` table:** ≥3 rows (Implementation) · every row has `#`, Criterion, Gate, **Traces to EFR/EAC**
 - [ ] Field 7 cites DoD row numbers (e.g. `Closes DoD #1–#4`)
 - [ ] Field 8 lists one evidence path per DoD row
-- [ ] Field 3 lists every file (tests, scripts, PAS/slice sync paths)
+- [ ] Field 3 lists every file (tests, scripts, `docs/PAS/<FAMILY>/SLICE/` sync paths — never `docs/PAS/slice/`)
 - [ ] Field 6 has ≥1 resolvable `pnpm` command
 - [ ] Field 7 names specific gaps — not vague
 - [ ] Field 8 lists paths — not narrative

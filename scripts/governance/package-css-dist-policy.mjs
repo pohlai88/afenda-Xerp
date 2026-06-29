@@ -1,10 +1,8 @@
 /**
  * Package CSS dist sync policy — apps import CSS from package dist/, not src/.
  *
- * Keep in sync with:
- * - .cursor/hooks/package-css-dist-policy.mjs (re-export)
- * - .cursor/skills/package-css-dist-sync/SKILL.md
- * - .cursor/rules/package-css-dist-sync.mdc
+ * ADR-0027: legacy appshell/ui/metadata-ui/css-authority packages removed.
+ * Only @afenda/shadcn-studio remains in the presentation CSS sync chain.
  */
 import { createHash } from "node:crypto";
 import { copyFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
@@ -22,75 +20,6 @@ import { dirname, join } from "node:path";
 
 /** @type {PackageCssDistPackage[]} */
 export const PACKAGE_CSS_DIST_PACKAGES = [
-  {
-    name: "@afenda/appshell",
-    buildCommand: "pnpm --filter @afenda/appshell build",
-    syncCommand: "pnpm sync:package-css-dist -- --package @afenda/appshell",
-    sourcePathPrefix: "packages/appshell/src/",
-    pairs: [
-      {
-        src: "packages/appshell/src/styles/afenda-appshell.css",
-        dist: "packages/appshell/dist/styles/afenda-appshell.css",
-      },
-      {
-        src: "packages/appshell/src/styles/afenda-appshell-studio.css",
-        dist: "packages/appshell/dist/styles/afenda-appshell-studio.css",
-      },
-      {
-        src: "packages/appshell/src/auth-shell/auth-shell.css",
-        dist: "packages/appshell/dist/styles/auth-shell.css",
-      },
-    ],
-  },
-  {
-    name: "@afenda/ui",
-    buildCommand: "pnpm --filter @afenda/ui build",
-    syncCommand: "pnpm sync:package-css-dist -- --package @afenda/ui",
-    sourcePathPrefix: "packages/ui/src/styles/",
-    pairs: [
-      {
-        src: "packages/ui/src/styles/afenda-ui.css",
-        dist: "packages/ui/dist/styles/afenda-ui.css",
-      },
-    ],
-  },
-  {
-    name: "@afenda/css-authority",
-    buildCommand: "pnpm --filter @afenda/css-authority build",
-    syncCommand:
-      "pnpm sync:package-css-dist -- --package @afenda/css-authority",
-    sourcePathPrefix: "packages/css-authority/src/css/",
-    pairs: [
-      {
-        src: "packages/css-authority/src/css/afenda-runtime-bridge.css",
-        dist: "packages/css-authority/dist/css/afenda-runtime-bridge.css",
-      },
-      {
-        src: "packages/css-authority/src/css/vendored/shadcn-theme.css",
-        dist: "packages/css-authority/dist/css/vendored/shadcn-theme.css",
-      },
-      {
-        src: "packages/css-authority/src/css/afenda-css-authority.css",
-        dist: "packages/css-authority/dist/css/afenda-css-authority.css",
-      },
-    ],
-  },
-  {
-    name: "@afenda/metadata-ui",
-    buildCommand: "pnpm --filter @afenda/metadata-ui build",
-    syncCommand: "pnpm sync:package-css-dist -- --package @afenda/metadata-ui",
-    sourcePathPrefix: "packages/metadata-ui/src/",
-    pairs: [
-      {
-        src: "packages/metadata-ui/src/afenda-metadata-ui.css",
-        dist: "packages/metadata-ui/dist/afenda-metadata-ui.css",
-      },
-      {
-        src: "packages/metadata-ui/src/fixtures/metadata-ui-fixtures.css",
-        dist: "packages/metadata-ui/dist/fixtures/metadata-ui-fixtures.css",
-      },
-    ],
-  },
   {
     name: "@afenda/shadcn-studio",
     buildCommand: "pnpm --filter @afenda/shadcn-studio build",

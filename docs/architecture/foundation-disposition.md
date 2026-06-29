@@ -5,7 +5,7 @@
 | **Authority** | ADR-0014 |
 | **Workflow** | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — **read before implementation** |
 | **Source of truth** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
-| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-29-v24` |
+| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-29-v27` |
 | **Enforcement** | `pnpm check:foundation-disposition` |
 
 > **Read-only view.** This document is synced from the typed registry. Do not treat this file as authority — edit the registry (via `foundation-registry-owner`) and re-sync this view.
@@ -53,15 +53,15 @@
 | PKGR01B_ERP_DOMAIN_CATALOG | `@afenda/kernel` | green-lane | no | see PAS-001B · B76–B106 |
 | PKGR02_INVENTORY | `@afenda/database` | green-lane | no | see pas-status-index (PKG registry) |
 | PKG004_DESIGN | `@afenda/ui` | amber-lane | no | see ADR-0025 · PAS-005B |
-| PKGR05B_DESIGN_RETIREMENT | `@afenda/design-system` | amber-lane | no | see PAS-005B · B47 retired |
+| PKGR05B_DESIGN_RETIREMENT | `@afenda/design-system` | archive-lane | no | retired for ERP frontend — ADR-0027 |
 | PKG020_AI_GOVERNANCE | `@afenda/ai-governance` | green-lane | no | see ADR-0007 |
 | PKG021_STORYBOOK | `@afenda/storybook` | blue-lane | no | — |
 | PKG022_EMAIL | `@afenda/email` | blue-lane | no | — |
 | PKGR02_ARCHITECTURE_AUTHORITY | `@afenda/architecture-authority` | green-lane | yes | see PAS-002A |
 | PKGR03_ACCOUNTING_STANDARDS | `@afenda/accounting-standards` | blue-lane | no | see PAS-003 |
 | PKGR04_ENTERPRISE_KNOWLEDGE | `@afenda/enterprise-knowledge` | green-lane | no | see PAS-004C |
-| PKGR05_CSS_AUTHORITY | `@afenda/css-authority` | amber-lane | no | see PAS-005 · B26–B37 delivered |
-| PKGR05A_SHADCN_STUDIO | `@afenda/shadcn-studio` | green-lane | no | see PAS-005A · B38–B42p delivered |
+| PKGR05_CSS_AUTHORITY | `@afenda/css-authority` | archive-lane | no | retired for ERP frontend — ADR-0027 |
+| PKGR05A_SHADCN_STUDIO | `@afenda/shadcn-studio` | green-lane | no | sole ERP frontend design authority — PAS-006 · PKG-026 |
 | PAS_AUTHORITY | `docs/PAS` | archive-lane | no | — |
 
 > Registry `knownGaps` deprecated (always `[]`). Gap detail lives in PAS slice handoffs under [`docs/PAS/`](../PAS/README.md).

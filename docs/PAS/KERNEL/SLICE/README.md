@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **Directory (SSOT)** | `docs/PAS/KERNEL/SLICE/` |
-| **Legacy** | `docs/PAS/slice/` — **removed from repo**; do not restore kernel handoffs there |
+| **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — never use for kernel handoffs; **scheduled for deletion** |
 | **Template** | [pas-slice-template.md](../../../../.cursor/skills/kernel-authority/reference/pas-slice-template.md) |
 | **Catalog** | [kernel-slice-catalog.md](kernel-slice-catalog.md) |
 | **Slice range** | B49–B106 (48 individual handoffs) |

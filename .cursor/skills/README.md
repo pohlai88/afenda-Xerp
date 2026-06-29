@@ -12,7 +12,7 @@ Machine-readable index for agents and humans. **Do not load this entire file int
 
 1. User message or `/using-afenda-skills` → read meta-skill discovery tree
 2. Any implementer code edit → `coding-consistency-bundle` (mandatory)
-3. UI/CSS/visual → `ui-consistency-bundle` (mandatory)
+3. ERP UI/CSS → `shadcn-studio` + PAS-006 (ADR-0027)
 4. Full inventory → this file
 
 ---
@@ -23,9 +23,10 @@ Machine-readable index for agents and humans. **Do not load this entire file int
 | --- | --- | --- | --- | --- |
 | `using-afenda-skills` | Meta | — | Session start, "which skill applies?" | — |
 | `coding-consistency-bundle` | Bundle | `packages/**`, `apps/**`, `scripts/**` | Any implementer file edit | Phase 0 + bundle preflight |
-| `ui-consistency-bundle` | Bundle | `apps/erp/**`, `apps/storybook/**`, `packages/ui/**`, `packages/appshell/**`, `packages/metadata-ui/**`, `packages/css-authority/**`, `packages/design-system/**` | UI/CSS/visual work | `pnpm ui:guard:scan` |
 
 Both bundles: `disable-model-invocation: true` — explicit attach or slash only.
+
+**Retired (ADR-0027):** `ui-consistency-bundle`, `govern-primitive`, `css-authority`, `afenda-shadcn-components`, and related UI guard skills — see `.cursor/skills/_retired/legacy-ui/`.
 
 ---
 

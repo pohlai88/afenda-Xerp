@@ -4,7 +4,7 @@
 | --- | --- |
 | **SSOT directory** | `docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/` |
 | **Individual handoffs** | 32 files — 25 PAS-002 (B1–B15 · B18–B27; **B16–B17 unused**) + 5 PAS-002A (B38–B42) + 3 PAS-002 amendment (B43–B45) |
-| **Legacy** | `docs/PAS/slice/` removed — use this folder only |
+| **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — use this folder only |
 | **Closure registry** | [pas-status-index.md](../../pas-status-index.md) |
 | **Last reviewed** | 2026-06-29 |
 

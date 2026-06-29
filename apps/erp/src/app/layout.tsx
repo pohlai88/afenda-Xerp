@@ -1,10 +1,15 @@
+import type { Metadata } from "next";
 import type { ReactNode } from "react";
-
-import { siteMetadata } from "@/lib/metadata/site-metadata";
 
 import "./globals.css";
 
-export const metadata = siteMetadata;
+export const metadata: Metadata = {
+  title: {
+    default: "Afenda ERP",
+    template: "%s · Afenda ERP",
+  },
+  description: "Afenda enterprise resource planning platform.",
+};
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (

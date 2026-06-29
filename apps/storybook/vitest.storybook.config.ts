@@ -23,7 +23,7 @@ export default defineConfig({
       "react/jsx-dev-runtime",
       "react-dom",
       "react-dom/client",
-      "@afenda/design-system",
+      "@afenda/shadcn-studio",
     ],
   },
   define: {

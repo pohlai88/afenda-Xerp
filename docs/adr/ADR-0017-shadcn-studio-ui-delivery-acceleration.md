@@ -6,7 +6,9 @@
 | **Date** | 2026-06-25 |
 | **Owner** | Architecture Authority |
 | **Supersedes** | — |
-| **Superseded by** | — |
+| **Superseded by** | [ADR-0027](ADR-0027-frontend-presentation-reset.md) **for ERP frontend pipeline** (appshell promotion, ui:guard, PAS-005 bridge) |
+
+> **ERP frontend note (2026-06-29):** MCP vendor approval and Pro license handling in this ADR remain valid. The mandatory appshell promotion pipeline (§2), CSS token chain via `--afenda-*` (§3), and `pnpm ui:guard` enforcement are **superseded for ERP** by [ADR-0027](ADR-0027-frontend-presentation-reset.md). New ERP work follows [PAS-006](../PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md).
 
 ---
 

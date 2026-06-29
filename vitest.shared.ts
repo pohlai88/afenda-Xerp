@@ -19,8 +19,7 @@ export const INTERACTION_CLI_PATH_FILTER = ".interaction.test";
 /** Vitest project names that host interaction suites. */
 export const INTERACTION_VITEST_PROJECTS = [
   "@afenda/testing",
-  "@afenda/ui",
-  "@afenda/appshell",
+  "@afenda/shadcn-studio",
 ] as const;
 
 const NODE_SETUP = resolve(MONOREPO_ROOT, "packages/testing/src/setup/node.ts");
@@ -172,9 +171,10 @@ export function createReactProject(
   options: ReactProjectOptions = {}
 ) {
   const root = dirname(fileURLToPath(importMetaUrl));
-  const uiSrcRoot = resolve(MONOREPO_ROOT, "packages/ui/src");
-  const uiGovernanceRoot = resolve(uiSrcRoot, "governance");
-  const appshellSrcRoot = resolve(MONOREPO_ROOT, "packages/appshell/src");
+  const shadcnStudioSrcRoot = resolve(
+    MONOREPO_ROOT,
+    "packages/shadcn-studio/src"
+  );
 
   return defineProject({
     root,
@@ -182,33 +182,21 @@ export function createReactProject(
     resolve: {
       alias: [
         {
-          find: UI_GOVERNANCE_SUBPATH_ALIAS,
-          replacement: `${uiGovernanceRoot}/$1`,
+          find: "@/components/ui",
+          replacement: resolve(shadcnStudioSrcRoot, "components/ui"),
         },
         {
-          find: "@afenda/ui/governance",
-          replacement: resolve(uiGovernanceRoot, "index.ts"),
+          find: "@/lib/utils",
+          replacement: resolve(shadcnStudioSrcRoot, "lib/utils.ts"),
         },
         {
-          find: "@afenda/ui/lib/utils",
-          replacement: resolve(uiSrcRoot, "lib/utils.ts"),
+          find: "@afenda/shadcn-studio",
+          replacement: resolve(
+            MONOREPO_ROOT,
+            "packages/shadcn-studio/src/index.ts"
+          ),
         },
-        {
-          find: "@afenda/ui",
-          replacement: resolve(uiSrcRoot, "index.ts"),
-        },
-        {
-          find: "@afenda/appshell/auth-shell",
-          replacement: resolve(appshellSrcRoot, "auth-shell/index.ts"),
-        },
-        {
-          find: "@afenda/appshell/auth-shell",
-          replacement: resolve(appshellSrcRoot, "auth-shell/index.ts"),
-        },
-        {
-          find: "@afenda/appshell",
-          replacement: resolve(appshellSrcRoot, "index.ts"),
-        },
+        { find: "@", replacement: shadcnStudioSrcRoot },
         { find: "next/link", replacement: NEXT_LINK_MOCK },
         { find: "next/image", replacement: NEXT_IMAGE_MOCK },
         ...Object.entries(options.alias ?? {}).map(([find, replacement]) => ({

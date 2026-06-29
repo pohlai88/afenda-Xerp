@@ -23,7 +23,10 @@ export const PAS_README = "docs/PAS/README.md" as const;
 export const PAS_KERNEL_STANDARD =
   "docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md" as const;
 
-/** Kernel slice handoff SSOT (legacy `docs/PAS/slice/` removed from repo). */
+/** @deprecated Temporary shim — use family SLICE dirs; see docs/PAS/slice/README.md */
+export const PAS_SLICE_DEPRECATED_DIR = "docs/PAS/slice" as const;
+
+/** Kernel slice handoff SSOT (legacy flat `docs/PAS/slice/` is deprecated shim only). */
 export const PAS_KERNEL_SLICE_DIR = "docs/PAS/KERNEL/SLICE" as const;
 
 /** Accounting Standards PAS family composed SSOT. */
@@ -34,13 +37,19 @@ export const PAS_ACCOUNTING_STANDARDS_STANDARD =
 export const PAS_ACCOUNTING_STANDARDS_SLICE_DIR =
   "docs/PAS/ACCOUNTING-STANDARDS/SLICE" as const;
 
-/** CSS Authority PAS family composed SSOT. */
-export const PAS_CSS_AUTHORITY_STANDARD =
-  "docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md" as const;
+/** Presentation PAS (ERP frontend — ADR-0027). */
+export const PAS_PRESENTATION_STANDARD =
+  "docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md" as const;
 
-/** CSS Authority slice handoff SSOT. */
-export const PAS_CSS_AUTHORITY_SLICE_DIR =
-  "docs/PAS/CSS-AUTHORITY/SLICE" as const;
+/** Presentation PAS family index. */
+export const PAS_PRESENTATION_README =
+  "docs/PAS/PRESENTATION/README.md" as const;
+
+/** @deprecated Retired — CSS Authority archived under docs/_retired/legacy-css-authority/ */
+export const PAS_CSS_AUTHORITY_STANDARD = PAS_PRESENTATION_STANDARD;
+
+/** @deprecated Retired — no active slice dir; use PRESENTATION README */
+export const PAS_CSS_AUTHORITY_SLICE_DIR = PAS_PRESENTATION_README;
 
 /** Architecture Authority PAS family composed SSOT. */
 export const PAS_ARCHITECTURE_AUTHORITY_STANDARD =
@@ -64,7 +73,6 @@ export const PAS_SLICE_DIR = PAS_KERNEL_SLICE_DIR;
 /** Authority docs scanned for references to removed legacy delivery paths. */
 export const LEGACY_DELIVERY_PATH_SCAN_FILES = [
   "docs/PAS/pas-status-index.md",
-  ".cursor/rules/governed-ui-consumption.mdc",
   "AGENTS.md",
   "docs/README.md",
 ] as const;

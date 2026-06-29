@@ -17,89 +17,60 @@ function workspace(
   };
 }
 
-describe("validateArchitecture", () => {
-  it("passes for the baseline workspace graph", () => {
-    const workspaces: DiscoveredWorkspace[] = [
-      workspace("@afenda/accounting-standards", {
-        "@afenda/kernel": "workspace:*",
-      }),
-      workspace("@afenda/appshell", {
-        "@afenda/ui": "workspace:*",
-        "@afenda/kernel": "workspace:*",
-        "@afenda/shadcn-studio": "workspace:*",
-      }),
-      workspace("@afenda/auth", {
-        "@afenda/database": "workspace:*",
-        "@afenda/kernel": "workspace:*",
-      }),
-      workspace("@afenda/database", { "@afenda/observability": "workspace:*" }),
-      workspace("@afenda/css-authority"),
-      workspace("@afenda/shadcn-studio"),
-      workspace("@afenda/docs", {
-        "@afenda/enterprise-knowledge": "workspace:*",
-      }),
-      workspace("@afenda/email"),
-      workspace("@afenda/enterprise-knowledge"),
-      workspace("@afenda/entitlements", { "@afenda/database": "workspace:*" }),
-      workspace("@afenda/erp", {
-        "@afenda/appshell": "workspace:*",
-        "@afenda/auth": "workspace:*",
-        "@afenda/database": "workspace:*",
-        "@afenda/entitlements": "workspace:*",
-        "@afenda/enterprise-knowledge": "workspace:*",
-        "@afenda/execution": "workspace:*",
-        "@afenda/feature-flags": "workspace:*",
-        "@afenda/kernel": "workspace:*",
-        "@afenda/ui-composition": "workspace:*",
-        "@afenda/metadata-ui": "workspace:*",
-        "@afenda/observability": "workspace:*",
-        "@afenda/permissions": "workspace:*",
-        "@afenda/shadcn-studio": "workspace:*",
-        "@afenda/storage": "workspace:*",
-        "@afenda/ui": "workspace:*",
-      }),
-      workspace("@afenda/execution", {
-        "@afenda/kernel": "workspace:*",
-        "@afenda/observability": "workspace:*",
-      }),
-      workspace("@afenda/feature-flags", {
-        "@afenda/entitlements": "workspace:*",
-      }),
-      workspace("@afenda/kernel"),
-      workspace("@afenda/ui-composition", {
-        "@afenda/enterprise-knowledge": "workspace:*",
-      }),
-      workspace("@afenda/metadata-ui", {
-        "@afenda/shadcn-studio": "workspace:*",
-        "@afenda/ui-composition": "workspace:*",
-        "@afenda/ui": "workspace:*",
-      }),
-      workspace("@afenda/observability"),
-      workspace("@afenda/permissions", {
-        "@afenda/auth": "workspace:*",
-        "@afenda/database": "workspace:*",
-        "@afenda/kernel": "workspace:*",
-      }),
-      workspace("@afenda/storybook", {
-        "@afenda/appshell": "workspace:*",
-        "@afenda/shadcn-studio": "workspace:*",
-        "@afenda/ui-composition": "workspace:*",
-        "@afenda/metadata-ui": "workspace:*",
-        "@afenda/ui": "workspace:*",
-      }),
-      workspace("@afenda/storage"),
-      workspace("@afenda/testing"),
-      workspace("@afenda/typescript-config"),
-      workspace("@afenda/ui", {
-        "@afenda/css-authority": "workspace:*",
-      }),
-      workspace("@afenda/architecture-authority"),
-      workspace("@afenda/ai-governance", {
-        "@afenda/architecture-authority": "workspace:*",
-      }),
-    ];
+/** ADR-0027 baseline — matches dependency-registry.data.ts (2026-06-29). */
+function baselineWorkspaces(): DiscoveredWorkspace[] {
+  return [
+    workspace("@afenda/accounting-standards", {
+      "@afenda/kernel": "workspace:*",
+    }),
+    workspace("@afenda/auth", {
+      "@afenda/database": "workspace:*",
+      "@afenda/kernel": "workspace:*",
+    }),
+    workspace("@afenda/database", { "@afenda/observability": "workspace:*" }),
+    workspace("@afenda/shadcn-studio"),
+    workspace("@afenda/docs", {
+      "@afenda/enterprise-knowledge": "workspace:*",
+    }),
+    workspace("@afenda/email"),
+    workspace("@afenda/enterprise-knowledge"),
+    workspace("@afenda/entitlements", { "@afenda/database": "workspace:*" }),
+    workspace("@afenda/erp", {
+      "@afenda/auth": "workspace:*",
+      "@afenda/database": "workspace:*",
+      "@afenda/observability": "workspace:*",
+      "@afenda/shadcn-studio": "workspace:*",
+    }),
+    workspace("@afenda/execution", {
+      "@afenda/kernel": "workspace:*",
+      "@afenda/observability": "workspace:*",
+    }),
+    workspace("@afenda/feature-flags", {
+      "@afenda/entitlements": "workspace:*",
+    }),
+    workspace("@afenda/kernel"),
+    workspace("@afenda/observability"),
+    workspace("@afenda/permissions", {
+      "@afenda/auth": "workspace:*",
+      "@afenda/database": "workspace:*",
+      "@afenda/kernel": "workspace:*",
+    }),
+    workspace("@afenda/storybook", {
+      "@afenda/shadcn-studio": "workspace:*",
+    }),
+    workspace("@afenda/storage"),
+    workspace("@afenda/testing"),
+    workspace("@afenda/typescript-config"),
+    workspace("@afenda/architecture-authority"),
+    workspace("@afenda/ai-governance", {
+      "@afenda/architecture-authority": "workspace:*",
+    }),
+  ];
+}
 
-    const result = validateArchitecture(workspaces);
+describe("validateArchitecture", () => {
+  it("passes for the ADR-0027 baseline workspace graph", () => {
+    const result = validateArchitecture(baselineWorkspaces());
     expect(result.ok).toBe(true);
     expect(result.violations).toHaveLength(0);
   });
@@ -115,39 +86,21 @@ describe("validateArchitecture", () => {
       workspace("@afenda/kernel", { "@afenda/execution": "workspace:*" }),
       workspace("@afenda/execution", { "@afenda/kernel": "workspace:*" }),
       workspace("@afenda/observability"),
-      workspace("@afenda/appshell", { "@afenda/ui": "workspace:*" }),
       workspace("@afenda/auth", { "@afenda/database": "workspace:*" }),
       workspace("@afenda/database", { "@afenda/observability": "workspace:*" }),
-      workspace("@afenda/css-authority"),
       workspace("@afenda/docs", {
         "@afenda/enterprise-knowledge": "workspace:*",
       }),
       workspace("@afenda/email"),
       workspace("@afenda/entitlements", { "@afenda/database": "workspace:*" }),
       workspace("@afenda/erp", {
-        "@afenda/appshell": "workspace:*",
         "@afenda/auth": "workspace:*",
         "@afenda/database": "workspace:*",
-        "@afenda/entitlements": "workspace:*",
-        "@afenda/execution": "workspace:*",
-        "@afenda/feature-flags": "workspace:*",
-        "@afenda/kernel": "workspace:*",
-        "@afenda/ui-composition": "workspace:*",
-        "@afenda/metadata-ui": "workspace:*",
         "@afenda/observability": "workspace:*",
-        "@afenda/permissions": "workspace:*",
-        "@afenda/storage": "workspace:*",
-        "@afenda/ui": "workspace:*",
+        "@afenda/shadcn-studio": "workspace:*",
       }),
       workspace("@afenda/feature-flags", {
         "@afenda/entitlements": "workspace:*",
-      }),
-      workspace("@afenda/ui-composition", {
-        "@afenda/enterprise-knowledge": "workspace:*",
-      }),
-      workspace("@afenda/metadata-ui", {
-        "@afenda/ui-composition": "workspace:*",
-        "@afenda/ui": "workspace:*",
       }),
       workspace("@afenda/permissions", {
         "@afenda/auth": "workspace:*",
@@ -157,7 +110,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/storage"),
       workspace("@afenda/testing"),
       workspace("@afenda/typescript-config"),
-      workspace("@afenda/ui", { "@afenda/css-authority": "workspace:*" }),
+      workspace("@afenda/shadcn-studio"),
       workspace("@afenda/architecture-authority"),
     ]);
     expect(result.ok).toBe(false);

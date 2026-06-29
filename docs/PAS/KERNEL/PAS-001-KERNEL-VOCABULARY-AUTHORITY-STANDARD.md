@@ -18,10 +18,10 @@
 | **Authority status** | `enterprise_accepted` |
 | **Implementation status** | `implemented` |
 | **Evidence level** | `runtime_proven` |
-| **Runtime status** | Kernel contracts, slice catalog B49–B70 + B107–B110 amendment closed, runtime gates operational |
-| **Remaining slices** | none — B110 Delivered |
-| **Total slices planned** | B49–B70 closure · B107–B110 amendment |
-| **Delivered slices** | B49–B70 closed · B107–B110 amendment · prior B2–B48 historical |
+| **Runtime status** | Kernel contracts, slice catalog B49–B70 + B107–B111 amendment closed, runtime gates operational |
+| **Remaining slices** | none — B111 Delivered |
+| **Total slices planned** | B49–B70 closure · B107–B111 amendment |
+| **Delivered slices** | B49–B70 closed · B107–B111 amendment · prior B2–B48 historical |
 | **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, governed domain packages |
 | **Upstream** | [Kernel North Star](../../NORTHSTAR/kernel-north-star.md) · [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §4 Kernel Vocabulary |
 | **Extension PAS** | [PAS-001A](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) · [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
@@ -46,6 +46,7 @@
 | 11 | `pnpm architecture:drift` |
 | 12 | `pnpm check:kernel-effective-dating-consumer-attestation` |
 | 13 | `pnpm check:erp-auth-actor-protected-path-attestation` |
+| 14 | `pnpm check:erp-tenant-lifecycle-extension-consumer-attestation` |
 
 > **Maturity is part of authority.** PAS-001 vocabulary is closed at Enterprise Accepted. Amendment slices only — do not expand vocabulary under PAS-001A or PAS-001B.
 
@@ -165,7 +166,7 @@ Each surface has **Contract type** + **Stability** in the legacy archive. This t
 
 **ERP domain wire terms:** catalog authority is [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md). PAS-001 §4.8 retains the **accounting seed** at `@afenda/kernel/erp-domain/accounting` (`PKGR01_ACCOUNTING`) only — do not expand catalog modules under PAS-001.
 
-**Staged capabilities:** Multi-scope consistency is vocabulary in kernel and **fail-closed proof** in PAS-001A spine gates. Effective dating consumer attestation delivered (B109). Tenant SaaS lifecycle wire (B107) and tenant extension boundary wire (B108) delivered. Actor/integration identity protected-path attestation delivered (B110).
+**Staged capabilities:** Multi-scope consistency is vocabulary in kernel and **fail-closed proof** in PAS-001A spine gates. Effective dating consumer attestation delivered (B109). Tenant SaaS lifecycle wire (B107) and tenant extension boundary wire (B108) delivered with ERP consumer attestation (B111). Actor/integration identity protected-path attestation delivered (B110).
 
 ---
 
@@ -218,7 +219,7 @@ Historical B2–B48 slices delivered core surfaces. **Closure sequence B49–B70
 
 **Staged after closure (Blueprint §6):** actor/integration identity on all protected paths · business reference identity family expansion.
 
-**Delivered amendment track (B107–B110):** tenant SaaS lifecycle wire · tenant extension boundary wire · effective-dating consumer attestation gate · auth actor protected-path attestation gate.
+**Delivered amendment track (B107–B111):** tenant SaaS lifecycle wire · tenant extension boundary wire · effective-dating consumer attestation gate · auth actor protected-path attestation gate · tenant lifecycle/extension ERP consumer attestation gate.
 
 **Current rule:** no new vocabulary slices without PAS-001 amendment handoff. Consumer work → PAS-001A. Catalog work → PAS-001B.
 
@@ -233,7 +234,7 @@ Historical B2–B48 slices delivered core surfaces. **Closure sequence B49–B70
 | Context wire triad | `check:kernel-context-wire-triad` | Operating scope hierarchy |
 | Boundary cycles clean | `architecture:cycles` · `architecture:drift` | Platform substrate |
 | B49–B70 closure attested | B67–B70 slice Delivered | PAS-001 §13 |
-| B107–B109 amendment attested | B107–B109 slice Delivered · effective-dating gate green | Kernel NS §4 · Blueprint §6 |
+| B107–B111 amendment attested | B107–B111 slice Delivered · lifecycle/extension consumer gate green | Kernel NS §4 · Blueprint §6 |
 
 Full §11 table: legacy [PAS-001 §12](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#12-enterprise-acceptance-criteria).
 
@@ -247,7 +248,7 @@ Full §11 table: legacy [PAS-001 §12](archive/PAS-001-KERNEL-AUTHORITY-STANDARD
 | B49–B52 | Operating context wire triads (tenant → full hierarchy) | Delivered |
 | B53–B57 | Propagation frame · project · policy · permission wire | Delivered |
 | B67–B70 | Doc attestation · hierarchy boundary · context gate · test hygiene | Delivered |
-| B107–B110 | Tenant SaaS lifecycle wire · extension boundary wire · effective-dating consumer attestation · auth actor protected-path attestation | Delivered |
+| B107–B111 | Tenant SaaS lifecycle wire · extension boundary wire · effective-dating consumer attestation · auth actor protected-path attestation · tenant lifecycle/extension ERP consumer attestation | Delivered |
 
 **Full catalog:** [KERNEL/SLICE/kernel-slice-catalog.md](SLICE/kernel-slice-catalog.md) · handoffs (SSOT) [KERNEL/SLICE/](SLICE/) · compliance [slice-compliance-audit.md](SLICE/slice-compliance-audit.md)
 

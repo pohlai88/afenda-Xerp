@@ -51,15 +51,10 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
   },
   transpilePackages: [
-    "@afenda/appshell",
     "@afenda/auth",
     "@afenda/database",
-    "@afenda/kernel",
-    "@afenda/metadata-ui",
     "@afenda/observability",
-    "@afenda/permissions",
-    "@afenda/testing",
-    "@afenda/ui",
+    "@afenda/shadcn-studio",
   ],
   async headers() {
     return [

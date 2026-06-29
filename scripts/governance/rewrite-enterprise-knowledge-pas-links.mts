@@ -167,7 +167,7 @@ for (const slug of EK_SLICES) {
     `../ENTERPRISE-KNOWLEDGE/SLICE/${slug}.md`,
   ]);
   REPLACEMENTS.push([
-    `](slice/${slug}.md)`,
+    `](SLICE/${slug}.md)`,
     `](SLICE/${slug}.md)`,
   ]);
 }

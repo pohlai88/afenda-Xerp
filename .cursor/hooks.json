@@ -16,11 +16,6 @@
         "command": "node .cursor/hooks/guard-bundle-preflight.mjs",
         "matcher": "Write|StrReplace|Delete|EditNotebook|ApplyPatch",
         "timeout": 5
-      },
-      {
-        "command": "node .cursor/hooks/guard-pre-tool-use.mjs",
-        "matcher": "Write|StrReplace|Delete|EditNotebook|ApplyPatch",
-        "timeout": 5
       }
     ],
     "postToolUse": [

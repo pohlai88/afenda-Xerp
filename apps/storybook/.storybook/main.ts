@@ -6,25 +6,17 @@ function getAbsolutePath(value: string): string {
   return dirname(fileURLToPath(import.meta.resolve(`${value}/package.json`)));
 }
 
-const NODE_MODULES_PATTERN = /node_modules/;
 const appRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
 const shadcnTailwindCss = join(
   appRoot,
   "node_modules/shadcn/dist/tailwind.css"
 );
-const uiRoot = join(appRoot, "../../packages/ui");
-const uiSrcRoot = join(uiRoot, "src");
-const appshellRoot = join(appRoot, "../../packages/appshell");
-const cssAuthorityRoot = join(appRoot, "../../packages/css-authority");
-const metadataUiRoot = join(appRoot, "../../packages/metadata-ui");
-const metadataRoot = join(appRoot, "../../packages/ui-composition");
 const shadcnStudioRoot = join(appRoot, "../../packages/shadcn-studio");
 const shadcnStudioSrcRoot = join(shadcnStudioRoot, "src");
 const testingRoot = join(appRoot, "../../packages/testing");
 const nextLinkMock = join(testingRoot, "src/mocks/next-link.tsx");
 const nextImageMock = join(testingRoot, "src/mocks/next-image.tsx");
 const nextDynamicMock = join(testingRoot, "src/mocks/next-dynamic.tsx");
-const governanceRoot = join(uiSrcRoot, "governance");
 const storybookTest = join(
   appRoot,
   "node_modules/storybook/dist/test/index.js"
@@ -33,9 +25,6 @@ const storybookTest = join(
 const config: StorybookConfig = {
   stories: [
     "../stories/**/*.stories.@(ts|tsx)",
-    "../../../packages/ui/src/**/*.stories.@(ts|tsx)",
-    "../../../packages/appshell/src/**/*.stories.@(ts|tsx)",
-    "../../../packages/metadata-ui/src/**/*.stories.@(ts|tsx)",
     "../../../packages/shadcn-studio/src/**/*.stories.@(ts|tsx)",
   ],
   addons: [
@@ -50,60 +39,13 @@ const config: StorybookConfig = {
   },
   typescript: {
     check: false,
-    reactDocgen: "react-docgen-typescript",
-    reactDocgenTypescriptOptions: {
-      tsconfigPath: join(appRoot, "tsconfig.storybook.json"),
-      shouldExtractLiteralValuesFromEnum: true,
-      shouldRemoveUndefinedFromOptional: true,
-      propFilter: (prop) =>
-        prop.parent ? !NODE_MODULES_PATTERN.test(prop.parent.fileName) : true,
-    },
+    reactDocgen: false,
   },
   async viteFinal(viteConfig) {
     const storybookAliases = [
       {
         find: "shadcn/tailwind.css",
         replacement: shadcnTailwindCss,
-      },
-      {
-        find: "@afenda/ui/afenda-ui.css",
-        replacement: join(uiSrcRoot, "styles/afenda-ui.css"),
-      },
-      {
-        find: "@afenda/css-authority/css/afenda-tokens.css",
-        replacement: join(cssAuthorityRoot, "src/css/afenda-tokens.css"),
-      },
-      {
-        find: "@afenda/css-authority/css/afenda-css-authority.css",
-        replacement: join(cssAuthorityRoot, "src/css/afenda-css-authority.css"),
-      },
-      {
-        find: "@afenda/appshell/afenda-appshell.css",
-        replacement: join(appshellRoot, "src/styles/afenda-appshell.css"),
-      },
-      {
-        find: /^@afenda\/ui\/governance\/(.+)$/,
-        replacement: `${governanceRoot}/$1`,
-      },
-      {
-        find: "@afenda/ui/governance",
-        replacement: join(governanceRoot, "index.ts"),
-      },
-      {
-        find: "@afenda/ui/lib/utils",
-        replacement: join(uiSrcRoot, "lib/utils.ts"),
-      },
-      {
-        find: "@afenda/ui",
-        replacement: join(uiSrcRoot, "index.ts"),
-      },
-      {
-        find: "@afenda/appshell",
-        replacement: join(appshellRoot, "src/index.ts"),
-      },
-      {
-        find: "@afenda/metadata-ui/afenda-metadata-ui.css",
-        replacement: join(metadataUiRoot, "src/afenda-metadata-ui.css"),
       },
       {
         find: "@afenda/shadcn-studio/shadcn-studio.css",
@@ -129,31 +71,11 @@ const config: StorybookConfig = {
         find: "@/hooks",
         replacement: join(shadcnStudioSrcRoot, "hooks"),
       },
-      {
-        find: "@afenda/metadata-ui/fixtures.css",
-        replacement: join(
-          metadataUiRoot,
-          "src/fixtures/metadata-ui-fixtures.css"
-        ),
-      },
-      {
-        find: "@afenda/metadata-ui/server",
-        replacement: join(metadataUiRoot, "src/server.ts"),
-      },
-      {
-        find: "@afenda/metadata-ui",
-        replacement: join(metadataUiRoot, "src/index.ts"),
-      },
-      {
-        find: "@afenda/ui-composition",
-        replacement: join(metadataRoot, "src/index.ts"),
-      },
+      { find: "@", replacement: shadcnStudioSrcRoot },
       { find: "next/link", replacement: nextLinkMock },
       { find: "next/image", replacement: nextImageMock },
       { find: "next/dynamic", replacement: nextDynamicMock },
       { find: "storybook/test", replacement: storybookTest },
-      { find: "@", replacement: uiSrcRoot },
-      { find: "#", replacement: uiSrcRoot },
     ];
 
     viteConfig.resolve ??= {};
@@ -194,16 +116,12 @@ const config: StorybookConfig = {
       "next/link",
       "next/image",
       "next/dynamic",
-      "@afenda/appshell",
     ];
     viteConfig.optimizeDeps.esbuildOptions ??= {};
     viteConfig.optimizeDeps.esbuildOptions.jsx = "automatic";
     viteConfig.optimizeDeps.esbuildOptions.jsxImportSource = "react";
     viteConfig.optimizeDeps.esbuildOptions.alias = {
       ...(viteConfig.optimizeDeps.esbuildOptions.alias ?? {}),
-      "@afenda/ui/governance": join(governanceRoot, "index.ts"),
-      "@afenda/ui/lib/utils": join(uiSrcRoot, "lib/utils.ts"),
-      "@afenda/ui": join(uiSrcRoot, "index.ts"),
       "@/components/ui": join(shadcnStudioSrcRoot, "components/ui"),
       "@/components/shadcn-studio": join(
         shadcnStudioSrcRoot,
@@ -211,8 +129,7 @@ const config: StorybookConfig = {
       ),
       "@/lib/utils": join(shadcnStudioSrcRoot, "lib/utils.ts"),
       "@/hooks": join(shadcnStudioSrcRoot, "hooks"),
-      "@": uiSrcRoot,
-      "#": uiSrcRoot,
+      "@": shadcnStudioSrcRoot,
       "next/link": nextLinkMock,
       "next/image": nextImageMock,
       "next/dynamic": nextDynamicMock,
@@ -220,9 +137,8 @@ const config: StorybookConfig = {
     };
     viteConfig.optimizeDeps.include = [
       ...(viteConfig.optimizeDeps.include ?? []).filter(
-        (dep) => dep !== "@afenda/appshell" && dep !== "next/link"
+        (dep) => dep !== "next/link"
       ),
-      "@afenda/design-system",
       "@afenda/shadcn-studio",
       "next-themes",
       "react",

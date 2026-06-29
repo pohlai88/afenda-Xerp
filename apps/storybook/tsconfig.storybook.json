@@ -2,7 +2,6 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@afenda/typescript-config/base.json",
   "compilerOptions": {
-    "customConditions": ["@afenda/ui/development", "development"],
     "baseUrl": ".",
     "jsx": "react-jsx",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
@@ -13,44 +12,13 @@
     "sourceMap": false,
     "exactOptionalPropertyTypes": false,
     "paths": {
-      "@afenda/ui/governance": ["../../packages/ui/src/governance/index.ts"],
-      "@afenda/ui/governance/*": ["../../packages/ui/src/governance/*"],
-      "@afenda/ui/lib/utils": ["../../packages/ui/src/lib/utils.ts"],
-      "@afenda/ui/lib/*": ["../../packages/ui/src/lib/*"],
-      "@afenda/ui/afenda-ui.css": [
-        "../../packages/ui/src/styles/afenda-ui.css"
-      ],
-      "@afenda/ui": ["../../packages/ui/src/index.ts"],
-      "@afenda/appshell/afenda-appshell.css": [
-        "../../packages/appshell/src/styles/afenda-appshell.css"
-      ],
-      "@afenda/appshell": ["../../packages/appshell/src/index.ts"],
-      "@afenda/metadata-ui/afenda-metadata-ui.css": [
-        "../../packages/metadata-ui/src/afenda-metadata-ui.css"
-      ],
-      "@afenda/metadata-ui/fixtures.css": [
-        "../../packages/metadata-ui/src/fixtures/metadata-ui-fixtures.css"
-      ],
-      "@afenda/metadata-ui": ["../../packages/metadata-ui/src/index.ts"],
-      "@afenda/metadata-ui/server": [
-        "../../packages/metadata-ui/src/server.ts"
-      ],
-      "@afenda/ui-composition": ["../../packages/ui-composition/src/index.ts"],
       "@afenda/shadcn-studio/shadcn-studio.css": [
         "../../packages/shadcn-studio/src/styles/shadcn-studio.css"
       ],
       "@afenda/shadcn-studio": ["../../packages/shadcn-studio/src/index.ts"],
       "@/*": ["../../packages/shadcn-studio/src/*"],
-      "@afenda/css-authority/css/afenda-tokens.css": [
-        "../../packages/css-authority/src/css/afenda-tokens.css"
-      ],
-      "@afenda/css-authority/css/afenda-css-authority.css": [
-        "../../packages/css-authority/src/css/afenda-css-authority.css"
-      ],
       "@storybook/react": ["./node_modules/@storybook/react"],
       "storybook/test": ["./node_modules/storybook/dist/test/index.d.ts"],
-      "#/lib/utils": ["../../packages/ui/src/lib/utils.ts"],
-      "#/lib/utils.ts": ["../../packages/ui/src/lib/utils.ts"],
       "next/link": ["../../packages/testing/src/mocks/next-link.tsx"],
       "next/image": ["../../packages/testing/src/mocks/next-image.tsx"],
       "next/dynamic": ["../../packages/testing/src/mocks/next-dynamic.tsx"]
@@ -63,53 +31,17 @@
     ".storybook/**/*.tsx",
     "./stories/**/*.ts",
     "./stories/**/*.tsx",
-    "./stories/_storybook/*.ts",
-    "./stories/_storybook/*.tsx",
-    "./stories/_storybook/**/*.ts",
-    "./stories/_storybook/**/*.tsx",
     "vitest.storybook.config.ts",
     "../../packages/testing/src/mocks/*.tsx",
     "../../packages/testing/src/mocks/*.ts",
-    "../../packages/ui/src/components/*.tsx",
-    "../../packages/ui/src/components/**/*.tsx",
-    "../../packages/ui/src/components/**/*.ts",
-    "../../packages/ui/src/governance/*.ts",
-    "../../packages/ui/src/governance/**/*.ts",
-    "../../packages/ui/src/governance/*.tsx",
-    "../../packages/ui/src/governance/**/*.tsx",
-    "../../packages/appshell/src/**/*.stories.ts",
-    "../../packages/appshell/src/**/*.stories.tsx",
-    "../../packages/appshell/src/_storybook/*.ts",
-    "../../packages/appshell/src/_storybook/*.tsx",
-    "../../packages/appshell/src/_storybook/**/*.ts",
-    "../../packages/appshell/src/_storybook/**/*.tsx",
-    "../../packages/appshell/src/presentation/blocks/*.tsx",
-    "../../packages/appshell/src/presentation/blocks/**/*.tsx",
-    "../../packages/appshell/src/presentation/blocks/*.ts",
-    "../../packages/appshell/src/presentation/blocks/**/*.ts",
-    "../../packages/metadata-ui/src/**/*.stories.ts",
-    "../../packages/metadata-ui/src/**/*.stories.tsx",
-    "../../packages/metadata-ui/src/_storybook/*.ts",
-    "../../packages/metadata-ui/src/_storybook/*.tsx",
-    "../../packages/metadata-ui/src/_storybook/**/*.ts",
-    "../../packages/metadata-ui/src/_storybook/**/*.tsx",
-    "../../packages/metadata-ui/src/*.ts",
-    "../../packages/metadata-ui/src/*.tsx",
-    "../../packages/metadata-ui/src/**/*.ts",
-    "../../packages/metadata-ui/src/**/*.tsx",
-    "../../packages/shadcn-studio/src/*.ts",
-    "../../packages/shadcn-studio/src/*.tsx",
     "../../packages/shadcn-studio/src/**/*.ts",
     "../../packages/shadcn-studio/src/**/*.tsx",
     "../../packages/shadcn-studio/src/**/*.stories.ts",
     "../../packages/shadcn-studio/src/**/*.stories.tsx"
   ],
   "exclude": [
-    "../../packages/appshell/src/**/__tests__/**",
-    "../../packages/appshell/src/**/*.test.ts",
-    "../../packages/appshell/src/**/*.test.tsx",
-    "../../packages/metadata-ui/src/**/__tests__/**",
-    "../../packages/metadata-ui/src/**/*.test.ts",
-    "../../packages/metadata-ui/src/**/*.test.tsx"
+    "../../packages/shadcn-studio/src/**/__tests__/**",
+    "../../packages/shadcn-studio/src/**/*.test.ts",
+    "../../packages/shadcn-studio/src/**/*.test.tsx"
   ]
 }

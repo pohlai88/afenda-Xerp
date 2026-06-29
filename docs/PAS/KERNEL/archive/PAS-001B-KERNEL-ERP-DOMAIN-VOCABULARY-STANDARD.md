@@ -213,7 +213,7 @@ Promotion `catalog-only` → `delivered` is always a **future slice outcome** (B
 | **B81–B105** | Remaining 25 module vocabulary promotions | Delivered (2026-06-28) |
 | **B106** | Foundation module scaffold standardization (`accounting`, `inventory`) | Delivered (2026-06-28) |
 
-Handoffs: [`slice/b76-pas001b-erp-domain-catalog-doc.md`](slice/b76-pas001b-erp-domain-catalog-doc.md) · [`slice/b77-erp-domain-layout-gate.md`](slice/b77-erp-domain-layout-gate.md) · [`slice/b78-pas001b-audit-closure.md`](slice/b78-pas001b-audit-closure.md) · [`slice/b79-inventory-domain-vocabulary.md`](slice/b79-inventory-domain-vocabulary.md) · [`slice/b106-foundation-erp-domain-scaffold-standardization.md`](slice/b106-foundation-erp-domain-scaffold-standardization.md) · B80 + B81–B105 (batch; handoffs proposed)
+Handoffs: [`../SLICE/b76-pas001b-erp-domain-catalog-doc.md`](../SLICE/b76-pas001b-erp-domain-catalog-doc.md) · [`../SLICE/b77-erp-domain-layout-gate.md`](../SLICE/b77-erp-domain-layout-gate.md) · [`../SLICE/b78-pas001b-audit-closure.md`](../SLICE/b78-pas001b-audit-closure.md) · [`../SLICE/b79-inventory-domain-vocabulary.md`](../SLICE/b79-inventory-domain-vocabulary.md) · [`../SLICE/b106-foundation-erp-domain-scaffold-standardization.md`](../SLICE/b106-foundation-erp-domain-scaffold-standardization.md) · B80 + B81–B105 (batch; handoffs proposed)
 
 ---
 

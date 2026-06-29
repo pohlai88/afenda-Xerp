@@ -4,7 +4,7 @@
 | --- | --- |
 | **SSOT directory** | `docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/` |
 | **Individual handoffs** | 26 files (B24–B49 on disk; B50–B54 proposed) |
-| **Legacy** | Flat `docs/PAS/slice/` removed — use this folder only |
+| **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — use this folder only |
 | **Closure registry** | [pas-status-index.md](../../pas-status-index.md) |
 | **Last reviewed** | 2026-06-29 |
 

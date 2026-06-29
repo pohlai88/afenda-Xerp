@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **Directory (SSOT)** | `docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/` |
-| **Legacy** | Flat `docs/PAS/slice/` — **removed from repo**; do not restore PAS-004 handoffs there |
+| **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — do not restore PAS-004 handoffs there |
 | **Template** | [pas-slice-template.md](../../../../.cursor/skills/kernel-authority/reference/pas-slice-template.md) |
 | **Catalog** | [enterprise-knowledge-slice-catalog.md](enterprise-knowledge-slice-catalog.md) |
 | **Slice range** | B24–B48 delivered · B49 in progress · B50–B54 proposed (PAS-004D) |

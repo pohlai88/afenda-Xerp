@@ -170,7 +170,11 @@ Read in order:
 6. [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](packages/architecture-authority/src/data/foundation-disposition.registry.ts) — lane vocabulary + entries (synced view)
 7. [`docs/PAS/pas-status-index.md`](docs/PAS/pas-status-index.md)
 8. [`.cursor/skills/enterprise-erp-standards/SKILL.md`](.cursor/skills/enterprise-erp-standards/SKILL.md) — SAP/Oracle gates (red/amber/blue lanes)
-9. Target kernel slice under [`docs/PAS/KERNEL/SLICE/`](docs/PAS/KERNEL/SLICE/) — copy one §Handoff block into Phase 0
+9. Target presentation standard: [`docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md`](docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) — ERP frontend ([ADR-0027](docs/adr/ADR-0027-frontend-presentation-reset.md))
+
+**Frontend presentation (PAS-006):** [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md) · [`docs/NORTHSTAR/shadcn-studio-presentation-north-star.md`](docs/NORTHSTAR/shadcn-studio-presentation-north-star.md) · [`docs/BLUEPRINT/shadcn-studio-presentation-blueprint.md`](docs/BLUEPRINT/shadcn-studio-presentation-blueprint.md) · `@afenda/shadcn-studio` — stock shadcn/studio via MCP; unprefixed CSS vars; **no** `ui:guard` or PAS-005 slice execution for ERP.
+
+**Retired for ERP frontend:** PAS-005/CSS-AUTHORITY family archived under [`docs/_retired/legacy-css-authority/`](docs/_retired/legacy-css-authority/SUPERSEDED-BY-ADR-0027.md).
 
 **Planning:** [`.cursor/skills/pas-slice-planner/SKILL.md`](.cursor/skills/pas-slice-planner/SKILL.md)
 
@@ -178,11 +182,9 @@ Read in order:
 
 **Enterprise knowledge (PAS-004):** [`.cursor/skills/enterprise-knowledge/SKILL.md`](.cursor/skills/enterprise-knowledge/SKILL.md) · [`docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · `@afenda/enterprise-knowledge` — accepted business meaning; glossary is a representation only.
 
-**CSS authority (PAS-005):** [`.cursor/skills/css-authority/SKILL.md`](.cursor/skills/css-authority/SKILL.md) · [`docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md`](docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) · `@afenda/css-authority` — runtime CSS token registry (`CSS-TOKEN-*`); `@afenda/ui` retains Governed UI variant/recipe TS; `@afenda/shadcn-studio` owns presentation product truth (PAS-005B retirement complete for CSS monolith).
-
 **Accounting Core (`Foundation phase 15+` runtime)** is blocked until ADR-0010 **and** a new ADR amends `PKGR01_ACCOUNTING` prohibited rules.
 
-Verify doc hygiene: `pnpm check:documentation-drift` · `pnpm check:legacy-delivery-terminology` · `pnpm check:foundation-disposition` · `pnpm check:knowledge-conformance` · `pnpm check:css-visual-regression`
+Verify doc hygiene: `pnpm check:documentation-drift` · `pnpm check:legacy-delivery-terminology` · `pnpm check:foundation-disposition` · `pnpm check:knowledge-conformance`
 
 When documentation status, PAS slices, ADR acceptance, registry lanes, or runtime-truth evidence may be stale, delegate to [`.cursor/agents/documentation-drift.md`](.cursor/agents/documentation-drift.md) before planning or coding from docs.
 
@@ -194,8 +196,7 @@ When documentation status, PAS slices, ADR acceptance, registry lanes, or runtim
 | Registry edit | [`foundation-registry-owner`](.cursor/agents/foundation-registry-owner.md) |
 | New package filesystem scaffold | [`monorepo-discipline`](.cursor/skills/monorepo-discipline/SKILL.md) — `pnpm scaffold:package` (non-interactive; `--pas` for real packages; env via `--with-env-scripts` / `--env-sync-target`; template smoke via `--verify`) |
 | Enterprise knowledge (PAS-004) | [`.cursor/skills/enterprise-knowledge/SKILL.md`](.cursor/skills/enterprise-knowledge/SKILL.md) |
-| CSS authority (PAS-005) | [`.cursor/skills/css-authority/SKILL.md`](.cursor/skills/css-authority/SKILL.md) |
-| Any UI / CSS / visual change (docs OR erp OR primitives) | [`.cursor/skills/ui-consistency-bundle/SKILL.md`](.cursor/skills/ui-consistency-bundle/SKILL.md) — fix-first, no permission asking |
+| ERP frontend UI (PAS-006) | [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md) · MCP `/cui` `/rui` |
 | Pre-merge review | [`/afenda-review`](.cursor/skills/afenda-review/SKILL.md) or [`@afenda-code-reviewer`](.cursor/agents/afenda-code-reviewer.md) |
 | Ship / go-no-go | [`/afenda-ship`](.cursor/skills/afenda-ship/SKILL.md) |
 | PAS parallel batch | [`@afenda-orchestrator`](.cursor/agents/afenda-orchestrator.md) + [`/afenda-batch`](.cursor/skills/afenda-batch/SKILL.md) |
@@ -220,44 +221,37 @@ Always-on rule: [`.cursor/rules/agent-orchestration.mdc`](.cursor/rules/agent-or
 
 ---
 
-## shadcn/studio UI acceleration (ADR-0017)
+## shadcn/studio UI (ADR-0027 · PAS-006)
 
-Constitutional authority: [`docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md`](docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) — approved sources, mandatory promotion pipeline, `_reference/` catalog (gitignored), MCP workflows, adapted blocks registry.
+**Constitutional authority:** [`docs/adr/ADR-0027-frontend-presentation-reset.md`](docs/adr/ADR-0027-frontend-presentation-reset.md) — sole ERP frontend presentation chain.
 
-**Agent operational authority:** [`.cursor/skills/afenda-shadcn-components/SKILL.md`](.cursor/skills/afenda-shadcn-components/SKILL.md) — 3-layer CSS token chain, 3-question MCP normalization filter, promotion pipeline, gates A–G.
+**MCP vendor approval (retained from ADR-0017):** [`docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md`](docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) — Pro license, `_reference/` catalog, MCP servers.
 
-Operational guide: [`.cursor/skills/afenda-shadcn-components/SKILL.md`](.cursor/skills/afenda-shadcn-components/SKILL.md). MCP wiring: [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md).
+**Agent operational authority:** [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md) — MCP workflows, install cwd `packages/shadcn-studio`, ERP import from `@afenda/shadcn-studio`.
+
+**Creation gates:** `pnpm --filter @afenda/shadcn-studio typecheck` · `pnpm --filter @afenda/erp typecheck` · `pnpm --filter @afenda/erp build`
+
+**Retired for ERP:** Governed UI (`ui:guard*`), appshell promotion pipeline, PAS-005 slice execution.
 
 ---
 
-## Governed UI
+## Retired presentation packages (ADR-0027)
 
-Canonical policy: [`.cursor/rules/governed-ui-consumption.mdc`](.cursor/rules/governed-ui-consumption.mdc). Gates: [`scripts/governance/ui-guard.mjs`](scripts/governance/ui-guard.mjs) (`pnpm ui:guard`).
+`@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui`, `@afenda/ui-composition`, and `@afenda/css-authority` were **removed from the filesystem** per [ADR-0027](docs/adr/ADR-0027-frontend-presentation-reset.md). Do not restore without a new ADR. Foundation disposition entries are `archive-lane` only.
 
-Two layers — do not confuse them:
-
-| Layer | Path | className rule |
-|-------|------|----------------|
-| **Author** | `packages/ui/src/components/` | Layout-only via `resolvePrimitiveGovernance()` — see `.cursor/skills/govern-primitive/SKILL.md` |
-| **Consumer** | `packages/appshell/`, `packages/metadata-ui/`, `apps/erp/` | **Zero** `className` on `@afenda/ui` primitives; shell chrome on plain HTML only |
-
-**Consumer imports:** `@afenda/ui` and `@afenda/ui/governance` directly. Use governed `intent`, `emphasis`, `size`, `presentation` props — **`mapStockButtonProps` is sunset**. No `stock-props.ts` wrappers, no re-export barrels, no extra CSS modules when `globals.css` suffices.
-
-**After shadcn-studio blocks:** apply the 3-question decision filter (see `afenda-shadcn-components` skill §2); strip all `className` from governed primitives. Verify with `pnpm ui:guard` (gates A–G) or `pnpm ui:guard:scan` for a sub-2 s local check (Gate D).
-
-**Enforcement:** `.cursor/rules/governed-ui-consumption.mdc`, `scripts/governance/governed-ui-consumption.mjs`, `scripts/governance/react-erp-policy.mjs` (Gate F), Cursor preToolUse hook, stop hook appshell test gate.
+**Commit the deleted state** after nuclear resets so git or tooling does not resurrect legacy packages.
 
 ---
 
 ## Package CSS dist sync
 
-Apps import foundation CSS from package **`dist/`** exports, not from `src/`. After editing `@afenda/appshell`, `@afenda/ui`, or `@afenda/metadata-ui` CSS sources, sync before ERP or Storybook visual verification.
+Apps import presentation CSS from package **`dist/`** exports, not from `src/`. After editing `@afenda/shadcn-studio` CSS sources, sync before ERP or Storybook visual verification.
 
 ```bash
-pnpm sync:package-css-dist                              # fast CSS copy (all packages)
-pnpm sync:package-css-dist -- --package @afenda/appshell  # scoped
-pnpm check:package-css-dist-sync                        # verification gate
-pnpm --filter @afenda/appshell build                    # full TS + CSS build
+pnpm sync:package-css-dist                                    # fast CSS copy
+pnpm sync:package-css-dist -- --package @afenda/shadcn-studio # scoped
+pnpm check:package-css-dist-sync                              # verification gate
+pnpm --filter @afenda/shadcn-studio build                     # full TS + CSS build
 ```
 
 | Layer | Enforcement |
@@ -275,15 +269,4 @@ pnpm --filter @afenda/appshell build                    # full TS + CSS build
 
 ## CSP third-party scripts (ERP)
 
-Nonce-based CSP is enforced in `apps/erp/src/proxy.ts`. When adding external scripts:
-
-| Step | Action |
-|------|--------|
-| 1 | Add explicit `https://` origins to `apps/erp/src/lib/security/csp-allowlist.ts` |
-| 2 | Load via `next/script` in a **Server Component** with `nonce={nonce}` from `getCspNonce()` |
-| 3 | Never use raw `<script>`, `'unsafe-inline'` in production `script-src`, or wildcard CSP sources |
-| 4 | Run `pnpm check:csp-third-party` |
-
-**Skill:** `.cursor/skills/csp-third-party/SKILL.md`  
-**Rule:** `.cursor/rules/csp-third-party-scripts.mdc`  
-**Delivery:** `.cursor/skills/csp-third-party/SKILL.md` · `apps/erp/src/proxy.ts`
+The ERP skeleton (`apps/erp`) currently runs correlation-id pass-through in `apps/erp/src/proxy.ts` only. **Nonce-based CSP is not wired** until protected routes and third-party scripts return — follow [`.cursor/skills/csp-third-party/SKILL.md`](.cursor/skills/csp-third-party/SKILL.md) and [`.cursor/rules/csp-third-party-scripts.mdc`](.cursor/rules/csp-third-party-scripts.mdc) when reintroducing external scripts.

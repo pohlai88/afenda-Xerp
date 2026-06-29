@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **SSOT directory** | `docs/PAS/KERNEL/SLICE/` |
-| **Individual handoffs** | 52 files (B49–B110 on disk) |
+| **Individual handoffs** | 53 files (B49–B111 on disk) |
 | **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — do not use |
 | **Closure registry** | [pas-status-index.md](../../pas-status-index.md) |
 | **Last reviewed** | 2026-06-29 |
@@ -13,7 +13,7 @@
 ## Build order
 
 ```text
-PAS-001:  B49 → B55 · B57 · B67 → B70 · B107 → B110 (amendment)
+PAS-001:  B49 → B55 · B57 · B67 → B70 · B107 → B111 (amendment)
 PAS-001A: B71 → B75
 PAS-001B: B76 → B106
 ```
@@ -35,7 +35,7 @@ PAS-001B: B76 → B106
 | B69 | [b69-kernel-context-wire-triad-gate.md](./b69-kernel-context-wire-triad-gate.md) | Delivered |
 | B70 | [b70-kernel-test-import-hygiene.md](./b70-kernel-test-import-hygiene.md) | Delivered |
 
-## PAS-001 — B107–B110 amendment (delivered)
+## PAS-001 — B107–B111 amendment (delivered)
 
 | Slice | Handoff | Status |
 | --- | --- | --- |
@@ -43,6 +43,7 @@ PAS-001B: B76 → B106
 | B108 | [b108-tenant-extension-boundary-wire.md](./b108-tenant-extension-boundary-wire.md) | Delivered |
 | B109 | [b109-effective-dating-consumer-attestation.md](./b109-effective-dating-consumer-attestation.md) | Delivered |
 | B110 | [b110-auth-actor-protected-path-attestation.md](./b110-auth-actor-protected-path-attestation.md) | Delivered |
+| B111 | [b111-tenant-lifecycle-extension-consumer-attestation.md](./b111-tenant-lifecycle-extension-consumer-attestation.md) | Delivered |
 
 ## PAS-001A — B71–B75 (delivered)
 

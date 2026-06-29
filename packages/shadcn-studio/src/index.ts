@@ -64,7 +64,6 @@ export {
 } from "./components/ui/card.js";
 export {
   computeStudioBlockParitySummary,
-  LEGACY_APPSHELL_STUDIO_BLOCK_COUNT,
   SHADCN_STUDIO_BLOCK_PARITY_REGISTRY,
   type StudioBlockParityEntry,
   type StudioBlockParityStatus,

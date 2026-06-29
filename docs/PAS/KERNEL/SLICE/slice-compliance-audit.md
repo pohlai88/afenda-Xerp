@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **SSOT** | `docs/PAS/KERNEL/SLICE/b*.md` |
-| **Legacy** | `docs/PAS/slice/` — removed; kernel handoffs SSOT is this folder only |
+| **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — removed; kernel handoffs SSOT is this folder only |
 | **Template** | [pas-slice-template.md](../../../../.cursor/skills/kernel-authority/reference/pas-slice-template.md) |
 | **Audit date** | 2026-06-29 |
 
@@ -18,7 +18,7 @@ Composed kernel slices B49–B106 are generated from `pas-slice-template.md` aut
 | NS→Blueprint | Three kernel boxes (Vocabulary · Catalog · Integration Spine) | **Aligned** | — | — |
 | Blueprint→PAS | PAS-001 · PAS-001A · PAS-001B composed + archive | **Aligned** | — | — |
 | PAS→Code | B49–B106 gates + erp-domain layout | **Aligned** | — | — |
-| Legacy→SSOT | `docs/PAS/slice/` flat kernel handoffs | **Retired** | Legacy tree removed | Use `KERNEL/SLICE/b*.md` only |
+| Legacy→SSOT | [`docs/PAS/slice/`](../../slice/README.md) flat CSS shim tombstones | **Deprecated** | Scheduled deletion | Use `<FAMILY>/SLICE/b*.md` only |
 | Cross-family | PAS-004 meaning boundary links | **Aligned** | Fixed 2026-06-29 | Composed PAS → `ENTERPRISE-KNOWLEDGE/` |
 | Template→SSOT | Author validation (12 checks) | **Pass** | Composer-enforced | Regenerate via scripts on amend |
 | PAS-001→Slice | B49–B70 | **Aligned** | — | Phase 0 from `./b49`–`./b70` |

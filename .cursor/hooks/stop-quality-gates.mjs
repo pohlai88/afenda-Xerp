@@ -42,42 +42,14 @@ const GATES = [
     label: "@afenda/erp typecheck",
   },
   {
-    key: "erp-test",
-    scope: "apps/erp",
-    command: "pnpm --filter @afenda/erp test",
-    label: "@afenda/erp tests",
-  },
-  {
     key: "docs-typecheck",
     scope: "apps/docs",
     command: "pnpm --filter @afenda/docs typecheck",
     label: "@afenda/docs typecheck",
   },
   {
-    key: "ds-typecheck",
-    scope: "packages/design-system",
-    command: "pnpm --filter @afenda/design-system typecheck",
-    label: "@afenda/design-system typecheck",
-  },
-  {
-    key: "ui-governance",
-    scope: "packages/ui/src/components",
-    command: "pnpm --filter @afenda/ui check:governance",
-    label: "@afenda/ui governance check",
-  },
-  {
-    key: "appshell-test",
-    scope: "packages/appshell",
-    command: "pnpm --filter @afenda/appshell test:run",
-    label: "@afenda/appshell tests (incl. Governed UI consumption)",
-  },
-  {
     key: "package-css-dist-sync",
-    scopes: [
-      "packages/appshell/src/styles",
-      "packages/ui/src/styles",
-      "packages/metadata-ui/src",
-    ],
+    scopes: ["packages/shadcn-studio/src/styles"],
     command: "pnpm check:package-css-dist-sync",
     label: "package CSS dist sync (src → dist)",
   },

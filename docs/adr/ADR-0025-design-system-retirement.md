@@ -89,7 +89,7 @@ Until then, **`do-not-delete-design-system-v1` remains in force**.
 - B46 registry relocation is a large `@afenda/ui` touch — must be serialized
 - Short-term doc/skill churn during B43–B47
 - Appshell `presentation/blocks/` strangler (B48) is consumer-impacting
-- ADR remains Proposed until team accepts — B47 blocked until Accepted
+- ADR remains **Accepted** — B47 blocked until B44 attestation + foundation-registry-owner
 
 ---
 

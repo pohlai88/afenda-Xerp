@@ -45,14 +45,9 @@ SKILL regen from PAS? ────→ kernel-authority/reference/pas-skill-templ
 
 ```
 Any code edit? ───────────→ coding-consistency-bundle (mandatory)
-UI/CSS/visual? ─────────→ ui-consistency-bundle (mandatory)
+UI/CSS/visual (ERP)? ───→ shadcn-studio + PAS-006 (ADR-0027)
 Kernel boundary? ─────────→ kernel-authority
-CSS tokens PAS-005? ──────→ css-authority
-Tailwind / package CSS? ──→ afenda-tailwind
 Enterprise knowledge? ────→ enterprise-knowledge
-Docs MDX (apps/docs)? ────→ docs-editorial-design
-shadcn/studio blocks? ────→ afenda-shadcn-components + shadcn-studio
-Accessibility / a11y? ────→ afenda-accessibility
 Drizzle migrations? ──────→ afenda-drizzle-migration
 Multi-tenancy? ───────────→ multi-tenancy-erp
 Library API uncertain? ───→ Context7 MCP (resolve ID → query docs)
@@ -71,7 +66,6 @@ Adversarial review? ──────→ vendor doubt-driven-development
 Deprecation? ─────────────→ vendor deprecation-and-migration
 Browser DevTools? ────────→ vendor browser-testing-with-devtools
 Platform audit? ──────────→ enterprise-architecture-audit + orchestrator
-Frontend audit? ──────────→ enterprise-frontend-audit
 ```
 
 ## Mandatory bundles

@@ -103,9 +103,10 @@ docs/PAS/
 | [`ARCHITECTURE-AUTHORITY/`](ARCHITECTURE-AUTHORITY/README.md) | PAS-002 · PAS-002A | [`architecture-authority-slice-catalog.md`](ARCHITECTURE-AUTHORITY/SLICE/architecture-authority-slice-catalog.md) |
 | [`ACCOUNTING-STANDARDS/`](ACCOUNTING-STANDARDS/README.md) | PAS-003 | [`accounting-slice-catalog.md`](ACCOUNTING-STANDARDS/SLICE/accounting-slice-catalog.md) |
 | [`ENTERPRISE-KNOWLEDGE/`](ENTERPRISE-KNOWLEDGE/README.md) | PAS-004–PAS-004D | [`enterprise-knowledge-slice-catalog.md`](ENTERPRISE-KNOWLEDGE/SLICE/enterprise-knowledge-slice-catalog.md) |
-| [`CSS-AUTHORITY/`](CSS-AUTHORITY/README.md) | PAS-005 · PAS-005A · PAS-005B | [`css-authority-slice-catalog.md`](CSS-AUTHORITY/SLICE/css-authority-slice-catalog.md) |
+| [`PRESENTATION/`](PRESENTATION/README.md) | PAS-006 | *(single standard — no slice catalog)* |
+| [`CSS-AUTHORITY/`](CSS-AUTHORITY/README.md) | PAS-005 family | **Retired** — archived; stub redirect only |
 
-**Legacy:** flat `docs/PAS/slice/` was removed — slice handoffs live only under `<DOMAIN-FOLDER>/SLICE/`.
+**Deprecated shim:** flat [`docs/PAS/slice/`](slice/README.md) holds **temporary tombstone redirects only** (CSS Authority `b*-pas005*` today). **Scheduled for complete removal.** Slice handoffs SSOT is always `<DOMAIN-FOLDER>/SLICE/` — update links and Phase 0 handoffs to the family path without delay.
 
 ---
 
@@ -124,9 +125,10 @@ docs/PAS/
 | [PAS-004B](ENTERPRISE-KNOWLEDGE/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Enterprise Accepted (B33–B37; scorecard 40/40; derived from PAS-004A) |
 | [PAS-004C](ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Production Candidate — B38–B48 delivered; scorecard 58/58; derived from PAS-004B |
 | [PAS-004D](ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) | `@afenda/enterprise-knowledge` | Platform | Proposed — B49–B54; mirror sync, legacy retirement, corpus depth; derived from PAS-004C |
-| [PAS-005](CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) | `@afenda/css-authority` | Design | MVP Authority — B26–B37 delivered; 605-token registry; runtime cutover live |
-| [PAS-005A](CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) | `@afenda/shadcn-studio` | Design / Presentation | MVP Authority — B38–B42p delivered; strangler sequence complete; derived from PAS-005 |
-| [PAS-005B](CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) | `@afenda/design-system` (retiring) | Design / Deprecation | Retirement Candidate — B43 delivered; B44 readiness gate next; derived from PAS-005 + PAS-005A |
+| [PAS-006](PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) | `@afenda/shadcn-studio` | Design / Presentation | Production Candidate — sole ERP frontend authority (ADR-0027) |
+| ~~PAS-005~~ | `@afenda/css-authority` | Design | **Retired for ERP** — archived |
+| ~~PAS-005A~~ | `@afenda/shadcn-studio` (legacy PAS) | Design | **Retired** — merged into PAS-006 |
+| ~~PAS-005B~~ | `@afenda/design-system` (retiring) | Design | **Retired for ERP** — ADR-0027 cutover |
 
 Package-local annotated trees:
 

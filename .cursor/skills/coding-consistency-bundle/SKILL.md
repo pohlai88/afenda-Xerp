@@ -135,7 +135,7 @@ When handoff is under `docs/PAS/<DOMAIN-FOLDER>/SLICE/` (e.g. `docs/PAS/KERNEL/S
 | --- | --- |
 | Enterprise knowledge (PAS-004) | `.cursor/skills/enterprise-knowledge/SKILL.md` |
 | Enterprise SAP/Oracle gates | `.cursor/skills/enterprise-erp-standards/SKILL.md` |
-| UI primitive authoring | `.cursor/skills/govern-primitive/SKILL.md` |
+| shadcn/studio ERP frontend (PAS-006) | `.cursor/skills/shadcn-studio/SKILL.md` |
 | Package CSS dist | `.cursor/skills/package-css-dist-sync/SKILL.md` |
 | Drizzle migrations | `.cursor/skills/afenda-drizzle-migration/SKILL.md` |
 | Multi-tenancy | `.cursor/skills/multi-tenancy-erp/SKILL.md` |

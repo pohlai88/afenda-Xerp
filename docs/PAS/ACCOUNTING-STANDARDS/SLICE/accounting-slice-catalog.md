@@ -4,7 +4,7 @@
 | --- | --- |
 | **SSOT directory** | docs/PAS/ACCOUNTING-STANDARDS/SLICE/ |
 | **Individual handoffs** | 17 files (B0–B16) |
-| **Legacy** | `docs/PAS/slice/` removed — do not use |
+| **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — do not use |
 | **Last reviewed** | 2026-06-29 |
 
 > **Catalog only.** Open the linked `b*.md` file for the 9-field handoff.

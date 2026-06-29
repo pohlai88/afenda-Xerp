@@ -2,32 +2,39 @@
 name: shadcn-studio
 description: >-
   shadcn/studio MCP workflow — /cui, /rui, /iui, /ftc block generation, theme
-  presets, toolbar, and install paths. Use when using shadcn/studio MCP, PAS-005A
-  slices, generating blocks, or running the studio toolbar against Storybook or apps.
+  presets, toolbar, and install paths. Use when using shadcn/studio MCP, PAS-006
+  ERP frontend work, generating blocks, or running the studio toolbar.
 paths:
-  - packages/ui/**
   - packages/shadcn-studio/**
+  - apps/erp/**
   - apps/storybook/**
 ---
 
 # shadcn/studio
 
-**Authority:** [PAS-005A](../../docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) · [ADR-0017](../../docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) · `.cursor/rules/shadcn-studio.instructions.mdc`
+**Authority:** [PAS-006](../../docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) · [ADR-0027](../../docs/adr/ADR-0027-frontend-presentation-reset.md) · [North Star](../../docs/NORTHSTAR/shadcn-studio-presentation-north-star.md) · `.cursor/rules/shadcn-studio.instructions.mdc`
 
-**Agent skill (boundary):** [shadcn-studio-authority](../shadcn-studio-authority/SKILL.md)
-
-## Phase status
-
-| Phase | Scope | Install cwd | Blocks home |
-| --- | --- | --- | --- |
-| **Phase 1 (delivered B38–B41)** | Standalone `@afenda/shadcn-studio` — Afenda-free | `packages/shadcn-studio` | `packages/shadcn-studio/src/blocks/` |
-| **Phase 2 (B42 — delivered through B42h)** | Afenda integration — css-authority, ERP, metadata-ui hook, bridge, legacy path delete | `packages/shadcn-studio` | Governed Afenda blocks under `packages/appshell/src/presentation/blocks/` |
-
-**Do not migrate** from deleted `packages/appshell/src/shadcn-studio/` path — re-seed via MCP into `@afenda/shadcn-studio`; governed Afenda blocks live under `presentation/` (B42h).
+**Retired for ERP:** PAS-005 family, appshell bridge, `ui:guard*`, governed-ui strip pipeline.
 
 ---
 
-## Repo wiring (current — PAS-005A Phase 1)
+## Doctrine (ADR-0027)
+
+```text
+MCP install (packages/shadcn-studio cwd)
+  → @afenda/shadcn-studio/src/blocks|components/ui/
+  → import in apps/erp
+  → pnpm --filter @afenda/shadcn-studio typecheck
+  → pnpm --filter @afenda/erp typecheck && build
+```
+
+**ERP CSS:** `apps/erp/src/app/globals.css` = `tailwindcss` + `@afenda/shadcn-studio/shadcn-studio.css` + `shadcn/tailwind.css` only.
+
+**Stock `className` OK** during stabilization.
+
+---
+
+## Repo wiring
 
 | Item | Path / command |
 | --- | --- |
@@ -35,21 +42,18 @@ paths:
 | shadcn CLI + registry MCP | `.cursor/mcp.json` → `shadcn` (`-c packages/shadcn-studio`) |
 | Studio MCP wrapper | `.cursor/mcp/shadcn-studio.mjs` |
 | Studio toolbar config | `shadcn-studio.config.json` |
-| **shadcn install cwd** | **`packages/shadcn-studio`** — `components.json` + `@ss-blocks` / `@ss-components` |
+| **Install cwd** | **`packages/shadcn-studio`** |
 | Package | `@afenda/shadcn-studio` |
 | Theme presets | `packages/shadcn-studio/src/theme/theme-presets.ts` |
 | Primitives | `packages/shadcn-studio/src/components/ui/` |
-| Blocks (seed) | `packages/shadcn-studio/src/blocks/` |
+| Blocks | `packages/shadcn-studio/src/blocks/` |
 | Lab stories | `apps/storybook/stories/shadcn-studio-*.stories.tsx` |
-| Governed Afenda blocks | `packages/appshell/src/presentation/blocks/` — **legacy `shadcn-studio/` path deleted (B42h)** |
-| Bridge | `packages/appshell/src/shadcn-studio-bridge/` |
 
 Toolbar:
 
 | Command | Target |
 | --- | --- |
-| `pnpm studio:toolbar` | Storybook 6006 |
-| `pnpm studio:toolbar:app` | ERP 3000 |
+| `pnpm studio:toolbar` | ERP 3000 |
 | `pnpm studio:toolbar:docs` | Docs 3001 |
 
 Start the target dev server **before** the toolbar.
@@ -62,7 +66,6 @@ Start the target dev server **before** the toolbar.
 | --- | --- |
 | `shadcn` | Registry search, `shadcn add` — `-c packages/shadcn-studio` |
 | `shadcn-studio` | `/cui`, `/rui`, `/iui`, `/ftc` via `.cursor/mcp/shadcn-studio.mjs` |
-| `figma` / `figma-desktop` | Design context — see [figma-mcp-afenda.md](figma-mcp-afenda.md) |
 
 ---
 
@@ -78,81 +81,27 @@ PowerShell:
 
 ```powershell
 cd packages/shadcn-studio
-$env:EMAIL="<from .env.secret>"; $env:LICENSE_KEY="<from .env.secret>"; npx shadcn@latest add @ss-components/button -y
+$env:EMAIL = (Get-Content ..\.env.secret | Select-String 'SHADCN_STUDIO_ACCOUNT_EMAIL=').ToString().Split('=')[1]
+$env:LICENSE_KEY = (Get-Content ..\.env.secret | Select-String 'SHADCN_STUDIO_LICENSE_KEY=').ToString().Split('=')[1]
+pnpm dlx shadcn@latest add @ss-blocks/<block-name>
 ```
-
-Bash:
-
-```bash
-cd packages/shadcn-studio
-EMAIL=<from .env.secret> LICENSE_KEY=<from .env.secret> npx shadcn@latest add @ss-blocks/<block-name> -y
-```
-
-### Install targets (`packages/shadcn-studio/components.json`)
-
-| Artifact | Path |
-| --- | --- |
-| Primitives (`@ss-components`) | `src/components/ui/` |
-| Blocks (`@ss-blocks`) | `src/blocks/` |
-| Theme (`install-theme`) | `src/styles/shadcn-studio.css` |
-
-**Collection rule:** collect all selected items before any install command (MCP `/cui`, `/rui`).
 
 ---
 
-## Workflow discipline
-
-Follow `.cursor/rules/shadcn-studio.instructions.mdc` step-by-step — no skipping collection before install.
-
-| Command | Purpose |
-| --- | --- |
-| `/cui` | Customize block — collect all, install once |
-| `/rui` | Refine components / theme |
-| `/iui` | Inspired UI (Pro) |
-| `/ftc` | Figma → code |
-
----
-
-## Verification (Phase 1 lab)
+## Gates (creation only)
 
 ```bash
 pnpm --filter @afenda/shadcn-studio typecheck
-pnpm --filter @afenda/shadcn-studio test:run
-pnpm --filter @afenda/storybook typecheck
-pnpm quality:boundaries
+pnpm --filter @afenda/erp typecheck
+pnpm --filter @afenda/erp build
 ```
 
-Storybook: `shadcn-studio-theme-lab`, `shadcn-studio-primitives`, `shadcn-studio-block` stories.
+**Do not run:** `pnpm ui:guard*`, PAS-005 slice gates, css-authority consumption gates.
 
 ---
 
-## Verification (Phase 2 — B42h delivered; B42i next)
+## Verification
 
-After B42 integration bridge + B42h legacy path delete:
-
-```txt
-MCP install (packages/shadcn-studio)
-  → normalize (STUDIO-PATTERN-MAP, governed @afenda/ui)
-  → css-authority / ERP globals chain
-  → bridge via packages/appshell/src/shadcn-studio-bridge/
-  → governed blocks under packages/appshell/src/presentation/blocks/
-  → pnpm ui:guard:scan → pnpm ui:guard → pnpm ui:guard:proof
-```
-
-**Remaining (B42i):** thin MCP wrapper strangler; Governed UI className strip on MCP blocks.
-
-Handoff: [`docs/PAS/CSS-AUTHORITY/SLICE/b42h-pas005a-legacy-tree-delete.md`](../../docs/PAS/CSS-AUTHORITY/SLICE/b42h-pas005a-legacy-tree-delete.md) · next: [`b42i`](../../docs/PAS/CSS-AUTHORITY/SLICE/) (proposed)
-
----
-
-## B40 MCP follow-up
-
-B40 used manual shadcn seed (MCP unavailable in agent env). Re-run `/rui` + `/cui` with live credentials to replace placeholders — see slice addendum in `b40-pas005a-mcp-seed.md`.
-
----
-
-## Refresh upstream MCP rule
-
-```bash
-curl --create-dirs -o .cursor/rules/shadcn-studio.instructions.mdc https://cdn.shadcnstudio.com/ss-assets/mcp/instructions/shadcn-studio-cursor-instructions.mdc
-```
+- [PAS-006](../../docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) §5 gates pass after ERP wiring
+- No `@afenda/ui` / appshell CSS in ERP `globals.css`
+- MCP workflow follows `.cursor/rules/shadcn-studio.instructions.mdc` (collect all → install once)

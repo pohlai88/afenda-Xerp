@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **Directory (SSOT)** | `docs/PAS/ACCOUNTING-STANDARDS/SLICE/` |
-| **Legacy** | `docs/PAS/slice/` — removed; PAS-003 handoffs live only here |
+| **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — PAS-003 handoffs live only here |
 | **Template** | [pas-slice-template.md](../../../../.cursor/skills/kernel-authority/reference/pas-slice-template.md) |
 | **Catalog** | [accounting-slice-catalog.md](accounting-slice-catalog.md) |
 | **Slice range** | B0–B16 (17 individual handoffs) |

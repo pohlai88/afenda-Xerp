@@ -22,7 +22,7 @@ const requiredFiles = [
   ".github/workflows/ci.yml",
   ".github/workflows/preview.yml",
   ".github/workflows/release-verification.yml",
-  "docs/PAS/slice/[Complete] tip-009-ci-cd-preview.md",
+  "docs/PAS/pas-status-index.md",
   "docs/ai/README.md",
 ];
 

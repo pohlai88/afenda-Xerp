@@ -1,63 +1,18 @@
 /**
- * Storybook CSS entry — mirrors apps/erp/src/app/globals.css composition.
+ * Storybook CSS entry — mirrors apps/erp/src/app/globals.css (PAS-006 / ADR-0027).
  *
- * Do NOT import only package CSS files (afenda-ui.css alone skips Tailwind base).
- * Do NOT import erp/globals.css via relative path — @source and PostCSS root
- * stay anchored here so Tailwind scans monorepo package sources.
- *
- * See docs/architecture/css-authority.md
+ * shadcn-studio @custom-variant must stay unlayered (Tailwind v4).
  */
 @layer theme, base, components, utilities;
 
+@import "@afenda/shadcn-studio/shadcn-studio.css";
+
 @import "tailwindcss";
 
-@import "@afenda/ui/afenda-ui.css";
-@import "@afenda/appshell/afenda-appshell.css";
-@import "@afenda/metadata-ui/afenda-metadata-ui.css" layer(components);
 @import "shadcn/tailwind.css";
 
-@import "../../../packages/ui/src/components/_storybook/afenda-docs/afenda-docs-preview.css"
-  layer(components);
-
-@import "../../../packages/ui/src/components/_storybook/code-block/code-block-preview.css"
-  layer(components);
-
-@import "../../../packages/ui/src/components/_storybook/collapsible/collapsible-preview.css"
-  layer(components);
-
-@import "../../../packages/ui/src/components/_storybook/command/command-preview.css"
-  layer(components);
-
-@import "../../../packages/ui/src/components/_storybook/dialog/dialog-preview.css"
-  layer(components);
-
-@import "../../../packages/ui/src/components/_storybook/list/list-preview.css"
-  layer(components);
-
-@import "../../../packages/ui/src/components/_storybook/scroll-area/scroll-area-preview.css"
-  layer(components);
-
-@import "../../../packages/ui/src/components/_storybook/stepper/stepper-preview.css"
-  layer(components);
-
-@import "../../../packages/ui/src/components/_storybook/tabs/tabs-preview.css"
-  layer(components);
-
-@import "../../../packages/ui/src/components/_storybook/toggle/toggle-preview.css"
-  layer(components);
-
-@import "../../../packages/ui/src/components/_storybook/tooltip/tooltip-preview.css"
-  layer(components);
-
-/* Storybook-only fixture styling (never in app globals). */
-@import "../../../packages/metadata-ui/src/fixtures/metadata-ui-fixtures.css";
-
-@source "../../../packages/design-system/src/**/*.{ts,tsx,css}";
-@source "../../../packages/ui/src/**/*.{ts,tsx}";
-@source "../../../packages/appshell/src/**/*.{ts,tsx}";
-@source "../../../packages/metadata-ui/src/**/*.{ts,tsx}";
 @source "../../../packages/shadcn-studio/src/**/*.{ts,tsx}";
-@source "../../erp/src/**/*.{ts,tsx}";
+@source "../stories/**/*.{ts,tsx}";
 @source "./**/*.{ts,tsx}";
 
 html,

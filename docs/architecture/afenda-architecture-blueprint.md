@@ -9,7 +9,8 @@
 | **Machine truth** | [package-registry.md](package-registry.md) · [layer-registry.md](layer-registry.md) · [dependency-registry.md](dependency-registry.md) · [foundation-disposition.md](foundation-disposition.md) |
 | **Does not confer** | Runtime APIs, contracts, slice handoffs, or registry rows |
 | **Total PAS at maturity** | `~15 root PAS · ~25+ total documents (including derived extensions)` |
-| **Live PAS today** | `8 documents` (PAS-001, PAS-001A, PAS-001B, PAS-002, PAS-003, PAS-004 family, PAS-005, PAS-005A) |
+| **Live PAS today** | `11 documents` (PAS-001 family, PAS-002 family, PAS-003, PAS-004 family, **PAS-006**; PAS-005 family **retired for ERP**) |
+| **Last reviewed** | 2026-06-29 (ADR-0027 frontend presentation reset) |
 | **Planned PAS** | `9+ root PAS` (accounting runtime, consolidation, intercompany, tax, finance, reporting, HRM, CRM, procurement) |
 
 > **One sentence:** The Architecture Blueprint declares **what packages and domain authorities exist, why each exists, how they compose, and which PAS governs each box** — so PAS documents are discovered, not invented.
@@ -70,7 +71,7 @@ Afenda uses eight layers. **Machine assignments:** [`layer-registry.md`](layer-r
 | Layer | Platform role | Blueprint intent |
 | --- | --- | --- |
 | **Platform** | Shared truth — identity, persistence, kernel, permissions, observability, governance, knowledge | Stable contracts consumed by all higher layers |
-| **Design** | Visual truth — CSS authority, UI primitives, presentation products | No business rules; governed consumption only |
+| **Design** | ERP frontend visual truth — `@afenda/shadcn-studio` only (ADR-0027) | No business rules; stock MCP surfaces during stabilization |
 | **Foundation** | Shared infrastructure — execution, storage, standards authority | Cross-domain services that are not "business modules" |
 | **Metadata** | Rendering truth — metadata contracts and metadata UI | Describes surfaces; does not own domain posting |
 | **Integration** | Cross-cutting — entitlements, feature flags, test utilities | Wires platform to apps without domain logic |
@@ -98,9 +99,9 @@ Narrative **why** only. Paths, PKG IDs, and lifecycle: [`package-registry.md`](p
 | **Standards** | `@afenda/accounting-standards` | Versioned IFRS/MFRS evidence is not embedded in posting code | Standards-backed validation before workflows |
 | **Execution & storage** | `@afenda/execution`, `@afenda/storage` | Durable jobs and tenant object storage without domain coupling | Reliable async and file handling |
 | **Observability** | `@afenda/observability` | Audit and diagnostics are platform-owned | Traceable, redacted operational evidence |
-| **Design system** | `@afenda/css-authority`, `@afenda/ui`, `@afenda/shadcn-studio` | Visual tokens and primitives are centralized | Consistent governed UI |
+| **Design system (ERP frontend)** | `@afenda/shadcn-studio` only | Stock shadcn/studio via MCP; unprefixed CSS vars; legacy `@afenda/css-authority`, `@afenda/ui`, `@afenda/appshell` **retired for ERP** ([ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md)) | Consistent shadcn/studio surfaces |
 
-**Domain blueprint (Design Token Authority / CSS authority):** [`docs/BLUEPRINT/css-authority-blueprint.md`](../BLUEPRINT/css-authority-blueprint.md) — token spine, theme hierarchy, authority JSON → registry → consumption E2E. **Domain North Star:** [`docs/NORTHSTAR/css-authority-north-star.md`](../NORTHSTAR/css-authority-north-star.md).
+**Domain blueprint (Presentation):** [`docs/BLUEPRINT/shadcn-studio-presentation-blueprint.md`](../BLUEPRINT/shadcn-studio-presentation-blueprint.md) — PKG-026 single box. **Domain North Star:** [`docs/NORTHSTAR/shadcn-studio-presentation-north-star.md`](../NORTHSTAR/shadcn-studio-presentation-north-star.md).
 | **Metadata UX** | `@afenda/ui-composition`, `@afenda/metadata-ui` | Metadata describes UI; renderers consume authority | Composable ERP surfaces |
 | **ERP shell** | `@afenda/appshell` | Shell chrome separated from primitives and domain | Navigation and layout spine |
 | **Applications** | `apps/erp`, `apps/docs`, `apps/storybook` | Delivery surfaces compose authorities | Operator-facing product |
@@ -230,15 +231,16 @@ This table is the canonical count. Every PAS row must trace back to a Blueprint 
 | PAS-001B | Kernel ERP Domain Vocabulary | Kernel & context | Multiple / TBD | Production Candidate |
 | PAS-002 | Architecture Authority | Governance | Multiple / TBD | MVP Authority |
 | PAS-002A | Architecture Authority extension | Governance | — / TBD | Enterprise Accepted |
-| PAS-003 | Accounting Standards Authority | Accounting standards authority | B1 planned / ~12 total | Production Candidate |
+| PAS-003 | Accounting Standards Authority | Accounting standards authority | B0–B11 + B13–B16 delivered / B12 pending | Production Candidate |
 | PAS-004 | Enterprise Knowledge Standard | Knowledge | Multiple / TBD | MVP → Production Candidate |
 | PAS-004A | Enterprise Knowledge extension A | Knowledge | — | Production Candidate |
 | PAS-004B | Enterprise Knowledge Kernel Consumer | Knowledge | — | Production Candidate |
 | PAS-004C | Enterprise Knowledge Semantic Model | Knowledge | — | Production Candidate |
 | PAS-004D | Enterprise Knowledge Operational Closure | Knowledge | — | Production Candidate |
-| PAS-005 | CSS Authority Standard | Design system | Multiple / TBD | MVP Authority |
-| PAS-005A | shadcn/studio Presentation | Design system | Multiple / TBD | MVP Authority |
-| PAS-005B | Design System Retirement | Design system | — | Retirement Candidate |
+| PAS-006 | shadcn/studio Frontend Standard | Design (ERP) | Active — ADR-0027 | Production Candidate |
+| PAS-005 | CSS Authority Standard | Design (archived) | Retired for ERP — B26–B37 historical | Retired |
+| PAS-005A | shadcn/studio Presentation | Design (archived) | Merged into PAS-006 | Retired |
+| PAS-005B | Design System Retirement | Design (archived) | Superseded by ADR-0027 cutover | Retired |
 | PAS-006+ | Accounting Runtime | Accounting runtime | 0 / TBD | Blocked — ADR-0010 |
 | Planned | Consolidation | Consolidation runtime | 0 / TBD | Planned |
 | Planned | Intercompany | Intercompany runtime | 0 / TBD | Planned |
@@ -263,9 +265,9 @@ This table is the canonical count. Every PAS row must trace back to a Blueprint 
 | Architecture authority | `@afenda/architecture-authority` | PAS-002, PAS-002A | MVP / Enterprise Accepted |
 | Accounting standards | `@afenda/accounting-standards` | PAS-003 | Production Candidate |
 | Enterprise knowledge | `@afenda/enterprise-knowledge` | PAS-004 … PAS-004D | MVP → Production Candidate |
-| CSS authority | `@afenda/css-authority` | PAS-005 | MVP Authority |
-| shadcn/studio presentation | `@afenda/shadcn-studio` | PAS-005A | MVP Authority |
-| Design system retirement | `@afenda/design-system` | PAS-005B | Retirement Candidate |
+| shadcn/studio (ERP frontend) | `@afenda/shadcn-studio` | PAS-006 | Production Candidate — sole ERP design authority |
+| CSS authority (archived) | `@afenda/css-authority` | PAS-005 | Retired for ERP |
+| Legacy UI/appshell (archived for ERP) | `@afenda/ui`, `@afenda/appshell` | — | Retired for ERP consumer paths |
 | Accounting runtime | `@afenda/accounting` | *Planned PAS-006+* | Not started — blocked |
 | Consolidation | `@afenda/consolidation` | *Planned* | Not started |
 | Intercompany | `@afenda/intercompany` | *Planned* | Not started |
@@ -310,4 +312,6 @@ This Blueprint must **not** contain:
 | [afenda-platform-north-star.md](afenda-platform-north-star.md) | Platform why + capability expectations |
 | [foundation-delivery-authority.md](foundation-delivery-authority.md) | PAS implementation workflow |
 | [docs/PAS/README.md](../PAS/README.md) | PAS index and maturity |
-| [afenda-runtime-truth-matrix.md](afenda-runtime-truth-matrix.md) | What is live today |
+| [afenda-runtime-truth-matrix.md](afenda-runtime-truth-matrix.md) | What is live today (evidence matrix) |
+| [shadcn-studio-presentation-north-star.md](../NORTHSTAR/shadcn-studio-presentation-north-star.md) | shadcn/studio Presentation domain NS |
+| [shadcn-studio-presentation-blueprint.md](../BLUEPRINT/shadcn-studio-presentation-blueprint.md) | shadcn/studio Presentation blueprint |

@@ -2,7 +2,7 @@
 
 Lightweight closure registry for Package Authority Standards. Runtime evidence lives in [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md).
 
-**Kernel slice SSOT:** [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) — individual `b*.md` handoffs (B49–B110). **Architecture Authority slice SSOT:** [`ARCHITECTURE-AUTHORITY/SLICE/`](ARCHITECTURE-AUTHORITY/SLICE/README.md) — B1–B27 · B38–B45 handoffs. **Accounting Standards slice SSOT:** [`ACCOUNTING-STANDARDS/SLICE/`](ACCOUNTING-STANDARDS/SLICE/README.md) — B0–B16 handoffs. **CSS Authority slice SSOT:** [`CSS-AUTHORITY/SLICE/`](CSS-AUTHORITY/SLICE/README.md) — B27–B44 handoffs. **Deprecated shim:** flat [`docs/PAS/slice/`](slice/README.md) — CSS Authority tombstones only; **will be deleted**. KERNEL · ARCHITECTURE-AUTHORITY · ACCOUNTING-STANDARDS · ENTERPRISE-KNOWLEDGE handoffs never live there. Closure records live in this index and family catalogs.
+**Kernel slice SSOT:** [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) — individual `b*.md` handoffs (B49–B111). **Architecture Authority slice SSOT:** [`ARCHITECTURE-AUTHORITY/SLICE/`](ARCHITECTURE-AUTHORITY/SLICE/README.md) — B1–B27 · B38–B45 handoffs. **Accounting Standards slice SSOT:** [`ACCOUNTING-STANDARDS/SLICE/`](ACCOUNTING-STANDARDS/SLICE/README.md) — B0–B16 handoffs. **Presentation slice SSOT:** [`PRESENTATION/`](PRESENTATION/README.md) — PAS-006 (ADR-0027). **CSS Authority (retired):** archived under [`docs/_retired/legacy-css-authority/`](../_retired/legacy-css-authority/SUPERSEDED-BY-ADR-0027.md) — do not execute B27–B48 for ERP frontend. **Deprecated shim:** flat [`docs/PAS/slice/`](slice/README.md) — tombstones only; scheduled removal.
 
 **Header sync rule:** Every PAS doc and authority skill must mirror **Runtime status** and **Remaining slices** in the PAS authority metadata table (see [`pas-doc-template.md`](../../.cursor/skills/kernel-authority/reference/pas-doc-template.md)). Update all three surfaces when closing a slice.
 
@@ -15,8 +15,8 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | Enterprise Accepted — kernel contracts, runtime gates operational |
 | **Authority** | PAS-001 · `@afenda/kernel` · Platform |
 | **Maturity** | `enterprise_accepted` · `implemented` · `runtime_proven` |
-| **Runtime status** | Enterprise Accepted — kernel contracts, B49–B70 closure + B107–B110 amendment delivered, runtime gates operational |
-| **Remaining slices** | none — B110 Delivered ([`KERNEL/SLICE/b110-auth-actor-protected-path-attestation.md`](KERNEL/SLICE/b110-auth-actor-protected-path-attestation.md)) |
+| **Runtime status** | Enterprise Accepted — kernel contracts, B49–B70 closure + B107–B111 amendment delivered, runtime gates operational |
+| **Remaining slices** | none — B111 Delivered ([`KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md`](KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md)) |
 | **Runtime evidence** | `packages/kernel/`, [KERNEL/PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md), `kernel-package-layout.contract.ts`, `check:kernel-package-structure`, `check:kernel-context-wire-triad` |
 | **Gates** | `pnpm --filter @afenda/kernel typecheck`, `pnpm --filter @afenda/kernel test:run`, `pnpm quality:kernel-context-surface`, `pnpm check:kernel-context-wire-triad`, `pnpm check:kernel-identity-governance`, `pnpm check:kernel-zero-runtime-deps`, `pnpm check:accounting-domain-contracts`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries`, `pnpm architecture:cycles`, `pnpm architecture:drift` |
 | **Result** | Kernel platform vocabulary, execution context, identity constitution (ADR-0021–0023), and PAS §6.1 package-tree sync operational |
@@ -43,6 +43,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | B108 | [b108-tenant-extension-boundary-wire.md](KERNEL/SLICE/b108-tenant-extension-boundary-wire.md) | Delivered |
 | B109 | [b109-effective-dating-consumer-attestation.md](KERNEL/SLICE/b109-effective-dating-consumer-attestation.md) | Delivered |
 | B110 | [b110-auth-actor-protected-path-attestation.md](KERNEL/SLICE/b110-auth-actor-protected-path-attestation.md) | Delivered |
+| B111 | [b111-tenant-lifecycle-extension-consumer-attestation.md](KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md) | Delivered |
 
 ---
 
@@ -98,84 +99,64 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 ---
 
-## PAS-005 CSS Authority — greenfield scaffold (MVP Authority)
+## PAS-005 CSS Authority — **Retired for ERP frontend** (ADR-0027)
 
 | Field | Value |
 | --- | --- |
-| **Status** | Delivered — B26–B37 complete; CSS theme contract + domain-sync + docs pixel baselines wired |
-| **Authority** | PAS-005 · `PKGR05_CSS_AUTHORITY` · PKG-025 |
-| **Maturity** | `mvp_authority` · `accepted_for_boundary` · `mvp_delivered` · `runtime` |
-| **Runtime status** | B26–B37 delivered — 605-token registry (465 afenda + 44 appshell + 50 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
-| **Remaining slices** | none — optional enhancements only |
-| **Runtime evidence** | `afenda-ui.css` → `afenda-tokens.css` + `afenda-css-authority.css`; B30 shim; 605-token JSON-backed registry; R23–R30 + domain-sync + bridge-sync + visual contract + docs pixel baselines |
-| **Gates** | `pnpm check:css-visual-regression`, `pnpm check:css-authority-bridge-sync`, `pnpm check:css-authority-domain-sync`, `pnpm check:css-governance`, `pnpm check:css-authority-consumption`, `pnpm check:css-authority-conformance`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
-| **Result** | CSS Authority owns generator-synced runtime bridge; design-system token shim; Storybook composed ERP/metadata-ui spot-check reference |
+| **Status** | **Retired** for ERP frontend — archived 2026-06-29 |
+| **Authority** | PAS-005 · `PKGR05_CSS_AUTHORITY` · PKG-025 (frozen on disk) |
+| **Superseded by** | [PAS-006](PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) · [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md) |
+| **Archive** | [`docs/_retired/legacy-css-authority/`](../_retired/legacy-css-authority/SUPERSEDED-BY-ADR-0027.md) |
 
-**Next sequence item:** none for PAS-005 MVP — optional enhancements only; presentation continuation closed under [PAS-005A](CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) (B42p).
+**Do not execute** PAS-005 slices or css-authority consumption gates for ERP frontend work.
 
 ---
 
-## PAS-005A shadcn/studio Presentation — greenfield (MVP Authority)
+## PAS-005A shadcn/studio Presentation — **Retired as separate PAS** (ADR-0027)
 
 | Field | Value |
 | --- | --- |
-| **Status** | Delivered — B38–B42p complete (2026-06-28) |
-| **Authority** | PAS-005A · `PKGR05A_SHADCN_STUDIO` · PKG-026 · `@afenda/shadcn-studio` |
-| **Maturity** | `mvp_authority` · `implemented` · `presentation-runtime` |
-| **Runtime status** | B42p delivered — delegating-flip policy registry (68 rows); zero new flips; strangler sequence complete |
-| **Remaining slices** | none — strangler complete; optional ERP feature delegating per block when a11y parity lands |
-| **Runtime evidence** | [PAS-005A canonical doc](CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md), `packages/shadcn-studio/src/theme/`, `apps/storybook/stories/shadcn-studio-*.stories.tsx`, `shadcn-studio.config.json` |
-| **Gates** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/shadcn-studio test:run`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
-| **Result** | Derived presentation authority from PAS-005 — theme presets, MCP inventory, appshell bridge, ERP CSS import (B42–B42p complete) |
-
-**Next sequence item:** none — strangler complete; optional ERP feature delegating per block when a11y parity lands
+| **Status** | **Retired** — merged into PAS-006 for ERP frontend |
+| **Authority** | Former PAS-005A · PKG-026 · `@afenda/shadcn-studio` |
+| **Superseded by** | [PAS-006](PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) |
 
 ---
 
-## PAS-005B Design-System Retirement — doctrine (Retirement Candidate)
+## PAS-005B Design-System Retirement — **Retired for ERP frontend** (ADR-0027)
 
 | Field | Value |
 | --- | --- |
-| **Status** | B43 delivered — canonical PAS + ADR-0025 Proposed (2026-06-29) |
-| **Authority** | PAS-005B · ADR-0025 · PKG004 `@afenda/design-system` (retiring) |
-| **Maturity** | `retirement_candidate` · `accepted_for_planning` · `partial` · `planning` |
-| **Runtime status** | B43 delivered · B44 handoff authored (2026-06-29) — design-system package retired from workspace; design-authority in `@afenda/ui`; readiness gate green at pre-flight |
-| **Remaining slices** | B44 execute + attestation · B45–B49 (see PAS-005B §9) |
-| **Runtime evidence** | [PAS-005B canonical doc](CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md), [ADR-0025](../adr/ADR-0025-design-system-retirement.md), [B44 handoff](CSS-AUTHORITY/SLICE/b44-pas005b-migration-study-readiness-gate.md), `check:design-system-retirement-readiness` |
-| **Gates** | `pnpm check:documentation-drift`, `pnpm check:foundation-disposition`, `pnpm check:design-system-retirement-readiness` (B44+) |
-| **Result** | Controlled retirement map — readiness gate wired; B44 handoff ready for execution |
+| **Status** | **Retired** for ERP frontend — incremental strangler track superseded |
+| **Superseded by** | [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md) · stock shadcn/studio cutover |
 
-**Next sequence item:** Execute [B44 handoff](CSS-AUTHORITY/SLICE/b44-pas005b-migration-study-readiness-gate.md) — migration study attestation
+---
+
+## PAS-006 shadcn/studio Frontend Standard — **Active**
+
+| Field | Value |
+| --- | --- |
+| **Status** | **Active** — sole ERP frontend presentation authority (2026-06-29) |
+| **Authority** | PAS-006 · PKG-026 · `@afenda/shadcn-studio` |
+| **Maturity** | Production Candidate |
+| **Runtime status** | ERP `globals.css` = tailwind + shadcn-studio.css + shadcn/tailwind.css; MCP-first creation; ui:guard retired |
+| **Remaining slices** | ERP TS import cleanup from `@afenda/ui` / appshell — escalated follow-up (not PAS-006 slice) |
+| **Runtime evidence** | [PAS-006 canonical doc](PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md), [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md), `packages/shadcn-studio/` |
+| **Gates** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm --filter @afenda/erp build` |
+| **Result** | Single PAS, single CSS chain, no Governed UI guards for frontend |
+
+**Next sequence item:** MCP-create stock ERP surfaces; migrate ERP component imports off legacy packages (separate track).
+
+---
+
+## PAS-005 slice registry (B27–B37) — **Historical / archived**
 
 | Slice | Doc | Status |
 | --- | --- | --- |
-| B43 | [b43-pas005b-author-retirement-pas.md](CSS-AUTHORITY/SLICE/b43-pas005b-author-retirement-pas.md) | Delivered |
-| B44 | [b44-pas005b-migration-study-readiness-gate.md](CSS-AUTHORITY/SLICE/b44-pas005b-migration-study-readiness-gate.md) | Authored |
-| B45 | (proposed — CSS chain unification) | Not started |
-| B46 | (proposed — internalize UI registries, conditional) | Not started |
-| B47 | (proposed — delete package) | Not started |
-| B48 | (proposed — appshell consolidation) | Not started |
-| B49 | (proposed — Production Candidate attestation) | Not started |
+| B27–B37 | [`docs/_retired/legacy-css-authority/PAS/CSS-AUTHORITY/SLICE/`](../_retired/legacy-css-authority/PAS/CSS-AUTHORITY/SLICE/) | Archived — do not execute for ERP |
 
 ---
 
-## PAS-005 slice registry (B27–B37)
-
-| Slice | Doc | Status |
-| --- | --- | --- |
-| B27 | [b27-pas005-shadcn-theme.md](CSS-AUTHORITY/SLICE/b27-pas005-shadcn-theme.md) | Delivered |
-| B28 | [b28-pas005-consumption-gates.md](CSS-AUTHORITY/SLICE/b28-pas005-consumption-gates.md) | Delivered |
-| B29 | [b29-pas005-ui-cutover.md](CSS-AUTHORITY/SLICE/b29-pas005-ui-cutover.md) | Delivered |
-| B30 | [b30-pas005-deprecate-ds-css.md](CSS-AUTHORITY/SLICE/b30-pas005-deprecate-ds-css.md) | Delivered |
-| B33 | [b33-pas005-visual-regression.md](CSS-AUTHORITY/SLICE/b33-pas005-visual-regression.md) | Delivered |
-| B34 | [b34-pas005-registry-expansion.md](CSS-AUTHORITY/SLICE/b34-pas005-registry-expansion.md) | Delivered |
-| B35 | [b35-pas005-disposition-sync.md](CSS-AUTHORITY/SLICE/b35-pas005-disposition-sync.md) | Delivered |
-| B36 | [b36-pas005-risk-mitigation.md](CSS-AUTHORITY/SLICE/b36-pas005-risk-mitigation.md) | Delivered |
-| B37 | [b37-pas005-pixel-baselines.md](CSS-AUTHORITY/SLICE/b37-pas005-pixel-baselines.md) | Delivered |
-
----
-
-## PAS-005A slice registry (B38–B42p)
+## PAS-005A slice registry (B38–B42p) — **Historical / archived**
 
 | Slice | Doc | Status |
 | --- | --- | --- |
