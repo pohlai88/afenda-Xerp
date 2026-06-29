@@ -35,7 +35,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -72,7 +73,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -109,7 +111,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -146,7 +149,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -183,7 +187,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -220,7 +225,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -257,7 +263,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -294,7 +301,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -331,7 +339,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -368,7 +377,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -405,7 +415,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -442,7 +453,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -479,7 +491,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -516,7 +529,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -553,7 +567,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -590,7 +605,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -627,7 +643,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -664,7 +681,8 @@
         "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
         "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
         "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
-        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-auth-bridge.test.ts"
       ],
       "version": "v1"
     }
