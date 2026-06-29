@@ -32,7 +32,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -66,7 +69,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -100,7 +106,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -134,7 +143,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -168,7 +180,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -202,7 +217,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -236,7 +254,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -270,7 +291,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -304,7 +328,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -338,7 +365,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -372,7 +402,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -406,7 +439,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -440,7 +476,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -474,7 +513,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -508,7 +550,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -542,7 +587,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -576,7 +624,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     },
@@ -610,7 +661,10 @@
         "apps/erp/src/server/api/__tests__/openapi-document.test.ts",
         "apps/erp/src/server/api/__tests__/api-policy-contracts.test.ts",
         "apps/erp/src/server/api/__tests__/rest-operation-binding.test.ts",
-        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts"
+        "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts",
+        "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts"
       ],
       "version": "v1"
     }

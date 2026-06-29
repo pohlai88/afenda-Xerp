@@ -5,12 +5,12 @@
 
 | Slice | Name | Status |
 | --- | --- | --- |
-| S1 | ERP API Consumption Boundary | Planned |
-| S2 | ERP REST Binding Consumption | Planned |
-| S3 | Operating Context Assembly Bridge | Planned |
+| S1 | ERP API Consumption Boundary | **Delivered** |
+| S2 | ERP REST Binding Consumption | **Delivered** |
+| S3 | Operating Context Assembly Bridge | **Delivered** |
 | S4 | Auth and Authorization Bridge | Planned |
 | S5 | ERP Runtime Evidence | Planned |
 | S6 | ERP Consumer Impact Sync | Planned |
 | S7 | ERP Release Gate | Planned |
 
-**Next:** S1
+**Next:** S4

@@ -356,6 +356,11 @@ Post-reset ERP on PAS-006 skeleton. R1d attestation **2026-06-30** — **10/10 g
 | Service-actor operating-context assembly (R2 deferred work) | **Green** | `pnpm check:erp-service-actor-s2s-attestation` ✓ |
 | Handler envelope, validation, ProblemDetail errors per ADR-0030 | **Green** | `pnpm --filter @afenda/erp test:run` ✓ |
 | Ownership metadata + consumer impact + audit replay minimum | **Green** | `pnpm check:api-contracts` (R3d governance) · `api-policy-contracts.test.ts` ✓ |
+| ERP API consumption boundary (PAS-001A-API-BINDING S1) | **Green** | `erp-api-consumption.contract.ts` · `erp-api-consumption.test.ts` ✓ |
+| ERP REST binding consumption (PAS-001A-API-BINDING S2) | **Green** | `erp-rest-binding-consumption.contract.ts` · `erp-rest-binding-consumption.test.ts` · `pnpm check:api-route-catalog` ✓ |
+| ERP operating context bridge (PAS-001A-API-BINDING S3) | **Green** | `erp-api-context-bridge.contract.ts` · `erp-api-context-bridge.test.ts` · `pnpm check:erp-operating-context-spine` ✓ |
+
+**Consumption binding:** [PAS-001A-API-BINDING](./PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) · **Runtime modules:** `erp-api-consumption.contract.ts` · `erp-rest-binding-consumption.contract.ts` · `erp-api-context-bridge.contract.ts`
 
 **Handoff:** [API-CONTRACT R3 track](../API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) (R3a–R3d) · **PAS:** [PAS-API-REST-001](../API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · **Contract checklist:** [afenda-openapi skill](../../.cursor/skills/afenda-openapi/SKILL.md)
 

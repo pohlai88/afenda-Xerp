@@ -48,6 +48,15 @@ export const API_REST_OPERATION_BINDING_TEST_PATH =
 export const API_REST_SCHEMA_BINDING_TEST_PATH =
   "apps/erp/src/server/api/__tests__/rest-schema-binding.test.ts" as const;
 
+export const ERP_API_CONSUMPTION_TEST_PATH =
+  "apps/erp/src/server/api/__tests__/erp-api-consumption.test.ts" as const;
+
+export const ERP_REST_BINDING_CONSUMPTION_TEST_PATH =
+  "apps/erp/src/server/api/__tests__/erp-rest-binding-consumption.test.ts" as const;
+
+export const ERP_API_CONTEXT_BRIDGE_TEST_PATH =
+  "apps/erp/src/server/api/__tests__/erp-api-context-bridge.test.ts" as const;
+
 /** Attestation tests for PAS-API-001 family invariants (S1–S9). */
 export const API_FAMILY_CONTRACT_TEST_PATHS = [
   "apps/erp/src/server/api/__tests__/api-operation-id.contract.test.ts",
@@ -70,4 +79,7 @@ export const DEFAULT_GOVERNED_ROUTE_TEST_PATHS = [
   API_POLICY_CONTRACTS_TEST_PATH,
   API_REST_OPERATION_BINDING_TEST_PATH,
   API_REST_SCHEMA_BINDING_TEST_PATH,
+  ERP_API_CONSUMPTION_TEST_PATH,
+  ERP_REST_BINDING_CONSUMPTION_TEST_PATH,
+  ERP_API_CONTEXT_BRIDGE_TEST_PATH,
 ] as const;
