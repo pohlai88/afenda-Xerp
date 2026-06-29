@@ -11,6 +11,7 @@
       "default": "./dist/index.js"
     },
     "./shadcn-studio.css": {
+      "types": "./dist/shadcn-studio.css.d.ts",
       "import": "./dist/shadcn-studio.css",
       "default": "./dist/shadcn-studio.css"
     }
@@ -19,7 +20,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc -b && tsc-alias -p tsconfig.json && node --input-type=module -e \"import { copyFileSync } from 'node:fs'; copyFileSync('src/styles/shadcn-studio.css', 'dist/shadcn-studio.css');\"",
+    "build": "tsc -b && tsc-alias -p tsconfig.json && node --input-type=module -e \"import { copyFileSync } from 'node:fs'; copyFileSync('src/styles/shadcn-studio.css', 'dist/shadcn-studio.css'); copyFileSync('export-stubs/shadcn-studio.css.d.ts', 'dist/shadcn-studio.css.d.ts');\"",
     "dev": "tsc -b --watch",
     "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit && tsc -p tsconfig.stories.json --noEmit",
     "test": "vitest --config vitest.config.ts",

@@ -28,7 +28,7 @@ describe("studio block component registry (PAS-006D R1c-2)", () => {
 
   it("keeps registry keys aligned with exported block components", () => {
     expect(Object.keys(STUDIO_BLOCK_COMPONENT_REGISTRY).sort()).toEqual(
-      listSurfaceTemplateBlockComponentIds().sort()
+      [...listSurfaceTemplateBlockComponentIds()].sort()
     );
   });
 });

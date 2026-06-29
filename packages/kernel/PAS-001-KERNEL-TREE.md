@@ -18,7 +18,7 @@ Annotated filesystem map for `@afenda/kernel`. Update after serialized slice del
 ```text
 packages/kernel/
 ├── PAS-001-KERNEL-TREE.md                # this file — package-local tree map
-├── package.json                          # §6.3 — eight public export keys
+├── package.json                          # §6.3 — 36 public export keys (see Export surface below)
 ├── tsconfig.json
 ├── tsconfig.vitest.json
 ├── vitest.config.ts
@@ -277,6 +277,23 @@ apps/erp/src/lib/context/
 ├── business-master-data-shared-package.policy.ts
 └── business-master-data-import-boundary.policy.ts
 ```
+
+## Export surface (PAS §6.3 / §6.4 · PAS-001B)
+
+Machine authority: [`src/contracts/kernel-package-layout.contract.ts`](src/contracts/kernel-package-layout.contract.ts) (`KERNEL_PACKAGE_SUBPATH_EXPORTS`) · [`src/erp-domain/erp-domain-layout.contract.ts`](src/erp-domain/erp-domain-layout.contract.ts) (`ERP_DOMAIN_DELIVERED_MODULES`).
+
+`packages/kernel/package.json` exposes **36** export keys:
+
+| Group | Keys | Notes |
+| --- | ---: | --- |
+| Root | `.` | `@afenda/kernel` — identity, contracts, and cross-cutting vocabulary |
+| Core subpaths | `./context`, `./propagation`, `./events`, `./policy`, `./permission`, `./governance` | Registered in `KERNEL_PACKAGE_SUBPATH_EXPORTS` (non–erp-domain entries) |
+| ERP catalog | `./erp-domain/catalog` | PAS-001B catalog layout barrel |
+| ERP modules | 28 × `./erp-domain/{slug}` | One export per `ERP_DOMAIN_DELIVERED_MODULES` slug (PAS-001B) |
+
+**Identity has no subpath export.** `src/identity/` is consumed via the root barrel only — `isKernelPackageSubpathExport("./identity") === false`. Do not add `@afenda/kernel/identity`.
+
+Gates: `pnpm check:kernel-subpath-exports` · `pnpm check:kernel-package-structure`
 
 ## Pending drift (still in kernel — scheduled slices)
 

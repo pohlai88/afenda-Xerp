@@ -51,6 +51,7 @@ const PAS_64_REQUIRED_SUBPATH_KEYS = [
   ".",
   "./context",
   "./erp-domain/accounting",
+  "./erp-domain/catalog",
   "./propagation",
   "./events",
   "./policy",
@@ -60,11 +61,12 @@ const PAS_64_REQUIRED_SUBPATH_KEYS = [
 
 describe("@afenda/kernel subpath exports", () => {
   it("documents PAS §6.4 required subpath keys (core 9 incl. PAS-001B catalog)", () => {
-    expect(PAS_64_REQUIRED_SUBPATH_KEYS).toHaveLength(8);
+    expect(PAS_64_REQUIRED_SUBPATH_KEYS).toHaveLength(9);
     expect(PAS_64_REQUIRED_SUBPATH_KEYS).toEqual([
       ".",
       "./context",
       "./erp-domain/accounting",
+      "./erp-domain/catalog",
       "./propagation",
       "./events",
       "./policy",

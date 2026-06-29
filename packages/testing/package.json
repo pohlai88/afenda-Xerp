@@ -46,8 +46,9 @@
       "default": "./dist/execution/mock-execution-provider.js"
     },
     "./e2e/erp-credentials": {
-      "import": "./src/e2e/erp-credentials.mjs",
-      "default": "./src/e2e/erp-credentials.mjs"
+      "types": "./dist/e2e/erp-credentials.d.ts",
+      "import": "./dist/e2e/erp-credentials.mjs",
+      "default": "./dist/e2e/erp-credentials.mjs"
     },
     "./e2e/playwright-base": {
       "types": "./dist/e2e/playwright-base.d.ts",
@@ -66,11 +67,10 @@
     }
   },
   "files": [
-    "dist",
-    "src/e2e"
+    "dist"
   ],
   "scripts": {
-    "build": "tsc -b",
+    "build": "tsc -b && node --input-type=module -e \"import { copyFileSync, mkdirSync } from 'node:fs'; mkdirSync('dist/e2e', { recursive: true }); copyFileSync('src/e2e/erp-credentials.mjs', 'dist/e2e/erp-credentials.mjs'); copyFileSync('export-stubs/e2e/erp-credentials.d.ts', 'dist/e2e/erp-credentials.d.ts');\"",
     "dev": "tsc -b --watch",
     "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit",
     "test": "vitest --config vitest.config.ts",
