@@ -62,6 +62,8 @@ Pre-merge review? ────────→ /afenda-review
 Ship go/no-go? ───────────→ /afenda-ship
 Web perf audit? ──────────→ /afenda-webperf
 PAS parallel batch? ──────→ @afenda-orchestrator + /afenda-batch
+Governance audit + fix? ──→ /afenda-governance-audit-repair (or @afenda-orchestrator batch type governance-audit-repair)
+PAS-001 / 001A / 001B catalog audit? → /pas-kernel-audit-orchestrator (or @afenda-orchestrator batch type pas-kernel-audit-catalog)
 Adversarial review? ──────→ vendor doubt-driven-development
 Deprecation? ─────────────→ vendor deprecation-and-migration
 Browser DevTools? ────────→ vendor browser-testing-with-devtools
@@ -88,6 +90,8 @@ Orchestrators paste bundle read lists into implementer prompts — personas do n
 | Tests | `/afenda-test` |
 | Web perf | `/afenda-webperf` |
 | PAS batch | `@afenda-orchestrator` + `/afenda-batch` |
+| Governance audit repair loop | `/afenda-governance-audit-repair` or `@afenda-orchestrator` + `governance-audit-repair` |
+| PAS kernel catalog audit (001 / 001A / 001B) | `/pas-kernel-audit-orchestrator` or `@afenda-orchestrator` + `pas-kernel-audit-catalog` |
 | Which skill? | `/using-afenda-skills` |
 
 ## OSS fallback

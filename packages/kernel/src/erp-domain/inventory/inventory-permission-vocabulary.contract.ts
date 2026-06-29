@@ -19,11 +19,24 @@ export type InventoryPermissionAction<
   TDomain extends InventoryPermissionDomain = InventoryPermissionDomain,
 > = (typeof INVENTORY_PERMISSION_ACTIONS)[TDomain][number];
 
+function toInventoryPermissionActionSegment(
+  domain: InventoryPermissionDomain,
+  action: InventoryPermissionAction
+): string {
+  if (domain === "stockMovement") {
+    return `stock_movement_${action}`;
+  }
+  if (domain === "stockReservation") {
+    return `stock_reservation_${action}`;
+  }
+  return `${domain}_${action}`;
+}
+
 export function toInventoryPermissionKey(
   domain: InventoryPermissionDomain,
   action: InventoryPermissionAction
 ): string {
-  return `inventory.${domain}_${action}`;
+  return `inventory.${toInventoryPermissionActionSegment(domain, action)}`;
 }
 
 export const INVENTORY_PERMISSION_KEY_VOCABULARY = [

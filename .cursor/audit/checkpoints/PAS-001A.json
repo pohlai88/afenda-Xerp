@@ -1,0 +1,66 @@
+{
+  "pasId": "PAS-001A",
+  "auditCatalog": "docs/PAS/KERNEL/audit/PAS-001A.md",
+  "authorityPas": "docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md",
+  "startedAt": "2026-06-30T00:00:00Z",
+  "updatedAt": "2026-06-30T01:35:00Z",
+  "currentWave": "DONE",
+  "repairRound": 1,
+  "maxIterations": 3,
+  "repairMode": "auto-repair",
+  "verdicts": {
+    "PAS-001A-AUD-01": "Pass",
+    "PAS-001A-AUD-02": "Pass",
+    "PAS-001A-AUD-03": "Pass",
+    "PAS-001A-AUD-04": "Pass",
+    "PAS-001A-AUD-05": "Pass",
+    "PAS-001A-AUD-06": "Pass",
+    "PAS-001A-AUD-07": "Pass",
+    "PAS-001A-AUD-08": "Pass",
+    "PAS-001A-AUD-09": "Pass",
+    "PAS-001A-AUD-10": "Pass",
+    "PAS-001A-AUD-11": "Pass",
+    "PAS-001A-AUD-12": "Pass",
+    "PAS-001A-AUD-13": "Pass",
+    "PAS-001A-AUD-14": "Pass",
+    "PAS-001A-AUD-15": "Pass",
+    "PAS-001A-AUD-16": "Pass",
+    "PAS-001A-AUD-17": "Pass",
+    "PAS-001A-AUD-18": "Pass",
+    "PAS-001A-AUD-19": "Pass",
+    "PAS-001A-AUD-20": "Pass",
+    "PAS-001A-AUD-21": "Pass",
+    "PAS-001A-AUD-22": "Pass",
+    "PAS-001A-AUD-23": "Pass",
+    "PAS-001A-AUD-24": "Pass",
+    "PAS-001A-AUD-25": "Pass"
+  },
+  "clusters": {
+    "C5-doc-r1d-sync": {
+      "signature": "pas001a-section8-matrix-count-drift",
+      "audIds": ["PAS-001A-AUD-01", "PAS-001A-AUD-16", "PAS-001A-AUD-18"],
+      "status": "closed",
+      "closedAt": "2026-06-30T12:00:00Z",
+      "files": [
+        "docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md",
+        "docs/architecture/afenda-runtime-truth-matrix.md",
+        "scripts/quality/check-pas001a-skeleton-gates.mjs",
+        "package.json",
+        ".github/workflows/ci.yml",
+        "scripts/quality/check-release-gates.mjs"
+      ]
+    }
+  },
+  "completedWaves": ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9"],
+  "finalConfidence": {
+    "scorePercent": 99,
+    "verdict": "Pass",
+    "meaning": "Production Candidate fully supported on ADR-0027 skeleton; all 25 AUD slices Pass after Wave 1 re-audit + C5",
+    "conditionalSlices": [],
+    "optionalHygiene": [
+      "Wave 1 re-audit AUD-02..04",
+      "Add erp test:run to skeleton gate bundle",
+      "quality:release-gate pre-existing check:system-admin-mutation-audit gap"
+    ]
+  }
+}

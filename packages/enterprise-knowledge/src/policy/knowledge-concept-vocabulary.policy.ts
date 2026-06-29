@@ -92,7 +92,7 @@ export function validateKnowledgeConceptVocabulary(): readonly string[] {
   ).length;
   if (atomsMissingConcept > 0) {
     errors.push(
-      `atoms.json: ${atomsMissingConcept}/24 atoms missing conceptId — expected 24/24 after B38`
+      `atoms.json: ${atomsMissingConcept}/${ENTERPRISE_KNOWLEDGE_ATOMS.length} atoms missing conceptId`
     );
   }
 

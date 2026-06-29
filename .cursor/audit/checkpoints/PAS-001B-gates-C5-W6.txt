@@ -1,0 +1,37 @@
+# PAS-001B C5 + W6 gate evidence — 2026-06-30
+
+## C5 — classification PAS-004 label trace (AUD-12)
+
+Changes:
+- pas004-label-trace.contract.ts — Pas004LabelTrace type + buildPas004LabelTraces helper
+- wire-classification-label-traces.registry.ts — 27 *-type classification contracts
+- check-erp-domain-delivered-vocabulary.mts — checkClassificationPas004LabelTraces gate rule
+- wire-classification-label-traces.contract.test.ts — kernel parity test
+
+pnpm check:erp-domain-delivered-vocabulary
+→ ERP domain delivered vocabulary gate passed (28 delivered modules)
+
+pnpm vitest run scripts/governance/__tests__/check-erp-domain-delivered-vocabulary.test.ts
+→ 7 passed (7)
+
+pnpm --filter @afenda/kernel test:run src/__tests__/erp-domain/wire-classification-label-traces.contract.test.ts
+→ 2 passed (2)
+
+## W6 preflight — domain contract gates (AUD-21..23)
+
+pnpm check:accounting-domain-contracts
+→ Accounting domain contracts-only gate passed (PKG-R01 kernel / ADR-0020)
+
+pnpm check:inventory-domain-contracts
+→ Inventory domain contracts-only gate passed (PKGR02 kernel vocabulary / ADR-0020)
+
+pnpm check:procurement-domain-contracts
+→ Procurement domain contracts-only gate passed (PAS-001B kernel vocabulary)
+
+## W6 — slice closure (AUD-24)
+
+pnpm check:kernel-slice-catalog-consistency
+→ (see stdout below)
+
+KV IDs: accounting=KV-ACCT, inventory=KV-INV, procurement=KV-PROC (erp-domain-layout.contract.ts)
+Slice catalog: B76–B106 + KV1–KV3 Delivered (kernel-slice-catalog.md §4)

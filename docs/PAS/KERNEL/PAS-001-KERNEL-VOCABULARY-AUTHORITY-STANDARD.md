@@ -12,7 +12,7 @@
 | **Layer** | Platform |
 | **Package role** | Zero-dependency platform vocabulary and execution context substrate |
 | **Runtime stance** | Contracts-first; no database, HTTP, auth runtime, or UI runtime |
-| **Registry lane** | `@afenda/kernel` · `PKGR01_ACCOUNTING` (erp-domain/accounting subpath) |
+| **Registry lane** | `@afenda/kernel` · `PKGR01_ACCOUNTING` · wire module **KV-ACCT** (`erp-domain/accounting`) |
 | **Agent skill** | `kernel-authority` · `.cursor/skills/kernel-authority/SKILL.md` |
 | **Maturity** | Enterprise Accepted (`enterprise_accepted`) |
 | **Authority status** | `enterprise_accepted` |
@@ -166,7 +166,7 @@ Each surface has **Contract type** + **Stability** in the legacy archive. This t
 
 **Permission model:** legacy [PAS-001 §8](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#8-permission-model-standard) — grant-scope vocabulary only; evaluation in `@afenda/permissions`.
 
-**ERP domain wire terms:** catalog authority is [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md). PAS-001 §4.8 retains the **accounting seed** at `@afenda/kernel/erp-domain/accounting` (`PKGR01_ACCOUNTING`) only — do not expand catalog modules under PAS-001.
+**ERP domain wire terms:** catalog authority is [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md). PAS-001 §4.8 retains the **accounting seed** at `@afenda/kernel/erp-domain/accounting` (**KV-ACCT** · `PKGR01_ACCOUNTING`) only — do not expand catalog modules under PAS-001.
 
 **Staged capabilities:** Multi-scope consistency is vocabulary in kernel and **fail-closed proof** in PAS-001A spine gates. Effective dating consumer attestation delivered (B109). Tenant SaaS lifecycle wire (B107) and tenant extension boundary wire (B108) delivered with ERP consumer attestation (B111). Actor/integration identity protected-path attestation delivered (B110).
 
@@ -235,7 +235,7 @@ Historical B2–B48 slices delivered core surfaces. **Closure sequence B49–B70
 | Identity governance | `check:kernel-identity-governance` | ADR-0021–0023 |
 | Context wire triad | `check:kernel-context-wire-triad` | Operating scope hierarchy |
 | Boundary cycles clean | `architecture:cycles` · `architecture:drift` | Platform substrate |
-| B49–B70 closure attested | B67–B70 slice Delivered | PAS-001 §13 |
+| B49–B70 closure attested | B67–B70 slice Delivered | PAS-001 §12 (composed) · legacy archive §13 |
 | B107–B111 amendment attested | B107–B111 slice Delivered · lifecycle/extension consumer gate green | Kernel NS §4 · Blueprint §6 |
 
 Full §11 table: legacy [PAS-001 §12](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#12-enterprise-acceptance-criteria).

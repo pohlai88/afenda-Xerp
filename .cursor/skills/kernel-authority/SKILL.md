@@ -17,27 +17,32 @@ paths:
 | **Runtime status** | Enterprise Accepted — kernel contracts, B49–B70 + B107–B111 amendment closed, runtime gates operational |
 | **Remaining slices** | none — B111 Delivered ([`KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md`](../../../docs/PAS/KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md)) |
 
-### PAS-001A — Kernel ERP consumer integration (derived; does not reopen PAS-001)
+### PAS-001A — ERP Integration Spine (derived; does not reopen PAS-001)
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | `integration-proven` (IS-002) · IS-003 code delivered (R1c) — optional gate registration follow-up · R1a–R1d attested |
-| **Remaining slices** | none for R1 family — optional: register `check:erp-metadata-pas006-consumer` in root `package.json` |
+| **Runtime status** | `integration-proven` (IS-001/IS-002/IS-003) · R1a–R1d Delivered · `check:erp-metadata-pas006-consumer` registered |
+| **Remaining slices** | none for R1 family |
 | **Canonical** | [`PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) |
 
 > PAS-001: [`KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · Slices: [`KERNEL/SLICE/`](../../../docs/PAS/KERNEL/SLICE/README.md) · Index: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md) · **Lanes:** [`DEVELOPMENT-LANE-BOUNDARIES.md`](../../../docs/PAS/DEVELOPMENT-LANE-BOUNDARIES.md) (do not parallel PAS-005 CSS)
 
 **Doctrine:** Kernel is not ERP runtime — kernel is the accepted vocabulary consumed by ERP runtime. Load PAS-001A §0 + §3 Context Map + §4 Governance Rules when touching `apps/erp/src/lib/context/**`, permission-scope wiring, or `CONTEXT_INTEGRATION_WIRING`. Pair with `multi-tenancy-erp`.
 
-### PAS-001B — ERP domain vocabulary catalog (derived from PAS-001 §4.8)
+### PAS-001B — ERP Wire Vocabulary Catalog Standard (derived from PAS-001 §4.8)
 
 | Field | Value |
 | --- | --- |
+| **PAS ID** | PAS-001B |
+| **Document title** | ERP Wire Vocabulary Catalog Standard |
+| **Authority role** | `catalog_authority` |
+| **Registry lane** | `PKGR01B_ERP_DOMAIN_CATALOG` |
+| **Primary owner** | `packages/kernel/src/erp-domain/` |
 | **Runtime status** | Catalog Authority — B76–B106 + KV1–KV3 closed; 28/28 modules; layout gate **12/12**; `./erp-domain/catalog`; per-module `*_MODULE_KV_ID` barrels |
 | **Remaining slices** | none — consumer metadata spine = PAS-001A-R1 (not PAS-001B) |
 | **Canonical** | [`PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
 
-**Doctrine:** PAS-001B defines the ERP domain vocabulary **map** — without building ERP runtime. Rule 1: no filesystem folders for `catalog-only` modules. Load PAS-001B §0 hard rules when touching `packages/kernel/src/erp-domain/**`.
+**Doctrine:** PAS-001B defines the **ERP wire vocabulary catalog map** — wire shapes in kernel; meaning in Enterprise Knowledge; runtime in domain packages. Rule 1: no filesystem folders for `catalog-only` modules. Load PAS-001B §0 hard rules when touching `packages/kernel/src/erp-domain/**`.
 
 ---
 

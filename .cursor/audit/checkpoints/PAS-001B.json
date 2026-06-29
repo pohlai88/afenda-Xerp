@@ -1,0 +1,20 @@
+{
+  "pasId": "PAS-001B",
+  "auditCatalog": "docs/PAS/KERNEL/audit/PAS-001B.md",
+  "authorityPas": "docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md",
+  "startedAt": "2026-06-30T01:40:00Z",
+  "updatedAt": "2026-06-30T01:45:00Z",
+  "currentWave": "W2",
+  "repairRound": 0,
+  "maxIterations": 3,
+  "repairMode": "audit-only-first",
+  "verdicts": {
+    "PAS-001B-AUD-01": "Pass",
+    "PAS-001B-AUD-02": "Pass",
+    "PAS-001B-AUD-03": "Pass",
+    "PAS-001B-AUD-04": "Pass"
+  },
+  "clusters": {},
+  "completedWaves": ["W1"],
+  "finalConfidence": null
+}

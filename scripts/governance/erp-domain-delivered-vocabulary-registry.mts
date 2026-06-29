@@ -24,6 +24,7 @@ export const ERP_DOMAIN_FORBIDDEN_RELATIVE_DIR_SUFFIXES = [
 
 export const ERP_DOMAIN_FORBIDDEN_SOURCE_PATTERNS = [
   /from\s+["']@afenda\/database["']/,
+  /from\s+["']@afenda\/permissions["']/,
   /from\s+["']drizzle-orm/,
   /packages\/database\/src\/schema/,
 ] as const;

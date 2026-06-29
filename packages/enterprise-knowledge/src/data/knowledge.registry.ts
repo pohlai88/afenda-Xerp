@@ -37,10 +37,16 @@ export const B31_CONTEXT_ATOM_IDS = [
   "business_reference",
   "human_reference",
 ] as const;
+/** PAS-004D §4.5 B53 — ERP-domain meaning bridge (KV-INV / KV-PROC pairing). */
+export const B53_ERP_DOMAIN_BRIDGE_ATOM_IDS = [
+  "inventory_item",
+  "procurement_requisition",
+] as const;
 export const KNOWLEDGE_ATOM_IDS = [
   ...B24_KNOWLEDGE_ATOM_IDS,
   ...B29_PLATFORM_ATOM_IDS,
   ...B31_CONTEXT_ATOM_IDS,
+  ...B53_ERP_DOMAIN_BRIDGE_ATOM_IDS,
 ] as const;
 export type KnowledgeAtomId = (typeof KNOWLEDGE_ATOM_IDS)[number];
 

@@ -1,0 +1,34 @@
+# PAS-001B C4 remainder + W7 gate evidence — 2026-06-30
+
+## C4 remainder — PAS-004D B53 (AUD-10)
+
+Implementer: afenda-governed-implementer (coding-consistency-bundle)
+
+Atoms: inventory_item (KV-INV), procurement_requisition (KV-PROC)
+Gate: scripts/governance/check-knowledge-erp-domain-bridge.mts
+
+pnpm check:knowledge-erp-domain-bridge
+→ knowledge-erp-domain-bridge: PASS
+
+pnpm check:knowledge-kernel-mapping
+→ knowledge-kernel-mapping: PASS
+
+pnpm check:knowledge-conformance
+→ knowledge-conformance: PASS
+
+pnpm --filter @afenda/enterprise-knowledge test:run
+→ 18 files, 114 tests passed (per implementer)
+
+## W7 preflight
+
+pnpm check:documentation-drift
+→ documentation-drift: OK
+
+pnpm check:foundation-disposition
+→ Foundation disposition registry: PASS
+
+pnpm architecture:cycles
+→ no circular workspace dependencies detected
+
+pnpm check:erp-domain-delivered-vocabulary
+→ (inherited from C5) PASS — includes classification PAS-004 label trace gate

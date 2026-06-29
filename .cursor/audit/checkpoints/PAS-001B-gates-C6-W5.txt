@@ -1,0 +1,26 @@
+# PAS-001B C6 + W5 gate evidence — 2026-06-30
+
+## C6 — permission registry parity (AUD-14)
+
+Changes:
+- inventory-permission-vocabulary.contract.ts — snake_case wire keys (stock_movement_*, stock_reservation_*)
+- PERMISSION_REGISTRY.inventory — stockMovement + stockReservation domains
+- inventory-permission-registry.test.ts — parity test (mirrors accounting)
+- erp-domain-delivered-vocabulary-registry.mts — forbid @afenda/permissions in erp-domain
+
+pnpm --filter @afenda/permissions test:run src/__tests__/inventory-permission-registry.test.ts src/__tests__/accounting-permission-registry.test.ts
+→ 5 passed (5)
+
+pnpm vitest run scripts/governance/__tests__/check-erp-domain-delivered-vocabulary.test.ts
+→ 6 passed (6)
+
+pnpm check:erp-domain-delivered-vocabulary
+→ ERP domain delivered vocabulary gate passed (28 delivered modules)
+
+## W5 preflight + audit gates
+
+pnpm check:erp-domain-layout
+→ failure matrix 12/12 enforced
+
+pnpm --filter @afenda/kernel test:run src/__tests__/erp-domain src/erp-domain
+→ 30 files, 181 tests passed

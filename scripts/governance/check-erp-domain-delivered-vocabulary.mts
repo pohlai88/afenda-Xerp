@@ -27,6 +27,7 @@ import {
   ERP_DOMAIN_RUNTIME_SERVICE_FILENAME_PATTERN,
   ERP_DOMAIN_RUNTIME_SOURCE_KEYWORDS,
 } from "./erp-domain-delivered-vocabulary-registry.mts";
+import { WIRE_CLASSIFICATION_PAS004_LABEL_TRACE_ENTRIES } from "../../packages/kernel/src/erp-domain/catalog/wire-classification-label-traces.registry.ts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -166,6 +167,89 @@ export function checkDeliveredModuleContracts(
   return violations;
 }
 
+export function checkClassificationPas004LabelTraces(
+  root: string = repoRoot
+): ErpDomainDeliveredVocabularyViolation[] {
+  const violations: ErpDomainDeliveredVocabularyViolation[] = [];
+  const registryByContract = new Map(
+    WIRE_CLASSIFICATION_PAS004_LABEL_TRACE_ENTRIES.map((entry) => [
+      `${entry.moduleSlug}/${entry.contractFile}`,
+      entry,
+    ])
+  );
+  const discovered = new Set<string>();
+
+  for (const slug of ERP_DOMAIN_DELIVERED_MODULES) {
+    const moduleDir = join(root, ERP_DOMAIN_CONTRACTS_ROOT, slug);
+    if (!existsSync(moduleDir)) {
+      continue;
+    }
+
+    for (const fileName of readdirSync(moduleDir)) {
+      if (!fileName.endsWith("-type.contract.ts")) {
+        continue;
+      }
+
+      const key = `${slug}/${fileName}`;
+      discovered.add(key);
+      const entry = registryByContract.get(key);
+
+      if (!entry) {
+        violations.push({
+          rule: "classification-pas004-label-trace-missing",
+          file: join(ERP_DOMAIN_CONTRACTS_ROOT, slug, fileName),
+          message: `Classification contract ${key} missing PAS-004 label trace registry entry`,
+        });
+        continue;
+      }
+
+      for (const value of entry.values) {
+        const trace = entry.traces[value];
+        if (!trace) {
+          violations.push({
+            rule: "classification-pas004-label-trace-incomplete",
+            file: join(
+              root,
+              ERP_DOMAIN_CONTRACTS_ROOT,
+              "catalog/wire-classification-label-traces.registry.ts"
+            ),
+            message: `${entry.constantExport} value "${value}" missing PAS-004 label trace`,
+          });
+          continue;
+        }
+
+        if (trace.meaningOwner !== "PAS-004") {
+          violations.push({
+            rule: "classification-pas004-label-trace-owner",
+            file: join(
+              root,
+              ERP_DOMAIN_CONTRACTS_ROOT,
+              "catalog/wire-classification-label-traces.registry.ts"
+            ),
+            message: `${entry.constantExport}.${value} must defer meaning to PAS-004`,
+          });
+        }
+      }
+    }
+  }
+
+  for (const [key] of registryByContract) {
+    if (!discovered.has(key)) {
+      violations.push({
+        rule: "classification-pas004-label-trace-stale",
+        file: join(
+          root,
+          ERP_DOMAIN_CONTRACTS_ROOT,
+          "catalog/wire-classification-label-traces.registry.ts"
+        ),
+        message: `Stale PAS-004 label trace registry entry for ${key} — classification contract not found`,
+      });
+    }
+  }
+
+  return violations;
+}
+
 export function checkErpDomainDeliveredVocabulary(
   root: string = repoRoot
 ): ErpDomainDeliveredVocabularyViolation[] {
@@ -208,6 +292,8 @@ export function checkErpDomainDeliveredVocabulary(
   for (const slug of ERP_DOMAIN_DELIVERED_MODULES) {
     violations.push(...checkDeliveredModuleContracts(slug, root));
   }
+
+  violations.push(...checkClassificationPas004LabelTraces(root));
 
   return violations;
 }

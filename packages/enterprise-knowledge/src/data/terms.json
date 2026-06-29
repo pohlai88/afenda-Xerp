@@ -166,5 +166,19 @@
     "label": "Human reference",
     "preferred": true,
     "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "inventory_item_preferred",
+    "conceptId": "inventory_item",
+    "label": "Inventory item",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "procurement_requisition_preferred",
+    "conceptId": "procurement_requisition",
+    "label": "Procurement requisition",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
   }
 ]

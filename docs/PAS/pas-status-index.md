@@ -77,15 +77,21 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 ---
 
-## PAS-001B Kernel ERP Domain Vocabulary Catalog — Catalog Authority
+## PAS-001B — ERP Wire Vocabulary Catalog Standard — Catalog Authority
 
 | Field | Value |
 | --- | --- |
+| **PAS ID** | PAS-001B |
+| **Document title** | ERP Wire Vocabulary Catalog Standard |
+| **Authority role** | `catalog_authority` — governs wire vocabulary map, not domain runtime |
+| **Registry lane** | `PKGR01B_ERP_DOMAIN_CATALOG` · `@afenda/kernel` · `packages/kernel/src/erp-domain/` |
 | **Status** | Delivered — Catalog Authority (B76–B106 complete; full 28-module vocabulary scaffold-standardized; attested 2026-06-28) |
-| **Authority** | PAS-001B · derived from PAS-001 §4.8 · `packages/kernel/src/erp-domain/` |
-| **Maturity** | `enterprise_accepted` · **`catalog_authority` role** — governs wire vocabulary map, not domain runtime |
+| **Authority** | [PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) · derived from PAS-001 §4.8 |
+| **Maturity** | `enterprise_accepted` |
+| **Implementation status** | `implemented` |
+| **Evidence level** | `runtime` — wire catalog implementation evidence (28/28 modules, gates green) |
 | **Runtime status** | 28-module catalog; all slugs delivered; layout gate **12/12**; KV SSOT + authority mirrors (KV1–KV3); `./erp-domain/catalog`; unified + legacy domain gates green; B106 foundation scaffold |
-| **Remaining slices** | none — B76–B106 + KV1–KV3 closed; ERP metadata consumer rebuild = [PAS-001A-R1](#pas-001a-kernel-erp-consumer-integration--production-candidate-doctrine--runtime-partial-adr-0027) |
+| **Remaining slices** | none — B76–B106 + KV1–KV3 closed; ERP integration spine = [PAS-001A-R1](#pas-001a-kernel-erp-consumer-integration--production-candidate-doctrine--integration-proven-is-002-adr-0027) (Delivered) |
 | **Runtime evidence** | [KERNEL/PAS-001B](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md), `erp-domain/*`, `erp-domain/catalog`, `check:erp-domain-layout`, `check:erp-domain-delivered-vocabulary`, `erp-domain-authority-kv.contract.test.ts` |
 | **Gates** | `pnpm check:erp-domain-layout`, `pnpm check:erp-domain-delivered-vocabulary`, `pnpm check:accounting-domain-contracts`, `pnpm check:inventory-domain-contracts`, `pnpm check:procurement-domain-contracts`, `pnpm --filter @afenda/kernel typecheck`, `pnpm check:foundation-disposition` |
 | **Result** | 28/28 vocabulary modules delivered; Rule 1–3 enforced |
@@ -101,6 +107,9 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | B80 | [b80-procurement-domain-vocabulary.md](KERNEL/SLICE/b80-procurement-domain-vocabulary.md) | Delivered |
 | B81–B105 | [kernel-slice-catalog.md](KERNEL/SLICE/kernel-slice-catalog.md) (individual handoffs) | Delivered |
 | B106 | [b106-foundation-erp-domain-scaffold-standardization.md](KERNEL/SLICE/b106-foundation-erp-domain-scaffold-standardization.md) | Delivered |
+| KV1 | [kernel-slice-catalog.md](KERNEL/SLICE/kernel-slice-catalog.md#pas-001b--kv1kv3-closure-delivered) — authority `*_MODULE_KV_ID` parity | Delivered |
+| KV2 | [kernel-slice-catalog.md](KERNEL/SLICE/kernel-slice-catalog.md#pas-001b--kv1kv3-closure-delivered) — `./erp-domain/catalog` export barrel | Delivered |
+| KV3 | [kernel-slice-catalog.md](KERNEL/SLICE/kernel-slice-catalog.md#pas-001b--kv1kv3-closure-delivered) — metadata ERP bridge SSOT validation | Delivered |
 
 ---
 
@@ -299,12 +308,12 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 | Field | Value |
 | --- | --- |
-| **Status** | B50 delivered — legacy gate live; B51–B54 queued |
+| **Status** | B53 delivered — ERP-domain bridge live; B51–B52 · B54 queued |
 | **Authority** | PAS-004D · PAS-004C baseline · PAS-001B erp-domain refs · `PKGR04_ENTERPRISE_KNOWLEDGE` |
 | **Maturity** | `idea` → `production_candidate` on B54 attestation |
-| **Runtime status** | PAS-004C closed (58/58); B50 legacy retirement delivered — corpus depth next |
-| **Remaining slices** | B51 corpus depth (next) · B52 vocabulary richness · B53 ERP-domain bridge · B54 attestation |
-| **Runtime evidence** | [PAS-004D canonical doc](ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · B49–B50 handoffs |
+| **Runtime status** | PAS-004C closed (58/58); B50 legacy retirement delivered; B53 KV-paired bridge atoms live |
+| **Remaining slices** | B51 corpus depth (next) · B52 vocabulary richness · B54 attestation |
+| **Runtime evidence** | [PAS-004D canonical doc](ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · B49–B50 · [B53 handoff](ENTERPRISE-KNOWLEDGE/SLICE/b53-pas004d-erp-domain-bridge.md) |
 | **Gates (B49+)** | inherit PAS-004C §13.1 + `check:knowledge-authority-mirror` (B49) + `check:knowledge-legacy-surface-retirement` (B50) through `check:knowledge-erp-domain-bridge` (B53) |
 | **Result** | Target **70/70** scorecard (≥66) — operational closure without ontology-engine scope creep |
 
@@ -314,7 +323,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | B50 | [b50-pas004d-legacy-surface-retirement.md](ENTERPRISE-KNOWLEDGE/SLICE/b50-pas004d-legacy-surface-retirement.md) | 2 Legacy API | Delivered |
 | B51 | b51-pas004d-corpus-depth.md | 3 Corpus depth | Proposed |
 | B52 | b52-pas004d-vocabulary-richness.md | 3 Vocabulary | Proposed |
-| B53 | b53-pas004d-erp-domain-bridge.md | 4 Domain bridge | Proposed |
+| B53 | [b53-pas004d-erp-domain-bridge.md](ENTERPRISE-KNOWLEDGE/SLICE/b53-pas004d-erp-domain-bridge.md) | 4 Domain bridge | Delivered |
 | B54 | b54-pas004d-operational-closure-attestation.md | 5 Attestation | Proposed |
 
 **Next sequence item:** B51 — corpus depth thresholds (`check:knowledge-corpus-depth`).

@@ -1,0 +1,17 @@
+# PAS-001B W1 gate evidence — 2026-06-30
+
+## pnpm check:foundation-disposition
+Foundation disposition registry: PASS
+Exit: 0
+
+## pnpm quality:boundaries
+package boundaries valid (20 workspaces checked)
+Exit: 0
+
+## pnpm check:erp-domain-layout
+ERP domain layout gate passed (PAS-001B — 28 catalog slugs, 28 delivered; failure matrix 12/12 enforced).
+Exit: 0
+
+## pnpm check:documentation-drift
+documentation-drift: OK (documentation-drift-guard-is-canonical-stale-marker-enforcement)
+Exit: 0

@@ -38,6 +38,8 @@ Both bundles: `disable-model-invocation: true` — explicit attach or slash only
 | `afenda-review` | `/afenda-review` | Command | Single-perspective review |
 | `afenda-test` | `/afenda-test` | Command | Test strategy / coverage |
 | `afenda-batch` | `/afenda-batch` | Command | PAS parallel batch manifest |
+| `afenda-governance-audit-repair` | `/afenda-governance-audit-repair` | Command | Governance audit + identical-finding repair loop |
+| `pas-kernel-audit-orchestrator` | `/pas-kernel-audit-orchestrator` | Command | PAS-001 / 001A / 001B AUD-XX catalog wave audit + repair |
 | `afenda-webperf` | `/afenda-webperf` | Command | Web performance audit |
 
 All commands: `disable-model-invocation: true`.
@@ -127,6 +129,8 @@ All commands: `disable-model-invocation: true`.
 | `afenda-test` | Command | — | `/afenda-test` |
 | `enterprise-frontend-audit` | Audit | `apps/erp/**`, `packages/shadcn-studio/**` | Frontend maturity audit (PAS-006 baseline) |
 | `enterprise-architecture-audit` | Audit | — | Full platform audit (read-only) |
+| `afenda-governance-audit-repair` | Audit+Repair | `packages/**`, `apps/**`, `docs/PAS/**` | Governance audit loop until PASS |
+| `pas-kernel-audit-orchestrator` | Audit+Repair | `docs/PAS/KERNEL/audit/**`, `packages/kernel/**` | PAS-001 / 001A / 001B AUD-XX catalog waves |
 | vendor `test-driven-development` | Vendor | — | TDD / Prove-It (wired in `/afenda-test`) |
 | vendor `code-review-and-quality` | Vendor | — | Five-axis review (wired in `/afenda-review`) |
 | vendor `security-and-hardening` | Vendor | — | Security audit persona |

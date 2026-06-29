@@ -166,5 +166,19 @@
     "label": "Human reference",
     "description": "Tenant-scoped human-readable reference governed separately from kernel canonical IDs.",
     "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "inventory_item",
+    "fqn": "afenda.enterprise.concept.inventory_item",
+    "label": "Inventory item",
+    "description": "Stock or material master record tracked for quantity, valuation, and warehouse placement.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "procurement_requisition",
+    "fqn": "afenda.enterprise.concept.procurement_requisition",
+    "label": "Procurement requisition",
+    "description": "Internal request to purchase goods or services before a purchase order is issued.",
+    "ownedByPas": "PAS-004C"
   }
 ]

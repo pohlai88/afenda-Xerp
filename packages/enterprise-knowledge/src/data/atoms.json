@@ -2409,5 +2409,203 @@
     "ownedByPas": "PAS-004",
     "epistemicStatus": "accepted",
     "semanticStability": "stable"
+  },
+  {
+    "conceptId": "inventory_item",
+    "atomId": "inventory_item",
+    "fqn": "afenda.enterprise.inventory_item",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-inventory-practice"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_erp_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 90,
+      "basis": ["SAP", "Oracle", "afenda_decision"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Inventory wire vocabulary requires accepted business meaning separate from kernel parsers."
+      ],
+      "inference": "Inventory item is the stock master anchor for quantity and valuation semantics.",
+      "rules": ["PAS-001B inventory wire vocabulary", "PAS-004D B53"],
+      "conclusion": "Stock or material master record tracked for quantity, valuation, and warehouse placement."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept inventory_item as the enterprise meaning bridge for PAS-001B inventory wire vocabulary.",
+      "alternativesConsidered": ["Defer to module-local glossaries"],
+      "whyRejected": {
+        "Defer to module-local glossaries": "Creates drift against PAS-001B wire catalog."
+      },
+      "impact": ["inventory", "ai"]
+    },
+    "meaning": {
+      "canonical": "Stock or material master record tracked for quantity, valuation, and warehouse placement.",
+      "business": "Inventory item / stock keeping unit.",
+      "engineering": "PAS-001B inventory erp-domain contracts (KV-INV) — meaning only; wire in kernel."
+    },
+    "knowledgeDomain": ["inventory", "finance"],
+    "applicability": {
+      "applicable": ["inventory", "finance", "manufacturing"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001B inventory wire vocabulary catalog.",
+      "evolution": ["PAS-004D B53 ERP-domain meaning bridge seed"],
+      "currentAuthority": "PAS-001B wire · PAS-004 meaning",
+      "futureDirection": "Runtime inventory module via approved slice."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Stock movement",
+        "why": "Movement events are transactions, not the master item.",
+        "correct": "Inventory item is the master; movements reference it."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Inventory item"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/inventory/inventory-authority.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/inventory/inventory-authority.contract.ts",
+        "notes": "PAS-001B inventory domain authority · ERP_DOMAIN_MODULE_KV_IDS inventory KV-INV"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "inventory_item_evidence_0",
+        "type": "policy",
+        "source": "packages/kernel/src/erp-domain/inventory/inventory-authority.contract.ts"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "procurement_requisition",
+    "atomId": "procurement_requisition",
+    "fqn": "afenda.enterprise.procurement_requisition",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-procurement-practice"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_erp_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 90,
+      "basis": ["SAP", "Oracle", "afenda_decision"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Procurement wire vocabulary requires accepted meaning before purchase order issuance."
+      ],
+      "inference": "Procurement requisition is the internal demand signal preceding PO creation.",
+      "rules": ["PAS-001B procurement wire vocabulary", "PAS-004D B53"],
+      "conclusion": "Internal request to purchase goods or services before a purchase order is issued."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept procurement_requisition as the enterprise meaning bridge for PAS-001B procurement wire vocabulary.",
+      "alternativesConsidered": ["Collapse into purchase_order only"],
+      "whyRejected": {
+        "Collapse into purchase_order only": "Requisition is the honest pre-PO demand document in ERP practice."
+      },
+      "impact": ["finance", "ai"]
+    },
+    "meaning": {
+      "canonical": "Internal request to purchase goods or services before a purchase order is issued.",
+      "business": "Purchase requisition / internal request.",
+      "engineering": "PAS-001B procurement erp-domain contracts (KV-PROC) — meaning only; wire in kernel."
+    },
+    "knowledgeDomain": ["finance", "integration"],
+    "applicability": {
+      "applicable": ["finance", "integration", "inventory"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001B procurement wire vocabulary catalog.",
+      "evolution": ["PAS-004D B53 ERP-domain meaning bridge seed"],
+      "currentAuthority": "PAS-001B wire · PAS-004 meaning",
+      "futureDirection": "Runtime procurement module via approved slice."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Purchase order",
+        "why": "PO is the external commitment to a supplier.",
+        "correct": "Requisition is internal approval to buy; PO follows."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Procurement requisition"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts",
+        "notes": "PAS-001B procurement domain authority · ERP_DOMAIN_MODULE_KV_IDS procurement KV-PROC"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "procurement_requisition_evidence_0",
+        "type": "policy",
+        "source": "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   }
 ]

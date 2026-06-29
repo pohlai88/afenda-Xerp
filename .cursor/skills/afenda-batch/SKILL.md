@@ -13,6 +13,8 @@ Discoverability entry point for PAS parallel batch execution. The batch controll
 - Multiple disjoint PAS slices (Research or Implementation) in one batch
 - User has complete slot table and handoff blocks ready
 - **Not** for pre-merge PR review — use `/afenda-ship`
+- Governance audit + repair until PASS — use `/afenda-governance-audit-repair` with `@afenda-orchestrator` batch type `governance-audit-repair` (see that skill's orchestrator-contract)
+- PAS-001 / 001A / 001B catalog audit (AUD-XX) — use `/pas-kernel-audit-orchestrator` with `@afenda-orchestrator` batch type `pas-kernel-audit-catalog`
 
 ## When NOT to parallelize
 
@@ -80,6 +82,8 @@ Paste into **every** implementer prompt:
 | Plan slice handoff | `pas-slice-planner` |
 | Single slice implement | `afenda-governed-implementer` |
 | Parallel batch | `@afenda-orchestrator` (this skill documents contract) |
+| Governance audit repair loop | `/afenda-governance-audit-repair` + `@afenda-orchestrator` batch type `governance-audit-repair` |
+| PAS kernel catalog audit | `/pas-kernel-audit-orchestrator` + `@afenda-orchestrator` batch type `pas-kernel-audit-catalog` |
 | Registry lane edit | `foundation-registry-owner` |
 | Which skill? | `/using-afenda-skills` |
 

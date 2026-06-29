@@ -200,6 +200,7 @@ When documentation status, PAS slices, ADR acceptance, registry lanes, or runtim
 | Pre-merge review | [`/afenda-review`](.cursor/skills/afenda-review/SKILL.md) or [`@afenda-code-reviewer`](.cursor/agents/afenda-code-reviewer.md) |
 | Ship / go-no-go | [`/afenda-ship`](.cursor/skills/afenda-ship/SKILL.md) |
 | PAS parallel batch | [`@afenda-orchestrator`](.cursor/agents/afenda-orchestrator.md) + [`/afenda-batch`](.cursor/skills/afenda-batch/SKILL.md) |
+| PAS kernel catalog audit (001 / 001A / 001B) | [`/pas-kernel-audit-orchestrator`](.cursor/skills/pas-kernel-audit-orchestrator/SKILL.md) · [`@pas-kernel-audit-worker`](.cursor/agents/pas-kernel-audit-worker.md) |
 | Which skill applies? | [`/using-afenda-skills`](.cursor/skills/using-afenda-skills/SKILL.md) |
 | Test / coverage review | [`/afenda-test`](.cursor/skills/afenda-test/SKILL.md) |
 | Web performance audit | [`/afenda-webperf`](.cursor/skills/afenda-webperf/SKILL.md) |

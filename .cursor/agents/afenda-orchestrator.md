@@ -22,8 +22,8 @@ documentation-drift       = post-flight audit
 The caller **must** supply all fields below. If any field is absent, emit a pre-flight error listing exactly what is missing — do not guess or infer.
 
 ```text
-Batch type : parallel | sequential | evidence-sync | registry-sync | mixed
-PAS slots  :
+Batch type : parallel | sequential | evidence-sync | registry-sync | mixed | governance-audit-repair | pas-kernel-audit-catalog | pas-001a-audit-catalog
+PAS slots  :   ← optional when Batch type is pas-kernel-audit-catalog, pas-001a-audit-catalog, or governance-audit-repair
   Slot A: Slice-ID=<bNN-slug>  Slice=<N>  Type=<Research|Implementation|Evidence-sync|Registry-sync>
   Slot B: Slice-ID=<bNN-slug>  Slice=<N>  Type=<Research|Implementation|Evidence-sync|Registry-sync>
   ...
@@ -58,6 +58,19 @@ Missing: <list each field>
 Provide exact Slot table before this agent can produce a batch manifest.
 ```
 
+**Exception — `pas-kernel-audit-catalog` (or legacy `pas-001a-audit-catalog`):** PAS slots not required. Caller must supply:
+
+```text
+Batch type     : pas-kernel-audit-catalog
+Audit catalog  : docs/PAS/KERNEL/audit/PAS-001.md | PAS-001{A|B}.md
+Authority PAS  : <parent PAS standard path>
+Max iterations : 3
+Repair mode    : auto-repair | audit-only-first
+Note           : optional
+```
+
+Follow [pas-kernel-audit-orchestrator](../skills/pas-kernel-audit-orchestrator/SKILL.md) + [catalog-registry.md](../skills/pas-kernel-audit-orchestrator/reference/catalog-registry.md) for wave plan. Skip hard stops #1–#3.
+
 ---
 
 ## Mandatory read order
@@ -68,6 +81,7 @@ Provide exact Slot table before this agent can produce a batch manifest.
 4. [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) — `allowedAgents`, `runtimeOwner`, `prohibited` per entry
 5. [`.cursor/skills/enterprise-erp-standards/SKILL.md`](../skills/enterprise-erp-standards/SKILL.md) — batch must not skip any controls
 6. Target slice handoffs under `docs/PAS/CSS-AUTHORITY/SLICE/` for each slot — verify 9-field handoff blocks exist
+7. **`.cursor/skills/afenda-governance-audit-repair/SKILL.md`** + [reference/orchestrator-contract.md](../skills/afenda-governance-audit-repair/reference/orchestrator-contract.md) — when `Batch type: governance-audit-repair` (audit → cluster → repair → re-audit until PASS or iteration cap)
 
 ### Mandatory pre-flight emit
 
@@ -152,8 +166,36 @@ Batch status: BLOCKED
 | Evidence-sync batch | Evidence-sync slots; usually serialized unless files fully disjoint | Medium | Conditional |
 | Registry-sync batch | Registry mutations only | High | No — serialize through `foundation-registry-owner` |
 | Mixed batch | Discouraged; requires explicit Architecture Authority approval and conflict table | High | Conditional |
+| Governance audit repair | Closed-loop governance audit + identical-finding repair until auditor PASS | Medium/High | Conditional — repair clusters parallel when disjoint |
+| PAS kernel audit catalog | AUD-XX waves (001A: 25 · 001B: 30); parallel readonly audit per wave; clustered repair | Medium/High | Parallel within wave (≤4) |
 
 **Registry-sync must never run in parallel with Implementation on the same registry entry.**
+
+### PAS kernel audit catalog batch (`pas-kernel-audit-catalog`)
+
+When `Batch type: pas-kernel-audit-catalog` (legacy alias: `pas-001a-audit-catalog`), follow [pas-kernel-audit-orchestrator](../skills/pas-kernel-audit-orchestrator/SKILL.md):
+
+```text
+Audit catalog: docs/PAS/KERNEL/audit/PAS-001.md | PAS-001{A|B}.md
+Authority PAS: parent PAS standard (see catalog-registry.md)
+Loop: Wave N → parent gate preflight → parallel @pas-kernel-audit-worker Tasks (≤4) → merge verdicts → cluster repairs → afenda-governed-implementer (bundle) → gates → checkpoint → next wave
+Final AUD runs last (001A: AUD-25 · 001B: AUD-30)
+Every implementer prompt MUST include coding-consistency-bundle read list
+Wave plans: reference/catalogs/PAS-001-waves.md | PAS-001A-waves.md | PAS-001B-waves.md
+```
+
+### Governance audit repair batch (`governance-audit-repair`)
+
+When `Batch type: governance-audit-repair`, follow `.cursor/skills/afenda-governance-audit-repair/SKILL.md` and [orchestrator-contract](../skills/afenda-governance-audit-repair/reference/orchestrator-contract.md):
+
+```text
+Caller must supply: Scope, Max iterations (default 3), Repair mode (auto-repair | audit-only-first)
+Loop: afenda-governance-auditor (readonly) → cluster manifest → afenda-governed-implementer × N → gates → re-audit
+Stop when: governance auditor verdict PASS — OR iteration cap — OR hard stop
+Every implementer prompt MUST include coding-consistency-bundle read list
+Registry mutations → serialized foundation-registry-owner slot only
+Do not mark batch PASS while governance auditor verdict is FAIL
+```
 
 ---
 

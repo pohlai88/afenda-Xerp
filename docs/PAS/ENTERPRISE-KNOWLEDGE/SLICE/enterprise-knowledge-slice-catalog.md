@@ -64,5 +64,5 @@
 | B50 | 2 Legacy API | [b50-pas004d-legacy-surface-retirement.md](./b50-pas004d-legacy-surface-retirement.md) | Delivered |
 | B51 | 3 Corpus depth | b51-pas004d-corpus-depth.md | Proposed |
 | B52 | 3 Vocabulary | b52-pas004d-vocabulary-richness.md | Proposed |
-| B53 | 4 Domain bridge | b53-pas004d-erp-domain-bridge.md | Proposed |
+| B53 | 4 Domain bridge | [b53-pas004d-erp-domain-bridge.md](./b53-pas004d-erp-domain-bridge.md) | Delivered |
 | B54 | 5 Attestation | b54-pas004d-operational-closure-attestation.md | Proposed |

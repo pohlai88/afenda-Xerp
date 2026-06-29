@@ -1,0 +1,5 @@
+# PAS-001B W2 gate evidence — 2026-06-30
+
+## pnpm check:erp-domain-delivered-vocabulary
+ERP domain delivered vocabulary gate passed (PAS-001B — 28 delivered modules; pnpm check:erp-domain-delivered-vocabulary).
+Exit: 0

@@ -4,7 +4,7 @@ import {
   ERP_DOMAIN_MODULE_KV_IDS,
   ERP_DOMAIN_MODULES,
   ERP_DOMAIN_PAS_CATALOG_EXPECTED_COUNT,
-} from "../erp-domain-layout.contract.js";
+} from "../../erp-domain/erp-domain-layout.contract.js";
 
 describe("PAS-001B erp-domain layout KV registry", () => {
   it("maps 28 slugs to unique KV-* ids", () => {

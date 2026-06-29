@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  checkClassificationPas004LabelTraces,
   checkDeliveredModuleContracts,
   checkErpDomainDeliveredVocabulary,
   findForbiddenImportViolations,
@@ -44,6 +45,24 @@ describe("check-erp-domain-delivered-vocabulary gate", () => {
     );
 
     expect(violations.map((entry) => entry.rule)).toContain("forbidden-import");
+  });
+
+  it("detects forbidden permissions runtime imports (negative contract)", () => {
+    const violations = findForbiddenImportViolations(
+      'import { PERMISSION_REGISTRY } from "@afenda/permissions";',
+      "packages/kernel/src/erp-domain/inventory/bad.ts"
+    );
+
+    expect(violations.map((entry) => entry.rule)).toContain("forbidden-import");
+  });
+
+  it("requires PAS-004 label traces for classification contracts", () => {
+    const violations = checkClassificationPas004LabelTraces();
+
+    expect(
+      violations,
+      formatErpDomainDeliveredVocabularyViolations(violations)
+    ).toEqual([]);
   });
 
   it("detects prohibited runtime surfaces in server files", () => {

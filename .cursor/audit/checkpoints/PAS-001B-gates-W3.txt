@@ -1,0 +1,9 @@
+# PAS-001B W3 gate evidence — 2026-06-30
+
+## pnpm check:erp-domain-layout
+ERP domain layout gate passed (PAS-001B — 28 catalog slugs, 28 delivered; failure matrix 12/12 enforced).
+Exit: 0
+
+## C3 repair verification
+pnpm --filter @afenda/kernel test:run src/__tests__/erp-domain — 3 tests PASS
+erp-domain/__tests__/ removed — only catalog/ + 28 module slug folders remain

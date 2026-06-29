@@ -1,0 +1,86 @@
+# PAS-001B W8 — AUD-29 Required Gate Bundle (re-run after catalog layout fix)
+# Captured: 2026-06-30 01:35:33 UTC
+
+
+---
+## pnpm check:erp-domain-layout
+---
+
+
+> afenda@ check:erp-domain-layout C:\JackProject\afenda-bolt\afenda-Xerp
+> tsx scripts/governance/check-erp-domain-layout.mts
+
+ERP domain layout gate passed (PAS-001B ÔÇö 28 catalog slugs, 28 delivered; failure matrix 12/12 enforced).
+
+---
+## pnpm check:erp-domain-delivered-vocabulary
+---
+
+
+> afenda@ check:erp-domain-delivered-vocabulary C:\JackProject\afenda-bolt\afenda-Xerp
+> tsx scripts/governance/check-erp-domain-delivered-vocabulary.mts
+
+ERP domain delivered vocabulary gate passed (PAS-001B ÔÇö 28 delivered modules; pnpm check:erp-domain-delivered-vocabulary).
+
+---
+## pnpm check:accounting-domain-contracts
+---
+
+
+> afenda@ check:accounting-domain-contracts C:\JackProject\afenda-bolt\afenda-Xerp
+> tsx scripts/governance/check-accounting-domain-contracts.mts
+
+Accounting domain contracts-only gate passed (PKG-R01 kernel / ADR-0020).
+
+---
+## pnpm check:inventory-domain-contracts
+---
+
+
+> afenda@ check:inventory-domain-contracts C:\JackProject\afenda-bolt\afenda-Xerp
+> tsx scripts/governance/check-inventory-domain-contracts.mts
+
+Inventory domain contracts-only gate passed (PKGR02 kernel vocabulary / ADR-0020).
+
+---
+## pnpm check:procurement-domain-contracts
+---
+
+
+> afenda@ check:procurement-domain-contracts C:\JackProject\afenda-bolt\afenda-Xerp
+> tsx scripts/governance/check-procurement-domain-contracts.mts
+
+Procurement domain contracts-only gate passed (PAS-001B kernel vocabulary).
+
+---
+## pnpm --filter @afenda/kernel typecheck
+---
+
+
+> @afenda/kernel@0.0.0 typecheck C:\JackProject\afenda-bolt\afenda-Xerp\packages\kernel
+> tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit
+
+
+---
+## pnpm check:foundation-disposition
+---
+
+
+> afenda@ check:foundation-disposition C:\JackProject\afenda-bolt\afenda-Xerp
+> tsx scripts/governance/check-foundation-disposition.mts
+
+Foundation disposition registry: PASS
+
+---
+## pnpm check:documentation-drift
+---
+
+
+> afenda@ check:documentation-drift C:\JackProject\afenda-bolt\afenda-Xerp
+> tsx scripts/governance/check-documentation-drift.mts
+
+documentation-drift: OK (documentation-drift-guard-is-canonical-stale-marker-enforcement)
+
+## SUMMARY
+Passed: 8/8
+ALL GATES PASS

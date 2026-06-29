@@ -242,7 +242,7 @@ No new package modules unless B50 requires a thin normalization helper under `sr
 | 2 | B50 Legacy retirement | Loader strip + adapter inline | **Delivered** |
 | 3 | B51 Corpus depth | (proposed) | Not started |
 | 4 | B52 Vocabulary richness | (proposed) | Not started |
-| 5 | B53 ERP-domain bridge | (proposed) | Not started |
+| 5 | B53 ERP-domain bridge | **Delivered** | B52 |
 | 6 | B54 Operational attestation | (proposed) | Not started |
 
 ---
@@ -283,5 +283,5 @@ See metadata table §Required gates (PAS-004D).
 | b50-pas004d-legacy-surface-retirement.md | §4.2 | Legacy API retirement | Delivered | B49 |
 | b51-pas004d-corpus-depth.md | §4.3 | (proposed) | Not started | B50 |
 | b52-pas004d-vocabulary-richness.md | §4.4 | (proposed) | Not started | B51 |
-| b53-pas004d-erp-domain-bridge.md | §4.5 | (proposed) | Not started | B52 |
+| b53-pas004d-erp-domain-bridge.md | §4.5 | Delivered | 2026-06-30 | B52 |
 | b54-pas004d-operational-closure-attestation.md | §4.6 | (proposed) | Not started | B53 |

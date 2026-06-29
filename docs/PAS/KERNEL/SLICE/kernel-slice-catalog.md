@@ -15,7 +15,7 @@
 ```text
 PAS-001:  B49 → B55 · B57 · B67 → B70 · B107 → B111 (amendment)
 PAS-001A: B71 → B75 · R1a → R1d (skeleton rebuild)
-PAS-001B: B76 → B106
+PAS-001B: B76 → B106 · KV1–KV3
 ```
 
 ## PAS-001 — B49–B70 (delivered)
@@ -74,13 +74,13 @@ PAS-001B: B76 → B106
 
 ## PAS-001A-R1 — skeleton rebuild (delivered)
 
-> ADR-0027 skeleton re-attestation. **Order:** R1a → R1b → R1c → R1d. All delivered — optional R1c gate registration in root `package.json`.
+> ADR-0027 skeleton re-attestation. **Order:** R1a → R1b → R1c → R1d. All delivered — `check:erp-metadata-pas006-consumer` registered in root `package.json`.
 
 | Slice | Handoff | Status |
 | --- | --- | --- |
 | R1a | [pas-001a-r1a-is002-operating-context-spine.md](./pas-001a-r1a-is002-operating-context-spine.md) | **Delivered** |
 | R1b | [pas-001a-r1b-protected-app-router-shell.md](./pas-001a-r1b-protected-app-router-shell.md) | **Delivered** |
-| R1c | [pas-001a-r1c-metadata-consumer-pas006.md](./pas-001a-r1c-metadata-consumer-pas006.md) | **Delivered** *(optional gate registration)* |
+| R1c | [pas-001a-r1c-metadata-consumer-pas006.md](./pas-001a-r1c-metadata-consumer-pas006.md) | **Delivered** |
 | R1d | [pas-001a-r1d-production-candidate-reclose.md](./pas-001a-r1d-production-candidate-reclose.md) | **Delivered** |
 
 ## PAS-001B — B76–B106 (delivered)
@@ -118,5 +118,15 @@ PAS-001B: B76 → B106
 | B104 | [b104-workflow-domain-vocabulary.md](./b104-workflow-domain-vocabulary.md) | Delivered |
 | B105 | [b105-analytics-domain-vocabulary.md](./b105-analytics-domain-vocabulary.md) | Delivered |
 | B106 | [b106-foundation-erp-domain-scaffold-standardization.md](./b106-foundation-erp-domain-scaffold-standardization.md) | Delivered |
+
+## PAS-001B — KV1–KV3 closure (delivered)
+
+Cross-cutting catalog closure tracks (2026-06-29). Composed PAS-001B §6 · not numbered B-slices.
+
+| Track | Objective | Runtime evidence | Status |
+| --- | --- | --- | --- |
+| **KV1** | Per-module `*_MODULE_KV_ID` parity with `ERP_DOMAIN_MODULE_KV_IDS` SSOT | `packages/kernel/src/__tests__/erp-domain/erp-domain-authority-kv.contract.test.ts` · layout gate authority-KV parity (`check:erp-domain-layout`) | Delivered |
+| **KV2** | Catalog barrel export `./erp-domain/catalog` re-exports layout SSOT only | `packages/kernel/package.json` · `packages/kernel/src/erp-domain/catalog/index.ts` | Delivered |
+| **KV3** | Consumer metadata ERP bridge validates slug/KV against kernel catalog at trust boundary | `pnpm check:erp-metadata-pas006-consumer` · PAS-001A-R1c consumer spine (deferred runtime owner: `apps/erp`) | Delivered |
 
 See [README.md](./README.md) · [slice-compliance-audit.md](./slice-compliance-audit.md)

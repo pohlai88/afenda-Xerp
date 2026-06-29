@@ -1,0 +1,21 @@
+PAS-001 W6 gate bundle — 2026-06-30 (parent orchestrator)
+
+All gates exit 0:
+
+pnpm --filter @afenda/kernel typecheck — PASS
+pnpm --filter @afenda/kernel test:run — PASS (all kernel tests green)
+pnpm quality:kernel-context-surface — PASS
+pnpm check:kernel-context-wire-triad — PASS
+pnpm check:kernel-identity-governance — PASS (full bundle including identity sub-gates)
+pnpm check:kernel-zero-runtime-deps — PASS
+pnpm check:accounting-domain-contracts — PASS
+pnpm check:foundation-disposition — PASS
+pnpm quality:boundaries — PASS (20 workspaces)
+pnpm architecture:cycles — PASS
+pnpm architecture:drift — PASS
+pnpm check:kernel-effective-dating-consumer-attestation — PASS
+pnpm check:erp-auth-actor-protected-path-attestation — PASS
+pnpm check:erp-tenant-lifecycle-extension-consumer-attestation — PASS
+pnpm check:documentation-drift — PASS
+
+Full stdout: agent-tools/d5deafc8-907a-4142-8434-110e026e5357.txt

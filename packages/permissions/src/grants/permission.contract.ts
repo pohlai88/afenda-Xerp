@@ -59,7 +59,19 @@ export const PERMISSION_REGISTRY = {
       manage: definePermissionKey("inventory", "product_manage"),
     },
     stock: {
+      /** Runtime API overlay — not in kernel INVENTORY_PERMISSION_KEY_VOCABULARY. */
       adjust: definePermissionKey("inventory", "stock_adjust"),
+    },
+    stockMovement: {
+      read: definePermissionKey("inventory", "stock_movement_read"),
+      post: definePermissionKey("inventory", "stock_movement_post"),
+      cancel: definePermissionKey("inventory", "stock_movement_cancel"),
+    },
+    stockReservation: {
+      read: definePermissionKey("inventory", "stock_reservation_read"),
+      reserve: definePermissionKey("inventory", "stock_reservation_reserve"),
+      fulfill: definePermissionKey("inventory", "stock_reservation_fulfill"),
+      cancel: definePermissionKey("inventory", "stock_reservation_cancel"),
     },
     warehouse: {
       read: definePermissionKey("inventory", "warehouse_read"),
