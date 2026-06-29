@@ -14,6 +14,18 @@ export {
   resolveArchitectureValidationReferenceMs,
 } from "./contracts/architecture-authority-version.js";
 export type {
+  ArchitectureGovernanceAmendmentRegistry,
+  ArchitectureSystemId,
+  ConsumerExportAttestationEntry,
+  ExtensionBoundaryClass,
+  GoldenPathCatalogEntry,
+  ReferencePatternEntry,
+  ReferencePatternId,
+  SurfaceStabilityClass,
+  SurfaceStabilityEntry,
+  TargetStateMembership,
+} from "./contracts/architecture-governance-amendment.contract.js";
+export type {
   DependencyClassification,
   DependencyContract,
   DependencyEdge,
@@ -57,6 +69,11 @@ export type {
   DiscoveredWorkspace,
   WorkspacePackageJson,
 } from "./contracts/workspace.contract.js";
+export {
+  architectureGovernanceAmendmentRegistry,
+  getExtensionBoundaryEntry,
+  getSurfaceStabilityEntry,
+} from "./data/architecture-governance-amendment.registry.js";
 export {
   BUSINESS_MASTER_DATA_AUTHORITY_REGISTRY,
   BUSINESS_MASTER_DATA_ENTITY_IDS,
@@ -127,6 +144,7 @@ export {
   MULTI_TENANCY_FORBIDDEN_RUNTIME_EDGES,
 } from "./surface/index.js";
 export { validateArchitecture } from "./validators/validate-architecture.js";
+export { validateArchitectureGovernanceAmendment } from "./validators/validate-architecture-governance-amendment.js";
 export { validateCycles } from "./validators/validate-cycles.js";
 export { validateDependencies } from "./validators/validate-dependencies.js";
 export {
@@ -135,6 +153,10 @@ export {
 } from "./validators/validate-exceptions.js";
 export { validateForbiddenDependencies } from "./validators/validate-forbidden-dependencies.js";
 export { validateFoundationDisposition } from "./validators/validate-foundation-disposition.js";
+export {
+  GOLDEN_PATH_SCAFFOLD_POLICY_MARKERS,
+  validateGoldenPathScaffoldPolicy,
+} from "./validators/validate-golden-path-scaffold-policy.js";
 export { validateLayers } from "./validators/validate-layers.js";
 export {
   collectLifecycleViolations,

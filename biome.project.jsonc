@@ -26,7 +26,6 @@
       "!!.cursor-biome-report.json",
       "!!**/packages/ui/src/components/shadcn-studio",
       "!!**/packages/ai-governance",
-      "!!**/packages/design-system/src/css/token-diff-preview.html",
       "!!**/packages/*/scripts/**/*.js",
       "!!**/temp-docx",
       "!!**/_reference",
@@ -69,12 +68,6 @@
         "packages/**/src/public-api.ts",
         "packages/metadata-ui/src/client.ts",
         "packages/metadata-ui/src/server.ts",
-        "packages/design-system/src/validation/index.ts",
-        "packages/design-system/src/recipes/registry.ts",
-        "packages/design-system/src/tokens/registry.ts",
-        "packages/design-system/src/variants/registry.ts",
-        "packages/design-system/src/css/token-css-variable.ts",
-        "packages/design-system/src/policies/**/*.ts",
         "drizzle.config.ts"
       ],
       "linter": {
@@ -333,7 +326,6 @@
         "**/packages/permissions/**",
         "**/packages/testing/**",
         "**/packages/entitlements/**",
-        "**/packages/design-system/**",
         "**/packages/observability/**",
         "**/packages/execution/**",
         "**/packages/feature-flags/**",

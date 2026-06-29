@@ -1,14 +1,14 @@
-# Slice B42c ÔÇö MCP Live Re-seed (PAS-005A ┬º4.4ÔÇô┬º4.6 ┬À B42b follow-on)
+# Slice B42c — MCP Live Re-seed (PAS-005A §4.4—§4.6 · B42b follow-on)
 
-**Prerequisite:** B42b planning delivered ÔÇö parity inventory; `.env.secret` credentials available
+**Prerequisite:** B42b planning delivered — parity inventory; `.env.secret` credentials available
 
-**Status:** Delivered (2026-06-28) ÔÇö live MCP batch install replaces B40 placeholders
+**Status:** Delivered (2026-06-28) — live MCP batch install replaces B40 placeholders
 
 **Type:** Implementation
 
-**Risk class:** Medium ÔÇö Pro registry install + new npm deps (cmdk, radix-ui)
+**Risk class:** Medium — Pro registry install + new npm deps (cmdk, radix-ui)
 
-**Clean Core impact:** AÔåÆA ÔÇö inventory only; install cwd `packages/shadcn-studio`
+**Clean Core impact:** AÔåÆA — inventory only; install cwd `packages/shadcn-studio`
 
 ## Purpose
 
@@ -19,9 +19,9 @@ Replace B40 manual placeholder blocks with live shadcn-studio MCP `/cui` batch i
 ```
 Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42c-pas005a-mcp-live-reseed.md
 
-1. Objective    ÔÇö Live MCP re-seed: collect 4 @ss-blocks, batch install with -y -o, remove B40 placeholders, fix strict TS on installed files, update Storybook + inventory tests.
-2. Allowed layerÔÇö packages/shadcn-studio/** ┬À apps/storybook/stories/shadcn-studio-*.stories.tsx ┬À docs/PAS/CSS-AUTHORITY/SLICE/b42c-pas005a-mcp-live-reseed.md ┬À docs/PAS/pas-status-index.md
-3. Files        ÔÇö
+1. Objective    — Live MCP re-seed: collect 4 @ss-blocks, batch install with -y -o, remove B40 placeholders, fix strict TS on installed files, update Storybook + inventory tests.
+2. Allowed layer— packages/shadcn-studio/** · apps/storybook/stories/shadcn-studio-*.stories.tsx · docs/PAS/CSS-AUTHORITY/SLICE/b42c-pas005a-mcp-live-reseed.md · docs/PAS/pas-status-index.md
+3. Files        —
    packages/shadcn-studio/components.json
    packages/shadcn-studio/package.json
    packages/shadcn-studio/src/styles/shadcn-studio.css
@@ -33,21 +33,21 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42c-pas005a-mcp-live-reseed.md
    apps/storybook/stories/shadcn-studio-block.stories.tsx
    docs/PAS/CSS-AUTHORITY/SLICE/b42c-pas005a-mcp-live-reseed.md
    docs/PAS/pas-status-index.md
-4. Prohibited   ÔÇö packages/appshell/** ┬À packages/ui/** ┬À apps/erp/** ┬À foundation-disposition.registry.ts ┬À migrate legacy appshell TSX
-5. Authority    ÔÇö PAS-005A ┬º4.4ÔÇô┬º4.6 ┬À ADR-0017 ┬À shadcn-studio skill ┬À PKGR05A prohibited do-not-migrate-appshell-studio-tsx
-6. Gates        ÔÇö
+4. Prohibited   — packages/appshell/** · packages/ui/** · apps/erp/** · foundation-disposition.registry.ts · migrate legacy appshell TSX
+5. Authority    — PAS-005A §4.4—§4.6 · ADR-0017 · shadcn-studio skill · PKGR05A prohibited do-not-migrate-appshell-studio-tsx
+6. Gates        —
    pnpm --filter @afenda/shadcn-studio typecheck
    pnpm --filter @afenda/shadcn-studio test:run
    pnpm --filter @afenda/shadcn-studio build
    pnpm sync:package-css-dist -- --package @afenda/shadcn-studio
    pnpm check:package-css-dist-sync
    pnpm quality:boundaries
-7. Closes       ÔÇö B40 manual seed placeholders; B42c operator-owned MCP gap
-8. Evidence     ÔÇö
+7. Closes       — B40 manual seed placeholders; B42c operator-owned MCP gap
+8. Evidence     —
    MCP install command: npx shadcn@latest add @ss-blocks/hero-section-01 @ss-blocks/login-page-04 @ss-blocks/application-shell-02 @ss-blocks/statistics-component-01 -y -o
    packages/shadcn-studio/src/components/shadcn-studio/blocks/hero-section-01/
    packages/shadcn-studio/src/components/shadcn-studio/blocks/login-page-04/
-9. Attestation  ÔÇö Inventory ┬À Build ┬À MCP provenance ┬À Documentation
+9. Attestation  — Inventory · Build · MCP provenance · Documentation
 ```
 
 ## MCP batch (executed)

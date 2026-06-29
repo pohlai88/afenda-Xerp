@@ -6,7 +6,7 @@
 | **Document role** | `domain_root_specification` |
 | **Domain** | Accounting Standards Authority — external authority consumption, interpretation, and deterministic validation |
 | **Domain type** | Foundation external-authority substrate *(supports Accounting & Finance LoB — not posting runtime)* |
-| **Parent** | [Platform North Star](../architecture/afenda-platform-north-star.md) |
+| **Parent** | [Platform North Star](../PAS/afenda-platform-north-star.md) |
 | **Constitutional laws** | [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) — LAW 10 (evidence traceability) |
 | **Derived document** | [Accounting Standards Blueprint](../BLUEPRINT/accounting-standards-blueprint.md) · [Platform Blueprint rollup](../architecture/afenda-architecture-blueprint.md) |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) · [ADR-0010](../adr/ADR-0010-no-accounting-before-foundation-gate.md) · [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) |
@@ -17,7 +17,7 @@
 | **Quality target** | Enterprise **10 / 10** (Enterprise Accepted blocked on §15 + §16 EAC) |
 | **Evidence standard** | `.cursor/skills/kernel-authority/reference/doc-evidence-standard.md` |
 | **Last reviewed** | 2026-06-29 |
-| **Package / PAS inventory** | See [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) — not declared here |
+| **Package / PAS inventory** | See [Platform Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) — not declared here |
 | **Next document** | [Accounting Standards Blueprint](../BLUEPRINT/accounting-standards-blueprint.md) |
 
 > **One sentence:** Afenda consumes external accounting authorities through a governed interpretation layer — citing publisher, edition, paragraph, and effective date — and returns deterministic validation results before any posting, consolidation, or disclosure logic executes.
@@ -247,16 +247,16 @@ Standard families may include sector frameworks without implying full implementa
 | **Validation result contract** | Production | Pass/info/warning/block with full citation chain | PAS §4.7 |
 | **Evidence snapshots for audit** | Enterprise | Historical replay with paragraph-level metadata | §12.1 |
 | **Group relationship routing** | Production | Holding/subsidiary/JV/associate → IFRS 10/11/IAS 28 refs | PAS §4.4 |
-| **Parallel accounting book routing** | Advanced | Entity + book + purpose → framework assignment | §3.2 · §3.4 · T3 △ |
-| **Reporting context profile** | Enterprise | Resolved bundle for edition and rule selection | §3.5 |
+| **Parallel accounting book routing** | Production | Entity + book + purpose → framework assignment | §3.2 · §3.4 · B13 · T3 △ |
+| **Reporting context profile** | Production | Resolved bundle for edition and rule selection | §3.5 · B13 |
 | **Authority instrument taxonomy** | Production | Standard · interpretation · amendment · guidance · exposure draft | §3.6 |
 | **Scope gate assessment** | Production | Standard applicability pre-check before rules | §3 vocabulary |
-| **Cross-representation routing** | Advanced | One context → multiple book-specific authorities | §3 vocabulary · T3 △ |
+| **Cross-representation routing** | Production | One context → multiple book-specific authorities | §3 vocabulary · B16 · T3 △ |
 | **Versioned rule packs** | Production | Per-standard deterministic rule bundles (IFRS pack first) | PAS §4.8 |
 | **Consumer validation input contract** | Production | Wire-safe facts boundary for downstream packages | PAS §4.5 |
 | **Explanation and disclosure metadata** | Production | UI · AI · audit summaries with boundary statements | PAS §4.10 |
-| **Authority supersession awareness** | Enterprise | Edition/amendment ingestion · consumer re-validation signal | §7 · §8.7 |
-| **Judgment escalation outcomes** | Production | Escalate-to-accountant — not block or silent pass | P12 · §3 vocabulary |
+| **Authority supersession awareness** | Production | Edition/amendment ingestion · consumer re-validation signal | §7 · §8.7 · B15 |
+| **Judgment escalation outcomes** | Production | Escalate-to-accountant — not block or silent pass | P12 · §3 vocabulary · B14 |
 
 **Capability maturity key:** Idea · MVP · Production · Enterprise
 
@@ -601,22 +601,22 @@ Every Production+ validation rule and evidence snapshot must record this chain �
 
 | ID | Claim | Source class | Tier | Reference |
 | --- | --- | --- | --- | --- |
-| E1 | Platform requires versioned financial-standard consumption | ✓ | T1 | [Platform NS](../architecture/afenda-platform-north-star.md) §2 |
+| E1 | Platform requires versioned financial-standard consumption | ✓ | T1 | [Platform NS](../PAS/afenda-platform-north-star.md) §2 |
 | E2 | Accounting domain decomposed — standards upstream of runtime | ✓ | T0 | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) · [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) |
 | E3 | IFRS Foundation as external authority (not Afenda) | ✓ | T3 | IFRS Foundation · Required IFRS 2026 · PAS §4.3 anchor |
 | E4 | Consumption layer boundary | ✓ | T5 | Accounting Standards PAS §1–§2 |
 | E5 | Group relationship routing | ✓ | T5 | Accounting Standards PAS §4.4 |
 | E6 | Blueprint standards box live | ✓ | T1 | Architecture Blueprint · Accounting standards authority |
 | E7 | External authority hierarchy formalized | ✓ | T6 | Gap analysis 2026-06-29 · §3.1 |
-| E8 | Jurisdiction + parallel book model | △ | T6 | §3.2 · §3.4 — implement in PAS B4+ / B13+ |
-| E9 | Conflict precedence model | △ | T6 | §5.2 — implement in PAS validation engine |
-| E10 | Effective-date + profile resolution | △ | T6 | §8.4 · §8.6 — implement in PAS B3+ |
+| E8 | Jurisdiction + parallel book model | △ | T5 | B13–B16 delivered (reporting-purpose profiles + cross-rep); entity jurisdiction registry future |
+| E9 | Conflict precedence model | △ | T6 | §5.2 — severity aggregation live; statutory/law precedence engine future |
+| E10 | Effective-date + profile resolution | △ | T5 | B3 edition metadata + B13 profile routing live; transaction-date edition engine future |
 | E11 | SAP accounting principles on ledgers | ✓ | T3 | SAP KB 3530183 · S/4HANA ledger scoping |
 | E12 | Oracle primary/secondary ledger parallel accounting | ✓ | T3 | Oracle Fusion — secondary ledgers · conversion levels |
 | E13 | NetSuite multi-book accounting | ✓ | T3 | NetSuite Multi-Book · accounting books per standard |
 | E14 | IFRS taxonomy as publication type | △ | T3 | IFRS XBRL taxonomy · py-xbrl reference pattern |
 
-**Provenance:** Production Candidate — gap-analysis enhanced 2026-06-29. Enterprise Accepted requires §15 + §16 EAC — implementation closes E8–E10 △.
+**Provenance:** Production Candidate — documentation-audit sync 2026-06-29. B0–B11 + B13–B16 delivered (23 tests); B12 governance pending. Enterprise Accepted requires §15 + §16 EAC — full E8–E10 △ closure + consumer proof.
 
 ## 12.4 Evidence lifecycle obligations
 
@@ -698,7 +698,7 @@ Every Production+ validation rule and evidence snapshot must record this chain �
 | --- | --- |
 | Accounting Standards Blueprint §4 | Every §13 row maps to Accounting standards authority box |
 | Platform Blueprint — Accounting & finance | Standards box upstream of all runtime boxes · rollup |
-| Accounting Standards PAS | Trace to §4 capabilities; implement △ items E8–E10 in slices B3+ · B4+ · B13+ |
+| Accounting Standards PAS | Trace to §4 capabilities; B0–B11 + B13–B16 delivered — B12 governance + E8–E10 full closure remain |
 
 ## Enterprise Accepted exit criteria
 
@@ -717,7 +717,7 @@ Promote from Production Candidate only when **all** are true:
 | 9 | Authority supersession path defined | Edition supersession event + consumer contract |
 | 10 | Zero △ peer-review items (E8–E10) remain open | Evidence register upgraded to ✓ |
 
-**Last synced with PAS:** Accounting Standards PAS published · B0 skeleton · B1–B11 planned · B13+ for parallel-book extensions (2026-06-29) · **Maturity:** Production Candidate · **Enhancement:** ERP-parity gap analysis 2026-06-29
+**Last synced with PAS:** PAS-003 · B0–B11 + B13–B16 delivered · B12 enterprise acceptance sync not started · 23 package tests passing (2026-06-29) · **Maturity:** Production Candidate · **Enterprise Accepted:** blocked on B12 + consumer workflow proof + E8–E10 full closure
 
 ---
 
@@ -771,7 +771,7 @@ Promote from Production Candidate only when **all** are true:
 
 | Document | Role |
 | --- | --- |
-| Platform North Star | [`afenda-platform-north-star.md`](../architecture/afenda-platform-north-star.md) |
+| Platform North Star | [`afenda-platform-north-star.md`](../PAS/afenda-platform-north-star.md) |
 | Enterprise Knowledge North Star | [`enterprise-knowledge-north-star.md`](../NORTHSTAR/enterprise-knowledge-north-star.md) |
 | Accounting Standards Blueprint | [`accounting-standards-blueprint.md`](../BLUEPRINT/accounting-standards-blueprint.md) |
 | Accounting Standards PAS | [`PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md`](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) |

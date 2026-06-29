@@ -319,7 +319,7 @@ expect(entries).toHaveLength(1);
 
 ## Additional resources
 
-- Delivery evidence: `docs/governance/support/pino-erp-logger.md`
+- Delivery evidence: `.cursor/skills/pino-erp-logger/SKILL.md` · `@afenda/observability`
 - Pino redact paths: `packages/observability/src/pino.redact.ts`
 - Pino sink config: `packages/observability/src/pino.sink.ts`
 - Audit event contract: `packages/observability/src/contracts/audit-event.contract.ts`

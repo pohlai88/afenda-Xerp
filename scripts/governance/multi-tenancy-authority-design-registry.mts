@@ -1,6 +1,6 @@
 /**
  * Canonical authority design registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Step 3, lines 503–509).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Step 3, lines 503–509).
  *
  * Step 3 confirms package boundaries after existing-state audit and before
  * context contract changes. Runtime checks live in

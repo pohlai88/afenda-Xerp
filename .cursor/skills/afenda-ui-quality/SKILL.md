@@ -1,6 +1,6 @@
 ---
 name: afenda-ui-quality
-description: End-to-end workflow for building, installing, normalizing, and verifying high-quality UI blocks in the Afenda ERP repo. Covers shadcn-studio /cui /rui /iui block lifecycle, Governed UI governance normalization (strip className from @afenda/ui primitives in consumer code, move styles to afenda-*.css with var(--afenda-*) tokens), govern-primitive audit (9.5/10 checklist), and built-in visual quality gate (9.5/10 visualization). Canonical policy: docs/governance/governed-ui-policy.md. Use when installing shadcn-studio blocks, creating new UI surfaces, auditing existing components, or running the normalization pipeline.
+description: End-to-end workflow for building, installing, normalizing, and verifying high-quality UI blocks in the Afenda ERP repo. Covers shadcn-studio /cui /rui /iui block lifecycle, Governed UI governance normalization (strip className from @afenda/ui primitives in consumer code, move styles to afenda-*.css with var(--afenda-*) tokens), govern-primitive audit (9.5/10 checklist), and built-in visual quality gate (9.5/10 visualization). Canonical policy: .cursor/rules/governed-ui-consumption.mdc. Use when installing shadcn-studio blocks, creating new UI surfaces, auditing existing components, or running the normalization pipeline.
 disable-model-invocation: true
 paths:
   - packages/ui/**
@@ -14,7 +14,7 @@ paths:
 >
 > Stack: Tailwind v4 · shadcn/Radix · `@afenda/ui` governed primitives · `@afenda/design-system` tokens · shadcn/studio MCP · afenda-ui-quality Phase 5 checklist.
 >
-> **Canonical Governed UI policy:** [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md)
+> **Canonical Governed UI policy:** [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc)
 
 ---
 
@@ -90,7 +90,7 @@ This is the most critical phase. Raw shadcn-studio blocks contain `className` pr
 
 ```bash
 pnpm ui:guard:scan          # in-process scan < 2 s — Gate D only
-pnpm ui:guard               # all six gates (A–F); see docs/governance/ui-guard.md
+pnpm ui:guard               # all six gates (A–F); scripts/governance/ui-guard.mjs
 pnpm ui:guard:erp           # Gate F only — React ERP quality
 ```
 
@@ -279,7 +279,7 @@ Run in order after completing all phases:
 # 1. Fast structural scan (< 2 s)
 pnpm ui:guard:scan
 
-# 2. Full six-gate guard (see docs/governance/ui-guard.md)
+# 2. Full six-gate guard (scripts/governance/ui-guard.mjs)
 pnpm ui:guard
 
 # 3. TypeScript correctness
@@ -354,8 +354,8 @@ All gates must pass before merging.
 
 ## Additional resources
 
-- **Canonical Governed UI policy:** [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md)
-- **UI guard gates:** [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md)
+- **Canonical Governed UI policy:** [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc)
+- **UI guard gates:** [`scripts/governance/ui-guard.mjs`](../../scripts/governance/ui-guard.mjs)
 - **React quality gate (run after Phase 5):** [`.cursor/skills/react-erp-quality/SKILL.md`](../react-erp-quality/SKILL.md)
 - Govern-primitive checklist: [`.cursor/skills/govern-primitive/SKILL.md`](../govern-primitive/SKILL.md)
 - shadcn-studio workflow: [`.cursor/skills/shadcn-studio/SKILL.md`](../shadcn-studio/SKILL.md)

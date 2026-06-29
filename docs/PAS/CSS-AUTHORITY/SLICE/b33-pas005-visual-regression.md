@@ -1,4 +1,4 @@
-# Slice B33 ÔÇö PAS-005 Visual Regression Gate (PAS-005 ┬º13)
+# Slice B33 — PAS-005 Visual Regression Gate (PAS-005 §13)
 
 **Prerequisite:** [B30 Deprecate design-system CSS monolith](b30-pas005-deprecate-ds-css.md) delivered
 
@@ -6,16 +6,16 @@
 
 **Type:** Implementation
 
-**Risk class:** Medium ÔÇö CI contract gate + Storybook composed spot-check reference
+**Risk class:** Medium — CI contract gate + Storybook composed spot-check reference
 
 ## Handoff block
 
 ```
 Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b33-pas005-visual-regression.md
 
-1. Objective    ÔÇö Wire automated CSS theme contract gate for PAS-005 cutover; Storybook composed story as ERP/metadata-ui spot-check reference; close PKGR05 knownGap automated-visual-regression-not-wired.
-2. Allowed layerÔÇö scripts/css/css-theme-contract.mts ┬À scripts/governance/check-css-visual-regression.mts ┬À packages/ui/src/__tests__/css-theme-contract.test.ts ┬À apps/storybook/stories/governance-integration-composed.stories.tsx (reference) ┬À package.json ┬À docs/PAS/** ┬À foundation-disposition.registry.ts
-3. Files        ÔÇö
+1. Objective    — Wire automated CSS theme contract gate for PAS-005 cutover; Storybook composed story as ERP/metadata-ui spot-check reference; close PKGR05 knownGap automated-visual-regression-not-wired.
+2. Allowed layer— scripts/css/css-theme-contract.mts · scripts/governance/check-css-visual-regression.mts · packages/ui/src/__tests__/css-theme-contract.test.ts · apps/storybook/stories/governance-integration-composed.stories.tsx (reference) · package.json · docs/PAS/** · foundation-disposition.registry.ts
+3. Files        —
    scripts/css/css-theme-contract.mts
    scripts/governance/check-css-visual-regression.mts
    packages/ui/src/__tests__/css-theme-contract.test.ts
@@ -23,18 +23,18 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b33-pas005-visual-regression.md
    docs/PAS/CSS-AUTHORITY/SLICE/b33-pas005-visual-regression.md
    docs/PAS/pas-status-index.md
    packages/architecture-authority/src/data/foundation-disposition.registry.ts
-4. Prohibited   ÔÇö delete design-system v1; Playwright pixel baselines in this slice (future enhancement)
-5. Authority    ÔÇö PAS-005 ┬À PKGR05 ┬À ui-consistency-bundle
-6. Gates        ÔÇö
+4. Prohibited   — delete design-system v1; Playwright pixel baselines in this slice (future enhancement)
+5. Authority    — PAS-005 · PKGR05 · ui-consistency-bundle
+6. Gates        —
    pnpm check:css-visual-regression
    pnpm --filter @afenda/ui test:run src/__tests__/css-theme-contract.test.ts
    pnpm check:css-governance
    pnpm check:css-authority-bridge-sync
-7. Closes       ÔÇö automated-visual-regression-not-wired
-8. Evidence     ÔÇö
+7. Closes       — automated-visual-regression-not-wired
+8. Evidence     —
    scripts/css/css-theme-contract.mts
    apps/storybook/stories/governance-integration-composed.stories.tsx
-9. Attestation  ÔÇö Governance ┬À Visual contract (import chain + bridge markers)
+9. Attestation  — Governance · Visual contract (import chain + bridge markers)
 ```
 
 ## Delivery notes

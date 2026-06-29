@@ -22,7 +22,7 @@ Attest PAS-001 documentation chain closure: composed headers, pas-status-index, 
 Handoff from: docs/PAS/KERNEL/SLICE/b67-pas001-doc-attestation-closure.md
 
 1. Objective    — PAS-001 doc attestation gates green; Enterprise Accepted evidence archived.
-2. Allowed layer— docs/PAS/** · docs/architecture/** · .cursor/skills/kernel-authority/**
+2. Allowed layer— docs/PAS/** · docs/PAS/** · .cursor/skills/kernel-authority/**
 3. Files        —
    docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md
    docs/PAS/pas-status-index.md
@@ -36,7 +36,7 @@ Handoff from: docs/PAS/KERNEL/SLICE/b67-pas001-doc-attestation-closure.md
 8. Evidence     —
    docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md
    docs/PAS/pas-status-index.md
-   docs/architecture/afenda-runtime-truth-matrix.md
+   docs/PAS/pas-status-index.md
 9. Attestation  — Governance · Documentation
 ```
 
@@ -59,7 +59,7 @@ Handoff from: docs/PAS/KERNEL/SLICE/b67-pas001-doc-attestation-closure.md
 | --- | --- |
 | 1 | docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md |
 | 2 | docs/PAS/pas-status-index.md |
-| 3 | docs/architecture/afenda-runtime-truth-matrix.md |
+| 3 | docs/PAS/pas-status-index.md |
 
 ## Runtime evidence
 

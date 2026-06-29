@@ -1,0 +1,167 @@
+import type { AccountingStandardVersionRef } from "./standard-version.contract.js";
+
+export const IFRS_AUTHORITY_VERSION_2026 = {
+  standardFamily: "IFRS",
+  standardCode: "IFRS Required 2026",
+  standardTitle: "Required IFRS Accounting Standards 2026",
+  edition: "Required IFRS Accounting Standards 2026",
+  issuedAsOf: "2025-12-31",
+  effectiveForAnnualPeriodsBeginningOnOrAfter: "2026-01-01",
+  retrievedAt: "2026-06-27",
+  authorityStatus: "current",
+  sourceName: "IFRS Foundation",
+  sourceUrl: "https://www.ifrs.org/issued-standards/list-of-standards/",
+  authorityInstrument: "standard",
+  bindingStrength: "mandatory",
+  authoritySourceType: "external_standard",
+  supersededByVersionKey: null,
+  effectiveUntil: null,
+} as const satisfies AccountingStandardVersionRef;
+
+const IFRS_STANDARD_VERSIONS = {
+  IFRS_9: {
+    standardFamily: "IFRS",
+    standardCode: "IFRS 9",
+    standardTitle: "Financial Instruments",
+    edition: "Required IFRS Accounting Standards 2026",
+    issuedAsOf: "2025-12-31",
+    effectiveForAnnualPeriodsBeginningOnOrAfter: "2026-01-01",
+    retrievedAt: "2026-06-27",
+    authorityStatus: "current",
+    sourceName: "IFRS Foundation",
+    sourceUrl:
+      "https://www.ifrs.org/issued-standards/list-of-standards/ifrs-9-financial-instruments/",
+    authorityInstrument: "standard",
+    bindingStrength: "mandatory",
+    authoritySourceType: "external_standard",
+    supersededByVersionKey: null,
+    effectiveUntil: null,
+  },
+  IFRS_10: {
+    standardFamily: "IFRS",
+    standardCode: "IFRS 10",
+    standardTitle: "Consolidated Financial Statements",
+    edition: "Required IFRS Accounting Standards 2026",
+    issuedAsOf: "2025-12-31",
+    effectiveForAnnualPeriodsBeginningOnOrAfter: "2026-01-01",
+    retrievedAt: "2026-06-27",
+    authorityStatus: "current",
+    sourceName: "IFRS Foundation",
+    sourceUrl:
+      "https://www.ifrs.org/issued-standards/list-of-standards/ifrs-10-consolidated-financial-statements/",
+    authorityInstrument: "standard",
+    bindingStrength: "mandatory",
+    authoritySourceType: "external_standard",
+    supersededByVersionKey: null,
+    effectiveUntil: null,
+  },
+  IFRS_11: {
+    standardFamily: "IFRS",
+    standardCode: "IFRS 11",
+    standardTitle: "Joint Arrangements",
+    edition: "Required IFRS Accounting Standards 2026",
+    issuedAsOf: "2025-12-31",
+    effectiveForAnnualPeriodsBeginningOnOrAfter: "2026-01-01",
+    retrievedAt: "2026-06-27",
+    authorityStatus: "current",
+    sourceName: "IFRS Foundation",
+    sourceUrl:
+      "https://www.ifrs.org/issued-standards/list-of-standards/ifrs-11-joint-arrangements/",
+    authorityInstrument: "standard",
+    bindingStrength: "mandatory",
+    authoritySourceType: "external_standard",
+    supersededByVersionKey: null,
+    effectiveUntil: null,
+  },
+  IFRS_12: {
+    standardFamily: "IFRS",
+    standardCode: "IFRS 12",
+    standardTitle: "Disclosure of Interests in Other Entities",
+    edition: "Required IFRS Accounting Standards 2026",
+    issuedAsOf: "2025-12-31",
+    effectiveForAnnualPeriodsBeginningOnOrAfter: "2026-01-01",
+    retrievedAt: "2026-06-27",
+    authorityStatus: "current",
+    sourceName: "IFRS Foundation",
+    sourceUrl:
+      "https://www.ifrs.org/issued-standards/list-of-standards/ifrs-12-disclosure-of-interests-in-other-entities/",
+    authorityInstrument: "standard",
+    bindingStrength: "mandatory",
+    authoritySourceType: "external_standard",
+    supersededByVersionKey: null,
+    effectiveUntil: null,
+  },
+  IFRS_16: {
+    standardFamily: "IFRS",
+    standardCode: "IFRS 16",
+    standardTitle: "Leases",
+    edition: "Required IFRS Accounting Standards 2026",
+    issuedAsOf: "2025-12-31",
+    effectiveForAnnualPeriodsBeginningOnOrAfter: "2026-01-01",
+    retrievedAt: "2026-06-27",
+    authorityStatus: "current",
+    sourceName: "IFRS Foundation",
+    sourceUrl:
+      "https://www.ifrs.org/issued-standards/list-of-standards/ifrs-16-leases/",
+    authorityInstrument: "standard",
+    bindingStrength: "mandatory",
+    authoritySourceType: "external_standard",
+    supersededByVersionKey: null,
+    effectiveUntil: null,
+  },
+  IFRS_18: {
+    standardFamily: "IFRS",
+    standardCode: "IFRS 18",
+    standardTitle: "Presentation and Disclosure in Financial Statements",
+    edition: "Required IFRS Accounting Standards 2026",
+    issuedAsOf: "2025-12-31",
+    effectiveForAnnualPeriodsBeginningOnOrAfter: "2026-01-01",
+    retrievedAt: "2026-06-27",
+    authorityStatus: "current",
+    sourceName: "IFRS Foundation",
+    sourceUrl:
+      "https://www.ifrs.org/issued-standards/list-of-standards/ifrs-18-presentation-and-disclosure-in-financial-statements/",
+    authorityInstrument: "standard",
+    bindingStrength: "mandatory",
+    authoritySourceType: "external_standard",
+    supersededByVersionKey: null,
+    effectiveUntil: null,
+  },
+  IAS_28: {
+    standardFamily: "IFRS",
+    standardCode: "IAS 28",
+    standardTitle: "Investments in Associates and Joint Ventures",
+    edition: "Required IFRS Accounting Standards 2026",
+    issuedAsOf: "2025-12-31",
+    effectiveForAnnualPeriodsBeginningOnOrAfter: "2026-01-01",
+    retrievedAt: "2026-06-27",
+    authorityStatus: "current",
+    sourceName: "IFRS Foundation",
+    sourceUrl:
+      "https://www.ifrs.org/issued-standards/list-of-standards/ias-28-investments-in-associates-and-joint-ventures/",
+    authorityInstrument: "standard",
+    bindingStrength: "mandatory",
+    authoritySourceType: "external_standard",
+    supersededByVersionKey: null,
+    effectiveUntil: null,
+  },
+} as const satisfies Record<string, AccountingStandardVersionRef>;
+
+export const ACCOUNTING_STANDARD_VERSION_REGISTRY: Readonly<
+  Record<string, AccountingStandardVersionRef>
+> = {
+  IFRS_AUTHORITY_2026: IFRS_AUTHORITY_VERSION_2026,
+  IFRS_9_REQUIRED_2026: IFRS_STANDARD_VERSIONS.IFRS_9,
+  IFRS_10_REQUIRED_2026: IFRS_STANDARD_VERSIONS.IFRS_10,
+  IFRS_11_REQUIRED_2026: IFRS_STANDARD_VERSIONS.IFRS_11,
+  IFRS_12_REQUIRED_2026: IFRS_STANDARD_VERSIONS.IFRS_12,
+  IFRS_16_REQUIRED_2026: IFRS_STANDARD_VERSIONS.IFRS_16,
+  IFRS_18_REQUIRED_2026: IFRS_STANDARD_VERSIONS.IFRS_18,
+  IAS_28_REQUIRED_2026: IFRS_STANDARD_VERSIONS.IAS_28,
+};
+
+export function getAccountingStandardVersionRef(
+  versionKey: string
+): AccountingStandardVersionRef | undefined {
+  return ACCOUNTING_STANDARD_VERSION_REGISTRY[versionKey];
+}

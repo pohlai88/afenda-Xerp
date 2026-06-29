@@ -2,7 +2,7 @@
 
 Monorepo for **Afenda ERP** — a Next.js-first, TypeScript-first, manufacturing-focused ERP platform.
 
-Phase 1 is governed by [ADR-0001](docs/adr/ADR-0001-phase-1-foundation-redefinition.md). Foundation Phases 0–9 are complete; ongoing package work uses [Package Authority Standards (PAS)](docs/PAS/README.md) and the [Foundation Disposition Registry](docs/architecture/foundation-delivery-authority.md) (ADR-0014). Accounting runtime requires ADR + registry gap closure.
+Phase 1 is governed by [ADR-0001](docs/adr/ADR-0001-phase-1-foundation-redefinition.md). Foundation Phases 0–9 are complete; ongoing package work uses [Package Authority Standards (PAS)](docs/PAS/README.md) and the [Foundation Disposition Registry](docs/PAS/README.md) (ADR-0014). Accounting runtime requires ADR + registry gap closure.
 
 ## Repository structure
 
@@ -156,7 +156,7 @@ pnpm --filter @afenda/design-system test:run
 
 ## Architecture governance
 
-Human-readable registries live in [`docs/architecture/`](docs/architecture/README.md). Machine enforcement runs through `@afenda/architecture-authority` and CI quality gates.
+Human-readable registries live in [`docs/PAS/`](docs/PAS/README.md). Machine enforcement runs through `@afenda/architecture-authority` and CI quality gates.
 
 ```bash
 pnpm quality:architecture
@@ -165,13 +165,13 @@ pnpm quality:ai-governance
 pnpm architecture:report
 ```
 
-**20 active workspace packages** are registered (PKG-001–PKG-020). See [`docs/architecture/package-registry.md`](docs/architecture/package-registry.md).
+**20 active workspace packages** are registered (PKG-001–PKG-020). See [`packages/architecture-authority/src/data/package-registry.data.ts`](packages/architecture-authority/src/data/package-registry.data.ts).
 
 ## Foundation status (PAS)
 
-Foundation Phases 0–9 are complete per [`pre-accounting-foundation-roadmap.md`](docs/architecture/pre-accounting-foundation-roadmap.md). Ongoing package work uses [Package Authority Standards (PAS)](docs/PAS/README.md) and the [slice closure registry](docs/PAS/pas-status-index.md).
+Foundation Phases 0–9 are complete per [`_afenda-erp-master-plan.llms.md`](docs/architecture/_afenda-erp-master-plan.llms.md). Ongoing package work uses [Package Authority Standards (PAS)](docs/PAS/README.md) and the [slice closure registry](docs/PAS/pas-status-index.md).
 
-Accounting runtime (`PKGR01_ACCOUNTING`) requires ADR-0010 **and** registry gap closure — see [`foundation-delivery-authority.md`](docs/architecture/foundation-delivery-authority.md).
+Accounting runtime (`PKGR01_ACCOUNTING`) requires ADR-0010 **and** registry gap closure — see [`foundation-delivery-authority.md`](docs/PAS/README.md).
 
 ## What is intentionally deferred
 
@@ -182,7 +182,7 @@ Accounting runtime (`PKGR01_ACCOUNTING`) requires ADR-0010 **and** registry gap 
 
 Full index: [`docs/README.md`](docs/README.md) — architecture registries, governance gates, delivery evidence, AI policy.
 
-UI guard (gates A–F): [`docs/governance/ui-guard.md`](docs/governance/ui-guard.md)
+UI guard (gates A–F): [`scripts/governance/ui-guard.mjs`](scripts/governance/ui-guard.mjs) · [`.cursor/rules/governed-ui-consumption.mdc`](.cursor/rules/governed-ui-consumption.mdc)
 
 ## License
 

@@ -8,7 +8,7 @@
     { "path": "./packages/execution" },
     { "path": "./packages/storage" },
     { "path": "./packages/ui/tsconfig.lib.json" },
-    { "path": "./packages/design-system" },
+    { "path": "./packages/css-authority" },
     { "path": "./packages/testing" },
     { "path": "./packages/database" },
     { "path": "./packages/auth" },

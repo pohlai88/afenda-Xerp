@@ -4,6 +4,7 @@ import { join } from "node:path";
 import type { KnowledgeAtom } from "../contracts/knowledge-atom.contract.js";
 import { getKernelEvidencePaths } from "./knowledge-evidence-paths.policy.js";
 import { KERNEL_EVIDENCE_PATH_PREFIX } from "./knowledge-kernel-mapping.policy.js";
+import { getPrimaryKernelRealization } from "./knowledge-realization.policy.js";
 
 /** Platform identity atoms governed by PAS-004B §4.1 / ADR-0021. */
 export const PLATFORM_IDENTITY_ATOM_IDS = [
@@ -41,7 +42,7 @@ export const PLATFORM_ENTITY_KERNEL_CONTRACT_PATHS = {
   surface: "packages/kernel/src/context/surface-context.contract.ts",
 } as const satisfies Record<PlatformIdentityAtomId, string>;
 
-/** ADR-0021 branded ID names required on implementationMapping for hierarchy atoms. */
+/** ADR-0021 branded ID names required on kernel realization for hierarchy atoms. */
 export const REQUIRED_IDENTITY_BRANDED_IDS = {
   tenant: "TenantId",
   legal_entity: "CompanyId",
@@ -90,49 +91,51 @@ function collectProhibitedEvidenceErrors(atom: KnowledgeAtom): string[] {
   return errors;
 }
 
-function collectImplementationMappingErrors(
+function collectKernelRealizationMappingErrors(
   atom: KnowledgeAtom,
   options: ValidateKnowledgeKernelIdentityMappingOptions,
   fileExists: (absolutePath: string) => boolean
 ): string[] {
-  if (!atom.implementationMapping) {
+  const kernelRealization = getPrimaryKernelRealization(atom);
+  if (!kernelRealization) {
     return [
-      `${atom.atomId}: platform identity atom requires implementationMapping`,
+      `${atom.atomId}: platform identity atom requires kernel realizationMapping`,
     ];
   }
 
   const errors: string[] = [];
-  const mapping = atom.implementationMapping;
+  const contractPath =
+    kernelRealization.contractPath ?? kernelRealization.reference;
   const expectedContractPath =
     PLATFORM_ENTITY_KERNEL_CONTRACT_PATHS[
       atom.atomId as PlatformIdentityAtomId
     ];
 
-  if (!mapping.contractPath) {
+  if (!contractPath) {
     errors.push(
-      `${atom.atomId}: implementationMapping.contractPath is required for platform identity atoms`
+      `${atom.atomId}: kernel realizationMapping.contractPath is required for platform identity atoms`
     );
     return errors;
   }
 
-  if (isProhibitedIdentityKernelEvidencePath(mapping.contractPath)) {
+  if (isProhibitedIdentityKernelEvidencePath(contractPath)) {
     errors.push(
-      `${atom.atomId}: implementationMapping.contractPath must not reference parser or assert modules`
+      `${atom.atomId}: kernel realizationMapping.contractPath must not reference parser or assert modules`
     );
   }
-  if (!mapping.contractPath.endsWith(".contract.ts")) {
+  if (!contractPath.endsWith(".contract.ts")) {
     errors.push(
-      `${atom.atomId}: implementationMapping.contractPath must end with .contract.ts`
+      `${atom.atomId}: kernel realizationMapping.contractPath must end with .contract.ts`
     );
   }
-  if (mapping.contractPath !== expectedContractPath) {
+  if (contractPath !== expectedContractPath) {
     errors.push(
-      `${atom.atomId}: implementationMapping.contractPath must match platform entity registry path ${expectedContractPath}`
+      `${atom.atomId}: kernel realizationMapping.contractPath must match platform entity registry path ${expectedContractPath}`
     );
   }
-  if (!fileExists(join(options.repoRoot, mapping.contractPath))) {
+  if (!fileExists(join(options.repoRoot, contractPath))) {
     errors.push(
-      `${atom.atomId}: implementationMapping.contractPath does not exist: ${mapping.contractPath}`
+      `${atom.atomId}: kernel realizationMapping.contractPath does not exist: ${contractPath}`
     );
   }
 
@@ -142,10 +145,10 @@ function collectImplementationMappingErrors(
     ];
   if (
     requiredBrandedId !== undefined &&
-    mapping.brandedId !== requiredBrandedId
+    kernelRealization.brandedId !== requiredBrandedId
   ) {
     errors.push(
-      `${atom.atomId}: implementationMapping.brandedId must be ${requiredBrandedId}`
+      `${atom.atomId}: kernel realizationMapping.brandedId must be ${requiredBrandedId}`
     );
   }
 
@@ -206,9 +209,11 @@ function validatePlatformIdentityAtom(
   fileExists: (absolutePath: string) => boolean
 ): string[] {
   const errors = collectProhibitedEvidenceErrors(atom);
-  errors.push(...collectImplementationMappingErrors(atom, options, fileExists));
+  errors.push(
+    ...collectKernelRealizationMappingErrors(atom, options, fileExists)
+  );
 
-  if (!atom.implementationMapping) {
+  if (!getPrimaryKernelRealization(atom)) {
     return errors;
   }
 

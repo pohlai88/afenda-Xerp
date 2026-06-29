@@ -14,7 +14,7 @@
 Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b30-enterprise-accepted-attestation.md
 
 1. Objective    — Publish PAS-004A §11 scorecard evidence ≥28.5/30; document remaining honest gaps; delegate PKGR04 gate list update to foundation-registry-owner.
-2. Allowed layer— docs/PAS/** · docs/architecture/foundation-disposition.md (sync view only if drift agent) · NOT foundation-disposition.registry.ts (owner only)
+2. Allowed layer— docs/PAS/** · packages/architecture-authority/src/data/foundation-disposition.registry.ts (sync view only if drift agent) · NOT foundation-disposition.registry.ts (owner only)
 3. Files        —
    docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b30-enterprise-accepted-attestation.md
    docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md

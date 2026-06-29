@@ -16,7 +16,7 @@
 Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b29-coverage-expansion.md
 
 1. Objective    — Migrate atoms.json to typedEvidence + structuredReasoning; canonical acceptance authority IDs; add 4 platform identity atoms; quality score helper + typed corpus gate.
-2. Allowed layer— packages/enterprise-knowledge/** · scripts/governance/migrate-b29-atoms.mjs · scripts/governance/check-knowledge-typed-corpus.mts · package.json · docs/PAS/** · docs/architecture/glossary.md
+2. Allowed layer— packages/enterprise-knowledge/** · scripts/governance/migrate-b29-atoms.mjs · scripts/governance/check-knowledge-typed-corpus.mts · package.json · docs/PAS/** · docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md
 3. Files        —
    packages/enterprise-knowledge/src/contracts/knowledge-atom.contract.ts
    packages/enterprise-knowledge/src/data/atoms.json
@@ -34,7 +34,7 @@ Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b29-coverage-expansion.md
    package.json
    docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b29-coverage-expansion.md
    docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md
-   docs/architecture/glossary.md
+   docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md
 4. Prohibited   — kernel package edits; registry disposition mutation (B30); metadata runtime deps
 5. Authority    — PAS-004A §4.6–§4.7 · §12 · enterprise-knowledge skill
 6. Gates        —

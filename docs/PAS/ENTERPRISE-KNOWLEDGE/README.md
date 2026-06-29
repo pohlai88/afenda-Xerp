@@ -39,6 +39,8 @@ Platform North Star
 
 **Agent skill:** `enterprise-knowledge` · `.cursor/skills/enterprise-knowledge/SKILL.md`
 
+**Representation:** [`glossary.md`](glossary.md) — synced human view; registry wins · `pnpm check:glossary-knowledge-sync`
+
 ---
 
 ## Agent read order
@@ -78,6 +80,6 @@ Platform North Star
 | New §4 capability (Domain NS) | Domain NS → Blueprint → PAS amendment → SLICE handoff |
 | Slice close | [SLICE/enterprise-knowledge-slice-catalog.md](SLICE/enterprise-knowledge-slice-catalog.md) · [pas-status-index.md](../pas-status-index.md) · PAS §12 |
 | SKILL regen | `.cursor/skills/enterprise-knowledge/SKILL.md` (SYNC intent) |
-| Platform inventory | [Platform Blueprint](../../architecture/afenda-architecture-blueprint.md) — Knowledge family |
+| Platform inventory | [Platform Blueprint](../../BLUEPRINT/kernel-blueprint.md) — Knowledge family |
 
 **Redirect tombstones:** [PAS-004](../PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [PAS-004A](../PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [PAS-004B](../PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · [PAS-004C](../PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · [PAS-004D](../PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) — backwards-compatible links at `docs/PAS/` root.

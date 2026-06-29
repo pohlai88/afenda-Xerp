@@ -51,3 +51,9 @@ export {
 export function getCssAuthorityPackageName(): typeof CSS_AUTHORITY_PACKAGE_NAME {
   return CSS_AUTHORITY_PACKAGE_NAME;
 }
+
+export {
+  type CssThemeContractIssue,
+  type CssThemeContractOptions,
+  validateCssThemeContract,
+} from "./validation/css-theme-contract.js";

@@ -7,7 +7,7 @@
 | **Architectural identity** | **Blueprint Box name** (§4) — permanent |
 | **Workspace mapping** | [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) — `@afenda/*` npm name |
 | **Scope** | Accounting Standards Authority — external authority consumption, interpretation, and deterministic validation |
-| **Parent** | [Platform North Star](../architecture/afenda-platform-north-star.md) · [Accounting Standards Authority North Star](../NORTHSTAR/accounting-standards-north-star.md) |
+| **Parent** | [Platform North Star](../PAS/afenda-platform-north-star.md) · [Accounting Standards Authority North Star](../NORTHSTAR/accounting-standards-north-star.md) |
 | **Platform rollup** | [Afenda Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) § Accounting & finance domain |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) · [ADR-0010](../adr/ADR-0010-no-accounting-before-foundation-gate.md) · [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) |
 | **Constitutional laws** | [LAW 10](../CONSTITUTION/platform-constitutional-laws.md) — evidence traceability |
@@ -21,7 +21,7 @@
 | **Machine registry** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) · `PKGR03_ACCOUNTING_STANDARDS` |
 | **Quality target** | Enterprise **10 / 10** (Enterprise Accepted blocked on Domain NS §15 + §16) |
 | **Evidence standard** | [doc-evidence-standard.md](../../.cursor/skills/kernel-authority/reference/doc-evidence-standard.md) |
-| **Last reviewed** | 2026-06-29 |
+| **Last reviewed** | 2026-06-29 (documentation-audit sync — B0–B11 + B13–B16 delivered) |
 | **Next document** | [PAS-003](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) · [Slice SSOT](../PAS/ACCOUNTING-STANDARDS/SLICE/README.md) |
 
 > **One sentence:** One Foundation-layer **Accounting standards authority** box owns the authority consumption layer — citing external IFRS/MFRS/SFRS bodies through registries and deterministic validation — wired end-to-end from external publishers through Domain North Star, PAS, package surfaces, and every downstream runtime that must validate **before** posting, consolidation, or disclosure.
@@ -30,7 +30,7 @@
 
 # 0. Agent Quick Path
 
-**Read order:** [Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) → [Platform NS](../architecture/afenda-platform-north-star.md) → [Domain NS §1–§12](../NORTHSTAR/accounting-standards-north-star.md) → **this document** → [PAS-003](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) → Slice → Code.
+**Read order:** [Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) → [Platform NS](../PAS/afenda-platform-north-star.md) → [Domain NS §1–§12](../NORTHSTAR/accounting-standards-north-star.md) → **this document** → [PAS-003](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) → Slice → Code.
 
 **This document answers:**
 
@@ -201,7 +201,7 @@ packages/accounting-standards/
 | B4 | Domain NS §12 D1–D6 | T1 | Capability → box · ERP-parity extensions | [`accounting-standards-north-star.md`](../NORTHSTAR/accounting-standards-north-star.md) |
 | B5 | IFRS Foundation | T3 | External authority — not Afenda | Domain NS §3.1 · PAS §4.3 anchor |
 | B6 | PKG-023 · PKGR03 | T4 | Live package · blue-lane disposition | [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) |
-| B7 | PAS-003 published | T5 | B0 skeleton · Production Candidate | [`PAS-003`](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) |
+| B7 | PAS-003 published | T5 | B0–B11 + B13–B16 delivered; B12 pending | [`PAS-003`](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) |
 
 ---
 
@@ -209,7 +209,7 @@ packages/accounting-standards/
 
 | Blueprint box | Owns (architectural) | Never owns (explicit exclusions) | Domain NS trace |
 | --- | --- | --- | --- |
-| **Accounting standards authority** | External authority hierarchy metadata · standard family/catalog · authority version registry · parallel accounting book routing (planned) · reporting context profile (planned) · authority instrument taxonomy · process routing · jurisdiction routing (planned) · effective-date resolution (planned) · scope gates (planned) · conflict precedence (planned) · cross-representation routing (planned) · deterministic validation rules · validation result contract · consumer input contract · versioned rule packs · explanation registry · evidence snapshots · authority supersession awareness (planned) · judgment escalation outcomes (planned) · IFRS rule packs (cited summaries) | External standard-setting · journal posting · ledger mutation · COA mapping execution · consolidation calculation · IC eliminations · tax filing · XBRL instance generation · financial statement generation · Kernel ID families · Enterprise Knowledge atoms · UI rendering · AI-only blocking judgment · copyrighted standard text reproduction · professional sign-off | §4 · §9.1 · §9.2 |
+| **Accounting standards authority** | External authority hierarchy metadata · standard family/catalog · authority version registry · parallel accounting book routing · reporting context profile · authority instrument taxonomy · process routing · jurisdiction routing (MVP via reporting purpose) · effective-date resolution (edition metadata; transaction-date engine future) · scope gates · conflict precedence (severity aggregation; §5.2 engine future) · cross-representation routing · deterministic validation rules · validation result contract · consumer input contract · versioned rule packs · explanation registry · evidence snapshots · authority supersession awareness · judgment escalation outcomes · IFRS rule packs (cited summaries) | External standard-setting · journal posting · ledger mutation · COA mapping execution · consolidation calculation · IC eliminations · tax filing · XBRL instance generation · financial statement generation · Kernel ID families · Enterprise Knowledge atoms · UI rendering · AI-only blocking judgment · copyrighted standard text reproduction · professional sign-off | §4 · §9.1 · §9.2 |
 
 **Never-owns targets (name sibling boxes):** **Accounting runtime** · **Consolidation runtime** · **Intercompany runtime** · **Tax runtime** · **Finance runtime** · **Reporting runtime** · **Kernel** · **Enterprise Knowledge**.
 
@@ -269,7 +269,7 @@ Accounting standards authority (one box)
         ├─ Validation pipeline ───────────── PAS §4.5 input · §4.6 rules · §4.7 result
         ├─ Proof rule (Production) ───────── PAS §4.9 IFRS 16 lease (B9)
         ├─ Explanations ──────────────────── PAS §4.10 (UI · AI grounding)
-        ├─ Supersession (NS §8.7) ────────── edition feed metadata (B15+ planned)
+        ├─ Supersession (NS §8.7) ────────── edition feed metadata (B15 delivered)
         └─ Evidence snapshots ────────────── PAS §4.11 audit replay
 ```
 
@@ -325,7 +325,7 @@ Accounting standards authority (one box)
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │ IMPLEMENTATION                                                               │
-│ packages/accounting-standards/src/ (B0 live · B1–B11 target)                │
+│ packages/accounting-standards/src/ (B0–B11 + B13–B16 delivered · B12 governance pending) │
 │ Depends: @afenda/kernel · architecture authority (registry discipline)       │
 └───────────────────────────────────┬─────────────────────────────────────────┘
                                     ▼
@@ -482,9 +482,9 @@ This domain blueprint scope: **Accounting standards authority** only — status 
 
 | PAS | Title | Blueprint box | Live / Total slices | Status |
 | --- | --- | --- | --- | --- |
-| PAS-003 | Accounting Standards Authority Standard | **Accounting standards authority** | 1 / 17 | Production Candidate |
+| PAS-003 | Accounting Standards Authority Standard | **Accounting standards authority** | 16 / 17 | Production Candidate |
 
-> B0 delivered · B1–B11 core surfaces · B12 Enterprise Accepted sync · B13–B16 NS ERP-parity extensions. Sync from [`pas-status-index.md`](../PAS/pas-status-index.md) on slice close.
+> B0–B11 + B13–B16 delivered · B12 enterprise acceptance sync not started. Sync from [`pas-status-index.md`](../PAS/pas-status-index.md) on slice close.
 
 ---
 

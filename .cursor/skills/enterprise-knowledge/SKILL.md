@@ -16,7 +16,7 @@ paths:
 | **PAS-004A** (rollout) | B24–B32 delivered — 24 atoms, JSON authority, ERP consumer, glossary parity, scorecard 30/30 | none |
 | **PAS-004B** (Enterprise Accepted) | B33–B37 closed — scorecard 40/40; PKGR04 authority PAS-004B | none |
 | **PAS-004C** (semantic model) | B38–B48 delivered — scorecard **58/58**; PKGR04 authority PAS-004C | none — superseded by PAS-004D |
-| **PAS-004D** (operational closure) | B49 in progress — mirror sync + legacy retirement + corpus depth (proposed B50–B54) | B49 → B54 |
+| **PAS-004D** (operational closure) | B50 delivered — legacy gate live; corpus depth next (B51–B54) | B51 → B54 |
 
 > Canonical: [`PAS-004`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [`PAS-004A`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [`PAS-004B`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · [`PAS-004C`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · [`PAS-004D`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
@@ -156,7 +156,7 @@ For new enterprise-knowledge slices, read in this order:
 
 **Maturity:** Enterprise Accepted (PAS-004B B33–B37, 40/40). Semantic model closed (PAS-004C B38–B48, **58/58**). Operational closure active (PAS-004D B49+). Read **`kernel-authority`** before B53 erp-domain bridge atoms.
 
-**Slice gate:** PAS-004C closed. **Active slice: B49** — mirror sync before B50 legacy retirement. Next: [B49 authority mirror sync](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b49-pas004d-authority-mirror-sync.md).
+**Slice gate:** PAS-004C closed. **Active slice: B51** — corpus depth thresholds before vocabulary richness. Next: [B51 corpus depth](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b51-pas004d-corpus-depth.md) (proposed handoff).
 
 ---
 

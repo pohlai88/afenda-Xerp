@@ -38,7 +38,7 @@ Implementation must not precede documented governance.
 
 ### 3. Registry-first architecture
 
-Once TIP-001E is active, unlisted workspace packages are prohibited. Every package must appear in [`package-registry.md`](../architecture/package-registry.md).
+Once TIP-001E is active, unlisted workspace packages are prohibited. Every package must appear in [`package-registry.md`](../../packages/architecture-authority/src/data/package-registry.data.ts).
 
 ### 4. Steady state vs change
 
@@ -90,12 +90,12 @@ Material changes to hierarchy, scope, or core principle require a new Accepted A
 ## Acceptance Gate
 
 - ADR-0000 status = Accepted
-- [`docs/architecture/README.md`](../architecture/README.md) reflects hierarchy and scope
+- [`docs/PAS/README.md`](../PAS/README.md) reflects hierarchy and scope
 - TIP-001B ADR set (0001–0006) Accepted before TIP-001C begins
 
 ---
 
 ## References
 
-- [docs/architecture/README.md](../architecture/README.md)
+- [docs/PAS/README.md](../PAS/README.md)
 - [ADR-0001](ADR-0001-phase-1-foundation-redefinition.md) — Phase 1 Foundation Redefinition

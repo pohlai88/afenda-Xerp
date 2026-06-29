@@ -92,14 +92,6 @@ function chainHasReviewStep(atom: KnowledgeAtom): boolean {
 }
 
 function hasRuntimeImplementationEvidence(atom: KnowledgeAtom): boolean {
-  const implementationStatus = atom.implementationMapping?.runtimeStatus;
-  if (
-    implementationStatus === "implemented" ||
-    implementationStatus === "partial"
-  ) {
-    return true;
-  }
-
   return getAtomRealizationMappings(atom).length > 0;
 }
 
@@ -139,9 +131,7 @@ function evaluateTransitionRule(
   }
 
   if (rule.to === "implemented" && !hasRuntimeImplementationEvidence(atom)) {
-    errors.push(
-      `${prefix}: implementation requires implementationMapping.runtimeStatus or realizationMapping`
-    );
+    errors.push(`${prefix}: implementation requires realizationMapping`);
   }
 
   return errors;

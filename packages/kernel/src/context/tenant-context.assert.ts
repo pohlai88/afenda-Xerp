@@ -4,6 +4,7 @@ import {
   type PlatformLifecycleStatus,
 } from "./lifecycle.contract.js";
 import type { TenantWireContext } from "./tenant-context.contract.js";
+import { isTenantSaasLifecyclePhase } from "./tenant-saas-lifecycle.contract.js";
 
 type JsonPrimitive = string | number | boolean | null;
 
@@ -73,6 +74,16 @@ export function assertWireTenantContext(
   }
   if (typeof record["status"] !== "string") {
     throw new Error("status must be a string.");
+  }
+
+  if (
+    record["saasLifecyclePhase"] !== undefined &&
+    (typeof record["saasLifecyclePhase"] !== "string" ||
+      !isTenantSaasLifecyclePhase(record["saasLifecyclePhase"]))
+  ) {
+    throw new Error(
+      "saasLifecyclePhase must be a valid tenant SaaS lifecycle phase."
+    );
   }
 
   assertTenantWireContext(value as TenantWireContext);

@@ -26,7 +26,7 @@ describe("check-multi-tenancy-operating-context-resolver script", () => {
 
   it("documents Step 7 markers from multi-tenancy.md §561–571", () => {
     const multiTenancyDoc = readFileSync(
-      join(repoRoot, "docs/architecture/multi-tenancy.md"),
+      join(repoRoot, "docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md"),
       "utf8"
     );
 

@@ -2,7 +2,7 @@
 
 **Prerequisite:** [B48 Docs consumer projection adoption](b48-pas004c-docs-consumer-projection-adoption.md) delivered
 
-**Status:** In progress — doc hygiene delivered 2026-06-29; gate script pending
+**Status:** Delivered — mirror gate `check:knowledge-authority-mirror` registered 2026-06-29
 
 **Type:** Governance + documentation
 

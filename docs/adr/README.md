@@ -8,7 +8,7 @@ Constitutional decisions for the Afenda ERP platform. ADRs sit between human reg
 ADR  >  Registry  >  Machine Contract  >  Validator  >  CI Gate
 ```
 
-See [`docs/architecture/README.md`](../architecture/README.md).
+See [`docs/PAS/README.md`](../PAS/README.md).
 
 ## Index
 
@@ -59,11 +59,11 @@ See [`docs/architecture/README.md`](../architecture/README.md).
 
 ## Related
 
-- [PAS delivery authority](../architecture/foundation-delivery-authority.md)
-- [Foundation disposition view](../architecture/foundation-disposition.md)
+- [PAS delivery authority](../PAS/README.md)
+- [Foundation disposition view](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts)
 
-- Baseline: [`docs/architecture/architecture-authority-baseline.md`](../architecture/architecture-authority-baseline.md)
+- Baseline: [`packages/architecture-authority/src/contracts/architecture-authority-version.ts`](../PAS/architecture-authority-baseline.md)
 - Documentation index: [`docs/README.md`](../README.md)
-- Pre-accounting roadmap: [`pre-accounting-foundation-roadmap.md`](../architecture/pre-accounting-foundation-roadmap.md)
-- Runtime truth: [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md)
+- Pre-accounting roadmap: [`pre-accounting-foundation-roadmap.md`](../PAS/pre-accounting-foundation-roadmap.md)
+- Runtime truth: [`afenda-runtime-truth-matrix.md`](../PAS/pas-status-index.md)
 - Fingerprint: `ARCH-BASELINE-2026-06-23-v2` (Foundation phase 00 documentation authority closeout)

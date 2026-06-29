@@ -7,12 +7,14 @@
 import {
   AUTHORITY_TYPES,
   BINDING_LEVELS,
+  EPISTEMIC_STATUSES,
   KNOWLEDGE_ATOM_KINDS,
   KNOWLEDGE_DOMAINS,
   KNOWLEDGE_INTEGRITY_DIMENSIONS,
   KNOWLEDGE_LIFECYCLE_STATUSES,
   type KnowledgeAtom,
   type KnowledgeDomain,
+  SEMANTIC_STABILITY_LEVELS,
 } from "../contracts/knowledge-atom.contract.js";
 import { KNOWLEDGE_CONCEPT_OWNED_BY_PAS } from "../contracts/knowledge-concept.contract.js";
 import {
@@ -391,6 +393,28 @@ function validateAtomContent(raw: JsonRecord, base: string): ValidationError[] {
     )
   ) {
     errors.push({ path: `${base}.lifecycle`, message: "invalid lifecycle" });
+  }
+  const epistemicStatus = get(raw, "epistemicStatus");
+  if (
+    !EPISTEMIC_STATUSES.includes(
+      epistemicStatus as KnowledgeAtom["epistemicStatus"]
+    )
+  ) {
+    errors.push({
+      path: `${base}.epistemicStatus`,
+      message: `must be one of ${EPISTEMIC_STATUSES.join(", ")}`,
+    });
+  }
+  const semanticStability = get(raw, "semanticStability");
+  if (
+    !SEMANTIC_STABILITY_LEVELS.includes(
+      semanticStability as KnowledgeAtom["semanticStability"]
+    )
+  ) {
+    errors.push({
+      path: `${base}.semanticStability`,
+      message: `must be one of ${SEMANTIC_STABILITY_LEVELS.join(", ")}`,
+    });
   }
   const integrity = get(raw, "integrity");
   if (isRecord(integrity)) {

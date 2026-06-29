@@ -1,6 +1,6 @@
 /**
  * Canonical operating-context module registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Step 4 §522–536, Kernel §354–369).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Step 4 §522–536, Kernel §354–369).
  *
  * Naming (PAS-001 §4.4):
  * - `{layer}-context.contract.ts` — structural operating-context **shape** only
@@ -226,6 +226,13 @@ export const KERNEL_OPERATING_CONTEXT_WIRE_INGRESS_MODULES = [
 /** Supporting contracts exported from the same package surface (non-wire or metadata). */
 export const KERNEL_OPERATING_CONTEXT_SUPPORT_MODULES = [
   "lifecycle.contract.ts",
+  "tenant-saas-lifecycle.contract.ts",
+  "tenant-saas-lifecycle.assert.ts",
+  "tenant-saas-lifecycle.parser.ts",
+  "tenant-extension-boundary.contract.ts",
+  "tenant-extension-boundary.assert.ts",
+  "tenant-extension-boundary.parser.ts",
+  "effective-dating-vocabulary.contract.ts",
   "workspace-context.contract.ts",
   "surface-context.contract.ts",
   "workflow-context.contract.ts",

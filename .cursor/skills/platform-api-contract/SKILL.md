@@ -37,7 +37,7 @@ Routes wired through `createApiHandler` (`apps/erp/src/app/api/internal/v1/**`) 
 { ok: false, error: { code, message, correlationId?, details? }, meta: { ... } }
 ```
 
-Always use `createApiHandler` for new internal v1 routes. Parse client responses with `readApiEnvelope` — see `docs/governance/api-contract.md`.
+Always use `createApiHandler` for new internal v1 routes. Parse client responses with `readApiEnvelope` — see `.cursor/skills/platform-api-contract/SKILL.md`.
 
 ---
 

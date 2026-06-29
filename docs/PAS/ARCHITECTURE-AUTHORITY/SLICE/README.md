@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **Directory (SSOT)** | `docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/` |
-| **Legacy** | `docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/` — **removed from repo**; do not restore PAS-002 handoffs there |
+| **Legacy** | Flat `docs/PAS/slice/` — **removed** for PAS-002 family; do not restore arch-auth handoffs there |
 | **Template** | [pas-slice-template.md](../../../../.cursor/skills/kernel-authority/reference/pas-slice-template.md) |
 | **Catalog** | [architecture-authority-slice-catalog.md](architecture-authority-slice-catalog.md) |
 | **Slice range** | B1–B27 (PAS-002) · B38–B42 (PAS-002A) |

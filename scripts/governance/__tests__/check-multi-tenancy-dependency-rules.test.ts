@@ -68,7 +68,7 @@ describe("check-multi-tenancy-dependency-rules script", () => {
 
   it("aligns multi-tenancy.md dependency markers with architecture registry", () => {
     const multiTenancyDoc = readFileSync(
-      join(repoRoot, "docs/architecture/multi-tenancy.md"),
+      join(repoRoot, "docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md"),
       "utf8"
     );
 

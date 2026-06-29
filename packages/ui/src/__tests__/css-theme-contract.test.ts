@@ -1,8 +1,7 @@
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { validateCssThemeContract } from "@afenda/css-authority";
 import { describe, expect, it } from "vitest";
-
-import { validateCssThemeContract } from "../../../../scripts/css/css-theme-contract.mts";
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const repoRoot = join(packageRoot, "../..");

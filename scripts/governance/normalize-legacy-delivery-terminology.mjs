@@ -34,8 +34,145 @@ const EXT = new Set([
 ]);
 
 const REPLACEMENTS = [
-  [/tip-004-policy\.md/gi, "governed-ui-policy.md"],
-  [/docs\/governance\/tip-004-policy/gi, "docs/governance/governed-ui-policy"],
+  [/tip-004-policy\.md/gi, "governed-ui-consumption.mdc"],
+  [/docs\/governance\//gi, ".cursor/rules/governed-ui-consumption.mdc"],
+  [
+    /docs\/architecture\/afenda-runtime-truth-matrix\.md/gi,
+    "docs/PAS/pas-status-index.md",
+  ],
+  [
+    /docs\/architecture\/pre-accounting-foundation-roadmap\.md/gi,
+    "docs/architecture/_afenda-erp-master-plan.llms.md",
+  ],
+  [
+    /docs\/architecture\/phase-9-accounting-readiness-sign-off\.md/gi,
+    "docs/adr/ADR-0010-no-accounting-before-foundation-gate.md",
+  ],
+  [
+    /docs\/architecture\/afenda-documentation-drift-audit\.md/gi,
+    "docs/PAS/pas-status-index.md",
+  ],
+  [
+    /docs\/architecture\/foundation-delivery-authority\.md/gi,
+    "docs/PAS/README.md",
+  ],
+  [
+    /docs\/architecture\/foundation-disposition\.md/gi,
+    "packages/architecture-authority/src/data/foundation-disposition.registry.ts",
+  ],
+  [
+    /docs\/architecture\/glossary\.md/gi,
+    "docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md",
+  ],
+  [
+    /docs\/architecture\/multi-tenancy\.md/gi,
+    "docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md",
+  ],
+  [
+    /docs\/architecture\/package-registry\.md/gi,
+    "packages/architecture-authority/src/data/package-registry.data.ts",
+  ],
+  [
+    /docs\/architecture\/dependency-registry\.md/gi,
+    "packages/architecture-authority/src/data/dependency-registry.data.ts",
+  ],
+  [
+    /docs\/architecture\/layer-registry\.md/gi,
+    "packages/architecture-authority/src/data/layer-registry.data.ts",
+  ],
+  [
+    /docs\/architecture\/ownership-registry\.md/gi,
+    "packages/architecture-authority/src/data/ownership-registry.data.ts",
+  ],
+  [
+    /docs\/architecture\/architecture-authority-baseline\.md/gi,
+    "packages/architecture-authority/src/contracts/architecture-authority-version.ts",
+  ],
+  [
+    /docs\/architecture\/dependency-snapshot\.json/gi,
+    "packages/architecture-authority/dependency-snapshot.json",
+  ],
+  [
+    /docs\/architecture\/architecture-report\.json/gi,
+    "packages/architecture-authority/architecture-report.json",
+  ],
+  [
+    /docs\/architecture\/css-authority\.md/gi,
+    "docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md",
+  ],
+  [
+    /docs\/architecture\/app-ui-component-adaptation-guide\.md/gi,
+    ".cursor/skills/afenda-shadcn-components/SKILL.md",
+  ],
+  [
+    /docs\/architecture\/afenda-rest-api-governance\.md/gi,
+    ".cursor/skills/platform-api-contract/SKILL.md",
+  ],
+  [
+    /docs\/architecture\/afenda-platform-north-star\.md/gi,
+    "docs/NORTHSTAR/kernel-north-star.md",
+  ],
+  [
+    /docs\/architecture\/afenda-architecture-blueprint\.md/gi,
+    "docs/BLUEPRINT/kernel-blueprint.md",
+  ],
+  [/docs\/architecture\/README\.md/gi, "docs/PAS/README.md"],
+  [/docs\/architecture\/identity\//gi, "docs/PAS/KERNEL/identity/"],
+  [
+    /\.\.\/architecture\/foundation-delivery-authority\.md/gi,
+    "../PAS/README.md",
+  ],
+  [
+    /\.\.\/architecture\/foundation-disposition\.md/gi,
+    "../../packages/architecture-authority/src/data/foundation-disposition.registry.ts",
+  ],
+  [
+    /\.\.\/architecture\/package-registry\.md/gi,
+    "../../packages/architecture-authority/src/data/package-registry.data.ts",
+  ],
+  [
+    /\.\.\/architecture\/package-lifecycle\.md/gi,
+    "../../packages/architecture-authority/src/data/lifecycle-registry.data.ts",
+  ],
+  [
+    /\.\.\/architecture\/layer-registry\.md/gi,
+    "../../packages/architecture-authority/src/data/layer-registry.data.ts",
+  ],
+  [
+    /\.\.\/architecture\/dependency-registry\.md/gi,
+    "../../packages/architecture-authority/src/data/dependency-registry.data.ts",
+  ],
+  [
+    /\.\.\/architecture\/ownership-registry\.md/gi,
+    "../../packages/architecture-authority/src/data/ownership-registry.data.ts",
+  ],
+  [
+    /\.\.\/architecture\/glossary\.md/gi,
+    "../PAS/ENTERPRISE-KNOWLEDGE/glossary.md",
+  ],
+  [
+    /\.\.\/architecture\/multi-tenancy\.md/gi,
+    "../PAS/KERNEL/multi-tenancy-delivery-evidence.md",
+  ],
+  [
+    /\.\.\/architecture\/afenda-runtime-truth-matrix\.md/gi,
+    "../PAS/pas-status-index.md",
+  ],
+  [
+    /\.\.\/architecture\/afenda-documentation-drift-audit\.md/gi,
+    "../PAS/pas-status-index.md",
+  ],
+  [
+    /\.\.\/architecture\/app-ui-component-adaptation-guide\.md/gi,
+    "../../.cursor/skills/afenda-shadcn-components/SKILL.md",
+  ],
+  [/\.\.\/architecture\/README\.md/gi, "../PAS/README.md"],
+  [/\.\.\/architecture\/identity\//gi, "../PAS/KERNEL/identity/"],
+  [
+    /\.\.\/architecture\/afenda-architecture-blueprint\.md/gi,
+    "../BLUEPRINT/kernel-blueprint.md",
+  ],
+  [/\.\.\/architecture\//gi, "../PAS/"],
   [
     /TIP-004B primitive governance violation/g,
     "Governed UI primitive policy violation",

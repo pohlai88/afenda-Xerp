@@ -62,11 +62,11 @@
 
 **Required gates:** see §13.1.
 
-**Closure registry:** [`pas-status-index.md`](pas-status-index.md) · Session: `/afenda-coding-session`
+**Closure registry:** [`pas-status-index.md`](../pas-status-index.md) · Session: `/afenda-coding-session`
 
 **Registry:** `PKGR02_ARCHITECTURE_AUTHORITY` · machine authority: `packages/architecture-authority/src/data/foundation-disposition.registry.ts` · surface map: `src/surface/architecture-authority-surface-registry.ts`
 
-**Kernel boundary (read-only):** Canonical enterprise ID families, parsers, and wire contracts live in `@afenda/kernel` ([PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). Architecture authority records package/layer/dependency truth only — never ID format or parser behavior.
+**Kernel boundary (read-only):** Canonical enterprise ID families, parsers, and wire contracts live in `@afenda/kernel` ([PAS-001](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). Architecture authority records package/layer/dependency truth only — never ID format or parser behavior.
 
 **Enterprise knowledge boundary:** Knowledge Atoms, acceptance chains, and accepted business meaning → [PAS-004](ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) / `@afenda/enterprise-knowledge` / `.cursor/skills/enterprise-knowledge/SKILL.md`. List `@afenda/enterprise-knowledge` in package registries here; do **not** store atoms in this package.
 
@@ -313,7 +313,7 @@ Approved runtime dependency edges between workspace packages. Consumed by `valid
 **Implementation:** `packages/architecture-authority/src/data/business-master-data-authority.registry.ts` · import/scaffold policies under `src/data/business-master-data-*.policy.ts`
 **Slice gate:** Delivered (runtime)
 
-Records **which business entity IDs are reserved for which domain packages** and enforces import/scaffold boundaries. This is package governance metadata — not business master data runtime, not Kernel `ID_FAMILIES` semantics ([PAS-001 §4.1](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)).
+Records **which business entity IDs are reserved for which domain packages** and enforces import/scaffold boundaries. This is package governance metadata — not business master data runtime, not Kernel `ID_FAMILIES` semantics ([PAS-001 §4.1](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)).
 
 ## 4.11 Surface Registry
 
@@ -484,7 +484,7 @@ Architecture authority is a governance package, not a runtime feature package.
 | Does the change define ERP business route behavior?                        | Belongs to Application/module authority.        | **No**           |
 | Does the change define delivery status pointers for foundation packages?   | Belongs to foundation disposition registry.     | **Yes**          |
 | Does the change assign a business entity to a domain package (ADR-0020)?   | Update business-master-data authority registry. | **Yes**          |
-| Does the change add Kernel wire/parser behavior for an enterprise ID?      | Belongs to `@afenda/kernel` ([PAS-001 §4.1](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). | **No**           |
+| Does the change add Kernel wire/parser behavior for an enterprise ID?      | Belongs to `@afenda/kernel` ([PAS-001 §4.1](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). | **No**           |
 
 ---
 
@@ -634,36 +634,41 @@ A change is accepted only when all criteria pass.
 
 # 12. Slice Catalog
 
-Index of implementation slices for this PAS. **Runtime for §4.1–§4.12 and §6 layout governance is delivered** in `packages/architecture-authority/src/`; closure records B1–B27 are indexed in [`pas-status-index.md`](pas-status-index.md).
+Index of implementation slices for this PAS. **Runtime for §4.1–§4.12 and §6 layout governance is delivered** in `packages/architecture-authority/src/`; closure records B1–B15 · B18–B27 (25 handoffs; B16–B17 unused) are indexed in [`pas-status-index.md`](../pas-status-index.md).
+
+**Slice SSOT path:** `docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/<filename>`
 
 | Slice file                                  | ID  | PAS §   | Status      | Type           | Prerequisite     |
 | ------------------------------------------- | --- | ------- | ----------- | -------------- | ---------------- |
 | *(runtime delivered — §4.8–§4.12 in surface registry)* | — | §4.8–§4.12 | Delivered | Implementation | PAS-002 accepted |
-| `b1-4.1-package-registry.md`                | B1  | §4.1    | Delivered   | Evidence-sync  | Runtime exists   |
-| `b2-4.2-layer-registry.md`                  | B2  | §4.2    | Delivered   | Evidence-sync  | Runtime exists   |
-| `b3-4.3-ownership-registry.md`              | B3  | §4.3    | Delivered   | Evidence-sync  | Runtime exists   |
-| `b4-4.4-foundation-disposition-registry.md` | B4  | §4.4    | Delivered   | Evidence-sync  | Runtime exists   |
-| `b5-4.5-boundary-rules.md`                  | B5  | §4.5    | Delivered   | Evidence-sync  | Runtime exists   |
-| `b6-4.6-exception-registry.md`              | B6  | §4.6    | Delivered   | Evidence-sync  | Runtime exists   |
-| `b7-4.7-architecture-gates.md`              | B7  | §4.7    | Delivered   | Evidence-sync  | Runtime exists   |
-| `b8-4.10-bmd-authority.md`                  | B8  | §4.10   | Delivered   | Evidence-sync  | ADR-0020         |
-| `b9-6-package-structure-and-exports.md`     | B9  | §6      | Delivered   | Governance     | B1–B8            |
-| `b10-architecture-authority-skill.md`       | B10 | §14     | Delivered   | Governance     | B9               |
-| `b11-canonical-doc-registry-sync.md`        | B11 | §4.11   | Delivered   | Evidence-sync  | B10              |
-| `b13-4.7-composite-gate-foundation-disposition.md` | B13 | §4.7 | Delivered | Implementation | B7 |
-| `b14-4.11-validator-surface-parity.md` | B14 | §4.11 | Delivered | Implementation | B11 |
-| `b22-3.3-governance-import-boundary.md` | B22 | §3.3 | Delivered | Implementation | B10 |
-| `b23-4.10-bmd-authority-comment-sync.md` | B23 | §4.10 | Delivered | Evidence-sync | B8 |
-| `b12-4.6-exception-contract-alignment.md` | B12 | §4.6 | Delivered | Implementation | B6 |
-| `b19-4.3-ownership-registry-parity.md` | B19 | §4.3 | Delivered | Implementation | B13 |
-| `b21-14-doc-runtime-parity.md` | B21 | §14 | Delivered | Evidence-sync | B14 |
-| `b18-pkgr02-architecture-authority-disposition.md` | B18 | §0 | Delivered | Registry-sync | B21 |
-| `b20-registry-map-immutability.md` | B20 | §6.3 | Delivered | Implementation | B18 |
-| `b15-4.9-lifecycle-enforcement.md` | B15 | §4.9 | Delivered | Implementation | B7 |
-| `b24-14-skill-runtime-parity.md` | B24 | §14 | Delivered | Evidence-sync | B15,B20 |
-| `b25-4.9-lifecycle-expiry-metadata.md` | B25 | §4.9 | Delivered | Implementation | B15 |
-| `b26-4.9-lifecycle-determinism.md` | B26 | §4.9 | Delivered | Implementation | B25 |
-| `b27-4.4-disposition-coverage-gap-closure.md` | B27 | §4.4 | Delivered | Registry-sync | B18 |
+| `SLICE/b1-4.1-package-registry.md`                | B1  | §4.1    | Delivered   | Evidence-sync  | Runtime exists   |
+| `SLICE/b2-4.2-layer-registry.md`                  | B2  | §4.2    | Delivered   | Evidence-sync  | Runtime exists   |
+| `SLICE/b3-4.3-ownership-registry.md`              | B3  | §4.3    | Delivered   | Evidence-sync  | Runtime exists   |
+| `SLICE/b4-4.4-foundation-disposition-registry.md` | B4  | §4.4    | Delivered   | Evidence-sync  | Runtime exists   |
+| `SLICE/b5-4.5-boundary-rules.md`                  | B5  | §4.5    | Delivered   | Evidence-sync  | Runtime exists   |
+| `SLICE/b6-4.6-exception-registry.md`              | B6  | §4.6    | Delivered   | Evidence-sync  | Runtime exists   |
+| `SLICE/b7-4.7-architecture-gates.md`              | B7  | §4.7    | Delivered   | Evidence-sync  | Runtime exists   |
+| `SLICE/b8-4.10-bmd-authority.md`                  | B8  | §4.10   | Delivered   | Evidence-sync  | ADR-0020         |
+| `SLICE/b9-6-package-structure-and-exports.md`     | B9  | §6      | Delivered   | Governance     | B1–B8            |
+| `SLICE/b10-architecture-authority-skill.md`       | B10 | §14     | Delivered   | Governance     | B9               |
+| `SLICE/b11-canonical-doc-registry-sync.md`        | B11 | §4.11   | Delivered   | Evidence-sync  | B10              |
+| `SLICE/b13-4.7-composite-gate-foundation-disposition.md` | B13 | §4.7 | Delivered | Implementation | B7 |
+| `SLICE/b14-4.11-validator-surface-parity.md` | B14 | §4.11 | Delivered | Implementation | B11 |
+| `SLICE/b22-3.3-governance-import-boundary.md` | B22 | §3.3 | Delivered | Implementation | B10 |
+| `SLICE/b23-4.10-bmd-authority-comment-sync.md` | B23 | §4.10 | Delivered | Evidence-sync | B8 |
+| `SLICE/b12-4.6-exception-contract-alignment.md` | B12 | §4.6 | Delivered | Implementation | B6 |
+| `SLICE/b19-4.3-ownership-registry-parity.md` | B19 | §4.3 | Delivered | Implementation | B13 |
+| `SLICE/b21-14-doc-runtime-parity.md` | B21 | §14 | Delivered | Evidence-sync | B14 |
+| `SLICE/b18-pkgr02-architecture-authority-disposition.md` | B18 | §0 | Delivered | Registry-sync | B21 |
+| `SLICE/b20-registry-map-immutability.md` | B20 | §6.3 | Delivered | Implementation | B18 |
+| `SLICE/b15-4.9-lifecycle-enforcement.md` | B15 | §4.9 | Delivered | Implementation | B7 |
+| `SLICE/b24-14-skill-runtime-parity.md` | B24 | §14 | Delivered | Evidence-sync | B15,B20 |
+| `SLICE/b25-4.9-lifecycle-expiry-metadata.md` | B25 | §4.9 | Delivered | Implementation | B15 |
+| `SLICE/b26-4.9-lifecycle-determinism.md` | B26 | §4.9 | Delivered | Implementation | B25 |
+| `SLICE/b27-4.4-disposition-coverage-gap-closure.md` | B27 | §4.4 | Delivered | Registry-sync | B18 |
+| *(B16–B17 reserved — never allocated)* | — | — | — | — | — |
+
+**Planned amendment slices (Domain NS §15 · △ E11–E15):** extension boundary · surface attestation · golden-path scaffold · target-state · system membership · reference patterns — author as B43+ under `SLICE/` when PAS §4 surfaces are amended.
 
 Slice naming: `b<N>-<pas-section>-<slug>.md`.
 
@@ -754,7 +759,7 @@ The package-local file should be a pointer or tombstone, not a duplicated full a
 > **Belongs outside:** business master data, runtime module behavior, UI rendering, database schema, auth sessions, outbox workers, audit writing, ERP route behavior.
 
 Architecture Authority owns **structure**.
-Kernel owns **global primitives** ([PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)).
+Kernel owns **global primitives** ([PAS-001](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)).
 Business modules own **business meaning**.
 Applications own **composition and user-facing behavior**.
 

@@ -35,7 +35,7 @@ Runtime evidence (2026-06-23) shows **partial delivery** via TIP-007/012 slice: 
    - Organization Unit (operating tree inside legal entity)
    - Workspace (runtime derived context)
    - Consolidation Scope (reporting boundary — **scope only, no arithmetic before accounting gate**)
-3. Canonical vocabulary: [`docs/architecture/glossary.md`](../architecture/glossary.md)
+3. Canonical vocabulary: [`docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md`](../PAS/ENTERPRISE-KNOWLEDGE/glossary.md)
 4. Kernel contracts: `packages/kernel/src/context/` operating-context registry
 5. Persistence: `packages/database/src/schema/entity-group.schema.ts`, `legal-entity-ownership.schema.ts`, `company.schema.ts`
 6. **Consolidation accounting logic** (eliminations, NCI, equity method postings) remains **blocked until ADR-0010 gate passes**.
@@ -59,7 +59,7 @@ Runtime evidence (2026-06-23) shows **partial delivery** via TIP-007/012 slice: 
 
 ## Acceptance Gate
 
-- [x] Glossary terms for all hierarchy levels accepted — [`glossary.md`](../architecture/glossary.md); Consolidation Scope + business master data map (TIP-008B)
+- [x] Glossary terms for all hierarchy levels accepted — [`glossary.md`](../PAS/ENTERPRISE-KNOWLEDGE/glossary.md); Consolidation Scope + business master data map (TIP-008B)
 - [x] Kernel operating-context registry includes entity group + ownership + consolidation scope — `context-registry.ts`; `consolidation-scope-resolution.server.ts`
 - [x] Database schemas for entity group + ownership interest with contract tests — TIP-008A deliverables
 - [x] ERP operating context resolver handles multi-company selection — `resolve-operating-context.server.ts`; consolidation scope via `resolve-consolidation-scope.server.ts` (TIP-008A)
@@ -70,6 +70,6 @@ Runtime evidence (2026-06-23) shows **partial delivery** via TIP-007/012 slice: 
 
 ## References
 
-- [`docs/architecture/multi-tenancy.md`](../architecture/multi-tenancy.md)
+- [`docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md`](../PAS/KERNEL/multi-tenancy-delivery-evidence.md)
 - [`tips/[Complete] tip-007-012-enterprise-group-operating-context.md`](../delivery/tips/%5BComplete%5D%20tip-007-012-enterprise-group-operating-context.md)
 - ADR-0010 Accounting Readiness Gate

@@ -4,7 +4,7 @@
 | --- | --- |
 | **Scope** | Platform Architecture Authority — one Blueprint box |
 | **Upstream** | [Architecture Authority North Star](../../NORTHSTAR/architecture-authority-north-star.md) · [Architecture Authority Blueprint](../../BLUEPRINT/architecture-authority-blueprint.md) |
-| **Slice SSOT** | [`SLICE/`](SLICE/README.md) — individual handoffs B1–B27 · B38–B42 |
+| **Slice SSOT** | [`SLICE/`](SLICE/README.md) — 30 handoffs: B1–B15 · B18–B27 (PAS-002) · B38–B42 (PAS-002A); B16–B17 unused |
 | **Maturity** | Enterprise Accepted (PAS-002A B38–B42 closed) |
 | **Last reviewed** | 2026-06-29 |
 
@@ -75,4 +75,4 @@ Platform North Star
 | New §4 capability (Domain NS) | Domain NS → Blueprint → PAS amendment → SLICE handoff |
 | Slice close | [SLICE/architecture-authority-slice-catalog.md](SLICE/architecture-authority-slice-catalog.md) · [pas-status-index.md](../pas-status-index.md) · PAS §12 |
 | SKILL regen | `.cursor/skills/architecture-authority/SKILL.md` (SYNC intent) |
-| Platform inventory | [Platform Blueprint](../../architecture/afenda-architecture-blueprint.md) — Governance family |
+| Platform inventory | [Platform Blueprint](../../BLUEPRINT/kernel-blueprint.md) — Governance family |

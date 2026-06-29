@@ -8,7 +8,7 @@ alwaysApply: false
 
 # Governed UI Consumption (Governed UI)
 
-Canonical policy: [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md). Gates: [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md).
+Canonical policy: **this rule** · Gates: [`scripts/governance/ui-guard.mjs`](../../scripts/governance/ui-guard.mjs) · Author layer: [`.cursor/skills/govern-primitive/SKILL.md`](../skills/govern-primitive/SKILL.md)
 
 Applies when composing `@afenda/ui` in **consumer** packages (`packages/appshell`, `packages/metadata-ui`, `apps/erp`).
 For **authoring** primitives, use `.cursor/skills/govern-primitive/SKILL.md`.
@@ -65,10 +65,10 @@ After installing or pasting a block:
 
 ```bash
 pnpm ui:guard:scan    # Gate D — fast local check (< 2 s)
-pnpm ui:guard         # gates A–F — see docs/governance/ui-guard.md
+pnpm ui:guard         # gates A–F — scripts/governance/ui-guard.mjs
 pnpm --filter @afenda/appshell test:run
 pnpm --filter @afenda/ui check:governance   # when touching primitives
 ```
 
 Static enforcement: `scripts/governance/governed-ui-consumption.mjs` (Gate D), `scripts/governance/react-erp-policy.mjs` (Gate F).  
-Canonical gate reference: [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md)
+Canonical gate reference: [`scripts/governance/ui-guard.mjs`](../../scripts/governance/ui-guard.mjs)

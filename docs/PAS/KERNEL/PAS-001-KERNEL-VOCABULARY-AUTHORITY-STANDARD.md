@@ -18,10 +18,10 @@
 | **Authority status** | `enterprise_accepted` |
 | **Implementation status** | `implemented` |
 | **Evidence level** | `runtime_proven` |
-| **Runtime status** | Kernel contracts, slice catalog B49–B70 closed, runtime gates operational |
-| **Remaining slices** | none — B70 Delivered |
-| **Total slices planned** | B49–B70 closure sequence (legacy catalog lists full B2–B70 history) |
-| **Delivered slices** | B49–B70 closed · prior B2–B48 historical |
+| **Runtime status** | Kernel contracts, slice catalog B49–B70 + B107–B109 amendment closed, runtime gates operational |
+| **Remaining slices** | none — B109 Delivered |
+| **Total slices planned** | B49–B70 closure · B107–B109 amendment |
+| **Delivered slices** | B49–B70 closed · B107–B109 amendment · prior B2–B48 historical |
 | **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, governed domain packages |
 | **Upstream** | [Kernel North Star](../../NORTHSTAR/kernel-north-star.md) · [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §4 Kernel Vocabulary |
 | **Extension PAS** | [PAS-001A](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) · [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
@@ -56,6 +56,30 @@
 
 **Read order:** [KERNEL README](README.md) → this §0 → archive [PAS-001 §4](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#4-authority-surfaces) when implementing a cited surface.
 
+**Composed → archive section map** (contract detail lives in archive until promoted):
+
+| Composed § | Archive § | Topic |
+| --- | --- | --- |
+| §0 | §0 | Agent quick path |
+| §1 | §1 | Package definition |
+| §2 | §2 | One-sentence boundary |
+| §3 | §3 | Dependency rules |
+| §4 | §4 | Authority surfaces (full spec) |
+| §5 | §5 | Prohibited ownership |
+| §6 | §6 | Package structure |
+| §7 | §7 | Decision matrix |
+| §8 | §9 | Contract rules |
+| §9 | §10 | Runtime rules |
+| §10 | §11 | Implementation sequence |
+| §11 | §12 | Enterprise acceptance criteria |
+| §12 | §13 | Slice catalog |
+| §13 | §14 | Required gates |
+| §14 | §16 | Doctrine |
+| — | §8 | Permission model (grant-scope vocabulary) |
+| — | §15 | Reusable package guardrail template |
+
+**Lifecycle disambiguation:** **Tenant SaaS lifecycle** (Provisioned → Active → Suspended → Offboarded — Kernel NS §8.3) is substrate vocabulary only; provisioning execution is outside kernel. **`PlatformLifecycleStatus`** (`active` / `suspended` / `archived` on entity/org context slots) is **entity-level** status — not tenant SaaS lifecycle. Do not merge the two word sets without a PAS amendment.
+
 **Boundary:** The kernel defines **cross-package facts, branded vocabulary, wire-safe contracts, and execution context primitives**; it never implements **business behavior, persistence, transport, rendering, formatting, authorization evaluation, accounting logic, or external integration**.
 
 **Hard stops:**
@@ -63,7 +87,7 @@
 - **Prohibited imports:** `@afenda/database`, `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, Drizzle, Better Auth, Next.js, React, Zod, HTTP/DB/cloud SDKs
 - **Must never own:** database schema, auth sessions, permission evaluation, API routes, React/UI, domain workflows, posting/ledger, resolver spine
 - **Identity gate:** Slice B runtime starts only after ADR-0021, ADR-0022, ADR-0023 are Accepted
-- **Enterprise knowledge:** Business meaning → [PAS-004](../PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md); kernel retains wire shapes only
+- **Enterprise knowledge:** Business meaning → [PAS-004](../ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md); kernel retains wire shapes only
 
 **Required gates:** §13.1 · Session: `/afenda-coding-session` · Skill: `kernel-authority`
 
@@ -120,19 +144,26 @@ Each surface has **Contract type** + **Stability** in the legacy archive. This t
 | --- | --- | --- | --- | --- |
 | Canonical Enterprise Identity | Identity | Constitutional | §4.1 | Shared enterprise identity |
 | Result and Error Vocabulary | Domain | Stable | §4.2 | Result and error vocabulary |
-| Execution Context | Runtime | Stable | §4.3 | Execution traceability |
+| Execution Context | Runtime | Stable | §4.3 | Execution traceability · actor slot (`actorId`) |
 | Operating Context | Runtime | Stable | §4.4 | Operating scope hierarchy |
-| Localization / Global Format | Metadata | Evolutionary | §4.5 | — |
-| Platform Entity Authority | Domain | Stable | §4.6 | — |
-| Business Reference Identity | Identity | Stable | §4.7 | — |
-| Accounting Domain Vocabulary (seed) | Domain | Stable | §4.8 | → PAS-001B catalog |
-| Policy Decision Vocabulary | Security | Stable | §4.9 | Policy decision vocabulary |
+| Multi-Scope Consistency | Runtime | Stable | §4.4 · [PAS-001A §2.1](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | Multi-scope consistency (D5 · I3) |
+| Effective Dating Vocabulary | Runtime | Evolutionary | §4.4 (`effectiveFrom` / `effectiveTo` on hierarchy contexts) | Effective dating vocabulary |
+| Tenant Lifecycle Vocabulary | Metadata | Evolutionary | NS §8.3 · `lifecycle.contract.ts` | Tenant lifecycle vocabulary (E11) |
+| Actor and Integration Identity | Identity | Stable | §4.1.11 · §4.3 · `identity/wire/auth-actor-identity` | Actor and integration identity (E12) |
+| Localization / Global Format | Metadata | Evolutionary | §4.5 | Localization code vocabulary |
+| Platform Entity Authority | Domain | Stable | §4.6 | Platform entity authority registry |
+| Business Reference Identity | Identity | Stable | §4.7 | Business reference identity families |
+| ERP Domain Wire Catalog (delegated) | Domain | Evolutionary | §4.8 seed only → [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | ERP domain wire catalog |
+| Policy Decision Vocabulary | Security | Stable | §4.9 · §8 | Policy decision vocabulary |
 | Domain Event Envelope | Integration | Stable | §4.10 | Domain event envelope |
 | Async Context Propagation | Runtime | Stable | §4.11 | Minimal async context frame |
+| Tenant Extension Boundary | Domain | Evolutionary | NS §3.1 · §5.1 I6 · Blueprint §6 | Tenant extension boundary |
 
-**Permission model:** legacy [PAS-001 §8](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) — grant-scope vocabulary only; evaluation in `@afenda/permissions`.
+**Permission model:** legacy [PAS-001 §8](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#8-permission-model-standard) — grant-scope vocabulary only; evaluation in `@afenda/permissions`.
 
-**ERP domain wire terms:** promoted to [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) — not expanded ad hoc under PAS-001 §4.8 alone.
+**ERP domain wire terms:** catalog authority is [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md). PAS-001 §4.8 retains the **accounting seed** at `@afenda/kernel/erp-domain/accounting` (`PKGR01_ACCOUNTING`) only — do not expand catalog modules under PAS-001.
+
+**Staged capabilities:** Multi-scope consistency is vocabulary in kernel and **fail-closed proof** in PAS-001A spine gates. Effective dating consumer attestation delivered (B109). Tenant SaaS lifecycle wire (B107) and tenant extension boundary wire (B108) delivered. Actor/integration identity on all protected paths remains planned ([Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §6).
 
 ---
 
@@ -183,6 +214,10 @@ Legacy: PAS-001 §10.
 
 Historical B2–B48 slices delivered core surfaces. **Closure sequence B49–B70** delivered wire triads, hierarchy boundary, context gate, and test import hygiene.
 
+**Staged after closure (Blueprint §6):** actor/integration identity on all protected paths · business reference identity family expansion.
+
+**Delivered amendment track (B107–B109):** tenant SaaS lifecycle wire · tenant extension boundary wire · effective-dating consumer attestation gate.
+
 **Current rule:** no new vocabulary slices without PAS-001 amendment handoff. Consumer work → PAS-001A. Catalog work → PAS-001B.
 
 ---
@@ -196,6 +231,7 @@ Historical B2–B48 slices delivered core surfaces. **Closure sequence B49–B70
 | Context wire triad | `check:kernel-context-wire-triad` | Operating scope hierarchy |
 | Boundary cycles clean | `architecture:cycles` · `architecture:drift` | Platform substrate |
 | B49–B70 closure attested | B67–B70 slice Delivered | PAS-001 §13 |
+| B107–B109 amendment attested | B107–B109 slice Delivered · effective-dating gate green | Kernel NS §4 · Blueprint §6 |
 
 Full §11 table: legacy [PAS-001 §12](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#12-enterprise-acceptance-criteria).
 
@@ -209,6 +245,7 @@ Full §11 table: legacy [PAS-001 §12](archive/PAS-001-KERNEL-AUTHORITY-STANDARD
 | B49–B52 | Operating context wire triads (tenant → full hierarchy) | Delivered |
 | B53–B57 | Propagation frame · project · policy · permission wire | Delivered |
 | B67–B70 | Doc attestation · hierarchy boundary · context gate · test hygiene | Delivered |
+| B107–B109 | Tenant SaaS lifecycle wire · extension boundary wire · effective-dating consumer attestation | Delivered |
 
 **Full catalog:** [KERNEL/SLICE/kernel-slice-catalog.md](SLICE/kernel-slice-catalog.md) · handoffs (SSOT) [KERNEL/SLICE/](SLICE/) · compliance [slice-compliance-audit.md](SLICE/slice-compliance-audit.md)
 
@@ -227,6 +264,9 @@ See metadata **Required gates** table above (legacy PAS-001 §14.1).
 ```bash
 pnpm check:kernel-propagation-isolation
 pnpm check:kernel-events-wire-serializable
+pnpm check:kernel-effective-dating-consumer-attestation
+pnpm check:metadata-permission-model-parity
+pnpm check:metadata-policy-parity
 ```
 
 ## 13.3 Promotion rules
@@ -258,6 +298,7 @@ Vocabulary closure (PAS-001) ≠ integration proof (PAS-001A) ≠ ERP wire catal
 | Implementation archive | [archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
 | ERP Integration Spine | [PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) |
 | Wire vocabulary catalog | [PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
+| Enterprise Knowledge (meaning) | [PAS-004](../ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) |
 | Family index | [KERNEL/README.md](README.md) |
 | Status index | [pas-status-index.md](../pas-status-index.md) |
 

@@ -4,7 +4,7 @@
 | --- | --- |
 | **Scope** | Design Token Authority — CSS platform representation + presentation siblings |
 | **Upstream** | [Design Token Authority North Star](../../NORTHSTAR/css-authority-north-star.md) · [Visual Token Constitutional Laws](../../CONSTITUTION/visual-token-constitutional-laws.md) · [CSS Authority Blueprint](../../BLUEPRINT/css-authority-blueprint.md) |
-| **Slice SSOT** | [`SLICE/`](SLICE/README.md) — individual handoffs · legacy `docs/PAS/slice/` **removed** |
+| **Slice SSOT** | [`SLICE/`](SLICE/README.md) — individual handoffs · legacy `docs/PAS/slice/b*-pas005*` **tombstoned** (redirects to this folder) |
 | **Maturity** | MVP Authority (PAS-005 · PAS-005A) · Retirement Candidate (PAS-005B) |
 | **Last reviewed** | 2026-06-29 |
 

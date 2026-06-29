@@ -72,7 +72,7 @@ Numbering is assigned when a package is promoted to Platform or Foundation layer
 > **All PAS long-form documents live here — `docs/PAS/` — and nowhere else.**
 
 - Do not place canonical PAS content in `packages/*/` source directories.
-- Do not place canonical PAS content in `docs/architecture/` (architecture docs are a separate layer).
+- Do not place canonical PAS content in `docs/PAS/` (architecture docs are a separate layer).
 - Do not duplicate PAS long-form content in `.cursor/skills/` — skills are execution adapters, not canonical standards.
 
 Package-local files (`packages/*/PAS-NNN-*.md`) are **tombstone pointers only** — they exist for backwards compatibility with older links and contain no canonical content.
@@ -168,6 +168,8 @@ Architecture Authority chain SSOT: [`ARCHITECTURE-AUTHORITY/README.md`](ARCHITEC
 
 Agent read order: [Architecture Authority North Star](../NORTHSTAR/architecture-authority-north-star.md) → [Architecture Authority Blueprint](../BLUEPRINT/architecture-authority-blueprint.md) → [ARCHITECTURE-AUTHORITY/README.md](ARCHITECTURE-AUTHORITY/README.md) → [ARCHITECTURE-AUTHORITY/SLICE/README.md](ARCHITECTURE-AUTHORITY/SLICE/README.md).
 
+**Redirect tombstones:** [PAS-002-ARCHITECTURE-AUTHORITY.md](PAS-002-ARCHITECTURE-AUTHORITY.md) · [PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md](PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) — backwards-compatible links to family folder.
+
 Package-local annotated tree: [`packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md`](../../packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md)
 
 ### CSS Authority PAS family (composed governance layer)
@@ -221,7 +223,7 @@ Appendix (temporary borrow refs): [PAS-003 Appendix A](ACCOUNTING-STANDARDS/PAS-
 
 ## How to add a new PAS
 
-0. Confirm the package or domain authority appears in [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md) with status, layer, and **why separate** ([ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)).
+0. Confirm the package or domain authority appears in [`afenda-architecture-blueprint.md`](../BLUEPRINT/kernel-blueprint.md) with status, layer, and **why separate** ([ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)).
 1. Assign the next `PAS-NNN` number from the index above.
 2. Copy templates from `.cursor/skills/kernel-authority/reference/pas-template.md` (index) and the split files `pas-doc-template.md`, `pas-skill-template.md`, `pas-slice-template.md`, `pas-reference-templates.md`.
 3. Create or reuse a domain folder: `docs/PAS/<DOMAIN-FOLDER>/` with `README.md`, canonical `PAS-NNN-*.md`, and `SLICE/` (catalog + handoffs). Mirror [`KERNEL/`](KERNEL/README.md) layout.

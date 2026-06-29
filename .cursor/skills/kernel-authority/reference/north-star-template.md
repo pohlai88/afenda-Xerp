@@ -18,8 +18,8 @@
 | **Document class** | `domain_north_star` |
 | **Document role** | `domain_root_specification` |
 | **Domain** | `[DOMAIN NAME]` — e.g. Accounting, HRM, CRM |
-| **Parent** | [Platform North Star](../../docs/architecture/afenda-platform-north-star.md) |
-| **Derived document** | [Architecture Blueprint](../../docs/architecture/afenda-architecture-blueprint.md) |
+| **Parent** | [Platform North Star](../../docs/NORTHSTAR/kernel-north-star.md) |
+| **Derived document** | [Architecture Blueprint](../../docs/BLUEPRINT/kernel-blueprint.md) |
 | **Authority ADR** | [ADR-0026](../../docs/adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) (or domain-specific ADR) |
 | **Maturity** | Idea / MVP / Production / Enterprise |
 | **Runtime stance** | Documentation only |
@@ -27,7 +27,7 @@
 | **Quality target** | Enterprise **10 / 10** (business architecture authority) |
 | **Evidence standard** | [doc-evidence-standard.md](doc-evidence-standard.md) |
 | **Last reviewed** | `[YYYY-MM-DD]` — update on every §1–§12 amendment |
-| **Package / PAS inventory** | See [Architecture Blueprint](../../docs/architecture/afenda-architecture-blueprint.md) — not declared here |
+| **Package / PAS inventory** | See [Architecture Blueprint](../../docs/BLUEPRINT/kernel-blueprint.md) — not declared here |
 | **Next document** | Architecture Blueprint |
 
 > **One sentence:** [Permanent purpose of this domain in one sentence — business language only.]
@@ -56,9 +56,9 @@ LAYER C — Governance & acceptance (§14–§19)  authority · evolution · EAC
 
 ## Read order
 
-1. [Platform North Star](../../docs/architecture/afenda-platform-north-star.md) — confirm domain exists at platform scope
+1. [Platform North Star](../../docs/NORTHSTAR/kernel-north-star.md) — confirm domain exists at platform scope
 2. This document §1–§12 — philosophy, vocabulary, capabilities, events, boundaries, evidence
-3. [Architecture Blueprint](../../docs/architecture/afenda-architecture-blueprint.md) — boxes, layers, PAS inventory
+3. [Architecture Blueprint](../../docs/BLUEPRINT/kernel-blueprint.md) — boxes, layers, PAS inventory
 4. Target PAS — feature spec
 5. Target Slice — work order
 6. Implement
@@ -382,7 +382,7 @@ LAYER C — Governance & acceptance (§14–§19)  authority · evolution · EAC
 | ID | Source | Tier | Class | What it justifies | Link |
 | --- | --- | --- | --- | --- | --- |
 | E1 | [e.g. ADR-0026] | T0 | ✓ | Documentation hierarchy | [`ADR-0026`](../../docs/adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) |
-| E2 | [Platform NS §4 row] | T1 | ✓ | Domain exists at platform scope | [Platform NS](../../docs/architecture/afenda-platform-north-star.md) |
+| E2 | [Platform NS §4 row] | T1 | ✓ | Domain exists at platform scope | [Platform NS](../../docs/NORTHSTAR/kernel-north-star.md) |
 | E3 | [IFRS / MFRS section] | T3 | ✓ | Principle / outcome / risk EFR | [external or PAS-003] |
 | E4 | [Enterprise knowledge atom] | T2 | ✓ | §3 Vocabulary term | [PAS-004 / atom id] |
 | E5 | [Domain expert review] | T6 | △ | Interim — expiry `[YYYY-MM-DD]` | Owner · date |
@@ -421,7 +421,7 @@ LAYER C — Governance & acceptance (§14–§19)  authority · evolution · EAC
 
 **When a capability needs a new box:** amend §4 → add §13 row → add Blueprint §4 row → satisfy Blueprint §7 → author PAS.
 
-**Agent execution** (decision matrix, PAS creation gate, runtime chain): [Blueprint §7–§9](blueprint-template.md) · [Platform North Star §7–§9](../../docs/architecture/afenda-platform-north-star.md)
+**Agent execution** (decision matrix, PAS creation gate, runtime chain): [Blueprint §7–§9](blueprint-template.md) · [Platform North Star §7–§9](../../docs/NORTHSTAR/kernel-north-star.md)
 
 ---
 
@@ -477,7 +477,7 @@ Slice → Code
 - [INVARIANT 1 — business language; may cite §1 Philosophy]
 - [INVARIANT 2 — may cite §10 risk]
 
-Platform documentation gates: [Platform North Star §13](../../docs/architecture/afenda-platform-north-star.md). Package gates: target PAS §13 only.
+Platform documentation gates: [Platform North Star §13](../../docs/NORTHSTAR/kernel-north-star.md). Package gates: target PAS §13 only.
 
 ---
 
@@ -555,8 +555,8 @@ Platform documentation gates: [Platform North Star §13](../../docs/architecture
 
 | Document | Role |
 | --- | --- |
-| Platform North Star | [`afenda-platform-north-star.md`](../../docs/architecture/afenda-platform-north-star.md) |
-| Architecture Blueprint | [`afenda-architecture-blueprint.md`](../../docs/architecture/afenda-architecture-blueprint.md) |
+| Platform North Star | [`afenda-platform-north-star.md`](../../docs/NORTHSTAR/kernel-north-star.md) |
+| Architecture Blueprint | [`afenda-architecture-blueprint.md`](../../docs/BLUEPRINT/kernel-blueprint.md) |
 | Enterprise Knowledge (PAS-004) | [`PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) |
 | Boundary contract | [`doc-boundary-contract.md`](doc-boundary-contract.md) |
 | Evidence standard | [`doc-evidence-standard.md`](doc-evidence-standard.md) |

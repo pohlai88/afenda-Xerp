@@ -169,7 +169,7 @@ pnpm --filter @afenda/metadata-ui build
 **Property namespace:** `--metadata-*` (no `--afenda-*`, `--color-*`, or `--spacing-*` definitions).
 **Cascade layer:** `components` — assigned at import via `layer(components)` (file is intentionally unlayered).
 
-Full authority model and decision tree: [docs/architecture/css-authority.md](../../docs/architecture/css-authority.md).
+Full authority model and decision tree: [docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md](../../docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md).
 Manifest: `src/styles/css-manifest.ts`. Governance: `pnpm check:css-governance`.
 
 ### CSS entrypoints

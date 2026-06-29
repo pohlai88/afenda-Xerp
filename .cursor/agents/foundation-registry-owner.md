@@ -26,7 +26,7 @@ All other agents consume the registry read-only.
 | Close `knownGaps` after runtime proof | **Deprecated** — gaps live in PAS §Remaining gaps; keep registry `knownGaps: []` |
 | Add new registry entry | Yes — must align PKG-ID with package registry |
 | Edit `allowedAgents` / `prohibited` / `gates` | Yes |
-| Sync `docs/architecture/foundation-disposition.md` | Yes — read-only view only |
+| Sync `packages/architecture-authority/src/data/foundation-disposition.registry.ts` | Yes — read-only view only |
 | Sync `docs/PAS/README.md` | Yes — when PAS status or lane changes |
 | Rewrite TIP delivery docs | No — TIP is archive-lane only |
 | Create TIPE or package markdown authority | No |
@@ -54,7 +54,7 @@ Promote a lane only when:
    pnpm check:foundation-disposition
    pnpm check:documentation-drift
    pnpm ci:biome
-4. Update docs/architecture/foundation-disposition.md table if entry metadata changed.
+4. Update packages/architecture-authority/src/data/foundation-disposition.registry.ts table if entry metadata changed.
 5. Post §11 Completion Report with evidence paths.
 ```
 

@@ -4,7 +4,7 @@
  * Kernel owns the hierarchy registry and `OperatingContext` composition fields.
  * Kernel must not load, infer, resolve, persist, authorize, audit, or render context.
  *
- * @see docs/architecture/multi-tenancy.md
+ * @see docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md
  */
 
 export const OPERATING_CONTEXT_LAYER_IDS = [

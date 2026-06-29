@@ -1,16 +1,16 @@
-# Slice B42b ÔÇö Appshell Legacy Parity Inventory & Delete Planning (PAS-005A ┬º11.1 ┬À ┬º11.4)
+# Slice B42b — Appshell Legacy Parity Inventory & Delete Planning (PAS-005A §11.1 · §11.4)
 
-> **Superseded (2026-06-28):** Delete preconditions and planning inventory remain historical evidence. **Filesystem delete executed in B42h** ÔÇö legacy `shadcn-studio/` path removed; governed blocks relocated to `packages/appshell/src/presentation/`. See [`b42h-pas005a-legacy-tree-delete.md`](b42h-pas005a-legacy-tree-delete.md).
+> **Superseded (2026-06-28):** Delete preconditions and planning inventory remain historical evidence. **Filesystem delete executed in B42h** — legacy `shadcn-studio/` path removed; governed blocks relocated to `packages/appshell/src/presentation/`. See [`b42h-pas005a-legacy-tree-delete.md`](b42h-pas005a-legacy-tree-delete.md).
 
-**Prerequisite:** B42 delivered (partial) ÔÇö ERP CSS chain, metadata-ui theme hook, ADR-0017 retarget, `PKGR05A_SHADCN_STUDIO` promoted (`amber-lane`)
+**Prerequisite:** B42 delivered (partial) — ERP CSS chain, metadata-ui theme hook, ADR-0017 retarget, `PKGR05A_SHADCN_STUDIO` promoted (`amber-lane`)
 
-**Status:** Planning delivered (2026-06-28) ÔÇö **Superseded by B42h** ÔÇö delete executed via `presentation/` relocation
+**Status:** Planning delivered (2026-06-28) — **Superseded by B42h** — delete executed via `presentation/` relocation
 
 **Type:** Research + Planning (implementation slice follows parity proof)
 
-**Risk class:** Critical ÔÇö deleting `packages/appshell/src/shadcn-studio/` without parity breaks `@afenda/appshell` public API (~60 block exports)
+**Risk class:** Critical — deleting `packages/appshell/src/shadcn-studio/` without parity breaks `@afenda/appshell` public API (~60 block exports)
 
-**Clean Core impact:** AÔåÆB ÔÇö strangler cutover; re-seed via MCP only; never migrate legacy TSX
+**Clean Core impact:** AÔåÆB — strangler cutover; re-seed via MCP only; never migrate legacy TSX
 
 ## Purpose
 
@@ -21,36 +21,36 @@ Inventory legacy appshell shadcn/studio block surface, compare against `@afenda/
 ```
 Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42b-pas005a-legacy-delete-planning.md
 
-1. Objective    ÔÇö Document block parity inventory, classify legacy appshell studio exports, and define MCP re-seed + delete gates; prove delete is blocked until parity.
-2. Allowed layerÔÇö docs/PAS/CSS-AUTHORITY/SLICE/b42b-pas005a-legacy-delete-planning.md ┬À docs/PAS/pas-status-index.md ┬À docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md (┬º14 sequence only)
-3. Files        ÔÇö
+1. Objective    — Document block parity inventory, classify legacy appshell studio exports, and define MCP re-seed + delete gates; prove delete is blocked until parity.
+2. Allowed layer— docs/PAS/CSS-AUTHORITY/SLICE/b42b-pas005a-legacy-delete-planning.md · docs/PAS/pas-status-index.md · docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md (§14 sequence only)
+3. Files        —
    docs/PAS/CSS-AUTHORITY/SLICE/b42b-pas005a-legacy-delete-planning.md
    docs/PAS/pas-status-index.md
    docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md
-4. Prohibited   ÔÇö DELETE packages/appshell/src/shadcn-studio/** ┬À Edit foundation-disposition.registry.ts ┬À Migrate/copy legacy TSX ┬À Edit packages/appshell/src/index.ts re-exports (follow-on slice)
-5. Authority    ÔÇö PAS-005A ┬º11.1 ┬À ┬º11.4 ┬À ADR-0017 ┬À PKGR05A prohibited `do-not-migrate-appshell-studio-tsx`
-6. Gates        ÔÇö
+4. Prohibited   — DELETE packages/appshell/src/shadcn-studio/** · Edit foundation-disposition.registry.ts · Migrate/copy legacy TSX · Edit packages/appshell/src/index.ts re-exports (follow-on slice)
+5. Authority    — PAS-005A §11.1 · §11.4 · ADR-0017 · PKGR05A prohibited `do-not-migrate-appshell-studio-tsx`
+6. Gates        —
    pnpm check:foundation-disposition
    pnpm check:documentation-drift
-7. Closes       ÔÇö Unstructured delete risk; missing parity evidence for legacy tree
-8. Evidence     ÔÇö
+7. Closes       — Unstructured delete risk; missing parity evidence for legacy tree
+8. Evidence     —
    docs/PAS/CSS-AUTHORITY/SLICE/b42b-pas005a-legacy-delete-planning.md (inventory tables)
    packages/appshell/src/shadcn-studio/STUDIO-PATTERN-MAP.md (legacy catalog)
-9. Attestation  ÔÇö Planning ┬À Documentation
+9. Attestation  — Planning · Documentation
 ```
 
 ## Parity snapshot (2026-06-28)
 
-| Surface | Legacy (deleted `packages/appshell/src/shadcn-studio` ÔÇö B42h) | Target (`packages/shadcn-studio`) | Parity |
+| Surface | Legacy (deleted `packages/appshell/src/shadcn-studio` — B42h) | Target (`packages/shadcn-studio`) | Parity |
 | --- | ---: | ---: | --- |
 | Production block TSX (excl. stories) | **63** | **2** (placeholder-hero, placeholder-form) | **3%** |
 | UI primitives (`src/components/ui/`) | 0 (uses `@afenda/ui` in blocks) | **5** (button, card, input, label, select) | B40 minimum met |
 | Theme presets | N/A (css-authority + appshell CSS) | **12 + default** | Target owns presets |
-| Data fixtures | 6 files under `data/` | 0 | Not ported ÔÇö re-seed or drop with block |
+| Data fixtures | 6 files under `data/` | 0 | Not ported — re-seed or drop with block |
 | Assets | 1 illustration | 0 | Follow block re-seed |
 | Storybook stories (legacy tree) | ~25 `.stories.tsx` in appshell | 3 lab stories in `apps/storybook/stories/shadcn-studio-*.stories.tsx` | Lab only on target |
 
-**Verdict:** **DELETE BLOCKED at planning time (2026-06-28).** Superseded ÔÇö delete executed in B42h via `presentation/` relocation. Historical parity snapshot below retained as evidence.
+**Verdict:** **DELETE BLOCKED at planning time (2026-06-28).** Superseded — delete executed in B42h via `presentation/` relocation. Historical parity snapshot below retained as evidence.
 
 ## Legacy block inventory (production TSX)
 
@@ -112,20 +112,20 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42b-pas005a-legacy-delete-planning.m
 | `src/blocks/placeholder-form/` | B40 manual | Replace via `/cui` |
 | `src/components/ui/{button,card,input,label,select}.tsx` | B40 manual | Expand via `/rui` as needed |
 
-## Delete sequence (follow-on slice ÔÇö **not B42b**)
+## Delete sequence (follow-on slice — **not B42b**)
 
 Execute only when **all** preconditions pass:
 
-1. **MCP re-seed** ÔÇö From `packages/shadcn-studio` with credentials in `.env.secret`:
+1. **MCP re-seed** — From `packages/shadcn-studio` with credentials in `.env.secret`:
    - `/cui` collect-all-then-install for each production block category above
    - `/rui` for any missing primitives referenced by promoted blocks
    - Replace B40 placeholders; document provenance headers per B40 slice
-2. **Storybook parity** ÔÇö Lab stories cover each promoted block category OR ERP spot-check sign-off documented
-3. **Appshell re-export bridge** ÔÇö Update `packages/appshell/src/index.ts` to re-export from `@afenda/shadcn-studio` (or thin wrappers) **before** delete
-4. **Consumer scan** ÔÇö `rg '@afenda/appshell.*[Ss]tudio|shadcn-studio'` across monorepo; zero direct legacy path imports
-5. **Gates** ÔÇö `pnpm ui:guard`, `pnpm --filter @afenda/appshell test:run`, `pnpm --filter @afenda/erp typecheck`, `pnpm quality:boundaries`
-6. **Delete** ÔÇö `git rm -r packages/appshell/src/shadcn-studio/` + remove `afenda-appshell-studio.css` bridge if superseded
-7. **Registry** ÔÇö `foundation-registry-owner` may promote `PKGR05A` to `green-lane` when B42b implementation slice closes
+2. **Storybook parity** — Lab stories cover each promoted block category OR ERP spot-check sign-off documented
+3. **Appshell re-export bridge** — Update `packages/appshell/src/index.ts` to re-export from `@afenda/shadcn-studio` (or thin wrappers) **before** delete
+4. **Consumer scan** — `rg '@afenda/appshell.*[Ss]tudio|shadcn-studio'` across monorepo; zero direct legacy path imports
+5. **Gates** — `pnpm ui:guard`, `pnpm --filter @afenda/appshell test:run`, `pnpm --filter @afenda/erp typecheck`, `pnpm quality:boundaries`
+6. **Delete** — `git rm -r packages/appshell/src/shadcn-studio/` + remove `afenda-appshell-studio.css` bridge if superseded
+7. **Registry** — `foundation-registry-owner` may promote `PKGR05A` to `green-lane` when B42b implementation slice closes
 
 ## MCP re-seed operator checklist
 
@@ -133,17 +133,17 @@ Execute only when **all** preconditions pass:
 # cwd MUST be packages/shadcn-studio (shadcn-studio.config.json)
 cd packages/shadcn-studio
 # Credentials: repo root .env.secret (shadcn-studio MCP)
-# Workflow: /cui and /rui ÔÇö collect ALL blocks before ANY install (ADR-0017)
+# Workflow: /cui and /rui — collect ALL blocks before ANY install (ADR-0017)
 ```
 
 Agent environment note: MCP shadcn-studio server was unavailable during B40; manual seed satisfied minimum DoD. Live re-seed is **operator-owned** until MCP session is available.
 
 ## Rules frozen
 
-1. **Parity before delete** ÔÇö This slice proves parity is **not** met (3% blocks)
-2. **Re-seed, never migrate** ÔÇö No copy from `packages/appshell/src/shadcn-studio/`
-3. **Registry** ÔÇö Lane promotion after delete is registry-owner only
-4. **ERP auth ui:guard** ÔÇö Separate slice (3 files fixed 2026-06-28)
+1. **Parity before delete** — This slice proves parity is **not** met (3% blocks)
+2. **Re-seed, never migrate** — No copy from `packages/appshell/src/shadcn-studio/`
+3. **Registry** — Lane promotion after delete is registry-owner only
+4. **ERP auth ui:guard** — Separate slice (3 files fixed 2026-06-28)
 
 ## DoD (B42b planning)
 
@@ -152,8 +152,8 @@ Agent environment note: MCP shadcn-studio server was unavailable during B40; man
 - [x] Delete preconditions documented
 - [x] MCP operator checklist
 - [x] Explicit **delete blocked** attestation
-- [x] Filesystem delete (executed B42h ÔÇö `presentation/` relocation)
-- [ ] MCP live re-seed (deferred ÔÇö operator)
+- [x] Filesystem delete (executed B42h — `presentation/` relocation)
+- [ ] MCP live re-seed (deferred — operator)
 
 ## Related slices
 

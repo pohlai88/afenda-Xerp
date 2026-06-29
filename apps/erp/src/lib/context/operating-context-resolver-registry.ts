@@ -1,6 +1,6 @@
 /**
  * Canonical Step 7 operating context resolver registry — aligned with
- * `docs/architecture/multi-tenancy.md` (§561–571).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (§561–571).
  *
  * Client slugs and IDs are selection hints only — always verified server-side.
  * Fail closed when any authority dimension is missing or suspended.

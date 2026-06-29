@@ -8,7 +8,7 @@ Use this map before every phase. **Read sources in order; cite what you inspecte
 
 | Source | Path | Use for |
 | --- | --- | --- |
-| Runtime truth matrix | `docs/architecture/afenda-runtime-truth-matrix.md` | Area status, evidence pointers, gaps |
+| Runtime truth matrix | `docs/PAS/pas-status-index.md` | Area status, evidence pointers, gaps |
 | Foundation disposition | `packages/architecture-authority/src/data/foundation-disposition.registry.ts` | Package lanes, allowedAgents, prohibited |
 | Package registry | `packages/architecture-authority/src/data/package-registry.data.ts` | Package topology, layers |
 | Dependency registry | `packages/architecture-authority/src/data/dependency-registry.data.ts` | Allowed edges |
@@ -56,11 +56,11 @@ Full mapping: [gate-matrix.md](gate-matrix.md)
 
 | Doc | Path |
 | --- | --- |
-| Multi-tenancy model | `docs/architecture/multi-tenancy.md` |
-| Glossary | `docs/architecture/glossary.md` |
-| Foundation disposition (human) | `docs/architecture/foundation-disposition.md` |
-| Dependency snapshot | `docs/architecture/dependency-snapshot.json` |
-| Master plan (v5+) | `docs/architecture/_afenda-erp-master-plan.llms.md` |
+| Multi-tenancy model | `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` |
+| Glossary | `docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md` |
+| Foundation disposition (human) | `packages/architecture-authority/src/data/foundation-disposition.registry.ts` |
+| Dependency snapshot | `packages/architecture-authority/dependency-snapshot.json` |
+| Master plan (v5+) | `docs/PAS/_afenda-erp-master-plan.llms.md` |
 
 ---
 

@@ -175,7 +175,7 @@ Scattered contracts under `packages/kernel/src/contracts/platform-id*.ts` are **
 
 - ADR-0021, ADR-0022, ADR-0023 status **Accepted**
 - PAS-001 §4.1 updated
-- Architecture docs under `docs/architecture/identity/`
+- Architecture docs under `docs/PAS/KERNEL/identity/`
 - `pnpm check:documentation-drift` exit 0
 
 **Slice B (Kernel — starts only after Slice A ADRs accepted):**
@@ -197,6 +197,6 @@ Scattered contracts under `packages/kernel/src/contracts/platform-id*.ts` are **
 - [ADR-0023 — Tenant Human Reference Numbering](./ADR-0023-tenant-human-reference-numbering.md)
 - [ADR-0024 — Canonical ID Body Generation](./ADR-0024-canonical-id-body-generation.md)
 - [PAS-001 §4.1](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
-- [canonical-enterprise-id-constitution.md](../architecture/identity/canonical-enterprise-id-constitution.md)
-- [identity-promotion-process.md](../architecture/identity/identity-promotion-process.md)
+- [canonical-enterprise-id-constitution.md](../PAS/KERNEL/identity/canonical-enterprise-id-constitution.md)
+- [identity-promotion-process.md](../PAS/KERNEL/identity/identity-promotion-process.md)
 - RFC 9562 (UUID v7), ULID spec

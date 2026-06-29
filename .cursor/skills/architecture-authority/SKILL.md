@@ -3,7 +3,7 @@ name: architecture-authority
 description: Enforces the @afenda/architecture-authority boundary: package registry, layer rules, dependency boundaries, ownership, foundation disposition pointers, exception registry, and architecture quality gates. Use when touching packages/architecture-authority, architecture registries, pnpm quality:architecture, foundation disposition, or package/layer boundary questions.
 paths:
   - packages/architecture-authority/**
-  - docs/architecture/foundation-disposition.md
+  - packages/architecture-authority/src/data/foundation-disposition.registry.ts
   - docs/PAS/ARCHITECTURE-AUTHORITY/**
 ---
 
@@ -292,7 +292,8 @@ pnpm check:architecture-authority-surface
 | Governance | Canonical architecture doc + snapshot sync | Pass |
 | Runtime safety | No request-time side effects in package | Pass |
 | ERP readiness | New packages require registry + ownership + layer rows | Pass |
-| Documentation | PAS-002 slice handoffs B1–B25 | **Delivered** |
+| Documentation | PAS-002 slice handoffs B1–B15 · B18–B27 | **Delivered** |
+| Documentation | PAS-002A slice handoffs B38–B42 | **Delivered** |
 | Documentation | Package-local tree `PAS-002-ARCHITECTURE-TREE.md` | **Delivered** |
 | Governance | Surface registry includes all BMD data modules | **Delivered** |
 | Agent | Skill + reference chain (this file) | **Delivered** |
@@ -313,3 +314,15 @@ Business modules own **business meaning**.
 Applications own **composition and user-facing behavior**.
 
 When in doubt, apply the kernel-authority three-question test: no data loading, no formatting/UI text, no business decision fallbacks.
+
+---
+
+## Sync (PAS mirror)
+
+| Field | Value |
+| --- | --- |
+| **Canonical PAS** | [`ARCHITECTURE-AUTHORITY/PAS-002`](../../../docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) · [`PAS-002A`](../../../docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) |
+| **Slice SSOT** | [`ARCHITECTURE-AUTHORITY/SLICE/`](../../../docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/README.md) |
+| **Family README** | [`ARCHITECTURE-AUTHORITY/README.md`](../../../docs/PAS/ARCHITECTURE-AUTHORITY/README.md) |
+| **Last synced** | 2026-06-29 (family nest audit · path normalization · B16–B17 note) |
+| **Planned △** | Domain NS §15 E11–E15 — PAS amendment slices B43+ not yet authored |

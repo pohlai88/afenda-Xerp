@@ -4,7 +4,7 @@ description: Enforces @afenda/css-authority — CSS token authority via authorit
 paths:
   - packages/css-authority/**
   - docs/PAS/CSS-AUTHORITY/**
-  - docs/architecture/css-authority.md
+  - docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md
 ---
 
 # @afenda/css-authority — Authority Skill (PAS-005)
@@ -14,7 +14,7 @@ paths:
 | Field | Value |
 | --- | --- |
 | **Runtime status** | B26–B37 delivered — 605-token registry (465 afenda + 44 appshell + 50 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
-| **Remaining slices** | B44–B49 under [PAS-005B](../../docs/PAS/CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) — design-system retirement; css-authority optional Production Candidate (B49) |
+| **Remaining slices** | none — optional enhancements only |
 
 > Canonical: [`docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) · Retirement: [`PAS-005B`](../../docs/PAS/CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) · Closure: [`pas-status-index.md`](../../docs/PAS/pas-status-index.md)
 
@@ -145,3 +145,17 @@ pnpm quality:boundaries
 | PAS-005B | [`docs/PAS/CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md`](../../docs/PAS/CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) |
 | Derived view | [`docs/architecture/css-authority.md`](../../docs/architecture/css-authority.md) |
 | Package pointer | [`packages/css-authority/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../packages/css-authority/PAS-005-CSS-AUTHORITY-STANDARD.md) |
+
+---
+
+## Sync checksum
+
+> **Drift guard.** Update every **Last synced** date when regenerating from PAS. If any listed PAS section changes, this SKILL must be updated in the **same commit**.
+
+| Source | Last synced |
+| --- | --- |
+| PAS §2 Boundary | 2026-06-29 |
+| PAS §0 Hard stops | 2026-06-29 |
+| PAS §13 Required gates | 2026-06-29 |
+| PAS §11 Slice sequence / header metadata | 2026-06-29 |
+| PAS §8 design-system relationship | 2026-06-29 |

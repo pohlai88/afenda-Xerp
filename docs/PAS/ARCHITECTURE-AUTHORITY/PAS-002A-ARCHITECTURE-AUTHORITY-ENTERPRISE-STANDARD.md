@@ -23,10 +23,10 @@
 | **Evidence level** | `runtime_proven` |
 | **Runtime status** | B38–B42 delivered — four new gates operational; ownership attested 2026-06-28 |
 | **Remaining slices** | none |
-| **Consumers** | `@afenda/kernel`, all registered workspace packages, `scripts/quality/**`, `scripts/governance/**`, `docs/architecture/*.md` derived views |
+| **Consumers** | `@afenda/kernel`, all registered workspace packages, `scripts/quality/**`, `scripts/governance/**`, `docs/PAS/*.md` derived views |
 | **Change model** | `serialized-slices` (B38+) |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
+| **Closure registry** | [`pas-status-index.md`](../pas-status-index.md) |
 | **ADR prerequisites** | ADR-0004 (ownership) · ADR-0014 (foundation disposition) · ADR-0020 (BMD authority) · ADR-0021 (identity constitution — read-only for non-duplication gate) |
 
 #### Required gates
@@ -111,7 +111,7 @@
 PAS-002A is the **Enterprise Accepted rollout standard** for closing remaining governance gaps without amending PAS-002 boundary doctrine:
 
 1. **Kernel non-duplication gate** — architecture-authority records package governance only; PAS-001 owns identity wire behavior
-2. **Ownership baseline attestation** — close human-pending sign-off on `docs/architecture/ownership-registry.md` (ADR-0004)
+2. **Ownership baseline attestation** — close human-pending sign-off on `packages/architecture-authority/src/data/ownership-registry.data.ts` (ADR-0004)
 3. **Governance consumer proof** — CI scripts and representative packages import architecture-authority through approved surfaces only
 4. **Disposition completeness** — active package-registry rows ↔ foundation-disposition entries parity (extends B27)
 5. **Enterprise Accepted scorecard** — §11; B42 attestation + `PKGR02` authority promotion to PAS-002A
@@ -191,7 +191,7 @@ If architecture-authority defines prefix regex, parse*, or ID_FAMILIES tables �
 
 ## 4.2 Ownership baseline sign-off (B39)
 
-**Authority:** PAS-002 §4.3 · ADR-0004 · `docs/architecture/ownership-registry.md`
+**Authority:** PAS-002 §4.3 · ADR-0004 · `packages/architecture-authority/src/data/ownership-registry.data.ts`
 
 **Current gap:** Human view status **Baseline — Pending Sign-off** (runtime truth matrix).
 
@@ -470,6 +470,6 @@ When in doubt, apply the kernel-authority three-question test before adding func
 | [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | Parent MVP Authority standard |
 | [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Kernel identity boundary |
 | [PAS-004A §11](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md#11-enterprise-acceptance-criteria-95-scorecard) | Scorecard pattern reference |
-| [afenda-runtime-truth-matrix.md](../../architecture/afenda-runtime-truth-matrix.md) | Runtime evidence vocabulary |
-| [ownership-registry.md](../../architecture/ownership-registry.md) | B39 attestation target |
-| [foundation-disposition.md](../../architecture/foundation-disposition.md) | PKGR02 read-only view |
+| [afenda-runtime-truth-matrix.md](../../PAS/pas-status-index.md) | Runtime evidence vocabulary |
+| [ownership-registry.md](../../../packages/architecture-authority/src/data/ownership-registry.data.ts) | B39 attestation target |
+| [foundation-disposition.md](../../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) | PKGR02 read-only view |

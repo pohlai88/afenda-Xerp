@@ -22,7 +22,7 @@ Close PAS-001B pre-promotion audit: prohibited surface scan, layout gate evidenc
 Handoff from: docs/PAS/KERNEL/SLICE/b78-pas001b-audit-closure.md
 
 1. Objective    — Attest PAS-001B audit closure before B79+ module promotions.
-2. Allowed layer— docs/PAS/KERNEL/** · docs/architecture/**
+2. Allowed layer— docs/PAS/KERNEL/** · docs/PAS/**
 3. Files        —
    docs/PAS/KERNEL/SLICE/b78-pas001b-audit-closure.md
    docs/PAS/KERNEL/SLICE/slice-compliance-audit.md
@@ -51,7 +51,7 @@ Handoff from: docs/PAS/KERNEL/SLICE/b78-pas001b-audit-closure.md
 | --- | --- | --- | --- |
 | 1 | Layout gate green at audit time | pnpm check:erp-domain-layout | PAS-001B §11 governance |
 | 2 | Documentation drift green | pnpm check:documentation-drift | PAS-001B §14 |
-| 3 | Audit alignment table published | file read slice-compliance-audit.md | afenda-doc-lifecycle AUDIT |
+| 3 | Audit alignment table published | file read slice-compliance-audit.md | documentation-drift AUDIT |
 
 **Field 8 evidence map (author fills after table):**
 

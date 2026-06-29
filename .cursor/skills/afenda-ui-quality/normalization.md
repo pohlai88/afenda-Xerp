@@ -2,7 +2,7 @@
 
 > Companion to [SKILL.md](SKILL.md). Read when you need token mappings, CSS patterns, or worked examples.
 >
-> **Canonical Governed UI policy:** [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md)
+> **Canonical Governed UI policy:** [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc)
 
 ---
 

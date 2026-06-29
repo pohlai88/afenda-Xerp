@@ -4,8 +4,9 @@
 | --- | --- |
 | **PAS ID** | PAS-001 |
 | **Document class** | `package_authority_standard` |
-| **Document role** | `kernel_platform_authority` |
-| **Canonical filename** | `PAS-001-KERNEL-AUTHORITY-STANDARD.md` |
+| **Document role** | `kernel_platform_authority_implementation_archive` |
+| **Canonical filename** | `PAS-001-KERNEL-AUTHORITY-STANDARD.md` (archive copy) |
+| **Composed SSOT** | [../PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md](../PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) |
 | **Package** | `@afenda/kernel` |
 | **Layer** | Platform |
 | **Package role** | Zero-dependency platform vocabulary and execution context substrate |
@@ -22,7 +23,7 @@
 | **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, future governed domain packages |
 | **Change model** | Serialized kernel slices only |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/CSS-AUTHORITY/SLICE/` |
+| **Slice directory** | `docs/PAS/KERNEL/SLICE/` |
 | **ADR prerequisites** | ADR-0021, ADR-0022, ADR-0023 |
 | **Continuation PAS** | [PAS-001A](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) — consumer integration (B71–B75 closed) · [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) — ERP domain vocabulary catalog (B76–B106 closed; 28/28 delivered) |
 
@@ -45,7 +46,8 @@
 > **Maturity is part of authority.**
 > PAS-001 is fully implemented, gated, documented, and drift-protected. Kernel contracts, slice catalog, and runtime gates may be treated as enterprise authority.
 
-> **Canonical location:** `docs/PAS/PAS-001-KERNEL-AUTHORITY-STANDARD.md`
+> **Composed SSOT (authority):** [../PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md](../PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
+> **This file (implementation archive):** `docs/PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md`
 > **Package-local tree map:** `packages/kernel/PAS-001-KERNEL-TREE.md`
 
 ---
@@ -63,11 +65,11 @@
 
 **Required gates:** see §14.1
 
-**Slice entrypoint:** `docs/PAS/CSS-AUTHORITY/SLICE/` · [`pas-status-index.md`](pas-status-index.md) (§13 catalog + B49–B70 closure) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
+**Slice entrypoint:** `docs/PAS/KERNEL/SLICE/` · [`pas-status-index.md`](pas-status-index.md) (§13 catalog + B49–B70 closure) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
 
 **Registry:** `@afenda/kernel` → `packages/kernel` in `foundation-disposition.registry.ts`; accounting vocabulary → `PKGR01_ACCOUNTING` at `@afenda/kernel/erp-domain/accounting`
 
-**Enterprise knowledge boundary:** Accepted business meaning, Knowledge Atoms, domains, and acceptance chains → [PAS-004](ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) / `@afenda/enterprise-knowledge`. Kernel retains wire shapes only — never duplicate meaning authority.
+**Enterprise knowledge boundary:** Accepted business meaning, Knowledge Atoms, domains, and acceptance chains → [PAS-004](../ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) / `@afenda/enterprise-knowledge`. Kernel retains wire shapes only — never duplicate meaning authority.
 
 **Identity slice gate:** Kernel identity runtime (Slice B) starts only after ADR-0021, ADR-0022, and ADR-0023 are **Accepted** (§4.1)
 
@@ -156,7 +158,7 @@ The kernel owns the following authority surfaces.
 
 **Authority:** [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) · [ADR-0022](../adr/ADR-0022-postgres-split-id-persistence-model.md) · [ADR-0023](../adr/ADR-0023-tenant-human-reference-numbering.md)
 
-**Architecture:** [`docs/architecture/identity/`](../architecture/identity/canonical-enterprise-id-constitution.md)
+**Architecture:** [`docs/PAS/KERNEL/identity/`](../PAS/KERNEL/identity/canonical-enterprise-id-constitution.md)
 
 **Implementation:** `packages/kernel/src/identity/` (Slice B) · Database: `packages/database/src/ids/` (Slice C; interim: `packages/database/src/ids.ts`)
 
@@ -1255,7 +1257,7 @@ Additional subpaths require a serialized slice and PAS §6.4 governance update b
 
 ## 6.4 Public export governance (delivered)
 
-PAS §6.4 subpaths are **delivered** for the eight-key baseline above. Runtime matched since B16 slice (`docs/PAS/CSS-AUTHORITY/SLICE/b16-6.2-package-structure.md`).
+PAS §6.4 subpaths are **delivered** for the eight-key baseline above. Runtime matched since B16 slice (`docs/PAS/KERNEL/SLICE/b16-6.2-package-structure.md`).
 
 Additive policy for future subpaths:
 
@@ -1460,7 +1462,7 @@ A kernel change is accepted only when all criteria pass.
 
 # 13. Slice Catalog
 
-Index of kernel implementation slices under `docs/PAS/CSS-AUTHORITY/SLICE/`. Handoff format: 9 fields — see [pas-slice-template.md](../../.cursor/skills/kernel-authority/reference/pas-slice-template.md).
+Index of kernel implementation slices under `docs/PAS/KERNEL/SLICE/`. Handoff format: 9 fields — see [pas-slice-template.md](../../.cursor/skills/kernel-authority/reference/pas-slice-template.md).
 
 Slice naming: `b<N>-<pas-section>-<slug>.md` · optional companion: `<file>-prohibited.md` (example: [b5-prohibited.md](SLICE/b5-prohibited.md)).
 

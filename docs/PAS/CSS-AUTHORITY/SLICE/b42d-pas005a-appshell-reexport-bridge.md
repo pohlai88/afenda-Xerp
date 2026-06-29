@@ -1,23 +1,23 @@
-# Slice B42d ÔÇö Appshell Re-export Bridge + Parity Contract (PAS-005A ┬º11.4)
+# Slice B42d — Appshell Re-export Bridge + Parity Contract (PAS-005A §11.4)
 
-**Prerequisite:** B42c delivered ÔÇö live MCP blocks in `@afenda/shadcn-studio`; dependency edge `@afenda/appshell` ÔåÆ `@afenda/shadcn-studio` approved
+**Prerequisite:** B42c delivered — live MCP blocks in `@afenda/shadcn-studio`; dependency edge `@afenda/appshell` ÔåÆ `@afenda/shadcn-studio` approved
 
-**Status:** Delivered (2026-06-28) ÔÇö bridge exports + parity registry; **legacy delete still blocked**
+**Status:** Delivered (2026-06-28) — bridge exports + parity registry; **legacy delete still blocked**
 
 **Type:** Implementation (partial cutover)
 
-**Risk class:** High ÔÇö public API surface on `@afenda/appshell`; legacy tree retained
+**Risk class:** High — public API surface on `@afenda/appshell`; legacy tree retained
 
-**Clean Core impact:** AÔåÆB ÔÇö strangler bridge; no legacy TSX migration
+**Clean Core impact:** AÔåÆB — strangler bridge; no legacy TSX migration
 
 ## Handoff block
 
 ```
 Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42d-pas005a-appshell-reexport-bridge.md
 
-1. Objective    ÔÇö Wire appshell re-export bridge to @afenda/shadcn-studio live MCP blocks; publish serializable parity registry; keep legacy tree until deleteBlocked is false.
-2. Allowed layerÔÇö packages/appshell/src/shadcn-studio-bridge/** ┬À packages/appshell/src/index.ts (bridge exports only) ┬À packages/appshell/package.json ┬À packages/shadcn-studio/src/registry/** ┬À packages/architecture-authority/src/data/dependency-registry.data.ts (edge ÔÇö registry owner) ┬À docs/PAS/**
-3. Files        ÔÇö
+1. Objective    — Wire appshell re-export bridge to @afenda/shadcn-studio live MCP blocks; publish serializable parity registry; keep legacy tree until deleteBlocked is false.
+2. Allowed layer— packages/appshell/src/shadcn-studio-bridge/** · packages/appshell/src/index.ts (bridge exports only) · packages/appshell/package.json · packages/shadcn-studio/src/registry/** · packages/architecture-authority/src/data/dependency-registry.data.ts (edge — registry owner) · docs/PAS/**
+3. Files        —
    packages/appshell/src/shadcn-studio-bridge/index.ts
    packages/appshell/src/__tests__/shadcn-studio-bridge.test.ts
    packages/appshell/package.json
@@ -27,9 +27,9 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42d-pas005a-appshell-reexport-bridge
    packages/shadcn-studio/src/index.ts
    docs/PAS/CSS-AUTHORITY/SLICE/b42d-pas005a-appshell-reexport-bridge.md
    docs/PAS/pas-status-index.md
-4. Prohibited   ÔÇö DELETE packages/appshell/src/shadcn-studio/** ┬À Migrate/copy legacy TSX ┬À className Governed UI strip on MCP blocks ┬À foundation-disposition.registry.ts (except registry-owner edge)
-5. Authority    ÔÇö PAS-005A ┬º11.4 ┬À ADR-0017 ┬À PKGR05A ┬À dependency-registry
-6. Gates        ÔÇö
+4. Prohibited   — DELETE packages/appshell/src/shadcn-studio/** · Migrate/copy legacy TSX · className Governed UI strip on MCP blocks · foundation-disposition.registry.ts (except registry-owner edge)
+5. Authority    — PAS-005A §11.4 · ADR-0017 · PKGR05A · dependency-registry
+6. Gates        —
    pnpm --filter @afenda/shadcn-studio typecheck
    pnpm --filter @afenda/shadcn-studio test:run
    pnpm --filter @afenda/appshell typecheck
@@ -37,12 +37,12 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42d-pas005a-appshell-reexport-bridge
    pnpm --filter @afenda/architecture-authority test:run
    pnpm quality:boundaries
    pnpm quality:architecture
-7. Closes       ÔÇö Dual-path risk mitigation; appshell consumer path to live MCP blocks; machine-readable parity for B42d+ delete gate
-8. Evidence     ÔÇö
+7. Closes       — Dual-path risk mitigation; appshell consumer path to live MCP blocks; machine-readable parity for B42d+ delete gate
+8. Evidence     —
    packages/appshell/src/shadcn-studio-bridge/index.ts
    packages/shadcn-studio/src/registry/studio-block-parity.registry.ts
    packages/architecture-authority dependency edge appshellÔåÆshadcn-studio
-9. Attestation  ÔÇö Bridge ┬À Registry ┬À Boundaries ┬À Documentation
+9. Attestation  — Bridge · Registry · Boundaries · Documentation
 ```
 
 ## Bridge exports (public API)
@@ -74,4 +74,4 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42d-pas005a-appshell-reexport-bridge
 - [x] Bridge module + appshell barrel exports
 - [x] Serializable parity registry + tests
 - [x] Legacy tree retained
-- [ ] Legacy tree delete (deferred ÔÇö parity < 100%)
+- [ ] Legacy tree delete (deferred — parity < 100%)

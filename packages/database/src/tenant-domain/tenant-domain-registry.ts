@@ -1,6 +1,6 @@
 /**
  * Canonical tenant-domain module registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Database package, lines 376–384).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Database package, lines 376–384).
  */
 export const DATABASE_TENANT_DOMAIN_MODULES = [
   {

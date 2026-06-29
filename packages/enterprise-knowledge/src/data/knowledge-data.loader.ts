@@ -1,6 +1,7 @@
 /**
  * PAS-004A §4.1 — B25: validated JSON corpus loaders.
  * PAS-004C §4.4 — B44: normalize implementationMapping → realizationMapping.
+ * PAS-004D §4.2 — B50: strip implementationMapping at public loader boundary.
  *
  * JSON imports widen literals to string. Runtime validation runs first; a single
  * documented trust-boundary assertion narrows to contract types after validation.
@@ -80,6 +81,18 @@ export function normalizeAtomRealization(raw: JsonRecord): JsonRecord {
   };
 }
 
+/**
+ * B50 — omit deprecated implementationMapping from parsed public atoms.
+ * JSON corpus retains the field for one release; TypeScript exports use realizationMapping only.
+ */
+export function stripLegacyPublicAtomFields(raw: JsonRecord): JsonRecord {
+  if (!("implementationMapping" in raw)) {
+    return raw;
+  }
+  const { implementationMapping: _legacy, ...rest } = raw;
+  return rest;
+}
+
 function formatFirstError(
   errors: readonly { path: string; message: string }[]
 ): string {
@@ -106,7 +119,11 @@ export function parseAtomCorpus(raw: unknown): readonly KnowledgeAtom[] {
       `atoms.json validation failed — ${formatFirstError(errors)}`
     );
   }
-  return normalized as readonly KnowledgeAtom[];
+
+  const stripped = normalized.map((entry) =>
+    isRecord(entry) ? stripLegacyPublicAtomFields(entry) : entry
+  );
+  return stripped as readonly KnowledgeAtom[];
 }
 
 /** Parse edges.json after structural validation and atomId cross-reference. */

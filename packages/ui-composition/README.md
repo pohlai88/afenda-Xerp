@@ -58,7 +58,9 @@ Each domain contract also exports `*_CONTRACT_OWNERSHIPS` and `*_CONTRACT_PROHIB
 ## What this package does NOT own
 
 - UI implementation or React components → `@afenda/metadata-ui`
-- Design tokens, recipes, variants, or components → `@afenda/design-system`
+- CSS tokens and runtime bridge → `@afenda/css-authority`
+- Governed UI variants/recipes → `@afenda/ui`
+- Presentation blocks (shadcn/studio) → `@afenda/shadcn-studio`
 - AppShell implementation → `@afenda/appshell`
 - ERP business rules or database schemas → ERP domain packages
 - Permission logic → `@afenda/permissions`
@@ -70,9 +72,9 @@ Each domain contract also exports `*_CONTRACT_OWNERSHIPS` and `*_CONTRACT_PROHIB
 ## Architecture dependency graph
 
 ```txt
-@afenda/design-system ──┐
-                        ├──▶ @afenda/metadata-ui   (Foundation phase 07, implementation)
-@afenda/ui-composition ───────┘
+@afenda/css-authority ──┐
+@afenda/ui ─────────────┼──▶ @afenda/metadata-ui   (Foundation phase 07, implementation)
+@afenda/ui-composition ─┘
 ```
 
 ## Installation
@@ -199,4 +201,4 @@ This package may only be changed by:
 ## Further reading
 
 - Implementation spec: `doc/Foundation phase 05.md`
-- Delivery record: `docs/PAS/pas-status-index.md` (TIP-005 metadata authority — closure registry)
+- Delivery record: `docs/PAS/pas-status-index.md` (UI composition metadata authority — closure registry)

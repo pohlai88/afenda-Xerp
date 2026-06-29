@@ -65,7 +65,10 @@ describe("check-architecture-authority-surface script", () => {
 
   it("accepts typescript-config Platform (tooling) layer doc variant", () => {
     const layerDoc = readFileSync(
-      join(repoRoot, "docs/architecture/layer-registry.md"),
+      join(
+        repoRoot,
+        "packages/architecture-authority/src/data/layer-registry.data.ts"
+      ),
       "utf8"
     );
 

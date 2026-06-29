@@ -27,7 +27,7 @@ This ADR establishes a **single machine-readable registry** as the subagent sour
 3. **TIP role:** TIP delivery docs under `docs/PAS/CSS-AUTHORITY/SLICE/` are `archive-lane` historical evidence only. TIP is not package authority.
 4. **Registry owner:** Only the `foundation-registry-owner` subagent may edit the registry. All other agents consume it read-only.
 5. **Subagent contract:** Before touching foundation packages, agents must read the registry and respect `lane`, `prohibited`, and `allowedAgents`.
-6. **Generated view:** `docs/architecture/foundation-disposition.md` is a read-only report synced from the registry — not authority.
+6. **Generated view:** `packages/architecture-authority/src/data/foundation-disposition.registry.ts` is a read-only report synced from the registry — not authority.
 7. **Enterprise benchmark:** Subagents must apply `.cursor/skills/enterprise-erp-standards/SKILL.md` when working on `red-lane` or `amber-lane` entries.
 
 ### Lane definitions
@@ -98,9 +98,9 @@ pnpm check:foundation-disposition -- --agent erp-app-agent --entry PKG007_ADMIN
 
 ## References
 
-- **FDR workflow (canonical):** [`docs/architecture/foundation-delivery-authority.md`](../architecture/foundation-delivery-authority.md)
+- **FDR workflow (canonical):** [`docs/PAS/README.md`](../PAS/README.md)
 - Registry: [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts)
-- Read-only view: [`docs/architecture/foundation-disposition.md`](../architecture/foundation-disposition.md)
-- Package registry: [`docs/architecture/package-registry.md`](../architecture/package-registry.md)
+- Read-only view: [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts)
+- Package registry: [`packages/architecture-authority/src/data/package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts)
 - Enterprise standards skill: [`.cursor/skills/enterprise-erp-standards/SKILL.md`](../../.cursor/skills/enterprise-erp-standards/SKILL.md)
 - Related ADRs: ADR-0010, ADR-0012, ADR-0013

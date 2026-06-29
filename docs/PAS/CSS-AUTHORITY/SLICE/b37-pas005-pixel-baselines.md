@@ -1,21 +1,21 @@
-# Slice B37 ÔÇö PAS-005 Playwright Pixel Baselines (PAS-005 ┬º14 P4)
+# Slice B37 — PAS-005 Playwright Pixel Baselines (PAS-005 §14 P4)
 
 **Prerequisite:** [B33 Visual Regression Gate](b33-pas005-visual-regression.md) delivered
 
 **Status:** Delivered (2026-06-28)
 
-**Type:** Visual proof ÔÇö Playwright pixel baselines for docs CSS theme
+**Type:** Visual proof — Playwright pixel baselines for docs CSS theme
 
-**Risk class:** Low ÔÇö docs-only E2E; structural gate extends B33 contract
+**Risk class:** Low — docs-only E2E; structural gate extends B33 contract
 
 ## Handoff block
 
 ```
 Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b37-pas005-pixel-baselines.md
 
-1. Objective    ÔÇö Wire Playwright pixel baseline tests for docs use-erp CSS theme (light header, light cards, dark page); extend B33 contract gate to verify pixel baseline wiring; close PAS-005 ┬º14 P4.
-2. Allowed layerÔÇö apps/docs/e2e/** ┬À apps/docs/playwright.config.mts ┬À scripts/css/css-theme-contract.mts ┬À scripts/governance/check-css-visual-regression.mts ┬À docs/PAS/**
-3. Files        ÔÇö
+1. Objective    — Wire Playwright pixel baseline tests for docs use-erp CSS theme (light header, light cards, dark page); extend B33 contract gate to verify pixel baseline wiring; close PAS-005 §14 P4.
+2. Allowed layer— apps/docs/e2e/** · apps/docs/playwright.config.mts · scripts/css/css-theme-contract.mts · scripts/governance/check-css-visual-regression.mts · docs/PAS/**
+3. Files        —
    apps/docs/e2e/docs-pixel-baseline.spec.ts
    apps/docs/e2e/visual-proof/use-erp-dark.png
    apps/docs/e2e/visual-proof/use-erp-light-cards.png
@@ -26,9 +26,9 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b37-pas005-pixel-baselines.md
    docs/PAS/CSS-AUTHORITY/SLICE/b37-pas005-pixel-baselines.md
    docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md
    docs/PAS/pas-status-index.md
-4. Prohibited   ÔÇö ERP playwright changes ┬À delete design-system CSS ┬À packages/css-authority registry edits
-5. Authority    ÔÇö PAS-005 ┬À CSS Authority ┬À ui-consistency-bundle
-6. Gates        ÔÇö
+4. Prohibited   — ERP playwright changes · delete design-system CSS · packages/css-authority registry edits
+5. Authority    — PAS-005 · CSS Authority · ui-consistency-bundle
+6. Gates        —
    pnpm check:css-visual-regression
    pnpm --filter @afenda/docs typecheck
    pnpm --filter @afenda/docs test:run
@@ -36,17 +36,17 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b37-pas005-pixel-baselines.md
    pnpm --filter @afenda/docs test:visual -- --grep @pixel
    pnpm check:css-governance
    pnpm ci:biome (changed TS)
-7. Closes       ÔÇö PAS-005 ┬º14 P4 Playwright pixel baselines ┬À B33 deferred pixel compare
-8. Evidence     ÔÇö
+7. Closes       — PAS-005 §14 P4 Playwright pixel baselines · B33 deferred pixel compare
+8. Evidence     —
    apps/docs/e2e/docs-pixel-baseline.spec.ts
    apps/docs/e2e/visual-proof/*.png
    scripts/css/css-theme-contract.mts (pixel wiring checks)
-9. Attestation  ÔÇö Governance ┬À Visual contract (import chain + pixel baselines)
+9. Attestation  — Governance · Visual contract (import chain + pixel baselines)
 ```
 
 ## Delivery notes
 
-- **Pixel spec:** `apps/docs/e2e/docs-pixel-baseline.spec.ts` ÔÇö three `@visual @pixel` tests on `/en/docs/use-erp` using committed baselines under `visual-proof/`.
+- **Pixel spec:** `apps/docs/e2e/docs-pixel-baseline.spec.ts` — three `@visual @pixel` tests on `/en/docs/use-erp` using committed baselines under `visual-proof/`.
 - **Playwright config:** `pathTemplate: '{testDir}/visual-proof/{arg}{ext}'`, viewport 1280├ù720, `maxDiffPixelRatio: 0.02`, `animations: 'disabled'`.
 - **B33 extension:** `pnpm check:css-visual-regression` verifies pixel spec, three baseline PNGs, `@pixel` + `toHaveScreenshot`, and `test:visual` script.
 - **Baseline refresh:** `cd apps/docs && pnpm build && pnpm exec playwright test --grep @pixel --update-snapshots` (requires local/CI Chromium).

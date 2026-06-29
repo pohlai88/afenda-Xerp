@@ -1,7 +1,7 @@
 /**
  * apps/erp — global CSS composition entry.
  *
- * Canonical import order (see docs/governance/downstream-ui-composition.md):
+ * Canonical import order (see docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md):
  *   1. tailwindcss               — Tailwind base reset + utilities
  *   2. afenda-ui.css             — css-authority tokens + UI primitives
  *   2b. shadcn-studio.css        — PAS-005A preset-ready shadcn surface (B42)

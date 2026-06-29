@@ -23,7 +23,7 @@ Afenda ERP must ship enterprise-grade UI surfaces (workspace dashboards, system-
 - Normalization pipeline via `STUDIO-PATTERN-MAP.md` and `afenda-appshell-studio.css`
 - Enforcement via `pnpm ui:guard` (Gates A–G)
 
-However, **no ADR** currently authorizes shadcn/studio as a constitutional delivery acceleration strategy. Authority is fragmented across TIP-004, TIP-006 (AppShell), FDR-001, and the operational guide [`app-ui-component-adaptation-guide.md`](../architecture/app-ui-component-adaptation-guide.md). AI agents (ADR-0007) lack a single inventory of what is available, what is already adapted, and what is prohibited.
+However, **no ADR** currently authorizes shadcn/studio as a constitutional delivery acceleration strategy. Authority is fragmented across TIP-004, TIP-006 (AppShell), FDR-001, and the operational guide [`app-ui-component-adaptation-guide.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md). AI agents (ADR-0007) lack a single inventory of what is available, what is already adapted, and what is prohibited.
 
 A **local reference mirror** exists at `_reference/shadcn-nextjs-admincn-admin-template-1.0.0/` — the shadcn/studio **Next.js Admin Dashboard template v1.0.0** (~639 files, 56 App Router routes). It is **gitignored** (`.gitignore` L75) and must never be imported into runtime code; it serves as an offline visual and route catalog for engineers and agents.
 
@@ -133,7 +133,7 @@ Every shadcn/studio adaptation coding turn must:
 2. Follow `.cursor/rules/shadcn-studio.instructions.mdc` MCP step sequence when MCP is active
 3. End with §11 Completion Report including `pnpm ui:guard` evidence when blocks change
 
-Operational detail (candidate tables, pattern recipes): [`app-ui-component-adaptation-guide.md`](../architecture/app-ui-component-adaptation-guide.md).  
+Operational detail (candidate tables, pattern recipes): [`app-ui-component-adaptation-guide.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md).  
 **Agent operational authority:** [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md) (token chain, decision filter, promotion pipeline).  
 MCP wiring and toolbar: [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md).
 
@@ -163,7 +163,7 @@ This ADR is satisfied when:
 
 - [ ] ADR-0017 status is **Accepted** after Architecture Authority review
 - [ ] [`docs/adr/README.md`](README.md) index lists ADR-0017
-- [ ] Cross-links exist in [`AGENTS.md`](../../AGENTS.md), [`app-ui-component-adaptation-guide.md`](../architecture/app-ui-component-adaptation-guide.md), [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md), [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md)
+- [ ] Cross-links exist in [`AGENTS.md`](../../AGENTS.md), [`app-ui-component-adaptation-guide.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md), [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md), [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md)
 - [ ] `pnpm check:documentation-drift` passes
 - [ ] Any new block adaptation in production passes `pnpm ui:guard` (Gates A–G) per this ADR pipeline
 
@@ -171,10 +171,10 @@ This ADR is satisfied when:
 
 ## References
 
-- Operational guide: [`docs/architecture/app-ui-component-adaptation-guide.md`](../architecture/app-ui-component-adaptation-guide.md)
+- Operational guide: [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md)
 - Agent operational authority: [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md)
 - MCP wiring: [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md)
-- UI enforcement: [`docs/governance/ui-guard.md`](../governance/ui-guard.md) · [`docs/governance/tip-004-policy.md`](../governance/tip-004-policy.md)
+- UI enforcement: [`scripts/governance/ui-guard.mjs`](../../scripts/governance/ui-guard.mjs) · [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc)
 - Pattern map: [`packages/appshell/src/presentation/STUDIO-PATTERN-MAP.md`](../../packages/appshell/src/presentation/STUDIO-PATTERN-MAP.md)
 - FDR shell: [`docs/PAS/[Partially Implemented] fdr-001-shell-composition.md`](../delivery/FDR/[Partially%20Implemented]%20fdr-001-shell-composition.md)
 - Related ADRs: [ADR-0002](./ADR-0002-layer-governance.md) · [ADR-0003](./ADR-0003-dependency-governance.md) · [ADR-0007](./ADR-0007-ai-development-governance.md) · [ADR-0014](./ADR-0014-foundation-disposition-registry.md)

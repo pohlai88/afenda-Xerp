@@ -10,7 +10,7 @@
 
 **Risk class:** Medium
 
-**Clean Core impact:** A→A — contracts-only package
+**Clean Core impact:** A→A — version registry extension
 
 ## Purpose
 
@@ -20,7 +20,7 @@ Add authority instrument and supersession metadata to version registry.
 
 ## Handoff block
 
-`
+```
 Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b15-authority-supersession-metadata.md
 
 1. Objective    — Add authority instrument and supersession metadata to version registry.
@@ -40,7 +40,7 @@ Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b15-authority-supersession-met
 8. Evidence     —
    (after delivery) version registry fields
 9. Attestation  — Contract
-`
+```
 
 ## DoD
 
@@ -49,3 +49,5 @@ Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b15-authority-supersession-met
 | 1 | Slice handoff + PAS §12 sync | file read | PAS-003 §4.3 |
 | 2 | Implementation matches PAS §4 contract | typecheck + test:run | PAS-003 authority surface |
 | 3 | No prohibited surfaces introduced | quality:boundaries | PAS-003 §5 |
+
+

@@ -4,6 +4,7 @@ import type {
   OwnershipInterestId,
   TenantId,
 } from "../identity/index.js";
+import { isRecordEffectiveAt } from "./effective-dating-vocabulary.contract.js";
 import type { PlatformLifecycleStatus } from "./lifecycle.contract.js";
 
 export const OWNERSHIP_CONTROL_TYPES = [
@@ -87,9 +88,9 @@ export function isOwnershipInterestEffectiveAt(
     return false;
   }
 
-  if (interest.effectiveFrom > effectiveOn) {
-    return false;
-  }
-
-  return interest.effectiveTo === null || interest.effectiveTo >= effectiveOn;
+  return isRecordEffectiveAt(
+    interest.effectiveFrom,
+    interest.effectiveTo,
+    effectiveOn
+  );
 }

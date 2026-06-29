@@ -22,10 +22,10 @@ Close PAS-001A at Production Candidate: §6 ERP Integration Acceptance Matrix 10
 Handoff from: docs/PAS/KERNEL/SLICE/b75-pas001a-production-candidate-attestation.md
 
 1. Objective    — Attest PAS-001A Production Candidate closure with archived gate output for all matrix rows.
-2. Allowed layer— docs/PAS/** · docs/architecture/afenda-runtime-truth-matrix.md · .cursor/skills/kernel-authority/SKILL.md
+2. Allowed layer— docs/PAS/** · docs/PAS/pas-status-index.md · .cursor/skills/kernel-authority/SKILL.md
 3. Files        —
    docs/PAS/pas-status-index.md
-   docs/architecture/afenda-runtime-truth-matrix.md
+   docs/PAS/pas-status-index.md
    docs/PAS/KERNEL/SLICE/b75-pas001a-production-candidate-attestation.md
    .cursor/skills/kernel-authority/SKILL.md
 4. Prohibited   — Reopening PAS-001 Enterprise Accepted · kernel vocabulary expansion
@@ -37,7 +37,7 @@ Handoff from: docs/PAS/KERNEL/SLICE/b75-pas001a-production-candidate-attestation
 7. Closes       — Closes DoD #1–#3 · PAS-001A Production Candidate · INV-001–INV-006
 8. Evidence     —
    docs/PAS/pas-status-index.md
-   docs/architecture/afenda-runtime-truth-matrix.md
+   docs/PAS/pas-status-index.md
    Archived §6 matrix gate output
 9. Attestation  — Governance · Documentation · Observability
 ```
@@ -60,7 +60,7 @@ Handoff from: docs/PAS/KERNEL/SLICE/b75-pas001a-production-candidate-attestation
 | DoD # | Evidence path after delivery |
 | --- | --- |
 | 1 | docs/PAS/pas-status-index.md |
-| 2 | docs/architecture/afenda-runtime-truth-matrix.md |
+| 2 | docs/PAS/pas-status-index.md |
 | 3 | Archived §6 matrix gate output |
 
 ## Runtime evidence

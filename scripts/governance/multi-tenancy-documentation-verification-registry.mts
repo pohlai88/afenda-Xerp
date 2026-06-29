@@ -1,6 +1,6 @@
 /**
  * Canonical Step 10 documentation and verification registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Step 10, lines 601–611).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Step 10, lines 601–611).
  */
 import { MULTI_TENANCY_DELIVERY_DOC } from "./delivery-evidence-surface-registry.mts";
 

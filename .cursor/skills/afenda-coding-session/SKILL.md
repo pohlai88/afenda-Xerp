@@ -35,10 +35,10 @@ disable-model-invocation: true
 
 When the task touches a foundation or domain package listed in [`foundation-disposition.registry.ts`](../../../packages/architecture-authority/src/data/foundation-disposition.registry.ts):
 
-1. Read [`foundation-delivery-authority.md`](../../../docs/architecture/foundation-delivery-authority.md) — PAS workflow and authority hierarchy.
+1. Read [`foundation-delivery-authority.md`](../../../docs/PAS/README.md) — PAS workflow and authority hierarchy.
 2. Read the registry entry: `lane`, `gates`, `prohibited`, `allowedAgents`, `runtimeOwner`.
-3. Read [`afenda-runtime-truth-matrix.md`](../../../docs/architecture/afenda-runtime-truth-matrix.md) for evidence status.
-4. Read parent PAS under `docs/PAS/` and target slice under `docs/PAS/CSS-AUTHORITY/SLICE/` — copy one §Handoff block into Phase 0.
+3. Read [`afenda-runtime-truth-matrix.md`](../../../docs/PAS/pas-status-index.md) for evidence status.
+4. Read parent PAS under `docs/PAS/<DOMAIN-FOLDER>/` and target slice under `docs/PAS/KERNEL/SLICE/` (or domain `SLICE/`) — copy one §Handoff block into Phase 0.
 5. At session end, §11 Completion Report closes slice gaps + enterprise attestation (enterprise-erp-standards §9).
 
 **Do not author canonical standards outside `docs/PAS/`.** Registry edits → `foundation-registry-owner` only.
@@ -95,8 +95,8 @@ never *redefine* it locally.
 | Authority | Owning package(s) | Owns | Consumers may NOT |
 |-----------|-------------------|------|-------------------|
 | **Architecture** | `packages/architecture-authority` | Allowed dependency directions, package boundaries | Cross-import outside declared boundaries |
-| **Design System** | `packages/design-system` | Tokens, recipes, CSS variables | Define local tokens / recipes / variants |
-| **UI Primitive Governance** | `packages/ui` | Governed primitives, `resolvePrimitiveGovernance()` | Add `className` to `@afenda/ui` primitives |
+| **CSS Authority** | `@afenda/css-authority` | CSS tokens, runtime bridge, `CSS-TOKEN-*` registry | Define local tokens / recipes / variants |
+| **UI Primitive Governance** | `@afenda/ui` | Governed primitives, `resolvePrimitiveGovernance()` | Add `className` to `@afenda/ui` primitives |
 | **Metadata UI** | `packages/ui-composition`, `packages/metadata-ui` | UI composition contracts, layouts | Invent local metadata contracts |
 | **Kernel / Multi-tenancy** | `packages/kernel` | Operating-context + tenant resolution | Inline tenant/context lookups |
 | **Database** | `packages/database` | Schema, migrations, RLS | Hand-edit migrations; raw cross-tenant queries |
@@ -366,7 +366,7 @@ Authority split (verify before editing either side):
 
 Kernel defines *what* a context is; ERP defines *how* it is resolved. Register new
 resolution steps in the ERP pipeline — never add an ad-hoc lookup at the call site.  
-Architecture docs: `docs/architecture/multi-tenancy.md`
+Architecture docs: `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md`
 
 ---
 
@@ -502,6 +502,6 @@ Any `Fail` row must be resolved or escalated before the session is reported comp
 - TypeScript patterns in depth → [PATTERNS.md](PATTERNS.md)
 - All quality gates + changed-files→gate matrix → [VERIFICATION.md](VERIFICATION.md)
 - Governed UI author layer (primitive authoring) → `.cursor/skills/govern-primitive/SKILL.md`
-- Multi-tenancy architecture → `docs/architecture/multi-tenancy.md`
+- Multi-tenancy architecture → `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md`
 - CSS / Tailwind governance → `.cursor/skills/afenda-tailwind/SKILL.md`
 - Next.js App Router (live docs) → `nextjs-docs://llms-index` via MCP before writing

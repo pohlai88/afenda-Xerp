@@ -16,7 +16,7 @@ Enterprise ERP application shell — Shell-05 layout system.
 
 ### Canonical app import order
 
-See [docs/architecture/css-authority.md](../../docs/architecture/css-authority.md#canonical-erp-app-import-order).
+See [docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md](../../docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md#canonical-erp-app-import-order).
 
 ### Manifest
 

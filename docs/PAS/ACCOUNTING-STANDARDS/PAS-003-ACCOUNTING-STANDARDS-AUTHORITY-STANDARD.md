@@ -15,15 +15,15 @@
 | **Agent skill** | `accounting-standards-authority` · `.cursor/skills/accounting-standards-authority/SKILL.md` |
 | **Maturity** | Production Candidate (`production_candidate`) |
 | **Authority status** | `accepted_for_implementation` |
-| **Implementation status** | `partial` |
-| **Evidence level** | `concept` |
-| **Runtime status** | B0 skeleton + PAS published; versioned standard registries not started |
-| **Remaining slices** | B1 — accounting standard family registry (next); B13–B16 for Domain NS parallel-book extensions |
-| **Consumers** | See [Architecture Blueprint — Accounting domain](../../architecture/afenda-architecture-blueprint.md#accounting--finance-domain): `@afenda/kernel` (live), `@afenda/accounting` (blocked), `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/reporting` (planned), `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp` (live surfaces) |
+| **Implementation status** | `substantial` |
+| **Evidence level** | `tested_contracts` |
+| **Runtime status** | B0–B11 + B13–B16 delivered — registries, IFRS pack, validation engine, 23 tests |
+| **Remaining slices** | B12 — enterprise acceptance sync (governance; consumer workflow proof pending) |
+| **Consumers** | See [Architecture Blueprint — Accounting domain](../../BLUEPRINT/kernel-blueprint.md#accounting--finance-domain): `@afenda/kernel` (live), `@afenda/accounting` (blocked), `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/reporting` (planned), `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp` (live surfaces) |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
 | **Closure registry** | [`pas-status-index.md`](../pas-status-index.md) |
-| **ADR prerequisites** | ADR-0013 · consumer packages declared in [Architecture Blueprint](../../architecture/afenda-architecture-blueprint.md) |
+| **ADR prerequisites** | ADR-0013 · consumer packages declared in [Architecture Blueprint](../../BLUEPRINT/kernel-blueprint.md) |
 
 #### Required gates
 
@@ -43,7 +43,7 @@
 > **Slice SSOT:** [`ACCOUNTING-STANDARDS/SLICE/`](SLICE/README.md)
 > **Domain North Star:** [`accounting-standards-north-star.md`](../../NORTHSTAR/accounting-standards-north-star.md)
 > **Kernel identity boundary (do not duplicate):** [PAS-001 §4.1](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [PAS-001 context](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
-> **Blueprint (consumer discovery):** [Accounting Standards Blueprint](../../BLUEPRINT/accounting-standards-blueprint.md) · [Platform Blueprint — Accounting domain](../../architecture/afenda-architecture-blueprint.md#accounting--finance-domain) · [ADR-0026](../../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)
+> **Blueprint (consumer discovery):** [Accounting Standards Blueprint](../../BLUEPRINT/accounting-standards-blueprint.md) · [Platform Blueprint — Accounting domain](../../BLUEPRINT/kernel-blueprint.md#accounting--finance-domain) · [ADR-0026](../../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)
 
 ---
 
@@ -60,11 +60,11 @@
 
 **Required gates:** see §13.1.
 
-**Closure registry:** [`pas-status-index.md`](../pas-status-index.md) · Session: `/afenda-coding-session`
+**Closure registry:** [`pas-status-index.md`](../pas-status-index.md) · Slice SSOT: [`ACCOUNTING-STANDARDS/SLICE/`](SLICE/README.md) · Session: `/afenda-coding-session`
 
 **Registry:** `PKGR03_ACCOUNTING_STANDARDS` · `PKG-023` in `packages/architecture-authority/src/data/package-registry.data.ts`.
 
-**Blueprint consumers:** Downstream domain packages (`@afenda/accounting`, `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/reporting`) are **declared planned or blocked** in the [Architecture Blueprint](../../architecture/afenda-architecture-blueprint.md) — not phantom references. Live surfaces today: `@afenda/kernel`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`.
+**Blueprint consumers:** Downstream domain packages (`@afenda/accounting`, `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/reporting`) are **declared planned or blocked** in the [Architecture Blueprint](../../BLUEPRINT/kernel-blueprint.md) — not phantom references. Live surfaces today: `@afenda/kernel`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`.
 
 **Kernel boundary (read-only):** Branded IDs, `LegalEntityContext`, and relationship vocabulary (`holding`, `subsidiary`, `associate`, `joint_venture`, etc.) live in `@afenda/kernel` ([PAS-001](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). Accounting Standards **consumes** Kernel types for routing and validation inputs only — it never defines identity brands, relationship semantics, or IFRS treatment logic inside Kernel.
 
@@ -882,22 +882,22 @@ PAS-003 may move to `Enterprise Accepted` only when:
 | Slice file                                      | ID  | PAS § | Status      | Type           | Prerequisite     |
 | ----------------------------------------------- | --- | ----- | ----------- | -------------- | ---------------- |
 | [`SLICE/b0-package-skeleton.md`](SLICE/b0-package-skeleton.md) | B0 | §6 | Delivered | Implementation | PAS-003 accepted |
-| [`SLICE/b1-4.1-accounting-standard-family-registry.md`](SLICE/b1-4.1-accounting-standard-family-registry.md) | B1 | §4.1 | Not started | Implementation | B0 |
-| [`SLICE/b2-4.2-accounting-standard-registry.md`](SLICE/b2-4.2-accounting-standard-registry.md) | B2 | §4.2 | Not started | Implementation | B1 |
-| [`SLICE/b3-4.3-standard-version-registry.md`](SLICE/b3-4.3-standard-version-registry.md) | B3 | §4.3 | Not started | Implementation | B1–B2 |
-| [`SLICE/b4-4.4-standard-process-routing.md`](SLICE/b4-4.4-standard-process-routing.md) | B4 | §4.4 | Not started | Implementation | B1–B3 |
-| [`SLICE/b5-4.5-posting-validation-input-contracts.md`](SLICE/b5-4.5-posting-validation-input-contracts.md) | B5 | §4.5 | Not started | Implementation | B1–B4 |
-| [`SLICE/b6-4.6-posting-validation-rule-contracts.md`](SLICE/b6-4.6-posting-validation-rule-contracts.md) | B6 | §4.6 | Not started | Implementation | B5 |
-| [`SLICE/b7-4.7-validation-result-contract.md`](SLICE/b7-4.7-validation-result-contract.md) | B7 | §4.7 | Not started | Implementation | B6 |
-| [`SLICE/b8-4.8-ifrs-rule-pack.md`](SLICE/b8-4.8-ifrs-rule-pack.md) | B8 | §4.8 | Not started | Implementation | B1–B7 |
-| [`SLICE/b9-4.9-ifrs-16-lease-posting-proof.md`](SLICE/b9-4.9-ifrs-16-lease-posting-proof.md) | B9 | §4.9 | Not started | Implementation | B8 |
-| [`SLICE/b10-4.10-explanation-registry.md`](SLICE/b10-4.10-explanation-registry.md) | B10 | §4.10 | Not started | Implementation | B8–B9 |
-| [`SLICE/b11-4.11-audit-evidence-snapshot.md`](SLICE/b11-4.11-audit-evidence-snapshot.md) | B11 | §4.11 | Not started | Implementation | B9–B10 |
+| [`SLICE/b1-4.1-accounting-standard-family-registry.md`](SLICE/b1-4.1-accounting-standard-family-registry.md) | B1 | §4.1 | Delivered | Implementation | B0 |
+| [`SLICE/b2-4.2-accounting-standard-registry.md`](SLICE/b2-4.2-accounting-standard-registry.md) | B2 | §4.2 | Delivered | Implementation | B1 |
+| [`SLICE/b3-4.3-standard-version-registry.md`](SLICE/b3-4.3-standard-version-registry.md) | B3 | §4.3 | Delivered | Implementation | B1–B2 |
+| [`SLICE/b4-4.4-standard-process-routing.md`](SLICE/b4-4.4-standard-process-routing.md) | B4 | §4.4 | Delivered | Implementation | B1–B3 |
+| [`SLICE/b5-4.5-posting-validation-input-contracts.md`](SLICE/b5-4.5-posting-validation-input-contracts.md) | B5 | §4.5 | Delivered | Implementation | B1–B4 |
+| [`SLICE/b6-4.6-posting-validation-rule-contracts.md`](SLICE/b6-4.6-posting-validation-rule-contracts.md) | B6 | §4.6 | Delivered | Implementation | B5 |
+| [`SLICE/b7-4.7-validation-result-contract.md`](SLICE/b7-4.7-validation-result-contract.md) | B7 | §4.7 | Delivered | Implementation | B6 |
+| [`SLICE/b8-4.8-ifrs-rule-pack.md`](SLICE/b8-4.8-ifrs-rule-pack.md) | B8 | §4.8 | Delivered | Implementation | B1–B7 |
+| [`SLICE/b9-4.9-ifrs-16-lease-posting-proof.md`](SLICE/b9-4.9-ifrs-16-lease-posting-proof.md) | B9 | §4.9 | Delivered | Implementation | B8 |
+| [`SLICE/b10-4.10-explanation-registry.md`](SLICE/b10-4.10-explanation-registry.md) | B10 | §4.10 | Delivered | Implementation | B8–B9 |
+| [`SLICE/b11-4.11-audit-evidence-snapshot.md`](SLICE/b11-4.11-audit-evidence-snapshot.md) | B11 | §4.11 | Delivered | Implementation | B9–B10 |
 | [`SLICE/b12-11-enterprise-acceptance-sync.md`](SLICE/b12-11-enterprise-acceptance-sync.md) | B12 | §11 | Not started | Governance | B1–B11 |
-| [`SLICE/b13-reporting-context-profile-routing.md`](SLICE/b13-reporting-context-profile-routing.md) | B13 | §4.4 | Not started | Implementation | B3–B4 |
-| [`SLICE/b14-scope-gate-judgment-escalation.md`](SLICE/b14-scope-gate-judgment-escalation.md) | B14 | §4.7 | Not started | Implementation | B6–B7 |
-| [`SLICE/b15-authority-supersession-metadata.md`](SLICE/b15-authority-supersession-metadata.md) | B15 | §4.3 | Not started | Implementation | B3 |
-| [`SLICE/b16-cross-representation-routing.md`](SLICE/b16-cross-representation-routing.md) | B16 | §4.4 | Not started | Implementation | B4 · B13 |
+| [`SLICE/b13-reporting-context-profile-routing.md`](SLICE/b13-reporting-context-profile-routing.md) | B13 | §4.4 | Delivered | Implementation | B3–B4 |
+| [`SLICE/b14-scope-gate-judgment-escalation.md`](SLICE/b14-scope-gate-judgment-escalation.md) | B14 | §4.7 | Delivered | Implementation | B6–B7 |
+| [`SLICE/b15-authority-supersession-metadata.md`](SLICE/b15-authority-supersession-metadata.md) | B15 | §4.3 | Delivered | Implementation | B3 |
+| [`SLICE/b16-cross-representation-routing.md`](SLICE/b16-cross-representation-routing.md) | B16 | §4.4 | Delivered | Implementation | B4 · B13 |
 
 **Domain NS §4 trace (2026-06-29):** B13–B16 implement parallel-book ERP-parity extensions after B1–B11 core surfaces.
 

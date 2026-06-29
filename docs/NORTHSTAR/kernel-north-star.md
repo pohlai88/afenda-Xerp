@@ -59,7 +59,7 @@ Without a shared language:
 
 The Platform Kernel domain exists because **cross-module facts and primitive vocabulary must be immutable, battle-proven, and independent of any single business workflow, database schema, or UI surface**.
 
-**Source:** Platform NS §2 (canonical wire contracts) · ADR-0026 (governed platform constitution) · PAS-001 §16 doctrine (T5)
+**Source:** Platform NS §2 (canonical wire contracts) · ADR-0026 (governed platform constitution) · Kernel vocabulary authority doctrine (T5)
 
 ---
 
@@ -111,7 +111,7 @@ Platform substrate terms shared by every module.
 
 ## 3.2 ERP wire vocabulary
 
-Cross-domain business labels at the wire layer. Governed by PAS-001B catalog — distinct lifecycle from primitive vocabulary.
+Cross-domain business labels at the wire layer. Governed by the ERP wire catalog (Blueprint Catalog box) — distinct lifecycle from primitive vocabulary.
 
 | Term | Enterprise meaning | Not confused with |
 | --- | --- | --- |
@@ -148,7 +148,7 @@ Business reference identity    (Customer, Product, Employee ref families)
 
 **Rule:** Platform entity authority records *ownership metadata* only. Business reference identity records *cross-module ref families* only. Neither resolves rows.
 
-**Source:** PAS-001 §1 · §4.1–§4.7 · §4.10 · §16 (T5) · PAS-001B scope (T5) · Platform NS §2 (T1)
+**Source:** Kernel vocabulary authority (T5) · ERP wire catalog scope (T5) · Platform NS §2 (T1)
 
 ---
 
@@ -158,23 +158,23 @@ Permanent capabilities with maturity tiers. **Because → Therefore** reasoning 
 
 | Capability | Tier | Maturity | EFR summary | Because → Therefore | Source |
 | --- | --- | --- | --- | --- | --- |
-| **Shared enterprise identity** | Core | Enterprise | Branded IDs and reference families cross all modules without ambiguity | **Because** plain strings cross boundaries silently · **Therefore** every cross-package fact uses governed identity families | ADR-0021–0023 · PAS-001 §4.1 |
-| **Operating scope hierarchy** | Core | Enterprise | Tenant → entity → org → project is one agreed hierarchy | **Because** multi-entity ERPs fail on scope ambiguity · **Therefore** one hierarchy vocabulary binds all modules | ADR-0011 · PAS-001 §4.4 |
-| **Multi-scope consistency** | Core | Enterprise | Linked cross-module references must declare compatible operating scope | **Because** cross-company linkage causes audit and compliance failure · **Therefore** scope consistency is a substrate invariant, not optional validation | Odoo multi-company pattern (T3) · PAS-001 §4.4 |
+| **Shared enterprise identity** | Core | Enterprise | Branded IDs and reference families cross all modules without ambiguity | **Because** plain strings cross boundaries silently · **Therefore** every cross-package fact uses governed identity families | ADR-0021–0023 · Kernel vocabulary identity surfaces (T5) |
+| **Operating scope hierarchy** | Core | Enterprise | Tenant → entity → org → project is one agreed hierarchy | **Because** multi-entity ERPs fail on scope ambiguity · **Therefore** one hierarchy vocabulary binds all modules | ADR-0011 · Kernel vocabulary operating scope (T5) |
+| **Multi-scope consistency** | Core | Enterprise | Linked cross-module references must declare compatible operating scope | **Because** cross-company linkage causes audit and compliance failure · **Therefore** scope consistency is a substrate invariant, not optional validation | Odoo multi-company pattern (T3) · Kernel vocabulary scope consistency (T5) |
 | **Effective dating vocabulary** | Advanced | Enterprise | As-of scope and identity context can be named without resolver logic | **Because** org structure and currency change over time · **Therefore** kernel carries effective-scope words; owners resolve | Enterprise ERP universal (T3) |
-| **Execution traceability** | Core | Enterprise | Every protected action carries correlation and execution identity | **Because** async ERP cannot be audited without end-to-end trace · **Therefore** trace vocabulary is constitutional | PAS-001 §4.3 · W3C Trace Context (T3) |
-| **Result and error vocabulary** | Core | Enterprise | Failures expressed in shared, auditable vocabulary | **Because** incompatible errors break integrations and support · **Therefore** one result/error word set at boundaries | PAS-001 §4.2 |
-| **Policy decision vocabulary** | Core | Enterprise | Permission *words* (module × action × scope) are platform-owned | **Because** authorization without shared scope words is inconsistent · **Therefore** kernel owns grant-scope vocabulary only | PAS-001 §8 |
-| **Domain event envelope** | Core | Enterprise | Business events share one envelope shape at boundaries | **Because** event-driven integrations require interoperable metadata · **Therefore** envelope aligns with CloudEvents-style context attributes | PAS-001 §4.10 · CloudEvents 1.0 (T3) |
-| **Localization code vocabulary** | Core | Enterprise | Locale, timezone, currency, country, UOM *code brands* shared across modules | **Because** each domain inventing format codes breaks reporting · **Therefore** kernel owns code brands; Finance/Inventory own masters and conversion | PAS-001 §4.5 |
-| **Platform entity authority registry** | Core | Enterprise | Platform-level entity ID families have declared ownership metadata | **Because** undclared ownership causes duplicate ID systems · **Therefore** authority registry is vocabulary-only reservation map | PAS-001 §4.6 |
-| **Business reference identity families** | Advanced | Enterprise | Cross-module business record refs use governed ID families | **Because** integrations reference customers/products by ID across modules · **Therefore** ref families are kernel vocabulary; master data is not | PAS-001 §4.7 · ADR-0020 |
-| **ERP domain wire catalog** | Advanced | Production | Cross-domain business terms catalogued without owning runtime | **Because** accounting/HRM/CRM must share wire labels · **Therefore** catalog separates shape from meaning | ADR-0020 · PAS-001B |
-| **Minimal async context frame** | Core | Enterprise | Safe propagation of execution frame; parallel work cannot leak frames | **Because** Promise parallelism loses audit context · **Therefore** fork/isolated frame vocabulary is mandatory | PAS-001 §4.11 |
+| **Execution traceability** | Core | Enterprise | Every protected action carries correlation and execution identity | **Because** async ERP cannot be audited without end-to-end trace · **Therefore** trace vocabulary is constitutional | Kernel vocabulary trace surfaces (T5) · W3C Trace Context (T3) |
+| **Result and error vocabulary** | Core | Enterprise | Failures expressed in shared, auditable vocabulary | **Because** incompatible errors break integrations and support · **Therefore** one result/error word set at boundaries | Kernel vocabulary result/error surfaces (T5) |
+| **Policy decision vocabulary** | Core | Enterprise | Permission *words* (module × action × scope) are platform-owned | **Because** authorization without shared scope words is inconsistent · **Therefore** kernel owns grant-scope vocabulary only | Kernel vocabulary grant-scope words (T5) |
+| **Domain event envelope** | Core | Enterprise | Business events share one envelope shape at boundaries | **Because** event-driven integrations require interoperable metadata · **Therefore** envelope aligns with CloudEvents-style context attributes | Kernel vocabulary event envelope (T5) · CloudEvents 1.0 (T3) |
+| **Localization code vocabulary** | Core | Enterprise | Locale, timezone, currency, country, UOM *code brands* shared across modules | **Because** each domain inventing format codes breaks reporting · **Therefore** kernel owns code brands; Finance/Inventory own masters and conversion | Kernel vocabulary localization codes (T5) |
+| **Platform entity authority registry** | Core | Enterprise | Platform-level entity ID families have declared ownership metadata | **Because** undclared ownership causes duplicate ID systems · **Therefore** authority registry is vocabulary-only reservation map | Kernel vocabulary entity authority (T5) |
+| **Business reference identity families** | Advanced | Enterprise | Cross-module business record refs use governed ID families | **Because** integrations reference customers/products by ID across modules · **Therefore** ref families are kernel vocabulary; master data is not | Kernel vocabulary ref families (T5) · ADR-0020 |
+| **ERP domain wire catalog** | Advanced | Production | Cross-domain business terms catalogued without owning runtime | **Because** accounting/HRM/CRM must share wire labels · **Therefore** catalog separates shape from meaning | ADR-0020 · ERP wire catalog (T5) |
+| **Minimal async context frame** | Core | Enterprise | Safe propagation of execution frame; parallel work cannot leak frames | **Because** Promise parallelism loses audit context · **Therefore** fork/isolated frame vocabulary is mandatory | Kernel vocabulary async context frame (T5) |
 | **Tenant lifecycle vocabulary** | Advanced | Production | Subscribe/provision/active/suspend/offboard states named at substrate level | **Because** SaaS ERP must isolate tenants from first request · **Therefore** lifecycle *words* live in kernel; provisioning *execution* does not | SAP CAP multitenancy (T3) |
 | **Actor and integration identity** | Advanced | Production | Human vs service vs delegated application initiators distinguished at boundaries | **Because** S2S and multi-tenant ERP mix actor types · **Therefore** actor kind is vocabulary; session auth is not | Dataverse multi-tenant S2S (T3) |
 | **Tenant extension boundary** | Advanced | Production | Tenant customization cannot fork platform wire brands | **Because** per-tenant extensions otherwise become parallel vocabulary · **Therefore** extensions are explicitly non-authoritative for kernel brands | SAP tenant extensibility (T3) |
-| **Consumer integration proof** | Core | Production | Production ERP resolves scope and assembles operating context through one spine | **Because** closed vocabulary does not guarantee production compliance · **Therefore** attestation is a permanent capability | PAS-001A §2.1 |
+| **Consumer integration proof** | Core | Production | Production ERP resolves scope and assembles operating context through one spine | **Because** closed vocabulary does not guarantee production compliance · **Therefore** attestation is a permanent capability | ERP Integration Spine attestation (T5) |
 
 **Capability maturity key:** Idea · MVP · Production · Enterprise
 
@@ -190,7 +190,7 @@ Permanent capabilities with maturity tiers. **Because → Therefore** reasoning 
 | P3 | **Fail closed at boundaries** | Silent fallbacks to wrong tenant/entity destroy auditability | Absent context is explicit null — never guessed |
 | P4 | **Wire ingress is owned once** | Duplicate parsers create incompatible branded types | Parse/assert at designated owner; kernel projects branded slots |
 | P5 | **Vocabulary before runtime** | Domain packages must not invent parallel IDs or scope models | New cross-package facts require kernel amendment path |
-| P6 | **Integration is provable** | Closed vocabulary does not guarantee production speaks it | Consumer integration PAS proves end-to-end spine |
+| P6 | **Integration is provable** | Closed vocabulary does not guarantee production speaks it | Consumer integration attestation proves end-to-end spine |
 | P7 | **Scope consistency is non-negotiable** | Cross-entity linkage is a compliance failure mode | Linked references must declare compatible scope — never silent mismatch |
 | P8 | **Shape ≠ meaning** | Types are not definitions | Wire labels defer meaning to Enterprise Knowledge ([LAW K6](../CONSTITUTION/knowledge-constitutional-laws.md)) |
 | P9 | **Interop by vocabulary alignment** | Event and trace integrations fail without shared metadata words | Envelope and trace vocabulary align with industry standards where cited (T3) |
@@ -204,12 +204,12 @@ Permanent capabilities with maturity tiers. **Because → Therefore** reasoning 
 | I2 | Absent tenant or operating scope is explicit null — never inferred from URL, default company, or last-used context. |
 | I3 | Linked cross-module references at boundaries must satisfy scope consistency (§3.1) — violations are fail-closed. |
 | I4 | Wire types and ERP wire terms do not imply accepted business meaning without Enterprise Knowledge atom. |
-| I5 | Kernel vocabulary amendment requires Domain NS or ADR change before PAS slice — not reverse. |
+| I5 | Kernel vocabulary amendment requires Domain NS or ADR change before implementation slice — not reverse. |
 | I6 | Tenant-specific extensions must not redefine or fork constitutional identity or scope brands. |
 | I7 | Correlation identity is mandatory on every protected execution path; causation identity is mandatory on emitted domain events. |
 | I8 | Localization vocabulary owns code brands only — never formatting, translation, fiscal calendar, or FX conversion. |
 
-**Source:** PAS-001 §16 · PAS-001A §1.2 TOGAF/DDD framing (T5)
+**Source:** Kernel vocabulary invariants (T5) · ERP Integration Spine framing (T5)
 
 ---
 
@@ -220,8 +220,8 @@ Permanent capabilities with maturity tiers. **Because → Therefore** reasoning 
 | Outcome | Target | Measures | Source |
 | --- | --- | --- | --- |
 | **Vocabulary singularity** | Zero parallel ID/scope models in production | Boundary and prohibited-surface conformance | Platform NS §2 |
-| **Integration coherence** | 100% protected ERP surfaces use canonical resolver spine | Consumer integration attestation | PAS-001A |
-| **Audit traceability** | Every protected action carries correlation + execution identity | Context wire triad conformance | PAS-001 §4.3 |
+| **Integration coherence** | 100% protected ERP surfaces use canonical resolver spine | Consumer integration attestation | ERP Integration Spine (T5) |
+| **Audit traceability** | Every protected action carries correlation + execution identity | Context wire triad conformance | Kernel vocabulary trace surfaces (T5) |
 | **Scope integrity** | Zero undetected cross-entity scope linkage in governed surfaces | Scope consistency checks at integration boundaries | §5.1 I3 |
 | **Drift prevention** | Kernel PAS, SKILL, and runtime matrix stay aligned | Documentation drift gate | Platform governance |
 | **Agent-safe delivery** | Any agent implements a slice without re-deriving scope | PAS + slice handoff + kernel-authority skill | Platform NS §3.1 |
@@ -232,9 +232,9 @@ Permanent capabilities with maturity tiers. **Because → Therefore** reasoning 
 | KPI | Target | Measurement context | Source |
 | --- | --- | --- | --- |
 | **Parallel vocabulary incidents** | 0 in production | Per release boundary scan | Platform governance |
-| **Protected path trace coverage** | 100% | API, job, and event ingress | PAS-001 §4.3 |
-| **Consumer spine attestation** | 100% of declared ERP milestones | Integration proof slices | PAS-001A |
-| **Wire catalog drift** | 0 orphan ERP wire terms | Catalog ↔ Knowledge alignment | PAS-001B |
+| **Protected path trace coverage** | 100% | API, job, and event ingress | Kernel vocabulary trace surfaces (T5) |
+| **Consumer spine attestation** | 100% of declared ERP milestones | Integration proof slices | ERP Integration Spine (T5) |
+| **Wire catalog drift** | 0 orphan ERP wire terms | Catalog ↔ Knowledge alignment | ERP wire catalog (T5) |
 
 ---
 
@@ -254,7 +254,7 @@ Events the kernel domain **names** (envelope vocabulary) — not dispatches.
 | **Identity referenced cross-module** | Governed ID crossed a package boundary | Inter-module call or event | Enterprise identity · Identity family |
 | **Domain term referenced** | ERP wire term from catalog used at a boundary | Cross-domain payload | ERP wire term |
 | **Domain event envelope emitted (vocabulary)** | Business fact wrapped with standard envelope metadata | Posting, status change, integration handoff | Domain event envelope · Causation identity |
-| **Integration attestation completed** | Consumer spine proven for a production milestone | PAS-001A gate milestone | Consumer integration |
+| **Integration attestation completed** | Consumer spine proven for a production milestone | Integration Spine attestation milestone | Consumer integration |
 | **Vocabulary amended** | New or changed kernel word accepted through governance | ADR or NS amendment closed | Contract stability · Kernel vocabulary amendment (§8) |
 
 Dispatch, retry, outbox, workflow orchestration, and tenant provisioning **execution** belong outside this domain.
@@ -412,7 +412,7 @@ Platform Kernel is **Platform Language** — one of four non-overlapping constit
 | Risk | Impact | Mitigation (architectural) |
 | --- | --- | --- |
 | **Vocabulary fork** | Incompatible modules; broken integrations | Kernel decision matrix · prohibited ownership gates · I1 |
-| **Resolver in kernel** | Circular deps; untestable platform core | ERP spine owns assembly (PAS-001A) · P1a |
+| **Resolver in kernel** | Circular deps; untestable platform core | ERP Integration Spine owns assembly · P1a |
 | **Parser duplication** | Incompatible branded types at boundaries | Wire triad owner split · P4 |
 | **Scope fallback** | Cross-tenant data exposure | Fail-closed contract rules · P3 · I2 |
 | **Cross-entity scope linkage** | Compliance and audit failure | Scope consistency · P7 · I3 |
@@ -421,7 +421,7 @@ Platform Kernel is **Platform Language** — one of four non-overlapping constit
 | **Shape/meaning collapse** | Types treated as business definitions | LAW K6 · P8 · I4 |
 | **Tenant extension fork** | Per-tenant parallel wire vocabulary | Tenant extension boundary · I6 |
 | **Docs/runtime drift** | Agents build from stale authority | Documentation drift gates · SYNC intent |
-| **Vocabulary without integration proof** | Production silently ignores kernel language | PAS-001A consumer attestation · P6 |
+| **Vocabulary without integration proof** | Production silently ignores kernel language | ERP Integration Spine consumer attestation · P6 |
 | **Event black box** | Async failures untraceable across systems | Correlation + causation + trace vocabulary · P9 |
 
 ---
@@ -433,8 +433,8 @@ Platform Kernel is **Platform Language** — one of four non-overlapping constit
 | **Stability** | Constitutional contracts change rarely; breaking changes require ADR | Integration longevity | §3.3 · ADR-0026 |
 | **Auditability** | Correlation and execution identity on every protected path | Regulatory and forensic replay | §6.1 · ISO 25010 maintainability (T3) |
 | **Isolation** | Zero runtime dependency; no DB/HTTP/UI in kernel | Substrate purity | P2 |
-| **Type safety** | Branded IDs at trust boundaries | Prevents stringly-typed integrations | PAS-001 §4.1 |
-| **Serializability** | Wire shapes JSON-safe across processes | Event and API interop | PAS-001 §4.10 |
+| **Type safety** | Branded IDs at trust boundaries | Prevents stringly-typed integrations | Kernel vocabulary identity surfaces (T5) |
+| **Serializability** | Wire shapes JSON-safe across processes | Event and API interop | Kernel vocabulary event envelope (T5) |
 | **Traceability** | W3C-aligned trace vocabulary at boundaries | Distributed ERP observability | W3C Trace Context (T3) |
 | **Testability** | Pure contracts testable without ERP runtime | Agent-safe slices | Platform NS §3.1 |
 | **Agent readability** | North Star → Blueprint → PAS chain is unambiguous | Vibe-coding governance | Platform NS §3.1 |
@@ -452,9 +452,9 @@ Platform Kernel is **Platform Language** — one of four non-overlapping constit
 | E2 | Enterprise identity architecture | ✓ | T0 | [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) · [ADR-0022](../adr/ADR-0022-postgres-split-id-persistence-model.md) · [ADR-0023](../adr/ADR-0023-tenant-human-reference-numbering.md) |
 | E3 | Multi-level company / operating hierarchy | ✓ | T0 | [ADR-0011](../adr/ADR-0011-multi-level-company-model-foundational.md) §Decision |
 | E4 | Accounting vocabulary consolidated to platform wire layer | ✓ | T0 | [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) §Decision |
-| E5 | Kernel primitive vocabulary enterprise-gated | ✓ | T5 | [PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) §4 · B49–B70 |
-| E6 | Consumer integration production-attested | ✓ | T5 | [PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) §2.1 · B71–B75 |
-| E7 | ERP wire vocabulary catalog delivered | ✓ | T5 | [PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) §0 · B76–B106 |
+| E5 | Kernel primitive vocabulary enterprise-gated | ✓ | T5 | [Kernel Vocabulary Authority](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) §4 · B49–B70 · B107–B109 |
+| E6 | Consumer integration production-attested | ✓ | T5 | [ERP Integration Spine Standard](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) §2.1 · B71–B75 |
+| E7 | ERP wire vocabulary catalog delivered | ✓ | T5 | [ERP Wire Vocabulary Catalog](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) §0 · B76–B106 |
 | E8 | Event metadata interop — CloudEvents context attributes | ✓ | T3 | [CloudEvents 1.0 spec](https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/spec.md) · SAP AsyncAPI ecosystem |
 | E9 | Distributed trace context propagation | ✓ | T3 | [W3C Trace Context](https://www.w3.org/TR/trace-context/) |
 | E10 | Multi-company scope consistency expectation | ✓ | T3 | [Odoo multi-company guidelines](https://www.odoo.com/documentation/19.0/developer/howtos/company.html) |
@@ -467,7 +467,7 @@ Platform Kernel is **Platform Language** — one of four non-overlapping constit
 | Decision ID | Claim | Because | Source (E#) | Therefore | Review by |
 | --- | --- | --- | --- | --- | --- |
 | D1 | Kernel owns words not decisions | Vocabulary/behavior split prevents circular deps | E1 · E5 | Blueprint separates Vocabulary box from Integration Spine | Enterprise |
-| D2 | Kernel never resolves business state | Resolver in substrate breaks zero-deps rule | E5 · E6 | PAS-001A owns assembly proof | Enterprise |
+| D2 | Kernel never resolves business state | Resolver in substrate breaks zero-deps rule | E5 · E6 | ERP Integration Spine owns assembly proof | Enterprise |
 | D3 | CloudEvents-aligned envelope metadata | Industry ERP integrations standardize on CloudEvents context | E8 | Envelope carries id, source, type, time, subject vocabulary — not broker logic | Production |
 | D4 | W3C trace vocabulary at boundary | Async ERP requires cross-service trace replay | E9 | Correlation + distributed trace context are kernel words; backends consume | Production |
 | D5 | Scope consistency is substrate invariant | Cross-company linkage is universal ERP failure mode | E10 · E3 | Multi-scope consistency capability is Core tier | Enterprise |
@@ -482,7 +482,7 @@ Platform Kernel is **Platform Language** — one of four non-overlapping constit
 | **Production → Enterprise** | Full register · §7 events · §8 lifecycles · §16 EAC pass · T3 rows for interop claims |
 | **Any amendment** | Update Source class, Reasoning, `Last reviewed`, Decision log row |
 
-**Provenance:** Peer-enhanced from accepted PAS authority (PAS-001 · PAS-001A · PAS-001B) and upstream ADRs (T0) plus T3 industry patterns (E8–E13). Amend via Domain NS change + Blueprint + PAS amendment — not by editing PAS alone.
+**Provenance:** Peer-enhanced from accepted kernel authority (vocabulary · integration spine · wire catalog) and upstream ADRs (T0) plus T3 industry patterns (E8–E13). Amend via Domain NS change + Blueprint + governed standard amendment — not by editing implementation authority alone.
 
 ---
 
@@ -605,7 +605,7 @@ See §5.1 I1–I8 — high-level rules agents must respect; TypeScript contracts
 | Platform Blueprint rollup | Kernel family row references this domain NS |
 | PAS-001 / PAS-001A / PAS-001B | Trace to §4 capabilities and §13 map |
 
-**Last synced with PAS:** PAS-001 Enterprise Accepted · PAS-001A Production Candidate · PAS-001B closed (2026-06-29) · **Maturity:** Enterprise Accepted (peer-enhanced)
+**Last synced with PAS:** PAS-001 Enterprise Accepted (B49–B70 · B107–B109) · PAS-001A Production Candidate · PAS-001B Catalog Authority · Enterprise Accepted (2026-06-29) · **Maturity:** Enterprise Accepted (peer-enhanced)
 
 ---
 

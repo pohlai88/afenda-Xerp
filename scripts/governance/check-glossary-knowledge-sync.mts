@@ -14,7 +14,10 @@ import { fileURLToPath } from "node:url";
 import { KNOWLEDGE_ATOM_IDS } from "../../packages/enterprise-knowledge/src/data/knowledge.registry.ts";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
-const glossaryPath = join(repoRoot, "docs/architecture/glossary.md");
+const glossaryPath = join(
+  repoRoot,
+  "docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md"
+);
 const glossary = readFileSync(glossaryPath, "utf8");
 const errors: string[] = [];
 

@@ -1,9 +1,10 @@
 #!/usr/bin/env tsx
 /**
- * PAS-005 B30 — verify runtime bridge is generator-synced and design-system shim is active.
+ * PAS-005 B30 — verify runtime bridge is generator-synced and ui import chain uses css-authority.
+ * PAS-005B — design-system package removed; no shim file checks.
  */
 
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const repoRoot = join(import.meta.dirname, "../..");
@@ -12,10 +13,7 @@ const bridgePath = join(
   repoRoot,
   "packages/css-authority/src/css/afenda-runtime-bridge.css"
 );
-const shimPath = join(
-  repoRoot,
-  "packages/design-system/src/css/afenda-design-system.css"
-);
+const uiCssPath = join(repoRoot, "packages/ui/src/styles/afenda-ui.css");
 
 const errors: string[] = [];
 
@@ -29,7 +27,7 @@ function read(path: string): string {
 }
 
 const bridge = read(bridgePath);
-const shim = read(shimPath);
+const uiCss = existsSync(uiCssPath) ? read(uiCssPath) : "";
 
 if (bridge.length > 0) {
   if (!bridge.includes("@generated")) {
@@ -50,7 +48,6 @@ if (bridge.length > 0) {
     );
   }
 
-  // PAS-005 R6: Part F density hooks must use single-line var() so css-governance R6 exemption applies
   const partFMatch = bridge.match(
     /\/\* ── Part F: Density attribute hooks[\s\S]*$/
   );
@@ -69,20 +66,20 @@ if (bridge.length > 0) {
   }
 }
 
-if (shim.length > 0) {
-  if (!shim.includes("@deprecated")) {
+if (uiCss.length > 0) {
+  if (!uiCss.includes("@afenda/css-authority/css/afenda-tokens.css")) {
     errors.push(
-      "afenda-design-system.css: must be B30 deprecation shim (@deprecated)"
+      "afenda-ui.css: must import @afenda/css-authority/css/afenda-tokens.css"
     );
   }
-  if (!shim.includes("@afenda/css-authority/css/afenda-css-authority.css")) {
+  if (!uiCss.includes("@afenda/css-authority/css/afenda-css-authority.css")) {
     errors.push(
-      "afenda-design-system.css: shim must import @afenda/css-authority/css/afenda-css-authority.css"
+      "afenda-ui.css: must import @afenda/css-authority/css/afenda-css-authority.css"
     );
   }
-  if (/@theme\s*(inline)?\s*\{/.test(shim)) {
+  if (uiCss.includes("@afenda/design-system/")) {
     errors.push(
-      "afenda-design-system.css: shim must not embed @theme (authority lives in css-authority)"
+      "afenda-ui.css: must not import @afenda/design-system (retired — PAS-005B)"
     );
   }
 }

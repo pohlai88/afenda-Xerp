@@ -21,7 +21,7 @@
 | **Architectural identity** | **Blueprint Box name** (§4) — permanent |
 | **Workspace mapping** | [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) — `@afenda/*` npm name |
 | **Scope** | `[SCOPE]` — e.g. Afenda Platform, Accounting domain |
-| **Parent** | [Platform North Star](../../docs/architecture/afenda-platform-north-star.md) · Domain North Star §4 (if domain-scoped) |
+| **Parent** | [Platform North Star](../../docs/NORTHSTAR/kernel-north-star.md) · Domain North Star §4 (if domain-scoped) |
 | **Authority ADR** | [ADR-0026](../../docs/adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) |
 | **Derived documents** | One root PAS per Blueprint box |
 | **Maturity** | Idea / MVP / Production / Enterprise |
@@ -46,8 +46,8 @@
 
 ## Read order
 
-1. [Platform North Star](../../docs/architecture/afenda-platform-north-star.md)
-2. [Domain North Star §4](../../docs/architecture/) — if domain-scoped; capabilities only
+1. [Platform North Star](../../docs/NORTHSTAR/kernel-north-star.md)
+2. [Domain North Star §4](../../docs/PAS/) — if domain-scoped; capabilities only
 3. This document §4 — Blueprint box for your package
 4. Target PAS — never implement from Blueprint alone
 5. Target Slice
@@ -123,7 +123,7 @@ Business **why the domain exists:** [Domain North Star §1](north-star-template.
 
 # 3. Layer Map
 
-> Machine truth: [`layer-registry.md`](../../docs/architecture/layer-registry.md). Narrative intent only.
+> Machine truth: [`layer-registry.md`](../../packages/architecture-authority/src/data/layer-registry.data.ts). Narrative intent only.
 
 | Layer | Blueprint intent |
 | --- | --- |
@@ -234,8 +234,8 @@ packages/<owner>/ filesystem
 | --- | --- | --- | --- | --- |
 | B1 | [ADR-XXXX] | T0 | Box split / blocker | [`docs/adr/…`](../../docs/adr/) |
 | B2 | [Domain NS §12 E#] | T1 | Business capability / risk parent | [Domain North Star](north-star-template.md) |
-| B3 | [layer-registry / PKG row] | T4 | Layer assignment sync | [`layer-registry.md`](../../docs/architecture/layer-registry.md) |
-| B4 | [runtime-truth-matrix row] | T5 | `live` vs `planned` status | [`afenda-runtime-truth-matrix.md`](../../docs/architecture/afenda-runtime-truth-matrix.md) |
+| B3 | [layer-registry / PKG row] | T4 | Layer assignment sync | [`layer-registry.md`](../../packages/architecture-authority/src/data/layer-registry.data.ts) |
+| B4 | [runtime-truth-matrix row] | T5 | `live` vs `planned` status | [`afenda-runtime-truth-matrix.md`](../../docs/PAS/pas-status-index.md) |
 
 ---
 
@@ -455,7 +455,7 @@ Stop if any condition fails ([doc-boundary-contract.md](doc-boundary-contract.md
 
 # 13. Agent Execution Rules
 
-> **Primary vibe-coding entry for package/PAS work.** Domain business meaning → [Domain North Star §1–§12](north-star-template.md). Platform-wide rules → [Platform North Star §7–§9](../../docs/architecture/afenda-platform-north-star.md).
+> **Primary vibe-coding entry for package/PAS work.** Domain business meaning → [Domain North Star §1–§12](north-star-template.md). Platform-wide rules → [Platform North Star §7–§9](../../docs/NORTHSTAR/kernel-north-star.md).
 
 ## Vibe-coding entry checklist (before any code edit)
 
@@ -566,7 +566,7 @@ PKG / layer / dependency / disposition tables · contracts · slice handoffs · 
 | ADR Constitution | [`adr-constitution.md`](adr-constitution.md) |
 | Boundary contract | [`doc-boundary-contract.md`](doc-boundary-contract.md) |
 | PAS doc template | [`pas-doc-template.md`](pas-doc-template.md) |
-| Platform North Star | [`afenda-platform-north-star.md`](../../docs/architecture/afenda-platform-north-star.md) |
+| Platform North Star | [`afenda-platform-north-star.md`](../../docs/NORTHSTAR/kernel-north-star.md) |
 
 ---
 

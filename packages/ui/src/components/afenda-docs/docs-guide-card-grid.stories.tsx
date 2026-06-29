@@ -55,7 +55,7 @@ const PLATFORM_ITEMS = [
   {
     title: "UI governance",
     description: "Foundation phase 04 composition rules and ui:guard gates.",
-    href: "/docs/governance/ui",
+    href: "/docs/contributing",
     icon: ShieldCheckIcon,
   },
   {

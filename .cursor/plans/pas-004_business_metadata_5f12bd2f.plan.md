@@ -149,7 +149,7 @@ Same facets as freeze-candidate: Acceptance Chain, Authority type + Binding + Co
 Architecture-authority skill gets one line: *package boundary questions for `@afenda/enterprise-knowledge` → enterprise-knowledge skill; registry listing → architecture-authority.*
 
 ### 6. Glossary demoted to a Representation
-[`docs/architecture/glossary.md`](docs/architecture/glossary.md) — synced view; authority = PAS-004 + `@afenda/enterprise-knowledge` registry.
+[`docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md`](docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md) — synced view; authority = PAS-004 + `@afenda/enterprise-knowledge` registry.
 
 ### 7. Tombstone, slice, cross-links
 - [`docs/PAS/CSS-AUTHORITY/SLICE/b24-knowledge-charter-mvp.md`](docs/PAS/CSS-AUTHORITY/SLICE/b24-knowledge-charter-mvp.md) — Allowed layer: **`packages/enterprise-knowledge`** + `docs/PAS/`; Prohibited: stuffing atoms into architecture-authority or kernel.

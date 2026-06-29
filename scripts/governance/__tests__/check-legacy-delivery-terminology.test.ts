@@ -32,12 +32,12 @@ describe("legacy-delivery-terminology-registry", () => {
         "fdr-id",
         "tip-id",
         "tip-ui-id",
-        "tip-status-index",
-        "fdr-status-index",
-        "write-fdr",
-        "fdr-orchestrator",
+        "pas-status-index",
+        "pas-status-index",
+        "pas-slice-planner",
+        "afenda-orchestrator",
         "fdr-slice-agent",
-        "afenda-fdr-batch",
+        "afenda-batch",
         "tip-004-policy",
       ])
     );

@@ -14,10 +14,6 @@ import {
 } from "../data/business-master-data-authority.registry.js";
 
 const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
-const dependencyRegistryPath = join(
-  repoRoot,
-  "docs/architecture/dependency-registry.md"
-);
 
 describe("@afenda/architecture-authority business master data authority (Foundation phase 08 Slice 2)", () => {
   it("registers core five entities with stable count and no duplication", () => {
@@ -50,13 +46,19 @@ describe("@afenda/architecture-authority business master data authority (Foundat
     }
   });
 
-  it("aligns registry rows with dependency-registry documentation table", () => {
-    const registryDoc = readFileSync(dependencyRegistryPath, "utf8");
+  it("aligns registry rows with business-master-data authority SSOT", () => {
+    const registrySource = readFileSync(
+      join(
+        repoRoot,
+        "packages/architecture-authority/src/data/business-master-data-authority.registry.ts"
+      ),
+      "utf8"
+    );
 
     for (const entry of BUSINESS_MASTER_DATA_AUTHORITY_REGISTRY) {
-      expect(registryDoc).toContain(entry.displayName);
-      expect(registryDoc).toContain(entry.reservedPackageId);
-      expect(registryDoc).toContain(entry.pkgCode);
+      expect(registrySource).toContain(entry.displayName);
+      expect(registrySource).toContain(entry.reservedPackageId);
+      expect(registrySource).toContain(entry.pkgCode);
     }
   });
 

@@ -159,7 +159,7 @@ For new kernel slices, read in this order:
 5. [docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) — composed governance SSOT (§0 Agent Quick Path)
 6. [docs/PAS/KERNEL/SLICE/](../../../docs/PAS/KERNEL/SLICE/README.md) — paste 9-field handoff into Phase 0 before implementation
 7. Archive [PAS-001 §4–§16](../../../docs/PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) — contract detail when implementing a cited surface
-8. **Identity constitution (PAS §4.1):** [ADR-0021](../../../docs/adr/ADR-0021-canonical-enterprise-identity.md) · [ADR-0022](../../../docs/adr/ADR-0022-postgres-split-id-persistence-model.md) · [ADR-0023](../../../docs/adr/ADR-0023-tenant-human-reference-numbering.md) · [architecture/identity/](../../../docs/architecture/identity/canonical-enterprise-id-constitution.md)
+8. **Identity constitution (PAS §4.1):** [ADR-0021](../../../docs/adr/ADR-0021-canonical-enterprise-identity.md) · [ADR-0022](../../../docs/adr/ADR-0022-postgres-split-id-persistence-model.md) · [ADR-0023](../../../docs/adr/ADR-0023-tenant-human-reference-numbering.md) · [architecture/identity/](../../../docs/PAS/KERNEL/identity/canonical-enterprise-id-constitution.md)
 
 **Slice gate:** Kernel identity runtime work (Slice B) starts only after ADR-0021, ADR-0022, and ADR-0023 are **Accepted**.
 

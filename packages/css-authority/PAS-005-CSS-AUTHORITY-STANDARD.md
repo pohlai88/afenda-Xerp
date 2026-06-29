@@ -4,6 +4,6 @@
 
 Canonical: [docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md](../../docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md)
 
-Operational view: [docs/architecture/css-authority.md](../../docs/architecture/css-authority.md)
+Operational view: [docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md](../../docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md)
 
 Do not duplicate long-form authority content in this file.

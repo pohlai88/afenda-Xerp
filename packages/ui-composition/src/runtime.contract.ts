@@ -16,6 +16,10 @@ export type MetadataRuntimeEntityGroupId = string;
 export type MetadataRuntimeTeamId = string;
 export type MetadataRuntimeProjectId = string;
 export type MetadataRuntimeWorkspaceId = string;
+export type MetadataRuntimeSurfaceId = string;
+export type MetadataRuntimeWorkflowId = string;
+export type MetadataRuntimeConsolidationReportingDate = string;
+export type MetadataRuntimePermissionGrantScopeType = string;
 export type MetadataRuntimeCorrelationId = string;
 export type MetadataRuntimePermissionKey = string;
 export type MetadataRuntimeCapabilityKey = string;
@@ -63,6 +67,7 @@ export interface MetadataRuntimeContext {
   readonly actorId?: MetadataRuntimeActorId;
   readonly capabilities?: readonly MetadataRuntimeCapabilityKey[];
   readonly companyId?: MetadataRuntimeCompanyId;
+  readonly consolidationReportingDate?: MetadataRuntimeConsolidationReportingDate;
 
   /**
    * Request / action correlation identity carrier.
@@ -77,6 +82,8 @@ export interface MetadataRuntimeContext {
   readonly entityGroupId?: MetadataRuntimeEntityGroupId;
   readonly featureFlags?: readonly MetadataRuntimeFeatureFlagKey[];
   readonly organizationId?: MetadataRuntimeOrganizationId;
+  readonly ownershipInterestCount?: number;
+  readonly permissionGrantScopeType?: MetadataRuntimePermissionGrantScopeType;
   readonly permissionModelDescriptors?: readonly MetadataRuntimePermissionModelDescriptor[];
 
   /**
@@ -99,6 +106,7 @@ export interface MetadataRuntimeContext {
 
   /** Runtime state and diagnostics intent. */
   readonly state: MetadataRuntimeState;
+  readonly surfaceId?: MetadataRuntimeSurfaceId;
 
   /**
    * Multi-tenant execution identity carriers.
@@ -107,6 +115,7 @@ export interface MetadataRuntimeContext {
    */
   readonly teamId?: MetadataRuntimeTeamId;
   readonly tenantId?: MetadataRuntimeTenantId;
+  readonly workflowId?: MetadataRuntimeWorkflowId;
   readonly workspaceId?: MetadataRuntimeWorkspaceId;
 }
 
@@ -114,12 +123,15 @@ export interface CreateMetadataRuntimeContextInput {
   readonly actorId?: MetadataRuntimeActorId;
   readonly capabilities?: readonly MetadataRuntimeCapabilityKey[];
   readonly companyId?: MetadataRuntimeCompanyId;
+  readonly consolidationReportingDate?: MetadataRuntimeConsolidationReportingDate;
   readonly correlationId?: MetadataRuntimeCorrelationId;
   readonly density?: MetadataDensityMode;
   readonly diagnosticsEnabled?: boolean;
   readonly entityGroupId?: MetadataRuntimeEntityGroupId;
   readonly featureFlags?: readonly MetadataRuntimeFeatureFlagKey[];
   readonly organizationId?: MetadataRuntimeOrganizationId;
+  readonly ownershipInterestCount?: number;
+  readonly permissionGrantScopeType?: MetadataRuntimePermissionGrantScopeType;
   readonly permissionModelDescriptors?: readonly MetadataRuntimePermissionModelDescriptor[];
   readonly permissions?: readonly MetadataRuntimePermissionKey[];
   readonly policyDecision?: MetadataRuntimePolicyDecision;
@@ -127,8 +139,10 @@ export interface CreateMetadataRuntimeContextInput {
   readonly projectId?: MetadataRuntimeProjectId;
   readonly readonlyMode?: boolean;
   readonly state?: MetadataRuntimeState;
+  readonly surfaceId?: MetadataRuntimeSurfaceId;
   readonly teamId?: MetadataRuntimeTeamId;
   readonly tenantId?: MetadataRuntimeTenantId;
+  readonly workflowId?: MetadataRuntimeWorkflowId;
   readonly workspaceId?: MetadataRuntimeWorkspaceId;
 }
 
@@ -180,6 +194,17 @@ export function createMetadataRuntimeContext(
     ...(input.workspaceId === undefined
       ? {}
       : { workspaceId: input.workspaceId }),
+    ...(input.surfaceId === undefined ? {} : { surfaceId: input.surfaceId }),
+    ...(input.workflowId === undefined ? {} : { workflowId: input.workflowId }),
+    ...(input.consolidationReportingDate === undefined
+      ? {}
+      : { consolidationReportingDate: input.consolidationReportingDate }),
+    ...(input.permissionGrantScopeType === undefined
+      ? {}
+      : { permissionGrantScopeType: input.permissionGrantScopeType }),
+    ...(input.ownershipInterestCount === undefined
+      ? {}
+      : { ownershipInterestCount: input.ownershipInterestCount }),
     ...(input.correlationId === undefined
       ? {}
       : { correlationId: input.correlationId }),

@@ -4,6 +4,8 @@ import type {
 } from "../contracts/ownership.contract.js";
 import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 
+/** Ownership baseline — ADR-0004 attestation (machine SSOT; human markdown registries retired). */
+
 const OWNERSHIP_ROWS = [
   {
     packageName: "@afenda/appshell",

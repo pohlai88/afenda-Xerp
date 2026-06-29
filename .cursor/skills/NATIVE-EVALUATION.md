@@ -22,7 +22,7 @@ Decisions recorded 2026-06-28. Vendor eval: `.cursor/skills/vendor/EVALUATION.md
 | `xforge-nextjs-vercel` | **remove** | Stale `apps/app` paths; no repo wiring |
 | `afenda-implementation-health` | **remove** | Merged into `@afenda-governed-implementer`; monorepo-refactor updated |
 | `write-arch-slice` | **remove** | Deprecated; superseded by PAS slice workflow (`pas-slice-planner`, `afenda-governed-implementer`) |
-| `afenda-fdr-batch` | **remove** | Deprecated; superseded by `/afenda-batch` + `@afenda-orchestrator` |
+| `afenda-batch` | **remove** | Deprecated; superseded by `/afenda-batch` + `@afenda-orchestrator` |
 | `afenda-css-tailwind-stylelint` | **merged → `afenda-tailwind`** | Consolidated Afenda Tailwind authority |
 | `tailwindcss-v4` | **merged → `afenda-tailwind`** | v4 API moved to `reference/v4-api.md` |
 | `tailwind-validator` | **merged → `afenda-tailwind`** | Script at `scripts/validate-tailwind-v4.py` |

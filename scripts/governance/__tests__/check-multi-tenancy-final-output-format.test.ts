@@ -26,7 +26,7 @@ describe("check-multi-tenancy-final-output-format script", () => {
 
   it("documents final output markers from multi-tenancy.md §686–718", () => {
     const multiTenancyDoc = readFileSync(
-      join(repoRoot, "docs/architecture/multi-tenancy.md"),
+      join(repoRoot, "docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md"),
       "utf8"
     );
 

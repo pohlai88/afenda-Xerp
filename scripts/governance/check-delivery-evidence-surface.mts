@@ -73,7 +73,7 @@ export function checkDeliveryEvidenceSurface(): DeliveryEvidenceSurfaceViolation
       rule: "delivery-doc-alias",
       file: registryPath,
       message:
-        "MULTI_TENANCY_DELIVERY_DOC must alias docs/architecture/multi-tenancy.md after legacy cleanup",
+        "MULTI_TENANCY_DELIVERY_DOC must alias docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md after legacy cleanup",
     });
   }
 

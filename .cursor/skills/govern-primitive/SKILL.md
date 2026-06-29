@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 Applies the enterprise governance pattern established for Button / Badge / Card / Alert / Field / Table to any `@afenda/ui` primitive.
 
-**Canonical Governed UI policy:** [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md)
+**Canonical Governed UI policy:** [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc)
 
 ## Audit checklist (score one point per ✅, target 9.5/10)
 
@@ -514,7 +514,7 @@ pnpm --filter @afenda/appshell test:run
 pnpm --filter @afenda/ui check:governance
 ```
 
-What `pnpm ui:guard` runs (canonical: [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md), policy: [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md)):
+What `pnpm ui:guard` runs (canonical: [`scripts/governance/ui-guard.mjs`](../../scripts/governance/ui-guard.mjs), policy: [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc)):
 
 | Gate | Target | Command |
 |------|--------|---------|

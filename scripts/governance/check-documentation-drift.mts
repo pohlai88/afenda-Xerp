@@ -214,7 +214,7 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
       const unique = [...new Set(absoluteMatches)];
       violations.push({
         file: scanPath,
-        message: `Legacy delivery/ARCH path reference(s): ${unique.join(", ")} — use docs/PAS/ or docs/architecture/`,
+        message: `Legacy delivery/ARCH path reference(s): ${unique.join(", ")} — use docs/PAS/`,
         rule: "legacy-delivery-path-reference",
       });
     }
@@ -243,7 +243,7 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
       const unique = [...new Set(indexMatches)];
       violations.push({
         file: scanPath,
-        message: `Retired FDR/TIP delivery index reference(s): ${unique.join(", ")} — use pas-status-index.md and docs/PAS/KERNEL/SLICE/ for kernel handoffs`,
+        message: `Retired PAS delivery index reference(s): ${unique.join(", ")} — use pas-status-index.md and docs/PAS/KERNEL/SLICE/ for kernel handoffs`,
         rule: "legacy-delivery-index-reference",
       });
     }
@@ -289,7 +289,7 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
     });
   }
 
-  const snapshotPath = "docs/architecture/dependency-snapshot.json";
+  const snapshotPath = "packages/architecture-authority/dependency-snapshot.json";
   const snapshot = readText(snapshotPath);
   if (snapshot) {
     try {

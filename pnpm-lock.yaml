@@ -303,9 +303,6 @@ importers:
       '@afenda/database':
         specifier: workspace:*
         version: link:../../packages/database
-      '@afenda/design-system':
-        specifier: workspace:*
-        version: link:../../packages/design-system
       '@afenda/enterprise-knowledge':
         specifier: workspace:*
         version: link:../../packages/enterprise-knowledge
@@ -427,9 +424,6 @@ importers:
       '@afenda/appshell':
         specifier: workspace:*
         version: link:../../packages/appshell
-      '@afenda/design-system':
-        specifier: workspace:*
-        version: link:../../packages/design-system
       '@afenda/metadata-ui':
         specifier: workspace:*
         version: link:../../packages/metadata-ui
@@ -706,40 +700,6 @@ importers:
       drizzle-kit:
         specifier: ^0.31.10
         version: 0.31.10
-      tsx:
-        specifier: ^4.20.3
-        version: 4.22.4
-      vitest:
-        specifier: 'catalog:'
-        version: 3.2.6(@types/debug@4.1.13)(@types/node@22.19.21)(@vitest/browser@3.2.6)(@vitest/ui@3.2.6)(jiti@2.7.0)(jsdom@26.1.0)(lightningcss@1.32.0)(tsx@4.22.4)(yaml@2.9.0)
-
-  packages/design-system:
-    dependencies:
-      '@afenda/css-authority':
-        specifier: workspace:*
-        version: link:../css-authority
-    devDependencies:
-      '@afenda/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
-      '@testing-library/jest-dom':
-        specifier: 'catalog:'
-        version: 6.9.1
-      '@testing-library/react':
-        specifier: 'catalog:'
-        version: 16.3.2(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@types/react':
-        specifier: 'catalog:'
-        version: 19.2.17
-      '@types/react-dom':
-        specifier: 'catalog:'
-        version: 19.2.3(@types/react@19.2.17)
-      react:
-        specifier: 'catalog:'
-        version: 19.2.7
-      react-dom:
-        specifier: 'catalog:'
-        version: 19.2.7(react@19.2.7)
       tsx:
         specifier: ^4.20.3
         version: 4.22.4
@@ -1047,9 +1007,6 @@ importers:
       '@afenda/css-authority':
         specifier: workspace:*
         version: link:../css-authority
-      '@afenda/design-system':
-        specifier: workspace:*
-        version: link:../design-system
       '@base-ui/react':
         specifier: ^1.6.0
         version: 1.6.0(@date-fns/tz@1.5.0)(@types/react@19.2.17)(date-fns@4.4.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -1174,6 +1131,9 @@ importers:
 
   packages/ui-composition:
     dependencies:
+      '@afenda/accounting-standards':
+        specifier: workspace:*
+        version: link:../accounting-standards
       '@afenda/enterprise-knowledge':
         specifier: workspace:*
         version: link:../enterprise-knowledge

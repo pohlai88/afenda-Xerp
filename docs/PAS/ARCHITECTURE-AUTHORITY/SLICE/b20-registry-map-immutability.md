@@ -29,7 +29,7 @@ Handoff from: docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b20-registry-map-immutabilit
    packages/architecture-authority/src/__tests__/registry-lookup-map.test.ts
    docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b20-registry-map-immutability.md
 4. Prohibited   — foundation-disposition.registry.ts entry mutations (B18 only); apps/erp; packages/kernel
-5. Authority    — PAS-002 §6.3 ┬À architecture-authority skill
+5. Authority    — PAS-002 §6.3 · architecture-authority skill
 6. Gates        —
    pnpm --filter @afenda/architecture-authority typecheck
    pnpm --filter @afenda/architecture-authority test:run
@@ -37,7 +37,7 @@ Handoff from: docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b20-registry-map-immutabilit
 7. Closes       — Mutable public Map exports on package/ownership/disposition lookups
 8. Evidence     —
    packages/architecture-authority/src/__tests__/registry-lookup-map.test.ts
-9. Attestation  — Contract ┬À Test
+9. Attestation  — Contract · Test
 ```
 
 ## DoD

@@ -25,10 +25,10 @@
 | **Evidence level** | `pas_document` + B38–B46 governance gates + B47–B48 consumer projection adoption |
 | **Runtime status** | B38–B48 delivered — North Star semantic model + all consumer projections (metadata, ERP, docs); PKGR04 authority PAS-004C |
 | **Remaining slices** | none — operational closure in [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) |
-| **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `apps/docs`, `docs/architecture/glossary.md` |
+| **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `apps/docs`, `docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md` |
 | **Change model** | `serialized-slices` (one slice per session) |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
+| **Closure registry** | [`pas-status-index.md`](../pas-status-index.md) |
 | **ADR prerequisites** | ADR-0021 (Accepted) — read-only for kernel realization refs |
 
 #### Required gates (inherit from PAS-004B — always)
@@ -51,7 +51,7 @@
 > **Maturity is part of authority.**
 > PAS-004B Enterprise Accepted (40/40) is **closed**. Do not claim **North Star semantic model complete** until B46 attestation closes. Do not expand atom corpus horizontally until Phase 1 (B38–B41) lands.
 
-> **Kernel wire boundary (mandatory read):** [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [kernel-authority SKILL](../../.cursor/skills/kernel-authority/SKILL.md)
+> **Kernel wire boundary (mandatory read):** [PAS-001](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [kernel-authority SKILL](../../.cursor/skills/kernel-authority/SKILL.md)
 > **Charter (unchanged):** [PAS-004 §1–§4](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)
 > **Platform baseline (closed):** [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md)
 > **Canonical location:** `docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md`
@@ -593,7 +593,7 @@ pnpm check:knowledge-lifecycle-transitions    # B45
 
 Every PAS-004C slice must:
 
-1. Copy 9-field handoff from slice doc under [`pas-status-index.md`](pas-status-index.md)
+1. Copy 9-field handoff from slice doc under [`pas-status-index.md`](../pas-status-index.md)
 2. Attach `/coding-consistency-bundle` + `enterprise-knowledge` + **`kernel-authority`** when realization touches kernel
 3. Post §11 Completion Report with drift table
 4. Never edit `foundation-disposition.registry.ts` — delegate `foundation-registry-owner` (B46)
@@ -640,8 +640,8 @@ When in doubt:
 | [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) | Production Candidate platform — **closed B24–B32** |
 | [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) | Enterprise Accepted — **closed B33–B37** |
 | [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) | Operational closure — **B49+ proposed** |
-| [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Wire + identity — **reference only** |
-| [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) | Identity realization validation (B44) |
+| [PAS-001](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Wire + identity — **reference only** |
+| [ADR-0021](../../adr/ADR-0021-canonical-enterprise-identity.md) | Identity realization validation (B44) |
 
 ---
 

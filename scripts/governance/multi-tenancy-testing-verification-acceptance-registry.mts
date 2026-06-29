@@ -1,6 +1,6 @@
 /**
  * Canonical testing and verification acceptance registry — aligned with
- * `docs/architecture/multi-tenancy.md` (§667–685).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (§667–685).
  */
 import { MULTI_TENANCY_VERIFICATION_COMMANDS } from "./multi-tenancy-documentation-verification-registry.mts";
 

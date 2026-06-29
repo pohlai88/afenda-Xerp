@@ -301,8 +301,6 @@ Tests:
 
 ## References
 
-- Delivery evidence: `docs/governance/support/nextjs-csp-nonce-pipeline.md`
-- Hybrid SRI strategy: `docs/governance/support/csp-sri-hybrid-strategy.md`
-- CI gate: `docs/governance/support/csp-third-party-ci-gate.md`
+- Delivery evidence: `.cursor/skills/csp-third-party/SKILL.md` · `apps/erp/src/proxy.ts`
 - Cursor rule: `.cursor/rules/csp-third-party-scripts.mdc`
 - Next.js CSP guide: https://nextjs.org/docs/app/guides/content-security-policy

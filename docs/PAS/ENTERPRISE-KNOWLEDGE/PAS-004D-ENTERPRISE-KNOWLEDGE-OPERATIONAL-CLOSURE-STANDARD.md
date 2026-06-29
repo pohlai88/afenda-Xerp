@@ -21,14 +21,14 @@
 | **Agent skills** | `enterprise-knowledge` · **`kernel-authority`** (mandatory for B53 kernel `realizationMapping` refs) |
 | **Maturity** | Idea → **Production Candidate** on B54 attestation (`production_candidate`) |
 | **Authority status** | `approved_for_implementation` |
-| **Implementation status** | `not_started` — B49–B54 proposed |
-| **Evidence level** | `pas_document` |
-| **Runtime status** | PAS-004C closed (58/58); closure gaps documented — B49 first slice |
-| **Remaining slices** | B49 — authority mirror sync (next) · B50 legacy retirement · B51 corpus depth · B52 vocabulary richness · B53 ERP-domain bridge · B54 attestation |
-| **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `apps/docs`, `docs/architecture/glossary.md` |
+| **Implementation status** | `partial` — B50 delivered; B51–B54 queued |
+| **Evidence level** | `pas_document` + `check:knowledge-authority-mirror` + `check:knowledge-legacy-surface-retirement` |
+| **Runtime status** | B50 legacy surface retirement delivered; B51 corpus depth next |
+| **Remaining slices** | B51 corpus depth (next) · B52 vocabulary richness · B53 ERP-domain bridge · B54 attestation |
+| **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `apps/docs`, `docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md` |
 | **Change model** | `serialized-slices` (one slice per session) |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
+| **Closure registry** | [`pas-status-index.md`](../pas-status-index.md) |
 | **ADR prerequisites** | ADR-0021 (Accepted) · PAS-001B inventory/procurement contracts (read-only for B53 refs) |
 
 #### Required gates (inherit from PAS-004C — always)
@@ -69,7 +69,7 @@
 | --- | --- | --- |
 | Doc mirror drift | SKILL 56/58; PAS-004B duplicate catalog; B47/B48 missing from PAS-004C §17 | **B49** automated mirror gate |
 | Registry evidence | B47/B48 slice paths absent from PKGR04 evidence | **B54** registry delegation |
-| Legacy API | `implementationMapping` + `KNOWLEDGE_RELATIONSHIPS` adapter coexist | **B50** retirement gate |
+| Legacy API | `implementationMapping` stripped at loader; `KNOWLEDGE_RELATIONSHIPS` adapter inlined | **B50 delivered** |
 | Corpus depth | 3 perspectives (legal_entity only); 3 contextualValidity; 3 semantic edges; 1:1 terms | **B51–B52** minimum thresholds |
 | Cross-PAS meaning | PAS-001B inventory/procurement wire vocab without knowledge atoms | **B53** bridge atoms (meaning only) |
 | Agent trap | PAS-004 header still says 12 seed MVP | **B49** charter pointer block |
@@ -238,8 +238,8 @@ No new package modules unless B50 requires a thin normalization helper under `sr
 
 | Order | Slice | Delivers | Status |
 | ---: | --- | --- | --- |
-| 1 | B49 Authority mirror sync | Mirror gate + doc hygiene | **In progress** (doc sync) |
-| 2 | B50 Legacy retirement | (proposed) | Not started |
+| 1 | B49 Authority mirror sync | Mirror gate + doc hygiene | **Delivered** |
+| 2 | B50 Legacy retirement | Loader strip + adapter inline | **Delivered** |
 | 3 | B51 Corpus depth | (proposed) | Not started |
 | 4 | B52 Vocabulary richness | (proposed) | Not started |
 | 5 | B53 ERP-domain bridge | (proposed) | Not started |
@@ -270,7 +270,7 @@ See metadata table §Required gates (PAS-004D).
 | --- | --- |
 | [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | Parent charter — **§1–§4 immutable** |
 | [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) | Semantic baseline — **closed B38–B48** |
-| [PAS-001B](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | Wire vocabulary — **reference only** in B53 |
+| [PAS-001B](../KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | Wire vocabulary — **reference only** in B53 |
 | [PAS-003](../ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | Treatment metadata — orthogonal; atoms may cite, not duplicate |
 
 ---
@@ -279,8 +279,8 @@ See metadata table §Required gates (PAS-004D).
 
 | Slice | PAS § | Purpose | Status | Prerequisite |
 | --- | --- | --- | --- | --- |
-| b49-pas004d-authority-mirror-sync.md | §4.1 | Mirror gate + doc hygiene | In progress | B48 closed |
-| b50-pas004d-legacy-surface-retirement.md | §4.2 | (proposed) | Not started | B49 |
+| b49-pas004d-authority-mirror-sync.md | §4.1 | Mirror gate + doc hygiene | Delivered | B48 closed |
+| b50-pas004d-legacy-surface-retirement.md | §4.2 | Legacy API retirement | Delivered | B49 |
 | b51-pas004d-corpus-depth.md | §4.3 | (proposed) | Not started | B50 |
 | b52-pas004d-vocabulary-richness.md | §4.4 | (proposed) | Not started | B51 |
 | b53-pas004d-erp-domain-bridge.md | §4.5 | (proposed) | Not started | B52 |

@@ -1,6 +1,6 @@
 /**
  * Canonical Step 7 operating context resolver registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Step 7, lines 561–571).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Step 7, lines 561–571).
  *
  * Runtime mirror: `apps/erp/src/lib/context/operating-context-resolver-registry.ts`.
  * Enforcement in `lib/multi-tenancy-operating-context-resolver-enforcement.mts`.

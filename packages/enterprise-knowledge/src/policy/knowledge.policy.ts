@@ -3,7 +3,9 @@ import type {
   KnowledgeIntegrityProfile,
   KnowledgeLifecycleStatus,
   KnowledgeRelationship,
+  KnowledgeRelationshipType,
 } from "../contracts/knowledge-atom.contract.js";
+import { KNOWLEDGE_RELATIONSHIP_TYPES } from "../contracts/knowledge-atom.contract.js";
 import type { KnowledgeEdge } from "../contracts/knowledge-edge.contract.js";
 import { isResolvableAcceptingAuthorityRef } from "../data/accepting-authority.registry.js";
 import {
@@ -11,7 +13,7 @@ import {
   KNOWLEDGE_ATOM_IDS,
 } from "../data/knowledge.registry.js";
 import { KNOWLEDGE_EDGES } from "../data/knowledge-edge.registry.js";
-import { KNOWLEDGE_RELATIONSHIPS } from "../data/knowledge-relationships.registry.js";
+import { validateAtomEpistemicFacets } from "./knowledge-epistemic.policy.js";
 
 const ACCEPTED_OR_LATER: readonly KnowledgeLifecycleStatus[] = [
   "accepted",
@@ -23,6 +25,36 @@ const RATIFIED_OR_LATER: readonly KnowledgeLifecycleStatus[] = [
   "ratified",
   "implemented",
 ];
+
+function isKnowledgeRelationshipType(
+  value: string
+): value is KnowledgeRelationshipType {
+  return (KNOWLEDGE_RELATIONSHIP_TYPES as readonly string[]).includes(value);
+}
+
+function edgeToLegacyRelationship(
+  edge: KnowledgeEdge
+): KnowledgeRelationship | null {
+  if (!isKnowledgeRelationshipType(edge.type)) {
+    return null;
+  }
+  return {
+    relationshipId: edge.edgeId,
+    type: edge.type,
+    fromAtomId: edge.fromAtomId,
+    toAtomId: edge.toAtomId,
+    ...(edge.note === undefined ? {} : { note: edge.note }),
+  };
+}
+
+/**
+ * @deprecated B50 — derived from KNOWLEDGE_EDGES. Use getKnowledgeEdgesForAtom for new code.
+ */
+export const KNOWLEDGE_RELATIONSHIPS: readonly KnowledgeRelationship[] =
+  KNOWLEDGE_EDGES.flatMap((edge) => {
+    const relationship = edgeToLegacyRelationship(edge);
+    return relationship ? [relationship] : [];
+  });
 
 export function isKnowledgeAtomId(
   value: string
@@ -58,9 +90,10 @@ export function getKnowledgeEdgesForAtom(
 export function getKnowledgeRelationshipsForAtom(
   atomId: string
 ): readonly KnowledgeRelationship[] {
-  return KNOWLEDGE_RELATIONSHIPS.filter(
-    (edge) => edge.fromAtomId === atomId || edge.toAtomId === atomId
-  );
+  return getKnowledgeEdgesForAtom(atomId).flatMap((edge) => {
+    const relationship = edgeToLegacyRelationship(edge);
+    return relationship ? [relationship] : [];
+  });
 }
 
 export function isAcceptedOrLaterLifecycle(
@@ -146,6 +179,8 @@ export function validateKnowledgeAtom(atom: KnowledgeAtom): readonly string[] {
       );
     }
   }
+
+  errors.push(...validateAtomEpistemicFacets(atom));
 
   return errors;
 }

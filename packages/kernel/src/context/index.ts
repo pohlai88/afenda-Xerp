@@ -34,6 +34,10 @@ export {
   listKernelOperatingContextModuleFiles,
   listKernelOperatingContextWireIngressFiles,
 } from "./context-registry.js";
+export {
+  isNullableEffectiveRangeAt,
+  isRecordEffectiveAt,
+} from "./effective-dating-vocabulary.contract.js";
 // ── Enterprise hierarchy metadata ─────────────────────────────────────────────
 export {
   compareEnterpriseHierarchyTierOrder,
@@ -297,6 +301,34 @@ export {
   parseUnknownTenantContext,
   serializeTenantContext,
 } from "./tenant-context.parser.js";
+export { assertWireTenantExtensionBoundaryVocabulary } from "./tenant-extension-boundary.assert.js";
+export {
+  assertTenantExtensionFieldKeyDoesNotForkKernelBrand,
+  isTenantExtensionNonAuthoritativeKind,
+  TENANT_EXTENSION_FORBIDDEN_FIELD_KEY_PATTERN,
+  TENANT_EXTENSION_NON_AUTHORITATIVE_KINDS,
+  type TenantExtensionBoundaryVocabulary,
+  type TenantExtensionNonAuthoritativeKind,
+  type WireTenantExtensionBoundaryVocabulary,
+} from "./tenant-extension-boundary.contract.js";
+export {
+  parseTenantExtensionBoundaryVocabulary,
+  parseUnknownTenantExtensionBoundaryVocabulary,
+  serializeTenantExtensionBoundaryVocabulary,
+} from "./tenant-extension-boundary.parser.js";
+export { assertWireTenantSaasLifecycleVocabulary } from "./tenant-saas-lifecycle.assert.js";
+export {
+  isTenantSaasLifecyclePhase,
+  TENANT_SAAS_LIFECYCLE_PHASES,
+  type TenantSaasLifecyclePhase,
+  type TenantSaasLifecycleVocabulary,
+  type WireTenantSaasLifecycleVocabulary,
+} from "./tenant-saas-lifecycle.contract.js";
+export {
+  parseTenantSaasLifecycleVocabulary,
+  parseUnknownTenantSaasLifecycleVocabulary,
+  serializeTenantSaasLifecycleVocabulary,
+} from "./tenant-saas-lifecycle.parser.js";
 export type {
   WorkflowContext,
   WorkflowId,

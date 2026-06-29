@@ -54,12 +54,13 @@ function collectSourceFiles(directory: string): string[] {
 }
 
 describe("@afenda/ui-composition downstream boundary", () => {
-  it("declares only @afenda/enterprise-knowledge as runtime dependency (PAS-004B B34)", () => {
+  it("declares accounting-standards and enterprise-knowledge runtime dependencies (PAS-003 · PAS-004B B34)", () => {
     const packageJson = JSON.parse(
       readFileSync(join(import.meta.dirname, "../../package.json"), "utf8")
     ) as { dependencies?: Record<string, string> };
 
-    expect(Object.keys(packageJson.dependencies ?? {})).toEqual([
+    expect(Object.keys(packageJson.dependencies ?? {}).sort()).toEqual([
+      "@afenda/accounting-standards",
       "@afenda/enterprise-knowledge",
     ]);
   });
@@ -98,6 +99,7 @@ describe("@afenda/ui-composition downstream boundary", () => {
     const metadataPolicy = getMetadataImportPolicy();
 
     expect(metadataPolicy.mayImportFrom).toEqual([
+      "@afenda/accounting-standards",
       "@afenda/enterprise-knowledge",
     ]);
     expect(metadataPolicy.mayNotImportFrom).toEqual(

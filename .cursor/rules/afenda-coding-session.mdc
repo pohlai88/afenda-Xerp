@@ -20,6 +20,6 @@ alwaysApply: true
 
 If upstream contract is missing: **stop and report** — no local registries, tokens, permissions, or tenant resolvers.
 
-**PAS foundation work:** read [`foundation-delivery-authority.md`](../../docs/architecture/foundation-delivery-authority.md) and derive Phase 0 from registry + `docs/PAS/CSS-AUTHORITY/SLICE/` handoffs.
+**PAS foundation work:** read [`foundation-delivery-authority.md`](../../docs/PAS/README.md) and derive Phase 0 from registry + `docs/PAS/CSS-AUTHORITY/SLICE/` handoffs.
 
 Implementer agents: attach [`coding-consistency-bundle`](../skills/coding-consistency-bundle/SKILL.md) — bundle preflight runs **before** Phase 0.

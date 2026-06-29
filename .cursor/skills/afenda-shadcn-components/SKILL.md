@@ -2,7 +2,7 @@
 name: afenda-shadcn-components
 description: >-
   Governs all shadcn component, block, and shadcn/studio work inside the Afenda ERP monorepo.
-  Covers the full design-system → @afenda/ui → @afenda/appshell → apps/erp token chain,
+  Covers the full css-authority → @afenda/ui → @afenda/appshell → apps/erp token chain,
   the CSS bridge between shadcn variables and afenda variables, the mandatory promotion
   pipeline for shadcn/studio Pro blocks (/cui /rui /iui /ftc commands), governance gates
   (A–G), and the rules that prevent dual-system CSS failures at scale.
@@ -18,8 +18,8 @@ paths:
 # Afenda shadcn Components & shadcn/studio
 
 **Constitutional authority:** [ADR-0017](../../docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md)  
-**Governance policy:** [Foundation phase 04](../../docs/governance/governed-ui-policy.md) · [ui-guard](../../docs/governance/ui-guard.md)  
-**Operational detail:** [app-ui-component-adaptation-guide.md](../../docs/architecture/app-ui-component-adaptation-guide.md)
+**Governance policy:** [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc) · [`scripts/governance/ui-guard.mjs`](../../scripts/governance/ui-guard.mjs)  
+**Operational detail:** [app-ui-component-adaptation-guide.md](../../.cursor/skills/afenda-shadcn-components/SKILL.md)
 
 ---
 
@@ -33,27 +33,29 @@ block when adapting studio blocks. Never edit production code without Phase 0 co
 ## §1 — Token chain (single source of truth)
 
 ```
-@afenda/design-system          token authority  (--afenda-* CSS vars, recipes)
+@afenda/css-authority          CSS token authority  (--afenda-* + shadcn bridge)
         ↓
-@afenda/ui                     58 governed primitives + resolvePrimitiveGovernance()
+@afenda/ui                     governed primitives + resolvePrimitiveGovernance()
         ↓ @afenda/ui/governance
-@afenda/appshell               shell chrome + 29+ adapted studio blocks
+@afenda/shadcn-studio          presentation product (blocks, MCP inventory)
+@afenda/appshell               shell chrome + adapted studio blocks
 @afenda/metadata-ui            metadata surfaces (structural CSS only)
         ↓
 apps/erp/src/app/globals.css   canonical import order (composing all package CSS)
 ```
 
-**Dependency direction is hard-wired.** `@afenda/design-system` must never import
+**Dependency direction is hard-wired.** `@afenda/css-authority` must never import
 `@afenda/ui`. Consumers (`appshell`, `metadata-ui`, `apps/erp`) call governance from
 `@afenda/ui/governance` but own zero visual tokens.
 
 ### CSS import order in `apps/erp/src/app/globals.css`
 
 1. `tailwindcss`
-2. `@afenda/ui/afenda-ui.css` (imports design-system theme)
-3. `@afenda/appshell/afenda-appshell.css` (shell chrome + studio layer via `@import`)
-4. `@afenda/metadata-ui/afenda-metadata-ui.css` in `layer(components)`
-5. `shadcn/tailwind.css`
+2. `@afenda/ui/afenda-ui.css` (imports css-authority tokens + runtime bridge)
+3. `@afenda/shadcn-studio` presentation CSS (when wired)
+4. `@afenda/appshell/afenda-appshell.css` (shell chrome + studio layer via `@import`)
+5. `@afenda/metadata-ui/afenda-metadata-ui.css` in `layer(components)`
+6. `shadcn/tailwind.css`
 
 **Apps import `@afenda/appshell/afenda-appshell.css` ONLY — never studio CSS directly.**
 
@@ -69,8 +71,7 @@ The token system uses a deliberate 3-layer chain. Studio blocks consume
 shadcn or shell intermediaries, not raw `--afenda-*` directly:
 
 ```
-@afenda/design-system (Part A)   → --afenda-*  (afenda-tokens.css — TS shim)
-@afenda/css-authority (Part B–F) → --card, --primary, --border, @theme  (runtime bridge)
+@afenda/css-authority (Part A–F) → --afenda-* + --card, --primary, --border, @theme  (runtime bridge)
 @afenda/appshell                 → --app-shell-*  (shell geometry + trend colors)
 @afenda/appshell-studio          → --app-shell-studio-*  (studio block bridge)
 ```
@@ -87,7 +88,7 @@ shadcn or shell intermediaries, not raw `--afenda-*` directly:
 }
 ```
 
-**Deprecated:** importing `afenda-design-system.css` monolith directly — B30 shim re-exports tokens + css-authority bundle.
+**Deprecated:** importing legacy `afenda-design-system.css` monolith — use `@afenda/css-authority` bundles via `afenda-ui.css`.
 
 **Studio bridge** (`afenda-appshell-studio.css`) bridges through shadcn and shell vars:
 
@@ -103,11 +104,11 @@ shadcn or shell intermediaries, not raw `--afenda-*` directly:
 This chain means: update one `--afenda-*` token → all shadcn primitives and all studio
 blocks update together. **Never shortcut to `--afenda-*` in studio CSS.**
 
-### Rule: never define `--afenda-*` outside `@afenda/design-system`
+### Rule: never define `--afenda-*` outside `@afenda/css-authority`
 
 | Package | May define | May consume |
 |---------|-----------|------------|
-| `@afenda/design-system` | `--afenda-*`, shadcn bridge | — |
+| `@afenda/css-authority` | `--afenda-*`, shadcn bridge | — |
 | `@afenda/ui` | structural primitive hooks in `@layer components` | `--afenda-*` |
 | `@afenda/appshell` | `--app-shell-*`, `--app-shell-studio-*` | `--afenda-*`, shadcn bridge |
 | `@afenda/metadata-ui` | `.metadata-*` structural hooks | `--afenda-*`, shadcn bridge |
@@ -285,7 +286,7 @@ Run after any change to `packages/appshell/`, `packages/ui/`, or `apps/erp/`.
 | Auth page variants from template | Better Auth owns authentication |
 | New npm deps without ADR-0003 / `dependency-registry.md` | Dependency governance |
 | `className` on `@afenda/ui` primitives in consumers | Governed UI consumer rule |
-| `--afenda-*` re-definition outside design-system | Token drift |
+| `--afenda-*` re-definition outside css-authority | Token drift |
 | Importing `afenda-appshell-studio.css` directly from apps | CSS cascade integrity |
 | Production blocks kept in `packages/ui/src/components/shadcn-studio/` | Staging-only policy |
 | Local re-export barrels or local `stock-props.ts` wrappers | ADR-0002 import discipline |

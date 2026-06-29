@@ -14,7 +14,7 @@
 
 ADR-0010 prohibited Accounting Core coding until Foundation Phases 0–8 complete and Phase 9 Accounting Readiness Gate passes. Phase 9 signed off on **2026-06-24** ([`phase-9-accounting-readiness-sign-off.md`](../architecture/phase-9-accounting-readiness-sign-off.md)).
 
-PKG-R01 (`@afenda/accounting`) remains **planned** in [`package-registry.md`](../architecture/package-registry.md) with `filesystemRequired: false`. Permission vocabulary for accounting exists only as two journal keys in `@afenda/permissions`. Kernel exposes **readiness** contracts (`accounting-readiness.contract.ts`) — not domain accounting contracts.
+PKG-R01 (`@afenda/accounting`) remains **planned** in [`package-registry.md`](../../packages/architecture-authority/src/data/package-registry.data.ts) with `filesystemRequired: false`. Permission vocabulary for accounting exists only as two journal keys in `@afenda/permissions`. Kernel exposes **readiness** contracts (`accounting-readiness.contract.ts`) — not domain accounting contracts.
 
 Starting ledger schemas, posting services, or ERP accounting UI before contract vocabulary is frozen repeats the drift ADR-0010 was written to prevent.
 

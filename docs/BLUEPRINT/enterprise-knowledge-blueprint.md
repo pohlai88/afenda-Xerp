@@ -8,7 +8,7 @@
 | **Workspace mapping** | [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) — `@afenda/*` npm name |
 | **Scope** | Enterprise Knowledge — how accepted meaning becomes platform truth |
 | **Parent** | [Platform North Star](../architecture/afenda-platform-north-star.md) · [Enterprise Knowledge North Star](../NORTHSTAR/enterprise-knowledge-north-star.md) |
-| **Platform rollup** | [Afenda Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) § Knowledge family |
+| **Platform rollup** | [Afenda Architecture Blueprint](../BLUEPRINT/kernel-blueprint.md) § Knowledge family |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) |
 | **Constitutional laws** | [Knowledge Constitutional Laws](../CONSTITUTION/knowledge-constitutional-laws.md) — K1–K8 |
 | **Derived documents** | PAS-004 family · `@afenda/enterprise-knowledge` package |
@@ -154,7 +154,7 @@ Machine assignments: [`layer-registry.data.ts`](../../packages/architecture-auth
 | --- | --- |
 | **Compile-time** | Consumers import `@afenda/enterprise-knowledge` for atoms, projections, queries |
 | **Runtime** | Read-only meaning resolution in consumer workflows — package never imports consumer runtime |
-| **Metadata** | Acceptance chains · epistemic status · stability facets on atoms |
+| **Metadata** | Acceptance chains · lifecycle · applicability facets on atoms · epistemic status facet target (E8 △) |
 | **Configuration** | Domain applicability · perspective — static registry data |
 | **Knowledge** | Self-referential — this box **is** the knowledge SSOT for platform meaning |
 
@@ -199,6 +199,7 @@ packages/enterprise-knowledge/
 | B4 | PAS-004C 58/58 | T5 | Semantic model delivered | [`PAS-004C`](../PAS/ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) |
 | B5 | PKG-024 · PKGR04 | T4 | Live · green-lane · authority PAS-004C | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
 | B6 | Peer review 9.95/10 | T6 | Production Candidate NS | Domain NS §12 provenance |
+| B7 | Domain NS §4 runtime column | T6 | Capability → honest runtime maturity | Domain NS §4 legend · 2026-06-29 alignment |
 
 ---
 
@@ -236,12 +237,12 @@ Enterprise knowledge (this box)
         ├──► @afenda/ui-composition · @afenda/metadata-ui (labels · projections)
         ├──► apps/erp (vocabulary server · workflow context)
         ├──► apps/docs (docs vocabulary · atom blocks)
-        └──► docs/architecture/glossary.md (representation — synced from registry)
+        └──► docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md (representation — synced from registry)
 ```
 
 | Blueprint box | Declared consumers | Dependency category | Notes |
 | --- | --- | --- | --- |
-| **Enterprise knowledge** | `@afenda/ui-composition` · `@afenda/metadata-ui` · `apps/erp` · `apps/docs` · `docs/architecture/glossary.md` | Compile-time · Knowledge | PAS **Consumers** ⊆ this list · all ERP domains may consume — must not fork |
+| **Enterprise knowledge** | `@afenda/ui-composition` · `@afenda/metadata-ui` · `apps/erp` · `apps/docs` · `docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md` | Compile-time · Knowledge | PAS **Consumers** ⊆ this list · all ERP domains may consume — must not fork |
 
 ---
 
@@ -383,7 +384,7 @@ Enterprise knowledge (one box)
 | **@afenda/metadata-ui** | Metadata labels from projections | No local binding definitions | consumer proof |
 | **apps/erp** | `enterprise-knowledge-vocabulary.server.ts` | Server-side vocabulary resolution | B32 · B27 consumer proof |
 | **apps/docs** | `docs-vocabulary.ts` · atom blocks | Representation only | B35 · B48 docs proof |
-| **docs/architecture/glossary.md** | Synced representation | Registry wins (I2) | `check:glossary-knowledge-sync` |
+| **docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md** | Synced representation | Registry wins (I2) | `check:glossary-knowledge-sync` |
 | **@afenda/kernel** | `implementationMapping` / realization refs | Read-only path validation | `check:knowledge-kernel-mapping` |
 | **All ERP domains** | Terminology at boundaries | Must not fork atoms locally | conformance + domain PAS |
 | **Agent orchestration** | Skill + atom ID + epistemic status + exposure tier | Cite — do not invent | enterprise-knowledge skill |
@@ -436,7 +437,7 @@ Knowledge Atom (accepted meaning + epistemic status + stability)
         │
         ├─► Knowledge Term (labels · synonyms · locale)   ← PAS-004C terms.json (NS §3.1 · §3.9)
         │
-        ├─► Glossary representation              ← docs/architecture/glossary.md
+        ├─► Glossary representation              ← docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md
         ├─► UI / metadata labels                  ← ui-composition · metadata-ui
         ├─► AI / copilot context                  ← atom ID + status + exposure tier in prompts
         └─► Documentation views                   ← apps/docs
@@ -460,7 +461,7 @@ Platform layer
 
 **Domain gate:** None for this box — **live** · `PKGR04` green-lane · runtime authority **PAS-004C** (semantic model 58/58 closed).
 
-Rollup: [Platform Blueprint — Knowledge family](../architecture/afenda-architecture-blueprint.md).
+Rollup: [Platform Blueprint — Knowledge family](../BLUEPRINT/kernel-blueprint.md).
 
 ---
 
@@ -597,10 +598,10 @@ Sync glossary · consumer projections · pas-status-index
 
 ## E2E integration checklist (before claiming slice delivery)
 
-- [ ] Domain NS §4 capability or §8.5 promotion path traced
+- [ ] Domain NS §4 **Runtime** column (not Domain spec alone) traced for slice scope
 - [ ] §5.1 surface maps to PAS row
 - [ ] JSON authority updated (not hand-only TS after B25)
-- [ ] Epistemic status + classification on Production+ atoms
+- [ ] Epistemic status facet + classification gates when slice claims Production+ (§16 #1 · #5)
 - [ ] No kernel parser duplication
 - [ ] No consumer package imports in enterprise-knowledge
 - [ ] Consumer proof gates pass if projections changed
@@ -628,7 +629,7 @@ Sync glossary · consumer projections · pas-status-index
 | --- | --- |
 | Domain North Star | [`enterprise-knowledge-north-star.md`](../NORTHSTAR/enterprise-knowledge-north-star.md) |
 | Knowledge Laws | [`knowledge-constitutional-laws.md`](../CONSTITUTION/knowledge-constitutional-laws.md) |
-| Platform Blueprint | [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md) |
+| Platform Blueprint | [`afenda-architecture-blueprint.md`](../BLUEPRINT/kernel-blueprint.md) |
 | PAS-004 charter | [`PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](../PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) |
 | PAS-004C runtime | [`PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md`](../PAS/ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) |
 | Architecture Authority Blueprint | [`architecture-authority-blueprint.md`](architecture-authority-blueprint.md) |

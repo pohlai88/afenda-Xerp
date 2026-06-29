@@ -23,7 +23,7 @@ Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b38-pas004c-concept-vocabulary
                   backfill conceptId on all 24 atoms, add validateKnowledgeConceptVocabulary policy + gate;
                   preserve all existing atom IDs and public exports.
 2. Allowed layer— packages/enterprise-knowledge/** · scripts/governance/check-knowledge-concept-vocabulary.mts
-                  · package.json (script only) · docs/PAS/** · docs/architecture/glossary.md (concept cross-ref note only)
+                  · package.json (script only) · docs/PAS/** · docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md (concept cross-ref note only)
 3. Files        —
    packages/enterprise-knowledge/src/contracts/knowledge-concept.contract.ts
    packages/enterprise-knowledge/src/contracts/knowledge-term.contract.ts

@@ -10,7 +10,7 @@
 
 **Risk class:** Medium
 
-**Clean Core impact:** A→A — contracts-only package
+**Clean Core impact:** A→A — routing extension
 
 ## Purpose
 
@@ -20,7 +20,7 @@ Implement cross-representation routing keys per Domain NS §3.6.
 
 ## Handoff block
 
-`
+```
 Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b16-cross-representation-routing.md
 
 1. Objective    — Implement cross-representation routing keys per Domain NS §3.6.
@@ -40,7 +40,7 @@ Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b16-cross-representation-routi
 8. Evidence     —
    (after delivery) routing registry cross-rep keys
 9. Attestation  — Contract · Test
-`
+```
 
 ## DoD
 
@@ -49,3 +49,5 @@ Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b16-cross-representation-routi
 | 1 | Slice handoff + PAS §12 sync | file read | PAS-003 §4.4 |
 | 2 | Implementation matches PAS §4 contract | typecheck + test:run | PAS-003 authority surface |
 | 3 | No prohibited surfaces introduced | quality:boundaries | PAS-003 §5 |
+
+

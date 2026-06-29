@@ -1,6 +1,6 @@
 /**
  * Canonical Step 5 persistence + lookup registry — aligned with
- * `docs/architecture/multi-tenancy.md` (§538–551).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (§538–551).
  *
  * Foundation tables, required indexes, and lookup adapters. No accounting tables.
  */

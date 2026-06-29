@@ -42,7 +42,7 @@ Pre-flight error: phase-only requires Start phase: N and Scope.
 
 1. `.cursor/skills/enterprise-architecture-audit/SKILL.md`
 2. `.cursor/skills/enterprise-architecture-audit/reference/evidence-map.md`
-3. `docs/architecture/afenda-runtime-truth-matrix.md` (full scope) or scoped PAS/skill adapter
+3. `docs/PAS/pas-status-index.md` (full scope) or scoped PAS/skill adapter
 4. Phase reference file for current phase
 
 ### Mandatory pre-flight emit

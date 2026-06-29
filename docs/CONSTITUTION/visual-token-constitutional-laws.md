@@ -152,4 +152,4 @@ Amend only by ADR + Design Token Authority domain owner review. PAS and authorit
 | [Design Token Authority North Star](../NORTHSTAR/css-authority-north-star.md) | Full domain specification |
 | [Platform Constitutional Laws](platform-constitutional-laws.md) | Platform-wide laws (LAW 2 · registry-before-runtime) |
 | [Design Token Authority Blueprint](../BLUEPRINT/css-authority-blueprint.md) | CSS representation box map |
-| [governed-ui-policy.md](../governance/governed-ui-policy.md) | Tokens ≠ recipes boundary |
+| [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc) | Tokens ≠ recipes boundary |

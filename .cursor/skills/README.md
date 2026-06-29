@@ -59,10 +59,10 @@ All commands: `disable-model-invocation: true`.
 
 | Skill | Class | `paths` | Trigger | Gates |
 | --- | --- | --- | --- | --- |
-| `architecture-authority` | Authority | `packages/architecture-authority/**`, `docs/architecture/foundation-disposition.md` | Registries, layer rules, disposition | `pnpm quality:architecture` |
+| `architecture-authority` | Authority | `packages/architecture-authority/**`, `packages/architecture-authority/src/data/foundation-disposition.registry.ts` | Registries, layer rules, disposition | `pnpm quality:architecture` |
 | `css-authority` | Authority | `packages/css-authority/**`, `docs/PAS/CSS-AUTHORITY/**` | PAS-005 tokens, CSS-TOKEN-* | `pnpm check:css-governance` |
 | `kernel-authority` | Authority | `packages/kernel/**`, `docs/PAS/PAS-001*.md` | Kernel boundary | kernel gates |
-| `accounting-standards-authority` | Authority | `packages/accounting-standards-authority/**` | Accounting standards | — |
+| `accounting-standards-authority` | Authority | `packages/accounting-standards/**`, `docs/PAS/ACCOUNTING-STANDARDS/**` | Accounting standards | — |
 | `shadcn-studio-authority` | Authority | `packages/shadcn-studio/**`, `docs/PAS/CSS-AUTHORITY/PAS-005A*.md` | Studio presentation PAS | — |
 | `enterprise-knowledge` | Enterprise | `packages/enterprise-knowledge/**`, `docs/PAS/ENTERPRISE-KNOWLEDGE/**` | Knowledge atoms, PAS-004 | `pnpm check:knowledge-conformance` |
 | `enterprise-erp-standards` | Enterprise | `packages/**`, `apps/erp/**` | SAP/Oracle red-amber gates | — |

@@ -9,10 +9,10 @@ export const ACCOUNTING_READINESS_GATE_SURFACE_RULE =
   "accounting-readiness-gate-is-canonical-phase-9-matrix" as const;
 
 export const ACCOUNTING_READINESS_DELIVERY_DOC =
-  "docs/architecture/phase-9-accounting-readiness-sign-off.md" as const;
+  "docs/adr/ADR-0010-no-accounting-before-foundation-gate.md" as const;
 
 export const PHASE_9_ROADMAP_DOC =
-  "docs/architecture/pre-accounting-foundation-roadmap.md" as const;
+  "docs/architecture/_afenda-erp-master-plan.llms.md" as const;
 
 export type AccountingReadinessGateRequirementId =
   | "multi-company-model"

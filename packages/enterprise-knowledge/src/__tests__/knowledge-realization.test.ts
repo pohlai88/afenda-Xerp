@@ -6,10 +6,12 @@ import { ENTERPRISE_KNOWLEDGE_ATOMS } from "../data/knowledge.registry.js";
 import {
   normalizeAtomRealization,
   parseAtomCorpus,
+  stripLegacyPublicAtomFields,
 } from "../data/knowledge-data.loader.js";
 import {
   collectRealizationKinds,
   getAtomRealizationMappings,
+  getPrimaryKernelRealization,
   REALIZATION_MAPPING_EVIDENCE_ATOM_IDS,
   validateKnowledgeRealizationMapping,
 } from "../policy/knowledge-realization.policy.js";
@@ -76,6 +78,25 @@ describe("normalizeAtomRealization", () => {
   });
 });
 
+describe("stripLegacyPublicAtomFields", () => {
+  it("removes implementationMapping while preserving realizationMapping", () => {
+    const stripped = stripLegacyPublicAtomFields({
+      atomId: "sample",
+      implementationMapping: {
+        contractPath: "packages/kernel/src/x.contract.ts",
+      },
+      realizationMapping: [
+        {
+          realizationKind: "kernel",
+          reference: "packages/kernel/src/x.contract.ts",
+        },
+      ],
+    });
+    expect(stripped["implementationMapping"]).toBeUndefined();
+    expect(stripped["realizationMapping"]).toHaveLength(1);
+  });
+});
+
 describe("parseAtomCorpus backward compat", () => {
   it("normalizes atoms with implementationMapping only", () => {
     const atoms = parseAtomCorpus([
@@ -105,6 +126,8 @@ describe("parseAtomCorpus backward compat", () => {
           exceptions: [],
         },
         lifecycle: "proposed",
+        epistemicStatus: "candidate",
+        semanticStability: "evolutionary",
         lineage: {
           origin: "test",
           evolution: [],
@@ -149,18 +172,18 @@ describe("parseAtomCorpus backward compat", () => {
     ]);
 
     expect(atoms[0]?.realizationMapping?.[0]?.realizationKind).toBe("kernel");
-    expect(atoms[0]?.implementationMapping).toBeDefined();
+    expect(atoms[0]?.implementationMapping).toBeUndefined();
   });
 });
 
 describe("realization corpus evidence", () => {
-  it("includes realizationMapping on ≥3 platform identity atoms", () => {
+  it("includes kernel realization on platform identity atoms", () => {
     for (const atomId of REALIZATION_MAPPING_EVIDENCE_ATOM_IDS) {
       const atom = ENTERPRISE_KNOWLEDGE_ATOMS.find(
         (candidate) => candidate.atomId === atomId
       );
       expect(atom, atomId).toBeDefined();
-      expect(getAtomRealizationMappings(atom!).length).toBeGreaterThan(0);
+      expect(getPrimaryKernelRealization(atom!)).toBeDefined();
     }
   });
 

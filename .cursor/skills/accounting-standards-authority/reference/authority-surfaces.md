@@ -110,6 +110,19 @@ Consumers decide workflow action; only explicit `blocking` rules may hard-stop.
 
 ---
 
+## ERP-parity extensions (B13–B16) — **Target**
+
+| Slice | Surface | Adds |
+| --- | --- | --- |
+| B13 | §4.4 routing | Reporting context profile keys on process routing |
+| B14 | §4.7 result | Scope-gate and judgment-escalation outcome fields (P12) |
+| B15 | §4.3 version | Authority instrument and supersession metadata |
+| B16 | §4.4 routing | Cross-representation routing keys (parallel books) |
+
+Canonical contract detail: PAS-003 §4 · Domain NS §3.4–§3.7 · slice handoffs in `docs/PAS/ACCOUNTING-STANDARDS/SLICE/`.
+
+---
+
 ## Package fingerprint — **Current** (B0)
 
 ```ts

@@ -199,7 +199,7 @@ packages/css-authority/
 | B3 | Domain NS §12 E1–E10 · V1–V8 | T1 | Constitutional + laws + implementation split | [`css-authority-north-star.md`](../NORTHSTAR/css-authority-north-star.md) · [`visual-token-constitutional-laws.md`](../CONSTITUTION/visual-token-constitutional-laws.md) |
 | B4 | PAS-005 B26–B37 | T5 | 605-token registry · gates live | [`PAS-005`](../PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) |
 | B5 | PKG-025 · PKGR05 | T4 | amber-lane · MVP delivered | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
-| B6 | governed-ui-policy | T1 | Tokens ≠ recipes | [`governed-ui-policy.md`](../governance/governed-ui-policy.md) |
+| B6 | governed-ui-policy | T1 | Tokens ≠ recipes | [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc) |
 
 ---
 

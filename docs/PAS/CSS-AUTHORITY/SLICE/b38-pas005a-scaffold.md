@@ -1,4 +1,4 @@
-# Slice B38 ÔÇö shadcn/studio Package Scaffold (PAS-005A ┬º10)
+# Slice B38 — shadcn/studio Package Scaffold (PAS-005A §10)
 
 **Prerequisite:** [PAS-005A](../PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) accepted as MVP Authority; ADR-0017 Accepted
 
@@ -6,9 +6,9 @@
 
 **Type:** Implementation
 
-**Risk class:** Low ÔÇö new package only; no Afenda runtime cutover
+**Risk class:** Low — new package only; no Afenda runtime cutover
 
-**Clean Core impact:** AÔåÆA ÔÇö greenfield `packages/shadcn-studio`; legacy appshell studio untouched
+**Clean Core impact:** AÔåÆA — greenfield `packages/shadcn-studio`; legacy appshell studio untouched
 
 ## Purpose
 
@@ -19,9 +19,9 @@ Create `@afenda/shadcn-studio` as a standalone Afenda-free package: `package.jso
 ```
 Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b38-pas005a-scaffold.md
 
-1. Objective    ÔÇö Scaffold @afenda/shadcn-studio package with base CSS export stub, components.json, MCP cwd retarget, and PAS-005A tombstone pointer; zero Afenda package imports.
-2. Allowed layerÔÇö packages/shadcn-studio/** ┬À .cursor/mcp/shadcn-studio.mjs ┬À shadcn-studio.config.json ┬À docs/PAS/** ┬À docs/architecture/package-registry.md (if PKG entry added)
-3. Files        ÔÇö
+1. Objective    — Scaffold @afenda/shadcn-studio package with base CSS export stub, components.json, MCP cwd retarget, and PAS-005A tombstone pointer; zero Afenda package imports.
+2. Allowed layer— packages/shadcn-studio/** · .cursor/mcp/shadcn-studio.mjs · shadcn-studio.config.json · docs/PAS/** · packages/architecture-authority/src/data/package-registry.data.ts (if PKG entry added)
+3. Files        —
    packages/shadcn-studio/package.json
    packages/shadcn-studio/tsconfig.json
    packages/shadcn-studio/components.json
@@ -34,27 +34,27 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b38-pas005a-scaffold.md
    pnpm-workspace.yaml (if new package not auto-discovered)
    docs/PAS/pas-status-index.md
    docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md (runtime_status sync only if evidence changes)
-4. Prohibited   ÔÇö packages/appshell/src/shadcn-studio/** (no migrate); packages/css-authority/**; packages/ui/** studio cutover; apps/erp/**; @afenda/design-system; @afenda/ui; foundation-disposition.registry.ts (delegate registry-owner)
-5. Authority    ÔÇö PAS-005A ┬º6 ┬À ADR-0017 ┬À monorepo-discipline skill
-6. Gates        ÔÇö
+4. Prohibited   — packages/appshell/src/shadcn-studio/** (no migrate); packages/css-authority/**; packages/ui/** studio cutover; apps/erp/**; @afenda/design-system; @afenda/ui; foundation-disposition.registry.ts (delegate registry-owner)
+5. Authority    — PAS-005A §6 · ADR-0017 · monorepo-discipline skill
+6. Gates        —
    pnpm --filter @afenda/shadcn-studio typecheck
    pnpm --filter @afenda/shadcn-studio test:run
    pnpm --filter @afenda/shadcn-studio build
    pnpm check:foundation-disposition
    pnpm quality:boundaries
-7. Closes       ÔÇö PAS-005A not_started ÔåÆ partial; MCP cwd legacy packages/ui
-8. Evidence     ÔÇö
+7. Closes       — PAS-005A not_started ÔåÆ partial; MCP cwd legacy packages/ui
+8. Evidence     —
    packages/shadcn-studio/package.json
    packages/shadcn-studio/src/styles/shadcn-studio.css
    shadcn-studio.config.json (cwd = packages/shadcn-studio)
-9. Attestation  ÔÇö Architecture ┬À Package scaffold ┬À Documentation
+9. Attestation  — Architecture · Package scaffold · Documentation
 ```
 
 ## Rules frozen
 
-1. Phase 1 remains **Afenda-free** ÔÇö no `@afenda/css-authority` or `@afenda/ui` imports
+1. Phase 1 remains **Afenda-free** — no `@afenda/css-authority` or `@afenda/ui` imports
 2. Do **not** migrate or copy from `packages/appshell/src/shadcn-studio/`
-3. MCP collection-before-install rule applies from B40 ÔÇö not exercised in B38
+3. MCP collection-before-install rule applies from B40 — not exercised in B38
 4. Registry mutation goes through `foundation-registry-owner` only
 
 ## DoD
@@ -71,5 +71,5 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b38-pas005a-scaffold.md
 
 | Capability | Proven | Evidence path |
 | --- | --- | --- |
-| Standalone shadcn-studio package | No ÔÇö Slice B38 | `packages/shadcn-studio/` |
-| MCP cwd retarget | No ÔÇö Slice B38 | `shadcn-studio.config.json` |
+| Standalone shadcn-studio package | No — Slice B38 | `packages/shadcn-studio/` |
+| MCP cwd retarget | No — Slice B38 | `shadcn-studio.config.json` |

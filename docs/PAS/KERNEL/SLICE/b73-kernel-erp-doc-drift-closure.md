@@ -22,10 +22,10 @@ Sync documentation with post–PAS-001 runtime: fix stale resolver paths in runt
 Handoff from: docs/PAS/KERNEL/SLICE/b73-kernel-erp-doc-drift-closure.md
 
 1. Objective    — Documentation reflects ERP resolver + permissions ownership split from B71.
-2. Allowed layer— docs/architecture/** · docs/PAS/** · apps/docs delivery evidence if generated
+2. Allowed layer— docs/PAS/** · docs/PAS/** · apps/docs delivery evidence if generated
 3. Files        —
-   docs/architecture/afenda-runtime-truth-matrix.md
-   docs/architecture/multi-tenancy.md
+   docs/PAS/pas-status-index.md
+   docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md
    docs/PAS/KERNEL/SLICE/b73-kernel-erp-doc-drift-closure.md
 4. Prohibited   — Marking runtime implemented without gate evidence · kernel source edits
 5. Authority    — PAS-001A §1.2 · documentation-drift
@@ -34,8 +34,8 @@ Handoff from: docs/PAS/KERNEL/SLICE/b73-kernel-erp-doc-drift-closure.md
    pnpm check:multi-tenancy-context-contracts
 7. Closes       — Closes DoD #1–#3 · doc drift closure
 8. Evidence     —
-   docs/architecture/afenda-runtime-truth-matrix.md
-   docs/architecture/multi-tenancy.md
+   docs/PAS/pas-status-index.md
+   docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md
    pnpm check:documentation-drift output
 9. Attestation  — Documentation · Governance
 ```
@@ -57,13 +57,13 @@ Handoff from: docs/PAS/KERNEL/SLICE/b73-kernel-erp-doc-drift-closure.md
 
 | DoD # | Evidence path after delivery |
 | --- | --- |
-| 1 | docs/architecture/afenda-runtime-truth-matrix.md |
-| 2 | docs/architecture/multi-tenancy.md |
+| 1 | docs/PAS/pas-status-index.md |
+| 2 | docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md |
 | 3 | pnpm check:documentation-drift output |
 
 ## Runtime evidence
 
 | Capability | Proven | Evidence path |
 | --- | --- | --- |
-| Doc/runtime parity | Yes — B73 | `docs/architecture/afenda-runtime-truth-matrix.md` |
+| Doc/runtime parity | Yes — B73 | `docs/PAS/pas-status-index.md` |
 

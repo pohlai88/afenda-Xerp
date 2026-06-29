@@ -24,10 +24,10 @@
 | **Evidence level** | `runtime` — `afenda-ui.css` cutover live; 605-token JSON-backed registry; R23–R30 + domain-sync + bridge-sync + visual contract + docs pixel baselines pass |
 | **Runtime status** | B26–B37 delivered — 605-token registry (465 afenda + 44 appshell + 50 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
 | **Remaining slices** | none — optional enhancements only |
-| **Consumers** | `@afenda/ui`, `@afenda/appshell`, `apps/erp`, `apps/storybook` |
+| **Consumers** | `@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui`, `apps/erp`, `apps/storybook` |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
+| **Closure registry** | [`pas-status-index.md`](../pas-status-index.md) |
 | **ADR prerequisites** | none |
 
 #### Required gates
@@ -50,11 +50,11 @@
 > MVP Authority is delivered for B26–B37 (605-token registry; consumption + domain-sync + bridge + visual contract + docs pixel baselines). Do not claim Enterprise Accepted — optional Production Candidate attestation remains out of scope.
 
 > **Canonical location:** `docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md`
-> **Constitutional laws:** [Visual Token Constitutional Laws](../CONSTITUTION/visual-token-constitutional-laws.md) — V1–V8
-> **Domain North Star:** [`css-authority-north-star.md`](../NORTHSTAR/css-authority-north-star.md) — §3.4–§3.9 theme dimensions · tiers · alias · a11y · surfaces · §5.2–§5.3 integrity · precedence
-> **Domain Blueprint:** [`css-authority-blueprint.md`](../BLUEPRINT/css-authority-blueprint.md) · [Platform Blueprint — Design system](../architecture/afenda-architecture-blueprint.md)
-> **Operational derived view:** [`docs/architecture/css-authority.md`](../architecture/css-authority.md)
-> **shadcn/studio delivery:** [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md)
+> **Constitutional laws:** [Visual Token Constitutional Laws](../../CONSTITUTION/visual-token-constitutional-laws.md) — V1–V8
+> **Domain North Star:** [`css-authority-north-star.md`](../../NORTHSTAR/css-authority-north-star.md) — §3.4–§3.9 theme dimensions · tiers · alias · a11y · surfaces · §5.2–§5.3 integrity · precedence
+> **Domain Blueprint:** [`css-authority-blueprint.md`](../../BLUEPRINT/css-authority-blueprint.md) · [Platform Blueprint — Design system](../../architecture/afenda-architecture-blueprint.md)
+> **Operational derived view:** [`css-authority.md`](../../architecture/css-authority.md)
+> **shadcn/studio delivery:** [ADR-0017](../../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md)
 > **Legacy Governed UI TS governance:** `@afenda/design-system` (CSS surface deprecated — not deleted in v1)
 
 ---
@@ -77,7 +77,7 @@ PAS-005 (this document)
   → authority JSON sources (packages/css-authority/src/authorities/*.json)
   → pnpm generate:css-authority-registry
   → generated CSS Authority Registry
-  → check:css-governance (R22–R27)
+  → check:css-governance (R23–R30)
   → runtime CSS (afenda-css-authority.css)
 ```
 
@@ -85,7 +85,7 @@ PAS-005 (this document)
 
 **Required gates:** see §13.
 
-**Closure registry:** [`pas-status-index.md`](pas-status-index.md) · Session: `/afenda-coding-session`
+**Closure registry:** [`pas-status-index.md`](../pas-status-index.md) · Session: `/afenda-coding-session`
 
 ---
 
@@ -102,7 +102,7 @@ It answers:
 
 It does **not** answer variant meaning, recipe styling, or primitive behavior (Foundation phase 04 — `@afenda/design-system` + `@afenda/ui`).
 
-**Domain alignment (P9):** This PAS implements the **CSS platform representation** of [Design Token Authority](../NORTHSTAR/css-authority-north-star.md) — token *meaning* is renderer-agnostic; CSS custom properties are today's syntax. Constitutional laws: [Visual Token Constitutional Laws](../CONSTITUTION/visual-token-constitutional-laws.md) V1–V8. Domain NS §3.4–§3.9 (modes, tiers, alias, a11y, surfaces) and §5.2–§5.3 (integrity, precedence) govern what this package must eventually prove via gates — not redefine in PAS prose alone.
+**Domain alignment (P9):** This PAS implements the **CSS platform representation** of [Design Token Authority](../../NORTHSTAR/css-authority-north-star.md) — token *meaning* is renderer-agnostic; CSS custom properties are today's syntax. Constitutional laws: [Visual Token Constitutional Laws](../../CONSTITUTION/visual-token-constitutional-laws.md) V1–V8. Domain NS §3.4–§3.9 (modes, tiers, alias, a11y, surfaces) and §5.2–§5.3 (integrity, precedence) govern what this package must eventually prove via gates — not redefine in PAS prose alone.
 
 ---
 
@@ -175,7 +175,7 @@ Nobody edits generated output. CI fails if sources change without regen.
 
 # 7. Validation Gates
 
-Multi-step consumption proof (target R22–R27 in `check-css-governance`):
+Multi-step consumption proof (R23–R30 in `check-css-governance`):
 
 ```txt
 Unknown var(--foo)
@@ -235,10 +235,13 @@ Storybook composed spot-check: `apps/storybook/stories/governance-integration-co
 | ----- | ----- | ------ |
 | B26 | Greenfield scaffold + PAS-005 | **Delivered · 2026-06-28** |
 | B27 | Vendored shadcn theme + generator | **Delivered · 2026-06-28** |
-| B28 | R23–R27 consumption gates + baseline scan | **Delivered · 2026-06-28** |
+| B28 | R23–R30 consumption gates + baseline scan | **Delivered · 2026-06-28** |
 | B29 | Strangler cutover `afenda-ui.css` | **Delivered · 2026-06-28** |
 | B30 | Deprecate design-system CSS monolith (shim) | **Delivered · 2026-06-28** |
 | B33 | Visual regression contract gate | **Delivered · 2026-06-28** |
+| B34 | Registry expansion (appshell + auth-editorial domains) | **Delivered · 2026-06-28** |
+| B35 | Disposition sync — PKGR02 knownGap closure | **Delivered · 2026-06-28** |
+| B36 | Risk mitigation — domain-sync gate + R28–R30 + scorecard | **Delivered · 2026-06-28** |
 | B37 | Playwright pixel baselines | **Delivered · 2026-06-28** |
 
 ---
@@ -253,7 +256,7 @@ Storybook composed spot-check: `apps/storybook/stories/governance-integration-co
 | Consumption gates | **R23–R30 pass** (B28/B36) + domain-sync + bridge-sync | R15 studio raw-value cleanup (appshell scope) |
 | Runtime cutover | **Yes** — B29/B30 shim (B29) | Remove design-system CSS shim (post-v1) |
 | Visual contract gate | **Yes** — B33 import-chain contract + B37 docs pixel baselines | ERP pixel baselines (optional future) |
-| Enterprise attestation | Not started | Production Candidate scorecard (future B34+) |
+| Enterprise attestation | **B36 scorecard delivered** — optional Production Candidate promotion (B49 under PAS-005B) | `production_candidate` lane promotion |
 | Disposition lane | `amber-lane` (`PKGR05`) | Production Candidate promotion |
 
 ---
@@ -285,7 +288,7 @@ pnpm quality:boundaries
 
 # 14. Remaining Work (post-MVP)
 
-MVP slice sequence (B26–B35) is **closed**. Remaining items are enhancements or Production Candidate promotion — not blockers for current runtime CSS.
+MVP slice sequence (B26–B37) is **closed**. Remaining items are enhancements or Production Candidate promotion — not blockers for current runtime CSS.
 
 | Priority | Item | Owner slice (proposed) | Notes |
 | -------- | ---- | ---------------------- | ----- |
@@ -296,16 +299,16 @@ MVP slice sequence (B26–B35) is **closed**. Remaining items are enhancements o
 | P5 | ~~R15 raw visual values in `afenda-appshell-studio.css`~~ | appshell slice | **Resolved** — `--auth-editorial-*` / `--app-shell-studio-*` custom property defs exempt; 0 R15 warnings at last `check:css-governance` run |
 | P6 | ~~Define missing `--app-shell-content-padding-inline`~~ | B36 risk mitigation | **Delivered** — defined on `.app-shell-root`; 605-token registry |
 | P7 | ~~Domain-sync drift gate + R28–R30 consumption rules~~ | B36 risk mitigation | **Delivered** — `check:css-authority-domain-sync`; R28–R30 wired |
-| Deferred | Delete `@afenda/design-system` | [PAS-005B](CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) B44–B47 | ADR-0025 Proposed; B43 doctrine delivered; deletion blocked until readiness gate |
+| Deferred | Delete `@afenda/design-system` | [PAS-005B](PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) B44–B47 | ADR-0025 Proposed; B43 doctrine delivered; deletion blocked until readiness gate |
 | Out of scope (v1) | Governed UI variant/recipe/state registries | `@afenda/design-system` | Intentionally retained per §8 |
-| P8 | shadcn/studio presentation product (standalone) | [PAS-005A](CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) B38–B42 | Derived PAS — theme presets, MCP seed, lab verification; Afenda bridge deferred to B42 |
+| P8 | shadcn/studio presentation product | [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) B38–B42p | **Delivered** — theme presets, MCP seed, lab verification, Afenda integration + strangler complete |
 
-**Next sequence item:** none for PAS-005 MVP — continuation work lives under [PAS-005A](CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) (B38 scaffold next).
+**Next sequence item:** none for PAS-005 MVP — optional enhancements only; presentation closed under [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) (B42p).
 
 ---
 
 # 15. References
 
-- [css-authority.md](../architecture/css-authority.md) — operational derived view
-- [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) — studio promotion pipeline
-- [PAS-004](ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) — registry-first governance pattern reference
+- [css-authority.md](../../architecture/css-authority.md) — operational derived view
+- [ADR-0017](../../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) — studio promotion pipeline
+- [PAS-004](../ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) — registry-first governance pattern reference

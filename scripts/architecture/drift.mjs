@@ -8,7 +8,7 @@ import {
 
 const snapshotPath = join(
   workspaceRoot,
-  "docs/architecture/dependency-snapshot.json"
+  "packages/architecture-authority/dependency-snapshot.json"
 );
 
 if (existsSync(snapshotPath)) {
@@ -27,7 +27,7 @@ if (existsSync(snapshotPath)) {
       "architecture drift detected: runtime dependency graph changed"
     );
     console.error(
-      "update docs/architecture/dependency-registry.md and run pnpm architecture:dependencies"
+      "update packages/architecture-authority registry data and run pnpm architecture:dependencies"
     );
     process.exitCode = 1;
   }

@@ -7,8 +7,8 @@
 | **Architectural identity** | **Blueprint Box name** (§4) — permanent |
 | **Workspace mapping** | [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) — `@afenda/*` npm name |
 | **Scope** | Platform Architecture Authority — registry-first package, layer, ownership, dependency, and disposition truth |
-| **Parent** | [Platform North Star](../architecture/afenda-platform-north-star.md) · [Platform Architecture Authority North Star](../NORTHSTAR/architecture-authority-north-star.md) |
-| **Platform rollup** | [Afenda Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) § Governance family |
+| **Parent** | [Platform North Star](../PAS/afenda-platform-north-star.md) · [Platform Architecture Authority North Star](../NORTHSTAR/architecture-authority-north-star.md) |
+| **Platform rollup** | [Afenda Architecture Blueprint](../BLUEPRINT/kernel-blueprint.md) § Governance family |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) · [ADR-0004](../adr/ADR-0004-ownership-governance.md) · [ADR-0014](../adr/ADR-0014-foundation-disposition-registry.md) · [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) |
 | **Derived documents** | [ARCHITECTURE-AUTHORITY PAS family](../PAS/ARCHITECTURE-AUTHORITY/README.md) · `@afenda/architecture-authority` package tree |
 | **Maturity** | Enterprise |
@@ -29,7 +29,7 @@
 
 # 0. Agent Quick Path
 
-**Read order:** [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) → [Platform NS](../architecture/afenda-platform-north-star.md) → [Domain NS §1–§12](../NORTHSTAR/architecture-authority-north-star.md) → **this document** → [ARCHITECTURE-AUTHORITY README](../PAS/ARCHITECTURE-AUTHORITY/README.md) → [PAS-002](../PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) → [PAS-002A](../PAS/ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) → [Slice SSOT](../PAS/ARCHITECTURE-AUTHORITY/SLICE/README.md) → Code.
+**Read order:** [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) → [Platform NS](../PAS/afenda-platform-north-star.md) → [Domain NS §1–§12](../NORTHSTAR/architecture-authority-north-star.md) → **this document** → [ARCHITECTURE-AUTHORITY README](../PAS/ARCHITECTURE-AUTHORITY/README.md) → [PAS-002](../PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) → [PAS-002A](../PAS/ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) → [Slice SSOT](../PAS/ARCHITECTURE-AUTHORITY/SLICE/README.md) → Code.
 
 **This document answers:**
 
@@ -149,7 +149,7 @@ Aligned with [Domain NS §3.3](../NORTHSTAR/architecture-authority-north-star.md
 | **Runtime-ERP** | **None at ERP request time** — `contracts-only` stance permanent (Domain NS P8 · I10) |
 | **Metadata-only** | Disposition rows reference PAS paths, evidence files, gate names — no behavioral coupling |
 | **Agent-skill** | Agent orchestration reads governance docs, registries, slice handoffs — not product runtime |
-| **Documentation-derived** | `docs/architecture/*.md` derived views — never authoritative over registry SSOT |
+| **Documentation-derived** | `docs/PAS/*.md` derived views — never authoritative over registry SSOT |
 | **Configuration** | Layer and dependency matrices are static registry data — not tenant flags |
 | **Knowledge** | Lists `@afenda/enterprise-knowledge` in package registry — does not store atoms |
 
@@ -179,7 +179,7 @@ packages/architecture-authority/
 | --- | --- | --- |
 | **AI governance** | Depends on architecture authority for package rules; separate PAS when authored | Compile-time consumer · Platform sibling |
 
-Rollup: [Platform Blueprint — Governance family](../architecture/afenda-architecture-blueprint.md).
+Rollup: [Platform Blueprint — Governance family](../BLUEPRINT/kernel-blueprint.md).
 
 ---
 
@@ -231,7 +231,7 @@ Architecture authority
         ├──► @afenda/ai-governance (compile-time dependency)
         ├──► All registered @afenda/* packages (registry membership)
         ├──► scripts/quality/** · scripts/governance/** (gate runners)
-        ├──► docs/architecture/*.md (derived human views — not SSOT)
+        ├──► docs/PAS/*.md (derived human views — not SSOT)
         └──► Agent skills (architecture-authority · foundation-registry-owner)
 ```
 
@@ -368,7 +368,7 @@ PAS-002 §4.1–§4.12 (contract types + stability)
         ↓
 packages/architecture-authority/src/data/*.ts (machine SSOT)
         ↓
-docs/architecture/*.md (derived human views — package-registry.md · layer-registry.md · …)
+docs/PAS/*.md (derived human views — package-registry.md · layer-registry.md · …)
         ↓
 pnpm architecture:drift · pnpm check:documentation-drift
 ```
@@ -425,7 +425,7 @@ PAS-002 and PAS-002A **satisfy** all conditions:
 | --- | --- | --- | --- |
 | — | — | None in this domain scope | — |
 
-Accounting runtime and other LoB boxes are **out of scope** — see [Platform Blueprint](../architecture/afenda-architecture-blueprint.md).
+Accounting runtime and other LoB boxes are **out of scope** — see [Platform Blueprint](../BLUEPRINT/kernel-blueprint.md).
 
 ---
 
@@ -550,7 +550,7 @@ Sync §10 · pas-status-index · PKGR02 evidence · documentation-drift
 | Document | Role |
 | --- | --- |
 | Domain North Star | [`architecture-authority-north-star.md`](../NORTHSTAR/architecture-authority-north-star.md) |
-| Platform Blueprint | [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md) |
+| Platform Blueprint | [`afenda-architecture-blueprint.md`](../BLUEPRINT/kernel-blueprint.md) |
 | PAS-002 | [`ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md`](../PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) |
 | PAS-002A | [`ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md`](../PAS/ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) |
 | PAS family README | [`ARCHITECTURE-AUTHORITY/README.md`](../PAS/ARCHITECTURE-AUTHORITY/README.md) |

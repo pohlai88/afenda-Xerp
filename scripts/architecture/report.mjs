@@ -11,7 +11,7 @@ const workspaces = await getDiscoveredWorkspaces(authority);
 const report = authority.buildArchitectureReport(workspaces);
 const outputPath = join(
   workspaceRoot,
-  "docs/architecture/architecture-report.json"
+  "packages/architecture-authority/architecture-report.json"
 );
 
 mkdirSync(dirname(outputPath), { recursive: true });

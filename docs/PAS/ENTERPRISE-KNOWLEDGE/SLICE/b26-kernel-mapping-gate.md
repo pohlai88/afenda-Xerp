@@ -25,7 +25,7 @@ Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b26-kernel-mapping-gate.md
 
 1. Objective    — Add kernel mapping policy + B26 governance gate; validate accepting authority refs in registry conformance.
 2. Allowed layer— packages/enterprise-knowledge/** · scripts/governance/check-knowledge-kernel-mapping.mts
-                  · package.json (script only) · docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b26-kernel-mapping-gate.md · docs/PAS/PAS-004A-*.md (status)
+                  · package.json (script only) · docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b26-kernel-mapping-gate.md · docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-*.md (status)
 3. Files        —
    packages/enterprise-knowledge/src/data/accepting-authority.registry.ts          (resolveAcceptingAuthorityRef + legacy aliases)
    packages/enterprise-knowledge/src/policy/knowledge-kernel-mapping.policy.ts    (NEW)

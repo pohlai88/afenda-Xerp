@@ -1,6 +1,6 @@
 /**
  * Canonical Do's and Prohibitions registry — aligned with
- * `docs/architecture/multi-tenancy.md` (lines 447–480).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (lines 447–480).
  *
  * Glossary vocabulary authority: `multi-tenancy-glossary-first-registry.mts` (Step 1 §484–500).
  * Runtime scans live in `lib/multi-tenancy-dos-prohibitions-enforcement.mts`.

@@ -12,8 +12,8 @@ paths:
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | B0 skeleton + PAS published; versioned standard registries not started |
-| **Remaining slices** | B1 — accounting standard family registry (next) |
+| **Runtime status** | B0–B11 + B13–B16 delivered — registries, IFRS pack, `validatePostingAgainstAccountingStandards` |
+| **Remaining slices** | B12 — enterprise acceptance sync (governance; consumer workflow proof pending) |
 
 > Canonical: [`docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md`](../../../docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) · Slices: [`ACCOUNTING-STANDARDS/SLICE/`](../../../docs/PAS/ACCOUNTING-STANDARDS/SLICE/README.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
@@ -116,7 +116,7 @@ Before editing any accounting-standards file, state these six lines:
                      pnpm quality:boundaries
 ```
 
-If a slice handoff exists, paste the 9-field block from `docs/PAS/CSS-AUTHORITY/SLICE/<file>.md` into Phase 0 first.
+If a slice handoff exists, paste the 9-field block from `docs/PAS/ACCOUNTING-STANDARDS/SLICE/<file>.md` into Phase 0 first.
 
 ---
 
@@ -131,7 +131,7 @@ If a slice handoff exists, paste the 9-field block from `docs/PAS/CSS-AUTHORITY/
 
 **Maturity:** Production Candidate — not Enterprise Accepted until consumer workflow proof (PAS-003 §11.6).
 
-**Slice gate:** B0 skeleton delivered. Next: B1 standard family registry.
+**Slice gate:** B1–B11 + B13–B16 delivered. Next: B12 enterprise acceptance sync (do not claim Enterprise Accepted without consumer proof).
 
 ---
 

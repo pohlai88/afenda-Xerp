@@ -101,6 +101,6 @@ If ref-as-prop migration causes regressions:
 
 ## References
 
-- Policy: [TIP-004 governed UI](../governance/tip-004-policy.md) · [ui-guard gates](../governance/ui-guard.md)
+- Policy: [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc) · [`scripts/governance/ui-guard.mjs`](../../scripts/governance/ui-guard.mjs)
 - Skill: `.cursor/skills/govern-primitive/SKILL.md`
 - React catalog: `pnpm-workspace.yaml` → `react: ^19.1.0`

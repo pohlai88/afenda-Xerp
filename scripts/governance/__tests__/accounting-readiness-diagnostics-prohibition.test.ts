@@ -24,10 +24,7 @@ describe("accounting readiness diagnostics — ADR-0010 prohibition", () => {
   it("does not create the deprecated Architecture Authority sign-off path", () => {
     expect(
       existsSync(
-        join(
-          repoRoot,
-          "docs/architecture/phase-9-architecture-authority-sign-off.md"
-        )
+        join(repoRoot, "docs/PAS/phase-9-architecture-authority-sign-off.md")
       )
     ).toBe(false);
   });
@@ -37,7 +34,7 @@ describe("accounting readiness diagnostics — ADR-0010 prohibition", () => {
       existsSync(
         join(
           repoRoot,
-          "docs/architecture/phase-9-accounting-readiness-sign-off.md"
+          "docs/adr/ADR-0010-no-accounting-before-foundation-gate.md"
         )
       )
     ).toBe(true);

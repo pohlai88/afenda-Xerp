@@ -1,6 +1,6 @@
 # Domain North Star Index
 
-Canonical **domain-scoped** North Star documents reverse-engineered from accepted PAS families. These sit between the [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md), the [Platform North Star](../architecture/afenda-platform-north-star.md), and the [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md).
+Canonical **domain-scoped** North Star documents reverse-engineered from accepted PAS families. These sit between the [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md), the [Platform North Star](../architecture/afenda-platform-north-star.md), and the [Platform Architecture Blueprint](../architecture/afenda-architecture-blueprint.md).
 
 ## Platform domain North Stars
 

@@ -210,5 +210,5 @@ pnpm check:css-governance                    # if focus ring CSS / token changes
 - B42k contract: `packages/shadcn-studio/src/__tests__/statistics-metric-a11y.contract.test.tsx`
 - Delegating policy: `packages/appshell/src/presentation/wrappers/presentation-mcp-delegating-flip-policy.registry.ts`
 - Storybook a11y config: `apps/storybook/.storybook/preview.tsx`
-- Governed UI policy: `docs/governance/governed-ui-policy.md`
-- TIP-004 consumption: `docs/governance/tip-004-policy.md`
+- Governed UI policy: `.cursor/rules/governed-ui-consumption.mdc`
+- UI consumption: `.cursor/rules/governed-ui-consumption.mdc` · `pnpm ui:guard`

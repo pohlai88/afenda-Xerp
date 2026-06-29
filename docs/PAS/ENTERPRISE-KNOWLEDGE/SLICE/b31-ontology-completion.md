@@ -14,7 +14,7 @@
 Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b31-ontology-completion.md
 
 1. Objective    — Expand typed JSON corpus from 16 to 24 atoms (PAS-004A §12 Production Candidate target); add B31 kernel-aligned context atoms with valid implementationMapping.
-2. Allowed layer— packages/enterprise-knowledge/** · scripts/governance/migrate-b31-atoms.mjs · docs/PAS/** · docs/architecture/glossary.md (manifest optional subset)
+2. Allowed layer— packages/enterprise-knowledge/** · scripts/governance/migrate-b31-atoms.mjs · docs/PAS/** · docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md (manifest optional subset)
 3. Files        —
    packages/enterprise-knowledge/src/data/atoms.json
    packages/enterprise-knowledge/src/data/knowledge.registry.ts

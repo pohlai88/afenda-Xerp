@@ -25,10 +25,14 @@ export const CROSS_PACKAGE_NAMES = [
 
 export type CrossPackageName = (typeof CROSS_PACKAGE_NAMES)[number];
 
-/** PAS-004B B34 — metadata may import accepted meaning from enterprise-knowledge only. */
+/** PAS-004B B34 — metadata may import accepted meaning from enterprise-knowledge. */
+/** PAS-003 — accounting-standards for validation vocabulary and cited explanations. */
+/** PAS-005 — css-authority for runtime tokens; @afenda/ui/design-authority for governed UI recipes (internal ui subpath). */
 export type CrossPackageImportSource =
   | CrossPackageName
-  | "@afenda/enterprise-knowledge";
+  | "@afenda/accounting-standards"
+  | "@afenda/enterprise-knowledge"
+  | "@afenda/ui/design-authority";
 
 export const CROSS_PACKAGE_RESPONSIBILITIES = [
   "accessibility",
@@ -204,7 +208,10 @@ export const crossPackageAuthority = {
       ],
 
       importPolicy: {
-        mayImportFrom: ["@afenda/enterprise-knowledge"],
+        mayImportFrom: [
+          "@afenda/accounting-standards",
+          "@afenda/enterprise-knowledge",
+        ],
         mayNotImportFrom: [
           "@afenda/metadata-ui",
           "@afenda/appshell",

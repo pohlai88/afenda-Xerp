@@ -1,8 +1,8 @@
 /**
  * Canonical enterprise authority hierarchy — do not collapse tiers into a generic organization.
  *
- * @see docs/architecture/multi-tenancy.md — Enterprise group hierarchy
- * @see docs/architecture/glossary.md
+ * @see docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md — Enterprise group hierarchy
+ * @see docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md
  */
 
 export const ENTERPRISE_HIERARCHY_TIERS = [

@@ -1,5 +1,5 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
@@ -14,6 +14,7 @@ import {
   KNOWLEDGE_RELATIONSHIPS,
   validateKnowledgeRegistry,
 } from "../index.js";
+import { getPrimaryKernelRealization } from "../policy/knowledge-realization.policy.js";
 
 const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
 
@@ -69,9 +70,29 @@ describe("@afenda/enterprise-knowledge registry", () => {
   it("documents workspace and surface as derived without overstating lifecycle", () => {
     const workspace = getKnowledgeAtom("workspace");
     const surface = getKnowledgeAtom("surface");
+    const atomsJson = JSON.parse(
+      readFileSync(
+        join(dirname(fileURLToPath(import.meta.url)), "../data/atoms.json"),
+        "utf8"
+      )
+    ) as {
+      atomId: string;
+      implementationMapping?: { persistenceClass?: string };
+    }[];
 
-    expect(workspace.implementationMapping?.persistenceClass).toBe("derived");
-    expect(surface.implementationMapping?.persistenceClass).toBe("derived");
+    const workspaceJson = atomsJson.find(
+      (entry) => entry.atomId === "workspace"
+    );
+    const surfaceJson = atomsJson.find((entry) => entry.atomId === "surface");
+
+    expect(workspaceJson?.implementationMapping?.persistenceClass).toBe(
+      "derived"
+    );
+    expect(surfaceJson?.implementationMapping?.persistenceClass).toBe(
+      "derived"
+    );
+    expect(getPrimaryKernelRealization(workspace)).toBeDefined();
+    expect(getPrimaryKernelRealization(surface)).toBeDefined();
     expect(isRatifiedOrLaterLifecycle(workspace.lifecycle)).toBe(true);
   });
 

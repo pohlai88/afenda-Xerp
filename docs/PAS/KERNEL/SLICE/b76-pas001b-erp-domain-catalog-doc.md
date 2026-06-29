@@ -22,7 +22,7 @@ Author composed PAS-001B at catalog_authority maturity and sync authority chain 
 Handoff from: docs/PAS/KERNEL/SLICE/b76-pas001b-erp-domain-catalog-doc.md
 
 1. Objective    — Publish ERP Wire Vocabulary Catalog PAS + authority chain sync.
-2. Allowed layer— docs/PAS/KERNEL/** · docs/architecture/** · packages/kernel/PAS-001-KERNEL-TREE.md · .cursor/skills/kernel-authority/**
+2. Allowed layer— docs/PAS/KERNEL/** · docs/PAS/** · packages/kernel/PAS-001-KERNEL-TREE.md · .cursor/skills/kernel-authority/**
 3. Files        —
    docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md
    docs/PAS/KERNEL/README.md
@@ -36,7 +36,7 @@ Handoff from: docs/PAS/KERNEL/SLICE/b76-pas001b-erp-domain-catalog-doc.md
 8. Evidence     —
    docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md
    docs/PAS/pas-status-index.md
-   docs/architecture/afenda-runtime-truth-matrix.md
+   docs/PAS/pas-status-index.md
 9. Attestation  — Documentation · Governance
 ```
 
@@ -59,7 +59,7 @@ Handoff from: docs/PAS/KERNEL/SLICE/b76-pas001b-erp-domain-catalog-doc.md
 | --- | --- |
 | 1 | docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md |
 | 2 | docs/PAS/pas-status-index.md |
-| 3 | docs/architecture/afenda-runtime-truth-matrix.md |
+| 3 | docs/PAS/pas-status-index.md |
 
 ## Runtime evidence
 

@@ -122,6 +122,28 @@ export const KNOWLEDGE_LIFECYCLE_STATUSES = [
 export type KnowledgeLifecycleStatus =
   (typeof KNOWLEDGE_LIFECYCLE_STATUSES)[number];
 
+/** PAS-004D — Domain NS §3.3 epistemic status (truth binding, orthogonal to lifecycle). */
+export const EPISTEMIC_STATUSES = [
+  "hypothesis",
+  "candidate",
+  "accepted",
+  "superseded",
+  "rejected",
+] as const;
+
+export type EpistemicStatus = (typeof EPISTEMIC_STATUSES)[number];
+
+/** PAS-004D — Domain NS §3.5 semantic stability (change likelihood for consumers). */
+export const SEMANTIC_STABILITY_LEVELS = [
+  "constitutional",
+  "stable",
+  "evolutionary",
+  "experimental",
+  "historical",
+] as const;
+
+export type SemanticStabilityLevel = (typeof SEMANTIC_STABILITY_LEVELS)[number];
+
 export const KNOWLEDGE_RELATIONSHIP_TYPES = [
   "contains",
   "owns",
@@ -257,6 +279,8 @@ export interface KnowledgeAtom {
   // PAS-004A §4.8 — effective time (optional; required on atoms where lifecycle governs temporal meaning)
   readonly effectiveFrom?: string; // ISO 8601
   readonly effectiveUntil?: string; // ISO 8601 — omit if still current
+  /** PAS-004D — Domain NS §3.3 truth binding (orthogonal to `lifecycle`). */
+  readonly epistemicStatus: EpistemicStatus;
   readonly exposure: KnowledgeExposure;
   readonly fqn: string;
   /** @deprecated B46 — prefer realizationMapping; preserved for backward compat until B46. */
@@ -272,6 +296,8 @@ export interface KnowledgeAtom {
   readonly ownedByPas: "PAS-004";
   /** PAS-004C §4.4 — broadened realization references (kernel, schema, SOP, UI, …). */
   readonly realizationMapping?: readonly KnowledgeRealizationMapping[];
+  /** PAS-004D — Domain NS §3.5 consumer change-expectation signal. */
+  readonly semanticStability: SemanticStabilityLevel;
   readonly structuredReasoning: KnowledgeReasoning;
   readonly supersededBy?: string; // atomId of the replacement
   readonly typedEvidence: readonly KnowledgeEvidence[];
@@ -292,7 +318,8 @@ export interface KnowledgeRelationship {
 
 export const ENTERPRISE_KNOWLEDGE_POLICY = {
   pasSection: "4.1",
-  charterDoc: "docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md",
+  charterDoc:
+    "docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md",
   constitutionalSentence:
     "Enterprise knowledge exists when meaning is accepted, reasoning is understood, evidence is trusted, relationships are preserved, decisions are explainable, and evolution is traceable.",
   firstPrinciple:

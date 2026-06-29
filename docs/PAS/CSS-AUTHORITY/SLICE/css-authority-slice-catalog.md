@@ -3,8 +3,8 @@
 | Field | Value |
 | --- | --- |
 | **SSOT directory** | `docs/PAS/CSS-AUTHORITY/SLICE/` |
-| **Individual handoffs** | 29 files (B27–B43) |
-| **Legacy** | `docs/PAS/slice/` removed — do not use |
+| **Individual handoffs** | 30 files (B27–B43) |
+| **Legacy** | `docs/PAS/slice/b*-pas005*` tombstoned — do not use |
 | **Last reviewed** | 2026-06-29 |
 
 > **Catalog only.** Open the linked `b*.md` file for the 9-field handoff.

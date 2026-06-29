@@ -1,15 +1,15 @@
 # `@afenda/ui`
 
 **Architecture layer:** UI implementation  
-**Authority:** Consumes `@afenda/design-system` — does not own visual tokens  
+**Authority:** Consumes `@afenda/css-authority` for CSS tokens — variant/recipe governance lives in-package  
 **Lifecycle:** Active
 
 ## What this package is
 
 `@afenda/ui` is the **React primitive implementation layer** for Afenda. It renders governed shadcn/Radix primitives using:
 
-- Design-system **recipes** and **variant contracts**
-- **`--afenda-*` CSS variables** from `@afenda/design-system`
+- In-package **recipes** and **variant contracts** (Governed UI)
+- **`--afenda-*` CSS variables** from `@afenda/css-authority`
 - **Foundation phase 04 class-name policy** (layout-only consumer `className`)
 - **`resolvePrimitiveGovernance()`** as the single class authority
 
@@ -21,31 +21,30 @@ This package does **not** define raw colors, spacing scales, typography, radius,
 **Property namespace:** `--afenda-*` values are read via `var()` only — not defined here.
 **Cascade layer:** `components` (Tailwind v4 native).
 
-Full authority model and decision tree: [docs/architecture/css-authority.md](../../docs/architecture/css-authority.md).
+Full authority model and decision tree: [docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md](../../docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md).
 Manifest: `src/styles/css-manifest.ts`. Governance: `pnpm check:css-governance`.
 
 ### CSS entrypoint
 
-`@afenda/ui` owns exactly **one** CSS file. It composes the design-system token
-shim, the CSS Authority runtime bundle, and primitive structural hooks:
+`@afenda/ui` owns exactly **one** CSS file. It composes css-authority tokens,
+the runtime bridge bundle, and primitive structural hooks:
 
 | Import | Use when |
 | --- | --- |
 | `@afenda/ui/afenda-ui.css` | Tailwind v4 apps — the single, recommended UI entry |
-| `@afenda/design-system/css/afenda-tokens.css` | Token-only surfaces (no `@afenda/ui` primitive hooks) |
-| `@afenda/design-system/css/afenda-design-system.css` | **Deprecated** B30 shim — prefer `afenda-ui.css` |
+| `@afenda/css-authority/css/afenda-tokens.css` | Token-only surfaces (no `@afenda/ui` primitive hooks) |
+| `@afenda/css-authority/css/afenda-css-authority.css` | Runtime bridge + shadcn `@theme` (no primitive hooks) |
 
 ```css
 @import "@afenda/ui/afenda-ui.css";
 ```
 
-`afenda-ui.css` `@import`s `@afenda/design-system/css/afenda-tokens.css` and
-`@afenda/css-authority/css/afenda-css-authority.css` — do not import the
-deprecated `afenda-design-system.css` monolith shim in new code.
+`afenda-ui.css` `@import`s `@afenda/css-authority/css/afenda-tokens.css` and
+`@afenda/css-authority/css/afenda-css-authority.css`.
 
 ## Authority surface recipes (pre-wiring)
 
-`app-shell` and `metadata-ui` recipes from `@afenda/design-system` are now resolved at runtime via `@afenda/ui/governance`:
+`app-shell` and `metadata-ui` recipes are resolved at runtime via `@afenda/ui/governance`:
 
 ```typescript
 import {
@@ -86,7 +85,7 @@ import { mapStockButtonProps, densityToAttribute } from "@afenda/ui/governance";
 ## Commands
 
 ```bash
-pnpm --filter @afenda/design-system build   # generates token CSS first
+pnpm --filter @afenda/css-authority build   # generates token CSS first
 pnpm --filter @afenda/ui typecheck
 pnpm --filter @afenda/ui test:run
 pnpm --filter @afenda/ui check:governance

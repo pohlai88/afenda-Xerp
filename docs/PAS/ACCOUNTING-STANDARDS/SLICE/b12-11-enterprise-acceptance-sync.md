@@ -8,9 +8,9 @@
 
 **Type:** Governance
 
-**Risk class:** Medium
+**Risk class:** Low
 
-**Clean Core impact:** A→A — contracts-only package
+**Clean Core impact:** Documentation sync only
 
 ## Purpose
 
@@ -20,15 +20,15 @@ Sync PAS-003 enterprise acceptance evidence: skill, pas-status-index, blueprint 
 
 ## Handoff block
 
-`
+```
 Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b12-11-enterprise-acceptance-sync.md
 
 1. Objective    — Sync PAS-003 enterprise acceptance evidence: skill, pas-status-index, blueprint §10, consumer proof checklist.
 2. Allowed layer— packages/accounting-standards/** · docs/PAS/ACCOUNTING-STANDARDS/** (governance slices only)
 3. Files        —
    docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md
-      docs/PAS/pas-status-index.md
-      .cursor/skills/accounting-standards-authority/SKILL.md
+   docs/PAS/pas-status-index.md
+   .cursor/skills/accounting-standards-authority/SKILL.md
 4. Prohibited   — fake enterprise accepted label without consumer proof
 5. Authority    — PAS-003 §11 · doc-boundary-contract
 6. Gates        —
@@ -42,7 +42,7 @@ Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b12-11-enterprise-acceptance-s
 8. Evidence     —
    (after delivery) updated maturity block + consumer proof paths
 9. Attestation  — Documentation · Governance
-`
+```
 
 ## DoD
 
@@ -51,3 +51,5 @@ Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b12-11-enterprise-acceptance-s
 | 1 | Slice handoff + PAS §12 sync | file read | PAS-003 §11 |
 | 2 | Implementation matches PAS §4 contract | typecheck + test:run | PAS-003 authority surface |
 | 3 | No prohibited surfaces introduced | quality:boundaries | PAS-003 §5 |
+
+

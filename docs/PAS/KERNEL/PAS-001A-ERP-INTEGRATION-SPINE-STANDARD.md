@@ -1,6 +1,6 @@
 # PAS-001A — ERP Integration Spine Standard
 
-> **Composed governance layer** — proves production ERP **consumes** kernel vocabulary through one resolver spine. Renamed from legacy "Kernel ERP Production Integration" to **ERP Integration Spine** per [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md). Legacy archive: [KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md).
+> **Composed governance layer** — proves production ERP **consumes** kernel vocabulary through one resolver spine. Renamed from legacy "Kernel ERP Production Integration" to **ERP Integration Spine** per [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md). Legacy archive: [archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md).
 
 | Field | Value |
 | --- | --- |
@@ -24,7 +24,7 @@
 | **Remaining slices** | none |
 | **Integration consumers** | `apps/erp`, `@afenda/permissions`, `@afenda/appshell`, `@afenda/metadata-ui`, `@afenda/ui-composition` |
 | **Upstream** | [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §5.1 · Kernel NS §4 runtime integration proof |
-| **Legacy archive** | [KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
+| **Legacy archive** | [archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
 | **ADR prerequisites** | ADR-0011 · ADR-0014 · ADR-0021–0023 (read-only branding paths) |
 | **Last reviewed** | 2026-06-29 |
 
@@ -349,11 +349,11 @@ If PAS-001A work requires new kernel words → stop and amend PAS-001 explicitly
 | Artifact | Path |
 | --- | --- |
 | Parent PAS (composed) | [PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md](PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) |
-| Legacy archive | [KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
+| Legacy archive | [archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
 | Kernel Blueprint §5.1 | [kernel-blueprint.md](../../BLUEPRINT/kernel-blueprint.md) |
 | Context registry | `packages/kernel/src/context/context-registry.ts` |
 | ERP resolver | `apps/erp/src/lib/context/resolve-operating-context.server.ts` |
-| Multi-tenancy Step 8 | [multi-tenancy.md](../../architecture/multi-tenancy.md) |
+| Multi-tenancy Step 8 | [multi-tenancy.md](../../PAS/KERNEL/multi-tenancy-delivery-evidence.md) |
 | Family index | [KERNEL/README.md](README.md) |
 | Future platform pattern | Platform Integration Standard *(proposed — ERP is first implementation)* |
 

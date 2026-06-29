@@ -39,7 +39,7 @@ export const ACCOUNTING_READINESS_GATE_REFRESH_FAILURE_MESSAGE =
   "Unable to run the full delegated gate check. Retry or run pnpm check:accounting-readiness-gate in CI.";
 
 export const ACCOUNTING_READINESS_GATE_FOOTNOTE_LABEL =
-  "Phase 9 signed off 2026-06-24 — see docs/architecture/phase-9-accounting-readiness-sign-off.md. Foundation phase 14 contracts only; no ledger posting without separate ADR acceptance.";
+  "Phase 9 signed off 2026-06-24 — see docs/adr/ADR-0010-no-accounting-before-foundation-gate.md. Foundation phase 14 contracts only; no ledger posting without separate ADR acceptance.";
 
 export type AccountingReadinessGateRequirementId =
   | "multi-company-model"

@@ -59,11 +59,11 @@ Use the documentation-drift subagent to sync runtime evidence, pas-status-index,
 
 Read in this order every session:
 
-1. [`docs/architecture/foundation-delivery-authority.md`](../../docs/architecture/foundation-delivery-authority.md) — PAS authority hierarchy (2026-06-27)
-2. [`docs/architecture/afenda-runtime-truth-matrix.md`](../../docs/architecture/afenda-runtime-truth-matrix.md) — runtime evidence (ADR-0009, ADR-0012)
+1. [`docs/PAS/README.md`](../../docs/PAS/README.md) — PAS authority hierarchy (2026-06-27)
+2. [`docs/PAS/pas-status-index.md`](../../docs/PAS/pas-status-index.md) — runtime evidence (ADR-0009, ADR-0012)
 3. [`docs/PAS/pas-status-index.md`](../../docs/PAS/pas-status-index.md) — canonical slice closure registry
 4. [`docs/PAS/README.md`](../../docs/PAS/README.md) — parent PAS standards index
-5. [`docs/architecture/_afenda-erp-master-plan.llms.md`](../../docs/architecture/_afenda-erp-master-plan.llms.md) — v5+ only; v4 Section 3 is historical
+5. [`docs/PAS/_afenda-erp-master-plan.llms.md`](../../docs/PAS/_afenda-erp-master-plan.llms.md) — v5+ only; v4 Section 3 is historical
 6. Relevant ADRs in [`docs/adr/`](../../docs/adr/) — especially ADR-0009–0014
 
 If a slice handoff status conflicts with the runtime matrix or `pas-status-index`, **the index and matrix win**.
@@ -77,7 +77,7 @@ If a slice handoff status conflicts with the runtime matrix or `pas-status-index
 | Edit `docs/**`, `AGENTS.md` doc sections, `.cursor/agents/` | Runtime business code (`apps/erp/src/**`, packages except doc-adjacent governance) |
 | Update `scripts/governance/documentation-drift-registry.mts` stale markers | New package authority, accounting core, ledger/journal schemas |
 | Bump fingerprint in `packages/architecture-authority/src/contracts/architecture-authority-version.ts` **only when architecture baseline actually changed** | Hand-edit DB migrations |
-| Sync `docs/architecture/dependency-snapshot.json` fingerprint with constant | Duplicate registries, local status files, parallel roadmaps |
+| Sync `packages/architecture-authority/dependency-snapshot.json` fingerprint with constant | Duplicate registries, local status files, parallel roadmaps |
 | Mark legacy docs **Superseded** with cross-links | Delete historical evidence without retention pointer |
 
 **Accounting Core (`PKGR01_ACCOUNTING`) is blocked until Phase 9 gate (ADR-0010).** Do not add accounting implementation docs that imply readiness.
@@ -132,7 +132,7 @@ For each status change, cite **runtime proof**:
 | CI gates | `package.json` quality scripts, passing tests |
 | Missing work | Absence of expected files, failing gates, explicit "Remaining gap" in matrix |
 
-Update [`afenda-runtime-truth-matrix.md`](../../docs/architecture/afenda-runtime-truth-matrix.md) when runtime proof changes — **before** downstream slice handoffs.
+Update [`afenda-runtime-truth-matrix.md`](../../docs/PAS/pas-status-index.md) when runtime proof changes — **before** downstream slice handoffs.
 
 ### Phase 3 — Sync authority chain (edit order)
 
@@ -145,7 +145,7 @@ Edit in dependency order:
 5. **pre-accounting-foundation-roadmap.md** — phase narrative only if gates changed (historical phase labels OK with banner)
 6. **Master plan v5** — high-level summary; link to matrix/index, never duplicate stale audits
 7. **ADR acceptance gates** — check off completed items only with evidence
-8. **Drift audit report** — [`afenda-documentation-drift-audit.md`](../../docs/architecture/afenda-documentation-drift-audit.md) checklist
+8. **Drift audit report** — [`afenda-documentation-drift-audit.md`](../../docs/PAS/pas-status-index.md) checklist
 9. **Registry** — add new stale markers to `documentation-drift-registry.mts` if new forbidden patterns emerge
 
 ### Phase 4 — Stale / legacy handling
@@ -167,7 +167,7 @@ Canonical fingerprint: `packages/architecture-authority/src/contracts/architectu
 When baseline closeout requires a bump:
 
 1. Update `ARCHITECTURE_BASELINE_FINGERPRINT` constant
-2. Sync `docs/architecture/dependency-snapshot.json`
+2. Sync `packages/architecture-authority/dependency-snapshot.json`
 3. Sync fingerprint-required docs listed in `documentation-drift-registry.mts`
 4. Run `pnpm quality:architecture-authority-surface`
 
@@ -297,6 +297,6 @@ End every session with this handoff block:
 - Skill: `.cursor/skills/afenda-coding-session/SKILL.md` — execution contract for any repo work
 - Skill: `documentation-audit` — full audit process when drift is widespread
 - Agent entry: [`AGENTS.md`](../../AGENTS.md) § Documentation authority
-- Policy: ADR-0012 (evidence-backed), [`foundation-delivery-authority.md`](../../docs/architecture/foundation-delivery-authority.md) (PAS)
+- Policy: ADR-0012 (evidence-backed), [`foundation-delivery-authority.md`](../../docs/PAS/README.md) (PAS)
 
 When documentation drift is detected during feature work — status conflicts, stale delivery markers, or failing `pnpm check:documentation-drift` — invoke this agent **before** planning or coding from docs. For ordinary prose or README edits, use the main agent instead.

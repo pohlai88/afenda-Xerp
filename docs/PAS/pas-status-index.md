@@ -2,7 +2,7 @@
 
 Lightweight closure registry for Package Authority Standards. Runtime evidence lives in [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md).
 
-**Kernel slice SSOT:** [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) — individual `b*.md` handoffs (B49–B106). **Architecture Authority slice SSOT:** [`ARCHITECTURE-AUTHORITY/SLICE/`](ARCHITECTURE-AUTHORITY/SLICE/README.md) — B1–B27 · B38–B42 handoffs. **CSS Authority slice SSOT:** [`CSS-AUTHORITY/SLICE/`](CSS-AUTHORITY/SLICE/README.md) — B27–B43 handoffs. Legacy flat `docs/PAS/slice/` removed for kernel and architecture-authority families; closure records for PAS-002–005 families live in this index and family catalogs.
+**Kernel slice SSOT:** [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) — individual `b*.md` handoffs (B49–B109). **Architecture Authority slice SSOT:** [`ARCHITECTURE-AUTHORITY/SLICE/`](ARCHITECTURE-AUTHORITY/SLICE/README.md) — B1–B27 · B38–B45 handoffs. **Accounting Standards slice SSOT:** [`ACCOUNTING-STANDARDS/SLICE/`](ACCOUNTING-STANDARDS/SLICE/README.md) — B0–B16 handoffs. **CSS Authority slice SSOT:** [`CSS-AUTHORITY/SLICE/`](CSS-AUTHORITY/SLICE/README.md) — B27–B43 handoffs. Legacy flat `docs/PAS/slice/` **tombstoned** for composed families (KERNEL, ARCHITECTURE-AUTHORITY, ACCOUNTING-STANDARDS, CSS-AUTHORITY); closure records live in this index and family catalogs.
 
 **Header sync rule:** Every PAS doc and authority skill must mirror **Runtime status** and **Remaining slices** in the PAS authority metadata table (see [`pas-doc-template.md`](../../.cursor/skills/kernel-authority/reference/pas-doc-template.md)). Update all three surfaces when closing a slice.
 
@@ -15,8 +15,8 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | Enterprise Accepted — kernel contracts, runtime gates operational |
 | **Authority** | PAS-001 · `@afenda/kernel` · Platform |
 | **Maturity** | `enterprise_accepted` · `implemented` · `runtime_proven` |
-| **Runtime status** | Enterprise Accepted — kernel contracts, §13 catalog + B49–B70 closure delivered, runtime gates operational |
-| **Remaining slices** | none — B70 Delivered ([`KERNEL/SLICE/b70-kernel-test-import-hygiene.md`](KERNEL/SLICE/b70-kernel-test-import-hygiene.md)) |
+| **Runtime status** | Enterprise Accepted — kernel contracts, B49–B70 closure + B107–B109 amendment delivered, runtime gates operational |
+| **Remaining slices** | none — B109 Delivered ([`KERNEL/SLICE/b109-effective-dating-consumer-attestation.md`](KERNEL/SLICE/b109-effective-dating-consumer-attestation.md)) |
 | **Runtime evidence** | `packages/kernel/`, [KERNEL/PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md), `kernel-package-layout.contract.ts`, `check:kernel-package-structure`, `check:kernel-context-wire-triad` |
 | **Gates** | `pnpm --filter @afenda/kernel typecheck`, `pnpm --filter @afenda/kernel test:run`, `pnpm quality:kernel-context-surface`, `pnpm check:kernel-context-wire-triad`, `pnpm check:kernel-identity-governance`, `pnpm check:kernel-zero-runtime-deps`, `pnpm check:accounting-domain-contracts`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries`, `pnpm architecture:cycles`, `pnpm architecture:drift` |
 | **Result** | Kernel platform vocabulary, execution context, identity constitution (ADR-0021–0023), and PAS §6.1 package-tree sync operational |
@@ -39,6 +39,9 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | B69 | [b69-kernel-context-wire-triad-gate.md](KERNEL/SLICE/b69-kernel-context-wire-triad-gate.md) | Delivered |
 | B70 | [b70-kernel-test-import-hygiene.md](KERNEL/SLICE/b70-kernel-test-import-hygiene.md) | Delivered |
 | B58–B66 | metadata authorization sequence | Delivered (legacy handoff tree removed; runtime evidence in matrix) |
+| B107 | [b107-tenant-saas-lifecycle-wire.md](KERNEL/SLICE/b107-tenant-saas-lifecycle-wire.md) | Delivered |
+| B108 | [b108-tenant-extension-boundary-wire.md](KERNEL/SLICE/b108-tenant-extension-boundary-wire.md) | Delivered |
+| B109 | [b109-effective-dating-consumer-attestation.md](KERNEL/SLICE/b109-effective-dating-consumer-attestation.md) | Delivered |
 
 ---
 
@@ -73,14 +76,14 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | --- | --- |
 | **Status** | Delivered — Catalog Authority (B76–B106 complete; full 28-module vocabulary scaffold-standardized; attested 2026-06-28) |
 | **Authority** | PAS-001B · derived from PAS-001 §4.8 · `packages/kernel/src/erp-domain/` |
-| **Maturity** | `catalog_authority` · `implemented` · `runtime` |
+| **Maturity** | `enterprise_accepted` · **`catalog_authority` role** — governs wire vocabulary map, not domain runtime |
 | **Runtime status** | 28-module catalog; all slugs delivered; unified + legacy domain gates operational; B106 re-scaffold for `accounting` + `inventory` |
 | **Remaining slices** | none — catalog vocabulary complete; metadata-ui permission bridge deferred to PAS-001A |
 | **Runtime evidence** | [KERNEL/PAS-001B](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md), `erp-domain/*`, `scaffold-foundation-erp-domain-modules.mts`, `check:erp-domain-delivered-vocabulary` |
 | **Gates** | `pnpm check:erp-domain-layout`, `pnpm check:erp-domain-delivered-vocabulary`, `pnpm --filter @afenda/kernel typecheck`, `pnpm check:foundation-disposition` |
 | **Result** | 28/28 vocabulary modules delivered; Rule 1–3 enforced |
 
-**Next sequence item:** PAS-001A metadata-ui permission registry bridge.
+**Next sequence item:** none — B74 metadata bridge delivered under [PAS-001A](#pas-001a-kernel-erp-consumer-integration--production-candidate); catalog vocabulary complete.
 
 | Slice | Doc | Status |
 | --- | --- | --- |
@@ -103,7 +106,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Maturity** | `mvp_authority` · `accepted_for_boundary` · `mvp_delivered` · `runtime` |
 | **Runtime status** | B26–B37 delivered — 605-token registry (465 afenda + 44 appshell + 50 auth-editorial + 46 shadcn); consumption R23–R30 + domain-sync + bridge + visual contract + docs pixel baselines pass |
 | **Remaining slices** | none — optional enhancements only |
-| **Runtime evidence** | `afenda-ui.css` → `afenda-tokens.css` + `afenda-css-authority.css`; B30 shim; thin JSON-backed registry; R23–R30 + domain-sync + bridge-sync + visual contract + docs pixel baselines |
+| **Runtime evidence** | `afenda-ui.css` → `afenda-tokens.css` + `afenda-css-authority.css`; B30 shim; 605-token JSON-backed registry; R23–R30 + domain-sync + bridge-sync + visual contract + docs pixel baselines |
 | **Gates** | `pnpm check:css-visual-regression`, `pnpm check:css-authority-bridge-sync`, `pnpm check:css-authority-domain-sync`, `pnpm check:css-governance`, `pnpm check:css-authority-consumption`, `pnpm check:css-authority-conformance`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries` |
 | **Result** | CSS Authority owns generator-synced runtime bridge; design-system token shim; Storybook composed ERP/metadata-ui spot-check reference |
 
@@ -145,7 +148,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 | Slice | Doc | Status |
 | --- | --- | --- |
-| B43 | b43-pas005b-author-retirement-pas.md | Delivered |
+| B43 | [b43-pas005b-author-retirement-pas.md](CSS-AUTHORITY/SLICE/b43-pas005b-author-retirement-pas.md) | Delivered |
 | B44 | (proposed — migration study + readiness gate) | Not started |
 | B45 | (proposed — CSS chain unification) | Not started |
 | B46 | (proposed — internalize UI registries, conditional) | Not started |
@@ -155,30 +158,46 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 ---
 
+## PAS-005 slice registry (B27–B37)
+
+| Slice | Doc | Status |
+| --- | --- | --- |
+| B27 | [b27-pas005-shadcn-theme.md](CSS-AUTHORITY/SLICE/b27-pas005-shadcn-theme.md) | Delivered |
+| B28 | [b28-pas005-consumption-gates.md](CSS-AUTHORITY/SLICE/b28-pas005-consumption-gates.md) | Delivered |
+| B29 | [b29-pas005-ui-cutover.md](CSS-AUTHORITY/SLICE/b29-pas005-ui-cutover.md) | Delivered |
+| B30 | [b30-pas005-deprecate-ds-css.md](CSS-AUTHORITY/SLICE/b30-pas005-deprecate-ds-css.md) | Delivered |
+| B33 | [b33-pas005-visual-regression.md](CSS-AUTHORITY/SLICE/b33-pas005-visual-regression.md) | Delivered |
+| B34 | [b34-pas005-registry-expansion.md](CSS-AUTHORITY/SLICE/b34-pas005-registry-expansion.md) | Delivered |
+| B35 | [b35-pas005-disposition-sync.md](CSS-AUTHORITY/SLICE/b35-pas005-disposition-sync.md) | Delivered |
+| B36 | [b36-pas005-risk-mitigation.md](CSS-AUTHORITY/SLICE/b36-pas005-risk-mitigation.md) | Delivered |
+| B37 | [b37-pas005-pixel-baselines.md](CSS-AUTHORITY/SLICE/b37-pas005-pixel-baselines.md) | Delivered |
+
+---
+
 ## PAS-005A slice registry (B38–B42p)
 
 | Slice | Doc | Status |
 | --- | --- | --- |
-| B38 | b38-pas005a-scaffold.md | Delivered |
-| B39 | b39-pas005a-theme-presets.md | Delivered |
-| B40 | b40-pas005a-mcp-seed.md | Delivered (manual seed equivalent) |
-| B41 | b41-pas005a-lab-verification.md | Delivered |
-| B42 | b42-pas005a-afenda-integration.md | Delivered (integration bridge; legacy delete closed in B42h) |
-| B42b | b42b-pas005a-legacy-delete-planning.md | Delivered (planning — **Superseded** by B42h delete execution) |
-| B42c | b42c-pas005a-mcp-live-reseed.md | Delivered (live MCP re-seed) |
-| B42d | b42d-pas005a-appshell-reexport-bridge.md | Delivered (bridge + parity registry) |
-| B42e | b42e-pas005a-extended-cui-batch.md | Delivered (account-settings + dashboard batch) |
-| B42f | b42f-pas005a-dashboard-shell-bridge-expansion.md | Delivered (dashboard/shell batch + bridge expansion) |
-| B42g | b42g-pas005a-residual-shell-content-parity.md | Delivered (full parity registry; delete gate opened for B42h) |
-| B42h | b42h-pas005a-legacy-tree-delete.md | Delivered (legacy tree deleted; presentation/ relocation) |
-| B42i | b42i-pas005a-mcp-wrapper-strangler.md | Delivered (wrapper registry + Phase 1 strangler) |
-| B42j | b42j-pas005a-wrapper-expansion-delegating-flip.md | Delivered (shell chrome + dashboard wrappers + MCP className policy) |
-| B42k | b42k-pas005a-statistics-a11y-delegating-flip.md | Delivered (MCP a11y + four statistics delegating flip) |
-| B42l | b42l-pas005a-studio-css-consolidation.md | Delivered (studio CSS consolidation + manifest invariant) |
-| B42m | b42m-pas005a-marketing-auth-chart-strangler-batch.md | Delivered (marketing/auth/chart/statistics strangler wrappers) |
-| B42n | b42n-pas005a-account-settings-content-strangler-batch.md | Delivered (account-settings content strangler — 23 afenda-only wrappers) |
-| B42o | b42o-pas005a-residual-parity-wrapper-closure.md | Delivered (24 parity wrapperPath gaps closed — shell + dashboard + utility) |
-| B42p | b42p-pas005a-tip004-delegating-flip-policy-closure.md | Delivered (delegating-flip policy registry + Governed UI className inventory; zero new flips) |
+| B38 | [b38-pas005a-scaffold.md](CSS-AUTHORITY/SLICE/b38-pas005a-scaffold.md) | Delivered |
+| B39 | [b39-pas005a-theme-presets.md](CSS-AUTHORITY/SLICE/b39-pas005a-theme-presets.md) | Delivered |
+| B40 | [b40-pas005a-mcp-seed.md](CSS-AUTHORITY/SLICE/b40-pas005a-mcp-seed.md) | Delivered (manual seed equivalent) |
+| B41 | [b41-pas005a-lab-verification.md](CSS-AUTHORITY/SLICE/b41-pas005a-lab-verification.md) | Delivered |
+| B42 | [b42-pas005a-afenda-integration.md](CSS-AUTHORITY/SLICE/b42-pas005a-afenda-integration.md) | Delivered (integration bridge; legacy delete closed in B42h) |
+| B42b | [b42b-pas005a-legacy-delete-planning.md](CSS-AUTHORITY/SLICE/b42b-pas005a-legacy-delete-planning.md) | Delivered (planning — **Superseded** by B42h delete execution) |
+| B42c | [b42c-pas005a-mcp-live-reseed.md](CSS-AUTHORITY/SLICE/b42c-pas005a-mcp-live-reseed.md) | Delivered (live MCP re-seed) |
+| B42d | [b42d-pas005a-appshell-reexport-bridge.md](CSS-AUTHORITY/SLICE/b42d-pas005a-appshell-reexport-bridge.md) | Delivered (bridge + parity registry) |
+| B42e | [b42e-pas005a-extended-cui-batch.md](CSS-AUTHORITY/SLICE/b42e-pas005a-extended-cui-batch.md) | Delivered (account-settings + dashboard batch) |
+| B42f | [b42f-pas005a-dashboard-shell-bridge-expansion.md](CSS-AUTHORITY/SLICE/b42f-pas005a-dashboard-shell-bridge-expansion.md) | Delivered (dashboard/shell batch + bridge expansion) |
+| B42g | [b42g-pas005a-residual-shell-content-parity.md](CSS-AUTHORITY/SLICE/b42g-pas005a-residual-shell-content-parity.md) | Delivered (full parity registry; delete gate opened for B42h) |
+| B42h | [b42h-pas005a-legacy-tree-delete.md](CSS-AUTHORITY/SLICE/b42h-pas005a-legacy-tree-delete.md) | Delivered (legacy tree deleted; presentation/ relocation) |
+| B42i | [b42i-pas005a-mcp-wrapper-strangler.md](CSS-AUTHORITY/SLICE/b42i-pas005a-mcp-wrapper-strangler.md) | Delivered (wrapper registry + Phase 1 strangler) |
+| B42j | [b42j-pas005a-wrapper-expansion-delegating-flip.md](CSS-AUTHORITY/SLICE/b42j-pas005a-wrapper-expansion-delegating-flip.md) | Delivered (shell chrome + dashboard wrappers + MCP className policy) |
+| B42k | [b42k-pas005a-statistics-a11y-delegating-flip.md](CSS-AUTHORITY/SLICE/b42k-pas005a-statistics-a11y-delegating-flip.md) | Delivered (MCP a11y + four statistics delegating flip) |
+| B42l | [b42l-pas005a-studio-css-consolidation.md](CSS-AUTHORITY/SLICE/b42l-pas005a-studio-css-consolidation.md) | Delivered (studio CSS consolidation + manifest invariant) |
+| B42m | [b42m-pas005a-marketing-auth-chart-strangler-batch.md](CSS-AUTHORITY/SLICE/b42m-pas005a-marketing-auth-chart-strangler-batch.md) | Delivered (marketing/auth/chart/statistics strangler wrappers) |
+| B42n | [b42n-pas005a-account-settings-content-strangler-batch.md](CSS-AUTHORITY/SLICE/b42n-pas005a-account-settings-content-strangler-batch.md) | Delivered (account-settings content strangler — 23 afenda-only wrappers) |
+| B42o | [b42o-pas005a-residual-parity-wrapper-closure.md](CSS-AUTHORITY/SLICE/b42o-pas005a-residual-parity-wrapper-closure.md) | Delivered (24 parity wrapperPath gaps closed — shell + dashboard + utility) |
+| B42p | [b42p-pas005a-tip004-delegating-flip-policy-closure.md](CSS-AUTHORITY/SLICE/b42p-pas005a-tip004-delegating-flip-policy-closure.md) | Delivered (delegating-flip policy registry + Governed UI className inventory; zero new flips) |
 
 ---
 
@@ -288,25 +307,25 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 | Field | Value |
 | --- | --- |
-| **Status** | Proposed — B49 in progress (doc sync 2026-06-29); B50–B54 not started |
+| **Status** | B50 delivered — legacy gate live; B51–B54 queued |
 | **Authority** | PAS-004D · PAS-004C baseline · PAS-001B erp-domain refs · `PKGR04_ENTERPRISE_KNOWLEDGE` |
 | **Maturity** | `idea` → `production_candidate` on B54 attestation |
-| **Runtime status** | PAS-004C closed (58/58); closure audit gaps queued — mirror sync, legacy retirement, corpus depth |
-| **Remaining slices** | B49 — authority mirror sync (next) · B50 legacy retirement · B51 corpus depth · B52 vocabulary richness · B53 ERP-domain bridge · B54 attestation |
-| **Runtime evidence** | [PAS-004D canonical doc](ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · B49 handoff |
-| **Gates (B49+)** | inherit PAS-004C §13.1 + new `check:knowledge-authority-mirror` (B49) through `check:knowledge-erp-domain-bridge` (B53) |
+| **Runtime status** | PAS-004C closed (58/58); B50 legacy retirement delivered — corpus depth next |
+| **Remaining slices** | B51 corpus depth (next) · B52 vocabulary richness · B53 ERP-domain bridge · B54 attestation |
+| **Runtime evidence** | [PAS-004D canonical doc](ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · B49–B50 handoffs |
+| **Gates (B49+)** | inherit PAS-004C §13.1 + `check:knowledge-authority-mirror` (B49) + `check:knowledge-legacy-surface-retirement` (B50) through `check:knowledge-erp-domain-bridge` (B53) |
 | **Result** | Target **70/70** scorecard (≥66) — operational closure without ontology-engine scope creep |
 
 | Slice | Doc | Phase | Status |
 | --- | --- | --- | --- |
-| B49 | [b49-pas004d-authority-mirror-sync.md](ENTERPRISE-KNOWLEDGE/SLICE/b49-pas004d-authority-mirror-sync.md) | 1 Mirror sync | In progress |
-| B50 | b50-pas004d-legacy-surface-retirement.md | 2 Legacy API | Proposed |
+| B49 | [b49-pas004d-authority-mirror-sync.md](ENTERPRISE-KNOWLEDGE/SLICE/b49-pas004d-authority-mirror-sync.md) | 1 Mirror sync | Delivered |
+| B50 | [b50-pas004d-legacy-surface-retirement.md](ENTERPRISE-KNOWLEDGE/SLICE/b50-pas004d-legacy-surface-retirement.md) | 2 Legacy API | Delivered |
 | B51 | b51-pas004d-corpus-depth.md | 3 Corpus depth | Proposed |
 | B52 | b52-pas004d-vocabulary-richness.md | 3 Vocabulary | Proposed |
 | B53 | b53-pas004d-erp-domain-bridge.md | 4 Domain bridge | Proposed |
 | B54 | b54-pas004d-operational-closure-attestation.md | 5 Attestation | Proposed |
 
-**Next sequence item:** B49 — implement `check:knowledge-authority-mirror` and close doc-only hygiene.
+**Next sequence item:** B51 — corpus depth thresholds (`check:knowledge-corpus-depth`).
 
 ---
 
@@ -316,14 +335,37 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | --- | --- |
 | **Status** | Published — Production Candidate |
 | **Authority** | PAS-003 · `PKGR03_ACCOUNTING_STANDARDS` · PKG-023 |
-| **Maturity** | `production_candidate` · `accepted_for_implementation` · `not_started` · `concept` |
-| **Runtime status** | B0 skeleton + PAS published; versioned standard registries not started |
-| **Remaining slices** | B1 — accounting standard family registry (next) |
-| **Runtime evidence** | PAS-003 canonical doc, B0 package skeleton, agent skill, Architecture Authority registries |
+| **Family SSOT** | [ACCOUNTING-STANDARDS/README.md](ACCOUNTING-STANDARDS/README.md) · [SLICE/](ACCOUNTING-STANDARDS/SLICE/README.md) |
+| **Maturity** | `production_candidate` · `accepted_for_implementation` · `partial` · `concept` |
+| **Runtime status** | B0–B11 + B13–B16 delivered — registries, IFRS pack, validation engine, 16 tests passing |
+| **Remaining slices** | B12 — enterprise acceptance sync (governance only; consumer workflow proof pending) |
+| **Runtime evidence** | [PAS-003 canonical doc](ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md), [PAS-003-TREE](../../packages/accounting-standards/PAS-003-ACCOUNTING-STANDARDS-TREE.md), `validatePostingAgainstAccountingStandards`, IFRS 16 lease proof test |
 | **Gates** | `pnpm --filter @afenda/accounting-standards typecheck`, `pnpm --filter @afenda/accounting-standards test:run`, `pnpm quality:architecture`, `pnpm architecture:cycles`, `pnpm architecture:drift`, `pnpm quality:boundaries` |
-| **Result** | PAS-003 optimized (YAML, Kernel boundary, Current vs Target §6); B0 skeleton + skill delivered; Enterprise Accepted **not** claimed |
+| **Result** | PAS-003 B1–B11 + B13–B16 implementation delivered; Production Candidate; Enterprise Accepted **not** claimed (B12 + consumer evidence pending) |
 
-**Next sequence item:** Slice B1 — accounting standard family registry (§4.1).
+| Slice | Doc | PAS § | Status |
+| --- | --- | --- | --- |
+| B0 | [b0-package-skeleton.md](ACCOUNTING-STANDARDS/SLICE/b0-package-skeleton.md) | §6 | Delivered |
+| B1 | [b1-4.1-accounting-standard-family-registry.md](ACCOUNTING-STANDARDS/SLICE/b1-4.1-accounting-standard-family-registry.md) | §4.1 | Delivered |
+| B2 | [b2-4.2-accounting-standard-registry.md](ACCOUNTING-STANDARDS/SLICE/b2-4.2-accounting-standard-registry.md) | §4.2 | Delivered |
+| B3 | [b3-4.3-standard-version-registry.md](ACCOUNTING-STANDARDS/SLICE/b3-4.3-standard-version-registry.md) | §4.3 | Delivered |
+| B4 | [b4-4.4-standard-process-routing.md](ACCOUNTING-STANDARDS/SLICE/b4-4.4-standard-process-routing.md) | §4.4 | Delivered |
+| B5 | [b5-4.5-posting-validation-input-contracts.md](ACCOUNTING-STANDARDS/SLICE/b5-4.5-posting-validation-input-contracts.md) | §4.5 | Delivered |
+| B6 | [b6-4.6-posting-validation-rule-contracts.md](ACCOUNTING-STANDARDS/SLICE/b6-4.6-posting-validation-rule-contracts.md) | §4.6 | Delivered |
+| B7 | [b7-4.7-validation-result-contract.md](ACCOUNTING-STANDARDS/SLICE/b7-4.7-validation-result-contract.md) | §4.7 | Delivered |
+| B8 | [b8-4.8-ifrs-rule-pack.md](ACCOUNTING-STANDARDS/SLICE/b8-4.8-ifrs-rule-pack.md) | §4.8 | Delivered |
+| B9 | [b9-4.9-ifrs-16-lease-posting-proof.md](ACCOUNTING-STANDARDS/SLICE/b9-4.9-ifrs-16-lease-posting-proof.md) | §4.9 | Delivered |
+| B10 | [b10-4.10-explanation-registry.md](ACCOUNTING-STANDARDS/SLICE/b10-4.10-explanation-registry.md) | §4.10 | Delivered |
+| B11 | [b11-4.11-audit-evidence-snapshot.md](ACCOUNTING-STANDARDS/SLICE/b11-4.11-audit-evidence-snapshot.md) | §4.11 | Delivered |
+| B12 | [b12-11-enterprise-acceptance-sync.md](ACCOUNTING-STANDARDS/SLICE/b12-11-enterprise-acceptance-sync.md) | §11 | Not started |
+| B13 | [b13-reporting-context-profile-routing.md](ACCOUNTING-STANDARDS/SLICE/b13-reporting-context-profile-routing.md) | §4.4 | Delivered |
+| B14 | [b14-scope-gate-judgment-escalation.md](ACCOUNTING-STANDARDS/SLICE/b14-scope-gate-judgment-escalation.md) | §4.7 | Delivered |
+| B15 | [b15-authority-supersession-metadata.md](ACCOUNTING-STANDARDS/SLICE/b15-authority-supersession-metadata.md) | §4.3 | Delivered |
+| B16 | [b16-cross-representation-routing.md](ACCOUNTING-STANDARDS/SLICE/b16-cross-representation-routing.md) | §4.4 | Delivered |
+
+**Next sequence item:** Slice B12 — enterprise acceptance sync (governance; requires consumer workflow evidence before Enterprise Accepted).
+
+> Slice doc paths: `docs/PAS/ACCOUNTING-STANDARDS/SLICE/<filename>` — catalog: [`accounting-slice-catalog.md`](ACCOUNTING-STANDARDS/SLICE/accounting-slice-catalog.md).
 
 ---
 
@@ -409,5 +451,25 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | B27 | §4.4 Disposition coverage | `ARCHITECTURE-AUTHORITY/SLICE/b27-4.4-disposition-coverage-gap-closure.md` | Delivered |
 
 > Slice doc paths: `docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/<filename>` — family SSOT for PAS-002 handoffs B1–B27.
+
+---
+
+## PAS-002 amendment — Architecture Authority B43–B45 (Domain NS §15)
+
+| Field | Value |
+| --- | --- |
+| **Status** | Delivered — B43–B45 complete |
+| **Authority** | PAS-002 amendment · Domain NS §15 · `architecture-governance-amendment.registry.ts` |
+| **Runtime status** | Governance amendment registry operational; per-export attestation; golden-path scaffold gate wired |
+| **Remaining slices** | none |
+| **Runtime evidence** | `packages/architecture-authority/src/data/architecture-governance-amendment.registry.ts`, `export-surface-attestation.build.ts`, `validate-golden-path-scaffold-policy.ts` |
+| **Gates** | `pnpm check:architecture-governance-amendment`, `pnpm check:architecture-golden-path-scaffold`, `pnpm quality:architecture` |
+| **Result** | NS E10–E15 production-track registries and scaffold enforcement operational |
+
+| Slice | Doc | Status |
+| --- | --- | --- |
+| B43 | `ARCHITECTURE-AUTHORITY/SLICE/b43-pas002-governance-amendment-registry.md` | Delivered |
+| B44 | `ARCHITECTURE-AUTHORITY/SLICE/b44-per-export-surface-attestation.md` | Delivered |
+| B45 | `ARCHITECTURE-AUTHORITY/SLICE/b45-golden-path-scaffold-enforcement.md` | Delivered |
 
 **Notes:** §4.8 dependency registry and §4.12 workspace discovery remain covered by the runtime-delivered row and B5/B7 evidence paths.

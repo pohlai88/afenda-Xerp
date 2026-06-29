@@ -13,7 +13,7 @@
   },
   "externalDocs": {
     "description": "Afenda REST API governance and contract standards.",
-    "url": "docs/architecture/afenda-rest-api-governance.md"
+    "url": ".cursor/skills/platform-api-contract/SKILL.md"
   },
   "tags": [
     {

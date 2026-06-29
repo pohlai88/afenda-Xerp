@@ -23,10 +23,10 @@
 | **Evidence level** | `json_authority` |
 | **Runtime status** | B24–B32 delivered — 24 atoms, JSON authority, ERP consumer, glossary parity, scorecard 30/30 |
 | **Remaining slices** | none |
-| **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `docs/architecture/glossary.md` |
+| **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md` |
 | **Change model** | `serialized-slices` (B25+) |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
+| **Closure registry** | [`pas-status-index.md`](../pas-status-index.md) |
 | **ADR prerequisites** | none |
 
 #### Required gates
@@ -44,7 +44,7 @@
 > **Maturity is part of authority.**
 > Production Candidate rollout is **closed** (B24–B32). Enterprise Accepted promotion lives in [PAS-004B](PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md). Do not claim North Star ontology completion or tenant-specific knowledge — those remain out of scope.
 
-> **Kernel wire boundary (mandatory read):** [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
+> **Kernel wire boundary (mandatory read):** [PAS-001](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
 > **Charter (unchanged):** [PAS-004 §1–§4](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md)
 > **Canonical location:** `docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md`
 
@@ -75,7 +75,7 @@
 
 **Required gates:** §13
 
-**Closure registry:** [`pas-status-index.md`](pas-status-index.md)
+**Closure registry:** [`pas-status-index.md`](../pas-status-index.md)
 
 **Planner / registry:** `pas-slice-planner` · disposition changes → `foundation-registry-owner` only
 
@@ -158,7 +158,7 @@ packages/enterprise-knowledge/src/data/
 
 ## 4.2 Kernel implementation mapping (PAS-001)
 
-**Authority:** [PAS-001 §4](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [kernel-authority SKILL](../../.cursor/skills/kernel-authority/SKILL.md)
+**Authority:** [PAS-001 §4](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [kernel-authority SKILL](../../.cursor/skills/kernel-authority/SKILL.md)
 
 Each atom `implementationMapping` entry must:
 
@@ -418,7 +418,7 @@ A PAS-004A track is **Enterprise 9.5 ready** only when **≥ 28.5 / 30** on this
 | 4 | Consumer proof (≥1 production import path) | 3 | B27 test or static import gate |
 | 5 | Glossary representation sync | 2 | B28 gate |
 | 6 | PAS-004 §1–§4 unchanged | 2 | Doc drift check |
-| 7 | Slice handoffs 9-field complete for B25–B27 | 2 | [`pas-status-index.md`](pas-status-index.md) |
+| 7 | Slice handoffs 9-field complete for B25–B27 | 2 | [`pas-status-index.md`](../pas-status-index.md) |
 | 8 | Skill + bundle preflight documented | 2 | enterprise-knowledge SKILL |
 | 9 | Honest coverage statement (seed vs target) | 2 | PAS-004A §12 table |
 | 10 | Foundation disposition gates listed | 2 | PKGR04 row |
@@ -525,8 +525,8 @@ When in doubt:
 | Standard | Relationship |
 | --- | --- |
 | [PAS-004](PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) | Parent charter + MVP platform — **§1–§4 immutable** |
-| [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Wire contracts — **reference only** via `implementationMapping` |
-| [PAS-002](PAS-002-ARCHITECTURE-AUTHORITY.md) | Package registry — lists PKG-024 |
+| [PAS-001](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Wire contracts — **reference only** via `implementationMapping` |
+| [PAS-002](../ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) | Package registry — lists PKG-024 |
 | [PAS-003](../ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | Accounting metadata — orthogonal |
 | B24 slice | MVP delivered 2026-06-28 |
 | B25 slice | First PAS-004A implementation |
@@ -549,4 +549,4 @@ When in doubt:
 | b31-ontology-completion | §12 | 24-atom Production Candidate corpus | **Delivered · 2026-06-28** | B30 |
 | b32-erp-consumer-integration | §4.4 | ERP system-admin titles + glossary manifest parity | **Delivered · 2026-06-28** | B31 |
 
-Handoff files for B27–B32 are authored when the prior slice closes.
+All B24–B32 handoff files are delivered — see [`pas-status-index.md`](../../pas-status-index.md).

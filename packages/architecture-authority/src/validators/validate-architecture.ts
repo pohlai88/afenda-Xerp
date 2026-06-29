@@ -3,6 +3,7 @@ import {
   type ValidationResult,
 } from "../contracts/validation-result.contract.js";
 import type { DiscoveredWorkspace } from "../contracts/workspace.contract.js";
+import { validateArchitectureGovernanceAmendment } from "./validate-architecture-governance-amendment.js";
 import { validateCycles } from "./validate-cycles.js";
 import { validateDependencies } from "./validate-dependencies.js";
 import { validateExceptions } from "./validate-exceptions.js";
@@ -26,6 +27,7 @@ export function validateArchitecture(
     validateExceptions(),
     validateFoundationDisposition(),
     validateLifecycle(),
+    validateArchitectureGovernanceAmendment(),
   ];
 
   return mergeValidationResults(results);

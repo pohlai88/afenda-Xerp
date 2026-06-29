@@ -1,6 +1,6 @@
 /**
  * Canonical observability surface registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Observability, lines 417–420).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Observability, lines 417–420).
  *
  * `@afenda/observability` owns logging, correlation IDs, and audit evidence.
  * Persistence adapters are injected — this package must not import database authority.

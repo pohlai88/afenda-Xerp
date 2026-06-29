@@ -16,9 +16,9 @@
 Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b28-glossary-sync-gate.md
 
 1. Objective    — Add machine-readable glossary atom ID manifest; gate validates IDs ⊆ registry and header authority unchanged.
-2. Allowed layer— docs/architecture/glossary.md · scripts/governance/check-glossary-knowledge-sync.mts · package.json (script) · docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b28-glossary-sync-gate.md · docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md (status)
+2. Allowed layer— docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md · scripts/governance/check-glossary-knowledge-sync.mts · package.json (script) · docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b28-glossary-sync-gate.md · docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md (status)
 3. Files        —
-   docs/architecture/glossary.md
+   docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md
    scripts/governance/check-glossary-knowledge-sync.mts
    package.json
    docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b28-glossary-sync-gate.md
@@ -27,7 +27,7 @@ Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b28-glossary-sync-gate.md
 6. Gates        — pnpm check:glossary-knowledge-sync · pnpm check:knowledge-conformance
 7. Closes       — Scorecard row #5 glossary representation sync
 8. Evidence     —
-   docs/architecture/glossary.md
+   docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md
    scripts/governance/check-glossary-knowledge-sync.mts
 9. Attestation  — Governance · Documentation
 ```

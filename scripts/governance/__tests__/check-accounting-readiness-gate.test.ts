@@ -49,7 +49,7 @@ describe("check-accounting-readiness-gate script", () => {
 
   it("documents Phase 9 markers in the pre-accounting roadmap", () => {
     const roadmapDoc = readFileSync(
-      join(repoRoot, "docs/architecture/pre-accounting-foundation-roadmap.md"),
+      join(repoRoot, "docs/architecture/_afenda-erp-master-plan.llms.md"),
       "utf8"
     );
 

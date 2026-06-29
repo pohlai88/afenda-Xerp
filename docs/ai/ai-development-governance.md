@@ -59,4 +59,4 @@ pnpm ci
 
 - [docs/ai/README.md](./README.md)
 - [ADR-0007](../adr/ADR-0007-ai-development-governance.md)
-- [docs/architecture/README.md](../architecture/README.md)
+- [docs/PAS/README.md](../PAS/README.md)

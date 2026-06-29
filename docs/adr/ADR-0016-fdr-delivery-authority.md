@@ -1,6 +1,6 @@
 # ADR-0016 — FDR Delivery Authority
 
-> **Partially superseded (2026-06-28):** FDR delivery trees and `fdr-status-index` were retired in favor of **PAS** slice handoffs under `docs/PAS/CSS-AUTHORITY/SLICE/` and [`pas-status-index.md`](../PAS/pas-status-index.md). See [`foundation-delivery-authority.md`](../architecture/foundation-delivery-authority.md). This ADR remains Accepted as historical evidence for the FDR→PAS transition; do not author new FDR delivery docs.
+> **Partially superseded (2026-06-28):** FDR delivery trees and `fdr-status-index` were retired in favor of **PAS** slice handoffs under `docs/PAS/CSS-AUTHORITY/SLICE/` and [`pas-status-index.md`](../PAS/pas-status-index.md). See [`foundation-delivery-authority.md`](../PAS/README.md). This ADR remains Accepted as historical evidence for the FDR→PAS transition; do not author new FDR delivery docs.
 
 | Field | Value |
 | --- | --- |
@@ -78,6 +78,6 @@ pnpm ci:biome
 ## References
 
 - ADR-0014 — Foundation Disposition Registry
-- `docs/architecture/foundation-delivery-authority.md`
+- `docs/PAS/README.md`
 - `.cursor/skills/write-fdr/SKILL.md`
 - `.cursor/agents/fdr-slice-implementer.md`

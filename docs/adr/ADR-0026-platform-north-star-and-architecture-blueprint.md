@@ -72,7 +72,7 @@ Code
 
 ### 3. Blueprint rules
 
-- Blueprint **references** machine registries ([`package-registry.md`](../architecture/package-registry.md), [`layer-registry.md`](../architecture/layer-registry.md), [`dependency-registry.md`](../architecture/dependency-registry.md), [`foundation-disposition.md`](../architecture/foundation-disposition.md)) — it must **not** duplicate registry rows (documentation-drift gates).
+- Blueprint **references** machine registries ([`package-registry.md`](../../packages/architecture-authority/src/data/package-registry.data.ts), [`layer-registry.md`](../architecture/layer-registry.md), [`dependency-registry.md`](../architecture/dependency-registry.md), [`foundation-disposition.md`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts)) — it must **not** duplicate registry rows (documentation-drift gates).
 - Blueprint may declare **planned** packages/domains not yet in the package registry; promotion to PKG-* requires ADR + `foundation-registry-owner`.
 - Every Blueprint box that becomes a governed package must eventually map to **one PAS**. PAS Slice Catalog (§12) remains inside PAS — no FDR or IPS layer is reintroduced.
 - A PAS **Consumers** field may list only packages declared in the Blueprint (live or planned with explicit status).
@@ -147,9 +147,9 @@ Template index: `.cursor/skills/kernel-authority/reference/pas-template.md`
 - [x] ADR-0026 status = Accepted
 - [x] [`afenda-platform-north-star.md`](../architecture/afenda-platform-north-star.md) published (§0–§15 format)
 - [x] [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md) published (PAS Inventory table + Total PAS counts)
-- [x] [`docs/architecture/README.md`](../architecture/README.md) reflects discovery order
+- [x] [`docs/PAS/README.md`](../PAS/README.md) reflects discovery order
 - [x] [`docs/PAS/README.md`](../PAS/README.md) step 0 references Blueprint
-- [x] [`foundation-delivery-authority.md`](../architecture/foundation-delivery-authority.md) notes discovery order
+- [x] [`foundation-delivery-authority.md`](../PAS/README.md) notes discovery order
 - [x] [`AGENTS.md`](../../AGENTS.md) read-order updated
 - [x] Four reusable templates created (§9 above)
 - [x] `pas-doc-template.md` upgraded with `Blueprint box` + `Total slices planned` + `Delivered slices` fields
@@ -162,5 +162,5 @@ Template index: `.cursor/skills/kernel-authority/reference/pas-template.md`
 
 - [ADR-0000](ADR-0000-architecture-constitution.md) — Architecture Constitution
 - [PAS-003](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) — phantom consumer evidence
-- [foundation-delivery-authority.md](../architecture/foundation-delivery-authority.md)
+- [foundation-delivery-authority.md](../PAS/README.md)
 - [docs/PAS/README.md](../PAS/README.md)

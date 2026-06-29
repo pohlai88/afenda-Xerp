@@ -255,7 +255,7 @@ pnpm --filter @afenda/erp test:run -- openapi-document api-contract api-envelope
 
 ## Related documents
 
-- [`docs/architecture/afenda-rest-api-governance.md`](../../docs/architecture/afenda-rest-api-governance.md) — governance authority
+- [`.cursor/skills/platform-api-contract/SKILL.md`](../../.cursor/skills/platform-api-contract/SKILL.md) — governance authority
 - [`ARCH-API-002`](../../docs/PAS/ARCH-API-002-openapi-internal-v1-catalog.md) — OpenAPI catalog decision
-- [`docs/governance/api-contract.md`](../../docs/governance/api-contract.md) — developer how-to
+- [`.cursor/skills/platform-api-contract/SKILL.md`](../../.cursor/skills/platform-api-contract/SKILL.md) — developer how-to
 - [`PKG-007 api-governance (pas-status-index)`](../../docs/PAS/%5BPartially%20Implemented%5D%20PKG-007 api-governance (pas-status-index).md) — PAS gates

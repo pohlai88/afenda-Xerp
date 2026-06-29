@@ -146,7 +146,9 @@
       "rules": ["PAS-004", "regulatory"],
       "conclusion": "A registered statutory body that owns accounting books, tax identity, and statutory obligations.",
       "alternatives": ["Business Unit", "Organization"]
-    }
+    },
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "organization_unit",
@@ -250,7 +252,7 @@
       },
       {
         "realizationKind": "report",
-        "reference": "docs/governance/downstream-ui-composition.md",
+        "reference": ".cursor/skills/afenda-shadcn-components/SKILL.md",
         "notes": "Org-scoped reporting and RLS composition guidance"
       }
     ],
@@ -280,7 +282,9 @@
       "rules": ["PAS-004", "operational"],
       "conclusion": "Operational node in the tree beneath a legal entity.",
       "alternatives": ["Legal Entity", "Team"]
-    }
+    },
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "workspace",
@@ -388,7 +392,9 @@
       "rules": ["PAS-004", "architectural"],
       "conclusion": "Active operating snapshot: tenant, company, org, project selections.",
       "alternatives": ["Persisted workspace table", "Security scope"]
-    }
+    },
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "surface",
@@ -486,7 +492,9 @@
       "rules": ["PAS-004", "architectural"],
       "conclusion": "Dot-separated module path for the active ERP screen.",
       "alternatives": ["Workspace", "Route path only"]
-    }
+    },
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "payload",
@@ -568,7 +576,7 @@
       {
         "evidenceId": "payload_evidence_1",
         "type": "decision",
-        "source": "docs/architecture/afenda-rest-api-governance.md"
+        "source": ".cursor/skills/platform-api-contract/SKILL.md"
       }
     ],
     "structuredReasoning": {
@@ -579,7 +587,9 @@
       "rules": ["PAS-004", "engineering"],
       "conclusion": "Business information transmitted, separate from transport metadata.",
       "alternatives": ["Body", "Message", "Document"]
-    }
+    },
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "invariant",
@@ -670,7 +680,9 @@
       "rules": ["PAS-004", "engineering"],
       "conclusion": "Condition that must remain true under allowed state transitions.",
       "alternatives": ["Constraint", "Validation rule"]
-    }
+    },
+    "epistemicStatus": "accepted",
+    "semanticStability": "constitutional"
   },
   {
     "conceptId": "contract",
@@ -761,7 +773,9 @@
       "rules": ["PAS-004", "engineering"],
       "conclusion": "Promised interface and behavior between producers and consumers.",
       "alternatives": ["Interface", "Schema"]
-    }
+    },
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "metadata",
@@ -855,7 +869,9 @@
       "rules": ["PAS-004", "informative"],
       "conclusion": "Descriptive information about other data or assets.",
       "alternatives": ["Enterprise Business Metadata as authority root"]
-    }
+    },
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "double_entry",
@@ -960,7 +976,9 @@
       "rules": ["PAS-004", "standard"],
       "conclusion": "Every transaction affects at least two accounts with equal debits and credits.",
       "alternatives": ["Single-entry cash books"]
-    }
+    },
+    "epistemicStatus": "accepted",
+    "semanticStability": "constitutional"
   },
   {
     "conceptId": "accounting_equation",
@@ -1054,7 +1072,9 @@
       "rules": ["PAS-004", "standard"],
       "conclusion": "Assets equal liabilities plus equity at all times.",
       "alternatives": ["Module-specific balance checks only"]
-    }
+    },
+    "epistemicStatus": "accepted",
+    "semanticStability": "constitutional"
   },
   {
     "conceptId": "organization_split",
@@ -1147,12 +1167,12 @@
       {
         "evidenceId": "organization_split_evidence_1",
         "type": "decision",
-        "source": "docs/architecture/multi-tenancy.md"
+        "source": "docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md"
       },
       {
         "evidenceId": "organization_split_evidence_2",
         "type": "decision",
-        "source": "docs/architecture/glossary.md"
+        "source": "docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md"
       }
     ],
     "structuredReasoning": {
@@ -1163,7 +1183,9 @@
       "rules": ["PAS-004", "architectural"],
       "conclusion": "Afenda v2 decision to stop using organization as a catch-all label.",
       "alternatives": ["Single organization table for everything"]
-    }
+    },
+    "epistemicStatus": "accepted",
+    "semanticStability": "constitutional"
   },
   {
     "conceptId": "ifrs_10",
@@ -1276,7 +1298,9 @@
       "rules": ["PAS-004", "standard"],
       "conclusion": "IFRS standard defining control for consolidation.",
       "alternatives": ["Local GAAP control test only"]
-    }
+    },
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "tenant",
@@ -1403,7 +1427,9 @@
         "source": "packages/database/src/schema/tenant.schema.ts"
       }
     ],
-    "ownedByPas": "PAS-004"
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "entity_group",
@@ -1492,7 +1518,9 @@
         "source": "packages/database/src/schema/entity-group.schema.ts"
       }
     ],
-    "ownedByPas": "PAS-004"
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "ownership_interest",
@@ -1575,7 +1603,9 @@
         "source": "packages/kernel/src/context/ownership-interest-context.contract.ts"
       }
     ],
-    "ownedByPas": "PAS-004"
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "consolidation_scope",
@@ -1661,7 +1691,9 @@
         "source": "packages/kernel/src/context/consolidation-scope-context.contract.ts"
       }
     ],
-    "ownedByPas": "PAS-004"
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "operating_context",
@@ -1749,7 +1781,9 @@
       "persistenceClass": "derived",
       "runtimeStatus": "implemented"
     },
-    "ownedByPas": "PAS-004"
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "permission_scope",
@@ -1838,7 +1872,9 @@
       "persistenceClass": "derived",
       "runtimeStatus": "implemented"
     },
-    "ownedByPas": "PAS-004"
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "project",
@@ -1925,7 +1961,9 @@
       "persistenceClass": "derived",
       "runtimeStatus": "implemented"
     },
-    "ownedByPas": "PAS-004"
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "team",
@@ -2012,7 +2050,9 @@
       "persistenceClass": "derived",
       "runtimeStatus": "implemented"
     },
-    "ownedByPas": "PAS-004"
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "localization_context",
@@ -2100,7 +2140,9 @@
       "persistenceClass": "derived",
       "runtimeStatus": "partial"
     },
-    "ownedByPas": "PAS-004"
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "workflow_context",
@@ -2189,7 +2231,9 @@
       "persistenceClass": "derived",
       "runtimeStatus": "implemented"
     },
-    "ownedByPas": "PAS-004"
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "business_reference",
@@ -2277,7 +2321,9 @@
       "persistenceClass": "authority_only",
       "runtimeStatus": "implemented"
     },
-    "ownedByPas": "PAS-004"
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   },
   {
     "conceptId": "human_reference",
@@ -2360,6 +2406,8 @@
         "source": "packages/kernel/src/identity/governance/tenant-human-reference.policy.ts"
       }
     ],
-    "ownedByPas": "PAS-004"
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   }
 ]

@@ -23,8 +23,8 @@
 | **Consumers** | `apps/storybook` (lab), `apps/erp` (post B42 only), `@afenda/appshell` (transitional re-export until cutover) |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
-| **ADR prerequisites** | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) (Accepted) |
+| **Closure registry** | [`pas-status-index.md`](../pas-status-index.md) |
+| **ADR prerequisites** | [ADR-0017](../../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) (Accepted) |
 
 #### Required gates
 
@@ -37,11 +37,14 @@
 | 5 | `pnpm quality:boundaries` |
 
 > **Maturity is part of authority.**
-> MVP Authority permits package scaffold, theme preset contracts, MCP install cwd, and lab verification. It does **not** permit claiming Enterprise Accepted, deleting `@afenda/appshell` legacy studio paths, or wiring ERP runtime until B42 integration gates pass.
+> MVP Authority permits package scaffold, theme preset contracts, MCP install cwd, and lab verification. It does **not** permit claiming Enterprise Accepted or deleting `@afenda/appshell` legacy studio paths without B42h delete evidence. ERP/Storybook CSS import and Afenda integration **delivered** in B42–B42p (2026-06-28).
 
-> **Derived from PAS-005.** PAS-005 owns the **CSS-TOKEN registry**, Afenda token bridge, consumption gates (R23–R30), and `afenda-ui.css` runtime cutover. PAS-005A owns the **shadcn/studio presentation product** — vendored shadcn theme surface, runtime theme presets, ThemeCustomizer, MCP seed pipeline, and governed block/primitive inventory. Integration between the two is a **deferred slice (B42)**, not a prerequisite for Phase 1 standalone delivery.
+> **Derived from PAS-005.** PAS-005 owns the **CSS-TOKEN registry**, Afenda token bridge, consumption gates (R23–R30), and `afenda-ui.css` runtime cutover. PAS-005A owns the **shadcn/studio presentation product** — vendored shadcn theme surface, runtime theme presets, ThemeCustomizer, MCP seed pipeline, and governed block/primitive inventory. Afenda integration delivered in **B42–B42p** (2026-06-28); Phase 1 standalone delivery preceded the bridge slices.
 
 > **Canonical location:** `docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md`
+> **Domain North Star:** [`css-authority-north-star.md`](../../NORTHSTAR/css-authority-north-star.md) · [Visual Token Constitutional Laws](../../CONSTITUTION/visual-token-constitutional-laws.md)
+> **Domain Blueprint:** [`css-authority-blueprint.md`](../../BLUEPRINT/css-authority-blueprint.md) · [Platform Blueprint — Design system](../../architecture/afenda-architecture-blueprint.md)
+> **Parent PAS:** [PAS-005 — CSS Authority](PAS-005-CSS-AUTHORITY-STANDARD.md)
 ---
 
 # 0. Agent Quick Path
@@ -57,7 +60,7 @@
 
 **Required gates:** see §13.1
 
-**Closure registry:** [`pas-status-index.md`](pas-status-index.md) · Session: `/afenda-coding-session`
+**Closure registry:** [`pas-status-index.md`](../pas-status-index.md) · Session: `/afenda-coding-session`
 
 **Registry:** `PKGR05A_SHADCN_STUDIO` — **green-lane** in `foundation-disposition.registry.ts` (PKG-026)
 
@@ -75,7 +78,7 @@ Phase 1 delivers a **standalone shadcn/studio stack** with no dependency on Afen
 
 > **What it must not answer:** What is the canonical Afenda token for `--surface-elevated`? Which ERP route renders this block? Does the user have permission? What is the accounting posting rule?
 
-Constitutional delivery acceleration remains [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md). ADR-0017 promotion targets point at `@afenda/shadcn-studio` for MCP seed; governed Afenda blocks live under `packages/appshell/src/presentation/` (B42h).
+Constitutional delivery acceleration remains [ADR-0017](../../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md). ADR-0017 promotion targets point at `@afenda/shadcn-studio` for MCP seed; governed Afenda blocks live under `packages/appshell/src/presentation/` (B42h).
 
 ---
 

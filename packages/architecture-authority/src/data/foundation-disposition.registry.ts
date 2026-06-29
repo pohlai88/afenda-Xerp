@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-29-v24" as const;
+  "FOUNDATION-DISPOSITION-2026-06-29-v26" as const;
 
 const foundationDispositionEntries = [
   {
@@ -931,6 +931,11 @@ const foundationDispositionEntries = [
       "scripts/governance/check-architecture-ownership-signoff.mts",
       "scripts/governance/check-architecture-governance-consumer-proof.mts",
       "scripts/governance/check-architecture-disposition-completeness.mts",
+      "scripts/governance/check-architecture-governance-amendment.mts",
+      "scripts/governance/check-architecture-golden-path-scaffold.mts",
+      "packages/architecture-authority/src/data/architecture-governance-amendment.registry.ts",
+      "packages/architecture-authority/src/data/export-surface-attestation.build.ts",
+      "packages/architecture-authority/src/validators/validate-golden-path-scaffold-policy.ts",
     ],
     knownGaps: [],
     allowedAgents: [
@@ -953,6 +958,8 @@ const foundationDispositionEntries = [
       "pnpm check:architecture-authority-surface",
       "pnpm check:architecture-kernel-non-duplication",
       "pnpm check:architecture-ownership-signoff",
+      "pnpm check:architecture-governance-amendment",
+      "pnpm check:architecture-golden-path-scaffold",
       "pnpm check:architecture-governance-consumer-proof",
       "pnpm check:architecture-disposition-completeness",
     ],
@@ -1043,7 +1050,7 @@ const foundationDispositionEntries = [
       "apps/docs/src/components/blocks/docs-knowledge-atom-block.tsx",
       "apps/docs/content/docs/en/configure-tenant/enterprise-vocabulary.mdx",
       "apps/erp/src/lib/knowledge/enterprise-knowledge-vocabulary.server.ts",
-      "docs/architecture/glossary.md",
+      "docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md",
       ".cursor/skills/enterprise-knowledge/SKILL.md",
       "scripts/governance/check-knowledge-conformance.mts",
       "scripts/governance/check-knowledge-json-authority.mts",
@@ -1063,6 +1070,11 @@ const foundationDispositionEntries = [
       "scripts/governance/check-knowledge-realization-mapping.mts",
       "scripts/governance/check-knowledge-semantic-edges.mts",
       "scripts/governance/check-knowledge-lifecycle-transitions.mts",
+      "scripts/governance/check-knowledge-authority-mirror.mts",
+      "scripts/governance/check-knowledge-legacy-surface-retirement.mts",
+      "scripts/governance/__tests__/check-knowledge-legacy-surface-retirement.test.ts",
+      "docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b49-pas004d-authority-mirror-sync.md",
+      "docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b50-pas004d-legacy-surface-retirement.md",
       "scripts/governance/migrate-b29-atoms.mjs",
       "scripts/governance/migrate-b31-atoms.mjs",
       "packages/architecture-authority/src/data/package-registry.data.ts",
@@ -1105,6 +1117,8 @@ const foundationDispositionEntries = [
       "pnpm check:knowledge-realization-mapping",
       "pnpm check:knowledge-semantic-edges",
       "pnpm check:knowledge-lifecycle-transitions",
+      "pnpm check:knowledge-authority-mirror",
+      "pnpm check:knowledge-legacy-surface-retirement",
       "pnpm quality:boundaries",
       "pnpm check:foundation-disposition",
     ],
@@ -1120,6 +1134,12 @@ const foundationDispositionEntries = [
     authority: "PAS-005",
     requiredBeforeAccounting: false,
     evidence: [
+      "docs/NORTHSTAR/css-authority-north-star.md",
+      "docs/BLUEPRINT/css-authority-blueprint.md",
+      "docs/PAS/CSS-AUTHORITY/README.md",
+      "docs/PAS/CSS-AUTHORITY/SLICE/README.md",
+      "docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md",
+      "docs/PAS/pas-status-index.md",
       "docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md",
       "packages/css-authority/package.json",
       "packages/css-authority/src/index.ts",
@@ -1170,6 +1190,9 @@ const foundationDispositionEntries = [
     authority: "PAS-005A",
     requiredBeforeAccounting: false,
     evidence: [
+      "docs/NORTHSTAR/css-authority-north-star.md",
+      "docs/BLUEPRINT/css-authority-blueprint.md",
+      "docs/PAS/CSS-AUTHORITY/README.md",
       "docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md",
       "docs/PAS/pas-status-index.md",
       "packages/shadcn-studio/package.json",
@@ -1219,6 +1242,9 @@ const foundationDispositionEntries = [
     authority: "PAS-005B",
     requiredBeforeAccounting: false,
     evidence: [
+      "docs/NORTHSTAR/css-authority-north-star.md",
+      "docs/BLUEPRINT/css-authority-blueprint.md",
+      "docs/PAS/CSS-AUTHORITY/README.md",
       "docs/PAS/CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md",
       "docs/adr/ADR-0025-design-system-retirement.md",
       "packages/ui/src/design-authority/index.ts",

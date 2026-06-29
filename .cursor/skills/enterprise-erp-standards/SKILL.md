@@ -256,4 +256,4 @@ Required for amber-lane and above. Records evidence path in PAS §SoD evidence.
 - Afenda coding session: `.cursor/skills/afenda-coding-session/SKILL.md`
 - PAS authoring: `.cursor/skills/pas-slice-planner/SKILL.md`
 - Benchmark detail: `.cursor/skills/pas-slice-planner/ENTERPRISE-BENCHMARK.md` — 10 gates, 30-pt scoring, package targets, anti-bullshit rule
-- PAS workflow: `docs/architecture/foundation-delivery-authority.md`
+- PAS workflow: `docs/PAS/README.md`

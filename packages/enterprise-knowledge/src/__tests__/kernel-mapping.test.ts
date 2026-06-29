@@ -8,6 +8,7 @@ import {
   isProhibitedKernelEvidencePath,
   validateKnowledgeKernelMapping,
 } from "../policy/knowledge-kernel-mapping.policy.js";
+import { getPrimaryKernelRealization } from "../policy/knowledge-realization.policy.js";
 
 const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
 
@@ -40,7 +41,7 @@ describe("Knowledge kernel mapping (PAS-004A §4.2 · B26)", () => {
 
   it("mapped atoms in the live registry cite kernel contract evidence", () => {
     const mapped = ENTERPRISE_KNOWLEDGE_ATOMS.filter(
-      (atom) => atom.implementationMapping !== undefined
+      (atom) => getPrimaryKernelRealization(atom) !== undefined
     );
     expect(mapped.length).toBeGreaterThan(0);
 
@@ -72,14 +73,18 @@ describe("Knowledge kernel mapping (PAS-004A §4.2 · B26)", () => {
         {
           evidenceId: "test_evidence_1",
           type: "policy",
-          source: "docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md",
+          source:
+            "docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md",
         },
       ],
-      implementationMapping: {
-        persistenceClass: "persisted",
-        runtimeStatus: "implemented",
-        upstreamContract: "TestContract",
-      },
+      realizationMapping: [
+        {
+          realizationKind: "kernel",
+          reference: "packages/kernel/src/context/tenant-context.contract.ts",
+          contractPath:
+            "packages/kernel/src/context/tenant-context.contract.ts",
+        },
+      ],
     };
 
     const errors = validateKnowledgeKernelMapping([atom], {

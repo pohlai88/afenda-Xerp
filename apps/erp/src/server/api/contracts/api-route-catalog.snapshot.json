@@ -9,7 +9,7 @@
         "seconds": 30
       },
       "contextPolicy": "none",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.health.get",
       "lifecycle": "active",
       "method": "GET",
@@ -38,7 +38,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.auth.memberships.get",
       "lifecycle": "active",
       "method": "GET",
@@ -67,7 +67,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "none",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.client-error.post",
       "lifecycle": "active",
       "method": "POST",
@@ -96,7 +96,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-company-org-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.workspace.dashboard-layout.get",
       "lifecycle": "active",
       "method": "GET",
@@ -125,7 +125,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-company-org-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.workspace.dashboard-layout.put",
       "lifecycle": "active",
       "method": "PUT",
@@ -154,7 +154,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-company-org-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.workspace.dashboard-layout.delete",
       "lifecycle": "active",
       "method": "DELETE",
@@ -183,7 +183,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.inventory.products.get",
       "lifecycle": "active",
       "method": "GET",
@@ -212,7 +212,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.inventory.products.post",
       "lifecycle": "active",
       "method": "POST",
@@ -241,7 +241,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.inventory.products.patch",
       "lifecycle": "active",
       "method": "PATCH",
@@ -270,7 +270,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-company-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.inventory.stock-levels.get",
       "lifecycle": "active",
       "method": "GET",
@@ -299,7 +299,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-company-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.inventory.stock-movements.post",
       "lifecycle": "active",
       "method": "POST",
@@ -328,7 +328,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-company-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.inventory.warehouses.get",
       "lifecycle": "active",
       "method": "GET",
@@ -357,7 +357,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-company-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.inventory.warehouses.post",
       "lifecycle": "active",
       "method": "POST",
@@ -386,7 +386,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-company-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.inventory.warehouses.patch",
       "lifecycle": "active",
       "method": "PATCH",
@@ -415,7 +415,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-company-org-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.system-admin.users.invite.post",
       "lifecycle": "active",
       "method": "POST",
@@ -444,7 +444,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-company-org-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.system-admin.memberships.role.post",
       "lifecycle": "active",
       "method": "POST",
@@ -473,7 +473,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-company-org-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.system-admin.audit-events.get",
       "lifecycle": "active",
       "method": "GET",
@@ -502,7 +502,7 @@
         "kind": "no-store"
       },
       "contextPolicy": "tenant-required",
-      "documentationPath": "docs/architecture/afenda-rest-api-governance.md",
+      "documentationPath": ".cursor/skills/platform-api-contract/SKILL.md",
       "id": "internal.v1.storage.tenant-brand-logo.post",
       "lifecycle": "active",
       "method": "POST",

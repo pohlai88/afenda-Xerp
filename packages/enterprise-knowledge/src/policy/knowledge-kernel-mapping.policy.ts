@@ -3,6 +3,7 @@ import { join } from "node:path";
 
 import type { KnowledgeAtom } from "../contracts/knowledge-atom.contract.js";
 import { getKernelEvidencePaths as getKernelPathsFromTypedEvidence } from "./knowledge-evidence-paths.policy.js";
+import { getAtomRealizationMappings } from "./knowledge-realization.policy.js";
 
 /** Repo-relative prefix for kernel wire evidence paths cited by atoms. */
 export const KERNEL_EVIDENCE_PATH_PREFIX = "packages/kernel/src/" as const;
@@ -44,14 +45,18 @@ export function validateKnowledgeKernelMapping(
       }
     }
 
-    if (!atom.implementationMapping) {
+    if (
+      !getAtomRealizationMappings(atom).some(
+        (e) => e.realizationKind === "kernel"
+      )
+    ) {
       continue;
     }
 
     const kernelPaths = getKernelEvidencePaths(atom);
     if (kernelPaths.length === 0) {
       errors.push(
-        `${atom.atomId}: implementationMapping requires at least one kernel evidence path under ${KERNEL_EVIDENCE_PATH_PREFIX}`
+        `${atom.atomId}: kernel realizationMapping requires at least one kernel evidence path under ${KERNEL_EVIDENCE_PATH_PREFIX}`
       );
       continue;
     }
@@ -61,7 +66,7 @@ export function validateKnowledgeKernelMapping(
     );
     if (!hasContractPath) {
       errors.push(
-        `${atom.atomId}: implementationMapping requires at least one *.contract.ts kernel evidence path`
+        `${atom.atomId}: kernel realizationMapping requires at least one *.contract.ts kernel evidence path`
       );
     }
 

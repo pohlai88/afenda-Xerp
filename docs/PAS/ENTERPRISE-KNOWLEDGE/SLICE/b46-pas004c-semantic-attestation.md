@@ -21,7 +21,7 @@ Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b46-pas004c-semantic-attestati
 
 1. Objective    — Run all PAS-004C gates; document scorecard ≥55/58; sync PAS-004C runtime_status + skill mirror + pas-status-index;
                   delegate foundation-registry-owner for PKGR04 → PAS-004C promotion.
-2. Allowed layer— docs/PAS/** · .cursor/skills/enterprise-knowledge/SKILL.md · docs/architecture/afenda-runtime-truth-matrix.md (evidence row only)
+2. Allowed layer— docs/PAS/** · .cursor/skills/enterprise-knowledge/SKILL.md · docs/PAS/pas-status-index.md (evidence row only)
 3. Files        —
    docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md
    docs/PAS/pas-status-index.md
@@ -74,7 +74,7 @@ Do **not** edit `packages/architecture-authority/src/data/foundation-disposition
 
 - Promote `PKGR04_ENTERPRISE_KNOWLEDGE` authority field to `PAS-004C`
 - Append B38–B46 evidence paths to registry `runtimeEvidence`
-- Sync `docs/architecture/foundation-disposition.md` view
+- Sync `packages/architecture-authority/src/data/foundation-disposition.registry.ts` view
 
 ## Runtime evidence summary (all §13.1–§13.3 gates)
 

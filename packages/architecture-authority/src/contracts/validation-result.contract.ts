@@ -7,7 +7,9 @@ export type ValidationGate =
   | "cycles"
   | "exceptions"
   | "foundation-disposition"
-  | "lifecycle";
+  | "lifecycle"
+  | "architecture-governance-amendment"
+  | "golden-path-scaffold";
 
 export interface ArchitectureViolation {
   readonly gate: ValidationGate;

@@ -118,6 +118,34 @@ function resolveMetadataHierarchyScopeCarriers(
   };
 }
 
+function resolveMetadataExtendedScopeCarriers(
+  operatingContext: OperatingContext
+): {
+  readonly surfaceId?: string;
+  readonly workflowId?: string;
+  readonly consolidationReportingDate?: string;
+  readonly permissionGrantScopeType?: string;
+  readonly ownershipInterestCount?: number;
+} {
+  const surfaceId = operatingContext.surface?.surfaceId;
+  const workflowId = operatingContext.workflow?.workflowId;
+  const consolidationReportingDate =
+    operatingContext.consolidationScope?.reportingDate;
+  const permissionGrantScopeType =
+    operatingContext.permissionScope.grantScopeType;
+  const ownershipInterestCount = operatingContext.ownershipInterests.length;
+
+  return {
+    ...(surfaceId === undefined ? {} : { surfaceId }),
+    ...(workflowId === undefined ? {} : { workflowId }),
+    ...(consolidationReportingDate === undefined
+      ? {}
+      : { consolidationReportingDate }),
+    permissionGrantScopeType,
+    ...(ownershipInterestCount === 0 ? {} : { ownershipInterestCount }),
+  };
+}
+
 /** Builds a server-side metadata render context from verified ERP operating context. */
 export function resolveMetadataUiRenderContextFromOperatingContext(
   input: ResolveMetadataUiRenderContextInput
@@ -131,6 +159,7 @@ export function resolveMetadataUiRenderContextFromOperatingContext(
 
   const hierarchyScope =
     resolveMetadataHierarchyScopeCarriers(operatingContext);
+  const extendedScope = resolveMetadataExtendedScopeCarriers(operatingContext);
 
   const liveAuthorization = input.authorization;
   const useLiveAuthorization =
@@ -186,6 +215,7 @@ export function resolveMetadataUiRenderContextFromOperatingContext(
       ? {}
       : { organizationId: organizationIdWire }),
     ...hierarchyScope,
+    ...extendedScope,
     workspaceId: resolveMetadataWorkspaceId(operatingContext),
     correlationId: operatingContext.correlationId,
     permissions: [...resolvedPermissionKeys],

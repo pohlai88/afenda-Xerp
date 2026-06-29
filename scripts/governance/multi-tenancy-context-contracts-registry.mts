@@ -1,6 +1,6 @@
 /**
  * Canonical Step 4 context contracts registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Step 4, lines 522–536).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Step 4, lines 522–536).
  *
  * Runtime contract files live in `packages/kernel/src/context/`.
  * Enforcement in `lib/multi-tenancy-context-contracts-enforcement.mts`.

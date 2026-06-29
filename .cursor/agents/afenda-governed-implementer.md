@@ -51,7 +51,7 @@ For TypeScript authoring (generics, conditional types, mapped types, utility typ
 
 1. [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) — **subagent source of truth** (ADR-0014)
 2. [`.cursor/skills/enterprise-erp-standards/SKILL.md`](../skills/enterprise-erp-standards/SKILL.md) — SAP/Oracle benchmark gates for red/amber lanes
-3. [`docs/architecture/afenda-runtime-truth-matrix.md`](../../docs/architecture/afenda-runtime-truth-matrix.md)
+3. [`docs/PAS/pas-status-index.md`](../../docs/PAS/pas-status-index.md)
 4. Relevant ADRs in `docs/adr/` — search before claiming "no pending decision"
 5. [`docs/PAS/pas-status-index.md`](../../docs/PAS/pas-status-index.md) — slice closure registry + next sequence
 6. Parent PAS + target slice under `docs/PAS/CSS-AUTHORITY/SLICE/` when handoff present — copy one §Handoff block into Phase 0

@@ -2,7 +2,7 @@
 
 Read this file **before** [design-system.md](design-system.md) during Phase 3.
 
-Canonical authority: [`docs/architecture/css-authority.md`](../../../docs/architecture/css-authority.md) ·
+Canonical authority: [`docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../../docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) ·
 [`.cursor/skills/css-authority/SKILL.md`](../../css-authority/SKILL.md)
 
 ---

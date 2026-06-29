@@ -1,6 +1,6 @@
 /**
  * Canonical tenant URL resolver registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Step 6, lines 553–559).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Step 6, lines 553–559).
  *
  * Runtime checks live in `lib/multi-tenancy-tenant-url-resolver-enforcement.mts`.
  */

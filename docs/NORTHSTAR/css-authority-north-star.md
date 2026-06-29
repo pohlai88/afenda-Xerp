@@ -28,7 +28,7 @@
 
 # 0. Agent Quick Path
 
-**Read order:** [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) → [Visual Token Constitutional Laws](../CONSTITUTION/visual-token-constitutional-laws.md) → Platform NS → this document §1–§12 → [Design Token Authority Blueprint](../BLUEPRINT/css-authority-blueprint.md) → CSS Authority PAS family → Slice → Code.
+**Read order:** [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) → [Visual Token Constitutional Laws](../CONSTITUTION/visual-token-constitutional-laws.md) → [Platform NS](../architecture/afenda-platform-north-star.md) → this document §1–§12 → [Design Token Authority Blueprint](../BLUEPRINT/css-authority-blueprint.md) → CSS Authority PAS family → Slice → Code.
 
 **This document answers:** why design token authority exists forever, how tokens differ from behavior, how theme inheritance works, and how cross-platform rendering relates to one token spine.
 
@@ -532,7 +532,7 @@ Permanent claims justifying the domain — dominant in this register:
 | E2 | Governed UI delivery acceleration requires centralized token authority | T0 | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) |
 | E3 | Design token as architectural concept (renderer-agnostic decisions) | T3 | W3C Design Tokens Community Group format (reference model) |
 | E4 | Accessibility requires governed color/text semantics | T3 | WCAG 2.x contrast principles (color category policy) |
-| E5 | Tokens separate from component behavior | T1 | [governed-ui-policy.md](../governance/governed-ui-policy.md) · ADR-0017 pipeline |
+| E5 | Tokens separate from component behavior | T1 | [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc) · ADR-0017 pipeline |
 | E6 | Registry-before-runtime applies to visual identity | T1 | [LAW 2](../CONSTITUTION/platform-constitutional-laws.md) · consumption proof |
 | E7 | Blueprint design-system family declares token authority box | T1 | Architecture Blueprint · CSS authority row |
 | E8 | Visual token laws V1–V8 permanent | T1 | [Visual Token Constitutional Laws](../CONSTITUTION/visual-token-constitutional-laws.md) |

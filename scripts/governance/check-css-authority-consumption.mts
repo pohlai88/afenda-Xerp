@@ -83,15 +83,9 @@ const AFENDA_TOKEN_NAMES = tokenNamesForAuthority("afenda-extensions");
 const APPSHELL_TOKEN_NAMES = tokenNamesForAuthority("appshell");
 const AUTH_EDITORIAL_TOKEN_NAMES = tokenNamesForAuthority("auth-editorial");
 
-const SHADCN_DEFINITION_PACKAGES = new Set([
-  "@afenda/css-authority",
-  "@afenda/design-system",
-]);
+const SHADCN_DEFINITION_PACKAGES = new Set(["@afenda/css-authority"]);
 
-const AFENDA_DEFINITION_PACKAGES = new Set([
-  "@afenda/css-authority",
-  "@afenda/design-system",
-]);
+const AFENDA_DEFINITION_PACKAGES = new Set(["@afenda/css-authority"]);
 
 const APPSHELL_DEFINITION_PACKAGES = new Set(["@afenda/appshell"]);
 
@@ -100,7 +94,6 @@ const PACKAGE_SCAN_ROOTS: Record<string, string> = {
   "@afenda/appshell": join(repoRoot, "packages/appshell"),
   "@afenda/metadata-ui": join(repoRoot, "packages/metadata-ui"),
   "@afenda/css-authority": join(repoRoot, "packages/css-authority"),
-  "@afenda/design-system": join(repoRoot, "packages/design-system"),
 };
 
 const registryErrors = validateCssAuthorityRegistry();
@@ -160,7 +153,7 @@ scanDefinitionViolations({
   tokenNames: SHADCN_TOKEN_NAMES,
   allowedPackages: SHADCN_DEFINITION_PACKAGES,
   message: (pkg, tokenName) =>
-    `${pkg} defines ${tokenName} with a literal/authority value — only @afenda/css-authority (and design-system shim) may define shadcn bridge token authority`,
+    `${pkg} defines ${tokenName} with a literal/authority value — only @afenda/css-authority may define shadcn bridge token authority`,
 });
 
 scanDefinitionViolations({
@@ -168,7 +161,7 @@ scanDefinitionViolations({
   tokenNames: AFENDA_TOKEN_NAMES,
   allowedPackages: AFENDA_DEFINITION_PACKAGES,
   message: (pkg, tokenName) =>
-    `${pkg} defines ${tokenName} with a literal/authority value — only @afenda/css-authority and @afenda/design-system may define --afenda-* token authority`,
+    `${pkg} defines ${tokenName} with a literal/authority value — only @afenda/css-authority may define --afenda-* token authority`,
 });
 
 scanDefinitionViolations({
@@ -188,7 +181,7 @@ scanDefinitionViolations({
 });
 
 for (const [pkg, root] of Object.entries(PACKAGE_SCAN_ROOTS)) {
-  if (pkg === "@afenda/css-authority" || pkg === "@afenda/design-system") {
+  if (pkg === "@afenda/css-authority") {
     continue;
   }
 

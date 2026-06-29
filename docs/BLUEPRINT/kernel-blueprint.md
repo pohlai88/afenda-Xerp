@@ -5,7 +5,7 @@
 | **Document class** | `architecture_blueprint` |
 | **Document role** | `architecture_box_map` |
 | **Architectural identity** | Blueprint Box name (§4) |
-| **Workspace mapping** | [`package-registry.data.ts`](../packages/architecture-authority/src/data/package-registry.data.ts) |
+| **Workspace mapping** | [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) |
 | **Scope** | Platform Kernel — vocabulary, catalog, consumer integration |
 | **Parent** | [Platform North Star](../architecture/afenda-platform-north-star.md) · [Kernel North Star](../NORTHSTAR/kernel-north-star.md) |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) |
@@ -293,7 +293,7 @@ HTTP / Server Action / RSC
   → apps/erp tenant-domain.server.ts          ← tenant boundary established
   → apps/erp resolve-grant-scope.server.ts
   → @afenda/permissions parse*/assert*        ← wire ingress owner
-  → apps/erp brandPermissionScopeFromWire     ← @afenda/kernel projection
+  → apps/erp brandPermissionScopeContextFromUnknownWire  ← @afenda/kernel projection
   → apps/erp resolve-consolidation-scope
   → OperatingContext (kernel branded shape)   ← scope branded
   → scope consistency check (integration)     ← fail-closed on mismatch (NS §8.2)
@@ -341,7 +341,9 @@ Maps [Kernel NS §9.3 Provides to](../NORTHSTAR/kernel-north-star.md) at archite
 | Item | Status | Gate / notes |
 | --- | --- | --- |
 | Business reference identity family **expansion** (new ref types beyond delivered PAS-001 §4.7 set) | **planned** | Kernel NS §4 amendment + PAS-001 slice — vocabulary **delivered** at Enterprise; new families need amendment |
-| Effective dating vocabulary in production consumers | **planned** | Spine/ERP attestation — words in NS; resolver "as-of" elsewhere |
+| Effective dating vocabulary in production consumers | **delivered** | B109 — `check:kernel-effective-dating-consumer-attestation` · metadata bridge carriers |
+| Tenant SaaS lifecycle wire | **delivered** | B107 — `tenant-saas-lifecycle.*` wire triad |
+| Tenant extension boundary wire | **delivered** | B108 — `tenant-extension-boundary.*` wire triad |
 | Actor/integration identity on all protected paths | **planned** | Identity + spine consumer alignment |
 | `FiscalCalendarId` / `FiscalPeriodId` promotion | **blocked** | Finance ADR — not localization/fiscal calendar in kernel (I8) |
 | Ledger/posting in kernel | **blocked** | ADR-0010 · PKGR01 disposition |
@@ -389,9 +391,9 @@ Gates: PAS §13.1 — must include drift + boundary gates
 
 | PAS ID | Title | Box | Maturity | Slices | Composed | Legacy |
 | --- | --- | --- | --- | --- | --- | --- |
-| PAS-001 | Kernel Vocabulary Authority | Kernel Vocabulary | Enterprise Accepted | B49–B70 closed | [KERNEL/PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | [archive](../PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
+| PAS-001 | Kernel Vocabulary Authority | Kernel Vocabulary | Enterprise Accepted | B49–B70 · B107–B109 closed | [KERNEL/PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | [archive](../PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |
 | PAS-001A | ERP Integration Spine | ERP Integration Spine | Production Candidate | B71–B75 closed | [KERNEL/PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | [archive](../PAS/KERNEL/archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
-| PAS-001B | ERP Wire Vocabulary Catalog | Domain Catalog | Enterprise Accepted · `catalog_authority` role | B76–B106 closed | [KERNEL/PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | [archive](../PAS/KERNEL/archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
+| PAS-001B | ERP Wire Vocabulary Catalog | Kernel Domain Vocabulary Catalog | Enterprise Accepted · `catalog_authority` role | B76–B106 closed | [KERNEL/PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | [archive](../PAS/KERNEL/archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
 
 **Live / Total slices:** 3 / 3 PAS · all slice catalogs closed at current maturity
 
@@ -427,7 +429,7 @@ When Platform Blueprint and this document diverge, **Platform Blueprint + ADR-00
 | B11 | Platform entity authority + business ref identity | ✓ | T0/T5 | ADR-0020 · PAS-001 §4.6–§4.7 · Kernel NS §3.4 |
 | B12 | SaaS tenant lifecycle vocabulary (words only) | ✓ | T3/T5 | Kernel NS E11 · §8.3 — execution outside kernel |
 
-**Provenance:** **Enterprise Accepted — peer-enhanced from Kernel NS + accepted PAS authority** (2026-06-29). Amend via `/afenda-doc-lifecycle` AUTHOR intent.
+**Provenance:** **Enterprise Accepted — peer-enhanced from Kernel NS + accepted PAS authority** (2026-06-29). Amend via `kernel-authority` templates + `@documentation-drift` when status changes.
 
 ---
 

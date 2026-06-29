@@ -18,10 +18,13 @@ Use when implementing designs from Figma MCP (`get_design_context`, `get_screens
 
 | Layer | Authority | CSS prefix |
 |-------|-----------|------------|
-| Design system | `packages/design-system/src/registries/token.registry.ts` | `--afenda-*` |
-| shadcn bridge | `packages/design-system/src/css/afenda-design-system.css` | `--background`, `--primary`, `--border`, … |
+| Afenda raw + extensions (PAS-005 SSOT) | `packages/css-authority/src/authorities/afenda-extensions.json` · runtime `packages/css-authority/src/css/afenda-tokens.css` | `--afenda-*` |
+| shadcn bridge + `@theme` | `packages/css-authority/src/css/afenda-runtime-bridge.css` · vendored `packages/css-authority/src/css/vendored/shadcn-theme.css` | `--background`, `--primary`, `--border`, … |
 | App shell | `packages/appshell/src/styles/afenda-appshell.css` | `--app-shell-*` |
+| Auth editorial | `packages/css-authority/src/authorities/auth-editorial.json` | `--auth-editorial-*` |
 | Studio blocks | `packages/appshell/src/styles/afenda-appshell-studio.css` §A | `--app-shell-studio-*` |
+
+**Add CSS tokens:** authority JSON under `packages/css-authority/src/authorities/` → `pnpm --filter @afenda/css-authority generate:css-authority-registry` — not `packages/ui` `token.registry.ts` (Governed UI TS only).
 
 **Figma → code:** Map Figma variables via `get_variable_defs` to `--afenda-semantic-*` / shadcn bridge vars — never invent hex in components.
 

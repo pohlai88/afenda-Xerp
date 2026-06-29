@@ -120,7 +120,7 @@ From `AGENTS.md` — non-negotiable on every edit:
 
 ## PAS slice implementer add-on
 
-When handoff is under `docs/PAS/CSS-AUTHORITY/SLICE/`:
+When handoff is under `docs/PAS/<DOMAIN-FOLDER>/SLICE/` (e.g. `docs/PAS/KERNEL/SLICE/`):
 
 1. Read target slice doc — all **9 handoff fields** must be present
 2. Read parent PAS (`docs/PAS/PAS-NNN-*.md`) §0 Agent Quick Path only unless slice cites a section

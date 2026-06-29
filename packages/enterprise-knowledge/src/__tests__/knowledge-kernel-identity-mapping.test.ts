@@ -12,6 +12,7 @@ import {
   TENANT_HIERARCHY_IDENTITY_CONTRACT_PATH,
   validateKnowledgeKernelIdentityMapping,
 } from "../policy/knowledge-kernel-identity-mapping.policy.js";
+import { getPrimaryKernelRealization } from "../policy/knowledge-realization.policy.js";
 
 const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
 
@@ -75,53 +76,28 @@ describe("Knowledge kernel identity mapping (PAS-004B §4.1 · B33)", () => {
     expect(errors).toEqual([]);
   });
 
-  it("requires implementationMapping.contractPath and brandedId for tenant", () => {
+  it("requires kernel realizationMapping contractPath and brandedId for tenant", () => {
     const tenant = ENTERPRISE_KNOWLEDGE_ATOMS.find(
       (atom) => atom.atomId === "tenant"
     );
-    expect(tenant?.implementationMapping).toBeDefined();
-    expect(tenant?.implementationMapping?.contractPath).toBe(
+    const kernel = tenant ? getPrimaryKernelRealization(tenant) : undefined;
+    expect(kernel).toBeDefined();
+    expect(kernel?.contractPath ?? kernel?.reference).toBe(
       PLATFORM_ENTITY_KERNEL_CONTRACT_PATHS.tenant
     );
-    expect(tenant?.implementationMapping?.brandedId).toBe(
-      REQUIRED_IDENTITY_BRANDED_IDS.tenant
-    );
+    expect(kernel?.brandedId).toBe(REQUIRED_IDENTITY_BRANDED_IDS.tenant);
   });
 
-  it("rejects missing implementationMapping on platform identity atoms", () => {
+  it("rejects missing kernel realizationMapping on platform identity atoms", () => {
     const tenant = ENTERPRISE_KNOWLEDGE_ATOMS.find(
       (atom) => atom.atomId === "tenant"
     );
     if (!tenant) {
       throw new Error("expected tenant atom");
     }
-    const { implementationMapping: _mapping, ...withoutMapping } = tenant;
-    const atom = withoutMapping as KnowledgeAtom;
-
-    const errors = validateKnowledgeKernelIdentityMapping([atom], {
-      repoRoot: process.cwd(),
-      fileExists: () => true,
-    });
-
-    expect(
-      errors.some((error) => error.includes("requires implementationMapping"))
-    ).toBe(true);
-  });
-
-  it("rejects wrong brandedId for legal_entity", () => {
-    const legalEntity = ENTERPRISE_KNOWLEDGE_ATOMS.find(
-      (atom) => atom.atomId === "legal_entity"
-    );
-    if (!legalEntity?.implementationMapping) {
-      throw new Error("expected legal_entity mapping");
-    }
     const atom: KnowledgeAtom = {
-      ...legalEntity,
-      implementationMapping: {
-        ...legalEntity.implementationMapping,
-        brandedId: "LegalEntityId",
-        contractPath: PLATFORM_ENTITY_KERNEL_CONTRACT_PATHS.legal_entity,
-      },
+      ...tenant,
+      realizationMapping: [],
     };
 
     const errors = validateKnowledgeKernelIdentityMapping([atom], {
@@ -131,7 +107,41 @@ describe("Knowledge kernel identity mapping (PAS-004B §4.1 · B33)", () => {
 
     expect(
       errors.some((error) =>
-        error.includes("implementationMapping.brandedId must be CompanyId")
+        error.includes("requires kernel realizationMapping")
+      )
+    ).toBe(true);
+  });
+
+  it("rejects wrong brandedId for legal_entity", () => {
+    const legalEntity = ENTERPRISE_KNOWLEDGE_ATOMS.find(
+      (atom) => atom.atomId === "legal_entity"
+    );
+    const kernel = legalEntity
+      ? getPrimaryKernelRealization(legalEntity)
+      : undefined;
+    if (!kernel) {
+      throw new Error("expected legal_entity kernel realization");
+    }
+    const atom: KnowledgeAtom = {
+      ...legalEntity!,
+      realizationMapping: [
+        {
+          ...kernel,
+          brandedId: "LegalEntityId",
+          contractPath: PLATFORM_ENTITY_KERNEL_CONTRACT_PATHS.legal_entity,
+          reference: PLATFORM_ENTITY_KERNEL_CONTRACT_PATHS.legal_entity,
+        },
+      ],
+    };
+
+    const errors = validateKnowledgeKernelIdentityMapping([atom], {
+      repoRoot: process.cwd(),
+      fileExists: () => true,
+    });
+
+    expect(
+      errors.some((error) =>
+        error.includes("kernel realizationMapping.brandedId must be CompanyId")
       )
     ).toBe(true);
   });

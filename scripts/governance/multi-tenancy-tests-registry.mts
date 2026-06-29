@@ -1,6 +1,6 @@
 /**
  * Canonical Step 9 multi-tenancy test coverage registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Step 9, lines 580–599).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Step 9, lines 580–599).
  *
  * Repo uses contract/governance assertion tests — not Vitest snapshots.
  */

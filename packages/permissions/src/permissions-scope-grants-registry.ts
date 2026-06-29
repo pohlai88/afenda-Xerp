@@ -1,6 +1,6 @@
 /**
  * Canonical permissions surface registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Permissions, lines 403–409).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Permissions, lines 403–409).
  */
 export const PERMISSIONS_SCOPE_GRANTS_MODULES = [
   {

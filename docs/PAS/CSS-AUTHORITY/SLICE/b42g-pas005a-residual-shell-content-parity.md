@@ -1,35 +1,35 @@
-# Slice B42g ÔÇö Residual Shell Chrome + Content Panel Parity (PAS-005A ┬º11.4)
+# Slice B42g — Residual Shell Chrome + Content Panel Parity (PAS-005A §11.4)
 
-**Prerequisite:** B42f delivered ÔÇö dashboard/shell MCP batch + appshell bridge (~57% parity)
+**Prerequisite:** B42f delivered — dashboard/shell MCP batch + appshell bridge (~57% parity)
 
-**Status:** Delivered (2026-06-28) ÔÇö full parity registry coverage; **legacy delete gate open**
+**Status:** Delivered (2026-06-28) — full parity registry coverage; **legacy delete gate open**
 
 **Type:** Implementation
 
-**Risk class:** Medium ÔÇö MCP install + parity registry closure; legacy path delete closed in B42h
+**Risk class:** Medium — MCP install + parity registry closure; legacy path delete closed in B42h
 
-**Clean Core impact:** AÔåÆA ÔÇö MCP re-seed + strangler registry only; no legacy TSX migration
+**Clean Core impact:** AÔåÆA — MCP re-seed + strangler registry only; no legacy TSX migration
 
 ## Handoff block
 
 ```
 Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42g-pas005a-residual-shell-content-parity.md
 
-1. Objective    ÔÇö Install dashboard-shell-05 shell chrome; register account-settings content panels + residual legacy surfaces; open delete gate when parity registry >= 63.
-2. Allowed layerÔÇö packages/shadcn-studio/** ┬À packages/appshell/src/shadcn-studio-bridge/** ┬À packages/appshell/src/__tests__/shadcn-studio-bridge.test.ts ┬À docs/PAS/**
-3. Files        ÔÇö (see Completion Report)
-4. Prohibited   ÔÇö DELETE packages/appshell/src/shadcn-studio/** ┬À Migrate/copy legacy TSX ┬À foundation-disposition.registry.ts ┬À Governed UI className strip
-5. Authority    ÔÇö PAS-005A ┬º11.4 ┬À ADR-0017 ┬À B42b inventory ┬À PKGR05A
-6. Gates        ÔÇö
+1. Objective    — Install dashboard-shell-05 shell chrome; register account-settings content panels + residual legacy surfaces; open delete gate when parity registry >= 63.
+2. Allowed layer— packages/shadcn-studio/** · packages/appshell/src/shadcn-studio-bridge/** · packages/appshell/src/__tests__/shadcn-studio-bridge.test.ts · docs/PAS/**
+3. Files        — (see Completion Report)
+4. Prohibited   — DELETE packages/appshell/src/shadcn-studio/** · Migrate/copy legacy TSX · foundation-disposition.registry.ts · Governed UI className strip
+5. Authority    — PAS-005A §11.4 · ADR-0017 · B42b inventory · PKGR05A
+6. Gates        —
    pnpm --filter @afenda/shadcn-studio typecheck
    pnpm --filter @afenda/shadcn-studio test:run
    pnpm --filter @afenda/shadcn-studio build
    pnpm --filter @afenda/appshell typecheck
    pnpm --filter @afenda/appshell test:run -- shadcn-studio-bridge
    pnpm quality:boundaries
-7. Closes       ÔÇö B42g residual shell/content parity gap; delete gate when computeStudioBlockParitySummary().deleteBlocked === false
-8. Evidence     ÔÇö MCP batch dashboard-shell-05; studio-block-parity.registry.ts full coverage; bridge shell exports
-9. Attestation  ÔÇö Inventory ┬À Bridge ┬À Build ┬À Documentation
+7. Closes       — B42g residual shell/content parity gap; delete gate when computeStudioBlockParitySummary().deleteBlocked === false
+8. Evidence     — MCP batch dashboard-shell-05; studio-block-parity.registry.ts full coverage; bridge shell exports
+9. Attestation  — Inventory · Bridge · Build · Documentation
 ```
 
 ## MCP batch (executed)
@@ -38,7 +38,7 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42g-pas005a-residual-shell-content-p
 | --- | --- |
 | Shell chrome | `dashboard-shell-05` (`menu-trigger`, `sidebar-user-dropdown`, `statistics-card-04`, `chart-total-revenue`) |
 
-**Install cwd:** `packages/shadcn-studio` ┬À **Flags:** `-y -o`
+**Install cwd:** `packages/shadcn-studio` · **Flags:** `-y -o`
 
 ## Parity snapshot (post-B42g)
 
@@ -55,9 +55,9 @@ Registered in B42g: 19 account-settings content panels, shell chrome (menu-trigg
 
 Added `AppShellPresentationMenuTrigger`, `AppShellPresentationSidebarUserDropdown` via `@afenda/shadcn-studio` bridge.
 
-## Follow-on (B42h ÔÇö delivered)
+## Follow-on (B42h — delivered)
 
-- Filesystem delete `packages/appshell/src/shadcn-studio/` ÔÇö **executed** via `presentation/` relocation ([`b42h-pas005a-legacy-tree-delete.md`](b42h-pas005a-legacy-tree-delete.md))
+- Filesystem delete `packages/appshell/src/shadcn-studio/` — **executed** via `presentation/` relocation ([`b42h-pas005a-legacy-tree-delete.md`](b42h-pas005a-legacy-tree-delete.md))
 - Governed UI className strip on MCP blocks (deferred B42i)
 - Storybook lab stories for new shell chrome exports
 
@@ -67,4 +67,4 @@ Added `AppShellPresentationMenuTrigger`, `AppShellPresentationSidebarUserDropdow
 - [x] Parity registry full coverage (delete gate open)
 - [x] Shell chrome bridge exports + tests
 - [x] typecheck + test:run + build gates
-- [x] Legacy tree delete (B42h ÔÇö `presentation/` relocation)
+- [x] Legacy tree delete (B42h — `presentation/` relocation)

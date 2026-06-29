@@ -1,14 +1,14 @@
-# Slice B40 ÔÇö MCP Seed (Theme, Primitives, Blocks) (PAS-005A ┬º4.4ÔÇô┬º4.6)
+# Slice B40 — MCP Seed (Theme, Primitives, Blocks) (PAS-005A §4.4—§4.6)
 
-**Prerequisite:** B39 delivered ÔÇö theme preset runtime operational
+**Prerequisite:** B39 delivered — theme preset runtime operational
 
-**Status:** Delivered (2026-06-28) ÔÇö manual seed equivalent (MCP unavailable in agent environment)
+**Status:** Delivered (2026-06-28) — manual seed equivalent (MCP unavailable in agent environment)
 
 **Type:** Implementation
 
-**Risk class:** Medium ÔÇö external MCP install + new npm deps (ADR-0003)
+**Risk class:** Medium — external MCP install + new npm deps (ADR-0003)
 
-**Clean Core impact:** AÔåÆA ÔÇö inventory seed only; no ERP wiring
+**Clean Core impact:** AÔåÆA — inventory seed only; no ERP wiring
 
 ## Purpose
 
@@ -19,9 +19,9 @@ Seed `@afenda/shadcn-studio` via shadcn-studio MCP: `install-theme` into base CS
 ```
 Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b40-pas005a-mcp-seed.md
 
-1. Objective    ÔÇö MCP-seed shadcn-studio base theme alignment, ÔëÑ5 /rui primitives, and ÔëÑ2 /cui blocks into @afenda/shadcn-studio with collection-before-install discipline and package builds cleanly.
-2. Allowed layerÔÇö packages/shadcn-studio/** ┬À shadcn-studio.config.json ┬À docs/PAS/CSS-AUTHORITY/SLICE/b40-pas005a-mcp-seed.md ┬À docs/architecture/dependency-registry.md (if new deps)
-3. Files        ÔÇö
+1. Objective    — MCP-seed shadcn-studio base theme alignment, ÔëÑ5 /rui primitives, and ÔëÑ2 /cui blocks into @afenda/shadcn-studio with collection-before-install discipline and package builds cleanly.
+2. Allowed layer— packages/shadcn-studio/** · shadcn-studio.config.json · docs/PAS/CSS-AUTHORITY/SLICE/b40-pas005a-mcp-seed.md · packages/architecture-authority/src/data/dependency-registry.data.ts (if new deps)
+3. Files        —
    packages/shadcn-studio/components.json
    packages/shadcn-studio/package.json
    packages/shadcn-studio/src/styles/shadcn-studio.css
@@ -31,28 +31,28 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b40-pas005a-mcp-seed.md
    packages/shadcn-studio/src/__tests__/mcp-seed-inventory.test.ts
    docs/PAS/CSS-AUTHORITY/SLICE/b40-pas005a-mcp-seed.md
    docs/PAS/pas-status-index.md
-4. Prohibited   ÔÇö packages/ui/** staging; packages/appshell/** migration; apps/erp/**; @afenda/css-authority imports; governed Governed UI normalization (deferred B42)
-5. Authority    ÔÇö PAS-005A ┬º4.4ÔÇô┬º4.6 ┬À ADR-0017 ┬À afenda-shadcn-components skill (install workflow only)
-6. Gates        ÔÇö
+4. Prohibited   — packages/ui/** staging; packages/appshell/** migration; apps/erp/**; @afenda/css-authority imports; governed Governed UI normalization (deferred B42)
+5. Authority    — PAS-005A §4.4—§4.6 · ADR-0017 · afenda-shadcn-components skill (install workflow only)
+6. Gates        —
    pnpm --filter @afenda/shadcn-studio typecheck
    pnpm --filter @afenda/shadcn-studio test:run
    pnpm --filter @afenda/shadcn-studio build
    pnpm sync:package-css-dist -- --package @afenda/shadcn-studio
    pnpm check:package-css-dist-sync
    pnpm quality:boundaries
-7. Closes       ÔÇö PAS-005A MCP inventory Target ÔåÆ Current; primitives + blocks seed evidence
-8. Evidence     ÔÇö
+7. Closes       — PAS-005A MCP inventory Target ÔåÆ Current; primitives + blocks seed evidence
+8. Evidence     —
    packages/shadcn-studio/src/components/ui/ (ÔëÑ5 files)
    packages/shadcn-studio/src/blocks/ (ÔëÑ2 directories)
    packages/shadcn-studio/src/__tests__/mcp-seed-inventory.test.ts
-9. Attestation  ÔÇö Inventory ┬À Build ┬À CSS dist sync ┬À Documentation
+9. Attestation  — Inventory · Build · CSS dist sync · Documentation
 ```
 
 ## Rules frozen
 
 1. MCP cwd = `packages/shadcn-studio`
 2. Collect all selected components/blocks before any install command
-3. Stock shadcn className patterns in Phase 1 ÔÇö no Governed UI strip pass
+3. Stock shadcn className patterns in Phase 1 — no Governed UI strip pass
 4. New npm dependencies require dependency-registry.md entry
 
 ## DoD
@@ -68,5 +68,5 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b40-pas005a-mcp-seed.md
 
 | Capability | Proven | Evidence path |
 | --- | --- | --- |
-| MCP primitive inventory | Yes ÔÇö B40 manual seed | `packages/shadcn-studio/src/components/ui/` |
-| MCP block inventory | Yes ÔÇö B40 manual seed | `packages/shadcn-studio/src/blocks/` |
+| MCP primitive inventory | Yes — B40 manual seed | `packages/shadcn-studio/src/components/ui/` |
+| MCP block inventory | Yes — B40 manual seed | `packages/shadcn-studio/src/blocks/` |

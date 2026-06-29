@@ -148,7 +148,7 @@ Stop if any check fails. Full gate: [Blueprint §7](blueprint-template.md).
 
 | Step | Confirm |
 | --- | --- |
-| 0a | Feature/capability in [Platform North Star §4](../../../../docs/architecture/afenda-platform-north-star.md) or [Domain North Star §4](north-star-template.md) |
+| 0a | Feature/capability in [Platform North Star §4](../../../../docs/NORTHSTAR/kernel-north-star.md) or [Domain North Star §4](north-star-template.md) |
 | 0b | Blueprint §4 box with layer + **why separate** + status |
 | 0c | [Blueprint §7 PAS creation gate](blueprint-template.md) — all conditions |
 | 0d | Domain North Star §13 capability→box name if domain-scoped |
@@ -185,7 +185,7 @@ From [Blueprint §9 handoff contract](blueprint-template.md). Do not re-debate t
 6. Generate or sync [pas-reference-templates.md](pas-reference-templates.md) scaffolds from PAS §4/§6
 7. First Implementation slice: [pas-slice-template.md](pas-slice-template.md) — `Position: Slice N of Total · Blueprint box: <name>`.
 8. Register in [docs/PAS/README.md](../../../../docs/PAS/README.md).
-9. Add row to [Blueprint §10 PAS Inventory](../../../../docs/architecture/afenda-architecture-blueprint.md).
+9. Add row to [Blueprint §10 PAS Inventory](../../../../docs/BLUEPRINT/kernel-blueprint.md).
 10. Tombstone pointer in `packages/<package-name>/` (pointer-only).
 11. Run [publish validation checklist](#publish-validation-checklist).
 
@@ -236,8 +236,8 @@ On every slice **Delivered**:
 
 | File | Copy target | Use when |
 | --- | --- | --- |
-| [north-star-template.md](north-star-template.md) | `docs/architecture/<domain>-north-star.md` | Domain business spec before Blueprint |
-| [blueprint-template.md](blueprint-template.md) | `docs/architecture/<scope>-blueprint.md` | Package map before PAS |
+| [north-star-template.md](north-star-template.md) | `docs/PAS/<domain>-north-star.md` | Domain business spec before Blueprint |
+| [blueprint-template.md](blueprint-template.md) | `docs/PAS/<scope>-blueprint.md` | Package map before PAS |
 | [doc-boundary-contract.md](doc-boundary-contract.md) | (reference) | North Star ↔ Blueprint ↔ PAS boundaries |
 | [doc-evidence-standard.md](doc-evidence-standard.md) | (reference) | Source tiers, Reasoning format, lifecycle evidence bars |
 | [adr-constitution.md](adr-constitution.md) | (reference) | ADR lifecycle, supersession, traceability |

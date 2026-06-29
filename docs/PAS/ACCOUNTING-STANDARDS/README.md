@@ -5,7 +5,7 @@
 | **Scope** | Accounting Standards Authority — one Blueprint box |
 | **Upstream** | [Accounting Standards North Star](../../NORTHSTAR/accounting-standards-north-star.md) · [Accounting Standards Blueprint](../../BLUEPRINT/accounting-standards-blueprint.md) |
 | **Slice SSOT** | [`SLICE/`](SLICE/README.md) — individual handoffs B0–B16 |
-| **Maturity** | Production Candidate — B0 delivered; B1–B16 not started |
+| **Maturity** | Production Candidate — B0–B11 + B13–B16 delivered; B12 governance pending |
 | **Last reviewed** | 2026-06-29 |
 
 > **One sentence:** PAS-003 governs versioned accounting-standard authority metadata, process-routing rules, standards-backed validation contracts, explanation metadata, and evidence snapshots — with slice handoffs in `ACCOUNTING-STANDARDS/SLICE/`.
@@ -31,7 +31,7 @@ Platform North Star
 
 | PAS ID | Composed document | Blueprint box | Package / path | Maturity | Slices |
 | --- | --- | --- | --- | --- | --- |
-| **PAS-003** | [PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | Accounting standards authority | `@afenda/accounting-standards` | Production Candidate | B0 delivered · B1–B16 queued |
+| **PAS-003** | [PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | Accounting standards authority | `@afenda/accounting-standards` | Production Candidate | B0–B11 + B13–B16 delivered · B12 pending |
 
 **Agent skill:** `accounting-standards-authority` · `.cursor/skills/accounting-standards-authority/SKILL.md`
 
@@ -76,6 +76,6 @@ Platform North Star
 | New standards capability | Domain NS §4 → Blueprint §4 → PAS-003 §4 → slice handoff |
 | Slice close | [SLICE/accounting-slice-catalog.md](SLICE/accounting-slice-catalog.md) · handoff file · PAS-003 §12 · Blueprint §10 |
 | SKILL regen | `.cursor/skills/accounting-standards-authority/SKILL.md` from PAS extract map (SYNC intent) |
-| Platform inventory | [Platform Blueprint](../../architecture/afenda-architecture-blueprint.md) — Accounting standards authority row links here |
+| Platform inventory | [Platform Blueprint](../../BLUEPRINT/kernel-blueprint.md) — Accounting standards authority row links here |
 
 **Redirect tombstone:** [docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md](../PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) — backwards-compatible link only.

@@ -9,15 +9,15 @@
 | **Constitutional question** | *How does something become accepted truth?* |
 | **Parent** | [Platform North Star](../architecture/afenda-platform-north-star.md) |
 | **Constitutional laws** | [Knowledge Constitutional Laws](../CONSTITUTION/knowledge-constitutional-laws.md) — K1–K8 |
-| **Derived document** | [Enterprise Knowledge Blueprint](../BLUEPRINT/enterprise-knowledge-blueprint.md) · [Platform Blueprint rollup](../architecture/afenda-architecture-blueprint.md) |
+| **Derived document** | [Enterprise Knowledge Blueprint](../BLUEPRINT/enterprise-knowledge-blueprint.md) · [Platform Blueprint rollup](../BLUEPRINT/kernel-blueprint.md) |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) |
 | **Maturity** | Production Candidate — peer-reviewed 2026-06-29 (9.95/10) |
 | **Runtime stance** | Documentation only |
 | **Does not confer** | Package boundaries, PAS authority, contracts, runtime authority, implementation, slices |
 | **Quality target** | Enterprise **10 / 10** (Enterprise Accepted blocked on §16 exit criteria) |
 | **Evidence standard** | `.cursor/skills/kernel-authority/reference/doc-evidence-standard.md` |
-| **Last reviewed** | 2026-06-29 (gap closure amendment) |
-| **Package / PAS inventory** | See [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) — not declared here |
+| **Last reviewed** | 2026-06-29 (§4 maturity alignment — runtime truth sync) |
+| **Package / PAS inventory** | See [Architecture Blueprint](../BLUEPRINT/kernel-blueprint.md) — not declared here |
 | **Next document** | [Enterprise Knowledge Blueprint](../BLUEPRINT/enterprise-knowledge-blueprint.md) |
 
 > **One sentence:** Every contested enterprise term, invariant, and business rule must have discoverable, accepted meaning with evidence, reasoning, and lineage — consumable by humans, agents, and product surfaces without re-deriving truth locally.
@@ -266,31 +266,40 @@ Knowledge Atom (locale-neutral accepted meaning)
 
 # 4. Capability Model
 
-| Capability | Maturity | EFR summary | Source |
-| --- | --- | --- | --- |
-| **Knowledge hierarchy** | Production | Concept → Atom → Representation | §3.1 · LAW K7 |
-| **Knowledge classification** | Production | Seven classes with distinct conformance | §3.2 |
-| **Epistemic status model** | Production | Truth binding orthogonal to lifecycle | §3.3 |
-| **Evidence precedence** | Advanced | Ordered conflict resolution across source types | §3.4 · §5.2 |
-| **Semantic stability levels** | Production | Constitutional through historical | §3.5 |
-| **Acceptance graph model** | Enterprise | Authority → evidence → reasoning → atom | Charter PAS §3.1 |
-| **Accepting authority taxonomy** | Production | Typed authorities with jurisdiction | Charter PAS §3.2 |
-| **Temporal scope** | Production | effectiveFrom / effectiveUntil / supersededBy | Charter PAS §3.4 |
-| **Promotion pipeline** | Enterprise | Domain NS §3 → atom → representations | §8.5 · LAW K7 |
-| **Relationship preservation** | Production | Typed edges — governs, supersedes, derives_from | Charter PAS §9.1 |
-| **Integrity dimensions (10)** | Production | Multidimensional completeness — not one score | Charter PAS §8 |
-| **Conflict resolution engine** | Advanced | Precedence + escalation when sources disagree | §5.2 |
-| **Conformance enforcement** | Production | Gates reject incomplete acceptance metadata | Platform extension PAS |
-| **Kernel consumer alignment** | Production | Shape ≠ meaning — mapping only | Kernel consumer PAS |
-| **Applicability resolution** | Production | Scope + exceptions before consumer binding | §3.6 · P4 |
-| **Knowledge term model** | Production | Synonyms and locale labels — not parallel atoms | §3.1 · §3.9 · P13 |
-| **Exposure and agent grounding** | Advanced | Audience tiers + cite atom ID + status + stability | §3.7 |
-| **Stewardship workflow** | Production | Owner · steward · SME · proposal intake | §3.8 · §8.6 |
-| **Vocabulary discovery** | Production | Find atoms by concept, term, domain, status | §3.10 |
-| **Misconception coverage** | Production | Rejected anti-patterns on Production+ atoms | §3 · charter PAS |
-| **Trust certification** | Advanced | Explicit automation-safe attestation beyond Accepted | §3.7 · §6 |
+> **Maturity legend (read before the table):** This document is **documentation only** — it does not confer runtime authority. **Domain spec** = business model defined in §3–§5. **Runtime** = `@afenda/enterprise-knowledge` + PAS-004 family gates (authority: PAS-004C delivered · PAS-004D partial). Do not treat **Domain spec: Documented** as **Runtime: Delivered**. §12 Evidence IDs (E8–E11 · E14–E16) remain △ until runtime rows reach **Delivered** and §16 exit criteria close.
 
-**Enterprise Accepted blockers:** Evidence precedence operational · conflict resolution in conformance · epistemic status on all Production+ atoms · promotion pipeline proven for one domain glossary · applicability on all Production+ Rule/Policy atoms · exposure tier on all Production+ atoms.
+| Runtime label | Meaning |
+| --- | --- |
+| **Delivered** | Contract/corpus/gates live in package (PAS-004A–C baseline) |
+| **Partial** | Facet or gate exists but incomplete vs this NS or △ evidence |
+| **Target** | △ in §12 — PAS slice required before Production+ claims |
+| **Domain only** | Constitutional/domain model — spans PAS family; not one gate |
+
+| Capability | Domain spec | Runtime | EFR summary | Source | Evidence |
+| --- | --- | --- | --- | --- | --- |
+| **Knowledge hierarchy** | Documented | Delivered | Concept → Atom → Term → Representation | §3.1 · LAW K7 | E7 · E13 |
+| **Knowledge classification** | Documented | Partial | Seven NS classes · runtime `kind` facet differs | §3.2 | E5 |
+| **Epistemic status model** | Documented | Delivered | Truth binding facet on all atoms + consumer projections | §3.3 | E8 |
+| **Evidence precedence** | Documented | Partial | IFRS/GAAP contextual validity only — not full §3.4 ladder | §3.4 · §5.2 | E9 △ |
+| **Semantic stability levels** | Documented | Delivered | Stability facet on all atoms + metadata/ai projections | §3.5 | E11 |
+| **Acceptance graph model** | Documented | Delivered | Authority → evidence → reasoning → atom | Charter PAS §3.1 | E3 |
+| **Accepting authority taxonomy** | Documented | Delivered | Typed authorities with jurisdiction | Charter PAS §3.2 | E2 |
+| **Temporal scope** | Documented | Delivered | effectiveFrom / effectiveUntil / supersededBy | Charter PAS §3.4 | E4 |
+| **Promotion pipeline** | Documented | Partial | Domain NS §3 → atom path exists · not proven end-to-end (§16 #6) | §8.5 · LAW K7 | E12 |
+| **Relationship preservation** | Documented | Delivered | Typed edges — governs, supersedes, derives_from | Charter PAS §9.1 | E4 |
+| **Integrity dimensions (10)** | Documented | Delivered | Multidimensional presence — numeric scoring deferred (§2 · §15) | Charter PAS §8 | E5 |
+| **Conflict resolution engine** | Documented | Partial | Framework-basis conflict policy — not full §5.2 escalation engine | §5.2 | E10 △ |
+| **Conformance enforcement** | Documented | Delivered | Gates reject incomplete acceptance metadata | Platform extension PAS | E4 |
+| **Kernel consumer alignment** | Documented | Delivered | Shape ≠ meaning — mapping only | Kernel consumer PAS | D2 |
+| **Applicability resolution** | Documented | Partial | `applicability` on atoms · conformance incomplete (§16 #9) | §3.6 · P4 | E14 △ |
+| **Knowledge term model** | Documented | Delivered | Synonyms and locale labels — not parallel atoms | §3.1 · §3.9 · P13 | E13 |
+| **Exposure and agent grounding** | Documented | Partial | `exposure.audience` (3 values) — not full §3.7 four-tier model | §3.7 | E15 △ |
+| **Stewardship workflow** | Documented | Target | Roles defined — no runtime intake/registry workflow | §3.8 · §8.6 | E16 △ |
+| **Vocabulary discovery** | Documented | Partial | Graph query helpers — no steward discovery index | §3.10 | E4 |
+| **Misconception coverage** | Documented | Delivered | Rejected anti-patterns on registry atoms | §3 · charter PAS | E4 |
+| **Trust certification** | Documented | Target | Automation attestation beyond Accepted — deferred | §3.7 · §6 | — |
+
+**Enterprise Accepted blockers (open — §16):** Runtime **Target** or **Partial** rows above · evidence precedence operational (§16 #2) · conflict resolution in conformance (#3) · promotion pipeline proven for one domain glossary (#6) · applicability gates on Rule/Policy (#9) · exposure tier on all Production+ atoms (#10) · zero △ on E9–E10 (#7) and E14–E16 (#12).
 
 ---
 
@@ -566,10 +575,10 @@ Enterprise Knowledge is **Platform Meaning** — one of four non-overlapping con
 | E5 | Ten integrity dimensions | ✓ | T5 | Charter PAS §8 |
 | E6 | Knowledge constitutional laws | ✓ | T1 | [Knowledge Constitutional Laws](../CONSTITUTION/knowledge-constitutional-laws.md) |
 | E7 | Knowledge hierarchy Concept → Atom → Representation | ✓ | T6 | Peer review 2026-06-29 · §3.1 |
-| E8 | Epistemic status model | △ | T6 | Peer review · §3.3 — implement in PAS |
+| E8 | Epistemic status model | ✓ | T6 | `epistemicStatus` facet · `check:knowledge-epistemic-facets` · §3.3 |
 | E9 | Evidence precedence hierarchy | △ | T6 | Peer review · §3.4 — implement in PAS |
 | E10 | Conflict resolution model | △ | T6 | Peer review · §5.2 — implement in PAS |
-| E11 | Semantic stability levels | △ | T6 | Peer review · §3.5 — implement in PAS |
+| E11 | Semantic stability levels | ✓ | T6 | `semanticStability` facet · `check:knowledge-epistemic-facets` · §3.5 |
 | E12 | Constitutional promotion pipeline | ✓ | T1 | §8.5 · LAW K7 |
 | E13 | Knowledge term layer (synonyms not atoms) | ✓ | T5 | Semantic model PAS · peer review §3.1 |
 | E14 | Applicability and scope model | △ | T6 | Gap closure §3.6 — implement in PAS conformance |
@@ -592,12 +601,13 @@ Enterprise Knowledge is **Platform Meaning** — one of four non-overlapping con
 | 2026-06-29 | Add §3.8 stewardship roles + §8.6 proposal intake | SAPterm / industry glossary governance best practices | E16 |
 | 2026-06-29 | Add §3.10 five registry classes | Prevent atom/term/representation collapse — Architecture Authority §3.1 analogue | E17 |
 | 2026-06-29 | I10 meaning vs reservation boundary | ADR-0020 master data authority — Knowledge owns meaning not record ownership | E18 |
+| 2026-06-29 | §4 maturity alignment — domain spec vs runtime columns | §4 overstated Production while §12 △ and package lacked facets — agents skipped PAS work | §4 legend · E8–E16 |
 
 ---
 
 # 13. Blueprint Mapping
 
-Capability → Blueprint box names only. Detail: [Enterprise Knowledge Blueprint](../BLUEPRINT/enterprise-knowledge-blueprint.md) §4 · [Platform Blueprint rollup](../architecture/afenda-architecture-blueprint.md).
+Capability → Blueprint box names only. Detail: [Enterprise Knowledge Blueprint](../BLUEPRINT/enterprise-knowledge-blueprint.md) §4 · [Platform Blueprint rollup](../BLUEPRINT/kernel-blueprint.md).
 
 | §4 Capability | Blueprint box |
 | --- | --- |
@@ -607,7 +617,10 @@ Capability → Blueprint box names only. Detail: [Enterprise Knowledge Blueprint
 | Evidence precedence | **Enterprise knowledge** |
 | Semantic stability levels | **Enterprise knowledge** |
 | Acceptance graph model | **Enterprise knowledge** |
+| Accepting authority taxonomy | **Enterprise knowledge** |
+| Temporal scope | **Enterprise knowledge** |
 | Promotion pipeline | **Enterprise knowledge** |
+| Relationship preservation | **Enterprise knowledge** |
 | Conflict resolution engine | **Enterprise knowledge** |
 | Integrity dimensions | **Enterprise knowledge** |
 | Conformance enforcement | **Enterprise knowledge** |
@@ -680,14 +693,14 @@ Capability → Blueprint box names only. Detail: [Enterprise Knowledge Blueprint
 | 4 | Semantic stability on all Production+ atoms | §3.5 facet |
 | 5 | Classification on all Production+ atoms | §3.2 kind |
 | 6 | Promotion pipeline proven for one domain | Domain NS §3 → glossary sync |
-| 7 | Zero △ peer-review items (E8–E11) | Evidence register ✓ |
+| 7 | Zero △ peer-review items (E9–E10) | Evidence register ✓ |
 | 8 | Knowledge Laws K1–K8 referenced in PAS charter | Doc cross-links |
 | 9 | Applicability scope on all Production+ Rule/Policy atoms | §3.6 facet |
 | 10 | Exposure tier on all Production+ atoms | §3.7 facet |
 | 11 | Knowledge Term layer operational for Production+ atoms | §3.1 · term registry |
 | 12 | Zero △ gap-closure items (E14–E16) | Evidence register ✓ |
 
-**Last synced with PAS:** Charter MVP · semantic model closed · gap closure amendment 2026-06-29 · **Maturity:** Production Candidate
+**Last synced with PAS:** Charter MVP · semantic model closed (PAS-004C) · operational closure partial (PAS-004D B50) · §4 runtime column synced 2026-06-29 · **Maturity:** Production Candidate (Enterprise Accepted blocked — criteria above remain open)
 
 ---
 
@@ -695,8 +708,8 @@ Capability → Blueprint box names only. Detail: [Enterprise Knowledge Blueprint
 
 | Downstream | Sync rule |
 | --- | --- |
-| Enterprise Knowledge Blueprint §4 | Every §13 row maps to Enterprise knowledge box |
+| Enterprise Knowledge Blueprint §4 | Every §13 row maps to Enterprise knowledge box · §5.1 runtime labels follow NS §4 **Runtime** column |
 | Platform Blueprint | Knowledge family row references this domain NS · rollup |
 | Domain North Stars §3 | Upstream of promotion pipeline — constitutional |
 | All glossaries | Must derive from atoms — §8.5 |
-| Enterprise Knowledge PAS family | Implement △ items E8–E11 · E14–E16 |
+| Enterprise Knowledge PAS family | Implement △ items E9–E10 · E14–E16 |

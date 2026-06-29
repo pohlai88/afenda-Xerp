@@ -28,7 +28,7 @@ describe("check-multi-tenancy-glossary-first script", () => {
 
   it("documents Step 1 markers from multi-tenancy.md §484–500", () => {
     const multiTenancyDoc = readFileSync(
-      join(repoRoot, "docs/architecture/multi-tenancy.md"),
+      join(repoRoot, "docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md"),
       "utf8"
     );
 
@@ -49,7 +49,7 @@ describe("check-multi-tenancy-glossary-first script", () => {
     ).toBeGreaterThanOrEqual(7);
 
     const glossary = readFileSync(
-      join(repoRoot, "docs/architecture/glossary.md"),
+      join(repoRoot, "docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md"),
       "utf8"
     );
 

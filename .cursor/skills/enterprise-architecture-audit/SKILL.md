@@ -311,7 +311,7 @@ Link skills and queries only — do not embed full tutorials in audit output.
 ## References
 
 - Evidence map: [reference/evidence-map.md](reference/evidence-map.md)
-- Runtime matrix: `docs/architecture/afenda-runtime-truth-matrix.md`
+- Runtime matrix: `docs/PAS/pas-status-index.md`
 - Foundation registry: `packages/architecture-authority/src/data/foundation-disposition.registry.ts`
 - PAS index: `docs/PAS/README.md`
 - Orchestrator: `.cursor/agents/enterprise-architecture-audit-orchestrator.md`

@@ -157,7 +157,7 @@ When an ADR is **Accepted**, update traceability targets:
 | **Canonical path** | `docs/adr/ADR-NNNN-<slug>.md` |
 | **Index** | Link from [`docs/adr/README.md`](../../docs/adr/) or architecture blueprint §8 |
 | **Cross-reference format** | `[T0 ADR-NNNN §Decision]` in Source columns |
-| **Platform constitutional ADRs** | Cited from [Platform North Star §7–§9](../../docs/architecture/afenda-platform-north-star.md) |
+| **Platform constitutional ADRs** | Cited from [Platform North Star §7–§9](../../docs/NORTHSTAR/kernel-north-star.md) |
 
 ---
 

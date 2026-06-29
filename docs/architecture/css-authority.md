@@ -1,9 +1,13 @@
-# CSS Authority — Canonical Reference
+# CSS Authority — Operational Reference
 
-> Single source of truth for CSS ownership, import rules, cascade layer order,
-> namespace contracts, and entrypoint decision trees across the Afenda monorepo.
->
-> Package READMEs link here with a short summary — do not duplicate rule tables.
+| Field | Value |
+| --- | --- |
+| **Document class** | `operational_derived_view` |
+| **Constitutional SSOT** | [PAS-005](../PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) · [Domain NS](../NORTHSTAR/css-authority-north-star.md) · [Domain Blueprint](../BLUEPRINT/css-authority-blueprint.md) |
+| **Runtime sync** | 605-token registry (465 afenda + 44 appshell + 50 auth-editorial + 46 shadcn) · B26–B37 · R23–R30 + domain-sync + bridge-sync |
+| **Last reviewed** | 2026-06-29 |
+
+> Operational view for CSS ownership, import rules, cascade layer order, namespace contracts, and entrypoint decision trees. **Not constitutional SSOT** — package READMEs link here with a short summary; do not duplicate PAS rule tables.
 
 ---
 

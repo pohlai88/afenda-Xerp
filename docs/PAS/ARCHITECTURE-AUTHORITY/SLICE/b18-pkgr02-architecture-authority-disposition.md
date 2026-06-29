@@ -20,14 +20,14 @@ PAS-002 frontmatter declares `registry_lane: PKGR02_ARCHITECTURE_AUTHORITY`. Mac
 Handoff from: docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b18-pkgr02-architecture-authority-disposition.md
 
 1. Objective    — Add PKGR02_ARCHITECTURE_AUTHORITY disposition entry for PKG-019 @afenda/architecture-authority; sync foundation-disposition.md view; bump registry fingerprint.
-2. Allowed layer— packages/architecture-authority/src/data/foundation-disposition.registry.ts + docs/architecture/foundation-disposition.md + docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/
+2. Allowed layer— packages/architecture-authority/src/data/foundation-disposition.registry.ts + packages/architecture-authority/src/data/foundation-disposition.registry.ts + docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/
 3. Files        —
    packages/architecture-authority/src/data/foundation-disposition.registry.ts
-   docs/architecture/foundation-disposition.md
+   packages/architecture-authority/src/data/foundation-disposition.registry.ts
    docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b18-pkgr02-architecture-authority-disposition.md
    docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md
 4. Prohibited   — apps/erp; packages/kernel; validator logic changes; non-registry package src edits
-5. Authority    — PAS-002 §0 ┬À ADR-0014 ┬À foundation-registry-owner
+5. Authority    — PAS-002 §0 · ADR-0014 · foundation-registry-owner
 6. Gates        —
    pnpm --filter @afenda/architecture-authority typecheck
    pnpm --filter @afenda/architecture-authority test:run
@@ -36,8 +36,8 @@ Handoff from: docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b18-pkgr02-architecture-auth
 7. Closes       — Missing PKGR02_ARCHITECTURE_AUTHORITY machine disposition row
 8. Evidence     —
    packages/architecture-authority/src/data/foundation-disposition.registry.ts
-   docs/architecture/foundation-disposition.md
-9. Attestation  — Registry ┬À Documentation ┬À Governance
+   packages/architecture-authority/src/data/foundation-disposition.registry.ts
+9. Attestation  — Registry · Documentation · Governance
 ```
 
 ## DoD
@@ -47,4 +47,4 @@ Handoff from: docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b18-pkgr02-architecture-auth
 | 1 | Entry id `PKGR02_ARCHITECTURE_AUTHORITY` exists with packageId PKG-019 | registry row |
 | 2 | Fingerprint bumped | FOUNDATION-DISPOSITION-2026-06-27-v15 |
 | 3 | foundation-disposition.md synced | table row present |
-| 4 | Gates pass | check:foundation-disposition Ô£ô |
+| 4 | Gates pass | check:foundation-disposition ✓ |

@@ -141,7 +141,7 @@ function verifyDocRegistryAlignment(
 
   const packageDocPath = join(
     repoRoot,
-    "docs/architecture/package-registry.md"
+    "packages/architecture-authority/src/data/package-registry.data.ts"
   );
   if (existsSync(packageDocPath)) {
     const packageDoc = readFileSync(packageDocPath, "utf8");
@@ -174,7 +174,7 @@ function verifyDocRegistryAlignment(
 
   const dependencyDocPath = join(
     repoRoot,
-    "docs/architecture/dependency-registry.md"
+    "packages/architecture-authority/src/data/dependency-registry.data.ts"
   );
   if (existsSync(dependencyDocPath)) {
     const dependencyDoc = readFileSync(dependencyDocPath, "utf8");
@@ -215,7 +215,7 @@ function verifyDocRegistryAlignment(
     }
   }
 
-  const layerDocPath = join(repoRoot, "docs/architecture/layer-registry.md");
+  const layerDocPath = join(repoRoot, "packages/architecture-authority/src/data/layer-registry.data.ts");
   if (existsSync(layerDocPath)) {
     const layerDoc = readFileSync(layerDocPath, "utf8");
     const activeLayerCount = Object.keys(layerContract.assignments).length;

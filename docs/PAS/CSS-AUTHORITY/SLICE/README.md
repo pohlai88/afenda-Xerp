@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **Directory (SSOT)** | `docs/PAS/CSS-AUTHORITY/SLICE/` |
-| **Legacy** | `docs/PAS/slice/` — **removed from repo**; do not restore PAS-005 handoffs there |
+| **Legacy** | `docs/PAS/slice/b*-pas005*` — **tombstoned** at flat `docs/PAS/slice/`; do not edit — amend composed handoffs here |
 | **Template** | [pas-slice-template.md](../../../../.cursor/skills/kernel-authority/reference/pas-slice-template.md) |
 | **Catalog** | [css-authority-slice-catalog.md](css-authority-slice-catalog.md) |
 | **Slice range** | B27–B43 delivered · B44+ proposed (PAS-005B) |

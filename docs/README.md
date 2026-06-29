@@ -5,7 +5,7 @@ Human-readable source of truth for architecture, governance, package authority s
 **Hierarchy (when artifacts disagree, higher wins):**
 
 ```text
-ADR  >  docs/PAS/  >  docs/architecture/*-registry.md  >  pre-accounting-foundation-roadmap.md  >  skills / AGENTS.md
+ADR  >  docs/PAS/  >  docs/PAS/*-registry.md  >  pre-accounting-foundation-roadmap.md  >  skills / AGENTS.md
 ```
 
 Machine enforcement lives in `packages/*` and CI (`pnpm quality`, `pnpm ui:guard`). Docs lead; code enforces.
@@ -31,9 +31,9 @@ Machine enforcement lives in `packages/*` and CI (`pnpm quality`, `pnpm ui:guard
 | New contributor | [Root README](../README.md) → [Architecture](architecture/README.md) |
 | AI / Cursor agent | See mandatory read order above → [AGENTS.md](../AGENTS.md) → `.cursor/skills/afenda-coding-session/SKILL.md` |
 | Kernel / PAS work | [PAS-001](PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) → `.cursor/skills/kernel-authority/SKILL.md` |
-| UI block install | [afenda-ui-quality skill](../.cursor/skills/afenda-ui-quality/SKILL.md) → [UI guard](governance/ui-guard.md) |
-| React ERP quality | [react-erp-quality skill](../.cursor/skills/react-erp-quality/SKILL.md) → Gate F in [UI guard](governance/ui-guard.md) |
-| API routes | [API contract](governance/api-contract.md) → [Next.js API hardening](governance/nextjs-api-hardening.md) |
+| UI block install | [afenda-ui-quality skill](../.cursor/skills/afenda-ui-quality/SKILL.md) → `pnpm ui:guard` |
+| React ERP quality | [react-erp-quality skill](../.cursor/skills/react-erp-quality/SKILL.md) → Gate F in `scripts/governance/ui-guard.mjs` |
+| API routes | [REST API governance](architecture/afenda-rest-api-governance.md) · [platform-api-contract skill](../.cursor/skills/platform-api-contract/SKILL.md) |
 | Multi-tenancy | [multi-tenancy.md](architecture/multi-tenancy.md) |
 | Pre-accounting roadmap | [pre-accounting-foundation-roadmap.md](architecture/pre-accounting-foundation-roadmap.md) |
 | Runtime truth / drift audit | [afenda-runtime-truth-matrix.md](architecture/afenda-runtime-truth-matrix.md) · [afenda-documentation-drift-audit.md](architecture/afenda-documentation-drift-audit.md) · [monorepo-feature-inventory.md](architecture/monorepo-feature-inventory.md) |
@@ -47,8 +47,7 @@ Machine enforcement lives in `packages/*` and CI (`pnpm quality`, `pnpm ui:guard
 |-----------|---------|
 | [`adr/`](adr/README.md) | Architecture Decision Records (constitutional) |
 | [`PAS/`](PAS/README.md) | Package Authority Standards — canonical long-form standards and slice handoffs |
-| [`architecture/`](architecture/README.md) | Registries, baselines, CSS authority, glossary |
-| [`governance/`](governance/README.md) | Runtime policies — UI guard, API contracts, operational support docs |
+| [`architecture/`](architecture/README.md) | Registries, baselines, CSS authority, glossary, REST API governance |
 | [`ai/`](ai/README.md) | AI-assisted development policy |
 
 **Retired (2026-06-27):** ARCH and delivery roadmap trees — premature architecture/dev roadmaps superseded by PAS.
@@ -70,7 +69,7 @@ Machine enforcement lives in `packages/*` and CI (`pnpm quality`, `pnpm ui:guard
 | `pnpm quality:documentation-drift` | Same gate in quality chain |
 | `pnpm check` | Biome + typecheck + test:run |
 
-Full gate breakdown: [`governance/ui-guard.md`](governance/ui-guard.md).
+Full gate breakdown: [`scripts/governance/ui-guard.mjs`](../scripts/governance/ui-guard.mjs) · [`.cursor/rules/governed-ui-consumption.mdc`](../.cursor/rules/governed-ui-consumption.mdc).
 
 ---
 

@@ -5,10 +5,13 @@
  */
 import type {
   BindingLevel,
+  EpistemicStatus,
+  ExposureAudience,
   KnowledgeAtom,
   KnowledgeDomain,
   KnowledgeLineage,
   KnowledgeMisconception,
+  SemanticStabilityLevel,
 } from "../contracts/knowledge-atom.contract.js";
 import type { KnowledgeConsumerProfile } from "../contracts/knowledge-consumer-profile.contract.js";
 import { KNOWLEDGE_CONSUMER_PROFILES } from "../contracts/knowledge-consumer-profile.contract.js";
@@ -32,12 +35,17 @@ export interface ErpKnowledgeProjection {
   readonly atomId: string;
   readonly binding: BindingLevel;
   readonly canonicalLabel: string;
+  readonly epistemicStatus: EpistemicStatus;
+  readonly semanticStability: SemanticStabilityLevel;
   readonly shortDescription: string;
 }
 
 export interface MetadataKnowledgeProjection {
   readonly atomId: string;
+  readonly epistemicStatus: EpistemicStatus;
+  readonly exposureAudience: ExposureAudience;
   readonly preferredWording: string | undefined;
+  readonly semanticStability: SemanticStabilityLevel;
   readonly shortLabel: string;
 }
 
@@ -56,9 +64,12 @@ export interface AiKnowledgeEvidenceCitationProjection {
 
 export interface AiKnowledgeProjection {
   readonly atomId: string;
+  readonly epistemicStatus: EpistemicStatus;
   readonly evidenceCitations: readonly AiKnowledgeEvidenceCitationProjection[];
   readonly examples: readonly string[];
+  readonly exposureAudience: ExposureAudience;
   readonly misconceptions: readonly KnowledgeMisconception[];
+  readonly semanticStability: SemanticStabilityLevel;
   readonly structuredReasoning: KnowledgeReasoning;
 }
 
@@ -67,6 +78,8 @@ export interface ReportKnowledgeProjection {
   readonly binding: BindingLevel;
   readonly canonicalLabel: string;
   readonly domain: readonly KnowledgeDomain[];
+  readonly epistemicStatus: EpistemicStatus;
+  readonly semanticStability: SemanticStabilityLevel;
 }
 
 export type KnowledgeConsumerProjection =
@@ -94,6 +107,8 @@ function projectErpProfile(atom: KnowledgeAtom): ErpKnowledgeProjection {
     canonicalLabel: atom.meaning.canonical,
     shortDescription: atom.meaning.business,
     binding: atom.binding,
+    epistemicStatus: atom.epistemicStatus,
+    semanticStability: atom.semanticStability,
   };
 }
 
@@ -109,6 +124,9 @@ function projectMetadataProfile(
     atomId: atom.atomId,
     shortLabel: preferredTerm?.label ?? atom.meaning.business,
     preferredWording: atom.exposure.afendaPreferredWording,
+    epistemicStatus: atom.epistemicStatus,
+    semanticStability: atom.semanticStability,
+    exposureAudience: atom.exposure.audience,
   };
 }
 
@@ -126,6 +144,9 @@ function projectAiProfile(atom: KnowledgeAtom): AiKnowledgeProjection {
     examples: atom.structuredReasoning.premises,
     misconceptions: atom.misconceptions,
     structuredReasoning: atom.structuredReasoning,
+    epistemicStatus: atom.epistemicStatus,
+    semanticStability: atom.semanticStability,
+    exposureAudience: atom.exposure.audience,
     evidenceCitations: atom.typedEvidence.map((entry) => ({
       evidenceId: entry.evidenceId,
       type: entry.type,
@@ -141,6 +162,8 @@ function projectReportProfile(atom: KnowledgeAtom): ReportKnowledgeProjection {
     canonicalLabel: atom.meaning.canonical,
     domain: atom.knowledgeDomain,
     binding: atom.binding,
+    epistemicStatus: atom.epistemicStatus,
+    semanticStability: atom.semanticStability,
   };
 }
 
@@ -245,6 +268,29 @@ export function validateKnowledgeConsumerProfiles(): readonly string[] {
         if (!("structuredReasoning" in projected)) {
           errors.push(
             `ai profile for "${atomId}": missing structuredReasoning facet`
+          );
+        }
+        if (!("epistemicStatus" in projected)) {
+          errors.push(
+            `ai profile for "${atomId}": missing epistemicStatus facet`
+          );
+        }
+        if (!("semanticStability" in projected)) {
+          errors.push(
+            `ai profile for "${atomId}": missing semanticStability facet`
+          );
+        }
+      }
+
+      if (profile === "metadata") {
+        if (!("epistemicStatus" in projected)) {
+          errors.push(
+            `metadata profile for "${atomId}": missing epistemicStatus facet`
+          );
+        }
+        if (!("semanticStability" in projected)) {
+          errors.push(
+            `metadata profile for "${atomId}": missing semanticStability facet`
           );
         }
       }

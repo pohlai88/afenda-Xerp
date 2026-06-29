@@ -2,42 +2,35 @@
 /**
  * PAS-002A §4.2 / B39 — ownership baseline sign-off gate.
  *
- * Fails when docs/architecture/ownership-registry.md still carries a pending
- * sign-off marker or lacks the required fingerprint field.
+ * Validates machine ownership registry completeness (human markdown registries retired).
  */
 
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { ARCHITECTURE_BASELINE_FINGERPRINT } from "../../packages/architecture-authority/src/index.ts";
+import { ownershipContract } from "../../packages/architecture-authority/src/data/ownership-registry.data.ts";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
-const ownershipDocPath = join(
+const ownershipDataPath = join(
   repoRoot,
-  "docs/architecture/ownership-registry.md"
+  "packages/architecture-authority/src/data/ownership-registry.data.ts"
 );
 
 const errors: string[] = [];
-const content = readFileSync(ownershipDocPath, "utf8");
-
-if (content.includes("Pending Sign-off")) {
-  errors.push(
-    "ownership-registry.md still contains Pending Sign-off — complete B39 attestation"
-  );
-}
-
-if (!/\*\*Fingerprint\*\*\s*\|\s*`[^`]+`/.test(content)) {
-  errors.push("ownership-registry.md missing **Fingerprint** field");
-}
+const content = readFileSync(ownershipDataPath, "utf8");
 
 if (!content.includes("ADR-0004")) {
-  errors.push("ownership-registry.md must reference ADR-0004 attestation");
+  errors.push("ownership-registry.data.ts must reference ADR-0004 attestation");
 }
 
-if (!content.includes(ARCHITECTURE_BASELINE_FINGERPRINT)) {
+const missingOwner = ownershipContract.packages.filter(
+  (entry) => entry.ownerDomain.trim().length === 0
+);
+
+if (missingOwner.length > 0) {
   errors.push(
-    `ownership-registry.md fingerprint must match machine registry (${ARCHITECTURE_BASELINE_FINGERPRINT})`
+    `ownership-registry.data.ts has ${missingOwner.length} package(s) without owner`
   );
 }
 

@@ -14,14 +14,14 @@
 Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b32-erp-consumer-integration.md
 
 1. Objective    — Wire system-admin settings section titles to Knowledge Atoms; require full 24-atom glossary manifest parity; export B29/B31 ID tuples from package surface.
-2. Allowed layer— apps/erp/src/lib/knowledge/** · apps/erp/src/lib/system-admin/resolve-system-admin-settings-form-values.ts · packages/enterprise-knowledge/src/index.ts · docs/architecture/glossary.md · scripts/governance/check-glossary-knowledge-sync.mts · docs/PAS/**
+2. Allowed layer— apps/erp/src/lib/knowledge/** · apps/erp/src/lib/system-admin/resolve-system-admin-settings-form-values.ts · packages/enterprise-knowledge/src/index.ts · docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md · scripts/governance/check-glossary-knowledge-sync.mts · docs/PAS/**
 3. Files        —
    apps/erp/src/lib/knowledge/enterprise-knowledge-vocabulary.server.ts
    apps/erp/src/lib/knowledge/__tests__/enterprise-knowledge-vocabulary.test.ts
    apps/erp/src/lib/system-admin/resolve-system-admin-settings-form-values.ts
    apps/erp/src/lib/system-admin/__tests__/resolve-system-admin-settings-form-values.test.ts
    packages/enterprise-knowledge/src/index.ts
-   docs/architecture/glossary.md
+   docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md
    scripts/governance/check-glossary-knowledge-sync.mts
    docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b32-erp-consumer-integration.md
 4. Prohibited   — Inline atom meaning in ERP; registry mutation; metadata package deps

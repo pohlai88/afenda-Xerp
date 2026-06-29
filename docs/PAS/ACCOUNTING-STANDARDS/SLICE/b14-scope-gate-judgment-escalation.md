@@ -10,7 +10,7 @@
 
 **Risk class:** Medium
 
-**Clean Core impact:** A→A — contracts-only package
+**Clean Core impact:** A→A — result contract extension
 
 ## Purpose
 
@@ -20,7 +20,7 @@ Add scope-gate and judgment escalation fields to validation result per P12.
 
 ## Handoff block
 
-`
+```
 Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b14-scope-gate-judgment-escalation.md
 
 1. Objective    — Add scope-gate and judgment escalation fields to validation result per P12.
@@ -40,7 +40,7 @@ Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b14-scope-gate-judgment-escala
 8. Evidence     —
    (after delivery) result contract escalation fields
 9. Attestation  — Contract
-`
+```
 
 ## DoD
 
@@ -49,3 +49,5 @@ Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b14-scope-gate-judgment-escala
 | 1 | Slice handoff + PAS §12 sync | file read | PAS-003 §4.7 |
 | 2 | Implementation matches PAS §4 contract | typecheck + test:run | PAS-003 authority surface |
 | 3 | No prohibited surfaces introduced | quality:boundaries | PAS-003 §5 |
+
+

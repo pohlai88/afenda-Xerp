@@ -17,8 +17,8 @@
 
 ```text
 packages/accounting-standards/
-├── PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md   # tombstone → docs/PAS
-├── package.json
+├── PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md   # tombstone → docs/PAS/ACCOUNTING-STANDARDS
+├── PAS-003-ACCOUNTING-STANDARDS-TREE.md                 # package-local tree map
 ├── tsconfig.json
 ├── tsconfig.vitest.json
 ├── vitest.config.ts
@@ -30,9 +30,9 @@ packages/accounting-standards/
 
 ---
 
-## Target structure (B1–B11)
+## Target structure (B1–B16)
 
-See PAS-003 §6.1 for full `standards/`, `routing/`, `rules/`, `explanations/`, `evidence/` tree.
+See PAS-003 §6.1 for full `standards/`, `routing/`, `rules/`, `explanations/`, `evidence/` tree. Extensions B13–B16 add parallel-book routing, escalation fields, supersession metadata, and cross-representation keys on routing/version surfaces.
 
 Do not list target files as **Current** until the delivering slice lands.
 

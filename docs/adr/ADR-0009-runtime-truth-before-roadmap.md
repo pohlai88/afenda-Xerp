@@ -18,8 +18,8 @@ Roadmaps derived from stale documentation are **actively harmful** in an AI-gove
 
 Related artifacts:
 
-- [`docs/architecture/afenda-documentation-drift-audit.md`](../architecture/afenda-documentation-drift-audit.md)
-- [`docs/architecture/afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md)
+- [`docs/PAS/pas-status-index.md`](../PAS/pas-status-index.md)
+- [`docs/PAS/pas-status-index.md`](../PAS/pas-status-index.md)
 - ADR-0012 (evidence-backed documentation)
 
 ---
@@ -27,7 +27,7 @@ Related artifacts:
 ## Decision
 
 1. **No delivery roadmap or TIP sequence update may ship without a concurrent runtime truth audit** backed by filesystem evidence (files, tests, exports, scripts, schemas).
-2. The **Runtime Truth Matrix** (`docs/architecture/afenda-runtime-truth-matrix.md`) is a required companion artifact to the master plan and pre-accounting roadmap.
+2. The **Runtime Truth Matrix** (`docs/PAS/pas-status-index.md`) is a required companion artifact to the master plan and pre-accounting roadmap.
 3. Master plan "implementation reality" sections must include an **as-of date** and link to the runtime matrix. Sections older than the matrix are **presumed stale** until re-verified.
 4. TIP status in delivery docs must be reconciled against runtime evidence before any phase gate sign-off.
 

@@ -4,6 +4,8 @@ import type {
   TenantContext,
   TenantWireContext,
 } from "./tenant-context.contract.js";
+import type { TenantSaasLifecyclePhase } from "./tenant-saas-lifecycle.contract.js";
+import { isTenantSaasLifecyclePhase } from "./tenant-saas-lifecycle.contract.js";
 
 function requiredWireString(value: string | null, label: string): string {
   if (value === null) {
@@ -15,12 +17,33 @@ function requiredWireString(value: string | null, label: string): string {
   return value;
 }
 
+function parseOptionalTenantSaasLifecyclePhase(
+  value: string | undefined
+): TenantSaasLifecyclePhase | undefined {
+  if (value === undefined) {
+    return;
+  }
+
+  if (!isTenantSaasLifecyclePhase(value)) {
+    throw new Error(
+      "saasLifecyclePhase must be a valid tenant SaaS lifecycle phase."
+    );
+  }
+
+  return value;
+}
+
 function parseValidatedTenantContext(value: TenantWireContext): TenantContext {
+  const saasLifecyclePhase = parseOptionalTenantSaasLifecyclePhase(
+    value.saasLifecyclePhase
+  );
+
   return {
     tenantId: parseTenantId(value.tenantId),
     slug: value.slug,
     displayName: value.displayName,
     status: value.status,
+    ...(saasLifecyclePhase === undefined ? {} : { saasLifecyclePhase }),
   };
 }
 
@@ -46,6 +69,9 @@ export function normalizeTenantContextForWire(
     slug: value.slug,
     displayName: value.displayName,
     status: value.status,
+    ...(value.saasLifecyclePhase === undefined
+      ? {}
+      : { saasLifecyclePhase: value.saasLifecyclePhase }),
   };
 }
 

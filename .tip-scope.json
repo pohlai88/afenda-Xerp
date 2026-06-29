@@ -2,10 +2,9 @@
   "tip": "ui-phase-01",
   "adr": "ADR-0001",
   "allowedPaths": [
-    "docs/architecture/dependency-registry.md",
-    "docs/architecture/dependency-snapshot.json",
-    "packages/design-system/**",
     "packages/architecture-authority/src/data/dependency-registry.data.ts",
+    "packages/architecture-authority/dependency-snapshot.json",
+    "packages/design-system/**",
     "packages/ui/package.json",
     "apps/erp/**",
     "pnpm-workspace.yaml",
@@ -13,19 +12,6 @@
     ".tip-scope.json"
   ],
   "forbiddenPaths": ["packages/database/**", "packages/permissions/**"],
-  "reason": "Implement UI phase 01 CSS pipeline only.",
-  "nonGoals": [
-    "No shadcn component scaffolding in this change",
-    "No AppShell token migration",
-    "No auth page restyling"
-  ],
-  "testPlan": [
-    "pnpm --filter @afenda/design-system build",
-    "pnpm --filter @afenda/design-system test:run",
-    "pnpm --filter @afenda/erp typecheck",
-    "pnpm quality:architecture",
-    "pnpm --filter @afenda/erp build"
-  ],
-  "deletionJustifications": [],
-  "testExemptions": []
+  "requiredGates": ["pnpm --filter @afenda/ui typecheck", "pnpm ui:guard:scan"],
+  "notes": "Legacy TIP scope file — prefer PAS slice handoffs under docs/PAS/**/SLICE/"
 }

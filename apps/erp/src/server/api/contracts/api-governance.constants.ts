@@ -1,7 +1,7 @@
 export const API_ROUTE_OWNER = "apps/erp" as const;
 
 export const API_GOVERNANCE_DOCUMENTATION_PATH =
-  "docs/architecture/afenda-rest-api-governance.md" as const;
+  ".cursor/skills/platform-api-contract/SKILL.md" as const;
 
 export const API_CONTRACT_REGISTRY_TEST_PATH =
   "apps/erp/src/server/api/__tests__/api-contract-registry.test.ts" as const;

@@ -382,8 +382,8 @@ This is the template the implementer uses — it is produced by `/afenda-coding-
 
 ## Reference (read only when needed)
 
-- Kernel identity layout: `docs/architecture/identity/canonical-enterprise-id-constitution.md`
-- Runtime truth: `docs/architecture/afenda-runtime-truth-matrix.md`
+- Kernel identity layout: `docs/PAS/KERNEL/identity/canonical-enterprise-id-constitution.md`
+- Runtime truth: `docs/PAS/pas-status-index.md`
 - Kernel authority: `.cursor/skills/kernel-authority/SKILL.md`
 - Coding session standard: `.cursor/skills/afenda-coding-session/SKILL.md`
 - Slice handoff standard: `.cursor/skills/kernel-authority/reference/pas-slice-template.md`

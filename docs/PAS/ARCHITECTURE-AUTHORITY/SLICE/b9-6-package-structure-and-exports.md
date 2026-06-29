@@ -1,6 +1,6 @@
 # Slice B9 — Package Structure and Exports (PAS-002 §6)
 
-**Prerequisite:** Slices B1–B8 Delivered ┬À runtime §4.1–§4.12 on disk
+**Prerequisite:** Slices B1–B8 Delivered · runtime §4.1–§4.12 on disk
 
 **Status:** Delivered
 
@@ -35,18 +35,18 @@ Handoff from: docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b9-6-package-structure-and-e
    docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md (MODIFY — §12 B9 row)
    .cursor/skills/architecture-authority/reference/package-structure.md (MODIFY — layout contract source)
 4. Prohibited   — new subpath exports without contract registration; forbidden §6.3 folders; apps/erp; kernel ID semantics; foundation-disposition.registry.ts edits
-5. Authority    — PAS-002 §6 ┬À architecture-authority/reference/package-structure.md ┬À architecture-authority skill
+5. Authority    — PAS-002 §6 · architecture-authority/reference/package-structure.md · architecture-authority skill
 6. Gates        —
    pnpm --filter @afenda/architecture-authority typecheck
    pnpm --filter @afenda/architecture-authority test:run
    pnpm check:architecture-authority-surface
    pnpm quality:architecture
-7. Closes       — PAS-002 §12 B9 Target ÔåÆ Delivered; missing typed §6 layout contract; missing package-structure acceptance tests
+7. Closes       — PAS-002 §12 B9 Target → Delivered; missing typed §6 layout contract; missing package-structure acceptance tests
 8. Evidence     —
    packages/architecture-authority/src/contracts/architecture-authority-package-layout.contract.ts
    packages/architecture-authority/src/__tests__/package-structure.test.ts
    docs/PAS/pas-status-index.md (PAS-002 B9 row)
-9. Attestation  — Contract ┬À Test ┬À Governance ┬À Documentation
+9. Attestation  — Contract · Test · Governance · Documentation
 ```
 
 ## Rules frozen

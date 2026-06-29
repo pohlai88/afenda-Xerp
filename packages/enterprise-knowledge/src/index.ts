@@ -29,6 +29,8 @@ export {
   type ConfidenceBasis,
   type ContextualValidity,
   ENTERPRISE_KNOWLEDGE_POLICY,
+  EPISTEMIC_STATUSES,
+  type EpistemicStatus,
   EXPOSURE_AUDIENCES,
   type ExposureAudience,
   KNOWLEDGE_ATOM_KINDS,
@@ -53,6 +55,8 @@ export {
   type KnowledgeRelationship,
   /** @deprecated Use KnowledgeEdgeType from knowledge-edge.contract */
   type KnowledgeRelationshipType,
+  SEMANTIC_STABILITY_LEVELS,
+  type SemanticStabilityLevel,
 } from "./contracts/knowledge-atom.contract.js";
 // ── Knowledge Concept + Term (B38 — PAS-004C §4.1) ─────────────────────────
 export {
@@ -133,8 +137,6 @@ export { parseConceptCorpus } from "./data/knowledge-concept.loader.js";
 // ── Edge data (B25 — authoritative) ─────────────────────────────────────────
 export { KNOWLEDGE_EDGES } from "./data/knowledge-edge.registry.js";
 export { parsePerspectiveCorpus } from "./data/knowledge-perspective.loader.js";
-// ── Relationship data (@deprecated — B24 backward compat) ───────────────────
-export { KNOWLEDGE_RELATIONSHIPS } from "./data/knowledge-relationships.registry.js";
 export { parseTermCorpus } from "./data/knowledge-term.loader.js";
 export {
   getKnowledgeTransitionRule,
@@ -151,6 +153,8 @@ export {
   isAcceptedOrLaterLifecycle,
   isKnowledgeAtomId,
   isRatifiedOrLaterLifecycle,
+  /** @deprecated B50 — derived from KNOWLEDGE_EDGES */
+  KNOWLEDGE_RELATIONSHIPS,
   validateKnowledgeAtom,
   validateKnowledgeRegistry,
 } from "./policy/knowledge.policy.js";
@@ -178,6 +182,10 @@ export {
   getKnowledgeDomainsByClass,
   validateKnowledgeDomainAxis,
 } from "./policy/knowledge-domain-axis.policy.js";
+export {
+  validateAtomEpistemicFacets,
+  validateKnowledgeEpistemicFacets,
+} from "./policy/knowledge-epistemic.policy.js";
 export {
   buildTypedEvidenceFromLegacyPaths,
   getKernelEvidencePaths as getTypedKernelEvidencePaths,

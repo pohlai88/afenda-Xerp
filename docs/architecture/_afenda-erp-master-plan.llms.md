@@ -7,16 +7,14 @@ canonical: true
 supersedes:
   - v4.0.0 Section 3 "Implementation reality audit (2026-06-20)" — STALE; see Runtime Truth section
   - v4.0.0 Section 5.2 Track B status table — STALE; see Runtime Truth section
-  - v4.0.0 Section 8 execution order — superseded by pre-accounting-foundation-roadmap.md
-  - Platform vision authority — superseded by afenda-platform-north-star.md (ADR-0026)
-  - Package/domain decomposition — superseded by afenda-architecture-blueprint.md (ADR-0026)
+  - v4.0.0 Section 8 execution order — superseded by this plan Foundation Phase 9
+  - Platform vision authority — superseded by docs/NORTHSTAR/ + ADR-0026
+  - Package/domain decomposition — superseded by docs/BLUEPRINT/ + docs/PAS/ (ADR-0026)
 authority_order:
   - docs/adr/
-  - docs/architecture/afenda-platform-north-star.md
-  - docs/architecture/afenda-architecture-blueprint.md
-  - docs/architecture/*-registry.md
+  - docs/NORTHSTAR/
+  - docs/BLUEPRINT/
   - docs/PAS/
-  - docs/architecture/pre-accounting-foundation-roadmap.md
   - packages/architecture-authority
   - this file
 phase_1_authority: ADR-0001
@@ -34,11 +32,10 @@ ui_technology:
 # Afenda ERP — LLM Development Master Plan v5
 
 > **Purpose:** Delivery roadmap pointer, UI foundation status, and AI implementation rules — **not** platform vision or package decomposition authority.
-> **Platform vision:** [`afenda-platform-north-star.md`](afenda-platform-north-star.md) (ADR-0026)
-> **Package/domain map:** [`afenda-architecture-blueprint.md`](afenda-architecture-blueprint.md) (ADR-0026)
-> **Delivery authority:** [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) (ADR-0013)
-> **Runtime evidence:** [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md)
-> **Not authoritative for:** PAS scope, package ownership, dependency edges — use Blueprint, registries, and ADRs.
+> **Platform vision:** [`docs/NORTHSTAR/`](../NORTHSTAR/README.md) (ADR-0026)
+> **Package/domain map:** [`docs/BLUEPRINT/`](../BLUEPRINT/kernel-blueprint.md) + [`docs/PAS/`](../PAS/README.md)
+> **Runtime evidence:** [`pas-status-index.md`](../PAS/pas-status-index.md)
+> **Not authoritative for:** PAS scope, package ownership, dependency edges — use Blueprint, PAS, machine registries, and ADRs.
 
 ---
 
@@ -47,13 +44,13 @@ ui_technology:
 Do not use older roadmap sections as delivery authority if they conflict with:
 
 1. **ADR-0009–0013** (Accepted — documentation and foundation gates)
-2. [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) — **status source of truth**
-3. [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) — **delivery sequence**
-4. [`pas-status-index.md`](../PAS/pas-status-index.md) — PAS slice closure registry
+2. [`pas-status-index.md`](../PAS/pas-status-index.md) — **runtime closure registry**
+3. **This plan** — Foundation Phase 9 delivery sequence (historical Phases 0–9)
+4. [`docs/PAS/`](../PAS/README.md) — PAS slice closure registry
 
 Master plan v5 **supersedes** v4 Section 3, v4 Track B status table, and v4 Section 8 execution order.
 
-**AI agents must read (in order):** [North Star](afenda-platform-north-star.md) → [Architecture Blueprint](afenda-architecture-blueprint.md) → pre-accounting roadmap → runtime truth matrix → [`docs/PAS/`](../PAS/README.md) → disposition registry.
+**AI agents must read (in order):** [North Star](../NORTHSTAR/README.md) → [Blueprint](../BLUEPRINT/kernel-blueprint.md) → this plan → [`pas-status-index.md`](../PAS/pas-status-index.md) → [`docs/PAS/`](../PAS/README.md) → disposition registry.
 
 ---
 
@@ -61,7 +58,7 @@ Master plan v5 **supersedes** v4 Section 3, v4 Track B status table, and v4 Sect
 
 **Binding rule (ADR-0010):** Accounting Core (`Foundation phase 13+`, `@afenda/accounting`, ledger/journal/posting/consolidation logic) is **prohibited** until Foundation Phases 0–8 complete and **Phase 9 Accounting Readiness Gate** passes.
 
-See: [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) Phase 9.
+See: [`ADR-0010`](../adr/ADR-0010-no-accounting-before-foundation-gate.md) Foundation Phase 9.
 
 ---
 
@@ -81,8 +78,7 @@ See: [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.
 
 ## Runtime Truth as of Current Audit (2026-06-24)
 
-> Full audit: [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md)
-> Matrix: [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md)
+> Full audit: [`pas-status-index.md`](../PAS/pas-status-index.md)
 
 **v4.0.0 Section 3 is superseded.** The 2026-06-20 audit incorrectly described the codebase as pre-implementation. Below is evidence-backed current state.
 
@@ -138,23 +134,23 @@ Afenda is a **Next.js-first, TypeScript-first, AI-governed, manufacturing-focuse
 | Need | Read first |
 | --- | --- |
 | Constitutional decisions | [`docs/adr/README.md`](../adr/README.md) |
-| Pre-accounting delivery sequence | [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) |
-| Runtime evidence | [`afenda-runtime-truth-matrix.md`](afenda-runtime-truth-matrix.md) |
+| Pre-accounting delivery sequence | This plan §3 + [`ADR-0010`](../adr/ADR-0010-no-accounting-before-foundation-gate.md) |
+| Runtime evidence | [`pas-status-index.md`](../PAS/pas-status-index.md) |
 | Phase 1 PAS definitions | [`ADR-0001`](../adr/ADR-0001-phase-1-foundation-redefinition.md) |
 | Accounting prohibition | [`ADR-0010`](../adr/ADR-0010-no-accounting-before-foundation-gate.md) |
-| Package / layer / dependency truth | [`docs/architecture/README.md`](README.md) |
-| Canonical vocabulary | [`glossary.md`](glossary.md) |
-| Multi-tenancy implementation | [`multi-tenancy.md`](multi-tenancy.md) |
+| Package / layer / dependency truth | `packages/architecture-authority/src/data/*.data.ts` |
+| Canonical vocabulary | [`glossary.md`](../PAS/ENTERPRISE-KNOWLEDGE/glossary.md) |
+| Multi-tenancy implementation | [`.cursor/skills/multi-tenancy-erp/SKILL.md`](../../.cursor/skills/multi-tenancy-erp/SKILL.md) |
 | Completed slice evidence | [`docs/PAS/`](../PAS/README.md) |
 | AI change boundaries | [`docs/ai/`](../ai/) + `@afenda/ai-governance` |
-| Governed UI UI consumption | [`docs/governance/governed-ui-policy.md`](../governance/governed-ui-policy.md) |
+| Governed UI consumption | [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc) |
 | Machine enforcement | `@afenda/architecture-authority` |
 
 ---
 
 ## 3. Pre-accounting foundation sequence
 
-**Delivery authority:** [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md)
+**Delivery authority:** This plan §3 (Phases 0–9 historical record — do not extend)
 
 ```text
 Phase 0  Documentation truth reset (Foundation phase 00–D)     ← Complete
@@ -237,22 +233,24 @@ Historical: TIP status index retired 2026-06-27. Active closure registry: [`pas-
 
 ---
 
-## 7. Accounting Readiness Gate (Phase 9)
+## 7. Accounting Readiness Gate (Foundation Phase 9)
 
 Replaces v4 "Phase 1 exit gate" language. **All** must pass before **Foundation phase 14+ Accounting Core**.
 
-| Category | Required |
-| --- | --- |
-| Documentation synchronized | Runtime matrix matches codebase |
-| Multi-company hierarchy | Glossary + schema + context resolver proven |
-| Operating spine | Full lifecycle including outbox event publication |
-| RBAC + audit | Protected mutations gated and audited |
-| API contracts | All routes governed |
-| System Admin | Minimum viable control plane |
-| Feature manifest | Navigation driven by manifest |
-| CI | `pnpm check` green |
+| # | Requirement | Verification |
+| --- | --- | --- |
+| 1 | Multi-company model documented | Glossary + schema + tests |
+| 2 | Holding / subsidiary / minor-interest model documented | Glossary + ownership schema |
+| 3 | Tenant / company / org / workspace context proven | Operating context integration tests |
+| 4 | RBAC and audit proven | Permission denial + audit event tests |
+| 5 | API contract governance proven | `pnpm check:api-contracts` + route registry |
+| 6 | DB migration governance proven | `pnpm quality:migrations` |
+| 7 | Feature manifest governance proven | Manifest-driven navigation test |
+| 8 | System Admin base operational | Admin UI smoke tests |
+| 9 | CI quality gates passing | `pnpm check` green |
+| 10 | Documentation synchronized | Runtime matrix matches codebase |
 
-Full checklist: [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) Phase 9.
+Full authority: [`ADR-0010`](../adr/ADR-0010-no-accounting-before-foundation-gate.md) · Gate: `pnpm check:accounting-readiness-gate`
 
 ---
 
@@ -293,7 +291,7 @@ Validation
 
 ## 9. Glossary (canonical terms)
 
-Full definitions: [`glossary.md`](glossary.md). Summary for LLM agents:
+Full definitions: [`glossary.md`](../PAS/ENTERPRISE-KNOWLEDGE/glossary.md). Summary for LLM agents:
 
 | Term | Meaning |
 | --- | --- |
@@ -319,7 +317,7 @@ Full definitions: [`glossary.md`](glossary.md). Summary for LLM agents:
 
 ## 10. Documentation drift prevention rules
 
-1. **Update runtime matrix** when a Foundation PAS changes status.
+1. **Update pas-status-index** when a Foundation PAS changes status.
 2. **Update delivery doc** in the same PR as implementation evidence.
 3. **Never mark Complete** without acceptance criteria + file paths.
 4. **Re-audit master plan** when matrix age exceeds 14 days without update.
@@ -450,7 +448,7 @@ Completion report required per afenda-coding-session §11.
 - Mark UI PAS slices complete without checking runtime matrix
 - Add Keycloak, Kong, NATS, GraphQL, or public SDK by default
 - Build business modules before operating spine + outbox exist
-- Let AI invent packages not in [`package-registry.md`](package-registry.md)
+- Let AI invent packages not in `packages/architecture-authority/src/data/package-registry.data.ts`
 - Use `any`, deep imports, or non-serializable types in public contracts
 - Add `className` to `@afenda/ui` primitives in consumer packages
 

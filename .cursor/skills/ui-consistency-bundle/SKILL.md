@@ -17,7 +17,7 @@ paths:
   - packages/appshell/**
   - packages/metadata-ui/**
   - packages/css-authority/**
-  - packages/design-system/**
+  - packages/css-authority/**
 ---
 
 <!--

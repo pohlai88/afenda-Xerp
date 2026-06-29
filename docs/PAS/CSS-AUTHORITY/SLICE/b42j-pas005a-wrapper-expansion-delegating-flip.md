@@ -1,35 +1,35 @@
-# Slice B42j ÔÇö Wrapper Expansion + Delegating Flip (PAS-005A ┬º14)
+# Slice B42j — Wrapper Expansion + Delegating Flip (PAS-005A §14)
 
-**Prerequisite:** B42i delivered ÔÇö Phase 1 statistics/shell/dashboard wrapper infrastructure
+**Prerequisite:** B42i delivered — Phase 1 statistics/shell/dashboard wrapper infrastructure
 
 **Status:** Delivered (2026-06-28)
 
 **Type:** Implementation
 
-**Risk class:** Medium ÔÇö expands strangler registry; delegating flip only where a11y/tests permit
+**Risk class:** Medium — expands strangler registry; delegating flip only where a11y/tests permit
 
-**Clean Core impact:** AÔåÆA ÔÇö shell chrome and dashboard wrappers stay governed-compose for ERP injection; MCP lab blocks retain stock shadcn className
+**Clean Core impact:** AÔåÆA — shell chrome and dashboard wrappers stay governed-compose for ERP injection; MCP lab blocks retain stock shadcn className
 
 ## Handoff block
 
 ```
 Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42j-pas005a-wrapper-expansion-delegating-flip.md
 
-1. Objective    ÔÇö Expand presentation/wrappers for shell chrome + remaining bridge-backed dashboard blocks; register account-settings MCP twin mapping without replacing domain shells; document MCP className policy in shadcn-studio tests; flip to delegating only where bridge + tests + ui:guard permit.
-2. Allowed layerÔÇö packages/appshell/src/presentation/** ┬À packages/appshell/src/shadcn-studio-bridge/** ┬À packages/appshell/src/app-shell-header.tsx ┬À packages/appshell/src/__tests__/** ┬À packages/shadcn-studio/src/index.ts ┬À packages/shadcn-studio/src/registry/** ┬À packages/shadcn-studio/src/__tests__/** ┬À docs/PAS/CSS-AUTHORITY/SLICE/b42j-*.md ┬À docs/PAS/pas-status-index.md ┬À docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md (┬º14 row) ┬À docs/PAS/CSS-AUTHORITY/SLICE/b42i-pas005a-mcp-wrapper-strangler.md (deferred section)
-3. Files        ÔÇö presentation/wrappers/** (shell chrome + dashboard) ┬À presentation/blocks thin re-exports ┬À presentation-mcp-wrapper.registry.ts ┬À shadcn-studio-bridge/index.ts ┬À shadcn-studio index.ts (shell bridge exports) ┬À studio-block-parity.registry.ts ┬À mcp-presentation-classname-policy.test.ts ┬À slice doc ┬À pas-status-index ┬À PAS-005A ┬º14 ┬À b42i deferred
-4. Prohibited   ÔÇö foundation-disposition.registry.ts ┬À break @afenda/appshell public exports ┬À remove afenda-appshell-studio.css ┬À copy MCP TSX into appshell ┬À replace AppShellAccountSettings01-07 implementations
-5. Authority    ÔÇö PAS-005A ┬À ADR-0017 ┬À Governed UI consumer rules (appshell only) ┬À B42 parity registry
-6. Gates        ÔÇö
+1. Objective    — Expand presentation/wrappers for shell chrome + remaining bridge-backed dashboard blocks; register account-settings MCP twin mapping without replacing domain shells; document MCP className policy in shadcn-studio tests; flip to delegating only where bridge + tests + ui:guard permit.
+2. Allowed layer— packages/appshell/src/presentation/** · packages/appshell/src/shadcn-studio-bridge/** · packages/appshell/src/app-shell-header.tsx · packages/appshell/src/__tests__/** · packages/shadcn-studio/src/index.ts · packages/shadcn-studio/src/registry/** · packages/shadcn-studio/src/__tests__/** · docs/PAS/CSS-AUTHORITY/SLICE/b42j-*.md · docs/PAS/pas-status-index.md · docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md (§14 row) · docs/PAS/CSS-AUTHORITY/SLICE/b42i-pas005a-mcp-wrapper-strangler.md (deferred section)
+3. Files        — presentation/wrappers/** (shell chrome + dashboard) · presentation/blocks thin re-exports · presentation-mcp-wrapper.registry.ts · shadcn-studio-bridge/index.ts · shadcn-studio index.ts (shell bridge exports) · studio-block-parity.registry.ts · mcp-presentation-classname-policy.test.ts · slice doc · pas-status-index · PAS-005A §14 · b42i deferred
+4. Prohibited   — foundation-disposition.registry.ts · break @afenda/appshell public exports · remove afenda-appshell-studio.css · copy MCP TSX into appshell · replace AppShellAccountSettings01-07 implementations
+5. Authority    — PAS-005A · ADR-0017 · Governed UI consumer rules (appshell only) · B42 parity registry
+6. Gates        —
    pnpm --filter @afenda/appshell typecheck
    pnpm --filter @afenda/appshell test:run
    pnpm --filter @afenda/shadcn-studio typecheck
    pnpm --filter @afenda/shadcn-studio test:run
    pnpm quality:boundaries
    pnpm ui:guard:scan
-7. Closes       ÔÇö Shell chrome wrappers ┬À dashboard KPI/sparkline/readiness wrappers ┬À account-settings registry mapping ┬À MCP className policy test ┬À delegating flip evidence ┬À parity wrapperPath ┬À B42j slice doc
-8. Evidence     ÔÇö presentation-mcp-wrapper.registry.test.ts ┬À appshell tests ┬À mcp-presentation-classname-policy.test.ts ┬À ui:guard:scan ┬À delegating flip test run
-9. Attestation  ÔÇö Wrapper expansion ┬À Governed UI MCP lab policy ┬À Delegating flip criteria ┬À Gate evidence
+7. Closes       — Shell chrome wrappers · dashboard KPI/sparkline/readiness wrappers · account-settings registry mapping · MCP className policy test · delegating flip evidence · parity wrapperPath · B42j slice doc
+8. Evidence     — presentation-mcp-wrapper.registry.test.ts · appshell tests · mcp-presentation-classname-policy.test.ts · ui:guard:scan · delegating flip test run
+9. Attestation  — Wrapper expansion · Governed UI MCP lab policy · Delegating flip criteria · Gate evidence
 ```
 
 ## B42j wrapper scope
@@ -44,7 +44,7 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42j-pas005a-wrapper-expansion-delega
 | `AppShellDashboardKpiStat` | `statistics-component-03` | `AppShellPresentationStatisticsCard03` | governed-compose | Prop-driven KPI + icon |
 | `AppShellDashboardSparklineStat` | `statistics-component-16` | `AppShellPresentationStatisticsTrendCard` | governed-compose | Chart a11y contract |
 | `SystemAdminReadinessGateMetrics` | `statistics-component-03` | `AppShellPresentationStatisticsCard03` | governed-compose | Readiness gate live status |
-| `AppShellAccountSettings01`ÔÇô`07` | `account-settings-0N` | `AppShellPresentationAccountSettings0N` | afenda-only | Domain injection shells ÔÇö mapping only |
+| `AppShellAccountSettings01`—`07` | `account-settings-0N` | `AppShellPresentationAccountSettings0N` | afenda-only | Domain injection shells — mapping only |
 | `StatisticsRevenueCard` et al. | various | bridge twins | governed-compose | a11y article/footnote tests block delegating |
 
 ## Delegating flip criteria
@@ -55,12 +55,12 @@ Flip `governed-compose` ÔåÆ `delegating` only when ALL hold:
 - Appshell tests pass after flip
 - `pnpm ui:guard:scan` clean
 
-**B42j outcome:** Statistics cards retain `governed-compose` ÔÇö a11y article/footnote contract tests fail on raw MCP delegate.
+**B42j outcome:** Statistics cards retain `governed-compose` — a11y article/footnote contract tests fail on raw MCP delegate.
 
-## Deferred (post-B42j ÔÇö closed in B42k/B42l)
+## Deferred (post-B42j — closed in B42k/B42l)
 
-- ~~Full delegating flip for statistics cards after MCP a11y parity~~ ÔÇö closed in B42k
-- ~~`afenda-appshell-studio.css` consolidation~~ ÔÇö closed in B42l
+- ~~Full delegating flip for statistics cards after MCP a11y parity~~ — closed in B42k
+- ~~`afenda-appshell-studio.css` consolidation~~ — closed in B42l
 - Remaining ~50 block stranglers
 - `PKGR05A` green-lane promotion via foundation-registry-owner
 

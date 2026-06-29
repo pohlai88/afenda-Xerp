@@ -13,19 +13,19 @@
 ```
 Handoff from: docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b42-pas002a-enterprise-accepted-attestation.md
 
-1. Objective    — Publish PAS-002A §11 scorecard ÔëÑ28.5/30; delegate PKGR02 authority promotion to PAS-002A + B38–B41 gates to foundation-registry-owner.
-2. Allowed layer— docs/PAS/** ┬À docs/architecture/afenda-runtime-truth-matrix.md ┬À NOT foundation-disposition.registry.ts (owner only)
+1. Objective    — Publish PAS-002A §11 scorecard ≥28.5/30; delegate PKGR02 authority promotion to PAS-002A + B38–B41 gates to foundation-registry-owner.
+2. Allowed layer— docs/PAS/** · docs/PAS/pas-status-index.md · NOT foundation-disposition.registry.ts (owner only)
 3. Files        —
    docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b42-pas002a-enterprise-accepted-attestation.md
    docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md
    docs/PAS/ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md (implementation_status sync)
    docs/PAS/pas-status-index.md
 4. Prohibited   — Claiming ERP runtime; direct registry edit; skipping B38–B41 gates
-5. Authority    — PAS-002A §11 ┬À enterprise-erp-standards §9 ┬À foundation-registry-owner
-6. Gates        — all PAS-002 §13.1 + PAS-002A §13.2–§13.4 gates ┬À pnpm check:documentation-drift
-7. Closes       — Enterprise Accepted maturity on PKGR02; PAS-002 partial ÔåÆ implemented pointer
+5. Authority    — PAS-002A §11 · enterprise-erp-standards §9 · foundation-registry-owner
+6. Gates        — all PAS-002 §13.1 + PAS-002A §13.2–§13.4 gates · pnpm check:documentation-drift
+7. Closes       — Enterprise Accepted maturity on PKGR02; PAS-002 partial → implemented pointer
 8. Evidence     — §Scorecard table in this slice doc
-9. Attestation  — Architecture Authority ┬À Governance
+9. Attestation  — Architecture Authority · Governance
 ```
 
 ## Scorecard (filled 2026-06-28)
@@ -43,10 +43,10 @@ Handoff from: docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b42-pas002a-enterprise-accep
 | 9 | Skill chain synced | 2 | 2 | `architecture-authority` + `kernel-authority` skills reference PAS-002A |
 | 10 | Doc drift PAS paths | 2 | 2 | `pnpm check:documentation-drift` PASS |
 | 11 | quality:boundaries | 2 | 2 | `pnpm quality:boundaries` PASS (25 workspaces) |
-| 12 | PKGR02 ÔåÆ PAS-002A | 2 | 2 | `foundation-registry-owner` promoted authority + gates[] |
+| 12 | PKGR02 → PAS-002A | 2 | 2 | `foundation-registry-owner` promoted authority + gates[] |
 | 13 | B38–B42 Completion Reports | 2 | 2 | Slice docs B38–B42 status Delivered |
 | 14 | contracts-only preserved | 2 | 2 | No ERP/appshell/ui runtime wiring added |
-| | **Total** | **30** | **30.0** | **Enterprise Accepted threshold met (ÔëÑ28.5)** |
+| | **Total** | **30** | **30.0** | **Enterprise Accepted threshold met (≥28.5)** |
 
 ## Registry owner follow-up
 

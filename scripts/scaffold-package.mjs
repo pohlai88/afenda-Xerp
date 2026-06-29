@@ -159,7 +159,7 @@ Options:
   --dir <packages/foo>          Destination (default: packages/<scope-name>)
   --variant <name>              platform-zero-deps | foundation-with-kernel
                                 (default: platform-zero-deps)
-  --description <text>          package.json description
+  --description <text>          package.json description (required with --pas)
   --pas <PAS-NNN-*.md>          PAS tombstone filename (required for real packages; placeholder if omitted)
   --with-env-scripts            Add scripts/load-env.ts, tsconfig.scripts.json, typecheck:scripts, dotenv
   --env-sync-target             Print checklist to add packages/<dir>/.env to env:sync
@@ -277,6 +277,17 @@ function validateOptions(options) {
     );
   }
 
+  if (
+    options.pas &&
+    !options.verify &&
+    !options.dryRun &&
+    !options.description?.trim()
+  ) {
+    throw new Error(
+      "--description is required when --pas is set (golden-path catalog completeness)"
+    );
+  }
+
   if (existsSync(join(REPO_ROOT, packageDir))) {
     throw new Error(`Destination already exists: ${packageDir}`);
   }
@@ -349,10 +360,16 @@ function printChecklist(options, packageDir) {
   process.stdout.write(`  [ ] 3. pnpm --filter ${options.name} test:run\n`);
   process.stdout.write("  [ ] 4. pnpm check:business-master-data-scaffold\n");
   process.stdout.write(
-    "  [ ] 5. Delegate registry rows to foundation-registry-owner\n"
+    "  [ ] 5. Register package in packages/architecture-authority/src/data/package-registry.data.ts (foundation-registry-owner)\n"
   );
   process.stdout.write(
-    "  [ ] 6. Author PAS delivery doc under docs/PAS/ (if not exists)\n"
+    "  [ ] 6. Delegate registry rows to foundation-registry-owner (disposition + golden-path)\n"
+  );
+  process.stdout.write(
+    "  [ ] 7. Author PAS delivery doc under docs/PAS/ (if not exists)\n"
+  );
+  process.stdout.write(
+    "  [ ] 8. pnpm check:architecture-golden-path-scaffold\n"
   );
 
   if (!options.pas) {

@@ -18,7 +18,7 @@
 | **Runtime stance** | `integration-proven` (no new kernel contracts unless PAS-001 amendment slice) |
 | **Registry lane** | `PKG010_KERNEL` (consumer) · `PKG-007 operating-context` |
 | **Package owner** | Kernel Authority (vocabulary) · ERP Context (resolver spine) · Permissions (grant scope wire) |
-| **Parent standards** | PAS-001 (kernel vocabulary — closed) · [multi-tenancy.md](../architecture/multi-tenancy.md) Step 8 |
+| **Parent standards** | PAS-001 (kernel vocabulary — closed) · [multi-tenancy.md](../PAS/KERNEL/multi-tenancy-delivery-evidence.md) Step 8 |
 | **Agent skills** | **`kernel-authority`** (mandatory) · `multi-tenancy-erp` · `/afenda-coding-session` · `/coding-consistency-bundle` |
 | **Maturity** | Production Candidate (`production_candidate`) |
 | **Authority status** | `production_candidate` |
@@ -29,7 +29,7 @@
 | **Consumers** | `apps/erp`, `@afenda/permissions`, `@afenda/appshell`, `@afenda/metadata-ui`, `@afenda/ui-composition` |
 | **Change model** | `serialized-slices` (B71+) |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Slice directory** | `docs/PAS/CSS-AUTHORITY/SLICE/` |
+| **Slice directory** | `docs/PAS/KERNEL/SLICE/` |
 | **ADR prerequisites** | ADR-0011 (multi-level company) · ADR-0014 (foundation delivery) · ADR-0021–0023 (identity — read-only for branding paths) |
 
 #### Required gates (baseline — must pass before any B71+ merge)
@@ -62,7 +62,7 @@
 > **Evidence promotion rule:** PAS-001A reached **Production Candidate** at B75 when all §6 scorecard gates were green and docs + runtime matrix were synced. Vocabulary closure (PAS-001) does not imply consumer integration closure (PAS-001A).
 
 > **Kernel wire boundary (mandatory read):** [PAS-001](PAS-001-KERNEL-AUTHORITY-STANDARD.md) · [kernel-boundary-drift.registry.ts](../../packages/kernel/src/governance/kernel-boundary-drift.registry.ts) · `.cursor/skills/kernel-authority/SKILL.md`
-> **ERP resolver authority:** [multi-tenancy.md](../architecture/multi-tenancy.md) · `apps/erp/src/lib/context/context-integration-registry.ts`
+> **ERP resolver authority:** [multi-tenancy.md](../PAS/KERNEL/multi-tenancy-delivery-evidence.md) · `apps/erp/src/lib/context/context-integration-registry.ts`
 > **Canonical location:** `docs/PAS/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md`
 
 ---
@@ -418,5 +418,5 @@ PAS-001A proves the runtime layer speaks the words.
 | Context registry | [packages/kernel/src/context/context-registry.ts](../../packages/kernel/src/context/context-registry.ts) |
 | Drift registry | [packages/kernel/src/governance/kernel-boundary-drift.registry.ts](../../packages/kernel/src/governance/kernel-boundary-drift.registry.ts) |
 | ERP integration registry | [apps/erp/src/lib/context/context-integration-registry.ts](../../apps/erp/src/lib/context/context-integration-registry.ts) |
-| Runtime matrix | [afenda-runtime-truth-matrix.md](../architecture/afenda-runtime-truth-matrix.md) |
+| Runtime matrix | [afenda-runtime-truth-matrix.md](../PAS/pas-status-index.md) |
 | Slice index | [pas-status-index.md](pas-status-index.md) |

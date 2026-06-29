@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **SSOT directory** | `docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/` |
-| **Individual handoffs** | 32 files (B1–B27 · B38–B42) |
+| **Individual handoffs** | 32 files — 25 PAS-002 (B1–B15 · B18–B27; **B16–B17 unused**) + 5 PAS-002A (B38–B42) + 3 PAS-002 amendment (B43–B45) |
 | **Legacy** | `docs/PAS/slice/` removed — use this folder only |
 | **Closure registry** | [pas-status-index.md](../../pas-status-index.md) |
 | **Last reviewed** | 2026-06-29 |
@@ -40,6 +40,8 @@
 | B26 | §4.9 | [b26-4.9-lifecycle-determinism.md](./b26-4.9-lifecycle-determinism.md) | Delivered |
 | B27 | §4.4 | [b27-4.4-disposition-coverage-gap-closure.md](./b27-4.4-disposition-coverage-gap-closure.md) | Delivered |
 
+> **B16–B17:** Reserved slice IDs — never allocated; closure range is B1–B15 · B18–B27 (25 handoffs).
+
 ## PAS-002A — B38–B42 (delivered)
 
 | Slice | Handoff | Status |
@@ -50,13 +52,12 @@
 | B41 | [b41-pas002a-disposition-completeness.md](./b41-pas002a-disposition-completeness.md) | Delivered |
 | B42 | [b42-pas002a-enterprise-accepted-attestation.md](./b42-pas002a-enterprise-accepted-attestation.md) | Delivered |
 
-## Planned (Domain NS §15 — no handoff yet)
+## PAS-002 amendment — B43–B45 (delivered)
 
-| Capability | Target PAS | Evidence |
-| --- | --- | --- |
-| Extension boundary registry | PAS-002 amendment | NS E10 |
-| Contract surface attestation | PAS-002 amendment | NS E11 △ |
-| Golden-path scaffolding | PAS-002 amendment | NS E12 △ |
-| Target-state declaration | PAS-002 amendment | NS E15 △ |
-| Architecture system membership | PAS-002 amendment | △ |
-| Reference pattern catalog | PAS-002 amendment | NS E14 △ |
+| Slice | PAS § | Handoff | Status |
+| --- | --- | --- | --- |
+| B43 | §4 amendment | [b43-pas002-governance-amendment-registry.md](./b43-pas002-governance-amendment-registry.md) | Delivered |
+| B44 | §4 amendment | [b44-per-export-surface-attestation.md](./b44-per-export-surface-attestation.md) | Delivered |
+| B45 | §4 amendment | [b45-golden-path-scaffold-enforcement.md](./b45-golden-path-scaffold-enforcement.md) | Delivered |
+
+**Covers (Domain NS §15):** extension boundary · surface stability · golden-path catalog · target-state · system membership · reference patterns · per-export consumer attestation · scaffold CLI enforcement — consolidated registry module derived from package-registry SSOT.

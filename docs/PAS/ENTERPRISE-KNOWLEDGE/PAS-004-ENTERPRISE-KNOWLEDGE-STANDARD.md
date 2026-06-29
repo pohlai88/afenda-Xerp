@@ -25,12 +25,12 @@
 | **Authority status** | `accepted_for_implementation` |
 | **Implementation status** | `partial` |
 | **Evidence level** | `registry` |
-| **Runtime status** | Charter MVP — 12 seed atoms, `check:knowledge-conformance`; rollout in PAS-004A |
+| **Runtime status** | Constitutional §1–§4 only — live runtime truth in [PAS-004C](PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) (58/58) and [PAS-004D](PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) (B49+ queue) |
 | **Remaining slices** | none — superseded by PAS-004A |
-| **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `docs/architecture/glossary.md` |
+| **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md` |
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
-| **Closure registry** | [`pas-status-index.md`](pas-status-index.md) |
+| **Closure registry** | [`pas-status-index.md`](../pas-status-index.md) |
 | **ADR prerequisites** | none |
 
 #### Required gates
@@ -46,10 +46,10 @@
 > Charter MVP is delivered; Production Candidate rollout lives in [PAS-004A](PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md). Do not claim Enterprise Accepted from this document alone.
 
 > **Canonical location:** `docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`
-> **Domain North Star:** [`enterprise-knowledge-north-star.md`](../NORTHSTAR/enterprise-knowledge-north-star.md)
-> **Domain Blueprint:** [`enterprise-knowledge-blueprint.md`](../BLUEPRINT/enterprise-knowledge-blueprint.md) · [Platform Blueprint — Knowledge](../architecture/afenda-architecture-blueprint.md)
-> **Kernel wire boundary (do not duplicate):** [PAS-001 §4](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
-> **Package map boundary (do not duplicate):** [PAS-002 §0](PAS-002-ARCHITECTURE-AUTHORITY.md) · `.cursor/skills/architecture-authority/SKILL.md`
+> **Domain North Star:** [`enterprise-knowledge-north-star.md`](../../NORTHSTAR/enterprise-knowledge-north-star.md)
+> **Domain Blueprint:** [`enterprise-knowledge-blueprint.md`](../../BLUEPRINT/enterprise-knowledge-blueprint.md) · [Platform Blueprint — Knowledge](../../BLUEPRINT/kernel-blueprint.md)
+> **Kernel wire boundary (do not duplicate):** [PAS-001 §4](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
+> **Package map boundary (do not duplicate):** [PAS-002 §0](../ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) · `.cursor/skills/architecture-authority/SKILL.md`
 
 ---
 
@@ -66,7 +66,7 @@
 
 **Required gates:** see §13.
 
-**Closure registry:** [`pas-status-index.md`](pas-status-index.md) · Session: `/afenda-coding-session`
+**Closure registry:** [`pas-status-index.md`](../pas-status-index.md) · Session: `/afenda-coding-session`
 
 **Registry:** `PKGR04_ENTERPRISE_KNOWLEDGE` · `PKG-024` in `packages/architecture-authority/src/data/package-registry.data.ts`
 
@@ -337,7 +337,7 @@ Atoms connect via typed edges in `KNOWLEDGE_RELATIONSHIPS`. MVP types: `contains
 | Representation | Authority |
 | --- | --- |
 | `@afenda/enterprise-knowledge` registry | **Authoritative** for accepted meaning |
-| `docs/architecture/glossary.md` | Synced view — demoted representation |
+| `docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md` | Synced view — demoted representation |
 | `@afenda/ui-composition` labels | Rendering — imports meaning, does not own it |
 | AI / copilot context | Must cite atom IDs and acceptance state |
 

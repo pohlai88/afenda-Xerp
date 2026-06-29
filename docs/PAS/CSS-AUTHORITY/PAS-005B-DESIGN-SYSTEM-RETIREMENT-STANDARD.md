@@ -1,6 +1,6 @@
 # PAS-005B — Design-System Retirement Standard
 
-> **Derivation:** [PAS-005](CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) owns CSS constitutional truth. [PAS-005A](CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) owns the shadcn/studio presentation product. PAS-005B defines the **controlled deprecation and supersession** of `@afenda/design-system` (PKG004) — without amending PAS-005 §1–§16 unless an explicit amendment slice says so.
+> **Derivation:** [PAS-005](PAS-005-CSS-AUTHORITY-STANDARD.md) owns CSS constitutional truth. [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) owns the shadcn/studio presentation product. PAS-005B defines the **controlled deprecation and supersession** of `@afenda/design-system` (PKG004) — without amending PAS-005 §1–§16 unless an explicit amendment slice says so.
 >
 > **Doctrine:**
 >
@@ -27,7 +27,7 @@
 | **Evidence level** | `planning` — readiness gate not yet wired |
 | **Runtime status** | B43 delivered — canonical PAS + ADR-0025 proposed; `@afenda/design-system` still active (amber-lane PKG004); css-authority 605-token registry live; shadcn-studio B42p strangler complete |
 | **Remaining slices** | B44 migration study + readiness gate (next) · B45 CSS chain unification · B46 internalize UI registries (conditional) · B47 delete package · B48 appshell consolidation · B49 Production Candidate attestation (optional) |
-| **ADR prerequisite** | [ADR-0025](../adr/ADR-0025-design-system-retirement.md) — **Proposed**; must be **Accepted** before B47 package deletion |
+| **ADR prerequisite** | [ADR-0025](../../adr/ADR-0025-design-system-retirement.md) — **Proposed**; must be **Accepted** before B47 package deletion |
 | **Agent skills** | `css-authority` · `shadcn-studio-authority` · `/afenda-coding-session` · `/coding-consistency-bundle` |
 | **Registry lane (proposed)** | `PKGR05B_DESIGN_RETIREMENT` · delegates PKG004 deprecation to `foundation-registry-owner` at B47 |
 
@@ -45,6 +45,8 @@
 > **Maturity is part of authority.** `retirement_candidate` means the **retirement map is governed** — not that `@afenda/design-system` is deleted. Package deletion requires ADR-0025 Accepted + B44 readiness green + `foundation-registry-owner`.
 
 > **Canonical location:** `docs/PAS/CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md`
+> **Domain North Star:** [`css-authority-north-star.md`](../../NORTHSTAR/css-authority-north-star.md)
+> **Domain Blueprint:** [`css-authority-blueprint.md`](../../BLUEPRINT/css-authority-blueprint.md) · [Platform Blueprint — Design system](../../architecture/afenda-architecture-blueprint.md)
 ---
 
 # 0. Agent Quick Path
@@ -84,7 +86,7 @@ After PAS-005 B26–B37 and PAS-005A B38–B42p, three design layers overlap:
 | CSS constitutional | `@afenda/css-authority` | **Live** — 605 tokens | **Keep** — sole CSS authority |
 | Presentation product | `@afenda/shadcn-studio` | **Live** — B42p | **Keep** — expand as sole presentation product |
 | Legacy design + TS registries | `@afenda/design-system` | **Shim + registries** | **Retire** — delete at B47 |
-| Governed shell primitives | `@afenda/ui` | **Live** — TIP-004 | **Keep v1** — optional internalize B46 |
+| Governed shell primitives | `@afenda/ui` | **Live** — Governed UI | **Keep v1** — optional internalize B46 |
 
 PAS-005 §8 deferred design-system deletion (`do-not-delete-design-system-v1`). PAS-005B + ADR-0025 define the **safe path** to lift that prohibition.
 
@@ -159,7 +161,7 @@ tailwindcss
 | --- | --- | --- |
 | Is it a CSS-TOKEN or `--afenda-*` fact? | css-authority | PAS-005 |
 | Is it shadcn theme / preset / MCP block? | shadcn-studio | PAS-005A |
-| Is it governed primitive recipe/variant? | ui/governance | TIP-004 (until post-005B ADR) |
+| Is it governed primitive recipe/variant? | ui/governance | Governed UI (until post-005B ADR) |
 | Is it retiring design-system TS/CSS? | PAS-005B slice | This PAS |
 | Is it deleting the package? | B47 + ADR-0025 + registry-owner | Hard stop |
 
@@ -247,13 +249,13 @@ pnpm quality:boundaries                         # B47+
 
 # 13. References
 
-- [PAS-005](CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md)
-- [PAS-005A](CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md)
-- [ADR-0025](../adr/ADR-0025-design-system-retirement.md)
-- [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md)
-- [ADR-0014](../adr/ADR-0014-foundation-disposition-registry.md)
-- [governed-ui-policy.md](../governance/governed-ui-policy.md)
-- [pas-status-index.md](pas-status-index.md)
+- [PAS-005](PAS-005-CSS-AUTHORITY-STANDARD.md)
+- [PAS-005A](PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md)
+- [ADR-0025](../../adr/ADR-0025-design-system-retirement.md)
+- [ADR-0017](../../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md)
+- [ADR-0014](../../adr/ADR-0014-foundation-disposition-registry.md)
+- [`.cursor/rules/governed-ui-consumption.mdc`](../../../.cursor/rules/governed-ui-consumption.mdc)
+- [pas-status-index.md](../pas-status-index.md)
 
 ---
 

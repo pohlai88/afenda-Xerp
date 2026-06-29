@@ -6,9 +6,9 @@
 | **Document role** | `domain_root_specification` |
 | **Domain** | Platform Architecture Authority — constitutional owner of registry-first package and layer truth |
 | **Domain type** | Platform authority substrate *(not a business LoB such as Accounting, HRM, or CRM)* |
-| **Parent** | [Platform North Star](../architecture/afenda-platform-north-star.md) |
+| **Parent** | [Platform North Star](../PAS/afenda-platform-north-star.md) |
 | **Constitutional laws** | [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) — LAW 2 · LAW 3 · LAW 7 · LAW 8 · LAW 9 |
-| **Derived document** | [Architecture Authority Blueprint](../BLUEPRINT/architecture-authority-blueprint.md) · [Platform Blueprint rollup](../architecture/afenda-architecture-blueprint.md) |
+| **Derived document** | [Architecture Authority Blueprint](../BLUEPRINT/architecture-authority-blueprint.md) · [Platform Blueprint rollup](../BLUEPRINT/kernel-blueprint.md) |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) · [ADR-0004](../adr/ADR-0004-ownership-governance.md) · [ADR-0014](../adr/ADR-0014-foundation-disposition-registry.md) · [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) |
 | **Maturity** | Enterprise Accepted |
 | **Runtime stance** | Documentation only |
@@ -16,7 +16,7 @@
 | **Quality target** | Enterprise **10 / 10** |
 | **Evidence standard** | `.cursor/skills/kernel-authority/reference/doc-evidence-standard.md` |
 | **Last reviewed** | 2026-06-29 |
-| **Package / PAS inventory** | See [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) — not declared here |
+| **Package / PAS inventory** | See [Architecture Blueprint](../BLUEPRINT/kernel-blueprint.md) — not declared here |
 | **Next document** | [Architecture Authority Blueprint](../BLUEPRINT/architecture-authority-blueprint.md) |
 
 > **One sentence:** Every Afenda package, layer, dependency, and ownership decision must be discoverable, enforceable, and drift-detectable before product code can scale without architectural entropy.
@@ -446,7 +446,7 @@ Platform Architecture Authority is **Platform Structure** — one of four non-ov
 | E4 | Business master data authority consolidation | ✓ | T0 | [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) §Decision |
 | E5 | Architecture authority MVP surfaces delivered | ✓ | T5 | Architecture Authority PAS §4 · B1–B27 |
 | E6 | Enterprise Accepted hardening delivered | ✓ | T5 | Enterprise extension PAS B38–B42 |
-| E7 | Platform NS declares governance capability | ✓ | T1 | [Platform NS](../architecture/afenda-platform-north-star.md) §4 Platform governance |
+| E7 | Platform NS declares governance capability | ✓ | T1 | [Platform NS](../PAS/afenda-platform-north-star.md) §4 Platform governance |
 | E8 | Constitutional laws codified | ✓ | T1 | [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) |
 | E9 | Four orthogonal platform domains | ✓ | T1 | Enterprise Knowledge NS §9.4 · peer review 2026-06-29 |
 | E10 | Extension domain taxonomy (on-stack / side-by-side / hybrid) | ✓ | T3 | SAP Application Extension Methodology · Clean Core mapping |
@@ -468,7 +468,7 @@ Platform Architecture Authority is **Platform Structure** — one of four non-ov
 
 # 13. Blueprint Mapping
 
-Capability → Blueprint box names only. Detail: [Architecture Authority Blueprint](../BLUEPRINT/architecture-authority-blueprint.md) §4 · [Platform Blueprint rollup](../architecture/afenda-architecture-blueprint.md).
+Capability → Blueprint box names only. Detail: [Architecture Authority Blueprint](../BLUEPRINT/architecture-authority-blueprint.md) §4 · [Platform Blueprint rollup](../BLUEPRINT/kernel-blueprint.md).
 
 | §4 Capability | Blueprint box |
 | --- | --- |
@@ -621,7 +621,7 @@ Capability → Blueprint box names only. Detail: [Architecture Authority Bluepri
 
 | Document | Role |
 | --- | --- |
-| Platform North Star | [afenda-platform-north-star.md](../architecture/afenda-platform-north-star.md) |
+| Platform North Star | [afenda-platform-north-star.md](../PAS/afenda-platform-north-star.md) |
 | Architecture Authority Blueprint | [architecture-authority-blueprint.md](../BLUEPRINT/architecture-authority-blueprint.md) |
 | Enterprise Knowledge NS | [enterprise-knowledge-north-star.md](enterprise-knowledge-north-star.md) §9.4 |
 | Boundary contract | [doc-boundary-contract.md](../../.cursor/skills/kernel-authority/reference/doc-boundary-contract.md) |

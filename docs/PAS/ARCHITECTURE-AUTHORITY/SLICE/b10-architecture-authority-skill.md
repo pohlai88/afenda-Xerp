@@ -28,9 +28,9 @@ Mark PAS-002 agent skill chain as published: update `.cursor/skills/architecture
                   docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b10-architecture-authority-skill.md (CREATE)
                   docs/PAS/pas-status-index.md (MODIFY)
 4. Prohibited   — packages/architecture-authority/src/** runtime edits
-5. Authority    — PAS-002 §14 ┬À pas-doc-template skill adapter rules
+5. Authority    — PAS-002 §14 · pas-doc-template skill adapter rules
 6. Gates        — pnpm check:documentation-drift (when matrix touched)
-7. Closes       — PAS-002 §12 B10; skill Target ÔåÆ Active in PAS frontmatter
+7. Closes       — PAS-002 §12 B10; skill Target → Active in PAS frontmatter
 8. Evidence     — SKILL.md acceptance table shows B1–B10 Delivered
 9. Attestation  — Principal TypeScript Architect — Enterprise 9.5+/10
 ```

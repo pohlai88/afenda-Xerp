@@ -1,6 +1,6 @@
 /**
  * Canonical persistence and lookup registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Step 5, lines 538–551).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Step 5, lines 538–551).
  *
  * Step 5 confirms foundation storage after authority design and before
  * tenant URL resolver work. Runtime checks live in

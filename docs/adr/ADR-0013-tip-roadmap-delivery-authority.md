@@ -35,7 +35,7 @@ Missing directories (recorded, not created):
    ```text
    ADR > pre-accounting-foundation-roadmap > runtime matrix > master plan narrative
    ```
-3. **Implementation handoffs (foundation packages):** superseded by [ADR-0014](ADR-0014-foundation-disposition-registry.md). Use [FDR workflow](../architecture/foundation-delivery-authority.md) — not new TIP docs.
+3. **Implementation handoffs (foundation packages):** superseded by [ADR-0014](ADR-0014-foundation-disposition-registry.md). Use [FDR workflow](../PAS/README.md) — not new TIP docs.
 4. Individual TIP delivery docs are **archive-lane evidence** for completed slices — not ordering or package authority when they conflict with FDR or the runtime matrix.
 5. New foundation work does **not** receive new TIP IDs. Domain runtime (e.g. accounting COA) requires ADR + FDR entry update.
 6. UI implementation TIPs (`TIP-UI-01`–`TIP-UI-06`) remain valid **archive evidence** for Foundation Phase 6 — no new TIP-UI IDs for foundation packages.
@@ -63,7 +63,7 @@ Missing directories (recorded, not created):
 - [x] `pre-accounting-foundation-roadmap.md` published with Phases 0–9
 - [x] Master plan v5 references foundation roadmap as delivery authority
 - [x] ADR-0010 accounting prohibition linked from roadmap Phase 9
-- [x] `docs/architecture/README.md` indexes foundation roadmap
+- [x] `docs/PAS/README.md` indexes foundation roadmap
 - [x] `docs/PAS/README.md` published
 
 ---

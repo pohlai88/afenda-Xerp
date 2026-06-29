@@ -163,8 +163,8 @@ These files are batch-serialized. **Only one slot may own them per batch:**
 
 - [`docs/PAS/pas-status-index.md`](../../docs/PAS/pas-status-index.md)
 - [`docs/PAS/README.md`](../../docs/PAS/README.md)
-- [`docs/architecture/afenda-runtime-truth-matrix.md`](../../docs/architecture/afenda-runtime-truth-matrix.md)
-- [`docs/architecture/foundation-disposition.md`](../../docs/architecture/foundation-disposition.md)
+- [`docs/PAS/pas-status-index.md`](../../docs/PAS/pas-status-index.md)
+- [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts)
 - [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts)
 - [`packages/architecture-authority/src/data/package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts)
 - `pnpm-lock.yaml`

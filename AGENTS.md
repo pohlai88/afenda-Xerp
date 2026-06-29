@@ -162,13 +162,13 @@ Invoke `/afenda-coding-session` for the full implementation standard (TypeScript
 
 Read in order:
 
-1. [`docs/architecture/afenda-platform-north-star.md`](docs/architecture/afenda-platform-north-star.md) — platform why + capability expectations ([ADR-0026](docs/adr/ADR-0026-platform-north-star-and-architecture-blueprint.md))
-2. [`docs/architecture/afenda-architecture-blueprint.md`](docs/architecture/afenda-architecture-blueprint.md) — discover packages/domains before PAS
+1. [`docs/NORTHSTAR/kernel-north-star.md`](docs/NORTHSTAR/kernel-north-star.md) — platform why + capability expectations ([ADR-0026](docs/adr/ADR-0026-platform-north-star-and-architecture-blueprint.md))
+2. [`docs/BLUEPRINT/kernel-blueprint.md`](docs/BLUEPRINT/kernel-blueprint.md) — discover packages/domains before PAS
 3. [`docs/PAS/README.md`](docs/PAS/README.md) — PAS index and canonical location rules
 4. [`docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`](docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) — kernel boundary (composed SSOT)
 5. [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](packages/architecture-authority/src/data/foundation-disposition.registry.ts) — machine authority
-6. [`docs/architecture/foundation-disposition.md`](docs/architecture/foundation-disposition.md) — lane vocabulary + entries (synced view)
-7. [`docs/architecture/afenda-runtime-truth-matrix.md`](docs/architecture/afenda-runtime-truth-matrix.md)
+6. [`packages/architecture-authority/src/data/foundation-disposition.registry.ts`](packages/architecture-authority/src/data/foundation-disposition.registry.ts) — lane vocabulary + entries (synced view)
+7. [`docs/PAS/pas-status-index.md`](docs/PAS/pas-status-index.md)
 8. [`.cursor/skills/enterprise-erp-standards/SKILL.md`](.cursor/skills/enterprise-erp-standards/SKILL.md) — SAP/Oracle gates (red/amber/blue lanes)
 9. Target kernel slice under [`docs/PAS/KERNEL/SLICE/`](docs/PAS/KERNEL/SLICE/) — copy one §Handoff block into Phase 0
 
@@ -178,7 +178,7 @@ Read in order:
 
 **Enterprise knowledge (PAS-004):** [`.cursor/skills/enterprise-knowledge/SKILL.md`](.cursor/skills/enterprise-knowledge/SKILL.md) · [`docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md`](docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · `@afenda/enterprise-knowledge` — accepted business meaning; glossary is a representation only.
 
-**CSS authority (PAS-005):** [`.cursor/skills/css-authority/SKILL.md`](.cursor/skills/css-authority/SKILL.md) · [`docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md`](docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) · `@afenda/css-authority` — runtime CSS token registry (`CSS-TOKEN-*`); `@afenda/design-system` retains Governed UI variant/recipe TS + `--afenda-*` token shim (B30 monolith deprecated).
+**CSS authority (PAS-005):** [`.cursor/skills/css-authority/SKILL.md`](.cursor/skills/css-authority/SKILL.md) · [`docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md`](docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) · `@afenda/css-authority` — runtime CSS token registry (`CSS-TOKEN-*`); `@afenda/ui` retains Governed UI variant/recipe TS; `@afenda/shadcn-studio` owns presentation product truth (PAS-005B retirement complete for CSS monolith).
 
 **Accounting Core (`Foundation phase 15+` runtime)** is blocked until ADR-0010 **and** a new ADR amends `PKGR01_ACCOUNTING` prohibited rules.
 
@@ -226,13 +226,13 @@ Constitutional authority: [`docs/adr/ADR-0017-shadcn-studio-ui-delivery-accelera
 
 **Agent operational authority:** [`.cursor/skills/afenda-shadcn-components/SKILL.md`](.cursor/skills/afenda-shadcn-components/SKILL.md) — 3-layer CSS token chain, 3-question MCP normalization filter, promotion pipeline, gates A–G.
 
-Operational guide: [`docs/architecture/app-ui-component-adaptation-guide.md`](docs/architecture/app-ui-component-adaptation-guide.md). MCP wiring: [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md).
+Operational guide: [`.cursor/skills/afenda-shadcn-components/SKILL.md`](.cursor/skills/afenda-shadcn-components/SKILL.md). MCP wiring: [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md).
 
 ---
 
 ## Governed UI
 
-Canonical policy: [`docs/governance/governed-ui-policy.md`](docs/governance/governed-ui-policy.md). Gates: [`docs/governance/ui-guard.md`](docs/governance/ui-guard.md).
+Canonical policy: [`.cursor/rules/governed-ui-consumption.mdc`](.cursor/rules/governed-ui-consumption.mdc). Gates: [`scripts/governance/ui-guard.mjs`](scripts/governance/ui-guard.mjs) (`pnpm ui:guard`).
 
 Two layers — do not confuse them:
 
@@ -286,4 +286,4 @@ Nonce-based CSP is enforced in `apps/erp/src/proxy.ts`. When adding external scr
 
 **Skill:** `.cursor/skills/csp-third-party/SKILL.md`  
 **Rule:** `.cursor/rules/csp-third-party-scripts.mdc`  
-**Delivery:** `docs/governance/support/nextjs-csp-nonce-pipeline.md`
+**Delivery:** `.cursor/skills/csp-third-party/SKILL.md` · `apps/erp/src/proxy.ts`

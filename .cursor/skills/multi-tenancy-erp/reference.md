@@ -1,7 +1,7 @@
 # Multi-Tenancy Reference
 
 > This is the deep-technical companion to [SKILL.md](SKILL.md).
-> Glossary: [`docs/architecture/glossary.md`](../../../../docs/architecture/glossary.md).
+> Glossary: [`docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md`](../../../../docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md).
 
 ---
 

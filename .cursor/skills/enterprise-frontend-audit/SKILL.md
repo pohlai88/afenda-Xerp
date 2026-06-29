@@ -182,7 +182,7 @@ Skipping Phase 0 (afenda-coding-session)
 pnpm ui:guard:scan              # Gate D — in-process className violation scan
 
 # ─── Full Governed UI guard ────────────────────────────────────────────────────
-pnpm ui:guard                   # Gates A–F (docs/governance/ui-guard.md)
+pnpm ui:guard                   # Gates A–F (scripts/governance/ui-guard.mjs)
 pnpm ui:guard:erp               # Gate F only — React ERP quality
 pnpm ui:guard:strict            # Gate F as CI hard failure
 
@@ -286,8 +286,8 @@ Post this block at end of every coding turn. Full templates → [reference/deliv
 - UX + accessibility: [reference/ux.md](reference/ux.md)
 - All deliverable templates: [reference/deliverables.md](reference/deliverables.md)
 - Scoring rubric: [reference/scoring.md](reference/scoring.md)
-- PAS-005 / css-authority: `docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md` · `docs/architecture/css-authority.md`
-- Governed UI policy: `docs/governance/governed-ui-policy.md`
-- UI guard gates: `docs/governance/ui-guard.md`
+- PAS-005 / css-authority: `docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md` · `docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md`
+- Governed UI policy: `.cursor/rules/governed-ui-consumption.mdc`
+- UI guard gates: `scripts/governance/ui-guard.mjs`
 - PAS index: `docs/PAS/README.md`
 - Foundation registry: `packages/architecture-authority/src/data/foundation-disposition.registry.ts`

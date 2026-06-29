@@ -34,6 +34,7 @@ const RUNTIME_EDGES = [
   ["@afenda/feature-flags", "@afenda/entitlements"],
   ["@afenda/metadata-ui", "@afenda/ui-composition"],
   ["@afenda/metadata-ui", "@afenda/ui"],
+  ["@afenda/ui-composition", "@afenda/accounting-standards"],
   ["@afenda/ui-composition", "@afenda/enterprise-knowledge"],
   ["@afenda/docs", "@afenda/enterprise-knowledge"],
   ["@afenda/permissions", "@afenda/auth"],
@@ -91,7 +92,10 @@ export const dependencyContract: DependencyContract = {
     "@afenda/execution": ["@afenda/kernel", "@afenda/observability"],
     "@afenda/feature-flags": ["@afenda/entitlements"],
     "@afenda/kernel": [],
-    "@afenda/ui-composition": ["@afenda/enterprise-knowledge"],
+    "@afenda/ui-composition": [
+      "@afenda/accounting-standards",
+      "@afenda/enterprise-knowledge",
+    ],
     "@afenda/metadata-ui": [
       "@afenda/shadcn-studio",
       "@afenda/ui-composition",

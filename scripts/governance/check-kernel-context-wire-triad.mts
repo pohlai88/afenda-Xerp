@@ -26,6 +26,18 @@ const ADDITIONAL_WIRE_TRIADS = [
     assert: "hierarchy-id-boundary.assert.ts",
     parser: "hierarchy-id-boundary.parser.ts",
   },
+  {
+    slug: "tenant-saas-lifecycle",
+    contract: "tenant-saas-lifecycle.contract.ts",
+    assert: "tenant-saas-lifecycle.assert.ts",
+    parser: "tenant-saas-lifecycle.parser.ts",
+  },
+  {
+    slug: "tenant-extension-boundary",
+    contract: "tenant-extension-boundary.contract.ts",
+    assert: "tenant-extension-boundary.assert.ts",
+    parser: "tenant-extension-boundary.parser.ts",
+  },
 ] as const;
 
 export interface KernelContextWireTriadViolation {

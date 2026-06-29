@@ -5,7 +5,7 @@
 | **Document class** | `platform_constitution` |
 | **Document role** | `immutable_platform_laws` |
 | **Parent** | None — supreme platform principles |
-| **Child documents** | [Platform North Star](../architecture/afenda-platform-north-star.md) · [Knowledge Constitutional Laws](../CONSTITUTION/knowledge-constitutional-laws.md) · all Domain North Stars · all Blueprints · all PAS |
+| **Child documents** | [Platform North Star](../PAS/afenda-platform-north-star.md) · [Knowledge Constitutional Laws](../CONSTITUTION/knowledge-constitutional-laws.md) · all Domain North Stars · all Blueprints · all PAS |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) |
 | **Maturity** | Enterprise Accepted |
 | **Runtime stance** | Documentation only |
@@ -108,7 +108,7 @@ Contributors and agents must know where a change belongs before they implement i
 
 **Therefore:** Governance Decision Matrix and Blueprint §3.1 Architecture Decision Matrix are mandatory routing — not optional guidance.
 
-*Primary home:* Platform Architecture Authority North Star · §14.5 · [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) §3.1
+*Primary home:* Platform Architecture Authority North Star · §14.5 · [Architecture Blueprint](../BLUEPRINT/kernel-blueprint.md) §3.1
 
 ---
 
@@ -160,7 +160,7 @@ If a proposed change contradicts a law, escalate: amend the law (rare) or redesi
 
 | Document | Role |
 | --- | --- |
-| [Platform North Star](../architecture/afenda-platform-north-star.md) | Platform philosophy and capability direction |
+| [Platform North Star](../PAS/afenda-platform-north-star.md) | Platform philosophy and capability direction |
 | [Platform Architecture Authority North Star](../NORTHSTAR/architecture-authority-north-star.md) | Governance constitutional domain |
 | [Platform Kernel North Star](../NORTHSTAR/kernel-north-star.md) | Vocabulary constitutional domain |
 | [doc-boundary-contract.md](../../.cursor/skills/kernel-authority/reference/doc-boundary-contract.md) | Cross-document SSOT rules |

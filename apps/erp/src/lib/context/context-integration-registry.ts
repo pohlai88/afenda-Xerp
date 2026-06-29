@@ -1,6 +1,6 @@
 /**
  * Canonical Step 8 API/action/AppShell integration registry — aligned with
- * `docs/architecture/multi-tenancy.md` (§572–579).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (§572–579).
  *
  * Server resolves operating context; AppShell receives display labels only.
  */

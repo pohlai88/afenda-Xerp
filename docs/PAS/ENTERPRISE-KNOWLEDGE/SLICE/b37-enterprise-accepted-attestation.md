@@ -52,7 +52,7 @@ Do **not** edit `packages/architecture-authority/src/data/foundation-disposition
 
 - Promote `PKGR04_ENTERPRISE_KNOWLEDGE` authority field to `PAS-004B`
 - Append B33–B36 evidence paths to registry `runtimeEvidence`
-- Sync `docs/architecture/foundation-disposition.md` view
+- Sync `packages/architecture-authority/src/data/foundation-disposition.registry.ts` view
 
 ## Runtime evidence summary
 

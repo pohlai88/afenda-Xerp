@@ -1,6 +1,6 @@
 # PAS-001B — ERP Wire Vocabulary Catalog Standard
 
-> **Platform Wire Vocabulary Catalog Authority** — governs ERP **wire** vocabulary under `packages/kernel/src/erp-domain/`. Not business glossary (PAS-004). Not domain runtime. Legacy archive: [KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md](archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md).
+> **Platform Wire Vocabulary Catalog Authority** — governs ERP **wire** vocabulary under `packages/kernel/src/erp-domain/`. Not business glossary (PAS-004). Not domain runtime. Legacy archive: [archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md](archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md).
 >
 > **Naming note:** Former title *Kernel Domain Vocabulary Catalog* implied business glossary. This PAS owns **wire shapes only** — aligned with Kernel Blueprint §3.4 and Enterprise Knowledge (PAS-004) for meaning.
 
@@ -24,8 +24,8 @@
 | **Registry lane** | `PKGR01B_ERP_DOMAIN_CATALOG` · `@afenda/kernel` |
 | **Agent skills** | `kernel-authority` · `/afenda-coding-session` |
 | **Upstream** | [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §3.4 · Kernel NS §3.2 ERP wire vocabulary |
-| **Legacy archive** | [KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md](archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
-| **Continuation** | Complements [PAS-003](../ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) · meaning in [PAS-004](../PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) |
+| **Legacy archive** | [archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md](archive/PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) |
+| **Continuation** | Complements [PAS-003](../ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) · meaning in [PAS-004](../ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) |
 | **Last reviewed** | 2026-06-29 |
 
 #### Required gates

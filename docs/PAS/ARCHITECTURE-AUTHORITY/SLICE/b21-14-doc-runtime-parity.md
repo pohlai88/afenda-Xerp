@@ -26,13 +26,13 @@ Handoff from: docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b21-14-doc-runtime-parity.md
    packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md
    docs/PAS/ARCHITECTURE-AUTHORITY/SLICE/b21-14-doc-runtime-parity.md
 4. Prohibited   — packages/architecture-authority/src/**; exception.contract.ts; foundation-disposition.registry.ts
-5. Authority    — PAS-002 §6.1 ┬À §14 ┬À architecture-authority skill
+5. Authority    — PAS-002 §6.1 · §14 · architecture-authority skill
 6. Gates        —
    pnpm check:architecture-authority-surface
    pnpm check:documentation-drift
 7. Closes       — README fingerprint/count drift; TREE test count and layout contract drift
 8. Evidence     — README.md ARCH-BASELINE fingerprint matches architecture-authority-version.ts
-9. Attestation  — Documentation ┬À Maintainability
+9. Attestation  — Documentation · Maintainability
 ```
 
 ## Rules frozen

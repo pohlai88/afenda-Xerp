@@ -1,33 +1,33 @@
-# Slice B42h ÔÇö Legacy Studio Tree Delete + Consumer Scan (PAS-005A ┬º11.4)
+# Slice B42h — Legacy Studio Tree Delete + Consumer Scan (PAS-005A §11.4)
 
-**Prerequisite:** B42g delivered ÔÇö parity registry complete; `deleteBlocked: false`
+**Prerequisite:** B42g delivered — parity registry complete; `deleteBlocked: false`
 
-**Status:** Delivered (2026-06-28) ÔÇö legacy `shadcn-studio/` tree removed; governed blocks relocated to `presentation/`
+**Status:** Delivered (2026-06-28) — legacy `shadcn-studio/` tree removed; governed blocks relocated to `presentation/`
 
 **Type:** Implementation
 
-**Risk class:** High ÔÇö appshell public API paths and internal imports retargeted
+**Risk class:** High — appshell public API paths and internal imports retargeted
 
-**Clean Core impact:** AÔåÆA ÔÇö no legacy TSX migration; governed presentation layer renamed; auth stubs removed
+**Clean Core impact:** AÔåÆA — no legacy TSX migration; governed presentation layer renamed; auth stubs removed
 
 ## Handoff block
 
 ```
 Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42h-pas005a-legacy-tree-delete.md
 
-1. Objective    ÔÇö Delete packages/appshell/src/shadcn-studio/ tree; relocate governed blocks to presentation/; pass consumer scan; update parity registry paths.
-2. Allowed layerÔÇö packages/appshell/src/** ┬À packages/shadcn-studio/src/registry/** ┬À apps/storybook/tsconfig.storybook.json ┬À docs/PAS/**
-3. Files        ÔÇö (see Completion Report)
-4. Prohibited   ÔÇö Migrate/copy MCP raw blocks into appshell ┬À foundation-disposition.registry.ts ┬À Governed UI className strip ┬À afenda-appshell-studio.css delete (CSS still required for governed blocks)
-5. Authority    ÔÇö PAS-005A ┬º11.4 ┬À B42b delete sequence ┬À ADR-0017
-6. Gates        ÔÇö
+1. Objective    — Delete packages/appshell/src/shadcn-studio/ tree; relocate governed blocks to presentation/; pass consumer scan; update parity registry paths.
+2. Allowed layer— packages/appshell/src/** · packages/shadcn-studio/src/registry/** · apps/storybook/tsconfig.storybook.json · docs/PAS/**
+3. Files        — (see Completion Report)
+4. Prohibited   — Migrate/copy MCP raw blocks into appshell · foundation-disposition.registry.ts · Governed UI className strip · afenda-appshell-studio.css delete (CSS still required for governed blocks)
+5. Authority    — PAS-005A §11.4 · B42b delete sequence · ADR-0017
+6. Gates        —
    pnpm --filter @afenda/appshell typecheck
    pnpm --filter @afenda/appshell test:run
    pnpm --filter @afenda/shadcn-studio test:run
    pnpm quality:boundaries
-7. Closes       ÔÇö Legacy shadcn-studio folder delete; consumer scan gate; parity registry path sync
-8. Evidence     ÔÇö legacy-studio-consumer-scan.test.ts; presentation/ tree; deleted auth stub re-exports
-9. Attestation  ÔÇö Inventory ┬À Consumer scan ┬À Build ┬À Documentation
+7. Closes       — Legacy shadcn-studio folder delete; consumer scan gate; parity registry path sync
+8. Evidence     — legacy-studio-consumer-scan.test.ts; presentation/ tree; deleted auth stub re-exports
+9. Attestation  — Inventory · Consumer scan · Build · Documentation
 ```
 
 ## Delete sequence (executed)
@@ -36,7 +36,7 @@ Handoff from: docs/PAS/CSS-AUTHORITY/SLICE/b42h-pas005a-legacy-tree-delete.md
 | --- | --- |
 | 1 | Renamed `packages/appshell/src/shadcn-studio/` ÔåÆ `packages/appshell/src/presentation/` |
 | 2 | Retargeted 53 internal import paths (`./shadcn-studio/` ÔåÆ `./presentation/`) |
-| 3 | Deleted auth stub re-exports (`app-shell-auth-login-page-04.tsx`, `app-shell-auth-error-page-02.tsx`) ÔÇö canonical surface is `@afenda/appshell/auth-shell` |
+| 3 | Deleted auth stub re-exports (`app-shell-auth-login-page-04.tsx`, `app-shell-auth-error-page-02.tsx`) — canonical surface is `@afenda/appshell/auth-shell` |
 | 4 | Updated parity registry legacy paths + `legacyBlockRoot` |
 | 5 | Added `legacy-studio-consumer-scan.test.ts` |
 | 6 | Updated Storybook tsconfig story globs |

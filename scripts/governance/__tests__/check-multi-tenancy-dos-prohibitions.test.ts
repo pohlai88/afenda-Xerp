@@ -28,7 +28,7 @@ describe("check-multi-tenancy-dos-prohibitions script", () => {
 
   it("documents all Do's markers from multi-tenancy.md §447–463", () => {
     const multiTenancyDoc = readFileSync(
-      join(repoRoot, "docs/architecture/multi-tenancy.md"),
+      join(repoRoot, "docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md"),
       "utf8"
     );
 
@@ -41,7 +41,7 @@ describe("check-multi-tenancy-dos-prohibitions script", () => {
 
   it("documents all Prohibitions markers from multi-tenancy.md §465–480", () => {
     const multiTenancyDoc = readFileSync(
-      join(repoRoot, "docs/architecture/multi-tenancy.md"),
+      join(repoRoot, "docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md"),
       "utf8"
     );
 
@@ -71,7 +71,7 @@ describe("check-multi-tenancy-dos-prohibitions script", () => {
 
   it("requires glossary headings for all 11 domain terms", () => {
     const glossary = readFileSync(
-      join(repoRoot, "docs/architecture/glossary.md"),
+      join(repoRoot, "docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md"),
       "utf8"
     );
 

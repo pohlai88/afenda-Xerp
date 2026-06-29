@@ -1,6 +1,6 @@
 /**
  * Canonical architecture authority surface registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Architecture authority, lines 421–445).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Architecture authority).
  *
  * `@afenda/architecture-authority` owns package/layer/dependency maps and
  * validators. It must remain framework-free and never import runtime authority.
@@ -85,6 +85,23 @@ export const ARCHITECTURE_AUTHORITY_DATA_MODULES = [
       "summarizePackageOwnership",
     ],
   },
+  {
+    path: "data/export-surface-attestation.build.ts",
+    role: "PAS-002 B44 — per-export surface attestation builder from package.json manifests",
+    primaryExports: [
+      "buildConsumerExportAttestation",
+      "readLivePackageExportPaths",
+    ],
+  },
+  {
+    path: "data/architecture-governance-amendment.registry.ts",
+    role: "PAS-002 amendment — extension boundary, surface stability, system membership, target-state, golden-path catalog, reference patterns, consumer export attestation",
+    primaryExports: [
+      "architectureGovernanceAmendmentRegistry",
+      "getSurfaceStabilityEntry",
+      "getExtensionBoundaryEntry",
+    ],
+  },
 ] as const;
 
 /** Validators consumed by CI architecture gates. */
@@ -139,35 +156,27 @@ export const ARCHITECTURE_AUTHORITY_VALIDATOR_MODULES = [
     role: "Lifecycle policy and registry status enforcement (ADR-0006)",
     primaryExports: ["validateLifecycle"],
   },
+  {
+    path: "validators/validate-architecture-governance-amendment.ts",
+    role: "PAS-002 amendment — governance amendment registry parity incl. export attestation (B43–B44)",
+    primaryExports: ["validateArchitectureGovernanceAmendment"],
+  },
+  {
+    path: "validators/validate-golden-path-scaffold-policy.ts",
+    role: "PAS-002 B45 — golden-path scaffold CLI policy enforcement",
+    primaryExports: [
+      "validateGoldenPathScaffoldPolicy",
+      "GOLDEN_PATH_SCAFFOLD_POLICY_MARKERS",
+    ],
+  },
 ] as const;
 
-/** Human-readable docs that must stay aligned with registry data. */
-export const ARCHITECTURE_AUTHORITY_CANONICAL_DOCS = [
-  {
-    path: "docs/architecture/package-registry.md",
-    fingerprintRequired: true,
-    role: "Human package registry",
-  },
-  {
-    path: "docs/architecture/dependency-registry.md",
-    fingerprintRequired: true,
-    role: "Human dependency registry",
-  },
-  {
-    path: "docs/architecture/layer-registry.md",
-    fingerprintRequired: true,
-    role: "Human layer registry",
-  },
-  {
-    path: "docs/architecture/foundation-disposition.md",
-    fingerprintRequired: false,
-    role: "Read-only foundation disposition view (ADR-0014)",
-  },
-] as const;
+/** Human markdown registries retired — machine data modules are SSOT (ADR-0014). */
+export const ARCHITECTURE_AUTHORITY_CANONICAL_DOCS = [] as const;
 
 /** Committed drift snapshot generated from live workspace graphs. */
 export const ARCHITECTURE_AUTHORITY_DEPENDENCY_SNAPSHOT =
-  "docs/architecture/dependency-snapshot.json" as const;
+  "packages/architecture-authority/dependency-snapshot.json" as const;
 
 /**
  * Human layer-registry.md may use extended labels while machine registry stays canonical.
@@ -334,7 +343,7 @@ export const ARCHITECTURE_REGISTRY_DRIFT_SOURCES = {
   layer: "packages/architecture-authority/src/data/layer-registry.data.ts",
   ownership:
     "packages/architecture-authority/src/data/ownership-registry.data.ts",
-  snapshot: "docs/architecture/dependency-snapshot.json",
+  snapshot: "packages/architecture-authority/dependency-snapshot.json",
 } as const;
 
 /** Workspace roots scanned for forbidden @afenda/architecture-authority deep imports. */

@@ -498,10 +498,10 @@ const SLICES: SliceDef[] = [
     objective:
       "Attest PAS-001A Production Candidate closure with archived gate output for all matrix rows.",
     allowedLayer:
-      "docs/PAS/** · docs/architecture/afenda-runtime-truth-matrix.md · .cursor/skills/kernel-authority/SKILL.md",
+      "docs/PAS/** · docs/PAS/pas-status-index.md · .cursor/skills/kernel-authority/SKILL.md",
     files: [
       "docs/PAS/pas-status-index.md",
-      "docs/architecture/afenda-runtime-truth-matrix.md",
+      "docs/PAS/pas-status-index.md",
       "docs/PAS/KERNEL/SLICE/b75-pas001a-production-candidate-attestation.md",
       ".cursor/skills/kernel-authority/SKILL.md",
     ],
@@ -516,7 +516,7 @@ const SLICES: SliceDef[] = [
     closes: "Closes DoD #1–#3 · PAS-001A Production Candidate · INV-001–INV-006",
     evidence: [
       "docs/PAS/pas-status-index.md",
-      "docs/architecture/afenda-runtime-truth-matrix.md",
+      "docs/PAS/pas-status-index.md",
       "Archived §6 matrix gate output",
     ],
     attestation: "Governance · Documentation · Observability",
@@ -796,7 +796,7 @@ const SLICES: SliceDef[] = [
     purpose:
       "Attest PAS-001 documentation chain closure: composed headers, pas-status-index, kernel-authority SKILL mirror, runtime matrix kernel rows.",
     objective: "PAS-001 doc attestation gates green; Enterprise Accepted evidence archived.",
-    allowedLayer: "docs/PAS/** · docs/architecture/** · .cursor/skills/kernel-authority/**",
+    allowedLayer: "docs/PAS/** · docs/PAS/** · .cursor/skills/kernel-authority/**",
     files: [
       "docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md",
       "docs/PAS/pas-status-index.md",
@@ -812,7 +812,7 @@ const SLICES: SliceDef[] = [
     evidence: [
       "docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md",
       "docs/PAS/pas-status-index.md",
-      "docs/architecture/afenda-runtime-truth-matrix.md",
+      "docs/PAS/pas-status-index.md",
     ],
     attestation: "Governance · Documentation",
     rules: [
@@ -935,10 +935,10 @@ const SLICES: SliceDef[] = [
       "Sync documentation with post–PAS-001 runtime: fix stale resolver paths in runtime matrix; close multi-tenancy delivery-doc gaps; update PAS-001 §9 rule-14 prose.",
     objective: "Documentation reflects ERP resolver + permissions ownership split from B71.",
     allowedLayer:
-      "docs/architecture/** · docs/PAS/** · apps/docs delivery evidence if generated",
+      "docs/PAS/** · docs/PAS/** · apps/docs delivery evidence if generated",
     files: [
-      "docs/architecture/afenda-runtime-truth-matrix.md",
-      "docs/architecture/multi-tenancy.md",
+      "docs/PAS/pas-status-index.md",
+      "docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md",
       "docs/PAS/KERNEL/SLICE/b73-kernel-erp-doc-drift-closure.md",
     ],
     prohibited:
@@ -950,8 +950,8 @@ const SLICES: SliceDef[] = [
     ],
     closes: "Closes DoD #1–#3 · doc drift closure",
     evidence: [
-      "docs/architecture/afenda-runtime-truth-matrix.md",
-      "docs/architecture/multi-tenancy.md",
+      "docs/PAS/pas-status-index.md",
+      "docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md",
       "pnpm check:documentation-drift output",
     ],
     attestation: "Documentation · Governance",
@@ -979,7 +979,7 @@ const SLICES: SliceDef[] = [
     runtime: [
       {
         capability: "Doc/runtime parity",
-        path: "docs/architecture/afenda-runtime-truth-matrix.md",
+        path: "docs/PAS/pas-status-index.md",
       },
     ],
   },
@@ -1066,7 +1066,7 @@ const SLICES: SliceDef[] = [
       "Author composed PAS-001B at catalog_authority maturity and sync authority chain (README, pas-status-index, runtime matrix, kernel tree).",
     objective: "Publish ERP Wire Vocabulary Catalog PAS + authority chain sync.",
     allowedLayer:
-      "docs/PAS/KERNEL/** · docs/architecture/** · packages/kernel/PAS-001-KERNEL-TREE.md · .cursor/skills/kernel-authority/**",
+      "docs/PAS/KERNEL/** · docs/PAS/** · packages/kernel/PAS-001-KERNEL-TREE.md · .cursor/skills/kernel-authority/**",
     files: [
       "docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md",
       "docs/PAS/KERNEL/README.md",
@@ -1081,7 +1081,7 @@ const SLICES: SliceDef[] = [
     evidence: [
       "docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md",
       "docs/PAS/pas-status-index.md",
-      "docs/architecture/afenda-runtime-truth-matrix.md",
+      "docs/PAS/pas-status-index.md",
     ],
     attestation: "Documentation · Governance",
     rules: [
@@ -1192,7 +1192,7 @@ const SLICES: SliceDef[] = [
     purpose:
       "Close PAS-001B pre-promotion audit: prohibited surface scan, layout gate evidence, catalog doc alignment.",
     objective: "Attest PAS-001B audit closure before B79+ module promotions.",
-    allowedLayer: "docs/PAS/KERNEL/** · docs/architecture/**",
+    allowedLayer: "docs/PAS/KERNEL/** · docs/PAS/**",
     files: [
       "docs/PAS/KERNEL/SLICE/b78-pas001b-audit-closure.md",
       "docs/PAS/KERNEL/SLICE/slice-compliance-audit.md",
@@ -1229,7 +1229,7 @@ const SLICES: SliceDef[] = [
       {
         criterion: "Audit alignment table published",
         gate: "file read slice-compliance-audit.md",
-        trace: "afenda-doc-lifecycle AUDIT",
+        trace: "documentation-drift AUDIT alignment table",
       },
     ],
     runtime: [

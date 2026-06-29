@@ -206,7 +206,7 @@ export function parsePackageRegistryMarkdown(source: string): PackageRegistryRow
 export function readPackageRegistryRows(
   root = resolveDocsRepoRoot()
 ): PackageRegistryRow[] {
-  const registryPath = join(root, "docs/architecture/package-registry.md");
+  const registryPath = join(root, "packages/architecture-authority/src/data/package-registry.data.ts");
 
   if (!existsSync(registryPath)) {
     return [];
@@ -231,14 +231,14 @@ export function renderPackageRegistryBody(
 
   return `# Workspace package registry
 
-Machine-synced from [\`docs/architecture/package-registry.md\`](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/package-registry.md). Regenerate with \`pnpm sync:product-docs\`.
+Machine-synced from [\`packages/architecture-authority/src/data/package-registry.data.ts\`](https://github.com/pohlai88/afenda-Xerp/blob/main/packages/architecture-authority/src/data/package-registry.data.ts). Regenerate with \`pnpm sync:product-docs\`.
 
 | Field | Value |
 | --- | --- |
 | Active workspaces | ${activeCount} |
 | Baseline fingerprint | \`${fingerprint}\` |
 
-Full disposition lanes and prohibited rules live in [\`foundation-disposition.md\`](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/foundation-disposition.md) — this page is the workspace inventory only.
+Full disposition lanes and prohibited rules live in [\`foundation-disposition.md\`](https://github.com/pohlai88/afenda-Xerp/blob/main/packages/architecture-authority/src/data/foundation-disposition.registry.ts) — this page is the workspace inventory only.
 
 ## Active packages
 
@@ -250,7 +250,7 @@ ${tableRows || "| — | — | — | — | — | — | — |"}
 
 - [Monorepo runtime inventory](/docs/build-afenda/monorepo-map/repo-inventory) — ERP routes and catalog counts
 - [Monorepo map](/docs/build-afenda/monorepo-map) — engineer navigation summary
-- [Runtime truth matrix](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/architecture/afenda-runtime-truth-matrix.md) — evidence-backed status
+- [Runtime truth matrix](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/pas-status-index.md) — evidence-backed status
 `;
 }
 

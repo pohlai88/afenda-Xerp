@@ -66,6 +66,6 @@ ADR-0001 defines TIP-002 as the AI development governance spine.
 ## References
 
 - [`docs/ai/README.md`](../ai/README.md)
-- [`docs/architecture/package-registry.md`](../architecture/package-registry.md)
+- [`packages/architecture-authority/src/data/package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts)
 - [ADR-0001](./ADR-0001-phase-1-foundation-redefinition.md)
 - [ADR-0006](./ADR-0006-package-lifecycle-governance.md)

@@ -105,4 +105,33 @@ describe("createMetadataRuntimeContext", () => {
       readonlyMode: true,
     });
   });
+
+  it("carries ERP extended operating-context scope fields", () => {
+    const context = createMetadataRuntimeContext({
+      surfaceId: "surface_001",
+      workflowId: "workflow_001",
+      consolidationReportingDate: "2026-06-29",
+      permissionGrantScopeType: "legal_entity",
+      ownershipInterestCount: 3,
+      entityGroupId: "eg_001",
+      teamId: "team_001",
+      projectId: "project_001",
+    });
+
+    expect(context).toEqual({
+      surfaceId: "surface_001",
+      workflowId: "workflow_001",
+      consolidationReportingDate: "2026-06-29",
+      permissionGrantScopeType: "legal_entity",
+      ownershipInterestCount: 3,
+      entityGroupId: "eg_001",
+      teamId: "team_001",
+      projectId: "project_001",
+      density: "default",
+      presentationMode: "default",
+      state: "ready",
+      diagnosticsEnabled: false,
+      readonlyMode: false,
+    });
+  });
 });

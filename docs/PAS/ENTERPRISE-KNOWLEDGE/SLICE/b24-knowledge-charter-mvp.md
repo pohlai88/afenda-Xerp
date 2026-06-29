@@ -20,14 +20,14 @@ Deliver PAS-004 Enterprise Knowledge Charter MVP: constitutional doc (chapters 1
 Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b24-knowledge-charter-mvp.md
 
 1. Objective    — Implement PAS-004 MVP: charter doc, @afenda/enterprise-knowledge package (atoms, relationships, policy, tests), PKGR04 disposition, knowledge-conformance gate, skill, glossary demotion, cross-links.
-2. Allowed layer— packages/enterprise-knowledge/** · docs/PAS/** · docs/architecture/glossary.md (header only) · packages/architecture-authority/src/data/** (registry rows) · scripts/governance/check-knowledge-conformance.mts · .cursor/skills/enterprise-knowledge/** · AGENTS.md · package.json (check script only)
+2. Allowed layer— packages/enterprise-knowledge/** · docs/PAS/** · docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md (header only) · packages/architecture-authority/src/data/** (registry rows) · scripts/governance/check-knowledge-conformance.mts · .cursor/skills/enterprise-knowledge/** · AGENTS.md · package.json (check script only)
 3. Files        —
    docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md
    docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b24-knowledge-charter-mvp.md
    docs/PAS/README.md
    docs/PAS/pas-status-index.md
-   docs/architecture/glossary.md
-   docs/architecture/foundation-disposition.md
+   docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md
+   packages/architecture-authority/src/data/foundation-disposition.registry.ts
    packages/enterprise-knowledge/**
    packages/architecture-authority/src/data/foundation-disposition.registry.ts
    packages/architecture-authority/src/data/package-registry.data.ts

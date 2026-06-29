@@ -34,7 +34,7 @@ TIP-001G documented lifecycle policy in [`package-lifecycle.md`](../architecture
 
 7. **Audit events** — `package.created`, `.merged`, `.split`, `.deprecated`, `.retired`, `.restored` (TIP-010+ automation).
 
-8. **Machine enforcement** — `validateLifecycle()` consumes `LifecycleContract`; registry status values (`active`, `active-exempt`, `planned`, etc.) are machine-readable per [`package-registry.md`](../architecture/package-registry.md).
+8. **Machine enforcement** — `validateLifecycle()` consumes `LifecycleContract`; registry status values (`active`, `active-exempt`, `planned`, etc.) are machine-readable per [`package-registry.md`](../../packages/architecture-authority/src/data/package-registry.data.ts).
 
 ---
 
@@ -54,7 +54,7 @@ TIP-001G documented lifecycle policy in [`package-lifecycle.md`](../architecture
 ## Acceptance Gate
 
 - [`package-lifecycle.md`](../architecture/package-lifecycle.md) aligned with this ADR
-- [`package-registry.md`](../architecture/package-registry.md) registry IDs and status enum defined
+- [`package-registry.md`](../../packages/architecture-authority/src/data/package-registry.data.ts) registry IDs and status enum defined
 - `LifecycleContract` implemented in TIP-001C
 
 ---
@@ -62,6 +62,6 @@ TIP-001G documented lifecycle policy in [`package-lifecycle.md`](../architecture
 ## References
 
 - [package-lifecycle.md](../architecture/package-lifecycle.md)
-- [package-registry.md](../architecture/package-registry.md)
+- [package-registry.md](../../packages/architecture-authority/src/data/package-registry.data.ts)
 - [ADR-0000](ADR-0000-architecture-constitution.md)
 - [ADR-0004](ADR-0004-ownership-governance.md)

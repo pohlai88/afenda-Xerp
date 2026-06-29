@@ -24,6 +24,7 @@
   },
   "sideEffects": false,
   "dependencies": {
+    "@afenda/accounting-standards": "workspace:*",
     "@afenda/enterprise-knowledge": "workspace:*"
   },
   "devDependencies": {

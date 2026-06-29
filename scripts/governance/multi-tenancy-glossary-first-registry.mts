@@ -1,6 +1,6 @@
 /**
  * Canonical glossary-first registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Step 1, lines 484–500).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Step 1 — Glossary first).
  *
  * Step 1 must complete before downstream implementation slices.
  * Runtime checks live in `lib/multi-tenancy-glossary-first-enforcement.mts`.
@@ -9,12 +9,12 @@ export const MULTI_TENANCY_GLOSSARY_FIRST_SURFACE_RULE =
   "multi-tenancy-glossary-first-is-canonical-vocabulary-before-implementation" as const;
 
 export const MULTI_TENANCY_GLOSSARY_PATH =
-  "docs/architecture/glossary.md" as const;
+  "docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md" as const;
 
-/** Markers that must appear in multi-tenancy.md Step 1 (§484–500). */
+/** Markers that must appear in multi-tenancy delivery evidence Step 1. */
 export const MULTI_TENANCY_DOC_GLOSSARY_FIRST_MARKERS = [
   "Step 1 — Glossary first",
-  "Create/update `docs/architecture/glossary.md`.",
+  "Create/update `docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md`.",
   "Add “do not confuse” notes.",
 ] as const;
 

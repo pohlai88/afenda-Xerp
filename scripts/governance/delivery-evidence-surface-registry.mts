@@ -1,6 +1,6 @@
 /**
  * Canonical delivery evidence registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Delivery evidence, lines 428–430).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Delivery evidence).
  *
  * Foundation phase 07 / Foundation phase 12 delivery doc is the single source of truth for the
  * multi-tenancy operating-context foundation slice verification chain.
@@ -8,12 +8,12 @@
 export const DELIVERY_EVIDENCE_SURFACE_RULE =
   "multi-tenancy-doc-is-canonical-delivery-evidence-for-multi-tenancy-foundation" as const;
 
-/** Legacy delivery doc retired — multi-tenancy architecture doc is canonical evidence. */
+/** Canonical multi-tenancy delivery evidence (relocated from docs/architecture). */
 export const MULTI_TENANCY_DELIVERY_DOC =
-  "docs/architecture/multi-tenancy.md" as const;
+  "docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md" as const;
 
 export const MULTI_TENANCY_DOC_REFERENCE =
-  "docs/architecture/multi-tenancy.md" as const;
+  "docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md" as const;
 
 /** Required H2 sections per multi-tenancy.md expected final output format (lines 686–715). */
 export const MULTI_TENANCY_DELIVERY_REQUIRED_SECTIONS = [

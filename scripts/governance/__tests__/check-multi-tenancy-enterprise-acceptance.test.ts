@@ -26,7 +26,7 @@ describe("check-multi-tenancy-enterprise-acceptance script", () => {
 
   it("documents enterprise acceptance markers from multi-tenancy.md §612–666", () => {
     const multiTenancyDoc = readFileSync(
-      join(repoRoot, "docs/architecture/multi-tenancy.md"),
+      join(repoRoot, "docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md"),
       "utf8"
     );
 

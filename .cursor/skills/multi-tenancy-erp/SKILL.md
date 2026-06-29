@@ -15,7 +15,7 @@ paths:
 # Multi-Tenancy Architecture — `@afenda/database` + `apps/erp`
 
 > Glossary: all capitalized terms (Tenant, Legal Entity, Entity Group, etc.) are defined in
-> [`docs/architecture/glossary.md`](../../../../docs/architecture/glossary.md).
+> [`docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md`](../../../../docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md).
 
 ---
 
@@ -472,9 +472,9 @@ await updateOrganization(id, { parentOrganizationId: id }, audit);
 
 ## Additional resources
 
-- **Glossary:** [`docs/architecture/glossary.md`](../../../../docs/architecture/glossary.md)
+- **Glossary:** [`docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md`](../../../../docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md)
 - **Schema reference:** [reference.md](reference.md)
-- **Master plan (ERP roadmap):** [`docs/architecture/_afenda-erp-master-plan.llms.md`](../../../../docs/architecture/_afenda-erp-master-plan.llms.md)
+- **Master plan (ERP roadmap):** [`docs/PAS/_afenda-erp-master-plan.llms.md`](../../../../docs/PAS/_afenda-erp-master-plan.llms.md)
 - Tenant service: `packages/database/src/tenant/tenant.service.ts`
 - Organization contract: `packages/database/src/organization/organization.contract.ts`
 - Membership contract: `packages/database/src/membership/membership.contract.ts`

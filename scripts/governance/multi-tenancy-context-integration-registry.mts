@@ -1,6 +1,6 @@
 /**
  * Canonical Step 8 context integration registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Step 8, lines 572–579).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Step 8, lines 572–579).
  *
  * Runtime mirror: `apps/erp/src/lib/context/context-integration-registry.ts`.
  */

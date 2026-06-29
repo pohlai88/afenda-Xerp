@@ -12,7 +12,7 @@ paths:
 >
 > Stack: React 19 · Next.js App Router · `@afenda/ui` Radix primitives · recharts · `"use client"` boundary discipline.
 >
-> **Canonical Governed UI policy:** [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md) · **Gate F reference:** [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md)
+> **Canonical Governed UI policy:** [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc) · **Gate F reference:** [`scripts/governance/ui-guard.mjs`](../../scripts/governance/ui-guard.mjs)
 
 ---
 
@@ -465,7 +465,7 @@ Checklist:
 
 ## Automated guard — Gate F
 
-Canonical gate reference: [`docs/governance/ui-guard.md`](../../docs/governance/ui-guard.md) · Governed UI policy: [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md).
+Canonical gate reference: [`scripts/governance/ui-guard.mjs`](../../scripts/governance/ui-guard.mjs) · Governed UI policy: [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc).
 
 `pnpm ui:guard` runs **Gate F** (React ERP quality) automatically as part of the full governance
 sweep. Gate F is a **warning gate** in dev — violations are printed in yellow but don't break the
@@ -523,7 +523,7 @@ pnpm --filter app test:a11y   # if configured
 
 ## Additional resources
 
-- **Canonical Governed UI policy:** [`docs/governance/governed-ui-policy.md`](../../docs/governance/governed-ui-policy.md)
+- **Canonical Governed UI policy:** [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc)
 - afenda-ui-quality (runs first): [`.cursor/skills/afenda-ui-quality/SKILL.md`](../afenda-ui-quality/SKILL.md)
 - govern-primitive checklist: [`.cursor/skills/govern-primitive/SKILL.md`](../govern-primitive/SKILL.md)
 - Detailed hook patterns: [`reference.md`](reference.md)

@@ -113,7 +113,7 @@ constraint employees_tenant_employee_no_unique
 Documentation (Slice A):
 
 - ADR recorded and cross-linked from PAS-001 §4.1.13
-- Architecture doc: [`docs/architecture/identity/tenant-human-reference-model.md`](../architecture/identity/tenant-human-reference-model.md)
+- Architecture doc: [`docs/PAS/KERNEL/identity/tenant-human-reference-model.md`](../PAS/KERNEL/identity/tenant-human-reference-model.md)
 
 Runtime (Slice F — domain FDRs):
 
@@ -140,4 +140,4 @@ Minimum runtime proof:
 - [ADR-0021 — Canonical Enterprise Identity](./ADR-0021-canonical-enterprise-identity.md)
 - [ADR-0022 — PostgreSQL Split-ID Persistence Model](./ADR-0022-postgres-split-id-persistence-model.md)
 - [PAS-001 §4.1.13](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
-- [tenant-human-reference-model.md](../architecture/identity/tenant-human-reference-model.md)
+- [tenant-human-reference-model.md](../PAS/KERNEL/identity/tenant-human-reference-model.md)

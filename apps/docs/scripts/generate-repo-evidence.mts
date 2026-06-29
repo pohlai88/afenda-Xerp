@@ -99,7 +99,7 @@ function ensureMonorepoMapMetaPages(
 }
 
 function readRegistryFingerprint(): string | undefined {
-  const registryPath = join(repoRoot, "docs/architecture/package-registry.md");
+  const registryPath = join(repoRoot, "packages/architecture-authority/src/data/package-registry.data.ts");
   try {
     const source = readFileSync(registryPath, "utf8");
     const match = source.match(/\*\*Fingerprint\*\*\s*\|\s*`([^`]+)`/);

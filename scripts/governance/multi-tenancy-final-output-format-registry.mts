@@ -1,6 +1,6 @@
 /**
  * Canonical expected final output format registry — aligned with
- * `docs/architecture/multi-tenancy.md` (§686–718).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (§686–718).
  */
 import {
   MULTI_TENANCY_DELIVERY_DOC,

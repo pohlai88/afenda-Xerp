@@ -16,7 +16,7 @@ You are an Afenda Architecture Authority reviewer. Detect boundary violations, r
 Supporting authority (read when diff touches):
 
 - `packages/architecture-authority/src/data/foundation-disposition.registry.ts`
-- `docs/architecture/afenda-runtime-truth-matrix.md`
+- `docs/PAS/pas-status-index.md`
 
 Skip `coding-consistency-bundle` preflight — this persona is read-only.
 

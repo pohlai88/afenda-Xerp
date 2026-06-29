@@ -346,7 +346,7 @@ For every `.stories.tsx`:
 # 1. Fast scan — find all Governed UI violations
 pnpm ui:guard:scan
 
-# 2. Full ui:guard (gates A–F — docs/governance/ui-guard.md)
+# 2. Full ui:guard (gates A–F — scripts/governance/ui-guard.mjs)
 pnpm ui:guard
 
 # 3. TypeScript

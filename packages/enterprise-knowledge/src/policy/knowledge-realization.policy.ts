@@ -31,6 +31,15 @@ export function getAtomRealizationMappings(
   return atom.realizationMapping ?? [];
 }
 
+/** Primary kernel realization entry — B50 replacement for implementationMapping.contractPath. */
+export function getPrimaryKernelRealization(
+  atom: KnowledgeAtom
+): KnowledgeRealizationMapping | undefined {
+  return getAtomRealizationMappings(atom).find(
+    (entry) => entry.realizationKind === "kernel"
+  );
+}
+
 export function collectRealizationKinds(
   atoms: readonly KnowledgeAtom[]
 ): ReadonlySet<RealizationKind> {
@@ -130,11 +139,10 @@ export function validateKnowledgeRealizationMapping(
       (REALIZATION_MAPPING_EVIDENCE_ATOM_IDS as readonly string[]).includes(
         atom.atomId
       ) &&
-      mappings.length === 0 &&
-      !atom.implementationMapping
+      mappings.length === 0
     ) {
       errors.push(
-        `${atom.atomId}: platform identity atom requires realizationMapping or implementationMapping`
+        `${atom.atomId}: platform identity atom requires realizationMapping`
       );
     }
   }

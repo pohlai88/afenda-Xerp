@@ -29,7 +29,7 @@ Close agent-facing drift after B12–B23: skill acceptance criteria, authority-s
    packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md
    packages/architecture-authority/src/__tests__/validate-lifecycle.test.ts
 4. Prohibited   — packages/architecture-authority/src/data/*.ts registry mutations; foundation-disposition.registry.ts; apps/erp
-5. Authority    — PAS-002 §14 ┬À architecture-authority skill
+5. Authority    — PAS-002 §14 · architecture-authority skill
 6. Gates        —
    pnpm --filter @afenda/architecture-authority typecheck
    pnpm --filter @afenda/architecture-authority test:run
@@ -38,5 +38,5 @@ Close agent-facing drift after B12–B23: skill acceptance criteria, authority-s
 8. Evidence     —
    .cursor/skills/architecture-authority/reference/authority-surfaces.md
    docs/PAS/pas-status-index.md
-9. Attestation  — Documentation ┬À Test ┬À Governance
+9. Attestation  — Documentation · Test · Governance
 ```

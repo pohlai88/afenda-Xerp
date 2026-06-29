@@ -78,7 +78,7 @@ Adjust the package filter to match the layer you edited.
 
 ## Related authority
 
-- CSS composition order: `docs/governance/downstream-ui-composition.md`
+- CSS composition order: `docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md`
 - AppShell CSS manifest: `packages/appshell/src/styles/css-manifest.ts`
 - Governed UI consumption: `.cursor/skills/afenda-shadcn-components/SKILL.md`
 

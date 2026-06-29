@@ -7,7 +7,7 @@ export const exceptionContract: ExceptionContract = {
       status: "active",
       owner: "Design Authority",
       evidence: [
-        "docs/governance/governed-ui-policy.md",
+        ".cursor/rules/governed-ui-consumption.mdc",
         "packages/design-system/src/contracts/design-system-authority.contract.ts",
       ],
       adr: "Governed UI policy",

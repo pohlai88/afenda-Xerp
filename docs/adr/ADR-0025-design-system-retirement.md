@@ -115,6 +115,6 @@ ADR-0025 is **satisfied** when:
 - [PAS-005A](../PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md)
 - [ADR-0017](ADR-0017-shadcn-studio-ui-delivery-acceleration.md)
 - [ADR-0014](ADR-0014-foundation-disposition-registry.md)
-- [governed-ui-policy.md](../governance/governed-ui-policy.md)
+- [`.cursor/rules/governed-ui-consumption.mdc`](../../.cursor/rules/governed-ui-consumption.mdc)
 - shadcn/ui theming: https://ui.shadcn.com/docs/theming
 - shadcn/ui Tailwind v4: https://ui.shadcn.com/docs/tailwind-v4

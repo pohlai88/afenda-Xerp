@@ -3,7 +3,7 @@
  * Source: packages/css-authority/src/authorities/afenda-extensions.json
  * Regenerate: pnpm --filter @afenda/css-authority build
  *
- * All custom properties use the --afenda-* prefix (TIP-004A).
+ * All custom properties use the --afenda-* prefix (PAS-005 namespace).
  * Safe to consume in any CSS context without namespace collisions.
  *
  * Usage:

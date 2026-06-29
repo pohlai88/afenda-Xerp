@@ -11,7 +11,7 @@ const workspaces = await getDiscoveredWorkspaces(authority);
 const snapshot = authority.buildDependencySnapshot(workspaces);
 const outputPath = join(
   workspaceRoot,
-  "docs/architecture/dependency-snapshot.json"
+  "packages/architecture-authority/dependency-snapshot.json"
 );
 
 writeFileSync(outputPath, `${JSON.stringify(snapshot, null, 2)}\n`, "utf8");

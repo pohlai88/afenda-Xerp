@@ -1,6 +1,6 @@
 /**
  * Canonical Step 6 tenant URL resolver registry — aligned with
- * `docs/architecture/multi-tenancy.md` (§553–559).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (§553–559).
  *
  * Tenant subdomain and path prefixes resolve tenant authority only.
  * Legal entity selection is never derived from hostname.

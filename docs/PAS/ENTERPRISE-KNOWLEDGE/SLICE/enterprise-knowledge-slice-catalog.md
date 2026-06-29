@@ -4,7 +4,7 @@
 | --- | --- |
 | **SSOT directory** | `docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/` |
 | **Individual handoffs** | 26 files (B24–B49 on disk; B50–B54 proposed) |
-| **Legacy** | `docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/` removed — use this folder only |
+| **Legacy** | Flat `docs/PAS/slice/` removed — use this folder only |
 | **Closure registry** | [pas-status-index.md](../../pas-status-index.md) |
 | **Last reviewed** | 2026-06-29 |
 
@@ -38,7 +38,7 @@
 | B34 | [b34-metadata-consumer-proof.md](./b34-metadata-consumer-proof.md) | Delivered |
 | B35 | [b35-docs-consumer-proof.md](./b35-docs-consumer-proof.md) | Delivered |
 | B36 | [b36-acceptance-graph-queries.md](./b36-acceptance-graph-queries.md) | Delivered |
-| B37 | [b37-enterprise-accepted-attestation.md](./b37-enterprise-accepted-attestation.md) | Delivered |
+| B37 | [b37-enterprise-accepted-attestation.md](./b37-enterprise-accepted-attestation.md) | Attested |
 
 ## PAS-004C — B38–B48 (delivered)
 
@@ -60,8 +60,8 @@
 
 | Slice | Phase | Handoff | Status |
 | --- | --- | --- | --- |
-| B49 | 1 Mirror sync | [b49-pas004d-authority-mirror-sync.md](./b49-pas004d-authority-mirror-sync.md) | In progress |
-| B50 | 2 Legacy API | b50-pas004d-legacy-surface-retirement.md | Proposed |
+| B49 | 1 Mirror sync | [b49-pas004d-authority-mirror-sync.md](./b49-pas004d-authority-mirror-sync.md) | Delivered |
+| B50 | 2 Legacy API | [b50-pas004d-legacy-surface-retirement.md](./b50-pas004d-legacy-surface-retirement.md) | Delivered |
 | B51 | 3 Corpus depth | b51-pas004d-corpus-depth.md | Proposed |
 | B52 | 3 Vocabulary | b52-pas004d-vocabulary-richness.md | Proposed |
 | B53 | 4 Domain bridge | b53-pas004d-erp-domain-bridge.md | Proposed |

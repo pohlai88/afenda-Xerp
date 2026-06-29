@@ -7,16 +7,15 @@
 export const DOCUMENTATION_DRIFT_SURFACE_RULE =
   "documentation-drift-guard-is-canonical-stale-marker-enforcement";
 
-export const RUNTIME_TRUTH_MATRIX =
-  "docs/architecture/afenda-runtime-truth-matrix.md";
+export const RUNTIME_TRUTH_MATRIX = "docs/PAS/pas-status-index.md";
 
 export const PRE_ACCOUNTING_ROADMAP =
-  "docs/architecture/pre-accounting-foundation-roadmap.md";
+  "docs/architecture/_afenda-erp-master-plan.llms.md";
 
 export const MASTER_PLAN = "docs/architecture/_afenda-erp-master-plan.llms.md";
 
-export const DRIFT_AUDIT =
-  "docs/architecture/afenda-documentation-drift-audit.md";
+/** @deprecated Retired with docs/architecture tree — drift guard uses pas-status-index. */
+export const DRIFT_AUDIT = "docs/PAS/pas-status-index.md";
 
 /** Canonical Package Authority Standards index (PAS). */
 export const PAS_README = "docs/PAS/README.md" as const;
@@ -64,11 +63,8 @@ export const PAS_SLICE_DIR = PAS_KERNEL_SLICE_DIR;
 
 /** Authority docs scanned for references to removed legacy delivery paths. */
 export const LEGACY_DELIVERY_PATH_SCAN_FILES = [
-  "docs/architecture/afenda-runtime-truth-matrix.md",
-  "docs/architecture/README.md",
-  "docs/architecture/multi-tenancy.md",
-  "docs/governance/governed-ui-policy.md",
-  "docs/governance/README.md",
+  "docs/PAS/pas-status-index.md",
+  ".cursor/rules/governed-ui-consumption.mdc",
   "AGENTS.md",
   "docs/README.md",
 ] as const;
@@ -87,7 +83,6 @@ export const LEGACY_DELIVERY_INDEX_SCAN_FILES = [
   "AGENTS.md",
   "README.md",
   "docs/README.md",
-  "docs/architecture/README.md",
   ".cursor/skills/using-afenda-skills/SKILL.md",
 ] as const;
 
@@ -95,19 +90,15 @@ export const LEGACY_DELIVERY_INDEX_SCAN_FILES = [
 export const LEGACY_RELATIVE_DELIVERY_PATH_PATTERN =
   /\]\((?:\.\.\/)+(?:delivery|ARCH)\//gi;
 
-/** Canonical architecture baseline fingerprint (must match dependency-snapshot.json). */
+/** Machine baseline fingerprint (packages/architecture-authority). */
 export const ARCHITECTURE_BASELINE_DOC =
-  "docs/architecture/architecture-authority-baseline.md";
+  "packages/architecture-authority/src/contracts/architecture-authority-version.ts";
 
 export const OBSOLETE_BASELINE_FINGERPRINT =
   "ARCH-BASELINE-2026-06-20-v1" as const;
 
-/** Human registry docs that must carry the current baseline fingerprint. */
-export const FINGERPRINT_REQUIRED_DOCS = [
-  "docs/architecture/package-registry.md",
-  "docs/architecture/dependency-registry.md",
-  "docs/architecture/layer-registry.md",
-] as const;
+/** Human registry docs retired — machine data modules are authority. */
+export const FINGERPRINT_REQUIRED_DOCS = [] as const;
 
 /** ADRs that must be Accepted after foundation documentation closeout. */
 export const REQUIRED_ACCEPTED_ADRS = [
@@ -122,21 +113,6 @@ export const REQUIRED_ACCEPTED_ADRS = [
 
 /** Markers that must NOT appear — evidence of stale documentation. */
 export const STALE_DELIVERY_MARKERS = [
-  {
-    file: "docs/architecture/authentication-ecosystem.md",
-    forbidden: [
-      "Dual presentation tracks",
-      "Set `AFENDA_AUTH_SHELL_V2_DEFAULT=false`",
-      "`@afenda/appshell/auth-shell-v2`",
-      "apps/erp/(auth-v2)",
-    ],
-    rule: "auth-ecosystem-stale-dual-stack",
-  },
-  {
-    file: "docs/architecture/afenda-runtime-truth-matrix.md",
-    forbidden: ["auth-shell-V2", "(auth-v2)"],
-    rule: "runtime-matrix-stale-auth-v2-paths",
-  },
   {
     file: "docs/PAS/KERNEL/archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md",
     forbidden: [
@@ -160,8 +136,8 @@ export const STALE_DELIVERY_MARKERS = [
 /** Master plan must reference current authority artifacts. */
 export const MASTER_PLAN_REQUIRED_MARKERS = [
   "version: 5.0.0",
-  "afenda-runtime-truth-matrix.md",
-  "pre-accounting-foundation-roadmap.md",
+  "pas-status-index.md",
+  "Foundation Phase 9",
   "ADR-0010",
   "Do not use older roadmap sections",
 ] as const;

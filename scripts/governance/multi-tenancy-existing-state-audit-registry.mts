@@ -1,6 +1,6 @@
 /**
  * Canonical existing-state audit registry — aligned with
- * `docs/architecture/multi-tenancy.md` (Step 2, lines 502–511).
+ * `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md` (Step 2, lines 502–511).
  *
  * Step 2 must complete after glossary-first and before modifying authority surfaces.
  * Runtime checks live in `lib/multi-tenancy-existing-state-audit-enforcement.mts`.
