@@ -2,7 +2,7 @@
 
 > **Historical consumer note:** Evidence may cite pre-ADR-0027 packages. Current presentation lane is [PAS-006](../../PRESENTATION/README.md) — see [DEVELOPMENT-LANE-BOUNDARIES.md](../../DEVELOPMENT-LANE-BOUNDARIES.md).
 
-> **Position:** Amendment slice 3 of 3 in PAS-001 · Blueprint box: `Kernel Vocabulary` + ERP consumer proof
+> **Position:** Amendment slice 3 of 5 in PAS-001 · Blueprint box: `Kernel Vocabulary` + ERP consumer proof
 
 **Prerequisite:** B108 Delivered
 

@@ -18,14 +18,14 @@
 | **Authority status** | `enterprise_accepted` |
 | **Implementation status** | `implemented` |
 | **Evidence level** | `runtime_proven` |
-| **Runtime status** | Enterprise Accepted — kernel contracts, §13 catalog + B49–B70 closure delivered, runtime gates operational |
-| **Remaining slices** | none — B70 Delivered ([`SLICE/b70-kernel-test-import-hygiene.md`](SLICE/b70-kernel-test-import-hygiene.md)) |
-| **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, future governed domain packages |
+| **Runtime status** | Enterprise Accepted — kernel contracts, §13 catalog + B49–B70 closure + B107–B111 amendment delivered, runtime gates operational |
+| **Remaining slices** | none — B111 Delivered ([`SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md`](../SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md)) |
+| **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `apps/erp`, governed domain packages · `@afenda/shadcn-studio` (presentation consumer — no kernel import) |
 | **Change model** | Serialized kernel slices only |
 | **Quality target** | Enterprise **9.5 / 10** |
 | **Slice directory** | `docs/PAS/KERNEL/SLICE/` |
-| **ADR prerequisites** | ADR-0021, ADR-0022, ADR-0023 |
-| **Continuation PAS** | [PAS-001A](PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) — consumer integration (B71–B75 closed) · [PAS-001B](PAS-001B-KERNEL-ERP-DOMAIN-VOCABULARY-STANDARD.md) — ERP domain vocabulary catalog (B76–B106 closed; 28/28 delivered) |
+| **ADR prerequisites** | ADR-0021 · ADR-0022 · ADR-0023 · ADR-0011 (operating context hierarchy) |
+| **Continuation PAS** | [PAS-001A](../PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) — ERP integration spine · [PAS-001B](../PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) — ERP wire vocabulary catalog (B76–B106 closed; 28/28 delivered) |
 
 #### Required gates
 
@@ -42,8 +42,12 @@
 | 9 | `pnpm quality:boundaries` |
 | 10 | `pnpm architecture:cycles` |
 | 11 | `pnpm architecture:drift` |
+| 12 | `pnpm check:kernel-effective-dating-consumer-attestation` |
+| 13 | `pnpm check:erp-auth-actor-protected-path-attestation` |
+| 14 | `pnpm check:erp-tenant-lifecycle-extension-consumer-attestation` |
 
 > **Maturity is part of authority.**
+> **Gate parity:** [Composed PAS-001 §13](../PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md#13-required-gates) is co-authoritative for required gates; this archive §14.1 must stay in sync.
 > PAS-001 is fully implemented, gated, documented, and drift-protected. Kernel contracts, slice catalog, and runtime gates may be treated as enterprise authority.
 
 > **Composed SSOT (authority):** [../PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md](../PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
@@ -65,7 +69,7 @@
 
 **Required gates:** see §14.1
 
-**Slice entrypoint:** `docs/PAS/KERNEL/SLICE/` · [`pas-status-index.md`](pas-status-index.md) (§13 catalog + B49–B70 closure) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
+**Slice entrypoint:** `docs/PAS/KERNEL/SLICE/` · [`pas-status-index.md`](../../pas-status-index.md) (§13 catalog + B49–B70 closure + B107–B111 amendment) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
 
 **Registry:** `@afenda/kernel` → `packages/kernel` in `foundation-disposition.registry.ts`; accounting vocabulary → `PKGR01_ACCOUNTING` at `@afenda/kernel/erp-domain/accounting`
 
@@ -1508,7 +1512,14 @@ Slice naming: `b<N>-<pas-section>-<slug>.md` · optional companion: `<file>-proh
 | [b67-pas001-doc-attestation-closure.md](SLICE/b67-pas001-doc-attestation-closure.md) | B67 | §14 | Delivered | Evidence-sync | B57 |
 | [b68-hierarchy-id-boundary-wire-triad.md](SLICE/b68-hierarchy-id-boundary-wire-triad.md) | B68 | §4.4 | Delivered | Implementation | B67 |
 | [b69-kernel-context-wire-triad-gate.md](SLICE/b69-kernel-context-wire-triad-gate.md) | B69 | §9 | Delivered | Implementation | B68 |
-| [b70-kernel-test-import-hygiene.md](SLICE/b70-kernel-test-import-hygiene.md) | B70 | §3.3 | Delivered | Implementation | B69 |
+| [b70-kernel-test-import-hygiene.md](../SLICE/b70-kernel-test-import-hygiene.md) | B70 | §3.3 | Delivered | Implementation | B69 |
+| [b107-tenant-saas-lifecycle-wire.md](../SLICE/b107-tenant-saas-lifecycle-wire.md) | B107 | §4.4 | Delivered | Implementation | B70 |
+| [b108-tenant-extension-boundary-wire.md](../SLICE/b108-tenant-extension-boundary-wire.md) | B108 | NS §3.1 | Delivered | Implementation | B107 |
+| [b109-effective-dating-consumer-attestation.md](../SLICE/b109-effective-dating-consumer-attestation.md) | B109 | §4.4 | Delivered | Evidence-sync | B108 |
+| [b110-auth-actor-protected-path-attestation.md](../SLICE/b110-auth-actor-protected-path-attestation.md) | B110 | §4.1.11 | Delivered | Evidence-sync | B109 |
+| [b111-tenant-lifecycle-extension-consumer-attestation.md](../SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md) | B111 | §4.4 | Delivered | Evidence-sync | B110 |
+
+**Amendment summary (B107–B111):** Tenant SaaS lifecycle wire · tenant extension boundary wire · effective-dating consumer attestation · auth actor protected-path attestation · tenant lifecycle/extension ERP consumer attestation. Full index: [kernel-slice-catalog.md](../SLICE/kernel-slice-catalog.md).
 
 **Planning artifacts (not formal slice handoffs):** `b4.md`, `b7-4.1.9.md` — superseded by delivered slices above.
 
@@ -1534,15 +1545,22 @@ pnpm check:foundation-disposition
 pnpm quality:boundaries
 pnpm architecture:cycles
 pnpm architecture:drift
+pnpm check:kernel-effective-dating-consumer-attestation
+pnpm check:erp-auth-actor-protected-path-attestation
+pnpm check:erp-tenant-lifecycle-extension-consumer-attestation
 ```
 
 ## 14.2 Recommended
 
-Recommended gates after relevant slices exist:
+Recommended gates after relevant slices exist (parity: [Composed PAS-001 §13.2](../PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md#132-recommended)):
 
 ```bash
 pnpm check:kernel-propagation-isolation
 pnpm check:kernel-events-wire-serializable
+pnpm check:metadata-permission-model-parity
+pnpm check:metadata-policy-parity
+pnpm check:kernel-slice-catalog-consistency
+pnpm check:kernel-delivered-slice-closure
 ```
 
 ## 14.3 Promotion rules

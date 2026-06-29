@@ -93,18 +93,6 @@ function collectResolverFunctionViolations(
   );
   if (existsSync(mainResolverPath)) {
     const mainSource = readFileSync(mainResolverPath, "utf8");
-    for (const pipeline of OPERATING_CONTEXT_RESOLVER_PIPELINE) {
-      if (
-        pipeline.module === "resolve-operating-context.server.ts" &&
-        !mainSource.includes(pipeline.delegate)
-      ) {
-        violations.push({
-          rule: "pipeline-delegate-missing",
-          file: mainResolverPath,
-          message: `resolve-operating-context.server.ts must delegate via ${pipeline.delegate} (${pipeline.step})`,
-        });
-      }
-    }
 
     if (!mainSource.includes("Promise<OperatingContextResult>")) {
       violations.push({
@@ -123,6 +111,28 @@ function collectResolverFunctionViolations(
           message: `Operating context resolver must not read tenant from session: ${forbidden}`,
         });
       }
+    }
+  }
+
+  for (const pipeline of OPERATING_CONTEXT_RESOLVER_PIPELINE) {
+    const modulePath = join(erpSrc, "lib/context", pipeline.module);
+
+    if (!existsSync(modulePath)) {
+      violations.push({
+        rule: "pipeline-module-missing",
+        file: modulePath,
+        message: `Operating context pipeline module missing: ${pipeline.module}`,
+      });
+      continue;
+    }
+
+    const moduleSource = readFileSync(modulePath, "utf8");
+    if (!moduleSource.includes(pipeline.delegate)) {
+      violations.push({
+        rule: "pipeline-delegate-missing",
+        file: modulePath,
+        message: `${pipeline.module} must delegate via ${pipeline.delegate} (${pipeline.step})`,
+      });
     }
   }
 
@@ -179,15 +189,20 @@ function collectResolverFunctionViolations(
     }
   }
 
-  const testPath = join(
+  const integrationTestPath = join(
+    repoRoot,
+    "apps/erp/src/lib/context/__tests__/operating-context-spine.integration.test.ts"
+  );
+  const legacyTestPath = join(
     repoRoot,
     "apps/erp/src/__tests__/operating-context.test.ts"
   );
-  if (!existsSync(testPath)) {
+  if (!existsSync(integrationTestPath) && !existsSync(legacyTestPath)) {
     violations.push({
       rule: "resolver-test-missing",
-      file: testPath,
-      message: "apps/erp/src/__tests__/operating-context.test.ts is required",
+      file: integrationTestPath,
+      message:
+        "apps/erp/src/lib/context/__tests__/operating-context-spine.integration.test.ts is required",
     });
   }
 

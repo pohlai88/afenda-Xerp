@@ -5,16 +5,22 @@
  * Parse ids at explicit trust boundaries via family `parse*` helpers.
  */
 import {
+  type AssetId,
   type CustomerId,
+  type DocumentId,
   type EmployeeId,
   type ProductId,
+  parseOptionalAssetId,
   parseOptionalCustomerId,
+  parseOptionalDocumentId,
   parseOptionalEmployeeId,
   parseOptionalProductId,
   parseOptionalSupplierId,
   parseOptionalWarehouseId,
   type SupplierId,
+  toAssetId,
   toCustomerId,
+  toDocumentId,
   toEmployeeId,
   toProductId,
   toSupplierId,
@@ -81,12 +87,29 @@ export interface WarehouseWireReference {
   readonly warehouseId: string;
 }
 
+export interface DocumentWireReference {
+  readonly companyId: string;
+  readonly documentId: string;
+  readonly documentNo: string;
+  readonly documentType: string;
+  readonly tenantId: string;
+}
+
+export interface AssetWireReference {
+  readonly assetId: string;
+  readonly assetTag: string;
+  readonly companyId: string;
+  readonly tenantId: string;
+}
+
 export type BusinessMasterDataWireReference =
   | CustomerWireReference
   | SupplierWireReference
   | ProductWireReference
   | EmployeeWireReference
-  | WarehouseWireReference;
+  | WarehouseWireReference
+  | DocumentWireReference
+  | AssetWireReference;
 
 type JsonPrimitive = string | number | boolean | null;
 
@@ -108,6 +131,8 @@ type _ProductWireSerializable = AssertJsonSerializable<ProductWireReference>;
 type _EmployeeWireSerializable = AssertJsonSerializable<EmployeeWireReference>;
 type _WarehouseWireSerializable =
   AssertJsonSerializable<WarehouseWireReference>;
+type _DocumentWireSerializable = AssertJsonSerializable<DocumentWireReference>;
+type _AssetWireSerializable = AssertJsonSerializable<AssetWireReference>;
 type _IdentityScopeRuleSerializable =
   AssertJsonSerializable<BusinessMasterDataIdentityScopeRule>;
 
@@ -120,8 +145,12 @@ export type assertBusinessMasterDataWireJsonSerializable =
       ? _ProductWireSerializable extends true
         ? _EmployeeWireSerializable extends true
           ? _WarehouseWireSerializable extends true
-            ? _IdentityScopeRuleSerializable extends true
-              ? true
+            ? _DocumentWireSerializable extends true
+              ? _AssetWireSerializable extends true
+                ? _IdentityScopeRuleSerializable extends true
+                  ? true
+                  : never
+                : never
               : never
             : never
           : never
@@ -164,6 +193,20 @@ export interface BrandedWarehouseReference
   readonly companyId: CompanyId;
   readonly tenantId: TenantId;
   readonly warehouseId: WarehouseId;
+}
+
+export interface BrandedDocumentReference
+  extends Omit<DocumentWireReference, "tenantId" | "companyId" | "documentId"> {
+  readonly companyId: CompanyId;
+  readonly documentId: DocumentId;
+  readonly tenantId: TenantId;
+}
+
+export interface BrandedAssetReference
+  extends Omit<AssetWireReference, "tenantId" | "companyId" | "assetId"> {
+  readonly assetId: AssetId;
+  readonly companyId: CompanyId;
+  readonly tenantId: TenantId;
 }
 
 export function identityScopeRuleFromRegistry(
@@ -331,5 +374,65 @@ export function toWarehouseWireReference(
     tenantId: toTenantId(branded.tenantId),
     companyId: toCompanyId(branded.companyId),
     warehouseId: toWarehouseId(branded.warehouseId),
+  };
+}
+
+export function brandDocumentWireReference(
+  wire: DocumentWireReference
+): BrandedDocumentReference {
+  const tenantId = parseOptionalTenantId(wire.tenantId);
+  const companyId = parseOptionalCompanyId(wire.companyId);
+  const documentId = parseOptionalDocumentId(wire.documentId);
+
+  if (tenantId === null || companyId === null || documentId === null) {
+    throw new Error("Document wire reference ids are required.");
+  }
+
+  return {
+    ...wire,
+    tenantId,
+    companyId,
+    documentId,
+  };
+}
+
+export function toDocumentWireReference(
+  branded: BrandedDocumentReference
+): DocumentWireReference {
+  return {
+    ...branded,
+    tenantId: toTenantId(branded.tenantId),
+    companyId: toCompanyId(branded.companyId),
+    documentId: toDocumentId(branded.documentId),
+  };
+}
+
+export function brandAssetWireReference(
+  wire: AssetWireReference
+): BrandedAssetReference {
+  const tenantId = parseOptionalTenantId(wire.tenantId);
+  const companyId = parseOptionalCompanyId(wire.companyId);
+  const assetId = parseOptionalAssetId(wire.assetId);
+
+  if (tenantId === null || companyId === null || assetId === null) {
+    throw new Error("Asset wire reference ids are required.");
+  }
+
+  return {
+    ...wire,
+    tenantId,
+    companyId,
+    assetId,
+  };
+}
+
+export function toAssetWireReference(
+  branded: BrandedAssetReference
+): AssetWireReference {
+  return {
+    ...branded,
+    tenantId: toTenantId(branded.tenantId),
+    companyId: toCompanyId(branded.companyId),
+    assetId: toAssetId(branded.assetId),
   };
 }

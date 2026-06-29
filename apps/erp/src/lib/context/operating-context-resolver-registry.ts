@@ -9,13 +9,13 @@ export const OPERATING_CONTEXT_RESOLVER_PIPELINE = [
   {
     id: "resolve-tenant",
     step: "Resolve tenant",
-    module: "resolve-operating-context.server.ts",
+    module: "resolve-operating-context-orchestrator.server.ts",
     delegate: "findTenantBySlug",
   },
   {
     id: "resolve-actor",
     step: "Resolve actor",
-    module: "resolve-operating-context.server.ts",
+    module: "resolve-operating-context-orchestrator.server.ts",
     delegate: "loadActorMemberships",
   },
   {
@@ -33,7 +33,7 @@ export const OPERATING_CONTEXT_RESOLVER_PIPELINE = [
   {
     id: "resolve-org-team-project",
     step: "Resolve organization unit/team/project if selected",
-    module: "resolve-operating-context.server.ts",
+    module: "resolve-operating-context-orchestrator.server.ts",
     delegate: "verifyProjectSelection",
   },
   {

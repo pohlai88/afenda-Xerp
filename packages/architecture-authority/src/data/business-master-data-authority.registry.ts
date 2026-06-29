@@ -11,6 +11,8 @@ export const BUSINESS_MASTER_DATA_ENTITY_IDS = [
   "product",
   "employee",
   "warehouse",
+  "document",
+  "asset",
 ] as const;
 
 export type BusinessMasterDataEntityId =
@@ -25,7 +27,9 @@ export type BusinessMasterDataPkgCode =
   | "PKG-R02"
   | "PKG-R03"
   | "PKG-R04"
-  | "PKG-R05";
+  | "PKG-R05"
+  | "PKG-R06"
+  | "PKG-R07";
 
 export interface BusinessMasterDataAuthorityEntry {
   readonly displayName: string;
@@ -112,24 +116,38 @@ export const BUSINESS_MASTER_DATA_AUTHORITY_REGISTRY = [
     kernelContractExport: "WarehouseWireReference",
     runtimeStatus: "authority_only",
   },
-] as const satisfies readonly BusinessMasterDataAuthorityEntry[];
-
-export const TBD_BUSINESS_MASTER_DATA_ENTITIES = [
-  {
-    entityId: "asset",
-    displayName: "Asset",
-    owningDomain: "Platform / TPM",
-    reservedPackageId: "TBD via ADR",
-    note: "Do not scaffold packages until ADR assigns ownership",
-  },
   {
     entityId: "document",
     displayName: "Document",
-    owningDomain: "Platform document service",
-    reservedPackageId: "TBD via ADR",
-    note: "Do not scaffold packages until ADR assigns ownership",
+    owningDomain: "Document Management Authority",
+    reservedPackageId: "@afenda/document-management",
+    pkgCode: "PKG-R06",
+    identityScope: "tenant_and_company",
+    naturalKeyField: "documentNo",
+    uniquenessRule: "Document number unique per tenant and document type",
+    kernelContractPath:
+      "packages/kernel/src/identity/wire/business-reference-wire.contract.ts",
+    kernelContractExport: "DocumentWireReference",
+    runtimeStatus: "authority_only",
   },
-] as const;
+  {
+    entityId: "asset",
+    displayName: "Asset",
+    owningDomain: "Asset Management Authority",
+    reservedPackageId: "@afenda/asset-management",
+    pkgCode: "PKG-R07",
+    identityScope: "tenant_and_company",
+    naturalKeyField: "assetTag",
+    uniquenessRule: "Asset tag unique per company",
+    kernelContractPath:
+      "packages/kernel/src/identity/wire/business-reference-wire.contract.ts",
+    kernelContractExport: "AssetWireReference",
+    runtimeStatus: "authority_only",
+  },
+] as const satisfies readonly BusinessMasterDataAuthorityEntry[];
+
+/** All seven BMD families are governed — ADR-0028 closed prior TBD rows. */
+export const TBD_BUSINESS_MASTER_DATA_ENTITIES = [] as const;
 
 export function getBusinessMasterDataAuthority(
   entityId: BusinessMasterDataEntityId

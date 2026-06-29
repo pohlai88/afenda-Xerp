@@ -44,6 +44,26 @@ PAS-001B: B76 → B106
 
 ---
 
+## Planned amendments (ADR-gated — not open vocabulary slices)
+
+| Slice | Handoff | Status |
+| --- | --- | --- |
+| B112 | [b112-rounding-decimal-precision-vocabulary-amendment.md](./b112-rounding-decimal-precision-vocabulary-amendment.md) | Planned — ADR-0029 required |
+
+---
+
+## PAS-001 audit closure handoffs
+
+Audit catalog ID `PAS-001-AUDIT-SLICES` — evidence-sync only; does not reopen PAS-001 `Remaining slices`.
+
+| Audit | Handoff | Status |
+| --- | --- | --- |
+| AUD-13 | [pas-001-aud-13-localization-context-ingress-attestation.md](./pas-001-aud-13-localization-context-ingress-attestation.md) | Delivered |
+| AUD-20 | [pas-001-aud-20-runtime-side-effect-json-contract-audit.md](./pas-001-aud-20-runtime-side-effect-json-contract-audit.md) | Pass |
+| AUD-22 | [pas-001-aud-22-delivered-slice-closure-audit.md](./pas-001-aud-22-delivered-slice-closure-audit.md) | Pass |
+
+---
+
 ## Historical slices (pre-ADR-0027 consumers)
 
 These handoffs remain for audit traceability. Runtime consumers cited (`@afenda/appshell`, `@afenda/metadata-ui`, `ui:guard`) are **retired** — see [DEVELOPMENT-LANE-BOUNDARIES.md](../../DEVELOPMENT-LANE-BOUNDARIES.md).

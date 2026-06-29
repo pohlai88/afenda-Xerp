@@ -717,3 +717,37 @@ Expected final output format:
     * Test quality: x / 10
     * Documentation quality: x / 10
     * Overall enterprise score: x / 10
+
+## Operating context resolver
+
+PAS-001A R1a IS-002 — fail-closed server-side operating context assembly. Kernel owns shape; `apps/erp` owns resolver spine.
+
+### Resolution pipeline
+
+| Step | Module | Delegate |
+| --- | --- | --- |
+| Resolve tenant | `resolve-operating-context-orchestrator.server.ts` | `findTenantBySlug` |
+| Resolve actor | `resolve-operating-context-orchestrator.server.ts` | `loadActorMemberships` |
+| Resolve entity group | `resolve-legal-entity-context.server.ts` | `verifyEntityGroupBoundary` |
+| Resolve legal entity/company | `resolve-legal-entity-context.server.ts` | `resolveLegalEntityContext` |
+| Resolve organization unit/team/project if selected | `resolve-operating-context-orchestrator.server.ts` | `verifyProjectSelection` |
+| Verify membership and grant | `resolve-grant-scope.server.ts` | `resolveGrantScope` |
+| Return typed result | `resolve-operating-context.server.ts` | `OperatingContextResult` |
+| Fail closed | `context-errors.ts` | `denyOperatingContext` |
+
+### Resolver functions
+
+| Function | Module |
+| --- | --- |
+| resolveOperatingContext | `lib/context/resolve-operating-context.server.ts` |
+| resolveOperatingContextFromHeaders | `lib/context/resolve-operating-context-from-headers.server.ts` |
+| resolveLegalEntityContext | `lib/context/resolve-legal-entity-context.server.ts` |
+| resolveGrantScope | `lib/context/resolve-grant-scope.server.ts` |
+
+### Membership and grant verification
+
+Grant scope verification delegates to `resolveScopedMembership` and `resolvePermissionScopeContext` in `resolve-grant-scope.server.ts`.
+
+### Fail-closed behavior
+
+`denyOperatingContext` in `context-errors.ts` returns typed `OperatingContextError` results. Integration proof: `operating-context-spine.integration.test.ts`.

@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **SSOT directory** | `docs/PAS/KERNEL/SLICE/` |
-| **Individual handoffs** | 53 files (B49–B111 on disk) |
+| **Individual handoffs** | 57 files (53 `b*.md` + 4 `pas-001a-r1*.md`) |
 | **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — do not use |
 | **Closure registry** | [pas-status-index.md](../../pas-status-index.md) |
 | **Last reviewed** | 2026-06-29 |
@@ -44,6 +44,23 @@ PAS-001B: B76 → B106
 | B109 | [b109-effective-dating-consumer-attestation.md](./b109-effective-dating-consumer-attestation.md) | Delivered |
 | B110 | [b110-auth-actor-protected-path-attestation.md](./b110-auth-actor-protected-path-attestation.md) | Delivered |
 | B111 | [b111-tenant-lifecycle-extension-consumer-attestation.md](./b111-tenant-lifecycle-extension-consumer-attestation.md) | Delivered |
+
+## Planned amendments (not counted in PAS-001 closure — ADR required)
+
+| Slice | Handoff | Status |
+| --- | --- | --- |
+| B112 | [b112-rounding-decimal-precision-vocabulary-amendment.md](./b112-rounding-decimal-precision-vocabulary-amendment.md) | Planned — closes G-AUD13-02; requires ADR-0029 |
+
+## PAS-001 audit closure handoffs (evidence-sync — not vocabulary build slices)
+
+| Audit | Handoff | Status |
+| --- | --- | --- |
+| AUD-13 | [pas-001-aud-13-localization-context-ingress-attestation.md](./pas-001-aud-13-localization-context-ingress-attestation.md) | Delivered |
+| AUD-20 | [pas-001-aud-20-runtime-side-effect-json-contract-audit.md](./pas-001-aud-20-runtime-side-effect-json-contract-audit.md) | Pass |
+| AUD-22 | [pas-001-aud-22-delivered-slice-closure-audit.md](./pas-001-aud-22-delivered-slice-closure-audit.md) | Pass |
+| AUD-24 | [pas-001-aud-24-archive-composed-document-parity-audit.md](./pas-001-aud-24-archive-composed-document-parity-audit.md) | Pass |
+
+---
 
 ## PAS-001A — B71–B75 (delivered)
 

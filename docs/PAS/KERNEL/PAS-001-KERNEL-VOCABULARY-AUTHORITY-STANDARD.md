@@ -94,6 +94,8 @@
 
 **Required gates:** §13.1 · Session: `/afenda-coding-session` · Skill: `kernel-authority`
 
+**Closure waivers (B67 — do not treat as missing implementation):** archive [PAS-001 §0](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#0-agent-quick-path) — fiscal ID quarantine, deferred `AppErrorCode` values, `PermissionScopeContext` drift registry note.
+
 ---
 
 # 1. Package Definition
@@ -269,6 +271,8 @@ pnpm check:kernel-propagation-isolation
 pnpm check:kernel-events-wire-serializable
 pnpm check:metadata-permission-model-parity
 pnpm check:metadata-policy-parity
+pnpm check:kernel-slice-catalog-consistency
+pnpm check:kernel-delivered-slice-closure
 ```
 
 ## 13.3 Promotion rules

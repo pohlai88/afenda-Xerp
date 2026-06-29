@@ -1,6 +1,6 @@
 # Slice B108 — Tenant Extension Boundary Wire (PAS-001 amendment)
 
-> **Position:** Amendment slice 2 of 3 in PAS-001 · Blueprint box: `Kernel Vocabulary`
+> **Position:** Amendment slice 2 of 5 in PAS-001 · Blueprint box: `Kernel Vocabulary`
 
 **Prerequisite:** B107 Delivered
 

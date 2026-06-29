@@ -16,10 +16,10 @@ import {
 const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
 
 describe("@afenda/architecture-authority business master data authority (Foundation phase 08 Slice 2)", () => {
-  it("registers core five entities with stable count and no duplication", () => {
-    expect(BUSINESS_MASTER_DATA_ENTITY_IDS).toHaveLength(5);
-    expect(BUSINESS_MASTER_DATA_AUTHORITY_REGISTRY).toHaveLength(5);
-    expect(new Set(BUSINESS_MASTER_DATA_ENTITY_IDS).size).toBe(5);
+  it("registers all seven business-reference entities with stable count", () => {
+    expect(BUSINESS_MASTER_DATA_ENTITY_IDS).toHaveLength(7);
+    expect(BUSINESS_MASTER_DATA_AUTHORITY_REGISTRY).toHaveLength(7);
+    expect(new Set(BUSINESS_MASTER_DATA_ENTITY_IDS).size).toBe(7);
   });
 
   it("maps entity ids to registry entries", () => {
@@ -38,12 +38,8 @@ describe("@afenda/architecture-authority business master data authority (Foundat
     }
   });
 
-  it("flags TBD entities outside the governed core registry", () => {
-    expect(TBD_BUSINESS_MASTER_DATA_ENTITIES).toHaveLength(2);
-    for (const tbd of TBD_BUSINESS_MASTER_DATA_ENTITIES) {
-      expect(isBusinessMasterDataEntityId(tbd.entityId)).toBe(false);
-      expect(tbd.reservedPackageId).toContain("TBD");
-    }
+  it("has no TBD entities after ADR-0028 promotion", () => {
+    expect(TBD_BUSINESS_MASTER_DATA_ENTITIES).toHaveLength(0);
   });
 
   it("aligns registry rows with business-master-data authority SSOT", () => {

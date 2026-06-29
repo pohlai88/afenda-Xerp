@@ -40,7 +40,7 @@ export const KERNEL_RUNTIME_RULES = {
     order: 2,
     label:
       "It does not access database, HTTP, filesystem, auth, permission engine, observability sink, UI runtime, or environment secrets.",
-    enforcementGate: null,
+    enforcementGate: "check:kernel-forbidden-runtime-access",
   },
   "cross-package-execution-safety": {
     id: "cross-package-execution-safety",

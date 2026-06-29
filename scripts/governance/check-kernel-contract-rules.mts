@@ -34,10 +34,7 @@ const MODULE_SCOPE_SIDE_EFFECT_PATTERNS = [
   /^new Date\(\)/m,
 ] as const;
 
-const SIDE_EFFECT_SCAN_ROOTS = [
-  join(kernelSrcRoot, "contracts"),
-  join(kernelSrcRoot, "identity"),
-] as const;
+const SIDE_EFFECT_SCAN_ROOTS = [kernelSrcRoot] as const;
 
 export interface KernelContractRulesViolation {
   readonly file: string;

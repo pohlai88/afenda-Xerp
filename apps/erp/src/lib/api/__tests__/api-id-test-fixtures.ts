@@ -27,8 +27,12 @@ export const API_TEST_CORRELATION_ID = createTestEnterpriseId("correlation");
 export const API_TEST_PROJECT_ID = createTestEnterpriseId("project");
 export const API_TEST_TEAM_ID = createTestEnterpriseId("team");
 export const API_TEST_CUSTOMER_ID = createTestEnterpriseId("customer");
+export const API_TEST_SUPPLIER_ID = createTestEnterpriseId("supplier");
 export const API_TEST_PRODUCT_ID = createTestEnterpriseId("product");
 export const API_TEST_EMPLOYEE_ID = createTestEnterpriseId("employee");
+export const API_TEST_WAREHOUSE_ID = createTestEnterpriseId("warehouse");
+export const API_TEST_DOCUMENT_ID = createTestEnterpriseId("document");
+export const API_TEST_ASSET_ID = createTestEnterpriseId("asset");
 export const API_TEST_COMPANY_UNKNOWN_ID = createTestEnterpriseId(
   "company",
   "01ARZ3NDEKTSV4RRFFQ69G5FDV"

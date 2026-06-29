@@ -1,6 +1,6 @@
 # Slice B107 — Tenant SaaS Lifecycle Wire (PAS-001 amendment)
 
-> **Position:** Amendment slice 1 of 3 in PAS-001 · Blueprint box: `Kernel Vocabulary`
+> **Position:** Amendment slice 1 of 5 in PAS-001 · Blueprint box: `Kernel Vocabulary`
 
 **Prerequisite:** PAS-001 Enterprise Accepted (B70)
 
