@@ -39,13 +39,14 @@ describe("kernel boundary drift registry (PAS-001 refactor lock)", () => {
     ).toBe("completed");
   });
 
-  it("quarantines forbidden platform-floor fiscal IDs", () => {
+  it("records permanent fiscal ID quarantine on KV-ACCT (ADR-0031)", () => {
     const entry = getKernelBoundaryDriftEntry(
       "accounting-id-forbidden-floor-symbols"
     );
     expect(entry.disposition).toBe("quarantine_subpath_only");
-    expect(entry.refactorStatus).toBe("pending");
-    expect(entry.ownerTarget).toContain("@afenda/accounting");
+    expect(entry.refactorStatus).toBe("completed");
+    expect(entry.ownerTarget).toContain("@afenda/kernel/erp-domain/accounting");
+    expect(entry.rationale).toContain("ADR-0031");
     expect(entry.kernelPath).toBe(
       "packages/kernel/src/erp-domain/accounting/accounting-id.contract.ts"
     );

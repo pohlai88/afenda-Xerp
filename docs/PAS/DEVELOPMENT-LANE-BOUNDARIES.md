@@ -4,7 +4,7 @@
 | --- | --- |
 | **Authority** | [PAS README](README.md) · [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md) |
 | **Purpose** | Prevent parallel / crossing development between **Kernel**, **retired CSS**, and **Presentation** lanes |
-| **Last reviewed** | 2026-06-29 |
+| **Last reviewed** | 2026-06-30 |
 
 > **One sentence:** Each active PAS family owns one non-overlapping execution lane — agents must not treat retired PAS-005 CSS work as parallel to Kernel or PAS-006 presentation work.
 
@@ -31,6 +31,19 @@
 | design-system / Governed UI strangler | PAS-005B | **Retired for ERP** | ADR-0027 stock shadcn/studio cutover |
 
 **Historical slice docs** remain under [`CSS-AUTHORITY/SLICE/`](CSS-AUTHORITY/SLICE/) for audit — they are **not** continuation queues. See [`pas-status-index.md`](pas-status-index.md) sections marked **Historical / archived**.
+
+---
+
+## Hard platform blocks (constitution)
+
+Durable constitutional blocks — agents must not treat these as parallel work queues or infer that one track unblocks another without an explicit ADR amendment.
+
+| Track | Blocker | Active routing while blocked |
+| --- | --- | --- |
+| Accounting Core runtime | ADR-0010 + new ADR amending `PKGR01_ACCOUNTING` prohibited rules | Procurement E2E via PAS-001C + ERP-PROC-FDN-*; KV-ACCT wire-only; no `@afenda/accounting` ledger/posting |
+| PAS-005 CSS | Retired for ERP (ADR-0027) | PAS-006 presentation lane · `@afenda/shadcn-studio` · `shadcn-studio` skill |
+
+**Procurement end-to-end delivery does not require Accounting Core runtime unblock** — cross-domain hooks (3-way match, GR-IR) stay ADR-gated but must not block foundation/operational procurement slices that do not post to ledger.
 
 ---
 

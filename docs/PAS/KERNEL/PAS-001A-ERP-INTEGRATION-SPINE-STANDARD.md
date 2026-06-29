@@ -360,8 +360,11 @@ Post-reset ERP on PAS-006 skeleton. R1d attestation **2026-06-30** — **10/10 g
 | ERP REST binding consumption (PAS-001A-API-BINDING S2) | **Green** | `erp-rest-binding-consumption.contract.ts` · `erp-rest-binding-consumption.test.ts` · `pnpm check:api-route-catalog` ✓ |
 | ERP operating context bridge (PAS-001A-API-BINDING S3) | **Green** | `erp-api-context-bridge.contract.ts` · `erp-api-context-bridge.test.ts` · `pnpm check:erp-operating-context-spine` ✓ |
 | ERP auth authorization bridge (PAS-001A-API-BINDING S4) | **Green** | `erp-api-auth-bridge.contract.ts` · `erp-api-auth-bridge.test.ts` · `pnpm check:erp-auth-actor-protected-path-attestation` ✓ |
+| ERP runtime evidence bundle (PAS-001A-API-BINDING S5) | **Green** | `erp-api-runtime-evidence.contract.ts` · `erp-api-runtime-evidence.test.ts` · `pnpm check:api-contracts` ✓ |
+| ERP consumer impact sync (PAS-001A-API-BINDING S6) | **Green** | `erp-api-consumer-impact-sync.contract.ts` · `erp-api-consumer-impact-sync.test.ts` ✓ |
+| ERP API release gate (PAS-001A-API-BINDING S7) | **Green** | `erp-api-release-gate.contract.ts` · `erp-api-release-gate.test.ts` · `pnpm check:foundation-disposition` ✓ |
 
-**Consumption binding:** [PAS-001A-API-BINDING](./PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) · **Runtime modules:** `erp-api-consumption.contract.ts` · `erp-rest-binding-consumption.contract.ts` · `erp-api-context-bridge.contract.ts` · `erp-api-auth-bridge.contract.ts`
+**Consumption binding:** [PAS-001A-API-BINDING](./PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) — **Delivered (S1–S7)** · **Runtime modules:** `erp-api-consumption.contract.ts` · `erp-rest-binding-consumption.contract.ts` · `erp-api-context-bridge.contract.ts` · `erp-api-auth-bridge.contract.ts` · `erp-api-runtime-evidence.contract.ts` · `erp-api-consumer-impact-sync.contract.ts` · `erp-api-release-gate.contract.ts`
 
 **Handoff:** [API-CONTRACT R3 track](../API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) (R3a–R3d) · **PAS:** [PAS-API-REST-001](../API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · **Contract checklist:** [afenda-openapi skill](../../.cursor/skills/afenda-openapi/SKILL.md)
 

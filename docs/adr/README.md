@@ -41,6 +41,11 @@ See [`docs/PAS/README.md`](../PAS/README.md).
 | [ADR-0024](ADR-0024-canonical-id-body-generation.md) | Canonical ID Body Generation (Composition-Root Minting) | Accepted |
 | [ADR-0025](ADR-0025-design-system-retirement.md) | Design System Retirement | Accepted |
 | [ADR-0026](ADR-0026-platform-north-star-and-architecture-blueprint.md) | Platform North Star and Architecture Blueprint | Accepted |
+| [ADR-0027](ADR-0027-frontend-presentation-reset.md) | Frontend Presentation Reset | Accepted |
+| [ADR-0028](ADR-0028-business-reference-document-asset-promotion.md) | Business Reference Document and Asset Authority Promotion | Accepted |
+| [ADR-0029](ADR-0029-rounding-decimal-precision-vocabulary.md) | Rounding Mode and Decimal Precision Kernel Vocabulary | Accepted |
+| [ADR-0030](ADR-0030-erp-rest-api-contract-standard.md) | ERP REST API Contract Standard | Accepted |
+| [ADR-0031](ADR-0031-fiscal-domain-id-authority.md) | Fiscal Domain ID Authority (Calendar and Period) | Accepted |
 
 ## Process
 

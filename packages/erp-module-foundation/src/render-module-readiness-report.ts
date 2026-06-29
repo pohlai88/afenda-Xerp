@@ -2,11 +2,16 @@ import { collectModuleReadinessFindings } from "./assert-module-readiness.js";
 import type {
   ErpModuleFoundationBundle,
   ModuleReadinessReportRow,
+  ModuleReadinessVerdict,
   ReadinessDimension,
   ReadinessLevel,
 } from "./erp-module-foundation.types.js";
 import { READINESS_DIMENSIONS } from "./erp-module-foundation.types.js";
 import type { ModuleReadinessFinding } from "./internal/findings.js";
+import {
+  formatReadinessReportPreamble,
+  resolveModuleReadinessVerdict,
+} from "./module-readiness-attestation.js";
 
 const DIMENSION_GATE_MAP: Readonly<Record<ReadinessDimension, string>> = {
   authority: "pnpm check:erp-module-foundation",
@@ -36,7 +41,7 @@ function verdictForDimension(
   bundle: ErpModuleFoundationBundle,
   dimension: ReadinessDimension,
   dimensionFindings: readonly ModuleReadinessFinding[]
-): ModuleReadinessReportRow["verdict"] {
+): ModuleReadinessVerdict {
   const level = bundle.readiness.matrix[dimension];
   if (level === "deferred" || level === "not_applicable") {
     return "Deferred";
@@ -47,7 +52,9 @@ function verdictForDimension(
   }
   if (level === "required") {
     const evidence = bundle.evidence?.[dimension];
-    return evidence && evidence.trim().length > 0 ? "Pass" : "Fail";
+    const baseVerdict: ModuleReadinessVerdict =
+      evidence && evidence.trim().length > 0 ? "Pass" : "Fail";
+    return resolveModuleReadinessVerdict(bundle, baseVerdict);
   }
   return "Deferred";
 }
@@ -104,6 +111,7 @@ export function renderModuleReadinessReport(
   const lines = [
     `# ${title} Runtime Readiness Report`,
     "",
+    ...formatReadinessReportPreamble(bundle),
     "| Dimension | Verdict | Evidence | Missing | Gate |",
     "| --- | --- | --- | --- | --- |",
   ];

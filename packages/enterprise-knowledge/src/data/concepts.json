@@ -264,5 +264,47 @@
     "label": "Readiness report",
     "description": "Evidence table proving pass or fail per readiness dimension with gate linkage.",
     "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "module_policy_declaration",
+    "fqn": "afenda.enterprise.concept.module_policy_declaration",
+    "label": "Module policy declaration",
+    "description": "Declared module runtime policy for create, approve, post, and blocked operations — without UI logic or kernel mutations.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "module_event_catalog",
+    "fqn": "afenda.enterprise.concept.module_event_catalog",
+    "label": "Module event catalog",
+    "description": "Declared catalog of module business events prepared for outbox and integration — distinct from audit actions and dispatch mechanics.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "outbox_requirement_classification",
+    "fqn": "afenda.enterprise.concept.outbox_requirement_classification",
+    "label": "Outbox requirement classification",
+    "description": "Classification of whether each catalogued module event requires durable outbox delivery before integration runtime.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "purchase_order",
+    "fqn": "afenda.enterprise.concept.purchase_order",
+    "label": "Purchase order",
+    "description": "External commitment document issued to a supplier to procure goods or services — distinct from internal requisition.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "supplier",
+    "fqn": "afenda.enterprise.concept.supplier",
+    "label": "Supplier",
+    "description": "Trading partner master reference used in procurement — SupplierId wire identity without duplicating kernel parsers.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "procurement_rfq",
+    "fqn": "afenda.enterprise.concept.procurement_rfq",
+    "label": "Procurement RFQ",
+    "description": "Request for quotation sourcing document used to solicit supplier pricing before purchase order commitment.",
+    "ownedByPas": "PAS-004C"
   }
 ]

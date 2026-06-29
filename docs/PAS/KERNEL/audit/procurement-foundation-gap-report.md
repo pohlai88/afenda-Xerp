@@ -77,7 +77,7 @@ It extracts what exists, classifies it, identifies gaps, and proposes foundation
 
 | Blocker | Why it matters |
 | --- | --- |
-| **No procurement runtime ADR** | Cannot safely unblock `packages/procurement` |
+| **No procurement runtime ADR** | ~~Cannot safely unblock `packages/procurement`~~ **Closed** — [ADR-0031](../../adr/ADR-0031-procurement-runtime-authority-boundary.md) Accepted (ERP-PROC-FDN-001 Delivered 2026-06-30) |
 | **No runtime ownership decision** | DB/schema work must not precede package responsibility |
 | **No DB boundary** | No supplier/PR/PO/RFQ persistence |
 | **No permission registry wiring** | Kernel has keys; runtime cannot enforce them |
@@ -100,7 +100,7 @@ flowchart TB
     Posting[PO posting / GR-IR / 3-way match]
   end
   subgraph needed [Foundation Required]
-    ADR[Domain ADR PKG-R05]
+    ADR[Domain ADR PKG-R05 ✓]
     Own[Runtime ownership model 002A]
     DB[Supplier + document persistence]
     Perm[PERMISSION_REGISTRY parity]
@@ -322,7 +322,7 @@ Procurement is not only tables and screens — it is an **enterprise meaning net
 
 | Capability | Current evidence | Current layer | Missing layer | Risk | Required next action |
 | --- | --- | --- | --- | --- | --- |
-| Domain authority boundary | B80 + contracts gate | Wire + governance | Runtime ADR, PKG-R05 disposition | Medium | ERP-PROC-FDN-001 |
+| Domain authority boundary | B80 + contracts gate + ADR-0031 | Wire + governance + ADR | Runtime ownership ADR-lock (002A) | Low | **ERP-PROC-FDN-002A** |
 | Runtime ownership model | Reserved PKG-R05; split undecided | Architecture policy | ADR-owned ownership matrix | **High** | **ERP-PROC-FDN-002A** (before DB) |
 | Supplier master | SupplierId, BMD deferred | Identity + registry | DB schema, service, API | **High** | ERP-PROC-FDN-003 |
 | Purchase requisition | Wire + 1 accepted atom | Wire + partial meaning | DB, service, UI, audit | **High** | FDN-003, 004, 006, 007 |
@@ -332,7 +332,7 @@ Procurement is not only tables and screens — it is an **enterprise meaning net
 | Audit / outbox | Action vocab; platform tables | Wire + infra | Service writers, event catalog | Medium | ERP-PROC-FDN-006 |
 | Metadata / UI | KV-PROC in projection | Spine-ready | Operator surfaces, PAS-006 blocks | Medium | ERP-PROC-FDN-007 |
 | GR / receiving / 3-way | Prohibited surface names | Policy intent | Cross-domain ADR (INV, ACCT) | **Critical** | Requires PAS amendment — post-FDN |
-| Runtime package | `@afenda/procurement` reserved | Architecture policy | ADR + folder structure | **Blocker** | FDN-001 |
+| Runtime package | `@afenda/procurement` reserved | Architecture policy + ADR-0031 | ADR-lock ownership + folder structure | **Blocker until 002A** | FDN-002A (FDN-001 **Delivered**) |
 | Readiness gates | 1 contracts gate | Governance | Foundation + runtime gate families | Medium | ERP-PROC-FDN-008 |
 | End-to-end skeleton | None | — | Reference flow fixture | Low | ERP-PROC-FDN-009 |
 

@@ -16,13 +16,13 @@ Foundation gap audit: [procurement-foundation-gap-report.md](../../KERNEL/audit/
 
 | Slice ID | Handoff | Status | Blocker |
 | --- | --- | --- | --- |
-| ERP-PROC-FDN-001 | [erp-proc-fdn-001-runtime-authority-boundary.md](erp-proc-fdn-001-runtime-authority-boundary.md) | Planned | Domain ADR + PKG-R05 disposition |
-| ERP-PROC-FDN-002 | *(planned)* Runtime ownership model | Planned | After FDN-001 |
+| ERP-PROC-FDN-001 | [erp-proc-fdn-001-runtime-authority-boundary.md](erp-proc-fdn-001-runtime-authority-boundary.md) | **Delivered** 2026-06-30 | — |
+| ERP-PROC-FDN-002 | *(planned)* Knowledge alignment | Planned | After FDN-001 |
 | ERP-PROC-FDN-002A | *(planned)* Ownership model attestation | Planned | **Blocks FDN-003** |
 | ERP-PROC-FDN-003 | *(planned)* Database boundary | Planned | After FDN-002A |
 | ERP-PROC-FDN-004…009 | *(planned)* Context, permissions, audit, metadata, tests, gates | Planned | See gap report §G |
 
-**Next sequence item:** ERP-PROC-FDN-001.
+**Next sequence item:** ERP-PROC-FDN-002 — Procurement Knowledge Alignment.
 
 ## Build order rule
 

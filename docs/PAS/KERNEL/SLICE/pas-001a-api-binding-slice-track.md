@@ -14,9 +14,9 @@
 | S2 | [pas-001a-api-binding-s2-erp-rest-binding-consumption.md](./pas-001a-api-binding-s2-erp-rest-binding-consumption.md) | internal v1 REST usage | **Delivered** |
 | S3 | [pas-001a-api-binding-s3-operating-context-assembly-bridge.md](./pas-001a-api-binding-s3-operating-context-assembly-bridge.md) | IS-002 bridge | **Delivered** |
 | S4 | [pas-001a-api-binding-s4-auth-authorization-bridge.md](./pas-001a-api-binding-s4-auth-authorization-bridge.md) | IS-001 bridge | **Delivered** |
-| S5 | [pas-001a-api-binding-s5-erp-runtime-evidence.md](./pas-001a-api-binding-s5-erp-runtime-evidence.md) | route/handler proof | Planned |
-| S6 | [pas-001a-api-binding-s6-erp-consumer-impact-sync.md](./pas-001a-api-binding-s6-erp-consumer-impact-sync.md) | UI/internal service impact | Planned |
-| S7 | [pas-001a-api-binding-s7-erp-release-gate.md](./pas-001a-api-binding-s7-erp-release-gate.md) | no API drift release | Planned |
+| S5 | [pas-001a-api-binding-s5-erp-runtime-evidence.md](./pas-001a-api-binding-s5-erp-runtime-evidence.md) | route/handler proof | **Delivered** |
+| S6 | [pas-001a-api-binding-s6-erp-consumer-impact-sync.md](./pas-001a-api-binding-s6-erp-consumer-impact-sync.md) | UI/internal service impact | **Delivered** |
+| S7 | [pas-001a-api-binding-s7-erp-release-gate.md](./pas-001a-api-binding-s7-erp-release-gate.md) | no API drift release | **Delivered** |
 
 **Legacy overlap:** [R3b](../../API-CONTRACT/REST/SLICE/pas-001a-r3b-service-actor-context-assembly.md) → S3 service-actor context
 

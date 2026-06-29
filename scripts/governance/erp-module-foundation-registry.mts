@@ -21,6 +21,8 @@ export const ERP_MODULE_FOUNDATION_SUB_GATES = [
   "check:erp-module-metadata-binding",
   "check:erp-module-database-boundary",
   "check:erp-module-no-kernel-runtime-leak",
+  "check:erp-module-runtime-package-reserved",
+  "check:procurement-runtime-foundation",
   "check:erp-module-readiness",
   "check:erp-module-registry-readiness",
 ] as const;

@@ -82,7 +82,11 @@ function sharedTestOptions(name: string, root: string) {
   };
 }
 
-export function createNodeProject(importMetaUrl: string, name: string) {
+export function createNodeProject(
+  importMetaUrl: string,
+  name: string,
+  testOverrides: Record<string, unknown> = {}
+) {
   const root = dirname(fileURLToPath(importMetaUrl));
 
   return defineProject({
@@ -94,6 +98,7 @@ export function createNodeProject(importMetaUrl: string, name: string) {
       ...sharedTestOptions(name, root),
       environment: "node",
       setupFiles: [NODE_SETUP],
+      ...testOverrides,
     },
   });
 }

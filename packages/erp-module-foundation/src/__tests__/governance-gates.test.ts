@@ -11,6 +11,7 @@ const ERP_MODULE_FOUNDATION_SUB_GATES = [
   "check:erp-module-metadata-binding",
   "check:erp-module-database-boundary",
   "check:erp-module-no-kernel-runtime-leak",
+  "check:erp-module-runtime-package-reserved",
   "check:erp-module-readiness",
   "check:erp-module-registry-readiness",
   "check:erp-module-foundation",
@@ -21,15 +22,17 @@ const repoRoot = fileURLToPath(
 ).replace(/[/\\]$/, "");
 
 describe("ERP module foundation governance gates", () => {
-  for (const gate of ERP_MODULE_FOUNDATION_SUB_GATES) {
-    it(`${gate} exits 0`, () => {
+  it("runs all sub-gates sequentially (single fork — no parallel spawn timeout)", () => {
+    for (const gate of ERP_MODULE_FOUNDATION_SUB_GATES) {
       const result = spawnSync("pnpm", [gate], {
         cwd: repoRoot,
         shell: true,
         encoding: "utf8",
       });
 
-      expect(result.status, result.stderr || result.stdout).toBe(0);
-    }, 30_000);
-  }
+      expect(result.status, `${gate}\n${result.stderr || result.stdout}`).toBe(
+        0
+      );
+    }
+  }, 120_000);
 });

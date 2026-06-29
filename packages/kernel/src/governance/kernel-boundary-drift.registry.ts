@@ -160,12 +160,13 @@ export const KERNEL_BOUNDARY_DRIFT_ENTRIES = {
     kernelPath:
       "packages/kernel/src/erp-domain/accounting/accounting-id.contract.ts",
     disposition: "quarantine_subpath_only",
-    ownerTarget: "@afenda/accounting (when ADR promotes fiscal domain IDs)",
+    ownerTarget:
+      "@afenda/kernel/erp-domain/accounting (KV-ACCT) — ADR-0031 permanent domain-scoped home",
     pasSection: KERNEL_BOUNDARY_DRIFT_PAS_SECTIONS.identityFloor,
     rationale:
-      "FiscalCalendarId / FiscalPeriodId are §4.1.6 forbidden platform-floor IDs. Quarantined on @afenda/kernel/erp-domain/accounting until Finance ADR promotes — must never join ID_FAMILIES.",
+      "FiscalCalendarId / FiscalPeriodId are §4.1.6 forbidden platform-floor IDs. Canonical domain-scoped branded references on @afenda/kernel/erp-domain/accounting per ADR-0031 — must never join ID_FAMILIES.",
     refactorLock: true,
-    refactorStatus: "pending",
+    refactorStatus: "completed",
   },
   "permission-scope-context-transitional": {
     id: "permission-scope-context-transitional",

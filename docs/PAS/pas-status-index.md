@@ -201,7 +201,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | **Retired** for ERP frontend — archived 2026-06-29 |
 | **Authority** | PAS-005 · `PKGR05_CSS_AUTHORITY` · PKG-025 (frozen on disk) |
 | **Superseded by** | [PAS-006](PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) · [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md) |
-| **Archive** | [`CSS-AUTHORITY/README.md`](CSS-AUTHORITY/README.md) · [DEVELOPMENT-LANE-BOUNDARIES.md](DEVELOPMENT-LANE-BOUNDARIES.md) |
+| **Archive** | [`CSS-AUTHORITY/README.md`](CSS-AUTHORITY/README.md) · [DEVELOPMENT-LANE-BOUNDARIES.md](DEVELOPMENT-LANE-BOUNDARIES.md) · [Hard platform blocks](DEVELOPMENT-LANE-BOUNDARIES.md#hard-platform-blocks-constitution) |
 
 **Do not execute** PAS-005 slices or css-authority consumption gates for ERP frontend work.
 

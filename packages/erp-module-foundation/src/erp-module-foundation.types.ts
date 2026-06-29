@@ -281,12 +281,18 @@ export interface ModulePolicyDefinition {
   readonly postRules: readonly ModulePolicyRule[];
 }
 
+export type ModuleReadinessVerdict =
+  | "Pass"
+  | "Foundation Pass"
+  | "Fail"
+  | "Deferred";
+
 export interface ModuleReadinessReportRow {
   readonly dimension: ReadinessDimension;
   readonly evidence: string;
   readonly gate: string;
   readonly missing: string;
-  readonly verdict: "Pass" | "Fail" | "Deferred";
+  readonly verdict: ModuleReadinessVerdict;
 }
 
 export interface AssertModuleReadinessOptions {

@@ -3801,5 +3801,655 @@
     "ownedByPas": "PAS-004",
     "epistemicStatus": "accepted",
     "semanticStability": "stable"
+  },
+  {
+    "conceptId": "module_policy_declaration",
+    "atomId": "module_policy_declaration",
+    "fqn": "afenda.enterprise.module_policy_declaration",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-module-foundation-template"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 90,
+      "basis": ["afenda_decision", "SAP", "Oracle"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Approval and posting rules differ by line-of-business module."
+      ],
+      "inference": "Module policy declaration records who may create, approve, post, and which operations remain blocked until cross-domain ADR.",
+      "rules": ["template §3.6", "Module Foundation NS §3", "EK-MOD-FDN-004"],
+      "conclusion": "Declared module runtime policy for create, approve, post, and blocked operations — without UI logic or kernel mutations."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept module_policy_declaration as enterprise meaning for LoB policy surfaces.",
+      "alternativesConsidered": ["Embed policy in UI components"],
+      "whyRejected": {
+        "Embed policy in UI components": "UI cannot own approval or posting authority."
+      },
+      "impact": ["integration", "security"]
+    },
+    "meaning": {
+      "canonical": "Declared module runtime policy for create, approve, post, and blocked operations — without UI logic or kernel mutations.",
+      "business": "Module policy declaration / LoB approval and posting rules.",
+      "engineering": "{module}.policy.ts · defineModulePolicy · template §3.6"
+    },
+    "knowledgeDomain": ["integration", "security"],
+    "applicability": {
+      "applicable": ["integration", "security"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Module Foundation NS §3 · template §3.6.",
+      "evolution": ["EK-MOD-FDN-004 P1 promotion"],
+      "currentAuthority": "PAS-001C · PAS-004 meaning",
+      "futureDirection": "Per-module policy rows before operational promotion."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Permission registry entry",
+        "why": "Permissions grant capability; policy declares who may use which operation.",
+        "correct": "Policy binds operations to permission keys and blocked-operation lists."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Module policy declaration"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+        "notes": "PAS-001C module policy factory discipline"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §3.6 {module}.policy.ts"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "packages/erp-module-foundation/src/define-module-policy.ts",
+        "notes": "defineModulePolicy create/approve/post rules"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "module_policy_declaration_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "module_event_catalog",
+    "atomId": "module_event_catalog",
+    "fqn": "afenda.enterprise.module_event_catalog",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-module-foundation-template"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": { "score": 91, "basis": ["afenda_decision", "SAP"] },
+    "structuredReasoning": {
+      "premises": [
+        "Integration without declared events causes naming drift across modules."
+      ],
+      "inference": "Module event catalog lists business facts a module may emit using the platform domain event envelope — separate from audit vocabulary.",
+      "rules": [
+        "template §3.8",
+        "Kernel NS §3.1 domain event envelope",
+        "EK-MOD-FDN-004"
+      ],
+      "conclusion": "Declared catalog of module business events prepared for outbox and integration — distinct from audit actions and dispatch mechanics."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept module_event_catalog before event dispatch integration.",
+      "alternativesConsidered": ["Ad-hoc message queue topic names"],
+      "whyRejected": {
+        "Ad-hoc message queue topic names": "Topics are transport; catalog is governed business fact vocabulary."
+      },
+      "impact": ["integration"]
+    },
+    "meaning": {
+      "canonical": "Declared catalog of module business events prepared for outbox and integration — distinct from audit actions and dispatch mechanics.",
+      "business": "Module event catalog / declared business facts for integration.",
+      "engineering": "{module}.event-catalog.ts · defineModuleEventCatalog · template §3.8"
+    },
+    "knowledgeDomain": ["integration"],
+    "applicability": {
+      "applicable": ["integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Module Foundation NS §3 · template §3.8 · Kernel NS §3.1.",
+      "evolution": ["EK-MOD-FDN-004 P1 promotion"],
+      "currentAuthority": "PAS-001C · PAS-004 meaning",
+      "futureDirection": "Per-module event catalog rows before outbox runtime."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Audit action map",
+        "why": "Audit proves mutation; events announce business facts to integrators.",
+        "correct": "Event catalog uses domain event envelope; audit map uses audit vocabulary."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Module event catalog"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/NORTHSTAR/kernel-north-star.md",
+        "notes": "Kernel NS §3.1 domain event envelope vocabulary"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §3.8 {module}.event-catalog.ts"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "packages/erp-module-foundation/src/define-module-event-catalog.ts",
+        "notes": "defineModuleEventCatalog factory"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "module_event_catalog_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "outbox_requirement_classification",
+    "atomId": "outbox_requirement_classification",
+    "fqn": "afenda.enterprise.outbox_requirement_classification",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-module-foundation-template"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": { "score": 90, "basis": ["afenda_decision", "Oracle"] },
+    "structuredReasoning": {
+      "premises": [
+        "Not every module event requires durable outbox delivery at foundation phase."
+      ],
+      "inference": "Outbox requirement classification assigns required, not_required, deferred, or cross_domain_required per catalogued event.",
+      "rules": ["template §3.9", "Module Foundation NS §3", "EK-MOD-FDN-004"],
+      "conclusion": "Classification of whether each catalogued module event requires durable outbox delivery before integration runtime."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept outbox_requirement_classification as distinct from event catalog listing.",
+      "alternativesConsidered": ["Implicit outbox for all events"],
+      "whyRejected": {
+        "Implicit outbox for all events": "Foundation phase must honestly defer dispatch until integration proof."
+      },
+      "impact": ["integration"]
+    },
+    "meaning": {
+      "canonical": "Classification of whether each catalogued module event requires durable outbox delivery before integration runtime.",
+      "business": "Outbox requirement classification / event dispatch obligation.",
+      "engineering": "{module}.outbox.contract.ts · defineModuleOutboxContract · template §3.9 OutboxRequirement"
+    },
+    "knowledgeDomain": ["integration"],
+    "applicability": {
+      "applicable": ["integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Module Foundation NS §3 · template §3.9.",
+      "evolution": ["EK-MOD-FDN-004 P1 promotion"],
+      "currentAuthority": "PAS-001C · PAS-004 meaning",
+      "futureDirection": "Per-module outbox contract rows aligned to event catalog."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Event catalog entry",
+        "why": "Catalog declares events; outbox contract classifies delivery requirement.",
+        "correct": "Each catalog event maps to an OutboxRequirement classification row."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Outbox requirement classification"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §3.9 OutboxRequirement union"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "packages/erp-module-foundation/src/define-module-outbox-contract.ts",
+        "notes": "defineModuleOutboxContract requirement rows"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "outbox_requirement_classification_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "purchase_order",
+    "atomId": "purchase_order",
+    "fqn": "afenda.enterprise.purchase_order",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-procurement-practice"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_erp_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 91,
+      "basis": ["SAP", "Oracle", "afenda_decision"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Procurement wire vocabulary includes purchase_order document family at KV-PROC."
+      ],
+      "inference": "Purchase order is the external commitment to a supplier after internal requisition approval.",
+      "rules": [
+        "PAS-001B procurement wire vocabulary",
+        "PAS-004 KV-PROC P0",
+        "EK-MOD-FDN-004 bridge"
+      ],
+      "conclusion": "External commitment document issued to a supplier to procure goods or services — distinct from internal requisition."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept purchase_order as enterprise meaning bridge for PAS-001B procurement-document-type purchase_order.",
+      "alternativesConsidered": ["Collapse PO into requisition"],
+      "whyRejected": {
+        "Collapse PO into requisition": "PO is the supplier-facing commitment; requisition is internal demand."
+      },
+      "impact": ["finance", "integration"]
+    },
+    "meaning": {
+      "canonical": "External commitment document issued to a supplier to procure goods or services — distinct from internal requisition.",
+      "business": "Purchase order / supplier commitment.",
+      "engineering": "procurement-document-type purchase_order · KV-PROC · meaning only; wire in kernel"
+    },
+    "knowledgeDomain": ["finance", "integration"],
+    "applicability": {
+      "applicable": ["finance", "integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001B procurement wire vocabulary · gap report §B.2.",
+      "evolution": ["PAS-004 B56 KV-PROC P0 promotion"],
+      "currentAuthority": "PAS-001B wire · PAS-004 meaning",
+      "futureDirection": "Runtime procurement module via approved slice."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Procurement requisition",
+        "why": "Requisition is internal approval to buy; PO is external supplier commitment.",
+        "correct": "PO follows approved requisition and binds supplier terms."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Purchase order"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/procurement/procurement-document-type.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/procurement/procurement-document-type.contract.ts",
+        "notes": "PAS-001B procurement-document-type purchase_order · ERP_DOMAIN_MODULE_KV_IDS KV-PROC"
+      },
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts",
+        "notes": "PAS-001B procurement domain authority · KV-PROC document families"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "purchase_order_evidence_0",
+        "type": "policy",
+        "source": "packages/kernel/src/erp-domain/procurement/procurement-document-type.contract.ts"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "supplier",
+    "atomId": "supplier",
+    "fqn": "afenda.enterprise.supplier",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-procurement-practice"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_erp_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 90,
+      "basis": ["SAP", "Oracle", "afenda_decision"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Procurement references trading partners via PAS-001 SupplierId without duplicating kernel parsers."
+      ],
+      "inference": "Supplier is the trading partner master reference in procurement context — identity wire in kernel, meaning accepted here.",
+      "rules": [
+        "PAS-001B business-reference SupplierId",
+        "PAS-004 KV-PROC P0",
+        "LAW K6"
+      ],
+      "conclusion": "Trading partner master reference used in procurement — SupplierId wire identity without duplicating kernel parsers."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept supplier (not vendor) as enterprise term aligned to PAS-001 SupplierId and gap report §B.2.",
+      "alternativesConsidered": ["Use vendor atomId"],
+      "whyRejected": {
+        "Use vendor atomId": "Platform wire and registry use SupplierId; vendor wording is historical drift."
+      },
+      "impact": ["finance", "integration"]
+    },
+    "meaning": {
+      "canonical": "Trading partner master reference used in procurement — SupplierId wire identity without duplicating kernel parsers.",
+      "business": "Supplier / trading partner in procurement context.",
+      "engineering": "PAS-001 SupplierId · procurement-domain-wire-context · meaning only"
+    },
+    "knowledgeDomain": ["finance", "integration"],
+    "applicability": {
+      "applicable": ["finance", "integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001 business-reference identity · gap report §B.2.",
+      "evolution": ["PAS-004 B56 KV-PROC P0 promotion"],
+      "currentAuthority": "PAS-001 wire · PAS-004 meaning",
+      "futureDirection": "BMD supplier persistence via ERP-PROC-FDN-003."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Vendor (generic label)",
+        "why": "Afenda wire vocabulary standardizes on SupplierId.",
+        "correct": "Supplier atom references kernel SupplierId — not a parallel vendor parser."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Supplier"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/identity/families/business-reference-id.contract.ts",
+        "contractPath": "packages/kernel/src/identity/families/business-reference-id.contract.ts",
+        "notes": "PAS-001 SupplierId business-reference family — meaning references wire, no parser duplication"
+      },
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/procurement/procurement-domain-wire-context.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/procurement/procurement-domain-wire-context.contract.ts",
+        "notes": "KV-PROC procurement wire context defaultSupplierId field"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "supplier_evidence_0",
+        "type": "policy",
+        "source": "packages/kernel/src/identity/families/business-reference-id.contract.ts"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "procurement_rfq",
+    "atomId": "procurement_rfq",
+    "fqn": "afenda.enterprise.procurement_rfq",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-procurement-practice"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_erp_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 90,
+      "basis": ["SAP", "Oracle", "afenda_decision"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Procurement wire vocabulary includes rfq document type and permission domain."
+      ],
+      "inference": "Procurement RFQ is the request-for-quotation sourcing document inviting supplier quotes before PO issuance.",
+      "rules": [
+        "PAS-001B procurement wire vocabulary",
+        "PAS-004 KV-PROC P0",
+        "procurement-permission-vocabulary rfq domain"
+      ],
+      "conclusion": "Request for quotation sourcing document used to solicit supplier pricing before purchase order commitment."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept procurement_rfq as enterprise meaning bridge for PAS-001B rfq wire vocabulary.",
+      "alternativesConsidered": ["Generic sourcing atom only"],
+      "whyRejected": {
+        "Generic sourcing atom only": "RFQ is a distinct document family with governed permission domain."
+      },
+      "impact": ["finance", "integration"]
+    },
+    "meaning": {
+      "canonical": "Request for quotation sourcing document used to solicit supplier pricing before purchase order commitment.",
+      "business": "Request for quotation (RFQ) / procurement sourcing document.",
+      "engineering": "procurement-document-type rfq · procurement-permission-vocabulary rfq · KV-PROC"
+    },
+    "knowledgeDomain": ["finance", "integration"],
+    "applicability": {
+      "applicable": ["finance", "integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001B procurement wire vocabulary · gap report §B.2.",
+      "evolution": ["PAS-004 B56 KV-PROC P0 promotion"],
+      "currentAuthority": "PAS-001B wire · PAS-004 meaning",
+      "futureDirection": "Runtime procurement RFQ flows via approved slice."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Purchase order",
+        "why": "PO commits to a supplier; RFQ solicits quotes before commitment.",
+        "correct": "RFQ precedes PO in competitive sourcing paths."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Procurement RFQ"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/procurement/procurement-document-type.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/procurement/procurement-document-type.contract.ts",
+        "notes": "PAS-001B procurement-document-type rfq · KV-PROC"
+      },
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts",
+        "notes": "PAS-001B rfq permission domain read/publish/close · KV-PROC"
+      },
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts",
+        "notes": "PAS-001B procurement domain authority · ERP_DOMAIN_MODULE_KV_IDS KV-PROC"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "procurement_rfq_evidence_0",
+        "type": "policy",
+        "source": "packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   }
 ]

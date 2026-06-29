@@ -11,14 +11,14 @@
 | **Foundation consumer** | [ERP Module Runtime North Star](erp-module-runtime-north-star.md) — delivery proof only |
 | **Cross-domain laws** | [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) · [Knowledge Constitutional Laws](../CONSTITUTION/knowledge-constitutional-laws.md) — K6 |
 | **Derived document** | [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) — **Procurement** box (planned) · [Gap report](../PAS/KERNEL/audit/procurement-foundation-gap-report.md) |
-| **Authority ADR** | [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) · runtime ADR *(planned — ERP-PROC-FDN-001)* |
+| **Authority ADR** | [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) · [ADR-0031](../adr/ADR-0031-procurement-runtime-authority-boundary.md) (runtime authority — Accepted) |
 | **Wire anchor** | KV-PROC · [B80](../PAS/KERNEL/SLICE/b80-procurement-domain-vocabulary.md) Delivered (contracts-only) |
 | **Maturity** | Draft → Production Candidate (2026-06-30) |
 | **Quality target** | Enterprise **9.5 / 10** after runtime ADR + PAS-004 P0 atoms + readiness report |
 | **Runtime stance** | Documentation only — wire vocabulary live; business runtime blocked |
 | **Does not confer** | Package boundaries, PAS authority, contracts, runtime authority, implementation |
 | **Last reviewed** | 2026-06-30 |
-| **Next document** | ERP-PROC-FDN-001 ADR · Procurement Blueprint box |
+| **Next document** | ERP-PROC-FDN-002 knowledge alignment · Procurement Blueprint box |
 
 > **One sentence:** Procurement permanently governs how enterprise spend intent becomes governed supplier commitment — through classified requisitions, competitive or directed sourcing, purchase orders, receipts, and supplier master accountability — without conflating inventory movement, ledger posting, or module foundation delivery proof.
 
@@ -36,6 +36,8 @@
 - Do not implement PO posting, GR-IR, or 3-way match before Accounting ADR gates clear cross-domain dependencies.
 - Do not build procurement runtime inside `packages/kernel` — kernel owns words only.
 - Do not skip module foundation readiness — consume [PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) pattern under path law.
+
+**Platform routing (2026-06-30):** Accounting Core ledger/posting runtime remains constitutionally blocked — see [Hard platform blocks](../PAS/DEVELOPMENT-LANE-BOUNDARIES.md#hard-platform-blocks-constitution). Procurement end-to-end delivery via PAS-001C + ERP-PROC-FDN-* does **not** require Accounting Core runtime unblock.
 
 ---
 
@@ -203,13 +205,16 @@ See [Module Foundation NS §8.1](erp-module-runtime-north-star.md) for foundatio
 | Accounting | Invoice match and posting — ADR-gated |
 | Master data / BMD | Supplier records |
 
+**Platform routing (2026-06-30):** Foundation and operational procurement slices that do not post to ledger proceed under PAS-001C + ERP-PROC-FDN-* while Accounting Core runtime stays deferred — see [Hard platform blocks](../PAS/DEVELOPMENT-LANE-BOUNDARIES.md#hard-platform-blocks-constitution).
+
 ## 9.4 Orthogonal separation
 
 | Layer | Question |
 | --- | --- |
-| Module foundation | *How is procurement authorized as a module?* |
-| **Procurement (this NS)** | *What do requisition, PO, and supplier mean?* |
-| Kernel wire | *What words exist on the wire?* |
+| Module foundation ([PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md)) | *How is procurement authorized as a module?* — readiness dimensions, bundle attestation, integration gates |
+| **Procurement (this NS)** | *What do requisition, PO, and supplier mean?* — business vocabulary, lifecycles, cross-domain hooks |
+| Kernel wire (KV-PROC) | *What words exist on the wire?* — contracts-only enums, IDs, permission words |
+| Runtime package ([ADR-0031](../adr/ADR-0031-procurement-runtime-authority-boundary.md)) | *Who owns procurement domain behavior?* — `@afenda/procurement` (PKG-R05) candidate; filesystem blocked until FDN-002A |
 
 ---
 
@@ -248,8 +253,8 @@ See [Module Foundation NS §8.1](erp-module-runtime-north-star.md) for foundatio
 | Item | Status |
 | --- | --- |
 | Business NS authored | Production Candidate (this document) |
-| Runtime ADR | Planned — ERP-PROC-FDN-001 |
-| Operational readiness | **Not ready** — [readiness report](../PAS/ERP-MODULES/PROCUREMENT/procurement-runtime-readiness-report.md) |
+| Runtime ADR | **Accepted** — [ADR-0031](../adr/ADR-0031-procurement-runtime-authority-boundary.md) (ERP-PROC-FDN-001 Delivered 2026-06-30) |
+| Operational readiness | **Not ready** — [readiness report](../PAS/ERP-MODULES/PROCUREMENT/procurement-runtime-readiness-report.md) · next slice FDN-002 |
 
 ---
 

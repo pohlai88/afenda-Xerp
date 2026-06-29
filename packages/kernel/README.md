@@ -91,7 +91,7 @@ Checkpoints: [`.cursor/audit/checkpoints/PAS-001.json`](../../.cursor/audit/chec
 | Risk | Gate / artifact |
 | --- | --- |
 | Kernel conflated with ERP runtime | PAS-001A owns spine · `pnpm check:kernel-prohibited-ownership` · audit fail condition: kernel owns `resolveOperatingContext` |
-| Fiscal IDs promoted without Finance ADR | Drift entry `accounting-id-forbidden-floor-symbols` (`FiscalCalendarId` / `FiscalPeriodId` quarantined on `erp-domain/accounting`) · `pnpm check:forbidden-platform-ids` |
+| Fiscal IDs promoted to platform floor | [ADR-0031](../docs/adr/ADR-0031-fiscal-domain-id-authority.md) — permanent KV-ACCT quarantine · drift entry `accounting-id-forbidden-floor-symbols` closed · `pnpm check:forbidden-platform-ids` |
 | Doc drift after slice close | Mirror [kernel-authority skill](../../.cursor/skills/kernel-authority/SKILL.md) · `pnpm check:documentation-drift` · sync [KERNEL family README](../../docs/PAS/KERNEL/README.md) on slice close |
 
 ## Related docs

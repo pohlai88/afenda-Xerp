@@ -1,84 +1,97 @@
-# Module Foundation + Procurement — PAS-004 Promotion Backlog
+# PAS-004 Module Foundation & Procurement Knowledge Promotion Backlog
 
 | Field | Value |
 | --- | --- |
 | **Document class** | `promotion_backlog` |
-| **Authority** | [PAS-004](../ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [Knowledge LAW K6](../../CONSTITUTION/knowledge-constitutional-laws.md) |
-| **Sources** | [Module Foundation NS §3.1](../../NORTHSTAR/erp-module-runtime-north-star.md) · [Procurement NS §3](../../NORTHSTAR/procurement-north-star.md) · [Gap report §B](../KERNEL/audit/procurement-foundation-gap-report.md) |
-| **Status** | P0 module foundation atoms promoted (EK-MOD-FDN-001/002/003) — procurement P0–P1 planned |
-| **Last reviewed** | 2026-06-30 |
+| **Authority** | [Module Foundation NS §3.1](../../NORTHSTAR/erp-module-runtime-north-star.md) · [Procurement gap report §B.2](../KERNEL/audit/procurement-foundation-gap-report.md) |
+| **Registry** | `packages/enterprise-knowledge/src/data/knowledge.registry.ts` |
+| **Last updated** | 2026-06-30 |
 
-> **One sentence:** Track Enterprise Knowledge atom promotion for module-foundation delivery terms (P0) and procurement business terms (P0–P1) before semantic runtime behavior — wire shapes alone are insufficient per LAW K6.
+> **One sentence:** Tracks PAS-004 Knowledge Atom promotion for module foundation delivery vocabulary (EK-MOD-FDN) and procurement business terms (KV-PROC) — wire-only and missing rows remain honest until accepted.
 
 ---
 
-## P0 — Module foundation domain (from NS §3.1)
+## Module foundation promotion (EK-MOD-FDN)
 
-| Term | NS status | Atom ID | Blocker for | Promotion slice |
+Mirrors [Module Foundation NS §3.1](../../NORTHSTAR/erp-module-runtime-north-star.md#31-pas-004-promotion-backlog).
+
+| Term | Promotion priority | Status | Atom ID | Slice |
 | --- | --- | --- | --- | --- |
-| Module runtime identity | accepted | `module_runtime_identity` | — | EK-MOD-FDN-001 ✓ |
-| Wire catalog key | accepted | `wire_catalog_key` | — | EK-MOD-FDN-001 ✓ |
-| Module ownership contract | accepted | `module_ownership_contract` | — | EK-MOD-FDN-001 ✓ |
-| Knowledge map status | accepted | `knowledge_map_status` | — | EK-MOD-FDN-002 ✓ |
-| Operating context consumption | accepted | `operating_context_consumption` | — | EK-MOD-FDN-002 ✓ |
-| Permission binding | accepted | `permission_binding` | — | EK-MOD-FDN-002 ✓ |
-| Audit action map | accepted | `audit_action_map` | — | EK-MOD-FDN-002 ✓ |
-| Metadata surface binding | accepted | `metadata_surface_binding` | — | EK-MOD-FDN-002 ✓ |
-| Module readiness dimension | accepted | `module_readiness_dimension` | — | EK-MOD-FDN-003 ✓ |
-| Foundation lifecycle phase | accepted | `foundation_lifecycle_phase` | — | EK-MOD-FDN-003 ✓ |
-| Module ingress | accepted | `module_ingress` | — | EK-MOD-FDN-003 ✓ |
-| Readiness report | accepted | `readiness_report` | — | EK-MOD-FDN-003 ✓ |
+| Module runtime identity | P0 | **Done** | `module_runtime_identity` | EK-MOD-FDN-001 |
+| Wire catalog key | P0 | **Done** | `wire_catalog_key` | EK-MOD-FDN-001 |
+| Module ownership contract | P0 | **Done** | `module_ownership_contract` | EK-MOD-FDN-001 |
+| Knowledge map status | P0 | **Done** | `knowledge_map_status` | EK-MOD-FDN-002 |
+| Operating context consumption | P0 | **Done** | `operating_context_consumption` | EK-MOD-FDN-002 |
+| Permission binding | P0 | **Done** | `permission_binding` | EK-MOD-FDN-002 |
+| Audit action map | P0 | **Done** | `audit_action_map` | EK-MOD-FDN-002 |
+| Metadata surface binding | P0 | **Done** | `metadata_surface_binding` | EK-MOD-FDN-002 |
+| Module readiness dimension | P0 | **Done** | `module_readiness_dimension` | EK-MOD-FDN-003 |
+| Foundation lifecycle phase | P0 | **Done** | `foundation_lifecycle_phase` | EK-MOD-FDN-003 |
+| Module ingress | P0 | **Done** | `module_ingress` | EK-MOD-FDN-003 |
+| Readiness report | P0 | **Done** | `readiness_report` | EK-MOD-FDN-003 |
+| Module policy declaration | P1 | **Done** | `module_policy_declaration` | EK-MOD-FDN-004 |
+| Module event catalog | P1 | **Done** | `module_event_catalog` | EK-MOD-FDN-004 |
+| Outbox requirement classification | P1 | **Done** | `outbox_requirement_classification` | EK-MOD-FDN-004 |
 
-## P1 — Module foundation (deferred semantic scope)
-
-| Term | NS status | Notes |
-| --- | --- | --- |
-| Module policy declaration | planned | EK-MOD-FDN-004 |
-| Module event catalog | planned | EK-MOD-FDN-004 |
-| Outbox requirement classification | planned | EK-MOD-FDN-004 |
-
-## wire_only — promote meaning before semantic ops
-
-| Term | NS status | Notes |
-| --- | --- | --- |
-| Document family | wire_only | EK-MOD-FDN-002 |
+**P0 closure:** 12 atoms in `B54_MODULE_FOUNDATION_ATOM_IDS` (2026-06-30).  
+**P1 closure:** 3 atoms in `B55_MODULE_FOUNDATION_P1_ATOM_IDS` (2026-06-30).
 
 ---
 
-## P0 — Procurement business (from gap report)
+## Procurement business promotion (KV-PROC P0)
 
-| Term | Current status | Required action |
-| --- | --- | --- |
-| purchase_order | wire_only | PAS-004 atom before PO runtime |
-| purchase_requisition | partial atom | Extend corpus · 3-way match deps |
-| supplier | missing / BMD | Business master data + atom |
-| rfq | wire_only | Atom before sourcing runtime |
-| blanket_agreement | wire_only | Atom before contract release |
-| goods_receipt | missing | Inventory cross-domain atom |
-| three_way_match | missing | Accounting cross-domain — ADR-gated |
+Mirrors [gap report §B.2](../KERNEL/audit/procurement-foundation-gap-report.md#b2-procurement-knowledge-register).
 
-## Promotion pipeline (LAW K6)
+| Term | PAS-004 status | Wire (KV-PROC) | Status | Atom ID |
+| --- | --- | --- | --- | --- |
+| Procurement requisition | Accepted | Yes | **Done** (B53) | `procurement_requisition` |
+| Purchase order | Accepted | Yes | **Done** (B56 P0) | `purchase_order` |
+| Supplier | Accepted | PAS-001 identity | **Done** (B56 P0) | `supplier` |
+| RFQ | Accepted | Yes | **Done** (B56 P0) | `procurement_rfq` |
 
-```text
-Domain NS §3 term row
-        ↓
-PAS-004 promotion slice
-        ↓
-@afenda/enterprise-knowledge atom (authoritative ID)
-        ↓
-Module knowledge-map.ts status → accepted
-        ↓
-Semantic runtime permitted
-```
-
-**Hard stop:** Do not mark NS §3 `Knowledge atom` column `accepted` until PAS-004 slice closes with atom ID evidence.
+**P0 closure:** 3 atoms in `B56_PROCUREMENT_P0_ATOM_IDS` (2026-06-30).
 
 ---
 
-## Sync obligations
+## Procurement backlog (wire-only / missing / ambiguous)
 
-| Event | Update |
+Remaining rows from gap report §B.2 — **not** promoted in this batch. Knowledge map in `PROCUREMENT_FOUNDATION_BUNDLE` retains `wire_only` rows for LAW K6 honesty.
+
+| Term | Gap report status | Wire | Required action | Knowledge map status |
+| --- | --- | --- | --- | --- |
+| Sourcing | Wire-only | Yes (`SOURCING_METHODS`) | Add atom — process vs method enum | `wire_only` |
+| Blanket agreement | Wire-only | Yes (doc type) | Add enterprise meaning atom | `wire_only` |
+| Supplier quote | Wire-only | Yes (permission domain) | Add enterprise meaning atom | `wire_only` |
+| Approval (requisition) | Ambiguous | Partial wire | Decide workflow vs procurement-scoped atom | — |
+| Purchasing group | Ambiguous | Team analog | Perspective or atom linking Team ↔ procurement org | — |
+| Goods receipt | Missing | Prohibited surface name | Cross-domain KV-INV + atom | — |
+| Supplier invoice | Missing | — | Cross-domain KV-ACCT + atom | — |
+| Three-way match | Missing | Prohibited surface name | Cross-domain ADR (PROC + INV + ACCT) | — |
+| Incoterms / landed cost / RTV / analytics | Missing | — | Future PAS-004 + domain ADR | — |
+
+---
+
+## Corpus totals
+
+| Group | Constant | Count |
+| --- | --- | --- |
+| B24 MVP | `B24_KNOWLEDGE_ATOM_IDS` | 12 |
+| B29 platform | `B29_PLATFORM_ATOM_IDS` | 4 |
+| B31 context | `B31_CONTEXT_ATOM_IDS` | 8 |
+| B53 ERP-domain bridge | `B53_ERP_DOMAIN_BRIDGE_ATOM_IDS` | 2 |
+| B54 module foundation P0 | `B54_MODULE_FOUNDATION_ATOM_IDS` | 12 |
+| B55 module foundation P1 | `B55_MODULE_FOUNDATION_P1_ATOM_IDS` | 3 |
+| B56 procurement P0 | `B56_PROCUREMENT_P0_ATOM_IDS` | 3 |
+| **Total** | `KNOWLEDGE_ATOM_IDS` | **44** |
+
+**Fingerprint:** `ENTERPRISE-KNOWLEDGE-2026-06-30-v3`
+
+---
+
+## Related
+
+| Artifact | Path |
 | --- | --- |
-| Atom promoted | Procurement NS §3 · module knowledge-map reference bundle |
-| NS term added | New row here · new EK-MOD slice |
-| wire_only blocks runtime | Gap report · readiness report Knowledge row |
+| Procurement readiness report | [procurement-runtime-readiness-report.md](./PROCUREMENT/procurement-runtime-readiness-report.md) |
+| Foundation bundle | `packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts` |
+| Alignment gate | `pnpm check:erp-module-knowledge-alignment` |

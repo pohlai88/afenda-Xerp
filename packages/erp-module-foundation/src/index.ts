@@ -93,6 +93,7 @@ export type {
   ModuleReadinessDefinition,
   ModuleReadinessMatrix,
   ModuleReadinessReportRow,
+  ModuleReadinessVerdict,
   ModuleRegistryAssertionResult,
   ModuleRuntimeCompletenessAssertionResult,
   ModuleRuntimeContractDefinition,
@@ -117,6 +118,13 @@ export {
   READINESS_LEVELS,
 } from "./erp-module-foundation.types.js";
 export type { ModuleReadinessFinding } from "./internal/findings.js";
+export type { FoundationAttestationStatus } from "./module-readiness-attestation.js";
+export {
+  FOUNDATION_ATTESTATION_STATUSES,
+  formatReadinessReportPreamble,
+  isFoundationAttestationStatus,
+  resolveModuleReadinessVerdict,
+} from "./module-readiness-attestation.js";
 export {
   buildProcurementFoundationBundle,
   PROCUREMENT_FOUNDATION_ATTESTED_EVIDENCE,

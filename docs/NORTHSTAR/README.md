@@ -12,9 +12,9 @@ Five constitutional platform domains — orthogonal concerns with minimal overla
 | Platform Architecture Authority | [architecture-authority-north-star.md](architecture-authority-north-star.md) | *What is allowed?* | PAS-002 · PAS-002A | Enterprise Accepted |
 | Enterprise Knowledge | [enterprise-knowledge-north-star.md](enterprise-knowledge-north-star.md) | *How does truth become accepted?* | PAS-004 · PAS-004A–004D | Production Candidate (9.95/10) |
 | Accounting Standards Authority | [accounting-standards-north-star.md](accounting-standards-north-star.md) | *Which external accounting authority applies?* | PAS-003 | Production Candidate (9.8/10) |
-| Design Token Authority | [css-authority-north-star.md](css-authority-north-star.md) | *How does visual identity stay consistent?* | PAS-005 · PAS-005A · PAS-005B | Production Candidate (9.6/10) |
+| ERP Presentation | [shadcn-studio-presentation-north-star.md](shadcn-studio-presentation-north-star.md) | *How does ERP visual identity stay consistent?* | PAS-006 · PAS-006A–006D | Active — PAS-005 retired (ADR-0027) |
 
-**Note:** Design Token Authority North Star is technology-independent; Blueprint box remains **CSS authority** (PAS-005) as today's primary web representation.
+**Note:** PAS-005 CSS Authority is **retired for ERP** (ADR-0027). [css-authority-north-star.md](css-authority-north-star.md) redirects to Presentation North Star; Blueprint box uses **PAS-006** / `@afenda/shadcn-studio` as today's primary web representation.
 
 ## Cross-cutting platform North Stars
 

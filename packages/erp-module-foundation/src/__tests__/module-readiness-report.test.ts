@@ -22,11 +22,20 @@ describe("renderModuleReadinessReport", () => {
     expect(rows.map((row) => row.dimension)).toContain("registry");
   });
 
-  it("marks required dimensions with evidence as Pass", () => {
+  it("marks required dimensions with evidence as Foundation Pass when foundation_authorized", () => {
     const rows = buildModuleReadinessReportRows(PROCUREMENT_FOUNDATION_BUNDLE);
     const authority = rows.find((row) => row.dimension === "authority");
-    expect(authority?.verdict).toBe("Pass");
+    expect(authority?.verdict).toBe("Foundation Pass");
     expect(authority?.evidence).toContain("PAS-001C");
+  });
+
+  it("renders attestation scope preamble distinguishing foundation from operational", () => {
+    const report = renderModuleReadinessReport(PROCUREMENT_FOUNDATION_BUNDLE);
+    expect(report).toContain("Attestation scope");
+    expect(report).toContain("foundation_authorized");
+    expect(report).toContain("LAW K6");
+    expect(report).not.toContain("| authority | Pass |");
+    expect(report).toContain("| authority | Foundation Pass |");
   });
 
   it("marks deferred dimensions as Deferred", () => {

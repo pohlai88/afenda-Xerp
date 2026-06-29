@@ -63,6 +63,7 @@ LAYER C — Governance & acceptance (§14–§19)  authority · evolution · EAC
 - Do not authorize UI surfaces without metadata binding and permission declaration — presentation without authority is drift.
 - Do not mark a module operational without readiness attestation across authority, knowledge, ownership, integration, persistence, and tests.
 - Do not create module filesystem folders without governed module identity and Blueprint/PAS authority.
+- Accounting Core ledger/posting runtime is blocked (ADR-0010 + new ADR amending `PKGR01_ACCOUNTING` prohibited rules) — procurement is the reference E2E exemplar; see [Hard platform blocks](../PAS/DEVELOPMENT-LANE-BOUNDARIES.md#hard-platform-blocks-constitution).
 
 **Implement mode rule:** Phase 0 six lines come from the **slice 9-field handoff** and `/afenda-coding-session` — not from re-deriving scope from §1–§12 on every session.
 

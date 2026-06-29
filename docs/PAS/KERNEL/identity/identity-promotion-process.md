@@ -41,7 +41,7 @@ Before a family is exported from `@afenda/kernel`:
 | Item | Correct path |
 |------|--------------|
 | Tenant human reference (`employee_no`) | Domain PAS slice + ADR-0023 |
-| Fiscal calendar/period IDs | Finance ADR + `@afenda/accounting` |
+| Fiscal calendar/period IDs | [ADR-0031](../../adr/ADR-0031-fiscal-domain-id-authority.md) — KV-ACCT only; off platform floor |
 | Domain-internal surrogate keys | Owning package only — not Kernel |
 | Primitive references (`CurrencyCode`) | `identity/primitives/` — separate registry |
 

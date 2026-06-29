@@ -264,5 +264,47 @@
     "label": "Readiness report",
     "preferred": true,
     "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "module_policy_declaration_preferred",
+    "conceptId": "module_policy_declaration",
+    "label": "Module policy declaration",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "module_event_catalog_preferred",
+    "conceptId": "module_event_catalog",
+    "label": "Module event catalog",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "outbox_requirement_classification_preferred",
+    "conceptId": "outbox_requirement_classification",
+    "label": "Outbox requirement classification",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "purchase_order_preferred",
+    "conceptId": "purchase_order",
+    "label": "Purchase order",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "supplier_preferred",
+    "conceptId": "supplier",
+    "label": "Supplier",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "procurement_rfq_preferred",
+    "conceptId": "procurement_rfq",
+    "label": "Procurement RFQ",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
   }
 ]

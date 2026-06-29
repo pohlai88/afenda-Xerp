@@ -29,6 +29,29 @@ function run(): readonly ErpModuleFoundationViolation[] {
     }
   }
 
+  if (bundle.module.runtimeStatus === "foundation_authorized") {
+    const pendingBusinessTerms = bundle.knowledge.terms.filter(
+      (term) => term.status === "wire_only" || term.status === "missing"
+    );
+    if (pendingBusinessTerms.length === 0) {
+      violations.push({
+        rule: "law-k6-foundation-honesty",
+        file: GATE,
+        message:
+          "foundation_authorized bundle must retain wire_only/missing business terms until PAS-004 promotes meaning (LAW K6)",
+      });
+    }
+
+    const acceptedWithoutRuntime = bundle.knowledge.terms.filter(
+      (term) => term.status === "accepted" && term.atomId
+    );
+    if (acceptedWithoutRuntime.length > 0) {
+      console.log(
+        `  LAW K6: ${acceptedWithoutRuntime.length} accepted term(s) — meaning only; semantic runtime gated by ${bundle.module.runtimePackage}`
+      );
+    }
+  }
+
   const knowledgeFailures = collectModuleReadinessFailures(bundle).filter((f) =>
     f.includes("knowledge")
   );

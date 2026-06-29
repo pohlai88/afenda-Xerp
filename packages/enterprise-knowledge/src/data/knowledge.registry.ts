@@ -57,12 +57,26 @@ export const B54_MODULE_FOUNDATION_ATOM_IDS = [
   "module_ingress",
   "readiness_report",
 ] as const;
+/** PAS-004 EK-MOD-FDN-004 — module delivery vocabulary (P1). */
+export const B55_MODULE_FOUNDATION_P1_ATOM_IDS = [
+  "module_policy_declaration",
+  "module_event_catalog",
+  "outbox_requirement_classification",
+] as const;
+/** PAS-004 KV-PROC P0 — procurement business meaning bridge. */
+export const B56_PROCUREMENT_P0_ATOM_IDS = [
+  "purchase_order",
+  "supplier",
+  "procurement_rfq",
+] as const;
 export const KNOWLEDGE_ATOM_IDS = [
   ...B24_KNOWLEDGE_ATOM_IDS,
   ...B29_PLATFORM_ATOM_IDS,
   ...B31_CONTEXT_ATOM_IDS,
   ...B53_ERP_DOMAIN_BRIDGE_ATOM_IDS,
   ...B54_MODULE_FOUNDATION_ATOM_IDS,
+  ...B55_MODULE_FOUNDATION_P1_ATOM_IDS,
+  ...B56_PROCUREMENT_P0_ATOM_IDS,
 ] as const;
 export type KnowledgeAtomId = (typeof KNOWLEDGE_ATOM_IDS)[number];
 
@@ -70,4 +84,4 @@ export const ENTERPRISE_KNOWLEDGE_ATOMS: readonly KnowledgeAtom[] =
   parseAtomCorpus(atomsJson);
 
 export const ENTERPRISE_KNOWLEDGE_FINGERPRINT =
-  "ENTERPRISE-KNOWLEDGE-2026-06-28-v2" as const;
+  "ENTERPRISE-KNOWLEDGE-2026-06-30-v3" as const;

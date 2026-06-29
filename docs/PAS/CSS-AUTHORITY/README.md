@@ -22,6 +22,12 @@
 
 ---
 
+## Archived standard (historical text only)
+
+Full PAS-005 standard text (pre-ADR-0027) lives at [`docs/_retired/legacy-css-authority/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md`](../../_retired/legacy-css-authority/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) — **do not execute**; use for audit and lineage only.
+
+---
+
 ## What remains in this folder
 
 | Content | Purpose |

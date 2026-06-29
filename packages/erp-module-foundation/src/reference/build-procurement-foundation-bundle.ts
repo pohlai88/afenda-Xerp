@@ -81,11 +81,11 @@ export type ProcurementFoundationEvidence = Partial<
   Readonly<Record<ReadinessDimension, string>>
 >;
 
-/** Wire-phase base — authority intentionally empty until ERP-PROC-FDN-001 attests. */
+/** Wire-phase base — authority attested by ERP-PROC-FDN-001 (ADR-0031). */
 export const PROCUREMENT_FOUNDATION_EVIDENCE: Readonly<
   Record<ReadinessDimension, string>
 > = {
-  authority: "",
+  authority: "docs/adr/ADR-0031-procurement-runtime-authority-boundary.md",
   registry: "docs/PAS/KERNEL/SLICE/erp-mod-fdn-003-foundation-authority.md",
   knowledge: "packages/enterprise-knowledge/src/data/atoms.json",
   ownership: "docs/PAS/KERNEL/audit/procurement-foundation-gap-report.md",
@@ -107,7 +107,7 @@ export const PROCUREMENT_FOUNDATION_EVIDENCE: Readonly<
 
 /** Gate-attested evidence — used by PROCUREMENT_FOUNDATION_BUNDLE and readiness report. */
 export const PROCUREMENT_FOUNDATION_ATTESTED_EVIDENCE = {
-  authority: "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+  authority: "docs/adr/ADR-0031-procurement-runtime-authority-boundary.md",
   registry: "docs/PAS/KERNEL/SLICE/erp-mod-fdn-003-foundation-authority.md",
   knowledge: "packages/enterprise-knowledge/src/data/atoms.json",
   ownership: "docs/PAS/KERNEL/audit/procurement-foundation-gap-report.md",
@@ -122,7 +122,7 @@ export const PROCUREMENT_FOUNDATION_ATTESTED_EVIDENCE = {
   ui: "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
   tests:
     "packages/erp-module-foundation/src/__tests__/module-foundation.test.ts",
-  gates: "scripts/governance/check-erp-module-foundation.mts",
+  gates: "scripts/governance/check-procurement-runtime-foundation.mts",
 } as const satisfies ProcurementFoundationEvidence;
 
 function buildKnowledgeMap() {
@@ -138,14 +138,39 @@ function buildKnowledgeMap() {
       },
       {
         term: "purchase_order",
-        status: "wire_only",
-        wireArtifact: WIRE_ARTIFACT_BASE,
-        requiredAction: "Promote PAS-004 atom before PO runtime.",
+        status: "accepted",
+        atomId: "purchase_order",
+        requiredAction: "Accepted — PAS-004 B56 KV-PROC P0.",
       },
       {
         term: "supplier",
-        status: "missing",
-        requiredAction: "Create BMD / PAS-004 atom.",
+        status: "accepted",
+        atomId: "supplier",
+        requiredAction: "Accepted — PAS-004 B56 KV-PROC P0.",
+      },
+      {
+        term: "procurement_rfq",
+        status: "accepted",
+        atomId: "procurement_rfq",
+        requiredAction: "Accepted — PAS-004 B56 KV-PROC P0.",
+      },
+      {
+        term: "sourcing",
+        status: "wire_only",
+        wireArtifact: WIRE_ARTIFACT_BASE,
+        requiredAction: "Promote PAS-004 atom — sourcing method vs process.",
+      },
+      {
+        term: "blanket_agreement",
+        status: "wire_only",
+        wireArtifact: WIRE_ARTIFACT_BASE,
+        requiredAction: "Promote PAS-004 atom before blanket PO runtime.",
+      },
+      {
+        term: "supplier_quote",
+        status: "wire_only",
+        wireArtifact: WIRE_ARTIFACT_BASE,
+        requiredAction: "Promote PAS-004 atom before quote award runtime.",
       },
       {
         term: "module_runtime_identity",
@@ -218,6 +243,24 @@ function buildKnowledgeMap() {
         status: "accepted",
         atomId: "readiness_report",
         requiredAction: "Accepted — EK-MOD-FDN-003.",
+      },
+      {
+        term: "module_policy_declaration",
+        status: "accepted",
+        atomId: "module_policy_declaration",
+        requiredAction: "Accepted — EK-MOD-FDN-004.",
+      },
+      {
+        term: "module_event_catalog",
+        status: "accepted",
+        atomId: "module_event_catalog",
+        requiredAction: "Accepted — EK-MOD-FDN-004.",
+      },
+      {
+        term: "outbox_requirement_classification",
+        status: "accepted",
+        atomId: "outbox_requirement_classification",
+        requiredAction: "Accepted — EK-MOD-FDN-004.",
       },
     ],
   });
@@ -312,6 +355,7 @@ function buildCoreBundle(
       crossDomainDependencies: ["inventory", "accounting"],
       requiredGates: [
         "pnpm check:procurement-domain-contracts",
+        "pnpm check:procurement-runtime-foundation",
         "pnpm check:erp-module-foundation",
       ],
     }),

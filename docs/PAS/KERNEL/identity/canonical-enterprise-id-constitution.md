@@ -107,7 +107,7 @@ Family parsers are for trusted ingress normalization and must throw on invalid c
 - `as CustomerId` outside Kernel test fixtures
 - Local `type CustomerId = string` in consumer packages
 - Routing `MYR` or `Asia/Kuala_Lumpur` through enterprise ID parser
-- `FiscalCalendarId` / `FiscalPeriodId` on Kernel platform floor
+- `FiscalCalendarId` / `FiscalPeriodId` on Kernel platform floor — canonical home KV-ACCT only ([ADR-0031](../../adr/ADR-0031-fiscal-domain-id-authority.md))
 - Duplicate `platform-id*.ts` registries after Slice B migration
 - `Math.random()` in canonical enterprise ID generation
 - Drizzle schema or migration logic inside `@afenda/kernel`
