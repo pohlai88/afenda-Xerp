@@ -38,7 +38,7 @@
 - Do not build procurement runtime inside `packages/kernel` — kernel owns words only.
 - Do not skip module foundation readiness — consume [PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) pattern under path law.
 
-**Platform routing (2026-06-30):** Accounting Core ledger/posting runtime remains constitutionally blocked — see [Hard platform blocks](../PAS/DEVELOPMENT-LANE-BOUNDARIES.md#hard-platform-blocks-constitution). Procurement end-to-end delivery via PAS-001C + ERP-PROC-FDN-* does **not** require Accounting Core runtime unblock.
+**Platform routing (2026-06-30):** Accounting Core ledger/posting runtime remains constitutionally blocked — see [Hard platform blocks](../PAS/DEVELOPMENT-LANE-BOUNDARIES.md#hard-platform-blocks-constitution). Procurement foundation work under ERP-MODULES does **not** require Accounting Core runtime unblock.
 
 ---
 
@@ -206,7 +206,7 @@ See [Module Foundation NS §8.1](erp-module-runtime-north-star.md) for foundatio
 | Accounting | Invoice match and posting — ADR-gated |
 | Master data / BMD | Supplier records |
 
-**Platform routing (2026-06-30):** Foundation and operational procurement slices that do not post to ledger proceed under PAS-001C + ERP-PROC-FDN-* while Accounting Core runtime stays deferred — see [Hard platform blocks](../PAS/DEVELOPMENT-LANE-BOUNDARIES.md#hard-platform-blocks-constitution).
+**Platform routing (2026-06-30):** Foundation and operational procurement work that does not post to ledger proceeds under PAS-001C + authorized [ERP-MODULES/SLICE](../PAS/ERP-MODULES/SLICE/README.md) handoffs while Accounting Core runtime stays deferred — see [Hard platform blocks](../PAS/DEVELOPMENT-LANE-BOUNDARIES.md#hard-platform-blocks-constitution).
 
 ## 9.4 Orthogonal separation
 

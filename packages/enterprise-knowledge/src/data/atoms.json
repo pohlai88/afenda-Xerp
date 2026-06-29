@@ -4287,7 +4287,7 @@
       "origin": "PAS-001 business-reference identity · gap report §B.2.",
       "evolution": ["PAS-004 B56 KV-PROC P0 promotion"],
       "currentAuthority": "PAS-001 wire · PAS-004 meaning",
-      "futureDirection": "BMD supplier persistence via ERP-PROC-FDN-003."
+      "futureDirection": "BMD supplier persistence via ERP-MODULES gap report §persistence (authorized slice handoff required)."
     },
     "misconceptions": [
       {

@@ -78,7 +78,7 @@ function run(): readonly ErpModuleFoundationViolation[] {
     violations.push({
       rule: "no-premature-filesystem",
       file: GATE,
-      message: `${RUNTIME_PACKAGE_PATH} exists — filesystem blocked until FDN-002A + explicit activation ADR`,
+      message: `${RUNTIME_PACKAGE_PATH} exists — filesystem blocked until ownership ADR-lock + authorized ERP-MODULES slice handoff`,
     });
   }
 

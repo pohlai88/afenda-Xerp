@@ -541,7 +541,7 @@ const foundationDispositionEntries = [
       "packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts",
     ],
     knownGaps: [
-      "Filesystem blocked until FDN-002A ownership ADR-lock",
+      "Filesystem blocked until ownership ADR-lock and authorized ERP-MODULES slice handoff",
       "Operational runtime FDN-003+",
     ],
     allowedAgents: ["afenda-governed-implementer", "foundation-registry-owner"],

@@ -7,6 +7,7 @@
 | **Owner** | Architecture Authority · Procurement Authority |
 | **Supersedes** | — |
 | **Superseded by** | — |
+| **Doc sync (2026-06-30)** | §3 slice ID labels are audit **candidates** only. **Official slice catalog:** [ERP-MODULES/SLICE/README.md](../PAS/ERP-MODULES/SLICE/README.md). Gap report §7 superseded. |
 
 > **PAS-001B wire authority (KV backfill):** Cross-package ERP wire vocabulary for the procurement catalog slug is **`KV-PROC`** (`erp-domain/procurement` under `@afenda/kernel/erp-domain/procurement`). Runtime package authority is **`@afenda/procurement`** (PKG-R05). Canonical KV citation rules: [ADR-0020](ADR-0020-master-data-authority-consolidation.md).
 
@@ -57,7 +58,9 @@ Foundation disposition entry **`PKGR05_PROCUREMENT`** in `foundation-disposition
 
 ### 3. Scaffold unblock criteria (filesystem + lifecycle promotion)
 
-`packages/procurement/` filesystem creation and PKG-R05 lifecycle promotion beyond `planned` require **all** of:
+> **Catalog authority (2026-06-30):** The slice ID labels in the table below are **historical audit candidates** from ADR drafting. They are **not** an authorized execution catalog. Official slice IDs require handoff files under [ERP-MODULES/SLICE/README.md](../PAS/ERP-MODULES/SLICE/README.md). Gap inventory: [procurement-foundation-gap-report.md](../PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md) sections A–F (§7 superseded).
+
+`packages/features/erp-modules/src/procurement/` filesystem creation and PKG-R05 lifecycle promotion beyond `planned` require **all** of:
 
 | Prerequisite slice | Delivers |
 | --- | --- |
