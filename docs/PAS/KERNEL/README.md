@@ -25,7 +25,13 @@ Platform North Star
   → Code (packages/kernel, apps/erp, …)
 ```
 
-**Doctrine:** Kernel owns words; owner packages own decisions. Vocabulary ≠ integration proof ≠ ERP wire catalog.
+**Doctrine:** Kernel owns words; owner packages own decisions. Vocabulary ≠ integration proof ≠ ERP wire catalog. **PAS-001A owns the ERP resolver spine** (`apps/erp/src/lib/context/`) — kernel must never implement `resolveOperatingContext`.
+
+| Risk | Mitigation |
+| --- | --- |
+| Conflating kernel with ERP runtime | PAS-001A §0 + §3 context map; package [README](../../../packages/kernel/README.md) doctrine; `check:kernel-prohibited-ownership` |
+| Promoting fiscal IDs without ADR | Drift registry `accounting-id-forbidden-floor-symbols` (quarantine); `check:forbidden-platform-ids` |
+| Doc drift after slice close | This README + [packages/kernel/README.md](../../../packages/kernel/README.md) + `kernel-authority` skill mirror; `pnpm check:documentation-drift` |
 
 ---
 
@@ -47,10 +53,11 @@ Platform North Star
 1. Kernel North Star §1–§12 (scope dispute only)
 2. Kernel Blueprint §3.3 concept map · §3.4 vocabulary ownership · §4 boxes
 3. This README — pick PAS by Blueprint box
-4. Composed PAS §0 (always)
-5. Archive PAS §4+ only when implementing or auditing contract detail — [`archive/`](archive/README.md)
-6. [Kernel Slice catalog](SLICE/kernel-slice-catalog.md) — build order
-7. Individual handoff: docs/PAS/KERNEL/SLICE/b<N>-*.md → /afenda-coding-session Phase 0
+4. [packages/kernel/README.md](../../../packages/kernel/README.md) — package agent quick path + gates
+5. Composed PAS §0 (always)
+6. Archive PAS §4+ only when implementing or auditing contract detail — [`archive/`](archive/README.md)
+7. [Kernel Slice catalog](SLICE/kernel-slice-catalog.md) — build order
+8. Individual handoff: docs/PAS/KERNEL/SLICE/b<N>-*.md → /afenda-coding-session Phase 0
 ```
 
 | Work type | Start here |
@@ -121,7 +128,7 @@ Foundation gap reports and audit catalogs live under [`audit/`](audit/README.md)
 | Event | Update |
 | --- | --- |
 | New kernel capability | Kernel NS §4 → Blueprint §4 → composed PAS → legacy if contract detail needed |
-| Slice close | [SLICE/kernel-slice-catalog.md](SLICE/kernel-slice-catalog.md) · legacy handoff · composed PAS §12 · Blueprint §9 |
+| Slice close | [SLICE/kernel-slice-catalog.md](SLICE/kernel-slice-catalog.md) · legacy handoff · composed PAS §12 · Blueprint §9 · [packages/kernel/README.md](../../../packages/kernel/README.md) |
 | Foundation gap re-audit | [`audit/`](audit/README.md) artifact + [pas-status-index.md](../pas-status-index.md) |
-| SKILL regen | `.cursor/skills/kernel-authority/SKILL.md` from composed PAS extract map (SYNC intent) |
+| SKILL regen | `.cursor/skills/kernel-authority/SKILL.md` from composed PAS extract map (SYNC intent) · mirror R3/R1 status from composed PAS |
 | Platform inventory | [Platform Blueprint](../../BLUEPRINT/kernel-blueprint.md) — Kernel row links here |

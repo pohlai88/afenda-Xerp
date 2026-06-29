@@ -23,11 +23,21 @@ HTTP contract governance spans Kernel integration spine, Platform API Contract f
 | Concern | North Star | Constitutional question | Authority | Blueprint / template | Maturity |
 | --- | --- | --- | --- | --- | --- |
 | Platform API Contract | [api-contract-north-star.md](api-contract-north-star.md) | *How does the platform expose governed, auditable API contracts across styles?* | [ADR-0030](../adr/ADR-0030-erp-rest-api-contract-standard.md) | [api-contract-blueprint.md](../BLUEPRINT/api-contract-blueprint.md) | Enterprise **10 / 10** |
-| ERP Runtime Module Foundation | [erp-module-runtime-north-star.md](erp-module-runtime-north-star.md) | *How does every line-of-business capability enter production with provable authority, ownership alignment, and integration discipline?* | PAS-001C (planned) | [foundation template](../PAS/KERNEL/template/erp-runtime-module-foundation.template.md) | Production Candidate **9.5 / 10** |
+| ERP Runtime Module Foundation | [erp-module-runtime-north-star.md](erp-module-runtime-north-star.md) | *How does every line-of-business capability enter production with provable authority, ownership alignment, and integration discipline?* | [PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) | [Blueprint](../BLUEPRINT/erp-module-runtime-blueprint.md) · [template](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) | Production Candidate **9.2/10** |
 
 **Read order — API Contract:** after Platform Kernel North Star when touching API exposure, internal v1 REST, OpenAPI publication, or PAS-API-REST-001 R3 slices.
 
 **Read order — Module Foundation:** after Platform Kernel North Star and ERP Integration Spine doctrine when scaffolding LoB module runtime, readiness attestation, or `packages/features/erp-modules/src/{module-slug}/` foundation slices. Procurement (`KV-PROC`) is the reference exemplar.
+
+## Line-of-business domain North Stars
+
+LoB business meaning — orthogonal to module foundation delivery:
+
+| Domain | North Star | Constitutional question | Maturity |
+| --- | --- | --- | --- |
+| Procurement | [procurement-north-star.md](procurement-north-star.md) | *How does Afenda govern requisitioning, sourcing, ordering, and supplier accountability?* | Production Candidate (draft) · runtime blocked |
+
+**Read order — Procurement:** after Module Foundation NS when touching PO/requisition/supplier business meaning; pair with [gap report](../PAS/KERNEL/audit/procurement-foundation-gap-report.md).
 
 ## Constitutional law layers
 

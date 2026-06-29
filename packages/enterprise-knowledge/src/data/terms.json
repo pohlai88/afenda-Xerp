@@ -180,5 +180,89 @@
     "label": "Procurement requisition",
     "preferred": true,
     "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "module_runtime_identity_preferred",
+    "conceptId": "module_runtime_identity",
+    "label": "Module runtime identity",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "wire_catalog_key_preferred",
+    "conceptId": "wire_catalog_key",
+    "label": "Wire catalog key",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "module_ownership_contract_preferred",
+    "conceptId": "module_ownership_contract",
+    "label": "Module ownership contract",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "knowledge_map_status_preferred",
+    "conceptId": "knowledge_map_status",
+    "label": "Knowledge map status",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "operating_context_consumption_preferred",
+    "conceptId": "operating_context_consumption",
+    "label": "Operating context consumption",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "permission_binding_preferred",
+    "conceptId": "permission_binding",
+    "label": "Permission binding",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "audit_action_map_preferred",
+    "conceptId": "audit_action_map",
+    "label": "Audit action map",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "metadata_surface_binding_preferred",
+    "conceptId": "metadata_surface_binding",
+    "label": "Metadata surface binding",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "module_readiness_dimension_preferred",
+    "conceptId": "module_readiness_dimension",
+    "label": "Module readiness dimension",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "foundation_lifecycle_phase_preferred",
+    "conceptId": "foundation_lifecycle_phase",
+    "label": "Foundation lifecycle phase",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "module_ingress_preferred",
+    "conceptId": "module_ingress",
+    "label": "Module ingress",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "readiness_report_preferred",
+    "conceptId": "readiness_report",
+    "label": "Readiness report",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
   }
 ]

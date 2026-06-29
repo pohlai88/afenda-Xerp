@@ -80,8 +80,8 @@ describe("canTransitionLifecycle", () => {
 });
 
 describe("validateKnowledgeLifecycleTransitions", () => {
-  it("returns empty for all 26 registry atoms at current lifecycle", () => {
-    expect(ENTERPRISE_KNOWLEDGE_ATOMS).toHaveLength(26);
+  it("returns empty for all 38 registry atoms at current lifecycle", () => {
+    expect(ENTERPRISE_KNOWLEDGE_ATOMS).toHaveLength(38);
     expect(
       validateKnowledgeLifecycleTransitions(ENTERPRISE_KNOWLEDGE_ATOMS)
     ).toEqual([]);

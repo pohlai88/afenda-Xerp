@@ -229,6 +229,7 @@ This table is the canonical count. Every PAS row must trace back to a Blueprint 
 | PAS-001 | Kernel Authority Standard | Kernel & context | Multiple / TBD | Enterprise Accepted |
 | PAS-001A | ERP Integration Spine | Kernel & context | B71–B75 historical · B111 skeleton · PAS-001A-R1 pending | Production Candidate (doctrine) · runtime partial |
 | PAS-001B | Kernel ERP Domain Vocabulary Catalog | Kernel & context | B76–B106 closed | Enterprise Accepted · catalog authority |
+| PAS-001C | ERP Module Foundation Standard | ERP Module Runtime Foundation | ERP-MOD-FDN-003 Delivered | Production Candidate · foundation_authority |
 | PAS-002 | Architecture Authority | Governance | Multiple / TBD | MVP Authority |
 | PAS-002A | Architecture Authority extension | Governance | — / TBD | Enterprise Accepted |
 | PAS-003 | Accounting Standards Authority | Accounting standards authority | B0–B11 + B13–B16 delivered / B12 pending | Production Candidate |
@@ -253,7 +254,7 @@ This table is the canonical count. Every PAS row must trace back to a Blueprint 
 | Planned | Financial Reporting | Financial reporting (statements) | 0 / TBD | Planned |
 | Planned | HRM | HRM | 0 / TBD | Planned |
 | Planned | CRM | CRM | 0 / TBD | Planned |
-| Planned | Procurement | Procurement | 0 / TBD | Planned |
+| Planned | Procurement | Procurement | 0 / ERP-PROC-FDN-009 | Planned · [Procurement NS](../NORTHSTAR/procurement-north-star.md) · [readiness scaffold](../PAS/ERP-MODULES/PROCUREMENT/procurement-runtime-readiness-report.md) |
 
 > **Rule:** A PAS may be marked Live only when its Blueprint box is `live` and at least one slice is Delivered. Update `Live slices / Total slices` on every slice close.
 
@@ -266,6 +267,7 @@ This table is the canonical count. Every PAS row must trace back to a Blueprint 
 | Blueprint box | Package / surface | PAS | Maturity (see PAS index) |
 | --- | --- | --- | --- |
 | Kernel | `@afenda/kernel` | PAS-001, PAS-001A, PAS-001B | Enterprise Accepted · PAS-001A doctrine PC · runtime partial (ADR-0027 skeleton) |
+| ERP module runtime foundation | `@afenda/erp-module-foundation` | PAS-001C | Production Candidate · [Blueprint](../BLUEPRINT/erp-module-runtime-blueprint.md) |
 | Architecture authority | `@afenda/architecture-authority` | PAS-002, PAS-002A | MVP / Enterprise Accepted |
 | Accounting standards | `@afenda/accounting-standards` | PAS-003 | Production Candidate |
 | Enterprise knowledge | `@afenda/enterprise-knowledge` | PAS-004 … PAS-004D | MVP → Production Candidate |

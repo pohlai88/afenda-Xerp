@@ -118,6 +118,14 @@ export {
 } from "./erp-module-foundation.types.js";
 export type { ModuleReadinessFinding } from "./internal/findings.js";
 export {
+  buildProcurementFoundationBundle,
+  PROCUREMENT_FOUNDATION_ATTESTED_EVIDENCE,
+  PROCUREMENT_FOUNDATION_BUNDLE,
+  PROCUREMENT_FOUNDATION_EVIDENCE,
+  REFERENCE_KV_CATALOG,
+  REFERENCE_PROCUREMENT_FOUNDATION_BUNDLE,
+} from "./reference/build-procurement-foundation-bundle.js";
+export {
   ERP_RUNTIME_MODULE_REGISTRY,
   ERP_RUNTIME_MODULE_REGISTRY_BUNDLE,
   REFERENCE_ERP_RUNTIME_MODULE,
@@ -125,13 +133,6 @@ export {
   REFERENCE_ERP_RUNTIME_MODULE_REGISTRY_BUNDLE,
   REFERENCE_REGISTRY_BUNDLE,
 } from "./reference/erp-runtime-module-registry.js";
-export {
-  buildProcurementFoundationBundle,
-  PROCUREMENT_FOUNDATION_BUNDLE,
-  PROCUREMENT_FOUNDATION_EVIDENCE,
-  REFERENCE_KV_CATALOG,
-  REFERENCE_PROCUREMENT_FOUNDATION_BUNDLE,
-} from "./reference/procurement-foundation.bundle.js";
 export {
   buildModuleReadinessReportRows,
   renderModuleReadinessReport,

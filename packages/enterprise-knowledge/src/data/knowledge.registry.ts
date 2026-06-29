@@ -42,11 +42,27 @@ export const B53_ERP_DOMAIN_BRIDGE_ATOM_IDS = [
   "inventory_item",
   "procurement_requisition",
 ] as const;
+/** PAS-004 EK-MOD-FDN-001/002/003 — module runtime foundation vocabulary (P0). */
+export const B54_MODULE_FOUNDATION_ATOM_IDS = [
+  "module_runtime_identity",
+  "wire_catalog_key",
+  "module_ownership_contract",
+  "knowledge_map_status",
+  "operating_context_consumption",
+  "permission_binding",
+  "audit_action_map",
+  "metadata_surface_binding",
+  "module_readiness_dimension",
+  "foundation_lifecycle_phase",
+  "module_ingress",
+  "readiness_report",
+] as const;
 export const KNOWLEDGE_ATOM_IDS = [
   ...B24_KNOWLEDGE_ATOM_IDS,
   ...B29_PLATFORM_ATOM_IDS,
   ...B31_CONTEXT_ATOM_IDS,
   ...B53_ERP_DOMAIN_BRIDGE_ATOM_IDS,
+  ...B54_MODULE_FOUNDATION_ATOM_IDS,
 ] as const;
 export type KnowledgeAtomId = (typeof KNOWLEDGE_ATOM_IDS)[number];
 

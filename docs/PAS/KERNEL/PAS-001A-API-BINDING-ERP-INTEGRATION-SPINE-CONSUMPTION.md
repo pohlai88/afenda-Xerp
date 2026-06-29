@@ -81,14 +81,14 @@ apps/erp runtime
 | S1 | [pas-001a-api-binding-s1-erp-api-consumption-boundary.md](SLICE/pas-001a-api-binding-s1-erp-api-consumption-boundary.md) | **Delivered** |
 | S2 | [pas-001a-api-binding-s2-erp-rest-binding-consumption.md](SLICE/pas-001a-api-binding-s2-erp-rest-binding-consumption.md) | **Delivered** |
 | S3 | [pas-001a-api-binding-s3-operating-context-assembly-bridge.md](SLICE/pas-001a-api-binding-s3-operating-context-assembly-bridge.md) | **Delivered** |
-| S4 | [pas-001a-api-binding-s4-auth-authorization-bridge.md](SLICE/pas-001a-api-binding-s4-auth-authorization-bridge.md) | Planned |
+| S4 | [pas-001a-api-binding-s4-auth-authorization-bridge.md](SLICE/pas-001a-api-binding-s4-auth-authorization-bridge.md) | **Delivered** |
 | S5 | [pas-001a-api-binding-s5-erp-runtime-evidence.md](SLICE/pas-001a-api-binding-s5-erp-runtime-evidence.md) | Planned |
 | S6 | [pas-001a-api-binding-s6-erp-consumer-impact-sync.md](SLICE/pas-001a-api-binding-s6-erp-consumer-impact-sync.md) | Planned |
 | S7 | [pas-001a-api-binding-s7-erp-release-gate.md](SLICE/pas-001a-api-binding-s7-erp-release-gate.md) | Planned |
 
-**Remaining slices:** S4 → S7 Planned
+**Remaining slices:** S5 → S7 Planned
 
-**Runtime evidence (S1–S3):** `erp-api-consumption.contract.ts` · `erp-rest-binding-consumption.contract.ts` · `erp-api-context-bridge.contract.ts`
+**Runtime evidence (S1–S4):** `erp-api-consumption.contract.ts` · `erp-rest-binding-consumption.contract.ts` · `erp-api-context-bridge.contract.ts` · `erp-api-auth-bridge.contract.ts`
 
 ---
 

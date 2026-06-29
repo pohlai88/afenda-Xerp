@@ -18,7 +18,7 @@
 | **Agent skills** | `kernel-authority` · `multi-tenancy-erp` · `/afenda-coding-session` |
 | **Maturity** | Production Candidate (`production_candidate`) — **historical B71–B75 attestation**; **skeleton R1a–R1b/R1d re-attestation** post [ADR-0027](../../adr/ADR-0027-frontend-presentation-reset.md) |
 | **Authority status** | `production_candidate` (doctrine + gates) · `integration-proven` (IS-002/IS-003) · `runtime_delivered` (IS-003 — `check:erp-metadata-pas006-consumer` registered) |
-| **Implementation status** | `historical_delivered` B71–B75 · `skeleton_consumer` B111 · `delivered` R1a–R1d · `delivered` R2 · `delivered` B112-ERP · `planned` R3 (API contract runtime) |
+| **Implementation status** | `historical_delivered` B71–B75 · `skeleton_consumer` B111 · `delivered` R1a–R1d · `delivered` R2 · `delivered` B112-ERP · `delivered` R3 (API contract runtime · IS-004) |
 | **Evidence level** | `runtime` — §6 matrix green at B75 **on pre-reset ERP**; **10/10 rows green on ADR-0027 skeleton** (see §6.1 · [R1d attestation](./SLICE/pas-001a-r1d-production-candidate-reclose.md)) · R2 S2S · B112-ERP format precision ingress Delivered |
 | **Runtime status** | IS-001 live; IS-002 full `CONTEXT_INTEGRATION_WIRING` + protected shell (R1a/R1b); IS-003 PAS-006 metadata consumer delivered (R1c) — `check:erp-metadata-pas006-consumer` · R2 service actor S2S — `check:erp-service-actor-s2s-attestation` · B112-ERP format precision — `check:erp-format-precision-ingress-attestation` · IS-004 REST Contract Runtime — **Delivered** ([PAS-001A-API-BINDING](./PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) · [PAS-API-REST-001](../API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · R3a–R3d) |
 | **Remaining slices** | none — R3a–R3d Delivered — [API-CONTRACT R3 track](../API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) |
@@ -359,8 +359,9 @@ Post-reset ERP on PAS-006 skeleton. R1d attestation **2026-06-30** — **10/10 g
 | ERP API consumption boundary (PAS-001A-API-BINDING S1) | **Green** | `erp-api-consumption.contract.ts` · `erp-api-consumption.test.ts` ✓ |
 | ERP REST binding consumption (PAS-001A-API-BINDING S2) | **Green** | `erp-rest-binding-consumption.contract.ts` · `erp-rest-binding-consumption.test.ts` · `pnpm check:api-route-catalog` ✓ |
 | ERP operating context bridge (PAS-001A-API-BINDING S3) | **Green** | `erp-api-context-bridge.contract.ts` · `erp-api-context-bridge.test.ts` · `pnpm check:erp-operating-context-spine` ✓ |
+| ERP auth authorization bridge (PAS-001A-API-BINDING S4) | **Green** | `erp-api-auth-bridge.contract.ts` · `erp-api-auth-bridge.test.ts` · `pnpm check:erp-auth-actor-protected-path-attestation` ✓ |
 
-**Consumption binding:** [PAS-001A-API-BINDING](./PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) · **Runtime modules:** `erp-api-consumption.contract.ts` · `erp-rest-binding-consumption.contract.ts` · `erp-api-context-bridge.contract.ts`
+**Consumption binding:** [PAS-001A-API-BINDING](./PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) · **Runtime modules:** `erp-api-consumption.contract.ts` · `erp-rest-binding-consumption.contract.ts` · `erp-api-context-bridge.contract.ts` · `erp-api-auth-bridge.contract.ts`
 
 **Handoff:** [API-CONTRACT R3 track](../API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) (R3a–R3d) · **PAS:** [PAS-API-REST-001](../API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · **Contract checklist:** [afenda-openapi skill](../../.cursor/skills/afenda-openapi/SKILL.md)
 

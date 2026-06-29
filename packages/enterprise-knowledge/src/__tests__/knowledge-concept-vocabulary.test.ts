@@ -58,7 +58,7 @@ describe("PAS-004C §4.1 — concept + vocabulary layer (B38)", () => {
     }
   });
 
-  it("all 26 atoms carry conceptId resolving to concepts.json", () => {
+  it("all 38 atoms carry conceptId resolving to concepts.json", () => {
     const conceptsRaw = JSON.parse(
       readFileSync(join(dataDir, "concepts.json"), "utf8")
     ) as unknown[];
@@ -68,7 +68,7 @@ describe("PAS-004C §4.1 — concept + vocabulary layer (B38)", () => {
     const atomsRaw = JSON.parse(
       readFileSync(join(dataDir, "atoms.json"), "utf8")
     ) as unknown[];
-    expect(atomsRaw).toHaveLength(26);
+    expect(atomsRaw).toHaveLength(38);
     expect(validateAtomCorpusWithConcepts(atomsRaw, conceptIds)).toEqual([]);
     expect(
       ENTERPRISE_KNOWLEDGE_ATOMS.every(
@@ -91,9 +91,9 @@ describe("PAS-004C §4.1 — concept + vocabulary layer (B38)", () => {
   });
 
   it("public exports include concept and term corpora", () => {
-    expect(ENTERPRISE_KNOWLEDGE_CONCEPTS.length).toBe(26);
-    expect(ENTERPRISE_KNOWLEDGE_TERMS.length).toBe(26);
-    expect([...KNOWLEDGE_ATOM_IDS]).toHaveLength(26);
+    expect(ENTERPRISE_KNOWLEDGE_CONCEPTS.length).toBe(38);
+    expect(ENTERPRISE_KNOWLEDGE_TERMS.length).toBe(38);
+    expect([...KNOWLEDGE_ATOM_IDS]).toHaveLength(38);
     for (const term of ENTERPRISE_KNOWLEDGE_TERMS) {
       expect(term.ownedByPas).toBe("PAS-004C");
     }

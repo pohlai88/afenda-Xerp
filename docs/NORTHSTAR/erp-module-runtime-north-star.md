@@ -9,19 +9,19 @@
 | **Constitutional question** | *How does every line-of-business capability enter production with provable authority, ownership alignment, and integration discipline?* |
 | **Parent** | [Platform North Star](../architecture/afenda-platform-north-star.md) |
 | **Cross-domain laws** | [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) — LAW 1 (registry-first) · LAW 6 (evidence-backed status) · [Knowledge Constitutional Laws](../CONSTITUTION/knowledge-constitutional-laws.md) — K6 (shape ≠ meaning) |
-| **Derived document** | [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) — **ERP Module Runtime Foundation** box (planned) · [ERP runtime module foundation template](../PAS/KERNEL/template/erp-runtime-module-foundation.template.md) (implementation SSOT — migrates to `docs/PAS/ERP-MODULES/` when package live) |
+| **Derived document** | [Architecture Blueprint](../BLUEPRINT/erp-module-runtime-blueprint.md) — **ERP Module Runtime Foundation** box · [ERP runtime module foundation template](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) (implementation SSOT) |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) · [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) · [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md) |
 | **Maturity** | Production Candidate (2026-06-30) |
 | **Quality target** | **9.5 / 10** enterprise acceptance boundary — structural completeness, scalability, cleanliness, and gate-ready handoff to Blueprint/PAS |
-| **Current quality assessment** | **8.9 / 10** — pending Blueprint **ERP Module Runtime Foundation** box + PAS-001C + procurement exemplar readiness report |
+| **Current quality assessment** | **9.2 / 10** — Blueprint + PAS-001C + template migration delivered; procurement exemplar readiness report scaffolded (not operational) |
 | **Prior maturity** | Draft template-only → Production Candidate after template SSOT + package path law alignment |
 | **Runtime stance** | Documentation only |
 | **Does not confer** | Package boundaries, PAS authority, contracts, runtime authority, implementation, slices |
-| **Condition for 9.5** | Blueprint box + PAS-001C + template migration + procurement exemplar readiness report |
+| **Condition for 9.5** | Procurement exemplar operational readiness report green (foundation documentation complete) |
 | **Evidence standard** | `.cursor/skills/kernel-authority/reference/doc-evidence-standard.md` |
 | **Last reviewed** | 2026-06-30 |
-| **Package / PAS inventory** | See [Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) — not declared here |
-| **Next document** | Architecture Blueprint **ERP Module Runtime Foundation** box → PAS-001C (planned) |
+| **Package / PAS inventory** | See [erp-module-runtime Blueprint](../BLUEPRINT/erp-module-runtime-blueprint.md) — not declared here |
+| **Next document** | [PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) · [ERP-PROC-FDN-001](../PAS/ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) |
 
 > **One sentence:** Every line-of-business capability must declare governed identity, explicit ownership, knowledge alignment, integration-spine consumption, permission and audit vocabulary, event discipline, metadata-bound presentation, and readiness attestation before it may serve protected enterprise work — never as anonymous folders, ad-hoc strings, or parallel platform vocabulary.
 
@@ -53,7 +53,7 @@ LAYER C — Governance & acceptance (§14–§19)  authority · evolution · EAC
 
 **This document never answers:** filesystem paths, npm package names, gate commands, slice order, TypeScript contract shapes, or database schema columns.
 
-**Chain rule:** Platform North Star → ERP Runtime Module Foundation North Star → Blueprint → PAS-001C (planned) → Slice → Code
+**Chain rule:** Platform North Star → ERP Runtime Module Foundation North Star → Blueprint → PAS-001C → Slice → Code
 
 **Hard stops (business scope):**
 
@@ -72,7 +72,7 @@ LAYER C — Governance & acceptance (§14–§19)  authority · evolution · EAC
 
 This North Star defines the **business architecture** of governed ERP module delivery. It does not define runtime folders, npm names, generator commands, or gate scripts.
 
-Implementation structure is authoritative in the [ERP runtime module foundation template](../PAS/KERNEL/template/erp-runtime-module-foundation.template.md) (temporary location under `docs/PAS/KERNEL/template/` — migrates to `docs/PAS/ERP-MODULES/` when the ERP feature-family package is live). Blueprint and PAS translate template sections into registry rows, paths, and gates.
+Implementation structure is authoritative in the [ERP runtime module foundation template](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md). Blueprint and PAS translate template sections into registry rows, paths, and gates.
 
 | Belongs here (North Star) | Belongs in Blueprint | Belongs in PAS / template |
 | --- | --- | --- |
@@ -164,39 +164,39 @@ Business meanings for the **module foundation domain** — not LoB entity defini
 | **Operating context consumption** | Requirement that protected module work uses assembled tenant/entity/org scope from the ERP integration spine — never local reconstruction | Session object or header parsing | [T5 PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) · template §3.4 | `planned` |
 | **Permission binding** | Registration proving every module permission key exists in wire vocabulary and every protected surface declares required permission | Ad-hoc role string in handler | [T1 Kernel NS §3.1](kernel-north-star.md) grant-scope vocabulary | `planned` |
 | **Module policy declaration** | Business rules for who may create, approve, submit, cancel, or block operations — declared without UI or persistence logic | Authorization evaluation outcome | Template §3.6 | `planned` |
-| **Audit action map** | Governed mapping from runtime mutations to platform audit vocabulary — no ad-hoc action strings | Application log message | Template §3.7 | `planned` |
+| **Audit action map** | Governed mapping from runtime mutations to platform audit vocabulary — no ad-hoc action strings | Application log message | Template §3.7 | `accepted` · `audit_action_map` |
 | **Module event catalog** | Declared business facts the module may emit — separate from audit vocabulary and separate from dispatch mechanics | Message queue topic name | Template §3.8 · [T1 Kernel NS §3.1](kernel-north-star.md) event envelope | `planned` |
 | **Outbox requirement classification** | Whether an event requires durable outbox, is deferred, or is not required — decided before integration | Retry policy implementation | Template §3.9 | `planned` |
-| **Metadata surface binding** | Proof that every UI route declares permission, operating-context requirement, and metadata slot authority | React component file | [T5 PAS-001A IS-003](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) · template §3.10 | `planned` |
-| **Module readiness dimension** | One attestable facet of foundation (authority, knowledge, ownership, database, context spine, permissions, audit, outbox, metadata, UI, tests, gates) | Feature completeness checklist item | Template §3.11 · §7 | `planned` |
+| **Metadata surface binding** | Proof that every UI route declares permission, operating-context requirement, and metadata slot authority | React component file | [T5 PAS-001A IS-003](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) · template §3.10 | `accepted` · `metadata_surface_binding` |
+| **Module readiness dimension** | One attestable facet of foundation (authority, knowledge, ownership, database, context spine, permissions, audit, outbox, metadata, UI, tests, gates) | Feature completeness checklist item | Template §3.11 · §7 | `accepted` · `module_readiness_dimension` |
 | **Document family** | The class of business documents a module supports (e.g. requisition, purchase order) at vocabulary level | Single database table | [T5 PAS-001B procurement wire](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | `wire_only` |
-| **Foundation lifecycle phase** | Module authorized for scaffold and contracts only — behavior blocked until readiness attestation | Production operational status | Template §1 · registry lifecycle vocabulary | `planned` |
-| **Module ingress** | The protected application entry layer that wires spine, authorization, server actions, and route policy — not business use cases | Public marketing site | Template §5 · [T5 PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | `planned` |
-| **Readiness report** | The evidence table proving pass/fail per readiness dimension with gate linkage | CI log excerpt | Template §7 | `planned` |
+| **Foundation lifecycle phase** | Module authorized for scaffold and contracts only — behavior blocked until readiness attestation | Production operational status | Template §1 · registry lifecycle vocabulary | `accepted` · `foundation_lifecycle_phase` |
+| **Module ingress** | The protected application entry layer that wires spine, authorization, server actions, and route policy — not business use cases | Public marketing site | Template §5 · [T5 PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | `accepted` · `module_ingress` |
+| **Readiness report** | The evidence table proving pass/fail per readiness dimension with gate linkage | CI log excerpt | Template §7 | `accepted` · `readiness_report` |
 
 **Separation rule:** Terms in this section describe **module delivery**. Procurement, Inventory, and Accounting entity terms belong in their domain North Stars §3 — referenced here only through knowledge map status, never redefined.
 
-### 3.1 PAS-004 promotion backlog (planned knowledge atoms)
+### 3.1 PAS-004 promotion backlog
 
-All §3 terms marked `planned` require Enterprise Knowledge atom promotion via PAS-004 before semantic runtime behavior. Promotion backlog (not authoritative atom IDs):
+P0 module foundation terms promoted via EK-MOD-FDN-001/002/003 (2026-06-30). Remaining §3 terms still require PAS-004 slices:
 
-| Term | Promotion priority | Blocker for |
-| --- | --- | --- |
-| Module runtime identity | P0 | Foundation authorized → Integration attested |
-| Wire catalog key | P0 | Identity declared |
-| Module ownership contract | P0 | Foundation authorized |
-| Knowledge map status | P0 | Semantic runtime |
-| Operating context consumption | P0 | Integration attested |
-| Permission binding | P0 | Permission binding gate |
-| Module policy declaration | P1 | Operational promotion |
-| Audit action map | P0 | Audit map gate |
-| Module event catalog | P1 | Event dispatch integration |
-| Outbox requirement classification | P1 | Outbox contract |
-| Metadata surface binding | P0 | Metadata binding gate |
-| Module readiness dimension | P0 | Readiness attested |
-| Foundation lifecycle phase | P0 | Lifecycle promotion |
-| Module ingress | P0 | Protected ingress flow |
-| Readiness report | P0 | Operational promotion |
+| Term | Promotion priority | Blocker for | Atom ID |
+| --- | --- | --- | --- |
+| Module runtime identity | P0 ✓ | — | `module_runtime_identity` |
+| Wire catalog key | P0 ✓ | — | `wire_catalog_key` |
+| Module ownership contract | P0 ✓ | — | `module_ownership_contract` |
+| Knowledge map status | P0 ✓ | — | `knowledge_map_status` |
+| Operating context consumption | P0 ✓ | — | `operating_context_consumption` |
+| Permission binding | P0 ✓ | — | `permission_binding` |
+| Module policy declaration | P1 | Operational promotion | planned |
+| Audit action map | P0 ✓ | — | `audit_action_map` |
+| Module event catalog | P1 | Event dispatch integration | planned |
+| Outbox requirement classification | P1 | Outbox contract | planned |
+| Metadata surface binding | P0 ✓ | — | `metadata_surface_binding` |
+| Module readiness dimension | P0 ✓ | — | `module_readiness_dimension` |
+| Foundation lifecycle phase | P0 ✓ | — | `foundation_lifecycle_phase` |
+| Module ingress | P0 ✓ | — | `module_ingress` |
+| Readiness report | P0 ✓ | — | `readiness_report` |
 
 `wire_only` terms (e.g. Document family) follow PAS-004 wire-to-meaning promotion per LAW K6.
 
@@ -361,22 +361,19 @@ Request received → Operating context assembled → Module context projected �
 ### 8.4 Foundation template promotion pipeline
 
 ```text
-Template draft (KERNEL/template/)
-        │
-        ▼
 North Star §4 capability alignment (this document)
         │
         ▼
-Blueprint ERP Module Runtime Foundation box
+Blueprint ERP Module Runtime Foundation box (Delivered)
         │
         ▼
-PAS-001C authority + slice catalog
+PAS-001C authority + slice catalog (Delivered)
         │
         ▼
-ERP feature-family package live · template migrates to docs/PAS/ERP-MODULES/
+Canonical template (docs/PAS/ERP-MODULES/) — migrated from KERNEL/template tombstone
         │
         ▼
-Procurement exemplar slice (KV-PROC) proves pattern *(pending — §12.4)*
+Procurement exemplar slices ERP-PROC-FDN-001… *(in progress — §12.4)*
         │
         ▼
 Additional LoB ERP feature-module runtime scaffolds repeat under path law
@@ -508,8 +505,8 @@ Additional LoB ERP feature-module runtime scaffolds repeat under path law
 | E5 | Operating context spine is production integration proof | ✓ | T5 | [PAS-001A](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) · IS-001–IS-003 |
 | E6 | Presentation reset requires metadata consumer attestation | ✓ | T0 | [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md) |
 | E7 | Enterprise identity and tenant scope on persistence | ✓ | T0 | [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) · [ADR-0022](../adr/ADR-0022-postgres-split-id-persistence-model.md) |
-| E8 | Module foundation template SSOT authored | ✓ | T5 | [erp-runtime-module-foundation.template.md](../PAS/KERNEL/template/erp-runtime-module-foundation.template.md) |
-| E9 | Features package path law agreed for LoB scaffolds | △ | T5 now; T0/T1 after Blueprint/PAS-001C adoption | §0.1 recorded decision; pending Blueprint + PAS-001C authority |
+| E8 | Module foundation template SSOT authored | ✓ | T5 | [erp-runtime-module-foundation.template.md](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) |
+| E9 | Features package path law agreed for LoB scaffolds | ✓ | T1 | [Blueprint §4.5](../BLUEPRINT/erp-module-runtime-blueprint.md) · PAS-001C §7 · §0.1 |
 | E10 | ISO modularity and maintainability framing | ✓ | T3 | ISO/IEC 25010 |
 | E11 | Serialized slice delivery with gates | ✓ | T1 | [Platform NS §8–§9](../architecture/afenda-platform-north-star.md) |
 | E12 | Master data / wire consolidation — modules consume not redefine | ✓ | T0 | [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) |
@@ -541,9 +538,9 @@ Additional LoB ERP feature-module runtime scaffolds repeat under path law
 
 | Item | Status | Evidence required for upgrade |
 | --- | --- | --- |
-| **Procurement exemplar (KV-PROC)** | Not yet delivered | Readiness report published · integration gates green · D4 closed |
-| **E9 path law evidence tier** | T5 (recorded decision) | Blueprint **ERP Module Runtime Foundation** box + PAS-001C acceptance → upgrade to T0/T1 |
-| **Enterprise 9.5 acceptance** | Not achieved | Blueprint + PAS-001C + template migration + procurement exemplar readiness report |
+| **Procurement exemplar (KV-PROC)** | Foundation scaffold only | [Readiness report](../PAS/ERP-MODULES/PROCUREMENT/procurement-runtime-readiness-report.md) · ERP-PROC-FDN-001…009 |
+| **E9 path law evidence tier** | T1 | Blueprint + PAS-001C accepted |
+| **Enterprise 9.5 acceptance** | Not achieved | Procurement operational readiness report green |
 
 ---
 
@@ -583,7 +580,7 @@ Map §4 capabilities to Blueprint box **names only** — no PAS IDs, packages, o
 | **Approval model** | Domain owner reviews Source + Reasoning deltas in §12 |
 | **Acceptance model** | See §16 EAC |
 | **Evidence standard** | `.cursor/skills/kernel-authority/reference/doc-evidence-standard.md` |
-| **Implementation SSOT** | [erp-runtime-module-foundation.template.md](../PAS/KERNEL/template/erp-runtime-module-foundation.template.md) (temporary path) |
+| **Implementation SSOT** | [erp-runtime-module-foundation.template.md](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) |
 | **Last reviewed** | 2026-06-30 |
 
 ## 14.2 Domain authority model
@@ -592,7 +589,7 @@ Map §4 capabilities to Blueprint box **names only** — no PAS IDs, packages, o
 | --- | --- |
 | **Domain North Star** | §1–§12 business architecture (this document) |
 | **Architecture Blueprint** | Packages, layers, path law, why separate, PAS inventory |
-| **PAS-001C (planned)** | Module foundation contracts, surfaces, slice catalog, gates |
+| **PAS-001C** | Module foundation contracts, surfaces, slice catalog, gates |
 | **Slice** | One module or horizontal foundation unit |
 | **Code** | Implements the Slice under path law |
 
@@ -689,7 +686,7 @@ See §5.1 I1–I10 — high-level rules agents must respect; TypeScript contract
 
 ## Derived documents
 
-**Produces:** Architecture Blueprint **ERP Module Runtime Foundation** box · PAS-001C (planned) · template migration to `docs/PAS/ERP-MODULES/`
+**Produces:** [erp-module-runtime Blueprint](../BLUEPRINT/erp-module-runtime-blueprint.md) · [PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) · [ERP-MODULES template](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) · [Procurement NS](procurement-north-star.md)
 
 **Never produces:** LoB domain North Stars (Procurement, Inventory, …) · slices · contracts · code
 
@@ -701,7 +698,10 @@ See §5.1 I1–I10 — high-level rules agents must respect; TypeScript contract
 | Platform Kernel North Star | [`kernel-north-star.md`](kernel-north-star.md) |
 | ERP Integration Spine | [`PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md`](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) |
 | ERP Wire Vocabulary Catalog | [`PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md`](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
-| Module foundation template (SSOT) | [`erp-runtime-module-foundation.template.md`](../PAS/KERNEL/template/erp-runtime-module-foundation.template.md) |
+| Module foundation template (SSOT) | [`erp-runtime-module-foundation.template.md`](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) |
+| PAS-001C | [`PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md`](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) |
+| Module runtime Blueprint | [`erp-module-runtime-blueprint.md`](../BLUEPRINT/erp-module-runtime-blueprint.md) |
+| Procurement domain NS | [`procurement-north-star.md`](procurement-north-star.md) |
 | Platform API Contract North Star | [`api-contract-north-star.md`](api-contract-north-star.md) |
 | Boundary contract | [`doc-boundary-contract.md`](../../.cursor/skills/kernel-authority/reference/doc-boundary-contract.md) |
 | Evidence standard | [`doc-evidence-standard.md`](../../.cursor/skills/kernel-authority/reference/doc-evidence-standard.md) |

@@ -180,5 +180,89 @@
     "label": "Procurement requisition",
     "description": "Internal request to purchase goods or services before a purchase order is issued.",
     "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "module_runtime_identity",
+    "fqn": "afenda.enterprise.concept.module_runtime_identity",
+    "label": "Module runtime identity",
+    "description": "Governed declaration that a line-of-business capability exists with wire-catalog key, lifecycle phase, and owning authorities before filesystem or behavior.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "wire_catalog_key",
+    "fqn": "afenda.enterprise.concept.wire_catalog_key",
+    "label": "Wire catalog key",
+    "description": "Stable catalog identifier binding module foundation to platform wire vocabulary.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "module_ownership_contract",
+    "fqn": "afenda.enterprise.concept.module_ownership_contract",
+    "label": "Module ownership contract",
+    "description": "One-row-per-responsibility map declaring which platform domain owns wire vocabulary, meaning, runtime, persistence, ingress, permissions, and presentation.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "knowledge_map_status",
+    "fqn": "afenda.enterprise.concept.knowledge_map_status",
+    "label": "Knowledge map status",
+    "description": "Classification of whether a business term is accepted, proposed, wire-only, missing, ambiguous, or deferred before runtime behavior.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "operating_context_consumption",
+    "fqn": "afenda.enterprise.concept.operating_context_consumption",
+    "label": "Operating context consumption",
+    "description": "Requirement that protected module work uses assembled tenant, entity, and org scope from the ERP integration spine — never local reconstruction.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "permission_binding",
+    "fqn": "afenda.enterprise.concept.permission_binding",
+    "label": "Permission binding",
+    "description": "Registration proving every module permission key exists in wire vocabulary and every protected surface declares required permission.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "audit_action_map",
+    "fqn": "afenda.enterprise.concept.audit_action_map",
+    "label": "Audit action map",
+    "description": "Governed mapping from runtime mutations to platform audit vocabulary — no ad-hoc action strings.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "metadata_surface_binding",
+    "fqn": "afenda.enterprise.concept.metadata_surface_binding",
+    "label": "Metadata surface binding",
+    "description": "Proof that every UI route declares permission, operating-context requirement, and metadata slot authority.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "module_readiness_dimension",
+    "fqn": "afenda.enterprise.concept.module_readiness_dimension",
+    "label": "Module readiness dimension",
+    "description": "One attestable facet of module foundation such as authority, knowledge, ownership, integration spine, permissions, audit, metadata, UI, tests, or gates.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "foundation_lifecycle_phase",
+    "fqn": "afenda.enterprise.concept.foundation_lifecycle_phase",
+    "label": "Foundation lifecycle phase",
+    "description": "Module authorized for scaffold and contracts only — behavior blocked until readiness attestation.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "module_ingress",
+    "fqn": "afenda.enterprise.concept.module_ingress",
+    "label": "Module ingress",
+    "description": "Protected application entry layer that wires spine, authorization, server actions, and route policy — not business use cases.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "readiness_report",
+    "fqn": "afenda.enterprise.concept.readiness_report",
+    "label": "Readiness report",
+    "description": "Evidence table proving pass or fail per readiness dimension with gate linkage.",
+    "ownedByPas": "PAS-004C"
   }
 ]

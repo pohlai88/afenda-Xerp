@@ -83,6 +83,7 @@ export type KernelContractsCanonicalPath =
 
 /** Repo-relative paths that must exist after approved slices (PAS §6.2). */
 export const KERNEL_PACKAGE_TARGET_PATHS = [
+  "packages/kernel/README.md",
   "packages/kernel/PAS-001-KERNEL-TREE.md",
   ...KERNEL_CONTRACTS_CANONICAL_PATHS,
   "packages/kernel/src/context/localization-context.contract.ts",

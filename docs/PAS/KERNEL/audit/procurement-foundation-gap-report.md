@@ -406,7 +406,7 @@ apps/erp/src/app/(protected)/modules/procurement/  # currently forbidden
 
 ## G. Required Gate Proposal
 
-> **2026-06-30 update:** Platform foundation gates are **live** under [PAS-001C](../PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) (`@afenda/erp-module-foundation`, ERP-MOD-FDN-003). Procurement-specific composite gates below remain **proposed** until FDN-008.
+> **2026-06-30 update:** Platform foundation gates are **live** under [PAS-001C](PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) (`@afenda/erp-module-foundation`, ERP-MOD-FDN-003). Procurement-specific composite gates below remain **proposed** until FDN-008.
 
 Gates split into **foundation readiness** (authorize foundation work) and **runtime consumer** (prove live procurement surfaces). Do not conflate wire gate with runtime readiness.
 

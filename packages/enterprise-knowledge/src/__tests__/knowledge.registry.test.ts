@@ -19,10 +19,10 @@ import { getPrimaryKernelRealization } from "../policy/knowledge-realization.pol
 const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
 
 describe("@afenda/enterprise-knowledge registry", () => {
-  it("registers twenty-six atoms with stable ids (B24 + B29 + B31 + B53)", () => {
-    expect(KNOWLEDGE_ATOM_IDS).toHaveLength(26);
-    expect(ENTERPRISE_KNOWLEDGE_ATOMS).toHaveLength(26);
-    expect(new Set(KNOWLEDGE_ATOM_IDS).size).toBe(26);
+  it("registers thirty-eight atoms with stable ids (B24 + B29 + B31 + B53 + B54)", () => {
+    expect(KNOWLEDGE_ATOM_IDS).toHaveLength(38);
+    expect(ENTERPRISE_KNOWLEDGE_ATOMS).toHaveLength(38);
+    expect(new Set(KNOWLEDGE_ATOM_IDS).size).toBe(38);
     expect(
       [...KNOWLEDGE_ATOM_IDS].slice(0, B24_KNOWLEDGE_ATOM_IDS.length)
     ).toEqual([...B24_KNOWLEDGE_ATOM_IDS]);

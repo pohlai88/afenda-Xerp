@@ -72,6 +72,7 @@ This Blueprint maps [Kernel North Star](../NORTHSTAR/kernel-north-star.md) §4 c
 | ERP domain wire catalog | Kernel Domain Vocabulary Catalog | D1 (E4, E7) |
 | Consumer integration proof | ERP Integration Spine | D1 (E6) |
 | Platform HTTP Contract (cross-cutting) | [Platform HTTP Contract Blueprint](api-contract-blueprint.md) · ERP Integration Spine box | ADR-0030 · [API Contract NS](../NORTHSTAR/api-contract-north-star.md) |
+| ERP Module Runtime Foundation (cross-cutting) | [erp-module-runtime Blueprint](erp-module-runtime-blueprint.md) · `@afenda/erp-module-foundation` | [Module Foundation NS](../NORTHSTAR/erp-module-runtime-north-star.md) · PAS-001C |
 
 ---
 

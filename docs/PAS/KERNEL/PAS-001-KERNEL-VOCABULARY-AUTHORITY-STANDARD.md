@@ -51,13 +51,13 @@
 > **Maturity is part of authority.** PAS-001 vocabulary is closed at Enterprise Accepted. Amendment slices only — do not expand vocabulary under PAS-001A or PAS-001B.
 
 > **Canonical location (composed):** `docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`
-> **Implementation archive:** [archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) · **Package tree:** `packages/kernel/PAS-001-KERNEL-TREE.md`
+> **Implementation archive:** [archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) · **Package README:** [packages/kernel/README.md](../../../packages/kernel/README.md) · **Package tree:** [PAS-001-KERNEL-TREE.md](../../../packages/kernel/PAS-001-KERNEL-TREE.md)
 
 ---
 
 # 0. Agent Quick Path
 
-**Read order:** [KERNEL README](README.md) → this §0 → archive [PAS-001 §4](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#4-authority-surfaces) when implementing a cited surface.
+**Read order:** [KERNEL family README](README.md) → [package README](../../../packages/kernel/README.md) → this §0 → archive [PAS-001 §4](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#4-authority-surfaces) when implementing a cited surface. **Integration spine:** [PAS-001A §0](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md#0-agent-quick-path) owns `apps/erp` resolver runtime — not kernel.
 
 **Composed → archive section map** (contract detail lives in archive until promoted):
 
@@ -306,6 +306,7 @@ Vocabulary closure (PAS-001) ≠ integration proof (PAS-001A) ≠ ERP wire catal
 | Wire vocabulary catalog | [PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
 | Enterprise Knowledge (meaning) | [PAS-004](../ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) |
 | Family index | [KERNEL/README.md](README.md) |
+| Package README | [packages/kernel/README.md](../../../packages/kernel/README.md) |
 | Status index | [pas-status-index.md](../pas-status-index.md) |
 
 **Provenance:** Enterprise Accepted — composed from legacy PAS-001 closure evidence (2026-06-29).

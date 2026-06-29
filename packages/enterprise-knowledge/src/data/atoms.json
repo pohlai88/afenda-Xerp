@@ -2607,5 +2607,1199 @@
     "ownedByPas": "PAS-004",
     "epistemicStatus": "accepted",
     "semanticStability": "stable"
+  },
+  {
+    "conceptId": "module_runtime_identity",
+    "atomId": "module_runtime_identity",
+    "fqn": "afenda.enterprise.module_runtime_identity",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-module-foundation-ns"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 91,
+      "basis": ["afenda_decision", "SAP", "Oracle"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "LoB modules must prove identity before filesystem or behavior."
+      ],
+      "inference": "Module runtime identity binds slug, wire-catalog key, lifecycle, and owners in one governed declaration.",
+      "rules": ["PAS-001C §1", "Module Foundation NS §3", "EK-MOD-FDN-001"],
+      "conclusion": "Governed declaration that a line-of-business capability exists with wire-catalog key, lifecycle phase, and owning authorities before filesystem or behavior."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept module_runtime_identity as the enterprise meaning for governed LoB module entry.",
+      "alternativesConsidered": ["Infer identity from folder names"],
+      "whyRejected": {
+        "Infer identity from folder names": "Anonymous folders break audit and ownership proof."
+      },
+      "impact": ["integration", "ai"]
+    },
+    "meaning": {
+      "canonical": "Governed declaration that a line-of-business capability exists with wire-catalog key, lifecycle phase, and owning authorities before filesystem or behavior.",
+      "business": "Module runtime identity / governed LoB capability declaration.",
+      "engineering": "defineErpRuntimeModule · template §1 · PAS-001C identity factories"
+    },
+    "knowledgeDomain": ["integration"],
+    "applicability": {
+      "applicable": ["integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Module Foundation NS §3 · PAS-001C.",
+      "evolution": ["EK-MOD-FDN-001 P0 promotion"],
+      "currentAuthority": "PAS-001C · PAS-004 meaning",
+      "futureDirection": "LoB module scaffolds via approved slices."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Feature flag or route folder name",
+        "why": "Folders and flags do not prove ownership or wire binding.",
+        "correct": "Identity is a governed contract row before filesystem creation."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Module runtime identity"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+        "notes": "PAS-001C module identity and registry factories"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §1 Module Identity"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "module_runtime_identity_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "wire_catalog_key",
+    "atomId": "wire_catalog_key",
+    "fqn": "afenda.enterprise.wire_catalog_key",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "pas-001b-wire-catalog"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": { "score": 92, "basis": ["afenda_decision", "SAP"] },
+    "structuredReasoning": {
+      "premises": [
+        "Module foundation must bind to PAS-001B wire vocabulary without forking terms."
+      ],
+      "inference": "Wire catalog key is the stable KV identifier linking module foundation to kernel wire catalog.",
+      "rules": ["PAS-001B", "Kernel NS §3.2", "EK-MOD-FDN-001"],
+      "conclusion": "Stable catalog identifier binding module foundation to platform wire vocabulary."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept wire_catalog_key as enterprise meaning distinct from business glossary terms.",
+      "alternativesConsidered": ["Use module slug as wire identity"],
+      "whyRejected": {
+        "Use module slug as wire identity": "Slug is delivery path; KV ID is wire catalog authority."
+      },
+      "impact": ["integration"]
+    },
+    "meaning": {
+      "canonical": "Stable catalog identifier binding module foundation to platform wire vocabulary.",
+      "business": "Wire catalog key / KV module identifier.",
+      "engineering": "kvId field in defineErpRuntimeModule · PAS-001B KV-XXX"
+    },
+    "knowledgeDomain": ["integration"],
+    "applicability": {
+      "applicable": ["integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Kernel NS §3.2 · PAS-001B wire catalog.",
+      "evolution": ["EK-MOD-FDN-001 P0 promotion"],
+      "currentAuthority": "PAS-001B wire · PAS-004 meaning",
+      "futureDirection": "Per-module KV binding in foundation bundles."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Business glossary term",
+        "why": "Wire keys are platform catalog identifiers, not LoB definitions.",
+        "correct": "KV ID binds wire shapes; business meaning promotes separately via PAS-004."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Wire catalog key"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+        "notes": "PAS-001C binds modules to PAS-001B KV IDs"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §1 kvId field"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "wire_catalog_key_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "module_ownership_contract",
+    "atomId": "module_ownership_contract",
+    "fqn": "afenda.enterprise.module_ownership_contract",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-module-foundation-template"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": { "score": 90, "basis": ["afenda_decision", "Oracle"] },
+    "structuredReasoning": {
+      "premises": [
+        "Every module responsibility must have exactly one platform owner."
+      ],
+      "inference": "Module ownership contract maps wire, meaning, runtime, persistence, ingress, permissions, and presentation to owning packages.",
+      "rules": ["template §3.3", "Kernel NS §9", "EK-MOD-FDN-001"],
+      "conclusion": "One-row-per-responsibility map declaring which platform domain owns each module concern."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept module_ownership_contract as mandatory before foundation authorization.",
+      "alternativesConsidered": ["Team roster as ownership proof"],
+      "whyRejected": {
+        "Team roster as ownership proof": "Org charts do not bind package authority."
+      },
+      "impact": ["integration", "security"]
+    },
+    "meaning": {
+      "canonical": "One-row-per-responsibility map declaring which platform domain owns wire vocabulary, meaning, runtime, persistence, ingress, permissions, and presentation.",
+      "business": "Module ownership contract / responsibility map.",
+      "engineering": "defineModuleOwnership · {module}.ownership.contract.ts · template §3.3"
+    },
+    "knowledgeDomain": ["integration", "security"],
+    "applicability": {
+      "applicable": ["integration", "security"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Module Foundation NS §3 · template §3.3.",
+      "evolution": ["EK-MOD-FDN-001 P0 promotion"],
+      "currentAuthority": "PAS-001C · PAS-004 meaning",
+      "futureDirection": "Per-module ownership rows in foundation bundles."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Org chart or team roster",
+        "why": "People rotate; package ownership is architectural.",
+        "correct": "Ownership contract cites @afenda packages and apps/erp ingress."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Module ownership contract"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+        "notes": "PAS-001C ownership declaration discipline"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §3.3 ownership.contract.ts"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "module_ownership_contract_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "knowledge_map_status",
+    "atomId": "knowledge_map_status",
+    "fqn": "afenda.enterprise.knowledge_map_status",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "law-k6-shape-not-meaning"
+      },
+      { "step": "accepted", "by": "afenda_erp_authority", "on": "2026-06" }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": { "score": 93, "basis": ["afenda_decision"] },
+    "structuredReasoning": {
+      "premises": [
+        "Wire shapes do not imply accepted business meaning per LAW K6."
+      ],
+      "inference": "Knowledge map status classifies each module term before semantic runtime is permitted.",
+      "rules": ["LAW K6", "template §3.2", "EK-MOD-FDN-002"],
+      "conclusion": "Classification of whether a business term is accepted, proposed, wire-only, missing, ambiguous, or deferred before runtime behavior."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept knowledge_map_status vocabulary as the module promotion gate classifier.",
+      "alternativesConsidered": ["Implicit runtime enums only"],
+      "whyRejected": {
+        "Implicit runtime enums only": "Status must be visible before behavior ships."
+      },
+      "impact": ["integration", "ai"]
+    },
+    "meaning": {
+      "canonical": "Classification of whether a business term is accepted, proposed, wire-only, missing, ambiguous, or deferred before runtime behavior.",
+      "business": "Knowledge map status / term promotion classifier.",
+      "engineering": "KnowledgeStatus union · {module}.knowledge-map.ts · template §3.2"
+    },
+    "knowledgeDomain": ["integration"],
+    "applicability": {
+      "applicable": ["integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "LAW K6 · Module Foundation NS §3.",
+      "evolution": ["EK-MOD-FDN-002 P0 promotion"],
+      "currentAuthority": "PAS-004 meaning · PAS-001C knowledge map shape",
+      "futureDirection": "Module knowledge-map.ts rows per LoB term."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Runtime enum value only",
+        "why": "Status drives promotion policy, not just TypeScript typing.",
+        "correct": "Each term row records requiredAction when not accepted."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Knowledge map status"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+        "notes": "PAS-001C knowledge map status vocabulary"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §3.2 knowledge-map.ts"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "knowledge_map_status_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "operating_context_consumption",
+    "atomId": "operating_context_consumption",
+    "fqn": "afenda.enterprise.operating_context_consumption",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "pas-001a-integration-spine"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 92,
+      "basis": ["afenda_decision", "SAP", "Oracle"]
+    },
+    "structuredReasoning": {
+      "premises": ["Modules must not reconstruct tenant or org scope locally."],
+      "inference": "Operating context consumption requires PAS-001A assembled scope on every protected module path.",
+      "rules": ["PAS-001A", "template §3.4", "EK-MOD-FDN-002"],
+      "conclusion": "Requirement that protected module work uses assembled tenant, entity, and org scope from the ERP integration spine — never local reconstruction."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept operating_context_consumption as distinct from operating_context atom — consumption is module obligation.",
+      "alternativesConsidered": ["Merge with operating_context atom"],
+      "whyRejected": {
+        "Merge with operating_context atom": "Context assembly vs module consumption are separate concerns."
+      },
+      "impact": ["identity", "security", "integration"]
+    },
+    "meaning": {
+      "canonical": "Requirement that protected module work uses assembled tenant, entity, and org scope from the ERP integration spine — never local reconstruction.",
+      "business": "Operating context consumption / spine consumption rule.",
+      "engineering": "project{Module}RuntimeContext · template §3.4 · PAS-001A OperatingContext"
+    },
+    "knowledgeDomain": ["identity", "security", "integration"],
+    "applicability": {
+      "applicable": ["identity", "security", "integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001A · Module Foundation NS §3.",
+      "evolution": ["EK-MOD-FDN-002 P0 promotion"],
+      "currentAuthority": "PAS-001A assembly · PAS-004 meaning",
+      "futureDirection": "Consumer proof via module context-projection.ts."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Session object or header parsing",
+        "why": "Raw session/header reads bypass governed spine assembly.",
+        "correct": "Modules project from OperatingContext after permission verification."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Operating context consumption"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+        "notes": "PAS-001C context spine consumer declaration"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §3.4 context-projection.ts"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "operating_context_consumption_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "permission_binding",
+    "atomId": "permission_binding",
+    "fqn": "afenda.enterprise.permission_binding",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-platform-design"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": { "score": 91, "basis": ["afenda_decision", "SAP"] },
+    "structuredReasoning": {
+      "premises": [
+        "Protected module surfaces must declare permissions aligned to wire vocabulary."
+      ],
+      "inference": "Permission binding registers module keys against PAS-001B and @afenda/permissions with route declarations.",
+      "rules": ["PAS-001B grant-scope", "template §3.5", "EK-MOD-FDN-002"],
+      "conclusion": "Registration proving every module permission key exists in wire vocabulary and every protected surface declares required permission."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept permission_binding as meaning for module registration — not evaluation outcome.",
+      "alternativesConsidered": ["Ad-hoc role strings in handlers"],
+      "whyRejected": {
+        "Ad-hoc role strings in handlers": "Breaks audit and cross-module consistency."
+      },
+      "impact": ["security", "integration"]
+    },
+    "meaning": {
+      "canonical": "Registration proving every module permission key exists in wire vocabulary and every protected surface declares required permission.",
+      "business": "Permission binding / module permission registration.",
+      "engineering": "{module}.permission-binding.ts · template §3.5"
+    },
+    "knowledgeDomain": ["security", "integration"],
+    "applicability": {
+      "applicable": ["security", "integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Kernel NS §3.1 grant-scope · template §3.5.",
+      "evolution": ["EK-MOD-FDN-002 P0 promotion"],
+      "currentAuthority": "PAS-001B wire · PAS-004 meaning",
+      "futureDirection": "Per-module permission binding registry rows."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Authorization evaluation outcome",
+        "why": "Binding declares keys; evaluation is runtime infrastructure.",
+        "correct": "Binding proves vocabulary parity and surface declaration."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Permission binding"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+        "notes": "PAS-001C permission binding parity"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §3.5 permission-binding.ts"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "permission_binding_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "audit_action_map",
+    "atomId": "audit_action_map",
+    "fqn": "afenda.enterprise.audit_action_map",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-module-foundation-template"
+      },
+      { "step": "accepted", "by": "afenda_erp_authority", "on": "2026-06" }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": { "score": 90, "basis": ["afenda_decision", "Oracle"] },
+    "structuredReasoning": {
+      "premises": ["Module mutations must map to platform audit vocabulary."],
+      "inference": "Audit action map binds runtime operations to governed audit actions — no ad-hoc strings.",
+      "rules": ["template §3.7", "Module Foundation NS §3", "EK-MOD-FDN-002"],
+      "conclusion": "Governed mapping from runtime mutations to platform audit vocabulary — no ad-hoc action strings."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept audit_action_map before operational module promotion.",
+      "alternativesConsidered": ["Application log messages as audit proof"],
+      "whyRejected": {
+        "Application log messages as audit proof": "Logs are not governed audit vocabulary."
+      },
+      "impact": ["integration", "security"]
+    },
+    "meaning": {
+      "canonical": "Governed mapping from runtime mutations to platform audit vocabulary — no ad-hoc action strings.",
+      "business": "Audit action map / mutation-to-audit binding.",
+      "engineering": "{module}.audit-map.ts · template §3.7"
+    },
+    "knowledgeDomain": ["integration", "security"],
+    "applicability": {
+      "applicable": ["integration", "security"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Module Foundation NS §3 · template §3.7.",
+      "evolution": ["EK-MOD-FDN-002 P0 promotion"],
+      "currentAuthority": "PAS-001C · PAS-004 meaning",
+      "futureDirection": "Per-module audit map rows."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Application log message",
+        "why": "Logs lack governed action identity.",
+        "correct": "Audit map cites platform audit vocabulary keys."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Audit action map"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+        "notes": "PAS-001C audit map classification"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §3.7 audit-map.ts"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "audit_action_map_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "metadata_surface_binding",
+    "atomId": "metadata_surface_binding",
+    "fqn": "afenda.enterprise.metadata_surface_binding",
+    "kind": "concept",
+    "acceptanceChain": [
+      { "step": "origin", "by": "external_source", "on": "pas-001a-is-003" },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": { "score": 91, "basis": ["afenda_decision"] },
+    "structuredReasoning": {
+      "premises": [
+        "UI routes without metadata and permission binding are presentation drift."
+      ],
+      "inference": "Metadata surface binding proves every route declares permission, context requirement, and metadata slot authority.",
+      "rules": ["PAS-001A IS-003", "template §3.10", "EK-MOD-FDN-002"],
+      "conclusion": "Proof that every UI route declares permission, operating-context requirement, and metadata slot authority."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept metadata_surface_binding distinct from React component files.",
+      "alternativesConsidered": ["Component file path as binding proof"],
+      "whyRejected": {
+        "Component file path as binding proof": "Files do not prove authority declaration."
+      },
+      "impact": ["integration"]
+    },
+    "meaning": {
+      "canonical": "Proof that every UI route declares permission, operating-context requirement, and metadata slot authority.",
+      "business": "Metadata surface binding / governed route authority.",
+      "engineering": "{module}.metadata-binding.ts · apps/erp route policy · template §3.10"
+    },
+    "knowledgeDomain": ["integration"],
+    "applicability": {
+      "applicable": ["integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001A IS-003 · template §3.10.",
+      "evolution": ["EK-MOD-FDN-002 P0 promotion"],
+      "currentAuthority": "PAS-001C · PAS-004 meaning",
+      "futureDirection": "ERP app metadata-binding templates per module."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "React component file",
+        "why": "Components render; binding declares authority slots.",
+        "correct": "Binding rows link routes to permission and metadata authority."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Metadata surface binding"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+        "notes": "PAS-001C metadata surface binding shape"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §3.10 metadata-binding.ts"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "metadata_surface_binding_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "module_readiness_dimension",
+    "atomId": "module_readiness_dimension",
+    "fqn": "afenda.enterprise.module_readiness_dimension",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-module-readiness-matrix"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": { "score": 90, "basis": ["afenda_decision", "SAP"] },
+    "structuredReasoning": {
+      "premises": [
+        "Operational promotion requires attestable facets, not subjective completeness."
+      ],
+      "inference": "Each readiness dimension is one provable foundation facet with gate linkage.",
+      "rules": ["template §3.11", "template §7", "EK-MOD-FDN-003"],
+      "conclusion": "One attestable facet of module foundation such as authority, knowledge, ownership, integration spine, permissions, audit, metadata, UI, tests, or gates."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept module_readiness_dimension as atomic readiness unit — not a generic checklist item.",
+      "alternativesConsidered": ["Single pass/fail module flag"],
+      "whyRejected": {
+        "Single pass/fail module flag": "Hides which facet failed and blocks remediation."
+      },
+      "impact": ["integration"]
+    },
+    "meaning": {
+      "canonical": "One attestable facet of module foundation such as authority, knowledge, ownership, integration spine, permissions, audit, metadata, UI, tests, or gates.",
+      "business": "Module readiness dimension / foundation attestable facet.",
+      "engineering": "{module}.readiness.contract.ts · readiness matrix · template §3.11"
+    },
+    "knowledgeDomain": ["integration"],
+    "applicability": {
+      "applicable": ["integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Module Foundation NS §3 · template §3.11.",
+      "evolution": ["EK-MOD-FDN-003 P0 promotion"],
+      "currentAuthority": "PAS-001C · PAS-004 meaning",
+      "futureDirection": "Readiness report rows per dimension."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Feature completeness checklist item",
+        "why": "Features ship after foundation; dimensions prove platform integration.",
+        "correct": "Each dimension maps to evidence and a gate."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Module readiness dimension"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+        "notes": "PAS-001C readiness matrix"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §3.11 readiness.contract.ts · §7"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "module_readiness_dimension_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "foundation_lifecycle_phase",
+    "atomId": "foundation_lifecycle_phase",
+    "fqn": "afenda.enterprise.foundation_lifecycle_phase",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "registry-lifecycle-vocabulary"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": { "score": 89, "basis": ["afenda_decision"] },
+    "structuredReasoning": {
+      "premises": [
+        "Modules must not ship behavior before foundation authorization and readiness."
+      ],
+      "inference": "Foundation lifecycle phase blocks operational behavior until readiness attestation passes.",
+      "rules": [
+        "template §1 lifecycle",
+        "Module Foundation NS §3",
+        "EK-MOD-FDN-003"
+      ],
+      "conclusion": "Module authorized for scaffold and contracts only — behavior blocked until readiness attestation."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept foundation_lifecycle_phase distinct from production operational status.",
+      "alternativesConsidered": ["Use production flag only"],
+      "whyRejected": {
+        "Use production flag only": "Collapses foundation authorization with operational readiness."
+      },
+      "impact": ["integration"]
+    },
+    "meaning": {
+      "canonical": "Module authorized for scaffold and contracts only — behavior blocked until readiness attestation.",
+      "business": "Foundation lifecycle phase / foundation_authorized status.",
+      "engineering": "lifecycle: foundation · runtimeStatus: foundation_authorized · template §1"
+    },
+    "knowledgeDomain": ["integration"],
+    "applicability": {
+      "applicable": ["integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Module Foundation NS §3 · registry lifecycle vocabulary.",
+      "evolution": ["EK-MOD-FDN-003 P0 promotion"],
+      "currentAuthority": "PAS-001C · PAS-004 meaning",
+      "futureDirection": "Lifecycle promotion via readiness report green."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Production operational status",
+        "why": "Foundation authorized permits scaffold only.",
+        "correct": "Operational promotion requires readiness report pass."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Foundation lifecycle phase"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+        "notes": "PAS-001C lifecycle vocabulary"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §1 lifecycle and runtimeStatus fields"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "foundation_lifecycle_phase_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "module_ingress",
+    "atomId": "module_ingress",
+    "fqn": "afenda.enterprise.module_ingress",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-app-ingress-template"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": { "score": 90, "basis": ["afenda_decision", "Oracle"] },
+    "structuredReasoning": {
+      "premises": [
+        "Protected module entry must wire spine, auth, actions, and route policy."
+      ],
+      "inference": "Module ingress is the apps/erp entry layer — not business use cases.",
+      "rules": ["template §5", "PAS-001A", "EK-MOD-FDN-003"],
+      "conclusion": "Protected application entry layer that wires spine, authorization, server actions, and route policy — not business use cases."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept module_ingress as distinct from public marketing routes.",
+      "alternativesConsidered": ["Colocate ingress inside domain package"],
+      "whyRejected": {
+        "Colocate ingress inside domain package": "ERP app owns protected ingress per ownership contract."
+      },
+      "impact": ["integration", "security"]
+    },
+    "meaning": {
+      "canonical": "Protected application entry layer that wires spine, authorization, server actions, and route policy — not business use cases.",
+      "business": "Module ingress / protected ERP app entry.",
+      "engineering": "apps/erp/src/lib/{module}/ · apps/erp protected routes · template §5"
+    },
+    "knowledgeDomain": ["integration", "security"],
+    "applicability": {
+      "applicable": ["integration", "security"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Module Foundation NS §3 · template §5.",
+      "evolution": ["EK-MOD-FDN-003 P0 promotion"],
+      "currentAuthority": "PAS-001C · PAS-004 meaning",
+      "futureDirection": "Per-module ERP app ingress templates."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Public marketing site",
+        "why": "Ingress is protected and spine-bound.",
+        "correct": "Ingress lives under apps/erp protected module routes."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Module ingress"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+        "notes": "PAS-001C ERP app ingress discipline"
+      },
+      {
+        "realizationKind": "contract",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §5 Required ERP App Template"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "module_ingress_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "readiness_report",
+    "atomId": "readiness_report",
+    "fqn": "afenda.enterprise.readiness_report",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "module-readiness-output"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_architecture_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": { "score": 91, "basis": ["afenda_decision"] },
+    "structuredReasoning": {
+      "premises": [
+        "Operational promotion requires evidence tables, not anecdotal CI green."
+      ],
+      "inference": "Readiness report records pass/fail per dimension with gate command linkage.",
+      "rules": ["template §7", "Module Foundation NS §3", "EK-MOD-FDN-003"],
+      "conclusion": "Evidence table proving pass or fail per readiness dimension with gate linkage."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept readiness_report as the operational promotion artifact.",
+      "alternativesConsidered": ["CI log excerpt only"],
+      "whyRejected": {
+        "CI log excerpt only": "Logs lack structured dimension mapping."
+      },
+      "impact": ["integration"]
+    },
+    "meaning": {
+      "canonical": "Evidence table proving pass or fail per readiness dimension with gate linkage.",
+      "business": "Readiness report / module operational promotion evidence.",
+      "engineering": "{module}-runtime-readiness-report.md · template §7 · erp-module-foundation report renderers"
+    },
+    "knowledgeDomain": ["integration"],
+    "applicability": {
+      "applicable": ["integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "Module Foundation NS §3 · template §7.",
+      "evolution": ["EK-MOD-FDN-003 P0 promotion"],
+      "currentAuthority": "PAS-001C · PAS-004 meaning",
+      "futureDirection": "Procurement exemplar readiness report operational green."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "CI log excerpt",
+        "why": "Reports structure evidence by readiness dimension.",
+        "correct": "Each row cites dimension, status, evidence path, and gate."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Readiness report"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
+        "notes": "PAS-001C readiness report renderers"
+      },
+      {
+        "realizationKind": "report",
+        "reference": "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
+        "notes": "template §7 Required Module Readiness Output"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "readiness_report_evidence_0",
+        "type": "policy",
+        "source": "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
   }
 ]

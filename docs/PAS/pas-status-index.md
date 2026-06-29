@@ -161,7 +161,8 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | --- | --- |
 | **PAS** | [KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md](KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) |
 | **Package** | `@afenda/erp-module-foundation` · `PKGR01C_ERP_MODULE_FOUNDATION` · `PKG-027` |
-| **Slice** | ERP-MOD-FDN-003 — Foundation authority delivered (~8.6–8.8/10 helper) · **Delivered** 2026-06-30 |
+| **Slice** | ERP-MOD-FDN-003 — [handoff](KERNEL/SLICE/erp-mod-fdn-003-foundation-authority.md) · **Delivered** 2026-06-30 |
+| **Template** | [ERP-MODULES/erp-runtime-module-foundation.template.md](ERP-MODULES/erp-runtime-module-foundation.template.md) |
 | **Runtime status** | `foundation_authority` — define*/assert* helpers; zero runtime deps |
 | **Fingerprint** | `ERP_MODULE_FOUNDATION-2026-06-30-v3` |
 | **Gates (live)** | `pnpm check:erp-module-foundation` (composite) · 9 sub-gates (ownership, knowledge, context-spine, permission, audit-outbox, metadata, database-boundary, no-kernel-leak, readiness) |
@@ -185,7 +186,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Foundation direction** | 90% — ten slices ERP-PROC-FDN-001 through 009 (includes 002A) |
 | **Remaining slices** | FDN-001 → FDN-002 → **FDN-002A** → FDN-003 → … → FDN-009 (proposed) |
 | **Gates (live — wire only)** | `pnpm check:procurement-domain-contracts` |
-| **Gates (proposed — foundation)** | PAS-001C platform gates live — `pnpm check:erp-module-*` (see [PAS-001C](../PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md)); module-specific `check:procurement-module-readiness` still proposed |
+| **Gates (proposed — foundation)** | PAS-001C platform gates live — `pnpm check:erp-module-*` (see [PAS-001C](KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md)); module-specific `check:procurement-module-readiness` still proposed |
 | **Gates (proposed — runtime consumer)** | `check:procurement-context-spine-consumer`, `check:procurement-permission-enforcement`, `check:procurement-audit-outbox`, `check:procurement-metadata-binding` |
 | **Last audited** | 2026-06-30 · Review amended 2026-06-30 |
 
