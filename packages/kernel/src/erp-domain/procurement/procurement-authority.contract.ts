@@ -8,6 +8,8 @@ export const PROCUREMENT_AUTHORITY_PAS = "PAS-001B" as const;
 export const PROCUREMENT_REGISTRY_ID =
   "PKGR01B_PROCUREMENT_VOCABULARY" as const;
 
+export const PROCUREMENT_MODULE_KV_ID = "KV-PROC" as const;
+
 export const PROCUREMENT_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/procurement" as const;
 

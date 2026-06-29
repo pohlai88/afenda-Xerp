@@ -65,6 +65,41 @@ export const ERP_DOMAIN_MODULES = [
 
 export type ErpDomainModule = (typeof ERP_DOMAIN_MODULES)[number];
 
+/** PAS-001B §3 stable KV ids — cite in reviews, ADRs, and metadata binding bridges. */
+export const ERP_DOMAIN_MODULE_KV_IDS = {
+  accounting: "KV-ACCT",
+  controlling: "KV-CTRL",
+  treasury: "KV-TRE",
+  tax: "KV-TAX",
+  consolidation: "KV-CONS",
+  intercompany: "KV-IC",
+  procurement: "KV-PROC",
+  inventory: "KV-INV",
+  manufacturing: "KV-MFG",
+  quality: "KV-QM",
+  maintenance: "KV-PM",
+  "supply-chain": "KV-SC",
+  sales: "KV-SD",
+  crm: "KV-CRM",
+  pricing: "KV-PRC",
+  subscription: "KV-SUB",
+  ecommerce: "KV-ECOM",
+  pos: "KV-POS",
+  service: "KV-SVC",
+  "field-service": "KV-FS",
+  marketing: "KV-MKT",
+  hcm: "KV-HCM",
+  payroll: "KV-PY",
+  project: "KV-PS",
+  assets: "KV-AA",
+  document: "KV-DOC",
+  workflow: "KV-WF",
+  analytics: "KV-AN",
+} as const satisfies Record<ErpDomainModule, string>;
+
+export type ErpDomainModuleKvId =
+  (typeof ERP_DOMAIN_MODULE_KV_IDS)[ErpDomainModule];
+
 export interface ErpDomainModuleMetadata {
   readonly lobPillar: ErpDomainLobPillar;
   readonly odooAnchor: string;
@@ -394,6 +429,7 @@ export const ERP_DOMAIN_LAYOUT_POLICY = {
   moduleCount: ERP_DOMAIN_MODULES.length,
   deliveredModuleCount: ERP_DOMAIN_DELIVERED_MODULES.length,
   modules: ERP_DOMAIN_MODULES,
+  moduleKvIds: ERP_DOMAIN_MODULE_KV_IDS,
   moduleMaturity: ERP_DOMAIN_MODULE_MATURITY,
   moduleMetadata: ERP_DOMAIN_MODULE_METADATA,
   moduleIndexPaths: ERP_DOMAIN_MODULE_INDEX_PATHS,

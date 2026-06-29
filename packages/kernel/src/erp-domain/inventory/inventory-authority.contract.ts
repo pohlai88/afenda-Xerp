@@ -8,6 +8,8 @@ export const INVENTORY_AUTHORITY_ADR = "ADR-0020" as const;
 
 export const INVENTORY_REGISTRY_ID = "PKGR02_INVENTORY" as const;
 
+export const INVENTORY_MODULE_KV_ID = "KV-INV" as const;
+
 export const INVENTORY_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/inventory" as const;
 

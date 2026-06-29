@@ -6,6 +6,8 @@ export const QUALITY_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const QUALITY_REGISTRY_ID = "PKGR01B_QUALITY_VOCABULARY" as const;
 
+export const QUALITY_MODULE_KV_ID = "KV-QM" as const;
+
 export const QUALITY_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/quality" as const;
 

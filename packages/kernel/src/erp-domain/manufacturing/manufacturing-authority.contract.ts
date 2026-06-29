@@ -7,6 +7,8 @@ export const MANUFACTURING_AUTHORITY_PAS = "PAS-001B" as const;
 export const MANUFACTURING_REGISTRY_ID =
   "PKGR01B_MANUFACTURING_VOCABULARY" as const;
 
+export const MANUFACTURING_MODULE_KV_ID = "KV-MFG" as const;
+
 export const MANUFACTURING_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/manufacturing" as const;
 

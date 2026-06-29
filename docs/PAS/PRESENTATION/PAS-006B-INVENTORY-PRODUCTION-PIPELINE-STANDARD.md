@@ -9,8 +9,8 @@
 | **Package** | `@afenda/shadcn-studio` |
 | **Blueprint box** | shadcn/studio Presentation |
 | **Maturity** | Proposed |
-| **Runtime status** | P06-002 delivered — inventory scaffold live; slot/contracts/lifecycle enforcement pending |
-| **Remaining slices** | P06-003 (next) · P06-004 (proposed) |
+| **Runtime status** | P06-003 delivered — slot map + block data contracts live; lifecycle enforcement pending |
+| **Remaining slices** | P06-004 (next) · P06-005–P06-010 (proposed) |
 | **Depends on** | [PAS-006A](PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md) product baseline |
 
 #### Required gates (target — activate on P06-004 close)
@@ -96,8 +96,8 @@ Maps NS §3.4 to implementable registry events:
 | --- | --- | --- |
 | Parity / inventory registry | `src/registry/studio-block-parity.registry.ts` | **Live** (partial) |
 | Relational inventory | `src/registry/presentation-inventory.registry.ts` | Proposed P06-002 |
-| Slot map | `src/registry/block-slot.registry.ts` | Proposed P06-003 |
-| Block data contracts | `src/contracts/block-data-contract.*.ts` | Proposed P06-003 |
+| Block data contracts | `src/contracts/block-data-contract.ts` | **Live** (P06-003) |
+| Slot map | `src/registry/block-slot.registry.ts` | **Live** (P06-003) |
 | Lifecycle helper | `src/registry/block-lifecycle.ts` | Proposed P06-004 |
 
 All contract objects: `readonly` · JSON-serializable · no side effects on import.
@@ -122,7 +122,7 @@ All contract objects: `readonly` · JSON-serializable · no side effects on impo
 | Slice | Title | Status |
 | --- | --- | --- |
 | P06-002 | Relational inventory registry scaffold | **Delivered** |
-| P06-003 | Block slot + block data contract surfaces | Proposed |
+| P06-003 | Block slot + block data contract surfaces | **Delivered** |
 | P06-004 | Block lifecycle state in registry | Proposed |
 
 ---

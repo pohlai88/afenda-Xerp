@@ -7,6 +7,8 @@ export const CONSOLIDATION_AUTHORITY_PAS = "PAS-001B" as const;
 export const CONSOLIDATION_REGISTRY_ID =
   "PKGR01B_CONSOLIDATION_VOCABULARY" as const;
 
+export const CONSOLIDATION_MODULE_KV_ID = "KV-CONS" as const;
+
 export const CONSOLIDATION_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/consolidation" as const;
 

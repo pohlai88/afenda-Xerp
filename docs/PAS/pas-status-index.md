@@ -139,16 +139,16 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | **Active** — sole ERP frontend presentation authority (2026-06-29) |
 | **Authority** | PAS-006 family · PKG-026 · `@afenda/shadcn-studio` |
 | **Family index** | [`PRESENTATION/README.md`](PRESENTATION/README.md) |
-| **Maturity** | Production Candidate — **not yet Enterprise Accepted** |
-| **Runtime authority today** | PAS-006A (product baseline · P06-001 delivered) |
-| **Proposed extensions** | PAS-006B (inventory) · PAS-006C (ACPA acceptance) · PAS-006D (metadata surfaces) |
-| **Runtime status** | ERP skeleton + metadata/context wire; presentation = shadcn-studio only; legacy UI packages **deleted** |
-| **Remaining slices** | P06-002–P06-010 — see [`presentation-slice-catalog.md`](PRESENTATION/SLICE/presentation-slice-catalog.md) |
-| **Runtime evidence** | [PAS family](PRESENTATION/README.md), [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md), [North star](../NORTHSTAR/shadcn-studio-presentation-north-star.md), [Blueprint](../BLUEPRINT/shadcn-studio-presentation-blueprint.md), `packages/shadcn-studio/`, `apps/erp/src/app/globals.css` |
-| **Gates (006A live)** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm --filter @afenda/erp build`, `pnpm check:package-css-dist-sync`, `pnpm check:downstream-integration`, `pnpm check:foundation-disposition` |
-| **Result** | Five-PAS manufacturing family; single CSS chain; metadata-driven UI = PAS-006D core path (not optional greenfield) |
+| **Maturity** | Production Candidate — P06-010 attestation delivered; **Enterprise Accepted** pending `@foundation-registry-owner` |
+| **Runtime authority today** | PAS-006 family slices P06-001–P06-010 delivered |
+| **Proposed extensions** | PAS-006B (inventory) · PAS-006C (ACPA acceptance) · PAS-006D (metadata surfaces) — **runtime delivered** |
+| **Runtime status** | ERP skeleton + metadata/context wire + studio registries (inventory, slots, lifecycle, acceptance, surface templates); legacy UI packages **deleted** |
+| **Remaining slices** | **None** — family slice catalog complete; disposition promotion is registry-owner scope |
+| **Runtime evidence** | [PAS family](PRESENTATION/README.md), [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md), [North star](../NORTHSTAR/shadcn-studio-presentation-north-star.md), [Blueprint](../BLUEPRINT/shadcn-studio-presentation-blueprint.md), `packages/shadcn-studio/`, `apps/erp/src/lib/metadata/`, `apps/erp/src/lib/auth/` |
+| **Gates (006 family live)** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm check:studio-inventory-lifecycle`, `pnpm check:studio-block-acpa-acceptance`, `pnpm check:studio-auth-surface-wcag-aa`, `pnpm check:package-css-dist-sync`, `pnpm quality:boundaries`, `pnpm check:documentation-drift`, `pnpm check:foundation-disposition` |
+| **Result** | Five-PAS manufacturing family; single CSS chain; metadata-driven UI path operational (PAS-006D) |
 
-**Next sequence item:** **P06-003** — block slot + block data contracts ([PAS-006B](PRESENTATION/PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md)).
+**Next sequence item:** **PKGR05A disposition promotion** — delegate `@foundation-registry-owner` after reviewing P06-010 gate bundle.
 
 ---
 

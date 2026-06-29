@@ -39,6 +39,8 @@ export interface MetadataBindingStateTemplateWire {
 
 export interface MetadataBindingContractWire {
   readonly blockId: string;
+  readonly erpDomainKvId?: string;
+  readonly erpDomainModuleSlug?: string;
   readonly fields: readonly MetadataBindingFieldWire[];
   readonly metadataBindingId: string;
   readonly stateTemplates?: readonly MetadataBindingStateTemplateWire[];

@@ -179,6 +179,7 @@ export type KernelPackageProhibitedPath =
 export const KERNEL_PACKAGE_SUBPATH_EXPORTS = [
   "./context",
   "./erp-domain/accounting",
+  "./erp-domain/catalog",
   "./propagation",
   "./events",
   "./policy",

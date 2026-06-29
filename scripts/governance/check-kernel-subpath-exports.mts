@@ -11,6 +11,10 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { KERNEL_PACKAGE_SUBPATH_EXPORTS } from "../../packages/kernel/src/contracts/kernel-package-layout.contract.ts";
+import {
+  ERP_DOMAIN_DELIVERED_MODULES,
+  type ErpDomainModule,
+} from "../../packages/kernel/src/erp-domain/erp-domain-layout.contract.ts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -39,6 +43,11 @@ const PAS_64_SUBPATH_BARRELS = {
     distImport: "./dist/erp-domain/accounting/index.js",
     distTypes: "./dist/erp-domain/accounting/index.d.ts",
   },
+  "./erp-domain/catalog": {
+    srcBarrel: "packages/kernel/src/erp-domain/catalog/index.ts",
+    distImport: "./dist/erp-domain/catalog/index.js",
+    distTypes: "./dist/erp-domain/catalog/index.d.ts",
+  },
   "./propagation": {
     srcBarrel: "packages/kernel/src/propagation/index.ts",
     distImport: "./dist/propagation/index.js",
@@ -66,11 +75,18 @@ const PAS_64_SUBPATH_BARRELS = {
   },
 } as const satisfies Record<string, KernelSubpathExportSpec>;
 
-/** PAS-001 §6.4 — root `.` plus layout-contract subpath exports. */
+const PAS_001B_ERP_DOMAIN_SUBPATH_PREFIX = "./erp-domain/" as const;
+
+function erpDomainModuleExportKey(slug: ErpDomainModule): string {
+  return `${PAS_001B_ERP_DOMAIN_SUBPATH_PREFIX}${slug}`;
+}
+
+/** PAS-001 §6.4 core plus PAS-001B catalog layout export. */
 export const PAS_64_REQUIRED_SUBPATHS = {
   ".": PAS_64_SUBPATH_BARRELS["."],
   "./context": PAS_64_SUBPATH_BARRELS["./context"],
   "./erp-domain/accounting": PAS_64_SUBPATH_BARRELS["./erp-domain/accounting"],
+  "./erp-domain/catalog": PAS_64_SUBPATH_BARRELS["./erp-domain/catalog"],
   "./propagation": PAS_64_SUBPATH_BARRELS["./propagation"],
   "./events": PAS_64_SUBPATH_BARRELS["./events"],
   "./policy": PAS_64_SUBPATH_BARRELS["./policy"],
@@ -144,17 +160,14 @@ export function checkKernelSubpathExports(): KernelSubpathExportViolation[] {
 
   const packageExports = readPackageExports();
   const requiredKeys = Object.keys(PAS_64_REQUIRED_SUBPATHS);
+  const deliveredErpKeys = ERP_DOMAIN_DELIVERED_MODULES.map(erpDomainModuleExportKey);
+  const allowedKeys = new Set<string>([
+    ...requiredKeys,
+    ...deliveredErpKeys,
+  ]);
   const actualKeys = Object.keys(packageExports).sort();
-  const expectedKeys = [...requiredKeys].sort();
 
-  if (actualKeys.length !== expectedKeys.length) {
-    violations.push({
-      rule: "export-key-count",
-      message: `packages/kernel/package.json exports must have exactly ${expectedKeys.length} keys; found ${actualKeys.length}: ${actualKeys.join(", ")}`,
-    });
-  }
-
-  for (const key of expectedKeys) {
+  for (const key of requiredKeys) {
     if (!(key in packageExports)) {
       violations.push({
         rule: "export-key-missing",
@@ -163,8 +176,17 @@ export function checkKernelSubpathExports(): KernelSubpathExportViolation[] {
     }
   }
 
+  for (const key of deliveredErpKeys) {
+    if (!(key in packageExports)) {
+      violations.push({
+        rule: "erp-domain-export-missing",
+        message: `packages/kernel/package.json missing PAS-001B delivered export: ${key}`,
+      });
+    }
+  }
+
   for (const key of actualKeys) {
-    if (!(key in PAS_64_REQUIRED_SUBPATHS)) {
+    if (!allowedKeys.has(key)) {
       violations.push({
         rule: "export-key-extra",
         message: `packages/kernel/package.json has unapproved export key: ${key}`,

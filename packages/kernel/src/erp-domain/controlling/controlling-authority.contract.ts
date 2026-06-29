@@ -7,6 +7,8 @@ export const CONTROLLING_AUTHORITY_PAS = "PAS-001B" as const;
 export const CONTROLLING_REGISTRY_ID =
   "PKGR01B_CONTROLLING_VOCABULARY" as const;
 
+export const CONTROLLING_MODULE_KV_ID = "KV-CTRL" as const;
+
 export const CONTROLLING_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/controlling" as const;
 

@@ -8,6 +8,7 @@ describe("metadata ui binding projection (PAS-006D ERP bridge)", () => {
       binding: {
         metadataBindingId: "metadata-binding.test",
         blockId: "hero-section-01",
+        erpDomainModuleSlug: "inventory",
         fields: [
           {
             fieldKey: "title",
@@ -26,11 +27,14 @@ describe("metadata ui binding projection (PAS-006D ERP bridge)", () => {
     expect(result).toEqual({
       metadataBindingId: "metadata-binding.test",
       blockId: "hero-section-01",
+      erpDomainModuleSlug: "inventory",
+      erpDomainKvId: "KV-INV",
       tenantId: "tenant-wire-1",
       actorId: "actor-1",
       correlationId: "corr-1",
       fieldCount: 1,
       hasStateTemplates: false,
+      matchedBlockDataFieldCount: 1,
     });
     expect(() => JSON.stringify(result)).not.toThrow();
   });

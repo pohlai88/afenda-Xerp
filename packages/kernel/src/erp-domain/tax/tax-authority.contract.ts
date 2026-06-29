@@ -6,6 +6,8 @@ export const TAX_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const TAX_REGISTRY_ID = "PKGR01B_TAX_VOCABULARY" as const;
 
+export const TAX_MODULE_KV_ID = "KV-TAX" as const;
+
 export const TAX_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/tax" as const;
 

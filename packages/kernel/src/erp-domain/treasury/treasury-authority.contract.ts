@@ -6,6 +6,8 @@ export const TREASURY_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const TREASURY_REGISTRY_ID = "PKGR01B_TREASURY_VOCABULARY" as const;
 
+export const TREASURY_MODULE_KV_ID = "KV-TRE" as const;
+
 export const TREASURY_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/treasury" as const;
 

@@ -4,7 +4,7 @@
 
 **Prerequisite:** P06-002 Delivered
 
-**Status:** Not started
+**Status:** Delivered (2026-06-29)
 
 **Type:** Implementation
 
@@ -63,3 +63,11 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-003-block-slot-data-contracts.md
 | 1 | packages/shadcn-studio/src/registry/block-slot.registry.ts |
 | 2 | packages/shadcn-studio/src/contracts/block-data-contract.ts |
 | 3 | packages/shadcn-studio/src/index.ts |
+
+## Runtime evidence
+
+| Capability | Proven | Evidence path |
+| --- | --- | --- |
+| Block slot registry | Yes — P06-003 | `packages/shadcn-studio/src/registry/block-slot.registry.ts` |
+| Block data contracts | Yes — P06-003 | `packages/shadcn-studio/src/contracts/block-data-contract.ts` |
+

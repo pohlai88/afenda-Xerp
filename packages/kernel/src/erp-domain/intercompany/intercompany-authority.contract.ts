@@ -7,6 +7,8 @@ export const INTERCOMPANY_AUTHORITY_PAS = "PAS-001B" as const;
 export const INTERCOMPANY_REGISTRY_ID =
   "PKGR01B_INTERCOMPANY_VOCABULARY" as const;
 
+export const INTERCOMPANY_MODULE_KV_ID = "KV-IC" as const;
+
 export const INTERCOMPANY_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/intercompany" as const;
 

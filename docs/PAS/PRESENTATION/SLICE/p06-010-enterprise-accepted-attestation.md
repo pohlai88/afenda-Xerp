@@ -4,7 +4,7 @@
 
 **Prerequisite:** P06-002–P06-007 minimum Delivered · P06-008–P06-009 recommended
 
-**Status:** Blocked
+**Status:** Delivered
 
 **Type:** Evidence-sync
 
@@ -46,4 +46,19 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-010-enterprise-accepted-attestatio
 | --- | --- | --- |
 | 1 | Mandatory slices P06-002–P06-007 Delivered | Manual review — slice catalog |
 | 2 | All proposed gates executable and green | Gate bundle |
-| 3 | PKGR05A promotion via registry owner | `pnpm check:foundation-disposition` |
+| 3 | PKGR05A promotion via registry owner | `pnpm check:foundation-disposition` (PASS — promotion not applied in this slice) |
+
+## Attestation evidence (2026-06-29)
+
+| Gate | Result |
+| --- | --- |
+| `pnpm check:studio-inventory-lifecycle` | OK |
+| `pnpm check:studio-block-acpa-acceptance` | OK |
+| `pnpm check:studio-auth-surface-wcag-aa` | OK |
+| `pnpm --filter @afenda/shadcn-studio test:run` | 66 passed |
+| `pnpm --filter @afenda/erp typecheck` | OK |
+| `pnpm quality:boundaries` | OK |
+| `pnpm check:documentation-drift` | OK |
+| `pnpm check:foundation-disposition` | PASS |
+
+**Registry promotion:** deferred to `@foundation-registry-owner` — this slice does not edit `foundation-disposition.registry.ts`.

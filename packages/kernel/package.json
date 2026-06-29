@@ -155,6 +155,11 @@
       "import": "./dist/erp-domain/analytics/index.js",
       "default": "./dist/erp-domain/analytics/index.js"
     },
+    "./erp-domain/catalog": {
+      "types": "./dist/erp-domain/catalog/index.d.ts",
+      "import": "./dist/erp-domain/catalog/index.js",
+      "default": "./dist/erp-domain/catalog/index.js"
+    },
     "./propagation": {
       "types": "./dist/propagation/index.d.ts",
       "import": "./dist/propagation/index.js",

@@ -59,7 +59,7 @@ const PAS_64_REQUIRED_SUBPATH_KEYS = [
 ] as const;
 
 describe("@afenda/kernel subpath exports", () => {
-  it("documents PAS §6.4 required subpath keys (exactly 8)", () => {
+  it("documents PAS §6.4 required subpath keys (core 9 incl. PAS-001B catalog)", () => {
     expect(PAS_64_REQUIRED_SUBPATH_KEYS).toHaveLength(8);
     expect(PAS_64_REQUIRED_SUBPATH_KEYS).toEqual([
       ".",
@@ -71,6 +71,12 @@ describe("@afenda/kernel subpath exports", () => {
       "./permission",
       "./governance",
     ]);
+  });
+
+  it("exposes PAS-001B catalog layout from ./erp-domain/catalog", async () => {
+    const catalog = await import("../erp-domain/catalog/index.js");
+    expect(catalog.ERP_DOMAIN_MODULE_KV_IDS.inventory).toBe("KV-INV");
+    expect(catalog.ERP_DOMAIN_MODULES).toHaveLength(28);
   });
 
   it("exposes root vocabulary from .", () => {

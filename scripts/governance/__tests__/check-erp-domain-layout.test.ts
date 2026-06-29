@@ -50,7 +50,7 @@ describe("check-erp-domain-layout gate", () => {
     );
   });
 
-  it("mirrors the 10-point PAS-001B failure matrix", () => {
-    expect(ERP_DOMAIN_LAYOUT_GATE_FAILURE_MATRIX).toHaveLength(10);
+  it("mirrors the 11-point PAS-001B failure matrix", () => {
+    expect(ERP_DOMAIN_LAYOUT_GATE_FAILURE_MATRIX).toHaveLength(11);
   });
 });

@@ -329,7 +329,7 @@ MCP install (packages/shadcn-studio cwd)
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │ IMPLEMENTATION                                                               │
 │ packages/shadcn-studio/  ·  apps/storybook/  ·  apps/erp/                   │
-│ P06-001 delivered · P06-002–P06-010 queued                                   │
+│ P06-001–P06-010 delivered · PKGR05A promotion queued                          │
 └───────────────────────────────────┬─────────────────────────────────────────┘
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -517,17 +517,17 @@ Family index: [`PRESENTATION/README.md`](../PAS/PRESENTATION/README.md)
 | Slice | PAS | Title | Status |
 | --- | --- | --- | --- |
 | P06-001 | 006A | Product baseline — theme, CSS, MCP, lab, ERP globals | **Delivered** |
-| P06-002 | 006B | Relational inventory registry scaffold | Proposed |
-| P06-003 | 006B | Block slot + block data contracts | Proposed |
-| P06-004 | 006B | Block lifecycle in registry | Proposed |
-| P06-005 | 006C | Acceptance Record wire contract | Proposed |
-| P06-006 | 006C | ACPA block acceptance gate suite | Proposed |
-| P06-007 | 006C | Auth-adjacent WCAG 2.2 AA pack | Proposed |
-| P06-008 | 006D | Metadata binding contract | Proposed |
-| P06-009 | 006D | Surface template registry | Proposed |
-| P06-010 | 006 family | Enterprise Accepted attestation | Blocked |
+| P06-002 | 006B | Relational inventory registry scaffold | **Delivered** |
+| P06-003 | 006B | Block slot + block data contracts | **Delivered** |
+| P06-004 | 006B | Block lifecycle in registry | **Delivered** |
+| P06-005 | 006C | Acceptance Record wire contract | **Delivered** |
+| P06-006 | 006C | ACPA block acceptance gate suite | **Delivered** |
+| P06-007 | 006C | Auth-adjacent WCAG 2.2 AA pack | **Delivered** |
+| P06-008 | 006D | Metadata binding contract | **Delivered** |
+| P06-009 | 006D | Surface template registry | **Delivered** |
+| P06-010 | 006 family | Enterprise Accepted attestation | **Delivered** (PKGR05A promotion via registry owner) |
 
-**Next sequence item:** **P06-002** — relational inventory scaffold (PAS-006B).
+**Next sequence item:** **PKGR05A disposition promotion** — `@foundation-registry-owner`.
 
 ---
 

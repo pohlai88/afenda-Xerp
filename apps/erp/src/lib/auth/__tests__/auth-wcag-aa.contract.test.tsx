@@ -1,0 +1,34 @@
+import { getBlockSlotsForBlockId } from "@afenda/shadcn-studio";
+import { describe, expect, it } from "vitest";
+import {
+  AUTH_ADJACENT_AUTH_BLOCK_IDS,
+  AUTH_ADJACENT_SURFACE_PATHS,
+  AUTH_ADJACENT_WCAG_REQUIRED_SLOTS,
+} from "@/lib/auth/auth-wcag-adjacent.registry";
+
+describe("auth-adjacent WCAG AA contract (PAS-006C P06-007)", () => {
+  it("declares auth-adjacent surface paths", () => {
+    expect(AUTH_ADJACENT_SURFACE_PATHS).toEqual(
+      expect.arrayContaining([
+        "/sign-in",
+        "/mfa",
+        "/mfa/recovery",
+        "/session-expired",
+        "/access-denied",
+        "/security/review",
+      ])
+    );
+  });
+
+  it("maps login block slots required for WCAG form labels", () => {
+    for (const blockId of AUTH_ADJACENT_AUTH_BLOCK_IDS) {
+      const slots = getBlockSlotsForBlockId(blockId);
+      expect(slots.length).toBeGreaterThan(0);
+
+      for (const requiredSlotId of AUTH_ADJACENT_WCAG_REQUIRED_SLOTS[blockId] ??
+        []) {
+        expect(slots.some((slot) => slot.slotId === requiredSlotId)).toBe(true);
+      }
+    }
+  });
+});

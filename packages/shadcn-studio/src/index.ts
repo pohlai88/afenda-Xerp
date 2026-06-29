@@ -63,6 +63,27 @@ export {
   CardTitle,
 } from "./components/ui/card.js";
 export {
+  type AcceptanceCriterionResult,
+  type AcceptanceRecordWire,
+  isAcceptanceRecordWire,
+  isSealEligibleLifecycleState,
+  type SealEligibleLifecycleState,
+} from "./contracts/acceptance-record.contract.js";
+export {
+  type AcceptanceRecordSealFailure,
+  type AcceptanceRecordSealResult,
+  type AcceptanceRecordSealSuccess,
+  validateAcceptanceRecordSeal,
+} from "./contracts/acceptance-record.validator.js";
+export {
+  type BlockDataActionKind,
+  type BlockDataActionWire,
+  type BlockDataContractWire,
+  type BlockDataFieldKind,
+  type BlockDataFieldWire,
+  isBlockDataContractWire,
+} from "./contracts/block-data-contract.js";
+export {
   isMetadataBindingContractWire,
   type MetadataBindingContractWire,
   type MetadataBindingDensity,
@@ -82,6 +103,25 @@ export {
   type BlockLifecycleState,
   isValidBlockLifecycleTransition,
 } from "./registry/block-lifecycle.js";
+export {
+  assertBlockLifecycleRegistryValid,
+  BLOCK_LIFECYCLE_REGISTRY,
+  type BlockLifecycleRegistryEntry,
+  type BlockLifecycleTransitionFailure,
+  type BlockLifecycleTransitionResult,
+  type BlockLifecycleTransitionSuccess,
+  buildInitialBlockLifecycleRegistry,
+  transitionBlockLifecycleEntry,
+  transitionBlockLifecycleRegistry,
+} from "./registry/block-lifecycle-mutation.js";
+export {
+  BLOCK_DATA_CONTRACT_REGISTRY,
+  BLOCK_SLOT_REGISTRY,
+  type BlockSlotEntry,
+  type BlockSlotRole,
+  getBlockDataContractForBlockId,
+  getBlockSlotsForBlockId,
+} from "./registry/block-slot.registry.js";
 export { buildPresentationInventoryFromParity } from "./registry/build-presentation-inventory-from-parity.js";
 export {
   PRESENTATION_INVENTORY_REGISTRY,
@@ -95,6 +135,12 @@ export {
   type StudioBlockParityStatus,
   type StudioBlockParitySummary,
 } from "./registry/studio-block-parity.registry.js";
+export {
+  assertSurfaceTemplateBlockDataCoverage,
+  assertSurfaceTemplateMetadataBinding,
+  getSurfaceTemplateById,
+  SURFACE_TEMPLATE_REGISTRY,
+} from "./registry/surface-template.registry.js";
 export {
   applyThemePresetStyles,
   clearThemePresetStyles,
