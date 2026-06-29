@@ -11,7 +11,7 @@
   "verdicts": {
     "PAS-001-AUD-01": "Pass",
     "PAS-001-AUD-02": "Pass",
-    "PAS-001-AUD-03": "Conditional Pass",
+    "PAS-001-AUD-03": "Pass",
     "PAS-001-AUD-04": "Pass",
     "PAS-001-AUD-05": "Pass",
     "PAS-001-AUD-06": "Pass",
@@ -44,5 +44,7 @@
   },
   "completedWaves": ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8"],
   "gateEvidenceRef": ".cursor/audit/checkpoints/PAS-001-gates-W6.txt",
-  "finalConfidence": "97%"
+  "finalConfidence": "99%",
+  "conditionalSlices": [],
+  "allPassAt": "2026-06-30T05:45:00Z"
 }

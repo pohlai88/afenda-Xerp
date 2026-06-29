@@ -935,6 +935,42 @@ PAS-001A cannot be considered fully developed if any of these fail:
 
 ---
 
+# Audit Verdict Matrix
+
+_Synced from `.cursor/audit/checkpoints/PAS-001A.json` — updated 2026-06-30._
+
+| Slice           | Audit area                          | Verdict |
+| --------------- | ----------------------------------- | ------- |
+| PAS-001A-AUD-01 | Authority metadata and status       | Pass    |
+| PAS-001A-AUD-02 | Parent boundary protection          | Pass    |
+| PAS-001A-AUD-03 | Scope lock                          | Pass    |
+| PAS-001A-AUD-04 | Integration surface ID              | Pass    |
+| PAS-001A-AUD-05 | Permission wire triad               | Pass    |
+| PAS-001A-AUD-06 | Kernel projection-only              | Pass    |
+| PAS-001A-AUD-07 | ERP operating context spine         | Pass    |
+| PAS-001A-AUD-08 | Protected request invariant         | Pass    |
+| PAS-001A-AUD-09 | Runtime boundary stack              | Pass    |
+| PAS-001A-AUD-10 | Integration registry                | Pass    |
+| PAS-001A-AUD-11 | Anti-corruption layer               | Pass    |
+| PAS-001A-AUD-12 | Metadata authorization bridge       | Pass    |
+| PAS-001A-AUD-13 | ADR-0027 skeleton re-attestation    | Pass    |
+| PAS-001A-AUD-14 | B71 slice closure                   | Pass    |
+| PAS-001A-AUD-15 | B72 slice closure                   | Pass    |
+| PAS-001A-AUD-16 | B73 documentation drift closure     | Pass    |
+| PAS-001A-AUD-17 | B74 / IS-003 metadata bridge        | Pass    |
+| PAS-001A-AUD-18 | B75 production candidate attestation | Pass    |
+| PAS-001A-AUD-19 | B111 consumer attestation           | Pass    |
+| PAS-001A-AUD-20 | Baseline gate compliance            | Pass    |
+| PAS-001A-AUD-21 | Slice closure gate compliance       | Pass    |
+| PAS-001A-AUD-22 | Acceptance matrix row-by-row        | Pass    |
+| PAS-001A-AUD-23 | Retired consumer hygiene            | Pass    |
+| PAS-001A-AUD-24 | No parallel vocabulary              | Pass    |
+| PAS-001A-AUD-25 | Final production candidate confidence | Pass    |
+
+**Summary:** 25/25 Pass (0 Conditional, 0 Fail) · **Final confidence:** 99% — Production Candidate on ADR-0027 skeleton · **IS-001/002/003:** Pass · **Repair clusters closed:** C5-doc-r1d-sync · **Optional hygiene:** add `erp test:run` to skeleton gate bundle; B74 archived gate annotations in §8 matrix
+
+---
+
 # Required Audit Output Format
 
 For each audit slice, report:
