@@ -45,7 +45,8 @@ See [`docs/PAS/README.md`](../PAS/README.md).
 | [ADR-0028](ADR-0028-business-reference-document-asset-promotion.md) | Business Reference Document and Asset Authority Promotion | Accepted |
 | [ADR-0029](ADR-0029-rounding-decimal-precision-vocabulary.md) | Rounding Mode and Decimal Precision Kernel Vocabulary | Accepted |
 | [ADR-0030](ADR-0030-erp-rest-api-contract-standard.md) | ERP REST API Contract Standard | Accepted |
-| [ADR-0031](ADR-0031-fiscal-domain-id-authority.md) | Fiscal Domain ID Authority (Calendar and Period) | Accepted |
+| [ADR-0031](ADR-0031-procurement-runtime-authority-boundary.md) | Procurement Runtime Authority Boundary (PKG-R05) | Accepted |
+| [ADR-0032](ADR-0032-fiscal-domain-id-authority.md) | Fiscal Domain ID Authority (Calendar and Period) | Accepted |
 
 ## Process
 

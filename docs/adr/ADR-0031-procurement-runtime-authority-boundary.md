@@ -14,7 +14,7 @@
 
 ## Context
 
-B80 (KV-PROC) delivered procurement wire vocabulary as contracts-only under `@afenda/kernel/erp-domain/procurement`. The `@afenda/erp-module-foundation` reference bundle (`PROCUREMENT_FOUNDATION_BUNDLE`) attests foundation dimensions with `runtimeStatus: foundation_authorized`, but **operational procurement runtime remains blocked** per [PAS-PROC-FDN-AUDIT-001](../PAS/KERNEL/audit/procurement-foundation-gap-report.md).
+B80 (KV-PROC) delivered procurement wire vocabulary as contracts-only under `@afenda/kernel/erp-domain/procurement`. The `@afenda/erp-module-foundation` reference bundle (`PROCUREMENT_FOUNDATION_BUNDLE`) attests foundation dimensions with `runtimeStatus: foundation_authorized`, but **operational procurement runtime remains blocked** per [PAS-PROC-FDN-AUDIT-001](../PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md).
 
 Evidence as of 2026-06-30:
 
@@ -129,6 +129,6 @@ Manual evidence:
 - [ADR-0021](ADR-0021-canonical-enterprise-identity.md) — SupplierId authority
 - [B80 — Procurement Domain Vocabulary](../PAS/KERNEL/SLICE/b80-procurement-domain-vocabulary.md)
 - [PAS-001C — ERP Module Foundation](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md)
-- [PAS-PROC-FDN-AUDIT-001](../PAS/KERNEL/audit/procurement-foundation-gap-report.md)
+- [PAS-PROC-FDN-AUDIT-001](../PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md)
 - [Procurement North Star](../NORTHSTAR/procurement-north-star.md)
 - [ERP-PROC-FDN-001 slice handoff](../PAS/ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md)

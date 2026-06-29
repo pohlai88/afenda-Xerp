@@ -21,6 +21,6 @@ export const ACCOUNTING_DOMAIN_VOCABULARY_POLICY = {
   rule: "Kernel may describe accounting words. It must not execute accounting." as const,
   prohibitedRuntimeSurfaces: ACCOUNTING_DOMAIN_PROHIBITED_RUNTIME_SURFACES,
   forbiddenPlatformFloorNote:
-    "FiscalCalendarId and FiscalPeriodId remain on @afenda/kernel/erp-domain/accounting only — ADR-0031 permanent quarantine; see FORBIDDEN_PLATFORM_FLOOR_ID_SYMBOLS (PAS-001 §4.1.6)." as const,
+    "FiscalCalendarId and FiscalPeriodId remain on @afenda/kernel/erp-domain/accounting only — ADR-0032 permanent quarantine; see FORBIDDEN_PLATFORM_FLOOR_ID_SYMBOLS (PAS-001 §4.1.6)." as const,
   enforcementGate: "pnpm check:erp-domain-delivered-vocabulary" as const,
 } as const;

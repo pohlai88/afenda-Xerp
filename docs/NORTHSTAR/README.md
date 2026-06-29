@@ -37,7 +37,7 @@ LoB business meaning — orthogonal to module foundation delivery:
 | --- | --- | --- | --- |
 | Procurement | [procurement-north-star.md](procurement-north-star.md) | *How does Afenda govern requisitioning, sourcing, ordering, and supplier accountability?* | Production Candidate (draft) · runtime blocked |
 
-**Read order — Procurement:** after Module Foundation NS when touching PO/requisition/supplier business meaning; pair with [gap report](../PAS/KERNEL/audit/procurement-foundation-gap-report.md).
+**Read order — Procurement:** after Module Foundation NS when touching PO/requisition/supplier business meaning; pair with [gap report](../PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md).
 
 ## Constitutional law layers
 

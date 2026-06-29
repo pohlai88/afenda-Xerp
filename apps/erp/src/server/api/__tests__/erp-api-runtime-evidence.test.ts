@@ -7,13 +7,15 @@ import {
   GOVERNED_ROUTE_CONTRACT_EXPORTS,
 } from "@/server/api/contracts/api-contract-registry";
 import {
+  ERP_API_BRIDGE_SLICE_MODULES,
+  ERP_API_RUNTIME_MATURITY,
+} from "@/server/api/contracts/erp-api-binding-track.contract";
+import {
   buildErpApiRuntimeEvidenceAttestation,
   collectErpApiRuntimeEvidenceViolations,
-  ERP_API_BINDING_SLICE_MODULES,
   ERP_API_RUNTIME_EVIDENCE_GATES,
   ERP_API_RUNTIME_EVIDENCE_TEST_PATHS,
   ERP_API_RUNTIME_HANDLER_MODULE,
-  ERP_API_RUNTIME_MATURITY,
   getRegistryOperationIds,
 } from "@/server/api/contracts/erp-api-runtime-evidence.contract";
 
@@ -26,12 +28,12 @@ describe("ErpApiRuntimeEvidence (PAS-001A-API-BINDING-S5)", () => {
       contracts: API_CONTRACTS,
     });
 
-    expect(attestation.kind).toBe("erp-api-runtime-evidence");
+    expect(attestation.bindingKind).toBe("erp-api-runtime-evidence");
     expect(attestation.integrationSurfaceId).toBe("IS-004");
     expect(attestation.maturity).toBe(ERP_API_RUNTIME_MATURITY);
     expect(attestation.handlerModule).toBe(ERP_API_RUNTIME_HANDLER_MODULE);
     expect(attestation.bindingSliceCount).toBe(
-      ERP_API_BINDING_SLICE_MODULES.length
+      ERP_API_BRIDGE_SLICE_MODULES.length
     );
     expect(attestation.evidenceGateCount).toBe(
       ERP_API_RUNTIME_EVIDENCE_GATES.length

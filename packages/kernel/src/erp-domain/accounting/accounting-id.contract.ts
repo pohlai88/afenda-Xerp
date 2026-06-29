@@ -36,7 +36,7 @@ export function toJournalEntryId(value: JournalEntryId): string {
   return unbrand(value);
 }
 
-/** Forbidden on platform floor — accounting-domain subpath only (PAS-001 §4.1.6). */
+/** Forbidden on platform floor — KV-ACCT only (PAS-001 §4.1.6 · ADR-0032). */
 export type FiscalCalendarId = Brand<string, "FiscalCalendarId">;
 
 export function brandFiscalCalendarId(
@@ -49,7 +49,7 @@ export function toFiscalCalendarId(value: FiscalCalendarId): string {
   return unbrand(value);
 }
 
-/** Forbidden on platform floor — accounting-domain subpath only (PAS-001 §4.1.6). */
+/** Forbidden on platform floor — KV-ACCT only (PAS-001 §4.1.6 · ADR-0032). */
 export type FiscalPeriodId = Brand<string, "FiscalPeriodId">;
 
 export function brandFiscalPeriodId(

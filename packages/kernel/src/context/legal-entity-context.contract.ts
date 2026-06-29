@@ -76,8 +76,7 @@ export interface LegalEntityContext {
    * Opaque pointer only.
    *
    * FiscalCalendarId / FiscalPeriodId are intentionally not Kernel
-   * platform-floor ID families. Fiscal calendar rules belong to Finance /
-   * Accounting authority.
+   * platform-floor ID families. Canonical home: KV-ACCT (ADR-0032).
    */
   readonly fiscalCalendarId: string | null;
 

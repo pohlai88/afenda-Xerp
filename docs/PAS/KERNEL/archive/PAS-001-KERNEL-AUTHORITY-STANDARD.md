@@ -79,7 +79,7 @@
 
 **Identity slice gate:** Kernel identity runtime (Slice B) starts only after ADR-0021, ADR-0022, and ADR-0023 are **Accepted** (§4.1)
 
-**Closure waivers (B67 — do not treat as missing implementation):** `FiscalCalendarId` / `FiscalPeriodId` quarantined on `@afenda/kernel/erp-domain/accounting` until Finance ADR; planned additive `AppErrorCode` values deferred; `PermissionScopeContext` kernel slot documented in drift registry (`refactorStatus: completed`).
+**Closure waivers (B67 — do not treat as missing implementation):** `FiscalCalendarId` / `FiscalPeriodId` quarantined on `@afenda/kernel/erp-domain/accounting` until Finance ADR *(archive — resolved by [ADR-0032](../../adr/ADR-0032-fiscal-domain-id-authority.md))*; planned additive `AppErrorCode` values deferred; `PermissionScopeContext` kernel slot documented in drift registry (`refactorStatus: completed`).
 
 ---
 

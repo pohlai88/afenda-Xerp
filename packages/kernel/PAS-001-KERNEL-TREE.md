@@ -179,7 +179,7 @@ packages/kernel/
     │   │   ├── accounting-domain-vocabulary.registry.ts
     │   │   ├── accounting-domain-vocabulary.policy.ts
     │   │   ├── accounting-domain-wire-context.contract.ts
-    │   │   ├── accounting-id.contract.ts             # ⛔ QUARANTINE FiscalCalendarId/FiscalPeriodId
+    │   │   ├── accounting-id.contract.ts             # KV-ACCT fiscal IDs — ADR-0032 quarantine (off platform floor)
     │   │   ├── accounting-permission-vocabulary.contract.ts
     │   │   ├── accounting-audit-actions.contract.ts
     │   │   ├── account-type.contract.ts
@@ -299,4 +299,4 @@ Gates: `pnpm check:kernel-subpath-exports` · `pnpm check:kernel-package-structu
 
 | Path | Target |
 |------|--------|
-| `erp-domain/accounting/accounting-id.contract.ts` | ⛔ quarantine until Finance ADR |
+| `erp-domain/accounting/accounting-id.contract.ts` | **Closed** — permanent KV-ACCT quarantine ([ADR-0032](../../docs/adr/ADR-0032-fiscal-domain-id-authority.md)) |

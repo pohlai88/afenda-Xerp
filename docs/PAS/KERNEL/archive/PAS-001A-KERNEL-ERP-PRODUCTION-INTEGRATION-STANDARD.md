@@ -140,7 +140,7 @@ PAS-001A is the **kernel consumer integration PAS** — analogous to [PAS-004B](
 | Item | Owner | Notes |
 | --- | --- | --- |
 | Ledger / posting runtime | Future `@afenda/accounting` + ADR | PKGR01 contracts-only |
-| `FiscalCalendarId` / `FiscalPeriodId` promotion | Finance ADR | Drift registry `pending` — waiver until ADR |
+| `FiscalCalendarId` / `FiscalPeriodId` promotion | Finance ADR | **Resolved** — [ADR-0032](../../../adr/ADR-0032-fiscal-domain-id-authority.md) (drift registry closed) |
 | New enterprise ID families (customer, supplier, …) | Domain PAS slices | PAS-001 §4.1.6 deferred table |
 | CSS / presentation / shadcn strangler | PAS-005 / PAS-005A | Separate track |
 | Knowledge atoms / semantic model | PAS-004 / PAS-004C | Kernel retains wire shapes only |
@@ -367,7 +367,7 @@ These remain **documented partials** until domain ADRs land. Do not treat as PAS
 
 | Waiver | Source | Owner |
 | --- | --- | --- |
-| `FiscalCalendarId` / `FiscalPeriodId` quarantine | PAS-001 B67 · drift registry | Finance ADR → `@afenda/accounting` |
+| `FiscalCalendarId` / `FiscalPeriodId` quarantine | PAS-001 B67 · drift registry | **Resolved** — [ADR-0032](../../../adr/ADR-0032-fiscal-domain-id-authority.md) KV-ACCT permanent quarantine |
 | Additive `AppErrorCode` values | PAS-001 B67 | Kernel amendment slice (if ever) |
 | Deferred ID families (customer, supplier, employee, document, asset) | PAS-001 §4.1.6 | Domain PAS |
 | Ledger/posting runtime | PKGR01 prohibited | Foundation phase 15+ ADR |

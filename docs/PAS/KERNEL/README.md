@@ -114,12 +114,13 @@ SSOT: [DEVELOPMENT-LANE-BOUNDARIES.md](../DEVELOPMENT-LANE-BOUNDARIES.md)
 
 ## Audit artifacts
 
-Foundation gap reports and audit catalogs live under [`audit/`](audit/README.md). Use these before domain runtime ADR or package activation.
+Kernel audit catalogs (PAS-001 / 001A / 001B wire verification) live under [`audit/`](audit/README.md).
 
 | Artifact | Role |
 | --- | --- |
 | [audit/PAS-001B.md](audit/PAS-001B.md) | ERP wire vocabulary catalog audit slice catalog (30 slices) |
-| [audit/procurement-foundation-gap-report.md](audit/procurement-foundation-gap-report.md) | KV-PROC wire vs procurement runtime foundation (PAS-PROC-FDN-AUDIT-001) |
+
+**Procurement runtime foundation gap report** — relocated to [ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md](../ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md) (ERP-MODULES lane; not a kernel slice series).
 
 ---
 

@@ -7,27 +7,28 @@
 
 import type { ApiRouteContract } from "./api-contract";
 import type { ApiOperationId } from "./core/api-operation-id.contract";
+import {
+  assertBindingTrackSliceModulesComplete,
+  ERP_API_BINDING_SLICE_MODULES,
+  ERP_API_BINDING_TRACK_SLICE_COUNT,
+  ERP_API_BINDING_TRACK_STATUS,
+  ERP_API_RUNTIME_MATURITY,
+} from "./erp-api-binding-track.contract";
 import { collectErpApiConsumerImpactSyncViolations } from "./erp-api-consumer-impact-sync.contract";
 import {
   ERP_API_CONSUMPTION_BOUNDARY,
   type ErpApiConsumptionBoundary,
 } from "./erp-api-consumption.contract";
-import {
-  collectErpApiRuntimeEvidenceViolations,
+import { collectErpApiRuntimeEvidenceViolations } from "./erp-api-runtime-evidence.contract";
+
+export {
+  assertBindingTrackSliceModulesComplete,
+  ERP_API_BINDING_SLICE_MODULES,
+  ERP_API_BINDING_TRACK_SLICE_COUNT,
+  ERP_API_BINDING_TRACK_STATUS,
+  ERP_API_BRIDGE_SLICE_MODULES,
   ERP_API_RUNTIME_MATURITY,
-} from "./erp-api-runtime-evidence.contract";
-
-export const ERP_API_BINDING_TRACK_SLICE_COUNT = 7 as const;
-
-export const ERP_API_BINDING_SLICE_MODULES = [
-  "apps/erp/src/server/api/contracts/erp-api-consumption.contract.ts",
-  "apps/erp/src/server/api/contracts/erp-rest-binding-consumption.contract.ts",
-  "apps/erp/src/server/api/contracts/erp-api-context-bridge.contract.ts",
-  "apps/erp/src/server/api/contracts/erp-api-auth-bridge.contract.ts",
-  "apps/erp/src/server/api/contracts/erp-api-runtime-evidence.contract.ts",
-  "apps/erp/src/server/api/contracts/erp-api-consumer-impact-sync.contract.ts",
-  "apps/erp/src/server/api/contracts/erp-api-release-gate.contract.ts",
-] as const;
+} from "./erp-api-binding-track.contract";
 
 /** Release gates — drift must be zero before ERP ships API surface changes. */
 export const ERP_API_RELEASE_GATES = [
@@ -44,8 +45,6 @@ export const ERP_API_RELEASE_RESERVED_STYLE_BINDINGS = [
   "PAS-API-EVENT-001",
   "PAS-API-AGENT-001",
 ] as const;
-
-export const ERP_API_BINDING_TRACK_STATUS = "delivered" as const;
 
 export interface ErpApiReleaseGateAttestation {
   readonly activeStyleBindingPas: ErpApiConsumptionBoundary["consumesStyleBindingPas"];
@@ -91,16 +90,6 @@ export function assertReleaseGateStyleBindingScope(): void {
   if (ERP_API_CONSUMPTION_BOUNDARY.role !== "consumer") {
     throw new Error(
       "ERP release gate requires consumer role at API binding boundary."
-    );
-  }
-}
-
-export function assertBindingTrackSliceModulesComplete(): void {
-  if (
-    ERP_API_BINDING_SLICE_MODULES.length !== ERP_API_BINDING_TRACK_SLICE_COUNT
-  ) {
-    throw new Error(
-      `API binding track must declare ${ERP_API_BINDING_TRACK_SLICE_COUNT} slice modules.`
     );
   }
 }

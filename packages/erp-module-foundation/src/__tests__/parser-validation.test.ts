@@ -12,7 +12,8 @@ describe("parseAndValidateErpModuleFoundationBundle", () => {
     const bundle = buildProcurementFoundationBundle({
       authority: "docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md",
       knowledge: "packages/enterprise-knowledge/src/data/atoms.json",
-      ownership: "docs/PAS/KERNEL/audit/procurement-foundation-gap-report.md",
+      ownership:
+        "docs/PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md",
       contextSpine:
         "apps/erp/src/lib/context/resolve-operating-context.server.ts",
       permissions:

@@ -55,9 +55,9 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | B71–B75 historical closure on pre-reset ERP · **skeleton R1a–R1c/R1d delivered** · **R2 S2S attestation delivered** · **B112-ERP format precision ingress delivered** · **IS-004 R3a–R3d Delivered** · IS-003 live on PAS-006 skeleton |
 | **Authority** | PAS-001A · [PAS-API-REST-001](API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · derived from PAS-001 · `apps/erp/src/lib/context/` + `apps/erp/src/server/api/` · [ADR-0030](../adr/ADR-0030-erp-rest-api-contract-standard.md) |
 | **Maturity** | `production_candidate` (doctrine) · `integration-proven` (IS-002 + IS-003 skeleton) · `historical_delivered` (B71–B75) |
-| **Runtime status** | IS-001 live; IS-002 full spine + protected shell (R1a/R1b gates green); IS-003 metadata consumer gate `check:erp-metadata-pas006-consumer` active · R2 S2S `check:erp-service-actor-s2s-attestation` active · B112-ERP format precision `check:erp-format-precision-ingress-attestation` active · IS-004 REST Contract Runtime **Delivered** ([PAS-API-REST-001](API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · [R3 track](API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md)) |
+| **Runtime status** | IS-001 live; IS-002 full spine + protected shell (R1a/R1b gates green); IS-003 metadata consumer gate `check:erp-metadata-pas006-consumer` active · R2 S2S `check:erp-service-actor-s2s-attestation` active · B112-ERP format precision `check:erp-format-precision-ingress-attestation` active · IS-004 REST Contract Runtime **Production Accepted** ([PAS-API-REST-001](API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · R3 track · [PAS-001A-API-BINDING S1–S7](KERNEL/PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) **Delivered**) |
 | **Remaining slices** | none — R3a–R3d Delivered — [API-CONTRACT R3 track](API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) |
-| **Runtime evidence** | [KERNEL/PAS-001A](KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) §1.4 · §6.1 · §6.1.1 · §6.1.2 · §6.1.3, [PAS-API-REST-001](API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md), [api-contract North Star](../NORTHSTAR/api-contract-north-star.md), [api-contract Blueprint](../BLUEPRINT/api-contract-blueprint.md), [ADR-0030](../adr/ADR-0030-erp-rest-api-contract-standard.md), `apps/erp/src/server/api/contracts/**`, [R1d attestation](KERNEL/SLICE/pas-001a-r1d-production-candidate-reclose.md#r1d-attestation-appendix-archived-gate-bundle-2026-06-29), [R2 handoff](KERNEL/SLICE/pas-001a-r2-service-actor-s2s-attestation.md), [B112-ERP handoff](KERNEL/SLICE/b112-erp-format-precision-consumer-attestation.md), [R3 track](API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) |
+| **Runtime evidence** | [KERNEL/PAS-001A](KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) §1.4 · §6.1 · §6.1.1 · §6.1.2 · §6.1.3, [PAS-001A-API-BINDING S1–S7](KERNEL/PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md), [PAS-API-REST-001](API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md), [api-contract North Star](../NORTHSTAR/api-contract-north-star.md), [api-contract Blueprint](../BLUEPRINT/api-contract-blueprint.md), [ADR-0030](../adr/ADR-0030-erp-rest-api-contract-standard.md), `apps/erp/src/server/api/contracts/**`, [R1d attestation](KERNEL/SLICE/pas-001a-r1d-production-candidate-reclose.md#r1d-attestation-appendix-archived-gate-bundle-2026-06-29), [R2 handoff](KERNEL/SLICE/pas-001a-r2-service-actor-s2s-attestation.md), [B112-ERP handoff](KERNEL/SLICE/b112-erp-format-precision-consumer-attestation.md), [R3 track](API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) |
 | **Gates** | Active: PAS-001A §0 rows 1–8, 10–11, 12–14, 16–19 · R1/R2/B112-ERP: `check:erp-operating-context-spine`, `check:erp-auth-actor-protected-path-attestation`, `check:erp-metadata-pas006-consumer`, `check:erp-service-actor-s2s-attestation`, `check:erp-format-precision-ingress-attestation` · R3: `check:api-contracts` · `check:openapi-drift` · `check:api-route-catalog` · `lint:openapi` · Archived: 9, 15 (legacy frontend) |
 | **Result** | Kernel consumer **doctrine** intact; **IS-002 + IS-003 skeleton integration-proven**; **IS-004 REST contract runtime Production Accepted** |
 
@@ -94,7 +94,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | Family doctrine attested · REST binding active · RPC/GQL/Event/Agent reserved |
 | **Authority** | [PAS-API-001](API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) · [api-contract North Star](../NORTHSTAR/api-contract-north-star.md) |
 | **Style bindings** | [REST](API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) Active · RPC · GraphQL · Event · Agent Reserved |
-| **ERP consumer** | [PAS-001A-API-BINDING](KERNEL/PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) |
+| **ERP consumer** | [PAS-001A-API-BINDING](KERNEL/PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) **Delivered (S1–S7)** |
 | **Remaining slices** | none — S1–S9 Delivered — [S-track](API-CONTRACT/SLICE/pas-api-001-slice-track.md) |
 | **Slice guideline** | [SLICE-BUILDING-GUIDELINE.md](API-CONTRACT/SLICE-BUILDING-GUIDELINE.md) |
 | **Runtime evidence** | `apps/erp/src/server/api/contracts/core/**` · `pnpm check:api-family-conformance` · `pnpm check:api-contracts` |
@@ -177,20 +177,21 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 | Field | Value |
 | --- | --- |
-| **Report** | [KERNEL/audit/procurement-foundation-gap-report.md](KERNEL/audit/procurement-foundation-gap-report.md) |
+| **Lane** | ERP-MODULES (features runtime) — consumes KV-PROC wire; not a kernel slice series |
+| **Report** | [ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md](ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md) |
 | **Report ID** | PAS-PROC-FDN-AUDIT-001 |
-| **Report type** | Foundation-gap report — not a runtime-build plan |
-| **Wire slice** | B80 Delivered — KV-PROC contracts-only |
+| **Report type** | Foundation-gap report — not a runtime-build plan · not an authorized slice catalog |
+| **Wire slice** | B80 Delivered — KV-PROC contracts-only ([handoff](KERNEL/SLICE/b80-procurement-domain-vocabulary.md)) |
+| **Delivered slice** | [ERP-PROC-FDN-001](ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) — **Delivered** 2026-06-30 |
 | **Runtime status** | Wire vocabulary only — `@afenda/procurement` (PKG-R05) blocked; no DB/services/routes |
 | **Enterprise readiness** | **Not ready** (0–10% runtime confidence) |
-| **Foundation direction** | 90% — ten slices ERP-PROC-FDN-001 through 009 (includes 002A) |
-| **Remaining slices** | FDN-001 → FDN-002 → **FDN-002A** → FDN-003 → … → FDN-009 (proposed) |
+| **Foundation gaps** | See gap report sections A–F — ownership, DB, permissions, context consumer, audit, knowledge |
 | **Gates (live — wire only)** | `pnpm check:procurement-domain-contracts` |
-| **Gates (proposed — foundation)** | PAS-001C platform gates live — `pnpm check:erp-module-*` (see [PAS-001C](KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md)); module-specific `check:procurement-module-readiness` still proposed |
+| **Gates (live — platform foundation)** | PAS-001C — `pnpm check:erp-module-*` (see [PAS-001C](KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md)) |
 | **Gates (proposed — runtime consumer)** | `check:procurement-context-spine-consumer`, `check:procurement-permission-enforcement`, `check:procurement-audit-outbox`, `check:procurement-metadata-binding` |
-| **Last audited** | 2026-06-30 · Review amended 2026-06-30 |
+| **Last audited** | 2026-06-30 · Review amended 2026-06-30 · Relocated to ERP-MODULES 2026-06-30 |
 
-**Next sequence item:** ERP-PROC-FDN-001 — Procurement Runtime Authority Boundary (domain ADR + PKG-R05 disposition). **FDN-003 blocked until FDN-002A** (runtime ownership model).
+**Next slice:** **TBD** — handoff must be authored before listing ([SLICE/README](ERP-MODULES/SLICE/README.md)).
 
 ---
 

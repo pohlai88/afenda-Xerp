@@ -94,7 +94,7 @@
 
 **Required gates:** §13.1 · Session: `/afenda-coding-session` · Skill: `kernel-authority`
 
-**Closure waivers (B67 — do not treat as missing implementation):** archive [PAS-001 §0](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#0-agent-quick-path) — fiscal ID authority resolved by [ADR-0031](../../adr/ADR-0031-fiscal-domain-id-authority.md); deferred `AppErrorCode` values; `PermissionScopeContext` drift registry note.
+**Closure waivers (B67 — do not treat as missing implementation):** archive [PAS-001 §0](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#0-agent-quick-path) — fiscal ID authority resolved by [ADR-0032](../../adr/ADR-0032-fiscal-domain-id-authority.md); deferred `AppErrorCode` values; `PermissionScopeContext` drift registry note.
 
 ---
 

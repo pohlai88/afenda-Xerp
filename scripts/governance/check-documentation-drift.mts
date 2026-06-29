@@ -198,6 +198,34 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
     }
   }
 
+  const adrDirectory = join(repoRoot, "docs/adr");
+  if (existsSync(adrDirectory)) {
+    const adrFilesByNumber = new Map<string, string[]>();
+
+    for (const name of readdirSync(adrDirectory)) {
+      const numberMatch = name.match(/^ADR-(\d{4})-/);
+      if (!numberMatch) {
+        continue;
+      }
+
+      const adrId = `ADR-${numberMatch[1]}`;
+      const relativePath = `docs/adr/${name}`;
+      const existing = adrFilesByNumber.get(adrId) ?? [];
+      existing.push(relativePath);
+      adrFilesByNumber.set(adrId, existing);
+    }
+
+    for (const [adrId, paths] of adrFilesByNumber) {
+      if (paths.length > 1) {
+        violations.push({
+          file: paths.join(", "),
+          message: `Duplicate ADR number ${adrId}: ${paths.join(" · ")}`,
+          rule: "adr-number-collision",
+        });
+      }
+    }
+  }
+
   for (const scanPath of [
     ...new Set([
       ...LEGACY_DELIVERY_PATH_SCAN_FILES,

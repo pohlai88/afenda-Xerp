@@ -371,7 +371,7 @@ Append a **Prohibited surface matrix** section to the output immediately before 
 |-----------|------|------|-----------|----------|--------------|
 | Presentation | `formatWorkspaceDisplayLabel()` | `app-shell-context.contract.ts` | Formatting — PAS §4.5 | WARN | `@afenda/appshell` |
 | Decision | `resolveReportingCurrency()` | `accounting-readiness.contract.ts` | Currency decision — PAS §4.5/§7 | WARN | Finance layer |
-| Forbidden ID | `FiscalPeriodId` | `erp-domain/accounting/accounting-id.contract.ts` | PAS §4.1 "not approved" | BLOCK | `@afenda/accounting` |
+| Forbidden ID | `FiscalPeriodId` | `erp-domain/accounting/accounting-id.contract.ts` | PAS §4.1.6 · ADR-0032 | BLOCK if platform floor | KV-ACCT subpath only |
 | Self-import | `from "@afenda/kernel"` | `accounting-id.contract.ts` | §3.3 — use relative path | BLOCK | Relative import |
 
 After the matrix, add a one-line **Blind-spot note**: which existing governance gates would NOT catch each item, and why.

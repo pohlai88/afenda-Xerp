@@ -349,7 +349,7 @@ Maps [Kernel NS §9.3 Provides to](../NORTHSTAR/kernel-north-star.md) at archite
 | Tenant SaaS lifecycle wire | **delivered** | B107 wire · B111 — `check:erp-tenant-lifecycle-extension-consumer-attestation` |
 | Tenant extension boundary wire | **delivered** | B108 wire · B111 — metadata extension ingress guard |
 | Actor/integration identity on all protected paths | **delivered** | B110 — `check:erp-auth-actor-protected-path-attestation` · `AUTH_ACTOR_BRIDGE_WIRING` |
-| `FiscalCalendarId` / `FiscalPeriodId` authority | **resolved** | [ADR-0031](../adr/ADR-0031-fiscal-domain-id-authority.md) — permanent KV-ACCT quarantine; off platform floor |
+| `FiscalCalendarId` / `FiscalPeriodId` authority | **resolved** | [ADR-0032](../adr/ADR-0032-fiscal-domain-id-authority.md) — permanent KV-ACCT quarantine; off platform floor |
 | Ledger/posting in kernel | **blocked** | ADR-0010 · PKGR01 disposition |
 | Tenant provisioning execution in kernel | **blocked** | Kernel NS §9.2 — Identity / Persistence / Platform ops |
 | PAS-001 vocabulary reopen | **closed** | Amendment slice only |

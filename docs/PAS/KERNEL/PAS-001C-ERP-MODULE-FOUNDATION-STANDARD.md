@@ -217,8 +217,9 @@ Enforced by `check:erp-module-no-kernel-runtime-leak`.
 | ERP-MOD-FDN-001 | Foundation package scaffold | Delivered (historical) |
 | ERP-MOD-FDN-002 | Governance gate registry | Delivered (historical) |
 | ERP-MOD-FDN-003 | Foundation authority — factories + composite gates | **Delivered** 2026-06-30 |
-| ERP-PROC-FDN-001 | Procurement runtime authority boundary | Planned — [handoff](../ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) |
-| ERP-PROC-FDN-002…009 | Procurement foundation sequence | Planned — [catalog](../ERP-MODULES/SLICE/README.md) |
+| ERP-PROC-FDN-001 | Procurement runtime authority boundary | **Delivered** 2026-06-30 — [handoff](../ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) |
+
+Procurement LoB slices: [ERP-MODULES/SLICE/README.md](../ERP-MODULES/SLICE/README.md) — handoff file required; gap report is not an authorized catalog.
 
 **Next platform slice:** none — horizontal LoB slices consume PAS-001C.
 

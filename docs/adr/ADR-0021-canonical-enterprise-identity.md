@@ -114,7 +114,7 @@ Permanently excluded from platform-floor `ID_FAMILIES` and the main `@afenda/ker
 - `FiscalCalendarId`
 - `FiscalPeriodId`
 
-Canonical domain-scoped home: `@afenda/kernel/erp-domain/accounting` (KV-ACCT). Authority recorded in [ADR-0031 — Fiscal Domain ID Authority](./ADR-0031-fiscal-domain-id-authority.md). They are not enterprise ID families and must not join the identity promotion process.
+Canonical domain-scoped home: `@afenda/kernel/erp-domain/accounting` (KV-ACCT). Authority recorded in [ADR-0032 — Fiscal Domain ID Authority](./ADR-0032-fiscal-domain-id-authority.md). They are not enterprise ID families and must not join the identity promotion process.
 
 ### Trust boundaries and API ingress
 
@@ -196,7 +196,7 @@ Scattered contracts under `packages/kernel/src/contracts/platform-id*.ts` are **
 - [ADR-0022 — PostgreSQL Split-ID Persistence Model](./ADR-0022-postgres-split-id-persistence-model.md)
 - [ADR-0023 — Tenant Human Reference Numbering](./ADR-0023-tenant-human-reference-numbering.md)
 - [ADR-0024 — Canonical ID Body Generation](./ADR-0024-canonical-id-body-generation.md)
-- [ADR-0031 — Fiscal Domain ID Authority](./ADR-0031-fiscal-domain-id-authority.md)
+- [ADR-0032 — Fiscal Domain ID Authority](./ADR-0032-fiscal-domain-id-authority.md)
 - [PAS-001 §4.1](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
 - [canonical-enterprise-id-constitution.md](../PAS/KERNEL/identity/canonical-enterprise-id-constitution.md)
 - [identity-promotion-process.md](../PAS/KERNEL/identity/identity-promotion-process.md)

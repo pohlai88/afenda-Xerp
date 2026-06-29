@@ -374,7 +374,7 @@ PAS-001C authority + slice catalog (Delivered)
 Canonical template (docs/PAS/ERP-MODULES/) — migrated from KERNEL/template tombstone
         │
         ▼
-Procurement exemplar slices ERP-PROC-FDN-001… *(in progress — §12.4)*
+Procurement exemplar: **ERP-PROC-FDN-001 Delivered** · next slice TBD (§12.4)
         │
         ▼
 Additional LoB ERP feature-module runtime scaffolds repeat under path law
@@ -520,7 +520,7 @@ Additional LoB ERP feature-module runtime scaffolds repeat under path law
 | D1 | Module foundation is a platform delivery domain, not LoB business truth | Delivery pattern repeats across 28 wire modules | E1 · E4 · E8 | Blueprint declares **ERP Module Runtime Foundation** box; LoB NS remain separate | Enterprise |
 | D2 | ERP feature-family package path law supersedes per-LoB root packages for runtime scaffold | Monorepo scalability and boundary enforcement | E9 · E10 | One ERP feature-family package with `{slug}/` trees — Blueprint/PAS authoritative; E9 upgrades after adoption | Production |
 | D3 | Template is implementation SSOT; North Star is business SSOT | Doc boundary contract prevents gate/path leakage into §1–§12 | E8 · doc-boundary-contract | Amend template for shape; amend NS only when business meaning changes | Enterprise |
-| D4 | Procurement is first exemplar module slice | Wire catalog KV-PROC delivered; foundation pattern needs proof | E4 · E8 | First slice under path law validates gates before horizontal rollout — **not yet delivered** (§12.4) | Production |
+| D4 | Procurement is first exemplar module slice | Wire catalog KV-PROC delivered; ERP-PROC-FDN-001 Delivered 2026-06-30 | E4 · E8 | First slice under path law validates gates before horizontal rollout — operational runtime **not delivered** (§12.4) | Production |
 | D5 | Readiness dimensions are constitutional for operational promotion | Historical integration debt from verbal done | E5 · E11 · LAW 6 | No operational state without readiness report | Enterprise |
 | D6 | Knowledge map blocks semantic runtime | Wire-only terms caused wrong policy in peer ERP programs | E3 · E12 | `wire_only` and `missing` block behavior per §8.2 | Enterprise |
 
@@ -539,7 +539,7 @@ Additional LoB ERP feature-module runtime scaffolds repeat under path law
 
 | Item | Status | Evidence required for upgrade |
 | --- | --- | --- |
-| **Procurement exemplar (KV-PROC)** | Foundation scaffold only | [Readiness report](../PAS/ERP-MODULES/PROCUREMENT/procurement-runtime-readiness-report.md) · ERP-PROC-FDN-001…009 |
+| **Procurement exemplar (KV-PROC)** | Foundation scaffold only | [Readiness report](../PAS/ERP-MODULES/PROCUREMENT/procurement-runtime-readiness-report.md) · [Gap report](../PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md) · ERP-PROC-FDN-001 Delivered |
 | **E9 path law evidence tier** | T1 | Blueprint + PAS-001C accepted |
 | **Enterprise 9.5 acceptance** | Not achieved | Procurement operational readiness report green |
 

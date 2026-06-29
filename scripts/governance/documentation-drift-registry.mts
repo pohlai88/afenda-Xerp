@@ -139,6 +139,16 @@ export const STALE_DELIVERY_MARKERS = [
     ],
     rule: "kernel-authority-skill-retired-accounting-domain-path",
   },
+  {
+    file: "packages/kernel/PAS-001-KERNEL-TREE.md",
+    forbidden: ["until Finance ADR", "quarantine until Finance"],
+    rule: "kernel-tree-stale-fiscal-adr-waiver",
+  },
+  {
+    file: "packages/kernel/src/governance/kernel-boundary-drift.registry.ts",
+    forbidden: ["until Finance ADR promotes"],
+    rule: "kernel-drift-stale-fiscal-pending-waiver",
+  },
 ] as const;
 
 /** Master plan must reference current authority artifacts. */

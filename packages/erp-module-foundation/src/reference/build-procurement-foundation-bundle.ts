@@ -88,7 +88,8 @@ export const PROCUREMENT_FOUNDATION_EVIDENCE: Readonly<
   authority: "docs/adr/ADR-0031-procurement-runtime-authority-boundary.md",
   registry: "docs/PAS/KERNEL/SLICE/erp-mod-fdn-003-foundation-authority.md",
   knowledge: "packages/enterprise-knowledge/src/data/atoms.json",
-  ownership: "docs/PAS/KERNEL/audit/procurement-foundation-gap-report.md",
+  ownership:
+    "docs/PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md",
   database: "",
   contextSpine: "apps/erp/src/lib/context/resolve-operating-context.server.ts",
   permissions:
@@ -110,7 +111,8 @@ export const PROCUREMENT_FOUNDATION_ATTESTED_EVIDENCE = {
   authority: "docs/adr/ADR-0031-procurement-runtime-authority-boundary.md",
   registry: "docs/PAS/KERNEL/SLICE/erp-mod-fdn-003-foundation-authority.md",
   knowledge: "packages/enterprise-knowledge/src/data/atoms.json",
-  ownership: "docs/PAS/KERNEL/audit/procurement-foundation-gap-report.md",
+  ownership:
+    "docs/PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md",
   contextSpine: "apps/erp/src/lib/context/resolve-operating-context.server.ts",
   permissions:
     "packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts",

@@ -1,4 +1,4 @@
-# ADR-0031 — Fiscal Domain ID Authority (Calendar and Period)
+# ADR-0032 — Fiscal Domain ID Authority (Calendar and Period)
 
 | Field | Value |
 | --- | --- |
@@ -28,12 +28,14 @@ Evidence as of 2026-06-30:
 | `packages/kernel/src/erp-domain/accounting/accounting-id.contract.ts` | Exports `FiscalCalendarId`, `FiscalPeriodId` with `brand*` / `to*` helpers |
 | `FORBIDDEN_PLATFORM_FLOOR_ID_SYMBOLS` | Includes both type names |
 | `pnpm check:forbidden-platform-ids` | Enforces exclusion from main kernel + platform-floor family barrels |
-| Drift registry `accounting-id-forbidden-floor-symbols` | `quarantine_subpath_only` · `refactorStatus: pending` |
+| Drift registry `accounting-id-forbidden-floor-symbols` | `quarantine_subpath_only` · `refactorStatus: completed` |
 | `@afenda/accounting` filesystem package | Contracts-only · no runtime consumers ([ADR-0020](ADR-0020-master-data-authority-consolidation.md)) |
 
 Fiscal calendar and period identifiers are **accounting domain configuration references**, not cross-platform enterprise ID families. They do not require `prefix_ulid` registry rows, platform-floor `parse*` ingress, or database `enterprise_id` CHECK parity at this stage.
 
 Related: ADR-0010 (accounting runtime block), ADR-0015 (contracts-only), ADR-0020 (KV-ACCT consolidation), ADR-0021 (identity constitution), PAS-001 §4.1.6, [identity-promotion-process.md](../PAS/KERNEL/identity/identity-promotion-process.md).
+
+> **ADR numbering:** Procurement runtime authority is [ADR-0031](ADR-0031-procurement-runtime-authority-boundary.md). Fiscal domain ID authority is **ADR-0032** (this record).
 
 ---
 
@@ -94,9 +96,9 @@ Kernel boundary drift entry `accounting-id-forbidden-floor-symbols` closes as **
 
 ## Acceptance Gate
 
-- [x] ADR-0031 status **Accepted**
+- [x] ADR-0032 status **Accepted**
 - [x] Drift registry `accounting-id-forbidden-floor-symbols` → `refactorStatus: completed`
-- [x] ADR-0021 fiscal exception cross-references ADR-0031
+- [x] ADR-0021 fiscal exception cross-references ADR-0032
 - [x] `pnpm check:forbidden-platform-ids` exit 0
 - [x] `pnpm --filter @afenda/kernel test:run` exit 0 (drift registry + forbidden-floor tests)
 
@@ -106,6 +108,7 @@ Kernel boundary drift entry `accounting-id-forbidden-floor-symbols` closes as **
 
 - [ADR-0020 — Master Data Authority Consolidation](ADR-0020-master-data-authority-consolidation.md)
 - [ADR-0021 — Canonical Enterprise ID Constitution](ADR-0021-canonical-enterprise-identity.md)
+- [ADR-0031 — Procurement Runtime Authority Boundary](ADR-0031-procurement-runtime-authority-boundary.md)
 - [PAS-001 §4.1.6](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)
 - [identity-promotion-process.md](../PAS/KERNEL/identity/identity-promotion-process.md)
 - Drift registry: `packages/kernel/src/governance/kernel-boundary-drift.registry.ts`

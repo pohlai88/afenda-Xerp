@@ -254,7 +254,7 @@ This table is the canonical count. Every PAS row must trace back to a Blueprint 
 | Planned | Financial Reporting | Financial reporting (statements) | 0 / TBD | Planned |
 | Planned | HRM | HRM | 0 / TBD | Planned |
 | Planned | CRM | CRM | 0 / TBD | Planned |
-| Planned | Procurement | Procurement | 0 / ERP-PROC-FDN-009 | Planned · [Procurement NS](../NORTHSTAR/procurement-north-star.md) · [readiness scaffold](../PAS/ERP-MODULES/PROCUREMENT/procurement-runtime-readiness-report.md) |
+| Planned | Procurement | Procurement | 1 / TBD | Planned · [Procurement NS](../NORTHSTAR/procurement-north-star.md) · [readiness scaffold](../PAS/ERP-MODULES/PROCUREMENT/procurement-runtime-readiness-report.md) · ERP-PROC-FDN-001 Delivered |
 
 > **Rule:** A PAS may be marked Live only when its Blueprint box is `live` and at least one slice is Delivered. Update `Live slices / Total slices` on every slice close.
 

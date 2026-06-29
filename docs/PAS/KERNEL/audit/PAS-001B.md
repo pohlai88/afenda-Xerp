@@ -889,7 +889,7 @@ pnpm check:inventory-domain-contracts
 
 Verify `procurement` / KV-PROC is delivered as wire vocabulary only.
 
-**Runtime foundation gap (post-wire):** [procurement-foundation-gap-report.md](./procurement-foundation-gap-report.md) (PAS-PROC-FDN-AUDIT-001) — enterprise readiness audit; does not replace this wire-only contract audit.
+**Runtime foundation gap (post-wire):** [procurement-foundation-gap-report.md](../../ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md) (PAS-PROC-FDN-AUDIT-001 · ERP-MODULES lane) — enterprise readiness audit; does not replace this wire-only contract audit.
 
 ### Evidence to inspect
 

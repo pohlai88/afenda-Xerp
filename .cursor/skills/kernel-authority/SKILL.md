@@ -248,7 +248,7 @@ The boundary gate blocks cross-package prohibited imports. It does **not** catch
 |---|---|---|---|
 | **Presentation helper** | `formatWorkspaceDisplayLabel()` | Formats UI label strings — PAS §4.5 no formatting | `@afenda/appshell` |
 | **Currency decision function** | `resolveReportingCurrency()` | Encodes `reportingCurrency ?? baseCurrency` fallback — PAS §4.5/§7 no currency decisions | Finance / `@afenda/accounting` |
-| **Forbidden ID through sub-domain** | `FiscalPeriodId` inside `erp-domain/accounting/` | PAS §4.1 explicitly "not approved at this stage" | `@afenda/accounting` |
+| **Forbidden ID through sub-domain** | `FiscalPeriodId` inside `erp-domain/accounting/` | PAS §4.1.6 forbidden platform floor — KV-ACCT only | `@afenda/kernel/erp-domain/accounting` ([ADR-0032](../../docs/adr/ADR-0032-fiscal-domain-id-authority.md)) |
 | **Operational/diagnostic snapshot type** | `AccountingReadinessGateLiveSnapshot` | Gate telemetry is not cross-package vocabulary | ERP system-admin or `@afenda/observability` |
 | **Self-import via package name** | `from "@afenda/kernel"` inside `packages/kernel/src/**` | Hides intra-package dependency graph — always use relative path | `./brand.contract.js` |
 | **Repo governance in source** | `BUSINESS_MASTER_DATA_FORBIDDEN_PACKAGE_DIRS` | Directory scaffold policy belongs in `scripts/governance/` | `scripts/governance/` or `packages/architecture-authority` |

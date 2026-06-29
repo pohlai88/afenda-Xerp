@@ -389,7 +389,7 @@ Legacy title: Production Candidate Scorecard — [PAS-001A §6](archive/PAS-001A
 
 # 7. Closure Waivers (inherit from PAS-001)
 
-Not PAS-001A blockers: `FiscalCalendarId` quarantine · deferred ID families · ledger/posting runtime. See legacy [PAS-001A §7](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md#7-closure-waivers-inherit-from-pas-001--not-pas-001a-blockers).
+Not PAS-001A blockers: deferred ID families · ledger/posting runtime. Fiscal ID quarantine resolved — [ADR-0032](../../adr/ADR-0032-fiscal-domain-id-authority.md). See legacy [PAS-001A §7](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md#7-closure-waivers-inherit-from-pas-001--not-pas-001a-blockers).
 
 ---
 

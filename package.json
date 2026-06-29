@@ -310,6 +310,7 @@
     "biome.project.jsonc": "node scripts/governance/check-biome-editor-sync.mjs",
     ".vscode/settings.json": "node scripts/governance/check-biome-editor-sync.mjs",
     "packages/shadcn-studio/src/**/*.css": "node scripts/governance/sync-package-css-dist.mjs",
+    "apps/erp/src/server/api/contracts/**/*.ts": "node scripts/api-contract/sync-api-route-catalog.mjs",
     "*.mdx": "prettier --write"
   }
 }

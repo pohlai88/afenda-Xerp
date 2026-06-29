@@ -93,7 +93,7 @@ All primitive code brands above are **Status: Current** in `platform-id.contract
 
 Gate: `pnpm check:kernel-platform-id-surface`
 
-`FiscalCalendarId` and `FiscalPeriodId` are **not** kernel additions. They belong to Finance / Accounting. Do not add them to kernel unless a future approved cross-package contract explicitly requires a branded reference.
+`FiscalCalendarId` and `FiscalPeriodId` are **not** platform-floor enterprise ID families. Canonical home: `@afenda/kernel/erp-domain/accounting` (KV-ACCT) per [ADR-0032](../../../docs/adr/ADR-0032-fiscal-domain-id-authority.md). Do not export them from the main `@afenda/kernel` barrel or add them to `ID_FAMILIES`.
 
 ---
 

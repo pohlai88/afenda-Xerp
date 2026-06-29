@@ -36,8 +36,13 @@ Code under packages/features/erp-modules/src/{module-slug}/ (when package live)
 ## Boundary
 
 - **PAS-001C** owns platform foundation **shape** helpers — not LoB business rules.
-- **Kernel (PAS-001B)** owns wire vocabulary — modules bind to KV IDs; they do not redefine words.
+- **Kernel (PAS-001B)** owns wire vocabulary — modules bind to KV IDs; they do not redefine words. Kernel does **not** own procurement runtime slices.
 - **LoB domain North Stars** own business meaning — Procurement, Inventory, Accounting, etc.
 - **Template** owns filesystem and contract file names — not business philosophy (North Star §1–§12).
+- **Runtime path law:** LoB module runtime lives under `packages/features/erp-modules/src/{module-slug}/` (Blueprint §4.5) — consumes kernel wire; not nested under KERNEL.
+
+## Slice authority
+
+Official slice IDs exist **only** when a handoff file is present under [SLICE/](SLICE/README.md). Gap reports list gaps — not authorized numbering.
 
 **Last updated:** 2026-06-30

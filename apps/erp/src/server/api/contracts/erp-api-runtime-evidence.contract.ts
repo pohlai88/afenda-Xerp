@@ -29,6 +29,10 @@ import { assertRegistryCorrelationPolicy } from "./core/api-audit-replay.contrac
 import type { ApiOperationId } from "./core/api-operation-id.contract";
 import { collectErpApiAuthBridgeViolations } from "./erp-api-auth-bridge.contract";
 import {
+  ERP_API_BRIDGE_SLICE_MODULES,
+  ERP_API_RUNTIME_MATURITY,
+} from "./erp-api-binding-track.contract";
+import {
   collectErpApiConsumptionViolations,
   getRegistryOperationIds,
 } from "./erp-api-consumption.contract";
@@ -45,20 +49,11 @@ export const ERP_API_RUNTIME_HANDLER_MODULE =
 export const ERP_API_RUNTIME_AUDIT_MODULE =
   "apps/erp/src/server/api/runtime/api-handler-audit.ts" as const;
 
-export const ERP_API_RUNTIME_MATURITY = "production-accepted" as const;
-
 export const ERP_API_RUNTIME_EVIDENCE_GATES = [
   "check:api-contracts",
   "check:openapi-drift",
   "check:api-route-catalog",
   "lint:openapi",
-] as const;
-
-export const ERP_API_BINDING_SLICE_MODULES = [
-  "apps/erp/src/server/api/contracts/erp-api-consumption.contract.ts",
-  "apps/erp/src/server/api/contracts/erp-rest-binding-consumption.contract.ts",
-  "apps/erp/src/server/api/contracts/erp-api-context-bridge.contract.ts",
-  "apps/erp/src/server/api/contracts/erp-api-auth-bridge.contract.ts",
 ] as const;
 
 export const ERP_API_RUNTIME_EVIDENCE_TEST_PATHS = [
@@ -74,14 +69,14 @@ export const ERP_API_RUNTIME_EVIDENCE_TEST_PATHS = [
 
 export interface ErpApiRuntimeEvidenceAttestation {
   readonly auditModule: typeof ERP_API_RUNTIME_AUDIT_MODULE;
+  readonly bindingKind: "erp-api-runtime-evidence";
   readonly bindingSliceCount: number;
-  readonly bindingSliceModules: typeof ERP_API_BINDING_SLICE_MODULES;
+  readonly bindingSliceModules: typeof ERP_API_BRIDGE_SLICE_MODULES;
   readonly evidenceGateCount: number;
   readonly evidenceTestPathCount: number;
   readonly governedRouteCount: number;
   readonly handlerModule: typeof ERP_API_RUNTIME_HANDLER_MODULE;
   readonly integrationSurfaceId: "IS-004";
-  readonly kind: "erp-api-runtime-evidence";
   readonly maturity: typeof ERP_API_RUNTIME_MATURITY;
   readonly operationCount: number;
   readonly routeRoot: typeof ERP_INTERNAL_V1_ROUTE_ROOT;
@@ -95,14 +90,14 @@ export function buildErpApiRuntimeEvidenceAttestation(input: {
 
   return {
     auditModule: ERP_API_RUNTIME_AUDIT_MODULE,
-    bindingSliceCount: ERP_API_BINDING_SLICE_MODULES.length,
-    bindingSliceModules: ERP_API_BINDING_SLICE_MODULES,
+    bindingKind: "erp-api-runtime-evidence",
+    bindingSliceCount: ERP_API_BRIDGE_SLICE_MODULES.length,
+    bindingSliceModules: ERP_API_BRIDGE_SLICE_MODULES,
     evidenceGateCount: ERP_API_RUNTIME_EVIDENCE_GATES.length,
     evidenceTestPathCount: ERP_API_RUNTIME_EVIDENCE_TEST_PATHS.length,
     governedRouteCount: governedRoutes.length,
     handlerModule: ERP_API_RUNTIME_HANDLER_MODULE,
     integrationSurfaceId: "IS-004",
-    kind: "erp-api-runtime-evidence",
     maturity: ERP_API_RUNTIME_MATURITY,
     operationCount: input.contracts.length,
     routeRoot: ERP_INTERNAL_V1_ROUTE_ROOT,
@@ -199,4 +194,5 @@ export function collectErpApiRuntimeEvidenceViolations(input: {
 }
 
 /** Re-export for attestation tests — operation ids flow from family layer. */
+export { ERP_API_RUNTIME_MATURITY } from "./erp-api-binding-track.contract";
 export { getRegistryOperationIds };

@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **Document class** | `promotion_backlog` |
-| **Authority** | [Module Foundation NS §3.1](../../NORTHSTAR/erp-module-runtime-north-star.md) · [Procurement gap report §B.2](../KERNEL/audit/procurement-foundation-gap-report.md) |
+| **Authority** | [Module Foundation NS §3.1](../../NORTHSTAR/erp-module-runtime-north-star.md) · [Procurement gap report §B.2](../PROCUREMENT/procurement-foundation-gap-report.md) |
 | **Registry** | `packages/enterprise-knowledge/src/data/knowledge.registry.ts` |
 | **Last updated** | 2026-06-30 |
 
@@ -40,7 +40,7 @@ Mirrors [Module Foundation NS §3.1](../../NORTHSTAR/erp-module-runtime-north-st
 
 ## Procurement business promotion (KV-PROC P0)
 
-Mirrors [gap report §B.2](../KERNEL/audit/procurement-foundation-gap-report.md#b2-procurement-knowledge-register).
+Mirrors [gap report §B.2](../PROCUREMENT/procurement-foundation-gap-report.md#b2-procurement-knowledge-register).
 
 | Term | PAS-004 status | Wire (KV-PROC) | Status | Atom ID |
 | --- | --- | --- | --- | --- |

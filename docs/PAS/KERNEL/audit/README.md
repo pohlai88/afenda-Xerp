@@ -7,7 +7,10 @@ Evidence-first gap reports and audit catalogs that sit alongside composed PAS do
 | [PAS-001 Audit Slice Catalog](./PAS-001.md) | PAS-001-AUDIT-SLICES | Kernel vocabulary full-development verification (25 slices) | **25/25 Pass** — [checkpoint](../../../.cursor/audit/checkpoints/PAS-001.json) |
 | [PAS-001A Audit Slice Catalog](./PAS-001A.md) | PAS-001A-AUDIT-SLICES | ERP integration spine verification (25 slices) | **25/25 Pass** — [checkpoint](../../../.cursor/audit/checkpoints/PAS-001A.json) |
 | [PAS-001B Audit Slice Catalog](./PAS-001B.md) | PAS-001B-AUDIT-SLICES | ERP wire vocabulary catalog verification (30 slices) | **30/30 Pass** — [checkpoint](../../../.cursor/audit/checkpoints/PAS-001B.json) |
-| [Procurement Runtime Foundation Gap Report](./procurement-foundation-gap-report.md) | PAS-PROC-FDN-AUDIT-001 | KV-PROC wire vs enterprise procurement runtime readiness | **Accepted** — review amended 2026-06-30 |
+
+**Procurement runtime foundation gap report (PAS-PROC-FDN-AUDIT-001)** — **relocated** to [ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md](../../ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md). Kernel owns KV-PROC wire ([B80](../SLICE/b80-procurement-domain-vocabulary.md)) only; procurement runtime slices are ERP-MODULES lane.
+
+Tombstone at [procurement-foundation-gap-report.md](./procurement-foundation-gap-report.md) redirects to canonical path.
 
 ## Orchestration entry points
 
@@ -21,9 +24,11 @@ Checkpoints live under [`.cursor/audit/checkpoints/`](../../../.cursor/audit/che
 
 ## When to add an artifact here
 
-- Domain or module **foundation gap** audit before runtime ADR or package activation
-- Cross-PAS evidence maps (wire + spine + permissions + DB + knowledge)
-- Recommended foundation slices and proposed gates (not yet implemented)
+- **Kernel / wire / spine** foundation gap audit before runtime ADR or package activation
+- Cross-PAS evidence maps limited to kernel lane scope
+- PAS-001 / 001A / 001B catalog verification checkpoints
+
+**Procurement runtime gaps** — add under `docs/PAS/ERP-MODULES/PROCUREMENT/`, not here.
 
 ## Maintenance
 

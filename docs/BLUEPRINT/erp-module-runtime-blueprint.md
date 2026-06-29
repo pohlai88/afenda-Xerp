@@ -10,7 +10,7 @@
 | **Parent** | [Platform North Star](../architecture/afenda-platform-north-star.md) · [ERP Module Runtime North Star](../NORTHSTAR/erp-module-runtime-north-star.md) |
 | **Platform rollup** | [Kernel Blueprint](kernel-blueprint.md) §2 cross-cutting row |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) · [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) · [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) |
-| **Derived documents** | [PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) · [ERP-MODULES template](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) · [Procurement gap report](../PAS/KERNEL/audit/procurement-foundation-gap-report.md) |
+| **Derived documents** | [PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) · [ERP-MODULES template](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) · [`ERP-MODULES/template/`](../PAS/ERP-MODULES/template/) · [Procurement gap report](../PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md) |
 | **Maturity** | Production Candidate — document **9.0 / 10**; procurement exemplar **not delivered** |
 | **Runtime maturity** | `foundation_authority` — `@afenda/erp-module-foundation` helpers + composite gates live |
 | **Runtime stance** | Documentation only — references registries and governance scripts |
@@ -135,7 +135,7 @@ Business **why** module foundation exists: [North Star §1](../NORTHSTAR/erp-mod
 - Readiness and registry readiness reports (`renderModuleReadinessReport`, `renderModuleRegistryReadinessReport`)
 - Reference procurement foundation bundle (wire-phase exemplar only)
 - Composite governance gates (`check:erp-module-*`)
-- Implementation template SSOT under `docs/PAS/ERP-MODULES/`
+- Implementation template SSOT: [`erp-runtime-module-foundation.template.md`](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) (canonical) · [`ERP-MODULES/template/`](../PAS/ERP-MODULES/template/) (template family folder — tombstone redirect)
 
 ## 4.3 Box never owns (architectural)
 
@@ -198,6 +198,8 @@ packages/erp-module-foundation/
 
 | Path | Role |
 | --- | --- |
+| [`docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md`](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) | Implementation template SSOT (§1–§8) |
+| [`docs/PAS/ERP-MODULES/template/`](../PAS/ERP-MODULES/template/) | Template family folder — tombstone → canonical SSOT |
 | `packages/erp-module-foundation/src/define-*.ts` | Foundation factories |
 | `packages/erp-module-foundation/src/assert-*.ts` | Fail-closed validators |
 | `packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts` | KV-PROC reference bundle |
@@ -212,7 +214,7 @@ packages/erp-module-foundation/
 | B2 | Features-package path law for LoB scaffolds | T1 | Accepted via NS §0.1 + this §4.5 | [NS E9](../NORTHSTAR/erp-module-runtime-north-star.md) |
 | B3 | Foundation helper package live with composite gates | T5 | Delivered | `@afenda/erp-module-foundation` · ERP-MOD-FDN-003 |
 | B4 | Procurement reference bundle wire-phase only | T5 | Delivered scaffold | `PROCUREMENT_FOUNDATION_BUNDLE` |
-| B5 | Procurement business runtime | T5 | **Not delivered** | [Gap report](../PAS/KERNEL/audit/procurement-foundation-gap-report.md) |
+| B5 | Procurement business runtime | T5 | **Not delivered** | [Gap report](../PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md) · ERP-PROC-FDN-001 Delivered |
 
 ---
 
@@ -256,7 +258,7 @@ PAS-001C is **authorable** when all six conditions hold:
 | §4.6 runtime paths | PAS-001C §4 authority surfaces |
 | §5 consumers | PAS-001C §3.4 dependencies |
 
-**Next slice after PAS-001C platform closure:** [ERP-PROC-FDN-001](../PAS/ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) — Procurement runtime authority boundary (LoB layer).
+**Next slice after ERP-PROC-FDN-001:** **TBD** — handoff must be authored before listing ([ERP-MODULES/SLICE](../PAS/ERP-MODULES/SLICE/README.md)).
 
 ---
 

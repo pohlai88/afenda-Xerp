@@ -66,6 +66,23 @@ export const ERP_API_RUNTIME_EVIDENCE_TEST_PATH =
 export const ERP_API_CONSUMER_IMPACT_SYNC_TEST_PATH =
   "apps/erp/src/server/api/__tests__/erp-api-consumer-impact-sync.test.ts" as const;
 
+export const ERP_API_RELEASE_GATE_TEST_PATH =
+  "apps/erp/src/server/api/__tests__/erp-api-release-gate.test.ts" as const;
+
+export const ERP_API_BINDING_TRACK_TEST_PATH =
+  "apps/erp/src/server/api/__tests__/erp-api-binding-track.test.ts" as const;
+
+/** Attestation tests for PAS-001A-API-BINDING S1–S7. */
+export const ERP_API_BINDING_ATTESTATION_TEST_PATHS = [
+  ERP_API_CONSUMPTION_TEST_PATH,
+  ERP_REST_BINDING_CONSUMPTION_TEST_PATH,
+  ERP_API_CONTEXT_BRIDGE_TEST_PATH,
+  ERP_API_AUTH_BRIDGE_TEST_PATH,
+  ERP_API_RUNTIME_EVIDENCE_TEST_PATH,
+  ERP_API_CONSUMER_IMPACT_SYNC_TEST_PATH,
+  ERP_API_RELEASE_GATE_TEST_PATH,
+] as const;
+
 /** Attestation tests for PAS-API-001 family invariants (S1–S9). */
 export const API_FAMILY_CONTRACT_TEST_PATHS = [
   "apps/erp/src/server/api/__tests__/api-operation-id.contract.test.ts",
@@ -94,4 +111,6 @@ export const DEFAULT_GOVERNED_ROUTE_TEST_PATHS = [
   ERP_API_AUTH_BRIDGE_TEST_PATH,
   ERP_API_RUNTIME_EVIDENCE_TEST_PATH,
   ERP_API_CONSUMER_IMPACT_SYNC_TEST_PATH,
+  ERP_API_RELEASE_GATE_TEST_PATH,
+  ERP_API_BINDING_TRACK_TEST_PATH,
 ] as const;

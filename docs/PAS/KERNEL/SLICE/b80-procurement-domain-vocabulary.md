@@ -78,6 +78,6 @@ Handoff from: docs/PAS/KERNEL/SLICE/b80-procurement-domain-vocabulary.md
 
 Wire vocabulary delivery (this slice) is **not** procurement business runtime. Enterprise readiness gap audit:
 
-- [Procurement Runtime Foundation Gap Report](../audit/procurement-foundation-gap-report.md) (PAS-PROC-FDN-AUDIT-001 · reviewed 2026-06-30)
-- Proposed foundation slices: ERP-PROC-FDN-001 → 002 → **002A** → 003 → … → 009
+- [Procurement Runtime Foundation Gap Report](../../ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md) (PAS-PROC-FDN-AUDIT-001 · ERP-MODULES lane)
+- Official slice IDs: [ERP-MODULES/SLICE/README.md](../../ERP-MODULES/SLICE/README.md) — handoff file required (ERP-PROC-FDN-001 Delivered)
 

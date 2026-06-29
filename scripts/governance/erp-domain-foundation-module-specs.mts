@@ -28,7 +28,7 @@ export const ERP_DOMAIN_FOUNDATION_MODULE_SPECS = [
     rule: "Kernel may describe accounting words. It must not execute accounting.",
     policyNoteField: "forbiddenPlatformFloorNote",
     businessReferenceNote:
-      "FiscalCalendarId and FiscalPeriodId remain on @afenda/kernel/erp-domain/accounting only — see FORBIDDEN_PLATFORM_FLOOR_ID_SYMBOLS (PAS-001 §4.1.6).",
+      "FiscalCalendarId and FiscalPeriodId remain on @afenda/kernel/erp-domain/accounting only — ADR-0032 permanent quarantine; see FORBIDDEN_PLATFORM_FLOOR_ID_SYMBOLS (PAS-001 §4.1.6).",
     authorityAdr: "ADR-0020",
     registryId: "PKG-R01",
     vocabularyRegistryId: "PAS-001B-4.8-ACCOUNTING",

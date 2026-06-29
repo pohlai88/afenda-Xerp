@@ -536,7 +536,7 @@ const foundationDispositionEntries = [
     evidence: [
       "docs/adr/ADR-0031-procurement-runtime-authority-boundary.md",
       "docs/NORTHSTAR/procurement-north-star.md",
-      "docs/PAS/KERNEL/audit/procurement-foundation-gap-report.md",
+      "docs/PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md",
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md",
       "packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts",
     ],
