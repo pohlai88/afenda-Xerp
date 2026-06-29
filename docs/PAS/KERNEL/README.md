@@ -103,11 +103,23 @@ SSOT: [DEVELOPMENT-LANE-BOUNDARIES.md](../DEVELOPMENT-LANE-BOUNDARIES.md)
 
 ---
 
+## Audit artifacts
+
+Foundation gap reports and audit catalogs live under [`audit/`](audit/README.md). Use these before domain runtime ADR or package activation.
+
+| Artifact | Role |
+| --- | --- |
+| [audit/PAS-001B.md](audit/PAS-001B.md) | ERP wire vocabulary catalog audit slice catalog (30 slices) |
+| [audit/procurement-foundation-gap-report.md](audit/procurement-foundation-gap-report.md) | KV-PROC wire vs procurement runtime foundation (PAS-PROC-FDN-AUDIT-001) |
+
+---
+
 ## Maintenance
 
 | Event | Update |
 | --- | --- |
 | New kernel capability | Kernel NS §4 → Blueprint §4 → composed PAS → legacy if contract detail needed |
 | Slice close | [SLICE/kernel-slice-catalog.md](SLICE/kernel-slice-catalog.md) · legacy handoff · composed PAS §12 · Blueprint §9 |
+| Foundation gap re-audit | [`audit/`](audit/README.md) artifact + [pas-status-index.md](../pas-status-index.md) |
 | SKILL regen | `.cursor/skills/kernel-authority/SKILL.md` from composed PAS extract map (SYNC intent) |
 | Platform inventory | [Platform Blueprint](../../BLUEPRINT/kernel-blueprint.md) — Kernel row links here |

@@ -12,9 +12,11 @@ export type OperatingContextProtectedSurfaceKind =
 export interface OperatingContextProtectedSurfaceEntry {
   readonly delegate:
     | "resolveOperatingContext"
+    | "loadProtectedRequestOperatingContext"
     | "resolveOperatingContextFromHeaders"
     | "resolveApiRouteOperatingContext"
-    | "resolveActionOperatingContext";
+    | "resolveActionOperatingContext"
+    | "loadMetadataOperatorSurfacePage";
   readonly id: string;
   readonly kind: OperatingContextProtectedSurfaceKind;
   readonly module: string;
@@ -26,28 +28,28 @@ export const OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY = [
     id: "protected-rsc-layout",
     kind: "protected-rsc",
     module: "app/(protected)/layout.tsx",
-    delegate: "resolveOperatingContext",
+    delegate: "loadProtectedRequestOperatingContext",
     routePattern: "/(protected)/*",
   },
   {
     id: "protected-rsc-metadata-workspace",
     kind: "protected-rsc",
     module: "app/(protected)/metadata-workspace/page.tsx",
-    delegate: "resolveOperatingContextFromHeaders",
+    delegate: "loadProtectedRequestOperatingContext",
     routePattern: "/metadata-workspace",
   },
   {
     id: "protected-rsc-settings-profile",
     kind: "protected-rsc",
     module: "app/(protected)/settings/profile/page.tsx",
-    delegate: "resolveOperatingContextFromHeaders",
+    delegate: "loadMetadataOperatorSurfacePage",
     routePattern: "/settings/profile",
   },
   {
     id: "protected-rsc-operator-auth-sign-in",
     kind: "protected-rsc",
     module: "app/(protected)/operator/auth/sign-in/page.tsx",
-    delegate: "resolveOperatingContextFromHeaders",
+    delegate: "loadMetadataOperatorSurfacePage",
     routePattern: "/operator/auth/sign-in",
   },
   {

@@ -20,6 +20,8 @@ Prove metadata workspace and metadata-ui authorization paths consume verified Op
 
 ## Handoff block
 
+> **Historical only — do not execute.** B74 predates ADR-0027. Live IS-003 proof is [R1c](./pas-001a-r1c-metadata-consumer-pas006.md) with `check:erp-metadata-pas006-consumer`. Do not run `check:metadata-context-authorization-bridge` or edit `packages/metadata-ui/**`.
+
 ```
 Handoff from: docs/PAS/KERNEL/SLICE/b74-metadata-context-authorization-bridge.md
 

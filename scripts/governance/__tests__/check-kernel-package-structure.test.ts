@@ -19,6 +19,7 @@ describe("check-kernel-package-structure", () => {
     expect(KERNEL_PACKAGE_SUBPATH_EXPORTS).toEqual([
       "./context",
       "./erp-domain/accounting",
+      "./erp-domain/catalog",
       "./propagation",
       "./events",
       "./policy",

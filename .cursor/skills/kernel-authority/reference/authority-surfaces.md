@@ -298,28 +298,32 @@ Branded context is an **output** of parsing, never assumed from untrusted input.
 
 ## Localization and Global Format Vocabulary
 
-Status: Target / proposed — requires localization vocabulary kernel slice.
+Status: Current — `packages/kernel/src/identity/primitives/` · `packages/kernel/src/context/localization-context.{contract,assert,parser}.ts`
 
 Kernel owns global localization and formatting vocabulary so Finance, Warehouse, HRM, Inventory, Sales, Procurement, and Reporting do not invent incompatible contracts.
 
-```ts
-// Target — add to platform-id.contract.ts
-export type LocaleCode    = Brand<string, "LocaleCode">;
-export type TimezoneId    = Brand<string, "TimezoneId">;
-export type DateFormat    = Brand<string, "DateFormat">;
-export type NumberFormat  = Brand<string, "NumberFormat">;
-export type CurrencyCode  = Brand<string, "CurrencyCode">;
-export type CountryCode   = Brand<string, "CountryCode">;
-export type UomCode       = Brand<string, "UomCode">;
+**Primitive code brands** — `packages/kernel/src/identity/primitives/` (`locale-code`, `timezone-id`, `date-format`, `number-format`, `currency-code`, `country-code`, `uom-code` contracts + `primitive-reference.registry.ts`).
 
-// Target — add to context/localization-context.contract.ts
+**Localization context wire triad** — PAS-001 §4.4:
+
+```ts
+// localization-context.contract.ts
 interface LocalizationContext {
   readonly localeCode: LocaleCode;
   readonly timezoneId: TimezoneId;
   readonly dateFormat: DateFormat;
   readonly numberFormat: NumberFormat;
 }
+
+interface WireLocalizationContext {
+  readonly localeCode: string;
+  readonly timezoneId: string;
+  readonly dateFormat: string;
+  readonly numberFormat: string;
+}
 ```
+
+Ingress: `assertWireLocalizationContext` → `parseLocalizationContext` → branded `LocalizationContext`.
 
 **IANA timezone rule:** `TimezoneId` values must follow the IANA Timezone Database (tzdata) identifier format — e.g. `"America/New_York"`, `"Europe/Amsterdam"`. UTC offsets such as `"+07:00"` are not timezone identifiers.
 
@@ -342,6 +346,51 @@ interface LocalizationContext {
 | Statutory country rules | Legal/compliance domain owner |
 
 Do not create `context/currency-context.contract.ts` or `context/fiscal-calendar-context.contract.ts`.
+
+---
+
+## Actor Kind and Integration Identity
+
+Status: Current — `packages/kernel/src/identity/wire/actor-kind.contract.ts` · `integration-identity.contract.ts` · `auth-actor-identity.contract.ts`
+
+Kernel NS §3.1 · E12 — distinguishes human, service, system, and delegated-application initiators at wire boundaries. Session resolution and OAuth/token runtime live outside kernel — vocabulary and ingress validation only.
+
+```ts
+// actor-kind.contract.ts
+export const ACTOR_KINDS = [
+  "human",
+  "service",
+  "system",
+  "delegated_application",
+] as const;
+
+export type ActorKind = (typeof ACTOR_KINDS)[number];
+
+// integration-identity.contract.ts
+interface IntegrationIdentity {
+  readonly provider: string;
+  readonly externalId: string;
+}
+
+// auth-actor-identity.contract.ts — E12 slots on auth actor bridge
+interface AuthActorIdentity {
+  readonly actorKind?: ActorKind;
+  readonly authSubjectId: AuthSubjectId;
+  readonly integrationIdentity?: IntegrationIdentity;
+  readonly userPk?: InternalEntityPk;
+  readonly userId?: UserId;
+}
+```
+
+**Consistency rules (ingress):**
+
+| actorKind | integrationIdentity | userId |
+| --- | --- | --- |
+| `human` | must be absent | optional |
+| `service` / `delegated_application` | optional | must be absent |
+| `system` | optional | optional |
+
+Public API: `parseAuthActorIdentity` / `serializeAuthActorIdentity` · `parseIntegrationIdentity` / `serializeIntegrationIdentity` · `assertActorKind` / `parseOptionalActorKind`.
 
 ---
 

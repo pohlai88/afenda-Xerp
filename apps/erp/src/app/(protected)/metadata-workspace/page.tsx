@@ -1,4 +1,3 @@
-import { getAfendaAuthSession } from "@afenda/auth";
 import {
   Card,
   CardContent,
@@ -6,11 +5,10 @@ import {
   CardHeader,
   CardTitle,
 } from "@afenda/shadcn-studio";
-import { headers } from "next/headers";
 
 import { MetadataBindingSlotHydrationPreview } from "@/components/metadata/metadata-binding-slot-hydration-preview.client";
-import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
-import { resolveMetadataActorUserIdFromAfendaAuthSession } from "@/lib/metadata/resolve-metadata-auth-actor.server";
+import { loadProtectedRequestOperatingContext } from "@/lib/context/load-protected-request-operating-context.server";
+import { resolveMetadataActorUserIdFromOperatingContext } from "@/lib/metadata/resolve-metadata-auth-actor.server";
 import { resolveMetadataUiRenderContextFromTenantContext } from "@/lib/metadata/resolve-metadata-ui-render-context.server";
 import { resolveMetadataWorkspaceSurfaces } from "@/lib/metadata/resolve-metadata-workspace-surfaces.server";
 
@@ -19,11 +17,7 @@ export const metadata = {
 };
 
 export default async function MetadataWorkspacePage() {
-  const requestHeaders = await headers();
-  const session = await getAfendaAuthSession(requestHeaders);
-  const operatingResult = await resolveOperatingContextFromHeaders({
-    requestHeaders,
-  });
+  const { operatingResult } = await loadProtectedRequestOperatingContext();
 
   if (!operatingResult.ok) {
     return (
@@ -36,10 +30,9 @@ export default async function MetadataWorkspacePage() {
     );
   }
 
-  const actorId =
-    session === null
-      ? operatingResult.value.actor.userId
-      : resolveMetadataActorUserIdFromAfendaAuthSession(session);
+  const actorId = resolveMetadataActorUserIdFromOperatingContext(
+    operatingResult.value
+  );
 
   const runtime = resolveMetadataUiRenderContextFromTenantContext({
     tenant: operatingResult.value.tenant,

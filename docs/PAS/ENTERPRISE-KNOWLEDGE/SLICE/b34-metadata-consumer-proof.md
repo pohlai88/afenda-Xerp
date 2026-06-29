@@ -1,8 +1,10 @@
 # Slice B34 — Metadata Consumer Proof (PAS-004B §4.2)
 
+> **Historical delivery (2026-06-28):** B34 proved `@afenda/ui-composition` metadata consumer wiring. [ADR-0027](../../../adr/ADR-0027-frontend-presentation-reset.md) retired `ui-composition` / `metadata-ui`. The B34 gate script is archived at `scripts/governance/_retired/legacy-frontend/check-knowledge-metadata-consumer-proof.mts` (removed from root `package.json`). **Current ERP metadata consumer proof:** `pnpm check:erp-metadata-pas006-consumer` (PAS-001A R1c). Scorecard row #17 evidence remains valid for the 2026-06-28 closure.
+
 **Prerequisite:** [B33 Kernel identity mapping gate](b33-kernel-identity-mapping-gate.md) delivered
 
-**Status:** Delivered — 2026-06-28
+**Status:** Delivered — 2026-06-28 (historical; gate archived ADR-0027)
 
 **Type:** Implementation
 
@@ -62,4 +64,5 @@ Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b34-metadata-consumer-proof.md
 | Capability | Proven | Evidence path |
 | --- | --- | --- |
 | Metadata vocabulary consumer | Yes — B34 | `packages/ui-composition/src/knowledge/platform-identity-vocabulary.ts` |
-| Metadata consumer gate | Yes — B34 | `scripts/governance/check-knowledge-metadata-consumer-proof.mts` |
+| Metadata consumer gate | Yes — B34 (archived) | `scripts/governance/_retired/legacy-frontend/check-knowledge-metadata-consumer-proof.mts` |
+| ERP metadata consumer (successor) | Yes — PAS-001A R1c | `pnpm check:erp-metadata-pas006-consumer` |

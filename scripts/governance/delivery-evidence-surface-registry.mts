@@ -73,22 +73,10 @@ export const MULTI_TENANCY_GOVERNANCE_GATES = [
       "Tenant RLS live apply proof (Foundation phase 07/012 Slice G, environment-specific)",
   },
   {
-    checkScript: "check:erp-context-surface",
-    qualityScript: "quality:erp-context-surface",
-    gateFile: "scripts/governance/check-erp-context-surface.mts",
-    sliceReference: "ERP context (multi-tenancy.md §386–401)",
-  },
-  {
     checkScript: "check:permissions-scope-grants-surface",
     qualityScript: "quality:permissions-scope-grants-surface",
     gateFile: "scripts/governance/check-permissions-scope-grants-surface.mts",
     sliceReference: "Permissions scope/grants (multi-tenancy.md §403–409)",
-  },
-  {
-    checkScript: "check:appshell-context-surface",
-    qualityScript: "quality:appshell-context-surface",
-    gateFile: "scripts/governance/check-appshell-context-surface.mts",
-    sliceReference: "AppShell context (multi-tenancy.md §411–416)",
   },
   {
     checkScript: "check:observability-surface",
@@ -209,7 +197,31 @@ export const MULTI_TENANCY_GOVERNANCE_GATES = [
   },
 ] as const;
 
-/** PAS-001A ERP consumer integration gates (B71–B74). */
+/** ADR-0027 retired — gate files live under `scripts/governance/_retired/legacy-frontend/`. */
+export const RETIRED_LEGACY_FRONTEND_GOVERNANCE_GATES = [
+  {
+    checkScript: "check:erp-context-surface",
+    gateFile:
+      "scripts/governance/_retired/legacy-frontend/check-erp-context-surface.mts",
+    sliceReference: "Pre-reset ERP context (superseded by PAS-001A B72 / R1a)",
+  },
+  {
+    checkScript: "check:appshell-context-surface",
+    gateFile:
+      "scripts/governance/_retired/legacy-frontend/check-appshell-context-surface.mts",
+    sliceReference: "Retired @afenda/appshell (ADR-0027)",
+  },
+  {
+    checkScript: "check:knowledge-metadata-consumer-proof",
+    gateFile:
+      "scripts/governance/_retired/legacy-frontend/check-knowledge-metadata-consumer-proof.mts",
+    sliceReference:
+      "PAS-004B B34 ui-composition consumer (superseded by ERP-local metadata + PAS-006)",
+  },
+] as const;
+
+/** PAS-001A ERP consumer integration gates (B71–B74 historical · R1a–R1d skeleton).
+ *  B74 `check:metadata-context-authorization-bridge` retired — see `_retired/legacy-frontend/`. */
 export const PAS_001A_GOVERNANCE_GATES = [
   {
     checkScript: "check:permission-scope-permissions-surface",
@@ -220,13 +232,29 @@ export const PAS_001A_GOVERNANCE_GATES = [
   {
     checkScript: "check:erp-operating-context-spine",
     gateFile: "scripts/governance/check-erp-operating-context-spine.mts",
-    sliceReference: "PAS-001A B72 — ERP operating-context spine gate",
+    sliceReference: "PAS-001A B72 / R1a — ERP operating-context spine gate",
   },
   {
-    checkScript: "check:metadata-context-authorization-bridge",
+    checkScript: "check:erp-auth-actor-protected-path-attestation",
     gateFile:
-      "scripts/governance/check-metadata-context-authorization-bridge.mts",
-    sliceReference: "PAS-001A B74 — metadata context authorization bridge",
+      "scripts/governance/check-erp-auth-actor-protected-path-attestation.mts",
+    sliceReference: "PAS-001A R1b — protected path actor attestation",
+  },
+  {
+    checkScript: "check:erp-metadata-pas006-consumer",
+    gateFile: "scripts/governance/check-erp-metadata-pas006-consumer.mts",
+    sliceReference: "PAS-001A R1c — IS-003 PAS-006 metadata consumer",
+  },
+  {
+    checkScript: "check:erp-tenant-lifecycle-extension-consumer-attestation",
+    gateFile:
+      "scripts/governance/check-erp-tenant-lifecycle-extension-consumer-attestation.mts",
+    sliceReference: "PAS-001A B111 — tenant extension boundary consumer",
+  },
+  {
+    checkScript: "check:documentation-drift",
+    gateFile: "scripts/governance/check-documentation-drift.mts",
+    sliceReference: "PAS-001A B73 / R1d — doc and matrix sync",
   },
 ] as const;
 
@@ -273,7 +301,6 @@ export const GOVERNANCE_DIST_PACKAGES = [
   "@afenda/kernel",
   "@afenda/database",
   "@afenda/permissions",
-  "@afenda/appshell",
   "@afenda/observability",
   "@afenda/architecture-authority",
 ] as const;

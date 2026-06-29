@@ -3,8 +3,8 @@
   "auditCatalog": "docs/PAS/KERNEL/audit/PAS-001B.md",
   "authorityPas": "docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md",
   "startedAt": "2026-06-30T01:40:00Z",
-  "updatedAt": "2026-06-30T01:45:00Z",
-  "currentWave": "W2",
+  "updatedAt": "2026-06-30T02:15:00Z",
+  "currentWave": "W3",
   "repairRound": 0,
   "maxIterations": 3,
   "repairMode": "audit-only-first",
@@ -12,9 +12,25 @@
     "PAS-001B-AUD-01": "Pass",
     "PAS-001B-AUD-02": "Pass",
     "PAS-001B-AUD-03": "Pass",
-    "PAS-001B-AUD-04": "Pass"
+    "PAS-001B-AUD-04": "Pass",
+    "PAS-001B-AUD-05": "Pass",
+    "PAS-001B-AUD-06": "Pass",
+    "PAS-001B-AUD-07": "Pass",
+    "PAS-001B-AUD-08": "Pass"
   },
   "clusters": {},
-  "completedWaves": ["W1"],
+  "completedWaves": ["W1", "W2"],
+  "waveEvidence": {
+    "W2": {
+      "gates": [
+        "pnpm check:erp-domain-delivered-vocabulary — PASS (28 delivered modules)",
+        "pnpm check:erp-domain-layout — PASS (28 catalog slugs, 28 delivered; failure matrix 12/12)"
+      ],
+      "AUD-05": "28 module folders; layout contract parity; delivered-vocabulary gate PASS",
+      "AUD-06": "28/28 __tests__/{slug}-domain-vocabulary.contract.test.ts present",
+      "AUD-07": "29 dirs = 28 delivered + catalog barrel only; no catalog-only slug folders",
+      "AUD-08": "packages/kernel/package.json — 28 ./erp-domain/{slug} + ./erp-domain/catalog exports"
+    }
+  },
   "finalConfidence": null
 }

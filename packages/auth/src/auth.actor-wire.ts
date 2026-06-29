@@ -21,6 +21,7 @@ export function toWireAuthActorIdentityFromAfendaAuthSession(
   session: AfendaAuthSession
 ): WireAuthActorIdentity {
   const wire: WireAuthActorIdentity = {
+    actorKind: "human",
     authSubjectId: session.user.authUserId,
   };
 

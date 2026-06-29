@@ -81,4 +81,57 @@ describe("auth actor identity (PAS-001 §4.1.11)", () => {
 
     expect(JSON.parse(JSON.stringify(wire))).toEqual(wire);
   });
+
+  it("parses human actorKind without integrationIdentity", () => {
+    const identity = parseAuthActorIdentity({
+      actorKind: "human",
+      authSubjectId: AUTH_SUBJECT_ID,
+      userId: TEST_USER_ID,
+    });
+
+    expect(identity.actorKind).toBe("human");
+    expect(serializeAuthActorIdentity(identity).actorKind).toBe("human");
+  });
+
+  it("parses service actorKind with integrationIdentity", () => {
+    const identity = parseAuthActorIdentity({
+      actorKind: "service",
+      authSubjectId: AUTH_SUBJECT_ID,
+      integrationIdentity: {
+        provider: "trigger",
+        externalId: "job-run-abc",
+      },
+    });
+
+    expect(identity.actorKind).toBe("service");
+    expect(identity.integrationIdentity).toEqual({
+      provider: "trigger",
+      externalId: "job-run-abc",
+    });
+  });
+
+  it("rejects human actorKind with integrationIdentity", () => {
+    expect(() =>
+      parseAuthActorIdentity({
+        actorKind: "human",
+        authSubjectId: AUTH_SUBJECT_ID,
+        integrationIdentity: {
+          provider: "partner",
+          externalId: "ext-1",
+        },
+      })
+    ).toThrow(/human actorKind must not carry integrationIdentity/i);
+  });
+
+  it("rejects service actorKind with userId", () => {
+    expect(() =>
+      parseAuthActorIdentity({
+        actorKind: "service",
+        authSubjectId: AUTH_SUBJECT_ID,
+        userId: TEST_USER_ID,
+      })
+    ).toThrow(
+      /service and delegated_application actorKind must not carry userId/i
+    );
+  });
 });

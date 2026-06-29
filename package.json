@@ -120,6 +120,7 @@
     "check:multi-tenancy-dos-prohibitions": "tsx scripts/governance/check-multi-tenancy-dos-prohibitions.mts",
     "check:multi-tenancy-final-output-format": "tsx scripts/governance/check-multi-tenancy-final-output-format.mts",
     "check:system-admin-mutation-audit": "tsx scripts/governance/check-system-admin-mutation-audit.mts",
+    "quality:system-admin-mutation-audit": "tsx scripts/governance/check-system-admin-mutation-audit.mts",
     "check:delivery-evidence-surface": "tsx scripts/governance/check-delivery-evidence-surface.mts",
     "check:documentation-drift": "tsx scripts/governance/check-documentation-drift.mts",
     "check:kernel-slice-catalog-consistency": "tsx scripts/governance/check-kernel-slice-catalog-consistency.mts",

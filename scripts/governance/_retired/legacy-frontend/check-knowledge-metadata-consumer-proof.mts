@@ -1,16 +1,18 @@
 #!/usr/bin/env tsx
 /**
- * PAS-004B §4.2 — B34: Metadata consumer import proof gate.
+ * RETIRED (ADR-0027) — PAS-004B §4.2 B34 metadata consumer import proof.
  *
- * Validates @afenda/ui-composition resolves ≥3 platform identity labels from atoms
- * via getKnowledgeAtom without enterprise-knowledge importing metadata.
+ * Pre-reset gate targeted `@afenda/ui-composition`. ERP metadata consumer proof
+ * is now `pnpm check:erp-metadata-pas006-consumer` (PAS-001A R1c / IS-003).
+ *
+ * Do not re-register in root package.json without a new ADR.
  */
 
 import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
+const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../../..");
 const metadataKnowledgeDir = join(
   repoRoot,
   "packages/ui-composition/src/knowledge"

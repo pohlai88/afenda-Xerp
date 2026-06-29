@@ -1,12 +1,10 @@
 import type { AfendaAuthSession } from "@afenda/auth";
 import {
-  findActiveCompanyMembershipForUser,
   findCompanyById,
   findEntityGroupById,
   findTenantById,
 } from "@afenda/database";
 import {
-  DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
   err,
   normalizeConsolidationScopeContextForWire,
   normalizeEntityGroupContextForWire,
@@ -18,6 +16,9 @@ import {
   ok,
   parseUnknownOperatingContext,
 } from "@afenda/kernel";
+import { normalizePermissionScopeContextForWire } from "@afenda/permissions";
+
+import { loadActorMemberships } from "./load-actor-memberships.server";
 import {
   mapDbLegalEntityCompanyTypeToKernelWire,
   toEntityGroupContext,
@@ -25,6 +26,7 @@ import {
 } from "./operating-context.mappers";
 import { parseActiveWorkspaceSelection } from "./parse-active-workspace-selection";
 import { resolveConsolidationScope } from "./resolve-consolidation-scope.server";
+import { resolveGrantScope } from "./resolve-grant-scope.server";
 
 function resolveReportingDate(effectiveFrom: string | null): string {
   if (effectiveFrom !== null && effectiveFrom.trim().length > 0) {
@@ -100,18 +102,29 @@ export async function buildOperatingContextFromDatabaseSession(
     } satisfies OperatingContextError);
   }
 
-  const membershipRow = await findActiveCompanyMembershipForUser({
-    userId: platformUserId,
-    companyId: companyRow.id,
+  const memberships = await loadActorMemberships({
+    actorUserId: platformUserId,
+    tenantId: tenantRow.enterpriseId,
   });
 
-  if (membershipRow === null) {
-    return err({
-      code: "MEMBERSHIP_DENIED",
-      userMessage:
-        "You do not have an active membership for the selected company.",
-    } satisfies OperatingContextError);
+  const grantScopeResult = await resolveGrantScope({
+    actorUserId: platformUserId,
+    tenantId: tenantRow.enterpriseId,
+    companyId: companyRow.enterpriseId,
+    entityGroupId: companyRow.entityGroupEnterpriseId,
+    organizationId: null,
+    teamId: null,
+    projectId: null,
+    memberships,
+  });
+
+  if (!grantScopeResult.ok) {
+    return err(grantScopeResult.error);
   }
+
+  const permissionScopeWire = normalizePermissionScopeContextForWire(
+    grantScopeResult.value.permissionScope
+  );
 
   const tenant = toTenantContext(tenantRow);
   const legalEntityMapping = mapDbLegalEntityCompanyTypeToKernelWire(
@@ -216,18 +229,7 @@ export async function buildOperatingContextFromDatabaseSession(
       organizationId: null,
       projectId: null,
     },
-    permissionScope: {
-      grantScopeType: membershipRow.scopeType,
-      tenantId: tenantRow.enterpriseId,
-      entityGroupId: companyRow.entityGroupEnterpriseId,
-      companyId: companyRow.enterpriseId,
-      organizationId: null,
-      teamId: null,
-      projectId: null,
-      membershipId: membershipRow.membershipEnterpriseId,
-      roleId: membershipRow.roleEnterpriseId,
-      elevations: DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
-    },
+    permissionScope: permissionScopeWire,
     consolidationScope: consolidationScopeWire,
     surface: { surfaceId: "surface.metadata-workspace" },
     workflow: null,

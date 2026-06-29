@@ -53,4 +53,15 @@ describe("ERP context module wiring (post-extraction)", () => {
     expect(source).not.toContain("requirePermission");
     expect(source).not.toContain("resolvePermissionScopeContext");
   });
+
+  it("database session build delegates permission scope to permissions package", () => {
+    const source = readContextSource(
+      "build-operating-context-from-database.server.ts"
+    );
+
+    expect(source).toContain("resolveGrantScope");
+    expect(source).toContain("loadActorMemberships");
+    expect(source).toContain("normalizePermissionScopeContextForWire");
+    expect(source).not.toContain("findActiveCompanyMembershipForUser");
+  });
 });

@@ -44,6 +44,7 @@ const requiredCiCommands = [
   "pnpm check:system-admin-mutation-audit",
   "pnpm check:accounting-readiness-gate --structure-only",
   "pnpm check:accounting-domain-contracts",
+  "pnpm quality:pas001a-skeleton-gates",
   "pnpm quality:release-gate",
   "pnpm quality:docs",
 ];
@@ -76,6 +77,7 @@ const requiredQualityScripts = [
   "quality:ai-governance",
   "quality:preview-policy",
   "quality:release-gate",
+  "quality:pas001a-skeleton-gates",
   "quality:docs",
   "quality:csp-third-party",
   "check:csp-third-party",

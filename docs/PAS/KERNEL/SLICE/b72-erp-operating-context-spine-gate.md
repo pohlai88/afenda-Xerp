@@ -32,7 +32,7 @@ Handoff from: docs/PAS/KERNEL/SLICE/b72-erp-operating-context-spine-gate.md
 5. Authority    — PAS-001A §2.3 · IS-002 · multi-tenancy Step 8
 6. Gates        —
    pnpm check:erp-operating-context-spine
-   pnpm check:erp-context-surface
+   pnpm check:erp-context-surface *(archived — superseded by spine gate + quality:boundaries post ADR-0027)*
    pnpm --filter @afenda/erp test:run
 7. Closes       — Closes DoD #1–#3 · IS-002 integration spine
 8. Evidence     —
@@ -54,7 +54,7 @@ Handoff from: docs/PAS/KERNEL/SLICE/b72-erp-operating-context-spine-gate.md
 | --- | --- | --- | --- |
 | 1 | Gate fails on missing module/delegate | pnpm check:erp-operating-context-spine | PAS-001A §2.3 IS-002 |
 | 2 | Gate passes on mainline registry | pnpm check:erp-operating-context-spine | PAS-001A §6 acceptance matrix row 2 |
-| 3 | ERP context surface gate green | pnpm check:erp-context-surface | PAS-001A §13 baseline |
+| 3 | ERP context surface gate green | pnpm check:erp-context-surface *(archived)* · `check:erp-operating-context-spine` + `quality:boundaries` *(active)* | PAS-001A §13 baseline |
 
 **Field 8 evidence map (author fills after table):**
 

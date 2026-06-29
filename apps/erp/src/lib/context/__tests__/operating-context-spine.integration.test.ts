@@ -3,19 +3,21 @@ import { createTestEnterpriseId } from "@afenda/kernel";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 const {
-  findActiveCompanyMembershipForUserMock,
   findCompanyByIdMock,
   findEntityGroupByIdMock,
   findOwnershipInterestsByEntityGroupMock,
   findTenantByIdMock,
   getAfendaAuthSessionMock,
+  getRoleMock,
+  loadActorMembershipsMock,
 } = vi.hoisted(() => ({
   getAfendaAuthSessionMock: vi.fn(),
   findTenantByIdMock: vi.fn(),
   findCompanyByIdMock: vi.fn(),
   findEntityGroupByIdMock: vi.fn(),
   findOwnershipInterestsByEntityGroupMock: vi.fn(),
-  findActiveCompanyMembershipForUserMock: vi.fn(),
+  loadActorMembershipsMock: vi.fn(),
+  getRoleMock: vi.fn(),
 }));
 
 vi.mock("@afenda/auth", async (importOriginal) => {
@@ -26,12 +28,37 @@ vi.mock("@afenda/auth", async (importOriginal) => {
   };
 });
 
-vi.mock("@afenda/database", () => ({
-  findTenantById: findTenantByIdMock,
-  findCompanyById: findCompanyByIdMock,
-  findEntityGroupById: findEntityGroupByIdMock,
-  findOwnershipInterestsByEntityGroup: findOwnershipInterestsByEntityGroupMock,
-  findActiveCompanyMembershipForUser: findActiveCompanyMembershipForUserMock,
+vi.mock("@afenda/database", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@afenda/database")>();
+  return {
+    ...actual,
+    findTenantById: findTenantByIdMock,
+    findCompanyById: findCompanyByIdMock,
+    findEntityGroupById: findEntityGroupByIdMock,
+    findOwnershipInterestsByEntityGroup:
+      findOwnershipInterestsByEntityGroupMock,
+  };
+});
+
+vi.mock("../load-actor-memberships.server", () => ({
+  loadActorMemberships: loadActorMembershipsMock,
+}));
+
+vi.mock("@afenda/permissions", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("@afenda/permissions")>();
+  return {
+    ...actual,
+    createProductionAuthorizationDataSources: vi.fn(() => ({
+      permission: {
+        getRole: getRoleMock,
+      },
+      policy: {},
+    })),
+  };
+});
+
+vi.mock("next/headers", () => ({
+  headers: vi.fn(async () => new Headers()),
 }));
 
 import { resolveOperatingContext } from "../resolve-operating-context.server";
@@ -62,6 +89,41 @@ const CHILD_COMPANY_ENTERPRISE_ID = createTestEnterpriseId(
   "company",
   "01ARZ3NDEKTSV4RRFFQ69G5FCV"
 );
+const MEMBERSHIP_ENTERPRISE_ID = createTestEnterpriseId(
+  "membership",
+  "01ARZ3NDEKTSV4RRFFQ69G5FAY"
+);
+const ROLE_ENTERPRISE_ID = createTestEnterpriseId(
+  "role",
+  "01ARZ3NDEKTSV4RRFFQ69G5FAZ"
+);
+
+function mockSessionPathGrantScopeFixtures() {
+  loadActorMembershipsMock.mockResolvedValueOnce([
+    {
+      id: MEMBERSHIP_ENTERPRISE_ID,
+      tenantId: TENANT_ENTERPRISE_ID,
+      companyId: COMPANY_ENTERPRISE_ID,
+      entityGroupId: null,
+      organizationId: null,
+      projectId: null,
+      teamId: null,
+      userId: PLATFORM_USER_ID,
+      roleId: ROLE_ENTERPRISE_ID,
+      scopeType: "company",
+      status: "active",
+    },
+  ]);
+  getRoleMock.mockResolvedValueOnce({
+    id: ROLE_ENTERPRISE_ID,
+    key: "company.admin",
+    name: "Company Admin",
+    description: null,
+    scope: "company",
+    status: "active",
+    tenantId: TENANT_ENTERPRISE_ID,
+  });
+}
 
 function createLinkedSession() {
   return normalizeAfendaAuthSession(
@@ -131,17 +193,7 @@ describe("operating-context spine integration", () => {
       effectiveTo: null,
       status: "active",
     });
-    findActiveCompanyMembershipForUserMock.mockResolvedValueOnce({
-      scopeType: "company",
-      membershipEnterpriseId: createTestEnterpriseId(
-        "membership",
-        "01ARZ3NDEKTSV4RRFFQ69G5FAY"
-      ),
-      roleEnterpriseId: createTestEnterpriseId(
-        "role",
-        "01ARZ3NDEKTSV4RRFFQ69G5FAZ"
-      ),
-    });
+    mockSessionPathGrantScopeFixtures();
 
     const result = await resolveOperatingContextFromHeaders({
       requestHeaders: new Headers(),
@@ -210,17 +262,7 @@ describe("operating-context spine integration", () => {
       effectiveTo: null,
       status: "active",
     });
-    findActiveCompanyMembershipForUserMock.mockResolvedValueOnce({
-      scopeType: "company",
-      membershipEnterpriseId: createTestEnterpriseId(
-        "membership",
-        "01ARZ3NDEKTSV4RRFFQ69G5FAY"
-      ),
-      roleEnterpriseId: createTestEnterpriseId(
-        "role",
-        "01ARZ3NDEKTSV4RRFFQ69G5FAZ"
-      ),
-    });
+    mockSessionPathGrantScopeFixtures();
 
     const result = await resolveOperatingContext({ session });
 
@@ -291,16 +333,29 @@ describe("operating-context spine integration", () => {
         status: "active",
       },
     ]);
-    findActiveCompanyMembershipForUserMock.mockResolvedValueOnce({
-      scopeType: "company",
-      membershipEnterpriseId: createTestEnterpriseId(
-        "membership",
-        "01ARZ3NDEKTSV4RRFFQ69G5FAY"
-      ),
-      roleEnterpriseId: createTestEnterpriseId(
-        "role",
-        "01ARZ3NDEKTSV4RRFFQ69G5FAZ"
-      ),
+    loadActorMembershipsMock.mockResolvedValueOnce([
+      {
+        id: MEMBERSHIP_ENTERPRISE_ID,
+        tenantId: TENANT_ENTERPRISE_ID,
+        companyId: COMPANY_ENTERPRISE_ID,
+        entityGroupId: ENTITY_GROUP_ENTERPRISE_ID,
+        organizationId: null,
+        projectId: null,
+        teamId: null,
+        userId: PLATFORM_USER_ID,
+        roleId: ROLE_ENTERPRISE_ID,
+        scopeType: "company",
+        status: "active",
+      },
+    ]);
+    getRoleMock.mockResolvedValueOnce({
+      id: ROLE_ENTERPRISE_ID,
+      key: "company.admin",
+      name: "Company Admin",
+      description: null,
+      scope: "company",
+      status: "active",
+      tenantId: TENANT_ENTERPRISE_ID,
     });
 
     const result = await resolveOperatingContext({ session });
@@ -315,6 +370,52 @@ describe("operating-context spine integration", () => {
         ENTITY_GROUP_ENTERPRISE_ID
       );
       expect(result.value.consolidationScope?.legalEntities).toHaveLength(1);
+    }
+  });
+
+  it("loadProtectedRequestOperatingContext assembles context from request headers", async () => {
+    const session = createLinkedSession();
+    getAfendaAuthSessionMock.mockResolvedValueOnce(session);
+
+    findTenantByIdMock.mockResolvedValueOnce({
+      id: TENANT_PK,
+      enterpriseId: TENANT_ENTERPRISE_ID,
+      slug: "dev-local",
+      name: "Dev Local",
+      status: "active",
+    });
+    findCompanyByIdMock.mockResolvedValueOnce({
+      id: COMPANY_PK,
+      enterpriseId: COMPANY_ENTERPRISE_ID,
+      tenantId: TENANT_PK,
+      entityGroupEnterpriseId: null,
+      legalName: "Dev Local Co",
+      displayName: "Dev Local Co",
+      slug: "dev-local-co",
+      companyType: "standalone",
+      countryCode: "US",
+      baseCurrency: "USD",
+      fiscalCalendarId: null,
+      registrationNumber: null,
+      taxId: null,
+      effectiveFrom: "2026-01-01",
+      effectiveTo: null,
+      status: "active",
+    });
+    mockSessionPathGrantScopeFixtures();
+
+    const { loadProtectedRequestOperatingContext } = await import(
+      "../load-protected-request-operating-context.server"
+    );
+
+    const bundle = await loadProtectedRequestOperatingContext();
+
+    expect(bundle.session).toBe(session);
+    expect(bundle.operatingResult.ok).toBe(true);
+    if (bundle.operatingResult.ok) {
+      expect(bundle.operatingResult.value.actor.userId).toBe(
+        USER_ENTERPRISE_ID
+      );
     }
   });
 });

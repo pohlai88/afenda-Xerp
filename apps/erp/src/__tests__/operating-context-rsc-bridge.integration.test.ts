@@ -21,7 +21,9 @@ describe("operating-context RSC bridge integration", () => {
       expect(
         [
           "resolveOperatingContext",
+          "loadProtectedRequestOperatingContext",
           "resolveOperatingContextFromHeaders",
+          "loadMetadataOperatorSurfacePage",
         ].includes(surface.delegate)
       ).toBe(true);
     }

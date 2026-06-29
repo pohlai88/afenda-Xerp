@@ -1,5 +1,7 @@
 # Slice B35 — Docs Consumer Proof (PAS-004B §4.2)
 
+> **Note:** B34 prerequisite gate (`check:knowledge-metadata-consumer-proof`) is archived under ADR-0027 — see [B34](b34-metadata-consumer-proof.md). B35 docs consumer gate remains active.
+
 **Prerequisite:** [B34 Metadata consumer proof](b34-metadata-consumer-proof.md) delivered
 
 **Status:** Delivered — 2026-06-28
@@ -33,7 +35,7 @@ Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b35-docs-consumer-proof.md
    pnpm --filter @afenda/docs typecheck
    pnpm --filter @afenda/docs test:run
    pnpm check:knowledge-docs-consumer-proof
-   pnpm check:knowledge-metadata-consumer-proof
+   # B34 gate archived ADR-0027 — not required for re-run
 7. Closes       — PAS-004B scorecard row #18; docs consumer import proof
 8. Evidence     —
    apps/docs/src/lib/knowledge/docs-vocabulary.ts

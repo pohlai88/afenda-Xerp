@@ -1,7 +1,7 @@
 # Retired — ERP system-admin mutation audit (ADR-0027)
 
-System-admin routes and `apps/erp/src/lib/system-admin/**` were removed in the ADR-0027 ERP skeleton reset.
+Full enforcement copy lives here for when `apps/erp/src/lib/system-admin/**` returns.
 
-These gates assume the pre-reset ERP admin surface. Do not re-enable until system-admin routes return.
+**Active gate:** `scripts/governance/check-system-admin-mutation-audit.mts` — skeleton-aware skip when system-admin surface absent; full PKG007 enforcement when surface present.
 
 Moved from `scripts/governance/` on 2026-06-29.

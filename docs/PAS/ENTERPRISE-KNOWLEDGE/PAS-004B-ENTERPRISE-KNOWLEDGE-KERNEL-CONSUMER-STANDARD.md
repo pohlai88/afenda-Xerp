@@ -52,7 +52,7 @@
 | # | Gate command | First slice |
 | --- | --- | --- |
 | 12 | `pnpm check:knowledge-kernel-identity-mapping` | B33 |
-| 13 | `pnpm check:knowledge-metadata-consumer-proof` | B34 |
+| 13 | **Archived (ADR-0027):** `pnpm check:knowledge-metadata-consumer-proof` — script at `scripts/governance/_retired/legacy-frontend/check-knowledge-metadata-consumer-proof.mts`. **ERP successor:** `pnpm check:erp-metadata-pas006-consumer` (PAS-001A R1c) | B34 |
 | 14 | `pnpm check:knowledge-docs-consumer-proof` | B35 |
 | 15 | `pnpm check:knowledge-acceptance-graph` | B36 |
 
@@ -262,9 +262,10 @@ packages/enterprise-knowledge/
 
 scripts/governance/
 ├── check-knowledge-kernel-identity-mapping.mts           # B33
-├── check-knowledge-metadata-consumer-proof.mts           # B34
 ├── check-knowledge-docs-consumer-proof.mts               # B35
-└── check-knowledge-acceptance-graph.mts                  # B36
+├── check-knowledge-acceptance-graph.mts                  # B36
+└── _retired/legacy-frontend/
+    └── check-knowledge-metadata-consumer-proof.mts       # B34 (archived ADR-0027)
 ```
 
 ---
@@ -378,7 +379,7 @@ pnpm check:knowledge-kernel-identity-mapping
 ## 13.3 Required after B34–B36
 
 ```bash
-pnpm check:knowledge-metadata-consumer-proof   # B34
+# B34 gate archived (ADR-0027) — see row #13; ERP successor: check:erp-metadata-pas006-consumer
 pnpm check:knowledge-docs-consumer-proof       # B35
 pnpm check:knowledge-acceptance-graph          # B36
 ```

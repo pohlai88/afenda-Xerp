@@ -1,5 +1,7 @@
 # Slice B47 — Consumer Projection Adoption (PAS-004C post-close)
 
+> **Historical delivery (2026-06-28):** Wired `@afenda/ui-composition` and `apps/erp` to `projectKnowledgeAtom`. ADR-0027 retired `ui-composition`; B34 gate archived to `_retired/legacy-frontend/`. ERP vocabulary consumer remains under `apps/erp/src/lib/knowledge/` with successor gate `pnpm check:erp-metadata-pas006-consumer`.
+
 **Prerequisite:** [B46 Semantic attestation](b46-pas004c-semantic-attestation.md) delivered
 
 **Status:** Delivered · 2026-06-28
@@ -28,7 +30,7 @@ Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b47-pas004c-consumer-projectio
    packages/ui-composition/src/__tests__/platform-identity-vocabulary.test.ts
    apps/erp/src/lib/knowledge/enterprise-knowledge-vocabulary.server.ts
    apps/erp/src/lib/knowledge/__tests__/enterprise-knowledge-vocabulary.test.ts
-   scripts/governance/check-knowledge-metadata-consumer-proof.mts
+   scripts/governance/_retired/legacy-frontend/check-knowledge-metadata-consumer-proof.mts
    scripts/governance/check-knowledge-consumer-proof.mts
    packages/enterprise-knowledge/src/data/atoms.json
    docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b47-pas004c-consumer-projection-adoption.md
@@ -39,7 +41,7 @@ Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b47-pas004c-consumer-projectio
    pnpm --filter @afenda/ui-composition test:run
    pnpm --filter apps/erp typecheck
    pnpm --filter apps/erp test:run
-   pnpm check:knowledge-metadata-consumer-proof
+   # B34 gate archived ADR-0027 — historical closure only
    pnpm check:knowledge-consumer-proof
    pnpm check:knowledge-conformance
    pnpm quality:boundaries

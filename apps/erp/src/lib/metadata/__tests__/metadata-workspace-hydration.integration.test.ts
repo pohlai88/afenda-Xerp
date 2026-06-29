@@ -20,7 +20,7 @@ describe("metadata workspace hydration integration (PAS-001A R1c)", () => {
     );
 
     expect(surface).toBeDefined();
-    expect(surface?.delegate).toBe("resolveOperatingContextFromHeaders");
+    expect(surface?.delegate).toBe("loadProtectedRequestOperatingContext");
     expect(surface?.module).toBe("app/(protected)/metadata-workspace/page.tsx");
   });
 
@@ -55,7 +55,7 @@ describe("metadata workspace hydration integration (PAS-001A R1c)", () => {
     );
     const source = readFileSync(pagePath, "utf8");
 
-    expect(source.includes("resolveOperatingContextFromHeaders")).toBe(true);
+    expect(source.includes("loadProtectedRequestOperatingContext")).toBe(true);
     expect(
       source.includes("resolveMetadataUiRenderContextFromTenantContext")
     ).toBe(true);

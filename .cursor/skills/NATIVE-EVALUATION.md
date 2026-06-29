@@ -69,6 +69,7 @@ Retained for coding reference even without heavy Afenda wiring:
 | `enterprise-architecture-audit` | **keep** | 2026-06-28 — read-only full-stack platform audit |
 | `enterprise-architecture-auditor` | **keep** | 2026-06-28 — phase worker agent |
 | `enterprise-architecture-audit-orchestrator` | **keep** | 2026-06-28 — deterministic 8-phase audit orchestrator |
+| `afenda-governance-audit-repair` | **keep** | 2026-06-30 — governance audit + cluster repair loop; orchestrator batch type |
 
 ---
 

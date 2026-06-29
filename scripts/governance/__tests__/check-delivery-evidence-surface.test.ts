@@ -38,7 +38,7 @@ describe("delivery-evidence-surface-registry", () => {
     );
     expect(checkScripts).toContain("check:multi-tenancy-dos-prohibitions");
     expect(checkScripts).toContain("check:multi-tenancy-enterprise-acceptance");
-    expect(checkScripts).toHaveLength(25);
+    expect(checkScripts).toHaveLength(23);
   });
 
   it("requires twenty-five delivery doc sections", () => {
@@ -51,7 +51,7 @@ describe("delivery-evidence-surface-registry", () => {
 
   it("defines dist build script and governed packages", () => {
     expect(GOVERNANCE_DIST_BUILD_SCRIPT).toBe("build:governance-dist");
-    expect(GOVERNANCE_DIST_PACKAGES).toHaveLength(6);
+    expect(GOVERNANCE_DIST_PACKAGES).toHaveLength(5);
   });
 
   it("defines scope disclaimers and overclaim guards", () => {

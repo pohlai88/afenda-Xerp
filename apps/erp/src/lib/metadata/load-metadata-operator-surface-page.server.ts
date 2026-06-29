@@ -1,9 +1,6 @@
-import { getAfendaAuthSession } from "@afenda/auth";
-import { headers } from "next/headers";
+import { loadProtectedRequestOperatingContext } from "@/lib/context/load-protected-request-operating-context.server";
 
-import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
-
-import { resolveMetadataActorUserIdFromAfendaAuthSession } from "./resolve-metadata-auth-actor.server";
+import { resolveMetadataActorUserIdFromOperatingContext } from "./resolve-metadata-auth-actor.server";
 import type { MetadataOperatorSurfaceWire } from "./resolve-metadata-operator-surface.server";
 import { resolveMetadataOperatorSurface } from "./resolve-metadata-operator-surface.server";
 import { resolveMetadataUiRenderContextFromTenantContext } from "./resolve-metadata-ui-render-context.server";
@@ -31,11 +28,7 @@ export interface LoadMetadataOperatorSurfacePageInput {
 export async function loadMetadataOperatorSurfacePage(
   input: LoadMetadataOperatorSurfacePageInput
 ): Promise<MetadataOperatorSurfacePageData> {
-  const requestHeaders = await headers();
-  const session = await getAfendaAuthSession(requestHeaders);
-  const operatingResult = await resolveOperatingContextFromHeaders({
-    requestHeaders,
-  });
+  const { operatingResult } = await loadProtectedRequestOperatingContext();
 
   if (!operatingResult.ok) {
     return {
@@ -45,10 +38,9 @@ export async function loadMetadataOperatorSurfacePage(
     };
   }
 
-  const actorId =
-    session === null
-      ? operatingResult.value.actor.userId
-      : resolveMetadataActorUserIdFromAfendaAuthSession(session);
+  const actorId = resolveMetadataActorUserIdFromOperatingContext(
+    operatingResult.value
+  );
 
   const runtime = resolveMetadataUiRenderContextFromTenantContext({
     tenant: operatingResult.value.tenant,

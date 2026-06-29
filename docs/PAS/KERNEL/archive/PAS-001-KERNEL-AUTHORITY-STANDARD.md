@@ -18,8 +18,8 @@
 | **Authority status** | `enterprise_accepted` |
 | **Implementation status** | `implemented` |
 | **Evidence level** | `runtime_proven` |
-| **Runtime status** | Enterprise Accepted — kernel contracts, §13 catalog + B49–B70 closure + B107–B111 amendment delivered, runtime gates operational |
-| **Remaining slices** | none — B111 Delivered ([`SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md`](../SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md)) |
+| **Runtime status** | Enterprise Accepted — kernel contracts, §13 catalog + B49–B70 closure + B107–B113 amendment delivered, runtime gates operational |
+| **Remaining slices** | none — B113 Delivered ([`SLICE/b113-actor-kind-integration-identity-vocabulary.md`](../SLICE/b113-actor-kind-integration-identity-vocabulary.md)) |
 | **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `apps/erp`, governed domain packages · `@afenda/shadcn-studio` (presentation consumer — no kernel import) |
 | **Change model** | Serialized kernel slices only |
 | **Quality target** | Enterprise **9.5 / 10** |
@@ -62,6 +62,8 @@
 
 **Boundary:** The kernel defines **cross-package facts, branded vocabulary, wire-safe contracts, and execution context primitives**; it never implements **business behavior, persistence, transport, rendering, formatting, authorization evaluation, accounting logic, or external integration**. (§2)
 
+**Lifecycle disambiguation:** **Tenant SaaS lifecycle** (Provisioned → Active → Suspended → Offboarded — Kernel NS §8.3) is substrate vocabulary only; provisioning execution is outside kernel. **`PlatformLifecycleStatus`** (`active` / `suspended` / `archived` on entity/org context slots) is **entity-level** status — not tenant SaaS lifecycle. Do not merge the two word sets without a PAS amendment.
+
 **Hard stops (summary):**
 
 - **Prohibited imports:** `@afenda/database`, `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, Drizzle, Better Auth, Next.js, React, Zod, HTTP/DB/cloud SDKs (§3.2)
@@ -69,7 +71,7 @@
 
 **Required gates:** see §14.1
 
-**Slice entrypoint:** `docs/PAS/KERNEL/SLICE/` · [`pas-status-index.md`](../../pas-status-index.md) (§13 catalog + B49–B70 closure + B107–B111 amendment) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
+**Slice entrypoint:** `docs/PAS/KERNEL/SLICE/` · [`pas-status-index.md`](../../pas-status-index.md) (§13 catalog + B49–B70 closure + B107–B113 amendment) · Planner: `pas-slice-planner` · Session: `/afenda-coding-session`
 
 **Registry:** `@afenda/kernel` → `packages/kernel` in `foundation-disposition.registry.ts`; accounting vocabulary → `PKGR01_ACCOUNTING` at `@afenda/kernel/erp-domain/accounting`
 
@@ -1518,8 +1520,9 @@ Slice naming: `b<N>-<pas-section>-<slug>.md` · optional companion: `<file>-proh
 | [b109-effective-dating-consumer-attestation.md](../SLICE/b109-effective-dating-consumer-attestation.md) | B109 | §4.4 | Delivered | Evidence-sync | B108 |
 | [b110-auth-actor-protected-path-attestation.md](../SLICE/b110-auth-actor-protected-path-attestation.md) | B110 | §4.1.11 | Delivered | Evidence-sync | B109 |
 | [b111-tenant-lifecycle-extension-consumer-attestation.md](../SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md) | B111 | §4.4 | Delivered | Evidence-sync | B110 |
+| [b113-actor-kind-integration-identity-vocabulary.md](../SLICE/b113-actor-kind-integration-identity-vocabulary.md) | B113 | §4.1.11 · E12 | Delivered | Implementation | B111 |
 
-**Amendment summary (B107–B111):** Tenant SaaS lifecycle wire · tenant extension boundary wire · effective-dating consumer attestation · auth actor protected-path attestation · tenant lifecycle/extension ERP consumer attestation. Full index: [kernel-slice-catalog.md](../SLICE/kernel-slice-catalog.md).
+**Amendment summary (B107–B113):** Tenant SaaS lifecycle wire · tenant extension boundary wire · effective-dating consumer attestation · auth actor protected-path attestation · tenant lifecycle/extension ERP consumer attestation · actor kind and integration identity vocabulary (E12). Full index: [kernel-slice-catalog.md](../SLICE/kernel-slice-catalog.md).
 
 **Planning artifacts (not formal slice handoffs):** `b4.md`, `b7-4.1.9.md` — superseded by delivered slices above.
 

@@ -54,9 +54,23 @@ const REQUIRED_PROTECTED_PATH_MARKERS: readonly {
   {
     file: "app/(protected)/metadata-workspace/page.tsx",
     markers: [
-      "resolveMetadataActorUserIdFromAfendaAuthSession",
-      "resolveProtectedPathActorUserIdFromSession",
-      "resolveWireActorUserIdFromAfendaAuthSession",
+      "resolveMetadataActorUserIdFromOperatingContext",
+      "loadProtectedRequestOperatingContext",
+    ],
+  },
+  {
+    file: "app/(protected)/settings/profile/page.tsx",
+    markers: ["loadMetadataOperatorSurfacePage"],
+  },
+  {
+    file: "app/(protected)/operator/auth/sign-in/page.tsx",
+    markers: ["loadMetadataOperatorSurfacePage"],
+  },
+  {
+    file: "lib/metadata/load-metadata-operator-surface-page.server.ts",
+    markers: [
+      "loadProtectedRequestOperatingContext",
+      "resolveMetadataActorUserIdFromOperatingContext",
     ],
   },
   {

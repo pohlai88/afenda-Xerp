@@ -194,7 +194,7 @@ export function checkErpMetadataPas006Consumer(): ErpMetadataPas006ConsumerViola
   } else {
     const pageSource = readFileSync(metadataWorkspacePagePath, "utf8");
     const requiredPageMarkers = [
-      "resolveOperatingContextFromHeaders",
+      "loadProtectedRequestOperatingContext",
       "resolveMetadataUiRenderContextFromTenantContext",
       "resolveMetadataWorkspaceSurfaces",
       "slotHydration",

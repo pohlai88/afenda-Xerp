@@ -47,7 +47,7 @@ Handoff from: docs/PAS/KERNEL/SLICE/b80-procurement-domain-vocabulary.md
 ## Rules frozen
 
 1. Kernel may describe procurement words — must not execute PO posting runtime.
-2. VendorId remains on kernel business-reference authority (Rule 2).
+2. `SupplierId` remains on kernel business-reference authority (Rule 2) — not promoted to domain branded IDs.
 3. Module remains contracts-only under erp-domain/procurement/.
 
 ## DoD
@@ -73,4 +73,11 @@ Handoff from: docs/PAS/KERNEL/SLICE/b80-procurement-domain-vocabulary.md
 | Capability | Proven | Evidence path |
 | --- | --- | --- |
 | KV-PROC wire module | Yes — B80 | `packages/kernel/src/erp-domain/procurement/` |
+
+## Foundation gap audit (runtime readiness)
+
+Wire vocabulary delivery (this slice) is **not** procurement business runtime. Enterprise readiness gap audit:
+
+- [Procurement Runtime Foundation Gap Report](../audit/procurement-foundation-gap-report.md) (PAS-PROC-FDN-AUDIT-001 · 2026-06-30)
+- Proposed foundation slices: ERP-PROC-FDN-001 through ERP-PROC-FDN-009
 

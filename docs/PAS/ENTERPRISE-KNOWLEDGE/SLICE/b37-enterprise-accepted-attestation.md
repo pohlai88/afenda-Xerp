@@ -1,5 +1,7 @@
 # Slice B37 — Enterprise Accepted Attestation (PAS-004B §4.4)
 
+> **ADR-0027 sync (2026-06-30):** B34 metadata gate archived to `_retired/legacy-frontend/`; row #17 historical PASS stands. ERP metadata successor: `pnpm check:erp-metadata-pas006-consumer`.
+
 **Prerequisite:** [B36 Acceptance graph queries](b36-acceptance-graph-queries.md) delivered
 
 **Status:** Delivered — 2026-06-28 (docs/evidence only)
@@ -36,7 +38,7 @@ Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b37-enterprise-accepted-attest
 | ---: | --- | ---: | --- | --- |
 | 1–15 | PAS-004A Production Candidate rows | 30 | B24–B32 | PAS-004A §11 (closed) |
 | 16 | Kernel identity mapping gate | 2 | B33 | `check:knowledge-kernel-identity-mapping` |
-| 17 | Metadata consumer proof | 2 | B34 | `check:knowledge-metadata-consumer-proof` |
+| 17 | Metadata consumer proof | 2 | B34 | `check:knowledge-metadata-consumer-proof` (archived ADR-0027) |
 | 18 | Docs consumer proof | 2 | B35 | `check:knowledge-docs-consumer-proof` |
 | 19 | Acceptance graph query surface | 2 | B36 | `check:knowledge-acceptance-graph` |
 | 20 | PKGR04 authority promoted to PAS-004B | 2 | B37 | **Delegate `foundation-registry-owner`** |
@@ -59,6 +61,6 @@ Do **not** edit `packages/architecture-authority/src/data/foundation-disposition
 | Gate | Status |
 | --- | --- |
 | `pnpm check:knowledge-kernel-identity-mapping` | B33 |
-| `pnpm check:knowledge-metadata-consumer-proof` | B34 |
+| `pnpm check:knowledge-metadata-consumer-proof` | B34 (archived ADR-0027) |
 | `pnpm check:knowledge-docs-consumer-proof` | B35 |
 | `pnpm check:knowledge-acceptance-graph` | B36 |

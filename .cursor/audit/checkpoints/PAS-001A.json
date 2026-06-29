@@ -58,9 +58,8 @@
     "meaning": "Production Candidate fully supported on ADR-0027 skeleton; all 25 AUD slices Pass after Wave 1 re-audit + C5",
     "conditionalSlices": [],
     "optionalHygiene": [
-      "Wave 1 re-audit AUD-02..04",
       "Add erp test:run to skeleton gate bundle",
-      "quality:release-gate pre-existing check:system-admin-mutation-audit gap"
+      "B74 DoD archived gate annotations in PAS-001A §8 matrix"
     ]
   }
 }

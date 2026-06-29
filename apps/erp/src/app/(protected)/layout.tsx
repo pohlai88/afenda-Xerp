@@ -1,10 +1,9 @@
-import { getAfendaAuthSession, isAfendaAuthSessionLinked } from "@afenda/auth";
-import { headers } from "next/headers";
+import { isAfendaAuthSessionLinked } from "@afenda/auth";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 
 import { resolveProtectedPathActorUserIdFromSession } from "@/lib/auth/resolve-protected-path-actor.server";
-import { resolveOperatingContext } from "@/lib/context/resolve-operating-context.server";
+import { loadProtectedRequestOperatingContext } from "@/lib/context/load-protected-request-operating-context.server";
 import { toPresentationShellOperatingContext } from "@/lib/context/to-presentation-shell-operating-context";
 
 export default async function ProtectedLayout({
@@ -12,8 +11,8 @@ export default async function ProtectedLayout({
 }: {
   children: ReactNode;
 }) {
-  const requestHeaders = await headers();
-  const session = await getAfendaAuthSession(requestHeaders);
+  const { session, operatingResult } =
+    await loadProtectedRequestOperatingContext();
 
   if (session === null) {
     redirect("/sign-in");
@@ -24,11 +23,6 @@ export default async function ProtectedLayout({
   }
 
   resolveProtectedPathActorUserIdFromSession(session);
-
-  const operatingResult = await resolveOperatingContext({
-    requestHeaders,
-    session,
-  });
 
   if (!operatingResult.ok) {
     redirect("/access-denied");

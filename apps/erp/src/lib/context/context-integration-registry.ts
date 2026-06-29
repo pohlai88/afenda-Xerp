@@ -11,16 +11,28 @@ export const CONTEXT_INTEGRATION_WIRING = [
     delegate: "resolveOperatingContext",
   },
   {
+    id: "protected-request-operating-context",
+    step: "Request-scoped protected RSC operating context assembly (INV-001)",
+    module: "lib/context/load-protected-request-operating-context.server.ts",
+    delegate: "loadProtectedRequestOperatingContext",
+  },
+  {
+    id: "metadata-operator-surface-page-loader",
+    step: "Operator metadata routes consume request-scoped spine assembly",
+    module: "lib/metadata/load-metadata-operator-surface-page.server.ts",
+    delegate: "loadMetadataOperatorSurfacePage",
+  },
+  {
     id: "protected-rsc-metadata-workspace",
     step: "Resolve operating context for metadata workspace RSC",
     module: "app/(protected)/metadata-workspace/page.tsx",
-    delegate: "resolveOperatingContextFromHeaders",
+    delegate: "loadProtectedRequestOperatingContext",
   },
   {
     id: "protected-rsc-layout",
     step: "Resolve operating context for protected layout RSC ingress",
     module: "app/(protected)/layout.tsx",
-    delegate: "resolveOperatingContext",
+    delegate: "loadProtectedRequestOperatingContext",
   },
   {
     id: "presentation-shell-context",

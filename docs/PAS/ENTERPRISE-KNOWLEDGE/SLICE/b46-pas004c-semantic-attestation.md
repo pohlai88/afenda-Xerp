@@ -1,5 +1,7 @@
 # Slice B46 — Semantic Model Attestation (PAS-004C §4.9 · §11 · Phase 3)
 
+> **ADR-0027 sync (2026-06-30):** B34 `check:knowledge-metadata-consumer-proof` archived; historical PASS below. ERP successor: `pnpm check:erp-metadata-pas006-consumer`.
+
 **Prerequisite:** [B45 Lifecycle Transitions](b45-pas004c-lifecycle-transition-governance.md) delivered
 
 **Status:** Delivered — 2026-06-28 (docs/evidence only)
@@ -49,7 +51,7 @@ Handoff from: docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b46-pas004c-semantic-attestati
 | ---: | --- | ---: | --- | --- |
 | 1–15 | PAS-004A Production Candidate rows | 30 | B24–B32 | PAS-004A §11 (closed) |
 | 16 | Kernel identity mapping gate | 2 | B33 | `check:knowledge-kernel-identity-mapping` PASS |
-| 17 | Metadata consumer proof | 2 | B34 | `check:knowledge-metadata-consumer-proof` PASS |
+| 17 | Metadata consumer proof | 2 | B34 | `check:knowledge-metadata-consumer-proof` PASS (archived ADR-0027) |
 | 18 | Docs consumer proof | 2 | B35 | `check:knowledge-docs-consumer-proof` PASS |
 | 19 | Acceptance graph query surface | 2 | B36 | `check:knowledge-acceptance-graph` PASS |
 | 20 | PKGR04 authority promoted to PAS-004B | 2 | B37 | Closed — superseded by row #29 |
@@ -92,7 +94,7 @@ Do **not** edit `packages/architecture-authority/src/data/foundation-disposition
 | `pnpm quality:boundaries` | PASS | 26 workspaces checked |
 | `pnpm check:foundation-disposition` | PASS | Foundation disposition registry: PASS |
 | `pnpm check:documentation-drift` | PASS | documentation-drift: OK |
-| `pnpm check:knowledge-metadata-consumer-proof` | PASS | knowledge-metadata-consumer-proof: PASS |
+| `pnpm check:knowledge-metadata-consumer-proof` | PASS (archived ADR-0027) | knowledge-metadata-consumer-proof: PASS at 2026-06-28 closure |
 | `pnpm check:knowledge-docs-consumer-proof` | PASS | knowledge-docs-consumer-proof: PASS |
 | `pnpm check:knowledge-acceptance-graph` | PASS | 4 query helpers |
 | `pnpm check:knowledge-concept-vocabulary` | PASS | 24 concepts, 24 terms, 24 atoms with conceptId |

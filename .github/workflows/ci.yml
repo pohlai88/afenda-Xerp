@@ -306,6 +306,10 @@ jobs:
       - name: Gate 8f · Phase 9 accounting readiness gate
         run: pnpm check:accounting-readiness-gate --structure-only
 
+      # ── Gate 8g · PAS-001A skeleton integration spine (§6.1) ───────────
+      - name: Gate · PAS-001A skeleton integration spine
+        run: pnpm quality:pas001a-skeleton-gates
+
       # ── TIP-009 governance self-check ─────────────────────────────────────
       - name: Release gate check
         run: pnpm quality:release-gate

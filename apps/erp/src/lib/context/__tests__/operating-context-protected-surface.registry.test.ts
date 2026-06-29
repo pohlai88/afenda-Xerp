@@ -24,6 +24,8 @@ describe("operating-context-protected-surface.registry", () => {
 
     expect(ids).toContain("protected-rsc-layout");
     expect(ids).toContain("protected-rsc-metadata-workspace");
+    expect(ids).toContain("protected-rsc-settings-profile");
+    expect(ids).toContain("protected-rsc-operator-auth-sign-in");
   });
 
   it("maps every registry module to a live delegate on disk", () => {

@@ -1,4 +1,11 @@
 export {
+  ACTOR_KINDS,
+  type ActorKind,
+  assertActorKind,
+  isActorKind,
+  parseOptionalActorKind,
+} from "./actor-kind.contract.js";
+export {
   type AuditEntityIdentity,
   parseAuditEntityIdentity,
   serializeAuditEntityIdentity,
@@ -60,6 +67,13 @@ export {
   serializeCanonicalId,
   type WireCanonicalId,
 } from "./identity-wire.contract.js";
+export {
+  type IntegrationIdentity,
+  parseIntegrationIdentity,
+  parseOptionalIntegrationIdentity,
+  serializeIntegrationIdentity,
+  type WireIntegrationIdentity,
+} from "./integration-identity.contract.js";
 export {
   type InternalEntityPk,
   parseInternalEntityPk,
