@@ -9,8 +9,8 @@
 | **Package** | `@afenda/shadcn-studio` |
 | **Blueprint box** | shadcn/studio Presentation |
 | **Maturity** | Proposed |
-| **Runtime status** | Parity registry live — full relational model and lifecycle enforcement **not yet implemented** |
-| **Remaining slices** | P06-002 (next) · P06-003 · P06-004 (proposed) |
+| **Runtime status** | P06-002 delivered — inventory scaffold live; slot/contracts/lifecycle enforcement pending |
+| **Remaining slices** | P06-003 (next) · P06-004 (proposed) |
 | **Depends on** | [PAS-006A](PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md) product baseline |
 
 #### Required gates (target — activate on P06-004 close)
@@ -121,7 +121,7 @@ All contract objects: `readonly` · JSON-serializable · no side effects on impo
 
 | Slice | Title | Status |
 | --- | --- | --- |
-| P06-002 | Relational inventory registry scaffold | Proposed |
+| P06-002 | Relational inventory registry scaffold | **Delivered** |
 | P06-003 | Block slot + block data contract surfaces | Proposed |
 | P06-004 | Block lifecycle state in registry | Proposed |
 

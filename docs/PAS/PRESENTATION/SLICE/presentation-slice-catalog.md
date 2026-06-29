@@ -15,7 +15,7 @@
 ```text
 P06-001  Product baseline (006A)     [Delivered — legacy B38–B42f]
     ↓
-P06-002  Relational inventory scaffold (006B)
+P06-002  Relational inventory scaffold (006B)  [Delivered]
     ↓
 P06-003  Block slot + data contracts (006B)
     ↓
@@ -41,7 +41,7 @@ P06-010  Enterprise Accepted attestation (family)
 | Slice | PAS | Title | Status | Prerequisite | Closes |
 | --- | --- | --- | --- | --- | --- |
 | **P06-001** | 006A | Product baseline — theme, CSS, MCP seed, lab, ERP globals | **Delivered** | ADR-0027 reset | PAS-006A product surfaces |
-| **P06-002** | 006B | Relational inventory registry scaffold | Proposed | P06-001 | §3.1 inventory layers in registry |
+| **P06-002** | 006B | Relational inventory registry scaffold | **Delivered** | P06-001 | §3.1 inventory layers in registry |
 | **P06-003** | 006B | Block slot + block data contract surfaces | Proposed | P06-002 | Slot map + serializable contracts |
 | **P06-004** | 006B | Block lifecycle state in registry | Proposed | P06-003 | NS §8.1 lifecycle enforcement |
 | **P06-005** | 006C | Acceptance Record wire contract | Proposed | P06-004 | NS §8.2 · §3.7 criteria schema |
@@ -65,4 +65,4 @@ P06-010  Enterprise Accepted attestation (family)
 
 ## Next sequence item
 
-**P06-002** — Relational inventory registry scaffold ([PAS-006B](../PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md) §12).
+**P06-003** — Block slot + block data contracts ([PAS-006B](../PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md) §12).

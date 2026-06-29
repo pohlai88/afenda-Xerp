@@ -63,6 +63,21 @@ export {
   CardTitle,
 } from "./components/ui/card.js";
 export {
+  isMetadataBindingContractWire,
+  type MetadataBindingContractWire,
+  type MetadataBindingDensity,
+  type MetadataBindingFieldPresentationKind,
+  type MetadataBindingFieldWire,
+  type MetadataBindingStateTemplateWire,
+  type MetadataBindingTableColumnWire,
+} from "./contracts/metadata-binding.contract.js";
+export {
+  isSurfaceTemplateContractWire,
+  type SurfaceTemplateBlockBindingWire,
+  type SurfaceTemplateClass,
+  type SurfaceTemplateContractWire,
+} from "./contracts/surface-template.contract.js";
+export {
   BLOCK_LIFECYCLE_ORDER,
   type BlockLifecycleState,
   isValidBlockLifecycleTransition,

@@ -9,7 +9,7 @@
 | **Package** | `@afenda/shadcn-studio` (contracts) · `apps/erp` (wiring — consumer) |
 | **Blueprint box** | shadcn/studio Presentation |
 | **Maturity** | Proposed |
-| **Runtime status** | Not implemented — NS §3.5 declared as **core scalability path** |
+| **Runtime status** | Metadata binding wire contract scaffold live (P06-008 partial); surface template registry pending |
 | **Remaining slices** | P06-008 · P06-009 (proposed) |
 | **Depends on** | [PAS-006B](PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md) · [PAS-006C](PAS-006C-SURFACE-ACCEPTANCE-ACPA-STANDARD.md) for Accepted blocks |
 

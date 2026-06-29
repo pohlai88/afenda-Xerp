@@ -148,7 +148,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Gates (006A live)** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm --filter @afenda/erp build`, `pnpm check:package-css-dist-sync`, `pnpm check:downstream-integration`, `pnpm check:foundation-disposition` |
 | **Result** | Five-PAS manufacturing family; single CSS chain; metadata-driven UI = PAS-006D core path (not optional greenfield) |
 
-**Next sequence item:** **P06-002** — relational inventory registry scaffold ([PAS-006B](PRESENTATION/PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md)).
+**Next sequence item:** **P06-003** — block slot + block data contracts ([PAS-006B](PRESENTATION/PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md)).
 
 ---
 
