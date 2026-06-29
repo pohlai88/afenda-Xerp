@@ -93,11 +93,23 @@ export {
   type MetadataBindingTableColumnWire,
 } from "./contracts/metadata-binding.contract.js";
 export {
+  isMetadataBindingWaiverReason,
+  isMetadataBindingWaiverWire,
+  type MetadataBindingWaiverReason,
+  type MetadataBindingWaiverWire,
+} from "./contracts/metadata-binding-waiver.contract.js";
+export {
   isSurfaceTemplateContractWire,
   type SurfaceTemplateBlockBindingWire,
   type SurfaceTemplateClass,
   type SurfaceTemplateContractWire,
 } from "./contracts/surface-template.contract.js";
+export {
+  assertMetadataBindingCoverage,
+  type MetadataBindingCoverageResult,
+  type MetadataBindingCoverageRow,
+  summarizeMetadataBindingCoverage,
+} from "./registry/assert-metadata-binding-coverage.js";
 export {
   BLOCK_LIFECYCLE_ORDER,
   type BlockLifecycleState,
@@ -122,6 +134,10 @@ export {
   getBlockDataContractForBlockId,
   getBlockSlotsForBlockId,
 } from "./registry/block-slot.registry.js";
+export {
+  buildMetadataBindingFromDataContracts,
+  isValidMetadataBindingPresentationKind,
+} from "./registry/build-metadata-binding-from-data-contracts.js";
 export { buildPresentationInventoryFromParity } from "./registry/build-presentation-inventory-from-parity.js";
 export {
   MCP_SEED_BLOCK_IDS,
@@ -130,9 +146,26 @@ export {
   type McpSeedBlockManifestEntry,
 } from "./registry/mcp-seed-block-manifest.js";
 export {
+  getMetadataBindingByBlockId,
   getMetadataBindingById,
   METADATA_BINDING_REGISTRY,
 } from "./registry/metadata-binding.registry.js";
+export {
+  METADATA_BINDING_MODULE_KV_ID_BY_SLUG,
+  type MetadataBindingModuleAssignment,
+  resolveMetadataBindingModuleAssignment,
+} from "./registry/metadata-binding-module-assignment.js";
+export {
+  applyMetadataBindingOverrides,
+  METADATA_BINDING_OVERRIDE_REGISTRY,
+  type MetadataBindingOverrideReason,
+  type MetadataBindingOverrideWire,
+} from "./registry/metadata-binding-overrides.registry.js";
+export {
+  getMetadataBindingWaiverByBlockId,
+  isMetadataBindingWaivedBlockId,
+  METADATA_BINDING_WAIVER_REGISTRY,
+} from "./registry/metadata-binding-waiver.registry.js";
 export {
   PRESENTATION_INVENTORY_REGISTRY,
   type PresentationInventoryEntry,

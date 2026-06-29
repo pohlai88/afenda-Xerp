@@ -143,6 +143,7 @@
     "check:studio-inventory-lifecycle": "node scripts/governance/check-studio-inventory-lifecycle.mjs",
     "check:studio-block-acpa-acceptance": "node scripts/governance/check-studio-block-acpa-acceptance.mjs",
     "check:studio-auth-surface-wcag-aa": "node scripts/governance/check-studio-auth-surface-wcag-aa.mjs",
+    "check:studio-metadata-binding": "node scripts/governance/check-studio-metadata-binding.mjs",
     "sync:package-css-dist": "node scripts/governance/sync-package-css-dist.mjs",
     "check:erp-diagnostic-logging": "tsx scripts/governance/check-erp-diagnostic-logging.mts",
     "check:business-master-data-scaffold": "tsx scripts/governance/check-business-master-data-scaffold.mts",

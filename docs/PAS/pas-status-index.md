@@ -140,12 +140,12 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Authority** | PAS-006 family · PKG-026 · `@afenda/shadcn-studio` |
 | **Family index** | [`PRESENTATION/README.md`](PRESENTATION/README.md) |
 | **Maturity** | **Enterprise Accepted** — PKGR05A promoted (P06-010 + foundation-registry-owner) |
-| **Runtime authority today** | PAS-006 family slices P06-001–P06-010 delivered |
-| **Proposed extensions** | PAS-006B (inventory) · PAS-006C (ACPA acceptance) · PAS-006D (metadata surfaces) — **runtime delivered** |
+| **Runtime authority today** | PAS-006 family slices P06-001–P06-010 delivered; **P06-008-R1** metadata binding enforcement (registry-first YES/NO matrix) |
+| **Proposed extensions** | PAS-006B (inventory) · PAS-006C (ACPA acceptance) · PAS-006D (metadata surfaces) — **runtime delivered**; P06-008-R1 enforcement **live** |
 | **Runtime status** | ERP skeleton + metadata/context wire + studio registries (inventory, slots, lifecycle, acceptance, surface templates); legacy UI packages **deleted** |
-| **Remaining slices** | **None** — family slice catalog complete; disposition promotion is registry-owner scope |
+| **Remaining slices** | **None** — family slice catalog complete; P06-008-R2 (DOM slot markers) deferred; disposition promotion is registry-owner scope |
 | **Runtime evidence** | [PAS family](PRESENTATION/README.md), [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md), [North star](../NORTHSTAR/shadcn-studio-presentation-north-star.md), [Blueprint](../BLUEPRINT/shadcn-studio-presentation-blueprint.md), `packages/shadcn-studio/`, `apps/erp/src/lib/metadata/`, `apps/erp/src/lib/auth/` |
-| **Gates (006 family live)** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm check:studio-inventory-lifecycle`, `pnpm check:studio-block-acpa-acceptance`, `pnpm check:studio-auth-surface-wcag-aa`, `pnpm check:package-css-dist-sync`, `pnpm quality:boundaries`, `pnpm check:documentation-drift`, `pnpm check:foundation-disposition` |
+| **Gates (006 family live)** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm check:studio-inventory-lifecycle`, `pnpm check:studio-block-acpa-acceptance`, `pnpm check:studio-auth-surface-wcag-aa`, `pnpm check:studio-metadata-binding`, `pnpm check:package-css-dist-sync`, `pnpm quality:boundaries`, `pnpm check:documentation-drift`, `pnpm check:foundation-disposition` |
 | **Result** | Five-PAS manufacturing family; single CSS chain; metadata-driven UI path operational (PAS-006D) |
 
 **Next sequence item:** **None for PAS-006 family** — database-backed metadata operating context + full MCP slot-template families delivered.

@@ -270,6 +270,7 @@ function buildBlockDataContractRegistry(): readonly BlockDataContractWire[] {
               fieldKey: "content",
               slotId: `${parity.mcpBlockId}.content`,
               kind: "readonly",
+              labelAtomRef: `atom.presentation.${parity.mcpBlockId}.content`,
             },
           ],
         } satisfies BlockDataContractWire,
