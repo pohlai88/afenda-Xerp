@@ -6,6 +6,8 @@ export const WORKFLOW_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const WORKFLOW_REGISTRY_ID = "PKGR01B_WORKFLOW_VOCABULARY" as const;
 
+export const WORKFLOW_MODULE_KV_ID = "KV-WF" as const;
+
 export const WORKFLOW_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/workflow" as const;
 

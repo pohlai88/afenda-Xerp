@@ -7,6 +7,8 @@ export const SUBSCRIPTION_AUTHORITY_PAS = "PAS-001B" as const;
 export const SUBSCRIPTION_REGISTRY_ID =
   "PKGR01B_SUBSCRIPTION_VOCABULARY" as const;
 
+export const SUBSCRIPTION_MODULE_KV_ID = "KV-SUB" as const;
+
 export const SUBSCRIPTION_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/subscription" as const;
 

@@ -6,6 +6,8 @@ export const PRICING_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const PRICING_REGISTRY_ID = "PKGR01B_PRICING_VOCABULARY" as const;
 
+export const PRICING_MODULE_KV_ID = "KV-PRC" as const;
+
 export const PRICING_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/pricing" as const;
 

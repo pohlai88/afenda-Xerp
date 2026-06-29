@@ -7,6 +7,8 @@ export const FIELD_SERVICE_AUTHORITY_PAS = "PAS-001B" as const;
 export const FIELD_SERVICE_REGISTRY_ID =
   "PKGR01B_FIELD_SERVICE_VOCABULARY" as const;
 
+export const FIELD_SERVICE_MODULE_KV_ID = "KV-FS" as const;
+
 export const FIELD_SERVICE_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/field-service" as const;
 

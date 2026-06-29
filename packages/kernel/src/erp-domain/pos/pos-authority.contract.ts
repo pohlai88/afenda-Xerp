@@ -6,6 +6,8 @@ export const POS_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const POS_REGISTRY_ID = "PKGR01B_POS_VOCABULARY" as const;
 
+export const POS_MODULE_KV_ID = "KV-POS" as const;
+
 export const POS_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/pos" as const;
 

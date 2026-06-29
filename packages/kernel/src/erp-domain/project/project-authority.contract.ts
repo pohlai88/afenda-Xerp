@@ -6,6 +6,8 @@ export const PROJECT_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const PROJECT_REGISTRY_ID = "PKGR01B_PROJECT_VOCABULARY" as const;
 
+export const PROJECT_MODULE_KV_ID = "KV-PS" as const;
+
 export const PROJECT_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/project" as const;
 

@@ -6,6 +6,8 @@ export const ASSETS_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const ASSETS_REGISTRY_ID = "PKGR01B_ASSETS_VOCABULARY" as const;
 
+export const ASSETS_MODULE_KV_ID = "KV-AA" as const;
+
 export const ASSETS_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/assets" as const;
 

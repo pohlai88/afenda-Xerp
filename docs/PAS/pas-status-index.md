@@ -139,7 +139,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | **Active** — sole ERP frontend presentation authority (2026-06-29) |
 | **Authority** | PAS-006 family · PKG-026 · `@afenda/shadcn-studio` |
 | **Family index** | [`PRESENTATION/README.md`](PRESENTATION/README.md) |
-| **Maturity** | Production Candidate — P06-010 attestation delivered; **Enterprise Accepted** pending `@foundation-registry-owner` |
+| **Maturity** | **Enterprise Accepted** — PKGR05A promoted (P06-010 + foundation-registry-owner) |
 | **Runtime authority today** | PAS-006 family slices P06-001–P06-010 delivered |
 | **Proposed extensions** | PAS-006B (inventory) · PAS-006C (ACPA acceptance) · PAS-006D (metadata surfaces) — **runtime delivered** |
 | **Runtime status** | ERP skeleton + metadata/context wire + studio registries (inventory, slots, lifecycle, acceptance, surface templates); legacy UI packages **deleted** |
@@ -148,7 +148,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Gates (006 family live)** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm check:studio-inventory-lifecycle`, `pnpm check:studio-block-acpa-acceptance`, `pnpm check:studio-auth-surface-wcag-aa`, `pnpm check:package-css-dist-sync`, `pnpm quality:boundaries`, `pnpm check:documentation-drift`, `pnpm check:foundation-disposition` |
 | **Result** | Five-PAS manufacturing family; single CSS chain; metadata-driven UI path operational (PAS-006D) |
 
-**Next sequence item:** **PKGR05A disposition promotion** — delegate `@foundation-registry-owner` after reviewing P06-010 gate bundle.
+**Next sequence item:** **Operational hardening** — database-backed tenant resolution for metadata workspace (replace skeleton operating-context wire).
 
 ---
 

@@ -6,6 +6,8 @@ export const PAYROLL_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const PAYROLL_REGISTRY_ID = "PKGR01B_PAYROLL_VOCABULARY" as const;
 
+export const PAYROLL_MODULE_KV_ID = "KV-PY" as const;
+
 export const PAYROLL_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/payroll" as const;
 

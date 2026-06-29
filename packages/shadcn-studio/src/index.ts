@@ -124,6 +124,16 @@ export {
 } from "./registry/block-slot.registry.js";
 export { buildPresentationInventoryFromParity } from "./registry/build-presentation-inventory-from-parity.js";
 export {
+  MCP_SEED_BLOCK_IDS,
+  MCP_SEED_BLOCK_MANIFEST,
+  type McpSeedBlockId,
+  type McpSeedBlockManifestEntry,
+} from "./registry/mcp-seed-block-manifest.js";
+export {
+  getMetadataBindingById,
+  METADATA_BINDING_REGISTRY,
+} from "./registry/metadata-binding.registry.js";
+export {
   PRESENTATION_INVENTORY_REGISTRY,
   type PresentationInventoryEntry,
   type PresentationLayerKind,

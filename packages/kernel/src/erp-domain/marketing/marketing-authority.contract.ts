@@ -6,6 +6,8 @@ export const MARKETING_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const MARKETING_REGISTRY_ID = "PKGR01B_MARKETING_VOCABULARY" as const;
 
+export const MARKETING_MODULE_KV_ID = "KV-MKT" as const;
+
 export const MARKETING_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/marketing" as const;
 

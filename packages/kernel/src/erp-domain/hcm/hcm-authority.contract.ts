@@ -6,6 +6,8 @@ export const HCM_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const HCM_REGISTRY_ID = "PKGR01B_HCM_VOCABULARY" as const;
 
+export const HCM_MODULE_KV_ID = "KV-HCM" as const;
+
 export const HCM_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/hcm" as const;
 

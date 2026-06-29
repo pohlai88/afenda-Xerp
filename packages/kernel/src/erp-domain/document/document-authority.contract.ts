@@ -6,6 +6,8 @@ export const DOCUMENT_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const DOCUMENT_REGISTRY_ID = "PKGR01B_DOCUMENT_VOCABULARY" as const;
 
+export const DOCUMENT_MODULE_KV_ID = "KV-DOC" as const;
+
 export const DOCUMENT_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/document" as const;
 

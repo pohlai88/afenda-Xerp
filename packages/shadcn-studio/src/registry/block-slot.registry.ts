@@ -3,31 +3,20 @@
  */
 
 import type { BlockDataContractWire } from "../contracts/block-data-contract.js";
+import type { BlockSlotRole } from "./block-slot.types.js";
+import {
+  type BlockSlotTemplate,
+  resolveBlockSlotTemplate,
+} from "./block-slot-template-families.js";
 import { SHADCN_STUDIO_BLOCK_PARITY_REGISTRY } from "./studio-block-parity.registry.js";
 
-export type BlockSlotRole =
-  | "branding"
-  | "content"
-  | "form-field"
-  | "form-action"
-  | "metric"
-  | "table"
-  | "dialog"
-  | "navigation";
+export type { BlockSlotEntry, BlockSlotRole } from "./block-slot.types.js";
 
-export interface BlockSlotEntry {
+interface BlockSlotEntry {
   readonly blockId: string;
   readonly label: string;
   readonly role: BlockSlotRole;
   readonly slotId: string;
-}
-
-interface BlockSlotTemplate {
-  readonly contract: Omit<
-    BlockDataContractWire,
-    "blockId" | "blockDataContractId"
-  >;
-  readonly slots: readonly Omit<BlockSlotEntry, "blockId">[];
 }
 
 const BLOCK_SLOT_TEMPLATES: Readonly<Record<string, BlockSlotTemplate>> = {
@@ -245,7 +234,10 @@ const BLOCK_SLOT_TEMPLATES: Readonly<Record<string, BlockSlotTemplate>> = {
 
 function buildBlockSlotRegistry(): readonly BlockSlotEntry[] {
   return SHADCN_STUDIO_BLOCK_PARITY_REGISTRY.flatMap((parity) => {
-    const template = BLOCK_SLOT_TEMPLATES[parity.mcpBlockId];
+    const template = resolveBlockSlotTemplate(
+      parity.mcpBlockId,
+      BLOCK_SLOT_TEMPLATES
+    );
 
     if (template === undefined) {
       return [
@@ -270,7 +262,10 @@ function buildBlockSlotRegistry(): readonly BlockSlotEntry[] {
 
 function buildBlockDataContractRegistry(): readonly BlockDataContractWire[] {
   return SHADCN_STUDIO_BLOCK_PARITY_REGISTRY.flatMap((parity) => {
-    const template = BLOCK_SLOT_TEMPLATES[parity.mcpBlockId];
+    const template = resolveBlockSlotTemplate(
+      parity.mcpBlockId,
+      BLOCK_SLOT_TEMPLATES
+    );
 
     if (template === undefined) {
       return [

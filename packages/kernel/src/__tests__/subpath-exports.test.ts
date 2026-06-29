@@ -125,6 +125,11 @@ describe("@afenda/kernel subpath exports", () => {
     expect(isAccountType("not-an-account-type")).toBe(false);
   });
 
+  it("exposes INVENTORY_MODULE_KV_ID from ./erp-domain/inventory", async () => {
+    const inventory = await import("../erp-domain/inventory/index.js");
+    expect(inventory.INVENTORY_MODULE_KV_ID).toBe("KV-INV");
+  });
+
   it("exposes propagation runtime from ./propagation", () => {
     expect(kernelContext.get()).toBeNull();
     expect(typeof kernelContext.run).toBe("function");

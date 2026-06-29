@@ -20,6 +20,21 @@ describe("block slot registry (PAS-006B P06-003)", () => {
     }
   });
 
+  it("applies family slot templates to non-primary MCP blocks", () => {
+    expect(
+      getBlockSlotsForBlockId("statistics-card-03").map((slot) => slot.slotId)
+    ).toEqual(["metric.label", "metric.value", "metric.change"]);
+    expect(
+      getBlockSlotsForBlockId("widget-total-earning").length
+    ).toBeGreaterThanOrEqual(3);
+    expect(
+      getBlockSlotsForBlockId("chart-earning-report").length
+    ).toBeGreaterThanOrEqual(3);
+    expect(
+      getBlockSlotsForBlockId("account-settings-05").length
+    ).toBeGreaterThanOrEqual(4);
+  });
+
   it("uses stable slot ids for login-page-04", () => {
     const slots = getBlockSlotsForBlockId("login-page-04");
     expect(slots.map((slot) => slot.slotId)).toEqual([

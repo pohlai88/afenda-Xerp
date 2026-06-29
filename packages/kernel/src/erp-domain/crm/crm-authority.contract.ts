@@ -6,6 +6,8 @@ export const CRM_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const CRM_REGISTRY_ID = "PKGR01B_CRM_VOCABULARY" as const;
 
+export const CRM_MODULE_KV_ID = "KV-CRM" as const;
+
 export const CRM_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/crm" as const;
 

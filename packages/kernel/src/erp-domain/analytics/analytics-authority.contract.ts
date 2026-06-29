@@ -6,6 +6,8 @@ export const ANALYTICS_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const ANALYTICS_REGISTRY_ID = "PKGR01B_ANALYTICS_VOCABULARY" as const;
 
+export const ANALYTICS_MODULE_KV_ID = "KV-AN" as const;
+
 export const ANALYTICS_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/analytics" as const;
 

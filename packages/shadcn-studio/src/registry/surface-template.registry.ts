@@ -36,6 +36,51 @@ export const SURFACE_TEMPLATE_REGISTRY = [
     surfaceTemplateId: "surface-template.auth-sign-in",
     templateClass: "form",
   },
+  {
+    acceptanceRecordIds: ["acceptance-record:datatable-invoice"],
+    blockBindings: [
+      {
+        blockId: "datatable-invoice",
+        slotFills: {
+          "table.header": "table.header",
+          "table.rows": "table.rows",
+        },
+      },
+    ],
+    metadataBindingId: "metadata-binding.datatable-invoice",
+    surfaceTemplateId: "surface-template.invoice-table",
+    templateClass: "table",
+  },
+  {
+    acceptanceRecordIds: ["acceptance-record:statistics-card-01"],
+    blockBindings: [
+      {
+        blockId: "statistics-card-01",
+        slotFills: {
+          "metric.label": "metric.label",
+          "metric.value": "metric.value",
+        },
+      },
+    ],
+    metadataBindingId: "metadata-binding.statistics-card-01",
+    surfaceTemplateId: "surface-template.analytics-metric",
+    templateClass: "dashboard",
+  },
+  {
+    acceptanceRecordIds: ["acceptance-record:hero-section-01"],
+    blockBindings: [
+      {
+        blockId: "hero-section-01",
+        slotFills: {
+          "hero.title": "hero.title",
+          "hero.subtitle": "hero.subtitle",
+        },
+      },
+    ],
+    metadataBindingId: "metadata-binding.hero-section-01",
+    surfaceTemplateId: "surface-template.marketing-hero",
+    templateClass: "dashboard",
+  },
 ] as const satisfies readonly SurfaceTemplateContractWire[];
 
 export function getSurfaceTemplateById(

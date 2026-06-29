@@ -7,6 +7,8 @@ export const ECOMMERCE_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const ECOMMERCE_REGISTRY_ID = "PKGR01B_ECOMMERCE_VOCABULARY" as const;
 
+export const ECOMMERCE_MODULE_KV_ID = "KV-ECOM" as const;
+
 export const ECOMMERCE_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/ecommerce" as const;
 

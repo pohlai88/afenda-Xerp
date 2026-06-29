@@ -14,6 +14,7 @@
  * 9. Any module lacks LoB metadata
  * 10. PAS catalog count / slug bijection disagrees with layout contract tables
  * 11. ERP_DOMAIN_MODULE_KV_IDS duplicate or missing slug
+ * 12. Authority contract MODULE_KV_ID mismatches ERP_DOMAIN_MODULE_KV_IDS[slug]
  */
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
@@ -57,6 +58,7 @@ export const ERP_DOMAIN_LAYOUT_GATE_FAILURE_MATRIX = [
   "Any module lacks LoB metadata",
   "PAS catalog count or slug bijection disagrees with erp-domain-layout.contract.ts",
   "ERP_DOMAIN_MODULE_KV_IDS duplicate, missing slug, or extra key",
+  "Authority contract MODULE_KV_ID mismatches ERP_DOMAIN_MODULE_KV_IDS[slug]",
 ] as const;
 
 export interface ErpDomainLayoutViolation {
@@ -148,6 +150,55 @@ function checkKvIdBijection(violations: ErpDomainLayoutViolation[]): void {
       violations.push({
         rule: "kv-id-extra-slug",
         message: `ERP_DOMAIN_MODULE_KV_IDS has extra key "${key}" not in ERP_DOMAIN_MODULES.`,
+      });
+    }
+  }
+}
+
+function checkAuthorityKvIdParity(
+  violations: ErpDomainLayoutViolation[]
+): void {
+  const moduleKvIdPattern =
+    /export const \w+_MODULE_KV_ID = "(KV-[^"]+)" as const/;
+
+  for (const slug of ERP_DOMAIN_MODULES) {
+    const maturity = ERP_DOMAIN_MODULE_MATURITY[slug as ErpDomainModule];
+    if (maturity !== "delivered") {
+      continue;
+    }
+
+    const authorityPath = join(
+      erpDomainRoot,
+      slug,
+      `${slug}-authority.contract.ts`
+    );
+
+    if (!existsSync(authorityPath)) {
+      violations.push({
+        rule: "authority-kv-id-missing-contract",
+        message: `Delivered module "${slug}" missing authority contract at ${authorityPath}.`,
+      });
+      continue;
+    }
+
+    const source = readFileSync(authorityPath, "utf8");
+    const match = moduleKvIdPattern.exec(source);
+
+    if (!match?.[1]) {
+      violations.push({
+        rule: "authority-kv-id-missing-export",
+        message: `Module "${slug}" authority contract missing export const *_MODULE_KV_ID = "KV-..." as const.`,
+      });
+      continue;
+    }
+
+    const expectedKvId = ERP_DOMAIN_MODULE_KV_IDS[slug as ErpDomainModule];
+    const actualKvId = match[1];
+
+    if (actualKvId !== expectedKvId) {
+      violations.push({
+        rule: "authority-kv-id-mismatch",
+        message: `Module "${slug}" authority MODULE_KV_ID "${actualKvId}" !== ERP_DOMAIN_MODULE_KV_IDS "${expectedKvId}".`,
       });
     }
   }
@@ -414,6 +465,7 @@ export function checkErpDomainLayout(): ErpDomainLayoutViolation[] {
 
   checkDuplicateSlugs(violations);
   checkKvIdBijection(violations);
+  checkAuthorityKvIdParity(violations);
   checkMaturityBijection(violations);
   checkCatalogBijection(violations);
   checkLoBMetadata(violations);
@@ -447,5 +499,5 @@ if (violations.length > 0) {
 }
 
 process.stdout.write(
-  `ERP domain layout gate passed (PAS-001B — ${ERP_DOMAIN_MODULES.length} catalog slugs, ${Object.values(ERP_DOMAIN_MODULE_MATURITY).filter((m) => m === "delivered").length} delivered; failure matrix ${ERP_DOMAIN_LAYOUT_GATE_FAILURE_MATRIX.length}/11 enforced).\n`
+  `ERP domain layout gate passed (PAS-001B — ${ERP_DOMAIN_MODULES.length} catalog slugs, ${Object.values(ERP_DOMAIN_MODULE_MATURITY).filter((m) => m === "delivered").length} delivered; failure matrix ${ERP_DOMAIN_LAYOUT_GATE_FAILURE_MATRIX.length}/12 enforced).\n`
 );

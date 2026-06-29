@@ -6,6 +6,8 @@ export const SERVICE_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const SERVICE_REGISTRY_ID = "PKGR01B_SERVICE_VOCABULARY" as const;
 
+export const SERVICE_MODULE_KV_ID = "KV-SVC" as const;
+
 export const SERVICE_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/service" as const;
 

@@ -7,6 +7,8 @@ export const MAINTENANCE_AUTHORITY_PAS = "PAS-001B" as const;
 export const MAINTENANCE_REGISTRY_ID =
   "PKGR01B_MAINTENANCE_VOCABULARY" as const;
 
+export const MAINTENANCE_MODULE_KV_ID = "KV-PM" as const;
+
 export const MAINTENANCE_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/maintenance" as const;
 

@@ -6,6 +6,8 @@ export const SALES_AUTHORITY_PAS = "PAS-001B" as const;
 
 export const SALES_REGISTRY_ID = "PKGR01B_SALES_VOCABULARY" as const;
 
+export const SALES_MODULE_KV_ID = "KV-SD" as const;
+
 export const SALES_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/sales" as const;
 

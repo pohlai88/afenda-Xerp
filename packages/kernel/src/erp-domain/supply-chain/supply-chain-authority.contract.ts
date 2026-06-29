@@ -7,6 +7,8 @@ export const SUPPLY_CHAIN_AUTHORITY_PAS = "PAS-001B" as const;
 export const SUPPLY_CHAIN_REGISTRY_ID =
   "PKGR01B_SUPPLY_CHAIN_VOCABULARY" as const;
 
+export const SUPPLY_CHAIN_MODULE_KV_ID = "KV-SC" as const;
+
 export const SUPPLY_CHAIN_CONTRACTS_OWNER =
   "packages/kernel/src/erp-domain/supply-chain" as const;
 
