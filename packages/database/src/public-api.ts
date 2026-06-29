@@ -324,6 +324,7 @@ export {
   type CompanyMemberListRow,
   type DeactivateMembershipInput,
   deactivateMembership,
+  findActiveCompanyMembershipForUser,
   findMembershipById,
   type InsertMembershipInput,
   insertMembership,

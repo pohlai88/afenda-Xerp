@@ -148,7 +148,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Gates (006 family live)** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm check:studio-inventory-lifecycle`, `pnpm check:studio-block-acpa-acceptance`, `pnpm check:studio-auth-surface-wcag-aa`, `pnpm check:package-css-dist-sync`, `pnpm quality:boundaries`, `pnpm check:documentation-drift`, `pnpm check:foundation-disposition` |
 | **Result** | Five-PAS manufacturing family; single CSS chain; metadata-driven UI path operational (PAS-006D) |
 
-**Next sequence item:** **Operational hardening** — database-backed tenant resolution for metadata workspace (replace skeleton operating-context wire).
+**Next sequence item:** **None for PAS-006 family** — database-backed metadata operating context + full MCP slot-template families delivered.
 
 ---
 

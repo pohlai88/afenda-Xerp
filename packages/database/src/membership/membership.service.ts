@@ -3,6 +3,7 @@ import { and, asc, eq } from "drizzle-orm";
 import { insertAuditEvent } from "../audit/audit.writer.js";
 import type {
   AuditActorType,
+  MembershipScopeType,
   MembershipStatus,
   UserStatus,
 } from "../database.types.js";
@@ -458,4 +459,47 @@ export async function findMembershipById(
     .limit(1);
 
   return row ?? null;
+}
+
+export interface ActiveCompanyMembershipLookupRow {
+  readonly membershipEnterpriseId: string;
+  readonly roleEnterpriseId: string;
+  readonly scopeType: MembershipScopeType;
+}
+
+/** Resolves an active company-scoped membership for a platform user. */
+export async function findActiveCompanyMembershipForUser(
+  input: { readonly companyId: string; readonly userId: string },
+  db: AfendaDatabase = getDb()
+): Promise<ActiveCompanyMembershipLookupRow | null> {
+  const [row] = await db
+    .select({
+      membershipEnterpriseId: memberships.enterpriseId,
+      roleEnterpriseId: roles.enterpriseId,
+      scopeType: memberships.scopeType,
+    })
+    .from(memberships)
+    .innerJoin(roles, eq(memberships.roleId, roles.id))
+    .where(
+      and(
+        eq(memberships.userId, input.userId),
+        eq(memberships.companyId, input.companyId),
+        eq(memberships.status, "active")
+      )
+    )
+    .limit(1);
+
+  if (
+    row === undefined ||
+    row.membershipEnterpriseId === null ||
+    row.roleEnterpriseId === null
+  ) {
+    return null;
+  }
+
+  return {
+    membershipEnterpriseId: row.membershipEnterpriseId,
+    roleEnterpriseId: row.roleEnterpriseId,
+    scopeType: row.scopeType,
+  };
 }

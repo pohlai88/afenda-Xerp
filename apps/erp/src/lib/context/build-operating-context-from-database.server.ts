@@ -1,10 +1,8 @@
 import type { AfendaAuthSession } from "@afenda/auth";
 import {
+  findActiveCompanyMembershipForUser,
   findCompanyById,
   findTenantById,
-  getDb,
-  memberships,
-  roles,
 } from "@afenda/database";
 import {
   DEFAULT_PERMISSION_GRANT_ELEVATION_FLAGS,
@@ -16,8 +14,10 @@ import {
   ok,
   parseUnknownOperatingContext,
 } from "@afenda/kernel";
-import { and, eq } from "drizzle-orm";
-import { toTenantContext } from "./operating-context.mappers";
+import {
+  mapDbLegalEntityCompanyTypeToKernelWire,
+  toTenantContext,
+} from "./operating-context.mappers";
 import { parseActiveWorkspaceSelection } from "./parse-active-workspace-selection";
 
 /** Builds kernel operating context from auth session + database workspace lookups. */
@@ -47,8 +47,7 @@ export async function buildOperatingContextFromDatabaseSession(
     } satisfies OperatingContextError);
   }
 
-  const db = getDb();
-  const tenantRow = await findTenantById(workspaceSelection.tenantId, db);
+  const tenantRow = await findTenantById(workspaceSelection.tenantId);
 
   if (tenantRow === null) {
     return err({
@@ -64,7 +63,7 @@ export async function buildOperatingContextFromDatabaseSession(
     } satisfies OperatingContextError);
   }
 
-  const companyRow = await findCompanyById(workspaceSelection.companyId, db);
+  const companyRow = await findCompanyById(workspaceSelection.companyId);
 
   if (companyRow === null) {
     return err({
@@ -87,24 +86,12 @@ export async function buildOperatingContextFromDatabaseSession(
     } satisfies OperatingContextError);
   }
 
-  const [membershipRow] = await db
-    .select({
-      membershipEnterpriseId: memberships.enterpriseId,
-      roleEnterpriseId: roles.enterpriseId,
-      scopeType: memberships.scopeType,
-    })
-    .from(memberships)
-    .innerJoin(roles, eq(memberships.roleId, roles.id))
-    .where(
-      and(
-        eq(memberships.userId, platformUserId),
-        eq(memberships.companyId, companyRow.id),
-        eq(memberships.status, "active")
-      )
-    )
-    .limit(1);
+  const membershipRow = await findActiveCompanyMembershipForUser({
+    userId: platformUserId,
+    companyId: companyRow.id,
+  });
 
-  if (membershipRow === undefined) {
+  if (membershipRow === null) {
     return err({
       code: "MEMBERSHIP_DENIED",
       userMessage:
@@ -113,6 +100,9 @@ export async function buildOperatingContextFromDatabaseSession(
   }
 
   const tenant = toTenantContext(tenantRow);
+  const legalEntityMapping = mapDbLegalEntityCompanyTypeToKernelWire(
+    companyRow.companyType
+  );
 
   const wire = {
     actor: { userId: enterpriseUserId },
@@ -134,8 +124,9 @@ export async function buildOperatingContextFromDatabaseSession(
       legalName: companyRow.legalName,
       displayName: companyRow.displayName,
       slug: companyRow.slug,
-      companyType: companyRow.companyType,
-      relationshipToHoldingCompany: null,
+      companyType: legalEntityMapping.companyType,
+      relationshipToHoldingCompany:
+        legalEntityMapping.relationshipToHoldingCompany,
       countryCode: companyRow.countryCode,
       baseCurrency: companyRow.baseCurrency,
       reportingCurrency: null,

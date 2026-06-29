@@ -3,7 +3,7 @@
  */
 
 import type { BlockDataContractWire } from "../contracts/block-data-contract.js";
-import type { BlockSlotRole } from "./block-slot.types.js";
+import type { BlockSlotEntry } from "./block-slot.types.js";
 import {
   type BlockSlotTemplate,
   resolveBlockSlotTemplate,
@@ -11,13 +11,6 @@ import {
 import { SHADCN_STUDIO_BLOCK_PARITY_REGISTRY } from "./studio-block-parity.registry.js";
 
 export type { BlockSlotEntry, BlockSlotRole } from "./block-slot.types.js";
-
-interface BlockSlotEntry {
-  readonly blockId: string;
-  readonly label: string;
-  readonly role: BlockSlotRole;
-  readonly slotId: string;
-}
 
 const BLOCK_SLOT_TEMPLATES: Readonly<Record<string, BlockSlotTemplate>> = {
   "login-page-04": {

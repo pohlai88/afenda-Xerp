@@ -1,8 +1,11 @@
-import type { TenantLookupRow } from "@afenda/database";
+import type { LegalEntityCompanyType, TenantLookupRow } from "@afenda/database";
 import { createTestEnterpriseId } from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
 
-import { toTenantContext } from "../operating-context.mappers";
+import {
+  mapDbLegalEntityCompanyTypeToKernelWire,
+  toTenantContext,
+} from "../operating-context.mappers";
 
 const TENANT_ENTERPRISE_ID = createTestEnterpriseId(
   "tenant",
@@ -39,5 +42,18 @@ describe("toTenantContext", () => {
 
     expect(tenant.status).toBe("archived");
     expect(tenant.saasLifecyclePhase).toBe("offboarded");
+  });
+});
+
+describe("mapDbLegalEntityCompanyTypeToKernelWire", () => {
+  it("maps database subsidiary vocabulary to kernel relationship routing", () => {
+    expect(
+      mapDbLegalEntityCompanyTypeToKernelWire(
+        "subsidiary" satisfies LegalEntityCompanyType
+      )
+    ).toEqual({
+      companyType: "standalone",
+      relationshipToHoldingCompany: "subsidiary",
+    });
   });
 });
