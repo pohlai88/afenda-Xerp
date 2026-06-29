@@ -203,6 +203,12 @@ const PersonalInfo = () => {
                 id="multi-step-personal-info-first-name"
                 placeholder="John"
               />
+              <p
+                {...blockSlotDomMarkerProps("profile.displayName.help")}
+                className="text-muted-foreground text-xs"
+              >
+                Your name as shown to other workspace members.
+              </p>
             </div>
             <div className="flex flex-col items-start gap-2">
               <Label htmlFor="multi-step-personal-info-last-name">

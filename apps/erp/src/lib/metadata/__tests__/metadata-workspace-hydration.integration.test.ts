@@ -5,7 +5,9 @@ import { describe, expect, it } from "vitest";
 import { METADATA_PAS006_CONSUMER_WIRING } from "@/lib/context/context-integration-registry";
 import { OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY } from "@/lib/context/operating-context-protected-surface.registry";
 import { hydrateMetadataBindingSlots } from "@/lib/metadata/hydrate-metadata-binding-slots.server";
+import { METADATA_OPERATOR_SURFACE_REGISTRY } from "@/lib/metadata/metadata-operator-surface.registry";
 import { createMetadataRuntimeContext } from "@/lib/metadata/metadata-runtime.contract";
+import { resolveMetadataOperatorSurface } from "@/lib/metadata/resolve-metadata-operator-surface.server";
 import { resolveMetadataUiRenderContextFromTenantContext } from "@/lib/metadata/resolve-metadata-ui-render-context.server";
 import { resolveMetadataWorkspaceSurfaces } from "@/lib/metadata/resolve-metadata-workspace-surfaces.server";
 
@@ -31,6 +33,9 @@ describe("metadata workspace hydration integration (PAS-001A R1c)", () => {
     expect(delegateIds.has("metadata-workspace-surfaces")).toBe(true);
     expect(delegateIds.has("metadata-binding-slot-hydration")).toBe(true);
     expect(delegateIds.has("metadata-workspace-page")).toBe(true);
+    expect(delegateIds.has("metadata-operator-surface-resolver")).toBe(true);
+    expect(delegateIds.has("metadata-operator-settings-profile")).toBe(true);
+    expect(delegateIds.has("metadata-operator-auth-sign-in")).toBe(true);
   });
 
   it("requires metadata consumer modules to exist on disk", () => {
@@ -78,6 +83,32 @@ describe("metadata workspace hydration integration (PAS-001A R1c)", () => {
         surface.bindingProjection
       );
       expect(surface.slotHydration?.slotTargets.length).toBeGreaterThan(0);
+    }
+  });
+
+  it("operator route modules use metadata operator surface loader", () => {
+    for (const route of METADATA_OPERATOR_SURFACE_REGISTRY) {
+      const pagePath = join(erpSrcRoot, route.module);
+      const source = readFileSync(pagePath, "utf8");
+
+      expect(source.includes("loadMetadataOperatorSurfacePage")).toBe(true);
+      expect(source.includes("MetadataOperatorSurfacePage")).toBe(true);
+      expect(source.includes(route.surfaceTemplateId)).toBe(true);
+    }
+  });
+
+  it("operator surfaces resolve with help-text slot targets", () => {
+    const runtime = createMetadataRuntimeContext({
+      correlationId: "corr-operator-integration",
+    });
+
+    for (const route of METADATA_OPERATOR_SURFACE_REGISTRY) {
+      const surface = resolveMetadataOperatorSurface({
+        surfaceTemplateId: route.surfaceTemplateId,
+        runtime,
+      });
+
+      expect(surface?.slotHydration?.slotTargets.length).toBeGreaterThan(0);
     }
   });
 

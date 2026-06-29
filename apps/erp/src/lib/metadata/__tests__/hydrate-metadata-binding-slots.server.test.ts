@@ -67,4 +67,94 @@ describe("hydrateMetadataBindingSlots (PAS-001A R1c-2)", () => {
       "Tenant (SaaS customer boundary)"
     );
   });
+
+  it("hydrates help-text slot targets from helpTextAtomRef", () => {
+    const binding = {
+      metadataBindingId: "metadata-binding.test-tenant-help",
+      blockId: "test-tenant-help-block",
+      fields: [
+        {
+          fieldKey: "tenantId",
+          slotId: "tenant.id",
+          presentationKind: "readonly",
+          labelAtomRef: "atom.tenant.label",
+          helpTextAtomRef: "atom.tenant.help",
+        },
+      ],
+    } satisfies MetadataBindingContractWire;
+
+    const runtime = createMetadataRuntimeContext({
+      correlationId: "corr-help-text",
+    });
+    const projection = projectMetadataUiBindingWire({ binding, runtime });
+    const hydration = hydrateMetadataBindingSlots({
+      binding,
+      projection,
+      runtime,
+    });
+
+    expect(hydration.slotTargets).toHaveLength(2);
+
+    const helpTarget = hydration.slotTargets.find(
+      (target) => target.presentationKind === "help-text"
+    );
+
+    expect(helpTarget?.slotId).toBe("tenant.id.help");
+    expect(helpTarget?.value).toBe("Tenant (SaaS customer boundary)");
+  });
+
+  it("hydrates login-page-04 password help from binding override", () => {
+    const binding = getMetadataBindingByBlockId("login-page-04");
+    if (binding === undefined) {
+      throw new Error("login-page-04 binding must exist in registry");
+    }
+
+    const passwordField = binding.fields.find(
+      (field) => field.fieldKey === "password"
+    );
+
+    expect(passwordField?.helpTextAtomRef).toBe("atom.auth.password.help");
+
+    const runtime = createMetadataRuntimeContext({
+      correlationId: "corr-login-help",
+    });
+    const projection = projectMetadataUiBindingWire({ binding, runtime });
+    const hydration = hydrateMetadataBindingSlots({
+      binding,
+      projection,
+      runtime,
+    });
+
+    const helpTarget = hydration.slotTargets.find(
+      (target) => target.slotId === "login.password.help"
+    );
+
+    expect(helpTarget?.presentationKind).toBe("help-text");
+    expect(helpTarget?.value).toBe(
+      "Use the password for your Afenda account. Never share it with anyone."
+    );
+  });
+
+  it("resolves presentation atom refs for seeded hero block labels", () => {
+    const binding = getMetadataBindingByBlockId("hero-section-01");
+    if (binding === undefined) {
+      throw new Error("hero-section-01 binding must exist in registry");
+    }
+
+    const runtime = createMetadataRuntimeContext({
+      correlationId: "corr-presentation",
+    });
+    const projection = projectMetadataUiBindingWire({ binding, runtime });
+    const hydration = hydrateMetadataBindingSlots({
+      binding,
+      projection,
+      runtime,
+    });
+
+    const titleTarget = hydration.slotTargets.find(
+      (target) => target.fieldKey === "title"
+    );
+
+    expect(titleTarget?.value).toBe("Hero title");
+  });
 });

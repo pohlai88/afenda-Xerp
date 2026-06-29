@@ -37,6 +37,20 @@ export const OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY = [
     routePattern: "/metadata-workspace",
   },
   {
+    id: "protected-rsc-settings-profile",
+    kind: "protected-rsc",
+    module: "app/(protected)/settings/profile/page.tsx",
+    delegate: "resolveOperatingContextFromHeaders",
+    routePattern: "/settings/profile",
+  },
+  {
+    id: "protected-rsc-operator-auth-sign-in",
+    kind: "protected-rsc",
+    module: "app/(protected)/operator/auth/sign-in/page.tsx",
+    delegate: "resolveOperatingContextFromHeaders",
+    routePattern: "/operator/auth/sign-in",
+  },
+  {
     id: "protected-api-operating-context",
     kind: "protected-api",
     module: "lib/api/resolve-api-route-operating-context.ts",

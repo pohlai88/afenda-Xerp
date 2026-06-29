@@ -41,6 +41,7 @@ describe("block slot registry (PAS-006B P06-003)", () => {
       "login.branding",
       "login.email",
       "login.password",
+      "login.password.help",
       "login.submit",
     ]);
   });

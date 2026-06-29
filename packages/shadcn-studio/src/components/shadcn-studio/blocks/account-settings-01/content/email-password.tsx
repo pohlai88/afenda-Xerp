@@ -90,6 +90,12 @@ const EmailPass = () => {
                 <span className="sr-only">Email</span>
               </InputGroupAddon>
             </InputGroup>
+            <p
+              {...blockSlotDomMarkerProps("profile.email.help")}
+              className="text-muted-foreground text-xs"
+            >
+              Used for sign-in and account notifications.
+            </p>
           </div>
           <div className="w-full space-y-2">
             <Label className="gap-1" htmlFor="current-password">

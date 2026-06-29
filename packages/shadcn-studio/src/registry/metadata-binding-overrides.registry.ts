@@ -24,7 +24,7 @@ export const METADATA_BINDING_OVERRIDE_REGISTRY: readonly MetadataBindingOverrid
     {
       blockId: "login-page-04",
       notes:
-        "Password field renders as text presentation at metadata boundary.",
+        "Password field renders as text presentation at metadata boundary; help slot pairs with login.password.help DOM marker.",
       patch: {
         fields: [
           {
@@ -39,11 +39,38 @@ export const METADATA_BINDING_OVERRIDE_REGISTRY: readonly MetadataBindingOverrid
             slotId: "login.password",
             presentationKind: "text",
             labelAtomRef: "atom.auth.password",
+            helpTextAtomRef: "atom.auth.password.help",
             requiredDisplay: true,
           },
         ],
       },
       reason: "presentation-kind-refinement",
+    },
+    {
+      blockId: "account-settings-01",
+      notes:
+        "Profile fields expose help-text atom refs paired with profile.*.help DOM markers.",
+      patch: {
+        fields: [
+          {
+            fieldKey: "displayName",
+            slotId: "profile.displayName",
+            presentationKind: "text",
+            labelAtomRef: "atom.user.display-name",
+            helpTextAtomRef: "atom.user.display-name.help",
+            requiredDisplay: true,
+          },
+          {
+            fieldKey: "email",
+            slotId: "profile.email",
+            presentationKind: "text",
+            labelAtomRef: "atom.user.email",
+            helpTextAtomRef: "atom.user.email.help",
+            requiredDisplay: true,
+          },
+        ],
+      },
+      reason: "label-atom-refinement",
     },
   ];
 

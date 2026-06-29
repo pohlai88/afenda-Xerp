@@ -101,9 +101,17 @@ describe("check:identity-boundary", () => {
     expect(violations).toEqual([]);
   });
 
-  it("scans metadata-ui and ui-composition consumer roots", () => {
+  it("scans active consumer roots (ADR-0027 — retired presentation packages excluded)", () => {
     expect(IDENTITY_BOUNDARY_SCAN_ROOTS).toEqual(
       expect.arrayContaining([
+        "apps/erp/src",
+        "packages/database/src",
+        "packages/shadcn-studio/src",
+      ])
+    );
+    expect(IDENTITY_BOUNDARY_SCAN_ROOTS).not.toEqual(
+      expect.arrayContaining([
+        "packages/appshell/src",
         "packages/metadata-ui/src",
         "packages/ui-composition/src",
       ])

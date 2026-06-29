@@ -3,6 +3,9 @@ import type { MetadataUiBindingProjectionWire } from "./metadata-ui-binding.proj
 /** DOM attribute name for PAS-006 block slot markers (mirrors studio contract). */
 export const METADATA_BINDING_SLOT_DOM_ATTRIBUTE = "data-afenda-slot" as const;
 
+/** Suffix for help-text slot targets paired with field `slotId` (PAS-006D §2 help text ref). */
+export const METADATA_BINDING_HELP_SLOT_SUFFIX = ".help" as const;
+
 export interface MetadataBindingSlotHydrationTargetWire {
   readonly domAttribute: typeof METADATA_BINDING_SLOT_DOM_ATTRIBUTE;
   readonly fieldKey?: string;

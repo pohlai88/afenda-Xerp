@@ -49,6 +49,12 @@ const LoginForm = () => {
             </Button>
           </InputGroupAddon>
         </InputGroup>
+        <p
+          {...blockSlotDomMarkerProps("login.password.help")}
+          className="text-muted-foreground text-xs"
+        >
+          Enter your Afenda account password.
+        </p>
         {/* Remember Me and Forgot Password */}
         <div className="flex items-center justify-between gap-y-2">
           <Field className="flex items-center gap-3" orientation="horizontal">

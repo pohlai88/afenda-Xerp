@@ -1,20 +1,10 @@
 #!/usr/bin/env tsx
-/** PAS-001 §4.1.13 — metadata/kernel/database tenant human reference parity gate. */
+/** PAS-001 §4.1.13 / ADR-0023 — kernel ↔ database tenant human reference parity (ADR-0027: retired ui-composition). */
 
-import { METADATA_TENANT_HUMAN_REFERENCE_SCOPES } from "../../../packages/ui-composition/src/metadata-tenant-human-reference-vocabulary.contract.ts";
 import { TENANT_HUMAN_REFERENCE_REGISTRY } from "../../../packages/database/src/ids/tenant-human-reference-registry.ts";
 import { TENANT_HUMAN_REFERENCE_SCOPES } from "../../../packages/kernel/src/identity/tenant-human-reference/tenant-human-reference.contract.ts";
 
 const violations: string[] = [];
-
-if (
-  JSON.stringify([...METADATA_TENANT_HUMAN_REFERENCE_SCOPES]) !==
-  JSON.stringify([...TENANT_HUMAN_REFERENCE_SCOPES])
-) {
-  violations.push(
-    "METADATA_TENANT_HUMAN_REFERENCE_SCOPES must mirror TENANT_HUMAN_REFERENCE_SCOPES"
-  );
-}
 
 const registryScopeKeys = new Set(
   TENANT_HUMAN_REFERENCE_REGISTRY.map((entry) => {
@@ -54,5 +44,5 @@ if (violations.length > 0) {
 }
 
 console.log(
-  "Metadata tenant human reference parity gate passed (PAS-001 §4.1.13)."
+  "Tenant human reference parity gate passed (kernel ↔ database, PAS-001 §4.1.13)."
 );

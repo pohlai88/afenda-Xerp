@@ -6,7 +6,7 @@
  * prohibited outside packages/kernel/src/identity/.
  */
 
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -17,14 +17,14 @@ const repoRoot = fileURLToPath(new URL("../../../", import.meta.url)).replace(
   ""
 );
 
+/** Active consumer roots only — ADR-0027 retired appshell/metadata-ui/ui-composition. */
 export const IDENTITY_BOUNDARY_SCAN_ROOTS = [
   "apps/erp/src",
-  "packages/appshell/src",
   "packages/auth/src",
-  "packages/permissions/src",
+  "packages/database/src",
   "packages/execution/src",
-  "packages/metadata-ui/src",
-  "packages/ui-composition/src",
+  "packages/permissions/src",
+  "packages/shadcn-studio/src",
 ] as const;
 
 export const IDENTITY_BOUNDARY_ALLOWLIST_PREFIXES = [
@@ -203,6 +203,10 @@ export function collectIdentityBoundaryViolations(
 }
 
 function collectSourceFiles(directory: string): string[] {
+  if (!existsSync(directory)) {
+    return [];
+  }
+
   const entries = readdirSync(directory, { withFileTypes: true });
   const files: string[] = [];
 

@@ -53,7 +53,7 @@ P06-010  Enterprise Accepted attestation (family)  [Delivered — registry promo
 | **P06-007** | 006C | Auth-adjacent WCAG 2.2 AA acceptance pack | **Delivered** | P06-005 | Sign-in/MFA/denial surfaces |
 | **P06-008** | 006D | Metadata binding contract | **Delivered** | P06-004 | NS §3.5 metadata path |
 | **P06-008-R1** | 006D | Metadata binding registry enforcement | **Delivered** | P06-008 | NS I7 · `check:studio-metadata-binding` |
-| **P06-008-R2** | 006D | DOM slot markers (`data-afenda-slot`) | **Delivered** | P06-008-R1 | NS §3.5 Metadata-bound DOM · `check:studio-block-slot-markers` |
+| **P06-008-R2** | 006D | DOM slot markers (`data-afenda-slot`) | **Delivered** | P06-008-R1 | NS §3.5 Metadata-bound DOM · `check:studio-block-slot-markers` · login password help slot (`login.password.help`) |
 | **P06-009** | 006D | Surface template registry | **Delivered** | P06-008 | Template → operator surface |
 | **P06-010** | 006 family | Enterprise Accepted attestation | **Delivered** (doc attestation; PKGR05A promotion via registry owner) | P06-002–P06-007 minimum | Blueprint Enterprise Accepted |
 
@@ -73,5 +73,6 @@ P06-010  Enterprise Accepted attestation (family)  [Delivered — registry promo
 
 | Track | Owner | Notes |
 | --- | --- | --- |
-| ERP route hydration | PAS-001A · `apps/erp` | Wire accepted blocks to operator routes via IS-003 |
-| Optional gate | Root `package.json` | `check:erp-metadata-pas006-consumer` registration |
+| ERP operator routes | PAS-001A · `apps/erp` | `/settings/profile` · `/operator/auth/sign-in` live — extend registry for more templates |
+| Help slot pattern | PAS-006D · `@afenda/shadcn-studio` | Reference on login + account-settings — replicate on remaining form blocks |
+| Optional gate | Root `package.json` | `check:erp-metadata-pas006-consumer` registered in `pnpm quality` |

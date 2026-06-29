@@ -31,6 +31,11 @@ const BLOCK_SLOT_TEMPLATES: Readonly<Record<string, BlockSlotTemplate>> = {
         label: "Password field",
       },
       {
+        slotId: "login.password.help",
+        role: "form-field",
+        label: "Password help text",
+      },
+      {
         slotId: "login.submit",
         role: "form-action",
         label: "Submit action",
@@ -131,7 +136,17 @@ const BLOCK_SLOT_TEMPLATES: Readonly<Record<string, BlockSlotTemplate>> = {
         role: "form-field",
         label: "Display name",
       },
+      {
+        slotId: "profile.displayName.help",
+        role: "form-field",
+        label: "Display name help text",
+      },
       { slotId: "profile.email", role: "form-field", label: "Email" },
+      {
+        slotId: "profile.email.help",
+        role: "form-field",
+        label: "Email help text",
+      },
       { slotId: "profile.save", role: "form-action", label: "Save profile" },
     ],
     contract: {

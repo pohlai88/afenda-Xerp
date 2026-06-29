@@ -4,16 +4,24 @@ import type {
   MetadataBindingSlotHydrationTargetWire,
   MetadataBindingSlotHydrationWire,
 } from "./metadata-binding-slot-hydration.contract";
+import { METADATA_BINDING_HELP_SLOT_SUFFIX } from "./metadata-binding-slot-hydration.contract";
 import type { MetadataRuntimeContext } from "./metadata-runtime.contract";
 import type { MetadataUiBindingProjectionWire } from "./metadata-ui-binding.projection";
 import {
+  resolveMetadataKnowledgeHelpTextFromAtomRef,
   resolveMetadataKnowledgeLabelFromAtomRef,
   resolveMetadataKnowledgeLabelFromFieldKey,
+  resolveMetadataPresentationLabelFromAtomRef,
 } from "./resolve-metadata-knowledge-label.server";
 
 export type {
   MetadataBindingSlotHydrationTargetWire,
   MetadataBindingSlotHydrationWire,
+} from "./metadata-binding-slot-hydration.contract";
+
+export {
+  METADATA_BINDING_HELP_SLOT_SUFFIX,
+  METADATA_BINDING_SLOT_DOM_ATTRIBUTE,
 } from "./metadata-binding-slot-hydration.contract";
 
 export interface HydrateMetadataBindingSlotsInput {
@@ -61,6 +69,13 @@ function resolveSlotPreviewValue(
     return knowledgeLabelFromRef;
   }
 
+  const presentationLabelFromRef =
+    resolveMetadataPresentationLabelFromAtomRef(labelAtomRef);
+
+  if (presentationLabelFromRef !== undefined) {
+    return presentationLabelFromRef;
+  }
+
   const knowledgeLabelFromFieldKey =
     resolveMetadataKnowledgeLabelFromFieldKey(fieldKey);
 
@@ -71,14 +86,36 @@ function resolveSlotPreviewValue(
   return `[preview:${fieldKey}]`;
 }
 
+function buildFieldHelpTextTarget(
+  field: MetadataBindingContractWire["fields"][number]
+): MetadataBindingSlotHydrationTargetWire | undefined {
+  const helpText = resolveMetadataKnowledgeHelpTextFromAtomRef(
+    field.helpTextAtomRef
+  );
+
+  if (helpText === undefined) {
+    return;
+  }
+
+  return {
+    domAttribute: AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE,
+    slotId: `${field.slotId}${METADATA_BINDING_HELP_SLOT_SUFFIX}`,
+    fieldKey: `${field.fieldKey}.helpText`,
+    presentationKind: "help-text",
+    value: helpText,
+  };
+}
+
 /** Maps binding projection + runtime into wire-safe slot hydration targets (R1c-2). */
 export function hydrateMetadataBindingSlots(
   input: HydrateMetadataBindingSlotsInput
 ): MetadataBindingSlotHydrationWire {
   const { binding, projection, runtime } = input;
 
-  const fieldTargets: MetadataBindingSlotHydrationTargetWire[] =
-    binding.fields.map((field) => ({
+  const fieldTargets: MetadataBindingSlotHydrationTargetWire[] = [];
+
+  for (const field of binding.fields) {
+    fieldTargets.push({
       domAttribute: AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE,
       slotId: field.slotId,
       fieldKey: field.fieldKey,
@@ -88,7 +125,14 @@ export function hydrateMetadataBindingSlots(
         runtime,
         field.labelAtomRef
       ),
-    }));
+    });
+
+    const helpTarget = buildFieldHelpTextTarget(field);
+
+    if (helpTarget !== undefined) {
+      fieldTargets.push(helpTarget);
+    }
+  }
 
   const tableColumnTargets: MetadataBindingSlotHydrationTargetWire[] =
     binding.tableColumns?.map((column) => ({
@@ -106,8 +150,10 @@ export function hydrateMetadataBindingSlots(
     binding.stateTemplates?.map((template) => ({
       domAttribute: AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE,
       slotId: template.slotId,
+      presentationKind: "state-message",
       value:
         resolveMetadataKnowledgeLabelFromAtomRef(template.messageAtomRef) ??
+        resolveMetadataPresentationLabelFromAtomRef(template.messageAtomRef) ??
         `[state:${template.stateKind}]`,
     })) ?? [];
 

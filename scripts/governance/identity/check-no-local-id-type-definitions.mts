@@ -6,19 +6,12 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { PLATFORM_ID_FAMILY_TYPE_NAMES } from "../../../packages/kernel/src/identity/registry/id-family.registry.ts";
+import { IDENTITY_BOUNDARY_SCAN_ROOTS } from "./identity-boundary.governance.mts";
 
 const repoRoot = fileURLToPath(new URL("../../../", import.meta.url)).replace(
   /[/\\]$/,
   ""
 );
-
-const SCAN_ROOTS = [
-  "apps/erp/src",
-  "packages/auth/src",
-  "packages/permissions/src",
-  "packages/execution/src",
-  "packages/appshell/src",
-];
 
 const LOCAL_TYPE_PATTERN =
   /type\s+(TenantId|CompanyId|CustomerId|ProductId|UserId|RoleId|MembershipId|PermissionId|PolicyId|OrganizationId|EntityGroupId|TeamId|ProjectId|WarehouseId|EmployeeId|SupplierId|DocumentId|AssetId|ExecutionId|CorrelationId|AuditEventId|OwnershipInterestId)\s*=\s*(Brand<|string)/g;
@@ -48,7 +41,7 @@ function collectFiles(relativeRoot: string): string[] {
 
 const violations: string[] = [];
 
-for (const root of SCAN_ROOTS) {
+for (const root of IDENTITY_BOUNDARY_SCAN_ROOTS) {
   for (const file of collectFiles(root)) {
     if (file.includes("packages/kernel/")) {
       continue;

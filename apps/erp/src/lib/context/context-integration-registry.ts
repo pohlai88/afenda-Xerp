@@ -154,4 +154,28 @@ export const METADATA_PAS006_CONSUMER_WIRING = [
     module: "app/(protected)/metadata-workspace/page.tsx",
     delegate: "resolveMetadataWorkspaceSurfaces",
   },
+  {
+    id: "metadata-operator-surface-resolver",
+    step: "Resolve one operator surface template with slot hydration",
+    module: "lib/metadata/resolve-metadata-operator-surface.server.ts",
+    delegate: "resolveMetadataOperatorSurface",
+  },
+  {
+    id: "metadata-operator-surface-registry",
+    step: "Declare metadata-bound operator route to surface template mapping",
+    module: "lib/metadata/metadata-operator-surface.registry.ts",
+    delegate: "METADATA_OPERATOR_SURFACE_REGISTRY",
+  },
+  {
+    id: "metadata-operator-settings-profile",
+    step: "Settings profile operator route consumes metadata operator surface",
+    module: "app/(protected)/settings/profile/page.tsx",
+    delegate: "loadMetadataOperatorSurfacePage",
+  },
+  {
+    id: "metadata-operator-auth-sign-in",
+    step: "Operator auth sign-in preview route consumes metadata operator surface",
+    module: "app/(protected)/operator/auth/sign-in/page.tsx",
+    delegate: "loadMetadataOperatorSurfacePage",
+  },
 ] as const;
