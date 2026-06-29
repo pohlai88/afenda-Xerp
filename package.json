@@ -38,6 +38,7 @@
     "check:downstream-integration": "tsx scripts/governance/check-downstream-integration.mts",
     "check:erp-operating-context-spine": "tsx scripts/governance/check-erp-operating-context-spine.mts",
     "check:erp-auth-actor-protected-path-attestation": "tsx scripts/governance/check-erp-auth-actor-protected-path-attestation.mts",
+    "check:erp-service-actor-s2s-attestation": "tsx scripts/governance/check-erp-service-actor-s2s-attestation.mts",
     "check:erp-tenant-lifecycle-extension-consumer-attestation": "tsx scripts/governance/check-erp-tenant-lifecycle-extension-consumer-attestation.mts",
     "check:erp-metadata-pas006-consumer": "tsx scripts/governance/check-erp-metadata-pas006-consumer.mts",
     "check:erp-business-reference-ingress-attestation": "tsx scripts/governance/check-erp-business-reference-ingress-attestation.mts",

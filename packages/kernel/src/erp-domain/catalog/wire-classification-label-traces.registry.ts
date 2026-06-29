@@ -27,17 +27,11 @@ import { WITHHOLDING_TYPES } from "../tax/withholding-type.contract.js";
 import { TREASURY_INSTRUMENT_TYPES } from "../treasury/treasury-instrument-type.contract.js";
 import {
   buildPas004LabelTraces,
-  type Pas004LabelTrace,
+  type WireClassificationPas004LabelTraceEntry,
 } from "./pas004-label-trace.contract.js";
+import { WIRE_CONTESTED_VOCABULARY_PAS004_LABEL_TRACE_ENTRIES } from "./wire-contested-vocabulary-pas004-label-traces.registry.js";
 
-export interface WireClassificationPas004LabelTraceEntry {
-  readonly classificationId: string;
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly moduleSlug: string;
-  readonly traces: Readonly<Record<string, Pas004LabelTrace>>;
-  readonly values: readonly string[];
-}
+export type { WireClassificationPas004LabelTraceEntry } from "./pas004-label-trace.contract.js";
 
 export const ACCOUNT_TYPE_PAS004_LABEL_TRACES = buildPas004LabelTraces(
   "accounting",
@@ -304,6 +298,7 @@ export const WIRE_CLASSIFICATION_PAS004_LABEL_TRACE_ENTRIES = [
     constantExport: "SHOP_FLOOR_EVENT_TYPES",
     values: SHOP_FLOOR_EVENT_TYPES,
     traces: SHOP_FLOOR_EVENT_TYPE_PAS004_LABEL_TRACES,
+    wireShapeRole: "event",
   },
   {
     moduleSlug: "maintenance",
@@ -400,6 +395,7 @@ export const WIRE_CLASSIFICATION_PAS004_LABEL_TRACE_ENTRIES = [
     constantExport: "SUBSCRIPTION_EVENT_TYPES",
     values: SUBSCRIPTION_EVENT_TYPES,
     traces: SUBSCRIPTION_EVENT_TYPE_PAS004_LABEL_TRACES,
+    wireShapeRole: "event",
   },
   {
     moduleSlug: "supply-chain",
@@ -408,6 +404,7 @@ export const WIRE_CLASSIFICATION_PAS004_LABEL_TRACE_ENTRIES = [
     constantExport: "FULFILLMENT_EVENT_TYPES",
     values: FULFILLMENT_EVENT_TYPES,
     traces: FULFILLMENT_EVENT_TYPE_PAS004_LABEL_TRACES,
+    wireShapeRole: "event",
   },
   {
     moduleSlug: "tax",
@@ -425,4 +422,5 @@ export const WIRE_CLASSIFICATION_PAS004_LABEL_TRACE_ENTRIES = [
     values: TREASURY_INSTRUMENT_TYPES,
     traces: TREASURY_INSTRUMENT_TYPE_PAS004_LABEL_TRACES,
   },
+  ...WIRE_CONTESTED_VOCABULARY_PAS004_LABEL_TRACE_ENTRIES,
 ] as const satisfies readonly WireClassificationPas004LabelTraceEntry[];

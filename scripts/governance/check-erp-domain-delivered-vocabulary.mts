@@ -28,6 +28,7 @@ import {
   ERP_DOMAIN_RUNTIME_SOURCE_KEYWORDS,
 } from "./erp-domain-delivered-vocabulary-registry.mts";
 import { WIRE_CLASSIFICATION_PAS004_LABEL_TRACE_ENTRIES } from "../../packages/kernel/src/erp-domain/catalog/wire-classification-label-traces.registry.ts";
+import { isErpDomainPas004ContestedClassificationContract } from "../../packages/kernel/src/erp-domain/catalog/pas004-label-trace.contract.ts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -186,7 +187,7 @@ export function checkClassificationPas004LabelTraces(
     }
 
     for (const fileName of readdirSync(moduleDir)) {
-      if (!fileName.endsWith("-type.contract.ts")) {
+      if (!isErpDomainPas004ContestedClassificationContract(fileName)) {
         continue;
       }
 

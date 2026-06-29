@@ -43,6 +43,7 @@ describe("auth.actor-wire (PAS-001 §4.1.11)", () => {
     const wire = toWireAuthActorIdentityFromAfendaAuthSession(session);
 
     expect(wire).toEqual({
+      actorKind: "human",
       authSubjectId: AUTH_SUBJECT_ID,
       userId: AUTH_TEST_PLATFORM_USER_ID,
     });
@@ -53,6 +54,7 @@ describe("auth.actor-wire (PAS-001 §4.1.11)", () => {
     const wire = toWireAuthActorIdentityFromAfendaAuthSession(session);
 
     expect(wire).toEqual({
+      actorKind: "human",
       authSubjectId: AUTH_SUBJECT_ID,
       userPk: PLATFORM_USER_PK,
     });
@@ -66,6 +68,7 @@ describe("auth.actor-wire (PAS-001 §4.1.11)", () => {
     const wire = toWireAuthActorIdentityFromAfendaAuthSession(session);
 
     expect(wire).toEqual({
+      actorKind: "human",
       authSubjectId: AUTH_SUBJECT_ID,
       userPk: PLATFORM_USER_PK,
       userId: AUTH_TEST_PLATFORM_USER_ID,

@@ -40,12 +40,14 @@ const B49_B70_HANDOFFS = [
   "b70-kernel-test-import-hygiene.md",
 ] as const;
 
-const B107_B111_HANDOFFS = [
+const B107_B112_B113_HANDOFFS = [
   "b107-tenant-saas-lifecycle-wire.md",
   "b108-tenant-extension-boundary-wire.md",
   "b109-effective-dating-consumer-attestation.md",
   "b110-auth-actor-protected-path-attestation.md",
   "b111-tenant-lifecycle-extension-consumer-attestation.md",
+  "b112-rounding-decimal-precision-vocabulary-amendment.md",
+  "b113-actor-kind-integration-identity-vocabulary.md",
 ] as const;
 
 /** B2–B48 historical core — proxy evidence (PAS-001 §11 implementation sequence + layout). */
@@ -106,6 +108,22 @@ const CLOSURE_TRACK_EVIDENCE: readonly {
       "scripts/governance/check-erp-tenant-lifecycle-extension-consumer-attestation.mts",
     ],
   },
+  {
+    label: "B112 rounding mode and decimal precision vocabulary",
+    paths: [
+      "packages/kernel/src/context/rounding-mode.contract.ts",
+      "packages/kernel/src/context/decimal-precision.contract.ts",
+      "docs/adr/ADR-0029-rounding-decimal-precision-vocabulary.md",
+    ],
+  },
+  {
+    label: "B113 actor kind and integration identity vocabulary",
+    paths: [
+      "packages/kernel/src/identity/wire/actor-kind.contract.ts",
+      "packages/kernel/src/identity/wire/integration-identity.contract.ts",
+      "packages/kernel/src/identity/wire/auth-actor-identity.contract.ts",
+    ],
+  },
 ];
 
 const REGISTERED_CLOSURE_GATES = [
@@ -114,8 +132,9 @@ const REGISTERED_CLOSURE_GATES = [
   "check:kernel-implementation-sequence",
   "check:kernel-slice-catalog-consistency",
   "check:kernel-effective-dating-consumer-attestation",
-  "check:erp-auth-actor-protected-path-attestation",
-  "check:erp-tenant-lifecycle-extension-consumer-attestation",
+    "check:erp-auth-actor-protected-path-attestation",
+    "check:erp-service-actor-s2s-attestation",
+    "check:erp-tenant-lifecycle-extension-consumer-attestation",
 ] as const;
 
 function assertDeliveredHandoff(
@@ -154,7 +173,7 @@ export function checkKernelDeliveredSliceClosure(): KernelDeliveredSliceClosureV
     assertDeliveredHandoff(violations, handoff);
   }
 
-  for (const handoff of B107_B111_HANDOFFS) {
+  for (const handoff of B107_B112_B113_HANDOFFS) {
     assertDeliveredHandoff(violations, handoff);
   }
 

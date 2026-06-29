@@ -14,8 +14,8 @@ paths:
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | Enterprise Accepted — kernel contracts, B49–B70 + B107–B111 amendment closed, runtime gates operational |
-| **Remaining slices** | none — B111 Delivered ([`KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md`](../../../docs/PAS/KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md)) |
+| **Runtime status** | Enterprise Accepted — kernel contracts, B49–B70 + B107–B113 amendment closed, runtime gates operational |
+| **Remaining slices** | none — B113 Delivered ([`KERNEL/SLICE/b113-actor-kind-integration-identity-vocabulary.md`](../../../docs/PAS/KERNEL/SLICE/b113-actor-kind-integration-identity-vocabulary.md)) |
 
 ### PAS-001A — ERP Integration Spine (derived; does not reopen PAS-001)
 

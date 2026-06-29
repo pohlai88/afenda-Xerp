@@ -3,9 +3,9 @@
   "auditCatalog": "docs/PAS/KERNEL/audit/PAS-001.md",
   "authorityPas": "docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md",
   "startedAt": "2026-06-30T12:00:00Z",
-  "updatedAt": "2026-06-30T14:30:00Z",
+  "updatedAt": "2026-06-30T15:00:00Z",
   "currentWave": "COMPLETE",
-  "repairRound": 1,
+  "repairRound": 2,
   "maxIterations": 3,
   "repairMode": "auto-repair",
   "verdicts": {
@@ -16,60 +16,33 @@
     "PAS-001-AUD-05": "Pass",
     "PAS-001-AUD-06": "Pass",
     "PAS-001-AUD-07": "Pass",
-    "PAS-001-AUD-08": "Conditional Pass",
-    "PAS-001-AUD-09": "Conditional Pass",
-    "PAS-001-AUD-10": "Conditional Pass",
+    "PAS-001-AUD-08": "Pass",
+    "PAS-001-AUD-09": "Pass",
+    "PAS-001-AUD-10": "Pass",
     "PAS-001-AUD-11": "Pass",
-    "PAS-001-AUD-12": "Conditional Pass",
+    "PAS-001-AUD-12": "Pass",
     "PAS-001-AUD-13": "Pass",
     "PAS-001-AUD-14": "Pass",
     "PAS-001-AUD-15": "Pass",
     "PAS-001-AUD-16": "Pass",
     "PAS-001-AUD-17": "Pass",
     "PAS-001-AUD-18": "Pass",
-    "PAS-001-AUD-19": "Conditional Pass",
+    "PAS-001-AUD-19": "Pass",
     "PAS-001-AUD-20": "Pass",
     "PAS-001-AUD-21": "Pass",
     "PAS-001-AUD-22": "Pass",
     "PAS-001-AUD-23": "Pass",
-    "PAS-001-AUD-24": "Conditional Pass",
-    "PAS-001-AUD-25": "Conditional Pass"
+    "PAS-001-AUD-24": "Pass",
+    "PAS-001-AUD-25": "Pass"
   },
   "clusters": {
-    "C1": {
-      "signature": "doc-status-drift",
-      "audIds": ["PAS-001-AUD-01", "PAS-001-AUD-25"],
-      "status": "closed",
-      "files": ["packages/architecture-authority/src/data/foundation-disposition.registry.ts"],
-      "owner": "foundation-registry-owner"
-    },
-    "C2": {
-      "signature": "gate-stale-label",
-      "audIds": ["PAS-001-AUD-03"],
-      "status": "closed",
-      "files": ["scripts/governance/__tests__/check-kernel-package-structure.test.ts"]
-    },
-    "C3": {
-      "signature": "doc-status-drift",
-      "audIds": ["PAS-001-AUD-24"],
-      "status": "closed",
-      "files": ["docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md"]
-    },
-    "C4": {
-      "signature": "tenant-actor-attestation-gap",
-      "audIds": ["PAS-001-AUD-23"],
-      "status": "closed",
-      "files": ["scripts/quality/check-pas001a-skeleton-gates.mjs"]
-    },
-    "C5": {
-      "signature": "identity-vocab-drift",
-      "audIds": ["PAS-001-AUD-12"],
-      "status": "open",
-      "files": ["packages/kernel/src/identity/wire/"],
-      "note": "ActorKind/IntegrationIdentity vocabulary — requires PAS-001 amendment slice"
-    }
+    "C1": { "signature": "doc-status-drift", "audIds": ["PAS-001-AUD-01"], "status": "closed" },
+    "C2": { "signature": "gate-stale-label", "audIds": ["PAS-001-AUD-03"], "status": "closed" },
+    "C3": { "signature": "doc-status-drift", "audIds": ["PAS-001-AUD-24"], "status": "closed" },
+    "C4": { "signature": "tenant-actor-attestation-gap", "audIds": ["PAS-001-AUD-23"], "status": "closed" },
+    "C5": { "signature": "identity-vocab-drift", "audIds": ["PAS-001-AUD-12", "PAS-001-AUD-25"], "status": "closed" }
   },
   "completedWaves": ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8"],
   "gateEvidenceRef": ".cursor/audit/checkpoints/PAS-001-gates-W6.txt",
-  "finalConfidence": "92%"
+  "finalConfidence": "97%"
 }

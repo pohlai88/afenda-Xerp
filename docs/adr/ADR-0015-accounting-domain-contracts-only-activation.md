@@ -8,6 +8,8 @@
 | **Supersedes** | — |
 | **Superseded by** | [ADR-0020](ADR-0020-master-data-authority-consolidation.md) — **Decision item 1 only** (PKG-R01 filesystem package activation at `packages/accounting/`). Contracts-only prohibitions, permission vocabulary, and governance tests remain valid until a future accounting runtime ADR. |
 
+> **PAS-001B wire authority (KV backfill):** Cross-package ERP wire vocabulary for the accounting catalog slug is **`KV-ACCT`** (`erp-domain/accounting` under `@afenda/kernel/erp-domain/catalog`). Runtime package activation remains `@afenda/accounting` (PKG-R01). Canonical KV citation rules: [ADR-0020](ADR-0020-master-data-authority-consolidation.md).
+
 ---
 
 ## Context

@@ -17,7 +17,7 @@ describe("wire classification PAS-004 label traces (PAS-001B §3.1)", () => {
     }
   });
 
-  it("registers every delivered *-type classification contract", () => {
-    expect(WIRE_CLASSIFICATION_PAS004_LABEL_TRACE_ENTRIES.length).toBe(27);
+  it("registers every delivered contested classification contract", () => {
+    expect(WIRE_CLASSIFICATION_PAS004_LABEL_TRACE_ENTRIES.length).toBe(49);
   });
 });

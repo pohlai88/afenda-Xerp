@@ -23,77 +23,115 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
 );
 
 const kernelSrcRoot = join(repoRoot, "packages/kernel/src");
-const violations: string[] = [];
 
-for (const folder of KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL) {
-  const folderPath = join(kernelSrcRoot, folder);
-  if (!existsSync(folderPath)) {
+export function checkKernelPackageStructure(): string[] {
+  const violations: string[] = [];
+
+  for (const folder of KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL) {
+    const folderPath = join(kernelSrcRoot, folder);
+    if (!existsSync(folderPath)) {
+      violations.push(
+        `Missing PAS §6.1 top-level folder: packages/kernel/src/${folder}`
+      );
+    }
+  }
+
+  const rootEntries = readdirSync(kernelSrcRoot, { withFileTypes: true });
+  const rootFiles = rootEntries
+    .filter((entry) => entry.isFile())
+    .map((entry) => entry.name);
+
+  if (rootFiles.length !== 1 || rootFiles[0] !== KERNEL_PACKAGE_SRC_ROOT_BARREL) {
     violations.push(
-      `Missing PAS §6.1 top-level folder: packages/kernel/src/${folder}`
+      `packages/kernel/src must contain only ${KERNEL_PACKAGE_SRC_ROOT_BARREL} at root; found: ${rootFiles.join(", ") || "(none)"}`
     );
   }
-}
 
-const rootEntries = readdirSync(kernelSrcRoot, { withFileTypes: true });
-const rootFiles = rootEntries
-  .filter((entry) => entry.isFile())
-  .map((entry) => entry.name);
+  const rootDirectories = rootEntries
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name)
+    .sort();
 
-if (rootFiles.length !== 1 || rootFiles[0] !== KERNEL_PACKAGE_SRC_ROOT_BARREL) {
-  violations.push(
-    `packages/kernel/src must contain only ${KERNEL_PACKAGE_SRC_ROOT_BARREL} at root; found: ${rootFiles.join(", ") || "(none)"}`
-  );
-}
-
-const rootDirectories = rootEntries
-  .filter((entry) => entry.isDirectory())
-  .map((entry) => entry.name)
-  .sort();
-
-const expectedDirectories = [...KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL].sort();
-if (rootDirectories.join(",") !== expectedDirectories.join(",")) {
-  violations.push(
-    `PAS §6.1 folder drift: expected [${expectedDirectories.join(", ")}], found [${rootDirectories.join(", ")}]`
-  );
-}
-
-for (const repoRelative of KERNEL_PACKAGE_TARGET_PATHS) {
-  if (!existsSync(join(repoRoot, repoRelative))) {
-    violations.push(`Missing PAS §6.2 target path: ${repoRelative}`);
+  const expectedDirectories = [...KERNEL_PACKAGE_CURRENT_SRC_TOP_LEVEL].sort();
+  if (rootDirectories.join(",") !== expectedDirectories.join(",")) {
+    violations.push(
+      `PAS §6.1 folder drift: expected [${expectedDirectories.join(", ")}], found [${rootDirectories.join(", ")}]`
+    );
   }
-}
 
-for (const repoRelative of KERNEL_PACKAGE_PROHIBITED_PATHS) {
-  if (existsSync(join(repoRoot, repoRelative))) {
-    violations.push(`Prohibited PAS §6.2 path present: ${repoRelative}`);
+  for (const repoRelative of KERNEL_PACKAGE_TARGET_PATHS) {
+    if (!existsSync(join(repoRoot, repoRelative))) {
+      violations.push(`Missing PAS §6.2 target path: ${repoRelative}`);
+    }
   }
-}
 
-for (const repoRelative of RETIRED_KERNEL_PLATFORM_ID_PATHS) {
-  if (existsSync(join(repoRoot, repoRelative))) {
-    violations.push(`Retired platform-id path present: ${repoRelative}`);
+  for (const repoRelative of KERNEL_PACKAGE_PROHIBITED_PATHS) {
+    if (existsSync(join(repoRoot, repoRelative))) {
+      violations.push(`Prohibited PAS §6.2 path present: ${repoRelative}`);
+    }
   }
-}
 
-for (const repoRelative of RETIRED_KERNEL_REPO_PATHS) {
-  if (existsSync(join(repoRoot, repoRelative))) {
-    violations.push(`Retired kernel path present: ${repoRelative}`);
+  for (const repoRelative of RETIRED_KERNEL_PLATFORM_ID_PATHS) {
+    if (existsSync(join(repoRoot, repoRelative))) {
+      violations.push(`Retired platform-id path present: ${repoRelative}`);
+    }
   }
+
+  for (const repoRelative of RETIRED_KERNEL_REPO_PATHS) {
+    if (existsSync(join(repoRoot, repoRelative))) {
+      violations.push(`Retired kernel path present: ${repoRelative}`);
+    }
+  }
+
+  const subpathViolations = checkKernelSubpathExports();
+  if (subpathViolations.length > 0) {
+    violations.push(formatKernelSubpathExportViolations(subpathViolations));
+  }
+
+  return violations;
 }
 
-const subpathViolations = checkKernelSubpathExports();
-if (subpathViolations.length > 0) {
-  violations.push(formatKernelSubpathExportViolations(subpathViolations));
-}
+export function formatKernelPackageStructureViolations(
+  violations: readonly string[]
+): string {
+  if (violations.length === 0) {
+    return "";
+  }
 
-if (violations.length > 0) {
-  console.error("Kernel package structure gate failed:\n");
+  const lines = ["Kernel package structure gate failed:"];
   for (const violation of violations) {
-    console.error(`- ${violation}`);
+    lines.push(`  - ${violation}`);
   }
-  process.exit(1);
+  return lines.join("\n");
 }
 
-console.log(
-  "Kernel package structure gate passed (PAS §6.1 / §6.2 / §6.4 — layout + subpath exports)."
-);
+function main(): void {
+  const violations = checkKernelPackageStructure();
+  if (violations.length > 0) {
+    console.error(formatKernelPackageStructureViolations(violations));
+    process.exit(1);
+  }
+
+  console.log(
+    "Kernel package structure gate passed (PAS §6.1 / §6.2 / §6.4 — layout + subpath exports)."
+  );
+}
+
+const isDirectRun = (() => {
+  const entry = process.argv[1];
+  if (!entry) {
+    return false;
+  }
+  try {
+    return (
+      fileURLToPath(import.meta.url) === entry.replace(/\\/g, "/") ||
+      entry.endsWith("check-kernel-package-structure.mts")
+    );
+  } catch {
+    return entry.endsWith("check-kernel-package-structure.mts");
+  }
+})();
+
+if (isDirectRun) {
+  main();
+}

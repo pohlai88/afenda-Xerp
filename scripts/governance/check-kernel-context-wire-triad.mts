@@ -38,6 +38,18 @@ const ADDITIONAL_WIRE_TRIADS = [
     assert: "tenant-extension-boundary.assert.ts",
     parser: "tenant-extension-boundary.parser.ts",
   },
+  {
+    slug: "rounding-mode",
+    contract: "rounding-mode.contract.ts",
+    assert: "rounding-mode.assert.ts",
+    parser: "rounding-mode.parser.ts",
+  },
+  {
+    slug: "decimal-precision",
+    contract: "decimal-precision.contract.ts",
+    assert: "decimal-precision.assert.ts",
+    parser: "decimal-precision.parser.ts",
+  },
 ] as const;
 
 export interface KernelContextWireTriadViolation {

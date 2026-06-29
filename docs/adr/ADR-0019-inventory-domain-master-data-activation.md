@@ -8,6 +8,8 @@
 | **Supersedes** | — |
 | **Superseded by** | [ADR-0020](ADR-0020-master-data-authority-consolidation.md) — **Decision item 1 only** (PKG-R02 filesystem package activation at `packages/inventory/`). Database schemas, RLS, CRUD services, ERP internal v1 API routes, and natural-key enforcement remain valid. |
 
+> **PAS-001B wire authority (KV backfill):** Cross-package ERP wire vocabulary for the inventory catalog slug is **`KV-INV`** (`erp-domain/inventory` under `@afenda/kernel/erp-domain/catalog`). Runtime package activation remains `@afenda/inventory` (PKG-R02). Canonical KV citation rules: [ADR-0020](ADR-0020-master-data-authority-consolidation.md).
+
 ---
 
 ## Context

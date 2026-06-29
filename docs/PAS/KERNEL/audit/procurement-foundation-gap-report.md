@@ -3,15 +3,48 @@
 | Field | Value |
 | --- | --- |
 | **Report ID** | PAS-PROC-FDN-AUDIT-001 |
+| **Report type** | Foundation-gap report — **not** a runtime-build plan |
 | **Audit mode** | Evidence-first extraction — read-only; no runtime implementation |
 | **Parent authority** | PAS-001B §4.8 (KV-PROC wire) · PAS-001A (integration spine) · PAS-001 (identity) · PAS-004 (meaning) |
 | **Wire slice** | [B80 — Procurement Domain Vocabulary](../SLICE/b80-procurement-domain-vocabulary.md) (Delivered) |
 | **Runtime owner (reserved)** | PKG-R05 · `@afenda/procurement` |
 | **Audit date** | 2026-06-30 |
-| **Confidence score** | 96% |
+| **Review amended** | 2026-06-30 |
 | **Verdict** | Wire-ready · runtime-blocked by design · **not enterprise-ready** for procurement business runtime |
 
-> **One sentence:** KV-PROC (B80) delivers contracts-only wire vocabulary; enterprise procurement runtime requires nine foundation slices (ERP-PROC-FDN-001 through 009) before business logic.
+### Confidence scores (clarified)
+
+| Dimension | Score | Meaning |
+| --- | --- | --- |
+| **Extraction verdict** | **96%** | High confidence in what exists vs what is missing (file-path evidence) |
+| **Enterprise runtime readiness** | **0–10%** | Procurement runtime is explicitly absent — not ready |
+| **Foundation direction** | **90%** | Recommended slice sequence and ownership model are directionally sound pending ADR |
+
+> **One sentence:** KV-PROC (B80) delivers contracts-only wire vocabulary; enterprise procurement runtime requires ten foundation slices (ERP-PROC-FDN-001 through 009, including 002A) before business logic.
+
+> **Main conclusion:** Procurement is not missing because of poor coding. Procurement is **intentionally runtime-blocked** because the enterprise foundation is not yet authorized.
+
+---
+
+## Review verdict (accepted amendments)
+
+**Status:** Valid foundation-gap report — adopted as tracked PAS artifact after review amendments (2026-06-30).
+
+| Review area | Score | Notes |
+| --- | --- | --- |
+| Evidence extraction | **9/10** | File/path inventory is useful |
+| Boundary discipline | **9.5/10** | Correctly protects kernel from runtime leakage |
+| Knowledge/meaning review | **7.5/10** → **8.5/10** after formal PAS-004 status model (section B) |
+| Runtime-readiness diagnosis | **9/10** | Correctly states not enterprise-ready |
+| Gate proposal | **8.5/10** → **9/10** after foundation vs runtime gate split (section G) |
+| Execution sequence | **8/10** → **9/10** after ownership slice 002A before DB |
+| **Overall** | **8.8/10** | Strong enough for tracked artifact after amendments below |
+
+### What is strong (retained)
+
+1. **Avoids the minimum-template mistake** — extracts wire vocabulary, business meaning, DB readiness, permissions, context spine, audit/outbox, metadata/UI, tests, gates, and missing runtime before any coding.
+2. **Correctly separates wire from runtime** — KV-PROC is wire vocabulary only; aligned with PAS-001B doctrine (catalog authority ≠ domain runtime authority; delivered wire does not imply runtime package).
+3. **Identifies real blockers** — no runtime ADR, no DB boundary, no permission registry wiring, no context consumer, no audit/outbox writers, incomplete knowledge corpus, readiness gates not implemented.
 
 ---
 
@@ -26,7 +59,7 @@ It extracts what exists, classifies it, identifies gaps, and proposes foundation
 - PAS-001B KV-PROC is wire vocabulary only — not procurement runtime.
 - No runtime logic belongs in `packages/kernel/src/erp-domain/procurement/`.
 - `SupplierId` stays on PAS-001 business-reference authority (Rule 2) — not duplicated as domain branded ID.
-- PAS-001A operating-context spine must not be bypassed.
+- PAS-001A operating-context spine must not be bypassed by future procurement consumers.
 - No local permission/context vocabulary in ERP.
 - Business meaning belongs in PAS-004 / Enterprise Knowledge — not kernel contracts.
 
@@ -38,7 +71,20 @@ It extracts what exists, classifies it, identifies gaps, and proposes foundation
 | --- | --- |
 | Is procurement only wire vocabulary today? | **Yes.** `PROCUREMENT_PACKAGE_LIFECYCLE = "contracts-only"`. |
 | Is procurement runtime already present? | **No.** No `packages/procurement`, no transactional DB, no services, no ERP module routes. |
-| Is procurement enterprise-ready? | **No.** Foundation gaps: domain ADR, DB boundary, context consumer, permission parity, audit/outbox, knowledge corpus, readiness gates. |
+| Is procurement enterprise-ready? | **No.** Foundation gaps: domain ADR, ownership model, DB boundary, context consumer, permission parity, audit/outbox, knowledge corpus, readiness gates. |
+
+### Real blockers (summary)
+
+| Blocker | Why it matters |
+| --- | --- |
+| **No procurement runtime ADR** | Cannot safely unblock `packages/procurement` |
+| **No runtime ownership decision** | DB/schema work must not precede package responsibility |
+| **No DB boundary** | No supplier/PR/PO/RFQ persistence |
+| **No permission registry wiring** | Kernel has keys; runtime cannot enforce them |
+| **No procurement context consumer** | PAS-001A spine exists; procurement does not consume it |
+| **No audit/outbox writer** | Audit words exist; runtime evidence does not |
+| **Knowledge corpus incomplete** | PO, RFQ, supplier, sourcing, blanket are mostly wire-only |
+| **Readiness gates not implemented** | Future coding would depend on manual review |
 
 ```mermaid
 flowchart TB
@@ -55,6 +101,7 @@ flowchart TB
   end
   subgraph needed [Foundation Required]
     ADR[Domain ADR PKG-R05]
+    Own[Runtime ownership model 002A]
     DB[Supplier + document persistence]
     Perm[PERMISSION_REGISTRY parity]
     Spine[Context spine consumer]
@@ -88,7 +135,8 @@ flowchart TB
 | --- | --- |
 | **Contracts** | Authority, branded IDs (3), status enums (2), document types, sourcing, wire context, 18 permission keys, 13 audit actions, vocabulary registry, lifecycle policy |
 | **Registries** | `PROCUREMENT_DOMAIN_VOCABULARY_REGISTRY`, `ERP_DOMAIN_MODULE_KV_IDS.procurement` → `KV-PROC`, BMD `supplier` → `@afenda/procurement`, platform entity table `suppliers` deferred |
-| **Gates** | `pnpm check:procurement-domain-contracts` (live); 8 foundation gates proposed (section G) — not implemented |
+| **Gates (live)** | `pnpm check:procurement-domain-contracts` — wire/contracts-only |
+| **Gates (proposed)** | 8 foundation readiness gates + runtime consumer gates (section G) — not implemented |
 | **Tests** | `procurement-domain-vocabulary.contract.test.ts`, KV parity test, governance gate tests, supplier ID parse tests |
 
 ### 2.3 Missing expected files
@@ -173,43 +221,46 @@ Single subpath: `@afenda/kernel/erp-domain/procurement` → ~50 re-exports from 
 
 ## B. Procurement Knowledge / Meaning Extraction
 
-### B.1 What business meaning exists?
+Procurement is not only tables and screens — it is an **enterprise meaning network**. PAS-004 status vocabulary is mandatory for foundation work.
 
-| Term | Where defined | Layer | Status |
+### B.1 PAS-004 knowledge status model
+
+| Status | Definition |
+| --- | --- |
+| **Accepted** | PAS-004 atom with `lifecycle: accepted` and ERP-domain bridge where required |
+| **Proposed** | Atom or concept drafted but not accepted in acceptance chain |
+| **Wire-only** | Kernel KV-PROC shape exists; no accepted enterprise meaning atom |
+| **Missing** | No wire and no meaning (or cross-domain term not yet scoped) |
+| **Ambiguous** | Overlapping or generic meaning (e.g. workflow vs procurement approval) |
+
+### B.2 Procurement knowledge register
+
+| Term | PAS-004 status | Wire (KV-PROC / PAS-001) | Required action |
 | --- | --- | --- | --- |
-| Procurement requisition | `procurement_requisition` atom | PAS-004 | **Accepted** — bridged to KV-PROC |
-| Supplier | PAS-001 identity + BMD glossary | Wire + prose | **Meaning missing** — no atom |
-| Purchase order | Kernel wire statuses/ID | PAS-001B | **Wire-only** |
-| RFQ | Kernel wire ID, doc type, permissions | PAS-001B | **Wire-only** |
-| Sourcing | `SOURCING_METHODS` enum | PAS-001B | **Wire-only** |
-| Blanket agreement | Doc type enum | PAS-001B | **Wire-only** |
-| Supplier quote | Permission domain | PAS-001B | **Wire-only** |
-| Approval | Wire context + permissions; generic `workflow_context` atom | Mixed | **Ambiguous** |
-| Purchasing group | PAS-001 archive maps Team → purchasing group | Prose | **Ambiguous** |
-| GR, 3-way, invoice, incoterms, landed cost, RTV, analytics | — | — | **Missing** |
+| Procurement requisition | **Accepted** | Yes | Add synonyms (B52); lifecycle mapping to wire statuses |
+| Supplier | **Missing** | PAS-001 identity only | Add PAS-004 / BMD atom; align vendor/supplier wording |
+| Purchase order | **Wire-only** | Yes | Add enterprise meaning atom; define PO ↔ requisition relationship |
+| RFQ | **Wire-only** | Yes | Add enterprise meaning atom |
+| Sourcing | **Wire-only** | Yes (`SOURCING_METHODS`) | Add atom — process vs method enum |
+| Blanket agreement | **Wire-only** | Yes (doc type) | Add enterprise meaning atom |
+| Supplier quote | **Wire-only** | Yes (permission domain) | Add enterprise meaning atom |
+| Approval (requisition) | **Ambiguous** | Partial wire + generic `workflow_context` | Decide generic workflow vs procurement-scoped approval atom |
+| Purchasing group | **Ambiguous** | Team analog in PAS-001 archive | Perspective or atom linking Team ↔ procurement org |
+| Goods receipt | **Missing** | Prohibited surface name only | Cross-domain with KV-INV + atom |
+| Supplier invoice | **Missing** | — | Cross-domain with KV-ACCT + atom |
+| Three-way match | **Missing** | Prohibited surface name only | Cross-domain ADR (PROC + INV + ACCT) |
+| Incoterms / landed cost / RTV / analytics | **Missing** | — | Future PAS-004 + domain ADR as scoped |
 
-### B.2 PAS-004 vs kernel embedding
+### B.3 PAS-004 vs kernel embedding
 
-**Doctrine compliance: PASS.** Kernel holds wire shapes; contested meaning must live in enterprise-knowledge. Only one procurement atom exists — correctly placed in PAS-004.
-
-### B.3 Procurement Knowledge Gap Matrix
-
-| Term | Wire (KV-PROC) | PAS-004 atom | Gap class | Closure path |
-| --- | --- | --- | --- | --- |
-| Procurement requisition | Yes | Yes | **Accepted** | Close B53 doc; add synonyms (B52) |
-| Purchase order | Yes | No | **Draft (wire)** | Atom defining PO ↔ requisition relationship |
-| RFQ / sourcing / blanket / supplier quote | Yes | No | **Draft (wire)** | Atoms per concept |
-| Supplier | PAS-001 identity | No | **Missing meaning** | BMD atom; align vendor/supplier wording |
-| Goods receipt / 3-way / invoice | Prohibited names only | No | **Missing** | Cross-domain ADR (INV + ACCT) + atoms |
-| Approval | Partial wire | Generic workflow | **Ambiguous** | Procurement-scoped approval atom |
-| Incoterms / landed cost / RTV | No | No | **Missing** | Future PAS-004 + domain ADR |
+**Doctrine compliance: PASS.** Kernel holds wire shapes; contested meaning must live in enterprise-knowledge. Only one procurement atom is accepted — correctly placed in PAS-004, not kernel contracts.
 
 ### B.4 Documentation contradictions (PAS fails)
 
-| Issue | Evidence |
-| --- | --- |
-| **VendorId vs SupplierId** | B80 slice Rule 2 says "VendorId"; code uses `SupplierId`; registry field is `vendorCode` |
-| **B53 dual status** | `pas-status-index.md` lists B53 as both Delivered and Proposed while atom + bridge gate exist |
+| Issue | Evidence | Remediation |
+| --- | --- | --- |
+| **VendorId vs SupplierId** | B80 slice historically said "VendorId"; code uses `SupplierId`; registry field `vendorCode` | Fixed in B80 handoff; complete in FDN-002 |
+| **B53 dual status** | `pas-status-index.md` lists B53 as both Delivered and Proposed while atom + bridge exist | Reconcile in FDN-002 / documentation-drift |
 
 ---
 
@@ -218,7 +269,7 @@ Single subpath: `@afenda/kernel/erp-domain/procurement` → ~50 re-exports from 
 | # | Layer | Count | Runtime? | Key evidence |
 | --- | --- | --- | --- | --- |
 | 1 | Wire vocabulary | ~30 files | Contracts only | Kernel procurement module + BMD registry |
-| 2 | Business meaning | 5 files | 1 atom | enterprise-knowledge bridge |
+| 2 | Business meaning | 5 files | 1 accepted atom | enterprise-knowledge bridge |
 | 3 | Database/persistence | 5 registry entries | Supplier **deferred** | No PO/PR/RFQ tables or migrations |
 | 4 | Repository | 0 | — | — |
 | 5 | Service/use case | 0 | — | — |
@@ -272,8 +323,9 @@ Single subpath: `@afenda/kernel/erp-domain/procurement` → ~50 re-exports from 
 | Capability | Current evidence | Current layer | Missing layer | Risk | Required next action |
 | --- | --- | --- | --- | --- | --- |
 | Domain authority boundary | B80 + contracts gate | Wire + governance | Runtime ADR, PKG-R05 disposition | Medium | ERP-PROC-FDN-001 |
+| Runtime ownership model | Reserved PKG-R05; split undecided | Architecture policy | ADR-owned ownership matrix | **High** | **ERP-PROC-FDN-002A** (before DB) |
 | Supplier master | SupplierId, BMD deferred | Identity + registry | DB schema, service, API | **High** | ERP-PROC-FDN-003 |
-| Purchase requisition | Wire + 1 atom | Wire + partial meaning | DB, service, UI, audit | **High** | FDN-003, 004, 006, 007 |
+| Purchase requisition | Wire + 1 accepted atom | Wire + partial meaning | DB, service, UI, audit | **High** | FDN-003, 004, 006, 007 |
 | PO / RFQ / blanket | Wire vocab | Wire | Meaning atoms, runtime | Medium | ERP-PROC-FDN-002 |
 | Permission enforcement | 18 kernel keys | Wire vocabulary | PERMISSION_REGISTRY, seeds, test | **High** | ERP-PROC-FDN-005 |
 | Operating context | PAS-001A spine live | Platform spine | Procurement consumer | **High** | ERP-PROC-FDN-004 |
@@ -281,7 +333,7 @@ Single subpath: `@afenda/kernel/erp-domain/procurement` → ~50 re-exports from 
 | Metadata / UI | KV-PROC in projection | Spine-ready | Operator surfaces, PAS-006 blocks | Medium | ERP-PROC-FDN-007 |
 | GR / receiving / 3-way | Prohibited surface names | Policy intent | Cross-domain ADR (INV, ACCT) | **Critical** | Requires PAS amendment — post-FDN |
 | Runtime package | `@afenda/procurement` reserved | Architecture policy | ADR + folder structure | **Blocker** | FDN-001 |
-| Readiness gates | 1 contracts gate | Governance | 8 foundation gates | Medium | ERP-PROC-FDN-008 |
+| Readiness gates | 1 contracts gate | Governance | Foundation + runtime gate families | Medium | ERP-PROC-FDN-008 |
 | End-to-end skeleton | None | — | Reference flow fixture | Low | ERP-PROC-FDN-009 |
 
 ---
@@ -291,29 +343,46 @@ Single subpath: `@afenda/kernel/erp-domain/procurement` → ~50 re-exports from 
 ### F.1 Authority boundary
 
 - **Wire:** `@afenda/kernel/erp-domain/procurement` (PAS-001B KV-PROC) — stays contracts-only
-- **Runtime:** `@afenda/procurement` (PKG-R05) or `@afenda/database` procurement namespace — ADR-gated
+- **Runtime behavior:** `@afenda/procurement` (PKG-R05) — ADR-gated domain package
+- **Persistence primitives:** `@afenda/database` — schema, migrations, RLS, data-access services
 - **Kernel prohibition:** no schema/, services/, posting, GR-IR under kernel procurement
 
-### F.2 Ownership model
+### F.2 Runtime ownership decision (required before FDN-003)
+
+**Hard decision gate:** Who owns procurement behavior? Options considered:
+
+| Option | Verdict |
+| --- | --- |
+| A. `packages/procurement` only | Partial — domain behavior yes; persistence colocated with inventory pattern |
+| B. `apps/erp` runtime only | **Rejected** — violates clean-core; behavior must not live only in app |
+| C. `packages/database` service namespace only | Partial — persistence yes; domain use-cases need explicit owner |
+| D. Split ownership | **Accepted** — see matrix below |
+
+**Recommended ownership matrix (FDN-002A must ADR-lock):**
 
 | Concern | Owner |
 | --- | --- |
-| Wire enums/IDs/permission words | `@afenda/kernel` |
-| Business meaning | `@afenda/enterprise-knowledge` |
-| Supplier identity | PAS-001 business-reference |
-| Persistence + services | `@afenda/database` / `@afenda/procurement` (ADR) |
-| ERP ingress | `apps/erp` |
-| Permission registry | `@afenda/permissions` |
+| Wire enums / IDs / permission **words** | `@afenda/kernel` (KV-PROC only) |
+| Business **meaning** | `@afenda/enterprise-knowledge` (PAS-004) |
+| Supplier **identity** | PAS-001 business-reference (`SupplierId`, `supplier_no`) |
+| Procurement domain **behavior** (use cases, domain rules) | `@afenda/procurement` (PKG-R05) |
+| Schema, migrations, RLS, **persistence services** | `@afenda/database` |
+| ERP **ingress** (routes, server actions, context assembly) | `apps/erp` |
+| Permission **evaluation** registry | `@afenda/permissions` |
+| Metadata **operator surfaces** | `apps/erp` + PAS-006 presentation |
+| **Tests** | Mirror inventory: package tests + ERP integration tests |
 
-### F.3 Proposed package structure
+Without FDN-002A, DB schema must **not** be created — runtime responsibility would be ambiguous.
+
+### F.3 Proposed package structure (post-ADR)
 
 ```text
-packages/procurement/              # ADR-gated domain services
+packages/procurement/              # domain behavior — ADR-gated (PKG-R05)
 packages/database/src/
   schema/supplier.schema.ts        # promote from deferred
   schema/purchase-*.schema.ts      # PR, PO, RFQ — ADR-defined
-  supplier/supplier.service.ts
-apps/erp/src/lib/procurement/      # context consumers
+  supplier/supplier.service.ts     # persistence + audit writers
+apps/erp/src/lib/procurement/      # context consumers, metadata loaders
 apps/erp/src/app/(protected)/modules/procurement/  # currently forbidden
 ```
 
@@ -321,7 +390,7 @@ apps/erp/src/app/(protected)/modules/procurement/  # currently forbidden
 
 | Section | Future requirement |
 | --- | --- |
-| Database boundary | Promote `suppliers` from deferred registry; document tables after RLS ADR |
+| Database boundary | Promote `suppliers` from deferred registry; document tables after RLS ADR — **after 002A** |
 | Operating-context | `loadProtectedRequestOperatingContext()` / `resolveApiRouteOperatingContext()`; project `ProcurementDomainWireContext` |
 | Permission enforcement | Register 18 kernel keys; parity test mirroring inventory |
 | Audit actions | `insertAuditEvent({ module: "procurement", ... })` using `PROCUREMENT_AUDIT_ACTIONS` |
@@ -337,18 +406,29 @@ apps/erp/src/app/(protected)/modules/procurement/  # currently forbidden
 
 ## G. Required Gate Proposal (Not Implemented)
 
-| Gate | What it checks | Inspects | Must fail when | Enforces |
-| --- | --- | --- | --- | --- |
-| `check:procurement-runtime-foundation` | ADR attested; registry row; scaffold policy | foundation-disposition, `packages/procurement/`, ADR index | Package without ADR | ADR-0020, PKG-R05 |
-| `check:procurement-context-spine-consumer` | Protected routes use operating-context spine | `apps/erp/**/procurement/**` | Session/header bypass; local vocab | PAS-001A IS-002 |
-| `check:procurement-permission-enforcement` | Kernel keys ⊆ PERMISSION_REGISTRY ⊆ seed | permission vocab, `permission.contract.ts`, seed catalog | Registry drift | PAS-001B §4.8 |
-| `check:procurement-audit-outbox` | Services use `PROCUREMENT_AUDIT_ACTIONS` | database procurement services | Ad-hoc action strings | PAS-001A audit spine |
-| `check:procurement-metadata-binding` | Surfaces in metadata projection with KV-PROC | `apps/erp/src/lib/metadata/**` | UI without metadata auth | PAS-001A, PAS-006 |
-| `check:procurement-knowledge-alignment` | Wire enums have atom or documented deferral | enterprise-knowledge bridge | Wire without bridge/waiver | PAS-004D B53 |
-| `check:procurement-no-kernel-runtime-leak` | Extends current contracts gate | kernel procurement/** | schema/, services/, DB imports | PAS-001B B80 |
-| `check:procurement-module-readiness` | Composite of all above + typecheck | CI orchestrator | Any sub-gate fails | Foundation disposition |
+Gates split into **foundation readiness** (authorize foundation work) and **runtime consumer** (prove live procurement surfaces). Do not conflate wire gate with runtime readiness.
 
-**Existing gate retained:** `pnpm check:procurement-domain-contracts` (in PKGR01B gate bundle).
+### G.1 Foundation readiness gates (pre-runtime)
+
+| Gate | What it checks | Enforces |
+| --- | --- | --- |
+| `check:procurement-no-kernel-runtime-leak` | Extends current contracts gate | PAS-001B B80 |
+| `check:procurement-runtime-foundation` | ADR attested; PKG-R05 disposition; ownership doc | ADR-0020, FDN-001/002A |
+| `check:procurement-knowledge-alignment` | Wire enums have atom or documented deferral | PAS-004D B53 |
+| `check:procurement-module-readiness` | Composite foundation gates green | Foundation disposition |
+
+**Existing wire gate (live):** `pnpm check:procurement-domain-contracts` — contracts-only; **not** runtime readiness.
+
+### G.2 Runtime consumer gates (post-ingress — FDN-004+)
+
+| Gate | What it checks | Enforces |
+| --- | --- | --- |
+| `check:procurement-context-spine-consumer` | Protected procurement routes use operating-context spine | PAS-001A IS-002 |
+| `check:procurement-permission-enforcement` | Kernel keys ⊆ PERMISSION_REGISTRY ⊆ seed | PAS-001B §4.8 |
+| `check:procurement-audit-outbox` | Services use `PROCUREMENT_AUDIT_ACTIONS` | PAS-001A audit spine |
+| `check:procurement-metadata-binding` | Surfaces in metadata projection with KV-PROC | PAS-001A, PAS-006 |
+
+Implement foundation gates in **FDN-008** before enabling runtime routes; wire consumer gates activate when FDN-004/005/006/007 land.
 
 ---
 
@@ -356,28 +436,51 @@ apps/erp/src/app/(protected)/modules/procurement/  # currently forbidden
 
 | Status | Items |
 | --- | --- |
-| **Available** | KV-PROC wire module, contracts gate, SupplierId identity, PAS-001A operating-context spine, platform audit/outbox tables |
+| **Available** | KV-PROC wire module, contracts gate, SupplierId identity, PAS-001A operating-context spine (platform), platform audit/outbox tables |
 | **Partial** | Supplier master (identity only), permission vocab (18 keys unregistered), metadata catalog slug, demo UI fixtures |
 | **Wire-only** | PR, PO, RFQ, blanket, sourcing, approval flags, audit action words |
 | **Missing** | Runtime package, DB, services, API routes, GR, 3-way, invoice, payment, incoterms, landed cost, RTV, analytics, onboarding |
 
 ---
 
-## 7. Recommended Next Slices
+## 7. Recommended Next Slices (MUST DO sequence)
 
-| Slice | Title | Delivers |
+### Corrected execution order
+
+Do **not** start database or route work until **authority → meaning → ownership → boundary** are clear.
+
+```text
+Phase A — Authorize foundation
+  ERP-PROC-FDN-001 — Procurement Runtime Authority Boundary
+  ERP-PROC-FDN-002 — Procurement Knowledge Alignment
+  ERP-PROC-FDN-002A — Procurement Runtime Ownership Model   ← required before DB
+
+Phase B — Build foundation
+  ERP-PROC-FDN-003 — Procurement Database Boundary
+  ERP-PROC-FDN-004 — Procurement Context Spine Consumer      } may parallel
+  ERP-PROC-FDN-005 — Procurement Permission Enforcement      } after 003
+
+Phase C — Prove foundation
+  ERP-PROC-FDN-006 — Procurement Audit and Outbox Contract
+  ERP-PROC-FDN-007 — Procurement Metadata/UI Binding
+  ERP-PROC-FDN-008 — Procurement Readiness Gates
+  ERP-PROC-FDN-009 — Procurement Reference Flow Skeleton
+```
+
+### Slice catalog with acceptance criteria
+
+| Slice | Title | Acceptance criteria (must all pass) |
 | --- | --- | --- |
-| **ERP-PROC-FDN-001** | Procurement Runtime Authority Boundary | Domain ADR; PKG-R05 disposition; unblock scaffold; set `runtimeOwnerPackage` |
-| **ERP-PROC-FDN-002** | Procurement Knowledge Alignment | PAS-004 atoms for PO, RFQ, supplier, sourcing, blanket; fix VendorId doc drift |
-| **ERP-PROC-FDN-003** | Procurement Database Boundary | `suppliers.schema.ts`; entity registry promotion; PR/PO table ADR + RLS |
-| **ERP-PROC-FDN-004** | Procurement Context Spine Consumer | Wire context projection; fail-closed protected surfaces |
-| **ERP-PROC-FDN-005** | Procurement Permission Enforcement | PERMISSION_REGISTRY + seeds + parity test |
-| **ERP-PROC-FDN-006** | Procurement Audit and Outbox Contract | Event catalog; service writers; integration tests |
-| **ERP-PROC-FDN-007** | Procurement Metadata/UI Binding | Operator surfaces; PAS-006 blocks; demo nav disambiguation |
-| **ERP-PROC-FDN-008** | Procurement Readiness Gates | Implement 8 gates; CI wiring |
-| **ERP-PROC-FDN-009** | Procurement Reference Flow Skeleton | Read-only fixture: requisition → approval → PO (no posting) |
-
-**Suggested execution order:** FDN-001 → FDN-002 → FDN-003 → FDN-004 + FDN-005 (parallel) → FDN-006 → FDN-007 → FDN-008 → FDN-009.
+| **FDN-001** | Procurement Runtime Authority Boundary | Procurement domain ADR accepted; PKG-R05 row in foundation-disposition; `runtimeOwnerPackage` candidate documented; scaffold unblock criteria defined |
+| **FDN-002** | Procurement Knowledge Alignment | Atoms accepted or deferral-waived for PO, RFQ, supplier, sourcing, blanket; B53/B80 doc drift closed; `check:knowledge-erp-domain-bridge` green for new atoms |
+| **FDN-002A** | Procurement Runtime Ownership Model | ADR-locked ownership matrix (section F.2); no ambiguity on package vs database vs app ingress; FDN-003 blocked until signed |
+| **FDN-003** | Procurement Database Boundary | `suppliers` registry promoted; schema + RLS migration; entity table registry live; no domain logic in kernel |
+| **FDN-004** | Procurement Context Spine Consumer | All protected procurement paths use PAS-001A resolvers; `ProcurementDomainWireContext` projected; no local context vocab |
+| **FDN-005** | Procurement Permission Enforcement | 18 kernel keys in PERMISSION_REGISTRY + seed; parity test; metadata auth resolves procurement domain |
+| **FDN-006** | Procurement Audit and Outbox Contract | Event catalog documented; `insertAuditEvent` + outbox on mutations; integration test |
+| **FDN-007** | Procurement Metadata/UI Binding | Operator surfaces registered; PAS-006 blocks; demo nav marked non-production |
+| **FDN-008** | Procurement Readiness Gates | Foundation + runtime gate scripts wired in CI; documented in pas-status-index |
+| **FDN-009** | Procurement Reference Flow Skeleton | Read-only fixture: requisition → approval → PO; no posting; proves spine + permissions + audit vocabulary |
 
 ---
 
@@ -388,11 +491,11 @@ apps/erp/src/app/(protected)/modules/procurement/  # currently forbidden
 | KV-PROC is wire-only (not runtime) | **PASS** |
 | No runtime leak in kernel procurement | **PASS** |
 | SupplierId not duplicated as domain branded ID | **PASS** |
-| PAS-001A spine not bypassed | **PASS** (no procurement consumer yet) |
+| PAS-001A spine not bypassed | **Not Applicable / Not Yet Testable** — no procurement runtime consumer exists; absence of bypass is not positive proof future routes will use spine (FDN-004) |
 | No local ERP permission/context vocab | **PASS** |
 | Business meaning in PAS-004 (not kernel) | **PASS** (under-populated, not misplaced) |
-| B80 "VendorId" terminology | **FAIL** — doc drift |
-| B53 status in pas-status-index | **FAIL** — doc drift |
+| B80 "VendorId" terminology | **FAIL** → remediated in B80 handoff; close in FDN-002 |
+| B53 status in pas-status-index | **FAIL** — doc drift; close in FDN-002 |
 | Enterprise runtime readiness | **FAIL by design** — foundation slices required |
 
 ---
@@ -401,6 +504,8 @@ apps/erp/src/app/(protected)/modules/procurement/  # currently forbidden
 
 | Document | Role |
 | --- | --- |
+| [`@afenda/erp-module-foundation`](../../../../packages/erp-module-foundation/README.md) | Reusable define*/assert* factories for module foundation bundles |
+| [ERP runtime module foundation template](../template/erp-runtime-module-foundation.template.md) | Folder structure and required runtime files |
 | [PAS-001B §4.8](../PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | KV-PROC wire catalog authority |
 | [B80 slice handoff](../SLICE/b80-procurement-domain-vocabulary.md) | Wire vocabulary delivery evidence |
 | [PAS-001A](../PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | Operating-context spine consumer rules |
@@ -414,9 +519,10 @@ apps/erp/src/app/(protected)/modules/procurement/  # currently forbidden
 
 | Event | Update |
 | --- | --- |
-| Foundation slice close | Re-run extraction sections A–E; update gap matrix and capability benchmark |
+| Foundation slice close | Re-run extraction sections A–E; update gap matrix and acceptance criteria |
 | Domain ADR accepted | Update F.1–F.3; promote PKG-R05 in foundation-disposition |
 | Gate implementation | Move gates from section G to pas-status-index gate bundle |
-| Knowledge atoms added | Refresh section B gap matrix |
+| Knowledge atoms added | Refresh section B knowledge register |
+| Re-review | Update review verdict scores and confidence table |
 
-**Last audited:** 2026-06-30 · Evidence from codebase at audit date; re-audit before runtime slice execution.
+**Last audited:** 2026-06-30 · **Review amended:** 2026-06-30 · Re-audit before FDN-001 execution.

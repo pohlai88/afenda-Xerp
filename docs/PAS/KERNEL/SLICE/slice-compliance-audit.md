@@ -43,4 +43,4 @@ Composed kernel slices B49–B106 + B107–B111 amendment + PAS-001A-R1a–R1d a
 | PAS-001A | 5 | 5 |
 | PAS-001A-R1 | 4 | 4 |
 | PAS-001B | 31 | 31 |
-| **Total** | **57** | **57** |
+| **Total** | **58** | **58** |

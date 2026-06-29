@@ -120,6 +120,27 @@ export const AUTH_ACTOR_BRIDGE_WIRING = [
   },
 ] as const;
 
+export const SERVICE_ACTOR_BRIDGE_WIRING = [
+  {
+    id: "service-actor-header-ingress",
+    step: "Parse service/delegated_application actor from S2S request headers",
+    module: "lib/auth/resolve-service-actor.server.ts",
+    delegate: "parseServiceActorIdentityFromRequestHeaders",
+  },
+  {
+    id: "service-actor-api-route",
+    step: "Protected internal API auth actor resolution (human session or S2S)",
+    module: "lib/auth/resolve-api-route-auth-actor.server.ts",
+    delegate: "resolveApiRouteAuthActor",
+  },
+  {
+    id: "service-actor-api-operating-context",
+    step: "Internal API operating context branches on S2S ingress before session path",
+    module: "lib/api/resolve-api-route-operating-context.ts",
+    delegate: "resolveApiRouteAuthActor",
+  },
+] as const;
+
 export const TENANT_LIFECYCLE_BRIDGE_WIRING = [
   {
     id: "tenant-lifecycle-operating-context-mapper",

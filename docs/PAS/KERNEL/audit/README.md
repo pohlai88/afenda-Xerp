@@ -5,7 +5,7 @@ Evidence-first gap reports and audit catalogs that sit alongside composed PAS do
 | Artifact | ID | Scope | Status |
 | --- | --- | --- | --- |
 | [PAS-001B Audit Slice Catalog](./PAS-001B.md) | PAS-001B-AUDIT-SLICES | Full ERP wire vocabulary catalog verification (30 slices) | Active audit plan |
-| [Procurement Runtime Foundation Gap Report](./procurement-foundation-gap-report.md) | PAS-PROC-FDN-AUDIT-001 | KV-PROC wire vs enterprise procurement runtime readiness | Audited 2026-06-30 |
+| [Procurement Runtime Foundation Gap Report](./procurement-foundation-gap-report.md) | PAS-PROC-FDN-AUDIT-001 | KV-PROC wire vs enterprise procurement runtime readiness | **Accepted** — review amended 2026-06-30 |
 
 ## When to add an artifact here
 

@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **SSOT directory** | `docs/PAS/KERNEL/SLICE/` |
-| **Individual handoffs** | 57 files (53 `b*.md` + 4 `pas-001a-r1*.md`) |
+| **Individual handoffs** | 59 files (55 `b*.md` + 4 `pas-001a-r1*.md` + 1 `pas-001a-r2*.md`) |
 | **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — do not use |
 | **Closure registry** | [pas-status-index.md](../../pas-status-index.md) |
 | **Last reviewed** | 2026-06-29 |
@@ -13,8 +13,8 @@
 ## Build order
 
 ```text
-PAS-001:  B49 → B55 · B57 · B67 → B70 · B107 → B111 (amendment)
-PAS-001A: B71 → B75 · R1a → R1d (skeleton rebuild)
+PAS-001:  B49 → B55 · B57 · B67 → B70 · B107 → B113 (amendment)
+PAS-001A: B71 → B75 · R1a → R1d · R2 (S2S attestation)
 PAS-001B: B76 → B106 · KV1–KV3
 ```
 
@@ -35,7 +35,7 @@ PAS-001B: B76 → B106 · KV1–KV3
 | B69 | [b69-kernel-context-wire-triad-gate.md](./b69-kernel-context-wire-triad-gate.md) | Delivered |
 | B70 | [b70-kernel-test-import-hygiene.md](./b70-kernel-test-import-hygiene.md) | Delivered |
 
-## PAS-001 — B107–B111 amendment (delivered)
+## PAS-001 — B107–B113 amendment (delivered)
 
 | Slice | Handoff | Status |
 | --- | --- | --- |
@@ -44,12 +44,8 @@ PAS-001B: B76 → B106 · KV1–KV3
 | B109 | [b109-effective-dating-consumer-attestation.md](./b109-effective-dating-consumer-attestation.md) | Delivered |
 | B110 | [b110-auth-actor-protected-path-attestation.md](./b110-auth-actor-protected-path-attestation.md) | Delivered |
 | B111 | [b111-tenant-lifecycle-extension-consumer-attestation.md](./b111-tenant-lifecycle-extension-consumer-attestation.md) | Delivered |
-
-## Planned amendments (not counted in PAS-001 closure — ADR required)
-
-| Slice | Handoff | Status |
-| --- | --- | --- |
-| B112 | [b112-rounding-decimal-precision-vocabulary-amendment.md](./b112-rounding-decimal-precision-vocabulary-amendment.md) | Planned — closes G-AUD13-02; requires ADR-0029 |
+| B112 | [b112-rounding-decimal-precision-vocabulary-amendment.md](./b112-rounding-decimal-precision-vocabulary-amendment.md) | Delivered |
+| B113 | [b113-actor-kind-integration-identity-vocabulary.md](./b113-actor-kind-integration-identity-vocabulary.md) | Delivered |
 
 ## PAS-001 audit closure handoffs (evidence-sync — not vocabulary build slices)
 
@@ -82,6 +78,12 @@ PAS-001B: B76 → B106 · KV1–KV3
 | R1b | [pas-001a-r1b-protected-app-router-shell.md](./pas-001a-r1b-protected-app-router-shell.md) | **Delivered** |
 | R1c | [pas-001a-r1c-metadata-consumer-pas006.md](./pas-001a-r1c-metadata-consumer-pas006.md) | **Delivered** |
 | R1d | [pas-001a-r1d-production-candidate-reclose.md](./pas-001a-r1d-production-candidate-reclose.md) | **Delivered** |
+
+## PAS-001A-R2 — service actor S2S attestation (delivered)
+
+| Slice | Handoff | Status |
+| --- | --- | --- |
+| R2 | [pas-001a-r2-service-actor-s2s-attestation.md](./pas-001a-r2-service-actor-s2s-attestation.md) | **Delivered** |
 
 ## PAS-001B — B76–B106 (delivered)
 

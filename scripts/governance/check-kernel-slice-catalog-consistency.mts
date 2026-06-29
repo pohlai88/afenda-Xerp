@@ -32,7 +32,7 @@ const HANDOFF_LINK_PATTERN =
 const REMAINING_SLICES_NONE_PATTERN =
   /\|\s*\*\*Remaining slices\*\*\s*\|\s*none/i;
 
-const DELIVERED_B_SLICE_COUNT = 53;
+const DELIVERED_B_SLICE_COUNT = 55;
 const R1_SLICE_COUNT = 4;
 
 function extractHandoffLinks(source: string): string[] {
@@ -118,16 +118,14 @@ export function checkKernelSliceCatalogConsistency(): KernelSliceCatalogConsiste
     }
   }
 
-  const deliveredBCount = onDisk.filter(
-    (entry) => /^b\d+/i.test(entry) && entry !== "b112-rounding-decimal-precision-vocabulary-amendment.md"
-  ).length;
+  const deliveredBCount = onDisk.filter((entry) => /^b\d+/i.test(entry)).length;
 
   const r1Count = onDisk.filter((entry) => /^pas-001a-r1/i.test(entry)).length;
 
   if (deliveredBCount !== DELIVERED_B_SLICE_COUNT) {
     violations.push({
       rule: "b-slice-count-mismatch",
-      message: `Expected ${DELIVERED_B_SLICE_COUNT} delivered b*.md handoffs on disk (excluding planned B112), found ${deliveredBCount}`,
+      message: `Expected ${DELIVERED_B_SLICE_COUNT} delivered b*.md handoffs on disk, found ${deliveredBCount}`,
     });
   }
 
@@ -138,16 +136,14 @@ export function checkKernelSliceCatalogConsistency(): KernelSliceCatalogConsiste
     });
   }
 
-  const deliveredLinkedCount = [...linkedHandoffs].filter(
-    (entry) =>
-      /^b\d+/i.test(entry) &&
-      entry !== "b112-rounding-decimal-precision-vocabulary-amendment.md"
+  const deliveredLinkedCount = [...linkedHandoffs].filter((entry) =>
+    /^b\d+/i.test(entry)
   ).length;
 
   if (deliveredLinkedCount + R1_SLICE_COUNT !== DELIVERED_B_SLICE_COUNT + R1_SLICE_COUNT) {
     violations.push({
       rule: "catalog-delivered-count-mismatch",
-      message: `Catalog must index ${DELIVERED_B_SLICE_COUNT + R1_SLICE_COUNT} delivered handoffs (53 b + 4 R1); found ${deliveredLinkedCount + r1Count} indexed delivered entries`,
+      message: `Catalog must index ${DELIVERED_B_SLICE_COUNT + R1_SLICE_COUNT} delivered handoffs (55 b + 4 R1); found ${deliveredLinkedCount + r1Count} indexed delivered entries`,
     });
   }
 
@@ -187,11 +183,11 @@ export function checkKernelSliceCatalogConsistency(): KernelSliceCatalogConsiste
   const complianceAuditPath = join(sliceDir, "slice-compliance-audit.md");
   if (existsSync(complianceAuditPath)) {
     const auditSource = readFileSync(complianceAuditPath, "utf8");
-    if (!auditSource.includes("| **Total** | **57** | **57** |")) {
+    if (!auditSource.includes("| **Total** | **58** | **58** |")) {
       violations.push({
         rule: "slice-compliance-audit-count-stale",
         message:
-          "slice-compliance-audit.md Total row must read 57 | 57 for delivered vocabulary handoffs",
+          "slice-compliance-audit.md Total row must read 58 | 58 for delivered vocabulary handoffs",
       });
     }
   }

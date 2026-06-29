@@ -2,7 +2,7 @@
 
 Lightweight closure registry for Package Authority Standards. Runtime evidence lives in [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md).
 
-**Kernel slice SSOT:** [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) — individual `b*.md` handoffs (B49–B111). **Architecture Authority slice SSOT:** [`ARCHITECTURE-AUTHORITY/SLICE/`](ARCHITECTURE-AUTHORITY/SLICE/README.md) — B1–B27 · B38–B45 handoffs. **Accounting Standards slice SSOT:** [`ACCOUNTING-STANDARDS/SLICE/`](ACCOUNTING-STANDARDS/SLICE/README.md) — B0–B16 handoffs. **Presentation slice SSOT:** [`PRESENTATION/`](PRESENTATION/README.md) — PAS-006 (ADR-0027). **CSS Authority (retired):** [`CSS-AUTHORITY/README.md`](CSS-AUTHORITY/README.md) — historical audit only; **do not execute** B27–B48 for ERP. **Lane boundaries:** [`DEVELOPMENT-LANE-BOUNDARIES.md`](DEVELOPMENT-LANE-BOUNDARIES.md). **Deprecated shim:** flat [`docs/PAS/slice/`](slice/README.md) — tombstones only; scheduled removal.
+**Kernel slice SSOT:** [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) — individual `b*.md` handoffs (B49–B113). **Architecture Authority slice SSOT:** [`ARCHITECTURE-AUTHORITY/SLICE/`](ARCHITECTURE-AUTHORITY/SLICE/README.md) — B1–B27 · B38–B45 handoffs. **Accounting Standards slice SSOT:** [`ACCOUNTING-STANDARDS/SLICE/`](ACCOUNTING-STANDARDS/SLICE/README.md) — B0–B16 handoffs. **Presentation slice SSOT:** [`PRESENTATION/`](PRESENTATION/README.md) — PAS-006 (ADR-0027). **CSS Authority (retired):** [`CSS-AUTHORITY/README.md`](CSS-AUTHORITY/README.md) — historical audit only; **do not execute** B27–B48 for ERP. **Lane boundaries:** [`DEVELOPMENT-LANE-BOUNDARIES.md`](DEVELOPMENT-LANE-BOUNDARIES.md). **Deprecated shim:** flat [`docs/PAS/slice/`](slice/README.md) — tombstones only; scheduled removal.
 
 **Header sync rule:** Every PAS doc and authority skill must mirror **Runtime status** and **Remaining slices** in the PAS authority metadata table (see [`pas-doc-template.md`](../../.cursor/skills/kernel-authority/reference/pas-doc-template.md)). Update all three surfaces when closing a slice.
 
@@ -15,8 +15,8 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | Enterprise Accepted — kernel contracts, runtime gates operational |
 | **Authority** | PAS-001 · `@afenda/kernel` · Platform |
 | **Maturity** | `enterprise_accepted` · `implemented` · `runtime_proven` |
-| **Runtime status** | Enterprise Accepted — kernel contracts, B49–B70 closure + B107–B111 amendment delivered, runtime gates operational |
-| **Remaining slices** | none — B111 Delivered ([`KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md`](KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md)) |
+| **Runtime status** | Enterprise Accepted — kernel contracts, B49–B70 closure + B107–B113 amendment delivered, runtime gates operational |
+| **Remaining slices** | none — B113 Delivered ([`KERNEL/SLICE/b113-actor-kind-integration-identity-vocabulary.md`](KERNEL/SLICE/b113-actor-kind-integration-identity-vocabulary.md)) |
 | **Runtime evidence** | `packages/kernel/`, [KERNEL/PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md), `kernel-package-layout.contract.ts`, `check:kernel-package-structure`, `check:kernel-context-wire-triad` |
 | **Gates** | `pnpm --filter @afenda/kernel typecheck`, `pnpm --filter @afenda/kernel test:run`, `pnpm quality:kernel-context-surface`, `pnpm check:kernel-context-wire-triad`, `pnpm check:kernel-identity-governance`, `pnpm check:kernel-zero-runtime-deps`, `pnpm check:accounting-domain-contracts`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries`, `pnpm architecture:cycles`, `pnpm architecture:drift`, `pnpm check:kernel-effective-dating-consumer-attestation`, `pnpm check:erp-auth-actor-protected-path-attestation`, `pnpm check:erp-tenant-lifecycle-extension-consumer-attestation` |
 | **Result** | Kernel platform vocabulary, execution context, identity constitution (ADR-0021–0023), and PAS §6.1 package-tree sync operational |
@@ -44,6 +44,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | B109 | [b109-effective-dating-consumer-attestation.md](KERNEL/SLICE/b109-effective-dating-consumer-attestation.md) | Delivered |
 | B110 | [b110-auth-actor-protected-path-attestation.md](KERNEL/SLICE/b110-auth-actor-protected-path-attestation.md) | Delivered |
 | B111 | [b111-tenant-lifecycle-extension-consumer-attestation.md](KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md) | Delivered |
+| B113 | [b113-actor-kind-integration-identity-vocabulary.md](KERNEL/SLICE/b113-actor-kind-integration-identity-vocabulary.md) | Delivered |
 
 ---
 
@@ -110,6 +111,27 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | KV1 | [kernel-slice-catalog.md](KERNEL/SLICE/kernel-slice-catalog.md#pas-001b--kv1kv3-closure-delivered) — authority `*_MODULE_KV_ID` parity | Delivered |
 | KV2 | [kernel-slice-catalog.md](KERNEL/SLICE/kernel-slice-catalog.md#pas-001b--kv1kv3-closure-delivered) — `./erp-domain/catalog` export barrel | Delivered |
 | KV3 | [kernel-slice-catalog.md](KERNEL/SLICE/kernel-slice-catalog.md#pas-001b--kv1kv3-closure-delivered) — metadata ERP bridge SSOT validation | Delivered |
+
+---
+
+## ERP Procurement Runtime Foundation — Gap audit (KV-PROC)
+
+| Field | Value |
+| --- | --- |
+| **Report** | [KERNEL/audit/procurement-foundation-gap-report.md](KERNEL/audit/procurement-foundation-gap-report.md) |
+| **Report ID** | PAS-PROC-FDN-AUDIT-001 |
+| **Report type** | Foundation-gap report — not a runtime-build plan |
+| **Wire slice** | B80 Delivered — KV-PROC contracts-only |
+| **Runtime status** | Wire vocabulary only — `@afenda/procurement` (PKG-R05) blocked; no DB/services/routes |
+| **Enterprise readiness** | **Not ready** (0–10% runtime confidence) |
+| **Foundation direction** | 90% — ten slices ERP-PROC-FDN-001 through 009 (includes 002A) |
+| **Remaining slices** | FDN-001 → FDN-002 → **FDN-002A** → FDN-003 → … → FDN-009 (proposed) |
+| **Gates (live — wire only)** | `pnpm check:procurement-domain-contracts` |
+| **Gates (proposed — foundation)** | `check:procurement-runtime-foundation`, `check:procurement-knowledge-alignment`, `check:procurement-no-kernel-runtime-leak`, `check:procurement-module-readiness` |
+| **Gates (proposed — runtime consumer)** | `check:procurement-context-spine-consumer`, `check:procurement-permission-enforcement`, `check:procurement-audit-outbox`, `check:procurement-metadata-binding` |
+| **Last audited** | 2026-06-30 · Review amended 2026-06-30 |
+
+**Next sequence item:** ERP-PROC-FDN-001 — Procurement Runtime Authority Boundary (domain ADR + PKG-R05 disposition). **FDN-003 blocked until FDN-002A** (runtime ownership model).
 
 ---
 

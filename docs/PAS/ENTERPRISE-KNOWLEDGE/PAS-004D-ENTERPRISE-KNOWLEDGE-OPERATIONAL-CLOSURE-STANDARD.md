@@ -184,10 +184,10 @@ Gate: `pnpm check:knowledge-vocabulary-richness`
 
 **Target:** Seed atoms (minimum):
 
-- `inventory_item` (concept + atom) — references `packages/kernel/src/erp-domain/inventory/` **contract paths only**
-- `purchase_order` or `procurement_requisition` — references `packages/kernel/src/erp-domain/procurement/` **contract paths only**
+- `inventory_item` (concept + atom) — **`KV-INV`** wire authority; references `packages/kernel/src/erp-domain/inventory/` **contract paths only**
+- `purchase_order` or `procurement_requisition` — **`KV-PROC`** wire authority; references `packages/kernel/src/erp-domain/procurement/` **contract paths only**
 
-**Rule:** Atoms cite kernel erp-domain **contracts**; never duplicate parsers or permission vocab registries.
+**Rule:** Atoms cite kernel erp-domain **contracts** with **KV-*** module ids at trust boundaries; never duplicate parsers or permission vocab registries.
 
 Gate: `pnpm check:knowledge-erp-domain-bridge`
 

@@ -18,10 +18,10 @@
 | **Authority status** | `enterprise_accepted` |
 | **Implementation status** | `implemented` |
 | **Evidence level** | `runtime_proven` |
-| **Runtime status** | Kernel contracts, slice catalog B49–B70 + B107–B111 amendment closed, runtime gates operational |
-| **Remaining slices** | none — B111 Delivered |
-| **Total slices planned** | B49–B70 closure · B107–B111 amendment |
-| **Delivered slices** | B49–B70 closed · B107–B111 amendment · prior B2–B48 historical |
+| **Runtime status** | Kernel contracts, slice catalog B49–B70 + B107–B113 amendment closed, runtime gates operational |
+| **Remaining slices** | none — B113 Delivered |
+| **Total slices planned** | B49–B70 closure · B107–B113 amendment |
+| **Delivered slices** | B49–B70 closed · B107–B113 amendment · prior B2–B48 historical |
 | **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `apps/erp`, governed domain packages · `@afenda/shadcn-studio` (presentation consumer — no kernel import) |
 | **Upstream** | [Kernel North Star](../../NORTHSTAR/kernel-north-star.md) · [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §4 Kernel Vocabulary |
 | **Extension PAS** | [PAS-001A](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) · [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
@@ -155,7 +155,7 @@ Each surface has **Contract type** + **Stability** in the legacy archive. This t
 | Effective Dating Vocabulary | Runtime | Evolutionary | §4.4 (`effectiveFrom` / `effectiveTo` on hierarchy contexts) | Effective dating vocabulary |
 | Tenant Lifecycle Vocabulary | Metadata | Evolutionary | NS §8.3 · `lifecycle.contract.ts` | Tenant lifecycle vocabulary (E11) |
 | Actor and Integration Identity | Identity | Stable | §4.1.11 · §4.3 · `identity/wire/auth-actor-identity` | Actor and integration identity (E12) |
-| Localization / Global Format | Metadata | Evolutionary | §4.5 | Localization code vocabulary |
+| Localization / Global Format | Metadata | Evolutionary | §4.5 | Localization code vocabulary · rounding mode · decimal precision (B112 · ADR-0029) |
 | Platform Entity Authority | Domain | Stable | §4.6 | Platform entity authority registry |
 | Business Reference Identity | Identity | Stable | §4.7 | Business reference identity families |
 | ERP Domain Wire Catalog (delegated) | Domain | Evolutionary | §4.8 seed only → [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | ERP domain wire catalog |
@@ -168,7 +168,7 @@ Each surface has **Contract type** + **Stability** in the legacy archive. This t
 
 **ERP domain wire terms:** catalog authority is [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md). PAS-001 §4.8 retains the **accounting seed** at `@afenda/kernel/erp-domain/accounting` (**KV-ACCT** · `PKGR01_ACCOUNTING`) only — do not expand catalog modules under PAS-001.
 
-**Staged capabilities:** Multi-scope consistency is vocabulary in kernel and **fail-closed proof** in PAS-001A spine gates. Effective dating consumer attestation delivered (B109). Tenant SaaS lifecycle wire (B107) and tenant extension boundary wire (B108) delivered with ERP consumer attestation (B111). Actor/integration identity protected-path attestation delivered (B110).
+**Staged capabilities:** Multi-scope consistency is vocabulary in kernel and **fail-closed proof** in PAS-001A spine gates. Effective dating consumer attestation delivered (B109). Tenant SaaS lifecycle wire (B107) and tenant extension boundary wire (B108) delivered with ERP consumer attestation (B111). Actor/integration identity protected-path attestation delivered (B110). Actor kind and integration identity vocabulary delivered (B113 · E12). Rounding mode and decimal precision vocabulary delivered (B112 · ADR-0029). Service actor S2S ingress attestation scaffold delivered (PAS-001A R2).
 
 ---
 
@@ -221,7 +221,7 @@ Historical B2–B48 slices delivered core surfaces. **Closure sequence B49–B70
 
 **Staged after closure (Blueprint §6):** actor/integration identity on all protected paths · business reference identity family expansion.
 
-**Delivered amendment track (B107–B111):** tenant SaaS lifecycle wire · tenant extension boundary wire · effective-dating consumer attestation gate · auth actor protected-path attestation gate · tenant lifecycle/extension ERP consumer attestation gate.
+**Delivered amendment track (B107–B113):** tenant SaaS lifecycle wire · tenant extension boundary wire · effective-dating consumer attestation gate · auth actor protected-path attestation gate · tenant lifecycle/extension ERP consumer attestation gate · rounding mode and decimal precision vocabulary (B112 · ADR-0029) · actor kind and integration identity vocabulary (E12).
 
 **Current rule:** no new vocabulary slices without PAS-001 amendment handoff. Consumer work → PAS-001A. Catalog work → PAS-001B.
 
@@ -236,7 +236,7 @@ Historical B2–B48 slices delivered core surfaces. **Closure sequence B49–B70
 | Context wire triad | `check:kernel-context-wire-triad` | Operating scope hierarchy |
 | Boundary cycles clean | `architecture:cycles` · `architecture:drift` | Platform substrate |
 | B49–B70 closure attested | B67–B70 slice Delivered | PAS-001 §12 (composed) · legacy archive §13 |
-| B107–B111 amendment attested | B107–B111 slice Delivered · lifecycle/extension consumer gate green | Kernel NS §4 · Blueprint §6 |
+| B107–B113 amendment attested | B107–B113 slice Delivered · lifecycle/extension consumer gate green · E12 vocabulary on disk | Kernel NS §4 · Blueprint §6 |
 
 Full §11 table: legacy [PAS-001 §12](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md#12-enterprise-acceptance-criteria).
 
@@ -250,7 +250,7 @@ Full §11 table: legacy [PAS-001 §12](archive/PAS-001-KERNEL-AUTHORITY-STANDARD
 | B49–B52 | Operating context wire triads (tenant → full hierarchy) | Delivered |
 | B53–B57 | Propagation frame · project · policy · permission wire | Delivered |
 | B67–B70 | Doc attestation · hierarchy boundary · context gate · test hygiene | Delivered |
-| B107–B111 | Tenant SaaS lifecycle wire · extension boundary wire · effective-dating consumer attestation · auth actor protected-path attestation · tenant lifecycle/extension ERP consumer attestation | Delivered |
+| B107–B113 | Tenant SaaS lifecycle wire · extension boundary wire · effective-dating consumer attestation · auth actor protected-path attestation · tenant lifecycle/extension ERP consumer attestation · rounding mode and decimal precision vocabulary (B112 · ADR-0029) · actor kind and integration identity vocabulary (E12) | Delivered |
 
 **Full catalog:** [KERNEL/SLICE/kernel-slice-catalog.md](SLICE/kernel-slice-catalog.md) · handoffs (SSOT) [KERNEL/SLICE/](SLICE/) · compliance [slice-compliance-audit.md](SLICE/slice-compliance-audit.md)
 

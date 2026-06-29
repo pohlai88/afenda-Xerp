@@ -3,9 +3,9 @@
   "auditCatalog": "docs/PAS/KERNEL/audit/PAS-001B.md",
   "authorityPas": "docs/PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md",
   "startedAt": "2026-06-30T01:40:00Z",
-  "updatedAt": "2026-06-30T02:15:00Z",
-  "currentWave": "W3",
-  "repairRound": 0,
+  "updatedAt": "2026-06-30T04:30:00Z",
+  "currentWave": "DONE",
+  "repairRound": 1,
   "maxIterations": 3,
   "repairMode": "audit-only-first",
   "verdicts": {
@@ -16,21 +16,88 @@
     "PAS-001B-AUD-05": "Pass",
     "PAS-001B-AUD-06": "Pass",
     "PAS-001B-AUD-07": "Pass",
-    "PAS-001B-AUD-08": "Pass"
+    "PAS-001B-AUD-08": "Pass",
+    "PAS-001B-AUD-09": "Pass",
+    "PAS-001B-AUD-10": "Pass",
+    "PAS-001B-AUD-11": "Pass",
+    "PAS-001B-AUD-12": "Pass",
+    "PAS-001B-AUD-13": "Pass",
+    "PAS-001B-AUD-14": "Pass",
+    "PAS-001B-AUD-15": "Pass",
+    "PAS-001B-AUD-16": "Pass",
+    "PAS-001B-AUD-17": "Pass",
+    "PAS-001B-AUD-18": "Pass",
+    "PAS-001B-AUD-19": "Pass",
+    "PAS-001B-AUD-20": "Pass",
+    "PAS-001B-AUD-21": "Pass",
+    "PAS-001B-AUD-22": "Pass",
+    "PAS-001B-AUD-23": "Pass",
+    "PAS-001B-AUD-24": "Pass",
+    "PAS-001B-AUD-25": "Pass",
+    "PAS-001B-AUD-26": "Pass",
+    "PAS-001B-AUD-27": "Pass",
+    "PAS-001B-AUD-28": "Pass",
+    "PAS-001B-AUD-29": "Pass",
+    "PAS-001B-AUD-30": "Pass"
   },
-  "clusters": {},
-  "completedWaves": ["W1", "W2"],
-  "waveEvidence": {
-    "W2": {
-      "gates": [
-        "pnpm check:erp-domain-delivered-vocabulary — PASS (28 delivered modules)",
-        "pnpm check:erp-domain-layout — PASS (28 catalog slugs, 28 delivered; failure matrix 12/12)"
-      ],
-      "AUD-05": "28 module folders; layout contract parity; delivered-vocabulary gate PASS",
-      "AUD-06": "28/28 __tests__/{slug}-domain-vocabulary.contract.test.ts present",
-      "AUD-07": "29 dirs = 28 delivered + catalog barrel only; no catalog-only slug folders",
-      "AUD-08": "packages/kernel/package.json — 28 ./erp-domain/{slug} + ./erp-domain/catalog exports"
+  "clusters": {
+    "C1-legacy-adr-kv-backfill": {
+      "signature": "adr-slug-only-erp-module-citation",
+      "audIds": ["PAS-001B-AUD-10"],
+      "status": "closed",
+      "closedAt": "2026-06-30T03:00:00Z"
+    },
+    "C2-classification-pas004-coverage": {
+      "signature": "wire-shape-role-and-pas004-trace-gap",
+      "audIds": ["PAS-001B-AUD-12"],
+      "status": "closed",
+      "closedAt": "2026-06-30T03:00:00Z"
     }
   },
-  "finalConfidence": null
+  "completedWaves": ["W1", "W2", "W3", "W4", "W5", "W6", "W7", "W8", "W9"],
+  "waveEvidence": {
+    "W8": {
+      "AUD-29": "Pass — 8/8 required gates green (see gateStdout)",
+      "gateStdout": [
+        "pnpm check:erp-domain-layout → 28 slugs, 12/12 failure matrix",
+        "pnpm check:erp-domain-delivered-vocabulary → 28 delivered modules",
+        "pnpm check:accounting-domain-contracts → PKG-R01 / ADR-0020",
+        "pnpm check:inventory-domain-contracts → PKGR02 / ADR-0020",
+        "pnpm check:procurement-domain-contracts → PAS-001B vocabulary",
+        "pnpm --filter @afenda/kernel typecheck → exit 0",
+        "pnpm check:foundation-disposition → PASS",
+        "pnpm check:documentation-drift → OK"
+      ]
+    },
+    "W9": {
+      "AUD-30": {
+        "verdictMatrix": "30/30 Pass (0 Conditional, 0 Fail)",
+        "hardBlockers": {
+          "layoutContractSsot": { "aud": "AUD-04, AUD-20", "status": "Pass" },
+          "delivered28of28": { "aud": "AUD-05, AUD-07", "status": "Pass" },
+          "mandatoryScaffold": { "aud": "AUD-06, AUD-17", "status": "Pass" },
+          "kvIdSsotParity": { "aud": "AUD-09, AUD-24 KV1", "status": "Pass" },
+          "packageExportRule": { "aud": "AUD-08", "status": "Pass" },
+          "noRuntimeUnderErpDomain": { "aud": "AUD-03, AUD-18, AUD-21..23", "status": "Pass" },
+          "requiredGates": { "aud": "AUD-29", "status": "Pass" },
+          "b76B106Closure": { "aud": "AUD-24", "status": "Pass" },
+          "wireVsMeaningSplit": { "aud": "AUD-25, AUD-12", "status": "Pass" }
+        },
+        "repairClustersClosed": 2,
+        "conditionalSlicesRemaining": 0
+      }
+    }
+  },
+  "conditionalSlices": [],
+  "finalConfidence": {
+    "scorePercent": 98,
+    "verdict": "Pass",
+    "meaning": "Enterprise Accepted wire catalog claim fully supported — 28/28 delivered modules, KV SSOT (KV1–KV3), layout gate 12/12, unified vocabulary gate, foundation domain gates, and AUD-29 bundle all green on ADR-0027 skeleton",
+    "enterpriseAccepted": true,
+    "optionalHygiene": [
+      "Sync audit verdict matrix TBD rows in docs/PAS/KERNEL/audit/PAS-001B.md from checkpoint",
+      "Optional wireShapeRole on legacy *-type registry entries (event + contested vocab already tagged)",
+      "PKGR01B knownGap: metadata PERMISSION_REGISTRY bridge (PAS-001A consumer — not wire-catalog blocker)"
+    ]
+  }
 }

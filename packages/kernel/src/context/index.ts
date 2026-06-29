@@ -35,6 +35,26 @@ export {
   listKernelOperatingContextWireIngressFiles,
 } from "./context-registry.js";
 export {
+  assertDecimalPrecisionScale,
+  assertWireDecimalPrecisionVocabulary,
+} from "./decimal-precision.assert.js";
+// ── Decimal precision vocabulary (B112 · ADR-0029) ───────────────────────────
+export type {
+  DecimalPrecision,
+  DecimalPrecisionVocabulary,
+  WireDecimalPrecisionVocabulary,
+} from "./decimal-precision.contract.js";
+export {
+  DECIMAL_PRECISION_MAX,
+  DECIMAL_PRECISION_MIN,
+  isDecimalPrecisionScale,
+} from "./decimal-precision.contract.js";
+export {
+  parseDecimalPrecisionVocabulary,
+  parseUnknownDecimalPrecisionVocabulary,
+  serializeDecimalPrecisionVocabulary,
+} from "./decimal-precision.parser.js";
+export {
   isNullableEffectiveRangeAt,
   isRecordEffectiveAt,
 } from "./effective-dating-vocabulary.contract.js";
@@ -260,6 +280,22 @@ export {
   parseUnknownProjectContext,
   serializeProjectContext,
 } from "./project-context.parser.js";
+export {
+  assertRoundingMode,
+  assertWireRoundingModeVocabulary,
+} from "./rounding-mode.assert.js";
+// ── Rounding mode vocabulary (B112 · ADR-0029) ───────────────────────────────
+export type {
+  RoundingMode,
+  RoundingModeVocabulary,
+  WireRoundingModeVocabulary,
+} from "./rounding-mode.contract.js";
+export { isRoundingMode, ROUNDING_MODES } from "./rounding-mode.contract.js";
+export {
+  parseRoundingModeVocabulary,
+  parseUnknownRoundingModeVocabulary,
+  serializeRoundingModeVocabulary,
+} from "./rounding-mode.parser.js";
 export type {
   SurfaceContext,
   SurfaceId,

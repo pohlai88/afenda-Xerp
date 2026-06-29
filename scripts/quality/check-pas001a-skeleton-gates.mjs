@@ -13,6 +13,7 @@ const gates = [
   "check:erp-operating-context-spine",
   "check:kernel-effective-dating-consumer-attestation",
   "check:erp-auth-actor-protected-path-attestation",
+  "check:erp-service-actor-s2s-attestation",
   "check:erp-metadata-pas006-consumer",
   "check:erp-tenant-lifecycle-extension-consumer-attestation",
   "quality:boundaries",
