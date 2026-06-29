@@ -3,6 +3,7 @@
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState } from "react";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -24,11 +25,11 @@ const LoginForm = () => {
           <Input placeholder="Enter your name" type="text" />
         </Field>
         {/* Email */}
-        <Field>
+        <Field {...blockSlotDomMarkerProps("login.email")}>
           <Input placeholder="Enter your email address" type="email" />
         </Field>
         {/* Password */}
-        <InputGroup>
+        <InputGroup {...blockSlotDomMarkerProps("login.password")}>
           <InputGroupInput
             id="password"
             placeholder="••••••••••••••••"
@@ -61,7 +62,11 @@ const LoginForm = () => {
           </a>
         </div>
         <Field>
-          <Button className="w-full" type="submit">
+          <Button
+            {...blockSlotDomMarkerProps("login.submit")}
+            className="w-full"
+            type="submit"
+          >
             Sign in to Shadcn Studio
           </Button>
         </Field>

@@ -3,6 +3,7 @@
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 import { useId, useMemo, useState } from "react";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -59,7 +60,7 @@ const WorkspaceName = () => {
     <div>
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
         {/* Workspace Name */}
-        <div className="flex flex-col space-y-1">
+        <div {...blockSlotDomMarkerProps("profile.avatar")} className="flex flex-col space-y-1">
           <h3 className="font-semibold">Workspace Name & TimeZone</h3>
           <p className="text-muted-foreground text-sm">
             Manage your workspace name and time zone settings.
@@ -71,6 +72,7 @@ const WorkspaceName = () => {
           <div className="flex flex-col items-start gap-1">
             <Label htmlFor="workspace-name">Workspace Name</Label>
             <Input
+              {...blockSlotDomMarkerProps("profile.displayName")}
               defaultValue="Shadcn Studio"
               id="workspace-name"
               placeholder="Shadcn Studio"
@@ -80,6 +82,7 @@ const WorkspaceName = () => {
           <div className="w-full space-y-2">
             <Label htmlFor="app-id">App ID</Label>
             <Input
+              {...blockSlotDomMarkerProps("profile.email")}
               className="read-only:bg-muted"
               defaultValue="0b1c2d3e"
               id="app-id"
@@ -147,7 +150,7 @@ const WorkspaceName = () => {
             </Popover>
           </div>
           <div className="flex justify-end">
-            <Button className="max-sm:w-full" type="submit">
+            <Button {...blockSlotDomMarkerProps("profile.save")} className="max-sm:w-full" type="submit">
               Save Changes
             </Button>
           </div>

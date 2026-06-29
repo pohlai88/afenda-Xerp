@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Button } from "@/components/ui/button";
 import { CircularProgress } from "@/components/ui/circular-progress";
 import { Input } from "@/components/ui/input";
@@ -117,7 +118,7 @@ const SpendManagement = () => {
             </div>
           </form>
           <div className="mt-6 flex justify-end">
-            <Button className="max-sm:w-full" type="submit">
+            <Button {...blockSlotDomMarkerProps("profile.save")} className="max-sm:w-full" type="submit">
               Update
             </Button>
           </div>

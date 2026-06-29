@@ -83,13 +83,19 @@ export {
   type BlockDataFieldWire,
   isBlockDataContractWire,
 } from "./contracts/block-data-contract.js";
-export type {
-  MetadataBindingContractWire,
-  MetadataBindingDensity,
-  MetadataBindingFieldPresentationKind,
-  MetadataBindingFieldWire,
-  MetadataBindingStateTemplateWire,
-  MetadataBindingTableColumnWire,
+export {
+  AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE,
+  type BlockSlotDomMarkerProps,
+  blockSlotDomMarkerProps,
+} from "./contracts/block-slot-dom-marker.contract.js";
+export {
+  isMetadataBindingContractWire,
+  type MetadataBindingContractWire,
+  type MetadataBindingDensity,
+  type MetadataBindingFieldPresentationKind,
+  type MetadataBindingFieldWire,
+  type MetadataBindingStateTemplateWire,
+  type MetadataBindingTableColumnWire,
 } from "./contracts/metadata-binding.contract.js";
 export {
   isMetadataBindingWaiverReason,
@@ -103,6 +109,12 @@ export {
   type SurfaceTemplateClass,
   type SurfaceTemplateContractWire,
 } from "./contracts/surface-template.contract.js";
+export {
+  assertBlockSlotDomMarkerCoverage,
+  type BlockSlotDomMarkerCoverageResult,
+  type BlockSlotDomMarkerCoverageRow,
+  summarizeBlockSlotDomMarkerCoverage,
+} from "./registry/assert-block-slot-dom-marker-coverage.js";
 export {
   assertMetadataBindingCoverage,
   type MetadataBindingCoverageResult,
@@ -170,6 +182,15 @@ export {
   type PresentationInventoryEntry,
   type PresentationLayerKind,
 } from "./registry/presentation-inventory.registry.js";
+export {
+  assertSurfaceTemplateBlockComponentsRegistered,
+  isStudioBlockComponentId,
+  listSurfaceTemplateBlockComponentIds,
+  resolveStudioBlockComponent,
+  STUDIO_BLOCK_COMPONENT_REGISTRY,
+  type StudioBlockComponent,
+  type StudioBlockComponentId,
+} from "./registry/studio-block-component.registry.js";
 export {
   computeStudioBlockParitySummary,
   SHADCN_STUDIO_BLOCK_PARITY_REGISTRY,

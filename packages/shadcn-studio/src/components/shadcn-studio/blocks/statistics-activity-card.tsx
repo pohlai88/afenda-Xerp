@@ -4,6 +4,7 @@ import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
 import { useId } from "react";
 import { Area, AreaChart, XAxis } from "recharts";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   type ChartConfig,
@@ -85,10 +86,13 @@ const StatisticsActivityCard = ({ className }: { className?: string }) => {
   const footnoteId = useId();
 
   return (
-    <article aria-labelledby={titleId} className={className}>
+    <article
+      aria-labelledby={titleId}
+      className={className}
+    >
       <Card className={cn("gap-4")}>
         <div className="flex items-center justify-between gap-2 px-6">
-          <span className="font-medium" id={titleId}>
+          <span {...blockSlotDomMarkerProps("metric.label")} className="font-medium" id={titleId}>
             {StatisticsCardData.title}
           </span>
           <span className="text-muted-foreground text-sm">Weekly Report</span>
@@ -96,6 +100,7 @@ const StatisticsActivityCard = ({ className }: { className?: string }) => {
         <CardContent className="flex justify-between gap-6 max-sm:flex-col">
           <div className="flex flex-col gap-2 self-end">
             <span
+              {...blockSlotDomMarkerProps("metric.value")}
               aria-describedby={footnoteId}
               className="font-semibold text-5xl"
             >
@@ -107,7 +112,7 @@ const StatisticsActivityCard = ({ className }: { className?: string }) => {
               ) : (
                 <ArrowDownIcon aria-hidden="true" className="size-4" />
               )}
-              <span className="text-xs" id={footnoteId}>
+              <span {...blockSlotDomMarkerProps("metric.change")} className="text-xs" id={footnoteId}>
                 +{StatisticsCardData.changePercentage}%
               </span>
             </div>

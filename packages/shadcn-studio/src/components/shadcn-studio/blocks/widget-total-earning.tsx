@@ -4,6 +4,7 @@ import {
   EllipsisVerticalIcon,
 } from "lucide-react";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -45,10 +46,13 @@ const TotalEarningCard = ({
 }: Props) => (
   <Card className={className}>
     <CardHeader className="flex items-center justify-between">
-      <span className="font-semibold text-lg">{title}</span>
+      <span {...blockSlotDomMarkerProps("widget.title")} className="font-semibold text-lg">
+        {title}
+      </span>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
+            {...blockSlotDomMarkerProps("widget.action")}
             className="size-6 rounded-full text-muted-foreground"
             size="icon"
             variant="ghost"
@@ -67,7 +71,7 @@ const TotalEarningCard = ({
       </DropdownMenu>
     </CardHeader>
     <CardContent className="flex flex-1 flex-col gap-4">
-      <div className="flex flex-col gap-1">
+      <div {...blockSlotDomMarkerProps("widget.summary")} className="flex flex-col gap-1">
         <div className="flex items-center gap-2">
           <span className="font-semibold text-2xl">${earning}</span>
           <span className="flex items-center gap-1">

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -117,15 +118,17 @@ const Members = () => {
     <section className="py-3">
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 flex flex-wrap items-center justify-between gap-4">
-          <div className="space-y-1">
-            <h3 className="font-semibold">Members</h3>
-            <p className="text-muted-foreground text-sm">
+          <div {...blockSlotDomMarkerProps("profile.avatar")} className="space-y-1">
+            <h3 {...blockSlotDomMarkerProps("profile.displayName")} className="font-semibold">
+              Members
+            </h3>
+            <p {...blockSlotDomMarkerProps("profile.email")} className="text-muted-foreground text-sm">
               Manage your team members and their permissions.
             </p>
           </div>
           <Dialog>
             <DialogTrigger asChild>
-              <Button className="max-sm:w-full">
+              <Button {...blockSlotDomMarkerProps("profile.save")} className="max-sm:w-full">
                 <PlusIcon />
                 Invite Member
               </Button>

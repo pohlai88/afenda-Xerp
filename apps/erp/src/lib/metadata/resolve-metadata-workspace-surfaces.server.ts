@@ -4,6 +4,10 @@ import {
   SURFACE_TEMPLATE_REGISTRY,
 } from "@afenda/shadcn-studio";
 
+import {
+  hydrateMetadataBindingSlots,
+  type MetadataBindingSlotHydrationWire,
+} from "./hydrate-metadata-binding-slots.server";
 import type { MetadataRuntimeContext } from "./metadata-runtime.contract";
 import {
   type MetadataUiBindingProjectionWire,
@@ -12,6 +16,7 @@ import {
 
 export interface MetadataWorkspaceSurfaceWire {
   readonly bindingProjection?: MetadataUiBindingProjectionWire;
+  readonly slotHydration?: MetadataBindingSlotHydrationWire;
   readonly surfaceTemplate: SurfaceTemplateContractWire;
 }
 
@@ -31,10 +36,19 @@ export function resolveMetadataWorkspaceSurfaces(
       binding === undefined
         ? undefined
         : projectMetadataUiBindingWire({ binding, runtime });
+    const slotHydration =
+      binding === undefined || bindingProjection === undefined
+        ? undefined
+        : hydrateMetadataBindingSlots({
+            binding,
+            projection: bindingProjection,
+            runtime,
+          });
 
     return {
       surfaceTemplate,
       ...(bindingProjection === undefined ? {} : { bindingProjection }),
+      ...(slotHydration === undefined ? {} : { slotHydration }),
     } satisfies MetadataWorkspaceSurfaceWire;
   });
 }

@@ -7,6 +7,7 @@ import Cards from "react-19-credit-card";
 
 import { usePaymentInputs } from "react-payment-inputs";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -70,7 +71,8 @@ const AddPaymentMethodDialog = ({
   };
 
   return (
-    <Dialog onOpenChange={setOpen} open={open}>
+    <div>
+      <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild onClick={() => setOpen(true)}>
         {trigger}
       </DialogTrigger>
@@ -80,7 +82,7 @@ const AddPaymentMethodDialog = ({
           className
         )}
       >
-        <DialogHeader className="flex-row items-center gap-4 text-left">
+        <DialogHeader {...blockSlotDomMarkerProps("dialog.header")} className="flex-row items-center gap-4 text-left">
           <Avatar className="size-11 shrink-0 rounded-md">
             <AvatarFallback className="rounded-md border bg-transparent text-foreground">
               <CreditCardIcon className="size-6" />
@@ -96,6 +98,7 @@ const AddPaymentMethodDialog = ({
           </div>
         </DialogHeader>
 
+        <div {...blockSlotDomMarkerProps("dialog.body")}>
         {/* Credit card */}
         <div className="flex items-center justify-center rounded-lg bg-muted p-6 max-[420px]:p-2 sm:min-h-82.5 max-[420px]:[&>div>div]:w-full! max-[420px]:[&>div]:w-full!">
           <Cards
@@ -163,8 +166,9 @@ const AddPaymentMethodDialog = ({
             />
           </div>
         </div>
+        </div>
 
-        <DialogFooter className="gap-4">
+        <DialogFooter {...blockSlotDomMarkerProps("dialog.footer")} className="gap-4">
           <DialogClose asChild>
             <Button size="lg" variant="outline">
               Cancel
@@ -174,6 +178,7 @@ const AddPaymentMethodDialog = ({
         </DialogFooter>
       </DialogContent>
     </Dialog>
+    </div>
   );
 };
 

@@ -3,6 +3,7 @@
 import { ImageIcon, TrashIcon, UploadCloudIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -136,6 +137,7 @@ const PersonalInfo = () => {
             <Label>Your Avatar</Label>
             <div className="flex items-center gap-4">
               <div
+                {...blockSlotDomMarkerProps("profile.avatar")}
                 aria-label="Upload your avatar"
                 className="flex h-20 w-20 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-dashed hover:opacity-95"
                 onClick={openPicker}
@@ -197,6 +199,7 @@ const PersonalInfo = () => {
                 First Name
               </Label>
               <Input
+                {...blockSlotDomMarkerProps("profile.displayName")}
                 id="multi-step-personal-info-first-name"
                 placeholder="John"
               />
@@ -276,7 +279,11 @@ const PersonalInfo = () => {
           </div>
         </form>
         <div className="flex justify-end">
-          <Button className="max-sm:w-full" type="submit">
+          <Button
+            {...blockSlotDomMarkerProps("profile.save")}
+            className="max-sm:w-full"
+            type="submit"
+          >
             Save Changes
           </Button>
         </div>

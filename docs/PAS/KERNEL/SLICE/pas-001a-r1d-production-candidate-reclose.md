@@ -4,7 +4,11 @@
 
 **Prerequisite:** PAS-001A-R1a · R1b · R1c Delivered
 
-**Status:** Proposed
+**Status:** Delivered
+
+**Delivered:** 2026-06-29
+
+**Attestation score:** 10/10 §6 matrix (R1c gate registered post-R1d — see appendix update)
 
 **Type:** Evidence-sync
 
@@ -94,9 +98,94 @@ Handoff from: docs/PAS/KERNEL/SLICE/pas-001a-r1d-production-candidate-reclose.md
 | ERP integration spine (IS-002) | 85% | **90%** |
 | Metadata bridge (IS-003) | 70% | **85%** |
 | PAS-001A runtime truth | partial | **integration-proven** |
-| Metadata-driven UI runtime | 55% | **60%** *(full UI still needs P06-008-R2)* |
+| Metadata-driven UI runtime | 60% | **72%** *(live block preview on metadata-workspace — R1c-2)* |
 
 ## Related
 
 - [B75](./b75-pas001a-production-candidate-attestation.md) · [PAS-001A §6.1](../PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md)
 - [PAS-001A-R1a](./pas-001a-r1a-is002-operating-context-spine.md) · [R1b](./pas-001a-r1b-protected-app-router-shell.md) · [R1c](./pas-001a-r1c-metadata-consumer-pas006.md)
+
+---
+
+## R1d attestation appendix (archived gate bundle 2026-06-29)
+
+### §6 matrix row-by-row
+
+| # | Criterion | Result | Gate evidence |
+| --- | --- | --- | --- |
+| 1 | Permission wire triad | **Pass** | `pnpm check:permission-scope-permissions-surface` — Permission scope permissions surface gate passed (PAS-001A B71). |
+| 2 | Kernel no permission-scope parser | **Pass** | `pnpm quality:kernel-context-surface` — Kernel context surface gate passed. |
+| 3 | ERP kernel projection at assembly | **Pass** | R1a `apps/erp/src/lib/context/resolve-operating-context.server.ts` + `pnpm check:erp-operating-context-spine` — ERP operating-context spine gate passed (PAS-001A B72 / R1a IS-002). |
+| 4 | Runtime ingress rule | **Pass** | `pnpm check:erp-auth-actor-protected-path-attestation` — ERP auth actor protected-path attestation gate passed (PAS-001A R1b / B110 skeleton). |
+| 5 | Anti-corruption | **Pass** | `pnpm quality:boundaries` — package boundaries valid (20 workspaces checked). Spine gate forbidden-import checks active. `check:erp-context-surface` archived (not in root package.json). |
+| 6 | Full integration registry | **Pass** | R1a `CONTEXT_INTEGRATION_WIRING` (9 entries) verified by spine gate (see row 3). |
+| 7 | Operating-context integration tests | **Pass** | `pnpm --filter @afenda/erp test:run` — 15 files, 49 tests passed (includes `operating-context-spine.integration.test.ts`). |
+| 8 | Context map live modules | **Pass** | Spine gate module/delegate verification for §3 integration modules on disk. |
+| 9 | Metadata spine resolver | **Pass** | `pnpm check:erp-metadata-pas006-consumer` — erp metadata PAS-006 consumer: OK (PAS-001A R1c IS-003). |
+| 10 | Doc drift + matrix synced | **Pass** | `pnpm check:documentation-drift` — documentation-drift: OK. §6.1 + pas-status-index + kernel-slice-catalog + kernel-authority mirror updated. |
+
+**Score:** 10/10 green · IS-002 + IS-003 integration-proven on PAS-006 skeleton.
+
+### Full gate bundle (verbatim output)
+
+#### `pnpm check:erp-operating-context-spine`
+
+```
+ERP operating-context spine gate passed (PAS-001A B72 / R1a IS-002).
+```
+
+#### `pnpm check:erp-auth-actor-protected-path-attestation`
+
+```
+ERP auth actor protected-path attestation gate passed (PAS-001A R1b / B110 skeleton).
+```
+
+#### `pnpm check:erp-metadata-pas006-consumer`
+
+```
+erp metadata PAS-006 consumer: OK (PAS-001A R1c IS-003)
+Test Files  4 passed (4) · Tests  14 passed (14)
+```
+
+#### `pnpm check:permission-scope-permissions-surface`
+
+```
+Permission scope permissions surface gate passed (PAS-001A B71).
+```
+
+#### `pnpm --filter @afenda/erp typecheck`
+
+```
+(exit 0 — no errors)
+```
+
+#### `pnpm --filter @afenda/erp test:run`
+
+```
+Test Files  15 passed (15)
+     Tests  49 passed (49)
+```
+
+#### `pnpm check:documentation-drift`
+
+```
+documentation-drift: OK (documentation-drift-guard-is-canonical-stale-marker-enforcement)
+```
+
+#### `pnpm check:foundation-disposition`
+
+```
+Foundation disposition registry: PASS
+```
+
+#### `pnpm quality:boundaries`
+
+```
+package boundaries valid (20 workspaces checked)
+```
+
+#### Supplementary (§6 row 2)
+
+```
+pnpm quality:kernel-context-surface — Kernel context surface gate passed.
+```

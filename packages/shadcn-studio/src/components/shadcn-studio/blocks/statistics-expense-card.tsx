@@ -2,6 +2,7 @@
 
 import { Area, AreaChart } from "recharts";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -79,15 +80,15 @@ const StatisticsExpenseCard = ({ className }: { className?: string }) => (
     <CardContent className="flex flex-1 items-center justify-between gap-4 pr-0">
       <div className="flex shrink-0 flex-col justify-between gap-6">
         <div className="flex flex-col gap-1">
-          <span className="text-muted-foreground text-sm">
+          <span {...blockSlotDomMarkerProps("metric.label")} className="text-muted-foreground text-sm">
             {StatisticsCardData.title}
           </span>
-          <span className="font-semibold text-3xl">
+          <span {...blockSlotDomMarkerProps("metric.value")} className="font-semibold text-3xl">
             {StatisticsCardData.amount}
           </span>
         </div>
         <div className="flex gap-3">
-          <Badge className="rounded-sm bg-primary/10 text-primary">
+          <Badge {...blockSlotDomMarkerProps("metric.change")} className="rounded-sm bg-primary/10 text-primary">
             {StatisticsCardData.changePercentage}
           </Badge>
           <span className="text-muted-foreground text-sm">vs Last month</span>

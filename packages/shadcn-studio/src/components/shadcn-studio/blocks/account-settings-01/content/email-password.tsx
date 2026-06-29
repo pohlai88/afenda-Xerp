@@ -3,6 +3,7 @@
 import { CheckIcon, EyeIcon, EyeOffIcon, MailIcon, XIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Button } from "@/components/ui/button";
 import {
   InputGroup,
@@ -77,7 +78,7 @@ const EmailPass = () => {
             <Label className="gap-1" htmlFor="email">
               Email<span className="text-destructive">*</span>
             </Label>
-            <InputGroup>
+            <InputGroup {...blockSlotDomMarkerProps("profile.email")}>
               <InputGroupInput
                 id="email"
                 placeholder="Email address"

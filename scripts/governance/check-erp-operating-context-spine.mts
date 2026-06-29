@@ -1,9 +1,10 @@
 #!/usr/bin/env tsx
 /**
- * PAS-001A B72 (ADR-0027 skeleton) — tenant lifecycle bridge wiring gate.
+ * PAS-001A B72 / R1a — ERP operating-context integration spine gate.
  *
- * Validates TENANT_LIFECYCLE_BRIDGE_WIRING entries resolve to live ERP modules/delegates.
- * Full CONTEXT_INTEGRATION / AUTH bridge wiring returns with protected-route rebuild.
+ * Verifies CONTEXT_INTEGRATION_WIRING, AUTH_SESSION_BRIDGE_WIRING,
+ * AUTH_ACTOR_BRIDGE_WIRING, and TENANT_LIFECYCLE_BRIDGE_WIRING entries
+ * in apps/erp context-integration-registry.ts resolve to live modules/delegates.
  */
 
 import { existsSync, readFileSync } from "node:fs";
@@ -26,6 +27,7 @@ const FORBIDDEN_INTEGRATION_IMPORT_PATTERNS = [
   /@afenda\/kernel\/src\//,
   /@afenda\/database\/dist\//,
   /@afenda\/database\/src\//,
+  /@afenda\/permissions\/(dist|src)\//,
 ] as const;
 
 interface IntegrationWiringEntry {
@@ -93,6 +95,36 @@ function parseWiringEntries(
   }
 
   return entries;
+}
+
+function readIntegrationRegistry(): {
+  readonly contextWiring: IntegrationWiringEntry[];
+  readonly authBridgeWiring: IntegrationWiringEntry[];
+  readonly authActorBridgeWiring: IntegrationWiringEntry[];
+  readonly tenantLifecycleBridgeWiring: IntegrationWiringEntry[];
+} {
+  if (!existsSync(registryPath)) {
+    return {
+      contextWiring: [],
+      authBridgeWiring: [],
+      authActorBridgeWiring: [],
+      tenantLifecycleBridgeWiring: [],
+    };
+  }
+
+  const source = readFileSync(registryPath, "utf8");
+  return {
+    contextWiring: parseWiringEntries(source, "CONTEXT_INTEGRATION_WIRING"),
+    authBridgeWiring: parseWiringEntries(source, "AUTH_SESSION_BRIDGE_WIRING"),
+    authActorBridgeWiring: parseWiringEntries(
+      source,
+      "AUTH_ACTOR_BRIDGE_WIRING"
+    ),
+    tenantLifecycleBridgeWiring: parseWiringEntries(
+      source,
+      "TENANT_LIFECYCLE_BRIDGE_WIRING"
+    ),
+  };
 }
 
 function collectUniqueIds(
@@ -177,11 +209,36 @@ export function checkErpOperatingContextSpine(): ErpOperatingContextSpineViolati
     return violations;
   }
 
-  const registrySource = readFileSync(registryPath, "utf8");
-  const tenantLifecycleBridgeWiring = parseWiringEntries(
-    registrySource,
-    "TENANT_LIFECYCLE_BRIDGE_WIRING"
-  );
+  const {
+    contextWiring,
+    authBridgeWiring,
+    authActorBridgeWiring,
+    tenantLifecycleBridgeWiring,
+  } = readIntegrationRegistry();
+
+  if (contextWiring.length === 0) {
+    violations.push({
+      rule: "context-wiring-empty",
+      file: registryPath,
+      message: "CONTEXT_INTEGRATION_WIRING must declare integration entries",
+    });
+  }
+
+  if (authBridgeWiring.length === 0) {
+    violations.push({
+      rule: "auth-bridge-wiring-empty",
+      file: registryPath,
+      message: "AUTH_SESSION_BRIDGE_WIRING must declare auth bridge entries",
+    });
+  }
+
+  if (authActorBridgeWiring.length === 0) {
+    violations.push({
+      rule: "auth-actor-bridge-wiring-empty",
+      file: registryPath,
+      message: "AUTH_ACTOR_BRIDGE_WIRING must declare auth actor bridge entries",
+    });
+  }
 
   if (tenantLifecycleBridgeWiring.length === 0) {
     violations.push({
@@ -192,7 +249,22 @@ export function checkErpOperatingContextSpine(): ErpOperatingContextSpineViolati
     });
   }
 
+  violations.push(...collectUniqueIds(contextWiring));
+  violations.push(...collectUniqueIds(authBridgeWiring));
+  violations.push(...collectUniqueIds(authActorBridgeWiring));
   violations.push(...collectUniqueIds(tenantLifecycleBridgeWiring));
+  violations.push(
+    ...collectWiringViolations(contextWiring, "CONTEXT_INTEGRATION_WIRING")
+  );
+  violations.push(
+    ...collectWiringViolations(authBridgeWiring, "AUTH_SESSION_BRIDGE_WIRING")
+  );
+  violations.push(
+    ...collectWiringViolations(
+      authActorBridgeWiring,
+      "AUTH_ACTOR_BRIDGE_WIRING"
+    )
+  );
   violations.push(
     ...collectWiringViolations(
       tenantLifecycleBridgeWiring,
@@ -230,6 +302,6 @@ if (isDirectRun) {
   }
 
   process.stdout.write(
-    "ERP operating-context spine gate passed (PAS-001A B72 / B111 tenant lifecycle bridge).\n"
+    "ERP operating-context spine gate passed (PAS-001A B72 / R1a IS-002).\n"
   );
 }

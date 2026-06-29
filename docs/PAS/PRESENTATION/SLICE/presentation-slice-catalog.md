@@ -31,7 +31,7 @@ P06-008  Metadata binding contract (006D)     [Delivered]
     ↓
 P06-008-R1  Metadata binding enforcement (006D)  [Delivered]
     ↓
-P06-008-R2  DOM slot markers (006D)           [Proposed]
+P06-008-R2  DOM slot markers (006D)           [Delivered]
     ↓
 P06-009  Surface template registry (006D)    [Delivered]
     ↓
@@ -53,7 +53,7 @@ P06-010  Enterprise Accepted attestation (family)  [Delivered — registry promo
 | **P06-007** | 006C | Auth-adjacent WCAG 2.2 AA acceptance pack | **Delivered** | P06-005 | Sign-in/MFA/denial surfaces |
 | **P06-008** | 006D | Metadata binding contract | **Delivered** | P06-004 | NS §3.5 metadata path |
 | **P06-008-R1** | 006D | Metadata binding registry enforcement | **Delivered** | P06-008 | NS I7 · `check:studio-metadata-binding` |
-| **P06-008-R2** | 006D | DOM slot markers (`data-afenda-slot`) | **Proposed** | P06-008-R1 | NS §3.5 Metadata-bound DOM · `check:studio-block-slot-markers` |
+| **P06-008-R2** | 006D | DOM slot markers (`data-afenda-slot`) | **Delivered** | P06-008-R1 | NS §3.5 Metadata-bound DOM · `check:studio-block-slot-markers` |
 | **P06-009** | 006D | Surface template registry | **Delivered** | P06-008 | Template → operator surface |
 | **P06-010** | 006 family | Enterprise Accepted attestation | **Delivered** (doc attestation; PKGR05A promotion via registry owner) | P06-002–P06-007 minimum | Blueprint Enterprise Accepted |
 
@@ -71,4 +71,4 @@ P06-010  Enterprise Accepted attestation (family)  [Delivered — registry promo
 
 ## Next sequence item
 
-**P06-008-R2** — DOM slot markers on YES-binding MCP blocks ([handoff](./p06-008-r2-dom-slot-markers.md)). **PAS-001A-R1** deferred to PAS-001A family discussion (ERP integration spine — not kernel, not generic API contract).
+**PAS-001A-R1** — ERP protected-route render + operating-context spine (PAS-001A family; not PAS-006D).

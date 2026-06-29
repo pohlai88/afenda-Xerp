@@ -1,5 +1,6 @@
 import { CircleAlertIcon } from "lucide-react";
 import VerifyDialog from "@/components/shadcn-studio/blocks/dashboard-dialog-09/dialog-verify";
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -7,9 +8,11 @@ const TwoFactor = () => {
   return (
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
       {/* Vertical Tabs List */}
-      <div className="flex flex-col space-y-1">
-        <h3 className="font-semibold">Two Factor Authentication</h3>
-        <p className="text-muted-foreground text-sm">
+      <div {...blockSlotDomMarkerProps("profile.avatar")} className="flex flex-col space-y-1">
+        <h3 {...blockSlotDomMarkerProps("profile.displayName")} className="font-semibold">
+          Two Factor Authentication
+        </h3>
+        <p {...blockSlotDomMarkerProps("profile.email")} className="text-muted-foreground text-sm">
           Manage Two Factor Authentication (2FA) settings.
         </p>
       </div>
@@ -33,7 +36,7 @@ const TwoFactor = () => {
 
             <VerifyDialog
               trigger={
-                <Button className="max-sm:w-full">
+                <Button {...blockSlotDomMarkerProps("profile.save")} className="max-sm:w-full">
                   Enable Two Factor Authentication
                 </Button>
               }

@@ -21,8 +21,8 @@ paths:
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | `runtime_partial` (ADR-0027 skeleton) — IS-001 live; B111 consumer wire only; full spine **not** on skeleton |
-| **Remaining slices** | PAS-001A-R1 — [`PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) §1.4 |
+| **Runtime status** | `integration-proven` (IS-002 skeleton) · `runtime_partial` (IS-003 — R1c gate pending) — IS-001 live; R1a/R1b/R1d attestation archived |
+| **Remaining slices** | none for R1 family — R1c gate registration follow-up for §6 row 9 |
 | **Canonical** | [`PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) |
 
 > PAS-001: [`KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · Slices: [`KERNEL/SLICE/`](../../../docs/PAS/KERNEL/SLICE/README.md) · Index: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)

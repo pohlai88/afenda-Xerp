@@ -1,6 +1,7 @@
 import { ArrowDownIcon, ArrowUpIcon, EllipsisVerticalIcon } from "lucide-react";
 import type { ComponentType } from "react";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -32,10 +33,13 @@ type Props = {
 const TransactionsCard = ({ title, transactions, className }: Props) => (
   <Card className={cn("gap-8", className)}>
     <CardHeader className="flex items-center justify-between">
-      <span className="font-semibold text-lg">{title}</span>
+      <span {...blockSlotDomMarkerProps("widget.title")} className="font-semibold text-lg">
+        {title}
+      </span>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
+            {...blockSlotDomMarkerProps("widget.action")}
             className="size-6 rounded-full text-muted-foreground"
             size="icon"
             variant="ghost"
@@ -53,7 +57,7 @@ const TransactionsCard = ({ title, transactions, className }: Props) => (
         </DropdownMenuContent>
       </DropdownMenu>
     </CardHeader>
-    <CardContent className="flex flex-1 flex-col justify-between gap-4">
+    <CardContent {...blockSlotDomMarkerProps("widget.summary")} className="flex flex-1 flex-col justify-between gap-4">
       {transactions.map((transaction, index) => (
         <div className="flex items-center justify-between gap-2" key={index}>
           <div className="flex items-center justify-between gap-4">

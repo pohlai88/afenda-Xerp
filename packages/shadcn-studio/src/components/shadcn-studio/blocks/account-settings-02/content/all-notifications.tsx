@@ -2,6 +2,7 @@
 
 import { MailIcon, MonitorIcon, TabletSmartphoneIcon } from "lucide-react";
 import React, { useState } from "react";
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
@@ -147,9 +148,11 @@ const Notifications = () => {
   return (
     <section className="py-3">
       <div className="mx-auto max-w-7xl">
-        <div className="mb-6 space-y-1">
-          <h3 className="font-semibold">Notifications</h3>
-          <p className="text-muted-foreground text-sm">
+        <div {...blockSlotDomMarkerProps("profile.avatar")} className="mb-6 space-y-1">
+          <h3 {...blockSlotDomMarkerProps("profile.displayName")} className="font-semibold">
+            Notifications
+          </h3>
+          <p {...blockSlotDomMarkerProps("profile.email")} className="text-muted-foreground text-sm">
             Manage your notification settings and preferences.
           </p>
         </div>

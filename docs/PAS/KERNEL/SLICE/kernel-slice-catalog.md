@@ -55,16 +55,16 @@ PAS-001B: B76 → B106
 | B74 | [b74-metadata-context-authorization-bridge.md](./b74-metadata-context-authorization-bridge.md) | Delivered |
 | B75 | [b75-pas001a-production-candidate-attestation.md](./b75-pas001a-production-candidate-attestation.md) | Delivered |
 
-## PAS-001A-R1 — skeleton rebuild (proposed)
+## PAS-001A-R1 — skeleton rebuild (delivered — R1c gate follow-up)
 
-> ADR-0027 skeleton re-attestation. **Order:** R1a → R1b → R1c → R1d.
+> ADR-0027 skeleton re-attestation. **Order:** R1a → R1b → R1c → R1d. R1d attestation **9/10** (row 9 pending R1c gate).
 
 | Slice | Handoff | Status |
 | --- | --- | --- |
-| R1a | [pas-001a-r1a-is002-operating-context-spine.md](./pas-001a-r1a-is002-operating-context-spine.md) | **Proposed** |
-| R1b | [pas-001a-r1b-protected-app-router-shell.md](./pas-001a-r1b-protected-app-router-shell.md) | **Proposed** |
-| R1c | [pas-001a-r1c-metadata-consumer-pas006.md](./pas-001a-r1c-metadata-consumer-pas006.md) | **Proposed** |
-| R1d | [pas-001a-r1d-production-candidate-reclose.md](./pas-001a-r1d-production-candidate-reclose.md) | **Proposed** |
+| R1a | [pas-001a-r1a-is002-operating-context-spine.md](./pas-001a-r1a-is002-operating-context-spine.md) | **Delivered** |
+| R1b | [pas-001a-r1b-protected-app-router-shell.md](./pas-001a-r1b-protected-app-router-shell.md) | **Delivered** |
+| R1c | [pas-001a-r1c-metadata-consumer-pas006.md](./pas-001a-r1c-metadata-consumer-pas006.md) | **Proposed** *(gate pending)* |
+| R1d | [pas-001a-r1d-production-candidate-reclose.md](./pas-001a-r1d-production-candidate-reclose.md) | **Delivered** |
 
 ## PAS-001B — B76–B106 (delivered)
 

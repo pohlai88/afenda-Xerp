@@ -4,7 +4,7 @@
 
 **Prerequisite:** B71 Delivered (IS-001 live) · B111 Delivered (tenant lifecycle bridge) · ADR-0027 PAS-006 skeleton present
 
-**Status:** Proposed
+**Status:** Delivered
 
 **Type:** Implementation
 

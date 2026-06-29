@@ -1,5 +1,6 @@
 import { EllipsisVerticalIcon } from "lucide-react";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -23,7 +24,9 @@ const StatisticsOrdersProgressCard = ({
 }) => (
   <Card className={cn("gap-6", className)}>
     <CardHeader className="flex w-full items-center justify-between">
-      <span className="font-medium text-xl">Statistics</span>
+      <span {...blockSlotDomMarkerProps("metric.label")} className="font-medium text-xl">
+        Statistics
+      </span>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -48,11 +51,13 @@ const StatisticsOrdersProgressCard = ({
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <span className="font-semibold">Order placed</span>
-          <Badge className="rounded-sm bg-primary/10 text-primary">+11</Badge>
+          <Badge {...blockSlotDomMarkerProps("metric.change")} className="rounded-sm bg-primary/10 text-primary">
+            +11
+          </Badge>
         </div>
         <div className="space-y-2">
           <div className="flex items-center justify-between text-muted-foreground text-sm">
-            <span>12 New orders</span>
+            <span {...blockSlotDomMarkerProps("metric.value")}>12 New orders</span>
             <span>85%</span>
           </div>
           <Progress value={85} />

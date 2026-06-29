@@ -4,7 +4,7 @@
 
 **Prerequisite:** P06-008-R1 Delivered · P06-003 block slot registry Delivered
 
-**Status:** Proposed (scaffold reverted 2026-06-29 — gate/tests removed until block TSX marker pass)
+**Status:** Delivered (2026-06-29)
 
 **Type:** Implementation (presentation runtime hook)
 

@@ -17,6 +17,7 @@ import {
   YAxis,
 } from "recharts";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -235,10 +236,13 @@ const TotalRevenueCard = ({ className }: { className?: string }) => (
   <Card className={cn("grid lg:grid-cols-5", className)}>
     <div className="flex flex-col gap-4 max-lg:border-b max-lg:pb-6 lg:col-span-3 lg:border-r">
       <CardHeader className="flex justify-between">
-        <span className="font-semibold text-lg">Total Revenue</span>
+        <span {...blockSlotDomMarkerProps("chart.title")} className="font-semibold text-lg">
+          Total Revenue
+        </span>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
+              {...blockSlotDomMarkerProps("chart.legend")}
               className="size-6 rounded-full text-muted-foreground"
               size="icon"
               variant="ghost"
@@ -258,6 +262,7 @@ const TotalRevenueCard = ({ className }: { className?: string }) => (
       </CardHeader>
       <CardContent className="flex-1 max-[475px]:mx-auto lg:pr-10">
         <ChartContainer
+          {...blockSlotDomMarkerProps("chart.series")}
           className="h-full min-h-55 w-full max-[475px]:max-w-73 lg:min-h-75"
           config={totalEarningChartConfig}
         >

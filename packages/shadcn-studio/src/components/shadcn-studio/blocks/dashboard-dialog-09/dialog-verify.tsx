@@ -3,6 +3,7 @@
 import { MessageSquareTextIcon, SettingsIcon } from "lucide-react";
 import { type ReactNode, useState } from "react";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -172,7 +173,7 @@ const VerifyDialog = ({ defaultOpen = false, trigger, className }: Props) => {
 
   // Main Return
   return (
-    <>
+    <div>
       <Dialog onOpenChange={setOpen} open={open}>
         <DialogTrigger asChild onClick={() => setOpen(true)}>
           {trigger}
@@ -185,7 +186,7 @@ const VerifyDialog = ({ defaultOpen = false, trigger, className }: Props) => {
         >
           <ScrollArea className="flex max-h-full flex-col overflow-hidden">
             <div className="flex flex-col gap-4 p-6">
-              <DialogHeader className="items-center text-center">
+              <DialogHeader {...blockSlotDomMarkerProps("dialog.header")} className="items-center text-center">
                 <DialogTitle className="leading-7">
                   Select Authentication Method
                 </DialogTitle>
@@ -195,7 +196,7 @@ const VerifyDialog = ({ defaultOpen = false, trigger, className }: Props) => {
                 </DialogDescription>
               </DialogHeader>
 
-              <div className="flex flex-col gap-6">
+              <div {...blockSlotDomMarkerProps("dialog.body")} className="flex flex-col gap-6">
                 <RadioGroup
                   className="gap-6"
                   defaultValue="authenticator-app"
@@ -245,7 +246,7 @@ const VerifyDialog = ({ defaultOpen = false, trigger, className }: Props) => {
                 </RadioGroup>
               </div>
 
-              <DialogFooter className="justify-center gap-4">
+              <DialogFooter {...blockSlotDomMarkerProps("dialog.footer")} className="justify-center gap-4">
                 <Button onClick={handleContinue} size="lg">
                   Continue
                 </Button>
@@ -267,7 +268,7 @@ const VerifyDialog = ({ defaultOpen = false, trigger, className }: Props) => {
       <Dialog onOpenChange={setShowAuthDialog} open={showAuthDialog}>
         {authType === "sms" ? <SMSDialog /> : <AppDialog />}
       </Dialog>
-    </>
+    </div>
   );
 };
 

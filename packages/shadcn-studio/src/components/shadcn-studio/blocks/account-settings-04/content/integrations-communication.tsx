@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -62,9 +63,11 @@ const IntegrationsCommunication = () => {
     <div>
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
         {/* Vertical Tabs List */}
-        <div className="flex flex-col space-y-1">
-          <h3 className="font-semibold">Communications</h3>
-          <p className="text-muted-foreground text-sm">
+        <div {...blockSlotDomMarkerProps("profile.avatar")} className="flex flex-col space-y-1">
+          <h3 {...blockSlotDomMarkerProps("profile.displayName")} className="font-semibold">
+            Communications
+          </h3>
+          <p {...blockSlotDomMarkerProps("profile.email")} className="text-muted-foreground text-sm">
             Manage your communication integrations and settings.
           </p>
         </div>
@@ -240,7 +243,9 @@ const IntegrationsCommunication = () => {
 
                         {/* Right Sidebar */}
                         <div className="flex w-52 shrink-0 flex-col gap-5 border-l p-5 max-sm:w-full">
-                          <Button>Install now</Button>
+                          <Button {...blockSlotDomMarkerProps("profile.save")}>
+                            Install now
+                          </Button>
                           <div className="max-sm:hidden">
                             <p className="mb-2 font-semibold text-xs">
                               Works with

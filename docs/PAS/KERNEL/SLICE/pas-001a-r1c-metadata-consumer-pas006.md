@@ -6,7 +6,7 @@
 
 **Recommended:** P06-008-R2 Delivered (DOM slot markers) before full block hydration phase
 
-**Status:** Proposed
+**Status:** Delivered (2026-06-29)
 
 **Type:** Implementation
 
@@ -73,7 +73,7 @@ Handoff from: docs/PAS/KERNEL/SLICE/pas-001a-r1c-metadata-consumer-pas006.md
 | Phase | Delivers | Depends on |
 | --- | --- | --- |
 | **R1c-1 Projection** | Spine → runtime context → binding projection wire on metadata-workspace | R1b |
-| **R1c-2 Hydration** | Render PAS-006 blocks + map field values to `data-afenda-slot` | P06-008-R2 |
+| **R1c-2 Hydration** | Render PAS-006 blocks + map field values to `data-afenda-slot` | P06-008-R2 · **Delivered** |
 
 R1c-1 may ship before R2 with JSON projection preview (current page pattern). R1c-2 requires DOM slot markers for enterprise metadata-driven UI target.
 

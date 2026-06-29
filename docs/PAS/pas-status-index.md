@@ -21,7 +21,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Gates** | `pnpm --filter @afenda/kernel typecheck`, `pnpm --filter @afenda/kernel test:run`, `pnpm quality:kernel-context-surface`, `pnpm check:kernel-context-wire-triad`, `pnpm check:kernel-identity-governance`, `pnpm check:kernel-zero-runtime-deps`, `pnpm check:accounting-domain-contracts`, `pnpm check:foundation-disposition`, `pnpm quality:boundaries`, `pnpm architecture:cycles`, `pnpm architecture:drift` |
 | **Result** | Kernel platform vocabulary, execution context, identity constitution (ADR-0021–0023), and PAS §6.1 package-tree sync operational |
 
-**Next sequence item:** PAS-001A-R1 spine rebuild on PAS-006 skeleton — see [PAS-001A](#pas-001a-kernel-erp-consumer-integration--production-candidate) §1.4 · [PAS-006 PRESENTATION](PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) protected-route track.
+**Next sequence item:** none for PAS-001A-R1 family — closed at 10/10 §6 attestation.
 
 | Slice | Doc | Status |
 | --- | --- | --- |
@@ -47,33 +47,33 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 ---
 
-## PAS-001A Kernel ERP Consumer Integration — Production Candidate (doctrine) · Runtime partial (ADR-0027)
+## PAS-001A Kernel ERP Consumer Integration — Production Candidate (doctrine) · Integration-proven IS-002 (ADR-0027)
 
 | Field | Value |
 | --- | --- |
-| **Status** | B71–B75 historical closure on pre-reset ERP · **skeleton consumer** B111 delivered · **full spine suspended** pending PAS-001A-R1 |
+| **Status** | B71–B75 historical closure on pre-reset ERP · **skeleton R1a–R1c/R1d delivered** · IS-003 live on PAS-006 skeleton |
 | **Authority** | PAS-001A · derived from PAS-001 · `apps/erp/src/lib/context/` |
-| **Maturity** | `production_candidate` (doctrine) · `runtime_partial` (skeleton) · `historical_delivered` (B71–B75) |
-| **Runtime status** | IS-001 live in `@afenda/permissions`; IS-002/IS-003 partial — `TENANT_LIFECYCLE_BRIDGE_WIRING` only; no `resolve-operating-context.server.ts` on skeleton |
-| **Remaining slices** | [R1a](KERNEL/SLICE/pas-001a-r1a-is002-operating-context-spine.md) IS-002 spine · [R1b](KERNEL/SLICE/pas-001a-r1b-protected-app-router-shell.md) protected shell · [R1c](KERNEL/SLICE/pas-001a-r1c-metadata-consumer-pas006.md) PAS-006 metadata · [R1d](KERNEL/SLICE/pas-001a-r1d-production-candidate-reclose.md) §6 re-close |
-| **Runtime evidence** | [KERNEL/PAS-001A](KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) §1.4 · §6.1, `context-integration-registry.ts`, `check:erp-operating-context-spine` (slim), `check:erp-tenant-lifecycle-extension-consumer-attestation`, `check:permission-scope-permissions-surface` |
-| **Gates** | Active: PAS-001A §0 rows 1–8, 10–11, 12–14, 16 · Archived: 9, 15 (legacy frontend) |
-| **Result** | Kernel consumer **doctrine** intact; **live ERP end-to-end spine proof** not restored until protected-route rebuild |
+| **Maturity** | `production_candidate` (doctrine) · `integration-proven` (IS-002 + IS-003 skeleton) · `historical_delivered` (B71–B75) |
+| **Runtime status** | IS-001 live; IS-002 full spine + protected shell (R1a/R1b gates green); IS-003 metadata consumer gate `check:erp-metadata-pas006-consumer` active |
+| **Remaining slices** | none for R1 family |
+| **Runtime evidence** | [KERNEL/PAS-001A](KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) §1.4 · §6.1, `context-integration-registry.ts`, `hydrate-metadata-binding-slots.server.ts`, [R1d attestation](KERNEL/SLICE/pas-001a-r1d-production-candidate-reclose.md#r1d-attestation-appendix-archived-gate-bundle-2026-06-29) |
+| **Gates** | Active: PAS-001A §0 rows 1–8, 10–11, 12–14, 16 · R1: `check:erp-operating-context-spine`, `check:erp-auth-actor-protected-path-attestation`, `check:erp-metadata-pas006-consumer` · Archived: 9, 15 (legacy frontend) |
+| **Result** | Kernel consumer **doctrine** intact; **IS-002 + IS-003 skeleton integration-proven** on PAS-006 ERP metadata workspace |
 
-**Next sequence item:** PAS-001A-R1a → R1b → R1c → R1d ([kernel slice catalog](KERNEL/SLICE/kernel-slice-catalog.md#pas-001a-r1--skeleton-rebuild-proposed)).
+**Next sequence item:** none for PAS-001A-R1 family — presentation metadata runtime continues under PAS-006D.
 
 | Slice | Doc | Status |
 | --- | --- | --- |
 | B71 | [b71-permission-scope-permissions-parser.md](KERNEL/SLICE/b71-permission-scope-permissions-parser.md) | Delivered (historical) |
-| B72 | [b72-erp-operating-context-spine-gate.md](KERNEL/SLICE/b72-erp-operating-context-spine-gate.md) | Delivered (historical) · gate slim on skeleton |
+| B72 | [b72-erp-operating-context-spine-gate.md](KERNEL/SLICE/b72-erp-operating-context-spine-gate.md) | Delivered (historical) · gate active on skeleton |
 | B73 | [b73-kernel-erp-doc-drift-closure.md](KERNEL/SLICE/b73-kernel-erp-doc-drift-closure.md) | Delivered |
 | B74 | [b74-metadata-context-authorization-bridge.md](KERNEL/SLICE/b74-metadata-context-authorization-bridge.md) | Delivered (historical) · bridge archived ADR-0027 |
 | B75 | [b75-pas001a-production-candidate-attestation.md](KERNEL/SLICE/b75-pas001a-production-candidate-attestation.md) | Delivered (historical — pre-reset ERP) |
 | B111 | [b111-tenant-lifecycle-extension-consumer-attestation.md](KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md) | Delivered (skeleton consumer) |
-| R1a | [pas-001a-r1a-is002-operating-context-spine.md](KERNEL/SLICE/pas-001a-r1a-is002-operating-context-spine.md) | **Proposed** |
-| R1b | [pas-001a-r1b-protected-app-router-shell.md](KERNEL/SLICE/pas-001a-r1b-protected-app-router-shell.md) | **Proposed** |
-| R1c | [pas-001a-r1c-metadata-consumer-pas006.md](KERNEL/SLICE/pas-001a-r1c-metadata-consumer-pas006.md) | **Proposed** |
-| R1d | [pas-001a-r1d-production-candidate-reclose.md](KERNEL/SLICE/pas-001a-r1d-production-candidate-reclose.md) | **Proposed** |
+| R1a | [pas-001a-r1a-is002-operating-context-spine.md](KERNEL/SLICE/pas-001a-r1a-is002-operating-context-spine.md) | **Delivered** |
+| R1b | [pas-001a-r1b-protected-app-router-shell.md](KERNEL/SLICE/pas-001a-r1b-protected-app-router-shell.md) | **Delivered** |
+| R1c | [pas-001a-r1c-metadata-consumer-pas006.md](KERNEL/SLICE/pas-001a-r1c-metadata-consumer-pas006.md) | **Delivered** |
+| R1d | [pas-001a-r1d-production-candidate-reclose.md](KERNEL/SLICE/pas-001a-r1d-production-candidate-reclose.md) | **Delivered** *(10/10 attestation)* |
 
 ---
 
@@ -90,7 +90,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Gates** | `pnpm check:erp-domain-layout`, `pnpm check:erp-domain-delivered-vocabulary`, `pnpm check:accounting-domain-contracts`, `pnpm check:inventory-domain-contracts`, `pnpm check:procurement-domain-contracts`, `pnpm --filter @afenda/kernel typecheck`, `pnpm check:foundation-disposition` |
 | **Result** | 28/28 vocabulary modules delivered; Rule 1–3 enforced |
 
-**Next sequence item:** none for catalog — **PAS-001A-R1** (ERP spine) is the only open kernel-family consumer slice; see [PAS-001A](#pas-001a-kernel-erp-consumer-integration--production-candidate-doctrine--runtime-partial-adr-0027).
+**Next sequence item:** none for catalog — PAS-001A-R1 family closed; see [PAS-001A](#pas-001a-kernel-erp-consumer-integration--production-candidate-doctrine--integration-proven-is-002-adr-0027).
 
 | Slice | Doc | Status |
 | --- | --- | --- |
@@ -144,12 +144,12 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Authority** | PAS-006 family · PKG-026 · `@afenda/shadcn-studio` |
 | **Family index** | [`PRESENTATION/README.md`](PRESENTATION/README.md) |
 | **Maturity** | **Enterprise Accepted** — PKGR05A promoted (P06-010 + foundation-registry-owner) |
-| **Runtime authority today** | PAS-006 family slices P06-001–P06-010 delivered; **P06-008-R1** metadata binding enforcement (registry-first YES/NO matrix) |
-| **Proposed extensions** | PAS-006B (inventory) · PAS-006C (ACPA acceptance) · PAS-006D (metadata surfaces) — **runtime delivered**; P06-008-R1 enforcement **live** |
-| **Runtime status** | ERP skeleton + metadata/context wire + studio registries (inventory, slots, lifecycle, acceptance, surface templates); legacy UI packages **deleted** |
-| **Remaining slices** | **None** — family slice catalog complete; P06-008-R2 (DOM slot markers) deferred; disposition promotion is registry-owner scope |
+| **Runtime authority today** | PAS-006 family slices P06-001–P06-010 delivered; **P06-008-R1 + P06-008-R2** metadata binding + DOM slot enforcement |
+| **Proposed extensions** | PAS-006B (inventory) · PAS-006C (ACPA acceptance) · PAS-006D (metadata surfaces) — **runtime delivered**; P06-008-R1/R2 enforcement **live** |
+| **Runtime status** | ERP skeleton + metadata/context wire + studio registries (inventory, slots, lifecycle, acceptance, surface templates, **metadata binding + DOM slot markers**); legacy UI packages **deleted** |
+| **Remaining slices** | **None** for PAS-006D — P06-008-R2 delivered; PAS-001A-R1 deferred (PAS-001A); disposition promotion is registry-owner scope |
 | **Runtime evidence** | [PAS family](PRESENTATION/README.md), [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md), [North star](../NORTHSTAR/shadcn-studio-presentation-north-star.md), [Blueprint](../BLUEPRINT/shadcn-studio-presentation-blueprint.md), `packages/shadcn-studio/`, `apps/erp/src/lib/metadata/`, `apps/erp/src/lib/auth/` |
-| **Gates (006 family live)** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm check:studio-inventory-lifecycle`, `pnpm check:studio-block-acpa-acceptance`, `pnpm check:studio-auth-surface-wcag-aa`, `pnpm check:studio-metadata-binding`, `pnpm check:package-css-dist-sync`, `pnpm quality:boundaries`, `pnpm check:documentation-drift`, `pnpm check:foundation-disposition` |
+| **Gates (006 family live)** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm check:studio-inventory-lifecycle`, `pnpm check:studio-block-acpa-acceptance`, `pnpm check:studio-auth-surface-wcag-aa`, `pnpm check:studio-metadata-binding`, `pnpm check:studio-block-slot-markers`, `pnpm check:package-css-dist-sync`, `pnpm quality:boundaries`, `pnpm check:documentation-drift`, `pnpm check:foundation-disposition` |
 | **Result** | Five-PAS manufacturing family; single CSS chain; metadata-driven UI path operational (PAS-006D) |
 
 **Next sequence item:** **None for PAS-006 family** — database-backed metadata operating context + full MCP slot-template families delivered.

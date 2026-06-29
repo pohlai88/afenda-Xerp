@@ -303,6 +303,9 @@ importers:
       '@afenda/observability':
         specifier: workspace:*
         version: link:../../packages/observability
+      '@afenda/permissions':
+        specifier: workspace:*
+        version: link:../../packages/permissions
       '@afenda/shadcn-studio':
         specifier: workspace:*
         version: link:../../packages/shadcn-studio

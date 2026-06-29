@@ -1,3 +1,4 @@
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import LoginForm from "@/components/shadcn-studio/blocks/login-page-04/login-form";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -6,7 +7,10 @@ const Login = () => {
   return (
     <div className="h-dvh lg:grid lg:grid-cols-2">
       {/* Dashboard Preview */}
-      <div className="flex flex-col items-center justify-between gap-12 bg-primary p-10 max-lg:hidden xl:p-16">
+      <div
+        {...blockSlotDomMarkerProps("login.branding")}
+        className="flex flex-col items-center justify-between gap-12 bg-primary p-10 max-lg:hidden xl:p-16"
+      >
         <div className="text-primary-foreground">
           <h1 className="mb-6 font-bold text-3xl">
             Welcome back! Please sign in to your Shadcn Studio account

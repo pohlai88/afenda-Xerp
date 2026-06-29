@@ -34,6 +34,7 @@ import {
 } from "lucide-react";
 import { useId, useMemo, useState } from "react";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -243,7 +244,10 @@ const columns: ColumnDef<Item>[] = [
     id: "actions",
     header: () => "Actions",
     cell: () => (
-      <div className="flex items-center justify-center gap-1">
+      <div
+        {...blockSlotDomMarkerProps("table.actions")}
+        className="flex items-center justify-center gap-1"
+      >
         <Tooltip>
           <TooltipTrigger asChild>
             <Button aria-label="Delete item" size="icon" variant="ghost">
@@ -348,7 +352,7 @@ const InvoiceDatatable = ({ data }: { data: Item[] }) => {
           </div>
         </div>
         <Table>
-          <TableHeader>
+          <TableHeader {...blockSlotDomMarkerProps("table.header")}>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow className="h-14 border-t" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -407,7 +411,7 @@ const InvoiceDatatable = ({ data }: { data: Item[] }) => {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody {...blockSlotDomMarkerProps("table.rows")}>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow

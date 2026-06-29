@@ -17,6 +17,7 @@
     "@afenda/database": "workspace:*",
     "@afenda/kernel": "workspace:*",
     "@afenda/observability": "workspace:*",
+    "@afenda/permissions": "workspace:*",
     "@afenda/shadcn-studio": "workspace:*",
     "better-auth": "^1.6.19",
     "next": "catalog:",

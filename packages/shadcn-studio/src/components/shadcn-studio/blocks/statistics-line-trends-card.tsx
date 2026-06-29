@@ -2,6 +2,7 @@
 
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   type ChartConfig,
@@ -43,25 +44,43 @@ const MetricTrendCard = ({
   return (
     <Card className={cn("gap-4", className)}>
       <CardHeader className="grid-rows-none">
-        <CardTitle className="font-medium">{title}</CardTitle>
+        <CardTitle {...blockSlotDomMarkerProps("metric.label")} className="font-medium">
+          {title}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="flex gap-6 max-sm:flex-col sm:items-center">
           <div className="flex gap-4 max-sm:justify-between sm:flex-col">
-            {series.map((data, index) => (
-              <div className="flex items-center gap-2" key={index}>
-                <div
-                  className="h-9 w-1 rounded-sm"
-                  style={{ backgroundColor: data.color }}
-                />
-                <div>
-                  <p className="text-muted-foreground text-xs">{data.label}</p>
-                  <p className="font-semibold text-2xl">
-                    {data.value.toLocaleString()}
-                  </p>
-                </div>
+            <div className="flex items-center gap-2">
+              <div
+                className="h-9 w-1 rounded-sm"
+                style={{ backgroundColor: series[0].color }}
+              />
+              <div>
+                <p className="text-muted-foreground text-xs">{series[0].label}</p>
+                <p
+                  {...blockSlotDomMarkerProps("metric.value")}
+                  className="font-semibold text-2xl"
+                >
+                  {series[0].value.toLocaleString()}
+                </p>
               </div>
-            ))}
+            </div>
+            <div className="flex items-center gap-2">
+              <div
+                className="h-9 w-1 rounded-sm"
+                style={{ backgroundColor: series[1].color }}
+              />
+              <div>
+                <p className="text-muted-foreground text-xs">{series[1].label}</p>
+                <p
+                  {...blockSlotDomMarkerProps("metric.change")}
+                  className="font-semibold text-2xl"
+                >
+                  {series[1].value.toLocaleString()}
+                </p>
+              </div>
+            </div>
           </div>
 
           <ChartContainer className="h-28 min-w-0 flex-1" config={chartConfig}>

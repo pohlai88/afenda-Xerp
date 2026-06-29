@@ -17,9 +17,11 @@ describe("resolveMetadataWorkspaceSurfaces (PAS-006D ERP bridge)", () => {
 
     for (const surface of surfaces) {
       expect(surface.bindingProjection).toBeDefined();
+      expect(surface.slotHydration).toBeDefined();
       expect(
         surface.bindingProjection?.matchedBlockDataFieldCount
       ).toBeGreaterThan(0);
+      expect(surface.slotHydration?.slotTargets.length).toBeGreaterThan(0);
       expect(() => JSON.stringify(surface)).not.toThrow();
     }
   });

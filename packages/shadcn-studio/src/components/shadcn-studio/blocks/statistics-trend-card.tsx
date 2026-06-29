@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import { Area, AreaChart, Tooltip } from "recharts";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Card, CardContent } from "@/components/ui/card";
 import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 
@@ -76,13 +77,16 @@ const StatisticsTrendCard = <T extends Record<string, unknown>>({
   return (
     <Card className={className}>
       <CardContent className="flex flex-col gap-1.5">
-        <span className="text-muted-foreground text-sm">{title}</span>
-        <span className="font-bold text-3xl tracking-tight">
+        <span {...blockSlotDomMarkerProps("metric.label")} className="text-muted-foreground text-sm">
+          {title}
+        </span>
+        <span {...blockSlotDomMarkerProps("metric.value")} className="font-bold text-3xl tracking-tight">
           {fmt(currVal, format)}
         </span>
         <div className="flex items-center justify-between pb-2">
           <span className="text-muted-foreground text-sm">On {dateLabel}</span>
           <span
+            {...blockSlotDomMarkerProps("metric.change")}
             className={cn(
               "font-medium text-sm tabular-nums",
               isPositive ? "text-emerald-600" : "text-red-500"

@@ -1,3 +1,4 @@
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -13,7 +14,10 @@ const HeroSection = () => {
           </span>
         </div>
 
-        <h1 className="text-balance font-bold text-3xl leading-[1.29167] sm:text-4xl lg:text-5xl">
+        <h1
+          {...blockSlotDomMarkerProps("hero.title")}
+          className="text-balance font-bold text-3xl leading-[1.29167] sm:text-4xl lg:text-5xl"
+        >
           Sizzling Summer Delights
           <br />
           <span className="relative">
@@ -50,14 +54,17 @@ const HeroSection = () => {
           Recipes for Parties!
         </h1>
 
-        <p className="text-muted-foreground">
+        <p
+          {...blockSlotDomMarkerProps("hero.subtitle")}
+          className="text-muted-foreground"
+        >
           Dive into a world of flavor this summer with our collection of
           Sizzling Summer Delights!
           <br />
           From refreshing appetizers to delightful desserts
         </p>
 
-        <Button asChild size="lg">
+        <Button {...blockSlotDomMarkerProps("hero.cta")} asChild size="lg">
           <a href="#">Try It Now</a>
         </Button>
       </div>

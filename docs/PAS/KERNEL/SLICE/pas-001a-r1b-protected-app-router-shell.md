@@ -4,7 +4,9 @@
 
 **Prerequisite:** PAS-001A-R1a Proposed → Delivered (IS-002 spine live)
 
-**Status:** Proposed
+**Status:** Delivered
+
+**Delivered:** 2026-06-29
 
 **Type:** Implementation
 

@@ -1,3 +1,4 @@
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 
@@ -32,9 +33,11 @@ const Billing = () => {
   return (
     <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
       {/* Vertical Tabs List */}
-      <div className="flex flex-col space-y-1">
-        <h3 className="font-semibold">Billing</h3>
-        <p className="text-muted-foreground text-sm">
+      <div {...blockSlotDomMarkerProps("profile.avatar")} className="flex flex-col space-y-1">
+        <h3 {...blockSlotDomMarkerProps("profile.displayName")} className="font-semibold">
+          Billing
+        </h3>
+        <p {...blockSlotDomMarkerProps("profile.email")} className="text-muted-foreground text-sm">
           Overview of current billing cycle based on fixed and on-demand
           charges.
         </p>

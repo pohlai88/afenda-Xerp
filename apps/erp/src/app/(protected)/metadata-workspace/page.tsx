@@ -1,3 +1,4 @@
+import { getAfendaAuthSession } from "@afenda/auth";
 import {
   Card,
   CardContent,
@@ -7,7 +8,9 @@ import {
 } from "@afenda/shadcn-studio";
 import { headers } from "next/headers";
 
+import { MetadataBindingSlotHydrationPreview } from "@/components/metadata/metadata-binding-slot-hydration-preview.client";
 import { resolveOperatingContextFromHeaders } from "@/lib/context/resolve-operating-context-from-headers.server";
+import { resolveMetadataActorUserIdFromAfendaAuthSession } from "@/lib/metadata/resolve-metadata-auth-actor.server";
 import { resolveMetadataUiRenderContextFromTenantContext } from "@/lib/metadata/resolve-metadata-ui-render-context.server";
 import { resolveMetadataWorkspaceSurfaces } from "@/lib/metadata/resolve-metadata-workspace-surfaces.server";
 
@@ -17,6 +20,7 @@ export const metadata = {
 
 export default async function MetadataWorkspacePage() {
   const requestHeaders = await headers();
+  const session = await getAfendaAuthSession(requestHeaders);
   const operatingResult = await resolveOperatingContextFromHeaders({
     requestHeaders,
   });
@@ -32,9 +36,14 @@ export default async function MetadataWorkspacePage() {
     );
   }
 
+  const actorId =
+    session === null
+      ? operatingResult.value.actor.userId
+      : resolveMetadataActorUserIdFromAfendaAuthSession(session);
+
   const runtime = resolveMetadataUiRenderContextFromTenantContext({
     tenant: operatingResult.value.tenant,
-    actorId: operatingResult.value.actor.userId,
+    actorId,
     correlationId: operatingResult.value.correlationId,
   });
 
@@ -59,25 +68,50 @@ export default async function MetadataWorkspacePage() {
                 {surface.surfaceTemplate.metadataBindingId}
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-3 text-sm">
-              <div>
-                <p className="font-medium">Block bindings</p>
-                <pre className="mt-1 overflow-x-auto rounded-md bg-muted p-3 text-xs">
-                  {JSON.stringify(
-                    surface.surfaceTemplate.blockBindings,
-                    null,
-                    2
-                  )}
-                </pre>
-              </div>
-              {surface.bindingProjection === undefined ? null : (
-                <div>
-                  <p className="font-medium">Binding projection</p>
-                  <pre className="mt-1 overflow-x-auto rounded-md bg-muted p-3 text-xs">
-                    {JSON.stringify(surface.bindingProjection, null, 2)}
-                  </pre>
+            <CardContent className="space-y-4 text-sm">
+              {surface.slotHydration === undefined ? null : (
+                <div className="space-y-2">
+                  <p className="font-medium">Live block preview (PAS-006)</p>
+                  <div className="overflow-x-auto rounded-md border bg-background p-4">
+                    <MetadataBindingSlotHydrationPreview
+                      slotHydration={surface.slotHydration}
+                    />
+                  </div>
                 </div>
               )}
+              <details className="rounded-md border bg-muted/30 p-3">
+                <summary className="cursor-pointer font-medium">
+                  Diagnostics wire (serializable)
+                </summary>
+                <div className="mt-3 space-y-3">
+                  <div>
+                    <p className="font-medium">Block bindings</p>
+                    <pre className="mt-1 overflow-x-auto rounded-md bg-muted p-3 text-xs">
+                      {JSON.stringify(
+                        surface.surfaceTemplate.blockBindings,
+                        null,
+                        2
+                      )}
+                    </pre>
+                  </div>
+                  {surface.bindingProjection === undefined ? null : (
+                    <div>
+                      <p className="font-medium">Binding projection</p>
+                      <pre className="mt-1 overflow-x-auto rounded-md bg-muted p-3 text-xs">
+                        {JSON.stringify(surface.bindingProjection, null, 2)}
+                      </pre>
+                    </div>
+                  )}
+                  {surface.slotHydration === undefined ? null : (
+                    <div>
+                      <p className="font-medium">Slot hydration wire</p>
+                      <pre className="mt-1 overflow-x-auto rounded-md bg-muted p-3 text-xs">
+                        {JSON.stringify(surface.slotHydration, null, 2)}
+                      </pre>
+                    </div>
+                  )}
+                </div>
+              </details>
             </CardContent>
           </Card>
         ))}

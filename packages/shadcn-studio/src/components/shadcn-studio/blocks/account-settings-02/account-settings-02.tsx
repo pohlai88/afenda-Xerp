@@ -1,3 +1,4 @@
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import Notifications from "@/components/shadcn-studio/blocks/account-settings-02/content/all-notifications";
 import BrowserNotification from "@/components/shadcn-studio/blocks/account-settings-02/content/browser-notification";
 import DoNotDisturb from "@/components/shadcn-studio/blocks/account-settings-02/content/do-not-disturb";
@@ -15,7 +16,7 @@ const NotificationsPage = () => (
     <Separator className="my-10" />
     <DoNotDisturb />
     <div className="mt-6 flex justify-end">
-      <Button className="max-sm:w-full" type="submit">
+      <Button {...blockSlotDomMarkerProps("profile.save")} className="max-sm:w-full" type="submit">
         Save Changes
       </Button>
     </div>

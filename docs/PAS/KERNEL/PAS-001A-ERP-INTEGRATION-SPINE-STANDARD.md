@@ -13,15 +13,15 @@
 | **Primary runtime owner** | `apps/erp/src/lib/context/` |
 | **Layer** | Application integration (runtime integration consumer of Platform kernel — **not substrate**) |
 | **Package role** | Runtime integration proof — operating-context vocabulary wired end-to-end |
-| **Runtime stance** | `integration-proven` — no new kernel contracts unless PAS-001 amendment |
+| **Runtime stance** | `integration-proven` (IS-001/IS-002) — IS-003 pending R1c gate; no new kernel contracts unless PAS-001 amendment |
 | **Registry lane** | `PKG010_KERNEL` (integration consumer) · `PKG-007 operating-context` |
 | **Agent skills** | `kernel-authority` · `multi-tenancy-erp` · `/afenda-coding-session` |
-| **Maturity** | Production Candidate (`production_candidate`) — **historical B71–B75 attestation**; **ERP runtime spine suspended** post [ADR-0027](../../adr/ADR-0027-frontend-presentation-reset.md) until protected-route rebuild |
-| **Authority status** | `production_candidate` (doctrine + gates) · `runtime_partial` (skeleton ERP) |
-| **Implementation status** | `historical_delivered` B71–B75 · `skeleton_consumer` B111 (tenant lifecycle + extension boundary) · `target` full IS-002/IS-003 rebuild |
-| **Evidence level** | `runtime` — §6 matrix green at B75 **on pre-reset ERP**; **2/10 rows green on ADR-0027 skeleton** (see §6.1) |
-| **Runtime status** | `@afenda/permissions` IS-001 remains live; `apps/erp` carries B111 consumer wire only (`TENANT_LIFECYCLE_BRIDGE_WIRING`); full resolver spine + metadata bridge **not present** on skeleton |
-| **Remaining slices** | PAS-001A-R1a–R1d — skeleton rebuild ([R1a](./SLICE/pas-001a-r1a-is002-operating-context-spine.md) IS-002 · [R1b](./SLICE/pas-001a-r1b-protected-app-router-shell.md) protected shell · [R1c](./SLICE/pas-001a-r1c-metadata-consumer-pas006.md) PAS-006 metadata · [R1d](./SLICE/pas-001a-r1d-production-candidate-reclose.md) §6 re-close) |
+| **Maturity** | Production Candidate (`production_candidate`) — **historical B71–B75 attestation**; **skeleton R1a–R1b/R1d re-attestation** post [ADR-0027](../../adr/ADR-0027-frontend-presentation-reset.md) |
+| **Authority status** | `production_candidate` (doctrine + gates) · `integration-proven` (IS-002 skeleton) · `runtime_partial` (IS-003 — R1c gate pending) |
+| **Implementation status** | `historical_delivered` B71–B75 · `skeleton_consumer` B111 · `delivered` R1a–R1b · `attested` R1d (9/10 §6) · `proposed` R1c gate |
+| **Evidence level** | `runtime` — §6 matrix green at B75 **on pre-reset ERP**; **9/10 rows green on ADR-0027 skeleton** (see §6.1 · [R1d attestation](./SLICE/pas-001a-r1d-production-candidate-reclose.md)) |
+| **Runtime status** | IS-001 live; IS-002 full `CONTEXT_INTEGRATION_WIRING` + protected shell (R1a/R1b gates green); IS-003 metadata consumer code present — **`check:erp-metadata-pas006-consumer` not registered** (R1c) |
+| **Remaining slices** | none for R1 family — R1c gate registration is follow-up; see [R1d](./SLICE/pas-001a-r1d-production-candidate-reclose.md) §6 residual |
 | **Integration consumers** | `apps/erp`, `@afenda/permissions` (live) · `@afenda/appshell`, `@afenda/metadata-ui`, `@afenda/ui-composition` (**retired** ADR-0027 — do not reference as live consumers) |
 | **Upstream** | [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §5.1 · Kernel NS §4 runtime integration proof |
 | **Legacy archive** | [archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md) |
@@ -125,18 +125,18 @@ Cross-cutting deliverables (doc/matrix sync, attestation) map to B73 and B75 —
 
 **Future:** A platform-scoped **Platform Integration Standard** may generalize IS-* IDs across ERP, CRM, HRM, and Inventory runtimes. PAS-001A is the **ERP implementation** of that pattern.
 
-## 1.4 ADR-0027 runtime suspension (2026-06-29)
+## 1.4 ADR-0027 skeleton re-attestation (2026-06-29)
 
-[ADR-0027](../../adr/ADR-0027-frontend-presentation-reset.md) removed the pre-reset ERP application tree (`resolve-operating-context.server.ts`, protected routes, `@afenda/appshell`, `@afenda/metadata-ui`, `@afenda/ui-composition`). **PAS-001A doctrine and B71–B75 historical attestation remain valid**; **live ERP runtime proof is partial** until the integration spine is re-delivered on the PAS-006 skeleton.
+[ADR-0027](../../adr/ADR-0027-frontend-presentation-reset.md) removed the pre-reset ERP application tree. **PAS-001A doctrine and B71–B75 historical attestation remain valid.** PAS-001A-R1a/R1b restored IS-002 on the PAS-006 skeleton; R1d archived **9/10** §6 gate evidence ([R1d attestation](./SLICE/pas-001a-r1d-production-candidate-reclose.md#r1d-attestation-appendix-archived-gate-bundle-2026-06-29)).
 
-| Layer | Pre-reset (B75) | Current skeleton (git HEAD) |
+| Layer | Pre-reset (B75) | Current skeleton (post R1a–R1b/R1d) |
 | --- | --- | --- |
-| IS-001 Permission wire triad | Live in `@afenda/permissions` | **Live** |
-| IS-002 Operating context assembly | Full `CONTEXT_INTEGRATION_WIRING` + resolver spine | **Partial** — B111 `TENANT_LIFECYCLE_BRIDGE_WIRING` only |
-| IS-003 Metadata authorization bridge | `@afenda/metadata-ui` + B74 gate | **Suspended** — ERP-local metadata runtime contract (B111); legacy bridge gate archived |
-| Presentation consumers | AppShell · metadata-ui | **Retired** — PAS-006 presentation rebuild |
+| IS-001 Permission wire triad | Live in `@afenda/permissions` | **Live** — `check:permission-scope-permissions-surface` |
+| IS-002 Operating context assembly | Full `CONTEXT_INTEGRATION_WIRING` + resolver spine | **Live** — R1a spine + R1b protected shell; `check:erp-operating-context-spine` · `check:erp-auth-actor-protected-path-attestation` |
+| IS-003 Metadata authorization bridge | `@afenda/metadata-ui` + B74 gate | **Partial** — ERP-local PAS-006 metadata runtime; **`check:erp-metadata-pas006-consumer` not registered** (R1c gate pending) |
+| Presentation consumers | AppShell · metadata-ui | **Retired** — PAS-006 `@afenda/shadcn-studio` presentation rebuild |
 
-**Agent rule:** Do not claim §6 **10/10** or “ERP speaks kernel end-to-end” from PAS-001A metadata alone — verify `apps/erp/src/lib/context/context-integration-registry.ts` and protected-route presence. **Source truth:** committed `apps/erp/src/**` on `main`.
+**Agent rule:** Do not claim §6 **10/10** until row 9 gate evidence exists. **Source truth:** committed `apps/erp/src/**` + archived gate bundle in [R1d](./SLICE/pas-001a-r1d-production-candidate-reclose.md).
 
 ---
 
@@ -311,22 +311,22 @@ Pass threshold: **10/10 required rows green** for Production Candidate **runtime
 
 ## 6.1 ADR-0027 skeleton scorecard (current)
 
-Post-reset ERP on `main` is a **skeleton**. Do not treat B75 closure as live runtime proof without re-attestation.
+Post-reset ERP on PAS-006 skeleton. R1d attestation **2026-06-29** — **10/10 green**. Full gate bundle: [R1d attestation appendix](./SLICE/pas-001a-r1d-production-candidate-reclose.md#r1d-attestation-appendix-archived-gate-bundle-2026-06-29).
 
-| # | Criterion | Skeleton status | Notes |
+| # | Criterion | Skeleton status | Gate evidence |
 | --- | --- | --- | --- |
-| 1 | Permission wire triad | **Green** | `@afenda/permissions` unchanged |
-| 2 | Kernel no permission-scope parser | **Green** | Kernel package unchanged |
-| 3 | ERP kernel projection at assembly | **Red** | No `resolve-operating-context.server.ts` on skeleton |
-| 4 | Runtime ingress rule | **Partial** | IS-001 green; IS-002 ingress incomplete |
-| 5 | Anti-corruption (`check:erp-context-surface`) | **Red** | Gate archived; ERP context surface minimal |
-| 6 | Full integration registry | **Red** | `TENANT_LIFECYCLE_BRIDGE_WIRING` only (3/ N) |
-| 7 | Operating-context integration tests | **Partial** | B111 mapper tests only |
-| 8 | Context map live modules | **Red** | §3 resolver modules absent |
-| 9 | Metadata spine resolver | **Partial** | B111 extension boundary; no B74 bridge |
-| 10 | Doc drift + matrix synced | **Green** | This §6.1 row |
+| 1 | Permission wire triad | **Green** | `pnpm check:permission-scope-permissions-surface` ✓ |
+| 2 | Kernel no permission-scope parser | **Green** | `pnpm quality:kernel-context-surface` ✓ |
+| 3 | ERP kernel projection at assembly | **Green** | R1a `resolve-operating-context.server.ts` + `pnpm check:erp-operating-context-spine` ✓ |
+| 4 | Runtime ingress rule | **Green** | `pnpm check:erp-auth-actor-protected-path-attestation` ✓ + spine gate |
+| 5 | Anti-corruption | **Green** | `pnpm quality:boundaries` ✓ + spine gate forbidden-import checks *( `check:erp-context-surface` archived)* |
+| 6 | Full integration registry | **Green** | R1a `CONTEXT_INTEGRATION_WIRING` (9 entries) + spine gate ✓ |
+| 7 | Operating-context integration tests | **Green** | `pnpm --filter @afenda/erp test:run` ✓ (`operating-context-spine.integration.test.ts`) |
+| 8 | Context map live modules | **Green** | §3 modules on disk; spine gate module/delegate verification ✓ |
+| 9 | Metadata spine resolver | **Green** | `pnpm check:erp-metadata-pas006-consumer` ✓ · R1c `hydrate-metadata-binding-slots.server.ts` |
+| 10 | Doc drift + matrix synced | **Green** | `pnpm check:documentation-drift` ✓ · this §6.1 row |
 
-**Next:** PAS-001A-R1a → R1b → R1c → R1d on PAS-006 skeleton ([slice catalog](./SLICE/kernel-slice-catalog.md#pas-001a-r1--skeleton-rebuild-proposed)).
+**Score:** 10/10 — IS-002 + IS-003 integration-proven on PAS-006 skeleton.
 
 ### 6.2 Historical matrix (B75 — pre-reset ERP)
 

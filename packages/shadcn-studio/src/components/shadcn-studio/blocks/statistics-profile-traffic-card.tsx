@@ -3,6 +3,7 @@
 import { useId } from "react";
 import { Bar, BarChart, XAxis } from "recharts";
 
+import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   type ChartConfig,
@@ -77,11 +78,14 @@ const StatisticsProfileTrafficCard = ({
   const footnoteId = useId();
 
   return (
-    <article aria-labelledby={titleId} className={className}>
+    <article
+      aria-labelledby={titleId}
+      className={className}
+    >
       <Card className={cn("gap-6")}>
         <CardContent className="flex flex-col gap-6">
           <div className="flex flex-col gap-1">
-            <span className="font-semibold" id={titleId}>
+            <span {...blockSlotDomMarkerProps("metric.label")} className="font-semibold" id={titleId}>
               {StatisticsCardData.title}
             </span>
             <span className="text-muted-foreground text-sm">Weekly Report</span>
@@ -89,12 +93,13 @@ const StatisticsProfileTrafficCard = ({
           <div className="flex items-end justify-between gap-4">
             <div className="flex flex-col gap-2">
               <span
+                {...blockSlotDomMarkerProps("metric.value")}
                 aria-describedby={footnoteId}
                 className="font-semibold text-2xl"
               >
                 {StatisticsCardData.amount}
               </span>
-              <span className="text-primary text-sm" id={footnoteId}>
+              <span {...blockSlotDomMarkerProps("metric.change")} className="text-primary text-sm" id={footnoteId}>
                 +{StatisticsCardData.changePercentage}%
               </span>
             </div>
