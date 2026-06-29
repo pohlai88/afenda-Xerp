@@ -1,6 +1,6 @@
 {
   "fingerprint": "ARCH-BASELINE-2026-06-29-v5",
-  "generatedAt": "2026-06-29T09:12:45.665Z",
+  "generatedAt": "2026-06-29T09:22:08.810Z",
   "runtimeEdges": [
     {
       "from": "@afenda/accounting-standards",
@@ -37,6 +37,10 @@
     {
       "from": "@afenda/erp",
       "to": "@afenda/database"
+    },
+    {
+      "from": "@afenda/erp",
+      "to": "@afenda/kernel"
     },
     {
       "from": "@afenda/erp",

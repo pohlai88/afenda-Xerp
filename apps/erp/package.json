@@ -8,11 +8,14 @@
     "predev": "pnpm --filter @afenda/kernel build && pnpm --filter @afenda/database build && pnpm --filter @afenda/permissions build && pnpm --filter @afenda/auth build",
     "dev": "next dev --port 3000",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest --config vitest.config.ts",
+    "test:run": "vitest run --config vitest.config.ts",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const d of ['.next', 'out']) rmSync(d, { recursive: true, force: true })\""
   },
   "dependencies": {
     "@afenda/auth": "workspace:*",
     "@afenda/database": "workspace:*",
+    "@afenda/kernel": "workspace:*",
     "@afenda/observability": "workspace:*",
     "@afenda/shadcn-studio": "workspace:*",
     "better-auth": "^1.6.19",
@@ -26,6 +29,7 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "shadcn": "^4.11.0",
-    "tailwindcss": "catalog:"
+    "tailwindcss": "catalog:",
+    "vitest": "catalog:"
   }
 }

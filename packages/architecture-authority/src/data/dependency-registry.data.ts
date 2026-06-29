@@ -7,6 +7,7 @@ const RUNTIME_EDGES = [
   ["@afenda/entitlements", "@afenda/database"],
   ["@afenda/erp", "@afenda/auth"],
   ["@afenda/erp", "@afenda/database"],
+  ["@afenda/erp", "@afenda/kernel"],
   ["@afenda/erp", "@afenda/observability"],
   ["@afenda/erp", "@afenda/shadcn-studio"],
   ["@afenda/storybook", "@afenda/shadcn-studio"],
@@ -37,6 +38,7 @@ export const dependencyContract: DependencyContract = {
     "@afenda/erp": [
       "@afenda/auth",
       "@afenda/database",
+      "@afenda/kernel",
       "@afenda/observability",
       "@afenda/shadcn-studio",
     ],

@@ -40,6 +40,7 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
       "@afenda/database": "workspace:*",
       "@afenda/observability": "workspace:*",
       "@afenda/shadcn-studio": "workspace:*",
+      "@afenda/kernel": "workspace:*",
     }),
     workspace("@afenda/execution", {
       "@afenda/kernel": "workspace:*",

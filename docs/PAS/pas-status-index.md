@@ -138,13 +138,13 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | **Active** — sole ERP frontend presentation authority (2026-06-29) |
 | **Authority** | PAS-006 · PKG-026 · `@afenda/shadcn-studio` |
 | **Maturity** | Production Candidate |
-| **Runtime status** | ERP `globals.css` = tailwind + shadcn-studio.css + shadcn/tailwind.css; MCP-first creation; ui:guard retired |
-| **Remaining slices** | ERP TS import cleanup from `@afenda/ui` / appshell — escalated follow-up (not PAS-006 slice) |
-| **Runtime evidence** | [PAS-006 canonical doc](PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md), [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md), `packages/shadcn-studio/` |
-| **Gates** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm --filter @afenda/erp build` |
-| **Result** | Single PAS, single CSS chain, no Governed UI guards for frontend |
+| **Runtime status** | ERP skeleton + B111 metadata/context wire (`apps/erp/src/lib/metadata`, `lib/context`); presentation = shadcn-studio only; legacy UI packages **deleted** |
+| **Remaining slices** | Greenfield ERP surfaces via MCP (dashboard, system-admin, metadata workspace) — not legacy package revival |
+| **Runtime evidence** | [PAS-006](PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md), [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md), [North star](../NORTHSTAR/shadcn-studio-presentation-north-star.md), [Blueprint](../BLUEPRINT/shadcn-studio-presentation-blueprint.md), `packages/shadcn-studio/`, `apps/erp/src/app/globals.css` |
+| **Gates** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm --filter @afenda/erp build`, `pnpm check:downstream-integration`, `pnpm check:erp-operating-context-spine`, `pnpm check:erp-tenant-lifecycle-extension-consumer-attestation`, `pnpm check:foundation-disposition` |
+| **Result** | Single PAS, single CSS chain, no Governed UI guards; metadata-driven UI = future greenfield on shadcn-studio |
 
-**Next sequence item:** MCP-create stock ERP surfaces; migrate ERP component imports off legacy packages (separate track).
+**Next sequence item:** MCP-create stock ERP surfaces block-by-block under PAS-006.
 
 ---
 

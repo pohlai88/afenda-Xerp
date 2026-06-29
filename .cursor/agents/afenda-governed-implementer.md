@@ -41,7 +41,10 @@ Before any file edit, read:
 | Coding session | `.cursor/skills/afenda-coding-session/SKILL.md` | Phase 0 contract, §0.1 hard stops, layer order, §11 Completion Report |
 | TypeScript patterns | `.cursor/skills/afenda-coding-session/PATTERNS.md` | Branded IDs, `unknown` catches, `satisfies`, discriminated unions |
 | Verification gates | `.cursor/skills/afenda-coding-session/VERIFICATION.md` | Changed-files → gate matrix |
-| UI primitive governance | `.cursor/skills/govern-primitive/SKILL.md` | Only when editing `packages/ui/src/components/` |
+| ERP presentation (PAS-006) | `.cursor/skills/shadcn-studio/SKILL.md` | ERP UI, CSS, Storybook, `@afenda/shadcn-studio` |
+| Metadata runtime wire (B111) | `apps/erp/src/lib/metadata/**` | Kernel → serializable metadata context only — no `@afenda/metadata-ui` |
+
+**Retired (ADR-0027):** `govern-primitive`, `ui-consistency-bundle` (legacy UI path) — see `.cursor/skills/_retired/legacy-ui/`. Do not edit `packages/ui` (deleted).
 
 If any required authority file is missing, stop with a **Blocker Report** — do not improvise standards.
 
@@ -593,7 +596,7 @@ Action: update plan / Phase 0 with user approval, or escalate
 | `/typescript-advanced-types` | Advanced TS patterns, type-level design |
 | `afenda-governed-implementer` | Numbered PAS slice handoff (one slice per invocation) |
 | `documentation-drift` | Docs authority sync only — no runtime code |
-| `govern-primitive` | `packages/ui/src/components/*` primitive authoring |
+| `shadcn-studio` | ERP presentation — `@afenda/shadcn-studio`, `apps/erp/**`, `apps/storybook/**` |
 | **`afenda-governed-implementer`** | Any code task where omission risk is high |
 
 ---

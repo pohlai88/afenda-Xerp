@@ -61,27 +61,27 @@ All commands: `disable-model-invocation: true`.
 | Skill | Class | `paths` | Trigger | Gates |
 | --- | --- | --- | --- | --- |
 | `architecture-authority` | Authority | `packages/architecture-authority/**`, `packages/architecture-authority/src/data/foundation-disposition.registry.ts` | Registries, layer rules, disposition | `pnpm quality:architecture` |
-| `css-authority` | Authority | `packages/css-authority/**`, `docs/PAS/CSS-AUTHORITY/**` | PAS-005 tokens, CSS-TOKEN-* | `pnpm check:css-governance` |
 | `kernel-authority` | Authority | `packages/kernel/**`, `docs/PAS/PAS-001*.md` | Kernel boundary | kernel gates |
 | `accounting-standards-authority` | Authority | `packages/accounting-standards/**`, `docs/PAS/ACCOUNTING-STANDARDS/**` | Accounting standards | — |
-| `shadcn-studio-authority` | Authority | `packages/shadcn-studio/**`, `docs/PAS/CSS-AUTHORITY/PAS-005A*.md` | Studio presentation PAS | — |
+| `shadcn-studio` | Authority | `packages/shadcn-studio/**`, `docs/PAS/PRESENTATION/**`, `apps/erp/**` | PAS-006 ERP presentation (ADR-0027) | `pnpm check:downstream-integration` |
 | `enterprise-knowledge` | Enterprise | `packages/enterprise-knowledge/**`, `docs/PAS/ENTERPRISE-KNOWLEDGE/**` | Knowledge atoms, PAS-004 | `pnpm check:knowledge-conformance` |
 | `enterprise-erp-standards` | Enterprise | `packages/**`, `apps/erp/**` | SAP/Oracle red-amber gates | — |
 
+**Retired authority (ADR-0027):** `css-authority`, `shadcn-studio-authority` (PAS-005A doc path), `govern-primitive` — see `_retired/legacy-ui/`.
+
 ---
 
-## Build — UI / CSS / Design
+## Build — UI / CSS / Design (ERP — ADR-0027)
 
 | Skill | Class | `paths` | Trigger | Gates |
 | --- | --- | --- | --- | --- |
-| `afenda-tailwind` | Afenda domain | `**/*.css`, `apps/erp/**`, `packages/ui/**`, `packages/appshell/**` | Tailwind v4, globals.css | `pnpm quality:css` |
-| `govern-primitive` | UI author | `packages/ui/src/components/**` | @afenda/ui primitive authoring | `pnpm --filter @afenda/ui check:governance` |
-| `afenda-ui-quality` | UI pipeline | `packages/ui/**`, `packages/appshell/**`, `apps/erp/**` | shadcn/studio normalization | `pnpm ui:guard` |
-| `afenda-shadcn-components` | UI pipeline | `packages/ui/**`, `packages/appshell/src/shadcn-studio/**` | Block promotion, MCP | Gates A–G |
-| `shadcn-studio` | UI MCP | `packages/ui/**` | shadcn/studio MCP workflows | — |
-| `package-css-dist-sync` | UI infra | `packages/**/src/**/*.css` | Package CSS dist sync | `pnpm check:package-css-dist-sync` |
-| `afenda-storybook` | UI | `apps/storybook/**` | Storybook stories | — |
+| `shadcn-studio` | UI MCP | `packages/shadcn-studio/**`, `apps/erp/**`, `apps/storybook/**` | MCP install, blocks, ERP wiring | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm check:downstream-integration` |
+| `afenda-tailwind` | Afenda domain | `**/*.css`, `apps/erp/**`, `packages/shadcn-studio/**` | Tailwind v4, ERP globals.css | `pnpm quality:css` |
+| `package-css-dist-sync` | UI infra | `packages/shadcn-studio/src/styles/**` | shadcn-studio CSS dist sync | `pnpm check:package-css-dist-sync` |
+| `afenda-storybook` | UI | `apps/storybook/**` | shadcn-studio Storybook lab | `pnpm --filter @afenda/storybook storybook:build` |
 | `docs-editorial-design` | Docs UI | `apps/docs/**` | Fumadocs editorial design | — |
+
+**Retired (do not route ERP work here):** `ui-consistency-bundle`, `govern-primitive`, `afenda-ui-quality`, `afenda-shadcn-components`, `css-authority` — archived under `_retired/legacy-ui/`.
 
 ---
 
@@ -125,7 +125,7 @@ All commands: `disable-model-invocation: true`.
 | Skill | Class | `paths` | Trigger |
 | --- | --- | --- | --- |
 | `afenda-test` | Command | — | `/afenda-test` |
-| `enterprise-frontend-audit` | Audit | `apps/erp/**`, `packages/ui/**`, `packages/appshell/**` | Full frontend maturity audit |
+| `enterprise-frontend-audit` | Audit | `apps/erp/**`, `packages/shadcn-studio/**` | Frontend maturity audit (PAS-006 baseline) |
 | `enterprise-architecture-audit` | Audit | — | Full platform audit (read-only) |
 | vendor `test-driven-development` | Vendor | — | TDD / Prove-It (wired in `/afenda-test`) |
 | vendor `code-review-and-quality` | Vendor | — | Five-axis review (wired in `/afenda-review`) |

@@ -153,7 +153,7 @@ Target for Phase 9 sign-off: **4+ on all dimensions for green-lane entries**; re
 
 | PAS domain | SAP control | Oracle control | Required gates |
 | --- | --- | --- | --- |
-| `system-admin` | Auth objects + audit | Advanced Controls | `check:system-admin-mutation-audit`, `quality:erp-observability` |
+| `system-admin` | Auth objects + audit | Advanced Controls | `quality:erp-observability` (mutation-audit gate retired with ADR-0027 ERP skeleton) |
 | `operating-context` | HANA RLS | Data Security | `check:multi-tenancy-context-integration`, RLS coverage |
 | `auth` | Auth objects / Logon | Identity Governance | `better-auth-erp` discipline, `check:api-contracts` |
 | `audit-coverage` | SOLMAN diagnostics | Advanced Controls | `quality:erp-observability` |

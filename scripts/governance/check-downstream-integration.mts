@@ -201,6 +201,7 @@ export function checkDownstreamIntegration(): DownstreamViolation[] {
   checkConsumerDependencies(violations, "apps/erp", "apps/erp", [
     "@afenda/auth",
     "@afenda/database",
+    "@afenda/kernel",
     "@afenda/observability",
     "@afenda/shadcn-studio",
   ]);

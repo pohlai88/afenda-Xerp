@@ -1,29 +1,47 @@
-# PRESENTATION — Package Authority Standards
+# PAS-006 Presentation — slice index
 
-**Single PAS family for ERP frontend presentation** (ADR-0027 reset).
-
-| PAS | Document | Status |
-| --- | --- | --- |
-| **PAS-006** | [PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md](PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) | **Active** |
+**Authority:** [PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md](PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md)  
+**Constitutional ADR:** [ADR-0027](../../adr/ADR-0027-frontend-presentation-reset.md)  
+**Runtime owner:** `@afenda/shadcn-studio`  
+**Status index:** [pas-status-index.md](../pas-status-index.md#pas-006-shadcnstudio-frontend-standard--active)
 
 ---
 
-## Doctrine chain
+## Scope (post-nuclear reset)
 
-```text
-[North Star](../../NORTHSTAR/shadcn-studio-presentation-north-star.md)
-  → [Blueprint](../../BLUEPRINT/shadcn-studio-presentation-blueprint.md)
-  → PAS-006 (this folder)
-  → @afenda/shadcn-studio + apps/erp
+| In scope | Out of scope |
+|----------|--------------|
+| MCP → shadcn-studio → ERP/Storybook chain | Reviving `@afenda/ui`, appshell, metadata-ui |
+| Block inventory + theme presets | metadata-ui workspace (greenfield later) |
+| `pnpm check:downstream-integration` | Legacy `ui:guard*` / PAS-005 slice execution |
+
+---
+
+## Runtime evidence
+
+- `packages/shadcn-studio/`
+- `apps/erp/src/app/globals.css` (PAS-006 three-layer CSS)
+- `apps/storybook/` (shadcn-studio lab only)
+- `docs/NORTHSTAR/shadcn-studio-presentation-north-star.md`
+- `docs/BLUEPRINT/shadcn-studio-presentation-blueprint.md`
+
+---
+
+## Gates
+
+```bash
+pnpm --filter @afenda/shadcn-studio typecheck
+pnpm --filter @afenda/erp build
+pnpm check:downstream-integration
+pnpm sync:package-css-dist
+pnpm check:package-css-dist-sync
 ```
 
 ---
 
-## Retired (do not execute for frontend)
+## Agent entry
 
-The **CSS-AUTHORITY** family (PAS-005, PAS-005A, PAS-005B, B27–B48 slices) is archived:
+- Skill: [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md)
+- Bundle: `coding-consistency-bundle` (implementers only)
 
-- Index: [`docs/_retired/legacy-css-authority/SUPERSEDED-BY-ADR-0027.md`](../../_retired/legacy-css-authority/SUPERSEDED-BY-ADR-0027.md)
-- Stub: [`docs/PAS/CSS-AUTHORITY/README.md`](../CSS-AUTHORITY/README.md)
-
-There is **no** PAS-006A/B split — one standard, one package (PKG-026).
+**Retired for ERP:** `ui-consistency-bundle`, `govern-primitive`, `css-authority` — see `.cursor/skills/_retired/legacy-ui/`.

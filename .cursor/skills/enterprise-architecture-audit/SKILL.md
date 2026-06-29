@@ -89,7 +89,7 @@ Score a dimension without file:line, test, or gate evidence
 Skip Phase 1 repository understanding on full-platform scope
 Spawn personas from worker agents (orchestrator only may fan-out Phase 3)
 Apply enterprise-frontend-audit fix-first mandate (audit sections only in Phase 3)
-Run coding-consistency-bundle or ui-consistency-bundle preflight (audit mode)
+Run coding-consistency-bundle preflight (audit mode). **Retired:** `ui-consistency-bundle` — see redirect stub at `.cursor/skills/ui-consistency-bundle/SKILL.md`.
 ```
 
 ---

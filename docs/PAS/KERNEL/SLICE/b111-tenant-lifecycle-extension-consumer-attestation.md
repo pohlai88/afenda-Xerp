@@ -4,7 +4,7 @@
 
 **Prerequisite:** B110 Delivered
 
-**Status:** Delivered (2026-06-29)
+**Status:** Delivered (2026-06-29) · **Re-delivered ADR-0027** (2026-06-29)
 
 **Type:** Evidence-sync
 
@@ -13,33 +13,45 @@
 ```
 Handoff from: docs/PAS/KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md
 
-1. Objective    — ERP consumer attestation for B107 tenant SaaS lifecycle wire and B108 tenant extension boundary wire; metadata runtime carrier.
-2. Allowed layer— apps/erp/src/lib/context/** · apps/erp/src/lib/metadata/** · packages/ui-composition/src/runtime.contract.ts · scripts/governance/check-erp-tenant-lifecycle-extension-consumer-attestation.mts · docs/PAS/KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md
+1. Objective    — ERP consumer attestation for B107 tenant SaaS lifecycle wire and B108 tenant extension boundary wire; ERP-local metadata runtime carrier (ADR-0027).
+2. Allowed layer— apps/erp/src/lib/context/** · apps/erp/src/lib/metadata/** · scripts/governance/check-erp-tenant-lifecycle-extension-consumer-attestation.mts · scripts/governance/check-erp-operating-context-spine.mts · docs/PAS/KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md
 3. Files        —
    apps/erp/src/lib/context/map-tenant-saas-lifecycle-phase.ts
    apps/erp/src/lib/context/operating-context.mappers.ts
    apps/erp/src/lib/context/context-integration-registry.ts
+   apps/erp/src/lib/metadata/metadata-runtime.contract.ts
    apps/erp/src/lib/metadata/resolve-metadata-tenant-extension-boundary.server.ts
    apps/erp/src/lib/metadata/resolve-metadata-ui-render-context.server.ts
-   packages/ui-composition/src/runtime.contract.ts
+   apps/erp/vitest.config.ts
    scripts/governance/check-erp-tenant-lifecycle-extension-consumer-attestation.mts
+   scripts/governance/check-erp-operating-context-spine.mts
    package.json
-4. Prohibited   — packages/kernel/src/** new vocabulary · foundation-disposition.registry.ts · DB schema changes for provisioned status
-5. Authority    — PAS-001 §4 tenant context · Kernel NS §8.3 · B107/B108 wire · Blueprint §6 · PAS-001A metadata bridge
+   apps/erp/package.json
+4. Prohibited   — packages/kernel/src/** new vocabulary · foundation-disposition.registry.ts · DB schema changes for provisioned status · revival of @afenda/ui-composition / @afenda/metadata-ui
+5. Authority    — PAS-001 §4 tenant context · Kernel NS §8.3 · B107/B108 wire · Blueprint §6 · ADR-0027 ERP skeleton consumer rebuild
 6. Gates        —
    pnpm check:erp-tenant-lifecycle-extension-consumer-attestation
    pnpm check:erp-operating-context-spine
    pnpm check:kernel-context-wire-triad
    pnpm --filter @afenda/kernel test:run
-   pnpm --filter @afenda/ui-composition test:run
-   pnpm --filter @afenda/erp test:run -- map-tenant-saas-lifecycle-phase resolve-metadata-tenant-extension-boundary operating-context.mappers
-7. Closes       — Tenant lifecycle/extension ERP consumer attestation (Blueprint §6 planned → delivered)
+   pnpm --filter @afenda/erp test:run
+7. Closes       — Tenant lifecycle/extension ERP consumer attestation on ADR-0027 skeleton
 8. Evidence     —
    apps/erp/src/lib/context/__tests__/map-tenant-saas-lifecycle-phase.test.ts
    apps/erp/src/lib/metadata/__tests__/resolve-metadata-tenant-extension-boundary.server.test.ts
    apps/erp/src/lib/context/__tests__/operating-context.mappers.test.ts
+   apps/erp/src/lib/metadata/__tests__/resolve-metadata-ui-render-context.server.test.ts
+   scripts/governance/__tests__/check-erp-tenant-lifecycle-extension-consumer-attestation.test.ts
 9. Attestation  — Contract · Gate · Integration
 ```
+
+## ADR-0027 adaptation
+
+| Pre-reset (B111 v1) | Post-reset (B111 v2) |
+| --- | --- |
+| `packages/ui-composition/src/runtime.contract.ts` | `apps/erp/src/lib/metadata/metadata-runtime.contract.ts` |
+| Full `resolve-metadata-ui-render-context` + metadata-ui | Slim `resolveMetadataUiRenderContextFromTenantContext` |
+| Full operating-context spine (B72) | `TENANT_LIFECYCLE_BRIDGE_WIRING` only until protected routes return |
 
 ## DoD
 
@@ -55,5 +67,5 @@ Handoff from: docs/PAS/KERNEL/SLICE/b111-tenant-lifecycle-extension-consumer-att
 | Risk | Mitigation |
 | --- | --- |
 | Status→lifecycle mapping drift | Exhaustive switch; `archived`→`offboarded` documented in mapper |
-| `provisioned` not in DB enum | Omitted until explicit column/signal; active tenants map to `active` |
+| `provisioned` not in DB enum | Omitted until column/signal; active tenants map correctly |
 | Extension guard too narrow | `assertTenantExtensionFieldKeyDoesNotForkKernelBrand` at metadata ingress |

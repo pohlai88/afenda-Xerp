@@ -73,7 +73,9 @@ Platform audit? ──────────→ enterprise-architecture-audit 
 | Bundle | When |
 | --- | --- |
 | `coding-consistency-bundle` | Any implementer file edit |
-| `ui-consistency-bundle` | UI, CSS, or visual changes |
+| `shadcn-studio` + PAS-006 | ERP UI, CSS, Storybook, or `@afenda/shadcn-studio` changes |
+
+**Retired for ERP (ADR-0027):** `ui-consistency-bundle`, `govern-primitive`, `css-authority`, `afenda-shadcn-components` — archived under `.cursor/skills/_retired/legacy-ui/`. Do not attach for ERP frontend work.
 
 Orchestrators paste bundle read lists into implementer prompts — personas do not invoke bundles when `readonly: true`.
 
@@ -112,9 +114,11 @@ From [orchestration-patterns.md](../references/orchestration-patterns.md):
 | --- | --- |
 | Governed implementation | `@afenda-governed-implementer` |
 | Architecture / registries | `architecture-authority` |
-| Tailwind v4 | `afenda-tailwind` |
+| ERP presentation (ADR-0027) | `shadcn-studio` + PAS-006 |
+| Tailwind v4 (ERP globals) | `afenda-tailwind` |
 | SAP/Oracle gates | `enterprise-erp-standards` |
-| shadcn promotion | `afenda-shadcn-components` |
 | Accessibility | `afenda-accessibility` |
+
+**Retired for ERP UI:** `govern-primitive`, `ui-consistency-bundle`, `afenda-shadcn-components` — use `shadcn-studio` instead.
 
 Full inventory: [README.md](README.md).
