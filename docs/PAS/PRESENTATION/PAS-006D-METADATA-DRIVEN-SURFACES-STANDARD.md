@@ -20,7 +20,7 @@
 | 1 | `pnpm --filter @afenda/shadcn-studio typecheck` |
 | 2 | `pnpm check:studio-metadata-binding` *(P06-008-R1 — active)* |
 | 3 | `pnpm check:studio-block-slot-markers` *(P06-008-R2 — active)* |
-| 4 | `pnpm check:studio-surface-template-registry` *(proposed — P06-009)* |
+| 4 | `pnpm check:studio-surface-template-registry` *(P06-009 — active)* |
 
 > **Maturity is part of authority.** Metadata **schema authority** lives outside presentation. This PAS owns **binding contracts** and **surface templates** only.
 

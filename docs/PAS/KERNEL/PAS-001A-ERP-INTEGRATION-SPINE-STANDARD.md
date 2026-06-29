@@ -13,14 +13,14 @@
 | **Primary runtime owner** | `apps/erp/src/lib/context/` |
 | **Layer** | Application integration (runtime integration consumer of Platform kernel — **not substrate**) |
 | **Package role** | Runtime integration proof — operating-context vocabulary wired end-to-end |
-| **Runtime stance** | `integration-proven` (IS-001/IS-002) — IS-003 pending R1c gate; no new kernel contracts unless PAS-001 amendment |
+| **Runtime stance** | `integration-proven` (IS-001/IS-002/IS-003) — no new kernel contracts unless PAS-001 amendment |
 | **Registry lane** | `PKG010_KERNEL` (integration consumer) · `PKG-007 operating-context` |
 | **Agent skills** | `kernel-authority` · `multi-tenancy-erp` · `/afenda-coding-session` |
 | **Maturity** | Production Candidate (`production_candidate`) — **historical B71–B75 attestation**; **skeleton R1a–R1b/R1d re-attestation** post [ADR-0027](../../adr/ADR-0027-frontend-presentation-reset.md) |
-| **Authority status** | `production_candidate` (doctrine + gates) · `integration-proven` (IS-002 skeleton) · `runtime_partial` (IS-003 — R1c gate pending) |
-| **Implementation status** | `historical_delivered` B71–B75 · `skeleton_consumer` B111 · `delivered` R1a–R1b · `attested` R1d (9/10 §6) · `proposed` R1c gate |
+| **Authority status** | `production_candidate` (doctrine + gates) · `integration-proven` (IS-002) · `runtime_delivered` (IS-003 — optional gate registration) |
+| **Implementation status** | `historical_delivered` B71–B75 · `skeleton_consumer` B111 · `delivered` R1a–R1d |
 | **Evidence level** | `runtime` — §6 matrix green at B75 **on pre-reset ERP**; **9/10 rows green on ADR-0027 skeleton** (see §6.1 · [R1d attestation](./SLICE/pas-001a-r1d-production-candidate-reclose.md)) |
-| **Runtime status** | IS-001 live; IS-002 full `CONTEXT_INTEGRATION_WIRING` + protected shell (R1a/R1b gates green); IS-003 metadata consumer code present — **`check:erp-metadata-pas006-consumer` not registered** (R1c) |
+| **Runtime status** | IS-001 live; IS-002 full `CONTEXT_INTEGRATION_WIRING` + protected shell (R1a/R1b); IS-003 PAS-006 metadata consumer delivered (R1c) — optional: register `check:erp-metadata-pas006-consumer` in root `package.json` |
 | **Remaining slices** | none for R1 family — R1c gate registration is follow-up; see [R1d](./SLICE/pas-001a-r1d-production-candidate-reclose.md) §6 residual |
 | **Integration consumers** | `apps/erp`, `@afenda/permissions` (live) · `@afenda/appshell`, `@afenda/metadata-ui`, `@afenda/ui-composition` (**retired** ADR-0027 — do not reference as live consumers) |
 | **Upstream** | [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §5.1 · Kernel NS §4 runtime integration proof |
@@ -105,7 +105,7 @@ PAS-001 closes when **kernel vocabulary is enterprise-gated**. Production ERP st
 | --- | --- |
 | Permission wire triad in `@afenda/permissions` (IS-001) | Ledger/posting runtime |
 | Kernel branding projection only | New kernel vocabulary |
-| ERP resolver spine + integration registry (IS-002) | CSS / presentation (PAS-005) |
+| ERP resolver spine + integration registry (IS-002) | Presentation / CSS / blocks (PAS-006 — not PAS-005) |
 | Metadata authorization bridge (IS-003) | Knowledge atoms (PAS-004) |
 | Doc + matrix sync | PAS-001 hidden amendment |
 
@@ -168,8 +168,7 @@ apps/erp  resolve-consolidation-scope.server.ts
 OperatingContext (branded kernel shape)
         │
         ├──► authorize-api-route / runProtectedMutation
-        ├──► toApplicationShellOperatingContext → AppShell
-        └──► metadata-workspace / module routes
+        └──► metadata-workspace / module routes (PAS-006 presentation consumer)
 ```
 
 ## 2.2 Ownership split
@@ -189,9 +188,9 @@ Key surfaces: `PermissionScopeWireContext` assert/parse → Permissions · brand
 
 Machine authority: `apps/erp/src/lib/context/context-integration-registry.ts`
 
-**Current (skeleton):** `TENANT_LIFECYCLE_BRIDGE_WIRING` — B111 tenant lifecycle + metadata extension boundary (3 entries). Gate: `check:erp-operating-context-spine` (slim mode).
+**Current (R1a delivered):** `CONTEXT_INTEGRATION_WIRING` — full operating-context spine. B72 / R1a gates verify every entry: module exists · delegate exported · no forbidden deep imports.
 
-**Target (PAS-001A-R1):** `CONTEXT_INTEGRATION_WIRING` — full operating-context spine. B72 gate verifies every entry: module exists · delegate exported · no forbidden deep imports.
+**Skeleton bridge (B111):** `TENANT_LIFECYCLE_BRIDGE_WIRING` — tenant lifecycle + metadata extension boundary (3 entries). Retained for B111 consumer attestation.
 
 **Source:** Kernel Blueprint §5.1 · legacy PAS-001A §2 (T5) · B111 handoff [SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md](SLICE/b111-tenant-lifecycle-extension-consumer-attestation.md)
 
@@ -202,7 +201,7 @@ Explicit call-direction rules for review — architectural, not import-graph det
 ```text
 Runtime boundary stack (downward dependency only):
 
-Kernel → Permissions → ERP → Presentation (AppShell · Metadata UI)
+Kernel → Permissions → ERP → Presentation (PAS-006 · `@afenda/shadcn-studio`)
 ```
 
 | Layer | May | Must never |
@@ -232,15 +231,15 @@ Presentation / Metadata bridge    (IS-003)
 
 # 3. Context Map
 
-Bounded contexts: Kernel (vocabulary) · Permissions (grant scope) · Database (persistence) · ERP (anti-corruption + assembly) · AppShell (presentation) · Metadata UI (authorization bridge).
+Bounded contexts: Kernel (vocabulary) · Permissions (grant scope) · Database (persistence) · ERP (anti-corruption + assembly) · **Presentation (PAS-006 · `@afenda/shadcn-studio`)** · Metadata domain (schema authority — outside kernel).
 
 | Relationship | Pattern | Integration module |
 | --- | --- | --- |
 | Kernel → ERP | Conformist | `resolve-operating-context.server.ts` |
 | Permissions → ERP | Anti-corruption | `resolve-grant-scope.server.ts` + kernel projection |
 | Database → ERP | Anti-corruption | tenant/legal-entity resolvers |
-| ERP → AppShell | Published language | `to-shell-operating-context.ts` |
-| ERP → Metadata UI | Shared kernel | B74 bridge |
+| ERP → Presentation | Published language | IS-003 metadata consumer · `apps/erp/src/lib/metadata/` |
+| ERP → PAS-006 blocks | Consumer | Accepted blocks + metadata binding registries |
 
 Full mermaid + table: legacy [PAS-001A §3](archive/PAS-001A-KERNEL-ERP-PRODUCTION-INTEGRATION-STANDARD.md#3-context-map-bounded-contexts).
 

@@ -2,7 +2,7 @@
 
 Lightweight closure registry for Package Authority Standards. Runtime evidence lives in [`afenda-runtime-truth-matrix.md`](../architecture/afenda-runtime-truth-matrix.md).
 
-**Kernel slice SSOT:** [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) — individual `b*.md` handoffs (B49–B111). **Architecture Authority slice SSOT:** [`ARCHITECTURE-AUTHORITY/SLICE/`](ARCHITECTURE-AUTHORITY/SLICE/README.md) — B1–B27 · B38–B45 handoffs. **Accounting Standards slice SSOT:** [`ACCOUNTING-STANDARDS/SLICE/`](ACCOUNTING-STANDARDS/SLICE/README.md) — B0–B16 handoffs. **Presentation slice SSOT:** [`PRESENTATION/`](PRESENTATION/README.md) — PAS-006 (ADR-0027). **CSS Authority (retired):** archived under [`docs/_retired/legacy-css-authority/`](../_retired/legacy-css-authority/SUPERSEDED-BY-ADR-0027.md) — do not execute B27–B48 for ERP frontend. **Deprecated shim:** flat [`docs/PAS/slice/`](slice/README.md) — tombstones only; scheduled removal.
+**Kernel slice SSOT:** [`KERNEL/SLICE/`](KERNEL/SLICE/README.md) — individual `b*.md` handoffs (B49–B111). **Architecture Authority slice SSOT:** [`ARCHITECTURE-AUTHORITY/SLICE/`](ARCHITECTURE-AUTHORITY/SLICE/README.md) — B1–B27 · B38–B45 handoffs. **Accounting Standards slice SSOT:** [`ACCOUNTING-STANDARDS/SLICE/`](ACCOUNTING-STANDARDS/SLICE/README.md) — B0–B16 handoffs. **Presentation slice SSOT:** [`PRESENTATION/`](PRESENTATION/README.md) — PAS-006 (ADR-0027). **CSS Authority (retired):** [`CSS-AUTHORITY/README.md`](CSS-AUTHORITY/README.md) — historical audit only; **do not execute** B27–B48 for ERP. **Lane boundaries:** [`DEVELOPMENT-LANE-BOUNDARIES.md`](DEVELOPMENT-LANE-BOUNDARIES.md). **Deprecated shim:** flat [`docs/PAS/slice/`](slice/README.md) — tombstones only; scheduled removal.
 
 **Header sync rule:** Every PAS doc and authority skill must mirror **Runtime status** and **Remaining slices** in the PAS authority metadata table (see [`pas-doc-template.md`](../../.cursor/skills/kernel-authority/reference/pas-doc-template.md)). Update all three surfaces when closing a slice.
 
@@ -111,7 +111,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | **Retired** for ERP frontend — archived 2026-06-29 |
 | **Authority** | PAS-005 · `PKGR05_CSS_AUTHORITY` · PKG-025 (frozen on disk) |
 | **Superseded by** | [PAS-006](PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) · [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md) |
-| **Archive** | [`docs/_retired/legacy-css-authority/`](../_retired/legacy-css-authority/SUPERSEDED-BY-ADR-0027.md) |
+| **Archive** | [`CSS-AUTHORITY/README.md`](CSS-AUTHORITY/README.md) · [DEVELOPMENT-LANE-BOUNDARIES.md](DEVELOPMENT-LANE-BOUNDARIES.md) |
 
 **Do not execute** PAS-005 slices or css-authority consumption gates for ERP frontend work.
 
@@ -147,7 +147,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Runtime authority today** | PAS-006 family slices P06-001–P06-010 delivered; **P06-008-R1 + P06-008-R2** metadata binding + DOM slot enforcement |
 | **Proposed extensions** | PAS-006B (inventory) · PAS-006C (ACPA acceptance) · PAS-006D (metadata surfaces) — **runtime delivered**; P06-008-R1/R2 enforcement **live** |
 | **Runtime status** | ERP skeleton + metadata/context wire + studio registries (inventory, slots, lifecycle, acceptance, surface templates, **metadata binding + DOM slot markers**); legacy UI packages **deleted** |
-| **Remaining slices** | **None** for PAS-006D — P06-008-R2 delivered; PAS-001A-R1 deferred (PAS-001A); disposition promotion is registry-owner scope |
+| **Remaining slices** | **None** for PAS-006 family — disposition promotion is registry-owner scope |
 | **Runtime evidence** | [PAS family](PRESENTATION/README.md), [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md), [North star](../NORTHSTAR/shadcn-studio-presentation-north-star.md), [Blueprint](../BLUEPRINT/shadcn-studio-presentation-blueprint.md), `packages/shadcn-studio/`, `apps/erp/src/lib/metadata/`, `apps/erp/src/lib/auth/` |
 | **Gates (006 family live)** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm check:studio-inventory-lifecycle`, `pnpm check:studio-block-acpa-acceptance`, `pnpm check:studio-auth-surface-wcag-aa`, `pnpm check:studio-metadata-binding`, `pnpm check:studio-block-slot-markers`, `pnpm check:package-css-dist-sync`, `pnpm quality:boundaries`, `pnpm check:documentation-drift`, `pnpm check:foundation-disposition` |
 | **Result** | Five-PAS manufacturing family; single CSS chain; metadata-driven UI path operational (PAS-006D) |
@@ -165,6 +165,8 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 ---
 
 ## PAS-005A slice registry (B38–B42p) — **Historical / archived**
+
+> **Do not execute.** Legacy PAS-005A strangler track — superseded by PAS-006 `P06-*`. Full row list retained for audit; active ERP presentation status is [PAS-006](#pas-006-shadcnstudio-presentation-family--active) only.
 
 | Slice | Doc | Status |
 | --- | --- | --- |

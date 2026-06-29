@@ -22,7 +22,7 @@
 | **Remaining slices** | none — B111 Delivered |
 | **Total slices planned** | B49–B70 closure · B107–B111 amendment |
 | **Delivered slices** | B49–B70 closed · B107–B111 amendment · prior B2–B48 historical |
-| **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `@afenda/appshell`, `apps/erp`, governed domain packages |
+| **Consumers** | `@afenda/auth`, `@afenda/permissions`, `@afenda/execution`, `@afenda/observability`, `apps/erp`, governed domain packages · `@afenda/shadcn-studio` (presentation consumer — no kernel import) |
 | **Upstream** | [Kernel North Star](../../NORTHSTAR/kernel-north-star.md) · [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) §4 Kernel Vocabulary |
 | **Extension PAS** | [PAS-001A](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) · [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
 | **Implementation archive** | [archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md](archive/PAS-001-KERNEL-AUTHORITY-STANDARD.md) |

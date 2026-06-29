@@ -1,5 +1,7 @@
 /tip-007 /tip-012 /multi-company /entity-group /holding-company /subsidiary /minority-interest /rls /consolidation /tenant-subdomain /operating-context /enterprise-hardening
 
+> **Historical planning doc (pre-ADR-0027):** References `@afenda/appshell`, `@afenda/metadata-ui`, and PAS-005-era UI lanes. **Do not execute** from this file — use composed [PAS-001A](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md), [PAS-006](../PRESENTATION/README.md), and [DEVELOPMENT-LANE-BOUNDARIES.md](../DEVELOPMENT-LANE-BOUNDARIES.md) for current lanes.
+
 Implement the Afenda ERP Enterprise Group Operating Context foundation for multi-tenancy, multi-level companies, holding companies, subsidiaries, associates, minority-interest entities, organization units, teams, projects, RLS grants, and future accounting consolidation.
 
 Target quality:
@@ -601,8 +603,7 @@ Add tests for:
 
 Step 10 — Documentation and verification
 
-* Create delivery doc:
-  `docs/PAS/CSS-AUTHORITY/SLICE/[Complete] tip-007-012-enterprise-group-operating-context.md`
+* Create delivery doc under `docs/PAS/KERNEL/SLICE/` (e.g. tenant-lifecycle / operating-context attestation handoffs)
 * Run:
 
   * `pnpm typecheck`

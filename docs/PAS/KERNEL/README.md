@@ -32,7 +32,7 @@ Platform North Star
 | PAS ID | Composed document | Blueprint box | Package / path | Maturity | Slices |
 | --- | --- | --- | --- | --- | --- |
 | **PAS-001** | [PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md](PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Kernel Vocabulary | `@afenda/kernel` | Enterprise Accepted | B49–B70 · B107–B111 closed |
-| **PAS-001A** | [PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | ERP Integration Spine | `apps/erp` + integration consumers | Production Candidate | B71–B75 · IS-001–IS-003 |
+| **PAS-001A** | [PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | ERP Integration Spine | `apps/erp` + integration consumers | Production Candidate | B71–B75 · R1a–R1d · IS-001–IS-003 |
 | **PAS-001B** | [PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | ERP Wire Vocabulary Catalog | `@afenda/kernel/erp-domain/*` | Enterprise Accepted · `catalog_authority` role | B76–B106 · KV-* |
 
 **Agent skill:** `kernel-authority` · `.cursor/skills/kernel-authority/SKILL.md`
@@ -54,7 +54,7 @@ Platform North Star
 | Work type | Start here |
 | --- | --- |
 | Kernel vocabulary / identity / context | PAS-001 §0 |
-| ERP resolver spine / permissions wire / AppShell bridge | PAS-001A §0 |
+| ERP resolver spine / permissions wire / metadata bridge (IS-003) | PAS-001A §0 |
 | ERP domain wire term / catalog module (**KV-***) | PAS-001B §0 |
 
 ---
@@ -87,6 +87,19 @@ Platform North Star
 - Do not claim Production Candidate integration without PAS-001A attestation (B75).
 - Do not reopen PAS-001 vocabulary under PAS-001A or PAS-001B without a PAS-001 amendment slice.
 - Business meaning lives in [Enterprise Knowledge (PAS-004)](../ENTERPRISE-KNOWLEDGE/README.md); kernel retains wire shapes only.
+- **Presentation / CSS / blocks** are [PAS-006](../PRESENTATION/README.md) — not Kernel, not retired PAS-005. See [Development lane boundaries](../DEVELOPMENT-LANE-BOUNDARIES.md).
+
+---
+
+## Adjacent lanes (do not parallel)
+
+| Topic | Owner | Kernel role |
+| --- | --- | --- |
+| ERP `OperatingContext` assembly | PAS-001A · `apps/erp` | Vocabulary consumer only |
+| Theme · MCP blocks · metadata DOM | PAS-006 · `@afenda/shadcn-studio` | **No import** into presentation package |
+| Retired CSS strangler | PAS-005 (historical) | **Do not execute** — not a kernel track |
+
+SSOT: [DEVELOPMENT-LANE-BOUNDARIES.md](../DEVELOPMENT-LANE-BOUNDARIES.md)
 
 ---
 

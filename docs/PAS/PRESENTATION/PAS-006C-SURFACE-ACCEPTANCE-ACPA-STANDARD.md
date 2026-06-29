@@ -8,18 +8,18 @@
 | **Parent charter** | [PAS-006](PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) |
 | **Package** | `@afenda/shadcn-studio` (+ Storybook lab + ERP auth routes consumer proof) |
 | **Blueprint box** | shadcn/studio Presentation |
-| **Maturity** | Proposed |
-| **Runtime status** | Partial — statistics metric ACPA contract test exists; Acceptance Record schema **not yet implemented** |
-| **Remaining slices** | P06-005 (next) · P06-006 · P06-007 (proposed) |
+| **Maturity** | Production Candidate |
+| **Runtime status** | P06-005–P06-007 delivered — Acceptance Record schema, ACPA gate suite, auth WCAG AA pack live |
+| **Remaining slices** | none |
 | **Depends on** | [PAS-006B](PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md) lifecycle |
 
-#### Required gates (target)
+#### Required gates
 
 | # | Gate command |
 | --- | --- |
 | 1 | `pnpm --filter @afenda/shadcn-studio test:run` |
-| 2 | `pnpm check:studio-block-acpa-acceptance` *(proposed — P06-006)* |
-| 3 | `pnpm check:studio-auth-surface-wcag-aa` *(proposed — P06-007)* |
+| 2 | `pnpm check:studio-block-acpa-acceptance` |
+| 3 | `pnpm check:studio-auth-surface-wcag-aa` |
 | 4 | `pnpm test:interaction` *(auth + block interaction subsets)* |
 
 > **Maturity is part of authority.** ACPA is the **primary** operator-surface profile. WCAG 2.2 AA is an **additional mandatory floor** on Authorization-adjacent surfaces only — not a replacement for ACPA elsewhere.

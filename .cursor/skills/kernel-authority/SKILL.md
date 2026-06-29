@@ -21,11 +21,11 @@ paths:
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | `integration-proven` (IS-002 skeleton) · `runtime_partial` (IS-003 — R1c gate pending) — IS-001 live; R1a/R1b/R1d attestation archived |
-| **Remaining slices** | none for R1 family — R1c gate registration follow-up for §6 row 9 |
+| **Runtime status** | `integration-proven` (IS-002) · IS-003 code delivered (R1c) — optional gate registration follow-up · R1a–R1d attested |
+| **Remaining slices** | none for R1 family — optional: register `check:erp-metadata-pas006-consumer` in root `package.json` |
 | **Canonical** | [`PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) |
 
-> PAS-001: [`KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · Slices: [`KERNEL/SLICE/`](../../../docs/PAS/KERNEL/SLICE/README.md) · Index: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+> PAS-001: [`KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · Slices: [`KERNEL/SLICE/`](../../../docs/PAS/KERNEL/SLICE/README.md) · Index: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md) · **Lanes:** [`DEVELOPMENT-LANE-BOUNDARIES.md`](../../../docs/PAS/DEVELOPMENT-LANE-BOUNDARIES.md) (do not parallel PAS-005 CSS)
 
 **Doctrine:** Kernel is not ERP runtime — kernel is the accepted vocabulary consumed by ERP runtime. Load PAS-001A §0 + §3 Context Map + §4 Governance Rules when touching `apps/erp/src/lib/context/**`, permission-scope wiring, or `CONTEXT_INTEGRATION_WIRING`. Pair with `multi-tenancy-erp`.
 

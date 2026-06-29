@@ -69,6 +69,9 @@ P06-010  Enterprise Accepted attestation (family)  [Delivered — registry promo
 
 ---
 
-## Next sequence item
+## Next work (post P06 family close)
 
-**PAS-001A-R1** — ERP protected-route render + operating-context spine (PAS-001A family; not PAS-006D).
+| Track | Owner | Notes |
+| --- | --- | --- |
+| ERP route hydration | PAS-001A · `apps/erp` | Wire accepted blocks to operator routes via IS-003 |
+| Optional gate | Root `package.json` | `check:erp-metadata-pas006-consumer` registration |

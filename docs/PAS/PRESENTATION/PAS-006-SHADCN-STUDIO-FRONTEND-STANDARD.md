@@ -4,7 +4,7 @@
 
 > **Constitutional sentence:** shadcn/studio is Afenda's governed frontend manufacturing system — raw vendor blocks enter stabilization, prove ACPA (and WCAG 2.2 AA on Authorization-adjacent surfaces), bind theme and metadata, earn an Acceptance Record, and only then wire or customize operator surfaces.
 
-> **Runtime truth:** Live product implementation is in [PAS-006A](PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md). Relational inventory, acceptance gates, and metadata composition are **PAS-006B–006D** (proposed). Do not claim Enterprise Accepted from this charter alone.
+> **Runtime truth:** P06-001–P06-010 + P06-008-R1/R2 **delivered**. Implementation detail lives in [PAS-006A](PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md)–[PAS-006D](PAS-006D-METADATA-DRIVEN-SURFACES-STANDARD.md). PKGR05A **Enterprise Accepted** per [pas-status-index](../pas-status-index.md).
 
 | Field | Value |
 | --- | --- |

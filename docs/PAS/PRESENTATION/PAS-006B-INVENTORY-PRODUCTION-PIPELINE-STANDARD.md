@@ -8,18 +8,18 @@
 | **Parent charter** | [PAS-006](PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) |
 | **Package** | `@afenda/shadcn-studio` |
 | **Blueprint box** | shadcn/studio Presentation |
-| **Maturity** | Proposed |
-| **Runtime status** | P06-003 delivered — slot map + block data contracts live; lifecycle enforcement pending |
-| **Remaining slices** | P06-004 (next) · P06-005–P06-010 (proposed) |
+| **Maturity** | Production Candidate |
+| **Runtime status** | P06-002–P06-004 delivered — relational inventory, slot map, block data contracts, lifecycle registry live |
+| **Remaining slices** | none — hardening via PAS-006C/006D only |
 | **Depends on** | [PAS-006A](PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md) product baseline |
 
-#### Required gates (target — activate on P06-004 close)
+#### Required gates
 
 | # | Gate command |
 | --- | --- |
 | 1 | `pnpm --filter @afenda/shadcn-studio typecheck` |
 | 2 | `pnpm --filter @afenda/shadcn-studio test:run` |
-| 3 | `pnpm check:studio-inventory-lifecycle` *(proposed gate — add in P06-004)* |
+| 3 | `pnpm check:studio-inventory-lifecycle` |
 | 4 | `pnpm check:foundation-disposition` |
 
 > **Maturity is part of authority.** Do not claim block **Accepted** until PAS-006C Acceptance Record exists. This PAS owns **structure and lifecycle**, not ACPA proof.

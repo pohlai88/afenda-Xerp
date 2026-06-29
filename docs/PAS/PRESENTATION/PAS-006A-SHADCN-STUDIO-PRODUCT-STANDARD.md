@@ -13,7 +13,7 @@
 | **Agent skill** | `shadcn-studio` · `.cursor/skills/shadcn-studio/SKILL.md` |
 | **Maturity** | Production Candidate |
 | **Runtime status** | Theme presets, MCP block seed, CSS dist chain, Storybook lab, ERP globals composition live |
-| **Remaining slices** | P06-001 delivered (legacy B38–B42f) — product hardening only via 006B–006C |
+| **Remaining slices** | none for P06 family — operator-surface route expansion in ERP |
 | **Consumers** | `apps/erp`, `apps/storybook` |
 | **Slice directory** | `docs/PAS/PRESENTATION/SLICE/` |
 

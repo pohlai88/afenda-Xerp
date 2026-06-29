@@ -5,7 +5,8 @@
 | **Scope** | Design layer — one Blueprint box · `@afenda/shadcn-studio` |
 | **Upstream** | [Presentation North Star](../../NORTHSTAR/shadcn-studio-presentation-north-star.md) · [Presentation Blueprint](../../BLUEPRINT/shadcn-studio-presentation-blueprint.md) |
 | **Slice SSOT** | [`SLICE/`](SLICE/README.md) — handoffs `P06-001` … |
-| **Maturity** | Production Candidate — **not yet Enterprise Accepted** |
+| **Lane boundaries** | [DEVELOPMENT-LANE-BOUNDARIES.md](../DEVELOPMENT-LANE-BOUNDARIES.md) |
+| **Maturity** | **Enterprise Accepted** — PKGR05A promoted (P06-010) |
 | **Last reviewed** | 2026-06-29 |
 
 > **One sentence:** Five PAS documents govern frontend manufacturing doctrine, presentation product runtime, relational inventory & production pipeline, ACPA/WCAG acceptance, and metadata-driven surfaces — with slice handoffs in `PRESENTATION/SLICE/` and runtime in `@afenda/shadcn-studio`.
@@ -32,14 +33,14 @@ Platform North Star
 | PAS ID | Document | Role | Maturity | Slices |
 | --- | --- | --- | --- | --- |
 | **PAS-006** | [PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md](PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) | Constitutional charter · manufacturing doctrine | MVP Authority (charter) | — (superseded by 006A–006D for implementation) |
-| **PAS-006A** | [PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md](PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md) | Presentation product — theme, CSS, MCP, exports | Production Candidate | P06-001 delivered (legacy B38–B42f) |
-| **PAS-006B** | [PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md](PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md) | Relational inventory · lifecycle · slots · contracts | Proposed | P06-002–P06-004 (proposed) |
-| **PAS-006C** | [PAS-006C-SURFACE-ACCEPTANCE-ACPA-STANDARD.md](PAS-006C-SURFACE-ACCEPTANCE-ACPA-STANDARD.md) | Acceptance Record · ACPA · auth WCAG AA | Proposed | P06-005–P06-007 (proposed) |
-| **PAS-006D** | [PAS-006D-METADATA-DRIVEN-SURFACES-STANDARD.md](PAS-006D-METADATA-DRIVEN-SURFACES-STANDARD.md) | Metadata binding · surface templates | Proposed | P06-008–P06-009 (proposed) |
+| **PAS-006A** | [PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md](PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md) | Presentation product — theme, CSS, MCP, exports | Production Candidate | P06-001 **Delivered** |
+| **PAS-006B** | [PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md](PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md) | Relational inventory · lifecycle · slots · contracts | Production Candidate | P06-002–P06-004 **Delivered** |
+| **PAS-006C** | [PAS-006C-SURFACE-ACCEPTANCE-ACPA-STANDARD.md](PAS-006C-SURFACE-ACCEPTANCE-ACPA-STANDARD.md) | Acceptance Record · ACPA · auth WCAG AA | Production Candidate | P06-005–P06-007 **Delivered** |
+| **PAS-006D** | [PAS-006D-METADATA-DRIVEN-SURFACES-STANDARD.md](PAS-006D-METADATA-DRIVEN-SURFACES-STANDARD.md) | Metadata binding · surface templates · DOM slot markers | Production Candidate | P06-008–P06-009 · P06-008-R1/R2 **Delivered** |
+
+**Runtime authority today:** PAS-006 family P06-001–P06-010 + P06-008-R1/R2 delivered. **Not** PAS-005 (retired — see [DEVELOPMENT-LANE-BOUNDARIES.md](../DEVELOPMENT-LANE-BOUNDARIES.md)).
 
 **Agent skill:** `shadcn-studio` · `.cursor/skills/shadcn-studio/SKILL.md`
-
-**Runtime authority today:** PAS-006A (product baseline live). PAS-006B–006D are **required** before Enterprise Accepted attestation (P06-010).
 
 ---
 
@@ -67,7 +68,8 @@ Platform North Star
 ## Hard stops (family-wide)
 
 - Do not import `@afenda/kernel` into `@afenda/shadcn-studio`.
-- Do not restore `@afenda/ui`, appshell, metadata-ui, css-authority without ADR.
+- Do not restore `@afenda/ui`, appshell, metadata-ui, `@afenda/css-authority` without ADR.
+- Do not execute PAS-005 / `css-authority` skill for ERP — retired; see [DEVELOPMENT-LANE-BOUNDARIES.md](../DEVELOPMENT-LANE-BOUNDARIES.md).
 - Do not wire raw MCP blocks to ERP routes without Acceptance Record (NS §3.7 · PAS-006C).
 - Do not customize blocks before **Stabilized** + **Theme-bound** lifecycle states (NS §8.1 · PAS-006B).
 - PKGR05A disposition edits → `foundation-registry-owner` only.

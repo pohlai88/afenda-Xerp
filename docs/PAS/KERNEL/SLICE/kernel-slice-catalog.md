@@ -55,15 +55,15 @@ PAS-001B: B76 → B106
 | B74 | [b74-metadata-context-authorization-bridge.md](./b74-metadata-context-authorization-bridge.md) | Delivered |
 | B75 | [b75-pas001a-production-candidate-attestation.md](./b75-pas001a-production-candidate-attestation.md) | Delivered |
 
-## PAS-001A-R1 — skeleton rebuild (delivered — R1c gate follow-up)
+## PAS-001A-R1 — skeleton rebuild (delivered)
 
-> ADR-0027 skeleton re-attestation. **Order:** R1a → R1b → R1c → R1d. R1d attestation **9/10** (row 9 pending R1c gate).
+> ADR-0027 skeleton re-attestation. **Order:** R1a → R1b → R1c → R1d. All delivered — optional R1c gate registration in root `package.json`.
 
 | Slice | Handoff | Status |
 | --- | --- | --- |
 | R1a | [pas-001a-r1a-is002-operating-context-spine.md](./pas-001a-r1a-is002-operating-context-spine.md) | **Delivered** |
 | R1b | [pas-001a-r1b-protected-app-router-shell.md](./pas-001a-r1b-protected-app-router-shell.md) | **Delivered** |
-| R1c | [pas-001a-r1c-metadata-consumer-pas006.md](./pas-001a-r1c-metadata-consumer-pas006.md) | **Proposed** *(gate pending)* |
+| R1c | [pas-001a-r1c-metadata-consumer-pas006.md](./pas-001a-r1c-metadata-consumer-pas006.md) | **Delivered** *(optional gate registration)* |
 | R1d | [pas-001a-r1d-production-candidate-reclose.md](./pas-001a-r1d-production-candidate-reclose.md) | **Delivered** |
 
 ## PAS-001B — B76–B106 (delivered)

@@ -174,7 +174,7 @@ Read in order:
 
 **Frontend presentation (PAS-006):** [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md) · [`docs/NORTHSTAR/shadcn-studio-presentation-north-star.md`](docs/NORTHSTAR/shadcn-studio-presentation-north-star.md) · [`docs/BLUEPRINT/shadcn-studio-presentation-blueprint.md`](docs/BLUEPRINT/shadcn-studio-presentation-blueprint.md) · `@afenda/shadcn-studio` — stock shadcn/studio via MCP; unprefixed CSS vars; **no** `ui:guard` or PAS-005 slice execution for ERP.
 
-**Retired for ERP frontend:** PAS-005/CSS-AUTHORITY family archived under [`docs/_retired/legacy-css-authority/`](docs/_retired/legacy-css-authority/SUPERSEDED-BY-ADR-0027.md).
+**Retired for ERP frontend:** PAS-005/CSS-AUTHORITY — historical audit only; **do not parallel** with Kernel or PAS-006 work. See [`docs/PAS/DEVELOPMENT-LANE-BOUNDARIES.md`](docs/PAS/DEVELOPMENT-LANE-BOUNDARIES.md) · [`docs/PAS/CSS-AUTHORITY/README.md`](docs/PAS/CSS-AUTHORITY/README.md).
 
 **Planning:** [`.cursor/skills/pas-slice-planner/SKILL.md`](.cursor/skills/pas-slice-planner/SKILL.md)
 

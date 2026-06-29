@@ -322,7 +322,7 @@ Execute in order. Do not skip consumer proof before B37 attestation.
 
 - ID parse/prefix implementation → `packages/kernel/src/identity/`
 - Metadata section registry rows → `@afenda/ui-composition`
-- Docs editorial tokens → `apps/docs` CSS layers (PAS-005)
+- Docs editorial tokens → `apps/docs` CSS layers only (not ERP; PAS-005 retired for ERP — see [DEVELOPMENT-LANE-BOUNDARIES.md](../DEVELOPMENT-LANE-BOUNDARIES.md))
 
 ---
 

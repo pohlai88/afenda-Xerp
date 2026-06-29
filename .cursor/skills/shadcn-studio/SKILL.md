@@ -12,9 +12,9 @@ paths:
 
 # shadcn/studio
 
-**Authority:** [PAS-006](../../docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) · [ADR-0027](../../docs/adr/ADR-0027-frontend-presentation-reset.md) · [North Star](../../docs/NORTHSTAR/shadcn-studio-presentation-north-star.md) · `.cursor/rules/shadcn-studio.instructions.mdc`
+**Authority:** [PAS-006](../../docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) · [ADR-0027](../../docs/adr/ADR-0027-frontend-presentation-reset.md) · [North Star](../../docs/NORTHSTAR/shadcn-studio-presentation-north-star.md) · **Lanes:** [DEVELOPMENT-LANE-BOUNDARIES](../../docs/PAS/DEVELOPMENT-LANE-BOUNDARIES.md) · `.cursor/rules/shadcn-studio.instructions.mdc`
 
-**Retired for ERP:** PAS-005 family, appshell bridge, `ui:guard*`, governed-ui strip pipeline.
+**Retired for ERP:** PAS-005 family (historical audit only), appshell bridge, `ui:guard*`, governed-ui strip pipeline — **do not parallel** with Kernel PAS-001A work.
 
 ---
 

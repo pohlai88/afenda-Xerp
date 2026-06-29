@@ -1,5 +1,7 @@
 # Slice B74 — Metadata Context Authorization Bridge (PAS-001A §1.2 D6 · IS-003)
 
+> **Historical consumer note (ADR-0027):** Handoff references `@afenda/metadata-ui` and appshell-era wiring. **Live consumer** is PAS-006 + `apps/erp/src/lib/metadata/` — see [R1c](./pas-001a-r1c-metadata-consumer-pas006.md) and [DEVELOPMENT-LANE-BOUNDARIES.md](../../DEVELOPMENT-LANE-BOUNDARIES.md).
+
 > **Position:** Slice `4 of 5` in PAS-001A · Blueprint box: `ERP Integration Spine`
 
 **Prerequisite:** B72 Delivered

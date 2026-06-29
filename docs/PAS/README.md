@@ -103,8 +103,10 @@ docs/PAS/
 | [`ARCHITECTURE-AUTHORITY/`](ARCHITECTURE-AUTHORITY/README.md) | PAS-002 · PAS-002A | [`architecture-authority-slice-catalog.md`](ARCHITECTURE-AUTHORITY/SLICE/architecture-authority-slice-catalog.md) |
 | [`ACCOUNTING-STANDARDS/`](ACCOUNTING-STANDARDS/README.md) | PAS-003 | [`accounting-slice-catalog.md`](ACCOUNTING-STANDARDS/SLICE/accounting-slice-catalog.md) |
 | [`ENTERPRISE-KNOWLEDGE/`](ENTERPRISE-KNOWLEDGE/README.md) | PAS-004–PAS-004D | [`enterprise-knowledge-slice-catalog.md`](ENTERPRISE-KNOWLEDGE/SLICE/enterprise-knowledge-slice-catalog.md) |
-| [`PRESENTATION/`](PRESENTATION/README.md) | PAS-006 | *(single standard — no slice catalog)* |
-| [`CSS-AUTHORITY/`](CSS-AUTHORITY/README.md) | PAS-005 family | **Retired** — archived; stub redirect only |
+| [`PRESENTATION/`](PRESENTATION/README.md) | PAS-006 | [`presentation-slice-catalog.md`](PRESENTATION/SLICE/presentation-slice-catalog.md) |
+| [`CSS-AUTHORITY/`](CSS-AUTHORITY/README.md) | PAS-005 family | **Retired** — historical audit only; see [DEVELOPMENT-LANE-BOUNDARIES.md](DEVELOPMENT-LANE-BOUNDARIES.md) |
+
+**Non-parallel lanes:** Kernel (PAS-001/001A/001B), Presentation (PAS-006), and retired CSS (PAS-005) must not be executed as parallel work queues. SSOT: [DEVELOPMENT-LANE-BOUNDARIES.md](DEVELOPMENT-LANE-BOUNDARIES.md).
 
 **Deprecated shim:** flat [`docs/PAS/slice/`](slice/README.md) holds **temporary tombstone redirects only** (CSS Authority `b*-pas005*` today). **Scheduled for complete removal.** Slice handoffs SSOT is always `<DOMAIN-FOLDER>/SLICE/` — update links and Phase 0 handoffs to the family path without delay.
 
@@ -174,17 +176,17 @@ Agent read order: [Architecture Authority North Star](../NORTHSTAR/architecture-
 
 Package-local annotated tree: [`packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md`](../../packages/architecture-authority/PAS-002-ARCHITECTURE-TREE.md)
 
-### CSS Authority PAS family (composed governance layer)
+### CSS Authority PAS family — **Retired (historical audit only)**
 
-Design Token Authority chain SSOT: [`CSS-AUTHORITY/README.md`](CSS-AUTHORITY/README.md) · slices: [`CSS-AUTHORITY/SLICE/`](CSS-AUTHORITY/SLICE/README.md) · catalog: [`css-authority-slice-catalog.md`](CSS-AUTHORITY/SLICE/css-authority-slice-catalog.md).
+> **Do not execute.** ERP frontend CSS and presentation manufacturing live under **PAS-006** ([`PRESENTATION/README.md`](PRESENTATION/README.md)). See [DEVELOPMENT-LANE-BOUNDARIES.md](DEVELOPMENT-LANE-BOUNDARIES.md).
 
-| Composed SSOT | Package |
-| --- | --- |
-| [CSS-AUTHORITY/PAS-005](CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md) | `@afenda/css-authority` |
-| [CSS-AUTHORITY/PAS-005A](CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md) | `@afenda/shadcn-studio` |
-| [CSS-AUTHORITY/PAS-005B](CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) | `@afenda/design-system` (retiring) |
+| Historical doc | Former package | Active replacement |
+| --- | --- | --- |
+| [CSS-AUTHORITY/README.md](CSS-AUTHORITY/README.md) | `@afenda/css-authority` | PAS-006A · `@afenda/shadcn-studio` |
+| PAS-005A (merged) | legacy shadcn PAS id | PAS-006 family |
+| PAS-005B | `@afenda/design-system` strangler | ADR-0027 cutover |
 
-Agent read order: [Design Token Authority North Star](../NORTHSTAR/css-authority-north-star.md) → [CSS Authority Blueprint](../BLUEPRINT/css-authority-blueprint.md) → [CSS-AUTHORITY/README.md](CSS-AUTHORITY/README.md) → [CSS-AUTHORITY/SLICE/README.md](CSS-AUTHORITY/SLICE/README.md).
+Historical slices: [`CSS-AUTHORITY/SLICE/`](CSS-AUTHORITY/SLICE/) · catalog: [`css-authority-slice-catalog.md`](CSS-AUTHORITY/SLICE/css-authority-slice-catalog.md) — **audit only**, listed under **Historical / archived** in [`pas-status-index.md`](pas-status-index.md).
 
 ### Enterprise Knowledge PAS family (composed governance layer)
 
@@ -214,9 +216,10 @@ Each PAS has a corresponding Cursor agent skill for IDE-optimized enforcement:
 | PAS-002 | `.cursor/skills/architecture-authority/SKILL.md` |
 | PAS-003 | `.cursor/skills/accounting-standards-authority/SKILL.md` |
 | PAS-004 | `.cursor/skills/enterprise-knowledge/SKILL.md` |
-| PAS-005 | `.cursor/skills/css-authority/SKILL.md` |
-| PAS-005A | `.cursor/skills/shadcn-studio-authority/SKILL.md` |
-| PAS-005B | `.cursor/skills/css-authority/SKILL.md` + `.cursor/skills/shadcn-studio-authority/SKILL.md` |
+| PAS-006 | `.cursor/skills/shadcn-studio/SKILL.md` |
+| ~~PAS-005~~ | **Retired** — use `shadcn-studio` · [DEVELOPMENT-LANE-BOUNDARIES.md](DEVELOPMENT-LANE-BOUNDARIES.md) |
+| ~~PAS-005A~~ | **Retired** — merged into PAS-006 |
+| ~~PAS-005B~~ | **Retired** — ADR-0027 cutover |
 | Accessibility (cross-PAS) | `.cursor/skills/afenda-accessibility/SKILL.md` |
 
 Appendix (temporary borrow refs): [PAS-003 Appendix A](ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#appendix-a--borrow-reference-inventory-temporary)
