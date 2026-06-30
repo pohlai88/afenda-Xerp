@@ -21,7 +21,7 @@
 | **Machine registry** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) · `PKGR03_ACCOUNTING_STANDARDS` |
 | **Quality target** | Enterprise **10 / 10** (Enterprise Accepted blocked on Domain NS §15 + §16) |
 | **Evidence standard** | [doc-evidence-standard.md](../../.cursor/skills/kernel-authority/reference/doc-evidence-standard.md) |
-| **Last reviewed** | 2026-06-29 (documentation-audit sync — B0–B11 + B13–B16 delivered) |
+| **Last reviewed** | 2026-06-29 (documentation-audit sync — B0–B16 delivered; B12 closed 2026-06-30) |
 | **Next document** | [PAS-003](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) · [Slice SSOT](../PAS/ACCOUNTING-STANDARDS/SLICE/README.md) |
 
 > **One sentence:** One Foundation-layer **Accounting standards authority** box owns the authority consumption layer — citing external IFRS/MFRS/SFRS bodies through registries and deterministic validation — wired end-to-end from external publishers through Domain North Star, PAS, package surfaces, and every downstream runtime that must validate **before** posting, consolidation, or disclosure.
@@ -200,8 +200,8 @@ packages/accounting-standards/
 | B3 | ADR-0010 | T0 | Accounting runtime blocked — consumer gate | [`docs/adr/ADR-0010`](../adr/ADR-0010-no-accounting-before-foundation-gate.md) |
 | B4 | Domain NS §12 D1–D6 | T1 | Capability → box · ERP-parity extensions | [`accounting-standards-north-star.md`](../NORTHSTAR/accounting-standards-north-star.md) |
 | B5 | IFRS Foundation | T3 | External authority — not Afenda | Domain NS §3.1 · PAS §4.3 anchor |
-| B6 | PKG-023 · PKGR03 | T4 | Live package · blue-lane disposition | [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) |
-| B7 | PAS-003 published | T5 | B0–B11 + B13–B16 delivered; B12 pending | [`PAS-003`](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) |
+| B6 | PKG-023 · PKGR03 | T4 | Live package · green-lane disposition | [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) |
+| B7 | PAS-003 published | T5 | B0–B16 delivered | [`PAS-003`](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) |
 
 ---
 
@@ -325,7 +325,7 @@ Accounting standards authority (one box)
                                     ▼
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │ IMPLEMENTATION                                                               │
-│ packages/accounting-standards/src/ (B0–B11 + B13–B16 delivered · B12 governance pending) │
+│ packages/accounting-standards/src/ (B0–B16 delivered · B17–B20 proposed) │
 │ Depends: @afenda/kernel · architecture authority (registry discipline)       │
 └───────────────────────────────────┬─────────────────────────────────────────┘
                                     ▼
@@ -399,7 +399,7 @@ pnpm architecture:drift · pnpm check:documentation-drift
 | New jurisdiction profile | Domain NS §3.2 → PAS §4.4 routing → jurisdiction tests |
 | New consumer package | Platform Blueprint §5 → PAS metadata Consumers → dependency registry |
 | Slice delivered | PAS §12 → pas-status-index → Platform Blueprint §10 counts |
-| Enterprise Accepted | Domain NS §15 all criteria ✓ → B12 governance slice · B13–B16 if △ open |
+| Enterprise Accepted | Domain NS §15 all criteria ✓ → B17–B20 runtime + B20 consumer proof |
 
 ---
 
@@ -482,9 +482,18 @@ This domain blueprint scope: **Accounting standards authority** only — status 
 
 | PAS | Title | Blueprint box | Live / Total slices | Status |
 | --- | --- | --- | --- | --- |
-| PAS-003 | Accounting Standards Authority Standard | **Accounting standards authority** | 16 / 17 | Production Candidate |
+| PAS-003 | Accounting Standards Authority Standard | **Accounting standards authority** | 17 / 17 delivered · B17–B20 proposed | Production Candidate |
 
-> B0–B11 + B13–B16 delivered · B12 enterprise acceptance sync not started. Sync from [`pas-status-index.md`](../PAS/pas-status-index.md) on slice close.
+**Proposed extensions (documentation only — closes Domain NS E8–E10 △ + consumer proof):**
+
+| Slice | Title | Closes |
+| --- | --- | --- |
+| B17 | Transaction-date edition resolution | E10 |
+| B18 | Jurisdiction registry | E8 |
+| B19 | Conflict precedence engine | E9 |
+| B20 | ERP consumer workflow proof (ADR-0027) | PAS §11.6 criterion 8 |
+
+> B0–B16 delivered (B12 governance doc sync 2026-06-30) · proposed B17–B20 · consumer proof deferred to B20. Sync from [`pas-status-index.md`](../PAS/pas-status-index.md) on slice close.
 
 ---
 
@@ -494,7 +503,7 @@ This domain blueprint scope: **Accounting standards authority** only — status 
 | --- | --- | --- | --- |
 | **Accounting standards authority** | `PKG-023` · `@afenda/accounting-standards` | PAS-003 | Production Candidate |
 
-Disposition: `PKGR03_ACCOUNTING_STANDARDS` · blue-lane · authority PAS-003.
+Disposition: `PKGR03_ACCOUNTING_STANDARDS` · green-lane · authority PAS-003 · Enterprise Accepted.
 
 ---
 

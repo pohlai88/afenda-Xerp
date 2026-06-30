@@ -412,19 +412,19 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 ---
 
-## PAS-003 Accounting Standards Authority — publish (Production Candidate)
+## PAS-003 Accounting Standards Authority — Enterprise Accepted
 
 | Field | Value |
 | --- | --- |
-| **Status** | Published — Production Candidate |
+| **Status** | Published — Enterprise Accepted |
 | **Authority** | PAS-003 · `PKGR03_ACCOUNTING_STANDARDS` · PKG-023 |
 | **Family SSOT** | [ACCOUNTING-STANDARDS/README.md](ACCOUNTING-STANDARDS/README.md) · [SLICE/](ACCOUNTING-STANDARDS/SLICE/README.md) |
-| **Maturity** | `production_candidate` · `accepted_for_implementation` · `partial` · `concept` |
-| **Runtime status** | B0–B11 + B13–B16 delivered — registries, IFRS pack, validation engine, 16 tests passing |
-| **Remaining slices** | B12 — enterprise acceptance sync (governance only; consumer workflow proof pending) |
-| **Runtime evidence** | [PAS-003 canonical doc](ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md), [PAS-003-TREE](../../packages/accounting-standards/PAS-003-ACCOUNTING-STANDARDS-TREE.md), `validatePostingAgainstAccountingStandards`, IFRS 16 lease proof test |
-| **Gates** | `pnpm --filter @afenda/accounting-standards typecheck`, `pnpm --filter @afenda/accounting-standards test:run`, `pnpm quality:architecture`, `pnpm architecture:cycles`, `pnpm architecture:drift`, `pnpm quality:boundaries` |
-| **Result** | PAS-003 B1–B11 + B13–B16 implementation delivered; Production Candidate; Enterprise Accepted **not** claimed (B12 + consumer evidence pending) |
+| **Maturity** | `enterprise_accepted` · `accepted_for_implementation` · `substantial` · `tested_contracts` |
+| **Remaining slices** | — |
+| **Runtime status** | B0–B20 delivered — 31 package tests + ERP consumer proof |
+| **Runtime evidence** | [PAS-003 canonical doc](ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md), [PAS-003-TREE](../../packages/accounting-standards/PAS-003-ACCOUNTING-STANDARDS-TREE.md), `validatePostingAgainstAccountingStandards`, `apps/erp/src/lib/accounting-standards` |
+| **Gates** | `pnpm --filter @afenda/accounting-standards typecheck`, `pnpm --filter @afenda/accounting-standards test:run`, `pnpm check:accounting-standards-metadata-consumer-proof`, `pnpm quality:architecture`, `pnpm architecture:cycles`, `pnpm architecture:drift`, `pnpm quality:boundaries` |
+| **Result** | PAS-003 Enterprise Accepted (B17–B20 delivered 2026-06-30) |
 
 | Slice | Doc | PAS § | Status |
 | --- | --- | --- | --- |
@@ -440,13 +440,17 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | B9 | [b9-4.9-ifrs-16-lease-posting-proof.md](ACCOUNTING-STANDARDS/SLICE/b9-4.9-ifrs-16-lease-posting-proof.md) | §4.9 | Delivered |
 | B10 | [b10-4.10-explanation-registry.md](ACCOUNTING-STANDARDS/SLICE/b10-4.10-explanation-registry.md) | §4.10 | Delivered |
 | B11 | [b11-4.11-audit-evidence-snapshot.md](ACCOUNTING-STANDARDS/SLICE/b11-4.11-audit-evidence-snapshot.md) | §4.11 | Delivered |
-| B12 | [b12-11-enterprise-acceptance-sync.md](ACCOUNTING-STANDARDS/SLICE/b12-11-enterprise-acceptance-sync.md) | §11 | Not started |
+| B12 | [b12-11-enterprise-acceptance-sync.md](ACCOUNTING-STANDARDS/SLICE/b12-11-enterprise-acceptance-sync.md) | §11 | Delivered |
 | B13 | [b13-reporting-context-profile-routing.md](ACCOUNTING-STANDARDS/SLICE/b13-reporting-context-profile-routing.md) | §4.4 | Delivered |
 | B14 | [b14-scope-gate-judgment-escalation.md](ACCOUNTING-STANDARDS/SLICE/b14-scope-gate-judgment-escalation.md) | §4.7 | Delivered |
 | B15 | [b15-authority-supersession-metadata.md](ACCOUNTING-STANDARDS/SLICE/b15-authority-supersession-metadata.md) | §4.3 | Delivered |
 | B16 | [b16-cross-representation-routing.md](ACCOUNTING-STANDARDS/SLICE/b16-cross-representation-routing.md) | §4.4 | Delivered |
+| B17 | [b17-transaction-date-edition-resolution.md](ACCOUNTING-STANDARDS/SLICE/b17-transaction-date-edition-resolution.md) | §4.3 | Delivered |
+| B18 | [b18-jurisdiction-profile-routing.md](ACCOUNTING-STANDARDS/SLICE/b18-jurisdiction-profile-routing.md) | §4.4 | Delivered |
+| B19 | [b19-conflict-precedence-engine.md](ACCOUNTING-STANDARDS/SLICE/b19-conflict-precedence-engine.md) | §4.6 | Delivered |
+| B20 | [b20-erp-consumer-workflow-proof.md](ACCOUNTING-STANDARDS/SLICE/b20-erp-consumer-workflow-proof.md) | §11 | Delivered |
 
-**Next sequence item:** Slice B12 — enterprise acceptance sync (governance; requires consumer workflow evidence before Enterprise Accepted).
+**Next sequence item:** — (PAS-003 B0–B20 complete; Enterprise Accepted)
 
 > Slice doc paths: `docs/PAS/ACCOUNTING-STANDARDS/SLICE/<filename>` — catalog: [`accounting-slice-catalog.md`](ACCOUNTING-STANDARDS/SLICE/accounting-slice-catalog.md).
 

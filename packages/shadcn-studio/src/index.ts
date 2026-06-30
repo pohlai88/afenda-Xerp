@@ -15,6 +15,8 @@ export {
   shadcnStudioThemeLabDocs,
 } from "./_storybook/story-parameters.js";
 
+export { ErpDashboardShell } from "./components/erp-shell/erp-dashboard-shell.js";
+export { ErpShellNav } from "./components/erp-shell/erp-shell-nav.js";
 export { default as AccountSettings01Block } from "./components/shadcn-studio/blocks/account-settings-01/account-settings-01.js";
 export { default as AccountSettings02Block } from "./components/shadcn-studio/blocks/account-settings-02/account-settings-02.js";
 export { default as AccountSettings03Block } from "./components/shadcn-studio/blocks/account-settings-03/account-settings-03.js";
@@ -26,6 +28,7 @@ export { default as ChartEarningReportBlock } from "./components/shadcn-studio/b
 export { default as ChartSalesMetricsBlock } from "./components/shadcn-studio/blocks/chart-sales-metrics.js";
 export { default as DatatableCourseBlock } from "./components/shadcn-studio/blocks/datatable-course.js";
 export { default as DatatableInvoiceBlock } from "./components/shadcn-studio/blocks/datatable-invoice.js";
+export type { Item as DatatableUserRow } from "./components/shadcn-studio/blocks/datatable-user.js";
 export { default as DatatableUserBlock } from "./components/shadcn-studio/blocks/datatable-user.js";
 export { default as ActivityDialogBlock } from "./components/shadcn-studio/blocks/dialog-activity.js";
 export { default as SearchDialogBlock } from "./components/shadcn-studio/blocks/dialog-search.js";
@@ -105,6 +108,13 @@ export {
   type BlockSlotDomMarkerProps,
   blockSlotDomMarkerProps,
 } from "./contracts/block-slot-dom-marker.contract.js";
+export {
+  type ErpNavGroupWire,
+  type ErpNavItemWire,
+  type ErpShellOperatingContextWire,
+  isErpNavGroupWire,
+  isErpNavItemWire,
+} from "./contracts/erp-shell.contract.js";
 export {
   isMetadataBindingContractWire,
   isValidMetadataBindingPresentationKind,
@@ -226,6 +236,10 @@ export {
   type ResolvedColorMode,
 } from "./theme/apply-theme-preset.js";
 export {
+  ErpPresentationProviders,
+  type ErpPresentationProvidersProps,
+} from "./theme/erp-presentation-providers.js";
+export {
   initialSettings,
   type Settings,
   type SettingsContextValue,
@@ -246,14 +260,20 @@ export {
   PRESET_CSS_VARS,
   type PresetCssVar,
   RADIUS_VALUES,
+  THEME_LAYOUTS,
   THEME_PRESET_SLUGS,
+  THEME_SIDEBAR_COLLAPSIBLES,
+  THEME_SIDEBAR_VARIANTS,
   type ThemeFont,
+  type ThemeLayout,
   type ThemeMode,
   type ThemePreset,
   type ThemePresetMap,
   type ThemePresetSlug,
   type ThemeRadius,
   type ThemeScale,
+  type ThemeSidebarCollapsible,
+  type ThemeSidebarVariant,
   type ThemeStyleProps,
   type ThemeStyles,
 } from "./theme/theme-preset.contract.js";

@@ -4,7 +4,7 @@
 
 **Prerequisite:** B3–B4 delivered
 
-**Status:** Not started
+**Status:** Delivered (2026-06-29)
 
 **Type:** Implementation
 

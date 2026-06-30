@@ -4,6 +4,9 @@ import { getAccountingStandardVersionRef } from "../standard-version.registry.js
 const IFRS_18_VERSION = getAccountingStandardVersionRef(
   "IFRS_18_REQUIRED_2026"
 );
+const IFRS_18_GROUP_PRESENTATION_POLICY = getAccountingStandardVersionRef(
+  "IFRS_18_GROUP_PRESENTATION_POLICY"
+);
 
 export const IFRS_18_PRESENTATION_DISCLOSURE_RULES: readonly AccountingStandardPostingRule[] =
   IFRS_18_VERSION
@@ -28,7 +31,10 @@ export const IFRS_18_PRESENTATION_DISCLOSURE_RULES: readonly AccountingStandardP
           conditionKey: "presentation_category_mapping_missing",
           expectedProcessRoute: "map_presentation_category_before_disclosure",
           explanationKey: "ifrs18-presentation-category-missing-warning",
-          authorityRefs: [IFRS_18_VERSION],
+          authorityRefs:
+            IFRS_18_GROUP_PRESENTATION_POLICY === undefined
+              ? [IFRS_18_VERSION]
+              : [IFRS_18_VERSION, IFRS_18_GROUP_PRESENTATION_POLICY],
         },
       ]
     : [];

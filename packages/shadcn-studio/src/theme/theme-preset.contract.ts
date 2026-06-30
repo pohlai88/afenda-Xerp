@@ -140,7 +140,46 @@ export type ThemeRadius = "none" | "sm" | "md" | "lg";
 
 export type ThemeScale = "sm" | "md" | "lg";
 
+export type ThemeLayout = "compact" | "full";
+
+export type ThemeSidebarVariant = "default" | "inset" | "floating";
+
+export type ThemeSidebarCollapsible = "offcanvas" | "icon" | "none";
+
 export type ThemeFont = "geist";
+
+export const THEME_LAYOUTS = [
+  "compact",
+  "full",
+] as const satisfies readonly ThemeLayout[];
+
+export const THEME_SIDEBAR_VARIANTS = [
+  "default",
+  "inset",
+  "floating",
+] as const satisfies readonly ThemeSidebarVariant[];
+
+export const THEME_SIDEBAR_COLLAPSIBLES = [
+  "offcanvas",
+  "icon",
+  "none",
+] as const satisfies readonly ThemeSidebarCollapsible[];
+
+export function isThemeLayout(value: string): value is ThemeLayout {
+  return (THEME_LAYOUTS as readonly string[]).includes(value);
+}
+
+export function isThemeSidebarVariant(
+  value: string
+): value is ThemeSidebarVariant {
+  return (THEME_SIDEBAR_VARIANTS as readonly string[]).includes(value);
+}
+
+export function isThemeSidebarCollapsible(
+  value: string
+): value is ThemeSidebarCollapsible {
+  return (THEME_SIDEBAR_COLLAPSIBLES as readonly string[]).includes(value);
+}
 
 export const RADIUS_VALUES = {
   none: "0rem",

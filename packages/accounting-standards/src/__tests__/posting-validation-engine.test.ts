@@ -57,4 +57,23 @@ describe("posting validation engine", () => {
     expect(report.routedStandardKeys).toContain("IFRS_10");
     expect(report.results.length).toBeGreaterThan(0);
   });
+
+  it("resolves historical authority editions from transactionDate", () => {
+    const report = validatePostingAgainstAccountingStandards({
+      tenantId,
+      companyId,
+      eventType: "lease_contract_recognition",
+      accountingStandardFamily: "IFRS",
+      transactionDate: "2024-06-15",
+      transactionFacts: { leaseTermMonths: 24 },
+      postingDraft: null,
+    });
+
+    expect(report.transactionDate).toBe("2024-06-15");
+    expect(
+      report.resolvedAuthorityEditions.some(
+        (edition) => edition.versionKey === "IFRS_16_REQUIRED_2019"
+      )
+    ).toBe(true);
+  });
 });

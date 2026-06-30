@@ -201,10 +201,12 @@ export function checkDownstreamIntegration(): DownstreamViolation[] {
   checkRetiredPackagesAbsent(violations);
 
   checkConsumerDependencies(violations, "apps/erp", "apps/erp", [
+    "@afenda/accounting-standards",
     "@afenda/auth",
     "@afenda/database",
     "@afenda/enterprise-knowledge",
     "@afenda/erp-modules",
+    "@afenda/execution",
     "@afenda/kernel",
     "@afenda/observability",
     "@afenda/permissions",

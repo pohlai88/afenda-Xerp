@@ -60,7 +60,7 @@
 | PKG021_STORYBOOK | `@afenda/storybook` | blue-lane | no | — |
 | PKG022_EMAIL | `@afenda/email` | blue-lane | no | — |
 | PKGR02_ARCHITECTURE_AUTHORITY | `@afenda/architecture-authority` | green-lane | yes | see PAS-002A |
-| PKGR03_ACCOUNTING_STANDARDS | `@afenda/accounting-standards` | blue-lane | no | B12 enterprise acceptance sync pending · consumer workflow proof required |
+| PKGR03_ACCOUNTING_STANDARDS | `@afenda/accounting-standards` | green-lane | no | B0–B20 delivered · Enterprise Accepted (2026-06-30) |
 | PKGR04_ENTERPRISE_KNOWLEDGE | `@afenda/enterprise-knowledge` | green-lane | no | see PAS-004D |
 | PKGR05_CSS_AUTHORITY | `@afenda/css-authority` | archive-lane | no | retired for ERP frontend — ADR-0027 |
 | PKGR05A_SHADCN_STUDIO | `@afenda/shadcn-studio` | green-lane | no | sole ERP frontend design authority — PAS-006 · PKG-026 |

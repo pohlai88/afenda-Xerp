@@ -1,7 +1,11 @@
-import { count, eq } from "drizzle-orm";
+import { and, asc, count, eq, ne } from "drizzle-orm";
 
 import { insertAuditEvent } from "../audit/audit.writer.js";
-import type { AuditActorType } from "../database.types.js";
+import type {
+  AuditActorType,
+  RoleScope,
+  RoleStatus,
+} from "../database.types.js";
 import type { AfendaDatabase } from "../db.js";
 import { getDb } from "../db.js";
 import { memberships } from "../schema/membership.schema.js";
@@ -44,6 +48,40 @@ export interface ArchiveRoleInput {
 
 export interface RoleMutationResult {
   readonly id: string;
+}
+
+export interface TenantRoleListRow {
+  readonly description: string | null;
+  readonly id: string;
+  readonly key: string;
+  readonly name: string;
+  readonly scope: RoleScope;
+  readonly status: RoleStatus;
+  readonly tenantId: string | null;
+}
+
+/** Lists non-archived roles for a tenant authority directory. */
+export async function listTenantRoles(
+  input: {
+    readonly tenantId: string;
+  },
+  db: AfendaDatabase = getDb()
+): Promise<readonly TenantRoleListRow[]> {
+  return db
+    .select({
+      description: roles.description,
+      id: roles.id,
+      key: roles.key,
+      name: roles.name,
+      scope: roles.scope,
+      status: roles.status,
+      tenantId: roles.tenantId,
+    })
+    .from(roles)
+    .where(
+      and(eq(roles.tenantId, input.tenantId), ne(roles.status, "archived"))
+    )
+    .orderBy(asc(roles.name), asc(roles.key));
 }
 
 async function recordRoleAuditEvent(

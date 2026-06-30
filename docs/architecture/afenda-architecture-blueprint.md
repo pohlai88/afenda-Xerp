@@ -198,12 +198,12 @@ flowchart TB
   end
 
   subgraph presentation [Metadata and Application]
-    MetadataUI["@afenda/metadata-ui"]
+    ErpMetadata["apps/erp lib/metadata interim"]
     ERP["apps/erp"]
   end
 
   Kernel --> AcctStd
-  Knowledge --> MetadataUI
+  Knowledge --> ErpMetadata
   AcctStd --> Accounting
   AcctStd --> Consolidation
   AcctStd --> Intercompany
@@ -213,8 +213,10 @@ flowchart TB
   Consolidation --> ERP
   Database --> ERP
   Auth --> ERP
-  MetadataUI --> ERP
+  ErpMetadata --> ERP
 ```
+
+> **PAS-003 consumer proof:** `@afenda/accounting-standards` feeds domain runtimes; ERP standards-backed validation workflow is **pending** (proposed slice B20). `@afenda/metadata-ui` retired for ERP (ADR-0027).
 
 ---
 
@@ -232,7 +234,7 @@ This table is the canonical count. Every PAS row must trace back to a Blueprint 
 | PAS-001C | ERP Module Foundation Standard | ERP Module Runtime Foundation | ERP-MOD-FDN-003 Delivered | Production Candidate · foundation_authority |
 | PAS-002 | Architecture Authority | Governance | Multiple / TBD | MVP Authority |
 | PAS-002A | Architecture Authority extension | Governance | — / TBD | Enterprise Accepted |
-| PAS-003 | Accounting Standards Authority | Accounting standards authority | B0–B11 + B13–B16 delivered / B12 pending | Production Candidate |
+| PAS-003 | Accounting Standards Authority | Accounting standards authority | B0–B20 delivered | Enterprise Accepted |
 | PAS-004 | Enterprise Knowledge Standard | Knowledge | Multiple / TBD | MVP → Production Candidate |
 | PAS-004A | Enterprise Knowledge extension A | Knowledge | — | Production Candidate |
 | PAS-004B | Enterprise Knowledge Kernel Consumer | Knowledge | — | Production Candidate |

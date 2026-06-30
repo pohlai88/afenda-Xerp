@@ -419,7 +419,9 @@ export {
 export {
   type InsertPermissionInput,
   insertPermission,
+  listPermissionCatalog,
   type PermissionAuditContext,
+  type PermissionCatalogListRow,
   type PermissionMutationResult,
   type UpdatePermissionInput,
   updatePermission,
@@ -575,9 +577,11 @@ export {
   archiveRole,
   type InsertRoleInput,
   insertRole,
+  listTenantRoles,
   type RoleAuditContext,
   RoleHasActiveMembershipsError,
   type RoleMutationResult,
+  type TenantRoleListRow,
   type UpdateRoleInput,
   updateRole,
 } from "./role/role.service.js";

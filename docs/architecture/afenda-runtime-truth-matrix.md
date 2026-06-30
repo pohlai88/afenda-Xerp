@@ -29,7 +29,7 @@
 | **CSS Authority (PAS-005 — archived)** | `@afenda/css-authority` · `packages/css-authority/` | `PKGR05_CSS_AUTHORITY` — **retired for ERP** | **obsolete** for ERP frontend | Package frozen on disk; docs archived | — | Do not execute PAS-005 gates for ERP |
 | **Design System Retirement (PAS-005B — archived)** | *(superseded)* | `PKGR05B` — retired for ERP | **obsolete** for ERP frontend | ADR-0027 cutover supersedes incremental strangler | — | — |
 | **Enterprise Knowledge (PAS-004C → 004D)** | `@afenda/enterprise-knowledge` · `scripts/governance/check-knowledge-*.mts` | `PKGR04_ENTERPRISE_KNOWLEDGE` — PAS-004C (B38–B48 ✓; 58/58); **PAS-004D B49+ proposed** | **implemented** | JSON authority; semantic model North Star; consumer projections; full §13 gate chain | B49 mirror gate + B50–B54 closure queue | Maintain → PAS-004D |
-| **Accounting Standards (PAS-003)** | `@afenda/accounting-standards` | `PKGR03_ACCOUNTING_STANDARDS` — Production Candidate (B0–B11 + B13–B16 ✓) | **partially-implemented** | IFRS pack + posting validation engine + reporting-context/cross-rep routing + scope gates + supersession metadata + 23 tests; B12 enterprise acceptance sync not started | B12 consumer workflow proof · transaction-date edition engine · §5.2 statutory precedence | [b12-11-enterprise-acceptance-sync.md](../PAS/ACCOUNTING-STANDARDS/SLICE/b12-11-enterprise-acceptance-sync.md) |
+| **Accounting Standards (PAS-003)** | `@afenda/accounting-standards` | `PKGR03_ACCOUNTING_STANDARDS` — Enterprise Accepted (B0–B20 ✓) | **partially-implemented** | IFRS pack + validation engine + B17–B19 runtime + B20 ERP consumer (31 tests) | — | [b20-erp-consumer-workflow-proof.md](../PAS/ACCOUNTING-STANDARDS/SLICE/b20-erp-consumer-workflow-proof.md) |
 | **AppShell** | *(retired for ERP — ADR-0027)* · historical: `packages/appshell/` | `PKG-001 shell-composition` — **retired for ERP frontend** | **obsolete** for ERP | Package **removed from workspace**; ERP skeleton has no `(auth)`/`(protected)` shell routes on `main` | PAS-006 protected shell (P006-01) | Do not restore without ADR |
 | **Tenant settings (appearance)** | `packages/database/src/tenant-settings/` · ERP system-admin *(suspended on skeleton)* | ARCH-AUTH-003 · PKG-007 tenant-auth-branding | **partially-implemented** | Schema/contracts may remain; ERP admin UI **not on skeleton** | PAS-006 + ERP rebuild | — |
 | **Metadata UI** | *(retired for ERP — ADR-0027)* · historical: `packages/metadata-ui/` | `PKG-012 metadata-renderers` — **retired for ERP** | **obsolete** for ERP | Package **removed**; metadata consumer wire = B111 ERP-local runtime contract | PAS-006D · PAS-001A-R1 | — |
@@ -91,7 +91,7 @@ Future studio blocks: agents follow `afenda-shadcn-components` — not a separat
 
 | Package | Path | Layer | Files (indicative) | Export map |
 | --- | --- | --- | --- | --- |
-| `@afenda/accounting-standards` | `packages/accounting-standards` | Foundation | PAS-003 B0–B11 + B13–B16 delivered (46+ src files; 23 tests) | Yes |
+| `@afenda/accounting-standards` | `packages/accounting-standards` | Foundation | PAS-003 B0–B16 delivered (46+ src files; 23 tests) | Yes |
 | `@afenda/architecture-authority` | `packages/architecture-authority` | Platform | Contracts + validators | Yes |
 | `@afenda/css-authority` | `packages/css-authority` | Design | CSS token registry generator (PAS-005) | Yes |
 | `@afenda/enterprise-knowledge` | `packages/enterprise-knowledge` | Platform | JSON authority + semantic model (PAS-004C) | Yes |

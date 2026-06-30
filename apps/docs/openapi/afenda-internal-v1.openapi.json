@@ -10926,6 +10926,2641 @@
         }
       }
     },
+    "/system-admin/users": {
+      "get": {
+        "operationId": "internalV1System-adminUsersGet",
+        "summary": "List users",
+        "description": "Returns active company-scoped users with membership and role display fields for the system-admin directory.",
+        "tags": [
+          "system-admin",
+          "users"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-org-required",
+        "x-afenda-contract-id": "internal.v1.system-admin.users.get",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "system_admin.users_read",
+        "x-afenda-rate-limit-policy": "authenticated-standard",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization identifier.",
+            "in": "header",
+            "name": "x-afenda-organization-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization slug.",
+            "in": "header",
+            "name": "x-afenda-organization-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SystemAdminUsersResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/system-admin/roles": {
+      "get": {
+        "operationId": "internalV1System-adminRolesGet",
+        "summary": "List roles",
+        "description": "Returns tenant-scoped role templates for the system-admin roles directory.",
+        "tags": [
+          "system-admin",
+          "roles"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-org-required",
+        "x-afenda-contract-id": "internal.v1.system-admin.roles.get",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "system_admin.roles_manage",
+        "x-afenda-rate-limit-policy": "authenticated-standard",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization identifier.",
+            "in": "header",
+            "name": "x-afenda-organization-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization slug.",
+            "in": "header",
+            "name": "x-afenda-organization-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SystemAdminRolesResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/system-admin/permissions": {
+      "get": {
+        "operationId": "internalV1System-adminPermissionsGet",
+        "summary": "List permissions",
+        "description": "Returns the global permission catalog for the system-admin permissions directory.",
+        "tags": [
+          "system-admin",
+          "permissions"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-org-required",
+        "x-afenda-contract-id": "internal.v1.system-admin.permissions.get",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "system_admin.permissions_manage",
+        "x-afenda-rate-limit-policy": "authenticated-standard",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization identifier.",
+            "in": "header",
+            "name": "x-afenda-organization-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization slug.",
+            "in": "header",
+            "name": "x-afenda-organization-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SystemAdminPermissionsResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/system-admin/memberships": {
+      "get": {
+        "operationId": "internalV1System-adminMembershipsGet",
+        "summary": "List memberships",
+        "description": "Returns company-scoped memberships with role display fields for the system-admin directory.",
+        "tags": [
+          "system-admin",
+          "memberships"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-org-required",
+        "x-afenda-contract-id": "internal.v1.system-admin.memberships.get",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "system_admin.users_read",
+        "x-afenda-rate-limit-policy": "authenticated-standard",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization identifier.",
+            "in": "header",
+            "name": "x-afenda-organization-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization slug.",
+            "in": "header",
+            "name": "x-afenda-organization-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SystemAdminMembershipsResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/system-admin/settings": {
+      "get": {
+        "operationId": "internalV1System-adminSettingsGet",
+        "summary": "List module settings",
+        "description": "Returns module domain summaries derived from the permission catalog for tenant configuration.",
+        "tags": [
+          "system-admin",
+          "settings"
+        ],
+        "security": [
+          {
+            "AfendaSession": []
+          }
+        ],
+        "x-afenda-auth-policy": "session-required",
+        "x-afenda-context-policy": "tenant-company-org-required",
+        "x-afenda-contract-id": "internal.v1.system-admin.settings.get",
+        "x-afenda-lifecycle": "active",
+        "x-afenda-permission": "system_admin.modules_manage",
+        "x-afenda-rate-limit-policy": "authenticated-standard",
+        "parameters": [
+          {
+            "description": "Tenant slug injected by ERP proxy after hostname or path resolution.",
+            "in": "header",
+            "name": "x-tenant-slug",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company identifier.",
+            "in": "header",
+            "name": "x-afenda-company-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected company slug.",
+            "in": "header",
+            "name": "x-afenda-company-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization identifier.",
+            "in": "header",
+            "name": "x-afenda-organization-id",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Selected organization slug.",
+            "in": "header",
+            "name": "x-afenda-organization-slug",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response wrapped in the governed envelope.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "$ref": "#/components/schemas/SystemAdminSettingsResponse"
+                    },
+                    "meta": {
+                      "$ref": "#/components/schemas/ApiResponseMeta"
+                    },
+                    "ok": {
+                      "type": "boolean",
+                      "const": true
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "meta",
+                    "ok"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request or validation failure.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication is required.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "The caller lacks permission for this action.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The requested resource was not found.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request conflicts with the current state.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Rate limit exceeded.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "Retry-After": {
+                "description": "Seconds until the rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Unexpected server error.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Service temporarily unavailable.",
+            "headers": {
+              "x-correlation-id": {
+                "description": "End-to-end correlation identifier propagated across services for this request.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "x-request-id": {
+                "description": "Unique identifier for this HTTP request within the ERP.",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Cache-Control": {
+                "description": "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "Maximum requests allowed in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "Requests remaining in the current window.",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the current rate-limit window resets.",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiErrorEnvelope"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/storage/tenant-brand-logo": {
       "post": {
         "operationId": "internalV1StorageTenant-brand-logoPost",
@@ -13668,6 +16303,357 @@
         ],
         "additionalProperties": false,
         "description": "Single system-admin audit event row for list responses."
+      },
+      "SystemAdminUsersResponse": {
+        "type": "object",
+        "properties": {
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SystemAdminUserRow"
+            },
+            "description": "Company-scoped users visible to the active operator."
+          }
+        },
+        "required": [
+          "users"
+        ],
+        "additionalProperties": false,
+        "description": "List response for system-admin user directory reads."
+      },
+      "SystemAdminUserRow": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "description": "User display name.",
+            "example": "Jordan Lee"
+          },
+          "email": {
+            "type": "string",
+            "description": "Primary email address for the user.",
+            "example": "jordan.lee@example.com"
+          },
+          "membershipId": {
+            "type": "string",
+            "description": "UUID of the company-scoped membership.",
+            "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
+          },
+          "membershipStatus": {
+            "type": "string",
+            "description": "Membership lifecycle status.",
+            "example": "active"
+          },
+          "roleId": {
+            "type": "string",
+            "description": "UUID of the assigned role.",
+            "example": "4dd643ff-7ec7-4666-9c88-50b7d3da34e4"
+          },
+          "roleKey": {
+            "type": "string",
+            "description": "Stable role key used for permission binding.",
+            "example": "admin"
+          },
+          "roleName": {
+            "type": "string",
+            "description": "Human-readable role label.",
+            "example": "Administrator"
+          },
+          "userId": {
+            "type": "string",
+            "description": "UUID of the platform user.",
+            "example": "1a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809"
+          },
+          "userStatus": {
+            "type": "string",
+            "description": "Platform user lifecycle status.",
+            "example": "active"
+          }
+        },
+        "required": [
+          "displayName",
+          "email",
+          "membershipId",
+          "membershipStatus",
+          "roleId",
+          "roleKey",
+          "roleName",
+          "userId",
+          "userStatus"
+        ],
+        "additionalProperties": false,
+        "description": "Serializable system-admin user directory row."
+      },
+      "SystemAdminRolesResponse": {
+        "type": "object",
+        "properties": {
+          "roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SystemAdminRoleRow"
+            },
+            "description": "Tenant-scoped roles visible to the active operator."
+          }
+        },
+        "required": [
+          "roles"
+        ],
+        "additionalProperties": false,
+        "description": "List response for system-admin role directory reads."
+      },
+      "SystemAdminRoleRow": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Optional role description.",
+            "example": "Tenant-wide administration for development workspaces."
+          },
+          "id": {
+            "type": "string",
+            "description": "UUID of the role record.",
+            "example": "4dd643ff-7ec7-4666-9c88-50b7d3da34e4"
+          },
+          "key": {
+            "type": "string",
+            "description": "Stable role key within tenant scope.",
+            "example": "tenant.admin"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable role label.",
+            "example": "Tenant Admin"
+          },
+          "scope": {
+            "type": "string",
+            "description": "Role scope (tenant or platform).",
+            "example": "tenant"
+          },
+          "status": {
+            "type": "string",
+            "description": "Role lifecycle status.",
+            "example": "active"
+          },
+          "tenantId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Tenant UUID when role is tenant-scoped.",
+            "example": "2b3c4d5e-6f70-8192-a3b4-c5d6e7f8091a"
+          }
+        },
+        "required": [
+          "description",
+          "id",
+          "key",
+          "name",
+          "scope",
+          "status",
+          "tenantId"
+        ],
+        "additionalProperties": false,
+        "description": "Serializable system-admin role directory row."
+      },
+      "SystemAdminPermissionsResponse": {
+        "type": "object",
+        "properties": {
+          "permissions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SystemAdminPermissionRow"
+            },
+            "description": "Global permission catalog rows."
+          }
+        },
+        "required": [
+          "permissions"
+        ],
+        "additionalProperties": false,
+        "description": "List response for system-admin permission catalog reads."
+      },
+      "SystemAdminPermissionRow": {
+        "type": "object",
+        "properties": {
+          "action": {
+            "type": "string",
+            "description": "Permission action segment.",
+            "example": "users_read"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Permission capability description.",
+            "example": "View platform user records within authorized scope."
+          },
+          "domain": {
+            "type": "string",
+            "description": "Permission domain segment.",
+            "example": "system_admin"
+          },
+          "id": {
+            "type": "string",
+            "description": "UUID of the permission catalog row.",
+            "example": "9e8d7c6b-5a4f-3210-fedc-ba9876543210"
+          },
+          "key": {
+            "type": "string",
+            "description": "Canonical permission key.",
+            "example": "system_admin.users_read"
+          },
+          "name": {
+            "type": "string",
+            "description": "Human-readable permission label.",
+            "example": "Read platform users"
+          }
+        },
+        "required": [
+          "action",
+          "description",
+          "domain",
+          "id",
+          "key",
+          "name"
+        ],
+        "additionalProperties": false,
+        "description": "Serializable global permission catalog row."
+      },
+      "SystemAdminMembershipsResponse": {
+        "type": "object",
+        "properties": {
+          "memberships": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SystemAdminMembershipRow"
+            },
+            "description": "Company-scoped memberships for the active legal entity."
+          }
+        },
+        "required": [
+          "memberships"
+        ],
+        "additionalProperties": false,
+        "description": "List response for system-admin membership directory reads."
+      },
+      "SystemAdminMembershipRow": {
+        "type": "object",
+        "properties": {
+          "displayName": {
+            "type": "string",
+            "description": "Member display name.",
+            "example": "Jordan Lee"
+          },
+          "email": {
+            "type": "string",
+            "description": "Member email address.",
+            "example": "jordan.lee@example.com"
+          },
+          "membershipId": {
+            "type": "string",
+            "description": "UUID of the company-scoped membership.",
+            "example": "8f3a2b1c-4d5e-6f70-8192-a3b4c5d6e7f8"
+          },
+          "membershipStatus": {
+            "type": "string",
+            "description": "Membership lifecycle status.",
+            "example": "active"
+          },
+          "roleId": {
+            "type": "string",
+            "description": "UUID of the assigned role.",
+            "example": "4dd643ff-7ec7-4666-9c88-50b7d3da34e4"
+          },
+          "roleKey": {
+            "type": "string",
+            "description": "Stable role key for the membership grant.",
+            "example": "tenant.admin"
+          },
+          "roleName": {
+            "type": "string",
+            "description": "Human-readable role label.",
+            "example": "Tenant Admin"
+          },
+          "userId": {
+            "type": "string",
+            "description": "UUID of the platform user.",
+            "example": "1a2b3c4d-5e6f-7081-92a3-b4c5d6e7f809"
+          }
+        },
+        "required": [
+          "displayName",
+          "email",
+          "membershipId",
+          "membershipStatus",
+          "roleId",
+          "roleKey",
+          "roleName",
+          "userId"
+        ],
+        "additionalProperties": false,
+        "description": "Company-scoped membership directory row."
+      },
+      "SystemAdminSettingsResponse": {
+        "type": "object",
+        "properties": {
+          "modules": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SystemAdminModuleSettingRow"
+            },
+            "description": "Module domain summaries for tenant configuration."
+          }
+        },
+        "required": [
+          "modules"
+        ],
+        "additionalProperties": false,
+        "description": "Read model for system-admin module settings."
+      },
+      "SystemAdminModuleSettingRow": {
+        "type": "object",
+        "properties": {
+          "domain": {
+            "type": "string",
+            "description": "Module domain key.",
+            "example": "accounting"
+          },
+          "label": {
+            "type": "string",
+            "description": "Display label for the module domain.",
+            "example": "Accounting"
+          },
+          "permissionCount": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991,
+            "description": "Number of registered permissions in the domain.",
+            "example": 8
+          }
+        },
+        "required": [
+          "domain",
+          "label",
+          "permissionCount"
+        ],
+        "additionalProperties": false,
+        "description": "Module domain summary for system-admin settings."
       },
       "TenantBrandLogoUploadResponse": {
         "type": "object",

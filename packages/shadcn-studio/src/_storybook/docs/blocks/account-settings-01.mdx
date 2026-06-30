@@ -12,7 +12,7 @@ import { Meta } from "@storybook/addon-docs/blocks";
 | --- | --- |
 | **Block id** | `account-settings-01` |
 | **Block class** | general-operator |
-| **Storybook proof** | `Shadcn Studio/Blocks Auto/AccountSettings01` |
+| **Storybook proof** | `Shadcn Studio/Blocks/AccountSettings01InShell` |
 | **Authority** | [PAS-006C](../../../../../docs/PAS/PRESENTATION/PAS-006C-SURFACE-ACCEPTANCE-ACPA-STANDARD.md) |
 
 ## Lifecycle (NS §8.2)
@@ -23,7 +23,7 @@ Do not wire to ERP routes until **Accepted** with a sealed Acceptance Record.
 
 ## PAS-006C criteria (NS §3.7)
 
-- [ ] **1.** Presentation lab story exists (`Shadcn Studio/Blocks Auto/AccountSettings01`)
+- [ ] **1.** Presentation lab story exists (`Shadcn Studio/Blocks/AccountSettings01InShell`)
 - [ ] **2.** Keyboard navigation verified (interaction test)
 - [ ] **3.** Screen reader labels verified (a11y contract test)
 - [ ] **4.** ACPA contrast satisfied — `pnpm check:studio-block-acpa-acceptance`
@@ -46,7 +46,7 @@ Not required for general operator blocks — ACPA only unless reclassified auth-
 | --- | --- |
 | `acceptanceRecordId` | _(assign at seal)_ |
 | `blockId` | `account-settings-01` |
-| `presentationLabProof` | `Shadcn Studio/Blocks Auto/AccountSettings01` |
+| `presentationLabProof` | `Shadcn Studio/Blocks/AccountSettings01InShell` |
 | `acpaProfileVersion` | _(from gate output)_ |
 | `wcagAaAuthAdjacent` | `false` |
 | `sealedAt` | _(ISO timestamp)_ |

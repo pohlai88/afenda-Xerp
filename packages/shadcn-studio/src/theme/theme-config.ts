@@ -1,17 +1,24 @@
 import type {
   ThemeFont,
+  ThemeLayout,
   ThemeMode,
   ThemePresetSlug,
   ThemeRadius,
   ThemeScale,
+  ThemeSidebarCollapsible,
+  ThemeSidebarVariant,
 } from "./theme-preset.contract.js";
 
 export interface ThemeConfig {
   font: ThemeFont;
+  layout: ThemeLayout;
   mode: ThemeMode;
   radius: ThemeRadius;
   scale: ThemeScale;
   settingsStorageKey: string;
+  sidebarCollapsible: ThemeSidebarCollapsible;
+  sidebarOpen: boolean;
+  sidebarVariant: ThemeSidebarVariant;
   themePreset: ThemePresetSlug;
 }
 
@@ -22,6 +29,10 @@ export const themeConfig = {
   font: "geist",
   radius: "md",
   scale: "md",
+  layout: "full",
+  sidebarVariant: "inset",
+  sidebarCollapsible: "icon",
+  sidebarOpen: true,
 } as const satisfies ThemeConfig;
 
 export default themeConfig;

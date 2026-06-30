@@ -24,15 +24,10 @@ const indexPath = join(
 const AUTH_ADJACENT_SLUG_PATTERN =
   /login|auth|error-page|verify|mfa|session-expir|access-denied/i;
 
-/**
- * @param {string} slug
- * @returns {"auth-adjacent" | "general-operator"}
- */
-function resolveBlockClass(slug) {
-  return AUTH_ADJACENT_SLUG_PATTERN.test(slug)
-    ? "auth-adjacent"
-    : "general-operator";
-}
+/** Curated presentation-lab proof overrides (auto blocks with dedicated CSF stories). */
+const CURATED_STORY_PROOF_BY_SLUG = {
+  "account-settings-01": "Shadcn Studio/Blocks/AccountSettings01InShell",
+};
 
 /**
  * @param {string} slug
@@ -40,6 +35,10 @@ function resolveBlockClass(slug) {
  * @returns {string}
  */
 function resolveStoryRef(slug, storyKind) {
+  if (Object.hasOwn(CURATED_STORY_PROOF_BY_SLUG, slug)) {
+    return CURATED_STORY_PROOF_BY_SLUG[slug];
+  }
+
   const pascal = slug
     .split("-")
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
@@ -50,6 +49,16 @@ function resolveStoryRef(slug, storyKind) {
   }
 
   return `Shadcn Studio/Blocks/${pascal} (curated — add to shadcn-studio-blocks.stories.tsx)`;
+}
+
+/**
+ * @param {string} slug
+ * @returns {"auth-adjacent" | "general-operator"}
+ */
+function resolveBlockClass(slug) {
+  return AUTH_ADJACENT_SLUG_PATTERN.test(slug)
+    ? "auth-adjacent"
+    : "general-operator";
 }
 
 /**

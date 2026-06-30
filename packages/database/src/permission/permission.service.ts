@@ -4,7 +4,7 @@
  * Contract: `permission.contract.ts`
  * Table: `schema/permission.schema.ts`
  */
-import { eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 
 import { insertAuditEvent } from "../audit/audit.writer.js";
 import type { AuditActorType } from "../database.types.js";
@@ -130,4 +130,30 @@ export async function updatePermission(
   );
 
   return { id: updated.id };
+}
+
+export interface PermissionCatalogListRow {
+  readonly action: string;
+  readonly description: string | null;
+  readonly domain: string;
+  readonly id: string;
+  readonly key: string;
+  readonly name: string;
+}
+
+/** Read-only global permission catalog rows for system-admin directory surfaces. */
+export async function listPermissionCatalog(
+  db: AfendaDatabase = getDb()
+): Promise<readonly PermissionCatalogListRow[]> {
+  return db
+    .select({
+      action: permissions.action,
+      description: permissions.description,
+      domain: permissions.domain,
+      id: permissions.id,
+      key: permissions.key,
+      name: permissions.name,
+    })
+    .from(permissions)
+    .orderBy(asc(permissions.domain), asc(permissions.key));
 }

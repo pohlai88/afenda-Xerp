@@ -28,7 +28,8 @@
       "**/_reference",
       "**/docs",
       "**/.cursor",
-      "**/packages/ai-governance"
+      "**/packages/ai-governance",
+      "**/packages/architecture-authority"
     ]
   },
   "typescript.preferences.includePackageJsonAutoImports": "auto",
@@ -128,6 +129,7 @@
     "**/docs/**": true,
     "**/.cursor/**": true,
     "**/packages/ai-governance/**": true,
+    "**/packages/architecture-authority/**": true,
     "**/storybook-static/**": true
   },
   "search.exclude": {

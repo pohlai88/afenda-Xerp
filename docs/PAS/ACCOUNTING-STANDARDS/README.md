@@ -5,7 +5,7 @@
 | **Scope** | Accounting Standards Authority — one Blueprint box |
 | **Upstream** | [Accounting Standards North Star](../../NORTHSTAR/accounting-standards-north-star.md) · [Accounting Standards Blueprint](../../BLUEPRINT/accounting-standards-blueprint.md) |
 | **Slice SSOT** | [`SLICE/`](SLICE/README.md) — individual handoffs B0–B16 |
-| **Maturity** | Production Candidate — B0–B11 + B13–B16 delivered; B12 governance pending |
+| **Maturity** | Production Candidate — B0–B16 delivered (B12 governance doc sync 2026-06-30) |
 | **Last reviewed** | 2026-06-29 |
 
 > **One sentence:** PAS-003 governs versioned accounting-standard authority metadata, process-routing rules, standards-backed validation contracts, explanation metadata, and evidence snapshots — with slice handoffs in `ACCOUNTING-STANDARDS/SLICE/`.
@@ -31,11 +31,11 @@ Platform North Star
 
 | PAS ID | Composed document | Blueprint box | Package / path | Maturity | Slices |
 | --- | --- | --- | --- | --- | --- |
-| **PAS-003** | [PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | Accounting standards authority | `@afenda/accounting-standards` | Production Candidate | B0–B11 + B13–B16 delivered · B12 pending |
+| **PAS-003** | [PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md](PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | Accounting standards authority | `@afenda/accounting-standards` | Production Candidate | B0–B16 delivered · B17–B20 proposed |
 
 **Agent skill:** `accounting-standards-authority` · `.cursor/skills/accounting-standards-authority/SKILL.md`
 
-**Registry lane:** `PKGR03_ACCOUNTING_STANDARDS` · `foundation-disposition.registry.ts`
+**Registry lane:** `PKGR03_ACCOUNTING_STANDARDS` · **green-lane** · `foundation-disposition.registry.ts`
 
 ---
 
@@ -54,8 +54,10 @@ Platform North Star
 | Work type | Start here |
 | --- | --- |
 | Standards registry / routing / validation contracts | PAS-003 §0 → next slice in §12 |
-| Enterprise acceptance / doc attestation | B12 governance slice |
-| Parallel-book ERP-parity extensions | B13–B16 after B1–B11 core |
+| Enterprise acceptance / doc attestation | B12 governance slice **Delivered** (2026-06-30) — EA promotion still requires B20 consumer proof |
+| Parallel-book ERP-parity extensions | B13–B16 (delivered) |
+| E8–E10 runtime closure | Proposed B17–B19 |
+| ERP consumer workflow proof | Proposed B20 (ADR-0027 — `apps/erp`, not ui-composition) |
 
 ---
 
@@ -63,7 +65,7 @@ Platform North Star
 
 - Accounting Standards never posts journals, owns ledger rows, or executes tax filings.
 - Do not add IFRS/MFRS treatment types or posting logic to `@afenda/kernel`.
-- Do not mark PAS-003 Enterprise Accepted without consumer workflow proof (B12 + runtime evidence).
+- Do not mark PAS-003 Enterprise Accepted without B20 consumer workflow proof (B12 doc sync alone is insufficient).
 - Business meaning for wire terms lives in Enterprise Knowledge (PAS-004); this package owns standards metadata and validation contracts only.
 - Kernel vocabulary disputes → PAS-001 + kernel slice first.
 
@@ -76,6 +78,6 @@ Platform North Star
 | New standards capability | Domain NS §4 → Blueprint §4 → PAS-003 §4 → slice handoff |
 | Slice close | [SLICE/accounting-slice-catalog.md](SLICE/accounting-slice-catalog.md) · handoff file · PAS-003 §12 · Blueprint §10 |
 | SKILL regen | `.cursor/skills/accounting-standards-authority/SKILL.md` from PAS extract map (SYNC intent) |
-| Platform inventory | [Platform Blueprint](../../BLUEPRINT/kernel-blueprint.md) — Accounting standards authority row links here |
+| Platform inventory | [Platform Blueprint](../../architecture/afenda-architecture-blueprint.md) — Accounting standards authority row links here |
 
 **Redirect tombstone:** [docs/PAS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md](../PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) — backwards-compatible link only.

@@ -8,6 +8,21 @@ export const shadcnStudioFullscreenLayout = {
   layout: "fullscreen" as const,
 };
 
+/** Page blocks (account-settings, login, …) — fullscreen canvas in Docs too. */
+export const shadcnStudioPageBlockParameters = {
+  layout: "fullscreen" as const,
+  docs: {
+    canvas: {
+      layout: "fullscreen" as const,
+    },
+  },
+} as const;
+
+export const shadcnStudioAccountSettingsBlockDocs = {
+  component:
+    "Curated account-settings-01 lab — settings page shell, fixture-backed metadata hydration, and fullscreen layout. Auto story under Blocks Auto remains install smoke only.",
+} as const;
+
 export const shadcnStudioPaddedLayout = {
   layout: "padded" as const,
 };

@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
+import { ErpPresentationProviders } from "@/components/presentation/erp-presentation-providers.client";
+
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,8 +15,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ErpPresentationProviders>{children}</ErpPresentationProviders>
+      </body>
     </html>
   );
 }

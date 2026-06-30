@@ -52,6 +52,8 @@ Enterprise knowledge? ────→ enterprise-knowledge
 Drizzle migrations? ──────→ afenda-drizzle-migration
 Multi-tenancy? ───────────→ multi-tenancy-erp
 Next.js / App Router / BFF? → afenda-nextjs-best-practice (+ Vercel nextjs plugin)
+  Folder layout / dynamic matrix / component structure → skill reference/*.md
+  Runtime verify → next-devtools MCP get_routes + get_errors (port 3000)
 Library API uncertain? ───→ Context7 MCP (resolve ID → query docs)
 ```
 

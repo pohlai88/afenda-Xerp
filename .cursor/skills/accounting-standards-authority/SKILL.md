@@ -12,8 +12,9 @@ paths:
 
 | Field | Value |
 | --- | --- |
-| **Runtime status** | B0–B11 + B13–B16 delivered — registries, IFRS pack, `validatePostingAgainstAccountingStandards` |
-| **Remaining slices** | B12 — enterprise acceptance sync (governance; consumer workflow proof pending) |
+| **Runtime status** | B0–B20 delivered — 31 tests · ERP consumer at `/modules/accounting/standards-readiness` |
+| **Remaining slices** | — |
+| **Consumer proof** | **Delivered** — `apps/erp/src/lib/accounting-standards` (B20) |
 
 > Canonical: [`docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md`](../../../docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) · Slices: [`ACCOUNTING-STANDARDS/SLICE/`](../../../docs/PAS/ACCOUNTING-STANDARDS/SLICE/README.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
@@ -56,7 +57,7 @@ Apply this skill when touching:
 | Does this calculate consolidation entries? | Belongs to Consolidation. | **No** |
 | Does this calculate tax payable or filing values? | Belongs to Tax. | **No** |
 | Does this set transfer-pricing markup rates? | Belongs to Intercompany/Finance policy. | **No** |
-| Does this render UI drawers or forms? | Belongs to Metadata UI / apps/erp. | **No** |
+| Does this render UI drawers or forms? | Belongs to apps/erp surfaces (consumer — B20). | **No** |
 | Does this generate AI accounting advice without registry evidence? | Prohibited. | **No** |
 | Does this define Kernel tenant/company identity? | Belongs to Kernel. | **No** |
 | Does this encode IFRS/MFRS treatment logic inside Kernel? | Belongs here or Accounting runtime. | **No** (Kernel) |
@@ -129,9 +130,9 @@ If a slice handoff exists, paste the 9-field block from `docs/PAS/ACCOUNTING-STA
 5. Next slice: [docs/PAS/ACCOUNTING-STANDARDS/SLICE/](../../../docs/PAS/ACCOUNTING-STANDARDS/SLICE/README.md) — paste 9-field handoff into Phase 0
 6. [PAS-003 Appendix A](../../../docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md#appendix-a--borrow-reference-inventory-temporary) — **temporary** borrow inventory (implementation hints only; not canonical authority)
 
-**Maturity:** Production Candidate — not Enterprise Accepted until consumer workflow proof (PAS-003 §11.6).
+**Maturity:** Enterprise Accepted — B20 ERP consumer workflow proof delivered (PAS-003 §11.6 · ADR-0027).
 
-**Slice gate:** B1–B11 + B13–B16 delivered. Next: B12 enterprise acceptance sync (do not claim Enterprise Accepted without consumer proof).
+**Slice gate:** B0–B20 delivered (2026-06-30).
 
 ---
 
@@ -161,7 +162,14 @@ pnpm architecture:drift
 pnpm quality:boundaries
 ```
 
-Recommended when registries exist: `pnpm check:accounting-standard-version-registry`, `pnpm check:accounting-standard-rule-evidence` (not yet implemented).
+Recommended when registries exist:
+
+```bash
+pnpm check:accounting-standard-version-registry
+pnpm check:accounting-standard-rule-evidence
+```
+
+`check:accounting-standards-metadata-consumer-proof` — PASS against `apps/erp` (B20).
 
 ---
 

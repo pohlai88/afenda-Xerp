@@ -36,6 +36,19 @@ export const CONTEXT_INTEGRATION_WIRING = [
     delegate: "loadProcurementFoundationReadinessPage",
   },
   {
+    id: "accounting-standards-readiness-loader",
+    step: "Accounting standards readiness route consumes PAS-003 validation workflow",
+    module:
+      "lib/accounting-standards/load-accounting-standards-readiness-page.server.ts",
+    delegate: "loadAccountingStandardsReadinessPage",
+  },
+  {
+    id: "accounting-standards-readiness-page",
+    step: "Protected accounting standards consumer proof RSC ingress (PAS-003 B20)",
+    module: "app/(protected)/modules/accounting/standards-readiness/page.tsx",
+    delegate: "loadAccountingStandardsReadinessPage",
+  },
+  {
     id: "procurement-requisitions-list-loader",
     step: "Procurement requisitions list route consumes request-scoped spine assembly",
     module: "lib/procurement/load-procurement-requisitions-page.server.ts",

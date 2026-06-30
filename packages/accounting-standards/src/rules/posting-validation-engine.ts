@@ -2,6 +2,21 @@ import { ACCOUNTING_STANDARDS_AUTHORITY_FINGERPRINT } from "../authority-fingerp
 import { createAccountingStandardEvidenceSnapshot } from "../evidence/accounting-standard-evidence-snapshot.contract.js";
 import { getAccountingStandardExplanation } from "../explanations/accounting-standard-explanation.registry.js";
 import {
+  buildPrecedenceConflictValidationResult,
+  detectAuthorityPrecedenceConflicts,
+} from "../policy/conflict-precedence.policy.js";
+import {
+  resolveAuthorityEditionForTransactionDate,
+  resolveAuthorityEditionsForStandardCodes,
+} from "../policy/transaction-date-edition-resolution.policy.js";
+import type { JurisdictionCode } from "../routing/jurisdiction-profile.contract.js";
+import {
+  isJurisdictionCode,
+  normalizeCountryCodeToJurisdiction,
+  resolveJurisdictionProcessRoute,
+  resolveJurisdictionReportingProfile,
+} from "../routing/jurisdiction-profile.registry.js";
+import {
   resolveCrossRepresentationRoute,
   resolveReportingContextProcessRoute,
   resolveStandardProcessRoute,
@@ -39,11 +54,35 @@ function aggregateValidationStatus(
   return "pass";
 }
 
+function resolveInputJurisdictionCode(
+  input: AccountingStandardPostingValidationInput
+): JurisdictionCode | null {
+  if (
+    input.jurisdictionCode !== undefined &&
+    isJurisdictionCode(input.jurisdictionCode)
+  ) {
+    return input.jurisdictionCode;
+  }
+  const countryCode = input.transactionFacts["countryCode"];
+  if (typeof countryCode === "string") {
+    return normalizeCountryCodeToJurisdiction(countryCode);
+  }
+  return null;
+}
+
 function resolveScopeGateStatus(
   input: AccountingStandardPostingValidationInput,
-  routedStandardKeys: readonly string[]
+  routedStandardKeys: readonly string[],
+  jurisdictionCode: JurisdictionCode | null
 ): ScopeGateStatus {
   if (input.accountingStandardFamily !== "IFRS") {
+    if (
+      jurisdictionCode !== null &&
+      resolveJurisdictionReportingProfile(jurisdictionCode)
+        .mandatoryReportingFamily !== input.accountingStandardFamily
+    ) {
+      return "requires_review";
+    }
     return "out_of_scope";
   }
   if (routedStandardKeys.includes("LOCAL_POLICY_REVIEW")) {
@@ -51,6 +90,13 @@ function resolveScopeGateStatus(
   }
   if (routedStandardKeys.length === 0) {
     return "out_of_scope";
+  }
+  if (
+    jurisdictionCode !== null &&
+    resolveJurisdictionReportingProfile(jurisdictionCode)
+      .mandatoryReportingFamily !== "IFRS"
+  ) {
+    return "requires_review";
   }
   return "in_scope";
 }
@@ -74,14 +120,37 @@ function severityToStatus(
   }
 }
 
+function resolveEditionAwareAuthorityRef(
+  rule: AccountingStandardPostingRule,
+  transactionDate: string | null
+) {
+  if (transactionDate === null) {
+    return rule.authorityRefs[0];
+  }
+  const resolved = resolveAuthorityEditionForTransactionDate(
+    rule.standardCode,
+    transactionDate,
+    rule.standardVersionKey
+  );
+  if (resolved === null) {
+    return rule.authorityRefs[0];
+  }
+  return (
+    rule.authorityRefs.find(
+      (authorityRef) => authorityRef.edition === resolved.edition
+    ) ?? rule.authorityRefs[0]
+  );
+}
+
 function buildResult(
   rule: AccountingStandardPostingRule,
   scopeGateStatus: ScopeGateStatus,
-  triggered: boolean
+  triggered: boolean,
+  transactionDate: string | null
 ): AccountingStandardValidationResult {
   const explanation = getAccountingStandardExplanation(rule.explanationKey);
   const status = triggered ? severityToStatus(rule.severity, true) : "pass";
-  const authorityRef = rule.authorityRefs[0];
+  const authorityRef = resolveEditionAwareAuthorityRef(rule, transactionDate);
   const message =
     rule.ruleId === "IFRS16-LEASE-LESSEE-ROU-LIABILITY-001" && triggered
       ? IFRS_16_LEASE_WARNING_MESSAGE
@@ -124,7 +193,8 @@ function buildResult(
 }
 
 function resolveRoutedStandardKeys(
-  input: AccountingStandardPostingValidationInput
+  input: AccountingStandardPostingValidationInput,
+  jurisdictionCode: JurisdictionCode | null
 ): readonly string[] {
   const baseRoute = resolveStandardProcessRoute(input.eventType);
   const profileRoute =
@@ -141,8 +211,23 @@ function resolveRoutedStandardKeys(
           input.crossRepresentationTransition,
           input.eventType
         );
+  const jurisdictionRoute =
+    jurisdictionCode === null
+      ? []
+      : resolveJurisdictionProcessRoute(
+          jurisdictionCode,
+          input.reportingPurpose,
+          input.eventType
+        );
 
-  return [...new Set<string>([...profileRoute, ...crossRoute, ...baseRoute])];
+  return [
+    ...new Set<string>([
+      ...profileRoute,
+      ...crossRoute,
+      ...jurisdictionRoute,
+      ...baseRoute,
+    ]),
+  ];
 }
 
 function ruleAppliesToRoute(
@@ -178,11 +263,49 @@ function buildScopePassResult(
   };
 }
 
+function appendPrecedenceConflictResults(
+  results: AccountingStandardValidationResult[],
+  scopeGateStatus: ScopeGateStatus
+): {
+  results: AccountingStandardValidationResult[];
+  conflictDetected: boolean;
+} {
+  let conflictDetected = false;
+  const augmented = [...results];
+
+  for (const result of results) {
+    if (result.authorityRefs.length < 2) {
+      continue;
+    }
+    const conflicts = detectAuthorityPrecedenceConflicts(result.authorityRefs);
+    for (const conflict of conflicts) {
+      conflictDetected = true;
+      augmented.push(
+        buildPrecedenceConflictValidationResult(conflict, scopeGateStatus)
+      );
+    }
+  }
+
+  return { results: augmented, conflictDetected };
+}
+
+function resolveStandardCodesFromRoutes(
+  routedStandardKeys: readonly string[]
+): readonly string[] {
+  return routedStandardKeys.map((key) => key.replace(/_/g, " "));
+}
+
 export function evaluateAccountingStandardPostingValidation(
   input: AccountingStandardPostingValidationInput
 ): AccountingStandardValidationReport {
-  const routedStandardKeys = resolveRoutedStandardKeys(input);
-  const scopeGateStatus = resolveScopeGateStatus(input, routedStandardKeys);
+  const jurisdictionCode = resolveInputJurisdictionCode(input);
+  const transactionDate = input.transactionDate ?? null;
+  const routedStandardKeys = resolveRoutedStandardKeys(input, jurisdictionCode);
+  const scopeGateStatus = resolveScopeGateStatus(
+    input,
+    routedStandardKeys,
+    jurisdictionCode
+  );
 
   if (scopeGateStatus === "out_of_scope") {
     const results = [
@@ -197,6 +320,16 @@ export function evaluateAccountingStandardPostingValidation(
       routedStandardKeys,
       aggregateStatus: "pass",
       judgmentEscalationRequired: false,
+      jurisdictionCode,
+      transactionDate,
+      resolvedAuthorityEditions:
+        transactionDate === null
+          ? []
+          : resolveAuthorityEditionsForStandardCodes(
+              resolveStandardCodesFromRoutes(routedStandardKeys),
+              transactionDate
+            ),
+      precedenceConflictDetected: false,
       results,
     };
   }
@@ -208,7 +341,7 @@ export function evaluateAccountingStandardPostingValidation(
         routedStandardKeys.includes("LOCAL_POLICY_REVIEW"))
   );
 
-  const results =
+  const baseResults =
     applicableRules.length === 0
       ? [
           buildScopePassResult(
@@ -220,8 +353,22 @@ export function evaluateAccountingStandardPostingValidation(
           buildResult(
             rule,
             scopeGateStatus,
-            evaluatePostingValidationCondition(rule.conditionKey, input)
+            evaluatePostingValidationCondition(rule.conditionKey, input),
+            transactionDate
           )
+        );
+
+  const { results, conflictDetected } = appendPrecedenceConflictResults(
+    [...baseResults],
+    scopeGateStatus
+  );
+
+  const resolvedAuthorityEditions =
+    transactionDate === null
+      ? []
+      : resolveAuthorityEditionsForStandardCodes(
+          [...new Set(applicableRules.map((rule) => rule.standardCode))],
+          transactionDate
         );
 
   return {
@@ -232,6 +379,10 @@ export function evaluateAccountingStandardPostingValidation(
     judgmentEscalationRequired: results.some(
       (result) => result.judgmentEscalationRequired === true
     ),
+    jurisdictionCode,
+    transactionDate,
+    resolvedAuthorityEditions,
+    precedenceConflictDetected: conflictDetected,
     results,
   };
 }

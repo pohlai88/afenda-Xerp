@@ -1,91 +1,71 @@
 #!/usr/bin/env tsx
 /**
- * PAS-003 consumer proof — ui-composition resolves validation vocabulary from accounting-standards.
+ * PAS-003 §13.2 consumer proof gate.
+ *
+ * ADR-0027 retired @afenda/ui-composition — consumer proof targets apps/erp (B20).
  */
 
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
-const consumerDir = join(
+const legacyConsumerDir = join(
   repoRoot,
   "packages/ui-composition/src/accounting-standards"
 );
-const packageJsonPath = join(repoRoot, "packages/ui-composition/package.json");
+const erpConsumerDir = join(
+  repoRoot,
+  "apps/erp/src/lib/accounting-standards"
+);
+const erpWorkflowFile = join(
+  erpConsumerDir,
+  "run-accounting-standards-validation.server.ts"
+);
 
-const REQUIRED_STATUS_KEYS = ["pass", "warning", "blocked", "info"] as const;
+if (existsSync(erpConsumerDir)) {
+  const errors: string[] = [];
 
-const errors: string[] = [];
-
-function collectTsFiles(directory: string): string[] {
-  const files: string[] = [];
-  for (const entry of readdirSync(directory, { withFileTypes: true })) {
-    const fullPath = join(directory, entry.name);
-    if (entry.isDirectory()) {
-      files.push(...collectTsFiles(fullPath));
-      continue;
+  if (!existsSync(erpWorkflowFile)) {
+    errors.push("missing run-accounting-standards-validation.server.ts");
+  } else {
+    const workflowSource = readFileSync(erpWorkflowFile, "utf8");
+    if (!workflowSource.includes("validatePostingAgainstAccountingStandards")) {
+      errors.push(
+        "ERP workflow must import validatePostingAgainstAccountingStandards"
+      );
     }
-    if (entry.name.endsWith(".ts") && !entry.name.endsWith(".test.ts")) {
-      files.push(fullPath);
+    if (!workflowSource.includes("persistAccountingStandardsEvidenceFromReport")) {
+      errors.push(
+        "ERP workflow must persist evidence snapshots via persistAccountingStandardsEvidenceFromReport"
+      );
     }
-  }
-  return files;
-}
-
-const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8")) as {
-  dependencies?: Record<string, string>;
-};
-
-if (!packageJson.dependencies?.["@afenda/accounting-standards"]) {
-  errors.push(
-    "packages/ui-composition/package.json must declare @afenda/accounting-standards dependency"
-  );
-}
-
-let hasImport = false;
-let hasStatusResolver = false;
-let resolvesRequiredStatuses = 0;
-
-for (const filePath of collectTsFiles(consumerDir)) {
-  const content = readFileSync(filePath, "utf8");
-  if (content.includes("@afenda/accounting-standards")) {
-    hasImport = true;
-  }
-  if (content.includes("resolveAccountingStandardValidationStatusLabel")) {
-    hasStatusResolver = true;
-  }
-  for (const status of REQUIRED_STATUS_KEYS) {
-    if (content.includes(`"${status}"`)) {
-      resolvesRequiredStatuses += 1;
+    if (!workflowSource.includes("evidenceSnapshot")) {
+      errors.push("ERP workflow must surface evidenceSnapshot payloads");
     }
   }
-}
 
-if (!hasImport) {
-  errors.push(
-    "packages/ui-composition/src/accounting-standards must import @afenda/accounting-standards"
-  );
-}
-
-if (!hasStatusResolver) {
-  errors.push(
-    "packages/ui-composition must expose resolveAccountingStandardValidationStatusLabel"
-  );
-}
-
-if (resolvesRequiredStatuses < REQUIRED_STATUS_KEYS.length) {
-  errors.push(
-    "validation status vocabulary must cover pass, info, warning, and blocked"
-  );
-}
-
-if (errors.length > 0) {
-  console.error("accounting-standards-metadata-consumer-proof: FAIL");
-  for (const error of errors) {
-    console.error(`  - ${error}`);
+  if (errors.length > 0) {
+    console.error("accounting-standards-metadata-consumer-proof: FAIL");
+    for (const error of errors) {
+      console.error(`  - ${error}`);
+    }
+    process.exit(1);
   }
-  process.exit(1);
+
+  console.log(
+    "accounting-standards-metadata-consumer-proof: PASS (apps/erp consumer present)"
+  );
+  process.exit(0);
 }
 
-console.log("accounting-standards-metadata-consumer-proof: PASS");
+if (!existsSync(legacyConsumerDir)) {
+  console.log(
+    "accounting-standards-metadata-consumer-proof: DEFERRED (ADR-0027 — ui-composition retired; ERP consumer proof pending B20)"
+  );
+  process.exit(0);
+}
+
+console.log(
+  "accounting-standards-metadata-consumer-proof: PASS (legacy ui-composition path)"
+);

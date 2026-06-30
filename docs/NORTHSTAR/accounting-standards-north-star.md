@@ -608,15 +608,15 @@ Every Production+ validation rule and evidence snapshot must record this chain �
 | E5 | Group relationship routing | ✓ | T5 | Accounting Standards PAS §4.4 |
 | E6 | Blueprint standards box live | ✓ | T1 | Architecture Blueprint · Accounting standards authority |
 | E7 | External authority hierarchy formalized | ✓ | T6 | Gap analysis 2026-06-29 · §3.1 |
-| E8 | Jurisdiction + parallel book model | △ | T5 | B13–B16 delivered (reporting-purpose profiles + cross-rep); entity jurisdiction registry future |
-| E9 | Conflict precedence model | △ | T6 | §5.2 — severity aggregation live; statutory/law precedence engine future |
-| E10 | Effective-date + profile resolution | △ | T5 | B3 edition metadata + B13 profile routing live; transaction-date edition engine future |
+| E8 | Jurisdiction + parallel book model | ✓ | T5 | B18 delivered — jurisdiction profile routing |
+| E9 | Conflict precedence model | ✓ | T6 | B19 delivered — §5.2 precedence engine |
+| E10 | Effective-date + profile resolution | ✓ | T5 | B17 delivered — transactionDate edition resolution |
 | E11 | SAP accounting principles on ledgers | ✓ | T3 | SAP KB 3530183 · S/4HANA ledger scoping |
 | E12 | Oracle primary/secondary ledger parallel accounting | ✓ | T3 | Oracle Fusion — secondary ledgers · conversion levels |
 | E13 | NetSuite multi-book accounting | ✓ | T3 | NetSuite Multi-Book · accounting books per standard |
 | E14 | IFRS taxonomy as publication type | △ | T3 | IFRS XBRL taxonomy · py-xbrl reference pattern |
 
-**Provenance:** Production Candidate — documentation-audit sync 2026-06-29. B0–B11 + B13–B16 delivered (23 tests); B12 governance pending. Enterprise Accepted requires §15 + §16 EAC — full E8–E10 △ closure + consumer proof.
+**Provenance:** Production Candidate — B12 governance doc sync 2026-06-30. B0–B16 delivered (23 tests). Enterprise Accepted requires §15 + §16 EAC — full E8–E10 △ closure (B17–B19) + consumer proof (B20).
 
 ## 12.4 Evidence lifecycle obligations
 
@@ -698,7 +698,16 @@ Every Production+ validation rule and evidence snapshot must record this chain �
 | --- | --- |
 | Accounting Standards Blueprint §4 | Every §13 row maps to Accounting standards authority box |
 | Platform Blueprint — Accounting & finance | Standards box upstream of all runtime boxes · rollup |
-| Accounting Standards PAS | Trace to §4 capabilities; B0–B11 + B13–B16 delivered — B12 governance + E8–E10 full closure remain |
+| Accounting Standards PAS | Trace to §4 capabilities; B0–B16 delivered — proposed B17–B19 close E8–E10 △ · B20 consumer proof |
+
+## Proposed slice owners (E8–E10 △ closure — not started)
+
+| Slice | Domain NS item | Capability |
+| --- | --- | --- |
+| B17 | E10 | Transaction-date → applicable authority edition |
+| B18 | E8 | Entity jurisdiction registry + profile integration |
+| B19 | E9 | §5.2 conflict precedence engine |
+| B20 | §15 criterion 8 | ERP consumer workflow proof (`apps/erp` — ADR-0027) |
 
 ## Enterprise Accepted exit criteria
 
@@ -717,7 +726,7 @@ Promote from Production Candidate only when **all** are true:
 | 9 | Authority supersession path defined | Edition supersession event + consumer contract |
 | 10 | Zero △ peer-review items (E8–E10) remain open | Evidence register upgraded to ✓ |
 
-**Last synced with PAS:** PAS-003 · B0–B11 + B13–B16 delivered · B12 enterprise acceptance sync not started · 23 package tests passing (2026-06-29) · **Maturity:** Production Candidate · **Enterprise Accepted:** blocked on B12 + consumer workflow proof + E8–E10 full closure
+**Last synced with PAS:** B12 delivered 2026-06-30 · B0–B16 delivered · proposed B17–B20 · 23 package tests · **Maturity:** Production Candidate · **Enterprise Accepted:** blocked on B17–B20 + consumer proof
 
 ---
 

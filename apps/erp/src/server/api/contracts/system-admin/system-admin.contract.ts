@@ -10,13 +10,23 @@ import {
   type SystemAdminAuditEventsResponseDto,
   type SystemAdminMembershipRoleRequestDto,
   type SystemAdminMembershipRoleResponseDto,
+  type SystemAdminMembershipsResponseDto,
+  type SystemAdminPermissionsResponseDto,
+  type SystemAdminRolesResponseDto,
+  type SystemAdminSettingsResponseDto,
   type SystemAdminUserInviteRequestDto,
   type SystemAdminUserInviteResponseDto,
+  type SystemAdminUsersResponseDto,
   systemAdminAuditEventsResponseSchema,
   systemAdminMembershipRoleRequestSchema,
   systemAdminMembershipRoleResponseSchema,
+  systemAdminMembershipsResponseSchema,
+  systemAdminPermissionsResponseSchema,
+  systemAdminRolesResponseSchema,
+  systemAdminSettingsResponseSchema,
   systemAdminUserInviteRequestSchema,
   systemAdminUserInviteResponseSchema,
+  systemAdminUsersResponseSchema,
 } from "./system-admin.api-contract";
 
 const emptyGetRequestSchema = z.undefined();
@@ -196,6 +206,37 @@ export const systemAdminMembershipRoleAssignmentsPostContract = {
   SystemAdminMembershipRoleResponseDto
 >;
 
+export const systemAdminUsersGetContract = {
+  authPolicy: "session-required",
+  cache: { kind: "no-store" },
+  contextPolicy: "tenant-company-org-required",
+  documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
+  id: "internal.v1.system-admin.users.get",
+  summary: "List users",
+  description:
+    "Returns active company-scoped users with membership and role display fields for the system-admin directory.",
+  lifecycle: "active",
+  method: "GET",
+  owner: API_ROUTE_OWNER,
+  path: "/api/internal/v1/system-admin/users",
+  permission: {
+    mode: "required",
+    permission: PERMISSION_REGISTRY.systemAdmin.users.read,
+  },
+  rateLimitPolicy: "authenticated-standard",
+  requestSchema: emptyGetRequestSchema,
+  requestSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#request:none",
+  responseSchema: systemAdminUsersResponseSchema,
+  responseSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminUsersResponseSchema",
+  runtime: "nodejs",
+  stability: "internal-stable",
+  tags: ["system-admin", "users"],
+  testPaths: DEFAULT_GOVERNED_ROUTE_TEST_PATHS,
+  version: "v1",
+} as const satisfies ApiRouteContract<undefined, SystemAdminUsersResponseDto>;
+
 export const systemAdminAuditEventsGetContract = {
   authPolicy: "session-required",
   cache: { kind: "no-store" },
@@ -229,4 +270,137 @@ export const systemAdminAuditEventsGetContract = {
 } as const satisfies ApiRouteContract<
   undefined,
   SystemAdminAuditEventsResponseDto
+>;
+
+export const systemAdminRolesGetContract = {
+  authPolicy: "session-required",
+  cache: { kind: "no-store" },
+  contextPolicy: "tenant-company-org-required",
+  documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
+  id: "internal.v1.system-admin.roles.get",
+  summary: "List roles",
+  description:
+    "Returns tenant-scoped role templates for the system-admin roles directory.",
+  lifecycle: "active",
+  method: "GET",
+  owner: API_ROUTE_OWNER,
+  path: "/api/internal/v1/system-admin/roles",
+  permission: {
+    mode: "required",
+    permission: PERMISSION_REGISTRY.systemAdmin.roles.manage,
+  },
+  rateLimitPolicy: "authenticated-standard",
+  requestSchema: emptyGetRequestSchema,
+  requestSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#request:none",
+  responseSchema: systemAdminRolesResponseSchema,
+  responseSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminRolesResponseSchema",
+  runtime: "nodejs",
+  stability: "internal-stable",
+  tags: ["system-admin", "roles"],
+  testPaths: DEFAULT_GOVERNED_ROUTE_TEST_PATHS,
+  version: "v1",
+} as const satisfies ApiRouteContract<undefined, SystemAdminRolesResponseDto>;
+
+export const systemAdminPermissionsGetContract = {
+  authPolicy: "session-required",
+  cache: { kind: "no-store" },
+  contextPolicy: "tenant-company-org-required",
+  documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
+  id: "internal.v1.system-admin.permissions.get",
+  summary: "List permissions",
+  description:
+    "Returns the global permission catalog for the system-admin permissions directory.",
+  lifecycle: "active",
+  method: "GET",
+  owner: API_ROUTE_OWNER,
+  path: "/api/internal/v1/system-admin/permissions",
+  permission: {
+    mode: "required",
+    permission: PERMISSION_REGISTRY.systemAdmin.permissions.manage,
+  },
+  rateLimitPolicy: "authenticated-standard",
+  requestSchema: emptyGetRequestSchema,
+  requestSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#request:none",
+  responseSchema: systemAdminPermissionsResponseSchema,
+  responseSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminPermissionsResponseSchema",
+  runtime: "nodejs",
+  stability: "internal-stable",
+  tags: ["system-admin", "permissions"],
+  testPaths: DEFAULT_GOVERNED_ROUTE_TEST_PATHS,
+  version: "v1",
+} as const satisfies ApiRouteContract<
+  undefined,
+  SystemAdminPermissionsResponseDto
+>;
+
+export const systemAdminMembershipsGetContract = {
+  authPolicy: "session-required",
+  cache: { kind: "no-store" },
+  contextPolicy: "tenant-company-org-required",
+  documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
+  id: "internal.v1.system-admin.memberships.get",
+  summary: "List memberships",
+  description:
+    "Returns company-scoped memberships with role display fields for the system-admin directory.",
+  lifecycle: "active",
+  method: "GET",
+  owner: API_ROUTE_OWNER,
+  path: "/api/internal/v1/system-admin/memberships",
+  permission: {
+    mode: "required",
+    permission: PERMISSION_REGISTRY.systemAdmin.users.read,
+  },
+  rateLimitPolicy: "authenticated-standard",
+  requestSchema: emptyGetRequestSchema,
+  requestSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#request:none",
+  responseSchema: systemAdminMembershipsResponseSchema,
+  responseSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminMembershipsResponseSchema",
+  runtime: "nodejs",
+  stability: "internal-stable",
+  tags: ["system-admin", "memberships"],
+  testPaths: DEFAULT_GOVERNED_ROUTE_TEST_PATHS,
+  version: "v1",
+} as const satisfies ApiRouteContract<
+  undefined,
+  SystemAdminMembershipsResponseDto
+>;
+
+export const systemAdminSettingsGetContract = {
+  authPolicy: "session-required",
+  cache: { kind: "no-store" },
+  contextPolicy: "tenant-company-org-required",
+  documentationPath: API_GOVERNANCE_DOCUMENTATION_PATH,
+  id: "internal.v1.system-admin.settings.get",
+  summary: "List module settings",
+  description:
+    "Returns module domain summaries derived from the permission catalog for tenant configuration.",
+  lifecycle: "active",
+  method: "GET",
+  owner: API_ROUTE_OWNER,
+  path: "/api/internal/v1/system-admin/settings",
+  permission: {
+    mode: "required",
+    permission: PERMISSION_REGISTRY.systemAdmin.modules.manage,
+  },
+  rateLimitPolicy: "authenticated-standard",
+  requestSchema: emptyGetRequestSchema,
+  requestSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#request:none",
+  responseSchema: systemAdminSettingsResponseSchema,
+  responseSchemaRef:
+    "apps/erp/src/server/api/contracts/system-admin/system-admin.api-contract.ts#systemAdminSettingsResponseSchema",
+  runtime: "nodejs",
+  stability: "internal-stable",
+  tags: ["system-admin", "settings"],
+  testPaths: DEFAULT_GOVERNED_ROUTE_TEST_PATHS,
+  version: "v1",
+} as const satisfies ApiRouteContract<
+  undefined,
+  SystemAdminSettingsResponseDto
 >;

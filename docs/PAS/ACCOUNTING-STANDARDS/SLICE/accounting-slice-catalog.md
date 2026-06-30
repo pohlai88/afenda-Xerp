@@ -5,7 +5,7 @@
 | **SSOT directory** | docs/PAS/ACCOUNTING-STANDARDS/SLICE/ |
 | **Individual handoffs** | 17 files (B0–B16) |
 | **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — do not use |
-| **Last reviewed** | 2026-06-29 |
+| **Last reviewed** | 2026-06-30 (B12 governance doc sync delivered) |
 
 > **Catalog only.** Open the linked `b*.md` file for the 9-field handoff.
 
@@ -45,8 +45,17 @@
 | B9 | [b9-4.9-ifrs-16-lease-posting-proof.md](./b9-4.9-ifrs-16-lease-posting-proof.md) | §4.9 | Delivered |
 | B10 | [b10-4.10-explanation-registry.md](./b10-4.10-explanation-registry.md) | §4.10 | Delivered |
 | B11 | [b11-4.11-audit-evidence-snapshot.md](./b11-4.11-audit-evidence-snapshot.md) | §4.11 | Delivered |
-| B12 | [b12-11-enterprise-acceptance-sync.md](./b12-11-enterprise-acceptance-sync.md) | §11 | Not started |
+| B12 | [b12-11-enterprise-acceptance-sync.md](./b12-11-enterprise-acceptance-sync.md) | §11 | Delivered |
 | B13 | [b13-reporting-context-profile-routing.md](./b13-reporting-context-profile-routing.md) | §4.4 | Delivered |
 | B14 | [b14-scope-gate-judgment-escalation.md](./b14-scope-gate-judgment-escalation.md) | §4.7 | Delivered |
 | B15 | [b15-authority-supersession-metadata.md](./b15-authority-supersession-metadata.md) | §4.3 | Delivered |
 | B16 | [b16-cross-representation-routing.md](./b16-cross-representation-routing.md) | §4.4 | Delivered |
+
+## Proposed extensions (no handoff files yet)
+
+| ID | Title | PAS § | Status | Closes |
+| --- | --- | --- | --- | --- |
+| B17 | Transaction-date edition resolution | §4.3 | Proposed | Domain NS E10 |
+| B18 | Jurisdiction registry | §4.4 | Proposed | Domain NS E8 |
+| B19 | Conflict precedence engine | §4.6 | Proposed | Domain NS E9 |
+| B20 | ERP consumer workflow proof | §11 | Proposed | PAS §11.6 · ADR-0027 |

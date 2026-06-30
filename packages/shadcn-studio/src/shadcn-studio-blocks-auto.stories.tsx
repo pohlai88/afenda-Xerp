@@ -21,7 +21,7 @@ import LoginPage04Block from "./components/shadcn-studio/blocks/login-page-04/lo
 import { shadcnStudioThemeDecorator } from "./_storybook/shadcn-studio-theme.decorator.js";
 import {
   shadcnStudioCenteredLayout,
-  shadcnStudioFullscreenLayout,
+  shadcnStudioPageBlockParameters,
   shadcnStudioStoryA11y,
 } from "./_storybook/story-parameters.js";
 
@@ -47,49 +47,49 @@ type Story = StoryObj<typeof meta>;
 export const AccountSettings01: Story = {
   render: () => <AccountSettings01Block />,
   parameters: {
-    ...shadcnStudioFullscreenLayout,
+    ...shadcnStudioPageBlockParameters,
   },
 };
 
 export const AccountSettings02: Story = {
   render: () => <AccountSettings02Block />,
   parameters: {
-    ...shadcnStudioFullscreenLayout,
+    ...shadcnStudioPageBlockParameters,
   },
 };
 
 export const AccountSettings03: Story = {
   render: () => <AccountSettings03Block />,
   parameters: {
-    ...shadcnStudioFullscreenLayout,
+    ...shadcnStudioPageBlockParameters,
   },
 };
 
 export const AccountSettings04: Story = {
   render: () => <AccountSettings04Block />,
   parameters: {
-    ...shadcnStudioFullscreenLayout,
+    ...shadcnStudioPageBlockParameters,
   },
 };
 
 export const AccountSettings05: Story = {
   render: () => <AccountSettings05Block />,
   parameters: {
-    ...shadcnStudioFullscreenLayout,
+    ...shadcnStudioPageBlockParameters,
   },
 };
 
 export const AccountSettings06: Story = {
   render: () => <AccountSettings06Block />,
   parameters: {
-    ...shadcnStudioFullscreenLayout,
+    ...shadcnStudioPageBlockParameters,
   },
 };
 
 export const AccountSettings07: Story = {
   render: () => <AccountSettings07Block />,
   parameters: {
-    ...shadcnStudioFullscreenLayout,
+    ...shadcnStudioPageBlockParameters,
   },
 };
 
@@ -104,7 +104,7 @@ export const EmptyState02: Story = {
 export const ErrorPage02: Story = {
   render: () => <ErrorPage02Block />,
   parameters: {
-    ...shadcnStudioFullscreenLayout,
+    ...shadcnStudioPageBlockParameters,
   },
 };
 
@@ -119,6 +119,6 @@ export const HeroSection01: Story = {
 export const LoginPage04: Story = {
   render: () => <LoginPage04Block />,
   parameters: {
-    ...shadcnStudioFullscreenLayout,
+    ...shadcnStudioPageBlockParameters,
   },
 };

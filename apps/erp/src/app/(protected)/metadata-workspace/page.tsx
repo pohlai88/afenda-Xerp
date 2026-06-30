@@ -43,7 +43,7 @@ export default async function MetadataWorkspacePage() {
   const surfaces = resolveMetadataWorkspaceSurfaces({ runtime });
 
   return (
-    <main className="mx-auto flex max-w-5xl flex-col gap-6 p-6">
+    <section className="mx-auto flex max-w-5xl flex-col gap-6">
       <header className="flex flex-col gap-2">
         <h1 className="font-semibold text-2xl">Metadata Workspace</h1>
         <p className="text-muted-foreground text-sm">
@@ -109,6 +109,6 @@ export default async function MetadataWorkspacePage() {
           </Card>
         ))}
       </section>
-    </main>
+    </section>
   );
 }

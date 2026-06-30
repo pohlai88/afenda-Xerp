@@ -42,7 +42,10 @@ function renderStoriesFile(blocks) {
       const storyName = slugToImportName(block.slug);
       const layoutSpread =
         block.layout === "fullscreen"
-          ? "    parameters: {\n      ...shadcnStudioFullscreenLayout,\n    },\n"
+          ? `    parameters: {
+      ...shadcnStudioPageBlockParameters,
+    },
+`
           : "";
 
       return `export const ${storyName}: Story = {
@@ -62,7 +65,7 @@ ${imports}
 import { shadcnStudioThemeDecorator } from "./_storybook/shadcn-studio-theme.decorator.js";
 import {
   shadcnStudioCenteredLayout,
-  shadcnStudioFullscreenLayout,
+  shadcnStudioPageBlockParameters,
   shadcnStudioStoryA11y,
 } from "./_storybook/story-parameters.js";
 

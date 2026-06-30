@@ -9,8 +9,29 @@ export {
   ACCOUNTING_STANDARD_EXPLANATIONS,
   getAccountingStandardExplanation,
 } from "./explanations/accounting-standard-explanation.registry.js";
+export type { AuthorityPrecedenceConflict } from "./policy/conflict-precedence.policy.js";
+export {
+  buildPrecedenceConflictValidationResult,
+  detectAuthorityPrecedenceConflicts,
+} from "./policy/conflict-precedence.policy.js";
 export { validateAccountingStandardRuleEvidence } from "./policy/rule-evidence.policy.js";
+export type { ResolvedAuthorityEdition } from "./policy/transaction-date-edition-resolution.policy.js";
+export {
+  resolveAuthorityEditionForTransactionDate,
+  resolveAuthorityEditionsForStandardCodes,
+} from "./policy/transaction-date-edition-resolution.policy.js";
 export { validateAccountingStandardVersionRegistry } from "./policy/version-registry.policy.js";
+export type {
+  JurisdictionCode,
+  JurisdictionReportingProfile,
+} from "./routing/jurisdiction-profile.contract.js";
+export {
+  isJurisdictionCode,
+  JURISDICTION_REPORTING_PROFILES,
+  normalizeCountryCodeToJurisdiction,
+  resolveJurisdictionProcessRoute,
+  resolveJurisdictionReportingProfile,
+} from "./routing/jurisdiction-profile.registry.js";
 export {
   CROSS_REPRESENTATION_ROUTING,
   REPORTING_CONTEXT_PROCESS_ROUTING,

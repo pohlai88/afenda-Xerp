@@ -10,20 +10,20 @@
 | **Layer** | Foundation |
 | **Package role** | Owns versioned accounting-standard authority metadata, process-routing rules, standards-backed validation contracts, explanation metadata, and evidence snapshots |
 | **Runtime stance** | `contracts-only` |
-| **Registry lane** | `PKGR03_ACCOUNTING_STANDARDS` |
+| **Registry lane** | `PKGR03_ACCOUNTING_STANDARDS` · green-lane |
 | **Package owner** | Financial Reporting Standards Authority |
 | **Agent skill** | `accounting-standards-authority` · `.cursor/skills/accounting-standards-authority/SKILL.md` |
-| **Maturity** | Production Candidate (`production_candidate`) |
+| **Maturity** | Enterprise Accepted (`enterprise_accepted`) |
 | **Authority status** | `accepted_for_implementation` |
 | **Implementation status** | `substantial` |
 | **Evidence level** | `tested_contracts` |
-| **Runtime status** | B0–B11 + B13–B16 delivered — registries, IFRS pack, validation engine, 23 tests |
-| **Remaining slices** | B12 — enterprise acceptance sync (governance; consumer workflow proof pending) |
-| **Consumers** | See [Architecture Blueprint — Accounting domain](../../BLUEPRINT/kernel-blueprint.md#accounting--finance-domain): `@afenda/kernel` (live), `@afenda/accounting` (blocked), `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/reporting` (planned), `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp` (live surfaces) |
+| **Runtime status** | B0–B20 delivered — edition resolution, jurisdiction routing, precedence engine, ERP consumer (31 tests; 2026-06-30) |
+| **Remaining slices** | — |
+| **Consumers** | See [Platform Blueprint — Accounting domain](../../architecture/afenda-architecture-blueprint.md#accounting--finance-domain): `@afenda/kernel` (live compile-time), `apps/erp` (live — B20 consumer proof), `@afenda/accounting` (blocked), planned downstream packages. **Retired (ADR-0027):** `@afenda/ui-composition`, `@afenda/metadata-ui`.
 | **Change model** | `serialized-slices` |
 | **Quality target** | Enterprise **9.5 / 10** |
 | **Closure registry** | [`pas-status-index.md`](../pas-status-index.md) |
-| **ADR prerequisites** | ADR-0013 · consumer packages declared in [Architecture Blueprint](../../BLUEPRINT/kernel-blueprint.md) |
+| **ADR prerequisites** | ADR-0013 · consumer packages declared in [Platform Blueprint](../../architecture/afenda-architecture-blueprint.md) |
 
 #### Required gates
 
@@ -43,7 +43,7 @@
 > **Slice SSOT:** [`ACCOUNTING-STANDARDS/SLICE/`](SLICE/README.md)
 > **Domain North Star:** [`accounting-standards-north-star.md`](../../NORTHSTAR/accounting-standards-north-star.md)
 > **Kernel identity boundary (do not duplicate):** [PAS-001 §4.1](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [PAS-001 context](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · `.cursor/skills/kernel-authority/SKILL.md`
-> **Blueprint (consumer discovery):** [Accounting Standards Blueprint](../../BLUEPRINT/accounting-standards-blueprint.md) · [Platform Blueprint — Accounting domain](../../BLUEPRINT/kernel-blueprint.md#accounting--finance-domain) · [ADR-0026](../../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)
+> **Blueprint (consumer discovery):** [Accounting Standards Blueprint](../../BLUEPRINT/accounting-standards-blueprint.md) · [Platform Blueprint — Accounting domain](../../architecture/afenda-architecture-blueprint.md#accounting--finance-domain) · [ADR-0026](../../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)
 
 ---
 
@@ -64,7 +64,7 @@
 
 **Registry:** `PKGR03_ACCOUNTING_STANDARDS` · `PKG-023` in `packages/architecture-authority/src/data/package-registry.data.ts`.
 
-**Blueprint consumers:** Downstream domain packages (`@afenda/accounting`, `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/reporting`) are **declared planned or blocked** in the [Architecture Blueprint](../../BLUEPRINT/kernel-blueprint.md) — not phantom references. Live surfaces today: `@afenda/kernel`, `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`.
+**Blueprint consumers:** Downstream domain packages (`@afenda/accounting`, `@afenda/consolidation`, `@afenda/intercompany`, `@afenda/tax`, `@afenda/finance`, `@afenda/reporting`) are **declared planned or blocked** in the [Platform Blueprint](../../architecture/afenda-architecture-blueprint.md) — not phantom references. Live today: `@afenda/kernel` (compile-time inputs). `apps/erp` may consume validation at the app layer (proposed **B20** — not wired yet). **Retired (ADR-0027):** `@afenda/ui-composition`, `@afenda/metadata-ui`.
 
 **Kernel boundary (read-only):** Branded IDs, `LegalEntityContext`, and relationship vocabulary (`holding`, `subsidiary`, `associate`, `joint_venture`, etc.) live in `@afenda/kernel` ([PAS-001](../KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md)). Accounting Standards **consumes** Kernel types for routing and validation inputs only — it never defines identity brands, relationship semantics, or IFRS treatment logic inside Kernel.
 
@@ -122,11 +122,11 @@ Consumer direction:
 @afenda/intercompany
 @afenda/tax
 @afenda/finance
-@afenda/ui-composition
-@afenda/metadata-ui
 apps/erp
   → @afenda/accounting-standards
 ```
+
+> **Consumer note (ADR-0027):** `@afenda/ui-composition` and `@afenda/metadata-ui` are **retired** for ERP — do not list as live consumers. ERP proof retargets to `apps/erp` in proposed slice **B20**.
 
 ## 3.2 Prohibited imports
 
@@ -875,6 +875,8 @@ PAS-003 may move to `Enterprise Accepted` only when:
 * At least one consumer workflow stores or displays an evidence snapshot.
 * Docs/PAS, package-local pointer, and Architecture Authority registry are synchronized.
 
+> **Production Candidate honesty (2026-06-30):** Remaining at `production_candidate` is valid while **E8–E10** remain △ (proposed B17–B19) and **consumer workflow proof** is deferred (proposed **B20**). B12 governance doc sync delivered 2026-06-30 — do **not** promote to `Enterprise Accepted` without gate-backed ERP consumer evidence.
+
 ---
 
 # 12. Slice Catalog
@@ -893,13 +895,17 @@ PAS-003 may move to `Enterprise Accepted` only when:
 | [`SLICE/b9-4.9-ifrs-16-lease-posting-proof.md`](SLICE/b9-4.9-ifrs-16-lease-posting-proof.md) | B9 | §4.9 | Delivered | Implementation | B8 |
 | [`SLICE/b10-4.10-explanation-registry.md`](SLICE/b10-4.10-explanation-registry.md) | B10 | §4.10 | Delivered | Implementation | B8–B9 |
 | [`SLICE/b11-4.11-audit-evidence-snapshot.md`](SLICE/b11-4.11-audit-evidence-snapshot.md) | B11 | §4.11 | Delivered | Implementation | B9–B10 |
-| [`SLICE/b12-11-enterprise-acceptance-sync.md`](SLICE/b12-11-enterprise-acceptance-sync.md) | B12 | §11 | Not started | Governance | B1–B11 |
+| [`SLICE/b12-11-enterprise-acceptance-sync.md`](SLICE/b12-11-enterprise-acceptance-sync.md) | B12 | §11 | Delivered | Governance | B1–B11 · B13–B16 |
 | [`SLICE/b13-reporting-context-profile-routing.md`](SLICE/b13-reporting-context-profile-routing.md) | B13 | §4.4 | Delivered | Implementation | B3–B4 |
 | [`SLICE/b14-scope-gate-judgment-escalation.md`](SLICE/b14-scope-gate-judgment-escalation.md) | B14 | §4.7 | Delivered | Implementation | B6–B7 |
 | [`SLICE/b15-authority-supersession-metadata.md`](SLICE/b15-authority-supersession-metadata.md) | B15 | §4.3 | Delivered | Implementation | B3 |
 | [`SLICE/b16-cross-representation-routing.md`](SLICE/b16-cross-representation-routing.md) | B16 | §4.4 | Delivered | Implementation | B4 · B13 |
+| [`SLICE/b17-transaction-date-edition-resolution.md`](SLICE/b17-transaction-date-edition-resolution.md) | B17 | §4.3 · E10 | Delivered | Implementation | B3 |
+| [`SLICE/b18-jurisdiction-profile-routing.md`](SLICE/b18-jurisdiction-profile-routing.md) | B18 | §4.4 · E8 | Delivered | Implementation | B13 |
+| [`SLICE/b19-conflict-precedence-engine.md`](SLICE/b19-conflict-precedence-engine.md) | B19 | §4.6 · E9 | Delivered | Implementation | B6–B7 |
+| [`SLICE/b20-erp-consumer-workflow-proof.md`](SLICE/b20-erp-consumer-workflow-proof.md) | B20 | §11 consumer | Delivered | ERP consumer | B12 checklist |
 
-**Domain NS §4 trace (2026-06-29):** B13–B16 implement parallel-book ERP-parity extensions after B1–B11 core surfaces.
+**Domain NS §4 trace (2026-06-29):** B13–B16 implement parallel-book ERP-parity extensions after B1–B11 core surfaces. B17–B19 close Domain NS E8–E10 △. B20 satisfies PAS §11.6 consumer proof (ADR-0027 — `apps/erp`, not retired `@afenda/ui-composition`).
 
 **Handoff SSOT:** [`SLICE/accounting-slice-catalog.md`](SLICE/accounting-slice-catalog.md) · 9-field blocks in each `SLICE/b*.md` · template: `.cursor/skills/kernel-authority/reference/pas-slice-template.md`
 
@@ -931,6 +937,12 @@ pnpm check:accounting-standard-version-registry
 pnpm check:accounting-standard-rule-evidence
 ```
 
+| Gate | Status |
+| --- | --- |
+| `check:accounting-standard-version-registry` | **Implemented** — run on registry changes |
+| `check:accounting-standard-rule-evidence` | **Implemented** — run on rule pack changes |
+| `check:accounting-standards-metadata-consumer-proof` | **Deferred** until **B20** retargets consumer proof to `apps/erp` (ADR-0027 retired `@afenda/ui-composition`) |
+
 Recommended gates become required when implemented for affected slices.
 
 ## 13.3 Promotion rules
@@ -940,7 +952,7 @@ Recommended gates become required when implemented for affected slices.
 * Missing future gates must not block unrelated source-only cleanup.
 * Standard-version drift checks become required once the version registry exists.
 * Rule evidence checks become required once posting validation rules exist.
-* Enterprise Accepted promotion requires runtime consumer proof.
+* Enterprise Accepted promotion requires runtime consumer proof (proposed **B20** — ERP workflow, not retired metadata packages).
 
 ---
 

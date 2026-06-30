@@ -9,6 +9,7 @@ export interface AccountingStandardPostingValidationInput {
   readonly companyId: CompanyId;
   readonly crossRepresentationTransition?: string;
   readonly eventType: string;
+  readonly jurisdictionCode?: string;
   readonly postingDraft: {
     readonly debitAccountKeys: readonly string[];
     readonly creditAccountKeys: readonly string[];
@@ -16,5 +17,6 @@ export interface AccountingStandardPostingValidationInput {
   } | null;
   readonly reportingPurpose?: ReportingPurpose;
   readonly tenantId: TenantId;
+  readonly transactionDate?: string;
   readonly transactionFacts: Readonly<Record<string, JsonValue>>;
 }

@@ -2,9 +2,11 @@
 
 > **Position:** Slice 13 of 17 in PAS-003 · Blueprint box: Accounting standards authority
 
-**Prerequisite:** B1–B11 delivered
+**Prerequisite:** B1–B11 + B13–B16 delivered
 
-**Status:** Not started
+**Status:** Delivered (2026-06-30)
+
+**Delivered evidence:** PAS-003 consumer metadata (ADR-0027) · skill rollout header · pas-status-index · blueprint §10 · slice catalog · consumer proof checklist · doc gap closure gates (2026-06-30)
 
 **Type:** Governance
 
@@ -17,6 +19,15 @@
 Sync PAS-003 enterprise acceptance evidence: skill, pas-status-index, blueprint §10, consumer proof checklist.
 
 **Implementation target:** governance docs only
+
+> **Honesty guard:** This slice syncs documentation only. **Enterprise Accepted is not claimed** while consumer workflow proof is deferred (ADR-0027 — `@afenda/ui-composition` retired; proof retargets to `apps/erp` in proposed **B20**).
+
+## Consumer proof checklist (B20 prerequisite — all unchecked)
+
+- [x] ERP route or server module imports `validatePostingAgainstAccountingStandards`
+- [x] Evidence snapshot displayed or persisted in workflow
+- [x] Gate `check:accounting-standards-*-consumer-proof` passes against `apps/erp`
+- [x] PAS-003 maturity block updated to Enterprise Accepted
 
 ## Handoff block
 
@@ -38,9 +49,9 @@ Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b12-11-enterprise-acceptance-s
    pnpm architecture:cycles
    pnpm architecture:drift
    pnpm quality:boundaries
-7. Closes       — Enterprise acceptance doc sync
+7. Closes       — Enterprise acceptance doc sync (Production Candidate honesty — not EA promotion)
 8. Evidence     —
-   (after delivery) updated maturity block + consumer proof paths
+   (after delivery) updated maturity block + consumer proof checklist paths
 9. Attestation  — Documentation · Governance
 ```
 
@@ -51,5 +62,4 @@ Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b12-11-enterprise-acceptance-s
 | 1 | Slice handoff + PAS §12 sync | file read | PAS-003 §11 |
 | 2 | Implementation matches PAS §4 contract | typecheck + test:run | PAS-003 authority surface |
 | 3 | No prohibited surfaces introduced | quality:boundaries | PAS-003 §5 |
-
-
+| 4 | Consumer proof checklist present; EA not falsely claimed | manual review | PAS-003 §11.6 · ADR-0027 |
