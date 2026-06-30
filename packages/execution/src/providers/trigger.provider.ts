@@ -37,6 +37,7 @@ import {
   type RunServiceActorS2sPingJobResult,
   SERVICE_ACTOR_S2S_PING_TRIGGER_TASK_ID,
 } from "../jobs/service-actor-s2s-ping.job.js";
+import { runServiceActorS2sPingProbe } from "../jobs/service-actor-s2s-ping.probe.js";
 
 export interface TriggerExecutionProviderOptions {
   readonly nowIso?: () => string;
@@ -119,13 +120,12 @@ export function configureServiceActorS2sPingTask(
 }
 
 export async function invokeConfiguredServiceActorS2sPingTask(): Promise<RunServiceActorS2sPingJobResult> {
-  if (serviceActorS2sPingTaskRun === null) {
-    throw new Error(
-      "Service-actor S2S ping task handler is not configured. Call configureServiceActorS2sPingTask from ERP instrumentation."
-    );
+  if (serviceActorS2sPingTaskRun !== null) {
+    return await serviceActorS2sPingTaskRun();
   }
 
-  return await serviceActorS2sPingTaskRun();
+  // Worker-safe default when ERP instrumentation/bootstrap is not loaded (ADR-0036).
+  return await runServiceActorS2sPingProbe();
 }
 
 /** Static Trigger.dev task — scanned by `trigger.config.ts` for remote deployment. */
