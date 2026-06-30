@@ -15,14 +15,23 @@ export interface ApiRateLimitWindowConfig {
   readonly windowSeconds: number;
 }
 
+export interface ApiRateLimitConsumeResult {
+  readonly allowed: boolean;
+  readonly limit: number;
+  readonly remaining: number;
+  readonly resetAtUnix: number;
+  readonly retryAfterSeconds: number | null;
+}
+
+export interface ApiRateLimitSnapshot extends ApiRateLimitConsumeResult {
+  readonly policy: ApiRateLimitPolicy;
+}
+
 export interface ApiRateLimitProvider {
   consume(input: {
     readonly bucketKey: string;
     readonly config: ApiRateLimitWindowConfig;
-  }): Promise<{
-    readonly allowed: boolean;
-    readonly retryAfterSeconds: number | null;
-  }>;
+  }): Promise<ApiRateLimitConsumeResult>;
 }
 
 const API_RATE_LIMIT_POLICY_LIMITS: Record<
@@ -47,6 +56,26 @@ function resolveRateLimitConfig(
   return API_RATE_LIMIT_POLICY_LIMITS[policy];
 }
 
+function buildAllowedConsumeResult(
+  config: ApiRateLimitWindowConfig,
+  input: {
+    readonly count: number;
+    readonly windowStartMs: number;
+  }
+): ApiRateLimitConsumeResult {
+  const resetAtUnix = Math.ceil(
+    (input.windowStartMs + config.windowSeconds * 1000) / 1000
+  );
+
+  return {
+    allowed: true,
+    limit: config.maxRequests,
+    remaining: Math.max(0, config.maxRequests - input.count),
+    resetAtUnix,
+    retryAfterSeconds: null,
+  };
+}
+
 export function createInMemoryRateLimitProvider(): ApiRateLimitProvider {
   const buckets = new Map<
     string,
@@ -68,7 +97,10 @@ export function createInMemoryRateLimitProvider(): ApiRateLimitProvider {
           windowSeconds: input.config.windowSeconds,
           windowStartMs: nowMs,
         });
-        return { allowed: true, retryAfterSeconds: null };
+        return buildAllowedConsumeResult(input.config, {
+          count: 1,
+          windowStartMs: nowMs,
+        });
       }
 
       const elapsedSeconds = Math.floor(
@@ -81,7 +113,10 @@ export function createInMemoryRateLimitProvider(): ApiRateLimitProvider {
           windowSeconds: input.config.windowSeconds,
           windowStartMs: nowMs,
         });
-        return { allowed: true, retryAfterSeconds: null };
+        return buildAllowedConsumeResult(input.config, {
+          count: 1,
+          windowStartMs: nowMs,
+        });
       }
 
       if (existing.count >= input.config.maxRequests) {
@@ -92,15 +127,27 @@ export function createInMemoryRateLimitProvider(): ApiRateLimitProvider {
               1000
           )
         );
-        return { allowed: false, retryAfterSeconds };
+        return {
+          allowed: false,
+          limit: input.config.maxRequests,
+          remaining: 0,
+          resetAtUnix: Math.ceil(
+            (existing.windowStartMs + existing.windowSeconds * 1000) / 1000
+          ),
+          retryAfterSeconds,
+        };
       }
 
+      const nextCount = existing.count + 1;
       buckets.set(input.bucketKey, {
         ...existing,
-        count: existing.count + 1,
+        count: nextCount,
       });
 
-      return { allowed: true, retryAfterSeconds: null };
+      return buildAllowedConsumeResult(input.config, {
+        count: nextCount,
+        windowStartMs: existing.windowStartMs,
+      });
     },
   };
 }
@@ -138,12 +185,12 @@ export function resetApiRateLimitProviderForTests(): void {
   activeRateLimitProvider = undefined;
 }
 
-export async function assertRateLimitAllowed(
+export async function consumeRateLimitForRequest(
   context: ApiRateLimitContext
-): Promise<void> {
+): Promise<ApiRateLimitSnapshot | null> {
   const config = resolveRateLimitConfig(context.policy);
   if (config === null) {
-    return;
+    return null;
   }
 
   const result = await getApiRateLimitProvider().consume({
@@ -151,13 +198,25 @@ export async function assertRateLimitAllowed(
     config,
   });
 
-  if (!result.allowed) {
+  return {
+    ...result,
+    policy: context.policy,
+  };
+}
+
+export async function assertRateLimitAllowed(
+  context: ApiRateLimitContext
+): Promise<ApiRateLimitSnapshot | null> {
+  const snapshot = await consumeRateLimitForRequest(context);
+  if (snapshot !== null && !snapshot.allowed) {
     throw new ApiRouteError(
       "rate_limited",
       "Too many requests. Please retry later.",
-      result.retryAfterSeconds === null
+      snapshot.retryAfterSeconds === null
         ? undefined
-        : { retryAfterSeconds: result.retryAfterSeconds }
+        : { retryAfterSeconds: snapshot.retryAfterSeconds }
     );
   }
+
+  return snapshot?.allowed === true ? snapshot : null;
 }

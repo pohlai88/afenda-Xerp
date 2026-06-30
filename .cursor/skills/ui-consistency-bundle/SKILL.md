@@ -10,7 +10,8 @@ disable-model-invocation: true
 
 | Use instead | Path |
 | --- | --- |
-| ERP presentation (blocks, CSS, Storybook) | [`.cursor/skills/shadcn-studio/SKILL.md`](../shadcn-studio/SKILL.md) |
+| ERP presentation composer | [`.cursor/skills/afenda-presentation-quality/SKILL.md`](../afenda-presentation-quality/SKILL.md) |
+| MCP install + Base UI stack | [`.cursor/skills/shadcn-studio/SKILL.md`](../shadcn-studio/SKILL.md) · [reference/base-vega-install.md](../shadcn-studio/reference/base-vega-install.md) · [reference/credentials-env.md](../shadcn-studio/reference/credentials-env.md) |
 | Implementer preflight | [`.cursor/skills/coding-consistency-bundle/SKILL.md`](../coding-consistency-bundle/SKILL.md) |
 | PAS-006 authority | [`docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md`](../../docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) |
 

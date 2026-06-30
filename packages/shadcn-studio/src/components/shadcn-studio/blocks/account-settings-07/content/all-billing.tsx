@@ -1,4 +1,4 @@
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../../../contracts/block-slot-dom-marker.contract.js";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 

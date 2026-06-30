@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, asc, desc, eq, ilike, lt, or, type SQL } from "drizzle-orm";
 
 import { insertAuditEvent } from "../audit/audit.writer.js";
 import type { AuditActorType } from "../database.types.js";
@@ -65,6 +65,30 @@ export interface WarehouseMutationResult {
 }
 
 const WAREHOUSE_LIST_DEFAULT_LIMIT = 100;
+const WAREHOUSE_LIST_MAX_LIMIT = 100;
+
+export interface WarehouseListSortField {
+  readonly direction: "asc" | "desc";
+  readonly field: "displayName" | "updatedAt" | "warehouseCode";
+}
+
+export interface ListWarehousesByTenantCompanyInput {
+  readonly companyId: string;
+  readonly cursor?: string;
+  readonly filter?: {
+    readonly status?: string;
+  };
+  readonly limit?: number;
+  readonly q?: string;
+  readonly sort?: readonly WarehouseListSortField[];
+  readonly tenantId: string;
+}
+
+export interface CursorPaginatedResult<TItem> {
+  readonly hasMore: boolean;
+  readonly items: readonly TItem[];
+  readonly nextCursor: string | null;
+}
 
 function mapWarehouseRow(row: {
   id: string;
@@ -266,17 +290,80 @@ export async function findWarehouseById(
 }
 
 export async function listWarehousesByTenantCompany(
-  input: {
-    readonly companyId: string;
-    readonly limit?: number;
-    readonly tenantId: string;
-  },
+  input: ListWarehousesByTenantCompanyInput,
   db: AfendaDatabase = getDb()
-): Promise<readonly WarehouseAuthorityRecord[]> {
+): Promise<CursorPaginatedResult<WarehouseAuthorityRecord>> {
   const limit = Math.min(
     input.limit ?? WAREHOUSE_LIST_DEFAULT_LIMIT,
-    WAREHOUSE_LIST_DEFAULT_LIMIT
+    WAREHOUSE_LIST_MAX_LIMIT
   );
+  const fetchLimit = limit + 1;
+
+  const conditions: SQL[] = [
+    eq(warehouses.tenantId, input.tenantId),
+    eq(warehouses.companyId, input.companyId),
+  ];
+
+  if (input.filter?.status !== undefined) {
+    conditions.push(
+      eq(
+        warehouses.status,
+        input.filter.status as WarehouseAuthorityRecord["status"]
+      )
+    );
+  }
+
+  if (input.q !== undefined && input.q.trim().length > 0) {
+    const pattern = `%${input.q.trim()}%`;
+    conditions.push(
+      or(
+        ilike(warehouses.warehouseCode, pattern),
+        ilike(warehouses.displayName, pattern)
+      ) as SQL
+    );
+  }
+
+  if (input.cursor !== undefined) {
+    const [cursorRow] = await db
+      .select({
+        createdAt: warehouses.createdAt,
+        id: warehouses.id,
+      })
+      .from(warehouses)
+      .where(
+        and(
+          eq(warehouses.tenantId, input.tenantId),
+          eq(warehouses.companyId, input.companyId),
+          eq(warehouses.id, input.cursor)
+        )
+      )
+      .limit(1);
+
+    if (cursorRow === undefined) {
+      return {
+        hasMore: false,
+        items: [],
+        nextCursor: null,
+      };
+    }
+
+    conditions.push(
+      or(
+        lt(warehouses.createdAt, cursorRow.createdAt),
+        and(
+          eq(warehouses.createdAt, cursorRow.createdAt),
+          lt(warehouses.id, cursorRow.id)
+        )
+      ) as SQL
+    );
+  }
+
+  const orderClauses =
+    input.cursor !== undefined ||
+    input.sort === undefined ||
+    input.sort.length === 0
+      ? [desc(warehouses.createdAt), desc(warehouses.id)]
+      : resolveWarehouseOrderClauses(input.sort);
 
   const rows = await db
     .select({
@@ -288,13 +375,40 @@ export async function listWarehousesByTenantCompany(
       status: warehouses.status,
     })
     .from(warehouses)
-    .where(
-      and(
-        eq(warehouses.tenantId, input.tenantId),
-        eq(warehouses.companyId, input.companyId)
-      )
-    )
-    .limit(limit);
+    .where(and(...conditions))
+    .orderBy(...orderClauses)
+    .limit(fetchLimit);
 
-  return rows.map(mapWarehouseRow);
+  const hasMore = rows.length > limit;
+  const pageRows = hasMore ? rows.slice(0, limit) : rows;
+  const items = pageRows.map(mapWarehouseRow);
+  const lastItem = items.at(-1);
+
+  return {
+    hasMore,
+    items,
+    nextCursor: hasMore && lastItem !== undefined ? lastItem.warehouseId : null,
+  };
+}
+
+function resolveWarehouseOrderClauses(sort: readonly WarehouseListSortField[]) {
+  const clauses = sort.flatMap((entry) => {
+    const direction = entry.direction === "asc" ? asc : desc;
+    switch (entry.field) {
+      case "displayName":
+        return [direction(warehouses.displayName), desc(warehouses.id)];
+      case "warehouseCode":
+        return [direction(warehouses.warehouseCode), desc(warehouses.id)];
+      case "updatedAt":
+        return [direction(warehouses.updatedAt), desc(warehouses.id)];
+      default:
+        return [];
+    }
+  });
+
+  if (clauses.length === 0) {
+    return [desc(warehouses.createdAt), desc(warehouses.id)];
+  }
+
+  return clauses;
 }

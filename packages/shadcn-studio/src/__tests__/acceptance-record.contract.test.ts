@@ -53,4 +53,19 @@ describe("acceptance record contract (PAS-006C P06-005)", () => {
       })
     ).toEqual({ ok: false, code: "criteria-not-all-pass" });
   });
+
+  it("rejects invalid lifecycle and criterion wire shapes", () => {
+    expect(
+      isAcceptanceRecordWire({
+        ...baseRecord,
+        lifecycleStateAtSeal: "not-a-state",
+      })
+    ).toBe(false);
+    expect(
+      isAcceptanceRecordWire({
+        ...baseRecord,
+        criteriaResults: { keyboard: "maybe" },
+      })
+    ).toBe(false);
+  });
 });

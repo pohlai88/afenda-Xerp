@@ -2,6 +2,7 @@ import { createTestEnterpriseId, parseUserId } from "@afenda/kernel";
 import { beforeEach, describe, expect, it } from "vitest";
 import {
   assertIdempotencyPolicy,
+  computeIdempotencyRequestFingerprint,
   IDEMPOTENCY_KEY_HEADER,
   idempotencyKeySchema,
   readIdempotencyKeyHeader,
@@ -16,6 +17,7 @@ import { dashboardLayoutPutContract } from "@/server/api/contracts/workspace/das
 import {
   buildIdempotencyScopeKey,
   createInMemoryIdempotencyStore,
+  readCachedIdempotentResponse,
   readIdempotentResponse,
   recordIdempotentResponse,
   resetIdempotencyStoreForTests,
@@ -154,5 +156,36 @@ describe("idempotency store", () => {
       tenantId: createTestEnterpriseId("tenant", "01ARZ3NDEKTSV4RRFFQ69G5FBV"),
     });
     expect(otherTenant).toBeNull();
+  });
+
+  it("returns conflict when the same idempotency key is reused with a different body", async () => {
+    resetIdempotencyStoreForTests();
+    setIdempotencyStoreForTests(createInMemoryIdempotencyStore());
+
+    const scope = {
+      contractId: dashboardLayoutPutContract.id,
+      idempotencyKey: "retry-key-001" as const,
+      tenantId: API_TEST_TENANT_ID,
+      userId: parseUserId(API_TEST_ACTOR_ID),
+    };
+
+    const firstBody = { layout: [{ widgetId: "a" }] };
+    const secondBody = { layout: [{ widgetId: "b" }] };
+
+    await recordIdempotentResponse(scope, {
+      data: firstBody,
+      requestFingerprint: computeIdempotencyRequestFingerprint(firstBody),
+      statusCode: 200,
+    });
+
+    await expect(
+      readCachedIdempotentResponse({
+        ...scope,
+        requestFingerprint: computeIdempotencyRequestFingerprint(secondBody),
+        responseSchema: dashboardLayoutPutContract.responseSchema,
+      })
+    ).rejects.toMatchObject({
+      code: "conflict",
+    });
   });
 });

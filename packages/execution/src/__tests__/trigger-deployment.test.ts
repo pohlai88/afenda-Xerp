@@ -7,11 +7,24 @@ import {
   PUBLISH_OUTBOX_EVENTS_WORKFLOW_ID,
   readAppReleaseIdentifier,
   readWorkerReleaseCheckRequired,
+  SERVICE_ACTOR_S2S_PING_TRIGGER_TASK_ID,
+  SERVICE_ACTOR_S2S_PING_WORKFLOW_ID,
 } from "../index.js";
 import { evaluateWorkerReleaseAlignment } from "../lib/worker-release-alignment.js";
 import { fetchLatestTriggerDeployment } from "../services/trigger-deployment.service.js";
 
 const WORKER_RELEASE_MISMATCH = /mismatch/i;
+
+describe("service actor S2S ping trigger registry", () => {
+  it("keeps workflow and task constants aligned", () => {
+    expect(SERVICE_ACTOR_S2S_PING_WORKFLOW_ID).toBe(
+      "foundation.service-actor-s2s-ping"
+    );
+    expect(SERVICE_ACTOR_S2S_PING_TRIGGER_TASK_ID).toBe(
+      SERVICE_ACTOR_S2S_PING_WORKFLOW_ID
+    );
+  });
+});
 
 describe("publish outbox events trigger registry", () => {
   it("keeps workflow, task, schedule, and cron constants aligned", () => {

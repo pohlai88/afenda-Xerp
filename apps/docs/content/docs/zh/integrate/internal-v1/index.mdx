@@ -14,6 +14,7 @@ import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 <Tab value="Auth">
 
 <Cards>
+  <Card title="Verify service-actor S2S bearer token" href="./auth-service-actor-ping-get" description="GET /auth/service-actor/ping" />
   <Card title="列出会话成员关系" href="./auth-memberships-get" description="GET /auth/memberships" />
 </Cards>
 
@@ -24,6 +25,8 @@ import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 <Cards>
   <Card title="分配成员角色" href="./system-admin-memberships-role-post" description="POST /system-admin/memberships/role" />
   <Card title="列出审计事件" href="./system-admin-audit-events-get" description="GET /system-admin/audit-events" />
+  <Card title="创建成员角色分配" href="./system-admin-membership-role-assignments-post" description="POST /system-admin/membership-role-assignments" />
+  <Card title="创建用户邀请" href="./system-admin-user-invitations-post" description="POST /system-admin/user-invitations" />
   <Card title="邀请用户" href="./system-admin-users-invite-post" description="POST /system-admin/users/invite" />
 </Cards>
 
@@ -55,6 +58,8 @@ import { Tab, Tabs } from "fumadocs-ui/components/tabs";
 <Tab value="Platform">
 
 <Cards>
+  <Card title="Get OpenAPI document" href="./openapi-json-get" description="GET /openapi.json" />
+  <Card title="OpenAPI reference UI" href="./docs-get" description="GET /docs" />
   <Card title="上报客户端错误" href="./client-error-post" description="POST /client-error" />
   <Card title="发起租户品牌 Logo 上传" href="./storage-tenant-brand-logo-post" description="POST /storage/tenant-brand-logo" />
   <Card title="获取 ERP 健康状态" href="./health-get" description="GET /health" />

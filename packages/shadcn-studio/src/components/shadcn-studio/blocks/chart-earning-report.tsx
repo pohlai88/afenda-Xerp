@@ -9,7 +9,7 @@ import type { ReactNode } from "react";
 
 import { Bar, BarChart, XAxis } from "recharts";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../contracts/block-slot-dom-marker.contract.js";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -73,16 +73,18 @@ const EarningReportCard = ({
         <span className="text-muted-foreground text-sm">{subTitle}</span>
       </div>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            {...blockSlotDomMarkerProps("chart.legend")}
-            className="size-6 rounded-full text-muted-foreground"
-            size="icon"
-            variant="ghost"
-          >
-            <EllipsisVerticalIcon />
-            <span className="sr-only">Menu</span>
-          </Button>
+        <DropdownMenuTrigger
+          render={
+            <Button
+              {...blockSlotDomMarkerProps("chart.legend")}
+              className="size-6 rounded-full text-muted-foreground"
+              size="icon"
+              variant="ghost"
+            />
+          }
+        >
+          <EllipsisVerticalIcon />
+          <span className="sr-only">Menu</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuGroup>

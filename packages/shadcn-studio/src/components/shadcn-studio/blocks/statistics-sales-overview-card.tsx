@@ -1,6 +1,6 @@
 import { PackageIcon, ShoppingCartIcon } from "lucide-react";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../contracts/block-slot-dom-marker.contract.js";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";

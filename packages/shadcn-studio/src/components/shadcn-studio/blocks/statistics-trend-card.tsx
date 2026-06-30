@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { Area, AreaChart, Tooltip } from "recharts";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../contracts/block-slot-dom-marker.contract.js";
 import { Card, CardContent } from "@/components/ui/card";
 import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 

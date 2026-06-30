@@ -41,10 +41,15 @@ export const inventoryProductsGetContract = {
   id: "internal.v1.inventory.products.get",
   summary: "List products",
   description:
-    "Returns product master records for the active tenant. Requires inventory product read permission.",
+    "Returns product master records for the active tenant. Supports cursor pagination, keyword search, status filter, and sort. Requires inventory product read permission.",
   lifecycle: "active",
+  listQuery: {
+    allowedFilterFields: ["status"],
+    allowedSortFields: ["displayName", "sku", "updatedAt"],
+  },
   method: "GET",
   owner: API_ROUTE_OWNER,
+  pagination: { mode: "cursor" },
   path: "/api/internal/v1/inventory/products",
   permission: {
     mode: "required",
@@ -155,10 +160,15 @@ export const inventoryWarehousesGetContract = {
   id: "internal.v1.inventory.warehouses.get",
   summary: "List warehouses",
   description:
-    "Returns warehouse master records for the active company. Requires inventory warehouse read permission.",
+    "Returns warehouse master records for the active company. Supports cursor pagination, keyword search, status filter, and sort. Requires inventory warehouse read permission.",
   lifecycle: "active",
+  listQuery: {
+    allowedFilterFields: ["status"],
+    allowedSortFields: ["displayName", "updatedAt", "warehouseCode"],
+  },
   method: "GET",
   owner: API_ROUTE_OWNER,
+  pagination: { mode: "cursor" },
   path: "/api/internal/v1/inventory/warehouses",
   permission: {
     mode: "required",
@@ -269,10 +279,15 @@ export const inventoryStockLevelsGetContract = {
   id: "internal.v1.inventory.stock-levels.get",
   summary: "List stock levels",
   description:
-    "Returns quantity-on-hand snapshots for the active company. Requires inventory product read permission.",
+    "Returns quantity-on-hand snapshots for the active company. Supports cursor pagination, product/warehouse filters, and sort. Requires inventory product read permission.",
   lifecycle: "active",
+  listQuery: {
+    allowedFilterFields: ["productId", "warehouseId"],
+    allowedSortFields: ["productId", "quantityOnHand", "updatedAt"],
+  },
   method: "GET",
   owner: API_ROUTE_OWNER,
+  pagination: { mode: "cursor" },
   path: "/api/internal/v1/inventory/stock-levels",
   permission: {
     mode: "required",

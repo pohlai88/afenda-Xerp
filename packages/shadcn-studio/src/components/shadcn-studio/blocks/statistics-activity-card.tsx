@@ -4,7 +4,7 @@ import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
 import { useId } from "react";
 import { Area, AreaChart, XAxis } from "recharts";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../contracts/block-slot-dom-marker.contract.js";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   type ChartConfig,

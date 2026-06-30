@@ -1,4 +1,4 @@
-import { and, eq } from "drizzle-orm";
+import { and, asc, desc, eq, ilike, lt, or, type SQL } from "drizzle-orm";
 
 import { insertAuditEvent } from "../audit/audit.writer.js";
 import type { AuditActorType } from "../database.types.js";
@@ -57,6 +57,29 @@ export interface ProductMutationResult {
 }
 
 const PRODUCT_LIST_DEFAULT_LIMIT = 100;
+const PRODUCT_LIST_MAX_LIMIT = 100;
+
+export interface ProductListSortField {
+  readonly direction: "asc" | "desc";
+  readonly field: "displayName" | "sku" | "updatedAt";
+}
+
+export interface ListProductsByTenantInput {
+  readonly cursor?: string;
+  readonly filter?: {
+    readonly status?: string;
+  };
+  readonly limit?: number;
+  readonly q?: string;
+  readonly sort?: readonly ProductListSortField[];
+  readonly tenantId: string;
+}
+
+export interface CursorPaginatedResult<TItem> {
+  readonly hasMore: boolean;
+  readonly items: readonly TItem[];
+  readonly nextCursor: string | null;
+}
 
 function mapProductRow(row: {
   id: string;
@@ -231,16 +254,76 @@ export async function findProductById(
 }
 
 export async function listProductsByTenant(
-  input: {
-    readonly limit?: number;
-    readonly tenantId: string;
-  },
+  input: ListProductsByTenantInput,
   db: AfendaDatabase = getDb()
-): Promise<readonly ProductAuthorityRecord[]> {
+): Promise<CursorPaginatedResult<ProductAuthorityRecord>> {
   const limit = Math.min(
     input.limit ?? PRODUCT_LIST_DEFAULT_LIMIT,
-    PRODUCT_LIST_DEFAULT_LIMIT
+    PRODUCT_LIST_MAX_LIMIT
   );
+  const fetchLimit = limit + 1;
+
+  const conditions: SQL[] = [eq(products.tenantId, input.tenantId)];
+
+  if (input.filter?.status !== undefined) {
+    conditions.push(
+      eq(
+        products.status,
+        input.filter.status as ProductAuthorityRecord["status"]
+      )
+    );
+  }
+
+  if (input.q !== undefined && input.q.trim().length > 0) {
+    const pattern = `%${input.q.trim()}%`;
+    conditions.push(
+      or(
+        ilike(products.sku, pattern),
+        ilike(products.displayName, pattern)
+      ) as SQL
+    );
+  }
+
+  if (input.cursor !== undefined) {
+    const [cursorRow] = await db
+      .select({
+        createdAt: products.createdAt,
+        id: products.id,
+      })
+      .from(products)
+      .where(
+        and(
+          eq(products.tenantId, input.tenantId),
+          eq(products.id, input.cursor)
+        )
+      )
+      .limit(1);
+
+    if (cursorRow === undefined) {
+      return {
+        hasMore: false,
+        items: [],
+        nextCursor: null,
+      };
+    }
+
+    conditions.push(
+      or(
+        lt(products.createdAt, cursorRow.createdAt),
+        and(
+          eq(products.createdAt, cursorRow.createdAt),
+          lt(products.id, cursorRow.id)
+        )
+      ) as SQL
+    );
+  }
+
+  const orderClauses =
+    input.cursor !== undefined ||
+    input.sort === undefined ||
+    input.sort.length === 0
+      ? [desc(products.createdAt), desc(products.id)]
+      : resolveProductOrderClauses(input.sort);
 
   const rows = await db
     .select({
@@ -251,8 +334,45 @@ export async function listProductsByTenant(
       status: products.status,
     })
     .from(products)
-    .where(eq(products.tenantId, input.tenantId))
-    .limit(limit);
+    .where(and(...conditions))
+    .orderBy(...orderClauses)
+    .limit(fetchLimit);
 
-  return rows.map(mapProductRow);
+  const hasMore = rows.length > limit;
+  const pageRows = hasMore ? rows.slice(0, limit) : rows;
+  const items = pageRows.map(mapProductRow);
+  const lastItem = items.at(-1);
+
+  return {
+    hasMore,
+    items,
+    nextCursor: hasMore && lastItem !== undefined ? lastItem.productId : null,
+  };
+}
+
+function resolveProductOrderClauses(
+  sort: readonly ProductListSortField[] | undefined
+) {
+  const clauses =
+    sort === undefined || sort.length === 0
+      ? [desc(products.createdAt), desc(products.id)]
+      : sort.flatMap((entry) => {
+          const direction = entry.direction === "asc" ? asc : desc;
+          switch (entry.field) {
+            case "displayName":
+              return [direction(products.displayName), desc(products.id)];
+            case "sku":
+              return [direction(products.sku), desc(products.id)];
+            case "updatedAt":
+              return [direction(products.updatedAt), desc(products.id)];
+            default:
+              return [];
+          }
+        });
+
+  if (clauses.length === 0) {
+    return [desc(products.createdAt), desc(products.id)];
+  }
+
+  return clauses;
 }

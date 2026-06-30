@@ -38,7 +38,7 @@
 - Do not conflate human session and service-actor `authPolicy`
 - Do not assemble operating context handler-local — use PAS-001A IS-002 spine
 - Do not claim R3 Delivered until R3a–R3d DoD gates pass — **closed 2026-06-30 (R3d Delivered)**
-- Do not register `service-token-required` routes without superseding [ADR-0034](../../adr/ADR-0034-service-actor-production-policy-attestation.md) and verified token boundary — machine S2S REST is **not offered** today
+- Do not register `service-token-required` routes without [ADR-0035](../../adr/ADR-0035-internal-v1-service-actor-bearer-verification.md) verified token boundary
 
 **Execution:** R3a → R3b → R3c → R3d **Delivered** · S1 → S2 **Delivered** · **Remaining slices:** none
 
@@ -120,7 +120,7 @@ Governed envelope + ProblemDetail.
 | REST-INV-006 | Ownership metadata on active contracts (R3d) |
 | REST-INV-007 | Every operation exposes REST method+path binding under `/api/internal/v1/` (S1) |
 | REST-INV-008 | Every operation links Zod schema modules to family schema authority (S2) |
-| REST-INV-009 | Machine S2S REST not offered — policy attested per [ADR-0034](../../adr/ADR-0034-service-actor-production-policy-attestation.md); `assertApiRouteAuthPolicy` fail-closes forged headers |
+| REST-INV-009 | Machine S2S REST requires verified `afenda-s2s-v1` bearer per [ADR-0035](../../adr/ADR-0035-internal-v1-service-actor-bearer-verification.md); `assertApiRouteAuthPolicy` fail-closes unverified headers on session routes |
 
 All REST-INV-* trace to PAS-API-001 API-001–API-016.
 
@@ -150,7 +150,8 @@ All REST-INV-* trace to PAS-API-001 API-001–API-016.
 | ERP consumption | [PAS-001A-API-BINDING](../../KERNEL/PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) |
 | Blueprint | [api-contract-blueprint.md](../../../BLUEPRINT/api-contract-blueprint.md) |
 | ADR-0030 | [ADR-0030-erp-rest-api-contract-standard.md](../../../adr/ADR-0030-erp-rest-api-contract-standard.md) |
-| ADR-0034 | [ADR-0034-service-actor-production-policy-attestation.md](../../../adr/ADR-0034-service-actor-production-policy-attestation.md) |
+| ADR-0035 | [ADR-0035-internal-v1-service-actor-bearer-verification.md](../../../adr/ADR-0035-internal-v1-service-actor-bearer-verification.md) |
+| ADR-0034 (machine policy superseded) | [ADR-0034-service-actor-production-policy-attestation.md](../../../adr/ADR-0034-service-actor-production-policy-attestation.md) |
 | Enterprise Runtime checklist | [enterprise-runtime-exit-checklist.md](./enterprise-runtime-exit-checklist.md) |
 | ADR-0033 (superseded) | [ADR-0033-service-actor-s2s-token-verification-deferred.md](../../../adr/ADR-0033-service-actor-s2s-token-verification-deferred.md) |
 | Enterprise Runtime exit | [enterprise-runtime-exit-checklist.md](./enterprise-runtime-exit-checklist.md) |

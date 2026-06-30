@@ -4,7 +4,7 @@ import {
   type WireLocalizationContext,
 } from "@afenda/kernel";
 
-import { parseCompanyLocalizationSettingsAtIngress } from "./parse-localization-context.server.js";
+import { parseCompanyLocalizationSettingsAtIngress } from "./parse-localization-context.server";
 
 export { parseCompanyLocalizationSettingsAtIngress };
 

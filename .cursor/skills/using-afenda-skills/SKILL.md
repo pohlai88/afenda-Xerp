@@ -45,11 +45,13 @@ SKILL regen from PAS? ────→ kernel-authority/reference/pas-skill-templ
 
 ```
 Any code edit? ───────────→ coding-consistency-bundle (mandatory)
-UI/CSS/visual (ERP)? ───→ shadcn-studio + PAS-006 (ADR-0027)
+Design system inventory? ─→ afenda-presentation-atlas (read-only · /afenda-presentation-atlas)
+UI/CSS/visual (ERP)? ───→ afenda-presentation-quality + shadcn-studio (PAS-006 · ADR-0027)
 Kernel boundary? ─────────→ kernel-authority
 Enterprise knowledge? ────→ enterprise-knowledge
 Drizzle migrations? ──────→ afenda-drizzle-migration
 Multi-tenancy? ───────────→ multi-tenancy-erp
+Next.js / App Router / BFF? → afenda-nextjs-best-practice (+ Vercel nextjs plugin)
 Library API uncertain? ───→ Context7 MCP (resolve ID → query docs)
 ```
 
@@ -75,7 +77,8 @@ Platform audit? ──────────→ enterprise-architecture-audit 
 | Bundle | When |
 | --- | --- |
 | `coding-consistency-bundle` | Any implementer file edit |
-| `shadcn-studio` + PAS-006 | ERP UI, CSS, Storybook, or `@afenda/shadcn-studio` changes |
+| `afenda-presentation-quality` + `shadcn-studio` | ERP UI, CSS, Storybook, or `@afenda/shadcn-studio` changes |
+| `afenda-tailwind` | ERP `globals.css`, theme CSS, Tailwind `className` edits |
 
 **Retired for ERP (ADR-0027):** `ui-consistency-bundle`, `govern-primitive`, `css-authority`, `afenda-shadcn-components` — archived under `.cursor/skills/_retired/legacy-ui/`. Do not attach for ERP frontend work.
 
@@ -118,11 +121,12 @@ From [orchestration-patterns.md](../references/orchestration-patterns.md):
 | --- | --- |
 | Governed implementation | `@afenda-governed-implementer` |
 | Architecture / registries | `architecture-authority` |
-| ERP presentation (ADR-0027) | `shadcn-studio` + PAS-006 |
-| Tailwind v4 (ERP globals) | `afenda-tailwind` |
+| `@afenda/shadcn-studio` inventory / imports | `afenda-presentation-atlas` |
+| ERP presentation (ADR-0027) | `afenda-presentation-quality` + `shadcn-studio` |
+| Tailwind v4 / Phase 1 CSS (ERP) | `afenda-tailwind` |
 | SAP/Oracle gates | `enterprise-erp-standards` |
 | Accessibility | `afenda-accessibility` |
 
-**Retired for ERP UI:** `govern-primitive`, `ui-consistency-bundle`, `afenda-shadcn-components` — use `shadcn-studio` instead.
+**Retired for ERP UI:** `govern-primitive`, `ui-consistency-bundle`, `afenda-shadcn-components`, legacy `afenda-tailwind` under `_retired/legacy-ui/` — use `afenda-presentation-quality` + `shadcn-studio` + active `afenda-tailwind` instead.
 
 Full inventory: [README.md](README.md).

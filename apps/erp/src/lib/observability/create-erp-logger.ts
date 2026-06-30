@@ -27,8 +27,12 @@ export function buildErpDiagnosticContext(
 
 export function createErpLogger(context: ErpLoggerContext): Logger {
   const runtimeEnv = getServerRuntimeEnv();
+  const nextRuntime = process.env["NEXT_RUNTIME"];
+  const disablePrettyTransport =
+    nextRuntime === "nodejs" || nextRuntime === "edge";
 
   return createPinoLogger(
-    buildErpDiagnosticContext(context, runtimeEnv.NODE_ENV)
+    buildErpDiagnosticContext(context, runtimeEnv.NODE_ENV),
+    disablePrettyTransport ? { pretty: false } : undefined
   );
 }

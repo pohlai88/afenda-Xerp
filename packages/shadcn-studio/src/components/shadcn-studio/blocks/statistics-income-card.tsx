@@ -2,7 +2,7 @@
 
 import { Area, AreaChart } from "recharts";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../contracts/block-slot-dom-marker.contract.js";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import {

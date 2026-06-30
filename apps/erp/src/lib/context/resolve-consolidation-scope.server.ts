@@ -5,7 +5,7 @@ import type {
   OwnershipInterestContext,
 } from "@afenda/kernel";
 
-import { deriveConsolidationScopeContext } from "./consolidation-scope-resolution.server.js";
+import { deriveConsolidationScopeContext } from "./consolidation-scope-resolution.server";
 import { loadOperatingContextOwnershipInterests } from "./load-operating-context-ownership-interests.server";
 
 export interface ResolvedConsolidationScope {

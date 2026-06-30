@@ -2,7 +2,7 @@
  * PAS-006B — reusable block slot template families for MCP seed blocks.
  */
 
-import type { BlockDataContractWire } from "../contracts/block-data-contract.js";
+import type { BlockDataContractWire } from "../contracts/block-data.contract.js";
 import type { BlockSlotRole } from "./block-slot.types.js";
 
 interface BlockSlotTemplateSlot {

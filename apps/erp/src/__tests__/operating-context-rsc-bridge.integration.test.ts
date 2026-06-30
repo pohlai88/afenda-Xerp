@@ -16,15 +16,15 @@ describe("operating-context RSC bridge integration", () => {
     expect(rscSurfaces.length).toBeGreaterThanOrEqual(2);
   });
 
-  it("wires RSC surfaces to IS-002 spine delegates", () => {
+  it("wires every protected RSC surface delegate through the integration spine", () => {
+    const spineDelegates = new Set(
+      CONTEXT_INTEGRATION_WIRING.map((entry) => entry.delegate)
+    );
+
     for (const surface of rscSurfaces) {
       expect(
-        [
-          "resolveOperatingContext",
-          "loadProtectedRequestOperatingContext",
-          "resolveOperatingContextFromHeaders",
-          "loadMetadataOperatorSurfacePage",
-        ].includes(surface.delegate)
+        spineDelegates.has(surface.delegate),
+        `${surface.id} delegate ${surface.delegate}`
       ).toBe(true);
     }
   });

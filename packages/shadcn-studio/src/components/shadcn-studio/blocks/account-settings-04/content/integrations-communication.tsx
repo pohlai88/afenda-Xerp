@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../../../contracts/block-slot-dom-marker.contract.js";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -121,14 +121,16 @@ const IntegrationsCommunication = () => {
                     </CardDescription>
                   </div>
                   <Dialog>
-                    <DialogTrigger asChild>
-                      <Button
-                        className="h-7 w-full gap-1.5 px-2 py-1 text-xs"
-                        variant="outline"
-                      >
-                        View Integration
-                        <ChevronRightIcon className="transition-transform group-hover:translate-x-1" />
-                      </Button>
+                    <DialogTrigger
+                      render={
+                        <Button
+                          className="h-7 w-full gap-1.5 px-2 py-1 text-xs"
+                          variant="outline"
+                        />
+                      }
+                    >
+                      View Integration
+                      <ChevronRightIcon className="transition-transform group-hover:translate-x-1" />
                     </DialogTrigger>
                     <DialogContent className="w-[95%] gap-0 overflow-hidden p-0 max-lg:h-[70%] md:max-w-3xl">
                       {/* Header */}

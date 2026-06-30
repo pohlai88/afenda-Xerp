@@ -22,7 +22,10 @@ export function collectRouteFiles(directory: string): string[] {
     const absolutePath = join(directory, entry.name);
 
     if (entry.isDirectory()) {
-      if (entry.name === "docs") {
+      if (
+        entry.name === "docs" &&
+        absolutePath.endsWith(join("app", "api", "docs"))
+      ) {
         continue;
       }
       files.push(...collectRouteFiles(absolutePath));

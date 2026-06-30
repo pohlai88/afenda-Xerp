@@ -44,7 +44,15 @@ describe("API contract registry", () => {
       if (
         requiresSessionAuth(contract.authPolicy) &&
         !("permission" in contract) &&
-        contract.id === "internal.v1.auth.memberships.get"
+        (contract.id === "internal.v1.auth.memberships.get" ||
+          contract.id === "internal.v1.auth.service-actor.ping.get")
+      ) {
+        continue;
+      }
+
+      if (
+        contract.authPolicy === "service-token-required" &&
+        contract.id === "internal.v1.auth.service-actor.ping.get"
       ) {
         continue;
       }
@@ -70,8 +78,13 @@ describe("API contract registry", () => {
     for (const contract of API_CONTRACTS) {
       expect(contract.authPolicy.length).toBeGreaterThan(0);
       expect(contract.contextPolicy.length).toBeGreaterThan(0);
-      expect(contract.lifecycle).toBe("active");
-      expect(contract.stability).toBe("internal-stable");
+      expect(["active", "deprecated", "planned"]).toContain(contract.lifecycle);
+      expect([
+        "experimental",
+        "internal-stable",
+        "public-stable",
+        "deprecated",
+      ]).toContain(contract.stability);
       expect(contract.rateLimitPolicy.length).toBeGreaterThan(0);
       expect(contract.owner).toBe("apps/erp");
     }
@@ -113,6 +126,17 @@ describe("API contract registry", () => {
   it("satisfies idempotency policy for every registered contract", () => {
     for (const contract of API_CONTRACTS) {
       expect(() => assertIdempotencyPolicy(contract)).not.toThrow();
+    }
+  });
+
+  it("requires optional or required idempotency on every mutation contract", () => {
+    for (const contract of API_CONTRACTS) {
+      if (!isMutationMethod(contract.method)) {
+        continue;
+      }
+
+      expect(contract.idempotency).toBeDefined();
+      expect(["optional", "required"]).toContain(contract.idempotency?.mode);
     }
   });
 

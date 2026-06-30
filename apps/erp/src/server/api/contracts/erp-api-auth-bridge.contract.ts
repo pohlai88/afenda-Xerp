@@ -29,6 +29,12 @@ export const ERP_API_ROUTE_PERMISSION_MODULE =
 export const ERP_API_AUTH_MEMBERSHIP_BOOTSTRAP_OPERATION_ID =
   "internal.v1.auth.memberships.get" as const;
 
+import { SERVICE_ACTOR_PING_OPERATION_ID } from "./auth/service-actor-ping.contract";
+
+export {
+  SERVICE_ACTOR_PING_OPERATION_ID as ERP_API_SERVICE_ACTOR_PROBE_OPERATION_ID,
+};
+
 /** Spine wiring entries IS-004 auth runtime must consume (mirrors context-integration-registry). */
 export const ERP_API_AUTH_SPINE_WIRING = [
   {

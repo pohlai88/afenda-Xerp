@@ -12,7 +12,7 @@ Machine-readable index for agents and humans. **Do not load this entire file int
 
 1. User message or `/using-afenda-skills` → read meta-skill discovery tree
 2. Any implementer code edit → `coding-consistency-bundle` (mandatory)
-3. ERP UI/CSS → `shadcn-studio` + PAS-006 (ADR-0027)
+3. ERP UI/CSS → `afenda-presentation-atlas` (inventory) → `shadcn-studio` + `afenda-presentation-quality` + PAS-006 (ADR-0027)
 4. Full inventory → this file
 
 ---
@@ -78,10 +78,11 @@ All commands: `disable-model-invocation: true`.
 | Skill | Class | `paths` | Trigger | Gates |
 | --- | --- | --- | --- | --- |
 | `shadcn-studio` | UI MCP | `packages/shadcn-studio/**`, `apps/erp/**`, `apps/storybook/**` | MCP install, blocks, ERP wiring | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm check:studio-metadata-binding` |
-| `afenda-presentation-quality` | UI composer | `apps/erp/**`, `packages/shadcn-studio/**` | PAS-006 gate bundle · replaces retired ui-consistency-bundle | PAS-006 gates (see skill) |
-| `afenda-tailwind` | Afenda domain | `**/*.css`, `apps/erp/**`, `packages/shadcn-studio/**` | Tailwind v4, ERP globals.css | `pnpm quality:css` |
+| `afenda-presentation-quality` | UI composer | `apps/erp/**`, `packages/shadcn-studio/**` | PAS-006 gate bundle · Phase 1 CSS doctrine · replaces retired ui-consistency-bundle | PAS-006 gates (see skill) |
+| `afenda-tailwind` | Afenda domain | `**/*.css`, `apps/erp/**`, `packages/shadcn-studio/**` | PAS-006 Phase 1 Tailwind · import-only globals.css | `pnpm quality:css`, `pnpm check:downstream-integration` |
 | `package-css-dist-sync` | UI infra | `packages/shadcn-studio/src/styles/**` | shadcn-studio CSS dist sync | `pnpm check:package-css-dist-sync` |
 | `afenda-storybook` | UI | `apps/storybook/**` | shadcn-studio Storybook lab | `pnpm --filter @afenda/storybook storybook:build` |
+| `afenda-presentation-atlas` | Reference | `packages/shadcn-studio/**`, `apps/storybook/**` | `@afenda/shadcn-studio` design system map — primitives, blocks, exports | — |
 | `docs-editorial-design` | Docs UI | `apps/docs/**` | Fumadocs editorial design | — |
 
 **Retired (do not route ERP work here):** `ui-consistency-bundle`, `govern-primitive`, `afenda-ui-quality`, `afenda-shadcn-components`, `css-authority` — archived under `_retired/legacy-ui/`.
@@ -93,6 +94,7 @@ All commands: `disable-model-invocation: true`.
 | Skill | Class | `paths` | Trigger |
 | --- | --- | --- | --- |
 | `multi-tenancy-erp` | ERP | `packages/kernel/**`, `packages/database/**`, `apps/erp/**` | Tenant context, RLS |
+| `afenda-nextjs-best-practice` | ERP | `apps/erp/**`, `apps/docs/**` | App Router, BFF, MCP runtime, tenant URLs |
 | `rbac-erp` | ERP | `packages/permissions/**`, `apps/erp/**` | RBAC, grants |
 | `better-auth-erp` | ERP | `apps/erp/**`, `packages/auth/**` | Better Auth integration |
 | `react-erp-quality` | ERP | `apps/erp/**` | ERP React/Next patterns |
@@ -179,7 +181,7 @@ Personas live in [`.cursor/agents/`](../agents/) — orchestration layer, not sk
 | ERP | `*-erp` | `true` | `apps/erp/**`, domain packages |
 | Enterprise | `enterprise-*` | `true` | scope globs |
 | Platform | `platform-*` | `true` | broad globs |
-| Reference | catalog-tagged | `true` | omit |
+| Reference | catalog-tagged (`afenda-presentation-atlas`, …) | `true` | optional scope globs |
 
 **Platform skills** use the `platform-*` prefix (2026-06-29 rename from unprefixed cross-cutting skills).
 

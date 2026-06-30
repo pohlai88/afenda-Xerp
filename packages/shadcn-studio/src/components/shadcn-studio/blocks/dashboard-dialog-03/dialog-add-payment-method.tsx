@@ -1,13 +1,13 @@
 "use client";
 
 import { CreditCardIcon } from "lucide-react";
-import { type ReactNode, useState } from "react";
+import { type ReactElement, useState } from "react";
 
 import Cards from "react-19-credit-card";
 
 import { usePaymentInputs } from "react-payment-inputs";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../../contracts/block-slot-dom-marker.contract.js";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,7 +28,7 @@ import { cn } from "@/lib/utils";
 import "react-19-credit-card/dist/es/index.css";
 
 type Props = {
-  trigger: ReactNode;
+  trigger: ReactElement;
   defaultOpen?: boolean;
   className?: string;
 };
@@ -73,9 +73,7 @@ const AddPaymentMethodDialog = ({
   return (
     <div>
       <Dialog onOpenChange={setOpen} open={open}>
-      <DialogTrigger asChild onClick={() => setOpen(true)}>
-        {trigger}
-      </DialogTrigger>
+      <DialogTrigger onClick={() => setOpen(true)} render={trigger} />
       <DialogContent
         className={cn(
           "sm:max-w-155 [&>[data-slot=dialog-close]>svg]:size-5",
@@ -169,11 +167,7 @@ const AddPaymentMethodDialog = ({
         </div>
 
         <DialogFooter {...blockSlotDomMarkerProps("dialog.footer")} className="gap-4">
-          <DialogClose asChild>
-            <Button size="lg" variant="outline">
-              Cancel
-            </Button>
-          </DialogClose>
+          <DialogClose render={<Button size="lg" variant="outline" />}>Cancel</DialogClose>
           <Button size="lg">Add card details</Button>
         </DialogFooter>
       </DialogContent>

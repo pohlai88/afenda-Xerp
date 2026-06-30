@@ -95,6 +95,13 @@ export function resolvePermissionDeclaration(
     return { kind: "not-required" };
   }
 
+  if (
+    contract.authPolicy === "service-token-required" &&
+    contract.id === "internal.v1.auth.service-actor.ping.get"
+  ) {
+    return { kind: "not-required" };
+  }
+
   if ("permission" in contract && contract.permission !== undefined) {
     return {
       kind: "capability-required",

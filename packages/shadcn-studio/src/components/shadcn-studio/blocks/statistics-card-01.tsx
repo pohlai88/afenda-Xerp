@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../contracts/block-slot-dom-marker.contract.js";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 import { cn } from "@/lib/utils";

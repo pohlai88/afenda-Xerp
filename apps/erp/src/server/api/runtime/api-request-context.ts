@@ -21,6 +21,7 @@ import type {
   ApiRouteContract,
   ApiRoutePermissionPolicy,
 } from "../contracts/api-contract";
+import type { ListQuery } from "../contracts/list-query.contract";
 import type { PaginationQuery } from "../contracts/pagination.contract";
 import { ApiRouteError } from "./api-validation";
 
@@ -30,6 +31,7 @@ export interface ApiRequestContext<TRequest = undefined> {
   readonly contract: ApiRouteContract<TRequest, unknown>;
   readonly correlationId: string;
   readonly execution: ExecutionContext;
+  readonly listQuery?: ListQuery;
   readonly operatingContext: OperatingContext | null;
   readonly paginationQuery?: PaginationQuery;
   readonly request: Request;
@@ -51,6 +53,7 @@ export function createApiRequestContext<TRequest>(input: {
   readonly userId: UserId | null;
   readonly authorization?: ResolvedAuthorizationContext | null;
   readonly authorizationDecision?: AuthorizationDecision | null;
+  readonly listQuery?: ListQuery;
   readonly paginationQuery?: PaginationQuery;
 }): ApiRequestContext<TRequest> {
   return {
@@ -60,6 +63,7 @@ export function createApiRequestContext<TRequest>(input: {
     correlationId: input.correlationId,
     execution: input.execution,
     operatingContext: input.operatingContext ?? null,
+    ...(input.listQuery === undefined ? {} : { listQuery: input.listQuery }),
     ...(input.paginationQuery === undefined
       ? {}
       : { paginationQuery: input.paginationQuery }),

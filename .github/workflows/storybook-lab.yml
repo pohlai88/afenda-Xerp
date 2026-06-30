@@ -1,0 +1,124 @@
+name: Storybook Lab
+
+# Optional — visual regression (Chromatic) and static lab deploy (GitHub Pages).
+# Requires repository secrets / settings before jobs run successfully.
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - "apps/storybook/**"
+      - "packages/shadcn-studio/**"
+      - "scripts/storybook/**"
+      - ".github/workflows/storybook-lab.yml"
+
+concurrency:
+  group: storybook-lab-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  build:
+    name: Build Storybook lab
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Storybook artifacts
+        run: pnpm storybook:generate
+
+      - name: Typecheck Storybook lab
+        run: |
+          pnpm --filter @afenda/shadcn-studio typecheck
+          pnpm --filter @afenda/storybook typecheck
+
+      - name: Build static Storybook
+        run: pnpm storybook:build
+
+      - name: Upload Storybook static artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-static
+          path: apps/storybook/storybook-static
+          retention-days: 14
+
+  chromatic:
+    name: Chromatic visual regression
+    needs: build
+    if: vars.CHROMATIC_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Publish to Chromatic
+        uses: chromaui/action@v13
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: apps/storybook
+          buildScriptName: storybook:build
+          onlyChanged: true
+          exitZeroOnChanges: true
+
+  pages:
+    name: Deploy GitHub Pages (manual)
+    needs: build
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+
+    steps:
+      - name: Download Storybook artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: storybook-static
+          path: storybook-static
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: storybook-static
+          destination_dir: storybook-lab
+          keep_files: true

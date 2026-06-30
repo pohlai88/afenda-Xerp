@@ -159,6 +159,13 @@ export interface ApiProblemDetailClassProjection {
   readonly type: string;
 }
 
+/** RFC 9457-aligned fields projected into governed error envelopes (JSON, not problem+json). */
+export interface ApiProblemDetailEnvelopeProjection
+  extends ApiProblemDetailClassProjection {
+  readonly detail: string;
+  readonly instance: string;
+}
+
 export function projectProblemDetailClass(
   code: ApiErrorCode
 ): ApiProblemDetailClassProjection {
@@ -168,5 +175,19 @@ export function projectProblemDetailClass(
     status: definition.httpStatus,
     title: definition.publicMessage,
     type: `https://afenda.dev/problems/${code}`,
+  };
+}
+
+export function projectProblemDetailEnvelopeFields(
+  code: ApiErrorCode,
+  message: string,
+  correlationId: string
+): ApiProblemDetailEnvelopeProjection {
+  const problemDetailClass = projectProblemDetailClass(code);
+
+  return {
+    ...problemDetailClass,
+    detail: message,
+    instance: correlationId,
   };
 }

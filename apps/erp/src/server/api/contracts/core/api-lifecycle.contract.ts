@@ -174,6 +174,49 @@ export function buildOperationLifecycleRegistry<
   return registry;
 }
 
+export interface ApiBreakingChangeRegistryEntry {
+  readonly breakingChangeClass: ApiBreakingChangeClass;
+  readonly consumerImpactExplicit: boolean;
+  readonly id: string;
+  readonly lifecycle: ApiRouteContract<unknown, unknown>["lifecycle"];
+  readonly stability: ApiStabilityClassification;
+}
+
+export interface ApiBreakingChangeRegistryDocument {
+  readonly generatedFrom: "api-contract-registry";
+  readonly operations: readonly ApiBreakingChangeRegistryEntry[];
+  readonly schemaVersion: "1.0.0";
+}
+
+export function toBreakingChangeRegistryEntry(
+  contract: Pick<
+    ApiRouteContract<unknown, unknown>,
+    "consumerImpact" | "id" | "lifecycle" | "method" | "stability"
+  >
+): ApiBreakingChangeRegistryEntry {
+  return {
+    breakingChangeClass: resolveBreakingChangeClass(contract),
+    consumerImpactExplicit: contract.consumerImpact !== undefined,
+    id: contract.id,
+    lifecycle: contract.lifecycle,
+    stability: contract.stability,
+  };
+}
+
+export function buildBreakingChangeRegistryDocument(
+  contracts: readonly ApiRouteContract<unknown, unknown>[]
+): ApiBreakingChangeRegistryDocument {
+  const operations = contracts
+    .map((contract) => toBreakingChangeRegistryEntry(contract))
+    .sort((left, right) => left.id.localeCompare(right.id));
+
+  return {
+    generatedFrom: "api-contract-registry",
+    operations,
+    schemaVersion: "1.0.0",
+  };
+}
+
 function assertActiveRouteLifecycleEnforced(
   lifecycle: ApiRouteLifecycleStatus
 ): void {

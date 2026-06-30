@@ -65,6 +65,7 @@ export {
 export {
   type AcceptanceCriterionResult,
   type AcceptanceRecordWire,
+  isAcceptanceCriterionResult,
   isAcceptanceRecordWire,
   isSealEligibleLifecycleState,
   type SealEligibleLifecycleState,
@@ -76,13 +77,23 @@ export {
   validateAcceptanceRecordSeal,
 } from "./contracts/acceptance-record.validator.js";
 export {
+  BLOCK_DATA_ACTION_KINDS,
+  BLOCK_DATA_FIELD_KINDS,
   type BlockDataActionKind,
   type BlockDataActionWire,
   type BlockDataContractWire,
   type BlockDataFieldKind,
   type BlockDataFieldWire,
+  isBlockDataActionKind,
   isBlockDataContractWire,
-} from "./contracts/block-data-contract.js";
+  isBlockDataFieldKind,
+  isBlockDataFieldWire,
+} from "./contracts/block-data.contract.js";
+export {
+  BLOCK_LIFECYCLE_ORDER,
+  type BlockLifecycleState,
+  isBlockLifecycleState,
+} from "./contracts/block-lifecycle.contract.js";
 export {
   AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE,
   type BlockSlotDomMarkerProps,
@@ -90,10 +101,14 @@ export {
 } from "./contracts/block-slot-dom-marker.contract.js";
 export {
   isMetadataBindingContractWire,
+  isValidMetadataBindingPresentationKind,
+  METADATA_BINDING_DENSITIES,
+  METADATA_BINDING_PRESENTATION_KINDS,
   type MetadataBindingContractWire,
   type MetadataBindingDensity,
   type MetadataBindingFieldPresentationKind,
   type MetadataBindingFieldWire,
+  type MetadataBindingStateKind,
   type MetadataBindingStateTemplateWire,
   type MetadataBindingTableColumnWire,
 } from "./contracts/metadata-binding.contract.js";
@@ -104,7 +119,9 @@ export {
   type MetadataBindingWaiverWire,
 } from "./contracts/metadata-binding-waiver.contract.js";
 export {
+  isSurfaceTemplateClass,
   isSurfaceTemplateContractWire,
+  SURFACE_TEMPLATE_CLASSES,
   type SurfaceTemplateBlockBindingWire,
   type SurfaceTemplateClass,
   type SurfaceTemplateContractWire,
@@ -121,11 +138,7 @@ export {
   type MetadataBindingCoverageRow,
   summarizeMetadataBindingCoverage,
 } from "./registry/assert-metadata-binding-coverage.js";
-export {
-  BLOCK_LIFECYCLE_ORDER,
-  type BlockLifecycleState,
-  isValidBlockLifecycleTransition,
-} from "./registry/block-lifecycle.js";
+export { isValidBlockLifecycleTransition } from "./registry/block-lifecycle.js";
 export {
   assertBlockLifecycleRegistryValid,
   BLOCK_LIFECYCLE_REGISTRY,
@@ -145,10 +158,7 @@ export {
   getBlockDataContractForBlockId,
   getBlockSlotsForBlockId,
 } from "./registry/block-slot.registry.js";
-export {
-  buildMetadataBindingFromDataContracts,
-  isValidMetadataBindingPresentationKind,
-} from "./registry/build-metadata-binding-from-data-contracts.js";
+export { buildMetadataBindingFromDataContracts } from "./registry/build-metadata-binding-from-data-contracts.js";
 export { buildPresentationInventoryFromParity } from "./registry/build-presentation-inventory-from-parity.js";
 export {
   MCP_SEED_BLOCK_IDS,

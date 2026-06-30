@@ -181,7 +181,7 @@ export function checkErpProcurementSurfaceDrift(
         violations.push({
           rule: "erp-procurement-route-drift",
           file: relative(root, sourceFile).replace(/\\/g, "/"),
-          message: `${relativeDir} allows only ERP-PROC-OP-005 foundation readiness files until PAS-006 UI slice`,
+          message: `${relativeDir} allows only ERP-PROC-OP-005/007 authorized foundation and PAS-006 UI scaffold files until business runtime slice`,
         });
       }
     }

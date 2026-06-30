@@ -2,7 +2,10 @@ import type { AfendaAuthSession } from "@afenda/auth";
 import { getAfendaAuthSession } from "@afenda/auth";
 import type { AuthActorIdentity } from "@afenda/kernel";
 
-import { parseServiceActorIdentityFromRequestHeaders } from "./resolve-service-actor.server";
+import {
+  hasServiceActorIngressHeaders,
+  parseServiceActorIdentityFromRequestHeaders,
+} from "./resolve-service-actor.server";
 
 export type ApiRouteAuthActor =
   | {
@@ -15,16 +18,21 @@ export type ApiRouteAuthActor =
     };
 
 /**
- * Resolves protected internal API auth actor — human session or S2S service headers.
+ * Resolves protected internal API auth actor — verified S2S service headers or human session.
+ * When service ingress headers are present but verification fails, session fallback is denied.
  */
 export async function resolveApiRouteAuthActor(
   requestHeaders: Headers
 ): Promise<ApiRouteAuthActor | null> {
-  const serviceIdentity =
-    parseServiceActorIdentityFromRequestHeaders(requestHeaders);
+  if (hasServiceActorIngressHeaders(requestHeaders)) {
+    const serviceIdentity =
+      parseServiceActorIdentityFromRequestHeaders(requestHeaders);
 
-  if (serviceIdentity !== null) {
-    return { kind: "service", identity: serviceIdentity };
+    if (serviceIdentity !== null) {
+      return { kind: "service", identity: serviceIdentity };
+    }
+
+    return null;
   }
 
   const session = await getAfendaAuthSession(requestHeaders);

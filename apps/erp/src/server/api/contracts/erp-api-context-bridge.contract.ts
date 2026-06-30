@@ -6,6 +6,7 @@
  */
 
 import type { ApiRouteContract } from "./api-contract";
+import { SERVICE_ACTOR_PING_OPERATION_ID } from "./auth/service-actor-ping.contract";
 import { isPublicAuthPolicy } from "./auth-policy.contract";
 import { requiresOperatingContext } from "./context-policy.contract";
 import {
@@ -103,6 +104,10 @@ export function assertProtectedOperationsDeclareOperatingContext(
     return;
   }
 
+  if (contract.id === SERVICE_ACTOR_PING_OPERATION_ID) {
+    return;
+  }
+
   if (!requiresOperatingContext(contract.contextPolicy)) {
     throw new Error(
       `Protected operation ${contract.id} must declare operating context via IS-002 spine.`
@@ -118,6 +123,10 @@ export function assertApi007DeclarationMatchesContextPolicy(
 ): void {
   const declaration = extractOperationPolicyDeclaration(contract);
   const expectedRequired = requiresOperatingContext(contract.contextPolicy);
+
+  if (contract.id === SERVICE_ACTOR_PING_OPERATION_ID) {
+    return;
+  }
 
   if (declaration.context.required !== expectedRequired) {
     throw new Error(

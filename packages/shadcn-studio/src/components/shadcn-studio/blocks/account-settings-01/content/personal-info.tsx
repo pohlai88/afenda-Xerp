@@ -3,10 +3,10 @@
 import { ImageIcon, TrashIcon, UploadCloudIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { blockSlotDomMarkerProps } from "../../../../../contracts/block-slot-dom-marker.contract.js";
+import { Button } from "../../../../ui/button";
+import { Input } from "../../../../ui/input";
+import { Label } from "../../../../ui/label";
 import {
   Select,
   SelectContent,
@@ -14,7 +14,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../../../ui/select";
 
 const countries = [
   {

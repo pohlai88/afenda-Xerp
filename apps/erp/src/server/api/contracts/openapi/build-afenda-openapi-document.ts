@@ -11,6 +11,7 @@ import {
   acceptsIdempotencyKey,
   IDEMPOTENCY_KEY_HEADER,
 } from "../idempotency.contract";
+import { buildListQueryOpenApiParameters } from "../list-query.contract";
 import {
   DEFAULT_PAGE_LIMIT,
   MAX_PAGE_LIMIT,
@@ -52,6 +53,10 @@ const AFENDA_OPENAPI_DOCUMENT_TAGS = [
     name: "memberships",
     description: "Tenant membership resolution and post-auth entry paths.",
   },
+  {
+    name: "service-actor",
+    description: "Verified service-actor S2S bearer authentication probes.",
+  },
   { name: "dashboard", description: "Workspace dashboard layout preferences." },
   { name: "users", description: "System-admin user lifecycle operations." },
   { name: "audit", description: "System-admin audit event queries." },
@@ -68,6 +73,10 @@ const AFENDA_OPENAPI_DOCUMENT_TAGS = [
   { name: "products", description: "Product master data operations." },
   { name: "warehouses", description: "Warehouse master data operations." },
   { name: "stock", description: "Stock level queries and movement mutations." },
+  {
+    name: "docs",
+    description: "OpenAPI reference and generated specification.",
+  },
 ] as const;
 
 function isContractDeprecated(
@@ -149,7 +158,7 @@ function buildIdempotencyHeaderParameter(required: boolean): {
   };
 }
 
-function buildCursorPaginationQueryParameters(): Array<{
+function _buildCursorPaginationQueryParameters(): Array<{
   readonly description: string;
   readonly in: "query";
   readonly name: string;
@@ -197,6 +206,7 @@ function buildOperationObject(
 ): Record<string, unknown> {
   const successStatus = resolveOperationSuccessStatus(contract.method);
   const isCursorPaginated = contract.pagination?.mode === "cursor";
+  const hasListQuery = contract.listQuery !== undefined;
   const { schema: successSchema } = createSuccessEnvelopeSchema(
     contract.responseSchema,
     { includePaginationMeta: isCursorPaginated }
@@ -217,7 +227,13 @@ function buildOperationObject(
           ),
         ]
       : []),
-    ...(isCursorPaginated ? buildCursorPaginationQueryParameters() : []),
+    ...(hasListQuery || isCursorPaginated
+      ? buildListQueryOpenApiParameters({
+          allowedFilterFields: contract.listQuery?.allowedFilterFields ?? [],
+          allowedSortFields: contract.listQuery?.allowedSortFields ?? [],
+          includePagination: isCursorPaginated,
+        })
+      : []),
   ];
 
   const operation: Record<string, unknown> = {

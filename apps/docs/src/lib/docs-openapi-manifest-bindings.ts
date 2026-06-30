@@ -76,10 +76,21 @@ function primaryOpenApiTag(
   return typeof tag === "string" && tag.length > 0 ? tag : undefined;
 }
 
+/** Resource-oriented admin API paths that do not share legacy section URL prefixes. */
+const SYSTEM_ADMIN_API_PATH_MANIFEST_IDS: Record<string, string> = {
+  "/system-admin/membership-role-assignments": "admin-memberships",
+  "/system-admin/user-invitations": "admin-users",
+};
+
 function adminManifestForPath(
   manifests: readonly DocsFeatureManifest[],
   apiPath: string
 ): DocsFeatureManifest | undefined {
+  const manifestId = SYSTEM_ADMIN_API_PATH_MANIFEST_IDS[apiPath];
+  if (manifestId !== undefined) {
+    return manifests.find((manifest) => manifest.id === manifestId);
+  }
+
   return manifests.find(
     (manifest) =>
       manifest.kind === "admin-section" &&
@@ -92,6 +103,10 @@ function resolveManifestForOpenApiTag(input: {
   readonly apiPath: string;
   readonly manifests: readonly DocsFeatureManifest[];
 }): DocsFeatureManifest | undefined {
+  if (input.tag === "public") {
+    return input.manifests.find((manifest) => manifest.id === "platform-docs");
+  }
+
   if (input.tag === "system-admin") {
     return adminManifestForPath(input.manifests, input.apiPath);
   }

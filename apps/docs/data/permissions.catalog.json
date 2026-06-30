@@ -1,6 +1,6 @@
 {
   "catalogId": "permissions",
-  "exportedAt": "2026-06-28T02:23:35.061Z",
+  "exportedAt": "2026-06-30T08:06:16.482Z",
   "permissions": [
     {
       "key": "accounting.coa_manage",
@@ -91,6 +91,41 @@
       "key": "inventory.stock_adjust",
       "domain": "inventory",
       "action": "stock_adjust"
+    },
+    {
+      "key": "inventory.stock_movement_cancel",
+      "domain": "inventory",
+      "action": "stock_movement_cancel"
+    },
+    {
+      "key": "inventory.stock_movement_post",
+      "domain": "inventory",
+      "action": "stock_movement_post"
+    },
+    {
+      "key": "inventory.stock_movement_read",
+      "domain": "inventory",
+      "action": "stock_movement_read"
+    },
+    {
+      "key": "inventory.stock_reservation_cancel",
+      "domain": "inventory",
+      "action": "stock_reservation_cancel"
+    },
+    {
+      "key": "inventory.stock_reservation_fulfill",
+      "domain": "inventory",
+      "action": "stock_reservation_fulfill"
+    },
+    {
+      "key": "inventory.stock_reservation_read",
+      "domain": "inventory",
+      "action": "stock_reservation_read"
+    },
+    {
+      "key": "inventory.stock_reservation_reserve",
+      "domain": "inventory",
+      "action": "stock_reservation_reserve"
     },
     {
       "key": "inventory.warehouse_manage",

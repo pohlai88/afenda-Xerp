@@ -65,7 +65,8 @@ Retained for coding reference even without heavy Afenda wiring:
 
 | Skill / agent | Status | Added |
 | --- | --- | --- |
-| `afenda-tailwind` | **keep** | 2026-06-29 — consolidated Tailwind v4 authority |
+| `afenda-tailwind` | **keep** | 2026-06-29 consolidated; **reinstated PAS-006 Phase 1** 2026-06-30 (replaces retired legacy-ui copy) |
+| `afenda-presentation-quality` | **keep** | 2026-06-30 — PAS-006 composer; Phase 1 CSS doctrine; replaces ui-consistency-bundle |
 | `enterprise-architecture-audit` | **keep** | 2026-06-28 — read-only full-stack platform audit |
 | `enterprise-architecture-auditor` | **keep** | 2026-06-28 — phase worker agent |
 | `enterprise-architecture-audit-orchestrator` | **keep** | 2026-06-28 — deterministic 8-phase audit orchestrator |

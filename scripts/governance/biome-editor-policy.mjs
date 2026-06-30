@@ -27,6 +27,7 @@ export const BIOME_EDITOR_POLICY = {
     "!!**/*.md",
     "!!**/*.mdx",
     "!!**/*.mdc",
+    "!!**/*.css",
     "!!**/.cursor",
   ],
   vscode: {
@@ -50,15 +51,25 @@ export const BIOME_EDITOR_POLICY = {
         defaultFormatter: "vscode.json-language-features",
         biomeFixAll: "never",
       },
+      css: {
+        biomeEnabled: false,
+        defaultFormatter: "esbenp.prettier-vscode",
+        biomeFixAll: "never",
+      },
     },
   },
   lintStaged: {
-    ultraciteGlob: "*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc,css}",
+    ultraciteGlob: "*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc}",
     ultraciteCommand: "ultracite fix",
     prettierMdxGlob: "*.mdx",
     prettierMdxCommand: "prettier --write",
+    prettierCssGlob: "*.css",
+    prettierCssCommand: "prettier --write",
   },
-  prettierDocumentSelectors: ["**/*.mdx"],
+  prettierDocumentSelectors: ["**/*.mdx", "**/*.css"],
+  huskyPreCommitPath: ".husky/pre-commit",
+  precommitScript:
+    "node scripts/governance/check-biome-editor-sync.mjs && lint-staged",
 };
 
 /**
@@ -248,6 +259,14 @@ export function checkBiomeEditorSync(repoRoot) {
     );
   }
 
+  const prettierCssCommand = lintStaged[policy.lintStaged.prettierCssGlob];
+
+  if (prettierCssCommand !== policy.lintStaged.prettierCssCommand) {
+    violations.push(
+      `lint-staged["${policy.lintStaged.prettierCssGlob}"] must be "${policy.lintStaged.prettierCssCommand}"`
+    );
+  }
+
   if (lintStaged["*.md"] || lintStaged["**/*.md"]) {
     violations.push(
       "lint-staged must not format *.md (docs are Biome-excluded; use dedicated doc tooling)"
@@ -257,7 +276,7 @@ export function checkBiomeEditorSync(repoRoot) {
   for (const selector of policy.prettierDocumentSelectors) {
     if (!prettierConfig.includes(selector)) {
       violations.push(
-        `${policy.prettierConfigPath} must scope Prettier to ${selector} only`
+        `${policy.prettierConfigPath} must include Prettier scope ${selector}`
       );
     }
   }
@@ -265,6 +284,25 @@ export function checkBiomeEditorSync(repoRoot) {
   if (/files:\s*\[\s*"[^"]+\.md"/.test(prettierConfig)) {
     violations.push(
       `${policy.prettierConfigPath} must not claim ownership of markdown beyond MDX`
+    );
+  }
+
+  const precommitScript = packageJson.scripts?.precommit;
+
+  if (precommitScript !== policy.precommitScript) {
+    violations.push(
+      `package.json scripts.precommit must be "${policy.precommitScript}"`
+    );
+  }
+
+  const huskyPreCommit = readFileSync(
+    join(repoRoot, policy.huskyPreCommitPath),
+    "utf8"
+  ).trim();
+
+  if (huskyPreCommit !== "pnpm precommit") {
+    violations.push(
+      `${policy.huskyPreCommitPath} must contain exactly "pnpm precommit" (found: ${JSON.stringify(huskyPreCommit)})`
     );
   }
 

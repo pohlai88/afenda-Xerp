@@ -36,8 +36,8 @@ import {
   resolveGrantScope,
 } from "./resolve-grant-scope.server";
 import { resolveLegalEntityContext } from "./resolve-legal-entity-context.server";
-import { toSurfaceContext } from "./surface-context.resolution.server.js";
-import { toWorkflowContext } from "./workflow-context.resolution.server.js";
+import { toSurfaceContext } from "./surface-context.resolution.server";
+import { toWorkflowContext } from "./workflow-context.resolution.server";
 
 function resolveTeamContext(input: {
   readonly organizationRow: {

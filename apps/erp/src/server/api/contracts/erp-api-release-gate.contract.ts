@@ -35,6 +35,8 @@ export const ERP_API_RELEASE_GATES = [
   "check:api-contracts",
   "check:openapi-drift",
   "check:api-route-catalog",
+  "check:api-breaking-change-registry",
+  "check:api-problemdetail-runtime-attestation",
   "check:foundation-disposition",
 ] as const;
 

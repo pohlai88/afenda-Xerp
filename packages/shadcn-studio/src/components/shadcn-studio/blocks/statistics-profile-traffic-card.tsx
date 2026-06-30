@@ -3,7 +3,7 @@
 import { useId } from "react";
 import { Bar, BarChart, XAxis } from "recharts";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../contracts/block-slot-dom-marker.contract.js";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   type ChartConfig,

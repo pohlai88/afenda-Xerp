@@ -3,7 +3,7 @@
 import { useId } from "react";
 import { Label, Pie, PieChart } from "recharts";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../contracts/block-slot-dom-marker.contract.js";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   type ChartConfig,

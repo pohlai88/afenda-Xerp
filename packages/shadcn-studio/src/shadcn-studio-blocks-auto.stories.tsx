@@ -17,7 +17,6 @@ import HeroSection01Block from "./components/shadcn-studio/blocks/hero-section-0
 import LoginPage04Block from "./components/shadcn-studio/blocks/login-page-04/login-page-04.js";
 import { shadcnStudioThemeDecorator } from "./_storybook/shadcn-studio-theme.decorator.js";
 import {
-  shadcnStudioBlockDocs,
   shadcnStudioCenteredLayout,
   shadcnStudioFullscreenLayout,
   shadcnStudioStoryA11y,

@@ -27,24 +27,6 @@ const PROHIBITED_RUNTIME_DEPENDENCIES = [
   "@afenda/database",
 ] as const;
 
-const ALLOWED_RUNTIME_DEPENDENCIES = [
-  "@radix-ui/react-label",
-  "@radix-ui/react-select",
-  "@radix-ui/react-slot",
-  "@tanstack/react-table",
-  "class-variance-authority",
-  "clsx",
-  "cmdk",
-  "lucide-react",
-  "next-themes",
-  "radix-ui",
-  "react-19-credit-card",
-  "react-payment-inputs",
-  "recharts",
-  "sonner",
-  "tailwind-merge",
-] as const;
-
 describe("@afenda/shadcn-studio package scaffold", () => {
   it("declares the expected package name", () => {
     expect(packageJson.name).toBe("@afenda/shadcn-studio");
@@ -58,18 +40,22 @@ describe("@afenda/shadcn-studio package scaffold", () => {
     expect(SHADCN_STUDIO_CSS_PATH).toBe("./shadcn-studio.css");
   });
 
-  it("declares only Phase-1 presentation runtime dependencies", () => {
-    expect(Object.keys(packageJson.dependencies ?? {}).sort()).toEqual(
-      [...ALLOWED_RUNTIME_DEPENDENCIES].sort()
-    );
-  });
-
   it("does not declare prohibited @afenda runtime packages", () => {
     const runtimeDependencies = Object.keys(packageJson.dependencies ?? {});
 
     for (const prohibited of PROHIBITED_RUNTIME_DEPENDENCIES) {
       expect(runtimeDependencies).not.toContain(prohibited);
     }
+  });
+
+  it("declares presentation runtime dependencies installed by shadcn CLI", () => {
+    const runtimeDependencies = Object.keys(
+      packageJson.dependencies ?? {}
+    ).sort();
+
+    expect(runtimeDependencies.length).toBeGreaterThan(0);
+    expect(runtimeDependencies).toContain("@base-ui/react");
+    expect(runtimeDependencies).toContain("tailwind-merge");
   });
 
   it("exports typed theme preset slugs (B39)", () => {

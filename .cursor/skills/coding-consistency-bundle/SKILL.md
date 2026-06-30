@@ -137,6 +137,7 @@ When handoff is under `docs/PAS/<DOMAIN-FOLDER>/SLICE/` (e.g. `docs/PAS/KERNEL/S
 | Enterprise SAP/Oracle gates | `.cursor/skills/enterprise-erp-standards/SKILL.md` |
 | shadcn/studio ERP frontend (PAS-006) | `.cursor/skills/shadcn-studio/SKILL.md` |
 | ERP presentation quality composer | `.cursor/skills/afenda-presentation-quality/SKILL.md` |
+| ERP Tailwind / Phase 1 CSS | `.cursor/skills/afenda-tailwind/SKILL.md` |
 | Package CSS dist | `.cursor/skills/package-css-dist-sync/SKILL.md` |
 | Drizzle migrations | `.cursor/skills/afenda-drizzle-migration/SKILL.md` |
 | Multi-tenancy | `.cursor/skills/multi-tenancy-erp/SKILL.md` |

@@ -17,9 +17,7 @@ export function createErpBackgroundLogger(
   input: CreateErpBackgroundLoggerInput
 ): Logger {
   const context: ErpLoggerContext = {
-    correlationId:
-      input.correlationId ??
-      createErpCorrelationId(input.correlationPrefix ?? "cron"),
+    correlationId: input.correlationId ?? createErpCorrelationId(),
     module: input.module,
   };
 

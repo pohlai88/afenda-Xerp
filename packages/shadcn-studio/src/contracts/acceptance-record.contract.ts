@@ -2,9 +2,22 @@
  * PAS-006C P06-005 — Acceptance Record wire contract (NS §8.2).
  */
 
-import type { BlockLifecycleState } from "../registry/block-lifecycle.js";
+import {
+  type BlockLifecycleState,
+  isBlockLifecycleState,
+} from "./block-lifecycle.contract.js";
+import {
+  isNonEmptyString,
+  isStringMemberOf,
+  isWireRecord,
+} from "./wire-guard.helpers.js";
 
 export type AcceptanceCriterionResult = "pass" | "fail";
+
+export const ACCEPTANCE_CRITERION_RESULTS = [
+  "pass",
+  "fail",
+] as const satisfies readonly AcceptanceCriterionResult[];
 
 export interface AcceptanceRecordWire {
   readonly acceptanceRecordId: string;
@@ -30,6 +43,12 @@ const SEAL_ELIGIBLE_LIFECYCLE_STATES = [
 export type SealEligibleLifecycleState =
   (typeof SEAL_ELIGIBLE_LIFECYCLE_STATES)[number];
 
+export function isAcceptanceCriterionResult(
+  value: unknown
+): value is AcceptanceCriterionResult {
+  return isStringMemberOf(value, ACCEPTANCE_CRITERION_RESULTS);
+}
+
 export function isSealEligibleLifecycleState(
   state: BlockLifecycleState
 ): state is SealEligibleLifecycleState {
@@ -38,25 +57,32 @@ export function isSealEligibleLifecycleState(
   ).includes(state);
 }
 
-export function isAcceptanceRecordWire(
+function isCriteriaResultsRecord(
   value: unknown
-): value is AcceptanceRecordWire {
-  if (typeof value !== "object" || value === null) {
+): value is Readonly<Record<string, AcceptanceCriterionResult>> {
+  if (!isWireRecord(value)) {
     return false;
   }
 
-  const record = value as Record<string, unknown>;
+  return Object.values(value).every(isAcceptanceCriterionResult);
+}
+
+export function isAcceptanceRecordWire(
+  value: unknown
+): value is AcceptanceRecordWire {
+  if (!isWireRecord(value)) {
+    return false;
+  }
 
   return (
-    typeof record["acceptanceRecordId"] === "string" &&
-    typeof record["blockId"] === "string" &&
-    typeof record["lifecycleStateAtSeal"] === "string" &&
-    typeof record["presentationLabProof"] === "string" &&
-    typeof record["acpaProfileVersion"] === "string" &&
-    typeof record["sealedAt"] === "string" &&
-    typeof record["sealedBy"] === "string" &&
-    typeof record["wcagAaAuthAdjacent"] === "boolean" &&
-    typeof record["criteriaResults"] === "object" &&
-    record["criteriaResults"] !== null
+    isNonEmptyString(value["acceptanceRecordId"]) &&
+    isNonEmptyString(value["blockId"]) &&
+    isBlockLifecycleState(value["lifecycleStateAtSeal"]) &&
+    typeof value["presentationLabProof"] === "string" &&
+    isNonEmptyString(value["acpaProfileVersion"]) &&
+    isNonEmptyString(value["sealedAt"]) &&
+    isNonEmptyString(value["sealedBy"]) &&
+    typeof value["wcagAaAuthAdjacent"] === "boolean" &&
+    isCriteriaResultsRecord(value["criteriaResults"])
   );
 }

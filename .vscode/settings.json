@@ -33,7 +33,14 @@
   },
   "typescript.preferences.includePackageJsonAutoImports": "auto",
   "[css]": {
-    "editor.defaultFormatter": "biomejs.biome"
+    "biome.enabled": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "never",
+      "source.organizeImports.biome": "never"
+    }
   },
   "[graphql]": {
     "editor.defaultFormatter": "biomejs.biome"
@@ -107,7 +114,7 @@
   },
   "prettier.requireConfig": true,
   "prettier.configPath": "./prettier.config.mjs",
-  "prettier.documentSelectors": ["**/*.mdx"],
+  "prettier.documentSelectors": ["**/*.mdx", "**/*.css"],
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,

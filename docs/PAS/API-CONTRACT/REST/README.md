@@ -10,4 +10,4 @@
 
 > **One sentence:** Active REST/OpenAPI binding for `/api/internal/v1/**` — registry, OpenAPI publication, `createApiHandler`, and drift attestation.
 
-**Production stance:** Human-session internal v1 is **GO** (Production Accepted). Machine S2S REST is **not offered** — policy attested per [ADR-0034](../../../adr/ADR-0034-service-actor-production-policy-attestation.md); crypto verification required before first `service-token-required` route.
+**Production stance:** Human-session internal v1 is **GO** (Production Accepted). Machine S2S REST is **activated** for `service-token-required` routes per [ADR-0036](../../../adr/ADR-0036-machine-s2s-production-activation.md) with verified bearer per [ADR-0035](../../../adr/ADR-0035-internal-v1-service-actor-bearer-verification.md); probe route `GET /api/internal/v1/auth/service-actor/ping`.

@@ -36,6 +36,30 @@ export const CONTEXT_INTEGRATION_WIRING = [
     delegate: "loadProcurementFoundationReadinessPage",
   },
   {
+    id: "procurement-requisitions-list-loader",
+    step: "Procurement requisitions list route consumes request-scoped spine assembly",
+    module: "lib/procurement/load-procurement-requisitions-page.server.ts",
+    delegate: "loadProcurementRequisitionsPage",
+  },
+  {
+    id: "procurement-requisitions-list-page",
+    step: "Protected procurement requisitions PAS-006 list RSC ingress (ERP-PROC-OP-007)",
+    module: "app/(protected)/modules/procurement/requisitions/page.tsx",
+    delegate: "loadProcurementRequisitionsPage",
+  },
+  {
+    id: "procurement-purchase-orders-list-loader",
+    step: "Procurement purchase orders list route consumes request-scoped spine assembly",
+    module: "lib/procurement/load-procurement-purchase-orders-page.server.ts",
+    delegate: "loadProcurementPurchaseOrdersPage",
+  },
+  {
+    id: "procurement-purchase-orders-list-page",
+    step: "Protected procurement purchase orders PAS-006 list RSC ingress (ERP-PROC-OP-007)",
+    module: "app/(protected)/modules/procurement/purchase-orders/page.tsx",
+    delegate: "loadProcurementPurchaseOrdersPage",
+  },
+  {
     id: "protected-rsc-metadata-workspace",
     step: "Resolve operating context for metadata workspace RSC",
     module: "app/(protected)/metadata-workspace/page.tsx",

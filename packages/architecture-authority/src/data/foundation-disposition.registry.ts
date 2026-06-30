@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-30-v38" as const;
+  "FOUNDATION-DISPOSITION-2026-06-30-v39" as const;
 
 const foundationDispositionEntries = [
   {
@@ -566,9 +566,18 @@ const foundationDispositionEntries = [
       "packages/features/erp-modules/src/procurement/procurement.audit-outbox.contract.ts",
       "apps/erp/src/lib/procurement/load-procurement-foundation-readiness-page.server.ts",
       "apps/erp/src/app/(protected)/modules/procurement/readiness/page.tsx",
+      "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-007-pas006-procurement-ui.md",
+      "packages/features/erp-modules/src/procurement/procurement.pas006-ui.contract.ts",
+      "packages/shadcn-studio/src/components/shadcn-studio/blocks/datatable-procurement-requisitions.tsx",
+      "packages/shadcn-studio/src/components/shadcn-studio/blocks/datatable-procurement-purchase-orders.tsx",
+      "apps/erp/src/app/(protected)/modules/procurement/requisitions/page.tsx",
+      "apps/erp/src/app/(protected)/modules/procurement/purchase-orders/page.tsx",
+      "apps/erp/src/lib/procurement/load-procurement-requisitions-page.server.ts",
+      "apps/erp/src/lib/procurement/load-procurement-purchase-orders-page.server.ts",
+      "scripts/governance/check-procurement-pas006-ui-contract.mts",
     ],
     knownGaps: [
-      "Foundation contracts declared/attested through OP-006 (DB, permissions, context spine, audit/outbox); migrations + PERMISSION_REGISTRY wiring + durable writers still deferred",
+      "PAS-006 UI scaffold attested through OP-007 (fixture-backed requisitions + purchase-order list routes); database-backed lists, PERMISSION_REGISTRY enforcement, and audit/outbox writers still deferred",
       "Business procurement runtime deferred — gap report sections B–F remain until downstream PAS slices close",
     ],
     allowedAgents: ["afenda-governed-implementer", "foundation-registry-owner"],
@@ -576,7 +585,7 @@ const foundationDispositionEntries = [
       "do-not-create-packages-procurement-without-adr",
       "do-not-add-database-dependency",
       "do-not-implement-po-posting",
-      "do-not-add-erp-production-routes",
+      "do-not-add-procurement-erp-routes-beyond-pas006-scaffold-allowlist",
     ],
     gates: [
       "pnpm check:procurement-domain-contracts",
@@ -589,6 +598,7 @@ const foundationDispositionEntries = [
       "pnpm check:procurement-permission-binding-contract",
       "pnpm check:procurement-context-spine-consumer",
       "pnpm check:procurement-audit-outbox-contract",
+      "pnpm check:procurement-pas006-ui-contract",
     ],
     legacyTipEvidence: [],
   },
@@ -1009,12 +1019,16 @@ const foundationDispositionEntries = [
     authority: "PAS-003",
     requiredBeforeAccounting: false,
     evidence: [
+      "docs/NORTHSTAR/accounting-standards-north-star.md",
+      "docs/BLUEPRINT/accounting-standards-blueprint.md",
+      "docs/PAS/ACCOUNTING-STANDARDS/README.md",
       "docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md",
-      "docs/PAS/ACCOUNTING-STANDARDS/SLICE/",
-      "docs/PAS/README.md",
+      "docs/PAS/ACCOUNTING-STANDARDS/SLICE/README.md",
+      "docs/PAS/pas-status-index.md",
       "packages/accounting-standards/package.json",
       "packages/accounting-standards/src/index.ts",
       "packages/accounting-standards/src/__tests__/architecture-boundary.test.ts",
+      "packages/accounting-standards/PAS-003-ACCOUNTING-STANDARDS-TREE.md",
       ".cursor/skills/accounting-standards-authority/SKILL.md",
       "packages/architecture-authority/src/data/package-registry.data.ts",
       "packages/architecture-authority/src/data/layer-registry.data.ts",
@@ -1036,6 +1050,8 @@ const foundationDispositionEntries = [
       "do-not-create-accounting-consolidation-tax-ui-runtime-in-publish-slice",
     ],
     gates: [
+      "pnpm --filter @afenda/accounting-standards typecheck",
+      "pnpm --filter @afenda/accounting-standards test:run",
       "pnpm quality:architecture",
       "pnpm architecture:cycles",
       "pnpm architecture:drift",

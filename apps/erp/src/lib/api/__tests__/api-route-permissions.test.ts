@@ -73,7 +73,17 @@ describe("api-route-permissions", () => {
       level: "tenant-protected",
       permissionKey: PERMISSION_REGISTRY.systemAdmin.users.manage,
     });
+    expect(matrix["internal.v1.system-admin.user-invitations.post"]).toEqual({
+      level: "tenant-protected",
+      permissionKey: PERMISSION_REGISTRY.systemAdmin.users.manage,
+    });
     expect(matrix["internal.v1.system-admin.memberships.role.post"]).toEqual({
+      level: "tenant-protected",
+      permissionKey: PERMISSION_REGISTRY.systemAdmin.roles.manage,
+    });
+    expect(
+      matrix["internal.v1.system-admin.membership-role-assignments.post"]
+    ).toEqual({
       level: "tenant-protected",
       permissionKey: PERMISSION_REGISTRY.systemAdmin.roles.manage,
     });

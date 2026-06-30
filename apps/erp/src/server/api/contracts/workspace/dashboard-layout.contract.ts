@@ -102,6 +102,7 @@ export const dashboardLayoutDeleteContract = {
   summary: "Reset dashboard layout",
   description:
     "Resets the dashboard layout to the default configuration for the active operating context.",
+  idempotency: { mode: "optional" },
   lifecycle: "active",
   method: "DELETE",
   owner: API_ROUTE_OWNER,

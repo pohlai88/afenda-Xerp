@@ -2,27 +2,18 @@
  * PAS-006D P06-008-R1 — generate metadata bindings from block data contracts.
  */
 
-import type { BlockDataFieldKind } from "../contracts/block-data-contract.js";
+import type { BlockDataFieldKind } from "../contracts/block-data.contract.js";
 import type {
   MetadataBindingContractWire,
   MetadataBindingFieldPresentationKind,
 } from "../contracts/metadata-binding.contract.js";
+import type { SurfaceTemplateClass } from "../contracts/surface-template.contract.js";
 import {
   BLOCK_DATA_CONTRACT_REGISTRY,
   getBlockSlotsForBlockId,
 } from "./block-slot.registry.js";
 import { resolveMetadataBindingModuleAssignment } from "./metadata-binding-module-assignment.js";
 import { isMetadataBindingWaivedBlockId } from "./metadata-binding-waiver.registry.js";
-
-const PRESENTATION_KINDS = [
-  "text",
-  "textarea",
-  "number",
-  "date",
-  "select",
-  "checkbox",
-  "readonly",
-] as const satisfies readonly MetadataBindingFieldPresentationKind[];
 
 function mapFieldKindToPresentationKind(
   kind: BlockDataFieldKind
@@ -46,7 +37,7 @@ function mapFieldKindToPresentationKind(
   }
 }
 
-function resolveSurfaceTemplateClass(blockId: string): string {
+function resolveSurfaceTemplateClass(blockId: string): SurfaceTemplateClass {
   if (blockId.startsWith("account-settings-")) {
     return "settings";
   }
@@ -149,10 +140,4 @@ export function buildMetadataBindingFromDataContracts(): readonly MetadataBindin
   }
 
   return bindings;
-}
-
-export function isValidMetadataBindingPresentationKind(
-  value: string
-): value is MetadataBindingFieldPresentationKind {
-  return (PRESENTATION_KINDS as readonly string[]).includes(value);
 }

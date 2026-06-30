@@ -2,7 +2,7 @@
  * PAS-006B P06-003 — block slot registry for seeded MCP blocks.
  */
 
-import type { BlockDataContractWire } from "../contracts/block-data-contract.js";
+import type { BlockDataContractWire } from "../contracts/block-data.contract.js";
 import type { BlockSlotEntry } from "./block-slot.types.js";
 import {
   type BlockSlotTemplate,

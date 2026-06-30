@@ -3,6 +3,13 @@ import { fileURLToPath } from "node:url";
 import type { NextConfig } from "next";
 
 const appDir = path.dirname(fileURLToPath(import.meta.url));
+const monorepoRoot = path.join(appDir, "../..");
+
+const extensionAlias = {
+  ".cjs": [".cts", ".cjs"],
+  ".js": [".ts", ".tsx", ".js", ".jsx"],
+  ".mjs": [".mts", ".mjs"],
+} as const;
 
 const securityHeaders = [
   { key: "X-Frame-Options", value: "DENY" },
@@ -17,7 +24,7 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  outputFileTracingRoot: path.join(appDir, "../.."),
+  outputFileTracingRoot: monorepoRoot,
   // Playwright and other tooling often hit the dev server via 127.0.0.1 while
   // Next.js binds localhost — without this, Turbopack HMR is blocked and client
   // components never hydrate (dashboard layout fetch never runs).
@@ -56,6 +63,16 @@ const nextConfig: NextConfig = {
     "@afenda/observability",
     "@afenda/shadcn-studio",
   ],
+  // Prepared for a future Next release; Next 16.2.9 does not honor extensionAlias in Turbopack yet.
+  turbopack: {
+    root: monorepoRoot,
+    extensionAlias,
+  } as NextConfig["turbopack"],
+  webpack: (config) => {
+    config.resolve ??= {};
+    config.resolve.extensionAlias = { ...extensionAlias };
+    return config;
+  },
   async headers() {
     return [
       {

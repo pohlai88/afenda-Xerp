@@ -14,14 +14,19 @@ describe("api rate limit provider", () => {
   });
 
   it("allows requests under the configured window limit", async () => {
-    await expect(
-      assertRateLimitAllowed({
-        contractId: "internal.v1.health.get",
-        policy: "anonymous-low",
-        requestId: "req-1",
-        userId: null,
-      })
-    ).resolves.toBeUndefined();
+    const snapshot = await assertRateLimitAllowed({
+      contractId: "internal.v1.health.get",
+      policy: "anonymous-low",
+      requestId: "req-1",
+      userId: null,
+    });
+
+    expect(snapshot).toMatchObject({
+      allowed: true,
+      limit: 30,
+      remaining: expect.any(Number),
+      resetAtUnix: expect.any(Number),
+    });
   });
 
   it("rejects requests above the configured window limit", async () => {
@@ -50,7 +55,7 @@ describe("api rate limit provider", () => {
           requestId: `req-${index}`,
           userId: null,
         })
-      ).resolves.toBeUndefined();
+      ).resolves.toBeNull();
     }
   });
 });

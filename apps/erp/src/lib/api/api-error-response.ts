@@ -8,7 +8,7 @@ import {
   type AppErrorToProblemDetailOptions,
   mapAppErrorCodeToHttpStatus,
   toProblemDetailFromAppError,
-} from "./app-error-to-problem-detail.js";
+} from "./app-error-to-problem-detail";
 import type { ApiRouteAuthorizationFailure } from "./authorize-api-route.contract";
 
 export const PROBLEM_JSON_CONTENT_TYPE = "application/problem+json" as const;

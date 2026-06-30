@@ -27,6 +27,9 @@ export const API_ENVELOPE_TEST_PATH =
 export const API_HANDLER_BOUNDARY_TEST_PATH =
   "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts" as const;
 
+export const API_PROBLEMDETAIL_RUNTIME_ATTESTATION_TEST_PATH =
+  "apps/erp/src/server/api/__tests__/api-problemdetail-runtime-attestation.test.ts" as const;
+
 export const API_ROUTE_CATALOG_TEST_PATH =
   "apps/erp/src/server/api/__tests__/api-route-catalog.test.ts" as const;
 
@@ -100,6 +103,7 @@ export const DEFAULT_GOVERNED_ROUTE_TEST_PATHS = [
   API_CONTRACT_REGISTRY_TEST_PATH,
   API_ENVELOPE_TEST_PATH,
   API_HANDLER_BOUNDARY_TEST_PATH,
+  API_PROBLEMDETAIL_RUNTIME_ATTESTATION_TEST_PATH,
   API_ROUTE_CATALOG_TEST_PATH,
   API_OPENAPI_DOCUMENT_TEST_PATH,
   API_POLICY_CONTRACTS_TEST_PATH,

@@ -120,13 +120,16 @@ export const LoginStyleFullscreen: Story = {
 `apps/storybook/.storybook/preview.css`:
 
 ```css
-@import "@afenda/shadcn-studio/shadcn-studio.css";
 @import "tailwindcss";
+@import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "@afenda/shadcn-studio/shadcn-studio.css";
 @source "../../../packages/shadcn-studio/src/**/*.{ts,tsx}";
 ```
 
 Do not import `@afenda/ui`, appshell, or retired design-system CSS.
+
+**Primitives:** `base-vega` / Base UI (`@base-ui/react`). Blocks use `render` on triggers — not Radix `asChild`.
 
 ---
 
@@ -239,6 +242,45 @@ After ERP wiring of a promoted block, also run per [shadcn-studio](../shadcn-stu
 ```bash
 pnpm --filter @afenda/erp typecheck
 pnpm --filter @afenda/erp build
+```
+
+---
+
+## 10. Static assets, promotion MDX, Chromatic, Pages
+
+### staticDirs
+
+| Mount | Source | Use |
+| --- | --- | --- |
+| `/` | `apps/storybook/public/` | Lab-only fixtures |
+| `/studio-assets/` | `packages/shadcn-studio/public/` | Promoted block assets (replace CDN at accept time) |
+
+### Promotion checklists (PAS-006C)
+
+Codegen emits MDX under `packages/shadcn-studio/src/_storybook/docs/`:
+
+- **Index:** `Shadcn Studio/Promotion`
+- **Per block:** `Shadcn Studio/Promotion/<slug>`
+
+Regenerate with `pnpm storybook generate` after MCP install.
+
+### Chromatic (optional)
+
+```bash
+# Local — requires CHROMATIC_PROJECT_TOKEN in environment
+pnpm storybook:chromatic
+```
+
+CI: `.github/workflows/storybook-lab.yml` — set repo variable `CHROMATIC_ENABLED=true` and secret `CHROMATIC_PROJECT_TOKEN`.
+
+### GitHub Pages (optional)
+
+Workflow **Storybook Lab** → `workflow_dispatch` → deploys artifact to `gh-pages` path `storybook-lab/`.
+
+### Static build
+
+```bash
+pnpm storybook:build   # output: apps/storybook/storybook-static
 ```
 
 ---

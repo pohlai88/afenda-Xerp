@@ -1,7 +1,7 @@
 import type { WorkflowContext, WorkflowId } from "@afenda/kernel";
 
-import { normalizeRuntimeModulePath } from "./runtime-module-path.server.js";
-import { parseSurfaceId } from "./surface-context.resolution.server.js";
+import { normalizeRuntimeModulePath } from "./runtime-module-path.server";
+import { parseSurfaceId } from "./surface-context.resolution.server";
 
 export function parseWorkflowId(
   value: string | null | undefined

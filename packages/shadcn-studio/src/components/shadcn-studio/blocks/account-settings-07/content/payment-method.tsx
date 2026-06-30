@@ -1,93 +1,86 @@
-import { EllipsisVerticalIcon } from "lucide-react";
-import AddPaymentMethodDialog from "@/components/shadcn-studio/blocks/dashboard-dialog-03/dialog-add-payment-method";
-import { Button } from "@/components/ui/button";
+import { Separator } from '@/components/ui/separator'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Separator } from "@/components/ui/separator";
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import AddPaymentMethodDialog from '@/components/shadcn-studio/blocks/dashboard-dialog-03/dialog-add-payment-method'
+import { EllipsisVerticalIcon } from "lucide-react"
 
 const PaymentMethod = () => {
   return (
-    <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
+    <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
       {/* Vertical Tabs List */}
-      <div className="flex flex-col space-y-1">
-        <h3 className="font-semibold">Payment Method</h3>
-        <p className="text-muted-foreground text-sm">
-          Manage your payment method and billing information.
-        </p>
+      <div className='flex flex-col space-y-1'>
+        <h3 className='font-semibold'>Payment Method</h3>
+        <p className='text-muted-foreground text-sm'>Manage your payment method and billing information.</p>
       </div>
 
       {/* Content */}
-      <div className="space-y-6 lg:col-span-2">
+      <div className='space-y-6 lg:col-span-2'>
         <div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center gap-2'>
               <img
-                alt="Visa"
-                className="h-6"
-                src="https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/dashboard-dialog/image-8.png"
+                src='https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/dashboard-dialog/image-8.png'
+                alt='Visa'
+                className='h-6'
               />
-              <p className="font-medium text-sm">Visa Debit **** 1234</p>
+              <p className='text-sm font-medium'>Visa Debit **** 1234</p>
             </div>
-            <div className="flex items-center gap-2">
-              <p className="font-medium text-sm">Valid until 11/2028</p>
+            <div className='flex items-center gap-2'>
+              <p className='text-sm font-medium'>Valid until 11/2028</p>
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button className="rounded-full" size="icon" variant="ghost">
-                    <EllipsisVerticalIcon />
-                    <span className="sr-only">Edit menu</span>
-                  </Button>
+                <DropdownMenuTrigger render={<Button variant='ghost' size='icon' className='rounded-full' />}>
+                  {' '}
+                  <EllipsisVerticalIcon
+                  />
+                  <span className='sr-only'>Edit menu</span>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-20">
+                <DropdownMenuContent className='w-20' align='end'>
                   <DropdownMenuGroup>
                     <DropdownMenuItem>Make Default</DropdownMenuItem>
-                    <DropdownMenuItem className="text-destructive!">
-                      Remove
-                    </DropdownMenuItem>
+                    <DropdownMenuItem className='text-destructive!'>Remove</DropdownMenuItem>
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           </div>
-          <Separator className="my-3" />
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+          <Separator className='my-3' />
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center gap-2'>
               <img
-                alt="Mastercard"
-                className="h-6"
-                src="https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/dashboard-dialog/image-9.png"
+                src='https://cdn.shadcnstudio.com/ss-assets/blocks/dashboard-application/dashboard-dialog/image-9.png'
+                alt='Mastercard'
+                className='h-6'
               />
-              <p className="font-medium text-sm">Mastercard **** 5678</p>
+              <p className='text-sm font-medium'>Mastercard **** 5678</p>
             </div>
-            <div className="flex items-center gap-2">
-              <p className="font-medium text-sm">Valid until 10/2028</p>
+            <div className='flex items-center gap-2'>
+              <p className='text-sm font-medium'>Valid until 10/2028</p>
               <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button className="rounded-full" size="icon" variant="ghost">
-                    <EllipsisVerticalIcon />
-                    <span className="sr-only">Edit menu</span>
-                  </Button>
+                <DropdownMenuTrigger render={<Button variant='ghost' size='icon' className='rounded-full' />}>
+                  <EllipsisVerticalIcon
+                  />
+                  <span className='sr-only'>Edit menu</span>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-20">
+                <DropdownMenuContent className='w-20' align='end'>
                   <DropdownMenuGroup>
                     <DropdownMenuItem>Make Default</DropdownMenuItem>
-                    <DropdownMenuItem className="text-destructive">
-                      Remove
-                    </DropdownMenuItem>
+                    <DropdownMenuItem className='text-destructive'>Remove</DropdownMenuItem>
                   </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
           </div>
         </div>
-        <div className="flex justify-end">
+        <div className='flex justify-end'>
           <AddPaymentMethodDialog
             trigger={
-              <Button className="max-sm:w-full">
+              <Button className='max-sm:w-full'>
                 <span>Add</span>
               </Button>
             }
@@ -95,7 +88,7 @@ const PaymentMethod = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default PaymentMethod;
+export default PaymentMethod

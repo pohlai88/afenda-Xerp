@@ -21,6 +21,8 @@ const ignoredDirectories = new Set([
 const triggerImportPattern = /@trigger\.dev\//u;
 const allowedTriggerProviderSuffixes = [
   "packages/execution/src/providers/trigger.provider.ts",
+  "packages/execution/src/providers/trigger-worker-bootstrap.ts",
+  "packages/execution/src/trigger/tasks.ts",
   "packages/execution/trigger.config.ts",
 ] as const;
 

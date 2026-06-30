@@ -4,6 +4,7 @@ import {
   API_ERROR_CODES,
   API_ERROR_DEFINITIONS,
   projectProblemDetailClass,
+  projectProblemDetailEnvelopeFields,
 } from "@/server/api/contracts/api-error.contract";
 import {
   CORRELATION_ID_HEADER,
@@ -45,6 +46,13 @@ describe("API envelope", () => {
     expect(envelope.error.category).toBe("validation");
     expect(envelope.error.retryable).toBe(false);
     expect(envelope.error.correlationId).toBe(meta.correlationId);
+    expect(envelope.error.type).toBe(
+      "https://afenda.dev/problems/validation_failed"
+    );
+    expect(envelope.error.title).toBe("Request validation failed.");
+    expect(envelope.error.status).toBe(400);
+    expect(envelope.error.detail).toBe("Request validation failed.");
+    expect(envelope.error.instance).toBe(meta.correlationId);
     expect(envelope.meta).toEqual(meta);
     expect(Object.keys(envelope)).toEqual(["ok", "error", "meta"]);
   });
@@ -78,12 +86,19 @@ describe("API error taxonomy", () => {
   it("projects ProblemDetail-class fields for every governed error code", () => {
     for (const code of API_ERROR_CODES) {
       const projection = projectProblemDetailClass(code);
+      const envelope = projectProblemDetailEnvelopeFields(
+        code,
+        "Example message",
+        "corr-example"
+      );
       const definition = API_ERROR_DEFINITIONS[code];
 
       expect(projection.status).toBe(definition.httpStatus);
       expect(projection.title).toBe(definition.publicMessage);
       expect(projection.type).toBe(`https://afenda.dev/problems/${code}`);
       expect(projection.status).toBeGreaterThanOrEqual(400);
+      expect(envelope.detail).toBe("Example message");
+      expect(envelope.instance).toBe("corr-example");
     }
   });
 

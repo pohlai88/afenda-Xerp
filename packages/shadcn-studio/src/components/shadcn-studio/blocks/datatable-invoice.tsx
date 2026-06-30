@@ -34,7 +34,7 @@ import {
 } from "lucide-react";
 import { useId, useMemo, useState } from "react";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../contracts/block-slot-dom-marker.contract.js";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -108,9 +108,9 @@ const columns: ColumnDef<Item>[] = [
     header: ({ table }) => (
       <Checkbox
         aria-label="Select all"
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
+        checked={table.getIsAllPageRowsSelected()}
+        indeterminate={
+          table.getIsSomePageRowsSelected() && !table.getIsAllPageRowsSelected()
         }
         onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
       />
@@ -249,20 +249,16 @@ const columns: ColumnDef<Item>[] = [
         className="flex items-center justify-center gap-1"
       >
         <Tooltip>
-          <TooltipTrigger asChild>
-            <Button aria-label="Delete item" size="icon" variant="ghost">
-              <Trash2Icon className="size-4.5" />
-            </Button>
+          <TooltipTrigger render={<Button aria-label="Delete item" size="icon" variant="ghost" />}>
+            <Trash2Icon className="size-4.5" />
           </TooltipTrigger>
           <TooltipContent>
             <p>Delete</p>
           </TooltipContent>
         </Tooltip>
         <Tooltip>
-          <TooltipTrigger asChild>
-            <Button aria-label="View item" size="icon" variant="ghost">
-              <EyeIcon className="size-4.5" />
-            </Button>
+          <TooltipTrigger render={<Button aria-label="View item" size="icon" variant="ghost" />}>
+            <EyeIcon className="size-4.5" />
           </TooltipTrigger>
           <TooltipContent>
             <p>View</p>
@@ -614,10 +610,10 @@ function Filter({ column }: { column: Column<any, unknown> }) {
 function RowActions() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button aria-label="Edit item" size="icon" variant="ghost">
-          <EllipsisVerticalIcon aria-hidden="true" className="size-4.5" />
-        </Button>
+      <DropdownMenuTrigger
+        render={<Button aria-label="Edit item" size="icon" variant="ghost" />}
+      >
+        <EllipsisVerticalIcon aria-hidden="true" className="size-4.5" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         <DropdownMenuGroup>

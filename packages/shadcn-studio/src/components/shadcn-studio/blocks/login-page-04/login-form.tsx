@@ -3,7 +3,7 @@
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState } from "react";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../../contracts/block-slot-dom-marker.contract.js";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";

@@ -1,3 +1,4 @@
-# Biome/Ultracite owns all supported code and config. Prettier is MDX-only.
+# Biome/Ultracite owns JS/TS/JSON. Prettier owns MDX + Tailwind v4 CSS only.
 *
 !**/*.mdx
+!**/*.css

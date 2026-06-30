@@ -135,8 +135,10 @@ export function collectErpApiConsumerImpactSyncViolations(input: {
     }
 
     try {
-      const ownership = assertActiveOperationOwnership(contract);
-      assertConsumerImpactOwnerAligned(contract, ownership);
+      if (contract.lifecycle === "active" || contract.lifecycle === "planned") {
+        const ownership = assertActiveOperationOwnership(contract);
+        assertConsumerImpactOwnerAligned(contract, ownership);
+      }
     } catch (error) {
       violations.push(
         error instanceof Error

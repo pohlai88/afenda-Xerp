@@ -7,14 +7,90 @@
  */
 
 import { spawnSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
   ""
 );
+
+const SHADCN_STUDIO_DIST_ROOT = join(repoRoot, "packages/shadcn-studio/dist");
+
+const UNRESOLVED_DIST_ALIAS_PATTERN = /from\s+["']@\//;
+
+function collectJsFiles(directory: string, files: string[] = []): string[] {
+  if (!existsSync(directory)) {
+    return files;
+  }
+
+  for (const entry of readdirSync(directory)) {
+    const absolutePath = join(directory, entry);
+    const stats = statSync(absolutePath);
+
+    if (stats.isDirectory()) {
+      collectJsFiles(absolutePath, files);
+      continue;
+    }
+
+    if (entry.endsWith(".js")) {
+      files.push(absolutePath);
+    }
+  }
+
+  return files;
+}
+
+function findUnresolvedShadcnStudioDistAliases(): string[] {
+  const hits: string[] = [];
+
+  for (const filePath of collectJsFiles(SHADCN_STUDIO_DIST_ROOT)) {
+    const source = readFileSync(filePath, "utf8");
+
+    if (UNRESOLVED_DIST_ALIAS_PATTERN.test(source)) {
+      hits.push(relative(repoRoot, filePath).replace(/\\/g, "/"));
+    }
+  }
+
+  return hits;
+}
+
+function ensureShadcnStudioDistReady(): {
+  readonly ok: boolean;
+  readonly message?: string;
+} {
+  let unresolved = findUnresolvedShadcnStudioDistAliases();
+
+  if (unresolved.length === 0) {
+    return { ok: true };
+  }
+
+  const build = spawnSync(
+    "pnpm",
+    ["--filter", "@afenda/shadcn-studio", "build"],
+    { cwd: repoRoot, stdio: "inherit", shell: true }
+  );
+
+  if (build.status !== 0) {
+    return {
+      ok: false,
+      message:
+        "pnpm --filter @afenda/shadcn-studio build failed — dist must resolve @/* path aliases via tsc-alias",
+    };
+  }
+
+  unresolved = findUnresolvedShadcnStudioDistAliases();
+
+  if (unresolved.length === 0) {
+    return { ok: true };
+  }
+
+  return {
+    ok: false,
+    message: `Unresolved @/* imports remain in shadcn-studio dist: ${unresolved.slice(0, 5).join(", ")}${unresolved.length > 5 ? " …" : ""}`,
+  };
+}
 
 const erpSrcRoot = join(repoRoot, "apps/erp/src");
 const registryPath = join(
@@ -260,6 +336,14 @@ if (isDirectRun) {
         `[${violation.rule}] ${violation.file}\n  ${violation.message}\n`
       );
     }
+    process.exit(1);
+  }
+
+  const distReady = ensureShadcnStudioDistReady();
+
+  if (!distReady.ok) {
+    process.stderr.write("erp metadata PAS-006 consumer: FAIL\n");
+    process.stderr.write(`[shadcn-studio-dist-aliases] ${distReady.message}\n`);
     process.exit(1);
   }
 

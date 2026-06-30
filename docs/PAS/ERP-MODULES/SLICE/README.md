@@ -32,9 +32,10 @@ Platform foundation slices (PAS-001C) and LoB exemplar slices under **ERP-MODULE
 | ERP-PROC-OP-004 | [erp-proc-op-004-permission-binding-declaration.md](erp-proc-op-004-permission-binding-declaration.md) | **Delivered** 2026-06-30 | Permission binding declared — gap report §D closed (no PERMISSION_REGISTRY wiring) |
 | ERP-PROC-OP-005 | [erp-proc-op-005-context-spine-consumer.md](erp-proc-op-005-context-spine-consumer.md) | **Delivered** 2026-06-30 | Context spine consumer attested — foundation readiness route |
 | ERP-PROC-OP-006 | [erp-proc-op-006-audit-outbox-declaration.md](erp-proc-op-006-audit-outbox-declaration.md) | **Delivered** 2026-06-30 | Audit/outbox declared — 13 actions · deferred outbox entries |
-| ERP-PROC-OP-007+ | TBD per gap report | Not started | Permission enforcement · PAS-006 UI |
+| ERP-PROC-OP-007 | [erp-proc-op-007-pas006-procurement-ui.md](erp-proc-op-007-pas006-procurement-ui.md) | **Delivered** 2026-06-30 | PAS-006 requisitions + PO list scaffold (fixture-backed) |
+| ERP-PROC-OP-008+ | TBD per gap report | Not started | Permission enforcement · DB runtime |
 
-**Next slice:** **TBD** — ERP-PROC-OP-007+ per gap report (permission enforcement · PAS-006 UI).
+**Next slice:** **ERP-PROC-OP-008+** — permission enforcement · database runtime per gap report.
 
 ## Build order rule
 

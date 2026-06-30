@@ -31,6 +31,7 @@
     ".storybook/**/*.tsx",
     "./stories/**/*.ts",
     "./stories/**/*.tsx",
+    "../../packages/shadcn-studio/src/_storybook/docs/**/*.mdx",
     "vitest.storybook.config.ts",
     "../../packages/testing/src/mocks/*.tsx",
     "../../packages/testing/src/mocks/*.ts",

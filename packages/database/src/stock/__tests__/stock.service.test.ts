@@ -23,6 +23,7 @@ vi.mock("../../audit/audit.writer.js", () => ({
 interface MockSelectChain {
   from: ReturnType<typeof vi.fn>;
   limit: ReturnType<typeof vi.fn>;
+  orderBy: ReturnType<typeof vi.fn>;
   where: ReturnType<typeof vi.fn>;
 }
 
@@ -30,11 +31,13 @@ function createSelectChain(result: unknown[]): MockSelectChain {
   const chain: MockSelectChain = {
     from: vi.fn(),
     limit: vi.fn(),
+    orderBy: vi.fn(),
     where: vi.fn(),
   };
 
   chain.from.mockReturnValue(chain);
   chain.where.mockReturnValue(chain);
+  chain.orderBy.mockReturnValue(chain);
   chain.limit.mockResolvedValue(result);
 
   return chain;
@@ -62,6 +65,7 @@ describe("stock.service", () => {
         productId: "product-1",
         warehouseId: "warehouse-1",
         quantityOnHand: "12.0000",
+        id: "stock-level-1",
       },
     ]);
 
@@ -74,15 +78,19 @@ describe("stock.service", () => {
         tenantId: "tenant-1",
         companyId: "company-1",
       })
-    ).resolves.toEqual([
-      {
-        tenantId: "tenant-1",
-        companyId: "company-1",
-        productId: "product-1",
-        warehouseId: "warehouse-1",
-        quantityOnHand: "12.0000",
-      },
-    ]);
+    ).resolves.toEqual({
+      hasMore: false,
+      items: [
+        {
+          tenantId: "tenant-1",
+          companyId: "company-1",
+          productId: "product-1",
+          warehouseId: "warehouse-1",
+          quantityOnHand: "12.0000",
+        },
+      ],
+      nextCursor: null,
+    });
   });
 
   it("records a receipt movement and returns resulting quantity on hand", async () => {

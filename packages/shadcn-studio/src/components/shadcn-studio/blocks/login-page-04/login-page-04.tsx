@@ -1,4 +1,4 @@
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../../contracts/block-slot-dom-marker.contract.js";
 import LoginForm from "@/components/shadcn-studio/blocks/login-page-04/login-form";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -82,11 +82,11 @@ const Login = () => {
 
           {/* Quick Login Buttons */}
           <div className="flex flex-col gap-3">
-            <Button asChild className="grow" variant="outline">
-              <a href="#">Login with Google</a>
+            <Button className="grow" render={<a href="#" />} variant="outline">
+              Login with Google
             </Button>
-            <Button asChild className="grow" variant="outline">
-              <a href="#">Login with Facebook</a>
+            <Button className="grow" render={<a href="#" />} variant="outline">
+              Login with Facebook
             </Button>
           </div>
 

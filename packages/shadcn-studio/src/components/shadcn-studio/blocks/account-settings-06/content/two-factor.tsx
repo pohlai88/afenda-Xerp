@@ -1,6 +1,6 @@
 import { CircleAlertIcon } from "lucide-react";
 import VerifyDialog from "@/components/shadcn-studio/blocks/dashboard-dialog-09/dialog-verify";
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../../../contracts/block-slot-dom-marker.contract.js";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 

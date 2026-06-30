@@ -31,13 +31,16 @@ describe("procurement.context-spine-consumer.contract (ERP-PROC-OP-005)", () => 
     );
   });
 
-  it("declares foundation readiness route on appIngress owner", () => {
+  it("declares foundation readiness and PAS-006 list routes on appIngress owner", () => {
     expect(PROCUREMENT_FOUNDATION_READINESS_ROUTE.routePattern).toBe(
       "/modules/procurement/readiness"
     );
     expect(PROCUREMENT_FOUNDATION_READINESS_ROUTE.delegate).toBe(
       "loadProtectedRequestOperatingContext"
     );
+    expect(
+      PROCUREMENT_CONTEXT_SPINE_CONSUMER_CONTRACT.protectedConsumerRoutes
+    ).toHaveLength(3);
     expect(PROCUREMENT_OWNERSHIP_CONTRACT.appIngress).toBe("apps/erp");
   });
 });

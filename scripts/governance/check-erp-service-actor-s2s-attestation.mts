@@ -41,6 +41,7 @@ const REQUIRED_S2S_MARKERS: readonly {
     markers: [
       "parseAuthActorIdentity",
       "parseServiceActorIdentityFromRequestHeaders",
+      "verifyServiceActorS2sBearerToken",
     ],
   },
   {
@@ -49,6 +50,10 @@ const REQUIRED_S2S_MARKERS: readonly {
       "parseServiceActorIdentityFromRequestHeaders",
       "resolveApiRouteAuthActor",
     ],
+  },
+  {
+    file: "lib/auth/verify-service-actor-s2s-token.server.ts",
+    markers: ["verifyServiceActorS2sBearerToken", "timingSafeEqual"],
   },
   {
     file: "lib/api/resolve-api-route-operating-context.ts",
@@ -142,7 +147,7 @@ export function checkServiceActorS2sAttestation(): ServiceActorS2sAttestationVio
         rule: "handler-auth-policy-enforcement",
         file: handlerPath,
         message:
-          "create-api-handler.ts must enforce assertApiRouteAuthPolicy (ADR-0034).",
+          "create-api-handler.ts must enforce assertApiRouteAuthPolicy (ADR-0035).",
       });
     }
   }

@@ -88,9 +88,19 @@ function collectApiMutationAuditViolations(
   return violations;
 }
 
+function hasAnyServerActionModulesOnDisk(repoRoot: string): boolean {
+  return SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES.some((entry) =>
+    existsSync(join(repoRoot, entry.actionModule))
+  );
+}
+
 function collectServerActionAuditViolations(
   repoRoot: string
 ): SystemAdminMutationAuditViolation[] {
+  if (!hasAnyServerActionModulesOnDisk(repoRoot)) {
+    return [];
+  }
+
   const violations: SystemAdminMutationAuditViolation[] = [];
 
   for (const entry of SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES) {

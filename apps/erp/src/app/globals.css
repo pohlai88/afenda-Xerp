@@ -1,61 +1,13 @@
 /**
- * apps/erp — global CSS composition entry (PAS-006 / ADR-0027).
- *
- *   1. shadcn-studio.css  — theme + @custom-variant (unlayered)
- *   2. tailwindcss
- *   3. shadcn/tailwind.css
+ * apps/erp — CSS composition entry (AdminCN / shadcn studio SSOT).
+ * Import order matches _reference/.../src/app/globals.css.
+ * Theme + polish: @afenda/shadcn-studio/shadcn-studio.css
  */
 
-@layer theme, base, components, utilities;
-
-@import "@afenda/shadcn-studio/shadcn-studio.css";
-
 @import "tailwindcss";
-
+@import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "@afenda/shadcn-studio/shadcn-studio.css";
 
 @source "../**/*.{ts,tsx}";
 @source "../../../../packages/shadcn-studio/src/**/*.{ts,tsx}";
-
-@layer components {
-  .erp-route-error-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100dvh;
-    padding: 1.5rem;
-    background: var(--background);
-  }
-
-  .erp-route-error__panel {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: center;
-    width: min(100%, 28rem);
-    padding: 2rem;
-    text-align: center;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-  }
-
-  .erp-route-error__title {
-    margin: 0;
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--foreground);
-  }
-
-  .erp-route-error__description {
-    margin: 0;
-    font-size: 0.9375rem;
-    line-height: 1.55;
-    color: var(--muted-foreground);
-  }
-
-  .erp-route-error__actions {
-    padding-block-start: 0.25rem;
-  }
-}

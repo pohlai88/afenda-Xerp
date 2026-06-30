@@ -6,7 +6,7 @@
 | **Date** | 2026-06-30 |
 | **Owner** | Architecture Authority · Platform API Contract domain |
 | **Supersedes** | [ADR-0033](ADR-0033-service-actor-s2s-token-verification-deferred.md) |
-| **Superseded by** | — (future ADR required when first `service-token-required` route ships with crypto verification) |
+| **Superseded by** | [ADR-0035](ADR-0035-internal-v1-service-actor-bearer-verification.md) (machine S2S policy) |
 
 ---
 

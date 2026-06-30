@@ -7,7 +7,7 @@ import {
 import {
   parseUserLocalizationPreferencesAtIngress,
   type UserLocalizationPreferencesWire,
-} from "./parse-localization-context.server.js";
+} from "./parse-localization-context.server";
 
 export type { UserLocalizationPreferencesWire };
 

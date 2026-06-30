@@ -15,6 +15,7 @@ export default defineProject({
     include: [
       "governance/__tests__/**/*.{test,spec}.{ts,tsx}",
       "api-contract/__tests__/**/*.{test,spec}.{ts,tsx}",
+      "storybook/__tests__/**/*.{test,spec}.{ts,tsx}",
     ],
   },
 });

@@ -52,15 +52,13 @@ export function usePagination({
   const pages = calculatePaginationRange();
 
   // Determine ellipsis display based on the actual pages shown
-  const firstPage = pages[0];
-  const lastPage = pages.at(-1);
-  const showLeftEllipsis =
-    firstPage !== undefined && firstPage > 1 && firstPage > 2;
+  const firstPage = pages[0] ?? 0;
+  const lastPage = pages.at(-1) ?? 0;
+
+  const showLeftEllipsis = pages.length > 0 && firstPage > 1 && firstPage > 2;
 
   const showRightEllipsis =
-    lastPage !== undefined &&
-    lastPage < totalPages &&
-    lastPage < totalPages - 1;
+    pages.length > 0 && lastPage < totalPages && lastPage < totalPages - 1;
 
   return {
     pages,

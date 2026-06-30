@@ -4,6 +4,7 @@ import {
   PROCUREMENT_CONTEXT_SPINE_CONSUMER_CONTRACT,
   PROCUREMENT_OPERATIONAL_SCAFFOLD,
   PROCUREMENT_OWNERSHIP_ATTESTATION,
+  PROCUREMENT_PAS006_UI_ATTESTATION,
   PROCUREMENT_PERMISSION_BINDING_ATTESTATION,
 } from "@afenda/erp-modules/procurement";
 
@@ -56,6 +57,11 @@ const FOUNDATION_ATTESTATION_ROWS = [
     label: "Audit / outbox declaration",
     sliceId: PROCUREMENT_AUDIT_OUTBOX_ATTESTATION.sliceId,
     status: PROCUREMENT_AUDIT_OUTBOX_ATTESTATION.status,
+  },
+  {
+    label: "PAS-006 UI scaffold",
+    sliceId: PROCUREMENT_PAS006_UI_ATTESTATION.sliceId,
+    status: PROCUREMENT_PAS006_UI_ATTESTATION.status,
   },
 ] as const satisfies readonly ProcurementFoundationReadinessAttestationRow[];
 

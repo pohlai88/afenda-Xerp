@@ -5,7 +5,7 @@ import {
   type WireRoundingModeVocabulary,
 } from "@afenda/kernel/context";
 
-import { parseCompanyFormatPrecisionSettingsAtIngress } from "./parse-format-precision.server.js";
+import { parseCompanyFormatPrecisionSettingsAtIngress } from "./parse-format-precision.server";
 
 export { parseCompanyFormatPrecisionSettingsAtIngress };
 

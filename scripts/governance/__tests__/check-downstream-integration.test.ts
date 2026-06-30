@@ -24,6 +24,7 @@ describe("check-downstream-integration", () => {
 
     expect(globals).toContain("@afenda/shadcn-studio/shadcn-studio.css");
     expect(globals).toContain('@import "tailwindcss"');
+    expect(globals).toContain('@import "tw-animate-css"');
     expect(globals).toContain('@import "shadcn/tailwind.css"');
     expect(globals).not.toContain("@afenda/ui/");
     expect(globals).not.toContain("@afenda/appshell/");

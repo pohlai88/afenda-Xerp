@@ -1,0 +1,19 @@
+---
+title: "OpenAPI reference UI"
+full: true
+_openapi:
+  preload:
+    - "./openapi/afenda-internal-v1.openapi.json"
+  method: GET
+---
+
+export default function Layout(props) {
+  const { APIPage, OpenAPIPage } = props.components ?? {};
+  const Comp = OpenAPIPage ?? APIPage;
+  return (
+    <>
+      {props.children}
+      <Comp document="./openapi/afenda-internal-v1.openapi.json" operations={[{"path":"/docs","method":"get"}]} />
+    </>
+  );
+}

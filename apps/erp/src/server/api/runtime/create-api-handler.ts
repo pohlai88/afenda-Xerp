@@ -1,5 +1,4 @@
 import { parseOptionalUserId } from "@afenda/kernel";
-import { headers } from "next/headers";
 import type { ApiRouteAuthActor } from "@/lib/auth/resolve-api-route-auth-actor.server";
 import { resolveApiRouteAuthActor } from "@/lib/auth/resolve-api-route-auth-actor.server";
 import { hasServiceActorIngressHeaders } from "@/lib/auth/resolve-service-actor.server";
@@ -14,11 +13,9 @@ import {
   requiresSessionAuth,
 } from "../contracts/auth-policy.contract";
 import { acceptsIdempotencyKey } from "../contracts/idempotency.contract";
+import { parseListQuery } from "../contracts/list-query.contract";
 import type { PaginationMeta } from "../contracts/pagination.contract";
-import {
-  mergePaginationIntoMeta,
-  parsePaginationQuery,
-} from "../contracts/pagination.contract";
+import { mergePaginationIntoMeta } from "../contracts/pagination.contract";
 import { createRequestId, resolveCorrelationId } from "./api-correlation";
 import {
   mapUnknownErrorToApiCode,
@@ -31,7 +28,8 @@ import {
   emitApiDeniedAuditEvidence,
 } from "./api-handler-audit";
 import { createApiHandlerLogger, logApiRequest } from "./api-handler-logging";
-import { assertRateLimitAllowed } from "./api-rate-limit";
+import { applyLifecycleResponseHeaders } from "./api-lifecycle-headers";
+import { consumeRateLimitForRequest } from "./api-rate-limit";
 import {
   type ApiRequestContext,
   assertRoutePermission,
@@ -46,6 +44,7 @@ import {
   readJsonBody,
 } from "./api-validation";
 import {
+  computeIdempotencyRequestFingerprint,
   readCachedIdempotentResponse,
   recordIdempotentResponse,
   resolveRequestIdempotencyKey,
@@ -67,14 +66,18 @@ function isPaginatedApiHandlerResult<TResponse>(
   );
 }
 
+function isRawHandlerResponse(result: unknown): result is Response {
+  return result instanceof Response;
+}
+
 const SERVICE_ACTOR_ACCEPTING_AUTH_POLICIES = new Set<ApiAuthPolicy>([
   "service-token-required",
   "internal-only",
 ]);
 
 /**
- * ADR-0034 — enforce contract authPolicy before body parse / handler.
- * Session-only production: reject forged S2S headers on session/public routes.
+ * ADR-0035 — enforce contract authPolicy before body parse / handler.
+ * Reject unverified S2S headers on session/public routes; require verified service actor on service-token routes.
  */
 export function assertApiRouteAuthPolicy(input: {
   readonly authActor: ApiRouteAuthActor | null;
@@ -93,11 +96,17 @@ export function assertApiRouteAuthPolicy(input: {
     );
   }
 
-  if (authPolicy === "service-token-required") {
-    throw new ApiRouteError(
-      "unauthenticated",
-      "Service-token routes are not enabled until token verification is implemented."
-    );
+  if (
+    authPolicy === "service-token-required" ||
+    authPolicy === "internal-only"
+  ) {
+    if (input.authActor?.kind !== "service") {
+      throw new ApiRouteError(
+        "unauthenticated",
+        "A verified service actor is required for this operation."
+      );
+    }
+    return;
   }
 
   if (requiresSessionAuth(authPolicy) && input.authActor?.kind !== "human") {
@@ -194,12 +203,32 @@ function logHandlerFailure(input: {
   }
 }
 
+function shouldParseListQuery(
+  contract: ApiRouteContract<unknown, unknown>
+): boolean {
+  return (
+    contract.listQuery !== undefined || contract.pagination?.mode === "cursor"
+  );
+}
+
+function resolveListQueryOptions(
+  contract: ApiRouteContract<unknown, unknown>
+): {
+  readonly allowedFilterFields: readonly string[];
+  readonly allowedSortFields: readonly string[];
+} {
+  return {
+    allowedFilterFields: contract.listQuery?.allowedFilterFields ?? [],
+    allowedSortFields: contract.listQuery?.allowedSortFields ?? [],
+  };
+}
+
 async function executeHandlerBody<TRequest, TResponse>(input: {
   readonly config: {
     readonly contract: ApiRouteContract<TRequest, TResponse>;
     readonly handler: (
       context: ApiRequestContext<TRequest>
-    ) => Promise<TResponse | PaginatedApiHandlerResult<TResponse>>;
+    ) => Promise<TResponse | PaginatedApiHandlerResult<TResponse> | Response>;
     readonly resolveSuccessStatus?: (data: TResponse) => number;
   };
   readonly correlationId: string;
@@ -213,7 +242,7 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
   readonly requestId: string;
   readonly startedAt: number;
 }): Promise<Response> {
-  const requestHeaders = await headers();
+  const requestHeaders = input.request.headers;
   const authActor = await resolveApiRouteAuthActor(requestHeaders);
 
   assertApiRouteAuthPolicy({
@@ -223,6 +252,10 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
   });
 
   const session = authActor?.kind === "human" ? authActor.session : null;
+  const userId =
+    authActor?.kind === "human"
+      ? parseOptionalUserId(session?.user.userId ?? null)
+      : null;
 
   let requestBody: TRequest;
   if (
@@ -241,22 +274,31 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
     );
   }
 
-  const userId = parseOptionalUserId(session?.user.userId ?? null);
   const provisionalExecution = createServerExecutionContext({
     actorId: userId,
     correlationId: input.correlationId,
     source: "api",
   });
 
+  const searchParams = new URL(input.request.url).searchParams;
+  const listQueryOptions = resolveListQueryOptions(input.config.contract);
+  const parsesListQuery = shouldParseListQuery(input.config.contract);
+  const parsedListQuery = parsesListQuery
+    ? parseListQuery(searchParams, listQueryOptions)
+    : undefined;
+
   let context = createApiRequestContext({
     contract: input.config.contract,
     correlationId: input.correlationId,
     execution: provisionalExecution,
-    ...(input.config.contract.pagination?.mode === "cursor"
+    ...(parsedListQuery === undefined ? {} : { listQuery: parsedListQuery }),
+    ...(input.config.contract.pagination?.mode === "cursor" &&
+    parsedListQuery !== undefined
       ? {
-          paginationQuery: parsePaginationQuery(
-            new URL(input.request.url).searchParams
-          ),
+          paginationQuery: {
+            cursor: parsedListQuery.cursor,
+            limit: parsedListQuery.limit,
+          },
         }
       : {}),
     request: input.request,
@@ -271,12 +313,46 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
     input.config.contract.permission
   )) as ApiRequestContext<TRequest>;
 
-  await assertRateLimitAllowed({
+  const rateLimitContext = {
     contractId: input.config.contract.id,
     policy: input.config.contract.rateLimitPolicy,
     requestId: input.requestId,
-    userId: context.userId?.toString() ?? null,
-  });
+    userId:
+      authActor?.kind === "service"
+        ? authActor.identity.authSubjectId
+        : (context.userId?.toString() ?? null),
+  };
+
+  const rateLimitSnapshot = await consumeRateLimitForRequest(rateLimitContext);
+  if (rateLimitSnapshot !== null && !rateLimitSnapshot.allowed) {
+    const response = jsonErrorResponse(
+      "rate_limited",
+      "Too many requests. Please retry later.",
+      input.meta,
+      rateLimitSnapshot.retryAfterSeconds === null
+        ? undefined
+        : { retryAfterSeconds: rateLimitSnapshot.retryAfterSeconds },
+      rateLimitSnapshot
+    );
+
+    logHandlerFailure({
+      code: "rate_limited",
+      contractId: input.config.contract.id,
+      correlationId: input.correlationId,
+      durationMs: Date.now() - input.startedAt,
+      error: new ApiRouteError(
+        "rate_limited",
+        "Too many requests. Please retry later."
+      ),
+      logger: input.logger,
+      method: input.request.method,
+      path: input.config.contract.path,
+      requestId: input.requestId,
+      statusCode: response.status,
+    });
+
+    return applyLifecycleResponseHeaders(response, input.config.contract);
+  }
 
   const idempotencyKey = acceptsIdempotencyKey(
     input.config.contract.idempotency
@@ -288,9 +364,13 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
     : null;
 
   if (idempotencyKey !== null) {
+    const requestFingerprint = computeIdempotencyRequestFingerprint(
+      context.requestBody
+    );
     const cached = await readCachedIdempotentResponse({
       contractId: input.config.contract.id,
       idempotencyKey,
+      requestFingerprint,
       responseSchema: input.config.contract.responseSchema,
       tenantId: context.execution.tenantId,
       userId: context.userId,
@@ -301,7 +381,8 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
         cached.data,
         input.meta,
         input.config.contract.cache,
-        cached.statusCode
+        cached.statusCode,
+        rateLimitSnapshot
       );
       logHandlerSuccess({
         contractId: input.config.contract.id,
@@ -313,7 +394,7 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
         requestId: input.requestId,
         statusCode: response.status,
       });
-      return response;
+      return applyLifecycleResponseHeaders(response, input.config.contract);
     }
   }
 
@@ -332,6 +413,20 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
         })
       ).result
     : await input.config.handler(context);
+
+  if (isRawHandlerResponse(result)) {
+    logHandlerSuccess({
+      contractId: input.config.contract.id,
+      correlationId: input.correlationId,
+      durationMs: Date.now() - input.startedAt,
+      logger: input.logger,
+      method: input.request.method,
+      path: input.config.contract.path,
+      requestId: input.requestId,
+      statusCode: result.status,
+    });
+    return applyLifecycleResponseHeaders(result, input.config.contract);
+  }
 
   const paginatedResult = isPaginatedApiHandlerResult(result) ? result : null;
   const dto = parseResponseData(
@@ -354,6 +449,9 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
       },
       {
         data: dto,
+        requestFingerprint: computeIdempotencyRequestFingerprint(
+          context.requestBody
+        ),
         statusCode: successStatus,
       }
     );
@@ -370,7 +468,8 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
     dto,
     responseMeta,
     input.config.contract.cache,
-    successStatus
+    successStatus,
+    rateLimitSnapshot
   );
 
   logHandlerSuccess({
@@ -384,14 +483,14 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
     statusCode: response.status,
   });
 
-  return response;
+  return applyLifecycleResponseHeaders(response, input.config.contract);
 }
 
 export function createApiHandler<TRequest, TResponse>(config: {
   readonly contract: ApiRouteContract<TRequest, TResponse>;
   readonly handler: (
     context: ApiRequestContext<TRequest>
-  ) => Promise<TResponse | PaginatedApiHandlerResult<TResponse>>;
+  ) => Promise<TResponse | PaginatedApiHandlerResult<TResponse> | Response>;
   readonly resolveSuccessStatus?: (data: TResponse) => number;
 }): (request: Request) => Promise<Response> {
   return async (request: Request): Promise<Response> => {
@@ -421,19 +520,22 @@ export function createApiHandler<TRequest, TResponse>(config: {
         requestId,
         statusCode: 405,
       });
-      return response;
+      return applyLifecycleResponseHeaders(response, config.contract);
     }
 
     try {
-      return await executeHandlerBody({
-        config,
-        correlationId,
-        logger,
-        meta,
-        request,
-        requestId,
-        startedAt,
-      });
+      return applyLifecycleResponseHeaders(
+        await executeHandlerBody({
+          config,
+          correlationId,
+          logger,
+          meta,
+          request,
+          requestId,
+          startedAt,
+        }),
+        config.contract
+      );
     } catch (error: unknown) {
       const code = mapUnknownErrorToApiCode(error);
       const message = resolvePublicErrorMessage(code, error);
@@ -444,8 +546,7 @@ export function createApiHandler<TRequest, TResponse>(config: {
         (code === "forbidden" || code === "unauthenticated") &&
         config.contract.audit?.enabled
       ) {
-        const requestHeaders = await headers();
-        const authActor = await resolveApiRouteAuthActor(requestHeaders);
+        const authActor = await resolveApiRouteAuthActor(request.headers);
         const deniedUserId =
           authActor?.kind === "human"
             ? (authActor.session.user.userId ?? null)
@@ -475,7 +576,7 @@ export function createApiHandler<TRequest, TResponse>(config: {
         statusCode: response.status,
       });
 
-      return response;
+      return applyLifecycleResponseHeaders(response, config.contract);
     }
   };
 }

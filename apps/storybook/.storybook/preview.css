@@ -1,15 +1,11 @@
 /**
- * Storybook CSS entry — mirrors apps/erp/src/app/globals.css (PAS-006 / ADR-0027).
- *
- * shadcn-studio @custom-variant must stay unlayered (Tailwind v4).
+ * Storybook CSS entry — mirrors apps/erp/src/app/globals.css (AdminCN SSOT).
  */
-@layer theme, base, components, utilities;
-
-@import "@afenda/shadcn-studio/shadcn-studio.css";
 
 @import "tailwindcss";
-
+@import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "@afenda/shadcn-studio/shadcn-studio.css";
 
 @source "../../../packages/shadcn-studio/src/**/*.{ts,tsx}";
 @source "../stories/**/*.{ts,tsx}";
@@ -20,6 +16,4 @@ body,
 #storybook-root,
 #storybook-docs {
   min-height: 100%;
-  color: var(--foreground);
-  background-color: var(--background);
 }

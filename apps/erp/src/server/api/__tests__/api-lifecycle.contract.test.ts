@@ -9,7 +9,9 @@ import {
   mapRouteLifecycleToFamily,
   resolveBreakingChangeClass,
 } from "@/server/api/contracts/core";
+import { buildBreakingChangeRegistryDocument } from "@/server/api/contracts/core/api-lifecycle.contract";
 import { isMutationMethod } from "@/server/api/contracts/method-policy.contract";
+import { clientErrorPostContract } from "@/server/api/contracts/observability/client-error.contract";
 
 describe("ApiFamilyLifecycleStatus", () => {
   it("maps route lifecycle statuses to family vocabulary", () => {
@@ -74,5 +76,32 @@ describe("ApiLifecycleMigrationMetadata", () => {
         stability: "deprecated",
       })
     ).not.toThrow();
+  });
+
+  it("registers deprecated lifecycle drill on client-error POST", () => {
+    const declaration = extractOperationLifecycleDeclaration(
+      clientErrorPostContract
+    );
+
+    expect(clientErrorPostContract.lifecycle).toBe("deprecated");
+    expect(clientErrorPostContract.lifecycleMigration).toEqual({
+      replacementOperationId: "internal.v1.observability.client-errors.post",
+      sunsetAt: "2027-06-30",
+    });
+    expect(declaration.breakingChange).toBe("deprecated");
+    expect(declaration.familyLifecycle).toBe("deprecated");
+  });
+
+  it("keeps breaking-change registry aligned with deprecated operations", () => {
+    const document = buildBreakingChangeRegistryDocument(API_CONTRACTS);
+    const clientErrorEntry = document.operations.find(
+      (operation) => operation.id === clientErrorPostContract.id
+    );
+
+    expect(clientErrorEntry).toMatchObject({
+      breakingChangeClass: "deprecated",
+      lifecycle: "deprecated",
+      stability: "deprecated",
+    });
   });
 });

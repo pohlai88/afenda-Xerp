@@ -3,6 +3,7 @@ import type { ZodType } from "zod";
 import type { ApiAuthPolicy } from "./auth-policy.contract";
 import type { ApiContextPolicy } from "./context-policy.contract";
 import type { ApiConsumerImpactDeclaration } from "./core/api-consumer-impact.contract";
+import type { ApiLifecycleMigrationMetadata } from "./core/api-lifecycle.contract";
 import type { ApiOperationOwnershipOverride } from "./core/api-ownership.contract";
 import type { ApiRouteLifecycleStatus } from "./lifecycle.contract";
 import type { ApiRateLimitPolicy } from "./rate-limit.contract";
@@ -36,6 +37,11 @@ export interface ApiPaginationPolicy {
   readonly mode: "cursor";
 }
 
+export interface ApiListQueryPolicy {
+  readonly allowedFilterFields: readonly string[];
+  readonly allowedSortFields: readonly string[];
+}
+
 export interface ApiRouteContract<TRequest, TResponse> {
   readonly audit?: ApiAuditPolicy;
   /**
@@ -64,6 +70,8 @@ export interface ApiRouteContract<TRequest, TResponse> {
   readonly id: string;
   readonly idempotency?: ApiIdempotencyPolicy;
   readonly lifecycle: ApiRouteLifecycleStatus;
+  readonly lifecycleMigration?: ApiLifecycleMigrationMetadata;
+  readonly listQuery?: ApiListQueryPolicy;
   readonly method: ApiHttpMethod;
   readonly owner: "apps/erp";
   /**

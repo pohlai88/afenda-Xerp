@@ -1,9 +1,9 @@
 "use client";
 
 import { MessageSquareTextIcon, SettingsIcon } from "lucide-react";
-import { type ReactNode, useState } from "react";
+import { type ReactElement, useState } from "react";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../../contracts/block-slot-dom-marker.contract.js";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,7 +24,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
 type Props = {
-  trigger: ReactNode;
+  trigger: ReactElement;
   defaultOpen?: boolean;
   className?: string;
 };
@@ -92,14 +92,16 @@ const VerifyDialog = ({ defaultOpen = false, trigger, className }: Props) => {
             <Button onClick={handleAuthDialogClose} size="lg">
               Send OTP
             </Button>
-            <DialogClose asChild>
-              <Button
-                className="bg-primary/10 text-primary hover:bg-primary/20"
-                onClick={handleAuthDialogClose}
-                size="lg"
-              >
-                Cancel
-              </Button>
+            <DialogClose
+              render={
+                <Button
+                  className="bg-primary/10 text-primary hover:bg-primary/20"
+                  onClick={handleAuthDialogClose}
+                  size="lg"
+                />
+              }
+            >
+              Cancel
             </DialogClose>
           </DialogFooter>
         </div>
@@ -153,14 +155,16 @@ const VerifyDialog = ({ defaultOpen = false, trigger, className }: Props) => {
           </div>
 
           <DialogFooter className="gap-4">
-            <DialogClose asChild>
-              <Button
-                className="bg-primary/10 text-primary hover:bg-primary/20"
-                onClick={handleAuthDialogClose}
-                size="lg"
-              >
-                Cancel
-              </Button>
+            <DialogClose
+              render={
+                <Button
+                  className="bg-primary/10 text-primary hover:bg-primary/20"
+                  onClick={handleAuthDialogClose}
+                  size="lg"
+                />
+              }
+            >
+              Cancel
             </DialogClose>
             <Button onClick={handleAuthDialogClose} size="lg">
               Submit
@@ -175,9 +179,7 @@ const VerifyDialog = ({ defaultOpen = false, trigger, className }: Props) => {
   return (
     <div>
       <Dialog onOpenChange={setOpen} open={open}>
-        <DialogTrigger asChild onClick={() => setOpen(true)}>
-          {trigger}
-        </DialogTrigger>
+        <DialogTrigger onClick={() => setOpen(true)} render={trigger} />
         <DialogContent
           className={cn(
             "flex flex-col gap-0 p-0 max-sm:max-h-[min(650px,80vh)] sm:max-w-145 [&>[data-slot=dialog-close]>svg]:size-5",
@@ -250,14 +252,16 @@ const VerifyDialog = ({ defaultOpen = false, trigger, className }: Props) => {
                 <Button onClick={handleContinue} size="lg">
                   Continue
                 </Button>
-                <DialogClose asChild>
-                  <Button
-                    className="bg-primary/10 text-primary hover:bg-primary/20"
-                    onClick={handleClose}
-                    size="lg"
-                  >
-                    Cancel
-                  </Button>
+                <DialogClose
+                  render={
+                    <Button
+                      className="bg-primary/10 text-primary hover:bg-primary/20"
+                      onClick={handleClose}
+                      size="lg"
+                    />
+                  }
+                >
+                  Cancel
                 </DialogClose>
               </DialogFooter>
             </div>

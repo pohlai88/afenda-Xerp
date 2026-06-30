@@ -1,4 +1,4 @@
-import { and, eq, sql } from "drizzle-orm";
+import { and, asc, desc, eq, lt, or, type SQL, sql } from "drizzle-orm";
 
 import { insertAuditEvent } from "../audit/audit.writer.js";
 import type { AuditActorType } from "../database.types.js";
@@ -79,6 +79,30 @@ export interface StockMovementMutationResult {
 }
 
 const STOCK_LEVEL_LIST_DEFAULT_LIMIT = 200;
+const STOCK_LEVEL_LIST_MAX_LIMIT = 100;
+
+export interface StockLevelListSortField {
+  readonly direction: "asc" | "desc";
+  readonly field: "productId" | "quantityOnHand" | "updatedAt";
+}
+
+export interface ListStockLevelsByTenantInput {
+  readonly companyId?: string;
+  readonly cursor?: string;
+  readonly filter?: {
+    readonly productId?: string;
+    readonly warehouseId?: string;
+  };
+  readonly limit?: number;
+  readonly sort?: readonly StockLevelListSortField[];
+  readonly tenantId: string;
+}
+
+export interface CursorPaginatedResult<TItem> {
+  readonly hasMore: boolean;
+  readonly items: readonly TItem[];
+  readonly nextCursor: string | null;
+}
 
 function parseStockQuantity(value: string): number {
   const parsed = Number(value);
@@ -225,18 +249,69 @@ async function recordStockAuditEvent(
   );
 }
 
-export async function listStockLevelsByTenant(input: {
-  readonly tenantId: string;
-  readonly companyId?: string;
-  readonly limit?: number;
-}): Promise<readonly StockLevelRecord[]> {
+export async function listStockLevelsByTenant(
+  input: ListStockLevelsByTenantInput
+): Promise<CursorPaginatedResult<StockLevelRecord>> {
   const db = getDb();
-  const limit = input.limit ?? STOCK_LEVEL_LIST_DEFAULT_LIMIT;
+  const limit = Math.min(
+    input.limit ?? STOCK_LEVEL_LIST_DEFAULT_LIMIT,
+    STOCK_LEVEL_LIST_MAX_LIMIT
+  );
+  const fetchLimit = limit + 1;
 
-  const conditions = [eq(stockLevels.tenantId, input.tenantId)];
-  if (input.companyId) {
+  const conditions: SQL[] = [eq(stockLevels.tenantId, input.tenantId)];
+  if (input.companyId !== undefined) {
     conditions.push(eq(stockLevels.companyId, input.companyId));
   }
+
+  if (input.filter?.productId !== undefined) {
+    conditions.push(eq(stockLevels.productId, input.filter.productId));
+  }
+
+  if (input.filter?.warehouseId !== undefined) {
+    conditions.push(eq(stockLevels.warehouseId, input.filter.warehouseId));
+  }
+
+  if (input.cursor !== undefined) {
+    const [cursorRow] = await db
+      .select({
+        id: stockLevels.id,
+        updatedAt: stockLevels.updatedAt,
+      })
+      .from(stockLevels)
+      .where(
+        and(
+          eq(stockLevels.tenantId, input.tenantId),
+          eq(stockLevels.id, input.cursor)
+        )
+      )
+      .limit(1);
+
+    if (cursorRow === undefined) {
+      return {
+        hasMore: false,
+        items: [],
+        nextCursor: null,
+      };
+    }
+
+    conditions.push(
+      or(
+        lt(stockLevels.updatedAt, cursorRow.updatedAt),
+        and(
+          eq(stockLevels.updatedAt, cursorRow.updatedAt),
+          lt(stockLevels.id, cursorRow.id)
+        )
+      ) as SQL
+    );
+  }
+
+  const orderClauses =
+    input.cursor !== undefined ||
+    input.sort === undefined ||
+    input.sort.length === 0
+      ? [desc(stockLevels.updatedAt), desc(stockLevels.id)]
+      : resolveStockLevelOrderClauses(input.sort);
 
   const rows = await db
     .select({
@@ -245,12 +320,55 @@ export async function listStockLevelsByTenant(input: {
       productId: stockLevels.productId,
       warehouseId: stockLevels.warehouseId,
       quantityOnHand: stockLevels.quantityOnHand,
+      id: stockLevels.id,
     })
     .from(stockLevels)
     .where(and(...conditions))
-    .limit(limit);
+    .orderBy(...orderClauses)
+    .limit(fetchLimit);
 
-  return rows.map(mapStockLevelRow);
+  const hasMore = rows.length > limit;
+  const pageRows = hasMore ? rows.slice(0, limit) : rows;
+  const items = pageRows.map((row) =>
+    mapStockLevelRow({
+      tenantId: row.tenantId,
+      companyId: row.companyId,
+      productId: row.productId,
+      warehouseId: row.warehouseId,
+      quantityOnHand: row.quantityOnHand,
+    })
+  );
+  const lastRow = pageRows.at(-1);
+
+  return {
+    hasMore,
+    items,
+    nextCursor: hasMore && lastRow !== undefined ? lastRow.id : null,
+  };
+}
+
+function resolveStockLevelOrderClauses(
+  sort: readonly StockLevelListSortField[]
+) {
+  const clauses = sort.flatMap((entry) => {
+    const direction = entry.direction === "asc" ? asc : desc;
+    switch (entry.field) {
+      case "productId":
+        return [direction(stockLevels.productId), desc(stockLevels.id)];
+      case "quantityOnHand":
+        return [direction(stockLevels.quantityOnHand), desc(stockLevels.id)];
+      case "updatedAt":
+        return [direction(stockLevels.updatedAt), desc(stockLevels.id)];
+      default:
+        return [];
+    }
+  });
+
+  if (clauses.length === 0) {
+    return [desc(stockLevels.updatedAt), desc(stockLevels.id)];
+  }
+
+  return clauses;
 }
 
 export async function recordStockMovement(

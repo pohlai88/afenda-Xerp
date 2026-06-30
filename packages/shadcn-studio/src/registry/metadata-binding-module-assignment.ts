@@ -8,6 +8,7 @@ export const METADATA_BINDING_MODULE_KV_ID_BY_SLUG = {
   crm: "KV-CRM",
   hcm: "KV-HCM",
   inventory: "KV-INV",
+  procurement: "KV-PROC",
 } as const satisfies Readonly<Record<string, string>>;
 
 const MODULE_ASSIGNMENT_BY_BLOCK_ID = {

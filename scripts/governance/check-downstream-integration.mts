@@ -43,9 +43,10 @@ const STORYBOOK_PREVIEW_CSS = join(
 );
 
 const APPROVED_ERP_CSS_IMPORTS = [
-  "@afenda/shadcn-studio/shadcn-studio.css",
   "tailwindcss",
+  "tw-animate-css",
   "shadcn/tailwind.css",
+  "@afenda/shadcn-studio/shadcn-studio.css",
 ] as const;
 
 const FORBIDDEN_ERP_CSS_IMPORTS = [
@@ -171,23 +172,24 @@ function checkCssImports(
     }
   }
 
-  if (label === "ERP globals") {
-    const shadcnIdx = imports.indexOf(
-      "@afenda/shadcn-studio/shadcn-studio.css"
-    );
+  if (label === "ERP globals" || label === "Storybook preview") {
     const tailwindIdx = imports.indexOf("tailwindcss");
+    const animateIdx = imports.indexOf("tw-animate-css");
     const shadcnTailwindIdx = imports.indexOf("shadcn/tailwind.css");
-    if (
-      shadcnIdx > -1 &&
+    const themeIdx = imports.indexOf("@afenda/shadcn-studio/shadcn-studio.css");
+    const orderOk =
       tailwindIdx > -1 &&
+      animateIdx > -1 &&
       shadcnTailwindIdx > -1 &&
-      !(shadcnIdx < tailwindIdx && tailwindIdx < shadcnTailwindIdx)
-    ) {
+      themeIdx > -1 &&
+      tailwindIdx < animateIdx &&
+      animateIdx < shadcnTailwindIdx &&
+      shadcnTailwindIdx < themeIdx;
+    if (!orderOk) {
       violations.push({
         rule: "css-import-order",
         file: rel(cssPath),
-        message:
-          "ERP globals.css import order must be shadcn-studio.css → tailwindcss → shadcn/tailwind.css",
+        message: `${label} CSS import order must be tailwindcss → tw-animate-css → shadcn/tailwind.css → @afenda/shadcn-studio/shadcn-studio.css (AdminCN SSOT)`,
       });
     }
   }
@@ -202,6 +204,7 @@ export function checkDownstreamIntegration(): DownstreamViolation[] {
     "@afenda/auth",
     "@afenda/database",
     "@afenda/enterprise-knowledge",
+    "@afenda/erp-modules",
     "@afenda/kernel",
     "@afenda/observability",
     "@afenda/permissions",
@@ -222,16 +225,13 @@ export function checkDownstreamIntegration(): DownstreamViolation[] {
   );
 
   if (existsSync(STORYBOOK_PREVIEW_CSS)) {
-    const previewCss = readFileSync(STORYBOOK_PREVIEW_CSS, "utf8");
-    for (const forbidden of FORBIDDEN_ERP_CSS_IMPORTS) {
-      if (previewCss.includes(forbidden)) {
-        violations.push({
-          rule: "storybook-css-forbidden",
-          file: rel(STORYBOOK_PREVIEW_CSS),
-          message: `Storybook preview.css must not import legacy path "${forbidden}"`,
-        });
-      }
-    }
+    checkCssImports(
+      violations,
+      STORYBOOK_PREVIEW_CSS,
+      "Storybook preview",
+      APPROVED_ERP_CSS_IMPORTS,
+      FORBIDDEN_ERP_CSS_IMPORTS
+    );
   }
 
   return violations;

@@ -65,6 +65,13 @@ function isSecondaryOnlyTag(tag: string): boolean {
   return (OPENAPI_SECONDARY_TAGS as readonly string[]).includes(tag);
 }
 
+function specHasApiDocsOperations(spec: OpenApiSpecTags): boolean {
+  return (
+    spec.paths?.["/docs"] !== undefined ||
+    spec.paths?.["/openapi.json"] !== undefined
+  );
+}
+
 export function buildPlatformApiManifests(input: {
   readonly specPath?: string;
   readonly root?: string;
@@ -103,6 +110,25 @@ export function buildPlatformApiManifests(input: {
         title,
         audience: "integrator",
         summary,
+        productRoutes: [],
+        permissionKeys: [],
+        entitlements: [],
+        catalogSources: [],
+        suppressCasual: true,
+      })
+    );
+  }
+
+  if (specHasApiDocsOperations(spec)) {
+    manifests.push(
+      docsFeatureManifestSchema.parse({
+        id: "platform-docs",
+        kind: "platform-api",
+        openapiTag: "docs",
+        title: "API documentation",
+        audience: "integrator",
+        summary:
+          "Hosted OpenAPI reference UI and machine-readable contract export for internal v1.",
         productRoutes: [],
         permissionKeys: [],
         entitlements: [],

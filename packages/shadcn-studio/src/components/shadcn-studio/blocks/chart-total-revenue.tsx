@@ -17,7 +17,7 @@ import {
   YAxis,
 } from "recharts";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../contracts/block-slot-dom-marker.contract.js";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -240,16 +240,18 @@ const TotalRevenueCard = ({ className }: { className?: string }) => (
           Total Revenue
         </span>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              {...blockSlotDomMarkerProps("chart.legend")}
-              className="size-6 rounded-full text-muted-foreground"
-              size="icon"
-              variant="ghost"
-            >
-              <EllipsisVerticalIcon />
-              <span className="sr-only">Menu</span>
-            </Button>
+          <DropdownMenuTrigger
+            render={
+              <Button
+                {...blockSlotDomMarkerProps("chart.legend")}
+                className="size-6 rounded-full text-muted-foreground"
+                size="icon"
+                variant="ghost"
+              />
+            }
+          >
+            <EllipsisVerticalIcon />
+            <span className="sr-only">Menu</span>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuGroup>

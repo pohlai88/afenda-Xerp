@@ -1,5 +1,10 @@
 import type { ApiRouteContract } from "./api-contract";
+import {
+  openApiDocsGetContract,
+  openApiJsonGetContract,
+} from "./api-docs/api-spec.contract";
 import { authMembershipsGetContract } from "./auth/auth-memberships.contract";
+import { serviceActorPingGetContract } from "./auth/service-actor-ping.contract";
 import { buildApiOperationRegistry } from "./core/index";
 import { healthGetContract } from "./health.api-contract";
 import {
@@ -16,7 +21,9 @@ import { clientErrorPostContract } from "./observability/client-error.contract";
 import { tenantBrandLogoUploadPostContract } from "./storage/tenant-brand-logo.contract";
 import {
   systemAdminAuditEventsGetContract,
+  systemAdminMembershipRoleAssignmentsPostContract,
   systemAdminMembershipRolePostContract,
+  systemAdminUserInvitationsPostContract,
   systemAdminUserInvitePostContract,
 } from "./system-admin/system-admin.contract";
 import {
@@ -28,6 +35,7 @@ import {
 /** Export names referenced by createApiHandler in governed route files. */
 export const GOVERNED_ROUTE_CONTRACT_EXPORTS = {
   authMembershipsGetContract,
+  serviceActorPingGetContract,
   clientErrorPostContract,
   dashboardLayoutDeleteContract,
   dashboardLayoutGetContract,
@@ -41,8 +49,12 @@ export const GOVERNED_ROUTE_CONTRACT_EXPORTS = {
   inventoryWarehousesGetContract,
   inventoryWarehousesPatchContract,
   inventoryWarehousesPostContract,
+  openApiDocsGetContract,
+  openApiJsonGetContract,
   systemAdminAuditEventsGetContract,
+  systemAdminMembershipRoleAssignmentsPostContract,
   systemAdminMembershipRolePostContract,
+  systemAdminUserInvitationsPostContract,
   systemAdminUserInvitePostContract,
   tenantBrandLogoUploadPostContract,
 } as const satisfies Record<string, ApiRouteContract<unknown, unknown>>;
@@ -50,6 +62,7 @@ export const GOVERNED_ROUTE_CONTRACT_EXPORTS = {
 export const API_CONTRACTS = [
   healthGetContract,
   authMembershipsGetContract,
+  serviceActorPingGetContract,
   clientErrorPostContract,
   dashboardLayoutGetContract,
   dashboardLayoutPutContract,
@@ -63,9 +76,13 @@ export const API_CONTRACTS = [
   inventoryWarehousesPostContract,
   inventoryWarehousesPatchContract,
   systemAdminUserInvitePostContract,
+  systemAdminUserInvitationsPostContract,
   systemAdminMembershipRolePostContract,
+  systemAdminMembershipRoleAssignmentsPostContract,
   systemAdminAuditEventsGetContract,
   tenantBrandLogoUploadPostContract,
+  openApiDocsGetContract,
+  openApiJsonGetContract,
 ] as const satisfies readonly ApiRouteContract<unknown, unknown>[];
 
 /** Family registry — branded operation ids + style bindings (PAS-API-001 API-002). */

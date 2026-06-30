@@ -1,7 +1,7 @@
 {
   "generated": true,
   "version": 3,
-  "exportedAt": "2026-06-28T02:23:59.863Z",
+  "exportedAt": "2026-06-30T08:06:31.765Z",
   "manifests": [
     {
       "id": "accounting",
@@ -92,6 +92,13 @@
           "path": "/system-admin/memberships/role",
           "permission": "system_admin.roles_manage",
           "docSlug": "system-admin-memberships-role-post"
+        },
+        {
+          "id": "internal.v1.system-admin.membership-role-assignments.post",
+          "method": "post",
+          "path": "/system-admin/membership-role-assignments",
+          "permission": "system_admin.roles_manage",
+          "docSlug": "system-admin-membership-role-assignments-post"
         }
       ]
     },
@@ -172,6 +179,13 @@
           "path": "/system-admin/users/invite",
           "permission": "system_admin.users_manage",
           "docSlug": "system-admin-users-invite-post"
+        },
+        {
+          "id": "internal.v1.system-admin.user-invitations.post",
+          "method": "post",
+          "path": "/system-admin/user-invitations",
+          "permission": "system_admin.users_manage",
+          "docSlug": "system-admin-user-invitations-post"
         }
       ]
     },
@@ -465,6 +479,42 @@
           "path": "/auth/memberships",
           "permission": null,
           "docSlug": "auth-memberships-get"
+        },
+        {
+          "id": "internal.v1.auth.service-actor.ping.get",
+          "method": "get",
+          "path": "/auth/service-actor/ping",
+          "permission": null,
+          "docSlug": "auth-service-actor-ping-get"
+        }
+      ]
+    },
+    {
+      "id": "platform-docs",
+      "kind": "platform-api",
+      "title": "API documentation",
+      "audience": "integrator",
+      "summary": "Hosted OpenAPI reference UI and machine-readable contract export for internal v1.",
+      "productRoutes": [],
+      "permissionKeys": [],
+      "entitlements": [],
+      "catalogSources": [],
+      "openapiTag": "docs",
+      "suppressCasual": true,
+      "apiOperations": [
+        {
+          "id": "internal.v1.docs.get",
+          "method": "get",
+          "path": "/docs",
+          "permission": null,
+          "docSlug": "docs-get"
+        },
+        {
+          "id": "internal.v1.openapi.json.get",
+          "method": "get",
+          "path": "/openapi.json",
+          "permission": null,
+          "docSlug": "openapi-json-get"
         }
       ]
     },
@@ -593,9 +643,49 @@
       ]
     }
   ],
-  "coverageWarnings": [],
+  "coverageWarnings": [
+    "accounting: product route \"/modules/accounting\" not found in ERP app surface scan.",
+    "admin-audit: product route \"/system-admin/audit\" not found in ERP app surface scan.",
+    "admin-diagnostics: product route \"/system-admin/diagnostics\" not found in ERP app surface scan.",
+    "admin-memberships: product route \"/system-admin/memberships\" not found in ERP app surface scan.",
+    "admin-permissions: product route \"/system-admin/permissions\" not found in ERP app surface scan.",
+    "admin-roles: product route \"/system-admin/roles\" not found in ERP app surface scan.",
+    "admin-settings: product route \"/system-admin/settings\" not found in ERP app surface scan.",
+    "admin-users: product route \"/system-admin/users\" not found in ERP app surface scan.",
+    "ai_copilot: product route \"/modules/ai_copilot\" not found in ERP app surface scan.",
+    "auth-lane-access: product route \"/otp\" not found in ERP app surface scan.",
+    "auth-lane-access: product route \"/sign-in\" not found in ERP app surface scan.",
+    "auth-lane-access: product route \"/sign-up\" not found in ERP app surface scan.",
+    "auth-lane-invite: product route \"/invite\" not found in ERP app surface scan.",
+    "auth-lane-invite: product route \"/invite/accept\" not found in ERP app surface scan.",
+    "auth-lane-invite: product route \"/invite/expired\" not found in ERP app surface scan.",
+    "auth-lane-recover: product route \"/forgot-password\" not found in ERP app surface scan.",
+    "auth-lane-recover: product route \"/reset-password\" not found in ERP app surface scan.",
+    "auth-lane-recover: product route \"/reset-password/success\" not found in ERP app surface scan.",
+    "auth-lane-security: product route \"/access-denied\" not found in ERP app surface scan.",
+    "auth-lane-security: product route \"/error\" not found in ERP app surface scan.",
+    "auth-lane-security: product route \"/mfa\" not found in ERP app surface scan.",
+    "auth-lane-security: product route \"/mfa/recovery\" not found in ERP app surface scan.",
+    "auth-lane-security: product route \"/security/review\" not found in ERP app surface scan.",
+    "auth-lane-security: product route \"/session-expired\" not found in ERP app surface scan.",
+    "auth-lane-verify: product route \"/verify-email\" not found in ERP app surface scan.",
+    "auth-lane-verify: product route \"/verify-email/expired\" not found in ERP app surface scan.",
+    "auth-lane-verify: product route \"/verify-email/sent\" not found in ERP app surface scan.",
+    "auth-lane-verify: product route \"/verify-email/success\" not found in ERP app surface scan.",
+    "auth-lane-workspace: product route \"/organization/select\" not found in ERP app surface scan.",
+    "auth-lane-workspace: product route \"/workspace/select\" not found in ERP app surface scan.",
+    "hrm: product route \"/modules/hrm\" not found in ERP app surface scan.",
+    "inventory: product route \"/modules/inventory\" not found in ERP app surface scan.",
+    "manufacturing: product route \"/modules/manufacturing\" not found in ERP app surface scan.",
+    "module route \"/modules/procurement/purchase-orders\" has no module feature manifest.",
+    "module route \"/modules/procurement/readiness\" has no module feature manifest.",
+    "module route \"/modules/procurement/requisitions\" has no module feature manifest.",
+    "mrp: product route \"/modules/mrp\" not found in ERP app surface scan.",
+    "sales: product route \"/modules/sales\" not found in ERP app surface scan.",
+    "workspace: product route \"/modules/workspace\" not found in ERP app surface scan."
+  ],
   "coverageErrors": [],
-  "coverageScore": 1,
+  "coverageScore": 0.2777777777777778,
   "coverageThreshold": 0.8,
   "openApiBindingWarnings": [],
   "permissionParityWarnings": [],
@@ -614,7 +704,7 @@
     },
     {
       "id": "admin-memberships",
-      "apiOperationCount": 1
+      "apiOperationCount": 2
     },
     {
       "id": "admin-permissions",
@@ -630,7 +720,7 @@
     },
     {
       "id": "admin-users",
-      "apiOperationCount": 1
+      "apiOperationCount": 2
     },
     {
       "id": "ai_copilot",
@@ -678,7 +768,11 @@
     },
     {
       "id": "platform-auth",
-      "apiOperationCount": 1
+      "apiOperationCount": 2
+    },
+    {
+      "id": "platform-docs",
+      "apiOperationCount": 2
     },
     {
       "id": "platform-health",

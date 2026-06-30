@@ -21,15 +21,15 @@ export const SYSTEM_ADMIN_MUTATION_AUDIT_MODULE = "system_admin" as const;
 
 export const SYSTEM_ADMIN_API_MUTATION_AUDIT_ENTRIES = [
   {
-    id: "internal.v1.system-admin.users.invite.post",
-    contractExport: "systemAdminUserInvitePostContract",
+    id: "internal.v1.system-admin.user-invitations.post",
+    contractExport: "systemAdminUserInvitationsPostContract",
     contractModule:
       "apps/erp/src/server/api/contracts/system-admin/system-admin.contract.ts",
     auditAction: "system_admin.user.invited",
   },
   {
-    id: "internal.v1.system-admin.memberships.role.post",
-    contractExport: "systemAdminMembershipRolePostContract",
+    id: "internal.v1.system-admin.membership-role-assignments.post",
+    contractExport: "systemAdminMembershipRoleAssignmentsPostContract",
     contractModule:
       "apps/erp/src/server/api/contracts/system-admin/system-admin.contract.ts",
     auditAction: "system_admin.membership.role.assigned",
@@ -114,12 +114,6 @@ export const SYSTEM_ADMIN_SERVER_ACTION_MUTATION_AUDIT_ENTRIES = [
 ] as const;
 
 export const SYSTEM_ADMIN_SUPPLEMENTARY_MUTATION_AUDIT_ENTRIES = [
-  {
-    id: "system_admin.section.access_denied",
-    module:
-      "apps/erp/src/lib/system-admin/guard-system-admin-section.server.ts",
-    auditAction: "system_admin.section.access_denied",
-  },
   {
     id: "system_admin.membership.role.assignment_denied",
     module: "apps/erp/src/server/system-admin/assign-membership-role.server.ts",

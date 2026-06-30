@@ -1,6 +1,6 @@
 import { EllipsisVerticalIcon } from "lucide-react";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../contracts/block-slot-dom-marker.contract.js";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
@@ -28,15 +28,17 @@ const StatisticsOrdersProgressCard = ({
         Statistics
       </span>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            className="size-6 rounded-full text-muted-foreground"
-            size="icon"
-            variant="ghost"
-          >
-            <EllipsisVerticalIcon />
-            <span className="sr-only">Edit menu</span>
-          </Button>
+        <DropdownMenuTrigger
+          render={
+            <Button
+              className="size-6 rounded-full text-muted-foreground"
+              size="icon"
+              variant="ghost"
+            />
+          }
+        >
+          <EllipsisVerticalIcon />
+          <span className="sr-only">Edit menu</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
           <DropdownMenuGroup>

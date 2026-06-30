@@ -3,16 +3,16 @@
 import { CheckIcon, EyeIcon, EyeOffIcon, MailIcon, XIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
-import { Button } from "@/components/ui/button";
+import { blockSlotDomMarkerProps } from "../../../../../contracts/block-slot-dom-marker.contract.js";
+import { Button } from "../../../../ui/button";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "@/components/ui/input-group";
-import { Label } from "@/components/ui/label";
+} from "../../../../ui/input-group";
+import { Label } from "../../../../ui/label";
 
-import { cn } from "@/lib/utils";
+import { cn } from "../../../../../lib/utils";
 
 const requirements = [
   { regex: /.{12,}/, text: "At least 12 characters" },

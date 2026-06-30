@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 import { z } from "zod";
 
 import type { ApiIdempotencyPolicy, ApiRouteContract } from "./api-contract";
@@ -20,7 +22,13 @@ export type IdempotencyKey = z.infer<typeof idempotencyKeySchema>;
 export const idempotencyStoredResponseSchema = z.object({
   statusCode: z.number().int().min(200).max(599),
   data: z.unknown(),
+  requestFingerprint: z.string().min(1).optional(),
 });
+
+export function computeIdempotencyRequestFingerprint(body: unknown): string {
+  const canonical = JSON.stringify(body ?? null);
+  return createHash("sha256").update(canonical).digest("hex");
+}
 
 export type IdempotencyStoredResponse = z.infer<
   typeof idempotencyStoredResponseSchema

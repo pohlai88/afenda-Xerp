@@ -1,4 +1,4 @@
-# https://editorconfig.org — aligns editors with Biome + CI (LF, UTF-8, 2-space indent).
+# https://editorconfig.org — aligns editors with Biome + Prettier (CSS/MDX) + CI.
 # Install "EditorConfig for VS Code" (recommended in .vscode/extensions.json).
 
 root = true

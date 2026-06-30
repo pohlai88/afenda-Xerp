@@ -277,14 +277,17 @@ ERP Integration Spine (PAS-001A) + kernel vocabulary
 | Kernel Vocabulary | ERP Application | supplies wire context (not presentation) | Compile-time |
 | Enterprise knowledge | ERP Application | supplies accepted labels (representations) | Knowledge |
 
-**ERP CSS composition** (PAS-006 three-layer import — order matters):
+**ERP CSS composition** (AdminCN four-import chain — order matters):
 
 ```txt
 apps/erp/src/app/globals.css
-  1. @import "@afenda/shadcn-studio/shadcn-studio.css"   ← theme + @custom-variant (unlayered)
-  2. @import "tailwindcss"
+  1. @import "tailwindcss"
+  2. @import "tw-animate-css"
   3. @import "shadcn/tailwind.css"
+  4. @import "@afenda/shadcn-studio/shadcn-studio.css"   ← theme + @custom-variant (unlayered)
 ```
+
+Storybook `preview.css` mirrors the same four-import order.
 
 Dist sync (single policy target):
 

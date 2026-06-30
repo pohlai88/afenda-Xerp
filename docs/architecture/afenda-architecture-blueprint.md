@@ -10,7 +10,7 @@
 | **Does not confer** | Runtime APIs, contracts, slice handoffs, or registry rows |
 | **Total PAS at maturity** | `~15 root PAS · ~25+ total documents (including derived extensions)` |
 | **Live PAS today** | `15 documents` (PAS-001 family, PAS-002 family, PAS-003, PAS-004 family, **PAS-006 family**; PAS-005 family **retired for ERP**) |
-| **Last reviewed** | 2026-06-29 (ADR-0027 frontend presentation reset) |
+| **Last reviewed** | 2026-06-29 (ADR-0027 frontend presentation reset · PAS-003 documentation-audit sync) |
 | **Planned PAS** | `9+ root PAS` (accounting runtime, consolidation, intercompany, tax, finance, reporting, HRM, CRM, procurement) |
 
 > **One sentence:** The Architecture Blueprint declares **what packages and domain authorities exist, why each exists, how they compose, and which PAS governs each box** — so PAS documents are discovered, not invented.

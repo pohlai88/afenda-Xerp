@@ -12,7 +12,6 @@ import {
   PROCUREMENT_CONTEXT_SPINE_CONSUMER_CONTRACT,
   PROCUREMENT_CONTEXT_SPINE_FORBIDDEN_INGRESS,
   PROCUREMENT_CONTEXT_SPINE_REQUIRED_RESOLVERS,
-  PROCUREMENT_FOUNDATION_READINESS_ROUTE,
 } from "../../packages/features/erp-modules/src/procurement/procurement.context-spine-consumer.contract.ts";
 import {
   type ErpModuleFoundationViolation,
@@ -138,27 +137,28 @@ export function checkProcurementContextSpineConsumer(): ErpModuleFoundationViola
     }
   }
 
-  const metadataSurface =
-    PROCUREMENT_FOUNDATION_BUNDLE.metadataBinding.surfaces.find(
-      (surface) =>
-        surface.surfaceId === PROCUREMENT_FOUNDATION_READINESS_ROUTE.surfaceId
-    );
+  for (const route of contract.protectedConsumerRoutes) {
+    const metadataSurface =
+      PROCUREMENT_FOUNDATION_BUNDLE.metadataBinding.surfaces.find(
+        (surface) => surface.surfaceId === route.surfaceId
+      );
 
-  if (!metadataSurface) {
-    violations.push({
-      rule: "metadata-surface-missing",
-      file: GATE,
-      message: `metadataBinding surface "${PROCUREMENT_FOUNDATION_READINESS_ROUTE.surfaceId}" missing from bundle`,
-    });
-  } else if (
-    metadataSurface.route !==
-    PROCUREMENT_FOUNDATION_READINESS_ROUTE.routePattern
-  ) {
-    violations.push({
-      rule: "metadata-route-drift",
-      file: GATE,
-      message: `metadata route "${metadataSurface.route}" !== "${PROCUREMENT_FOUNDATION_READINESS_ROUTE.routePattern}"`,
-    });
+    if (!metadataSurface) {
+      violations.push({
+        rule: "metadata-surface-missing",
+        file: GATE,
+        message: `metadataBinding surface "${route.surfaceId}" missing from bundle`,
+      });
+      continue;
+    }
+
+    if (metadataSurface.route !== route.routePattern) {
+      violations.push({
+        rule: "metadata-route-drift",
+        file: GATE,
+        message: `metadata route "${metadataSurface.route}" !== "${route.routePattern}"`,
+      });
+    }
   }
 
   if (PROCUREMENT_CONTEXT_SPINE_REQUIRED_RESOLVERS.length < 2) {
@@ -180,7 +180,7 @@ export function checkProcurementContextSpineConsumer(): ErpModuleFoundationViola
 
   if (violations.length === 0) {
     console.log(
-      `  context spine consumer OK: ${PROCUREMENT_FOUNDATION_READINESS_ROUTE.routePattern} attested · ${PROCUREMENT_CONTEXT_SPINE_REQUIRED_RESOLVERS.length} resolvers · forbidden ingress blocked`
+      `  context spine consumer OK: ${contract.protectedConsumerRoutes.length} routes attested · ${PROCUREMENT_CONTEXT_SPINE_REQUIRED_RESOLVERS.length} resolvers · forbidden ingress blocked`
     );
   }
 

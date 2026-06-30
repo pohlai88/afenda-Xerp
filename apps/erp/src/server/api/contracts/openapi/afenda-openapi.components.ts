@@ -164,6 +164,18 @@ export const TRANSPORT_RESPONSE_HEADERS = {
       "HTTP caching directive derived from the route cache policy (typically no-store for governed mutations).",
     schema: { type: "string" as const },
   },
+  "X-RateLimit-Limit": {
+    description: "Maximum requests allowed in the current window.",
+    schema: { type: "integer" as const },
+  },
+  "X-RateLimit-Remaining": {
+    description: "Requests remaining in the current window.",
+    schema: { type: "integer" as const },
+  },
+  "X-RateLimit-Reset": {
+    description: "Unix timestamp when the current rate-limit window resets.",
+    schema: { type: "integer" as const },
+  },
 } as const;
 
 type OpenApiResponseHeaders = typeof TRANSPORT_RESPONSE_HEADERS &

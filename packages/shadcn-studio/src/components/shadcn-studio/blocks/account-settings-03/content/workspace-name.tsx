@@ -3,7 +3,7 @@
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 import { useId, useMemo, useState } from "react";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../../../contracts/block-slot-dom-marker.contract.js";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -95,30 +95,32 @@ const WorkspaceName = () => {
           <div className="w-full space-y-2">
             <Label htmlFor={id}>Timezone</Label>
             <Popover onOpenChange={setOpen} open={open}>
-              <PopoverTrigger asChild>
-                <Button
-                  aria-expanded={open}
-                  className="w-full justify-between"
-                  id={id}
-                  role="combobox"
-                  variant="outline"
-                >
-                  <span className={cn("truncate")}>
-                    {value ? (
-                      formattedTimezones.find(
-                        (timezone) => timezone.value === value
-                      )?.label
-                    ) : (
-                      <span className="text-muted-foreground">
-                        Select timezone
-                      </span>
-                    )}
-                  </span>
-                  <ChevronsUpDownIcon
-                    aria-hidden="true"
-                    className="shrink-0 text-muted-foreground/80"
+              <PopoverTrigger
+                render={
+                  <Button
+                    aria-expanded={open}
+                    className="w-full justify-between"
+                    id={id}
+                    role="combobox"
+                    variant="outline"
                   />
-                </Button>
+                }
+              >
+                <span className={cn("truncate")}>
+                  {value ? (
+                    formattedTimezones.find(
+                      (timezone) => timezone.value === value
+                    )?.label
+                  ) : (
+                    <span className="text-muted-foreground">
+                      Select timezone
+                    </span>
+                  )}
+                </span>
+                <ChevronsUpDownIcon
+                  aria-hidden="true"
+                  className="shrink-0 text-muted-foreground/80"
+                />
               </PopoverTrigger>
               <PopoverContent className="w-(--radix-popper-anchor-width) p-0">
                 <Command>

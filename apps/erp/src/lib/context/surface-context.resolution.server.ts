@@ -1,6 +1,6 @@
 import type { SurfaceContext, SurfaceId } from "@afenda/kernel";
 
-import { normalizeRuntimeModulePath } from "./runtime-module-path.server.js";
+import { normalizeRuntimeModulePath } from "./runtime-module-path.server";
 
 export function parseSurfaceId(
   value: string | null | undefined

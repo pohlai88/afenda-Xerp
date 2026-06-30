@@ -16,6 +16,9 @@ export interface ConsumeApiRateLimitInput {
 
 export interface ConsumeApiRateLimitResult {
   readonly allowed: boolean;
+  readonly limit: number;
+  readonly remaining: number;
+  readonly resetAtUnix: number;
   readonly retryAfterSeconds: number | null;
 }
 
@@ -26,6 +29,27 @@ function resolveRetryAfterSeconds(
 ): number {
   const windowEndMs = windowStart.getTime() + windowSeconds * 1000;
   return Math.max(1, Math.ceil((windowEndMs - now.getTime()) / 1000));
+}
+
+function resolveResetAtUnix(windowStart: Date, windowSeconds: number): number {
+  return Math.ceil((windowStart.getTime() + windowSeconds * 1000) / 1000);
+}
+
+function buildAllowedResult(input: {
+  readonly config: ApiRateLimitWindowConfig;
+  readonly requestCount: number;
+  readonly windowStart: Date;
+}): ConsumeApiRateLimitResult {
+  return {
+    allowed: true,
+    limit: input.config.maxRequests,
+    remaining: Math.max(0, input.config.maxRequests - input.requestCount),
+    resetAtUnix: resolveResetAtUnix(
+      input.windowStart,
+      input.config.windowSeconds
+    ),
+    retryAfterSeconds: null,
+  };
 }
 
 export async function consumeApiRateLimitBucket(
@@ -52,7 +76,11 @@ export async function consumeApiRateLimitBucket(
       windowStart: now,
     });
 
-    return { allowed: true, retryAfterSeconds: null };
+    return buildAllowedResult({
+      config: input.config,
+      requestCount: 1,
+      windowStart: now,
+    });
   }
 
   const elapsedSeconds = Math.floor(
@@ -69,12 +97,22 @@ export async function consumeApiRateLimitBucket(
       })
       .where(eq(apiRateLimitBuckets.id, existing.id));
 
-    return { allowed: true, retryAfterSeconds: null };
+    return buildAllowedResult({
+      config: input.config,
+      requestCount: 1,
+      windowStart: now,
+    });
   }
 
   if (existing.requestCount >= input.config.maxRequests) {
     return {
       allowed: false,
+      limit: input.config.maxRequests,
+      remaining: 0,
+      resetAtUnix: resolveResetAtUnix(
+        existing.windowStart,
+        existing.windowSeconds
+      ),
       retryAfterSeconds: resolveRetryAfterSeconds(
         existing.windowStart,
         existing.windowSeconds,
@@ -83,12 +121,18 @@ export async function consumeApiRateLimitBucket(
     };
   }
 
+  const nextCount = existing.requestCount + 1;
+
   await db
     .update(apiRateLimitBuckets)
     .set({
-      requestCount: existing.requestCount + 1,
+      requestCount: nextCount,
     })
     .where(eq(apiRateLimitBuckets.id, existing.id));
 
-  return { allowed: true, retryAfterSeconds: null };
+  return buildAllowedResult({
+    config: input.config,
+    requestCount: nextCount,
+    windowStart: existing.windowStart,
+  });
 }

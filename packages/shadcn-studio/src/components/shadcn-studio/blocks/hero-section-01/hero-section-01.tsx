@@ -1,4 +1,4 @@
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../../contracts/block-slot-dom-marker.contract.js";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
@@ -64,8 +64,8 @@ const HeroSection = () => {
           From refreshing appetizers to delightful desserts
         </p>
 
-        <Button {...blockSlotDomMarkerProps("hero.cta")} asChild size="lg">
-          <a href="#">Try It Now</a>
+        <Button {...blockSlotDomMarkerProps("hero.cta")} render={<a href="#" />} size="lg">
+          Try It Now
         </Button>
       </div>
 

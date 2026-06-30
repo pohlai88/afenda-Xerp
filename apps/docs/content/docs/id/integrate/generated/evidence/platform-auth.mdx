@@ -33,7 +33,7 @@ Session authentication and membership resolution.
     "required": true
   },
   "ApiOperations": {
-    "type": "1",
+    "type": "2",
     "description": "Bound internal v1 operations for this platform tag.",
     "required": true
   }
@@ -44,6 +44,7 @@ Session authentication and membership resolution.
 <Files>
   <Folder name="Internal v1 API paths" defaultOpen>
     <File name="/api/internal/v1/auth/memberships" />
+    <File name="/api/internal/v1/auth/service-actor/ping" />
   </Folder>
 </Files>
 
@@ -52,6 +53,7 @@ Session authentication and membership resolution.
 | Operation | Permission | Contract |
 | --- | --- | --- |
 | [GET /auth/memberships](/docs/integrate/internal-v1/auth-memberships-get) | `—` | `internal.v1.auth.memberships.get` |
+| [GET /auth/service-actor/ping](/docs/integrate/internal-v1/auth-service-actor-ping-get) | `—` | `internal.v1.auth.service-actor.ping.get` |
 ## Traceability
 
 <Steps>

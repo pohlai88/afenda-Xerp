@@ -97,6 +97,10 @@ describe("OpenAPI document generation", () => {
         description: "Tenant membership resolution and post-auth entry paths.",
       },
       {
+        name: "service-actor",
+        description: "Verified service-actor S2S bearer authentication probes.",
+      },
+      {
         name: "dashboard",
         description: "Workspace dashboard layout preferences.",
       },
@@ -117,6 +121,10 @@ describe("OpenAPI document generation", () => {
       {
         name: "stock",
         description: "Stock level queries and movement mutations.",
+      },
+      {
+        name: "docs",
+        description: "OpenAPI reference and generated specification.",
       },
     ]);
   });
@@ -231,6 +239,13 @@ describe("OpenAPI document generation", () => {
 
   it("omits deprecated flag for active internal-stable contracts", () => {
     for (const contract of API_CONTRACTS) {
+      if (
+        contract.lifecycle !== "active" ||
+        contract.stability !== "internal-stable"
+      ) {
+        continue;
+      }
+
       const relativePath = contract.path.replace("/api/internal/v1", "") || "/";
       const operation =
         document.paths?.[relativePath]?.[

@@ -1,13 +1,15 @@
-import LogoSvg from "@/assets/svg/logo";
+import LogoSvg from '@/assets/svg/logo'
 
 // Util Imports
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils'
 
-const Logo = ({ className }: { className?: string }) => (
-  <div className={cn("flex items-center gap-2.5", className)}>
-    <LogoSvg className="size-8.5" />
-    <span className="font-bold text-xl">shadcn/studio</span>
-  </div>
-);
+const Logo = ({ className }: { className?: string }) => {
+  return (
+    <div className={cn('flex items-center gap-2.5', className)}>
+      <LogoSvg className='size-8.5' />
+      <span className='text-xl font-bold'>shadcn/studio</span>
+    </div>
+  )
+}
 
-export default Logo;
+export default Logo

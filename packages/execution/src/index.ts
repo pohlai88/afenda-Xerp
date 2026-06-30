@@ -125,6 +125,14 @@ export {
   runPublishOutboxEventsJob,
 } from "./jobs/publish-outbox-events.job.js";
 export {
+  type RunServiceActorS2sPingJobResult,
+  registerServiceActorS2sPingWorkflow,
+  runServiceActorS2sPingJob,
+  SERVICE_ACTOR_S2S_PING_TRIGGER_TASK_ID,
+  SERVICE_ACTOR_S2S_PING_WORKFLOW_ID,
+} from "./jobs/service-actor-s2s-ping.job.js";
+export { runServiceActorS2sPingProbe } from "./jobs/service-actor-s2s-ping.probe.js";
+export {
   readAppReleaseIdentifier,
   readWorkerReleaseCheckRequired,
 } from "./lib/app-release-identifier.js";
@@ -136,6 +144,7 @@ export {
 } from "./lib/worker-release-alignment.js";
 export {
   configurePublishOutboxEventsTask,
+  configureServiceActorS2sPingTask,
   createTriggerExecutionProvider,
   probePublishOutboxScheduleRegistered,
 } from "./providers/trigger.provider.js";

@@ -1,6 +1,6 @@
 import type { OperatingContext } from "@afenda/kernel";
 import { ok } from "@afenda/kernel";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@afenda/auth", () => ({
   getAfendaAuthSession: vi.fn(),
@@ -17,6 +17,7 @@ vi.mock("@/lib/context/resolve-operating-context-orchestrator.server", () => ({
 import { getAfendaAuthSession } from "@afenda/auth";
 
 import { resolveApiRouteOperatingContext } from "@/lib/api/resolve-api-route-operating-context";
+import { issueServiceActorS2sToken } from "@/lib/auth/issue-service-actor-s2s-token.server";
 import { resolveApiRouteAuthActor } from "@/lib/auth/resolve-api-route-auth-actor.server";
 import { SERVICE_ACTOR_REQUEST_HEADERS } from "@/lib/auth/resolve-service-actor.server";
 import { TENANT_SLUG_HEADER } from "@/lib/context/context.constants";
@@ -33,7 +34,15 @@ function headersFromRecord(record: Record<string, string>): Headers {
 }
 
 function serviceActorHeaders(): Headers {
+  const token = issueServiceActorS2sToken({
+    sub: "sub_service_01",
+    actorKind: "service",
+    provider: "acme-erp",
+    externalId: "job-runner-01",
+  });
+
   return headersFromRecord({
+    authorization: `Bearer ${token}`,
     [SERVICE_ACTOR_REQUEST_HEADERS.actorKind]: "service",
     [SERVICE_ACTOR_REQUEST_HEADERS.authSubjectId]: "sub_service_01",
     [SERVICE_ACTOR_REQUEST_HEADERS.integrationProvider]: "acme-erp",
@@ -61,6 +70,12 @@ describe("SERVICE_ACTOR_BRIDGE_WIRING (PAS-001A R3b)", () => {
 describe("resolveApiRouteOperatingContext (PAS-001A R3b)", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    process.env["AFENDA_INTERNAL_S2S_SIGNING_SECRET"] =
+      "test-s2s-signing-secret-min-32-chars!!";
+  });
+
+  afterEach(() => {
+    delete process.env["AFENDA_INTERNAL_S2S_SIGNING_SECRET"];
   });
 
   it("assembles service-actor context via spine orchestrator without human session", async () => {
@@ -125,9 +140,15 @@ describe("resolveApiRouteOperatingContext (PAS-001A R3b)", () => {
   });
 });
 
-describe("resolveApiRouteAuthActor service priority (PAS-001A R3b)", () => {
+describe("resolveApiRouteAuthActor service priority (PAS-001A R3b · ADR-0035)", () => {
   beforeEach(() => {
     vi.clearAllMocks();
+    process.env["AFENDA_INTERNAL_S2S_SIGNING_SECRET"] =
+      "test-s2s-signing-secret-min-32-chars!!";
+  });
+
+  afterEach(() => {
+    delete process.env["AFENDA_INTERNAL_S2S_SIGNING_SECRET"];
   });
 
   it("prefers service actor identity over human session — no impersonation", async () => {

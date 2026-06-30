@@ -17,7 +17,9 @@ export interface OperatingContextProtectedSurfaceEntry {
     | "resolveApiRouteOperatingContext"
     | "resolveActionOperatingContext"
     | "loadMetadataOperatorSurfacePage"
-    | "loadProcurementFoundationReadinessPage";
+    | "loadProcurementFoundationReadinessPage"
+    | "loadProcurementPurchaseOrdersPage"
+    | "loadProcurementRequisitionsPage";
   readonly id: string;
   readonly kind: OperatingContextProtectedSurfaceKind;
   readonly module: string;
@@ -59,6 +61,20 @@ export const OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY = [
     module: "app/(protected)/modules/procurement/readiness/page.tsx",
     delegate: "loadProcurementFoundationReadinessPage",
     routePattern: "/modules/procurement/readiness",
+  },
+  {
+    id: "protected-rsc-procurement-requisitions-list",
+    kind: "protected-rsc",
+    module: "app/(protected)/modules/procurement/requisitions/page.tsx",
+    delegate: "loadProcurementRequisitionsPage",
+    routePattern: "/modules/procurement/requisitions",
+  },
+  {
+    id: "protected-rsc-procurement-purchase-orders-list",
+    kind: "protected-rsc",
+    module: "app/(protected)/modules/procurement/purchase-orders/page.tsx",
+    delegate: "loadProcurementPurchaseOrdersPage",
+    routePattern: "/modules/procurement/purchase-orders",
   },
   {
     id: "protected-api-operating-context",

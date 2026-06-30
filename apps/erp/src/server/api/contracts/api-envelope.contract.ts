@@ -21,9 +21,14 @@ export interface ApiErrorBody<TCode extends ApiErrorCode = ApiErrorCode> {
   readonly category: ApiErrorCategory;
   readonly code: TCode;
   readonly correlationId: string;
+  readonly detail?: string;
   readonly details?: unknown;
+  readonly instance?: string;
   readonly message: string;
   readonly retryable: boolean;
+  readonly status?: number;
+  readonly title?: string;
+  readonly type?: string;
 }
 
 /** Serializable error body nested under governed `{ ok: false, error, meta }` envelopes. */

@@ -40,7 +40,7 @@
 1. Read [ADR-0027](../../adr/ADR-0027-frontend-presentation-reset.md) — no legacy UI packages.
 2. MCP install cwd: **`packages/shadcn-studio`** ([ADR-0017](../../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md)).
 3. Export blocks via `@afenda/shadcn-studio` public barrel only.
-4. ERP CSS: three-layer chain in `apps/erp/src/app/globals.css` (theme → tailwindcss → shadcn/tailwind.css).
+4. ERP CSS: AdminCN four-import chain in `apps/erp/src/app/globals.css` — `tailwindcss` → `tw-animate-css` → `shadcn/tailwind.css` → `@afenda/shadcn-studio/shadcn-studio.css` (theme last, unlayered).
 5. Run §13 gates before claiming product work done.
 
 **Boundary:** `@afenda/shadcn-studio` **owns** theme presets, stock primitives, MCP-installed blocks, CSS export, public barrel, Storybook lab parameters; **never owns** Acceptance Record enforcement (006C), relational lifecycle registry (006B), metadata templates (006D), kernel, or ERP routes.

@@ -3,6 +3,7 @@ import type { ZodType } from "zod";
 
 import type { ApiRouteContract } from "../contracts/api-contract";
 import {
+  computeIdempotencyRequestFingerprint,
   IDEMPOTENCY_KEY_HEADER,
   type IdempotencyKey,
   type IdempotencyStoredResponse,
@@ -117,6 +118,7 @@ export function resolveRequestIdempotencyKey(
 export async function readCachedIdempotentResponse<TResponse>(input: {
   readonly contractId: string;
   readonly idempotencyKey: IdempotencyKey;
+  readonly requestFingerprint: string;
   readonly responseSchema: ZodType<TResponse>;
   readonly tenantId: string | null;
   readonly userId: UserId | null;
@@ -132,8 +134,20 @@ export async function readCachedIdempotentResponse<TResponse>(input: {
     return null;
   }
 
+  if (
+    cached.requestFingerprint !== undefined &&
+    cached.requestFingerprint !== input.requestFingerprint
+  ) {
+    throw new ApiRouteError(
+      "conflict",
+      "Idempotency-Key was already used with a different request body."
+    );
+  }
+
   return {
     data: input.responseSchema.parse(cached.data),
     statusCode: cached.statusCode,
   };
 }
+
+export { computeIdempotencyRequestFingerprint };

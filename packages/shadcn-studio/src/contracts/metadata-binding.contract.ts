@@ -3,16 +3,45 @@
  * Wire-safe field → block slot mapping — not ORM schema.
  */
 
-export type MetadataBindingFieldPresentationKind =
-  | "text"
-  | "textarea"
-  | "number"
-  | "date"
-  | "select"
-  | "checkbox"
-  | "readonly";
+import type { SurfaceTemplateClass } from "./surface-template.contract.js";
+import { isSurfaceTemplateClass } from "./surface-template.contract.js";
+import {
+  isNonEmptyString,
+  isStringMemberOf,
+  isWireRecord,
+} from "./wire-guard.helpers.js";
 
-export type MetadataBindingDensity = "compact" | "comfortable" | "spacious";
+export const METADATA_BINDING_PRESENTATION_KINDS = [
+  "text",
+  "textarea",
+  "number",
+  "date",
+  "select",
+  "checkbox",
+  "readonly",
+] as const;
+
+export type MetadataBindingFieldPresentationKind =
+  (typeof METADATA_BINDING_PRESENTATION_KINDS)[number];
+
+export const METADATA_BINDING_DENSITIES = [
+  "compact",
+  "comfortable",
+  "spacious",
+] as const;
+
+export type MetadataBindingDensity =
+  (typeof METADATA_BINDING_DENSITIES)[number];
+
+export const METADATA_BINDING_STATE_KINDS = [
+  "empty",
+  "loading",
+  "error",
+  "forbidden",
+] as const;
+
+export type MetadataBindingStateKind =
+  (typeof METADATA_BINDING_STATE_KINDS)[number];
 
 export interface MetadataBindingFieldWire {
   readonly density?: MetadataBindingDensity;
@@ -34,7 +63,7 @@ export interface MetadataBindingTableColumnWire {
 export interface MetadataBindingStateTemplateWire {
   readonly messageAtomRef?: string;
   readonly slotId: string;
-  readonly stateKind: "empty" | "loading" | "error" | "forbidden";
+  readonly stateKind: MetadataBindingStateKind;
 }
 
 export interface MetadataBindingContractWire {
@@ -44,39 +73,100 @@ export interface MetadataBindingContractWire {
   readonly fields: readonly MetadataBindingFieldWire[];
   readonly metadataBindingId: string;
   readonly stateTemplates?: readonly MetadataBindingStateTemplateWire[];
-  readonly surfaceTemplateClass?: string;
+  readonly surfaceTemplateClass?: SurfaceTemplateClass;
   readonly tableColumns?: readonly MetadataBindingTableColumnWire[];
+}
+
+export function isValidMetadataBindingPresentationKind(
+  value: string
+): value is MetadataBindingFieldPresentationKind {
+  return isStringMemberOf(value, METADATA_BINDING_PRESENTATION_KINDS);
+}
+
+export function isMetadataBindingFieldWire(
+  value: unknown
+): value is MetadataBindingFieldWire {
+  if (!isWireRecord(value)) {
+    return false;
+  }
+
+  return (
+    isNonEmptyString(value["fieldKey"]) &&
+    isNonEmptyString(value["slotId"]) &&
+    isStringMemberOf(
+      value["presentationKind"],
+      METADATA_BINDING_PRESENTATION_KINDS
+    ) &&
+    (value["density"] === undefined ||
+      isStringMemberOf(value["density"], METADATA_BINDING_DENSITIES)) &&
+    (value["labelAtomRef"] === undefined ||
+      typeof value["labelAtomRef"] === "string") &&
+    (value["helpTextAtomRef"] === undefined ||
+      typeof value["helpTextAtomRef"] === "string") &&
+    (value["requiredDisplay"] === undefined ||
+      typeof value["requiredDisplay"] === "boolean")
+  );
+}
+
+function isMetadataBindingTableColumnWire(
+  value: unknown
+): value is MetadataBindingTableColumnWire {
+  if (!isWireRecord(value)) {
+    return false;
+  }
+
+  return (
+    isNonEmptyString(value["columnKey"]) &&
+    isNonEmptyString(value["slotId"]) &&
+    (value["labelAtomRef"] === undefined ||
+      typeof value["labelAtomRef"] === "string") &&
+    (value["sortableDisplay"] === undefined ||
+      typeof value["sortableDisplay"] === "boolean")
+  );
+}
+
+function isMetadataBindingStateTemplateWire(
+  value: unknown
+): value is MetadataBindingStateTemplateWire {
+  if (!isWireRecord(value)) {
+    return false;
+  }
+
+  return (
+    isNonEmptyString(value["slotId"]) &&
+    isStringMemberOf(value["stateKind"], METADATA_BINDING_STATE_KINDS) &&
+    (value["messageAtomRef"] === undefined ||
+      typeof value["messageAtomRef"] === "string")
+  );
 }
 
 export function isMetadataBindingContractWire(
   value: unknown
 ): value is MetadataBindingContractWire {
-  if (typeof value !== "object" || value === null) {
+  if (!isWireRecord(value)) {
     return false;
   }
 
-  const record = value as Record<string, unknown>;
+  const stateTemplates = value["stateTemplates"];
+  const tableColumns = value["tableColumns"];
+  const surfaceTemplateClass = value["surfaceTemplateClass"];
 
   return (
-    typeof record["metadataBindingId"] === "string" &&
-    typeof record["blockId"] === "string" &&
-    Array.isArray(record["fields"]) &&
-    record["fields"].every(isMetadataBindingFieldWire)
-  );
-}
-
-function isMetadataBindingFieldWire(
-  value: unknown
-): value is MetadataBindingFieldWire {
-  if (typeof value !== "object" || value === null) {
-    return false;
-  }
-
-  const record = value as Record<string, unknown>;
-
-  return (
-    typeof record["fieldKey"] === "string" &&
-    typeof record["slotId"] === "string" &&
-    typeof record["presentationKind"] === "string"
+    isNonEmptyString(value["metadataBindingId"]) &&
+    isNonEmptyString(value["blockId"]) &&
+    Array.isArray(value["fields"]) &&
+    value["fields"].every(isMetadataBindingFieldWire) &&
+    (value["erpDomainKvId"] === undefined ||
+      typeof value["erpDomainKvId"] === "string") &&
+    (value["erpDomainModuleSlug"] === undefined ||
+      typeof value["erpDomainModuleSlug"] === "string") &&
+    (surfaceTemplateClass === undefined ||
+      isSurfaceTemplateClass(surfaceTemplateClass)) &&
+    (stateTemplates === undefined ||
+      (Array.isArray(stateTemplates) &&
+        stateTemplates.every(isMetadataBindingStateTemplateWire))) &&
+    (tableColumns === undefined ||
+      (Array.isArray(tableColumns) &&
+        tableColumns.every(isMetadataBindingTableColumnWire)))
   );
 }

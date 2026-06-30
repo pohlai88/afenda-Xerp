@@ -1,17 +1,25 @@
+"use client";
+
+import type * as React from "react";
+
 import { cn } from "@/lib/utils";
 
-interface CircularProgressProps {
+interface CircularProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   circleStrokeWidth?: number;
-  className?: string;
+  gaugePrimaryColor?: string;
+  gaugeSecondaryColor?: string;
   labelClassName?: string;
+  progressBgClassName?: string;
   progressClassName?: string;
   progressStrokeWidth?: number;
-  renderLabel?: (progress: number) => number | string;
+  renderLabel?: (progress: number) => React.ReactNode;
   shape?: "square" | "round";
   showLabel?: boolean;
   size?: number;
   strokeWidth?: number;
+  trackDashArray?: string | number;
   value: number;
+  variant?: "default" | "animated";
 }
 
 const CircularProgress = ({
@@ -19,6 +27,7 @@ const CircularProgress = ({
   renderLabel,
   className,
   progressClassName,
+  progressBgClassName,
   labelClassName,
   showLabel,
   shape = "round",
@@ -26,55 +35,155 @@ const CircularProgress = ({
   strokeWidth,
   circleStrokeWidth = 10,
   progressStrokeWidth = 10,
+  variant = "default",
+  gaugePrimaryColor = "currentColor",
+  gaugeSecondaryColor = "currentColor",
+  trackDashArray,
+  ...props
 }: CircularProgressProps) => {
-  const radius = size / 2;
-  const circumference = Math.ceil(3.14 * radius * 2);
-  const percentage = Math.ceil(circumference * ((100 - value) / 100));
-  const viewBox = `-${size * 0.125} -${size * 0.125} ${size * 1.25} ${size * 1.25}`;
+  const effectiveCircleWidth = strokeWidth ?? circleStrokeWidth;
+  const effectiveProgressWidth = strokeWidth ?? progressStrokeWidth;
+  const maxStroke = Math.max(effectiveCircleWidth, effectiveProgressWidth);
+
+  const radius = variant === "animated" ? 45 : (size - maxStroke) / 2;
+  const currentPercent = Math.min(Math.max(value, 0), 100);
+
+  if (variant === "animated") {
+    const gapPercent = 5;
+    const dashFactor = (2 * Math.PI * 45) / 100;
+    const circumference = 2 * Math.PI * 45;
+
+    const primaryDash = `${currentPercent * dashFactor} ${circumference}`;
+    const primaryRotate = -90 + gapPercent * 0 * 3.6;
+
+    const secondaryDash = trackDashArray
+      ? trackDashArray
+      : `${Math.max(0, 90 - currentPercent) * dashFactor} ${circumference}`;
+
+    const secondaryRotate = 360 - 90 - gapPercent * 3.6;
+
+    return (
+      <div
+        className={cn(
+          "relative flex shrink-0 items-center justify-center",
+          className
+        )}
+        style={{ width: size, height: size }}
+        {...props}
+      >
+        <svg className="size-full overflow-visible" viewBox="0 0 100 100">
+          {/* Dynamic Background Track */}
+          <circle
+            className={cn(
+              "text-primary/10 transition-all duration-1000 ease-in-out",
+              progressBgClassName
+            )}
+            cx="50"
+            cy="50"
+            fill="none"
+            r={45}
+            stroke={gaugeSecondaryColor}
+            strokeDasharray={secondaryDash}
+            strokeLinecap={trackDashArray ? "butt" : shape}
+            strokeWidth={effectiveCircleWidth}
+            style={{
+              transform: `rotate(${secondaryRotate}deg) scaleY(-1)`,
+              transformOrigin: "50px 50px",
+            }}
+          />
+          {/* Dynamic Progress Bar */}
+          <circle
+            className={cn(
+              "transition-all duration-1000 ease-in-out",
+              progressClassName
+            )}
+            cx="50"
+            cy="50"
+            fill="none"
+            r={45}
+            stroke={gaugePrimaryColor}
+            strokeDasharray={primaryDash}
+            strokeLinecap={shape}
+            strokeWidth={effectiveProgressWidth}
+            style={{
+              transform: `rotate(${primaryRotate}deg)`,
+              transformOrigin: "50px 50px",
+            }}
+          />
+        </svg>
+        {showLabel && (
+          <div
+            className={cn(
+              "absolute inset-0 flex items-center justify-center font-medium text-lg",
+              labelClassName
+            )}
+          >
+            {renderLabel ? renderLabel(value) : `${value}%`}
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (currentPercent / 100) * circumference;
 
   return (
-    <div className="relative">
+    <div
+      className={cn(
+        "relative flex shrink-0 items-center justify-center",
+        className
+      )}
+      style={{ width: size, height: size }}
+      {...props}
+    >
       <svg
-        className="relative"
-        height={size}
-        style={{ transform: "rotate(-90deg)" }}
-        version="1.1"
-        viewBox={viewBox}
-        width={size}
-        xmlns="http://www.w3.org/2000/svg"
+        className="size-full -rotate-90 overflow-visible"
+        viewBox={`0 0 ${size} ${size}`}
       >
-        {/* Base Circle */}
         <circle
-          className={cn("stroke-primary/25", className)}
+          className={cn("text-primary/20", progressBgClassName)}
           cx={size / 2}
           cy={size / 2}
-          fill="transparent"
+          fill="none"
           r={radius}
-          strokeDasharray={circumference}
-          strokeDashoffset="0"
-          strokeWidth={strokeWidth ?? circleStrokeWidth}
-        />
-        {/* Progress */}
-        <circle
-          className={cn("stroke-primary", progressClassName)}
-          cx={size / 2}
-          cy={size / 2}
-          fill="transparent"
-          r={radius}
-          strokeDasharray={circumference}
-          strokeDashoffset={percentage}
+          stroke={
+            gaugeSecondaryColor === "currentColor"
+              ? "currentColor"
+              : gaugeSecondaryColor
+          }
+          strokeDasharray={trackDashArray}
           strokeLinecap={shape}
-          strokeWidth={strokeWidth ?? progressStrokeWidth}
+          strokeWidth={effectiveCircleWidth}
+        />
+        <circle
+          className={cn(
+            "transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+            progressClassName
+          )}
+          cx={size / 2}
+          cy={size / 2}
+          fill="none"
+          r={radius}
+          stroke={
+            gaugePrimaryColor === "currentColor"
+              ? "currentColor"
+              : gaugePrimaryColor
+          }
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap={shape}
+          strokeWidth={effectiveProgressWidth}
         />
       </svg>
       {showLabel && (
         <div
           className={cn(
-            "absolute inset-0 flex items-center justify-center text-md",
+            "absolute inset-0 flex items-center justify-center font-medium text-base",
             labelClassName
           )}
         >
-          {renderLabel ? renderLabel(value) : value}%
+          {renderLabel ? renderLabel(value) : `${value}%`}
         </div>
       )}
     </div>

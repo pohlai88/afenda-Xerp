@@ -55,4 +55,4 @@ Handoff from: docs/PAS/API-CONTRACT/REST/SLICE/pas-001a-r3b-service-actor-contex
 
 ## Production stance
 
-Human-session internal v1 is **production accepted** (R3b shape-only S2S ingress for assembly paths). Machine S2S REST is **not offered** — production policy attested per [ADR-0034](../../../adr/ADR-0034-service-actor-production-policy-attestation.md) (supersedes [ADR-0033](../../../adr/ADR-0033-service-actor-s2s-token-verification-deferred.md)). Cryptographic token verification required before first `service-token-required` route.
+Human-session internal v1 is **production accepted**. Machine S2S REST is **production offered** for `service-token-required` operations with verified `afenda-s2s-v1` bearer per [ADR-0035](../../../adr/ADR-0035-internal-v1-service-actor-bearer-verification.md) (supersedes machine policy in [ADR-0034](../../../adr/ADR-0034-service-actor-production-policy-attestation.md)). First route: `GET /api/internal/v1/auth/service-actor/ping`.

@@ -5,9 +5,9 @@ import type {
   OrganizationUnitContext,
 } from "@afenda/kernel";
 
-import type { AccountingReadinessContext } from "./accounting-readiness-context.types.js";
+import type { AccountingReadinessContext } from "./accounting-readiness-context.types";
 
-import { deriveConsolidationScopeContext } from "./consolidation-scope-resolution.server.js";
+import { deriveConsolidationScopeContext } from "./consolidation-scope-resolution.server";
 
 /**
  * ERP accounting-readiness projection — maps resolved operating context to

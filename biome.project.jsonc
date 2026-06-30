@@ -22,6 +22,8 @@
       "!!**/*.md",
       "!!**/*.mdx",
       "!!**/*.mdc",
+      // Tailwind v4 CSS — Prettier + prettier-plugin-tailwindcss (Biome needs tailwindDirectives opt-in).
+      "!!**/*.css",
       "!!**/.cursor",
       "!!.cursor-biome-report.json",
       "!!**/packages/shadcn-studio/src/components/shadcn-studio",

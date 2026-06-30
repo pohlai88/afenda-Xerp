@@ -312,7 +312,7 @@ await db.transaction(async (tx) => {
 |-------|-------|------|
 | **Manufacturing** | `packages/shadcn-studio/src/**` | MCP blocks, metadata binding registries, `data-afenda-slot` markers |
 | **ERP consumer** | `apps/erp/src/lib/metadata/**`, route pages | Compose studio blocks via PAS-006D templates — no local presentation SSOT |
-| **CSS** | `packages/shadcn-studio/src/styles/**`, `apps/erp/src/app/globals.css` | Unprefixed shadcn vars via studio chain — sync dist after CSS edits |
+| **CSS** | `packages/shadcn-studio/src/styles/**`, `apps/erp/src/app/globals.css` | Phase 1: composition entries = imports + `@source` only; theme in studio CSS; layout via Tailwind `className` — see `afenda-tailwind` |
 
 ### After installing a shadcn-studio block
 1. Install cwd: `packages/shadcn-studio` (MCP workflow)
@@ -320,7 +320,7 @@ await db.transaction(async (tx) => {
 3. `pnpm check:studio-metadata-binding` + `pnpm check:studio-block-slot-markers`
 4. `pnpm --filter @afenda/shadcn-studio typecheck` + `pnpm --filter @afenda/erp typecheck`
 
-Full reference: `.cursor/skills/shadcn-studio/SKILL.md` · composition: `.cursor/skills/afenda-presentation-quality/SKILL.md`
+Full reference: `.cursor/skills/shadcn-studio/SKILL.md` · composition: `.cursor/skills/afenda-presentation-quality/SKILL.md` · CSS: `.cursor/skills/afenda-tailwind/SKILL.md`
 
 ---
 

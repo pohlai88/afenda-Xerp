@@ -1,4 +1,4 @@
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../../contracts/block-slot-dom-marker.contract.js";
 import Notifications from "@/components/shadcn-studio/blocks/account-settings-02/content/all-notifications";
 import BrowserNotification from "@/components/shadcn-studio/blocks/account-settings-02/content/browser-notification";
 import DoNotDisturb from "@/components/shadcn-studio/blocks/account-settings-02/content/do-not-disturb";

@@ -33,6 +33,10 @@ import {
   PUBLISH_OUTBOX_EVENTS_SCHEDULE_ID,
   PUBLISH_OUTBOX_EVENTS_TRIGGER_TASK_ID,
 } from "../jobs/publish-outbox-events.job.js";
+import {
+  type RunServiceActorS2sPingJobResult,
+  SERVICE_ACTOR_S2S_PING_TRIGGER_TASK_ID,
+} from "../jobs/service-actor-s2s-ping.job.js";
 
 export interface TriggerExecutionProviderOptions {
   readonly nowIso?: () => string;
@@ -103,11 +107,37 @@ export async function invokeConfiguredPublishOutboxEventsTask(): Promise<unknown
   return await publishOutboxEventsTaskRun();
 }
 
+type ServiceActorS2sPingTaskRun =
+  () => Promise<RunServiceActorS2sPingJobResult>;
+
+let serviceActorS2sPingTaskRun: ServiceActorS2sPingTaskRun | null = null;
+
+export function configureServiceActorS2sPingTask(
+  run: ServiceActorS2sPingTaskRun
+): void {
+  serviceActorS2sPingTaskRun = run;
+}
+
+export async function invokeConfiguredServiceActorS2sPingTask(): Promise<RunServiceActorS2sPingJobResult> {
+  if (serviceActorS2sPingTaskRun === null) {
+    throw new Error(
+      "Service-actor S2S ping task handler is not configured. Call configureServiceActorS2sPingTask from ERP instrumentation."
+    );
+  }
+
+  return await serviceActorS2sPingTaskRun();
+}
+
 /** Static Trigger.dev task — scanned by `trigger.config.ts` for remote deployment. */
 // Task ID must stay aligned with PUBLISH_OUTBOX_EVENTS_* constants in this package's job module.
 export const publishOutboxEventsTriggerTask = task({
   id: PUBLISH_OUTBOX_EVENTS_TRIGGER_TASK_ID,
   run: invokeConfiguredPublishOutboxEventsTask,
+});
+
+export const serviceActorS2sPingTriggerTask = task({
+  id: SERVICE_ACTOR_S2S_PING_TRIGGER_TASK_ID,
+  run: invokeConfiguredServiceActorS2sPingTask,
 });
 
 export async function probePublishOutboxScheduleRegistered(

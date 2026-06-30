@@ -4,9 +4,14 @@
  *
  * Curated stories (dark variants, sample data) stay in shadcn-studio-blocks.stories.tsx.
  */
-import { readdirSync, statSync, writeFileSync } from "node:fs";
+import { writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+
+import {
+  discoverBlockStories,
+  slugToImportName,
+} from "./lib/discover-block-stories.mjs";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(scriptDir, "../..");
@@ -23,75 +28,8 @@ const outputPath = join(
   "packages/shadcn-studio/src/shadcn-studio-blocks-auto.stories.tsx"
 );
 
-const FULLSCREEN_BLOCK_SLUG_PATTERN =
-  /login|error|account-settings|application-shell|page-\d/i;
-const TSX_FILE_EXTENSION_PATTERN = /\.tsx$/;
-
-/** @typedef {{ slug: string; importPath: string; importName: string; layout: "centered" | "fullscreen" }} BlockEntry */
-
 /**
- * @param {string} slug
- * @returns {string}
- */
-function slugToImportName(slug) {
-  return slug
-    .split("-")
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join("");
-}
-
-/**
- * @param {string} slug
- * @returns {"centered" | "fullscreen"}
- */
-function resolveLayout(slug) {
-  return FULLSCREEN_BLOCK_SLUG_PATTERN.test(slug) ? "fullscreen" : "centered";
-}
-
-/**
- * @returns {{ auto: BlockEntry[]; manualStoryRequired: string[] }}
- */
-function discoverBlocks() {
-  /** @type {BlockEntry[]} */
-  const auto = [];
-  /** @type {string[]} */
-  const manualStoryRequired = [];
-
-  for (const name of readdirSync(blocksRoot)) {
-    const absolute = join(blocksRoot, name);
-    const stat = statSync(absolute);
-
-    if (stat.isDirectory()) {
-      const entryFile = join(absolute, `${name}.tsx`);
-      try {
-        statSync(entryFile);
-      } catch {
-        manualStoryRequired.push(name);
-        continue;
-      }
-
-      auto.push({
-        slug: name,
-        importPath: `./components/shadcn-studio/blocks/${name}/${name}.js`,
-        importName: `${slugToImportName(name)}Block`,
-        layout: resolveLayout(name),
-      });
-      continue;
-    }
-
-    if (name.endsWith(".tsx")) {
-      manualStoryRequired.push(name.replace(TSX_FILE_EXTENSION_PATTERN, ""));
-    }
-  }
-
-  auto.sort((a, b) => a.slug.localeCompare(b.slug));
-  manualStoryRequired.sort();
-
-  return { auto, manualStoryRequired };
-}
-
-/**
- * @param {BlockEntry[]} blocks
+ * @param {import("./lib/discover-block-stories.mjs").BlockEntry[]} blocks
  * @returns {string}
  */
 function renderStoriesFile(blocks) {
@@ -123,7 +61,6 @@ import type { Meta, StoryObj } from "@storybook/react";
 ${imports}
 import { shadcnStudioThemeDecorator } from "./_storybook/shadcn-studio-theme.decorator.js";
 import {
-  shadcnStudioBlockDocs,
   shadcnStudioCenteredLayout,
   shadcnStudioFullscreenLayout,
   shadcnStudioStoryA11y,
@@ -153,7 +90,7 @@ ${storyExports}
 }
 
 function main() {
-  const { auto, manualStoryRequired } = discoverBlocks();
+  const { auto, manualStoryRequired } = discoverBlockStories(blocksRoot);
 
   writeFileSync(
     manifestPath,

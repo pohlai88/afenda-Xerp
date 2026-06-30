@@ -1,21 +1,17 @@
 /**
- * PAS-006B — presentation block lifecycle (Presentation NS §8.1).
+ * PAS-006B — presentation block lifecycle transitions (Presentation NS §8.1).
  */
 
-export const BLOCK_LIFECYCLE_ORDER = [
-  "imported",
-  "normalized",
-  "stabilized",
-  "theme-bound",
-  "metadata-bound",
-  "accepted",
-  "production-wired",
-  "customized",
-  "deprecated",
-  "retired",
-] as const;
+export {
+  BLOCK_LIFECYCLE_ORDER,
+  type BlockLifecycleState,
+  isBlockLifecycleState,
+} from "../contracts/block-lifecycle.contract.js";
 
-export type BlockLifecycleState = (typeof BLOCK_LIFECYCLE_ORDER)[number];
+import {
+  BLOCK_LIFECYCLE_ORDER,
+  type BlockLifecycleState,
+} from "../contracts/block-lifecycle.contract.js";
 
 const BLOCK_LIFECYCLE_INDEX: Readonly<Record<BlockLifecycleState, number>> =
   BLOCK_LIFECYCLE_ORDER.reduce(

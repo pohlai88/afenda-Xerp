@@ -3,10 +3,10 @@
  */
 
 import type { MetadataBindingContractWire } from "../contracts/metadata-binding.contract.js";
+import { isValidMetadataBindingPresentationKind } from "../contracts/metadata-binding.contract.js";
 import type { MetadataBindingWaiverWire } from "../contracts/metadata-binding-waiver.contract.js";
 import { isMetadataBindingWaiverReason } from "../contracts/metadata-binding-waiver.contract.js";
 import { getBlockSlotsForBlockId } from "./block-slot.registry.js";
-import { isValidMetadataBindingPresentationKind } from "./build-metadata-binding-from-data-contracts.js";
 import { METADATA_BINDING_REGISTRY } from "./metadata-binding.registry.js";
 import { METADATA_BINDING_WAIVER_REGISTRY } from "./metadata-binding-waiver.registry.js";
 

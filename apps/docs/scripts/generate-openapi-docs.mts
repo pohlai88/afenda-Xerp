@@ -13,6 +13,8 @@ const OPENAPI_DOCUMENT_ID = "./openapi/afenda-internal-v1.openapi.json";
 
 const ZH_OPERATION_TITLE_BY_EN_SUMMARY: Record<string, string> = {
   "Assign membership role": "分配成员角色",
+  "Create membership role assignment": "创建成员角色分配",
+  "Create user invitation": "创建用户邀请",
   "Get ERP health status": "获取 ERP 健康状态",
   "Get dashboard layout": "获取仪表盘布局",
   "Initiate tenant brand logo upload": "发起租户品牌 Logo 上传",

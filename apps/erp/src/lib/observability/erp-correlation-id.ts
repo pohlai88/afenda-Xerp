@@ -1,4 +1,6 @@
-import { createCorrelationId } from "@afenda/observability";
+import { createCorrelationId as createCanonicalCorrelationId } from "@afenda/kernel";
+
+import { persistenceCanonicalIdBodyGenerator } from "@/lib/identity/persistence-canonical-id-body-generator.server";
 
 declare const erpCorrelationIdBrand: unique symbol;
 
@@ -17,7 +19,9 @@ export function toErpCorrelationId(value: string): ErpCorrelationId {
   return normalized as ErpCorrelationId;
 }
 
-/** Generates and brands a new correlation ID (cron, bootstrap, background jobs). */
-export function createErpCorrelationId(prefix = "corr"): ErpCorrelationId {
-  return toErpCorrelationId(createCorrelationId(prefix));
+/** Generates and brands a new canonical correlation ID (cron, bootstrap, background jobs). */
+export function createErpCorrelationId(): ErpCorrelationId {
+  return toErpCorrelationId(
+    createCanonicalCorrelationId(persistenceCanonicalIdBodyGenerator)
+  );
 }

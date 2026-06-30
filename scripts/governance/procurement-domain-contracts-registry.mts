@@ -35,10 +35,14 @@ export const PROCUREMENT_ERP_FORBIDDEN_ROUTE_DIRS = [
   "apps/erp/src/app/(protected)/modules/procurement",
 ] as const;
 
-/** ERP-PROC-OP-005 — sole authorized procurement ERP route until PAS-006 UI slice. */
+/** ERP-PROC-OP-005 — sole authorized procurement ERP routes until business runtime slice. */
 export const PROCUREMENT_ERP_AUTHORIZED_FOUNDATION_ROUTE_FILES = [
   "apps/erp/src/app/(protected)/modules/procurement/readiness/page.tsx",
   "apps/erp/src/lib/procurement/load-procurement-foundation-readiness-page.server.ts",
+  "apps/erp/src/app/(protected)/modules/procurement/requisitions/page.tsx",
+  "apps/erp/src/lib/procurement/load-procurement-requisitions-page.server.ts",
+  "apps/erp/src/app/(protected)/modules/procurement/purchase-orders/page.tsx",
+  "apps/erp/src/lib/procurement/load-procurement-purchase-orders-page.server.ts",
 ] as const;
 
 export const PROCUREMENT_ERP_SOURCE_ROOT = "apps/erp/src" as const;

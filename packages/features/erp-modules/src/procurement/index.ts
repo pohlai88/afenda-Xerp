@@ -20,7 +20,7 @@ export {
   PROCUREMENT_PLANNED_OUTBOX_ENTRIES,
   PROCUREMENT_WIRE_AUDIT_ACTIONS,
 } from "./procurement.audit-outbox.contract.js";
-/** ERP-PROC-OP-005 — context spine consumer attestation (foundation readiness route). */
+/** ERP-PROC-OP-005 — context spine consumer attestation (foundation + PAS-006 list routes). */
 export {
   PROCUREMENT_CONTEXT_SPINE_CONSUMER_ATTESTATION,
   PROCUREMENT_CONTEXT_SPINE_CONSUMER_CONTRACT,
@@ -45,6 +45,16 @@ export {
   PROCUREMENT_OWNERSHIP_SLICE_ID,
   PROCUREMENT_OWNERSHIP_STATUS,
 } from "./procurement.ownership.contract.js";
+/** ERP-PROC-OP-007 — PAS-006 UI scaffold attestation (fixture-backed list routes). */
+export {
+  PROCUREMENT_PAS006_UI_ATTESTATION,
+  PROCUREMENT_PAS006_UI_BLOCK_IDS,
+  PROCUREMENT_PAS006_UI_CONTRACT,
+  PROCUREMENT_PAS006_UI_SLICE_ID,
+  PROCUREMENT_PAS006_UI_STATUS,
+  PROCUREMENT_PURCHASE_ORDERS_LIST_ROUTE,
+  PROCUREMENT_REQUISITIONS_LIST_ROUTE,
+} from "./procurement.pas006-ui.contract.js";
 /** ERP-PROC-OP-004 — permission binding declaration (no registry wiring). */
 export {
   PROCUREMENT_KERNEL_PERMISSION_KEYS,

@@ -60,7 +60,7 @@ export default defineConfig({
       // Pin IPv4 + a safe port so Storybook browser tests can bind locally.
       api: {
         host: "127.0.0.1",
-        port: 63_500,
+        port: 49_152,
         strictPort: false,
       },
     },

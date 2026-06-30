@@ -27,7 +27,7 @@ MCP / shadcn CLI  →  @afenda/shadcn-studio  →  apps/erp
 ```
 
 - **Install cwd:** `packages/shadcn-studio`
-- **ERP CSS entry:** `apps/erp/src/app/globals.css` (PAS-006 three-layer import)
+- **ERP CSS entry:** `apps/erp/src/app/globals.css` (AdminCN four-import chain — see PAS-006A)
 - **Storybook:** `@afenda/shadcn-studio` blocks only
 
 ### 2. Deleted packages (filesystem removed)

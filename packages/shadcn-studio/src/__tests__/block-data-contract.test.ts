@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   type BlockDataContractWire,
   isBlockDataContractWire,
-} from "../contracts/block-data-contract.js";
+} from "../contracts/block-data.contract.js";
 import {
   BLOCK_DATA_CONTRACT_REGISTRY,
   getBlockDataContractForBlockId,
@@ -41,6 +41,12 @@ describe("block data contract (PAS-006B P06-003)", () => {
 
     expect(isBlockDataContractWire(sample)).toBe(true);
     expect(isBlockDataContractWire({ blockId: "x" })).toBe(false);
+    expect(
+      isBlockDataContractWire({
+        ...sample,
+        fields: [{ ...sample.fields[0], kind: "invalid" }],
+      })
+    ).toBe(false);
   });
 
   it("exposes contract lookup by block id", () => {

@@ -2,7 +2,7 @@
 
 import { MailIcon, MonitorIcon, TabletSmartphoneIcon } from "lucide-react";
 import React, { useState } from "react";
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../../../contracts/block-slot-dom-marker.contract.js";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,

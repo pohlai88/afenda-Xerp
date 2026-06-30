@@ -39,5 +39,22 @@ describe("metadata binding contract (PAS-006D)", () => {
     expect(isMetadataBindingContractWire({ metadataBindingId: "x" })).toBe(
       false
     );
+    expect(
+      isMetadataBindingContractWire({
+        ...sampleBinding,
+        fields: [
+          {
+            ...sampleBinding.fields[0],
+            presentationKind: "invalid-kind",
+          },
+        ],
+      })
+    ).toBe(false);
+    expect(
+      isMetadataBindingContractWire({
+        ...sampleBinding,
+        surfaceTemplateClass: "not-a-class",
+      })
+    ).toBe(false);
   });
 });

@@ -8,7 +8,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-import { blockSlotDomMarkerProps } from "@/contracts/block-slot-dom-marker.contract.js";
+import { blockSlotDomMarkerProps } from "../../../../contracts/block-slot-dom-marker.contract.js";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -127,11 +127,13 @@ const Members = () => {
             </p>
           </div>
           <Dialog>
-            <DialogTrigger asChild>
-              <Button {...blockSlotDomMarkerProps("profile.save")} className="max-sm:w-full">
-                <PlusIcon />
-                Invite Member
-              </Button>
+            <DialogTrigger
+              render={
+                <Button {...blockSlotDomMarkerProps("profile.save")} className="max-sm:w-full" />
+              }
+            >
+              <PlusIcon />
+              Invite Member
             </DialogTrigger>
             <DialogContent className="sm:max-w-lg [&>[data-slot=dialog-close]>svg]:size-5">
               <DialogHeader>
@@ -167,7 +169,7 @@ const Members = () => {
 
                 <div className="w-full space-y-2">
                   <Label htmlFor="invite-role">Select role</Label>
-                  <Select onValueChange={(val) => setRole(val)} value={role}>
+                  <Select onValueChange={(val) => setRole(val ?? "")} value={role}>
                     <SelectTrigger className="w-full" id="invite-role">
                       <SelectValue placeholder="Select role..." />
                     </SelectTrigger>
@@ -185,12 +187,8 @@ const Members = () => {
               </div>
 
               <DialogFooter className="mt-6 gap-4">
-                <DialogClose asChild>
-                  <Button variant="outline">Cancel</Button>
-                </DialogClose>
-                <DialogClose asChild>
-                  <Button>Add user</Button>
-                </DialogClose>
+                <DialogClose render={<Button variant="outline" />}>Cancel</DialogClose>
+                <DialogClose render={<Button />}>Add user</DialogClose>
               </DialogFooter>
             </DialogContent>
           </Dialog>
@@ -245,16 +243,18 @@ const Members = () => {
                   </Select>
 
                   <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button
-                        className="rounded-full"
-                        disabled={isAdmin}
-                        size="icon"
-                        variant="ghost"
-                      >
-                        <EllipsisVerticalIcon />
-                        <span className="sr-only">Edit menu</span>
-                      </Button>
+                    <DropdownMenuTrigger
+                      render={
+                        <Button
+                          className="rounded-full"
+                          disabled={isAdmin}
+                          size="icon"
+                          variant="ghost"
+                        />
+                      }
+                    >
+                      <EllipsisVerticalIcon />
+                      <span className="sr-only">Edit menu</span>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="w-20">
                       <DropdownMenuGroup>
@@ -312,15 +312,13 @@ const Members = () => {
                       </SelectContent>
                     </Select>
                     <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button
-                          className="rounded-full"
-                          size="icon"
-                          variant="ghost"
-                        >
-                          <EllipsisVerticalIcon />
-                          <span className="sr-only">Edit menu</span>
-                        </Button>
+                      <DropdownMenuTrigger
+                        render={
+                          <Button className="rounded-full" size="icon" variant="ghost" />
+                        }
+                      >
+                        <EllipsisVerticalIcon />
+                        <span className="sr-only">Edit menu</span>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end" className="w-20">
                         <DropdownMenuGroup>

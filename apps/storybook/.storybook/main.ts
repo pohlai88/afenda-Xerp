@@ -7,6 +7,8 @@ function getAbsolutePath(value: string): string {
 }
 
 const appRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
+const addonDocsRoot = getAbsolutePath("@storybook/addon-docs");
+const addonDocsBlocks = join(addonDocsRoot, "dist/blocks.js");
 const shadcnTailwindCss = join(
   appRoot,
   "node_modules/shadcn/dist/tailwind.css"
@@ -24,8 +26,17 @@ const storybookTest = join(
 
 const config: StorybookConfig = {
   stories: [
+    "../stories/**/*.mdx",
     "../stories/**/*.stories.@(ts|tsx)",
+    "../../../packages/shadcn-studio/src/_storybook/docs/**/*.mdx",
     "../../../packages/shadcn-studio/src/**/*.stories.@(ts|tsx)",
+  ],
+  staticDirs: [
+    join(appRoot, "public"),
+    {
+      from: join(shadcnStudioRoot, "public"),
+      to: "/studio-assets",
+    },
   ],
   addons: [
     getAbsolutePath("@storybook/addon-docs"),
@@ -49,6 +60,10 @@ const config: StorybookConfig = {
   },
   async viteFinal(viteConfig) {
     const storybookAliases = [
+      {
+        find: "@storybook/addon-docs/blocks",
+        replacement: addonDocsBlocks,
+      },
       {
         find: "shadcn/tailwind.css",
         replacement: shadcnTailwindCss,
@@ -128,6 +143,7 @@ const config: StorybookConfig = {
     viteConfig.optimizeDeps.esbuildOptions.jsxImportSource = "react";
     viteConfig.optimizeDeps.esbuildOptions.alias = {
       ...(viteConfig.optimizeDeps.esbuildOptions.alias ?? {}),
+      "@storybook/addon-docs/blocks": addonDocsBlocks,
       "@/components/ui": join(shadcnStudioSrcRoot, "components/ui"),
       "@/components/shadcn-studio": join(
         shadcnStudioSrcRoot,
@@ -145,6 +161,7 @@ const config: StorybookConfig = {
       ...(viteConfig.optimizeDeps.include ?? []).filter(
         (dep) => dep !== "next/link"
       ),
+      "@storybook/addon-docs/blocks",
       "@afenda/shadcn-studio",
       "next-themes",
       "react",

@@ -328,6 +328,22 @@ function buildCoreBundle(
         operatingContextRequired: true,
         metadataSlotId: "procurement.foundation.readiness",
       },
+      {
+        surfaceId: "procurement.requisitions.list",
+        route: "/modules/procurement/requisitions",
+        routeKind: "erp_module_page",
+        permissionKey: "procurement.requisition_read",
+        operatingContextRequired: true,
+        metadataSlotId: "procurement.requisitions.list",
+      },
+      {
+        surfaceId: "procurement.purchase_orders.list",
+        route: "/modules/procurement/purchase-orders",
+        routeKind: "erp_module_page",
+        permissionKey: "procurement.purchaseOrder_read",
+        operatingContextRequired: true,
+        metadataSlotId: "procurement.purchase_orders.list",
+      },
     ],
   });
 
