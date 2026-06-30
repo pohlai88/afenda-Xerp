@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-30-v34" as const;
+  "FOUNDATION-DISPOSITION-2026-06-30-v35" as const;
 
 const foundationDispositionEntries = [
   {
@@ -552,13 +552,15 @@ const foundationDispositionEntries = [
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md",
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-001-operational-scaffold-authorization.md",
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-002-runtime-ownership-contract.md",
+      "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-003-database-boundary-declaration.md",
       "packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts",
       "packages/features/erp-modules/src/procurement/index.ts",
       "packages/features/erp-modules/src/procurement/README.md",
       "packages/features/erp-modules/src/procurement/procurement.ownership.contract.ts",
+      "packages/features/erp-modules/src/procurement/procurement.database-boundary.contract.ts",
     ],
     knownGaps: [
-      "Ownership ADR-locked via ERP-PROC-OP-002 — database schema, permissions binding, operating-context consumer, and audit/outbox integration still deferred",
+      "DB boundary declared (OP-003); migrations still deferred; permissions/context/audit still deferred",
       "Business procurement runtime deferred — gap report sections B–F remain until downstream PAS slices close",
     ],
     allowedAgents: ["afenda-governed-implementer", "foundation-registry-owner"],
@@ -575,6 +577,7 @@ const foundationDispositionEntries = [
       "pnpm check:foundation-disposition",
       "pnpm check:procurement-runtime-foundation",
       "pnpm check:procurement-ownership-contract",
+      "pnpm check:procurement-database-boundary-contract",
     ],
     legacyTipEvidence: [],
   },
