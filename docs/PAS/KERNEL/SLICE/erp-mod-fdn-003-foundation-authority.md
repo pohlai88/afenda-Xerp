@@ -1,66 +1,45 @@
-# Slice ERP-MOD-FDN-003 — ERP Module Foundation Authority (PAS-001C)
+# Slice ERP-MOD-FDN-003 — ERP Module Foundation Authority
 
-> **Position:** Platform foundation closure slice for `@afenda/erp-module-foundation`
+> **Position:** Platform closure slice for PAS-001C
 
-**Status:** Delivered (2026-06-30)
+**Status:** **Delivered** 2026-06-30
 
-**Type:** Implementation
+**Type:** Package + governance gates (zero runtime deps)
 
-**Risk class:** Medium
-
-**Clean Core impact:** A→A — foundation helpers only; no LoB runtime
+**Prerequisite:** PAS-001B KV catalog closure · B80 wire Delivered · PAS-004 module-foundation atoms
 
 ## Purpose
 
-Deliver `@afenda/erp-module-foundation` — reusable define*/assert* factories, reference procurement foundation bundle, composite governance gates, and readiness report renderers under PAS-001C.
+Deliver `@afenda/erp-module-foundation` as the platform authority for ERP runtime module identity, readiness matrices, and foundation bundle attestation — without implementing LoB business runtime.
 
 ## Handoff block
 
 ```
 Handoff from: docs/PAS/KERNEL/SLICE/erp-mod-fdn-003-foundation-authority.md
 
-1. Objective    — Deliver PAS-001C platform foundation authority package and composite gates.
-2. Allowed layer— packages/erp-module-foundation/** · scripts/governance/check-erp-module-*.mts · docs/PAS/KERNEL/PAS-001C-*.md
-3. Files        —
-   packages/erp-module-foundation/src/**
-   scripts/governance/erp-module-foundation-registry.mts
-   scripts/governance/check-erp-module-foundation.mts
-   docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md
-4. Prohibited   — packages/kernel/** · LoB runtime · packages/procurement · ERP routes
-5. Authority    — PAS-001C · Module Foundation NS · kernel I7 (no kernel runtime leak)
-6. Gates        —
-   pnpm check:erp-module-foundation
-   pnpm --filter @afenda/erp-module-foundation typecheck
-   pnpm --filter @afenda/erp-module-foundation test:run
-   pnpm check:foundation-disposition
-7. Closes       — Closes DoD #1–#6 · PKGR01C foundation_authority
-8. Evidence     —
-   packages/erp-module-foundation/src/index.ts
-   packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts
-   scripts/governance/erp-module-foundation-registry.mts
-9. Attestation  — Contract · Test · Governance · Documentation (retroactive)
+1. Objective    — Close PAS-001C platform foundation package + composite gates.
+2. Allowed layer— packages/erp-module-foundation/** · scripts/governance/check-erp-module-* · docs/PAS/KERNEL/PAS-001C*
+3. Files        — PAS-001C standard · pas-status-index · foundation bundle reference · gate scripts
+4. Prohibited   — packages/procurement/** · kernel business runtime · DB migrations · ERP production routes
+5. Authority    — ERP Module Foundation NS · PAS-001B KV catalog · PAS-004 EK-MOD-FDN atoms
+6. Gates        — pnpm quality:erp-module-foundation · pnpm check:erp-module-foundation · pnpm check:documentation-drift
+7. Closes       — PAS-001C Delivered; enables ERP-MODULES slices (e.g. ERP-PROC-FDN-001)
+8. Evidence     — ERP_MODULE_FOUNDATION_AUTHORITY_FINGERPRINT v4 · PROCUREMENT_FOUNDATION_BUNDLE reference
+9. Attestation  — Architecture Authority · Module Foundation
 ```
 
 ## DoD
 
-| # | Criterion | Gate | Traces to EFR/EAC |
+| # | Criterion | Gate | Evidence |
 | --- | --- | --- | --- |
-| 1 | All §4 PAS surfaces exported | typecheck | PAS-001C §4 · NS §4 governed identity |
-| 2 | Composite + sub-gates registered | `pnpm check:erp-module-foundation` | PAS-001C §13 |
-| 3 | Reference procurement bundle validates | test:run procurement-reference | NS §12.4 exemplar scaffold |
-| 4 | Prohibited deps enforced | `check:erp-module-no-kernel-runtime-leak` | kernel I7 |
-| 5 | Registry lane PKGR01C aligned | `check:foundation-disposition` | Blueprint §4 |
-| 6 | Canonical PAS doc authored | Manual review | PAS-001C · Blueprint handoff |
+| 1 | PAS-001C standard published | Manual | [PAS-001C](../PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) |
+| 2 | Package exports define*/assert* helpers | `pnpm --filter @afenda/erp-module-foundation test:run` | `@afenda/erp-module-foundation` |
+| 3 | Composite erp-module gates registered | `pnpm check:erp-module-foundation` | `scripts/governance/check-erp-module-foundation.mts` |
+| 4 | Reference procurement bundle attested | `pnpm quality:erp-module-foundation` | `PROCUREMENT_FOUNDATION_BUNDLE` |
+| 5 | Fingerprint v4 synced | `pnpm check:documentation-drift` | `ERP_MODULE_FOUNDATION-2026-06-30-v4` |
 
-## Honest maturity note
+## References
 
-Helper package quality **~8.6–8.8/10**. Enterprise **9.5/10** for the module foundation **domain** requires Blueprint acceptance, template at `docs/PAS/ERP-MODULES/`, and procurement exemplar readiness report — not reference bundle alone.
-
-## Runtime evidence
-
-| Capability | Proven | Evidence path |
-| --- | --- | --- |
-| Foundation factories | Yes | `packages/erp-module-foundation/src/define-*.ts` |
-| Composite gates | Yes | `scripts/governance/check-erp-module-foundation.mts` |
-| Procurement wire bundle | Yes — wire phase | `PROCUREMENT_FOUNDATION_BUNDLE` |
-| Procurement operational | **No** | [Gap report](../audit/procurement-foundation-gap-report.md) |
+- [PAS-001C](../PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md)
+- [ERP runtime module foundation template](../../ERP-MODULES/erp-runtime-module-foundation.template.md)
+- [Procurement reference bundle](../../../../packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts)

@@ -4,7 +4,7 @@
 
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { APPSHELL_CONTEXT_CONSUMPTION_MODULES } from "../../../packages/appshell/src/context/appshell-context-surface-registry.ts";
+
 import { DATABASE_TENANT_DOMAIN_MODULES } from "../../../packages/database/src/tenant-domain/tenant-domain-registry.ts";
 import { KERNEL_OPERATING_CONTEXT_REQUIRED_MODULES } from "../../../packages/kernel/src/context/context-registry.ts";
 import { PERMISSIONS_SCOPE_GRANTS_MODULES } from "../../../packages/permissions/src/permissions-scope-grants-registry.ts";
@@ -175,18 +175,6 @@ function collectRegistryBaselineViolations(
     }
   }
 
-  for (const module of APPSHELL_CONTEXT_CONSUMPTION_MODULES) {
-    const modulePath = join(repoRoot, "packages/appshell/src", module.path);
-
-    if (!existsSync(modulePath)) {
-      violations.push({
-        rule: "appshell-module-missing",
-        file: modulePath,
-        message: `AppShell context module missing: ${module.path}`,
-      });
-    }
-  }
-
   return violations;
 }
 
@@ -261,9 +249,9 @@ export function collectExistingStateAuditViolations(
     ...collectMissingMarkers(
       auditSection,
       MULTI_TENANCY_APPSHELL_CONTEXT_AUDIT_ROW_MARKERS,
-      "appshell-audit-row",
+      "erp-context-audit-row",
       deliveryDocPath,
-      "AppShell context"
+      "ERP operating-context"
     ),
     ...collectMissingMarkers(
       auditSection,

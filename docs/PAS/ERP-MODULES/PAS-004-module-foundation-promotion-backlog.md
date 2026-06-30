@@ -38,35 +38,78 @@ Mirrors [Module Foundation NS §3.1](../../NORTHSTAR/erp-module-runtime-north-st
 
 ---
 
-## Procurement business promotion (KV-PROC P0)
+## Procurement business promotion (KV-PROC)
 
 Mirrors [gap report §B.2](../PROCUREMENT/procurement-foundation-gap-report.md#b2-procurement-knowledge-register).
 
-| Term | PAS-004 status | Wire (KV-PROC) | Status | Atom ID |
-| --- | --- | --- | --- | --- |
-| Procurement requisition | Accepted | Yes | **Done** (B53) | `procurement_requisition` |
-| Purchase order | Accepted | Yes | **Done** (B56 P0) | `purchase_order` |
-| Supplier | Accepted | PAS-001 identity | **Done** (B56 P0) | `supplier` |
-| RFQ | Accepted | Yes | **Done** (B56 P0) | `procurement_rfq` |
+### P0 (B56 — 2026-06-30)
 
-**P0 closure:** 3 atoms in `B56_PROCUREMENT_P0_ATOM_IDS` (2026-06-30).
+| Term | Wire (KV-PROC) | Status | Atom ID |
+| --- | --- | --- | --- |
+| Purchase order | Yes | **Done** | `purchase_order` |
+| Supplier | PAS-001 identity | **Done** | `supplier` |
+| RFQ | Yes | **Done** | `procurement_rfq` |
+
+### P1 (B57 — 2026-06-30)
+
+| Term | Wire (KV-PROC) | Status | Atom ID |
+| --- | --- | --- | --- |
+| Sourcing method | `SOURCING_METHODS` | **Done** | `procurement_sourcing` |
+| Blanket agreement | doc type | **Done** | `blanket_agreement` |
+| Supplier quote | supplierQuote domain | **Done** | `supplier_quote` |
+
+### Bridge (B53)
+
+| Term | Status | Atom ID |
+| --- | --- | --- |
+| Procurement requisition | **Done** | `procurement_requisition` |
 
 ---
 
-## Procurement backlog (wire-only / missing / ambiguous)
+## Product Bank and Supplier Portal promotion (B58 planned — PAS-PROC-001K)
 
-Remaining rows from gap report §B.2 — **not** promoted in this batch. Knowledge map in `PROCUREMENT_FOUNDATION_BUNDLE` retains `wire_only` rows for LAW K6 honesty.
+Derived from [PAS-PROC-001K §11](./PAS-PROC-001K-PROCUREMENT-PRODUCT-BANK-AND-SUPPLIER-PORTAL-STANDARD.md). Atoms required before semantic runtime.
+
+### B58 P0 — Core Product Bank atoms (promote before Phase 1 runtime)
+
+| Term | Status | Planned Atom ID | Slice |
+| --- | --- | --- | --- |
+| Supplier catalog item | **Planned** | `supplier_catalog_item` | B58-P0 |
+| Product Bank item | **Planned** | `product_bank_item` | B58-P0 |
+| Buying decision record | **Planned** | `buying_decision_record` | B58-P0 |
+| Supplier price list | **Planned** | `supplier_price_list` | B58-P0 |
+
+### B58 P1 — Supporting Product Bank atoms
+
+| Term | Status | Planned Atom ID | Slice |
+| --- | --- | --- | --- |
+| Catalog publication state | **Planned** | `catalog_publication_state` | B58-P1 |
+| Landed cost evaluation | **Planned** | `landed_cost_evaluation` | B58-P1 |
+| Requestor sourcing catalog | **Planned** | `requestor_sourcing_catalog` | B58-P1 |
+| Invoice match evidence | **Planned** | `invoice_match_evidence` | B58-P1 |
+
+### B58 P2 — Accountability
+
+| Term | Status | Planned Atom ID | Slice |
+| --- | --- | --- | --- |
+| Supplier accountability score | **Planned** | `supplier_accountability_score` | B58-P2 |
+
+---
+
+## Procurement backlog (missing / ambiguous / cross-domain)
+
+Remaining rows from gap report §B.2 and [Procurement NS §3](../../NORTHSTAR/procurement-north-star.md). Knowledge map retains `missing` rows for LAW K6 honesty.
 
 | Term | Gap report status | Wire | Required action | Knowledge map status |
 | --- | --- | --- | --- | --- |
-| Sourcing | Wire-only | Yes (`SOURCING_METHODS`) | Add atom — process vs method enum | `wire_only` |
-| Blanket agreement | Wire-only | Yes (doc type) | Add enterprise meaning atom | `wire_only` |
-| Supplier quote | Wire-only | Yes (permission domain) | Add enterprise meaning atom | `wire_only` |
+| Goods receipt signal | Missing | Cross-domain KV-INV | Atom — signal not stock movement | `missing` |
+| Three-way match | Missing | ADR-gated | Cross-domain PROC + INV + ACCT | `missing` |
 | Approval (requisition) | Ambiguous | Partial wire | Decide workflow vs procurement-scoped atom | — |
 | Purchasing group | Ambiguous | Team analog | Perspective or atom linking Team ↔ procurement org | — |
-| Goods receipt | Missing | Prohibited surface name | Cross-domain KV-INV + atom | — |
 | Supplier invoice | Missing | — | Cross-domain KV-ACCT + atom | — |
-| Three-way match | Missing | Prohibited surface name | Cross-domain ADR (PROC + INV + ACCT) | — |
+| Award decision | Planned | — | PAS-PROC-001C | — |
+| Procurement exception | Planned | — | PAS-PROC-001G | — |
+| Spend intent | Planned | — | Procurement NS P2 vocabulary | — |
 | Incoterms / landed cost / RTV / analytics | Missing | — | Future PAS-004 + domain ADR | — |
 
 ---
@@ -82,9 +125,16 @@ Remaining rows from gap report §B.2 — **not** promoted in this batch. Knowled
 | B54 module foundation P0 | `B54_MODULE_FOUNDATION_ATOM_IDS` | 12 |
 | B55 module foundation P1 | `B55_MODULE_FOUNDATION_P1_ATOM_IDS` | 3 |
 | B56 procurement P0 | `B56_PROCUREMENT_P0_ATOM_IDS` | 3 |
-| **Total** | `KNOWLEDGE_ATOM_IDS` | **44** |
+| B57 procurement P1 | `B57_PROCUREMENT_P1_ATOM_IDS` | 3 |
+| **Total (current)** | `KNOWLEDGE_ATOM_IDS` | **47** |
+| B58 Product Bank P0 (planned) | `B58_PRODUCT_BANK_P0_ATOM_IDS` | 4 |
+| B58 Product Bank P1 (planned) | `B58_PRODUCT_BANK_P1_ATOM_IDS` | 4 |
+| B58 Product Bank P2 (planned) | `B58_PRODUCT_BANK_P2_ATOM_IDS` | 1 |
+| **Total after B58** | — | **56** |
 
-**Fingerprint:** `ENTERPRISE-KNOWLEDGE-2026-06-30-v3`
+**Fingerprint:** `ENTERPRISE-KNOWLEDGE-2026-06-30-v4` (B58 pending — not yet promoted)
+
+> **B58 prerequisite:** PAS-PROC-001K stub accepted → B58 slice authored with 9-field handoff → atoms promoted to `packages/enterprise-knowledge/src/data/` — documentation only until slice executed.
 
 ---
 
@@ -92,6 +142,7 @@ Remaining rows from gap report §B.2 — **not** promoted in this batch. Knowled
 
 | Artifact | Path |
 | --- | --- |
+| Procurement North Star | [procurement-north-star.md](../../NORTHSTAR/procurement-north-star.md) |
 | Procurement readiness report | [procurement-runtime-readiness-report.md](./PROCUREMENT/procurement-runtime-readiness-report.md) |
 | Foundation bundle | `packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts` |
 | Alignment gate | `pnpm check:erp-module-knowledge-alignment` |

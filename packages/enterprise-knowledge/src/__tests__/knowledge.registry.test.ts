@@ -7,6 +7,7 @@ import {
   B24_KNOWLEDGE_ATOM_IDS,
   B55_MODULE_FOUNDATION_P1_ATOM_IDS,
   B56_PROCUREMENT_P0_ATOM_IDS,
+  B57_PROCUREMENT_P1_ATOM_IDS,
   ENTERPRISE_KNOWLEDGE_ATOMS,
   getKnowledgeAtom,
   isKnowledgeAtomId,
@@ -21,10 +22,10 @@ import { getPrimaryKernelRealization } from "../policy/knowledge-realization.pol
 const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
 
 describe("@afenda/enterprise-knowledge registry", () => {
-  it("registers forty-four atoms with stable ids (B24 + B29 + B31 + B53 + B54 + B55 + B56)", () => {
-    expect(KNOWLEDGE_ATOM_IDS).toHaveLength(44);
-    expect(ENTERPRISE_KNOWLEDGE_ATOMS).toHaveLength(44);
-    expect(new Set(KNOWLEDGE_ATOM_IDS).size).toBe(44);
+  it("registers forty-seven atoms with stable ids (B24 + B29 + B31 + B53 + B54 + B55 + B56 + B57)", () => {
+    expect(KNOWLEDGE_ATOM_IDS).toHaveLength(47);
+    expect(ENTERPRISE_KNOWLEDGE_ATOMS).toHaveLength(47);
+    expect(new Set(KNOWLEDGE_ATOM_IDS).size).toBe(47);
     expect(
       [...KNOWLEDGE_ATOM_IDS].slice(0, B24_KNOWLEDGE_ATOM_IDS.length)
     ).toEqual([...B24_KNOWLEDGE_ATOM_IDS]);
@@ -39,6 +40,13 @@ describe("@afenda/enterprise-knowledge registry", () => {
 
   it("registers B56 procurement P0 atom group (KV-PROC)", () => {
     for (const atomId of B56_PROCUREMENT_P0_ATOM_IDS) {
+      expect(isKnowledgeAtomId(atomId)).toBe(true);
+      expect(getKnowledgeAtom(atomId).lifecycle).toBe("accepted");
+    }
+  });
+
+  it("registers B57 procurement P1 atom group (KV-PROC sourcing/blanket/quote)", () => {
+    for (const atomId of B57_PROCUREMENT_P1_ATOM_IDS) {
       expect(isKnowledgeAtomId(atomId)).toBe(true);
       expect(getKnowledgeAtom(atomId).lifecycle).toBe("accepted");
     }

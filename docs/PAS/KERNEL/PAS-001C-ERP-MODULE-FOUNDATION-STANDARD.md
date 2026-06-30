@@ -1,296 +1,185 @@
 # PAS-001C — ERP Module Foundation Standard
 
-> **PAS family:** [ERP-MODULES](../ERP-MODULES/README.md) · implements [ERP Module Runtime North Star](../../NORTHSTAR/erp-module-runtime-north-star.md) · Blueprint: [erp-module-runtime-blueprint](../../BLUEPRINT/erp-module-runtime-blueprint.md)
+> **Platform authority** for ERP runtime module identity, readiness attestation, and foundation bundle serialization. LoB business runtime remains in ERP-MODULES slices.
 
 | Field | Value |
 | --- | --- |
 | **PAS ID** | PAS-001C |
-| **Document title** | ERP Module Foundation Standard |
-| **Document class** | `platform_authority_standard` |
-| **Document role** | `erp_module_foundation_governance` |
-| **Blueprint box** | **ERP Module Runtime Foundation** |
-| **Registry lane** | `PKGR01C_ERP_MODULE_FOUNDATION` |
-| **Package** | `@afenda/erp-module-foundation` · `PKG-027` |
-| **Parent** | [ERP Module Runtime North Star](../../NORTHSTAR/erp-module-runtime-north-star.md) |
-| **Implementation SSOT** | [erp-runtime-module-foundation.template.md](../ERP-MODULES/erp-runtime-module-foundation.template.md) |
-| **Maturity** | Production Candidate — helper package **~8.6–8.8/10** · 9.5 requires live LoB adoption |
-| **Authority status** | `foundation_authority` — define*/assert* helpers; zero runtime deps |
-| **Fingerprint** | `ERP_MODULE_FOUNDATION-2026-06-30-v4` |
-| **Upstream** | Module Foundation NS · [Kernel PAS-001A](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) · [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
+| **Document class** | `platform_foundation_standard` |
+| **Package** | `@afenda/erp-module-foundation` · `PKGR01C_ERP_MODULE_FOUNDATION` · `PKG-027` |
+| **Parent PAS** | [PAS-001](PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) (wire vocabulary) · [PAS-001B](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) (KV catalog) |
+| **Slice** | ERP-MOD-FDN-003 — [handoff](SLICE/erp-mod-fdn-003-foundation-authority.md) · **Delivered** 2026-06-30 |
+| **Runtime stance** | `foundation_authority` — define*/assert* helpers; **zero runtime deps** |
+| **Fingerprint** | `ERP_MODULE_FOUNDATION-2026-06-30-v4` (machine: `ERP_MODULE_FOUNDATION_AUTHORITY_FINGERPRINT`) |
+| **Reference bundle** | `PROCUREMENT_FOUNDATION_BUNDLE` (KV-PROC wire-phase attestation) |
+| **Template** | [ERP runtime module foundation template](../ERP-MODULES/erp-runtime-module-foundation.template.md) |
 | **Last reviewed** | 2026-06-30 |
-
-> **One sentence:** Every LoB ERP module must declare governed identity, ownership, knowledge alignment, integration-spine consumption, permission and audit binding, metadata surfaces, persistence boundary, and readiness evidence through `@afenda/erp-module-foundation` factories — before operational runtime behavior is authorized.
-
-> **Canonical location:** `docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md`
 
 ---
 
-# 0. Agent Quick Path
+## 0. Agent Quick Path
 
-**Read order:** [Module Foundation NS §1–§12](../../NORTHSTAR/erp-module-runtime-north-star.md) → [Blueprint §4](../../BLUEPRINT/erp-module-runtime-blueprint.md) → **this document §1–§4** → [template](../ERP-MODULES/erp-runtime-module-foundation.template.md) → slice handoff → [erp-module-foundation-authority skill](../../.cursor/skills/erp-module-foundation-authority/SKILL.md) → Code.
+**PAS-001C is platform foundation — not LoB runtime.**
 
-**Doctrine:**
-
-```text
-Kernel owns wire words.
-Enterprise Knowledge owns meaning.
-erp-module-foundation owns delivery shape.
-LoB runtime owns behavior.
-ERP app owns ingress.
-```
+| Do | Don't |
+| --- | --- |
+| Use `defineErpRuntimeModule`, `defineModuleReadiness`, `assertModuleReadiness` | Create `packages/{module}/` without ADR + slice handoff |
+| Build foundation bundles with evidence paths | Implement PO posting, DB schema, or ERP routes under PAS-001C |
+| Run `pnpm check:erp-module-*` composite gates | Duplicate KV IDs or permission vocabulary in module packages |
+| Reference KV-PROC bundle as exemplar | Claim operational readiness from Foundation Pass alone |
 
 **Hard stops:**
 
-- Do not add business logic, resolvers, or permission evaluation to this package
-- Do not import `@afenda/kernel` at runtime in domain modules through prohibited patterns — kernel is vocabulary only
-- Do not create LoB folders without `defineErpRuntimeModule` + PAS slice authority
-- Do not mark procurement (or any LoB) operational from reference bundle alone — wire-phase ≠ runtime
+- No `@afenda/erp-module-foundation` runtime dependencies (database, auth, kernel business logic)
+- No filesystem for LoB packages without disposition registry + ADR + slice handoff
+- Foundation Pass ≠ operational runtime (LAW K6 — PAS-004 atoms permit meaning only)
 
 ---
 
-# 1. Derivation and Scope
+## 1. Purpose
 
-## 1.1 Why this PAS exists
+PAS-001B closes **wire vocabulary** per ERP domain (KV-* IDs, kernel contracts-only). ERP-MODULES LoB packages still need a **platform foundation layer** that:
 
-[ERP Module Runtime North Star](../../NORTHSTAR/erp-module-runtime-north-star.md) defines **permanent module delivery architecture**. PAS-001C owns the **platform helper package and gates** that prove identity-before-filesystem, spine-before-service, and readiness-before-operational promotion.
+1. Binds runtime module identity to KV catalog parity
+2. Declares readiness dimensions (authority, registry, knowledge, ownership, …)
+3. Serializes attested foundation bundles for governance gates
+4. Separates foundation proof from operational business runtime
 
-## 1.2 In scope / out of scope
-
-| In scope (PAS-001C) | Out of scope |
-| --- | --- |
-| Module identity and registry factories | LoB posting rules, approval workflows |
-| Foundation bundle shape and serialization | Database migrations execution |
-| Knowledge map status vocabulary | Enterprise Knowledge atom authorship |
-| Context spine **consumer declaration** | Operating context **assembly** (PAS-001A) |
-| Permission **binding** parity | Permission **evaluation** |
-| Audit map and outbox **classification** | Audit/outbox **dispatch** |
-| Metadata surface **binding** shape | UI rendering (PAS-006) |
-| Readiness matrix and report renderers | Business use case implementation |
-| Governance gate scripts | Kernel wire vocabulary amendment |
-
-## 1.3 Package boundary
-
-| Package | Owns |
-| --- | --- |
-| `@afenda/erp-module-foundation` | Foundation factories, validators, reference bundles, report renderers |
-| `packages/features/erp-modules/src/{slug}/` | LoB runtime scaffold (future — per Blueprint path law) |
-| `@afenda/kernel/erp-domain/{module}` | Wire vocabulary only (PAS-001B) |
-| `@afenda/{lob}` | Domain runtime behavior when authorized |
+PAS-001C delivers that layer in `@afenda/erp-module-foundation`.
 
 ---
 
-# 2. One-Sentence Boundary
+## 2. Package surface
 
-**Owns:** Cross-LoB module foundation shape — identity, ownership rows, knowledge map, spine consumer contract, permission binding, policy declaration, audit map, event catalog, outbox contract, metadata binding, database boundary declaration, readiness matrix, registry uniqueness, status ladder enforcement.
+### 2.1 Identity helpers
 
-**Never owns:** Wire vocabulary, business glossary atoms, operating context assembly, permission outcomes, persistence queries, HTTP handlers, UI components, event workers, or LoB business rules.
+| Export | Purpose |
+| --- | --- |
+| `defineErpRuntimeModule` | Governed module identity (slug, kvId, owners, lifecycle) |
+| `defineErpRuntimeModuleRegistry` | Registry of runtime modules with KV catalog parity |
+| `ERP_MODULE_FOUNDATION_AUTHORITY_FINGERPRINT` | Bump when PAS registry contracts change materially |
+
+### 2.2 Dimension helpers
+
+| Export | Purpose |
+| --- | --- |
+| `defineModuleReadiness` | 14-dimension readiness matrix |
+| `defineModuleOwnership` | Ownership surfaces and ADR-lock paths |
+| `defineModuleKnowledgeMap` | PAS-004 atom alignment |
+| `defineModulePermissionBinding` | Kernel permission key parity |
+| `defineModuleAuditMap` | Audit action namespace |
+| `defineModuleOutboxContract` | Outbox requirement declaration |
+| `defineModuleContextSpineConsumer` | IS-002 spine consumer attestation |
+| `defineModuleMetadataBinding` | ERP metadata/route binding |
+| `defineModuleDatabaseBoundary` | Schema boundary (often deferred) |
+| `defineModuleRuntimeContract` | Runtime contract scaffold |
+| `defineModuleEventCatalog` | Domain event catalog |
+| `defineModuleOperationCatalog` | Operation catalog (operational phase) |
+| `defineModulePolicy` | Module policy rules |
+
+### 2.3 Assertion and reporting
+
+| Export | Purpose |
+| --- | --- |
+| `assertModuleReadiness` | Fail-fast readiness assertion |
+| `assertErpRuntimeModuleRegistry` | Registry parity assertion |
+| `renderModuleReadinessReport` | Human-readable readiness report |
+| `parseAndValidateErpModuleFoundationBundle` | Bundle ingress validation |
+
+### 2.4 Reference exemplar
+
+| Export | Purpose |
+| --- | --- |
+| `PROCUREMENT_FOUNDATION_BUNDLE` | KV-PROC reference bundle (gate-attested evidence) |
+| `buildProcurementFoundationBundle` | Builder for procurement foundation dimensions |
 
 ---
 
-# 3. Architectural Dependencies
+## 3. Readiness dimensions
 
-| Depends on | Required for |
-| --- | --- |
-| PAS-001B KV catalog | `kvId` binding · wire key parity |
-| PAS-001A ERP Integration Spine | Context spine consumer doctrine |
-| PAS-004 Enterprise Knowledge | Knowledge map statuses |
-| PAS-006 Presentation | Metadata binding consumer proof |
-| Architecture Authority registry | `PKGR01C` lane · package disposition |
+Required matrix dimensions (`READINESS_DIMENSIONS`):
 
-| Provides to | What flows |
-| --- | --- |
-| All LoB runtime packages | Foundation bundle contract + gates |
-| Governance scripts | Composite `check:erp-module-foundation` |
-| Agent orchestration | Unambiguous slice handoff surface |
-
----
-
-# 4. Authority Surfaces
-
-| Surface | Factory / validator | Stability |
+| Dimension | Typical foundation level | Notes |
 | --- | --- | --- |
-| Module identity | `defineErpRuntimeModule` | stable |
-| Module registry | `defineErpRuntimeModuleRegistry` · `assertErpRuntimeModuleRegistry` | stable |
-| KV catalog parity | `assertRuntimeModuleKvCatalogParityForModule` | stable |
-| Runtime contract | `defineModuleRuntimeContract` | stable |
-| Ownership | `defineModuleOwnership` | stable |
-| Knowledge map | `defineModuleKnowledgeMap` | stable |
-| Context spine consumer | `defineModuleContextSpineConsumer` | stable |
-| Permission binding | `defineModulePermissionBinding` | stable |
-| Policy | `defineModulePolicy` | stable |
-| Audit map | `defineModuleAuditMap` | stable |
-| Event catalog | `defineModuleEventCatalog` | stable |
-| Outbox contract | `defineModuleOutboxContract` | stable |
-| Metadata binding | `defineModuleMetadataBinding` | stable |
-| Database boundary | `defineModuleDatabaseBoundary` | stable |
-| Operation catalog | `defineModuleOperationCatalog` | stable |
-| Readiness matrix | `defineModuleReadiness` · `listRequiredReadinessDimensions` | stable |
-| Readiness assertion | `assertModuleReadiness` · `assertModuleRuntimeCompleteness` | stable |
-| Status ladder | `assertModuleStatusRequirements` | stable |
-| Bundle I/O | `serializeErpModuleFoundationBundle` · `parseAndValidateErpModuleFoundationBundle` | stable |
-| Reports | `renderModuleReadinessReport` · `renderModuleRegistryReadinessReport` | stable |
+| authority | required | ADR + disposition |
+| registry | required | KV catalog + module registry |
+| knowledge | required | PAS-004 atoms |
+| ownership | required | Gap report / ADR-lock |
+| database | deferred | Schema boundary slice |
+| contextSpine | required | IS-002 consumer proof |
+| permissions | required | Wire keys (enforcement operational) |
+| audit | required | Wire actions (writers operational) |
+| outbox | required | Contract declaration |
+| metadata | required | Template / binding path |
+| ui | partial / deferred | PAS-006 surfaces |
+| operations | deferred | Operation catalog runtime |
+| tests | required | Package + gate tests |
+| gates | required | Composite check scripts |
 
-**Vocabulary types (exported):** `KnowledgeStatus`, `ErpRuntimeModuleStatus`, `ErpRuntimeModuleLifecycle`, `ReadinessDimension`, `OutboxRequirement`, `PermissionParityMode`, `ContextRequirement`, `MetadataRouteKind`.
-
-**Reference bundle (wire-phase exemplar):** `PROCUREMENT_FOUNDATION_BUNDLE` — proves factory usage; **not** procurement operational readiness.
+Verdict resolution: `resolveModuleReadinessVerdict` — **Foundation Pass** requires attested evidence paths; **operational** rows may remain Fail per gap report honesty.
 
 ---
 
-# 5. Status Ladder
+## 4. Gates
 
-```text
-wire_only → foundation_authorized → foundation_verified → runtime_authorized → runtime_verified
-(+ blocked, deprecated, contracts_only, foundation_planned)
-```
-
-Enforced by `assertModuleStatusRequirements()` with evidence path validation per status.
-
----
-
-# 6. Readiness Dimensions
-
-Required dimensions (default matrix):
-
-| Dimension | Meaning |
-| --- | --- |
-| authority | Module identity + KV binding |
-| registry | Cross-module registry uniqueness |
-| knowledge | Knowledge map completeness |
-| ownership | One owner per surface |
-| database | Persistence boundary declared |
-| contextSpine | PAS-001A consumer attestation |
-| permissions | Permission binding parity |
-| audit | Audit map completeness |
-| outbox | Outbox requirement classified |
-| metadata | Metadata surfaces bound |
-| ui | Protected surface declarations |
-| tests | Integration test evidence paths |
-| gates | Governance gates green |
-
----
-
-# 7. Path Law
-
-**Default LoB runtime scaffold:**
-
-```text
-packages/features/erp-modules/src/{module-slug}/
-```
-
-**Foundation helper package (this PAS):**
-
-```text
-packages/erp-module-foundation/
-```
-
-Legacy `packages/{module}/` placeholders in early drafts are **superseded** — see [template §2](../ERP-MODULES/erp-runtime-module-foundation.template.md).
-
----
-
-# 8. Contract Stability
-
-| Change class | Requires |
-| --- | --- |
-| Additive factory field | PAS-001C amendment · tests · fingerprint bump |
-| New readiness dimension | NS §4 EFR · PAS §6 · template §3.11 · new gate |
-| Breaking bundle shape | ADR · migration slice · fingerprint major bump |
-| New reference bundle | Slice handoff · gate evidence only |
-
----
-
-# 9. Prohibited Dependencies
-
-`@afenda/erp-module-foundation` must not depend on:
-
-- `@afenda/kernel` (runtime import — vocabulary consumed at LoB layer only)
-- `@afenda/database`, `@afenda/architecture-authority`
-- Retired presentation packages (`@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui`, …)
-
-Enforced by `check:erp-module-no-kernel-runtime-leak`.
-
----
-
-# 10. Slice Catalog
-
-| Slice ID | Title | Status |
-| --- | --- | --- |
-| ERP-MOD-FDN-001 | Foundation package scaffold | Delivered (historical) |
-| ERP-MOD-FDN-002 | Governance gate registry | Delivered (historical) |
-| ERP-MOD-FDN-003 | Foundation authority — factories + composite gates | **Delivered** 2026-06-30 |
-| ERP-PROC-FDN-001 | Procurement runtime authority boundary | **Delivered** 2026-06-30 — [handoff](../ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) |
-
-Procurement LoB slices: [ERP-MODULES/SLICE/README.md](../ERP-MODULES/SLICE/README.md) — handoff file required; gap report is not an authorized catalog.
-
-**Next platform slice:** none — horizontal LoB slices consume PAS-001C.
-
----
-
-# 11. Enterprise Acceptance Criteria (PAS)
-
-| Criterion | Gate / review | Traces to |
-| --- | --- | --- |
-| Package exports all §4 surfaces | `pnpm --filter @afenda/erp-module-foundation typecheck` | §4 |
-| Unit tests cover factories and assertions | `pnpm --filter @afenda/erp-module-foundation test:run` | §4 |
-| Composite foundation gate green | `pnpm check:erp-module-foundation` | §13 |
-| Registry lane disposition aligned | `pnpm check:foundation-disposition` | PKGR01C |
-| No prohibited dependencies | `check:erp-module-no-kernel-runtime-leak` | §9 |
-| Reference bundle validates | `procurement-reference-bundle.test.ts` | §4 reference |
-| Template cross-linked | Manual review | [template](../ERP-MODULES/erp-runtime-module-foundation.template.md) |
-| Blueprint box declared | Manual review | [Blueprint §4](../../BLUEPRINT/erp-module-runtime-blueprint.md) |
-| Honest maturity label | Manual review | ~8.6–8.8 helper; 9.5 needs LoB adoption |
-
----
-
-# 12. Skill Mirror
-
-| Tier | Path |
-| --- | --- |
-| Agent skill | [.cursor/skills/erp-module-foundation-authority/SKILL.md](../../.cursor/skills/erp-module-foundation-authority/SKILL.md) |
-
-Regenerate skill from this PAS on material amendment — do not drift-edit skill alone.
-
----
-
-# 13. Gate Commands
-
-**Composite:**
+### 4.1 Composite
 
 ```bash
-pnpm check:erp-module-foundation
-pnpm quality:erp-module-foundation
+pnpm check:erp-module-foundation      # 9 sub-gates
+pnpm quality:erp-module-foundation    # typecheck + test:run + composite
 ```
 
-**Sub-gates:**
+### 4.2 Sub-gates (live)
 
-```bash
-pnpm check:erp-module-ownership
-pnpm check:erp-module-knowledge-alignment
-pnpm check:erp-module-context-spine-consumer
-pnpm check:erp-module-permission-binding
-pnpm check:erp-module-audit-outbox
-pnpm check:erp-module-metadata-binding
-pnpm check:erp-module-database-boundary
-pnpm check:erp-module-no-kernel-runtime-leak
-pnpm check:erp-module-readiness
-pnpm check:erp-module-registry-readiness
-```
+| Gate | Purpose |
+| --- | --- |
+| `check:erp-module-ownership` | Ownership ADR-lock paths |
+| `check:erp-module-knowledge-alignment` | PAS-004 atom alignment |
+| `check:erp-module-context-spine-consumer` | IS-002 consumer |
+| `check:erp-module-permission-binding` | Permission parity |
+| `check:erp-module-audit-outbox` | Audit/outbox contracts |
+| `check:erp-module-metadata-binding` | Metadata binding |
+| `check:erp-module-database-boundary` | DB boundary (may defer) |
+| `check:erp-module-no-kernel-leak` | No kernel business logic in foundation |
+| `check:erp-module-readiness` | Readiness report parity |
 
-**Package gates:**
+### 4.3 LoB-specific (when authorized)
 
-```bash
-pnpm --filter @afenda/erp-module-foundation typecheck
-pnpm --filter @afenda/erp-module-foundation test:run
-```
+| Gate | Module |
+| --- | --- |
+| `check:procurement-runtime-foundation` | PKG-R05 / ADR-0031 |
+| `check:procurement-domain-contracts` | KV-PROC wire |
 
 ---
 
-# 14. Document Sync
+## 5. Relationship to ERP-MODULES
 
-| Change in PAS-001C | Then update |
+| Layer | PAS | Path law |
+| --- | --- | --- |
+| Platform foundation | PAS-001C | `@afenda/erp-module-foundation` |
+| LoB runtime authority | ERP-MODULES slices + ADR | `@afenda/{module}` · `packages/procurement` (PKG-R05) |
+| Features implementation (future) | Authorized slice handoff | `packages/features/erp-modules/src/{slug}/` per template |
+
+**Sequence:** PAS-001C Delivered → ERP-PROC-FDN-001 (authority ADR) → TBD operational slices per [SLICE/README](../ERP-MODULES/SLICE/README.md).
+
+---
+
+## 6. Verification
+
+| # | Command |
 | --- | --- |
-| New §4 surface | Package export · gate · skill · template section |
-| New gate | Blueprint §4.4 · registry disposition knownGates |
-| Fingerprint bump | README · pas-status-index |
-| Reference bundle change | Gap report · procurement readiness scaffold |
+| 1 | `pnpm --filter @afenda/erp-module-foundation typecheck` |
+| 2 | `pnpm --filter @afenda/erp-module-foundation test:run` |
+| 3 | `pnpm check:erp-module-foundation` |
+| 4 | `pnpm quality:erp-module-foundation` |
+| 5 | `pnpm check:documentation-drift` |
+| 6 | `pnpm check:foundation-disposition` |
 
-**Last synced with:** `@afenda/erp-module-foundation` · Blueprint (2026-06-30) · Module Foundation NS
+---
+
+## References
+
+- [ERP Module Runtime North Star](../../NORTHSTAR/erp-module-runtime-north-star.md)
+- [Procurement runtime readiness report](../ERP-MODULES/PROCUREMENT/procurement-runtime-readiness-report.md)
+- [ADR-0031](../../adr/ADR-0031-procurement-runtime-authority-boundary.md)
+- [ERP-PROC-FDN-001](../ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md)

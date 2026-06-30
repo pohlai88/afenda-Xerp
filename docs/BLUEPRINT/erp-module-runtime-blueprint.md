@@ -10,7 +10,7 @@
 | **Parent** | [Platform North Star](../architecture/afenda-platform-north-star.md) · [ERP Module Runtime North Star](../NORTHSTAR/erp-module-runtime-north-star.md) |
 | **Platform rollup** | [Kernel Blueprint](kernel-blueprint.md) §2 cross-cutting row |
 | **Authority ADR** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) · [ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md) · [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md) · [ADR-0021](../adr/ADR-0021-canonical-enterprise-identity.md) |
-| **Derived documents** | [PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) · [ERP-MODULES template](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) · [`ERP-MODULES/template/`](../PAS/ERP-MODULES/template/) · [Procurement gap report](../PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md) |
+| **Derived documents** | [PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) · [ERP-MODULES template](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) · [`ERP-MODULES/template/`](../PAS/ERP-MODULES/template/) · [Procurement Blueprint](procurement-blueprint.md) · [Procurement gap report](../PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md) · [OSS benchmark review](../PAS/ERP-MODULES/PROCUREMENT/procurement-oss-benchmark-review.md) |
 | **Maturity** | Production Candidate — document **9.0 / 10**; procurement exemplar **not delivered** |
 | **Runtime maturity** | `foundation_authority` — `@afenda/erp-module-foundation` helpers + composite gates live |
 | **Runtime stance** | Documentation only — references registries and governance scripts |
@@ -178,15 +178,25 @@ Business **why** module foundation exists: [North Star §1](../NORTHSTAR/erp-mod
 
 ## 4.5 Path law (authoritative)
 
-**Default LoB runtime scaffold:**
+**Default LoB runtime scaffold (operational — when authorized):**
 
 ```text
 packages/features/erp-modules/src/{module-slug}/
 ```
 
-- One ERP feature-family package — no default `packages/procurement/`, `packages/inventory/`, etc.
+- One ERP feature-family package — no default top-level `packages/procurement/`, `packages/inventory/`, etc.
 - Exception requires ADR + Blueprint amendment
 - Reference exemplar: `procurement` (`KV-PROC`) — foundation bundle wire-phase only today
+
+**Registry reservation path (governance — live today):**
+
+| Field | Value |
+| --- | --- |
+| Package name | `@afenda/procurement` (PKG-R05) |
+| Reserved path | `packages/procurement` — **must not exist on disk** until authorized slice |
+| Authority | [ADR-0031 §6](../adr/ADR-0031-procurement-runtime-authority-boundary.md) |
+
+The registry `runtimeOwner` path (`packages/procurement`) is the **governance reservation identifier** derived from package name. It is **not** the operational filesystem target. Operational scaffold uses the features-package path above unless a future ADR amends this section.
 
 **Foundation helper package (live today):**
 

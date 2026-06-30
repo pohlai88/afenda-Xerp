@@ -50,12 +50,15 @@ export const MULTI_TENANCY_EXISTING_STATE_AUDIT_DIMENSIONS = [
     registryExport: "PERMISSIONS_SCOPE_GRANTS_MODULES",
   },
   {
-    id: "appshell-context",
-    title: "AppShell context model audit",
-    tableMarker: "### AppShell context model audit",
-    registryImport:
-      "packages/appshell/src/context/appshell-context-surface-registry.ts",
-    registryExport: "APPSHELL_CONTEXT_CONSUMPTION_MODULES",
+    id: "erp-context",
+    title: "ERP operating-context surface audit (PAS-006 / ADR-0027)",
+    tableMarker: "### ERP operating-context surface audit",
+    artifactPaths: [
+      "apps/erp/src/lib/context/operating-context-protected-surface.registry.ts",
+      "apps/erp/src/lib/context/resolve-operating-context.server.ts",
+      "apps/erp/src/lib/api/resolve-api-route-operating-context.ts",
+      "apps/erp/src/lib/server-actions/resolve-action-operating-context.server.ts",
+    ] as const,
   },
   {
     id: "tenant-subdomain",
@@ -120,11 +123,12 @@ export const MULTI_TENANCY_PERMISSION_GRANT_AUDIT_ROW_MARKERS = [
   "project",
 ] as const;
 
-/** Required AppShell context audit row markers. */
+/** Required ERP operating-context surface audit row markers (PAS-001A IS-002). */
 export const MULTI_TENANCY_APPSHELL_CONTEXT_AUDIT_ROW_MARKERS = [
-  "ApplicationShellOperatingContext",
-  "consume-context-only",
-  "app-shell-context-switcher",
+  "OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY",
+  "resolveOperatingContext",
+  "loadProtectedRequestOperatingContext",
+  "protected-api",
 ] as const;
 
 /** Required tenant subdomain audit row markers. */

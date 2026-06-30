@@ -40,8 +40,6 @@ const WORKSPACE_DEPS = {
   inline: [/@afenda\//] as const,
 };
 
-const UI_GOVERNANCE_SUBPATH_ALIAS = /^@afenda\/ui\/governance\/(.+)$/;
-
 export interface ReactProjectOptions {
   alias?: Record<string, string>;
   setupFiles?: string[];
@@ -119,53 +117,6 @@ export function createDatabaseProject(importMetaUrl: string, name: string) {
       fileParallelism: false,
       testTimeout: 20_000,
       hookTimeout: 20_000,
-    },
-  });
-}
-
-export function createUiProject(importMetaUrl: string, name: string) {
-  const root = dirname(fileURLToPath(importMetaUrl));
-  const srcRoot = resolve(root, "src");
-  const governanceRoot = resolve(srcRoot, "governance");
-
-  return defineProject({
-    root,
-    plugins: [react()],
-    resolve: {
-      alias: [
-        {
-          find: UI_GOVERNANCE_SUBPATH_ALIAS,
-          replacement: `${governanceRoot}/$1`,
-        },
-        {
-          find: "@afenda/ui/governance",
-          replacement: resolve(governanceRoot, "index.ts"),
-        },
-        {
-          find: "@afenda/ui/lib/utils",
-          replacement: resolve(srcRoot, "lib/utils.ts"),
-        },
-        {
-          find: "@afenda/ui",
-          replacement: resolve(srcRoot, "index.ts"),
-        },
-        { find: "@", replacement: srcRoot },
-        { find: "#", replacement: srcRoot },
-        { find: "next/link", replacement: NEXT_LINK_MOCK },
-        { find: "next/image", replacement: NEXT_IMAGE_MOCK },
-      ],
-    },
-    server: {
-      deps: WORKSPACE_DEPS,
-    },
-    test: {
-      ...sharedTestOptions(name, root),
-      environment: "jsdom",
-      setupFiles: [REACT_SETUP],
-      env: {
-        AFENDA_GOVERNANCE_RUNTIME: "strict",
-        NODE_ENV: "test",
-      },
     },
   });
 }

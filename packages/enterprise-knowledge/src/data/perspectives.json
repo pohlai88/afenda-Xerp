@@ -25,5 +25,59 @@
     "atomId": "legal_entity",
     "contextualLabel": "Legal Entity (statutory reporting unit)",
     "ownedByPas": "PAS-004C"
+  },
+  {
+    "perspectiveId": "tenant_security",
+    "conceptId": "tenant",
+    "domain": "security",
+    "domainClass": "architecture",
+    "atomId": "tenant",
+    "contextualLabel": "Tenant (RLS and subscription isolation boundary)",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "perspectiveId": "tenant_identity",
+    "conceptId": "tenant",
+    "domain": "identity",
+    "domainClass": "architecture",
+    "atomId": "tenant",
+    "contextualLabel": "Tenant (SaaS account / slug namespace root)",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "perspectiveId": "tenant_platform",
+    "conceptId": "tenant",
+    "domain": "platform",
+    "domainClass": "architecture",
+    "atomId": "tenant",
+    "contextualLabel": "Tenant (commercial customer boundary)",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "perspectiveId": "organization_unit_operations",
+    "conceptId": "organization_unit",
+    "domain": "manufacturing",
+    "domainClass": "business",
+    "atomId": "organization_unit",
+    "contextualLabel": "Plant / site / branch (operational org node)",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "perspectiveId": "organization_unit_security",
+    "conceptId": "organization_unit",
+    "domain": "security",
+    "domainClass": "architecture",
+    "atomId": "organization_unit",
+    "contextualLabel": "Organization unit (RLS scope beneath company)",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "perspectiveId": "organization_unit_platform",
+    "conceptId": "organization_unit",
+    "domain": "platform",
+    "domainClass": "architecture",
+    "atomId": "organization_unit",
+    "contextualLabel": "Department / cost center (org tree node)",
+    "ownedByPas": "PAS-004C"
   }
 ]

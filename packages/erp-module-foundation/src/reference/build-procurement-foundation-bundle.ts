@@ -40,9 +40,6 @@ export const PROCUREMENT_REFERENCE_AUDIT_ACTIONS = [
   "procurement.purchase_order.sent",
 ] as const;
 
-const WIRE_ARTIFACT_BASE =
-  "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts";
-
 export const PROCUREMENT_RUNTIME_MODULE = defineErpRuntimeModule({
   slug: "procurement",
   kvId: "KV-PROC",
@@ -158,21 +155,33 @@ function buildKnowledgeMap() {
       },
       {
         term: "sourcing",
-        status: "wire_only",
-        wireArtifact: WIRE_ARTIFACT_BASE,
-        requiredAction: "Promote PAS-004 atom — sourcing method vs process.",
+        status: "accepted",
+        atomId: "procurement_sourcing",
+        requiredAction: "Accepted — PAS-004 B57 KV-PROC P1.",
       },
       {
         term: "blanket_agreement",
-        status: "wire_only",
-        wireArtifact: WIRE_ARTIFACT_BASE,
-        requiredAction: "Promote PAS-004 atom before blanket PO runtime.",
+        status: "accepted",
+        atomId: "blanket_agreement",
+        requiredAction: "Accepted — PAS-004 B57 KV-PROC P1.",
       },
       {
         term: "supplier_quote",
-        status: "wire_only",
-        wireArtifact: WIRE_ARTIFACT_BASE,
-        requiredAction: "Promote PAS-004 atom before quote award runtime.",
+        status: "accepted",
+        atomId: "supplier_quote",
+        requiredAction: "Accepted — PAS-004 B57 KV-PROC P1.",
+      },
+      {
+        term: "goods_receipt_signal",
+        status: "missing",
+        requiredAction:
+          "Cross-domain KV-INV atom — receipt signal not stock movement.",
+      },
+      {
+        term: "three_way_match",
+        status: "missing",
+        requiredAction:
+          "Cross-domain ADR-gated — Accounting owns match runtime.",
       },
       {
         term: "module_runtime_identity",

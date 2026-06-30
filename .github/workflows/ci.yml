@@ -113,6 +113,9 @@ jobs:
         run: pnpm test:run:storybook
 
   test-e2e-smoke:
+    # ADR-0027 skeleton: apps/erp/e2e/@smoke specs deferred post-reset.
+    # Re-enable when Playwright smoke suite returns; script wired in apps/erp/package.json.
+    if: false
     name: Gate 3j · ERP E2E smoke
     runs-on: ubuntu-latest
     timeout-minutes: 25
@@ -217,28 +220,36 @@ jobs:
       - name: Gate 3cov · coverage summary
         run: pnpm check:coverage-summary
 
-      # ── Gate 3b · UI Governance (behavioral + static) ─────────────────────
-      - name: Gate 3b · UI governance
-        run: pnpm --filter @afenda/ui check:governance
+      # ── Gate 3b · PAS-006 downstream integration (ADR-0027) ───────────────
+      - name: Gate 3b · downstream integration (no legacy UI packages)
+        run: pnpm check:downstream-integration
 
-      # ── Gate 3c · Appshell consumer-layer TIP-004 ─────────────────────────
-      - name: Gate 3c · appshell governance (TIP-004 consumption)
-        run: pnpm --filter @afenda/appshell check:governance
+      # ── Gate 3c · PAS-006 presentation type safety ───────────────────────
+      - name: Gate 3c · shadcn-studio typecheck (PAS-006)
+        run: pnpm --filter @afenda/shadcn-studio typecheck
 
-      # ── Gate 3d · UI guard (Gates A–F; Gate F warns until debt cleared) ───
-      - name: Gate 3d · UI guard (TIP-004 + CSS bridge)
-        run: pnpm ui:guard
+      - name: Gate 3d · ERP API contract governance (ADR-0030)
+        run: pnpm check:api-contracts
 
-      - name: Gate 3e · CSS bridge negative search (Gate G)
-        run: pnpm ui:guard:proof
+      - name: Gate 3e · ERP module foundation quality
+        run: pnpm quality:erp-module-foundation
 
-      - name: Gate 3f · Foundation disposition registry (ADR-0014)
+      - name: Gate 3f · Documentation drift (PAS authority mirror)
+        run: pnpm check:documentation-drift
+
+      - name: Gate 3g · Knowledge corpus depth (PAS-004D B51)
+        run: pnpm check:knowledge-corpus-depth
+
+      - name: Gate 3h · Knowledge vocabulary richness (PAS-004D B52)
+        run: pnpm check:knowledge-vocabulary-richness
+
+      - name: Gate 3i · Foundation disposition registry (ADR-0014)
         run: pnpm check:foundation-disposition
 
-      - name: Gate 3g · System-admin mutation audit coverage (PKG007_ADMIN)
+      - name: Gate 3j · System-admin mutation audit coverage (PKG007_ADMIN)
         run: pnpm check:system-admin-mutation-audit
 
-      - name: Gate 3h · Accounting domain contracts-only (PKG-R01 / ADR-0015)
+      - name: Gate 3k · Accounting domain contracts-only (PKG-R01 / ADR-0015)
         run: pnpm check:accounting-domain-contracts
 
       # ── Gate 4 · Build Safety ─────────────────────────────────────────────

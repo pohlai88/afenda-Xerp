@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-30-v30" as const;
+  "FOUNDATION-DISPOSITION-2026-06-30-v31" as const;
 
 const foundationDispositionEntries = [
   {
@@ -529,7 +529,7 @@ const foundationDispositionEntries = [
     packageId: "PKG-R05",
     packageName: "@afenda/procurement",
     domain: "procurement-runtime-authority",
-    lane: "green-lane",
+    lane: "amber-lane",
     runtimeOwner: "packages/procurement",
     authority: "ADR-0031",
     requiredBeforeAccounting: false,
@@ -541,8 +541,7 @@ const foundationDispositionEntries = [
       "packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts",
     ],
     knownGaps: [
-      "Filesystem blocked until ownership ADR-lock and authorized ERP-MODULES slice handoff",
-      "Operational runtime FDN-003+",
+      "Operational procurement runtime deferred — foundation_authorized only per ADR-0031",
     ],
     allowedAgents: ["afenda-governed-implementer", "foundation-registry-owner"],
     prohibited: [
@@ -1086,7 +1085,9 @@ const foundationDispositionEntries = [
       "packages/architecture-authority/src/data/ownership-registry.data.ts",
       "packages/architecture-authority/src/data/dependency-registry.data.ts",
     ],
-    knownGaps: [],
+    knownGaps: [
+      "B54 operational attestation deferred — authority remains PAS-004C until B54 closes",
+    ],
     allowedAgents: [
       "foundation-registry-owner",
       "afenda-governed-implementer",
@@ -1123,6 +1124,8 @@ const foundationDispositionEntries = [
       "pnpm check:knowledge-authority-mirror",
       "pnpm check:knowledge-legacy-surface-retirement",
       "pnpm check:knowledge-erp-domain-bridge",
+      "pnpm check:knowledge-corpus-depth",
+      "pnpm check:knowledge-vocabulary-richness",
       "pnpm quality:boundaries",
       "pnpm check:foundation-disposition",
     ],

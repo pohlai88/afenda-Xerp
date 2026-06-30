@@ -21,10 +21,10 @@
 | **Agent skills** | `enterprise-knowledge` · **`kernel-authority`** (mandatory for B53 kernel `realizationMapping` refs) |
 | **Maturity** | Idea → **Production Candidate** on B54 attestation (`production_candidate`) |
 | **Authority status** | `approved_for_implementation` |
-| **Implementation status** | `partial` — B50 delivered; B51–B54 queued |
-| **Evidence level** | `pas_document` + `check:knowledge-authority-mirror` + `check:knowledge-legacy-surface-retirement` |
-| **Runtime status** | B50 legacy surface retirement delivered; B51 corpus depth next |
-| **Remaining slices** | B51 corpus depth (next) · B52 vocabulary richness · B53 ERP-domain bridge · B54 attestation |
+| **Implementation status** | `partial` — B50–B53 delivered; B54 attestation queued |
+| **Evidence level** | `pas_document` + `check:knowledge-authority-mirror` + `check:knowledge-legacy-surface-retirement` + `check:knowledge-corpus-depth` + `check:knowledge-vocabulary-richness` + `check:knowledge-erp-domain-bridge` |
+| **Runtime status** | B51 corpus depth delivered; B52 vocabulary richness delivered; B53 ERP-domain bridge delivered; B54 attestation next |
+| **Remaining slices** | B54 operational attestation |
 | **Consumers** | `@afenda/ui-composition`, `@afenda/metadata-ui`, `apps/erp`, `apps/docs`, `docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md` |
 | **Change model** | `serialized-slices` (one slice per session) |
 | **Quality target** | Enterprise **9.5 / 10** |
@@ -240,9 +240,9 @@ No new package modules unless B50 requires a thin normalization helper under `sr
 | ---: | --- | --- | --- |
 | 1 | B49 Authority mirror sync | Mirror gate + doc hygiene | **Delivered** |
 | 2 | B50 Legacy retirement | Loader strip + adapter inline | **Delivered** |
-| 3 | B51 Corpus depth | (proposed) | Not started |
-| 4 | B52 Vocabulary richness | (proposed) | Not started |
-| 5 | B53 ERP-domain bridge | **Delivered** | B52 |
+| 3 | B51 Corpus depth | perspectives + contextualValidity + edges gate | **Delivered** |
+| 4 | B52 Vocabulary richness | charter synonym terms gate | **Delivered** |
+| 5 | B53 ERP-domain bridge | KV-paired meaning atoms | **Delivered** |
 | 6 | B54 Operational attestation | (proposed) | Not started |
 
 ---
@@ -281,7 +281,7 @@ See metadata table §Required gates (PAS-004D).
 | --- | --- | --- | --- | --- |
 | b49-pas004d-authority-mirror-sync.md | §4.1 | Mirror gate + doc hygiene | Delivered | B48 closed |
 | b50-pas004d-legacy-surface-retirement.md | §4.2 | Legacy API retirement | Delivered | B49 |
-| b51-pas004d-corpus-depth.md | §4.3 | (proposed) | Not started | B50 |
-| b52-pas004d-vocabulary-richness.md | §4.4 | (proposed) | Not started | B51 |
+| b51-pas004d-corpus-depth.md | §4.3 | Corpus depth gate + enrichment | Delivered | B50 |
+| b52-pas004d-vocabulary-richness.md | §4.4 | Vocabulary richness gate | Delivered | B51 |
 | b53-pas004d-erp-domain-bridge.md | §4.5 | Delivered | 2026-06-30 | B52 |
 | b54-pas004d-operational-closure-attestation.md | §4.6 | (proposed) | Not started | B53 |

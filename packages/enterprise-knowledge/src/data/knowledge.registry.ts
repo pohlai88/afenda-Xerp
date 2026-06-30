@@ -69,6 +69,12 @@ export const B56_PROCUREMENT_P0_ATOM_IDS = [
   "supplier",
   "procurement_rfq",
 ] as const;
+/** PAS-004 KV-PROC P1 — sourcing, blanket, supplier quote meaning bridge. */
+export const B57_PROCUREMENT_P1_ATOM_IDS = [
+  "procurement_sourcing",
+  "blanket_agreement",
+  "supplier_quote",
+] as const;
 export const KNOWLEDGE_ATOM_IDS = [
   ...B24_KNOWLEDGE_ATOM_IDS,
   ...B29_PLATFORM_ATOM_IDS,
@@ -77,6 +83,7 @@ export const KNOWLEDGE_ATOM_IDS = [
   ...B54_MODULE_FOUNDATION_ATOM_IDS,
   ...B55_MODULE_FOUNDATION_P1_ATOM_IDS,
   ...B56_PROCUREMENT_P0_ATOM_IDS,
+  ...B57_PROCUREMENT_P1_ATOM_IDS,
 ] as const;
 export type KnowledgeAtomId = (typeof KNOWLEDGE_ATOM_IDS)[number];
 
@@ -84,4 +91,4 @@ export const ENTERPRISE_KNOWLEDGE_ATOMS: readonly KnowledgeAtom[] =
   parseAtomCorpus(atomsJson);
 
 export const ENTERPRISE_KNOWLEDGE_FINGERPRINT =
-  "ENTERPRISE-KNOWLEDGE-2026-06-30-v3" as const;
+  "ENTERPRISE-KNOWLEDGE-2026-06-30-v4" as const;

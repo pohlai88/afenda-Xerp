@@ -27,7 +27,7 @@ export const authMembershipsGetContract = {
   rateLimitPolicy: "authenticated-standard",
   requestSchema: z.undefined(),
   requestSchemaRef:
-    "apps/erp/src/server/api/contracts/auth/auth-memberships.api-contract.ts#authMembershipsGetResponseSchema",
+    "apps/erp/src/server/api/contracts/auth/auth-memberships.api-contract.ts#request:none",
   responseSchema: authMembershipsGetResponseSchema,
   responseSchemaRef:
     "apps/erp/src/server/api/contracts/auth/auth-memberships.api-contract.ts#authMembershipsGetResponseSchema",

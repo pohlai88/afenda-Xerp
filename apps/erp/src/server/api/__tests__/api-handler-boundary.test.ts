@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { z } from "zod";
@@ -9,6 +9,11 @@ import {
   API_ROUTE_OWNER,
   DEFAULT_GOVERNED_ROUTE_TEST_PATHS,
 } from "@/server/api/contracts/api-governance.constants";
+import {
+  collectRouteFiles,
+  isAllowlistedRoute,
+  isGovernedRouteSource,
+} from "@/server/api/contracts/api-route-coverage";
 import {
   ApiRouteError,
   parseRequestBody,
@@ -44,13 +49,15 @@ vi.mock("@/server/api/runtime/api-handler-logging", () => ({
 }));
 
 vi.mock("@/lib/context/create-server-execution-context.server", () => ({
-  createServerExecutionContext: vi.fn((input: { readonly correlationId: string }) => ({
-    actorId: null,
-    correlationId: input.correlationId,
-    executionId: "01TESTEXECUTIONCONTEXTID00000001",
-    source: "api" as const,
-    tenantId: "00000000-0000-0000-0000-000000000001",
-  })),
+  createServerExecutionContext: vi.fn(
+    (input: { readonly correlationId: string }) => ({
+      actorId: null,
+      correlationId: input.correlationId,
+      executionId: "01TESTEXECUTIONCONTEXTID00000001",
+      source: "api" as const,
+      tenantId: "00000000-0000-0000-0000-000000000001",
+    })
+  ),
 }));
 
 vi.mock("@/server/api/runtime/idempotency", () => ({
@@ -71,8 +78,6 @@ vi.mock("@/lib/spine/run-protected-mutation", () => ({
 
 const apiRoot = join(import.meta.dirname, "../../../app/api");
 
-const ROUTE_ALLOWLIST = ["auth", "health", "integrations", "webhooks"] as const;
-
 const echoResponseSchema = z.object({
   value: z.string(),
 });
@@ -92,7 +97,8 @@ const echoGetContract = {
   path: "/api/internal/v1/test/echo",
   rateLimitPolicy: "disabled-local-dev",
   requestSchema: z.undefined(),
-  requestSchemaRef: "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts#request:none",
+  requestSchemaRef:
+    "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts#request:none",
   responseSchema: echoResponseSchema,
   responseSchemaRef:
     "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts#echoResponseSchema",
@@ -118,45 +124,6 @@ const echoPostContract = {
   requestSchemaRef:
     "apps/erp/src/server/api/__tests__/api-handler-boundary.test.ts#echoPostRequestSchema",
 } as const satisfies ApiRouteContract<EchoPostRequest, EchoResponse>;
-
-function collectRouteFiles(directory: string): string[] {
-  const entries = readdirSync(directory, { withFileTypes: true });
-  const files: string[] = [];
-
-  for (const entry of entries) {
-    const absolutePath = join(directory, entry.name);
-
-    if (entry.isDirectory()) {
-      if (entry.name === "docs") {
-        continue;
-      }
-      files.push(...collectRouteFiles(absolutePath));
-      continue;
-    }
-
-    if (entry.name === "route.ts") {
-      files.push(absolutePath);
-    }
-  }
-
-  return files;
-}
-
-function isAllowlistedRoute(filePath: string): boolean {
-  return ROUTE_ALLOWLIST.some((segment) =>
-    filePath.includes(`${join("app", "api", segment)}`)
-  );
-}
-
-function isGovernedRouteSource(source: string): boolean {
-  if (source.includes("createApiHandler")) {
-    return true;
-  }
-
-  return /export\s*\{[^}]*\}\s*from\s*["'][^"']*internal\/v1\/[^"']*["']/.test(
-    source
-  );
-}
 
 describe("API handler boundary", () => {
   it("requires createApiHandler on governed route files", () => {
@@ -325,14 +292,14 @@ describe("createApiHandler bidirectional validation pipeline", () => {
 
 describe("api-validation ingress and egress guards", () => {
   it("parseRequestBody throws ApiRouteError for invalid ingress", () => {
-    expect(() =>
-      parseRequestBody(echoPostRequestSchema, { name: "" })
-    ).toThrow(ApiRouteError);
+    expect(() => parseRequestBody(echoPostRequestSchema, { name: "" })).toThrow(
+      ApiRouteError
+    );
   });
 
   it("parseResponseData throws ApiRouteError for invalid egress", () => {
-    expect(() =>
-      parseResponseData(echoResponseSchema, { value: 123 })
-    ).toThrow(ApiRouteError);
+    expect(() => parseResponseData(echoResponseSchema, { value: 123 })).toThrow(
+      ApiRouteError
+    );
   });
 });

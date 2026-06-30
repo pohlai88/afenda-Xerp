@@ -111,7 +111,7 @@ Write code that is **accessible, performant, type-safe, and maintainable**. Focu
 ### React component tests (jsdom)
 
 - Shared setup: `packages/testing/src/setup/react.ts` (polyfills for Radix, cmdk, pointer capture)
-- Vitest projects: `createUiProject` / `createReactProject` in `vitest.shared.ts` wire jsdom + `AFENDA_GOVERNANCE_RUNTIME=strict`
+- Vitest projects: `createReactProject` in `vitest.shared.ts` wire jsdom + `AFENDA_GOVERNANCE_RUNTIME=strict`
 - **Do not use `fireEvent`** for interactive components — use `@afenda/testing/react`:
 
 ```ts

@@ -306,5 +306,26 @@
     "label": "Procurement RFQ",
     "description": "Request for quotation sourcing document used to solicit supplier pricing before purchase order commitment.",
     "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "procurement_sourcing",
+    "fqn": "afenda.enterprise.concept.procurement_sourcing",
+    "label": "Procurement sourcing method",
+    "description": "Governed classification of how procurement selects suppliers and paths to commitment — competitive, directed, catalog, or auction.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "blanket_agreement",
+    "fqn": "afenda.enterprise.concept.blanket_agreement",
+    "label": "Blanket agreement",
+    "description": "Framework procurement agreement establishing terms under which release purchase orders may be issued.",
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "supplier_quote",
+    "fqn": "afenda.enterprise.concept.supplier_quote",
+    "label": "Supplier quote",
+    "description": "Supplier's priced response to a procurement sourcing invitation — evidence for award decision before purchase order.",
+    "ownedByPas": "PAS-004C"
   }
 ]

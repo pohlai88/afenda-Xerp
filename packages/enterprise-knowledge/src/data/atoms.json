@@ -902,6 +902,13 @@
       "score": 100,
       "basis": ["IFRS", "GAAP", "afenda_decision"]
     },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md",
+        "notes": "Accounting Authority posting invariant — PAS-003 consumer"
+      }
+    ],
     "contextualValidity": {
       "accepted": true,
       "applicableIn": [
@@ -1003,6 +1010,13 @@
       "score": 100,
       "basis": ["GAAP", "IFRS"]
     },
+    "realizationMapping": [
+      {
+        "realizationKind": "policy",
+        "reference": "docs/PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md",
+        "notes": "Accounting equation invariant — PAS-003 validation consumer"
+      }
+    ],
     "contextualValidity": {
       "accepted": true,
       "applicableIn": [
@@ -1109,6 +1123,14 @@
     "confidence": {
       "score": 95,
       "basis": ["SAP", "Oracle", "afenda_decision"]
+    },
+    "contextualValidity": {
+      "accepted": true,
+      "applicableIn": [
+        "multi-company ERP statutory + operational hierarchy",
+        "global tenant SaaS with consolidation reporting"
+      ],
+      "notApplicableIn": ["single-entity sole proprietorship without org tree"]
     },
     "knowledgeDecision": {
       "decision": "Split generic organization into legal_entity + organization_unit.",
@@ -1454,6 +1476,14 @@
       "score": 92,
       "basis": ["IFRS", "afenda_decision"]
     },
+    "contextualValidity": {
+      "accepted": true,
+      "applicableIn": [
+        "IFRS group reporting with multiple legal entities",
+        "corporate holding structures under one tenant"
+      ],
+      "notApplicableIn": ["single legal entity tenants without group reporting"]
+    },
     "structuredReasoning": {
       "premises": [
         "Groups of legal entities require a corporate umbrella for consolidation scope."
@@ -1629,6 +1659,17 @@
     "confidence": {
       "score": 88,
       "basis": ["IFRS"]
+    },
+    "contextualValidity": {
+      "accepted": true,
+      "applicableIn": [
+        "IFRS 10 consolidation scope resolution",
+        "group financial statement preparation"
+      ],
+      "notApplicableIn": [
+        "standalone entity reporting without consolidation",
+        "US GAAP-only tenants without IFRS adoption"
+      ]
     },
     "structuredReasoning": {
       "premises": [
@@ -4444,6 +4485,343 @@
     "typedEvidence": [
       {
         "evidenceId": "procurement_rfq_evidence_0",
+        "type": "policy",
+        "source": "packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "procurement_sourcing",
+    "atomId": "procurement_sourcing",
+    "fqn": "afenda.enterprise.procurement_sourcing",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-procurement-practice"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_erp_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 89,
+      "basis": ["SAP", "Oracle", "afenda_decision"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Procurement wire vocabulary classifies how spend is sourced before supplier commitment."
+      ],
+      "inference": "Procurement sourcing is the governed selection of sourcing method — competitive, directed, catalog, or auction — distinct from RFQ document lifecycle alone.",
+      "rules": [
+        "PAS-001B SOURCING_METHODS",
+        "PAS-004 KV-PROC P1",
+        "Procurement NS sourcing method classification"
+      ],
+      "conclusion": "Governed classification of how procurement selects suppliers and paths to commitment — method enum in kernel, meaning accepted here."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept procurement_sourcing as enterprise meaning for PAS-001B sourcing-method wire vocabulary.",
+      "alternativesConsidered": ["Collapse into procurement_rfq only"],
+      "whyRejected": {
+        "Collapse into procurement_rfq only": "RFQ is one document family; sourcing method covers catalog, direct, auction, and rfq paths."
+      },
+      "impact": ["finance", "integration"]
+    },
+    "meaning": {
+      "canonical": "Governed classification of how procurement selects suppliers and paths to commitment — competitive, directed, catalog, or auction.",
+      "business": "Procurement sourcing / sourcing method classification.",
+      "engineering": "SOURCING_METHODS · sourcing-method.contract · KV-PROC · meaning only"
+    },
+    "knowledgeDomain": ["finance", "integration"],
+    "applicability": {
+      "applicable": ["finance", "integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001B sourcing-method wire · gap report §B.2.",
+      "evolution": ["PAS-004 B57 KV-PROC P1 promotion"],
+      "currentAuthority": "PAS-001B wire · PAS-004 meaning",
+      "futureDirection": "Award decision and supplier selection atoms via PAS-PROC slices."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Procurement RFQ document",
+        "why": "RFQ is one sourcing path; sourcing method classifies catalog, direct, auction, and rfq.",
+        "correct": "Sourcing method is the classification; RFQ is a document family when method is rfq."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Procurement sourcing method"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/procurement/sourcing-method.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/procurement/sourcing-method.contract.ts",
+        "notes": "PAS-001B SOURCING_METHODS catalog · rfq · auction · direct · KV-PROC"
+      },
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts",
+        "notes": "PAS-001B procurement domain authority · KV-PROC"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "procurement_sourcing_evidence_0",
+        "type": "policy",
+        "source": "packages/kernel/src/erp-domain/procurement/sourcing-method.contract.ts"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "blanket_agreement",
+    "atomId": "blanket_agreement",
+    "fqn": "afenda.enterprise.blanket_agreement",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-procurement-practice"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_erp_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 90,
+      "basis": ["SAP", "Oracle", "afenda_decision"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Procurement wire vocabulary includes blanket_agreement document family at KV-PROC."
+      ],
+      "inference": "Blanket agreement is the framework of terms enabling release purchase orders without renegotiating each commitment.",
+      "rules": [
+        "PAS-001B procurement-document-type blanket_agreement",
+        "PAS-004 KV-PROC P1",
+        "Contract compliance capability"
+      ],
+      "conclusion": "Framework procurement agreement establishing terms under which release purchase orders may be issued."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept blanket_agreement as enterprise meaning bridge for PAS-001B blanket_agreement document type.",
+      "alternativesConsidered": ["Legal contract atom only"],
+      "whyRejected": {
+        "Legal contract atom only": "Blanket agreement is procurement operational document family distinct from legal contract management."
+      },
+      "impact": ["finance", "integration"]
+    },
+    "meaning": {
+      "canonical": "Framework procurement agreement establishing terms under which release purchase orders may be issued.",
+      "business": "Blanket agreement / contract release framework.",
+      "engineering": "procurement-document-type blanket_agreement · KV-PROC · meaning only"
+    },
+    "knowledgeDomain": ["finance", "integration"],
+    "applicability": {
+      "applicable": ["finance", "integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001B procurement wire vocabulary · gap report §B.2.",
+      "evolution": ["PAS-004 B57 KV-PROC P1 promotion"],
+      "currentAuthority": "PAS-001B wire · PAS-004 meaning",
+      "futureDirection": "Release PO lifecycle via PAS-PROC-001E slice."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Legal contract repository",
+        "why": "Legal contract management is cross-domain; blanket agreement is procurement commitment framework.",
+        "correct": "Blanket agreement governs release PO terms in procurement vocabulary."
+      },
+      {
+        "confusedWith": "Purchase order",
+        "why": "PO is a single commitment; blanket enables many release POs under shared terms.",
+        "correct": "Blanket is framework; release PO is individual commitment."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Blanket agreement"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/procurement/procurement-document-type.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/procurement/procurement-document-type.contract.ts",
+        "notes": "PAS-001B procurement-document-type blanket_agreement · KV-PROC"
+      },
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts",
+        "notes": "PAS-001B procurement domain authority · KV-PROC"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "blanket_agreement_evidence_0",
+        "type": "policy",
+        "source": "packages/kernel/src/erp-domain/procurement/procurement-document-type.contract.ts"
+      }
+    ],
+    "ownedByPas": "PAS-004",
+    "epistemicStatus": "accepted",
+    "semanticStability": "stable"
+  },
+  {
+    "conceptId": "supplier_quote",
+    "atomId": "supplier_quote",
+    "fqn": "afenda.enterprise.supplier_quote",
+    "kind": "concept",
+    "acceptanceChain": [
+      {
+        "step": "origin",
+        "by": "external_source",
+        "on": "erp-procurement-practice"
+      },
+      {
+        "step": "accepted",
+        "by": "afenda_erp_authority",
+        "on": "2026-06"
+      }
+    ],
+    "authorityType": "operational",
+    "binding": "mandatory",
+    "confidence": {
+      "score": 89,
+      "basis": ["SAP", "Oracle", "afenda_decision"]
+    },
+    "structuredReasoning": {
+      "premises": [
+        "Procurement wire vocabulary includes supplierQuote permission domain for quote submission and award."
+      ],
+      "inference": "Supplier quote is the supplier's priced response to a sourcing invitation before award and PO commitment.",
+      "rules": [
+        "PAS-001B procurement-permission-vocabulary supplierQuote",
+        "PAS-004 KV-PROC P1",
+        "Award decision capability (future PAS)"
+      ],
+      "conclusion": "Supplier's priced response to a procurement sourcing invitation — evidence for award decision before purchase order."
+    },
+    "knowledgeDecision": {
+      "decision": "Accept supplier_quote as enterprise meaning bridge for PAS-001B supplierQuote permission domain.",
+      "alternativesConsidered": ["Merge into procurement_rfq"],
+      "whyRejected": {
+        "Merge into procurement_rfq": "RFQ is buyer-issued invitation; supplier quote is supplier response with distinct permission domain."
+      },
+      "impact": ["finance", "integration"]
+    },
+    "meaning": {
+      "canonical": "Supplier's priced response to a procurement sourcing invitation — evidence for award decision before purchase order.",
+      "business": "Supplier quote / quotation response.",
+      "engineering": "procurement-permission-vocabulary supplierQuote · KV-PROC · meaning only"
+    },
+    "knowledgeDomain": ["finance", "integration"],
+    "applicability": {
+      "applicable": ["finance", "integration"],
+      "notApplicable": ["networking"],
+      "exceptions": []
+    },
+    "lifecycle": "accepted",
+    "lineage": {
+      "origin": "PAS-001B procurement wire vocabulary · gap report §B.2.",
+      "evolution": ["PAS-004 B57 KV-PROC P1 promotion"],
+      "currentAuthority": "PAS-001B wire · PAS-004 meaning",
+      "futureDirection": "Award decision atom and runtime via PAS-PROC-001C slice."
+    },
+    "misconceptions": [
+      {
+        "confusedWith": "Procurement RFQ",
+        "why": "RFQ is buyer invitation; supplier quote is supplier response.",
+        "correct": "RFQ solicits; supplier quote responds with pricing."
+      },
+      {
+        "confusedWith": "Purchase order",
+        "why": "PO is commitment; quote is pre-commitment evidence.",
+        "correct": "Quote precedes award and PO in competitive paths."
+      }
+    ],
+    "exposure": {
+      "audience": "both",
+      "afendaPreferredWording": "Supplier quote"
+    },
+    "integrity": {
+      "correctness": true,
+      "completeness": true,
+      "consistency": true,
+      "authority": true,
+      "acceptance": true,
+      "evidence": true,
+      "reasoning": true,
+      "applicability": true,
+      "evolution": true,
+      "relationship": true
+    },
+    "realizationMapping": [
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts",
+        "notes": "PAS-001B supplierQuote permission domain read/submit/accept/reject · KV-PROC"
+      },
+      {
+        "realizationKind": "kernel",
+        "reference": "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts",
+        "contractPath": "packages/kernel/src/erp-domain/procurement/procurement-authority.contract.ts",
+        "notes": "PAS-001B procurement domain authority · KV-PROC"
+      }
+    ],
+    "typedEvidence": [
+      {
+        "evidenceId": "supplier_quote_evidence_0",
         "type": "policy",
         "source": "packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts"
       }

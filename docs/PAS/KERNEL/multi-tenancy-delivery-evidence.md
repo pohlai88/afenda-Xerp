@@ -718,6 +718,73 @@ Expected final output format:
     * Documentation quality: x / 10
     * Overall enterprise score: x / 10
 
+## Existing-state audit
+
+Step 2 — Existing-state audit baseline (pre-modification). Status column uses: implemented · partial · planned · authority foundation · in progress · missing.
+
+### Schema audit
+
+| Glossary term | Table / module | Status |
+| --- | --- | --- |
+| Tenant | tenant | implemented |
+| Entity Group | entity_group | implemented |
+| Legal Entity / Company | legal_entity | implemented |
+| Ownership Interest | ownership_interest | implemented |
+| Organization Unit | organization_unit | implemented |
+| Team | team | implemented |
+| Project | project | implemented |
+
+### Kernel context audit
+
+| Contract type | Module | Status |
+| --- | --- | --- |
+| TenantContext | packages/kernel/src/context | implemented |
+| EntityGroupContext | packages/kernel/src/context | implemented |
+| LegalEntityContext | packages/kernel/src/context | implemented |
+| OwnershipInterestContext | packages/kernel/src/context | implemented |
+| OrganizationUnitContext | packages/kernel/src/context | implemented |
+| TeamContext | packages/kernel/src/context | implemented |
+| ProjectContext | packages/kernel/src/context | implemented |
+| OperatingContext | packages/kernel/src/context | implemented |
+| PermissionScopeContext | packages/kernel/src/context | implemented |
+| ConsolidationScopeContext | packages/kernel/src/context | implemented |
+
+### Permission and grant model audit
+
+| Surface | scope | grants | Status |
+| --- | --- | --- | --- |
+| Tenant RBAC | `tenant` | membership grants | implemented |
+| Company scope | `company` | entity_group + legal entity | implemented |
+| Organization scope | `organization` | organization_unit | implemented |
+| Project scope | project | project membership | partial |
+
+### ERP operating-context surface audit
+
+| Artifact | Role | Status |
+| --- | --- | --- |
+| OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY | Protected route registry | implemented |
+| resolveOperatingContext | Server spine entry | implemented |
+| loadProtectedRequestOperatingContext | Request-scoped loader | implemented |
+| protected-api | API route integration | implemented |
+
+### Tenant subdomain and proxy audit
+
+| Concern | Implementation | Status |
+| --- | --- | --- |
+| x-tenant-slug | Header pass-through | implemented |
+| resolveTenantSlugFromHostname | Host parsing | implemented |
+| resolveTenantSlugFromPathname | Path parsing | implemented |
+| tenant only | Subdomain resolves tenant slug only | implemented |
+
+### API and server actions audit
+
+| Module | Authority check | Status |
+| --- | --- | --- |
+| rejectUntrustedAuthorityFields | Spoofing rejection | implemented |
+| resolveOperatingContext | Context assembly | implemented |
+| authorizeApiRoute | Route authorization | implemented |
+| parse-protected-action-input | Server action ingress | implemented |
+
 ## Operating context resolver
 
 PAS-001A R1a IS-002 — fail-closed server-side operating context assembly. Kernel owns shape; `apps/erp` owns resolver spine.

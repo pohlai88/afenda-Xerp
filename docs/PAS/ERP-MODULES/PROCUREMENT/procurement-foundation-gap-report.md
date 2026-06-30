@@ -504,6 +504,74 @@ Phase A — Authorize foundation
 
 ---
 
+## B.5 Product Bank Intelligence Gap (added 2026-06-30)
+
+| # | Gap | Evidence | Required action |
+| --- | --- | --- | --- |
+| 1 | No Product Bank acceptance workflow | Absent in kernel procurement contracts | PROC-001K-S1 slice |
+| 2 | No buyer-reviewed product truth layer | Three-layer truth model documented (NS §2.8); no runtime | PROC-001K-S1 |
+| 3 | No preferred/blocked/contracted status governance | Status vocabulary absent from wire | B58 atoms + PROC-001K-S2 |
+| 4 | No buying decision record | I-CAT-008 invariant documented; no runtime | PROC-001K-S5 |
+| 5 | No true cost / landed cost evaluation | A4 doctrine documented; no implementation | PROC-001K-S5 |
+| 6 | No master-data promotion request emit | I-CAT-005 documented; emit pattern absent | PROC-001K-S10 |
+| 7 | `supplier_catalog_item` / `product_bank_item` / `buying_decision_record` atoms missing | PAS-004 B58 planned; not yet accepted | Submit B58 slice |
+
+**Resolution path:** B58 P0 atom slice → PROC-001K-S1 → S2 → S5 → S10 (see [PAS-PROC-001K §14](../PAS-PROC-001K-PROCUREMENT-PRODUCT-BANK-AND-SUPPLIER-PORTAL-STANDARD.md))
+
+**Build leverage:** [benchmark review §4 P0](./procurement-oss-benchmark-review.md#4-what-to-borrow-prioritized-build-leverage-stack) — BetterSpend price validity · ERPNext review-queue UX · OpenProcurement buying-decision evidence.
+
+---
+
+## B.6 Supplier Catalog Portal + Requestor Catalog Gap (added 2026-06-30)
+
+| # | Gap | Evidence | Required action |
+| --- | --- | --- | --- |
+| 1 | No supplier catalog submission surface | Supplier portal documented (NS §3.10 · A0); no runtime | Supplier auth ADR + PROC-001K-S6 |
+| 2 | No catalog publication lifecycle enforcement | States documented (PAS-PROC-001K §4.2); no runtime | PROC-001K-S2 |
+| 3 | No price list upload / parse / validity | Price list lifecycle documented (NS §8.11); no runtime | PROC-001K-S3 |
+| 4 | No requestor self-service catalog browse | Flow documented (NS §3.6.3); no runtime | PROC-001K-S4 |
+| 5 | No I-CAT-001…008 enforcement gates | Invariants documented (PAS-PROC-001K §9); no gates | Gate family (§12) |
+| 6 | Supplier-facing auth / SupplierId tenancy scoping absent | ADR pending | Supplier Portal ADR required |
+
+**Resolution path:** Supplier Portal ADR → PROC-001K-S6 → S4 → catalog gate family
+
+**Build leverage:** [benchmark review §4 P2](./procurement-oss-benchmark-review.md#4-what-to-borrow-prioritized-build-leverage-stack) — ERPNext supplier portal RFQ pattern · Coupa requestor catalog; **avoid** supplier login before ADR (Blueprint §9 Stage 3).
+
+---
+
+## B.7 Supplier S2P Portal — PO Ack, Invoice, Match, Payment Status Feeds (added 2026-06-30)
+
+| # | Gap | Evidence | Required action |
+| --- | --- | --- | --- |
+| 1 | No PO inbox / acknowledgment surface for supplier | NS §3.10 documented; absent | PROC-001K-S7 (after B8 PO runtime) |
+| 2 | No ASN / delivery document submission | NS §3.10 documented; absent | PROC-001K-S7 |
+| 3 | No supplier invoice submission channel | NS §3.9.3 documented; absent; routes to Accounting | PROC-001K-S7 + Accounting feed contract |
+| 4 | No match status display (feed) | I-S2P-004 documented; Accounting feed contract pending | PROC-001K-S8 |
+| 5 | No payment status display (feed) | I-S2P-003/004 documented; Treasury feed contract pending | PROC-001K-S8 |
+| 6 | No supplier accountability scorecard | B12 doctrine documented; absent | PROC-001K-S9 |
+
+**Dependencies:** Accounting invoice capture API contract · Treasury payment status feed · Supplier Portal ADR.
+
+**Build leverage:** [benchmark review §4 P3](./procurement-oss-benchmark-review.md#4-what-to-borrow-prioritized-build-leverage-stack) — BetterSpend invoice **channel** · Coupa/Odoo match/payment **display** only (I-PORTAL-001); Accounting owns match execution.
+
+---
+
+## B.8 Cross-Domain S2P Ownership Document Gap (added 2026-06-30)
+
+| # | Gap | Evidence | Required action |
+| --- | --- | --- | --- |
+| 1 | No explicit S2P ownership matrix document | NS §3.9 documents matrix in North Star; no separate PAS-PROC cross-domain standard | PAS-PROC-001I (cross-domain handoff) |
+| 2 | Accounting invoice capture contract absent | Required for supplier portal invoice routing | Accounting PAS · feed contract |
+| 3 | Treasury payment feed contract absent | Required for payment status display | Treasury PAS · feed contract |
+| 4 | Inventory receipt expectation handoff runtime absent | NS §9.3 documented; no runtime emit | PAS-PROC-001F |
+| 5 | Goods receipt signal cross-domain atom missing | KV-INV cross-domain atom required | Kernel cross-domain ADR |
+
+**Resolution path:** PAS-PROC-001I (cross-domain handoff) → Accounting PAS → Treasury PAS → PAS-PROC-001F receipt.
+
+**Build leverage:** [procurement-oss-benchmark-review.md §4–§5](./procurement-oss-benchmark-review.md) — P1 FK/event handoff from open-mercato; avoid monolithic match in procurement (Nexus trap).
+
+---
+
 ## Related documents
 
 | Document | Role |
@@ -517,6 +585,8 @@ Phase A — Authorize foundation
 | [SLICE catalog](../SLICE/README.md) | Official slice IDs — handoff file required |
 | [ADR-0019](../../../adr/ADR-0019-inventory-domain-master-data-activation.md) | Inventory activation pattern (reference) |
 | [ADR-0020](../../../adr/ADR-0020-master-data-authority-consolidation.md) | BMD authority; procurement package blocked |
+| [procurement-oss-benchmark-review.md](./procurement-oss-benchmark-review.md) | OSS/industry wins · borrow stack · build leverage for §B.5–§B.8 |
+| [procurement-blueprint.md](../../../BLUEPRINT/procurement-blueprint.md) | 20-box map · §17 benchmark summary |
 
 ---
 
@@ -528,6 +598,6 @@ Phase A — Authorize foundation
 | Domain ADR accepted | Update F.1–F.3; promote PKG-R05 in foundation-disposition |
 | Gate implementation | Move gates from section G to pas-status-index gate bundle |
 | Knowledge atoms added | Refresh section B knowledge register |
-| Re-review | Update review verdict scores and confidence table |
+| OSS benchmark review updated | Sync §B.5–§B.8 borrow notes · NS §2.4 · Blueprint §17 |
 
 **Last audited:** 2026-06-30 · **Review amended:** 2026-06-30 · **Relocated:** 2026-06-30 → ERP-MODULES lane · ERP-PROC-FDN-001 Delivered

@@ -26,7 +26,7 @@ describe("renderModuleReadinessReport", () => {
     const rows = buildModuleReadinessReportRows(PROCUREMENT_FOUNDATION_BUNDLE);
     const authority = rows.find((row) => row.dimension === "authority");
     expect(authority?.verdict).toBe("Foundation Pass");
-    expect(authority?.evidence).toContain("PAS-001C");
+    expect(authority?.evidence).toContain("ADR-0031");
   });
 
   it("renders attestation scope preamble distinguishing foundation from operational", () => {

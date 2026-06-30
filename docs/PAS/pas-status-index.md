@@ -164,7 +164,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Slice** | ERP-MOD-FDN-003 — [handoff](KERNEL/SLICE/erp-mod-fdn-003-foundation-authority.md) · **Delivered** 2026-06-30 |
 | **Template** | [ERP-MODULES/erp-runtime-module-foundation.template.md](ERP-MODULES/erp-runtime-module-foundation.template.md) |
 | **Runtime status** | `foundation_authority` — define*/assert* helpers; zero runtime deps |
-| **Fingerprint** | `ERP_MODULE_FOUNDATION-2026-06-30-v3` |
+| **Fingerprint** | `ERP_MODULE_FOUNDATION-2026-06-30-v4` |
 | **Gates (live)** | `pnpm check:erp-module-foundation` (composite) · 9 sub-gates (ownership, knowledge, context-spine, permission, audit-outbox, metadata, database-boundary, no-kernel-leak, readiness) |
 | **Quality composite** | `pnpm quality:erp-module-foundation` |
 | **Reference bundle** | KV-PROC wire-phase (`PROCUREMENT_FOUNDATION_BUNDLE`) |
@@ -308,9 +308,9 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | Delivered — Production Candidate (B24–B32; registry synced 2026-06-28) |
 | **Authority** | PAS-004A · PAS-004 charter · PAS-001 kernel references · `PKGR04_ENTERPRISE_KNOWLEDGE` |
 | **Maturity** | `production_candidate` · `accepted_for_implementation` · `delivered` · `json_authority` |
-| **Runtime status** | B24–B32 delivered — 24 atoms, JSON authority, ERP consumer, glossary parity, scorecard 30/30 |
+| **Runtime status** | B24–B32 delivered — 47 atoms (incl. EK-MOD-FDN + B56/B57 procurement), JSON authority, ERP consumer, glossary parity |
 | **Remaining slices** | none |
-| **Runtime evidence** | PAS-004A canonical doc, B24–B32 slice handoffs, `atoms.json` / `edges.json` (24 atoms), ERP consumer + system-admin titles, full glossary manifest |
+| **Runtime evidence** | PAS-004A canonical doc, B24–B32 slice handoffs, `atoms.json` (47 atoms), ERP consumer + system-admin titles, full glossary manifest |
 | **Gates** | `pnpm --filter @afenda/enterprise-knowledge typecheck`, `pnpm --filter @afenda/enterprise-knowledge test:run`, `pnpm check:knowledge-conformance`, `pnpm check:knowledge-json-authority`, `pnpm check:knowledge-kernel-mapping`, `pnpm check:knowledge-consumer-proof`, `pnpm check:glossary-knowledge-sync`, `pnpm check:knowledge-typed-corpus`, `pnpm quality:boundaries`, `pnpm check:foundation-disposition` |
 | **Result** | JSON authority, kernel mapping, ERP consumer + UI titles, glossary full parity, typed corpus **24/24**; B30 scorecard **30/30** |
 
@@ -390,25 +390,25 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 | Field | Value |
 | --- | --- |
-| **Status** | B53 delivered — ERP-domain bridge live; B51–B52 · B54 queued |
+| **Status** | B51–B53 delivered — corpus depth + vocabulary richness + ERP-domain bridge live; B54 attestation deferred |
 | **Authority** | PAS-004D · PAS-004C baseline · PAS-001B erp-domain refs · `PKGR04_ENTERPRISE_KNOWLEDGE` |
 | **Maturity** | `idea` → `production_candidate` on B54 attestation |
-| **Runtime status** | PAS-004C closed (58/58); B50 legacy retirement delivered; B53 KV-paired bridge atoms live |
-| **Remaining slices** | B51 corpus depth (next) · B52 vocabulary richness · B54 attestation |
-| **Runtime evidence** | [PAS-004D canonical doc](ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · B49–B50 · [B53 handoff](ENTERPRISE-KNOWLEDGE/SLICE/b53-pas004d-erp-domain-bridge.md) |
-| **Gates (B49+)** | inherit PAS-004C §13.1 + `check:knowledge-authority-mirror` (B49) + `check:knowledge-legacy-surface-retirement` (B50) through `check:knowledge-erp-domain-bridge` (B53) |
+| **Runtime status** | PAS-004C closed (58/58); B50 legacy retirement delivered; B51–B53 gates live; corpus **47 atoms** |
+| **Remaining slices** | B54 operational attestation (deferred — registry owner) |
+| **Runtime evidence** | [PAS-004D canonical doc](ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · [B51 handoff](ENTERPRISE-KNOWLEDGE/SLICE/b51-pas004d-corpus-depth.md) · [B52 handoff](ENTERPRISE-KNOWLEDGE/SLICE/b52-pas004d-vocabulary-richness.md) · [B53 handoff](ENTERPRISE-KNOWLEDGE/SLICE/b53-pas004d-erp-domain-bridge.md) |
+| **Gates (B49+)** | inherit PAS-004C §13.1 + `check:knowledge-authority-mirror` (B49) + `check:knowledge-legacy-surface-retirement` (B50) + `check:knowledge-corpus-depth` (B51) + `check:knowledge-vocabulary-richness` (B52) + `check:knowledge-erp-domain-bridge` (B53) |
 | **Result** | Target **70/70** scorecard (≥66) — operational closure without ontology-engine scope creep |
 
 | Slice | Doc | Phase | Status |
 | --- | --- | --- | --- |
 | B49 | [b49-pas004d-authority-mirror-sync.md](ENTERPRISE-KNOWLEDGE/SLICE/b49-pas004d-authority-mirror-sync.md) | 1 Mirror sync | Delivered |
 | B50 | [b50-pas004d-legacy-surface-retirement.md](ENTERPRISE-KNOWLEDGE/SLICE/b50-pas004d-legacy-surface-retirement.md) | 2 Legacy API | Delivered |
-| B51 | b51-pas004d-corpus-depth.md | 3 Corpus depth | Proposed |
-| B52 | b52-pas004d-vocabulary-richness.md | 3 Vocabulary | Proposed |
+| B51 | [b51-pas004d-corpus-depth.md](ENTERPRISE-KNOWLEDGE/SLICE/b51-pas004d-corpus-depth.md) | 3 Corpus depth | Delivered |
+| B52 | [b52-pas004d-vocabulary-richness.md](ENTERPRISE-KNOWLEDGE/SLICE/b52-pas004d-vocabulary-richness.md) | 3 Vocabulary | Delivered |
 | B53 | [b53-pas004d-erp-domain-bridge.md](ENTERPRISE-KNOWLEDGE/SLICE/b53-pas004d-erp-domain-bridge.md) | 4 Domain bridge | Delivered |
 | B54 | b54-pas004d-operational-closure-attestation.md | 5 Attestation | Proposed |
 
-**Next sequence item:** B51 — corpus depth thresholds (`check:knowledge-corpus-depth`).
+**Next sequence item:** B54 — operational closure attestation (`foundation-registry-owner` delegates PKGR04 promotion). **Deferred** until explicit attestation handoff.
 
 ---
 

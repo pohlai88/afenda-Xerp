@@ -169,7 +169,9 @@ describe("assertModuleReadiness", () => {
   });
 
   it("fails when required readiness evidence is missing", () => {
-    const bundle = buildProcurementFoundationBundle();
+    const bundle = buildProcurementFoundationBundle({
+      authority: "",
+    });
 
     expect(() => assertModuleReadiness(bundle)).toThrow(
       ModuleReadinessAssertionError

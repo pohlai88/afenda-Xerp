@@ -91,6 +91,41 @@
     "ownedByPas": "PAS-004C"
   },
   {
+    "termId": "tenant_synonym_account",
+    "conceptId": "tenant",
+    "label": "Customer account",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "legal_entity_statutory",
+    "conceptId": "legal_entity",
+    "label": "Legal Entity (statutory)",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "organization_unit_department",
+    "conceptId": "organization_unit",
+    "label": "Department / branch",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "workspace_working_context",
+    "conceptId": "workspace",
+    "label": "Working context",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "supplier_vendor",
+    "conceptId": "supplier",
+    "label": "Vendor",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
     "termId": "entity_group_preferred",
     "conceptId": "entity_group",
     "label": "Entity group",
@@ -304,6 +339,27 @@
     "termId": "procurement_rfq_preferred",
     "conceptId": "procurement_rfq",
     "label": "Procurement RFQ",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "procurement_sourcing_preferred",
+    "conceptId": "procurement_sourcing",
+    "label": "Procurement sourcing method",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "blanket_agreement_preferred",
+    "conceptId": "blanket_agreement",
+    "label": "Blanket agreement",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "supplier_quote_preferred",
+    "conceptId": "supplier_quote",
+    "label": "Supplier quote",
     "preferred": true,
     "ownedByPas": "PAS-004C"
   }

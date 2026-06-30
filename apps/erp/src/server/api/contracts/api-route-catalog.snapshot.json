@@ -62,7 +62,7 @@
       "path": "/api/internal/v1/auth/memberships",
       "permission": null,
       "rateLimitPolicy": "authenticated-standard",
-      "requestSchemaRef": "apps/erp/src/server/api/contracts/auth/auth-memberships.api-contract.ts#authMembershipsGetResponseSchema",
+      "requestSchemaRef": "apps/erp/src/server/api/contracts/auth/auth-memberships.api-contract.ts#request:none",
       "responseSchemaRef": "apps/erp/src/server/api/contracts/auth/auth-memberships.api-contract.ts#authMembershipsGetResponseSchema",
       "runtime": "nodejs",
       "summary": "List session memberships",

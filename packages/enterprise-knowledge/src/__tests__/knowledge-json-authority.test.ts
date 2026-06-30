@@ -47,11 +47,11 @@ describe("JSON data authority — atoms.json", () => {
     );
   });
 
-  it("atoms.json contains forty-four typed atoms with frozen B24 prefix", () => {
+  it("atoms.json contains forty-seven typed atoms with frozen B24 prefix", () => {
     const raw = JSON.parse(
       readFileSync(join(dataDir, "atoms.json"), "utf8")
     ) as unknown[];
-    expect(raw).toHaveLength(44);
+    expect(raw).toHaveLength(47);
   });
 
   it("all B24 atom IDs are present in atoms.json byte-for-byte", () => {

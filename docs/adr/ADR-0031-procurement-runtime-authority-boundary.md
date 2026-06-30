@@ -1,91 +1,88 @@
-# ADR-0031 — Procurement Runtime Authority Boundary (PKG-R05)
+# ADR-0031 — Procurement Runtime Authority Boundary
 
 | Field | Value |
 | --- | --- |
 | **Status** | Accepted |
 | **Date** | 2026-06-30 |
-| **Owner** | Architecture Authority · Procurement Authority |
+| **Owner** | Architecture Authority · ERP Module Foundation domain |
 | **Supersedes** | — |
 | **Superseded by** | — |
-| **Doc sync (2026-06-30)** | §3 slice ID labels are audit **candidates** only. **Official slice catalog:** [ERP-MODULES/SLICE/README.md](../PAS/ERP-MODULES/SLICE/README.md). Gap report §7 superseded. |
-
-> **PAS-001B wire authority (KV backfill):** Cross-package ERP wire vocabulary for the procurement catalog slug is **`KV-PROC`** (`erp-domain/procurement` under `@afenda/kernel/erp-domain/procurement`). Runtime package authority is **`@afenda/procurement`** (PKG-R05). Canonical KV citation rules: [ADR-0020](ADR-0020-master-data-authority-consolidation.md).
 
 ---
 
 ## Context
 
-B80 (KV-PROC) delivered procurement wire vocabulary as contracts-only under `@afenda/kernel/erp-domain/procurement`. The `@afenda/erp-module-foundation` reference bundle (`PROCUREMENT_FOUNDATION_BUNDLE`) attests foundation dimensions with `runtimeStatus: foundation_authorized`, but **operational procurement runtime remains blocked** per [PAS-PROC-FDN-AUDIT-001](../PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md).
+Procurement wire vocabulary (KV-PROC) is **Delivered** under PAS-001B (B80). Operational procurement runtime — PO posting, supplier lifecycle, ERP routes, and database schema — requires an explicit authority boundary before filesystem work begins.
 
 Evidence as of 2026-06-30:
 
 | Artifact | Role |
 | --- | --- |
-| B80 KV-PROC wire slice | Delivered — contracts-only vocabulary |
-| `PROCUREMENT_FOUNDATION_BUNDLE` | Foundation attestation — wire-phase evidence |
-| PKG-R05 in `package-registry.data.ts` | `lifecycle: planned` · `filesystemRequired: false` |
-| `packages/procurement/` | **Absent** — blocked by design |
-| Gap report blocker #1 | No procurement runtime ADR |
+| [B80 procurement domain vocabulary](../PAS/KERNEL/SLICE/b80-procurement-domain-vocabulary.md) | Kernel contracts-only wire (KV-PROC) |
+| [PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) | Platform module foundation helpers and readiness gates |
+| [Procurement North Star](../NORTHSTAR/procurement-north-star.md) | Business architecture and cross-domain handoff matrix |
+| [Procurement gap report](../PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md) | Honest operational readiness inventory |
+| `@afenda/erp-module-foundation` · `PROCUREMENT_FOUNDATION_BUNDLE` | Reference foundation bundle attestation |
+| `PKGR05_PROCUREMENT` in foundation-disposition.registry.ts | Machine disposition row |
 
-Without an accepted runtime authority ADR, agents cannot safely reason about PKG-R05 disposition, split ownership, or scaffold unblock criteria. This ADR records the **authority boundary** only — it does **not** activate filesystem, database schema, PO posting, ERP production routes, or permission registry wiring.
-
-Related: [ADR-0020](ADR-0020-master-data-authority-consolidation.md) · [ADR-0021](ADR-0021-canonical-enterprise-identity.md) · [PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) · [Procurement North Star](../NORTHSTAR/procurement-north-star.md) · [ERP-PROC-FDN-001](../PAS/ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md).
+Related: ADR-0020 (contract-first master data) · ADR-0027 (ERP presentation reset — PAS-006) · ERP-PROC-FDN-001 slice.
 
 ---
 
 ## Decision
 
-### 1. PKG-R05 runtime authority boundary (documentation-only in this slice)
+### 1. Runtime package identity
 
-**Record** `@afenda/procurement` (PKG-R05) as the **candidate runtime owner package** for procurement domain behavior. **Do not** create `packages/procurement/` filesystem, promote package lifecycle from `planned`, or set `filesystemRequired: true` in this slice.
-
-Foundation disposition entry **`PKGR05_PROCUREMENT`** in `foundation-disposition.registry.ts` is the machine authority for this boundary.
-
-### 2. Split ownership matrix (candidate — full ADR-lock in ERP-PROC-FDN-002A)
-
-| Concern | Owner |
+| Field | Value |
 | --- | --- |
-| Wire enums / IDs / permission **words** | `@afenda/kernel` (KV-PROC only) |
-| Business **meaning** | `@afenda/enterprise-knowledge` (PAS-004) |
-| Supplier **identity** | PAS-001 business-reference (`SupplierId`, `supplier_no`) |
-| Procurement domain **behavior** (use cases, domain rules) | `@afenda/procurement` (PKG-R05) |
-| Schema, migrations, RLS, **persistence services** | `@afenda/database` |
-| ERP **ingress** (routes, server actions, context assembly) | `apps/erp` |
-| Permission **evaluation** registry | `@afenda/permissions` |
-| Metadata **operator surfaces** | `apps/erp` + PAS-006 presentation |
+| **Package ID** | PKG-R05 |
+| **Package name** | `@afenda/procurement` |
+| **Runtime owner path** | `packages/procurement` |
+| **Registry entry** | `PKGR05_PROCUREMENT` |
+| **Authority** | ADR-0031 |
 
-`runtimeOwnerPackage`: **`@afenda/procurement`** (candidate — full lock in **ERP-PROC-FDN-002A**).
+### 2. Layer ownership (contract-first)
 
-### 3. Scaffold unblock criteria (filesystem + lifecycle promotion)
+| Layer | Owner | Procurement scope |
+| --- | --- | --- |
+| Wire vocabulary | `@afenda/kernel/erp-domain/procurement` | Permission keys, audit actions, domain IDs (KV-PROC) |
+| Business meaning | `@afenda/enterprise-knowledge` | PAS-004 atoms (PO, supplier, RFQ, sourcing) |
+| Foundation attestation | `@afenda/erp-module-foundation` | Readiness matrix, bundle serialization |
+| HTTP wiring | `apps/erp` | Governed internal v1 routes when authorized |
+| Persistence | `@afenda/database` | Schema boundary — deferred until authorized slice |
+| Runtime domain | `@afenda/procurement` | Application/domain logic — **blocked until slice handoff** |
 
-> **Catalog authority (2026-06-30):** The slice ID labels in the table below are **historical audit candidates** from ADR drafting. They are **not** an authorized execution catalog. Official slice IDs require handoff files under [ERP-MODULES/SLICE/README.md](../PAS/ERP-MODULES/SLICE/README.md). Gap inventory: [procurement-foundation-gap-report.md](../PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md) sections A–F (§7 superseded).
+### 3. Filesystem gate
 
-`packages/features/erp-modules/src/procurement/` filesystem creation and PKG-R05 lifecycle promotion beyond `planned` require **all** of:
+`packages/procurement/**` must **not** exist until:
 
-| Prerequisite slice | Delivers |
-| --- | --- |
-| **ERP-PROC-FDN-001** (this ADR) | Runtime authority boundary + PKGR05_PROCUREMENT disposition |
-| **ERP-PROC-FDN-002** | Procurement knowledge alignment (PAS-004 P0 atoms) |
-| **ERP-PROC-FDN-002A** | ADR-locked ownership matrix — **blocks FDN-003 and filesystem** |
-| Future ADR / slice after 002A | Explicit filesystem activation (contracts-only or runtime phase) |
+1. This ADR is **Accepted** (satisfied),
+2. `PKGR05_PROCUREMENT` disposition is recorded (satisfied),
+3. An authorized ERP-MODULES slice handoff explicitly permits filesystem scaffold.
 
-Until 002A closes, database schema work (FDN-003+) must **not** begin — runtime responsibility would be ambiguous.
+Enforced by `pnpm check:procurement-runtime-foundation` and `pnpm check:erp-module-runtime-package-reserved`.
 
-### 4. Explicit prohibitions until FDN-002 / FDN-002A / FDN-003
+### 4. Prohibited without new ADR
 
-Until the slices above and their acceptance gates pass:
+- PO posting or three-way match runtime
+- Procurement database migrations
+- Kernel procurement business logic (beyond PAS-001B wire)
+- ERP production procurement UI routes (PAS-006) without slice handoff
 
-- **No** Drizzle schemas / migrations for suppliers, PR, PO, RFQ, or blanket agreements
-- **No** PO posting, goods-receipt matching, or three-way match services
-- **No** ERP production routes under `apps/erp/src/app/(protected)/modules/procurement/**`
-- **No** `PERMISSION_REGISTRY` procurement block wiring or seed parity
-- **No** `@afenda/database` runtime dependency inside `@afenda/procurement` (when created)
-- **No** import of `@afenda/procurement` from `@afenda/kernel`
-- **No** procurement business runtime under `packages/kernel/src/erp-domain/procurement/`
+### 5. Foundation vs operational readiness
 
-### 5. Wire versus runtime separation (unchanged)
+**Foundation Pass** (bundle + gates) ≠ **operational procurement**. Operational rows remain blocked per gap report sections A–F until subsequent authorized slices close each dimension.
 
-KV-PROC remains **contracts-only** under kernel per PAS-001B B80. This ADR does not amend wire shapes or promote kernel procurement to runtime.
+### 6. Path law reconciliation (registry vs operational filesystem)
+
+Two path references are **intentional** and **not contradictory** while operational procurement is deferred:
+
+| Layer | Path | Role | Authority |
+| --- | --- | --- | --- |
+| **Registry / governance reservation** | `@afenda/procurement` · `packages/procurement` | PKG-R05 identity; `check:procurement-runtime-foundation` and `check:erp-module-runtime-package-reserved` assert this path **must not exist** until an authorized slice permits scaffold | This ADR · `PKGR05_PROCUREMENT` · package registry PKG-R05 |
+| **Operational filesystem (future)** | `packages/features/erp-modules/src/procurement/` | Default LoB runtime scaffold when business runtime is authorized | [ERP Module Runtime Blueprint §4.5](../BLUEPRINT/erp-module-runtime-blueprint.md) · [Procurement NS §0](../NORTHSTAR/procurement-north-star.md) |
+
+**Rule:** Until an ERP-MODULES slice closes operational runtime, **neither** path may contain business runtime on disk. The registry path is a **reserved package name** for disposition and gates; the features path is the **documented operational layout** for the next scaffold slice. Reconciling both into a single filesystem path requires a **future ADR** amending Blueprint §4.5 or this ADR — not agent-local choice.
 
 ---
 
@@ -93,45 +90,30 @@ KV-PROC remains **contracts-only** under kernel per PAS-001B B80. This ADR does 
 
 ### Positive
 
-- PKG-R05 disposition is ADR-governed — agents have a single authority for reserved runtime package boundary.
-- Split ownership matrix is documented before database or route work — reduces ambiguous persistence ownership.
-- Scaffold policy is explicit — filesystem blocked until FDN-002A ownership ADR-lock.
-- Unblocks ERP-PROC-FDN-002 (knowledge alignment) and ERP-PROC-FDN-002A (ownership model).
+- Clear PKG-R05 disposition path for registry and CI gates
+- Procurement NS §9.4 orthogonal separation preserved (foundation gates ≠ business runtime)
+- Reference bundle (`PROCUREMENT_FOUNDATION_BUNDLE`) can attest authority without premature package creation
 
-### Negative / trade-offs
+### Negative / deferred
 
-- Multi-slice activation (001 → 002 → 002A → filesystem ADR) adds process overhead.
-- `runtimeOwnerPackage` remains **candidate** until FDN-002A — partial ambiguity intentional.
-- Foundation bundle attestation passes while operational runtime remains blocked — honest readiness reporting required.
+- No `@afenda/procurement` filesystem until next ERP-MODULES slice
+- Database, permission enforcement, audit writers, and ERP UI remain gap-report blockers
 
 ---
 
-## Acceptance Gate
+## Verification
 
-ERP-PROC-FDN-001 complete when all pass:
-
-- `pnpm check:documentation-drift`
-- `pnpm check:foundation-disposition`
-- `pnpm check:erp-module-foundation`
-- `pnpm check:erp-module-runtime-package-reserved`
-- `pnpm check:procurement-domain-contracts`
-- `pnpm check:procurement-runtime-foundation` (when wired)
-
-Manual evidence:
-
-- ADR-0031 status **Accepted**
-- `PKGR05_PROCUREMENT` row in `foundation-disposition.registry.ts`
-- Procurement NS §12.4 runtime ADR **Accepted**
-- `PROCUREMENT_FOUNDATION_BUNDLE` authority evidence → ADR-0031 path
+| Gate | Purpose |
+| --- | --- |
+| `pnpm check:procurement-runtime-foundation` | ADR Accepted · PKG-R05 · no premature filesystem |
+| `pnpm check:foundation-disposition` | Registry row parity |
+| `pnpm check:erp-module-foundation` | Platform foundation composite |
+| `pnpm check:erp-module-runtime-package-reserved` | Reserved package law |
 
 ---
 
 ## References
 
-- [ADR-0020](ADR-0020-master-data-authority-consolidation.md) — contract-first / split ownership model
-- [ADR-0021](ADR-0021-canonical-enterprise-identity.md) — SupplierId authority
-- [B80 — Procurement Domain Vocabulary](../PAS/KERNEL/SLICE/b80-procurement-domain-vocabulary.md)
-- [PAS-001C — ERP Module Foundation](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md)
-- [PAS-PROC-FDN-AUDIT-001](../PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md)
-- [Procurement North Star](../NORTHSTAR/procurement-north-star.md)
-- [ERP-PROC-FDN-001 slice handoff](../PAS/ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md)
+- [ERP-PROC-FDN-001 slice](../PAS/ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md)
+- [PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md)
+- [Procurement runtime readiness report](../PAS/ERP-MODULES/PROCUREMENT/procurement-runtime-readiness-report.md)
