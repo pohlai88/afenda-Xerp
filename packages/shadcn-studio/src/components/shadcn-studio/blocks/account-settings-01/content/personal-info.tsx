@@ -194,7 +194,7 @@ const PersonalInfo = () => {
               Pick a photo up to 1MB.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div className="grid min-w-0 grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="flex flex-col items-start gap-2">
               <Label htmlFor="multi-step-personal-info-first-name">
                 First Name

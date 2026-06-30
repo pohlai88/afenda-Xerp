@@ -62,7 +62,7 @@ const EmailPass = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
+    <div className="grid min-w-0 w-full grid-cols-1 gap-10 xl:grid-cols-3">
       {/* Vertical Tabs List */}
       <div className="flex flex-col space-y-1">
         <h3 className="font-semibold">Email & Password</h3>
@@ -72,7 +72,7 @@ const EmailPass = () => {
       </div>
 
       {/* Content */}
-      <div className="lg:col-span-2">
+      <div className="min-w-0 xl:col-span-2">
         <form className="mx-auto space-y-6">
           <div className="w-full space-y-2">
             <Label className="gap-1" htmlFor="email">

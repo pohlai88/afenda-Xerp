@@ -13,7 +13,7 @@ const SocialUrl = () => {
   const updateUrl = (index: number, value: string) => setUrls(prev => prev.map((u, i) => (i === index ? value : u)))
 
   return (
-    <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
+    <div className='grid min-w-0 w-full grid-cols-1 gap-10 xl:grid-cols-3'>
       {/* Vertical Tabs List */}
       <div className='flex flex-col'>
         <h3 className='text-foreground font-semibold'>Social URLs</h3>
@@ -21,7 +21,7 @@ const SocialUrl = () => {
       </div>
 
       {/* Content */}
-      <div className='space-y-6 lg:col-span-2'>
+      <div className='space-y-6 min-w-0 xl:col-span-2'>
         <div className='space-y-4'>
           {urls.map((url, idx) => (
             <Input

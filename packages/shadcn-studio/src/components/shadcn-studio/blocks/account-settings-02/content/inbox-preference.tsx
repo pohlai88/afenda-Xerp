@@ -2,7 +2,7 @@ import { Switch } from '@/components/ui/switch'
 
 const InboxPreference = () => {
   return (
-    <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
+    <div className='grid min-w-0 w-full grid-cols-1 gap-10 xl:grid-cols-3'>
       {/* Vertical Tabs List */}
       <div className='flex flex-col space-y-1'>
         <h3 className='font-semibold'>Inbox Preferences</h3>
@@ -10,7 +10,7 @@ const InboxPreference = () => {
       </div>
 
       {/* Content */}
-      <div className='space-y-4 lg:col-span-2'>
+      <div className='space-y-4 min-w-0 xl:col-span-2'>
         <div className='flex items-center gap-4'>
           <Switch className='cursor-pointer' />
           <div className='flex flex-col'>

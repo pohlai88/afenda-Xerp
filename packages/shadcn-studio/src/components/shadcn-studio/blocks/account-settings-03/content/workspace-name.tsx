@@ -58,7 +58,7 @@ const WorkspaceName = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
+      <div className="grid min-w-0 w-full grid-cols-1 gap-10 xl:grid-cols-3">
         {/* Workspace Name */}
         <div {...blockSlotDomMarkerProps("profile.avatar")} className="flex flex-col space-y-1">
           <h3 className="font-semibold">Workspace Name & TimeZone</h3>
@@ -67,7 +67,7 @@ const WorkspaceName = () => {
           </p>
         </div>
         {/* Content */}
-        <div className="space-y-6 lg:col-span-2">
+        <div className="space-y-6 min-w-0 xl:col-span-2">
           {/* Workspace Name */}
           <div className="flex flex-col items-start gap-1">
             <Label htmlFor="workspace-name">Workspace Name</Label>
