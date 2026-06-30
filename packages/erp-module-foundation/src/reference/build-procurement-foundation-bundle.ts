@@ -101,7 +101,8 @@ export const PROCUREMENT_FOUNDATION_EVIDENCE: Readonly<
     "packages/features/erp-modules/src/procurement/procurement.ownership.contract.ts",
   database:
     "packages/features/erp-modules/src/procurement/procurement.database-boundary.contract.ts",
-  contextSpine: "apps/erp/src/lib/context/resolve-operating-context.server.ts",
+  contextSpine:
+    "packages/features/erp-modules/src/procurement/procurement.context-spine-consumer.contract.ts",
   permissions:
     "packages/features/erp-modules/src/procurement/procurement.permission-binding.contract.ts",
   audit:
@@ -125,7 +126,8 @@ export const PROCUREMENT_FOUNDATION_ATTESTED_EVIDENCE = {
     "packages/features/erp-modules/src/procurement/procurement.ownership.contract.ts",
   database:
     "packages/features/erp-modules/src/procurement/procurement.database-boundary.contract.ts",
-  contextSpine: "apps/erp/src/lib/context/resolve-operating-context.server.ts",
+  contextSpine:
+    "packages/features/erp-modules/src/procurement/procurement.context-spine-consumer.contract.ts",
   permissions:
     "packages/features/erp-modules/src/procurement/procurement.permission-binding.contract.ts",
   audit:
@@ -362,6 +364,7 @@ function buildCoreBundle(
       kvId: "KV-PROC",
       requiredResolvers: [
         "apps/erp/src/lib/context/resolve-operating-context.server.ts",
+        "apps/erp/src/lib/context/load-protected-request-operating-context.server.ts",
       ],
       forbiddenIngress: [
         "apps/erp/src/lib/context/resolve-operating-context-from-headers.server.ts",

@@ -17,6 +17,7 @@
     "@afenda/auth": "workspace:*",
     "@afenda/database": "workspace:*",
     "@afenda/enterprise-knowledge": "workspace:*",
+    "@afenda/erp-modules": "workspace:*",
     "@afenda/kernel": "workspace:*",
     "@afenda/observability": "workspace:*",
     "@afenda/permissions": "workspace:*",

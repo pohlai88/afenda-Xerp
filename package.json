@@ -173,6 +173,7 @@
     "check:procurement-ownership-contract": "tsx scripts/governance/check-procurement-ownership-contract.mts",
     "check:procurement-database-boundary-contract": "tsx scripts/governance/check-procurement-database-boundary-contract.mts",
     "check:procurement-permission-binding-contract": "tsx scripts/governance/check-procurement-permission-binding-contract.mts",
+    "check:procurement-context-spine-consumer": "tsx scripts/governance/check-procurement-context-spine-consumer.mts",
     "check:erp-module-foundation": "tsx scripts/governance/check-erp-module-foundation.mts",
     "check:erp-module-ownership": "tsx scripts/governance/check-erp-module-ownership.mts",
     "check:erp-module-knowledge-alignment": "tsx scripts/governance/check-erp-module-knowledge-alignment.mts",

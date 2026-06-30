@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-30-v36" as const;
+  "FOUNDATION-DISPOSITION-2026-06-30-v37" as const;
 
 const foundationDispositionEntries = [
   {
@@ -554,15 +554,19 @@ const foundationDispositionEntries = [
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-002-runtime-ownership-contract.md",
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-003-database-boundary-declaration.md",
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-004-permission-binding-declaration.md",
+      "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-005-context-spine-consumer.md",
       "packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts",
       "packages/features/erp-modules/src/procurement/index.ts",
       "packages/features/erp-modules/src/procurement/README.md",
       "packages/features/erp-modules/src/procurement/procurement.ownership.contract.ts",
       "packages/features/erp-modules/src/procurement/procurement.database-boundary.contract.ts",
       "packages/features/erp-modules/src/procurement/procurement.permission-binding.contract.ts",
+      "packages/features/erp-modules/src/procurement/procurement.context-spine-consumer.contract.ts",
+      "apps/erp/src/lib/procurement/load-procurement-foundation-readiness-page.server.ts",
+      "apps/erp/src/app/(protected)/modules/procurement/readiness/page.tsx",
     ],
     knownGaps: [
-      "DB + permission binding declared (OP-003/OP-004); migrations + PERMISSION_REGISTRY wiring still deferred; context/audit still deferred",
+      "DB + permission binding + context spine declared/attested (OP-003/004/005); migrations + PERMISSION_REGISTRY wiring + audit/outbox still deferred",
       "Business procurement runtime deferred — gap report sections B–F remain until downstream PAS slices close",
     ],
     allowedAgents: ["afenda-governed-implementer", "foundation-registry-owner"],
@@ -581,6 +585,7 @@ const foundationDispositionEntries = [
       "pnpm check:procurement-ownership-contract",
       "pnpm check:procurement-database-boundary-contract",
       "pnpm check:procurement-permission-binding-contract",
+      "pnpm check:procurement-context-spine-consumer",
     ],
     legacyTipEvidence: [],
   },

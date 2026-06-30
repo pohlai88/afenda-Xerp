@@ -30,9 +30,10 @@ Platform foundation slices (PAS-001C) and LoB exemplar slices under **ERP-MODULE
 | ERP-PROC-OP-002 | [erp-proc-op-002-runtime-ownership-contract.md](erp-proc-op-002-runtime-ownership-contract.md) | **Delivered** 2026-06-30 | ADR-locked ownership contract — gap report F.2 closed |
 | ERP-PROC-OP-003 | [erp-proc-op-003-database-boundary-declaration.md](erp-proc-op-003-database-boundary-declaration.md) | **Delivered** 2026-06-30 | Planned database boundary declared — gap report F.3–F.4 closed (no migrations) |
 | ERP-PROC-OP-004 | [erp-proc-op-004-permission-binding-declaration.md](erp-proc-op-004-permission-binding-declaration.md) | **Delivered** 2026-06-30 | Permission binding declared — gap report §D closed (no PERMISSION_REGISTRY wiring) |
-| ERP-PROC-OP-005+ | TBD per gap report | Not started | Context spine · audit — separate handoffs |
+| ERP-PROC-OP-005 | [erp-proc-op-005-context-spine-consumer.md](erp-proc-op-005-context-spine-consumer.md) | **Delivered** 2026-06-30 | Context spine consumer attested — foundation readiness route |
+| ERP-PROC-OP-006+ | TBD per gap report | Not started | Audit/outbox · permission enforcement · PAS-006 UI |
 
-**Next slice:** **TBD** — ERP-PROC-OP-005+ per gap report (context spine · audit).
+**Next slice:** **TBD** — ERP-PROC-OP-006+ per gap report (audit/outbox · permission enforcement · PAS-006 UI).
 
 ## Build order rule
 
@@ -53,7 +54,11 @@ ERP-PROC-OP-003 (Delivered — database boundary declaration)
         ↓
 ERP-PROC-OP-004 (Delivered — permission binding declaration)
         ↓
-packages/features/erp-modules/src/procurement/ (scaffold + ownership + database boundary + permission binding contracts)
+ERP-PROC-OP-005 (Delivered — context spine consumer attestation)
+        ↓
+apps/erp/src/app/(protected)/modules/procurement/readiness (foundation consumer proof)
+        ↓
+packages/features/erp-modules/src/procurement/ (scaffold + ownership + database + permission + context spine contracts)
         ↓
 procurement-runtime-readiness-report.md (operational gate — business runtime still blocked)
 ```

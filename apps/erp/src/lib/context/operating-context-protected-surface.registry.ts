@@ -16,7 +16,8 @@ export interface OperatingContextProtectedSurfaceEntry {
     | "resolveOperatingContextFromHeaders"
     | "resolveApiRouteOperatingContext"
     | "resolveActionOperatingContext"
-    | "loadMetadataOperatorSurfacePage";
+    | "loadMetadataOperatorSurfacePage"
+    | "loadProcurementFoundationReadinessPage";
   readonly id: string;
   readonly kind: OperatingContextProtectedSurfaceKind;
   readonly module: string;
@@ -51,6 +52,13 @@ export const OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY = [
     module: "app/(protected)/operator/auth/sign-in/page.tsx",
     delegate: "loadMetadataOperatorSurfacePage",
     routePattern: "/operator/auth/sign-in",
+  },
+  {
+    id: "protected-rsc-procurement-foundation-readiness",
+    kind: "protected-rsc",
+    module: "app/(protected)/modules/procurement/readiness/page.tsx",
+    delegate: "loadProcurementFoundationReadinessPage",
+    routePattern: "/modules/procurement/readiness",
   },
   {
     id: "protected-api-operating-context",

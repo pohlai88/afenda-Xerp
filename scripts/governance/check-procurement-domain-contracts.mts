@@ -12,6 +12,7 @@ import {
   PROCUREMENT_DOMAIN_CONTRACTS_GATE,
   PROCUREMENT_DOMAIN_CONTRACTS_PACKAGE_SCRIPTS,
   PROCUREMENT_DOMAIN_CONTRACTS_SURFACE_RULE,
+  PROCUREMENT_ERP_AUTHORIZED_FOUNDATION_ROUTE_FILES,
   PROCUREMENT_ERP_FORBIDDEN_IMPORT_PATTERN,
   PROCUREMENT_ERP_FORBIDDEN_ROUTE_DIRS,
   PROCUREMENT_ERP_SCAN_SKIP_DIR_NAMES,
@@ -158,15 +159,31 @@ export function checkErpProcurementSurfaceDrift(
   root: string = repoRoot
 ): ProcurementDomainContractsViolation[] {
   const violations: ProcurementDomainContractsViolation[] = [];
+  const authorizedRouteFiles = new Set(
+    PROCUREMENT_ERP_AUTHORIZED_FOUNDATION_ROUTE_FILES.map((relativePath) =>
+      join(root, relativePath).replace(/\\/g, "/")
+    )
+  );
 
   for (const relativeDir of PROCUREMENT_ERP_FORBIDDEN_ROUTE_DIRS) {
     const absoluteDir = join(root, relativeDir);
-    if (existsSync(absoluteDir)) {
-      violations.push({
-        rule: "erp-procurement-route-drift",
-        file: absoluteDir,
-        message: `${relativeDir} is prohibited until procurement UI ADR`,
-      });
+    if (!existsSync(absoluteDir)) {
+      continue;
+    }
+
+    for (const sourceFile of collectSourceFiles(absoluteDir)) {
+      const normalized = sourceFile.replace(/\\/g, "/");
+      if (
+        (sourceFile.endsWith(".tsx") || sourceFile.endsWith(".ts")) &&
+        !authorizedRouteFiles.has(normalized) &&
+        !normalized.includes("/__tests__/")
+      ) {
+        violations.push({
+          rule: "erp-procurement-route-drift",
+          file: relative(root, sourceFile).replace(/\\/g, "/"),
+          message: `${relativeDir} allows only ERP-PROC-OP-005 foundation readiness files until PAS-006 UI slice`,
+        });
+      }
     }
   }
 

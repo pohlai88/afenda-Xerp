@@ -35,12 +35,21 @@ export const PROCUREMENT_ERP_FORBIDDEN_ROUTE_DIRS = [
   "apps/erp/src/app/(protected)/modules/procurement",
 ] as const;
 
+/** ERP-PROC-OP-005 — sole authorized procurement ERP route until PAS-006 UI slice. */
+export const PROCUREMENT_ERP_AUTHORIZED_FOUNDATION_ROUTE_FILES = [
+  "apps/erp/src/app/(protected)/modules/procurement/readiness/page.tsx",
+  "apps/erp/src/lib/procurement/load-procurement-foundation-readiness-page.server.ts",
+] as const;
+
 export const PROCUREMENT_ERP_SOURCE_ROOT = "apps/erp/src" as const;
 
 export const PROCUREMENT_ERP_FORBIDDEN_IMPORT_PATTERN =
   /from\s+["']@afenda\/procurement["']/;
 
-export const PROCUREMENT_ERP_SCAN_SKIP_DIR_NAMES = ["__tests__", "e2e"] as const;
+export const PROCUREMENT_ERP_SCAN_SKIP_DIR_NAMES = [
+  "__tests__",
+  "e2e",
+] as const;
 
 export const PROCUREMENT_DOMAIN_CONTRACTS_PACKAGE_SCRIPTS = [
   "check:procurement-domain-contracts",

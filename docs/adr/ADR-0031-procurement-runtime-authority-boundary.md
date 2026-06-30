@@ -112,6 +112,7 @@ Two path references are **intentional** and **not contradictory** while operatio
 | `pnpm check:procurement-ownership-contract` | Features ownership contract ↔ foundation bundle parity |
 | `pnpm check:procurement-database-boundary-contract` | Features database boundary declaration ↔ no schema files on disk |
 | `pnpm check:procurement-permission-binding-contract` | Features permission binding ↔ kernel vocabulary · no PERMISSION_REGISTRY wiring |
+| `pnpm check:procurement-context-spine-consumer` | Features context spine contract ↔ foundation readiness route · IS-002 delegate proof |
 
 ---
 
@@ -169,6 +170,24 @@ The gap report §D permission binding is **declared** (not enforced) as a serial
 | **Drift gate** | `pnpm check:procurement-permission-binding-contract` |
 
 **PERMISSION_REGISTRY wiring prohibited until:** authorized ERP-MODULES permission enforcement slice. No `procurement` namespace in `packages/permissions/src/grants/permission.contract.ts` until that slice.
+
+---
+
+## 10. Context spine consumer (ERP-PROC-OP-005)
+
+**Delivered:** 2026-06-30 · [ERP-PROC-OP-005 slice](../PAS/ERP-MODULES/SLICE/erp-proc-op-005-context-spine-consumer.md)
+
+Procurement consumption of PAS-001A IS-002 operating-context spine is **attested** via foundation readiness route:
+
+| Field | Value |
+| --- | --- |
+| **Contract path** | `packages/features/erp-modules/src/procurement/procurement.context-spine-consumer.contract.ts` |
+| **Export** | `PROCUREMENT_CONTEXT_SPINE_CONSUMER_CONTRACT` — required resolvers · forbidden header bypass |
+| **Consumer proof route** | `/modules/procurement/readiness` — `loadProtectedRequestOperatingContext` delegate chain |
+| **Attestation** | `PROCUREMENT_CONTEXT_SPINE_CONSUMER_ATTESTATION` — slice `ERP-PROC-OP-005` · status `attested` |
+| **Drift gate** | `pnpm check:procurement-context-spine-consumer` |
+
+**Business procurement routes prohibited until:** authorized PAS-006 / operational slice. Only foundation readiness route authorized under `modules/procurement/`.
 
 ---
 

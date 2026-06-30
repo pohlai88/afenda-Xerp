@@ -23,6 +23,19 @@ export const CONTEXT_INTEGRATION_WIRING = [
     delegate: "loadMetadataOperatorSurfacePage",
   },
   {
+    id: "procurement-foundation-readiness-loader",
+    step: "Procurement foundation readiness route consumes request-scoped spine assembly",
+    module:
+      "lib/procurement/load-procurement-foundation-readiness-page.server.ts",
+    delegate: "loadProcurementFoundationReadinessPage",
+  },
+  {
+    id: "procurement-foundation-readiness-page",
+    step: "Protected procurement foundation readiness RSC ingress (ERP-PROC-OP-005)",
+    module: "app/(protected)/modules/procurement/readiness/page.tsx",
+    delegate: "loadProcurementFoundationReadinessPage",
+  },
+  {
     id: "protected-rsc-metadata-workspace",
     step: "Resolve operating context for metadata workspace RSC",
     module: "app/(protected)/metadata-workspace/page.tsx",

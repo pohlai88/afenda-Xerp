@@ -10,6 +10,16 @@ export const PROCUREMENT_OPERATIONAL_SCAFFOLD = {
   runtimePath: "packages/features/erp-modules/src/procurement/",
 } as const;
 
+/** ERP-PROC-OP-005 — context spine consumer attestation (foundation readiness route). */
+export {
+  PROCUREMENT_CONTEXT_SPINE_CONSUMER_ATTESTATION,
+  PROCUREMENT_CONTEXT_SPINE_CONSUMER_CONTRACT,
+  PROCUREMENT_CONTEXT_SPINE_CONSUMER_SLICE_ID,
+  PROCUREMENT_CONTEXT_SPINE_CONSUMER_STATUS,
+  PROCUREMENT_CONTEXT_SPINE_FORBIDDEN_INGRESS,
+  PROCUREMENT_CONTEXT_SPINE_REQUIRED_RESOLVERS,
+  PROCUREMENT_FOUNDATION_READINESS_ROUTE,
+} from "./procurement.context-spine-consumer.contract.js";
 /** ERP-PROC-OP-003 — planned database boundary declaration (no migrations). */
 export {
   PROCUREMENT_DATABASE_BOUNDARY_ATTESTATION,
