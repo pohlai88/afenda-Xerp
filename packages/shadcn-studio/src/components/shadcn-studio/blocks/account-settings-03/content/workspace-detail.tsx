@@ -61,14 +61,14 @@ const WorkspaceDetail = () => {
 
   return (
     <div>
-      <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
+      <div className='grid min-w-0 w-full grid-cols-1 gap-10 xl:grid-cols-3'>
         {/* Workspace Detail */}
         <div className='flex flex-col space-y-1'>
           <h3 className='font-semibold'>Workspace Detail</h3>
           <p className='text-muted-foreground text-sm'>Manage your workspace details and settings.</p>
         </div>
         {/* Content */}
-        <div className='space-y-6 lg:col-span-2'>
+        <div className='space-y-6 min-w-0 xl:col-span-2'>
           {/* Workspace logo */}
           <div className='w-full space-y-2'>
             <Label>Workspace Logo</Label>

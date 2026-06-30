@@ -7,7 +7,7 @@ import { Trash2Icon } from "lucide-react"
 
 const DangerZone = () => {
   return (
-    <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
+    <div className='grid min-w-0 w-full grid-cols-1 gap-10 xl:grid-cols-3'>
       {/* Vertical Tabs List */}
       <div className='flex flex-col space-y-1'>
         <h3 className='font-semibold'>Danger zone</h3>
@@ -20,7 +20,7 @@ const DangerZone = () => {
       </div>
 
       {/* Content */}
-      <div className='space-y-6 lg:col-span-2'>
+      <div className='space-y-6 min-w-0 xl:col-span-2'>
         <Card>
           <CardContent>
             <div className='flex justify-between gap-4 max-lg:flex-col lg:items-center'>

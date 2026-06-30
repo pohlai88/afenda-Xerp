@@ -146,16 +146,16 @@ const Notifications = () => {
   const appAll = sections.every((s) => s.items.every((i) => i.channels.app));
 
   return (
-    <section className="py-3">
-      <div className="mx-auto max-w-7xl">
-        <div {...blockSlotDomMarkerProps("profile.avatar")} className="mb-6 space-y-1">
-          <h3 {...blockSlotDomMarkerProps("profile.displayName")} className="font-semibold">
-            Notifications
-          </h3>
-          <p {...blockSlotDomMarkerProps("profile.email")} className="text-muted-foreground text-sm">
-            Manage your notification settings and preferences.
-          </p>
-        </div>
+    <>
+      <div {...blockSlotDomMarkerProps("profile.avatar")} className="mb-6 min-w-0 space-y-1">
+        <h3 {...blockSlotDomMarkerProps("profile.displayName")} className="font-semibold">
+          Notifications
+        </h3>
+        <p {...blockSlotDomMarkerProps("profile.email")} className="text-muted-foreground text-sm">
+          Manage your notification settings and preferences.
+        </p>
+      </div>
+      <div className="min-w-0 overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow className="border-none hover:bg-transparent">
@@ -285,7 +285,7 @@ const Notifications = () => {
           </TableBody>
         </Table>
       </div>
-    </section>
+    </>
   );
 };
 

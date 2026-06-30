@@ -33,14 +33,14 @@ const WorkspaceData = () => {
 
   return (
     <div>
-      <div className='grid grid-cols-1 gap-10 lg:grid-cols-3'>
+      <div className='grid min-w-0 w-full grid-cols-1 gap-10 xl:grid-cols-3'>
         {/* Workspace Data */}
         <div className='flex flex-col space-y-1'>
           <h3 className='font-semibold'>Export Workspace data</h3>
           <p className='text-muted-foreground text-sm'>Export your workspace data for backup or migration purposes.</p>
         </div>
         {/* Content */}
-        <div className='space-y-6 lg:col-span-2'>
+        <div className='space-y-6 min-w-0 xl:col-span-2'>
           <Button
             variant='outline'
             onClick={() =>
