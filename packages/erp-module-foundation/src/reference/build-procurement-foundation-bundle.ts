@@ -87,7 +87,8 @@ export const PROCUREMENT_FOUNDATION_EVIDENCE: Readonly<
   knowledge: "packages/enterprise-knowledge/src/data/atoms.json",
   ownership:
     "packages/features/erp-modules/src/procurement/procurement.ownership.contract.ts",
-  database: "",
+  database:
+    "packages/features/erp-modules/src/procurement/procurement.database-boundary.contract.ts",
   contextSpine: "apps/erp/src/lib/context/resolve-operating-context.server.ts",
   permissions:
     "packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts",
@@ -110,6 +111,8 @@ export const PROCUREMENT_FOUNDATION_ATTESTED_EVIDENCE = {
   knowledge: "packages/enterprise-knowledge/src/data/atoms.json",
   ownership:
     "packages/features/erp-modules/src/procurement/procurement.ownership.contract.ts",
+  database:
+    "packages/features/erp-modules/src/procurement/procurement.database-boundary.contract.ts",
   contextSpine: "apps/erp/src/lib/context/resolve-operating-context.server.ts",
   permissions:
     "packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts",

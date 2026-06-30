@@ -110,6 +110,7 @@ Two path references are **intentional** and **not contradictory** while operatio
 | `pnpm check:erp-module-foundation` | Platform foundation composite |
 | `pnpm check:erp-module-runtime-package-reserved` | Reserved package law |
 | `pnpm check:procurement-ownership-contract` | Features ownership contract ↔ foundation bundle parity |
+| `pnpm check:procurement-database-boundary-contract` | Features database boundary declaration ↔ no schema files on disk |
 
 ---
 
@@ -128,6 +129,26 @@ The gap report F.2 split ownership matrix is **ADR-locked** as a serializable Ty
 | **Drift gate** | `pnpm check:procurement-ownership-contract` |
 
 **Database boundary remains deferred.** This section closes the ownership decision gate only — schema, migrations, and `@afenda/procurement` filesystem work require subsequent authorized slices.
+
+---
+
+## 8. Database boundary declaration (ERP-PROC-OP-003)
+
+**Delivered:** 2026-06-30 · [ERP-PROC-OP-003 slice](../PAS/ERP-MODULES/SLICE/erp-proc-op-003-database-boundary-declaration.md)
+
+The gap report F.3–F.4 planned persistence boundary is **declared** (not migrated) as a serializable TypeScript contract:
+
+| Field | Value |
+| --- | --- |
+| **Contract path** | `packages/features/erp-modules/src/procurement/procurement.database-boundary.contract.ts` |
+| **Export** | `PROCUREMENT_DATABASE_BOUNDARY_CONTRACT` — four planned tables · `migrationStatus: "deferred"` |
+| **Schema owner** | `@afenda/database` — parity with `PROCUREMENT_OWNERSHIP_CONTRACT.databaseSchema` |
+| **Attestation** | `PROCUREMENT_DATABASE_BOUNDARY_ATTESTATION` — slice `ERP-PROC-OP-003` · status `declared` |
+| **Drift gate** | `pnpm check:procurement-database-boundary-contract` |
+
+**Planned tables (declaration only):** `suppliers`, `purchase_requisitions`, `purchase_orders`, `procurement_rfqs` — each with `plannedSchemaPath` under `packages/database/src/schema/` documented for future authorized migration slice.
+
+**Migrations prohibited until:** RLS ADR acceptance + authorized ERP-MODULES migration slice. No `packages/database/src/schema/*purchase*`, `*procurement*`, or `*supplier*` files may exist until that slice.
 
 ---
 

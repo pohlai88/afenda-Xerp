@@ -9,7 +9,7 @@
 | **Authority** | [Module Foundation template §7](../erp-runtime-module-foundation.template.md) · [PAS-001C §6](../../KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) |
 | **Wire evidence** | B80 Delivered · `PROCUREMENT_FOUNDATION_BUNDLE` (wire-phase attested) |
 | **Operational status** | **Scaffold only** — features path live; business runtime blocked (gap report A–F) |
-| **Delivered slices** | [ERP-PROC-FDN-001](../SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) · [ERP-PROC-OP-001](../SLICE/erp-proc-op-001-operational-scaffold-authorization.md) · [ERP-PROC-OP-002](../SLICE/erp-proc-op-002-runtime-ownership-contract.md) — **Delivered** 2026-06-30 |
+| **Delivered slices** | [ERP-PROC-FDN-001](../SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) · [ERP-PROC-OP-001](../SLICE/erp-proc-op-001-operational-scaffold-authorization.md) · [ERP-PROC-OP-002](../SLICE/erp-proc-op-002-runtime-ownership-contract.md) · [ERP-PROC-OP-003](../SLICE/erp-proc-op-003-database-boundary-declaration.md) — **Delivered** 2026-06-30 |
 | **Last updated** | 2026-06-30 |
 | **Live source** | `renderModuleReadinessReport(PROCUREMENT_FOUNDATION_BUNDLE)` · gates `pnpm check:erp-module-*` |
 
@@ -29,7 +29,7 @@ Generated from `@afenda/erp-module-foundation` with gate-attested evidence paths
 | registry | **Foundation Pass** | `docs/PAS/KERNEL/SLICE/erp-mod-fdn-003-foundation-authority.md` | — | `pnpm check:erp-module-readiness` |
 | knowledge | **Foundation Pass** | `packages/enterprise-knowledge/src/data/atoms.json` (47 atoms incl. EK-MOD-FDN + B56 P0 + B57 P1) | Goods receipt signal · three-way match cross-domain (LAW K6) | `pnpm check:erp-module-knowledge-alignment` |
 | ownership | **Foundation Pass** | `packages/features/erp-modules/src/procurement/procurement.ownership.contract.ts` · [ADR-0031 §7](../../../adr/ADR-0031-procurement-runtime-authority-boundary.md) · [ERP-PROC-OP-002](../SLICE/erp-proc-op-002-runtime-ownership-contract.md) | Business runtime (DB · permissions · routes) | `pnpm check:procurement-ownership-contract` · `check:erp-module-ownership` · `check:erp-module-runtime-package-reserved` |
-| database | **Deferred** | — | Schema boundary · migrations | `pnpm check:erp-module-database-boundary` |
+| database | **Declared** | `packages/features/erp-modules/src/procurement/procurement.database-boundary.contract.ts` · [ADR-0031 §8](../../../adr/ADR-0031-procurement-runtime-authority-boundary.md) · [ERP-PROC-OP-003](../SLICE/erp-proc-op-003-database-boundary-declaration.md) | Migrations · Drizzle schema files | `pnpm check:procurement-database-boundary-contract` · `check:erp-module-database-boundary` |
 | contextSpine | **Foundation Pass** | `apps/erp/src/lib/context/resolve-operating-context.server.ts` | Procurement integration consumer proof (operational) | `pnpm check:erp-module-context-spine-consumer` |
 | permissions | **Foundation Pass** | `packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts` | Registry wiring · enforcement (operational) | `pnpm check:erp-module-permission-binding` |
 | audit | **Foundation Pass** | `packages/kernel/src/erp-domain/procurement/procurement-audit-actions.contract.ts` | Writers · outbox paths (operational) | `pnpm check:erp-module-audit-outbox` |
@@ -52,8 +52,8 @@ Procurement **operational runtime** is intentionally **deferred** per `push_impl
 
 | Deferred surface | Reason | Authorized path |
 | --- | --- | --- |
-| `packages/features/erp-modules/src/procurement/` filesystem | ERP-PROC-OP-001 Delivered — stub + ERP-PROC-OP-002 ownership contract | Business runtime (DB · routes · services) | Gap report §C+ · ERP-PROC-OP-003+ handoffs |
-| Procurement DB schema + migrations | No schema boundary attested | Gap report §persistence |
+| `packages/features/erp-modules/src/procurement/` filesystem | ERP-PROC-OP-001 Delivered — stub + ERP-PROC-OP-002 ownership + ERP-PROC-OP-003 database boundary | Business runtime (routes · services) | Gap report §D+ · ERP-PROC-OP-004+ handoffs |
+| Procurement DB schema + migrations | ERP-PROC-OP-003 boundary declared — migrations blocked until RLS ADR + authorized slice | Gap report §persistence |
 | ERP production routes / PAS-006 UI | No operational surfaces | Gap report §metadata |
 | Permission enforcement runtime | Wire keys only | Gap report §permissions |
 | Audit/outbox writers | Deferred outbox in bundle | Gap report §audit |
@@ -68,18 +68,18 @@ Procurement **operational runtime** is intentionally **deferred** per `push_impl
 | Area | Verdict | Blocker | Next work |
 | --- | --- | --- | --- |
 | Runtime ADR · PKG-R05 | **Foundation Pass** | ADR-0031 Accepted · PKGR05_PROCUREMENT disposition | — |
-| Features-package filesystem | **Scaffold + ownership contract** | ERP-PROC-OP-001 + OP-002 Delivered — ownership ADR-locked; business runtime blocked | Gap report §C+ · ERP-PROC-OP-003+ |
+| Features-package filesystem | **Scaffold + ownership + database boundary contracts** | ERP-PROC-OP-001 + OP-002 + OP-003 Delivered — boundary declared; migrations blocked | Gap report §D+ · ERP-PROC-OP-004+ |
 | Business knowledge (PO · supplier · RFQ · sourcing · blanket · quote) | **Foundation Pass (meaning)** | B56 + B57 atoms accepted — semantic runtime gated by features package | [PAS-004 backlog](../PAS-004-module-foundation-promotion-backlog.md) |
 | **Product Bank / requestor catalog** | **Fail** | B58 atoms planned · PAS-PROC-001K stub only · no runtime | [Gap report §B.5](./procurement-foundation-gap-report.md) · [PAS-PROC-001K](../PAS-PROC-001K-PROCUREMENT-PRODUCT-BANK-AND-SUPPLIER-PORTAL-STANDARD.md) |
 | **Supplier S2P portal (catalog/price/certs)** | **Fail** | Supplier Portal ADR pending · no runtime | [Gap report §B.6](./procurement-foundation-gap-report.md) · PROC-001K-S6 |
 | **Supplier S2P portal (PO/ASN/invoice/status)** | **Fail** | Accounting/Treasury feed contracts absent · no runtime | [Gap report §B.7](./procurement-foundation-gap-report.md) · PROC-001K-S7/S8 |
 | **S2P cross-domain handoff runtime** | **Fail** | PAS-PROC-001I pending · Accounting/Treasury PAS pending | [Gap report §B.8](./procurement-foundation-gap-report.md) |
-| Database schema | **Fail** | No procurement schema boundary | Gap report §persistence |
+| Database schema | **Declared (migrations deferred)** | Boundary contract attested — no schema files on disk | Gap report §persistence · authorized migration slice |
 | Permission enforcement | **Fail** | Wire keys only — no runtime registry wiring | Gap report §permissions |
 | Audit/outbox writers | **Fail** | Deferred outbox entries in bundle | Gap report §audit |
 | ERP UI routes | **Fail** | No production procurement surfaces | Gap report §metadata · PAS-006 |
 
-| **Next slice** | **TBD** — ERP-PROC-OP-003+ per gap report (DB · permissions · context · audit) |
+| **Next slice** | **TBD** — ERP-PROC-OP-004+ per gap report (permissions · context · audit) |
 
 ---
 
@@ -94,7 +94,7 @@ Procurement **operational runtime** is intentionally **deferred** per `push_impl
 | PAS-004 procurement P0 atoms (PO · supplier · RFQ)? | **Yes** — B56 |
 | PAS-004 procurement P1 atoms (sourcing · blanket · quote)? | **Yes** — B57 |
 | Operational procurement? | **No** — scaffold only |
-| Next slice | ERP-PROC-OP-003+ TBD — business runtime per gap report |
+| Next slice | ERP-PROC-OP-004+ TBD — permissions · context · audit per gap report |
 
 **Sync:** Module Foundation NS §12.4 may link this report when operational rows turn green.
 

@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "turbo run build",
-    "build:governance-dist": "pnpm --filter @afenda/kernel exec tsc -b --force && pnpm --filter @afenda/database exec tsc -b --force && pnpm --filter @afenda/permissions exec tsc -b --force && pnpm --filter @afenda/observability exec tsc -b --force && pnpm --filter @afenda/architecture-authority exec tsc -b --force",
+    "build:governance-dist": "turbo run build --force --filter=@afenda/kernel --filter=@afenda/database --filter=@afenda/permissions --filter=@afenda/observability --filter=@afenda/architecture-authority",
     "dev": "turbo run dev",
     "lint": "ultracite check",
     "typecheck": "turbo run typecheck",
@@ -170,6 +170,7 @@
     "check:procurement-domain-contracts": "tsx scripts/governance/check-procurement-domain-contracts.mts",
     "check:procurement-runtime-foundation": "tsx scripts/governance/check-procurement-runtime-foundation.mts",
     "check:procurement-ownership-contract": "tsx scripts/governance/check-procurement-ownership-contract.mts",
+    "check:procurement-database-boundary-contract": "tsx scripts/governance/check-procurement-database-boundary-contract.mts",
     "check:erp-module-foundation": "tsx scripts/governance/check-erp-module-foundation.mts",
     "check:erp-module-ownership": "tsx scripts/governance/check-erp-module-ownership.mts",
     "check:erp-module-knowledge-alignment": "tsx scripts/governance/check-erp-module-knowledge-alignment.mts",
@@ -302,7 +303,7 @@
     "jsdom": "catalog:",
     "lint-staged": "^17.0.8",
     "prettier": "3.8.4",
-    "turbo": "^2.5.4",
+    "turbo": "^2.9.18",
     "typescript": "catalog:",
     "ultracite": "7.8.3",
     "vitest": "catalog:"

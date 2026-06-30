@@ -10,6 +10,13 @@ export const PROCUREMENT_OPERATIONAL_SCAFFOLD = {
   runtimePath: "packages/features/erp-modules/src/procurement/",
 } as const;
 
+/** ERP-PROC-OP-003 — planned database boundary declaration (no migrations). */
+export {
+  PROCUREMENT_DATABASE_BOUNDARY_ATTESTATION,
+  PROCUREMENT_DATABASE_BOUNDARY_CONTRACT,
+  PROCUREMENT_DATABASE_BOUNDARY_SLICE_ID,
+  PROCUREMENT_DATABASE_BOUNDARY_STATUS,
+} from "./procurement.database-boundary.contract.js";
 /** ERP-PROC-OP-002 — ADR-locked runtime ownership contract. */
 export {
   PROCUREMENT_OWNERSHIP_ATTESTATION,

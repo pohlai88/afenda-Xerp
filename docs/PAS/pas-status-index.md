@@ -112,7 +112,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Status** | **Production Accepted (runtime)** · R3a–R3d Delivered · S1–S2 Delivered |
 | **Authority** | [PAS-API-REST-001](API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · [api-contract North Star](../NORTHSTAR/api-contract-north-star.md) · [ADR-0030](../adr/ADR-0030-erp-rest-api-contract-standard.md) |
 | **Runtime owner** | `apps/erp/src/server/api/` |
-| **Remaining slices** | none — S1–S10 Delivered · [REST S-track](API-CONTRACT/REST/SLICE/pas-api-rest-001-slice-track.md) |
+| **Remaining slices** | none — S1–S2 Delivered · S3–S10 closed via R3a–R3d (see slice-track) · [REST S-track](API-CONTRACT/REST/SLICE/pas-api-rest-001-slice-track.md) |
 | **Gates (R3 closure)** | `check:api-contracts` · `check:openapi-drift` · `check:api-route-catalog` · `lint:openapi` |
 
 **Next sequence item (REST runtime):** none — S-track and R3 closed; Enterprise Runtime criteria in [Blueprint §11](../BLUEPRINT/api-contract-blueprint.md#11-maturity-exit)
@@ -182,8 +182,8 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Report ID** | PAS-PROC-FDN-AUDIT-001 |
 | **Report type** | Foundation-gap report — not a runtime-build plan · not an authorized slice catalog |
 | **Wire slice** | B80 Delivered — KV-PROC contracts-only ([handoff](KERNEL/SLICE/b80-procurement-domain-vocabulary.md)) |
-| **Delivered slices** | [ERP-PROC-FDN-001](ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) · [ERP-PROC-OP-001](ERP-MODULES/SLICE/erp-proc-op-001-operational-scaffold-authorization.md) · [ERP-PROC-OP-002](ERP-MODULES/SLICE/erp-proc-op-002-runtime-ownership-contract.md) — **Delivered** 2026-06-30 |
-| **Runtime status** | Wire vocabulary + features scaffold (`packages/features/erp-modules/src/procurement/`) — `@afenda/procurement` (PKG-R05) registry reserved; no DB/services/routes |
+| **Delivered slices** | [ERP-PROC-FDN-001](ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) · [ERP-PROC-OP-001](ERP-MODULES/SLICE/erp-proc-op-001-operational-scaffold-authorization.md) · [ERP-PROC-OP-002](ERP-MODULES/SLICE/erp-proc-op-002-runtime-ownership-contract.md) · [ERP-PROC-OP-003](ERP-MODULES/SLICE/erp-proc-op-003-database-boundary-declaration.md) — **Delivered** 2026-06-30 |
+| **Runtime status** | Wire vocabulary + features scaffold (`packages/features/erp-modules/src/procurement/`) — ownership + database boundary contracts declared; `@afenda/procurement` (PKG-R05) registry reserved; no schema/migrations/services/routes |
 | **Enterprise readiness** | **Not ready** (0–10% runtime confidence) |
 | **Foundation gaps** | See gap report sections A–F — ownership, DB, permissions, context consumer, audit, knowledge |
 | **Gates (live — wire only)** | `pnpm check:procurement-domain-contracts` |
@@ -191,7 +191,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Gates (proposed — runtime consumer)** | `check:procurement-context-spine-consumer`, `check:procurement-permission-enforcement`, `check:procurement-audit-outbox`, `check:procurement-metadata-binding` |
 | **Last audited** | 2026-06-30 · Review amended 2026-06-30 · Relocated to ERP-MODULES 2026-06-30 |
 
-**Next slice:** **TBD** — ERP-PROC-OP-003+ per gap report ([SLICE/README](ERP-MODULES/SLICE/README.md)).
+**Next slice:** **TBD** — ERP-PROC-OP-004+ per gap report ([SLICE/README](ERP-MODULES/SLICE/README.md)).
 
 ---
 
@@ -408,7 +408,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | B53 | [b53-pas004d-erp-domain-bridge.md](ENTERPRISE-KNOWLEDGE/SLICE/b53-pas004d-erp-domain-bridge.md) | 4 Domain bridge | Delivered |
 | B54 | [b54-pas004d-operational-closure-attestation.md](ENTERPRISE-KNOWLEDGE/SLICE/b54-pas004d-operational-closure-attestation.md) | 5 Attestation | **Delivered** |
 
-**Next sequence item:** none — PAS-004D closed. Procurement ownership contract: [ERP-PROC-OP-002 Delivered](ERP-MODULES/SLICE/erp-proc-op-002-runtime-ownership-contract.md) — gap report F.2 ADR-locked.
+**Next sequence item:** none — PAS-004D closed. Procurement database boundary: [ERP-PROC-OP-003 Delivered](ERP-MODULES/SLICE/erp-proc-op-003-database-boundary-declaration.md) — gap report F.3–F.4 declared (migrations deferred).
 
 ---
 
