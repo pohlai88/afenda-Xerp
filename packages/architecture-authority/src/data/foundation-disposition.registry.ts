@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-30-v33" as const;
+  "FOUNDATION-DISPOSITION-2026-06-30-v34" as const;
 
 const foundationDispositionEntries = [
   {
@@ -23,6 +23,8 @@ const foundationDispositionEntries = [
       "apps/erp/src/app/page.tsx",
       "apps/erp/src/proxy.ts",
       "apps/erp/package.json",
+      "apps/erp/src/server/api/contracts/api-contract-registry.ts",
+      "apps/erp/src/server/api/runtime/create-api-handler.ts",
     ],
     knownGaps: [],
     allowedAgents: [
@@ -40,6 +42,10 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/erp typecheck",
       "pnpm --filter @afenda/erp build",
       "pnpm check:foundation-disposition",
+      "pnpm check:api-contracts",
+      "pnpm check:openapi-drift",
+      "pnpm check:api-route-catalog",
+      "pnpm lint:openapi",
     ],
     legacyTipEvidence: [],
   },
@@ -56,6 +62,8 @@ const foundationDispositionEntries = [
       "apps/erp/src/app/page.tsx",
       "apps/erp/src/proxy.ts",
       "apps/erp/package.json",
+      "apps/erp/src/server/api/contracts/api-contract-registry.ts",
+      "apps/erp/src/server/api/runtime/create-api-handler.ts",
     ],
     knownGaps: [],
     allowedAgents: [
@@ -73,6 +81,10 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/erp typecheck",
       "pnpm --filter @afenda/erp build",
       "pnpm check:foundation-disposition",
+      "pnpm check:api-contracts",
+      "pnpm check:openapi-drift",
+      "pnpm check:api-route-catalog",
+      "pnpm lint:openapi",
     ],
     legacyTipEvidence: [],
   },
@@ -539,12 +551,15 @@ const foundationDispositionEntries = [
       "docs/PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md",
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md",
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-001-operational-scaffold-authorization.md",
+      "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-002-runtime-ownership-contract.md",
       "packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts",
       "packages/features/erp-modules/src/procurement/index.ts",
       "packages/features/erp-modules/src/procurement/README.md",
+      "packages/features/erp-modules/src/procurement/procurement.ownership.contract.ts",
     ],
     knownGaps: [
-      "Business procurement runtime deferred — features scaffold authorized ERP-PROC-OP-001; gap report sections B–F remain",
+      "Ownership ADR-locked via ERP-PROC-OP-002 — database schema, permissions binding, operating-context consumer, and audit/outbox integration still deferred",
+      "Business procurement runtime deferred — gap report sections B–F remain until downstream PAS slices close",
     ],
     allowedAgents: ["afenda-governed-implementer", "foundation-registry-owner"],
     prohibited: [
@@ -559,6 +574,7 @@ const foundationDispositionEntries = [
       "pnpm check:erp-module-runtime-package-reserved",
       "pnpm check:foundation-disposition",
       "pnpm check:procurement-runtime-foundation",
+      "pnpm check:procurement-ownership-contract",
     ],
     legacyTipEvidence: [],
   },
@@ -599,7 +615,6 @@ const foundationDispositionEntries = [
     gates: [
       "pnpm --filter @afenda/database test:run",
       "pnpm check:business-master-data-scaffold",
-      "pnpm check:api-contracts",
       "pnpm quality:boundaries",
     ],
     legacyTipEvidence: [],
