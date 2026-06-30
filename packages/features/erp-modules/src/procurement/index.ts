@@ -10,6 +10,16 @@ export const PROCUREMENT_OPERATIONAL_SCAFFOLD = {
   runtimePath: "packages/features/erp-modules/src/procurement/",
 } as const;
 
+/** ERP-PROC-OP-006 — audit/outbox declaration (no writers). */
+export {
+  PROCUREMENT_AUDIT_OUTBOX_ATTESTATION,
+  PROCUREMENT_AUDIT_OUTBOX_CONTRACT,
+  PROCUREMENT_AUDIT_OUTBOX_SLICE_ID,
+  PROCUREMENT_AUDIT_OUTBOX_STATUS,
+  PROCUREMENT_MODULE_PREFIXED_AUDIT_ACTIONS,
+  PROCUREMENT_PLANNED_OUTBOX_ENTRIES,
+  PROCUREMENT_WIRE_AUDIT_ACTIONS,
+} from "./procurement.audit-outbox.contract.js";
 /** ERP-PROC-OP-005 — context spine consumer attestation (foundation readiness route). */
 export {
   PROCUREMENT_CONTEXT_SPINE_CONSUMER_ATTESTATION,

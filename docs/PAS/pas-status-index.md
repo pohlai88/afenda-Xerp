@@ -182,16 +182,16 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Report ID** | PAS-PROC-FDN-AUDIT-001 |
 | **Report type** | Foundation-gap report — not a runtime-build plan · not an authorized slice catalog |
 | **Wire slice** | B80 Delivered — KV-PROC contracts-only ([handoff](KERNEL/SLICE/b80-procurement-domain-vocabulary.md)) |
-| **Delivered slices** | [ERP-PROC-FDN-001](ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) · [ERP-PROC-OP-001](ERP-MODULES/SLICE/erp-proc-op-001-operational-scaffold-authorization.md) · [ERP-PROC-OP-002](ERP-MODULES/SLICE/erp-proc-op-002-runtime-ownership-contract.md) · [ERP-PROC-OP-003](ERP-MODULES/SLICE/erp-proc-op-003-database-boundary-declaration.md) · [ERP-PROC-OP-004](ERP-MODULES/SLICE/erp-proc-op-004-permission-binding-declaration.md) · [ERP-PROC-OP-005](ERP-MODULES/SLICE/erp-proc-op-005-context-spine-consumer.md) — **Delivered** 2026-06-30 |
-| **Runtime status** | Wire vocabulary + features scaffold — ownership/database/permission contracts declared; foundation readiness route `/modules/procurement/readiness` attested (ERP-PROC-OP-005); `@afenda/procurement` (PKG-R05) registry reserved; no schema/migrations/business routes |
+| **Delivered slices** | [ERP-PROC-FDN-001](ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) · [ERP-PROC-OP-001](ERP-MODULES/SLICE/erp-proc-op-001-operational-scaffold-authorization.md) · [ERP-PROC-OP-002](ERP-MODULES/SLICE/erp-proc-op-002-runtime-ownership-contract.md) · [ERP-PROC-OP-003](ERP-MODULES/SLICE/erp-proc-op-003-database-boundary-declaration.md) · [ERP-PROC-OP-004](ERP-MODULES/SLICE/erp-proc-op-004-permission-binding-declaration.md) · [ERP-PROC-OP-005](ERP-MODULES/SLICE/erp-proc-op-005-context-spine-consumer.md) · [ERP-PROC-OP-006](ERP-MODULES/SLICE/erp-proc-op-006-audit-outbox-declaration.md) — **Delivered** 2026-06-30 |
+| **Runtime status** | Wire vocabulary + features scaffold — ownership/database/permission/context/audit-outbox contracts declared; foundation readiness route attested; `@afenda/procurement` reserved; no schema/migrations/business routes |
 | **Enterprise readiness** | **Not ready** (0–10% runtime confidence) |
 | **Foundation gaps** | See gap report sections A–F — ownership, DB, permissions, context consumer, audit, knowledge |
 | **Gates (live — wire only)** | `pnpm check:procurement-domain-contracts` |
-| **Gates (live — platform foundation)** | PAS-001C — `pnpm check:erp-module-*` · `pnpm check:procurement-context-spine-consumer` (see [PAS-001C](KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md)) |
-| **Gates (proposed — runtime consumer)** | `check:procurement-permission-enforcement`, `check:procurement-audit-outbox`, `check:procurement-metadata-binding` |
+| **Gates (live — platform foundation)** | PAS-001C — `pnpm check:erp-module-*` · `pnpm check:procurement-context-spine-consumer` · `pnpm check:procurement-audit-outbox-contract` (see [PAS-001C](KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md)) |
+| **Gates (proposed — runtime consumer)** | `check:procurement-permission-enforcement`, `check:procurement-metadata-binding` |
 | **Last audited** | 2026-06-30 · Review amended 2026-06-30 · Relocated to ERP-MODULES 2026-06-30 |
 
-**Next slice:** **TBD** — ERP-PROC-OP-006+ per gap report ([SLICE/README](ERP-MODULES/SLICE/README.md)).
+**Next slice:** **TBD** — ERP-PROC-OP-007+ per gap report ([SLICE/README](ERP-MODULES/SLICE/README.md)).
 
 ---
 

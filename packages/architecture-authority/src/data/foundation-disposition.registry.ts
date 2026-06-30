@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-30-v37" as const;
+  "FOUNDATION-DISPOSITION-2026-06-30-v38" as const;
 
 const foundationDispositionEntries = [
   {
@@ -555,6 +555,7 @@ const foundationDispositionEntries = [
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-003-database-boundary-declaration.md",
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-004-permission-binding-declaration.md",
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-005-context-spine-consumer.md",
+      "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-006-audit-outbox-declaration.md",
       "packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts",
       "packages/features/erp-modules/src/procurement/index.ts",
       "packages/features/erp-modules/src/procurement/README.md",
@@ -562,11 +563,12 @@ const foundationDispositionEntries = [
       "packages/features/erp-modules/src/procurement/procurement.database-boundary.contract.ts",
       "packages/features/erp-modules/src/procurement/procurement.permission-binding.contract.ts",
       "packages/features/erp-modules/src/procurement/procurement.context-spine-consumer.contract.ts",
+      "packages/features/erp-modules/src/procurement/procurement.audit-outbox.contract.ts",
       "apps/erp/src/lib/procurement/load-procurement-foundation-readiness-page.server.ts",
       "apps/erp/src/app/(protected)/modules/procurement/readiness/page.tsx",
     ],
     knownGaps: [
-      "DB + permission binding + context spine declared/attested (OP-003/004/005); migrations + PERMISSION_REGISTRY wiring + audit/outbox still deferred",
+      "Foundation contracts declared/attested through OP-006 (DB, permissions, context spine, audit/outbox); migrations + PERMISSION_REGISTRY wiring + durable writers still deferred",
       "Business procurement runtime deferred — gap report sections B–F remain until downstream PAS slices close",
     ],
     allowedAgents: ["afenda-governed-implementer", "foundation-registry-owner"],
@@ -586,6 +588,7 @@ const foundationDispositionEntries = [
       "pnpm check:procurement-database-boundary-contract",
       "pnpm check:procurement-permission-binding-contract",
       "pnpm check:procurement-context-spine-consumer",
+      "pnpm check:procurement-audit-outbox-contract",
     ],
     legacyTipEvidence: [],
   },

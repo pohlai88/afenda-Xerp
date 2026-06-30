@@ -43,13 +43,23 @@ export const PROCUREMENT_REFERENCE_KERNEL_PERMISSION_KEYS = [
 ] as const;
 
 export const PROCUREMENT_REFERENCE_EVENTS = [
+  "procurement.requisition.drafted",
   "procurement.requisition.submitted",
+  "procurement.requisition.approved",
+  "procurement.requisition.rejected",
+  "procurement.requisition.cancelled",
+  "procurement.rfq.published",
+  "procurement.rfq.closed",
+  "procurement.purchase_order.drafted",
   "procurement.purchase_order.sent",
+  "procurement.purchase_order.acknowledged",
+  "procurement.purchase_order.received",
+  "procurement.purchase_order.closed",
+  "procurement.purchase_order.cancelled",
 ] as const;
 
 export const PROCUREMENT_REFERENCE_AUDIT_ACTIONS = [
-  "procurement.requisition.submitted",
-  "procurement.purchase_order.sent",
+  ...PROCUREMENT_REFERENCE_EVENTS,
 ] as const;
 
 export const PROCUREMENT_RUNTIME_MODULE = defineErpRuntimeModule({
@@ -106,9 +116,9 @@ export const PROCUREMENT_FOUNDATION_EVIDENCE: Readonly<
   permissions:
     "packages/features/erp-modules/src/procurement/procurement.permission-binding.contract.ts",
   audit:
-    "packages/kernel/src/erp-domain/procurement/procurement-audit-actions.contract.ts",
+    "packages/features/erp-modules/src/procurement/procurement.audit-outbox.contract.ts",
   outbox:
-    "packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts",
+    "packages/features/erp-modules/src/procurement/procurement.audit-outbox.contract.ts",
   metadata: "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
   ui: "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
   operations: "",
@@ -131,9 +141,9 @@ export const PROCUREMENT_FOUNDATION_ATTESTED_EVIDENCE = {
   permissions:
     "packages/features/erp-modules/src/procurement/procurement.permission-binding.contract.ts",
   audit:
-    "packages/kernel/src/erp-domain/procurement/procurement-audit-actions.contract.ts",
+    "packages/features/erp-modules/src/procurement/procurement.audit-outbox.contract.ts",
   outbox:
-    "packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts",
+    "packages/features/erp-modules/src/procurement/procurement.audit-outbox.contract.ts",
   metadata: "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
   ui: "docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md",
   tests:
@@ -347,16 +357,10 @@ function buildCoreBundle(
     }),
     outboxContract: defineModuleOutboxContract({
       module: "procurement",
-      entries: [
-        {
-          event: "procurement.requisition.submitted",
-          requirement: "deferred",
-        },
-        {
-          event: "procurement.purchase_order.sent",
-          requirement: "deferred",
-        },
-      ],
+      entries: PROCUREMENT_REFERENCE_EVENTS.map((event) => ({
+        event,
+        requirement: "deferred" as const,
+      })),
     }),
     metadataBinding,
     contextSpineConsumer: defineModuleContextSpineConsumer({

@@ -1,4 +1,5 @@
 import {
+  PROCUREMENT_AUDIT_OUTBOX_ATTESTATION,
   PROCUREMENT_CONTEXT_SPINE_CONSUMER_ATTESTATION,
   PROCUREMENT_CONTEXT_SPINE_CONSUMER_CONTRACT,
   PROCUREMENT_OPERATIONAL_SCAFFOLD,
@@ -50,6 +51,11 @@ const FOUNDATION_ATTESTATION_ROWS = [
     label: "Context spine consumer",
     sliceId: PROCUREMENT_CONTEXT_SPINE_CONSUMER_ATTESTATION.sliceId,
     status: PROCUREMENT_CONTEXT_SPINE_CONSUMER_ATTESTATION.status,
+  },
+  {
+    label: "Audit / outbox declaration",
+    sliceId: PROCUREMENT_AUDIT_OUTBOX_ATTESTATION.sliceId,
+    status: PROCUREMENT_AUDIT_OUTBOX_ATTESTATION.status,
   },
 ] as const satisfies readonly ProcurementFoundationReadinessAttestationRow[];
 

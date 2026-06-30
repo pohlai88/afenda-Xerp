@@ -113,6 +113,7 @@ Two path references are **intentional** and **not contradictory** while operatio
 | `pnpm check:procurement-database-boundary-contract` | Features database boundary declaration ↔ no schema files on disk |
 | `pnpm check:procurement-permission-binding-contract` | Features permission binding ↔ kernel vocabulary · no PERMISSION_REGISTRY wiring |
 | `pnpm check:procurement-context-spine-consumer` | Features context spine contract ↔ foundation readiness route · IS-002 delegate proof |
+| `pnpm check:procurement-audit-outbox-contract` | Features audit/outbox declaration ↔ kernel vocabulary · no writer runtime |
 
 ---
 
@@ -188,6 +189,24 @@ Procurement consumption of PAS-001A IS-002 operating-context spine is **attested
 | **Drift gate** | `pnpm check:procurement-context-spine-consumer` |
 
 **Business procurement routes prohibited until:** authorized PAS-006 / operational slice. Only foundation readiness route authorized under `modules/procurement/`.
+
+---
+
+## 11. Audit/outbox declaration (ERP-PROC-OP-006)
+
+**Delivered:** 2026-06-30 · [ERP-PROC-OP-006 slice](../PAS/ERP-MODULES/SLICE/erp-proc-op-006-audit-outbox-declaration.md)
+
+The gap report §F audit/outbox boundary is **declared** (not wired) as a serializable TypeScript contract:
+
+| Field | Value |
+| --- | --- |
+| **Contract path** | `packages/features/erp-modules/src/procurement/procurement.audit-outbox.contract.ts` |
+| **Export** | `PROCUREMENT_AUDIT_OUTBOX_CONTRACT` — 13 wire actions · 13 module-prefixed audit map entries · 13 deferred outbox events |
+| **Kernel authority** | `packages/kernel/src/erp-domain/procurement/procurement-audit-actions.contract.ts` |
+| **Attestation** | `PROCUREMENT_AUDIT_OUTBOX_ATTESTATION` — slice `ERP-PROC-OP-006` · status `declared` |
+| **Drift gate** | `pnpm check:procurement-audit-outbox-contract` |
+
+**Writer runtime prohibited until:** authorized ERP-MODULES audit/outbox runtime slice. No durable audit/outbox writers in features scaffold or ERP until that handoff.
 
 ---
 
