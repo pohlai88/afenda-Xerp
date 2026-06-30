@@ -59,6 +59,7 @@ function PaginationLink({
         />
       }
       size={size}
+      variant={isActive ? "outline" : "ghost"}
     />
   );
 }

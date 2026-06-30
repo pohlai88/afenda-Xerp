@@ -51,7 +51,6 @@ export function usePagination({
 
   const pages = calculatePaginationRange();
 
-  // Determine ellipsis display based on the actual pages shown
   const firstPage = pages[0] ?? 0;
   const lastPage = pages.at(-1) ?? 0;
 
