@@ -30,6 +30,7 @@
   "sideEffects": false,
   "dependencies": {},
   "devDependencies": {
+    "@afenda/erp-module-foundation": "workspace:*",
     "@afenda/typescript-config": "workspace:*",
     "vitest": "catalog:"
   }

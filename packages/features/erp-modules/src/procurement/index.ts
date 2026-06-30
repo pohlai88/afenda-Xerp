@@ -9,3 +9,12 @@ export const PROCUREMENT_OPERATIONAL_SCAFFOLD = {
   authorizedAt: "2026-06-30",
   runtimePath: "packages/features/erp-modules/src/procurement/",
 } as const;
+
+/** ERP-PROC-OP-002 — ADR-locked runtime ownership contract. */
+export {
+  PROCUREMENT_OWNERSHIP_ATTESTATION,
+  PROCUREMENT_OWNERSHIP_CONTRACT,
+  PROCUREMENT_OWNERSHIP_MATRIX,
+  PROCUREMENT_OWNERSHIP_SLICE_ID,
+  PROCUREMENT_OWNERSHIP_STATUS,
+} from "./procurement.ownership.contract.js";

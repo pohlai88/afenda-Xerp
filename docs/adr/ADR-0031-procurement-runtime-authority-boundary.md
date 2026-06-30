@@ -109,6 +109,25 @@ Two path references are **intentional** and **not contradictory** while operatio
 | `pnpm check:foundation-disposition` | Registry row parity |
 | `pnpm check:erp-module-foundation` | Platform foundation composite |
 | `pnpm check:erp-module-runtime-package-reserved` | Reserved package law |
+| `pnpm check:procurement-ownership-contract` | Features ownership contract ↔ foundation bundle parity |
+
+---
+
+## 7. Serialized ownership contract (ERP-PROC-OP-002)
+
+**Delivered:** 2026-06-30 · [ERP-PROC-OP-002 slice](../PAS/ERP-MODULES/SLICE/erp-proc-op-002-runtime-ownership-contract.md)
+
+The gap report F.2 split ownership matrix is **ADR-locked** as a serializable TypeScript contract:
+
+| Field | Value |
+| --- | --- |
+| **Contract path** | `packages/features/erp-modules/src/procurement/procurement.ownership.contract.ts` |
+| **Export** | `PROCUREMENT_OWNERSHIP_CONTRACT` — eight `defineModuleOwnership` surfaces |
+| **Extended matrix** | `PROCUREMENT_OWNERSHIP_MATRIX` — includes PAS-001 `supplierIdentity` row |
+| **Attestation** | `PROCUREMENT_OWNERSHIP_ATTESTATION` — slice `ERP-PROC-OP-002` · status `adr_locked` |
+| **Drift gate** | `pnpm check:procurement-ownership-contract` |
+
+**Database boundary remains deferred.** This section closes the ownership decision gate only — schema, migrations, and `@afenda/procurement` filesystem work require subsequent authorized slices.
 
 ---
 
