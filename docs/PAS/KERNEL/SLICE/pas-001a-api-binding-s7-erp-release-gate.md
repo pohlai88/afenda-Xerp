@@ -27,13 +27,8 @@ Handoff from: docs/PAS/KERNEL/SLICE/pas-001a-api-binding-s7-erp-release-gate.md
 4. Prohibited   — Activating RPC/GQL/Event/Agent style bindings · new API meaning
 5. Authority    — PAS-001A IS-004 · PAS-001A-API-BINDING acceptance
 6. Gates        —
-   pnpm check:api-contracts
-   pnpm check:openapi-drift
-   pnpm check:api-route-catalog
-   pnpm check:foundation-disposition
-   pnpm --filter @afenda/erp typecheck
-   pnpm --filter @afenda/erp test:run
-   pnpm check:documentation-drift
+   pnpm quality:pas001a-api-binding-gates
+   (bundle: check:api-contracts · check:foundation-disposition · ERP API attestation tests per api-governance.constants.ts)
 7. Closes       — PAS-001A-API-BINDING S1–S7 **Delivered** · IS-004 Production Accepted
 8. Evidence     — erp-api-release-gate.contract.ts · erp-api-release-gate.test.ts
 9. Attestation  — Contract · Test · Gate bundle
@@ -46,14 +41,14 @@ Handoff from: docs/PAS/KERNEL/SLICE/pas-001a-api-binding-s7-erp-release-gate.md
 | 1 | S1–S6 composite violations empty | `erp-api-release-gate.test.ts` |
 | 2 | Only PAS-API-REST-001 active style binding | test |
 | 3 | Seven slice modules declared on track | test |
-| 4 | Full release gate bundle green | `check:api-contracts` · `check:foundation-disposition` |
+| 4 | Full release gate bundle green | `pnpm quality:pas001a-api-binding-gates` |
 | 5 | Attestation JSON-serializable | test |
 
 ## 7. Acceptance
 
 PAS-001A-API-BINDING **Delivered** when S1–S7 complete and IS-004 marked Production Accepted in pas-status-index.
 
-## 7. Evidence (Delivered)
+## 8. Evidence (Delivered)
 
 | Artifact | Path |
 | --- | --- |

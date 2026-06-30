@@ -55,7 +55,7 @@ Handoff from: docs/PAS/KERNEL/SLICE/pas-001a-api-binding-s4-auth-authorization-b
 
 ## 9. Hard Stops
 
-API contracts declare permission intent; authorization package evaluates.
+API contracts declare permission intent; authorization package evaluates. Protected operations **fail closed** (401/403) when identity or permission resolution fails.
 
 ## Related
 

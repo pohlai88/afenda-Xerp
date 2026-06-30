@@ -27,7 +27,7 @@ export interface KernelSliceCatalogConsistencyViolation {
 }
 
 const HANDOFF_LINK_PATTERN =
-  /\]\(\.\/(b\d+[^)]*\.md|pas-001a-r1[^)]*\.md|pas-001-aud-[^)]*\.md)\)/g;
+  /\]\(\.\/(b\d+[^)]*\.md|pas-001a-r1[^)]*\.md|pas-001a-r2[^)]*\.md|pas-001a-api-binding-s[^)]*\.md|erp-mod-fdn-[^)]*\.md|pas-001-aud-[^)]*\.md)\)/g;
 
 const REMAINING_SLICES_NONE_PATTERN =
   /\|\s*\*\*Remaining slices\*\*\s*\|\s*none/i;
@@ -51,8 +51,14 @@ function listIndexedHandoffFilesOnDisk(): string[] {
     (entry) =>
       (/^b\d+.*\.md$/i.test(entry) ||
         /^pas-001a-r1.*\.md$/i.test(entry) ||
+        /^pas-001a-r2.*\.md$/i.test(entry) ||
+        /^pas-001a-api-binding-s\d.*\.md$/i.test(entry) ||
+        /^erp-mod-fdn-.*\.md$/i.test(entry) ||
         /^pas-001-aud-.*\.md$/i.test(entry)) &&
-      entry !== "kernel-slice-catalog.md"
+      entry !== "kernel-slice-catalog.md" &&
+      entry !== "pas-001a-api-binding-slice-catalog.md" &&
+      entry !== "pas-001a-api-binding-slice-track.md" &&
+      entry !== "slice-compliance-audit.md"
   );
 }
 
@@ -147,7 +153,10 @@ export function checkKernelSliceCatalogConsistency(): KernelSliceCatalogConsiste
     /^b\d+/i.test(entry)
   ).length;
 
-  if (deliveredLinkedCount + R1_SLICE_COUNT !== DELIVERED_B_SLICE_COUNT + R1_SLICE_COUNT) {
+  if (
+    deliveredLinkedCount + R1_SLICE_COUNT !==
+    DELIVERED_B_SLICE_COUNT + R1_SLICE_COUNT
+  ) {
     violations.push({
       rule: "catalog-delivered-count-mismatch",
       message: `Catalog must index ${DELIVERED_B_SLICE_COUNT + R1_SLICE_COUNT} delivered handoffs (${DELIVERED_B_SLICE_COUNT} b + ${R1_SLICE_COUNT} R1); found ${deliveredLinkedCount + r1Count} indexed delivered entries`,
@@ -190,11 +199,56 @@ export function checkKernelSliceCatalogConsistency(): KernelSliceCatalogConsiste
   const complianceAuditPath = join(sliceDir, "slice-compliance-audit.md");
   if (existsSync(complianceAuditPath)) {
     const auditSource = readFileSync(complianceAuditPath, "utf8");
-    if (!auditSource.includes("| **Total** | **60** | **60** |")) {
+    if (!auditSource.includes("| **Total** | **68** | **68** |")) {
       violations.push({
         rule: "slice-compliance-audit-count-stale",
         message:
-          "slice-compliance-audit.md Total row must read 60 | 60 for delivered vocabulary handoffs",
+          "slice-compliance-audit.md Total row must read 68 | 68 for delivered vocabulary + API-BINDING + PAS-001C handoffs",
+      });
+    }
+
+    const countSection = auditSource.match(/## Count[\s\S]*?(?=##|$)/)?.[0];
+    if (countSection) {
+      const trackRows = [
+        ...countSection.matchAll(/^\| ([^|*][^|]*) \| (\d+) \| (\d+) \|$/gm),
+      ];
+      const expectedSum = trackRows.reduce(
+        (sum, row) => sum + Number.parseInt(row[2] ?? "0", 10),
+        0
+      );
+      const onDiskSum = trackRows.reduce(
+        (sum, row) => sum + Number.parseInt(row[3] ?? "0", 10),
+        0
+      );
+      const totalMatch = countSection.match(
+        /\| \*\*Total\*\* \| \*\*(\d+)\*\* \| \*\*(\d+)\*\* \|/
+      );
+      const totalExpected = totalMatch
+        ? Number.parseInt(totalMatch[1] ?? "0", 10)
+        : null;
+      const totalOnDisk = totalMatch
+        ? Number.parseInt(totalMatch[2] ?? "0", 10)
+        : null;
+
+      if (
+        totalExpected !== null &&
+        (expectedSum !== totalExpected || onDiskSum !== totalOnDisk)
+      ) {
+        violations.push({
+          rule: "slice-compliance-audit-count-arithmetic",
+          message: `slice-compliance-audit.md Count table sums (${expectedSum}|${onDiskSum}) must match Total row (${totalExpected}|${totalOnDisk})`,
+        });
+      }
+    }
+
+    const r3Row = auditSource.match(
+      /\| PAS-001A-R3 \|[\s\S]*?\|([^|]+)\|([^|]+)\|/
+    );
+    if (r3Row && /Planned/i.test(r3Row[1] ?? "")) {
+      violations.push({
+        rule: "slice-compliance-audit-r3-planned-stale",
+        message:
+          "slice-compliance-audit.md PAS-001A-R3 Gap/Risk must not say Planned when pas-status-index declares R3 Delivered",
       });
     }
   }

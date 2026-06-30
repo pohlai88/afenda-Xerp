@@ -16,6 +16,7 @@
 | --- | --- | --- | --- | --- |
 | **Kernel vocabulary** | PAS-001 · PAS-001B | [`KERNEL/`](KERNEL/README.md) | `@afenda/kernel` | `kernel-authority` |
 | **ERP integration spine** | PAS-001A | [`KERNEL/PAS-001A`](KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | `apps/erp/src/lib/context/` | `kernel-authority` + `multi-tenancy-erp` |
+| **ERP module foundation** | PAS-001C | [`KERNEL/PAS-001C`](KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) · [`ERP-MODULES/`](ERP-MODULES/README.md) | `@afenda/erp-module-foundation` | `kernel-authority` |
 | **Presentation / frontend manufacturing** | PAS-006 (006A–006D) | [`PRESENTATION/`](PRESENTATION/README.md) | `@afenda/shadcn-studio` · `apps/erp` (consumer) | `shadcn-studio` |
 
 **Touchpoint (not a fourth lane):** IS-003 metadata bridge — `apps/erp/src/lib/metadata/` consumes PAS-006 binding contracts and kernel-branded context at the ERP trust boundary. Presentation package does **not** import `@afenda/kernel`.

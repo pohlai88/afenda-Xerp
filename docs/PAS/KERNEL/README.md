@@ -2,13 +2,13 @@
 
 | Field | Value |
 | --- | --- |
-| **Scope** | Platform Kernel — three Blueprint boxes |
+| **Scope** | Platform Kernel — four Blueprint boxes (vocabulary · catalog · module foundation · integration spine consumer docs) |
 | **Upstream** | [Kernel North Star](../../NORTHSTAR/kernel-north-star.md) · [Kernel Blueprint](../../BLUEPRINT/kernel-blueprint.md) |
 | **Slice SSOT** | [`SLICE/`](SLICE/README.md) — individual handoffs · deprecated flat [`docs/PAS/slice/`](../slice/README.md) is **not** kernel SSOT |
 | **Maturity** | Enterprise Accepted (composed) — integrated with KERNEL/SLICE SSOT |
 | **Last reviewed** | 2026-06-30 |
 
-> **One sentence:** Three composed PAS documents govern kernel vocabulary, ERP wire catalog, and runtime integration proof — with slice handoffs in `KERNEL/SLICE/` and contract detail in `KERNEL/archive/`.
+> **One sentence:** Four composed PAS documents govern kernel vocabulary, ERP wire catalog, ERP module foundation, and runtime integration proof — with slice handoffs in `KERNEL/SLICE/` and contract detail in `KERNEL/archive/`.
 
 > **HTTP contract runtime (IS-004):** lives in [`../API-CONTRACT/`](../API-CONTRACT/README.md) — not in this KERNEL folder.
 
@@ -40,8 +40,9 @@ Platform North Star
 | PAS ID | Composed document | Blueprint box | Package / path | Maturity | Slices |
 | --- | --- | --- | --- | --- | --- |
 | **PAS-001** | [PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md](PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | Kernel Vocabulary | `@afenda/kernel` | Enterprise Accepted | B49–B70 · B107–B113 closed |
-| **PAS-001A** | [PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | ERP Integration Spine | `apps/erp` + integration consumers | Production Candidate | B71–B75 · R1a–R1d · R2 · IS-001–IS-003 |
+| **PAS-001A** | [PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md](PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | ERP Integration Spine | `apps/erp` + integration consumers | Production Candidate | B71–B75 · R1a–R1d · R2 · IS-001–IS-004 · [API-BINDING S1–S7](SLICE/pas-001a-api-binding-slice-track.md) **Delivered** |
 | **PAS-001B** | [PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md](PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | ERP Wire Vocabulary Catalog | `@afenda/kernel/erp-domain/*` | Enterprise Accepted · `catalog_authority` role | B76–B106 · KV-* |
+| **PAS-001C** | [PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md](PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) | ERP Module Foundation | `@afenda/erp-module-foundation` | Delivered (platform foundation) | ERP-MOD-FDN-003 · `check:erp-module-*` |
 
 **Agent skill:** `kernel-authority` · `.cursor/skills/kernel-authority/SKILL.md`
 
@@ -65,6 +66,7 @@ Platform North Star
 | Kernel vocabulary / identity / context | PAS-001 §0 |
 | ERP resolver spine / permissions wire / metadata bridge (IS-003) | PAS-001A §0 |
 | ERP domain wire term / catalog module (**KV-***) | PAS-001B §0 |
+| ERP module foundation / readiness attestation (platform only) | [PAS-001C §0](PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) · [ERP-MODULES](../ERP-MODULES/README.md) |
 
 ---
 

@@ -3,7 +3,7 @@
 | Field | Value |
 | --- | --- |
 | **SSOT directory** | `docs/PAS/KERNEL/SLICE/` |
-| **Individual handoffs** | 62 files (55 `b*.md` + 2 `b*-erp-*.md` consumer + 4 `pas-001a-r1*.md` + 1 `pas-001a-r2*.md` + 1 `pas-001a-r3*.md`) |
+| **Individual handoffs** | 70 files (55 `b*.md` + 2 `b*-erp-*.md` + 4 `pas-001a-r1*.md` + 1 `pas-001a-r2*.md` + 7 `pas-001a-api-binding-s*.md` + 1 `erp-mod-fdn-*.md`) |
 | **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — do not use |
 | **Closure registry** | [pas-status-index.md](../../pas-status-index.md) |
 | **Last reviewed** | 2026-06-30 |
@@ -16,6 +16,8 @@
 PAS-001:  B49 → B55 · B57 · B67 → B70 · B107 → B113 (amendment)
 PAS-001A: B71 → B75 · R1a → R1d · R2 (S2S attestation) · B112-ERP (format precision ingress)
 API-CONTRACT: R3a → R3d (see docs/PAS/API-CONTRACT/REST/SLICE/)
+PAS-001A-API-BINDING: S1 → S7 (see pas-001a-api-binding-slice-track.md)
+PAS-001C: ERP-MOD-FDN-003
 PAS-001B: B76 → B106 · KV1–KV3
 ```
 
@@ -95,6 +97,24 @@ PAS-001B: B76 → B106 · KV1–KV3
 | Slice | Handoff | Status |
 | --- | --- | --- |
 | B112-ERP | [b112-erp-format-precision-consumer-attestation.md](./b112-erp-format-precision-consumer-attestation.md) | **Delivered** |
+
+## PAS-001A-API-BINDING — S1–S7 (delivered)
+
+| Slice | Handoff | Status |
+| --- | --- | --- |
+| S1 | [pas-001a-api-binding-s1-erp-api-consumption-boundary.md](./pas-001a-api-binding-s1-erp-api-consumption-boundary.md) | **Delivered** |
+| S2 | [pas-001a-api-binding-s2-erp-rest-binding-consumption.md](./pas-001a-api-binding-s2-erp-rest-binding-consumption.md) | **Delivered** |
+| S3 | [pas-001a-api-binding-s3-operating-context-assembly-bridge.md](./pas-001a-api-binding-s3-operating-context-assembly-bridge.md) | **Delivered** |
+| S4 | [pas-001a-api-binding-s4-auth-authorization-bridge.md](./pas-001a-api-binding-s4-auth-authorization-bridge.md) | **Delivered** |
+| S5 | [pas-001a-api-binding-s5-erp-runtime-evidence.md](./pas-001a-api-binding-s5-erp-runtime-evidence.md) | **Delivered** |
+| S6 | [pas-001a-api-binding-s6-erp-consumer-impact-sync.md](./pas-001a-api-binding-s6-erp-consumer-impact-sync.md) | **Delivered** |
+| S7 | [pas-001a-api-binding-s7-erp-release-gate.md](./pas-001a-api-binding-s7-erp-release-gate.md) | **Delivered** |
+
+## PAS-001C — ERP-MOD-FDN-003 (delivered)
+
+| Slice | Handoff | Status |
+| --- | --- | --- |
+| ERP-MOD-FDN-003 | [erp-mod-fdn-003-foundation-authority.md](./erp-mod-fdn-003-foundation-authority.md) | **Delivered** |
 
 ## PAS-001B — B76–B106 (delivered)
 

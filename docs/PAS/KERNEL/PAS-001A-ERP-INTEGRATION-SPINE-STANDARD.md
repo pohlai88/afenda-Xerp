@@ -264,7 +264,7 @@ ERP may **translate** facts into kernel-branded `OperatingContext`. ERP **must n
 Only designated ingress boundaries parse untrusted wire input. Kernel permission-scope has **no wire ingress** — projection only.
 
 ```text
-untrusted → Permissions/API/resolver ingress → validated wire → kernel parse/brand → OperatingContext
+untrusted → Permissions/API/resolver ingress → validated wire → kernel brand/projection (no untrusted parse) → OperatingContext assembly at IS-002
 ```
 
 See §2.4 for full runtime boundary stack.

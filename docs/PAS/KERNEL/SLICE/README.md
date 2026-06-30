@@ -15,7 +15,8 @@
 
 ```text
 PAS-001:  B49 → B70 · B107 → B113 (amendment)
-PAS-001A: B71 → B75 · R1a → R1d · R2 · B112-ERP
+PAS-001A: B71 → B75 · R1a → R1d · R2 · B112-ERP · API-BINDING S1 → S7
+PAS-001C: ERP-MOD-FDN-003
 PAS-001B: B76 → B106
 ```
 
@@ -45,6 +46,21 @@ PAS-001B: B76 → B106
 | Slice | Handoff | Status |
 | --- | --- | --- |
 | B112-ERP | [b112-erp-format-precision-consumer-attestation.md](./b112-erp-format-precision-consumer-attestation.md) | **Delivered** |
+
+---
+
+## PAS-001A-API-BINDING — S1–S7 (delivered)
+
+| Slice | Handoff | Status |
+| --- | --- | --- |
+| Track | [pas-001a-api-binding-slice-track.md](./pas-001a-api-binding-slice-track.md) | **Delivered** |
+| S1–S7 | [kernel-slice-catalog.md](./kernel-slice-catalog.md#pas-001a-api-binding--s1s7-delivered) | **Delivered** · `pnpm quality:pas001a-api-binding-gates` |
+
+## PAS-001C — ERP-MOD-FDN-003 (delivered)
+
+| Slice | Handoff | Status |
+| --- | --- | --- |
+| ERP-MOD-FDN-003 | [erp-mod-fdn-003-foundation-authority.md](./erp-mod-fdn-003-foundation-authority.md) | **Delivered** · `pnpm quality:erp-module-foundation` |
 
 ---
 

@@ -16,16 +16,15 @@
 Handoff from: docs/PAS/KERNEL/SLICE/b109-effective-dating-consumer-attestation.md
 
 1. Objective    — Kernel effective-dating helpers + ERP consumer attestation gate + metadata bridge carriers.
-2. Allowed layer— packages/kernel/src/context/effective-dating-vocabulary.contract.ts · scripts/governance/check-kernel-effective-dating-consumer-attestation.mts · apps/erp/src/lib/metadata/resolve-metadata-ui-render-context.server.ts · packages/ui-composition/src/runtime.contract.ts
+2. Allowed layer— packages/kernel/src/context/effective-dating-vocabulary.contract.ts · scripts/governance/check-kernel-effective-dating-consumer-attestation.mts · apps/erp/src/lib/metadata/** (PAS-006 consumer)
 3. Files        —
    packages/kernel/src/context/effective-dating-vocabulary.contract.ts
    packages/kernel/src/context/ownership-interest-context.contract.ts
    scripts/governance/check-kernel-effective-dating-consumer-attestation.mts
    scripts/governance/check-metadata-permission-model-parity.mts
    scripts/governance/check-metadata-policy-parity.mts
-   apps/erp/src/lib/metadata/resolve-metadata-ui-render-context.server.ts
-   packages/ui-composition/src/runtime.contract.ts
-4. Prohibited   — foundation-disposition.registry.ts · packages/metadata-ui direct kernel imports
+   apps/erp/src/lib/metadata/**
+4. Prohibited   — foundation-disposition.registry.ts · packages/metadata-ui · legacy ui-composition paths
 5. Authority    — PAS-001 §4 effective dating · Blueprint §6 · PAS-001A metadata bridge
 6. Gates        —
    pnpm check:kernel-effective-dating-consumer-attestation

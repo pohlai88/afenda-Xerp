@@ -388,7 +388,6 @@ Database package:
 ERP app:
 
 * `apps/erp/src/proxy.ts`
-* `apps/erp/src/middleware.ts`
 * `apps/erp/src/lib/context/**`
 * Suggested:
 
@@ -509,7 +508,7 @@ Step 2 — Existing-state audit
 * Audit existing kernel context.
 * Audit existing permission/grant model.
 * Audit existing AppShell context model.
-* Audit existing tenant subdomain/proxy/middleware.
+* Audit existing tenant subdomain/proxy (`apps/erp/src/proxy.ts`).
 * Audit API/server actions using company/org IDs.
 * Output table before modifying.
 
@@ -559,7 +558,7 @@ Step 6 — Tenant URL resolver
 * Reject reserved subdomains.
 * Resolve tenant slug.
 * Do not select company from subdomain.
-* Preserve CSP/correlation/auth middleware behavior.
+* Preserve CSP/correlation/auth proxy behavior (`apps/erp/src/proxy.ts`).
 
 Step 7 — Operating context resolver
 

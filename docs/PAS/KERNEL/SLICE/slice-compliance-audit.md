@@ -5,7 +5,7 @@
 | **SSOT** | `docs/PAS/KERNEL/SLICE/b*.md` · `docs/PAS/KERNEL/SLICE/pas-001a-r1*.md` |
 | **Legacy (deprecated shim)** | [`docs/PAS/slice/`](../../slice/README.md) — removed; kernel handoffs SSOT is this folder only |
 | **Template** | [pas-slice-template.md](../../../../.cursor/skills/kernel-authority/reference/pas-slice-template.md) |
-| **Audit date** | 2026-06-29 |
+| **Audit date** | 2026-06-30 |
 
 ## Verdict
 
@@ -17,8 +17,8 @@ Composed kernel slices B49–B106 + B107–B113 amendment + PAS-001A-R1a–R1d +
 
 | Layer | Item | Status | Gap/Risk | Recommended action |
 | --- | --- | --- | --- | --- |
-| NS→Blueprint | Three kernel boxes (Vocabulary · Catalog · Integration Spine) | **Aligned** | — | — |
-| Blueprint→PAS | PAS-001 · PAS-001A · PAS-001B composed + archive | **Aligned** | — | — |
+| NS→Blueprint | Four kernel boxes (Vocabulary · Catalog · Module Foundation · Integration Spine) | **Aligned** | — | — |
+| Blueprint→PAS | PAS-001 · PAS-001A · PAS-001B · PAS-001C composed + archive | **Aligned** | — | — |
 | PAS→Code | B49–B106 gates + erp-domain layout | **Aligned** | — | — |
 | Legacy→SSOT | [`docs/PAS/slice/`](../../slice/README.md) flat CSS shim tombstones | **Deprecated** | Scheduled deletion | Use `<FAMILY>/SLICE/b*.md` only |
 | Cross-family | PAS-004 meaning boundary links | **Aligned** | Fixed 2026-06-29 | Composed PAS → `ENTERPRISE-KNOWLEDGE/` |
@@ -33,7 +33,9 @@ Composed kernel slices B49–B106 + B107–B113 amendment + PAS-001A-R1a–R1d +
 | Catalog→Index | pas-status-index | **Aligned** | Gate-enforced | `pnpm check:kernel-slice-catalog-consistency` |
 | PAS-001A-R2 | R2 S2S attestation | **Aligned** | Delivered 2026-06-30 | `pnpm check:erp-service-actor-s2s-attestation` |
 | PAS-001A-B112-ERP | B112-ERP format precision ingress | **Aligned** | Delivered 2026-06-30 | `pnpm check:erp-format-precision-ingress-attestation` |
-| PAS-001A-R3 | R3a–R3d API contract runtime | **Aligned** | Planned — [PAS-API-001](../API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) · [PAS-API-REST-001](../API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) + R3a–R3d handoffs | [pas-001a-r3-api-contract-runtime.md](../API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) |
+| PAS-001A-R3 | R3a–R3d API contract runtime | **Aligned** | **Delivered** 2026-06-30 — [PAS-API-001](../API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) · [PAS-API-REST-001](../API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · IS-004 | [pas-001a-r3-api-contract-runtime.md](../API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) |
+| PAS-001A-API-BINDING | S1–S7 ERP spine consumption | **Aligned** | **Delivered** 2026-06-30 | [pas-001a-api-binding-slice-track.md](./pas-001a-api-binding-slice-track.md) · `pnpm quality:pas001a-api-binding-gates` |
+| PAS-001C | ERP-MOD-FDN-003 foundation authority | **Aligned** | **Delivered** 2026-06-30 | [erp-mod-fdn-003-foundation-authority.md](./erp-mod-fdn-003-foundation-authority.md) · `pnpm quality:erp-module-foundation` |
 | Audit catalog | pas-001-aud-* handoffs | **Aligned** | AUD-24 Pass 2026-06-29 | Composed/archive parity · `check:documentation-drift` |
 
 ## Count
@@ -44,5 +46,8 @@ Composed kernel slices B49–B106 + B107–B113 amendment + PAS-001A-R1a–R1d +
 | PAS-001 amendment | 7 | 7 |
 | PAS-001A | 5 | 5 |
 | PAS-001A-R1 | 4 | 4 |
+| PAS-001A-R2 | 1 | 1 |
 | PAS-001B | 31 | 31 |
-| **Total** | **60** | **60** |
+| PAS-001A-API-BINDING | 7 | 7 |
+| PAS-001C | 1 | 1 |
+| **Total** | **68** | **68** |

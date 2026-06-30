@@ -100,14 +100,14 @@ docs/PAS/
 | Domain folder | PAS IDs | Slice catalog |
 | --- | --- | --- |
 | [`API-CONTRACT/`](API-CONTRACT/README.md) | PAS-API-001 · PAS-API-REST-001 · reserved bindings | [`REST/SLICE/api-contract-slice-catalog.md`](API-CONTRACT/REST/SLICE/api-contract-slice-catalog.md) |
-| [`KERNEL/`](KERNEL/README.md) | PAS-001 · PAS-001A · PAS-001B | [`kernel-slice-catalog.md`](KERNEL/SLICE/kernel-slice-catalog.md) |
+| [`KERNEL/`](KERNEL/README.md) | PAS-001 · PAS-001A · PAS-001B · PAS-001C | [`kernel-slice-catalog.md`](KERNEL/SLICE/kernel-slice-catalog.md) |
 | [`ARCHITECTURE-AUTHORITY/`](ARCHITECTURE-AUTHORITY/README.md) | PAS-002 · PAS-002A | [`architecture-authority-slice-catalog.md`](ARCHITECTURE-AUTHORITY/SLICE/architecture-authority-slice-catalog.md) |
 | [`ACCOUNTING-STANDARDS/`](ACCOUNTING-STANDARDS/README.md) | PAS-003 | [`accounting-slice-catalog.md`](ACCOUNTING-STANDARDS/SLICE/accounting-slice-catalog.md) |
 | [`ENTERPRISE-KNOWLEDGE/`](ENTERPRISE-KNOWLEDGE/README.md) | PAS-004–PAS-004D | [`enterprise-knowledge-slice-catalog.md`](ENTERPRISE-KNOWLEDGE/SLICE/enterprise-knowledge-slice-catalog.md) |
 | [`PRESENTATION/`](PRESENTATION/README.md) | PAS-006 | [`presentation-slice-catalog.md`](PRESENTATION/SLICE/presentation-slice-catalog.md) |
 | [`CSS-AUTHORITY/`](CSS-AUTHORITY/README.md) | PAS-005 family | **Retired** — historical audit only; see [DEVELOPMENT-LANE-BOUNDARIES.md](DEVELOPMENT-LANE-BOUNDARIES.md) |
 
-**Non-parallel lanes:** Kernel (PAS-001/001A/001B), Presentation (PAS-006), and retired CSS (PAS-005) must not be executed as parallel work queues. SSOT: [DEVELOPMENT-LANE-BOUNDARIES.md](DEVELOPMENT-LANE-BOUNDARIES.md).
+**Non-parallel lanes:** Kernel (PAS-001/001A/001B/001C), Presentation (PAS-006), and retired CSS (PAS-005) must not be executed as parallel work queues. SSOT: [DEVELOPMENT-LANE-BOUNDARIES.md](DEVELOPMENT-LANE-BOUNDARIES.md).
 
 **Deprecated shim:** flat [`docs/PAS/slice/`](slice/README.md) holds **temporary tombstone redirects only** (CSS Authority `b*-pas005*` today). **Scheduled for complete removal.** Slice handoffs SSOT is always `<DOMAIN-FOLDER>/SLICE/` — update links and Phase 0 handoffs to the family path without delay.
 
@@ -119,10 +119,11 @@ docs/PAS/
 |---|---|---|---|
 | [PAS-001](KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) | `@afenda/kernel` | Platform | Enterprise Accepted |
 | [PAS-001A](KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) | `apps/erp` (kernel consumer) | Application | Production Candidate (B71–B75 delivered 2026-06-29) |
-| [PAS-API-001](API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) | `@afenda/api-contract` (reserved) / cross-style doctrine | Platform | Production Candidate (doctrine) |
-| [PAS-API-REST-001](API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) | `apps/erp/src/server/api/` (REST binding) | Application | Production Candidate (scaffold; R3a–R3d Planned) |
-| [PAS-001A-API-BINDING](KERNEL/PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) | ERP Integration Spine consumer | Application | Active |
+| [PAS-API-001](API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) | `@afenda/api-contract` (reserved) / cross-style doctrine | Platform | Production Accepted (family doctrine) |
+| [PAS-API-REST-001](API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) | `apps/erp/src/server/api/` (REST binding) | Application | Production Accepted (runtime) · R3a–R3d Delivered |
+| [PAS-001A-API-BINDING](KERNEL/PAS-001A-API-BINDING-ERP-INTEGRATION-SPINE-CONSUMPTION.md) | ERP Integration Spine consumer | Application | Delivered |
 | [PAS-001B](KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) | `@afenda/kernel` (`erp-domain/`) | Platform | Catalog Authority (B76–B106 delivered; 28/28 vocabulary modules) |
+| [PAS-001C](KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) | `@afenda/erp-module-foundation` | Platform | Delivered (platform foundation) |
 | [PAS-002](ARCHITECTURE-AUTHORITY/PAS-002-ARCHITECTURE-AUTHORITY.md) | `@afenda/architecture-authority` | Platform | MVP Authority |
 | [PAS-002A](ARCHITECTURE-AUTHORITY/PAS-002A-ARCHITECTURE-AUTHORITY-ENTERPRISE-STANDARD.md) | `@afenda/architecture-authority` | Platform | Enterprise Accepted (B38–B42 delivered) |
 | [PAS-003](ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) | `@afenda/accounting-standards` | Foundation | Production Candidate |

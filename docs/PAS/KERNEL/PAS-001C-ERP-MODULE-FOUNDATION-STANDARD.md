@@ -107,7 +107,7 @@ Required matrix dimensions (`READINESS_DIMENSIONS`):
 | ownership | required | Gap report / ADR-lock |
 | database | deferred | Schema boundary slice |
 | contextSpine | required | IS-002 consumer proof |
-| permissions | required | Wire keys (enforcement operational) |
+| permissions | required | Wire key parity only — declare keys; authorization evaluates in `@afenda/permissions` |
 | audit | required | Wire actions (writers operational) |
 | outbox | required | Contract declaration |
 | metadata | required | Template / binding path |
@@ -125,23 +125,26 @@ Verdict resolution: `resolveModuleReadinessVerdict` — **Foundation Pass** requ
 ### 4.1 Composite
 
 ```bash
-pnpm check:erp-module-foundation      # 9 sub-gates
+pnpm check:erp-module-foundation      # 12 sub-gates
 pnpm quality:erp-module-foundation    # typecheck + test:run + composite
 ```
 
-### 4.2 Sub-gates (live)
+### 4.2 Sub-gates (live — 12)
 
 | Gate | Purpose |
 | --- | --- |
 | `check:erp-module-ownership` | Ownership ADR-lock paths |
 | `check:erp-module-knowledge-alignment` | PAS-004 atom alignment |
 | `check:erp-module-context-spine-consumer` | IS-002 consumer |
-| `check:erp-module-permission-binding` | Permission parity |
+| `check:erp-module-permission-binding` | Permission wire-key parity |
 | `check:erp-module-audit-outbox` | Audit/outbox contracts |
 | `check:erp-module-metadata-binding` | Metadata binding |
 | `check:erp-module-database-boundary` | DB boundary (may defer) |
-| `check:erp-module-no-kernel-leak` | No kernel business logic in foundation |
+| `check:erp-module-no-kernel-runtime-leak` | No kernel business logic in foundation |
+| `check:erp-module-runtime-package-reserved` | Reserved LoB package slots |
 | `check:erp-module-readiness` | Readiness report parity |
+| `check:erp-module-registry-readiness` | Registry readiness attestation |
+| `check:procurement-runtime-foundation` | PKG-R05 / ADR-0031 reserved slot |
 
 ### 4.3 LoB-specific (when authorized)
 

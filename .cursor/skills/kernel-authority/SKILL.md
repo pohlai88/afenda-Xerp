@@ -23,7 +23,15 @@ paths:
 | --- | --- |
 | **Runtime status** | `integration-proven` (IS-001/IS-002/IS-003/IS-004) · R1a–R1d Delivered · R2 S2S attestation Delivered · B112-ERP format precision ingress Delivered · **R3 API contract runtime Delivered** (R3a–R3d) · `check:erp-metadata-pas006-consumer` · `check:erp-service-actor-s2s-attestation` · `check:erp-format-precision-ingress-attestation` · R3 gates `check:api-contracts` · `check:openapi-drift` · `check:api-route-catalog` · `lint:openapi` active |
 | **Remaining slices** | none — R3a–R3d Delivered — [`pas-001a-r3-api-contract-runtime.md`](../../../docs/PAS/API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md) · PAS-API-001 S-track S1–S9 Delivered |
-| **Canonical** | [`PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) · [`PAS-API-001`](../../../docs/PAS/API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) · [`PAS-API-REST-001`](../../../docs/PAS/API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) |
+| **Canonical** | [`PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md) · [`PAS-API-001`](../../../docs/PAS/API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) · [`PAS-API-REST-001`](../../../docs/PAS/API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · [`PAS-001A-API-BINDING S1–S7`](../../../docs/PAS/KERNEL/SLICE/pas-001a-api-binding-slice-track.md) **Delivered** |
+
+### PAS-001C — ERP Module Foundation (platform only)
+
+| Field | Value |
+| --- | --- |
+| **Runtime status** | Delivered — `@afenda/erp-module-foundation` · ERP-MOD-FDN-003 · `pnpm quality:erp-module-foundation` (12 sub-gates) |
+| **Remaining slices** | none — [erp-mod-fdn-003-foundation-authority.md](../../../docs/PAS/KERNEL/SLICE/erp-mod-fdn-003-foundation-authority.md) |
+| **Canonical** | [`PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) |
 
 > PAS-001: [`KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`](../../../docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · Slices: [`KERNEL/SLICE/`](../../../docs/PAS/KERNEL/SLICE/README.md) · Index: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md) · **Lanes:** [`DEVELOPMENT-LANE-BOUNDARIES.md`](../../../docs/PAS/DEVELOPMENT-LANE-BOUNDARIES.md) (do not parallel PAS-005 CSS)
 
