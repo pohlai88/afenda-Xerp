@@ -26,10 +26,10 @@ Platform foundation slices (PAS-001C) and LoB exemplar slices under **ERP-MODULE
 | Slice ID | Handoff | Status | Notes |
 | --- | --- | --- | --- |
 | ERP-PROC-FDN-001 | [erp-proc-fdn-001-runtime-authority-boundary.md](erp-proc-fdn-001-runtime-authority-boundary.md) | **Delivered** 2026-06-30 | ADR + PKG-R05 disposition; no runtime |
-| ERP-PROC-OP-001 | [erp-proc-op-001-operational-scaffold-authorization.md](erp-proc-op-001-operational-scaffold-authorization.md) | **Proposed** | Authorizes empty features scaffold only |
+| ERP-PROC-OP-001 | [erp-proc-op-001-operational-scaffold-authorization.md](erp-proc-op-001-operational-scaffold-authorization.md) | **Delivered** 2026-06-30 | Empty features scaffold at `packages/features/erp-modules/src/procurement/` |
 | ERP-PROC-OP-002+ | TBD per gap report | Not started | DB · permissions · context · audit — separate handoffs |
 
-**Next slice:** [ERP-PROC-OP-001 Proposed](erp-proc-op-001-operational-scaffold-authorization.md) — requires explicit operator go-ahead before scaffold.
+**Next slice:** **TBD** — ERP-PROC-OP-002+ per gap report sections B–F (DB · permissions · context · audit).
 
 ## Build order rule
 
@@ -42,11 +42,11 @@ LoB domain NS (Procurement)
         ↓
 ERP-PROC-FDN-001 (Delivered)
         ↓
-ERP-PROC-OP-001 (Proposed — scaffold authorization)
+ERP-PROC-OP-001 (Delivered — scaffold authorization)
         ↓
-procurement-runtime-readiness-report.md (operational gate)
+packages/features/erp-modules/src/procurement/ (scaffold live)
         ↓
-packages/features/erp-modules/src/procurement/ (when OP-001 Delivered)
+procurement-runtime-readiness-report.md (operational gate — business runtime still blocked)
 ```
 
 Reverse flow forbidden — filesystem before identity requires ADR remediation.

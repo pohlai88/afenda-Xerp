@@ -1,0 +1,36 @@
+{
+  "name": "@afenda/erp-modules",
+  "version": "0.0.0",
+  "private": true,
+  "description": "ERP LoB operational runtime scaffolds — scaffold-only until authorized slice handoffs",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./procurement": {
+      "types": "./dist/procurement/index.d.ts",
+      "import": "./dist/procurement/index.js",
+      "default": "./dist/procurement/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsc -b --watch",
+    "typecheck": "tsc -b --pretty false && tsc -p tsconfig.vitest.json --noEmit",
+    "test": "vitest --config vitest.config.ts",
+    "test:run": "vitest run --config vitest.config.ts",
+    "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\""
+  },
+  "sideEffects": false,
+  "dependencies": {},
+  "devDependencies": {
+    "@afenda/typescript-config": "workspace:*",
+    "vitest": "catalog:"
+  }
+}

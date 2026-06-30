@@ -1,8 +1,8 @@
-# Slice ERP-PROC-OP-001 — Operational Scaffold Authorization (Proposed)
+# Slice ERP-PROC-OP-001 — Operational Scaffold Authorization
 
 > **Position:** Second procurement slice — **authorizes** operational filesystem layout only; **does not** implement business runtime
 
-**Status:** **Proposed** — awaiting explicit operator go-ahead
+**Status:** **Delivered** 2026-06-30
 
 **Type:** Documentation + authorization gate (handoff-first)
 

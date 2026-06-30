@@ -5,7 +5,7 @@
 | **Authority** | ADR-0014 |
 | **Workflow** | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — **read before implementation** |
 | **Source of truth** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
-| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-30-v32` |
+| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-30-v33` |
 | **Enforcement** | `pnpm check:foundation-disposition` |
 
 > **Read-only view.** This document is synced from the typed registry. Do not treat this file as authority — edit the registry (via `foundation-registry-owner`) and re-sync this view.
@@ -52,6 +52,7 @@
 | PKGR01_ACCOUNTING | `@afenda/kernel` | green-lane | no | see pas-status-index (PKG registry) |
 | PKGR01B_ERP_DOMAIN_CATALOG | `@afenda/kernel` | green-lane | no | see PAS-001B · B76–B106 |
 | PKGR01C_ERP_MODULE_FOUNDATION | `@afenda/erp-module-foundation` | green-lane | no | see PAS-001C · ERP-MOD-FDN-003 |
+| PKGR05_PROCUREMENT | `@afenda/procurement` | amber-lane | no | Business procurement runtime deferred — features scaffold authorized ERP-PROC-OP-001; gap report sections B–F remain |
 | PKGR02_INVENTORY | `@afenda/database` | green-lane | no | see pas-status-index (PKG registry) |
 | PKG004_DESIGN | `@afenda/ui` | amber-lane | no | see ADR-0025 · PAS-005B |
 | PKGR05B_DESIGN_RETIREMENT | `@afenda/design-system` | archive-lane | no | retired for ERP frontend — ADR-0027 |

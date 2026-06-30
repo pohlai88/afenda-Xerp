@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-30-v32" as const;
+  "FOUNDATION-DISPOSITION-2026-06-30-v33" as const;
 
 const foundationDispositionEntries = [
   {
@@ -538,10 +538,13 @@ const foundationDispositionEntries = [
       "docs/NORTHSTAR/procurement-north-star.md",
       "docs/PAS/ERP-MODULES/PROCUREMENT/procurement-foundation-gap-report.md",
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md",
+      "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-001-operational-scaffold-authorization.md",
       "packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts",
+      "packages/features/erp-modules/src/procurement/index.ts",
+      "packages/features/erp-modules/src/procurement/README.md",
     ],
     knownGaps: [
-      "Operational procurement runtime deferred — foundation_authorized only per ADR-0031",
+      "Business procurement runtime deferred — features scaffold authorized ERP-PROC-OP-001; gap report sections B–F remain",
     ],
     allowedAgents: ["afenda-governed-implementer", "foundation-registry-owner"],
     prohibited: [

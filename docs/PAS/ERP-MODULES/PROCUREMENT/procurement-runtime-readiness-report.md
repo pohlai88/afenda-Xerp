@@ -8,12 +8,12 @@
 | **Runtime path law** | `packages/features/erp-modules/src/procurement/` |
 | **Authority** | [Module Foundation template §7](../erp-runtime-module-foundation.template.md) · [PAS-001C §6](../../KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) |
 | **Wire evidence** | B80 Delivered · `PROCUREMENT_FOUNDATION_BUNDLE` (wire-phase attested) |
-| **Operational status** | **Not ready** — see [gap report](procurement-foundation-gap-report.md) sections A–F |
-| **Delivered slice** | [ERP-PROC-FDN-001](../SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) — **Delivered** 2026-06-30 |
+| **Operational status** | **Scaffold only** — features path live; business runtime blocked (gap report A–F) |
+| **Delivered slices** | [ERP-PROC-FDN-001](../SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) · [ERP-PROC-OP-001](../SLICE/erp-proc-op-001-operational-scaffold-authorization.md) — **Delivered** 2026-06-30 |
 | **Last updated** | 2026-06-30 |
 | **Live source** | `renderModuleReadinessReport(PROCUREMENT_FOUNDATION_BUNDLE)` · gates `pnpm check:erp-module-*` |
 
-> **One sentence:** KV-PROC foundation bundle and PAS-004 module-foundation atoms are attested; procurement **business runtime** under the features package remains blocked until authorized ERP-MODULES slice handoffs close gap report sections A–F (only FDN-001 Delivered today).
+> **One sentence:** KV-PROC foundation bundle and PAS-004 module-foundation atoms are attested; procurement **operational scaffold** is live at `packages/features/erp-modules/src/procurement/` (stub only) — **business runtime** remains blocked until authorized ERP-MODULES slice handoffs close gap report sections A–F.
 
 > **Slice authority:** Official slice IDs exist only with handoff files under [ERP-MODULES/SLICE](../SLICE/README.md). The gap report inventories gaps — it is **not** an authorized slice catalog.
 
@@ -28,7 +28,7 @@ Generated from `@afenda/erp-module-foundation` with gate-attested evidence paths
 | authority | **Foundation Pass** | `docs/adr/ADR-0031-procurement-runtime-authority-boundary.md` | — | `pnpm check:procurement-runtime-foundation` |
 | registry | **Foundation Pass** | `docs/PAS/KERNEL/SLICE/erp-mod-fdn-003-foundation-authority.md` | — | `pnpm check:erp-module-readiness` |
 | knowledge | **Foundation Pass** | `packages/enterprise-knowledge/src/data/atoms.json` (47 atoms incl. EK-MOD-FDN + B56 P0 + B57 P1) | Goods receipt signal · three-way match cross-domain (LAW K6) | `pnpm check:erp-module-knowledge-alignment` |
-| ownership | **Foundation Pass** | [procurement-foundation-gap-report.md](procurement-foundation-gap-report.md) · [ADR-0031](../../../adr/ADR-0031-procurement-runtime-authority-boundary.md) | Features-package scaffold blocked until ownership ADR-lock | `pnpm check:erp-module-ownership` · `check:erp-module-runtime-package-reserved` |
+| ownership | **Foundation Pass** | [procurement-foundation-gap-report.md](procurement-foundation-gap-report.md) · [ADR-0031](../../../adr/ADR-0031-procurement-runtime-authority-boundary.md) · [ERP-PROC-OP-001](../SLICE/erp-proc-op-001-operational-scaffold-authorization.md) | Business runtime (DB · permissions · routes) | `pnpm check:erp-module-ownership` · `check:erp-module-runtime-package-reserved` |
 | database | **Deferred** | — | Schema boundary · migrations | `pnpm check:erp-module-database-boundary` |
 | contextSpine | **Foundation Pass** | `apps/erp/src/lib/context/resolve-operating-context.server.ts` | Procurement integration consumer proof (operational) | `pnpm check:erp-module-context-spine-consumer` |
 | permissions | **Foundation Pass** | `packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts` | Registry wiring · enforcement (operational) | `pnpm check:erp-module-permission-binding` |
@@ -42,7 +42,7 @@ Generated from `@afenda/erp-module-foundation` with gate-attested evidence paths
 
 **Foundation rollup:** `pnpm check:erp-module-foundation` — sub-gates green incl. `check:erp-module-runtime-package-reserved` (2026-06-30).
 
-> **Attestation scope:** `foundation_authorized` · lifecycle `foundation` — **Foundation Pass** ≠ operational runtime. **LAW K6:** accepted atoms permit meaning only; features-package filesystem blocked until authorized slice + ownership ADR-lock.
+> **Attestation scope:** `foundation_authorized` · lifecycle `foundation` — **Foundation Pass** ≠ operational runtime. **LAW K6:** accepted atoms permit meaning only; features-package scaffold is **stub-only** (ERP-PROC-OP-001 Delivered 2026-06-30).
 
 ---
 
@@ -52,7 +52,7 @@ Procurement **operational runtime** is intentionally **deferred** per `push_impl
 
 | Deferred surface | Reason | Authorized path |
 | --- | --- | --- |
-| `packages/features/erp-modules/src/procurement/` filesystem | Registry `planned` · `filesystemRequired: false` | ERP-MODULES SLICE handoff + ADR-0031 lock |
+| `packages/features/erp-modules/src/procurement/` filesystem | ERP-PROC-OP-001 Delivered — stub constants only | Business runtime (DB · routes · services) | Gap report §ownership · ERP-PROC-OP-002+ handoffs |
 | Procurement DB schema + migrations | No schema boundary attested | Gap report §persistence |
 | ERP production routes / PAS-006 UI | No operational surfaces | Gap report §metadata |
 | Permission enforcement runtime | Wire keys only | Gap report §permissions |
@@ -68,7 +68,7 @@ Procurement **operational runtime** is intentionally **deferred** per `push_impl
 | Area | Verdict | Blocker | Next work |
 | --- | --- | --- | --- |
 | Runtime ADR · PKG-R05 | **Foundation Pass** | ADR-0031 Accepted · PKGR05_PROCUREMENT disposition | — |
-| Features-package filesystem | **Expected absent** | Registry `planned` · `filesystemRequired: false` | Gap report §ownership · authorized slice handoff |
+| Features-package filesystem | **Scaffold only** | ERP-PROC-OP-001 Delivered — stub at `packages/features/erp-modules/src/procurement/`; business runtime blocked | Gap report §ownership · ERP-PROC-OP-002+ |
 | Business knowledge (PO · supplier · RFQ · sourcing · blanket · quote) | **Foundation Pass (meaning)** | B56 + B57 atoms accepted — semantic runtime gated by features package | [PAS-004 backlog](../PAS-004-module-foundation-promotion-backlog.md) |
 | **Product Bank / requestor catalog** | **Fail** | B58 atoms planned · PAS-PROC-001K stub only · no runtime | [Gap report §B.5](./procurement-foundation-gap-report.md) · [PAS-PROC-001K](../PAS-PROC-001K-PROCUREMENT-PRODUCT-BANK-AND-SUPPLIER-PORTAL-STANDARD.md) |
 | **Supplier S2P portal (catalog/price/certs)** | **Fail** | Supplier Portal ADR pending · no runtime | [Gap report §B.6](./procurement-foundation-gap-report.md) · PROC-001K-S6 |
@@ -79,7 +79,7 @@ Procurement **operational runtime** is intentionally **deferred** per `push_impl
 | Audit/outbox writers | **Fail** | Deferred outbox entries in bundle | Gap report §audit |
 | ERP UI routes | **Fail** | No production procurement surfaces | Gap report §metadata · PAS-006 |
 
-| **Next slice** | **[ERP-PROC-OP-001 Proposed](../SLICE/erp-proc-op-001-operational-scaffold-authorization.md)** — authorizes empty features scaffold only; no business runtime |
+| **Next slice** | **TBD** — ERP-PROC-OP-002+ per gap report (DB · permissions · context · audit) |
 
 ---
 
@@ -93,8 +93,8 @@ Procurement **operational runtime** is intentionally **deferred** per `push_impl
 | PAS-004 module-foundation P1 atoms? | **Yes** — EK-MOD-FDN-004 |
 | PAS-004 procurement P0 atoms (PO · supplier · RFQ)? | **Yes** — B56 |
 | PAS-004 procurement P1 atoms (sourcing · blanket · quote)? | **Yes** — B57 |
-| Operational procurement? | **No** |
-| Next slice | [ERP-PROC-OP-001 Proposed](../SLICE/erp-proc-op-001-operational-scaffold-authorization.md) — scaffold authorization only |
+| Operational procurement? | **No** — scaffold only |
+| Next slice | ERP-PROC-OP-002+ TBD — business runtime per gap report |
 
 **Sync:** Module Foundation NS §12.4 may link this report when operational rows turn green.
 

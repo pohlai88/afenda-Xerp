@@ -182,8 +182,8 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Report ID** | PAS-PROC-FDN-AUDIT-001 |
 | **Report type** | Foundation-gap report — not a runtime-build plan · not an authorized slice catalog |
 | **Wire slice** | B80 Delivered — KV-PROC contracts-only ([handoff](KERNEL/SLICE/b80-procurement-domain-vocabulary.md)) |
-| **Delivered slice** | [ERP-PROC-FDN-001](ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) — **Delivered** 2026-06-30 |
-| **Runtime status** | Wire vocabulary only — `@afenda/procurement` (PKG-R05) blocked; no DB/services/routes |
+| **Delivered slices** | [ERP-PROC-FDN-001](ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boundary.md) · [ERP-PROC-OP-001](ERP-MODULES/SLICE/erp-proc-op-001-operational-scaffold-authorization.md) — **Delivered** 2026-06-30 |
+| **Runtime status** | Wire vocabulary + features scaffold (`packages/features/erp-modules/src/procurement/`) — `@afenda/procurement` (PKG-R05) registry reserved; no DB/services/routes |
 | **Enterprise readiness** | **Not ready** (0–10% runtime confidence) |
 | **Foundation gaps** | See gap report sections A–F — ownership, DB, permissions, context consumer, audit, knowledge |
 | **Gates (live — wire only)** | `pnpm check:procurement-domain-contracts` |
@@ -191,7 +191,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Gates (proposed — runtime consumer)** | `check:procurement-context-spine-consumer`, `check:procurement-permission-enforcement`, `check:procurement-audit-outbox`, `check:procurement-metadata-binding` |
 | **Last audited** | 2026-06-30 · Review amended 2026-06-30 · Relocated to ERP-MODULES 2026-06-30 |
 
-**Next slice:** **TBD** — handoff must be authored before listing ([SLICE/README](ERP-MODULES/SLICE/README.md)).
+**Next slice:** **TBD** — ERP-PROC-OP-002+ per gap report ([SLICE/README](ERP-MODULES/SLICE/README.md)).
 
 ---
 
@@ -408,7 +408,7 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | B53 | [b53-pas004d-erp-domain-bridge.md](ENTERPRISE-KNOWLEDGE/SLICE/b53-pas004d-erp-domain-bridge.md) | 4 Domain bridge | Delivered |
 | B54 | [b54-pas004d-operational-closure-attestation.md](ENTERPRISE-KNOWLEDGE/SLICE/b54-pas004d-operational-closure-attestation.md) | 5 Attestation | **Delivered** |
 
-**Next sequence item:** none — PAS-004D closed. Procurement operational scaffold: [ERP-PROC-OP-001 Proposed](ERP-MODULES/SLICE/erp-proc-op-001-operational-scaffold-authorization.md).
+**Next sequence item:** none — PAS-004D closed. Procurement operational scaffold: [ERP-PROC-OP-001 Delivered](ERP-MODULES/SLICE/erp-proc-op-001-operational-scaffold-authorization.md) — `@afenda/erp-modules` scaffold live.
 
 ---
 
