@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-30-v31" as const;
+  "FOUNDATION-DISPOSITION-2026-06-30-v32" as const;
 
 const foundationDispositionEntries = [
   {
@@ -1019,7 +1019,7 @@ const foundationDispositionEntries = [
     domain: "enterprise-knowledge-authority",
     lane: "green-lane",
     runtimeOwner: "packages/enterprise-knowledge",
-    authority: "PAS-004C",
+    authority: "PAS-004D",
     requiredBeforeAccounting: false,
     evidence: [
       "docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md",
@@ -1084,10 +1084,18 @@ const foundationDispositionEntries = [
       "packages/architecture-authority/src/data/layer-registry.data.ts",
       "packages/architecture-authority/src/data/ownership-registry.data.ts",
       "packages/architecture-authority/src/data/dependency-registry.data.ts",
+      "docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md",
+      "docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b51-pas004d-corpus-depth.md",
+      "docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b52-pas004d-vocabulary-richness.md",
+      "docs/PAS/ENTERPRISE-KNOWLEDGE/SLICE/b54-pas004d-operational-closure-attestation.md",
+      "packages/enterprise-knowledge/src/policy/knowledge-corpus-depth.policy.ts",
+      "packages/enterprise-knowledge/src/policy/knowledge-vocabulary-richness.policy.ts",
+      "scripts/governance/check-knowledge-corpus-depth.mts",
+      "scripts/governance/check-knowledge-vocabulary-richness.mts",
+      "scripts/governance/__tests__/check-knowledge-corpus-depth.test.ts",
+      "scripts/governance/__tests__/check-knowledge-vocabulary-richness.test.ts",
     ],
-    knownGaps: [
-      "B54 operational attestation deferred — authority remains PAS-004C until B54 closes",
-    ],
+    knownGaps: [],
     allowedAgents: [
       "foundation-registry-owner",
       "afenda-governed-implementer",

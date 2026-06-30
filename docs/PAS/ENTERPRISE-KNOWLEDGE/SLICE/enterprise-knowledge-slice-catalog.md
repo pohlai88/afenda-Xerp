@@ -56,13 +56,13 @@
 | B47 | post-close Adoption | [b47-pas004c-consumer-projection-adoption.md](./b47-pas004c-consumer-projection-adoption.md) | Delivered |
 | B48 | post-close Adoption | [b48-pas004c-docs-consumer-projection-adoption.md](./b48-pas004c-docs-consumer-projection-adoption.md) | Delivered |
 
-## PAS-004D — B49–B54 (proposed / in progress)
+## PAS-004D — B49–B54 (closed)
 
 | Slice | Phase | Handoff | Status |
 | --- | --- | --- | --- |
 | B49 | 1 Mirror sync | [b49-pas004d-authority-mirror-sync.md](./b49-pas004d-authority-mirror-sync.md) | Delivered |
 | B50 | 2 Legacy API | [b50-pas004d-legacy-surface-retirement.md](./b50-pas004d-legacy-surface-retirement.md) | Delivered |
-| B51 | 3 Corpus depth | b51-pas004d-corpus-depth.md | Proposed |
-| B52 | 3 Vocabulary | b52-pas004d-vocabulary-richness.md | Proposed |
+| B51 | 3 Corpus depth | [b51-pas004d-corpus-depth.md](./b51-pas004d-corpus-depth.md) | Delivered |
+| B52 | 3 Vocabulary | [b52-pas004d-vocabulary-richness.md](./b52-pas004d-vocabulary-richness.md) | Delivered |
 | B53 | 4 Domain bridge | [b53-pas004d-erp-domain-bridge.md](./b53-pas004d-erp-domain-bridge.md) | Delivered |
-| B54 | 5 Attestation | b54-pas004d-operational-closure-attestation.md | Proposed |
+| B54 | 5 Attestation | [b54-pas004d-operational-closure-attestation.md](./b54-pas004d-operational-closure-attestation.md) | Delivered |

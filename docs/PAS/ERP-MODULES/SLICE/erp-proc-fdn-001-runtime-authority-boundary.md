@@ -23,7 +23,7 @@ Handoff from: docs/PAS/ERP-MODULES/SLICE/erp-proc-fdn-001-runtime-authority-boun
 4. Prohibited   — packages/procurement/** · kernel procurement runtime · DB migrations · ERP routes
 5. Authority    — Procurement NS · PAS-001C · gap report PAS-PROC-FDN-AUDIT-001 · ADR-0020 contract-first model
 6. Gates        — pnpm check:documentation-drift · pnpm check:foundation-disposition · pnpm check:erp-module-foundation · pnpm check:erp-module-runtime-package-reserved · pnpm check:procurement-domain-contracts · pnpm check:procurement-runtime-foundation
-7. Closes       — Records PKG-R05 authority boundary; next slice TBD per SLICE/README (handoff required)
+7. Closes       — Records PKG-R05 authority boundary; next slice [ERP-PROC-OP-001 Proposed](erp-proc-op-001-operational-scaffold-authorization.md)
 8. Evidence     — Accepted ADR · registry disposition row · updated bundle authority path
 9. Attestation  — Documentation · Architecture Authority
 ```

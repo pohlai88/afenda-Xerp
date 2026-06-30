@@ -79,7 +79,7 @@ Procurement **operational runtime** is intentionally **deferred** per `push_impl
 | Audit/outbox writers | **Fail** | Deferred outbox entries in bundle | Gap report §audit |
 | ERP UI routes | **Fail** | No production procurement surfaces | Gap report §metadata · PAS-006 |
 
-**Next slice:** **TBD** — see [SLICE/README](../SLICE/README.md). Do not execute from gap report §7 (superseded audit proposal).
+| **Next slice** | **[ERP-PROC-OP-001 Proposed](../SLICE/erp-proc-op-001-operational-scaffold-authorization.md)** — authorizes empty features scaffold only; no business runtime |
 
 ---
 
@@ -94,7 +94,7 @@ Procurement **operational runtime** is intentionally **deferred** per `push_impl
 | PAS-004 procurement P0 atoms (PO · supplier · RFQ)? | **Yes** — B56 |
 | PAS-004 procurement P1 atoms (sourcing · blanket · quote)? | **Yes** — B57 |
 | Operational procurement? | **No** |
-| Next slice | **TBD** — handoff required under [ERP-MODULES/SLICE](../SLICE/README.md) |
+| Next slice | [ERP-PROC-OP-001 Proposed](../SLICE/erp-proc-op-001-operational-scaffold-authorization.md) — scaffold authorization only |
 
 **Sync:** Module Foundation NS §12.4 may link this report when operational rows turn green.
 

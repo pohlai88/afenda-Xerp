@@ -5,7 +5,7 @@
 | **Authority** | ADR-0014 |
 | **Workflow** | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — **read before implementation** |
 | **Source of truth** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
-| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-30-v29` |
+| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-30-v32` |
 | **Enforcement** | `pnpm check:foundation-disposition` |
 
 > **Read-only view.** This document is synced from the typed registry. Do not treat this file as authority — edit the registry (via `foundation-registry-owner`) and re-sync this view.
@@ -60,7 +60,7 @@
 | PKG022_EMAIL | `@afenda/email` | blue-lane | no | — |
 | PKGR02_ARCHITECTURE_AUTHORITY | `@afenda/architecture-authority` | green-lane | yes | see PAS-002A |
 | PKGR03_ACCOUNTING_STANDARDS | `@afenda/accounting-standards` | blue-lane | no | see PAS-003 |
-| PKGR04_ENTERPRISE_KNOWLEDGE | `@afenda/enterprise-knowledge` | green-lane | no | see PAS-004C |
+| PKGR04_ENTERPRISE_KNOWLEDGE | `@afenda/enterprise-knowledge` | green-lane | no | see PAS-004D |
 | PKGR05_CSS_AUTHORITY | `@afenda/css-authority` | archive-lane | no | retired for ERP frontend — ADR-0027 |
 | PKGR05A_SHADCN_STUDIO | `@afenda/shadcn-studio` | green-lane | no | sole ERP frontend design authority — PAS-006 · PKG-026 |
 | PAS_AUTHORITY | `docs/PAS` | archive-lane | no | — |
