@@ -121,9 +121,9 @@ const PersonalInfo = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
+    <div className="grid min-w-0 w-full grid-cols-1 gap-10 xl:grid-cols-3">
       {/* Vertical Tabs List */}
-      <div className="flex flex-col space-y-1">
+      <div className="min-w-0 flex flex-col space-y-1">
         <h3 className="font-semibold">Personal Information</h3>
         <p className="text-muted-foreground text-sm">
           Manage your personal information and role.
@@ -131,11 +131,11 @@ const PersonalInfo = () => {
       </div>
 
       {/* Content */}
-      <div className="space-y-6 lg:col-span-2">
-        <form className="mx-auto">
-          <div className="mb-6 w-full space-y-2">
+      <div className="min-w-0 space-y-6 xl:col-span-2">
+        <form className="mx-auto min-w-0 w-full">
+          <div className="mb-6 w-full min-w-0 space-y-2">
             <Label>Your Avatar</Label>
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4">
               <div
                 {...blockSlotDomMarkerProps("profile.avatar")}
                 aria-label="Upload your avatar"
@@ -179,6 +179,7 @@ const PersonalInfo = () => {
                   Upload avatar
                 </Button>
                 <Button
+                  aria-label="Remove avatar"
                   className="text-destructive!"
                   disabled={!file}
                   onClick={remove}

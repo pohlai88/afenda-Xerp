@@ -1,4 +1,5 @@
 import { blockSlotDomMarkerProps } from "../../../../contracts/block-slot-dom-marker.contract.js";
+import { AccountSettingsPageShell } from "../_shared/account-settings-page-shell.js";
 import Notifications from "@/components/shadcn-studio/blocks/account-settings-02/content/all-notifications";
 import BrowserNotification from "@/components/shadcn-studio/blocks/account-settings-02/content/browser-notification";
 import DoNotDisturb from "@/components/shadcn-studio/blocks/account-settings-02/content/do-not-disturb";
@@ -7,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 const NotificationsPage = () => (
-  <div>
+  <AccountSettingsPageShell>
     <Notifications />
     <Separator className="my-10" />
     <InboxPrefrence />
@@ -20,7 +21,7 @@ const NotificationsPage = () => (
         Save Changes
       </Button>
     </div>
-  </div>
+  </AccountSettingsPageShell>
 );
 
 export default NotificationsPage;

@@ -94,7 +94,7 @@ All commands: `disable-model-invocation: true`.
 | Skill | Class | `paths` | Trigger |
 | --- | --- | --- | --- |
 | `multi-tenancy-erp` | ERP | `packages/kernel/**`, `packages/database/**`, `apps/erp/**` | Tenant context, RLS |
-| `afenda-nextjs-best-practice` | ERP | `apps/erp/**`, `apps/docs/**` | App Router, BFF, folder layout, caching matrix, MCP runtime, tenant URLs |
+| `afenda-nextjs-best-practice` | ERP | `apps/erp/**`, `apps/docs/**` | Module-first App Router, force-dynamic modules, manifest surfaces, MCP |
 | `rbac-erp` | ERP | `packages/permissions/**`, `apps/erp/**` | RBAC, grants |
 | `better-auth-erp` | ERP | `apps/erp/**`, `packages/auth/**` | Better Auth integration |
 | `react-erp-quality` | ERP | `apps/erp/**` | ERP React/Next patterns |
