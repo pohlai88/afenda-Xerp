@@ -9,7 +9,8 @@
   "scripts": {
     "build": "turbo run build",
     "build:governance-dist": "turbo run build --force --filter=@afenda/kernel --filter=@afenda/database --filter=@afenda/permissions --filter=@afenda/observability --filter=@afenda/architecture-authority",
-    "dev": "turbo run dev",
+    "dev": "node scripts/turbo-dev.mjs",
+    "dev:all": "turbo run dev",
     "lint": "ultracite check",
     "typecheck": "turbo run typecheck",
     "test": "vitest",
@@ -171,6 +172,7 @@
     "check:procurement-runtime-foundation": "tsx scripts/governance/check-procurement-runtime-foundation.mts",
     "check:procurement-ownership-contract": "tsx scripts/governance/check-procurement-ownership-contract.mts",
     "check:procurement-database-boundary-contract": "tsx scripts/governance/check-procurement-database-boundary-contract.mts",
+    "check:procurement-permission-binding-contract": "tsx scripts/governance/check-procurement-permission-binding-contract.mts",
     "check:erp-module-foundation": "tsx scripts/governance/check-erp-module-foundation.mts",
     "check:erp-module-ownership": "tsx scripts/governance/check-erp-module-ownership.mts",
     "check:erp-module-knowledge-alignment": "tsx scripts/governance/check-erp-module-knowledge-alignment.mts",

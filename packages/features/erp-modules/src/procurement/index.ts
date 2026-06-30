@@ -25,3 +25,11 @@ export {
   PROCUREMENT_OWNERSHIP_SLICE_ID,
   PROCUREMENT_OWNERSHIP_STATUS,
 } from "./procurement.ownership.contract.js";
+/** ERP-PROC-OP-004 — permission binding declaration (no registry wiring). */
+export {
+  PROCUREMENT_KERNEL_PERMISSION_KEYS,
+  PROCUREMENT_PERMISSION_BINDING_ATTESTATION,
+  PROCUREMENT_PERMISSION_BINDING_CONTRACT,
+  PROCUREMENT_PERMISSION_BINDING_SLICE_ID,
+  PROCUREMENT_PERMISSION_BINDING_STATUS,
+} from "./procurement.permission-binding.contract.js";

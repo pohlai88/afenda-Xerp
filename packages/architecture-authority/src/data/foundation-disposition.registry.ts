@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-30-v35" as const;
+  "FOUNDATION-DISPOSITION-2026-06-30-v36" as const;
 
 const foundationDispositionEntries = [
   {
@@ -553,14 +553,16 @@ const foundationDispositionEntries = [
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-001-operational-scaffold-authorization.md",
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-002-runtime-ownership-contract.md",
       "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-003-database-boundary-declaration.md",
+      "docs/PAS/ERP-MODULES/SLICE/erp-proc-op-004-permission-binding-declaration.md",
       "packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts",
       "packages/features/erp-modules/src/procurement/index.ts",
       "packages/features/erp-modules/src/procurement/README.md",
       "packages/features/erp-modules/src/procurement/procurement.ownership.contract.ts",
       "packages/features/erp-modules/src/procurement/procurement.database-boundary.contract.ts",
+      "packages/features/erp-modules/src/procurement/procurement.permission-binding.contract.ts",
     ],
     knownGaps: [
-      "DB boundary declared (OP-003); migrations still deferred; permissions/context/audit still deferred",
+      "DB + permission binding declared (OP-003/OP-004); migrations + PERMISSION_REGISTRY wiring still deferred; context/audit still deferred",
       "Business procurement runtime deferred — gap report sections B–F remain until downstream PAS slices close",
     ],
     allowedAgents: ["afenda-governed-implementer", "foundation-registry-owner"],
@@ -578,6 +580,7 @@ const foundationDispositionEntries = [
       "pnpm check:procurement-runtime-foundation",
       "pnpm check:procurement-ownership-contract",
       "pnpm check:procurement-database-boundary-contract",
+      "pnpm check:procurement-permission-binding-contract",
     ],
     legacyTipEvidence: [],
   },

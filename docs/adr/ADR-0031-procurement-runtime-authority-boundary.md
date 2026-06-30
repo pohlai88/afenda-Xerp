@@ -111,6 +111,7 @@ Two path references are **intentional** and **not contradictory** while operatio
 | `pnpm check:erp-module-runtime-package-reserved` | Reserved package law |
 | `pnpm check:procurement-ownership-contract` | Features ownership contract ↔ foundation bundle parity |
 | `pnpm check:procurement-database-boundary-contract` | Features database boundary declaration ↔ no schema files on disk |
+| `pnpm check:procurement-permission-binding-contract` | Features permission binding ↔ kernel vocabulary · no PERMISSION_REGISTRY wiring |
 
 ---
 
@@ -149,6 +150,25 @@ The gap report F.3–F.4 planned persistence boundary is **declared** (not migra
 **Planned tables (declaration only):** `suppliers`, `purchase_requisitions`, `purchase_orders`, `procurement_rfqs` — each with `plannedSchemaPath` under `packages/database/src/schema/` documented for future authorized migration slice.
 
 **Migrations prohibited until:** RLS ADR acceptance + authorized ERP-MODULES migration slice. No `packages/database/src/schema/*purchase*`, `*procurement*`, or `*supplier*` files may exist until that slice.
+
+---
+
+## 9. Permission binding declaration (ERP-PROC-OP-004)
+
+**Delivered:** 2026-06-30 · [ERP-PROC-OP-004 slice](../PAS/ERP-MODULES/SLICE/erp-proc-op-004-permission-binding-declaration.md)
+
+The gap report §D permission binding is **declared** (not enforced) as a serializable TypeScript contract:
+
+| Field | Value |
+| --- | --- |
+| **Contract path** | `packages/features/erp-modules/src/procurement/procurement.permission-binding.contract.ts` |
+| **Export** | `PROCUREMENT_PERMISSION_BINDING_CONTRACT` — 18 kernel keys · `permissionParity: "deferred"` |
+| **Kernel authority** | `packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts` |
+| **Registry owner** | `@afenda/permissions` — parity with `PROCUREMENT_OWNERSHIP_CONTRACT.permissionRegistry` |
+| **Attestation** | `PROCUREMENT_PERMISSION_BINDING_ATTESTATION` — slice `ERP-PROC-OP-004` · status `declared` |
+| **Drift gate** | `pnpm check:procurement-permission-binding-contract` |
+
+**PERMISSION_REGISTRY wiring prohibited until:** authorized ERP-MODULES permission enforcement slice. No `procurement` namespace in `packages/permissions/src/grants/permission.contract.ts` until that slice.
 
 ---
 

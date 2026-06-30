@@ -25,9 +25,21 @@ export const PROCUREMENT_REFERENCE_KERNEL_PERMISSION_KEYS = [
   "procurement.requisition_read",
   "procurement.requisition_create",
   "procurement.requisition_submit",
+  "procurement.requisition_approve",
+  "procurement.requisition_cancel",
   "procurement.purchaseOrder_read",
   "procurement.purchaseOrder_create",
   "procurement.purchaseOrder_send",
+  "procurement.purchaseOrder_receive",
+  "procurement.purchaseOrder_close",
+  "procurement.purchaseOrder_cancel",
+  "procurement.rfq_read",
+  "procurement.rfq_publish",
+  "procurement.rfq_close",
+  "procurement.supplierQuote_read",
+  "procurement.supplierQuote_submit",
+  "procurement.supplierQuote_accept",
+  "procurement.supplierQuote_reject",
 ] as const;
 
 export const PROCUREMENT_REFERENCE_EVENTS = [
@@ -91,7 +103,7 @@ export const PROCUREMENT_FOUNDATION_EVIDENCE: Readonly<
     "packages/features/erp-modules/src/procurement/procurement.database-boundary.contract.ts",
   contextSpine: "apps/erp/src/lib/context/resolve-operating-context.server.ts",
   permissions:
-    "packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts",
+    "packages/features/erp-modules/src/procurement/procurement.permission-binding.contract.ts",
   audit:
     "packages/kernel/src/erp-domain/procurement/procurement-audit-actions.contract.ts",
   outbox:
@@ -115,7 +127,7 @@ export const PROCUREMENT_FOUNDATION_ATTESTED_EVIDENCE = {
     "packages/features/erp-modules/src/procurement/procurement.database-boundary.contract.ts",
   contextSpine: "apps/erp/src/lib/context/resolve-operating-context.server.ts",
   permissions:
-    "packages/kernel/src/erp-domain/procurement/procurement-permission-vocabulary.contract.ts",
+    "packages/features/erp-modules/src/procurement/procurement.permission-binding.contract.ts",
   audit:
     "packages/kernel/src/erp-domain/procurement/procurement-audit-actions.contract.ts",
   outbox:

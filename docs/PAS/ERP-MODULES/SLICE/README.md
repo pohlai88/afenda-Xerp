@@ -29,9 +29,10 @@ Platform foundation slices (PAS-001C) and LoB exemplar slices under **ERP-MODULE
 | ERP-PROC-OP-001 | [erp-proc-op-001-operational-scaffold-authorization.md](erp-proc-op-001-operational-scaffold-authorization.md) | **Delivered** 2026-06-30 | Empty features scaffold at `packages/features/erp-modules/src/procurement/` |
 | ERP-PROC-OP-002 | [erp-proc-op-002-runtime-ownership-contract.md](erp-proc-op-002-runtime-ownership-contract.md) | **Delivered** 2026-06-30 | ADR-locked ownership contract — gap report F.2 closed |
 | ERP-PROC-OP-003 | [erp-proc-op-003-database-boundary-declaration.md](erp-proc-op-003-database-boundary-declaration.md) | **Delivered** 2026-06-30 | Planned database boundary declared — gap report F.3–F.4 closed (no migrations) |
-| ERP-PROC-OP-004+ | TBD per gap report | Not started | Permissions · context · audit — separate handoffs |
+| ERP-PROC-OP-004 | [erp-proc-op-004-permission-binding-declaration.md](erp-proc-op-004-permission-binding-declaration.md) | **Delivered** 2026-06-30 | Permission binding declared — gap report §D closed (no PERMISSION_REGISTRY wiring) |
+| ERP-PROC-OP-005+ | TBD per gap report | Not started | Context spine · audit — separate handoffs |
 
-**Next slice:** **TBD** — ERP-PROC-OP-004+ per gap report (permissions · context · audit).
+**Next slice:** **TBD** — ERP-PROC-OP-005+ per gap report (context spine · audit).
 
 ## Build order rule
 
@@ -50,7 +51,9 @@ ERP-PROC-OP-002 (Delivered — ownership contract ADR-lock)
         ↓
 ERP-PROC-OP-003 (Delivered — database boundary declaration)
         ↓
-packages/features/erp-modules/src/procurement/ (scaffold + ownership + database boundary contracts)
+ERP-PROC-OP-004 (Delivered — permission binding declaration)
+        ↓
+packages/features/erp-modules/src/procurement/ (scaffold + ownership + database boundary + permission binding contracts)
         ↓
 procurement-runtime-readiness-report.md (operational gate — business runtime still blocked)
 ```
