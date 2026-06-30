@@ -52,3 +52,7 @@ Handoff from: docs/PAS/API-CONTRACT/REST/SLICE/pas-001a-r3b-service-actor-contex
 | --- | --- |
 | R2 (KERNEL) | [pas-001a-r2-service-actor-s2s-attestation.md](../../../KERNEL/SLICE/pas-001a-r2-service-actor-s2s-attestation.md) |
 | Next slice | [pas-001a-r3c-route-coverage-drift-attestation.md](./pas-001a-r3c-route-coverage-drift-attestation.md) |
+
+## Production stance
+
+Human-session internal v1 is **production accepted** (R3b shape-only S2S ingress for assembly paths). Machine S2S REST is **not offered** — production policy attested per [ADR-0034](../../../adr/ADR-0034-service-actor-production-policy-attestation.md) (supersedes [ADR-0033](../../../adr/ADR-0033-service-actor-s2s-token-verification-deferred.md)). Cryptographic token verification required before first `service-token-required` route.

@@ -351,7 +351,10 @@ export const ${upper}_DOMAIN_VOCABULARY_POLICY = {
   );
 
   const vocabImports = spec.vocabs
-    .map((v) => `import { ${vocabConstNameFromFile(v.file)} } from "./${v.file}.contract.js";`)
+    .map(
+      (v) =>
+        `import { ${vocabConstNameFromFile(v.file)} } from "./${v.file}.contract.js";`
+    )
     .join("\n");
 
   const closedEntries = spec.vocabs
@@ -381,15 +384,16 @@ export const ${upper}_DOMAIN_VOCABULARY_POLICY = {
     )
     .join(",\n");
 
-  const forbiddenExport =
-    spec.brandedIds.some((e) => e.forbiddenOnPlatformFloor === true)
-      ? `
+  const forbiddenExport = spec.brandedIds.some(
+    (e) => e.forbiddenOnPlatformFloor === true
+  )
+    ? `
 export const ${upper}_DOMAIN_FORBIDDEN_PLATFORM_FLOOR_BRANDED_IDS =
   ${upper}_DOMAIN_BRANDED_IDS.filter((entry) => entry.forbiddenOnPlatformFloor).map(
     (entry) => entry.typeName
   );
 `
-      : "";
+    : "";
 
   write(
     `${prefix}-domain-vocabulary.registry.ts`,
@@ -528,7 +532,9 @@ export type assert${pascal}DomainVocabularyRegistryIntegrity =
     )
     .join("\n");
 
-  const registryExports = spec.brandedIds.some((e) => e.forbiddenOnPlatformFloor)
+  const registryExports = spec.brandedIds.some(
+    (e) => e.forbiddenOnPlatformFloor
+  )
     ? `${upper}_DOMAIN_FORBIDDEN_PLATFORM_FLOOR_BRANDED_IDS,\n  `
     : "";
 

@@ -17,7 +17,7 @@ function run(): readonly ErpModuleFoundationViolation[] {
     violations.push({
       rule: "ownership-wire",
       file: GATE,
-      message: `wireVocabulary does not prefix wirePackage`,
+      message: "wireVocabulary does not prefix wirePackage",
     });
   }
 
@@ -25,7 +25,7 @@ function run(): readonly ErpModuleFoundationViolation[] {
     violations.push({
       rule: "ownership-runtime",
       file: GATE,
-      message: `runtimeBehavior !== ownerPackage`,
+      message: "runtimeBehavior !== ownerPackage",
     });
   }
 
@@ -33,7 +33,7 @@ function run(): readonly ErpModuleFoundationViolation[] {
     violations.push({
       rule: "ownership-database",
       file: GATE,
-      message: `databaseSchema !== databaseOwner`,
+      message: "databaseSchema !== databaseOwner",
     });
   }
 
@@ -41,7 +41,7 @@ function run(): readonly ErpModuleFoundationViolation[] {
     violations.push({
       rule: "ownership-permissions",
       file: GATE,
-      message: `permissionRegistry !== permissionOwner`,
+      message: "permissionRegistry !== permissionOwner",
     });
   }
 
@@ -49,7 +49,11 @@ function run(): readonly ErpModuleFoundationViolation[] {
     f.includes("ownership")
   );
   for (const failure of ownershipFailures) {
-    violations.push({ rule: "ownership-readiness", file: GATE, message: failure });
+    violations.push({
+      rule: "ownership-readiness",
+      file: GATE,
+      message: failure,
+    });
   }
 
   return violations;

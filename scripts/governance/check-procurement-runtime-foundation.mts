@@ -44,13 +44,7 @@ function run(): readonly ErpModuleFoundationViolation[] {
   }
 
   const entry = getFoundationDispositionEntry(REGISTRY_ENTRY_ID);
-  if (!entry) {
-    violations.push({
-      rule: "registry-entry",
-      file: GATE,
-      message: `${REGISTRY_ENTRY_ID} missing from foundation-disposition.registry.ts`,
-    });
-  } else {
+  if (entry) {
     if (entry.packageId !== "PKG-R05") {
       violations.push({
         rule: "registry-package-id",
@@ -72,6 +66,12 @@ function run(): readonly ErpModuleFoundationViolation[] {
         message: `expected authority ADR-0031 — got ${entry.authority}`,
       });
     }
+  } else {
+    violations.push({
+      rule: "registry-entry",
+      file: GATE,
+      message: `${REGISTRY_ENTRY_ID} missing from foundation-disposition.registry.ts`,
+    });
   }
 
   if (pathExists(RUNTIME_PACKAGE_PATH)) {

@@ -31,9 +31,9 @@ const FORBIDDEN_INTEGRATION_IMPORT_PATTERNS = [
 ] as const;
 
 interface IntegrationWiringEntry {
+  readonly delegate: string;
   readonly id: string;
   readonly module: string;
-  readonly delegate: string;
   readonly step: string;
 }
 
@@ -43,7 +43,10 @@ export interface ErpOperatingContextSpineViolation {
   readonly rule: string;
 }
 
-function extractConstArrayBody(source: string, constantName: string): string | null {
+function extractConstArrayBody(
+  source: string,
+  constantName: string
+): string | null {
   const marker = `export const ${constantName} = [`;
   const startIndex = source.indexOf(marker);
   if (startIndex === -1) {
@@ -236,7 +239,8 @@ export function checkErpOperatingContextSpine(): ErpOperatingContextSpineViolati
     violations.push({
       rule: "auth-actor-bridge-wiring-empty",
       file: registryPath,
-      message: "AUTH_ACTOR_BRIDGE_WIRING must declare auth actor bridge entries",
+      message:
+        "AUTH_ACTOR_BRIDGE_WIRING must declare auth actor bridge entries",
     });
   }
 

@@ -56,9 +56,11 @@ const REQUIRED_MARKERS: readonly {
   },
 ];
 
-function parseTenantLifecycleBridgeWiring(
-  source: string
-): readonly { readonly id: string; readonly module: string; readonly delegate: string }[] {
+function parseTenantLifecycleBridgeWiring(source: string): readonly {
+  readonly id: string;
+  readonly module: string;
+  readonly delegate: string;
+}[] {
   const match = source.match(
     /export const TENANT_LIFECYCLE_BRIDGE_WIRING\s*=\s*(\[[\s\S]*?\])\s*as const;/
   );
@@ -133,13 +135,7 @@ export function checkTenantLifecycleExtensionConsumerAttestation(): TenantLifecy
     repoRoot,
     "packages/ui-composition/src/runtime.contract.ts"
   );
-  if (!existsSync(runtimeContractPath)) {
-    violations.push({
-      rule: "metadata-runtime-contract-missing",
-      file: runtimeContractPath,
-      message: "Missing metadata runtime contract for tenant lifecycle carrier.",
-    });
-  } else {
+  if (existsSync(runtimeContractPath)) {
     const runtimeSource = readFileSync(runtimeContractPath, "utf8");
     if (!runtimeSource.includes("tenantSaasLifecyclePhase")) {
       violations.push({
@@ -149,6 +145,13 @@ export function checkTenantLifecycleExtensionConsumerAttestation(): TenantLifecy
           "Metadata runtime contract must carry tenantSaasLifecyclePhase (B111).",
       });
     }
+  } else {
+    violations.push({
+      rule: "metadata-runtime-contract-missing",
+      file: runtimeContractPath,
+      message:
+        "Missing metadata runtime contract for tenant lifecycle carrier.",
+    });
   }
 
   if (!existsSync(registryPath)) {
@@ -167,7 +170,8 @@ export function checkTenantLifecycleExtensionConsumerAttestation(): TenantLifecy
     violations.push({
       rule: "tenant-lifecycle-bridge-wiring-missing",
       file: registryPath,
-      message: "TENANT_LIFECYCLE_BRIDGE_WIRING must declare B111 bridge entries.",
+      message:
+        "TENANT_LIFECYCLE_BRIDGE_WIRING must declare B111 bridge entries.",
     });
     return violations;
   }

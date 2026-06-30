@@ -37,7 +37,11 @@ function run(): readonly ErpModuleFoundationViolation[] {
     (f) => f.includes("outbox") || f.includes("audit")
   );
   for (const failure of auditFailures) {
-    violations.push({ rule: "audit-outbox-readiness", file: GATE, message: failure });
+    violations.push({
+      rule: "audit-outbox-readiness",
+      file: GATE,
+      message: failure,
+    });
   }
 
   return violations;

@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
 /**
- * One-shot GitHub Actions secret bootstrap for Vercel preview workflows.
+ * One-shot GitHub Actions bootstrap for Vercel preview workflows and Turbo remote cache.
  *
- * Requires a GitHub token with Actions secrets write on pohlai88/afenda-Xerp.
+ * Secrets: VERCEL_*, TURBO_TOKEN
+ * Variables: TURBO_TEAM (non-secret; referenced as vars.TURBO_TEAM in workflows)
+ *
+ * Requires a GitHub token with Actions secrets/variables write on pohlai88/afenda-Xerp.
  * Loads GITHUB_TOKEN from .env.secret first; falls back to `gh auth token`
  * when the file token cannot access the secrets API.
  *
@@ -88,6 +91,11 @@ const secrets = {
   VERCEL_PROJECT_ID: "prj_rEu23fWSlpHD3C7FzPnsxfWQHBfm",
   VERCEL_PROJECT_ID_DOCS: "prj_TdwsDOO3N598XUHtmspRhk2voRMm",
   VERCEL_TOKEN: readSecretKey("VERCEL_TOKEN"),
+  TURBO_TOKEN: readSecretKey("TURBO_TOKEN"),
+};
+
+const variables = {
+  TURBO_TEAM: readSecretKey("TURBO_TEAM"),
 };
 
 const resolved = await resolveGitHubToken();
@@ -101,8 +109,24 @@ if (!resolved) {
 
 process.stdout.write(`Using GitHub token from: ${resolved.source}\n`);
 
+const missing = [];
+
 if (!secrets.VERCEL_TOKEN) {
-  process.stderr.write("VERCEL_TOKEN missing from .env.secret\n");
+  missing.push("VERCEL_TOKEN");
+}
+
+if (!secrets.TURBO_TOKEN) {
+  missing.push("TURBO_TOKEN");
+}
+
+if (!variables.TURBO_TEAM) {
+  missing.push("TURBO_TEAM");
+}
+
+if (missing.length > 0) {
+  process.stderr.write(
+    `Missing from .env.secret: ${missing.join(", ")}\nSee .env.example (Turborepo remote cache section).\n`
+  );
   process.exit(1);
 }
 
@@ -114,7 +138,7 @@ const ghEnv = {
 
 let failed = 0;
 
-for (const [name, value] of Object.entries(secrets)) {
+function setSecret(name, value) {
   const result = spawnSync(
     "gh",
     ["secret", "set", name, "--body", value, "--repo", REPO],
@@ -122,11 +146,34 @@ for (const [name, value] of Object.entries(secrets)) {
   );
 
   if (result.status === 0) {
-    process.stdout.write(`Set ${name}\n`);
+    process.stdout.write(`Set secret ${name}\n`);
   } else {
     failed += 1;
-    process.stderr.write(`Failed to set ${name}\n`);
+    process.stderr.write(`Failed to set secret ${name}\n`);
   }
+}
+
+function setVariable(name, value) {
+  const result = spawnSync(
+    "gh",
+    ["variable", "set", name, "--body", value, "--repo", REPO],
+    { stdio: "inherit", env: ghEnv }
+  );
+
+  if (result.status === 0) {
+    process.stdout.write(`Set variable ${name}\n`);
+  } else {
+    failed += 1;
+    process.stderr.write(`Failed to set variable ${name}\n`);
+  }
+}
+
+for (const [name, value] of Object.entries(secrets)) {
+  setSecret(name, value);
+}
+
+for (const [name, value] of Object.entries(variables)) {
+  setVariable(name, value);
 }
 
 process.exit(failed > 0 ? 1 : 0);

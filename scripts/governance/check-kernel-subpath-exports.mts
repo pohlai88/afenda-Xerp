@@ -160,11 +160,10 @@ export function checkKernelSubpathExports(): KernelSubpathExportViolation[] {
 
   const packageExports = readPackageExports();
   const requiredKeys = Object.keys(PAS_64_REQUIRED_SUBPATHS);
-  const deliveredErpKeys = ERP_DOMAIN_DELIVERED_MODULES.map(erpDomainModuleExportKey);
-  const allowedKeys = new Set<string>([
-    ...requiredKeys,
-    ...deliveredErpKeys,
-  ]);
+  const deliveredErpKeys = ERP_DOMAIN_DELIVERED_MODULES.map(
+    erpDomainModuleExportKey
+  );
+  const allowedKeys = new Set<string>([...requiredKeys, ...deliveredErpKeys]);
   const actualKeys = Object.keys(packageExports).sort();
 
   for (const key of requiredKeys) {

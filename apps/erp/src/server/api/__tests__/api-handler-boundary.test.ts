@@ -251,6 +251,41 @@ describe("createApiHandler bidirectional validation pipeline", () => {
     });
   });
 
+  it("rejects forged service-actor headers on session-required routes before handler", async () => {
+    let handlerInvoked = false;
+    const sessionContract = {
+      ...echoGetContract,
+      authPolicy: "session-required",
+      contextPolicy: "tenant-company-org-required",
+      permission: { mode: "required", permission: "workspace.dashboard.read" },
+    } as const satisfies ApiRouteContract<undefined, EchoResponse>;
+
+    const handler = createApiHandler({
+      contract: sessionContract,
+      handler: async () => {
+        handlerInvoked = true;
+        return { value: "ok" };
+      },
+    });
+
+    const request = new Request("http://localhost/api/internal/v1/test/echo", {
+      headers: {
+        "x-afenda-actor-kind": "service",
+        "x-afenda-auth-subject-id": "svc_test_subject",
+        "x-afenda-integration-provider": "test-provider",
+        "x-afenda-integration-external-id": "ext-001",
+      },
+      method: "GET",
+    });
+
+    const response = await handler(request);
+
+    expect(response.status).toBe(401);
+    expect(handlerInvoked).toBe(false);
+    const body: unknown = await response.json();
+    expect(body).toMatchObject({ ok: false });
+  });
+
   it("returns governed success envelope with requestId and correlationId", async () => {
     const handler = createApiHandler({
       contract: echoGetContract,

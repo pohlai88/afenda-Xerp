@@ -38,7 +38,10 @@ const REQUIRED_S2S_MARKERS: readonly {
 }[] = [
   {
     file: "lib/auth/resolve-service-actor.server.ts",
-    markers: ["parseAuthActorIdentity", "parseServiceActorIdentityFromRequestHeaders"],
+    markers: [
+      "parseAuthActorIdentity",
+      "parseServiceActorIdentityFromRequestHeaders",
+    ],
   },
   {
     file: "lib/auth/resolve-api-route-auth-actor.server.ts",
@@ -57,9 +60,11 @@ const REQUIRED_S2S_MARKERS: readonly {
   },
 ];
 
-function parseServiceActorBridgeWiring(
-  source: string
-): readonly { readonly id: string; readonly module: string; readonly delegate: string }[] {
+function parseServiceActorBridgeWiring(source: string): readonly {
+  readonly id: string;
+  readonly module: string;
+  readonly delegate: string;
+}[] {
   const match = source.match(
     /export const SERVICE_ACTOR_BRIDGE_WIRING\s*=\s*(\[[\s\S]*?\])\s*as const;/
   );
@@ -96,7 +101,8 @@ export function checkServiceActorS2sAttestation(): ServiceActorS2sAttestationVio
     violations.push({
       rule: "kernel-auth-actor-wire-missing",
       file: serviceActorWirePath,
-      message: "AuthActorIdentity wire contract is required for S2S attestation.",
+      message:
+        "AuthActorIdentity wire contract is required for S2S attestation.",
     });
   }
 
@@ -125,6 +131,22 @@ export function checkServiceActorS2sAttestation(): ServiceActorS2sAttestationVio
     }
   }
 
+  const handlerPath = join(
+    erpSrcRoot,
+    "server/api/runtime/create-api-handler.ts"
+  );
+  if (existsSync(handlerPath)) {
+    const handlerSource = readFileSync(handlerPath, "utf8");
+    if (!handlerSource.includes("assertApiRouteAuthPolicy")) {
+      violations.push({
+        rule: "handler-auth-policy-enforcement",
+        file: handlerPath,
+        message:
+          "create-api-handler.ts must enforce assertApiRouteAuthPolicy (ADR-0034).",
+      });
+    }
+  }
+
   if (!existsSync(registryPath)) {
     violations.push({
       rule: "registry-missing",
@@ -135,7 +157,8 @@ export function checkServiceActorS2sAttestation(): ServiceActorS2sAttestationVio
   }
 
   const registrySource = readFileSync(registryPath, "utf8");
-  const serviceActorBridgeWiring = parseServiceActorBridgeWiring(registrySource);
+  const serviceActorBridgeWiring =
+    parseServiceActorBridgeWiring(registrySource);
 
   if (serviceActorBridgeWiring.length === 0) {
     violations.push({

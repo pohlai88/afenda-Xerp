@@ -70,7 +70,9 @@ export function checkProcurementAuditOutboxContract(): ErpModuleFoundationViolat
     });
   }
 
-  if (sorted(PROCUREMENT_WIRE_AUDIT_ACTIONS).join("|") !== wireActions.join("|")) {
+  if (
+    sorted(PROCUREMENT_WIRE_AUDIT_ACTIONS).join("|") !== wireActions.join("|")
+  ) {
     violations.push({
       rule: "export-wire-parity",
       file: GATE,

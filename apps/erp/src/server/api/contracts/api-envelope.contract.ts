@@ -1,7 +1,7 @@
 import type { ApiErrorCategory, ApiErrorCode } from "./api-error.contract";
 import {
-  parseApiCorrelationIdentity,
   type ApiCorrelationIdentity,
+  parseApiCorrelationIdentity,
 } from "./core/api-audit-replay.contract";
 
 export interface ApiResponseMeta {

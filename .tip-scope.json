@@ -1,17 +1,20 @@
 {
-  "tip": "ui-phase-01",
-  "adr": "ADR-0001",
+  "tip": "presentation-pas006",
+  "adr": "ADR-0027",
   "allowedPaths": [
-    "packages/architecture-authority/src/data/dependency-registry.data.ts",
-    "packages/architecture-authority/dependency-snapshot.json",
-    "packages/design-system/**",
-    "packages/ui/package.json",
+    "packages/shadcn-studio/**",
     "apps/erp/**",
-    "pnpm-workspace.yaml",
-    "pnpm-lock.yaml",
+    "apps/storybook/**",
     ".tip-scope.json"
   ],
-  "forbiddenPaths": ["packages/database/**", "packages/permissions/**"],
-  "requiredGates": ["pnpm --filter @afenda/ui typecheck", "pnpm ui:guard:scan"],
-  "notes": "Legacy TIP scope file — prefer PAS slice handoffs under docs/PAS/**/SLICE/"
+  "forbiddenPaths": [
+    "packages/database/**",
+    "packages/permissions/**",
+    "packages/ui/**"
+  ],
+  "requiredGates": [
+    "pnpm --filter @afenda/shadcn-studio typecheck",
+    "pnpm check:studio-metadata-binding"
+  ],
+  "notes": "Legacy TIP scope file — prefer PAS slice handoffs under docs/PAS/**/SLICE/ · ui:guard retired (ADR-0027)"
 }

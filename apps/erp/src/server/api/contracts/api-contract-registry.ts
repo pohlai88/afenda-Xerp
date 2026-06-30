@@ -1,6 +1,6 @@
 import type { ApiRouteContract } from "./api-contract";
-import { buildApiOperationRegistry } from "./core/index";
 import { authMembershipsGetContract } from "./auth/auth-memberships.contract";
+import { buildApiOperationRegistry } from "./core/index";
 import { healthGetContract } from "./health.api-contract";
 import {
   inventoryProductsGetContract,

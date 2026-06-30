@@ -135,7 +135,10 @@ function vocabIsName(typeName: string): string {
   return `is${typeName}`;
 }
 
-function writeModule(spec: (typeof ERP_DOMAIN_VOCABULARY_MODULE_SPECS)[number], force: boolean): number {
+function writeModule(
+  spec: (typeof ERP_DOMAIN_VOCABULARY_MODULE_SPECS)[number],
+  force: boolean
+): number {
   const { slug, slice } = spec;
   const moduleDir = join(erpDomainRoot, slug);
   const indexPath = join(moduleDir, "index.ts");
@@ -524,11 +527,11 @@ export type assert${pascal}DomainVocabularyRegistryIntegrity =
     .join("\n");
 
   const idExports = idTypes
-    .map((idType) => {
-      return `  type ${idType},
+    .map(
+      (idType) => `  type ${idType},
   ${idToBrandFunction(idType)},
-  ${idToToFunction(idType)},`;
-    })
+  ${idToToFunction(idType)},`
+    )
     .join("\n");
 
   write(
@@ -595,7 +598,9 @@ ${vocabExports}
 `
   );
 
-  const vocabTestImports = spec.vocabs.map((v) => vocabIsName(v.type)).join(",\n  ");
+  const vocabTestImports = spec.vocabs
+    .map((v) => vocabIsName(v.type))
+    .join(",\n  ");
   const vocabTestLines = spec.vocabs
     .map((v) => {
       const isName = vocabIsName(v.type);

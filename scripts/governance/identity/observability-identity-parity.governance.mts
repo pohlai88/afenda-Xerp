@@ -3,8 +3,8 @@
  */
 
 import { CANONICAL_ID_PATTERN_SOURCE } from "../../../packages/kernel/src/identity/canonical/canonical-id-format.contract.ts";
-import { TENANT_HUMAN_REFERENCE_PATTERN_SOURCE } from "../../../packages/kernel/src/identity/primitives/primitive-brand.helpers.ts";
 import { UUID_V7_WIRE_PATTERN_SOURCE } from "../../../packages/kernel/src/identity/postgres/index.ts";
+import { TENANT_HUMAN_REFERENCE_PATTERN_SOURCE } from "../../../packages/kernel/src/identity/primitives/primitive-brand.helpers.ts";
 import {
   AUDIT_CANONICAL_ENTERPRISE_ID_PATTERN_SOURCE,
   AUDIT_TENANT_HUMAN_REFERENCE_PATTERN_SOURCE,
@@ -60,8 +60,7 @@ export function formatObservabilityIdentityParityViolations(
 
   return violations
     .map(
-      (v) =>
-        `[${v.field}] kernel=${v.kernel} observability=${v.observability}`
+      (v) => `[${v.field}] kernel=${v.kernel} observability=${v.observability}`
     )
     .join("\n");
 }

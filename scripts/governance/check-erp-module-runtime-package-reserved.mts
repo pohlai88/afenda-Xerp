@@ -7,9 +7,8 @@
 import { packageByName } from "../../packages/architecture-authority/src/data/package-registry.data.ts";
 import {
   type ErpModuleFoundationViolation,
-  getRepoRoot,
-  pathExists,
   PROCUREMENT_FOUNDATION_BUNDLE,
+  pathExists,
   reportViolations,
 } from "./erp-module-foundation-registry.mts";
 
@@ -52,7 +51,8 @@ function run(): readonly ErpModuleFoundationViolation[] {
     violations.push({
       rule: "runtime-package-filesystem",
       file: GATE,
-      message: `filesystemRequired must be false until ERP-PROC-FDN-001 ADR closes`,
+      message:
+        "filesystemRequired must be false until ERP-PROC-FDN-001 ADR closes",
     });
   }
 

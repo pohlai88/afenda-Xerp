@@ -1,7 +1,6 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
-
 import type { OperatingContext } from "@afenda/kernel";
 import { ok } from "@afenda/kernel";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 vi.mock("@afenda/auth", () => ({
   getAfendaAuthSession: vi.fn(),
@@ -21,9 +20,9 @@ import { resolveApiRouteOperatingContext } from "@/lib/api/resolve-api-route-ope
 import { resolveApiRouteAuthActor } from "@/lib/auth/resolve-api-route-auth-actor.server";
 import { SERVICE_ACTOR_REQUEST_HEADERS } from "@/lib/auth/resolve-service-actor.server";
 import { TENANT_SLUG_HEADER } from "@/lib/context/context.constants";
+import { SERVICE_ACTOR_BRIDGE_WIRING } from "@/lib/context/context-integration-registry";
 import { resolveOperatingContext } from "@/lib/context/resolve-operating-context.server";
 import { resolveOperatingContextOrchestrator } from "@/lib/context/resolve-operating-context-orchestrator.server";
-import { SERVICE_ACTOR_BRIDGE_WIRING } from "@/lib/context/context-integration-registry";
 
 function headersFromRecord(record: Record<string, string>): Headers {
   const headers = new Headers();

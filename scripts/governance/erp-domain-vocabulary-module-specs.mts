@@ -6,7 +6,19 @@ export interface ErpDomainVocabularySpec {
   readonly brandedIds: readonly string[];
   readonly businessReferenceNote: string;
   readonly permissions: Readonly<
-    Record<string, readonly ("read" | "create" | "manage" | "approve" | "cancel" | "submit" | "close" | "send")[]>
+    Record<
+      string,
+      readonly (
+        | "read"
+        | "create"
+        | "manage"
+        | "approve"
+        | "cancel"
+        | "submit"
+        | "close"
+        | "send"
+      )[]
+    >
   >;
   readonly prohibitedSurfaces: readonly string[];
   readonly rule: string;
@@ -28,7 +40,11 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
     rule: "Kernel may describe controlling words. It must not execute cost posting or allocation runtime.",
     businessReferenceNote:
       "CostCenterId and ProductId remain on kernel business-reference authority (PAS-001B Rule 2).",
-    brandedIds: ["CostAllocationRunId", "ActivityTypeId", "ProfitCenterReportId"],
+    brandedIds: [
+      "CostAllocationRunId",
+      "ActivityTypeId",
+      "ProfitCenterReportId",
+    ],
     vocabs: [
       {
         file: "cost-element-category",
@@ -62,7 +78,11 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       "variance.calculated",
       "plan.updated",
     ],
-    prohibitedSurfaces: ["cost-posting-service", "allocation-engine", "controlling-database-runtime"],
+    prohibitedSurfaces: [
+      "cost-posting-service",
+      "allocation-engine",
+      "controlling-database-runtime",
+    ],
     wireDefaultField: "defaultAllocationMethod",
     wireDefaultType: "AllocationMethod",
   },
@@ -72,7 +92,11 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
     rule: "Kernel may describe treasury words. It must not execute payment or cash management runtime.",
     businessReferenceNote:
       "BankAccountId remains on kernel business-reference authority (PAS-001B Rule 2).",
-    brandedIds: ["CashPositionSnapshotId", "PaymentRunId", "BankStatementImportId"],
+    brandedIds: [
+      "CashPositionSnapshotId",
+      "PaymentRunId",
+      "BankStatementImportId",
+    ],
     vocabs: [
       {
         file: "treasury-instrument-type",
@@ -100,8 +124,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       paymentRun: ["read", "create", "approve", "cancel"],
       hedge: ["read", "manage"],
     },
-    auditActions: ["payment.scheduled", "payment.sent", "cash.position_updated", "statement.imported"],
-    prohibitedSurfaces: ["payment-posting-service", "treasury-database-runtime", "hedge-valuation-engine"],
+    auditActions: [
+      "payment.scheduled",
+      "payment.sent",
+      "cash.position_updated",
+      "statement.imported",
+    ],
+    prohibitedSurfaces: [
+      "payment-posting-service",
+      "treasury-database-runtime",
+      "hedge-valuation-engine",
+    ],
     wireDefaultField: "defaultHedgeAccountingMethod",
     wireDefaultType: "HedgeAccountingMethod",
   },
@@ -111,7 +144,11 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
     rule: "Kernel may describe tax words. It must not execute tax filing or determination runtime.",
     businessReferenceNote:
       "TaxJurisdictionId remains on kernel business-reference authority (PAS-001B Rule 2).",
-    brandedIds: ["TaxDeclarationId", "TaxDeterminationContextId", "WithholdingRunId"],
+    brandedIds: [
+      "TaxDeclarationId",
+      "TaxDeterminationContextId",
+      "WithholdingRunId",
+    ],
     vocabs: [
       {
         file: "tax-jurisdiction-scope",
@@ -139,8 +176,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       withholding: ["read", "manage"],
       determination: ["read", "manage"],
     },
-    auditActions: ["declaration.filed", "declaration.accepted", "withholding.calculated", "rate.updated"],
-    prohibitedSurfaces: ["tax-filing-service", "tax-database-runtime", "withholding-posting-engine"],
+    auditActions: [
+      "declaration.filed",
+      "declaration.accepted",
+      "withholding.calculated",
+      "rate.updated",
+    ],
+    prohibitedSurfaces: [
+      "tax-filing-service",
+      "tax-database-runtime",
+      "withholding-posting-engine",
+    ],
     wireDefaultField: "defaultTaxCalculationMethod",
     wireDefaultType: "TaxCalculationMethod",
   },
@@ -178,8 +224,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       elimination: ["read", "manage"],
       reportingUnit: ["read", "manage"],
     },
-    auditActions: ["run.started", "run.posted", "elimination.recorded", "run.locked"],
-    prohibitedSurfaces: ["consolidation-posting-service", "group-reporting-engine", "consolidation-database-runtime"],
+    auditActions: [
+      "run.started",
+      "run.posted",
+      "elimination.recorded",
+      "run.locked",
+    ],
+    prohibitedSurfaces: [
+      "consolidation-posting-service",
+      "group-reporting-engine",
+      "consolidation-database-runtime",
+    ],
     wireDefaultField: "defaultReportingCurrencyMethod",
     wireDefaultType: "ReportingCurrencyMethod",
   },
@@ -189,7 +244,11 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
     rule: "Kernel may describe intercompany words. It must not execute IC matching or settlement runtime.",
     businessReferenceNote:
       "SupplierId and CustomerId remain on kernel business-reference authority (PAS-001B Rule 2).",
-    brandedIds: ["IntercompanyAgreementId", "IcMatchingRunId", "IcSettlementId"],
+    brandedIds: [
+      "IntercompanyAgreementId",
+      "IcMatchingRunId",
+      "IcSettlementId",
+    ],
     vocabs: [
       {
         file: "ic-transaction-type",
@@ -217,8 +276,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       matching: ["read", "create", "approve"],
       settlement: ["read", "create", "close"],
     },
-    auditActions: ["matching.started", "matching.settled", "agreement.created", "dispute.opened"],
-    prohibitedSurfaces: ["ic-matching-engine", "ic-settlement-service", "intercompany-database-runtime"],
+    auditActions: [
+      "matching.started",
+      "matching.settled",
+      "agreement.created",
+      "dispute.opened",
+    ],
+    prohibitedSurfaces: [
+      "ic-matching-engine",
+      "ic-settlement-service",
+      "intercompany-database-runtime",
+    ],
     wireDefaultField: "defaultIcSettlementMethod",
     wireDefaultType: "IcSettlementMethod",
   },
@@ -233,7 +301,14 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       {
         file: "production-order-status",
         type: "ProductionOrderStatus",
-        values: ["planned", "released", "in_progress", "completed", "closed", "cancelled"],
+        values: [
+          "planned",
+          "released",
+          "in_progress",
+          "completed",
+          "closed",
+          "cancelled",
+        ],
       },
       {
         file: "manufacturing-order-type",
@@ -256,8 +331,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       routing: ["read", "manage"],
       shopFloor: ["read", "create", "close"],
     },
-    auditActions: ["order.released", "order.completed", "scrap.recorded", "yield.recorded"],
-    prohibitedSurfaces: ["production-posting-service", "mrp-engine", "manufacturing-database-runtime"],
+    auditActions: [
+      "order.released",
+      "order.completed",
+      "scrap.recorded",
+      "yield.recorded",
+    ],
+    prohibitedSurfaces: [
+      "production-posting-service",
+      "mrp-engine",
+      "manufacturing-database-runtime",
+    ],
     wireDefaultField: "defaultCapacityPlanningMethod",
     wireDefaultType: "CapacityPlanningMethod",
   },
@@ -295,8 +379,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       notification: ["read", "manage"],
       sampleLot: ["read", "manage"],
     },
-    auditActions: ["inspection.completed", "notification.opened", "disposition.applied", "lot.sampled"],
-    prohibitedSurfaces: ["quality-posting-service", "inspection-engine", "quality-database-runtime"],
+    auditActions: [
+      "inspection.completed",
+      "notification.opened",
+      "disposition.applied",
+      "lot.sampled",
+    ],
+    prohibitedSurfaces: [
+      "quality-posting-service",
+      "inspection-engine",
+      "quality-database-runtime",
+    ],
     wireDefaultField: "defaultInspectionType",
     wireDefaultType: "InspectionType",
   },
@@ -334,8 +427,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       workRequest: ["read", "create", "cancel"],
       downtime: ["read", "manage"],
     },
-    auditActions: ["order.scheduled", "order.completed", "downtime.recorded", "request.created"],
-    prohibitedSurfaces: ["maintenance-posting-service", "pm-scheduling-engine", "maintenance-database-runtime"],
+    auditActions: [
+      "order.scheduled",
+      "order.completed",
+      "downtime.recorded",
+      "request.created",
+    ],
+    prohibitedSurfaces: [
+      "maintenance-posting-service",
+      "pm-scheduling-engine",
+      "maintenance-database-runtime",
+    ],
     wireDefaultField: "defaultMaintenancePriority",
     wireDefaultType: "MaintenancePriority",
   },
@@ -373,8 +475,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       deliveryRun: ["read", "manage"],
       transport: ["read", "manage"],
     },
-    auditActions: ["shipment.dispatched", "shipment.delivered", "leg.started", "exception.recorded"],
-    prohibitedSurfaces: ["fulfillment-posting-service", "tms-routing-engine", "supply-chain-database-runtime"],
+    auditActions: [
+      "shipment.dispatched",
+      "shipment.delivered",
+      "leg.started",
+      "exception.recorded",
+    ],
+    prohibitedSurfaces: [
+      "fulfillment-posting-service",
+      "tms-routing-engine",
+      "supply-chain-database-runtime",
+    ],
     wireDefaultField: "defaultTransportMode",
     wireDefaultType: "TransportMode",
   },
@@ -389,7 +500,13 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       {
         file: "order-status",
         type: "OrderStatus",
-        values: ["draft", "confirmed", "partially_shipped", "fulfilled", "cancelled"],
+        values: [
+          "draft",
+          "confirmed",
+          "partially_shipped",
+          "fulfilled",
+          "cancelled",
+        ],
       },
       {
         file: "quote-status",
@@ -412,8 +529,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       quote: ["read", "create", "send"],
       schedule: ["read", "manage"],
     },
-    auditActions: ["order.confirmed", "quote.sent", "quote.accepted", "order.fulfilled"],
-    prohibitedSurfaces: ["sales-posting-service", "order-allocation-engine", "sales-database-runtime"],
+    auditActions: [
+      "order.confirmed",
+      "quote.sent",
+      "quote.accepted",
+      "order.fulfilled",
+    ],
+    prohibitedSurfaces: [
+      "sales-posting-service",
+      "order-allocation-engine",
+      "sales-database-runtime",
+    ],
     wireDefaultField: "defaultPricingContext",
     wireDefaultType: "PricingContext",
   },
@@ -451,8 +577,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       opportunity: ["read", "create", "close"],
       activity: ["read", "create"],
     },
-    auditActions: ["lead.converted", "opportunity.won", "opportunity.lost", "activity.logged"],
-    prohibitedSurfaces: ["crm-sync-service", "lead-scoring-engine", "crm-database-runtime"],
+    auditActions: [
+      "lead.converted",
+      "opportunity.won",
+      "opportunity.lost",
+      "activity.logged",
+    ],
+    prohibitedSurfaces: [
+      "crm-sync-service",
+      "lead-scoring-engine",
+      "crm-database-runtime",
+    ],
     wireDefaultField: "defaultAccountTier",
     wireDefaultType: "AccountTier",
   },
@@ -490,8 +625,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       priceRule: ["read", "create", "approve"],
       discount: ["read", "approve"],
     },
-    auditActions: ["price_list.activated", "discount.approved", "rule.updated", "approval.rejected"],
-    prohibitedSurfaces: ["pricing-engine", "dynamic-pricing-service", "pricing-database-runtime"],
+    auditActions: [
+      "price_list.activated",
+      "discount.approved",
+      "rule.updated",
+      "approval.rejected",
+    ],
+    prohibitedSurfaces: [
+      "pricing-engine",
+      "dynamic-pricing-service",
+      "pricing-database-runtime",
+    ],
     wireDefaultField: "defaultPricingMethod",
     wireDefaultType: "PricingMethod",
   },
@@ -529,8 +673,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       billingCycle: ["read", "manage"],
       renewal: ["read", "manage"],
     },
-    auditActions: ["subscription.activated", "subscription.cancelled", "renewal.offered", "cycle.billed"],
-    prohibitedSurfaces: ["subscription-billing-service", "renewal-engine", "subscription-database-runtime"],
+    auditActions: [
+      "subscription.activated",
+      "subscription.cancelled",
+      "renewal.offered",
+      "cycle.billed",
+    ],
+    prohibitedSurfaces: [
+      "subscription-billing-service",
+      "renewal-engine",
+      "subscription-database-runtime",
+    ],
     wireDefaultField: "defaultBillingCycle",
     wireDefaultType: "BillingCycle",
   },
@@ -568,8 +721,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       checkout: ["read", "create"],
       webOrder: ["read", "manage", "cancel"],
     },
-    auditActions: ["cart.converted", "checkout.completed", "order.paid", "order.refunded"],
-    prohibitedSurfaces: ["checkout-payment-service", "cart-merge-engine", "ecommerce-database-runtime"],
+    auditActions: [
+      "cart.converted",
+      "checkout.completed",
+      "order.paid",
+      "order.refunded",
+    ],
+    prohibitedSurfaces: [
+      "checkout-payment-service",
+      "cart-merge-engine",
+      "ecommerce-database-runtime",
+    ],
     wireDefaultField: "defaultChannelType",
     wireDefaultType: "ChannelType",
   },
@@ -607,8 +769,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       transaction: ["read", "create", "cancel"],
       shift: ["read", "manage"],
     },
-    auditActions: ["session.opened", "session.closed", "transaction.voided", "shift.reconciled"],
-    prohibitedSurfaces: ["pos-tender-service", "drawer-reconciliation-engine", "pos-database-runtime"],
+    auditActions: [
+      "session.opened",
+      "session.closed",
+      "transaction.voided",
+      "shift.reconciled",
+    ],
+    prohibitedSurfaces: [
+      "pos-tender-service",
+      "drawer-reconciliation-engine",
+      "pos-database-runtime",
+    ],
     wireDefaultField: "defaultTenderType",
     wireDefaultType: "TenderType",
   },
@@ -646,8 +817,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       contract: ["read", "manage"],
       visit: ["read", "create"],
     },
-    auditActions: ["case.opened", "case.resolved", "case.closed", "visit.completed"],
-    prohibitedSurfaces: ["service-dispatch-service", "sla-engine", "service-database-runtime"],
+    auditActions: [
+      "case.opened",
+      "case.resolved",
+      "case.closed",
+      "visit.completed",
+    ],
+    prohibitedSurfaces: [
+      "service-dispatch-service",
+      "sla-engine",
+      "service-database-runtime",
+    ],
     wireDefaultField: "defaultServiceLevel",
     wireDefaultType: "ServiceLevel",
   },
@@ -662,7 +842,13 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       {
         file: "work-order-status",
         type: "WorkOrderStatus",
-        values: ["scheduled", "dispatched", "on_site", "completed", "cancelled"],
+        values: [
+          "scheduled",
+          "dispatched",
+          "on_site",
+          "completed",
+          "cancelled",
+        ],
       },
       {
         file: "dispatch-priority",
@@ -685,8 +871,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       dispatch: ["read", "manage"],
       route: ["read", "manage"],
     },
-    auditActions: ["work_order.dispatched", "visit.completed", "route.started", "visit.rescheduled"],
-    prohibitedSurfaces: ["dispatch-routing-service", "technician-tracking-engine", "field-service-database-runtime"],
+    auditActions: [
+      "work_order.dispatched",
+      "visit.completed",
+      "route.started",
+      "visit.rescheduled",
+    ],
+    prohibitedSurfaces: [
+      "dispatch-routing-service",
+      "technician-tracking-engine",
+      "field-service-database-runtime",
+    ],
     wireDefaultField: "defaultDispatchPriority",
     wireDefaultType: "DispatchPriority",
   },
@@ -696,7 +891,11 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
     rule: "Kernel may describe marketing words. It must not execute campaign delivery runtime.",
     businessReferenceNote:
       "CustomerId remains on kernel business-reference authority (PAS-001B Rule 2).",
-    brandedIds: ["MarketingCampaignId", "AudienceSegmentId", "ContentVariantId"],
+    brandedIds: [
+      "MarketingCampaignId",
+      "AudienceSegmentId",
+      "ContentVariantId",
+    ],
     vocabs: [
       {
         file: "campaign-status",
@@ -724,8 +923,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       segment: ["read", "manage"],
       content: ["read", "manage"],
     },
-    auditActions: ["campaign.launched", "campaign.paused", "segment.updated", "variant.published"],
-    prohibitedSurfaces: ["campaign-delivery-service", "attribution-engine", "marketing-database-runtime"],
+    auditActions: [
+      "campaign.launched",
+      "campaign.paused",
+      "segment.updated",
+      "variant.published",
+    ],
+    prohibitedSurfaces: [
+      "campaign-delivery-service",
+      "attribution-engine",
+      "marketing-database-runtime",
+    ],
     wireDefaultField: "defaultAttributionModel",
     wireDefaultType: "AttributionModel",
   },
@@ -755,7 +963,13 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       {
         file: "onboarding-step",
         type: "OnboardingStep",
-        values: ["offer", "paperwork", "provisioning", "orientation", "complete"],
+        values: [
+          "offer",
+          "paperwork",
+          "provisioning",
+          "orientation",
+          "complete",
+        ],
       },
     ],
     permissions: {
@@ -763,8 +977,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       onboarding: ["read", "manage"],
       review: ["read", "create", "close"],
     },
-    auditActions: ["requisition.opened", "requisition.filled", "review.closed", "onboarding.completed"],
-    prohibitedSurfaces: ["hcm-posting-service", "payroll-bridge", "hcm-database-runtime"],
+    auditActions: [
+      "requisition.opened",
+      "requisition.filled",
+      "review.closed",
+      "onboarding.completed",
+    ],
+    prohibitedSurfaces: [
+      "hcm-posting-service",
+      "payroll-bridge",
+      "hcm-database-runtime",
+    ],
     wireDefaultField: "defaultEmploymentType",
     wireDefaultType: "EmploymentType",
   },
@@ -802,8 +1025,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       payslip: ["read", "manage"],
       adjustment: ["read", "manage"],
     },
-    auditActions: ["run.calculated", "run.approved", "run.paid", "adjustment.applied"],
-    prohibitedSurfaces: ["payroll-calculation-service", "tax-withholding-engine", "payroll-database-runtime"],
+    auditActions: [
+      "run.calculated",
+      "run.approved",
+      "run.paid",
+      "adjustment.applied",
+    ],
+    prohibitedSurfaces: [
+      "payroll-calculation-service",
+      "tax-withholding-engine",
+      "payroll-database-runtime",
+    ],
     wireDefaultField: "defaultPayFrequency",
     wireDefaultType: "PayFrequency",
   },
@@ -841,8 +1073,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       task: ["read", "create", "manage"],
       timesheet: ["read", "submit", "approve"],
     },
-    auditActions: ["project.started", "project.completed", "timesheet.approved", "task.completed"],
-    prohibitedSurfaces: ["project-billing-service", "timesheet-posting-engine", "project-database-runtime"],
+    auditActions: [
+      "project.started",
+      "project.completed",
+      "timesheet.approved",
+      "task.completed",
+    ],
+    prohibitedSurfaces: [
+      "project-billing-service",
+      "timesheet-posting-engine",
+      "project-database-runtime",
+    ],
     wireDefaultField: "defaultBillingMethod",
     wireDefaultType: "BillingMethod",
   },
@@ -880,8 +1121,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       depreciation: ["read", "create", "approve"],
       transfer: ["read", "create", "approve"],
     },
-    auditActions: ["asset.capitalized", "depreciation.run", "asset.transferred", "asset.disposed"],
-    prohibitedSurfaces: ["depreciation-posting-service", "asset-valuation-engine", "assets-database-runtime"],
+    auditActions: [
+      "asset.capitalized",
+      "depreciation.run",
+      "asset.transferred",
+      "asset.disposed",
+    ],
+    prohibitedSurfaces: [
+      "depreciation-posting-service",
+      "asset-valuation-engine",
+      "assets-database-runtime",
+    ],
     wireDefaultField: "defaultDepreciationMethod",
     wireDefaultType: "DepreciationMethod",
   },
@@ -891,7 +1141,11 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
     rule: "Kernel may describe ERP business document words. Not platform CMS or storage runtime.",
     businessReferenceNote:
       "Business partner IDs remain on kernel business-reference authority (PAS-001B Rule 2).",
-    brandedIds: ["BusinessDocumentId", "DocumentRetentionCaseId", "FiscalAttachmentId"],
+    brandedIds: [
+      "BusinessDocumentId",
+      "DocumentRetentionCaseId",
+      "FiscalAttachmentId",
+    ],
     vocabs: [
       {
         file: "document-class",
@@ -919,8 +1173,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       retention: ["read", "manage"],
       attachment: ["read", "create"],
     },
-    auditActions: ["document.archived", "document.purged", "retention.applied", "attachment.linked"],
-    prohibitedSurfaces: ["document-storage-service", "cms-bridge", "document-database-runtime"],
+    auditActions: [
+      "document.archived",
+      "document.purged",
+      "retention.applied",
+      "attachment.linked",
+    ],
+    prohibitedSurfaces: [
+      "document-storage-service",
+      "cms-bridge",
+      "document-database-runtime",
+    ],
     wireDefaultField: "defaultRetentionPolicy",
     wireDefaultType: "RetentionPolicy",
   },
@@ -958,8 +1221,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       approval: ["read", "approve"],
       escalation: ["read", "manage"],
     },
-    auditActions: ["workflow.started", "workflow.completed", "approval.granted", "escalation.triggered"],
-    prohibitedSurfaces: ["bpm-engine", "workflow-database-runtime", "approval-routing-service"],
+    auditActions: [
+      "workflow.started",
+      "workflow.completed",
+      "approval.granted",
+      "escalation.triggered",
+    ],
+    prohibitedSurfaces: [
+      "bpm-engine",
+      "workflow-database-runtime",
+      "approval-routing-service",
+    ],
     wireDefaultField: "defaultTaskPriority",
     wireDefaultType: "TaskPriority",
   },
@@ -969,7 +1241,11 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
     rule: "Kernel may describe analytics words. It must not execute query engine runtime.",
     businessReferenceNote:
       "Tenant-scoped entity IDs remain on kernel authority (PAS-001B Rule 2).",
-    brandedIds: ["AnalyticsQueryId", "DashboardDefinitionId", "MetricSnapshotId"],
+    brandedIds: [
+      "AnalyticsQueryId",
+      "DashboardDefinitionId",
+      "MetricSnapshotId",
+    ],
     vocabs: [
       {
         file: "query-status",
@@ -997,8 +1273,17 @@ export const ERP_DOMAIN_VOCABULARY_MODULE_SPECS = [
       dashboard: ["read", "manage"],
       metric: ["read", "manage"],
     },
-    auditActions: ["query.validated", "dashboard.published", "metric.snapshot_created", "query.failed"],
-    prohibitedSurfaces: ["analytics-query-engine", "metric-compute-service", "analytics-database-runtime"],
+    auditActions: [
+      "query.validated",
+      "dashboard.published",
+      "metric.snapshot_created",
+      "query.failed",
+    ],
+    prohibitedSurfaces: [
+      "analytics-query-engine",
+      "metric-compute-service",
+      "analytics-database-runtime",
+    ],
     wireDefaultField: "defaultAggregationGrain",
     wireDefaultType: "AggregationGrain",
   },

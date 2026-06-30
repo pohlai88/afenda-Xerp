@@ -3,7 +3,7 @@
  * One-shot link rewrite: root PAS-005* paths + legacy slice/ → CSS-AUTHORITY composed SSOT.
  */
 
-import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -170,7 +170,7 @@ for (const file of walk(repoRoot)) {
     writeFileSync(file, next, "utf8");
     changed++;
     console.log(
-      `updated: ${file.replace(repoRoot + "\\", "").replace(repoRoot + "/", "")}`
+      `updated: ${file.replace(`${repoRoot}\\`, "").replace(`${repoRoot}/`, "")}`
     );
   }
 }

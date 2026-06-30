@@ -77,7 +77,8 @@ All commands: `disable-model-invocation: true`.
 
 | Skill | Class | `paths` | Trigger | Gates |
 | --- | --- | --- | --- | --- |
-| `shadcn-studio` | UI MCP | `packages/shadcn-studio/**`, `apps/erp/**`, `apps/storybook/**` | MCP install, blocks, ERP wiring | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm check:downstream-integration` |
+| `shadcn-studio` | UI MCP | `packages/shadcn-studio/**`, `apps/erp/**`, `apps/storybook/**` | MCP install, blocks, ERP wiring | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm check:studio-metadata-binding` |
+| `afenda-presentation-quality` | UI composer | `apps/erp/**`, `packages/shadcn-studio/**` | PAS-006 gate bundle · replaces retired ui-consistency-bundle | PAS-006 gates (see skill) |
 | `afenda-tailwind` | Afenda domain | `**/*.css`, `apps/erp/**`, `packages/shadcn-studio/**` | Tailwind v4, ERP globals.css | `pnpm quality:css` |
 | `package-css-dist-sync` | UI infra | `packages/shadcn-studio/src/styles/**` | shadcn-studio CSS dist sync | `pnpm check:package-css-dist-sync` |
 | `afenda-storybook` | UI | `apps/storybook/**` | shadcn-studio Storybook lab | `pnpm --filter @afenda/storybook storybook:build` |

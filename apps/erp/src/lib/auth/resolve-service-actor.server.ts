@@ -1,8 +1,9 @@
 /**
  * PAS-001A R2 — service / delegated_application S2S actor ingress (E12 · B113 vocabulary).
  *
- * Parses kernel AuthActorIdentity from request headers at the ERP trust boundary.
- * OAuth/token verification lives outside kernel — shape validation only.
+ * Production stance (ADR-0034): human-session internal v1 only.
+ * Header parsing is shape validation only — not cryptographically verified.
+ * Forged S2S headers are rejected by createApiHandler on session/public routes.
  */
 
 import {

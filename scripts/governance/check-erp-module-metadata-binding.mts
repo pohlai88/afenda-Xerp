@@ -29,11 +29,15 @@ function run(): readonly ErpModuleFoundationViolation[] {
     }
   }
 
-  const metadataFailures = collectModuleReadinessFailures(bundle).filter(
-    (f) => f.includes("metadata")
+  const metadataFailures = collectModuleReadinessFailures(bundle).filter((f) =>
+    f.includes("metadata")
   );
   for (const failure of metadataFailures) {
-    violations.push({ rule: "metadata-readiness", file: GATE, message: failure });
+    violations.push({
+      rule: "metadata-readiness",
+      file: GATE,
+      message: failure,
+    });
   }
 
   return violations;

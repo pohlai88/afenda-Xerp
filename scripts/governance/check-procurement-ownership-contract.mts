@@ -1,11 +1,12 @@
 #!/usr/bin/env tsx
+
 /**
  * ERP-PROC-OP-002 — procurement ownership contract drift gate.
  * Compares features-package PROCUREMENT_OWNERSHIP_CONTRACT to foundation bundle ownership.
  */
 
-import { PROCUREMENT_FOUNDATION_BUNDLE } from "../../packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts";
 import { MODULE_OWNERSHIP_SURFACES } from "../../packages/erp-module-foundation/src/erp-module-foundation.types.ts";
+import { PROCUREMENT_FOUNDATION_BUNDLE } from "../../packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts";
 import { PROCUREMENT_OWNERSHIP_CONTRACT } from "../../packages/features/erp-modules/src/procurement/procurement.ownership.contract.ts";
 import {
   type ErpModuleFoundationViolation,

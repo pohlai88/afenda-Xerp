@@ -8,8 +8,8 @@ export const LEGACY_DELIVERY_TERMINOLOGY_SURFACE_RULE =
 
 export interface LegacyDeliveryTerminologyPattern {
   readonly id: string;
-  readonly pattern: RegExp;
   readonly label: string;
+  readonly pattern: RegExp;
 }
 
 /** Patterns that must not appear outside allowed historical paths. */

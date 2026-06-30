@@ -77,7 +77,9 @@ describe("ApiValidationDirectionPolicy", () => {
       return;
     }
 
-    expect(classifyOperationExposure(createProduct.authPolicy)).toBe("protected");
+    expect(classifyOperationExposure(createProduct.authPolicy)).toBe(
+      "protected"
+    );
     expect(classifyOperationInteraction(createProduct.method)).toBe("mutation");
 
     const policy = resolveValidationDirectionPolicy(createProduct);

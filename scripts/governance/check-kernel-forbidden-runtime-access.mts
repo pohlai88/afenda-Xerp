@@ -27,7 +27,8 @@ const FORBIDDEN_IMPORT_PATTERNS = [
     rule: "forbidden-workspace-import",
     pattern:
       /from\s+["'](@afenda\/(?:database|auth|permissions|execution|observability|appshell|erp)|apps\/erp)/,
-    message: "Kernel must not import runtime workspace packages (PAS §10 rule 2).",
+    message:
+      "Kernel must not import runtime workspace packages (PAS §10 rule 2).",
   },
   {
     rule: "forbidden-ui-runtime-import",
@@ -42,7 +43,8 @@ const FORBIDDEN_IMPORT_PATTERNS = [
   {
     rule: "forbidden-node-fs-import",
     pattern: /from\s+["']node:fs["']/,
-    message: "Kernel production source must not import node:fs (PAS §10 rule 2).",
+    message:
+      "Kernel production source must not import node:fs (PAS §10 rule 2).",
   },
   {
     rule: "forbidden-node-http-import",
@@ -119,14 +121,16 @@ export function checkKernelForbiddenRuntimeAccess(): KernelForbiddenRuntimeAcces
     const relativePath = relative(repoRoot, filePath).replace(/\\/g, "/");
     const source = stripComments(readFileSync(filePath, "utf8"));
 
-    if (/from\s+["']node:async_hooks["']/.test(source)) {
-      if (!APPROVED_NODE_ASYNC_HOOKS.has(relativePath)) {
-        violations.push({
-          rule: "forbidden-node-async-hooks-import",
-          file: filePath,
-          message: `node:async_hooks is approved only in propagation/kernel-context.ts (PAS §10).`,
-        });
-      }
+    if (
+      /from\s+["']node:async_hooks["']/.test(source) &&
+      !APPROVED_NODE_ASYNC_HOOKS.has(relativePath)
+    ) {
+      violations.push({
+        rule: "forbidden-node-async-hooks-import",
+        file: filePath,
+        message:
+          "node:async_hooks is approved only in propagation/kernel-context.ts (PAS §10).",
+      });
     }
 
     for (const { rule, pattern, message } of FORBIDDEN_IMPORT_PATTERNS) {

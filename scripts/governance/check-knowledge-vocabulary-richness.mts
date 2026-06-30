@@ -21,12 +21,16 @@ function main(): void {
 
   if (errors.length > 0) {
     console.error(formatKnowledgeVocabularyRichnessErrors(errors));
-    console.error(`vocabulary-richness-rule: ${KNOWLEDGE_VOCABULARY_RICHNESS_RULE}`);
+    console.error(
+      `vocabulary-richness-rule: ${KNOWLEDGE_VOCABULARY_RICHNESS_RULE}`
+    );
     process.exit(1);
   }
 
   console.log(formatKnowledgeVocabularyRichnessErrors(errors));
-  console.log(`vocabulary-richness-rule: ${KNOWLEDGE_VOCABULARY_RICHNESS_RULE}`);
+  console.log(
+    `vocabulary-richness-rule: ${KNOWLEDGE_VOCABULARY_RICHNESS_RULE}`
+  );
 }
 
 main();

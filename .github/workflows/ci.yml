@@ -46,6 +46,9 @@ jobs:
 
       - name: Gate 3 · test (affected on PR)
         if: github.event_name == 'pull_request'
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
         run: pnpm test:run:affected
 
       - name: Gate 3 · test (full on main)

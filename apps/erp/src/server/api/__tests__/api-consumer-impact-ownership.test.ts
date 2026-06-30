@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import { API_CONTRACTS } from "@/server/api/contracts/api-contract-registry";
 import {
   API_CONSUMER_IMPACT_CLASSES,
-  assertRegistryConsumerImpactPolicy,
   assertActiveOperationOwnership,
+  assertRegistryConsumerImpactPolicy,
   buildOperationConsumerImpactRegistry,
   buildOperationOwnershipRegistry,
   resolveConsumerImpactDeclaration,

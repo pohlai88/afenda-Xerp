@@ -6,7 +6,8 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-
+import { isErpDomainPas004ContestedClassificationContract } from "../../packages/kernel/src/erp-domain/catalog/pas004-label-trace.contract.ts";
+import { WIRE_CLASSIFICATION_PAS004_LABEL_TRACE_ENTRIES } from "../../packages/kernel/src/erp-domain/catalog/wire-classification-label-traces.registry.ts";
 import {
   ERP_DOMAIN_DELIVERED_MODULES,
   ERP_DOMAIN_MODULE_MATURITY,
@@ -18,17 +19,12 @@ import {
   ERP_DOMAIN_DELIVERED_VOCABULARY_GATE,
   ERP_DOMAIN_DELIVERED_VOCABULARY_GATE_COMMAND,
   ERP_DOMAIN_DELIVERED_VOCABULARY_PACKAGE_SCRIPT,
-  ERP_DOMAIN_DELIVERED_VOCABULARY_SURFACE_RULE,
-  ERP_DOMAIN_ERP_SCAN_SKIP_DIR_NAMES,
-  ERP_DOMAIN_ERP_SOURCE_ROOT,
   ERP_DOMAIN_FORBIDDEN_RELATIVE_DIR_SUFFIXES,
   ERP_DOMAIN_FORBIDDEN_SOURCE_PATTERNS,
   ERP_DOMAIN_MODULE_RETIRED_PACKAGE_ROOTS,
   ERP_DOMAIN_RUNTIME_SERVICE_FILENAME_PATTERN,
   ERP_DOMAIN_RUNTIME_SOURCE_KEYWORDS,
 } from "./erp-domain-delivered-vocabulary-registry.mts";
-import { WIRE_CLASSIFICATION_PAS004_LABEL_TRACE_ENTRIES } from "../../packages/kernel/src/erp-domain/catalog/wire-classification-label-traces.registry.ts";
-import { isErpDomainPas004ContestedClassificationContract } from "../../packages/kernel/src/erp-domain/catalog/pas004-label-trace.contract.ts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,
@@ -280,7 +276,11 @@ export function checkErpDomainDeliveredVocabulary(
 
   if (existsSync(rootPackageJsonPath)) {
     const rootPackageJson = readFileSync(rootPackageJsonPath, "utf8");
-    if (!rootPackageJson.includes(`"${ERP_DOMAIN_DELIVERED_VOCABULARY_PACKAGE_SCRIPT}"`)) {
+    if (
+      !rootPackageJson.includes(
+        `"${ERP_DOMAIN_DELIVERED_VOCABULARY_PACKAGE_SCRIPT}"`
+      )
+    ) {
       violations.push({
         rule: "package-script-missing",
         file: rootPackageJsonPath,
@@ -297,7 +297,11 @@ export function checkErpDomainDeliveredVocabulary(
   if (deliveredCount !== maturityDelivered) {
     violations.push({
       rule: "delivered-count-drift",
-      file: join(root, ERP_DOMAIN_CONTRACTS_ROOT, "erp-domain-layout.contract.ts"),
+      file: join(
+        root,
+        ERP_DOMAIN_CONTRACTS_ROOT,
+        "erp-domain-layout.contract.ts"
+      ),
       message: `ERP_DOMAIN_DELIVERED_MODULES (${deliveredCount}) != maturity delivered count (${maturityDelivered})`,
     });
   }

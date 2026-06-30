@@ -40,7 +40,11 @@ function run(): readonly ErpModuleFoundationViolation[] {
   for (const failure of collectModuleStatusRequirementFailures(
     PROCUREMENT_FOUNDATION_BUNDLE
   ).filter((f) => f.includes("contextSpine"))) {
-    violations.push({ rule: "context-spine-status", file: GATE, message: failure });
+    violations.push({
+      rule: "context-spine-status",
+      file: GATE,
+      message: failure,
+    });
   }
 
   return violations;

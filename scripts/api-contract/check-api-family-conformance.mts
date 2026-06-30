@@ -2,10 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 
 const repoRoot = join(import.meta.dirname, "../..");
-const contractsRoot = join(
-  repoRoot,
-  "apps/erp/src/server/api/contracts"
-);
+const contractsRoot = join(repoRoot, "apps/erp/src/server/api/contracts");
 
 interface ApiFamilyInvariantMapping {
   readonly invariant: string;
@@ -34,7 +31,10 @@ export const API_FAMILY_INVARIANT_MAP = [
     surfaces: [
       {
         relativePath: "core/api-registry.contract.ts",
-        exportMarkers: ["buildApiOperationRegistry", "ApiOperationRegistryEntry"],
+        exportMarkers: [
+          "buildApiOperationRegistry",
+          "ApiOperationRegistryEntry",
+        ],
       },
       {
         relativePath: "core/api-style.contract.ts",
@@ -107,7 +107,10 @@ export const API_FAMILY_INVARIANT_MAP = [
     surfaces: [
       {
         relativePath: "core/api-policy.contract.ts",
-        exportMarkers: ["resolvePermissionDeclaration", "ApiPermissionDeclaration"],
+        exportMarkers: [
+          "resolvePermissionDeclaration",
+          "ApiPermissionDeclaration",
+        ],
       },
     ],
   },
@@ -150,11 +153,17 @@ export const API_FAMILY_INVARIANT_MAP = [
     surfaces: [
       {
         relativePath: "core/api-lifecycle.contract.ts",
-        exportMarkers: ["mapRouteLifecycleToFamily", "ApiFamilyLifecycleStatus"],
+        exportMarkers: [
+          "mapRouteLifecycleToFamily",
+          "ApiFamilyLifecycleStatus",
+        ],
       },
       {
         relativePath: "lifecycle.contract.ts",
-        exportMarkers: ["API_ROUTE_LIFECYCLE_STATUSES", "ApiRouteLifecycleStatus"],
+        exportMarkers: [
+          "API_ROUTE_LIFECYCLE_STATUSES",
+          "ApiRouteLifecycleStatus",
+        ],
       },
     ],
   },
@@ -226,7 +235,7 @@ const REST_BINDING_IMPORT_SURFACES = [
       "./core/api-exception.contract",
     ],
     /** When using barrel, policy/validation/exception must still be reachable via re-export. */
-    requiredAllWhenBarrel: ["export * from \"./core/index\""],
+    requiredAllWhenBarrel: ['export * from "./core/index"'],
   },
   {
     relativePath: "api-envelope.contract.ts",
@@ -274,9 +283,7 @@ function collectRestBindingImportViolations(): string[] {
     const absolutePath = join(contractsRoot, surface.relativePath);
 
     if (!existsSync(absolutePath)) {
-      violations.push(
-        `REST binding: missing surface ${surface.relativePath}`
-      );
+      violations.push(`REST binding: missing surface ${surface.relativePath}`);
       continue;
     }
 
@@ -293,10 +300,7 @@ function collectRestBindingImportViolations(): string[] {
       continue;
     }
 
-    if (
-      "requiredAllWhenBarrel" in surface &&
-      source.includes("./core/index")
-    ) {
+    if ("requiredAllWhenBarrel" in surface && source.includes("./core/index")) {
       for (const marker of surface.requiredAllWhenBarrel) {
         if (!source.includes(marker)) {
           violations.push(
@@ -322,10 +326,11 @@ async function collectRuntimeRegistryViolations(): Promise<string[]> {
     violations.push("API_OPERATION_REGISTRY is empty");
   }
 
-  if (registryModule.API_CONTRACTS.length !== registryModule.API_OPERATION_REGISTRY.length) {
-    violations.push(
-      "API_CONTRACTS and API_OPERATION_REGISTRY length mismatch"
-    );
+  if (
+    registryModule.API_CONTRACTS.length !==
+    registryModule.API_OPERATION_REGISTRY.length
+  ) {
+    violations.push("API_CONTRACTS and API_OPERATION_REGISTRY length mismatch");
   }
 
   const requiredCoreExports = [

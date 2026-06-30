@@ -72,9 +72,7 @@ function readJson(path: string): Record<string, unknown> {
   return JSON.parse(readFileSync(path, "utf8")) as Record<string, unknown>;
 }
 
-function checkRetiredPackagesAbsent(
-  violations: DownstreamViolation[]
-): void {
+function checkRetiredPackagesAbsent(violations: DownstreamViolation[]): void {
   for (const dir of RETIRED_PACKAGE_DIRS) {
     const packageJsonPath = join(repoRoot, dir, "package.json");
     if (existsSync(packageJsonPath)) {
@@ -174,7 +172,9 @@ function checkCssImports(
   }
 
   if (label === "ERP globals") {
-    const shadcnIdx = imports.indexOf("@afenda/shadcn-studio/shadcn-studio.css");
+    const shadcnIdx = imports.indexOf(
+      "@afenda/shadcn-studio/shadcn-studio.css"
+    );
     const tailwindIdx = imports.indexOf("tailwindcss");
     const shadcnTailwindIdx = imports.indexOf("shadcn/tailwind.css");
     if (

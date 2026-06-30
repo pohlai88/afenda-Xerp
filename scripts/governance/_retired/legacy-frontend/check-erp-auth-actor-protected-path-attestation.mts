@@ -6,7 +6,7 @@
  * @afenda/auth wire ingress (Blueprint §6 consumer attestation).
  */
 
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -100,9 +100,11 @@ const REQUIRED_PROTECTED_PATH_MARKERS: readonly {
   },
 ];
 
-function parseAuthActorBridgeWiring(
-  source: string
-): readonly { readonly id: string; readonly module: string; readonly delegate: string }[] {
+function parseAuthActorBridgeWiring(source: string): readonly {
+  readonly id: string;
+  readonly module: string;
+  readonly delegate: string;
+}[] {
   const match = source.match(
     /export const AUTH_ACTOR_BRIDGE_WIRING\s*=\s*(\[[\s\S]*?\])\s*as const;/
   );
@@ -148,10 +150,7 @@ function listProtectedLibFiles(directory: string): string[] {
       continue;
     }
 
-    if (
-      /\.(ts|tsx)$/.test(entry.name) &&
-      !/\.(test|spec)\./.test(entry.name)
-    ) {
+    if (/\.(ts|tsx)$/.test(entry.name) && !/\.(test|spec)\./.test(entry.name)) {
       files.push(fullPath);
     }
   }
@@ -169,14 +168,7 @@ function sourceIncludesAnyMarker(
 export function checkAuthActorProtectedPathAttestation(): AuthActorProtectedPathAttestationViolation[] {
   const violations: AuthActorProtectedPathAttestationViolation[] = [];
 
-  if (!existsSync(authActorWirePath)) {
-    violations.push({
-      rule: "auth-wire-missing",
-      file: authActorWirePath,
-      message:
-        "Missing @afenda/auth actor wire ingress (PAS-001 §4.1.11).",
-    });
-  } else {
+  if (existsSync(authActorWirePath)) {
     const authWireSource = readFileSync(authActorWirePath, "utf8");
     for (const fn of [
       "parseAuthActorIdentityFromAfendaAuthSession",
@@ -190,6 +182,12 @@ export function checkAuthActorProtectedPathAttestation(): AuthActorProtectedPath
         });
       }
     }
+  } else {
+    violations.push({
+      rule: "auth-wire-missing",
+      file: authActorWirePath,
+      message: "Missing @afenda/auth actor wire ingress (PAS-001 §4.1.11).",
+    });
   }
 
   for (const requirement of REQUIRED_PROTECTED_PATH_MARKERS) {
@@ -242,7 +240,8 @@ export function checkAuthActorProtectedPathAttestation(): AuthActorProtectedPath
     violations.push({
       rule: "auth-actor-bridge-wiring-missing",
       file: registryPath,
-      message: "AUTH_ACTOR_BRIDGE_WIRING must declare protected-path auth actor entries.",
+      message:
+        "AUTH_ACTOR_BRIDGE_WIRING must declare protected-path auth actor entries.",
     });
     return violations;
   }

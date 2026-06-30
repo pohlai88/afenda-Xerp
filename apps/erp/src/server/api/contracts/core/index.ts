@@ -4,6 +4,11 @@
  */
 
 export {
+  type ApiAuditReplayMinimumRecord,
+  type ApiCorrelationId,
+  type ApiCorrelationIdentity,
+  type ApiCorrelationPolicy,
+  type ApiRequestId,
   assertRegistryCorrelationPolicy,
   buildAuditReplayMinimumRecord,
   parseApiCorrelationId,
@@ -12,52 +17,59 @@ export {
   resolveCorrelationPolicy,
   unbrandApiCorrelationId,
   unbrandApiRequestId,
-  type ApiAuditReplayMinimumRecord,
-  type ApiCorrelationId,
-  type ApiCorrelationIdentity,
-  type ApiCorrelationPolicy,
-  type ApiRequestId,
 } from "./api-audit-replay.contract";
+export {
+  API_CONSUMER_IMPACT_CLASSES,
+  type ApiConsumerImpactClass,
+  type ApiConsumerImpactDeclaration,
+  type ApiOperationConsumerImpactDeclaration,
+  assertRegistryConsumerImpactPolicy,
+  buildOperationConsumerImpactRegistry,
+  resolveConsumerImpactDeclaration,
+} from "./api-consumer-impact.contract";
 export {
   API_GOVERNANCE_EXCEPTION_DEFERRAL_KINDS,
   API_GOVERNANCE_EXCEPTION_REGISTRY,
+  type ApiGovernanceExceptionDeferralKind,
+  type ApiGovernanceExceptionRecord,
   assertGovernanceExceptionRecordShape,
   assertNoExpiredGovernanceExceptions,
   collectGovernanceExceptionViolations,
   defineGovernanceException,
   isGovernanceExceptionExpired,
-  type ApiGovernanceExceptionDeferralKind,
-  type ApiGovernanceExceptionRecord,
 } from "./api-exception.contract";
 export {
-  API_CONSUMER_IMPACT_CLASSES,
-  assertRegistryConsumerImpactPolicy,
-  buildOperationConsumerImpactRegistry,
-  resolveConsumerImpactDeclaration,
-  type ApiConsumerImpactClass,
-  type ApiConsumerImpactDeclaration,
-  type ApiOperationConsumerImpactDeclaration,
-} from "./api-consumer-impact.contract";
-export {
+  type ApiBreakingChangeClass,
+  type ApiFamilyLifecycleStatus,
+  type ApiLifecycleMigrationMetadata,
+  type ApiOperationLifecycleDeclaration,
   assertLifecycleMigrationRule,
   assertRegistryLifecyclePolicy,
   buildOperationLifecycleRegistry,
   extractOperationLifecycleDeclaration,
   mapRouteLifecycleToFamily,
   resolveBreakingChangeClass,
-  type ApiBreakingChangeClass,
-  type ApiFamilyLifecycleStatus,
-  type ApiLifecycleMigrationMetadata,
-  type ApiOperationLifecycleDeclaration,
 } from "./api-lifecycle.contract";
 export {
+  type ApiOperationId,
+  assertUniqueApiOperationIds,
+  type Brand,
+  isValidApiOperationIdFormat,
+  parseApiOperationId,
+  unbrandApiOperationId,
+} from "./api-operation-id.contract";
+export {
+  type ApiOperationOwnershipMetadata,
+  type ApiOperationOwnershipOverride,
   assertActiveOperationOwnership,
   buildOperationOwnershipRegistry,
   resolveOperationOwnership,
-  type ApiOperationOwnershipMetadata,
-  type ApiOperationOwnershipOverride,
 } from "./api-ownership.contract";
 export {
+  type ApiActorPolicy,
+  type ApiOperatingContextPolicyDeclaration,
+  type ApiOperationPolicyDeclaration,
+  type ApiPermissionDeclaration,
   assertRegistryOperationPolicyDeclarations,
   buildOperationPolicyDeclarationRegistry,
   extractOperationPolicyDeclaration,
@@ -66,32 +78,29 @@ export {
   resolveActorPolicy,
   resolveOperatingContextPolicyDeclaration,
   resolvePermissionDeclaration,
-  type ApiActorPolicy,
-  type ApiOperatingContextPolicyDeclaration,
-  type ApiOperationPolicyDeclaration,
-  type ApiPermissionDeclaration,
 } from "./api-policy.contract";
 export {
-  assertUniqueApiOperationIds,
-  isValidApiOperationIdFormat,
-  parseApiOperationId,
-  unbrandApiOperationId,
-  type ApiOperationId,
-  type Brand,
-} from "./api-operation-id.contract";
-export {
+  type ApiOperationRegistryEntry,
   buildApiOperationRegistry,
   findRegistryEntryByOperationId,
   getRegistryOperationIds,
-  type ApiOperationRegistryEntry,
 } from "./api-registry.contract";
 export {
   API_STYLE_BINDINGS,
-  getActiveStyleBindings,
   type ApiStyleBinding,
   type ApiStyleKind,
+  getActiveStyleBindings,
 } from "./api-style.contract";
 export {
+  type ApiEgressValidationPolicy,
+  type ApiIngressValidationPolicy,
+  type ApiOperationExposureClass,
+  type ApiOperationInteractionClass,
+  type ApiOperationSchemaAuthority,
+  type ApiSchemaAuthority,
+  type ApiSchemaAuthorityRef,
+  type ApiSchemaKind,
+  type ApiValidationDirectionPolicy,
   assertRegistrySchemaAuthority,
   assertRegistryValidationDirection,
   buildOperationSchemaAuthorityRegistry,
@@ -104,13 +113,4 @@ export {
   parseApiSchemaAuthorityRef,
   resolveValidationDirectionPolicy,
   unbrandApiSchemaAuthorityRef,
-  type ApiEgressValidationPolicy,
-  type ApiIngressValidationPolicy,
-  type ApiOperationExposureClass,
-  type ApiOperationInteractionClass,
-  type ApiOperationSchemaAuthority,
-  type ApiSchemaAuthority,
-  type ApiSchemaAuthorityRef,
-  type ApiSchemaKind,
-  type ApiValidationDirectionPolicy,
 } from "./api-validation.contract";

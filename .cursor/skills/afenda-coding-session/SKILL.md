@@ -95,9 +95,9 @@ never *redefine* it locally.
 | Authority | Owning package(s) | Owns | Consumers may NOT |
 |-----------|-------------------|------|-------------------|
 | **Architecture** | `packages/architecture-authority` | Allowed dependency directions, package boundaries | Cross-import outside declared boundaries |
-| **CSS Authority** | `@afenda/css-authority` | CSS tokens, runtime bridge, `CSS-TOKEN-*` registry | Define local tokens / recipes / variants |
-| **UI Primitive Governance** | `@afenda/ui` | Governed primitives, `resolvePrimitiveGovernance()` | Add `className` to `@afenda/ui` primitives |
-| **Metadata UI** | `packages/ui-composition`, `packages/metadata-ui` | UI composition contracts, layouts | Invent local metadata contracts |
+| **CSS Authority (retired ERP)** | `_retired/` archive only | Historical PAS-005 — **do not use for ERP** | Define local tokens in ERP |
+| **Presentation (PAS-006)** | `@afenda/shadcn-studio` | Blocks, metadata binding, studio CSS | Import `@afenda/ui` / appshell (removed) |
+| **Metadata UI (ERP consumer)** | `apps/erp/src/lib/metadata/` | IS-003 operator surface hydration | Invent local metadata contracts |
 | **Kernel / Multi-tenancy** | `packages/kernel` | Operating-context + tenant resolution | Inline tenant/context lookups |
 | **Database** | `packages/database` | Schema, migrations, RLS | Hand-edit migrations; raw cross-tenant queries |
 | **Permission** | `packages/permissions`, `packages/entitlements` | Capabilities, policy checks | Define local permission constants |
@@ -115,7 +115,7 @@ Before writing any code, confirm:
 [ ] Stated the §0 execution contract?  (objective, layer, files, prohibited, authority, gates)
 [ ] Checked §0.1 anti-drift hard stops? (none triggered, or escalated)
 [ ] Which layer am I editing?          (see §2 — layer order)
-[ ] Does the change touch @afenda/ui?  (see §6 — Governed UI governance)
+[ ] Does the change touch ERP presentation?  (see §6 — PAS-006 / shadcn-studio)
 [ ] Does it touch apps/erp/**?         (read Next.js docs via MCP before guessing)
 [ ] Are existing tests passing?        pnpm typecheck && pnpm test:run
 ```
@@ -302,46 +302,25 @@ await db.transaction(async (tx) => {
 
 ---
 
-## 6 · Afenda UI governance (Governed UI)
+## 6 · ERP presentation (PAS-006 · ADR-0027)
 
-Two layers. Do not confuse them.
+**Authority:** [`.cursor/skills/shadcn-studio/SKILL.md`](../shadcn-studio/SKILL.md) · [`docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md`](../../../docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md)
 
-| Layer | Files | className rule |
-|-------|-------|---------------|
-| **Author** | `packages/ui/src/components/` | Via `resolvePrimitiveGovernance()` only — no raw Tailwind |
-| **Consumer** | `packages/appshell/`, `packages/metadata-ui/`, `apps/erp/` | **Zero** `className` on any `@afenda/ui` primitive |
+**Retired for ERP:** `ui:guard*`, `@afenda/ui`, `@afenda/appshell`, `govern-primitive`, `ui-consistency-bundle` — archived under `.cursor/skills/_retired/legacy-ui/`.
 
-### Consumer pattern
-```tsx
-// ✅ Governed props only — no className on @afenda/ui
-<Button {...mapStockButtonProps("ghost", "icon-lg")} />
-<Badge emphasis="soft" tone="neutral">8 New</Badge>
-
-// ✅ Layout chrome on plain HTML only
-<div className="relative flex items-center gap-2">
-  <Button {...mapStockButtonProps("ghost", "icon-lg")} />
-  <span className="absolute right-0 size-2 bg-destructive rounded-full" aria-hidden />
-</div>
-
-// ❌ Studio copy-paste className pollution
-<SheetContent className="gap-0 sm:max-w-md" />
-<Button className="relative" />
-```
-
-### Imports
-```ts
-import { Button, Badge } from "@afenda/ui";
-import { mapStockButtonProps } from "@afenda/ui/governance";
-// Never: import from "@/components/ui" or local re-export barrels
-```
+| Layer | Files | Rule |
+|-------|-------|------|
+| **Manufacturing** | `packages/shadcn-studio/src/**` | MCP blocks, metadata binding registries, `data-afenda-slot` markers |
+| **ERP consumer** | `apps/erp/src/lib/metadata/**`, route pages | Compose studio blocks via PAS-006D templates — no local presentation SSOT |
+| **CSS** | `packages/shadcn-studio/src/styles/**`, `apps/erp/src/app/globals.css` | Unprefixed shadcn vars via studio chain — sync dist after CSS edits |
 
 ### After installing a shadcn-studio block
-1. Move to `packages/appshell/src/shadcn-studio/blocks/`
-2. Strip all `className` from `@afenda/ui` components
-3. `pnpm ui:guard:scan` — fast Gate D check (< 2 s)
-4. `pnpm --filter @afenda/appshell test:run`
+1. Install cwd: `packages/shadcn-studio` (MCP workflow)
+2. Register metadata binding + slot markers per PAS-006
+3. `pnpm check:studio-metadata-binding` + `pnpm check:studio-block-slot-markers`
+4. `pnpm --filter @afenda/shadcn-studio typecheck` + `pnpm --filter @afenda/erp typecheck`
 
-Full reference: `.cursor/skills/govern-primitive/SKILL.md`
+Full reference: `.cursor/skills/shadcn-studio/SKILL.md` · composition: `.cursor/skills/afenda-presentation-quality/SKILL.md`
 
 ---
 
@@ -437,9 +416,10 @@ Run the narrowest gate that covers your change. Full matrix → [VERIFICATION.md
 
 ```bash
 pnpm --filter <pkg> typecheck   # narrow gate first
-pnpm sync:package-css-dist      # after package CSS src edits (@afenda/appshell, ui, metadata-ui)
+pnpm sync:package-css-dist      # after @afenda/shadcn-studio CSS src edits
 pnpm check:package-css-dist-sync
-pnpm ui:guard:scan              # Gate D — fast (< 2 s), when touching ui/appshell/erp
+pnpm check:studio-metadata-binding   # when touching studio blocks / metadata binding
+pnpm check:erp-metadata-pas006-consumer  # when touching ERP metadata operator routes
 pnpm test:run                   # full vitest suite (or --filter <pkg>)
 pnpm ci:biome                   # Biome format + lint (CI mode)
 pnpm check                      # full pre-PR gate: biome + typecheck + tests
@@ -477,7 +457,6 @@ Every coding session must end with this report. Code without evidence is not don
 | No local tenant / context resolution | Pass/Fail |
 | No local design token / recipe / variant | Pass/Fail |
 | No local permission constant | Pass/Fail |
-| No `className` on `@afenda/ui` primitives in consumers | Pass/Fail |
 | No hand-edited migration | Pass/Fail |
 | No dead code / commented-out code shipped | Pass/Fail |
 
@@ -485,7 +464,7 @@ Every coding session must end with this report. Code without evidence is not don
 ```bash
 pnpm --filter <pkg> typecheck
 pnpm --filter <pkg> test:run
-pnpm ui:guard:scan
+pnpm check:studio-metadata-binding   # if studio/metadata touched
 pnpm ci:biome
 ```
 
@@ -501,7 +480,7 @@ Any `Fail` row must be resolved or escalated before the session is reported comp
 
 - TypeScript patterns in depth → [PATTERNS.md](PATTERNS.md)
 - All quality gates + changed-files→gate matrix → [VERIFICATION.md](VERIFICATION.md)
-- Governed UI author layer (primitive authoring) → `.cursor/skills/govern-primitive/SKILL.md`
+- ERP presentation (PAS-006) → `.cursor/skills/shadcn-studio/SKILL.md` · `.cursor/skills/afenda-presentation-quality/SKILL.md`
 - Multi-tenancy architecture → `docs/PAS/KERNEL/multi-tenancy-delivery-evidence.md`
-- CSS / Tailwind governance → `.cursor/skills/afenda-tailwind/SKILL.md`
+- ERP Tailwind / globals.css → `.cursor/skills/afenda-tailwind/SKILL.md`
 - Next.js App Router (live docs) → `nextjs-docs://llms-index` via MCP before writing

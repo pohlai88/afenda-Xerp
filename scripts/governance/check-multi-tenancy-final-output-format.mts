@@ -11,8 +11,8 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  MULTI_TENANCY_DOC_REFERENCE,
   MULTI_TENANCY_DELIVERY_DOC,
+  MULTI_TENANCY_DOC_REFERENCE,
 } from "./delivery-evidence-surface-registry.mts";
 import {
   collectFinalOutputFormatViolations,

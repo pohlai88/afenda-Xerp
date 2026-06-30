@@ -8,8 +8,8 @@ All quality gates for the Afenda monorepo. Run the narrowest gate that covers yo
 
 | Changed files | Minimum gate |
 |---------------|-------------|
-| `packages/ui/src/components/**` | `pnpm --filter @afenda/ui check:governance` + `pnpm --filter @afenda/ui test:run` |
-| `packages/appshell/**` | `pnpm ui:guard:scan` + `pnpm --filter @afenda/appshell test:run` |
+| `packages/shadcn-studio/**` | `pnpm --filter @afenda/shadcn-studio typecheck` + `pnpm check:studio-metadata-binding` |
+| `apps/erp/src/lib/metadata/**` | `pnpm check:erp-metadata-pas006-consumer` + `pnpm --filter @afenda/erp typecheck` |
 | `apps/erp/src/**` | `pnpm --filter @afenda/erp typecheck` + `pnpm --filter @afenda/erp test:run` |
 | `packages/database/**` | `pnpm --filter @afenda/database typecheck` + `pnpm --filter @afenda/database test:run` |
 | Any TypeScript | `pnpm typecheck` (full tree) |
@@ -79,38 +79,26 @@ pnpm test:ui
 
 ---
 
-## UI governance (Foundation phase 04 gates)
+## ERP presentation gates (PAS-006 · ADR-0027)
 
 ```bash
-# Gate D — fastest: full-tree in-process scan, < 2 s
-pnpm ui:guard:scan
+# Studio manufacturing + metadata binding
+pnpm check:studio-metadata-binding
+pnpm check:studio-block-slot-markers
 
-# All gates A–F
-pnpm ui:guard
+# ERP IS-003 consumer parity
+pnpm check:erp-metadata-pas006-consumer
 
-# With remediation hints
-pnpm ui:guard:hints
+# Type safety
+pnpm --filter @afenda/shadcn-studio typecheck
+pnpm --filter @afenda/erp typecheck
 
-# Gate F only (React ERP quality)
-pnpm ui:guard:erp
-
-# Strict mode (Gate F as hard failure)
-pnpm ui:guard:strict
-
-# Primitive author layer only (when editing packages/ui)
-pnpm --filter @afenda/ui check:governance
+# CSS dist sync (after studio CSS src edits)
+pnpm sync:package-css-dist -- --package @afenda/shadcn-studio
+pnpm check:package-css-dist-sync
 ```
 
-**Gate map:**
-
-| Gate | Checks | Command |
-|------|--------|---------|
-| A | `@afenda/ui` author layer | `pnpm --filter @afenda/ui check:governance` |
-| B | `@afenda/appshell` consumer | `pnpm --filter @afenda/appshell check:governance` |
-| C | ERP consumer (governed-ui subset) | `pnpm --filter @afenda/erp test:run` |
-| D | Full-tree in-process scan + anti-slop | `governed-ui-consumption.mjs` |
-| E | CSS token authority | `pnpm quality:css` |
-| F | React ERP quality | `react-erp-policy.mjs` |
+**Retired for ERP:** `pnpm ui:guard*` — scripts removed per ADR-0027. Historical reference: `.cursor/skills/_retired/legacy-ui/`.
 
 ---
 

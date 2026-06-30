@@ -103,7 +103,9 @@ describe("API error taxonomy", () => {
 
     expect(response.status).toBe(400);
     expect(response.headers.get("Content-Type")).toContain("application/json");
-    expect(response.headers.get(CORRELATION_ID_HEADER)).toBe(meta.correlationId);
+    expect(response.headers.get(CORRELATION_ID_HEADER)).toBe(
+      meta.correlationId
+    );
     expect(response.headers.get(REQUEST_ID_HEADER)).toBe(meta.requestId);
 
     const body: unknown = await response.json();
@@ -127,14 +129,14 @@ describe("API error taxonomy", () => {
       timestamp: "2026-06-30T00:00:00.000Z",
     };
 
-    const response = jsonSuccessResponse(
-      { status: "ok" },
-      meta,
-      { kind: "no-store" }
-    );
+    const response = jsonSuccessResponse({ status: "ok" }, meta, {
+      kind: "no-store",
+    });
 
     expect(response.status).toBe(200);
-    expect(response.headers.get(CORRELATION_ID_HEADER)).toBe(meta.correlationId);
+    expect(response.headers.get(CORRELATION_ID_HEADER)).toBe(
+      meta.correlationId
+    );
     expect(response.headers.get(REQUEST_ID_HEADER)).toBe(meta.requestId);
 
     const body: unknown = await response.json();

@@ -6,7 +6,7 @@
  * under docs/adr/ and the drift audit trail are excluded.
  */
 
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
+import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -58,7 +58,10 @@ function isAllowedLine(line: string): boolean {
   );
 }
 
-function collectScannableFiles(directory: string, files: string[] = []): string[] {
+function collectScannableFiles(
+  directory: string,
+  files: string[] = []
+): string[] {
   for (const name of readdirSync(directory)) {
     const absolute = join(directory, name);
 
@@ -104,7 +107,9 @@ function scanFile(relativePath: string): LegacyDeliveryTerminologyViolation[] {
     for (const entry of LEGACY_DELIVERY_TERMINOLOGY_PATTERNS) {
       const pattern = new RegExp(
         entry.pattern.source,
-        entry.pattern.flags.includes("g") ? entry.pattern.flags : `${entry.pattern.flags}g`
+        entry.pattern.flags.includes("g")
+          ? entry.pattern.flags
+          : `${entry.pattern.flags}g`
       );
 
       for (const match of line.matchAll(pattern)) {

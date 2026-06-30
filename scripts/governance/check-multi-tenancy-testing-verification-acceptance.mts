@@ -12,8 +12,8 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
-  MULTI_TENANCY_DOC_REFERENCE,
   MULTI_TENANCY_DELIVERY_DOC,
+  MULTI_TENANCY_DOC_REFERENCE,
 } from "./delivery-evidence-surface-registry.mts";
 import {
   collectTestingVerificationAcceptanceViolations,
@@ -26,8 +26,8 @@ import {
   MULTI_TENANCY_TESTING_VERIFICATION_ACCEPTANCE_GATE,
   MULTI_TENANCY_TESTING_VERIFICATION_ACCEPTANCE_SURFACE_RULE,
   MULTI_TENANCY_TESTING_VERIFICATION_DIMENSIONS,
-  MULTI_TENANCY_VERIFICATION_ACCEPTANCE_REQUIREMENTS,
   MULTI_TENANCY_TESTING_VERIFICATION_SECTION,
+  MULTI_TENANCY_VERIFICATION_ACCEPTANCE_REQUIREMENTS,
 } from "./multi-tenancy-testing-verification-acceptance-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(

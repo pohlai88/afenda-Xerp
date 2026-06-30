@@ -154,7 +154,9 @@ function main(): void {
   if (violations.length > 0) {
     console.error("check:erp-business-reference-ingress-attestation: FAIL");
     for (const violation of violations) {
-      console.error(`  [${violation.rule}] ${violation.file}: ${violation.message}`);
+      console.error(
+        `  [${violation.rule}] ${violation.file}: ${violation.message}`
+      );
     }
     process.exitCode = 1;
     return;
@@ -165,6 +167,10 @@ function main(): void {
   );
 }
 
-if (process.argv[1]?.endsWith("check-erp-business-reference-ingress-attestation.mts")) {
+if (
+  process.argv[1]?.endsWith(
+    "check-erp-business-reference-ingress-attestation.mts"
+  )
+) {
   main();
 }

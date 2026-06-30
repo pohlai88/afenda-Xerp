@@ -55,7 +55,7 @@ for (const spec of ERP_DOMAIN_VOCABULARY_MODULE_SPECS) {
   const n = Number(slice.slice(1));
   const prev = `B${n - 1}`;
   const prevSpec = ERP_DOMAIN_VOCABULARY_MODULE_SPECS.find(
-    (s) => s.slice === prev,
+    (s) => s.slice === prev
   );
   const prevLabel =
     n === 81 ? "procurement" : (prevSpec?.slug ?? "prior module");

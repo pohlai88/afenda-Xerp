@@ -41,7 +41,10 @@ export function checkKernelPackageStructure(): string[] {
     .filter((entry) => entry.isFile())
     .map((entry) => entry.name);
 
-  if (rootFiles.length !== 1 || rootFiles[0] !== KERNEL_PACKAGE_SRC_ROOT_BARREL) {
+  if (
+    rootFiles.length !== 1 ||
+    rootFiles[0] !== KERNEL_PACKAGE_SRC_ROOT_BARREL
+  ) {
     violations.push(
       `packages/kernel/src must contain only ${KERNEL_PACKAGE_SRC_ROOT_BARREL} at root; found: ${rootFiles.join(", ") || "(none)"}`
     );

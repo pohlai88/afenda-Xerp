@@ -87,9 +87,11 @@ const REQUIRED_PROTECTED_PATH_MARKERS: readonly {
   },
 ];
 
-function parseAuthActorBridgeWiring(
-  source: string
-): readonly { readonly id: string; readonly module: string; readonly delegate: string }[] {
+function parseAuthActorBridgeWiring(source: string): readonly {
+  readonly id: string;
+  readonly module: string;
+  readonly delegate: string;
+}[] {
   const match = source.match(
     /export const AUTH_ACTOR_BRIDGE_WIRING\s*=\s*(\[[\s\S]*?\])\s*as const;/
   );
@@ -128,13 +130,7 @@ function sourceIncludesAnyMarker(
 export function checkAuthActorProtectedPathAttestation(): AuthActorProtectedPathAttestationViolation[] {
   const violations: AuthActorProtectedPathAttestationViolation[] = [];
 
-  if (!existsSync(authActorWirePath)) {
-    violations.push({
-      rule: "auth-wire-missing",
-      file: authActorWirePath,
-      message: "Missing @afenda/auth actor wire ingress (PAS-001 §4.1.11).",
-    });
-  } else {
+  if (existsSync(authActorWirePath)) {
     const authWireSource = readFileSync(authActorWirePath, "utf8");
     for (const fn of [
       "parseAuthActorIdentityFromAfendaAuthSession",
@@ -148,6 +144,12 @@ export function checkAuthActorProtectedPathAttestation(): AuthActorProtectedPath
         });
       }
     }
+  } else {
+    violations.push({
+      rule: "auth-wire-missing",
+      file: authActorWirePath,
+      message: "Missing @afenda/auth actor wire ingress (PAS-001 §4.1.11).",
+    });
   }
 
   for (const requirement of REQUIRED_PROTECTED_PATH_MARKERS) {
@@ -266,7 +268,9 @@ const isDirectRun = (() => {
       entry.endsWith("check-erp-auth-actor-protected-path-attestation.mts")
     );
   } catch {
-    return entry.endsWith("check-erp-auth-actor-protected-path-attestation.mts");
+    return entry.endsWith(
+      "check-erp-auth-actor-protected-path-attestation.mts"
+    );
   }
 })();
 

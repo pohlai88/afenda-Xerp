@@ -4,7 +4,7 @@
  * Excludes docs/PAS/KERNEL/archive/ (historical filenames preserved).
  */
 
-import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -86,14 +86,8 @@ const REPLACEMENTS: [string, string][] = [
     "`PAS-001-KERNEL-AUTHORITY-STANDARD.md`",
     "`KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md`",
   ],
-  [
-    "compatibility redirect",
-    "removed",
-  ],
-  [
-    "compatibility redirects",
-    "removed",
-  ],
+  ["compatibility redirect", "removed"],
+  ["compatibility redirects", "removed"],
   [
     "Root `docs/PAS/PAS-001*.md` files are **compatibility redirects** only.",
     "",
@@ -110,7 +104,9 @@ const SKIP_PATH_PARTS = ["docs/PAS/KERNEL/archive"];
 const EXT = new Set([".md", ".mdc", ".mts", ".ts", ".json"]);
 
 function shouldSkip(absPath: string): boolean {
-  if (SKIP_PATH_PARTS.some((part) => absPath.includes(part.replace(/\//g, "\\")))) {
+  if (
+    SKIP_PATH_PARTS.some((part) => absPath.includes(part.replace(/\//g, "\\")))
+  ) {
     return true;
   }
   if (SKIP_PATH_PARTS.some((part) => absPath.includes(part))) {
@@ -151,7 +147,9 @@ for (const file of walk(repoRoot)) {
   if (next !== original) {
     writeFileSync(file, next, "utf8");
     changed++;
-    console.log(`updated: ${file.replace(repoRoot + "\\", "").replace(repoRoot + "/", "")}`);
+    console.log(
+      `updated: ${file.replace(`${repoRoot}\\`, "").replace(`${repoRoot}/`, "")}`
+    );
   }
 }
 

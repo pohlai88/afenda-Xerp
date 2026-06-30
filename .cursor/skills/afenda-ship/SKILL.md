@@ -39,7 +39,7 @@ Each Task:
 
 **Optional fifth spawn** (same turn if UI-heavy diff):
 
-- If diff touches `apps/erp/**`, `packages/ui/**`, or `*.css` → spawn Task with `enterprise-frontend-audit` skill attached (performance/UX section only)
+- If diff touches `apps/erp/**`, `packages/shadcn-studio/**`, or `*.css` → spawn Task with `afenda-presentation-quality` skill attached (performance/UX section only)
 
 Constraints:
 
@@ -55,8 +55,8 @@ Minimum by changed paths:
 
 | Changed paths | Run |
 | --- | --- |
-| `packages/ui/**` | `pnpm --filter @afenda/ui check:governance` + test:run |
-| `packages/appshell/**` | `pnpm ui:guard:scan` + appshell test:run |
+| `packages/shadcn-studio/**` | `pnpm --filter @afenda/shadcn-studio typecheck` + `pnpm check:studio-metadata-binding` |
+| `apps/erp/src/lib/metadata/**` | `pnpm check:erp-metadata-pas006-consumer` |
 | `apps/erp/**` | `pnpm --filter @afenda/erp typecheck` + test:run |
 | `packages/database/**` | database typecheck + test:run |
 | Any TS | `pnpm typecheck` |
@@ -65,7 +65,7 @@ Minimum by changed paths:
 
 Additional when applicable:
 
-- CSS/visual: `pnpm ui:guard:scan`
+- ERP presentation: `pnpm check:studio-metadata-binding` + `pnpm check:erp-metadata-pas006-consumer`
 - Docs/PAS/matrix: `pnpm check:documentation-drift`
 - CSP allowlist: `pnpm check:csp-third-party`
 - Wide scope: `pnpm check`

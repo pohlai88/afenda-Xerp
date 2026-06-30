@@ -12,8 +12,8 @@ import { fileURLToPath } from "node:url";
 
 import {
   EK_ACTIVE_SLICE_ID,
-  EK_PAS004C_SLICE_HANDOFFS,
   EK_PAS_PATHS,
+  EK_PAS004C_SLICE_HANDOFFS,
   EK_SEMANTIC_SCORECARD,
   EK_SKILL_PATH,
   EK_STALE_ACTIVE_SLICE_IDS,
@@ -35,7 +35,10 @@ function readText(relativePath: string): string {
   return readFileSync(join(repoRoot, relativePath), "utf8");
 }
 
-function countSliceTableRows(section: string, tableHeader: string): Map<string, number> {
+function countSliceTableRows(
+  section: string,
+  tableHeader: string
+): Map<string, number> {
   const start = section.indexOf(tableHeader);
   if (start === -1) {
     return new Map();
@@ -46,7 +49,7 @@ function countSliceTableRows(section: string, tableHeader: string): Map<string, 
   const counts = new Map<string, number>();
 
   for (const line of lines) {
-    if (!line.startsWith("| b") && !line.startsWith("| B")) {
+    if (!(line.startsWith("| b") || line.startsWith("| B"))) {
       if (counts.size > 0 && line.trim() === "") {
         break;
       }
@@ -104,9 +107,11 @@ export function checkKnowledgeAuthorityMirror(): KnowledgeAuthorityMirrorViolati
   }
 
   if (
-    !pas004.includes("**Runtime truth:**") ||
-    !pas004.includes("PAS-004C") ||
-    !pas004.includes("PAS-004D")
+    !(
+      pas004.includes("**Runtime truth:**") &&
+      pas004.includes("PAS-004C") &&
+      pas004.includes("PAS-004D")
+    )
   ) {
     violations.push({
       file: EK_PAS_PATHS.pas004,
@@ -116,10 +121,7 @@ export function checkKnowledgeAuthorityMirror(): KnowledgeAuthorityMirrorViolati
     });
   }
 
-  if (
-    !pas004.includes("PAS-004C") ||
-    !pas004.includes("PAS-004D")
-  ) {
+  if (!(pas004.includes("PAS-004C") && pas004.includes("PAS-004D"))) {
     violations.push({
       file: EK_PAS_PATHS.pas004,
       message: "PAS-004 runtime_status must reference PAS-004C and PAS-004D",
@@ -130,7 +132,8 @@ export function checkKnowledgeAuthorityMirror(): KnowledgeAuthorityMirrorViolati
   if (!pas004c.includes("none — operational closure in")) {
     violations.push({
       file: EK_PAS_PATHS.pas004c,
-      message: "PAS-004C remaining_slices must defer to PAS-004D operational closure",
+      message:
+        "PAS-004C remaining_slices must defer to PAS-004D operational closure",
       rule: "pas004c-remaining-slices-pointer",
     });
   }
@@ -183,7 +186,8 @@ export function checkKnowledgeAuthorityMirror(): KnowledgeAuthorityMirrorViolati
   if (!pas004d.includes("check:knowledge-legacy-surface-retirement")) {
     violations.push({
       file: EK_PAS_PATHS.pas004d,
-      message: "PAS-004D must register check:knowledge-legacy-surface-retirement gate",
+      message:
+        "PAS-004D must register check:knowledge-legacy-surface-retirement gate",
       rule: "pas004d-legacy-gate-registration",
     });
   }
@@ -200,7 +204,9 @@ export function formatKnowledgeAuthorityMirrorViolations(
 
   const lines = ["knowledge-authority-mirror: FAIL"];
   for (const violation of violations) {
-    lines.push(`  - [${violation.rule}] ${violation.file}: ${violation.message}`);
+    lines.push(
+      `  - [${violation.rule}] ${violation.file}: ${violation.message}`
+    );
   }
   return lines.join("\n");
 }

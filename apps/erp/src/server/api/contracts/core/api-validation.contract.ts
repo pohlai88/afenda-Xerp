@@ -40,7 +40,9 @@ export function isValidSchemaAuthorityRefFormat(value: string): boolean {
 }
 
 /** Trust boundary — brand validated schema authority pointers. */
-export function parseApiSchemaAuthorityRef(value: string): ApiSchemaAuthorityRef {
+export function parseApiSchemaAuthorityRef(
+  value: string
+): ApiSchemaAuthorityRef {
   if (!isValidSchemaAuthorityRefFormat(value)) {
     throw new Error(`Invalid ApiSchemaAuthorityRef format: ${value}`);
   }
@@ -158,9 +160,7 @@ export function extractOperationValidationDirection(
 
 export function assertRegistryValidationDirection<
   TContract extends ApiRouteContract<unknown, unknown>,
->(
-  contracts: readonly TContract[]
-): readonly ApiValidationDirectionPolicy[] {
+>(contracts: readonly TContract[]): readonly ApiValidationDirectionPolicy[] {
   return contracts.map((contract) => {
     const policy = resolveValidationDirectionPolicy(contract);
     const exposure = classifyOperationExposure(contract.authPolicy);

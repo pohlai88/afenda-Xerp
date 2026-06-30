@@ -12,12 +12,12 @@
 
 import { ENTERPRISE_KNOWLEDGE_ATOMS } from "../../packages/enterprise-knowledge/src/data/knowledge.registry.ts";
 import { KNOWLEDGE_EDGES } from "../../packages/enterprise-knowledge/src/data/knowledge-edge.registry.ts";
-import { ENTERPRISE_KNOWLEDGE_PERSPECTIVES } from "../../packages/enterprise-knowledge/src/policy/knowledge-perspective.policy.ts";
 import {
   formatKnowledgeCorpusDepthErrors,
   KNOWLEDGE_CORPUS_DEPTH_RULE,
   validateKnowledgeCorpusDepth,
 } from "../../packages/enterprise-knowledge/src/policy/knowledge-corpus-depth.policy.ts";
+import { ENTERPRISE_KNOWLEDGE_PERSPECTIVES } from "../../packages/enterprise-knowledge/src/policy/knowledge-perspective.policy.ts";
 
 export function checkKnowledgeCorpusDepth(): string[] {
   return [

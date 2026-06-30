@@ -1,12 +1,18 @@
 import { parseOptionalUserId } from "@afenda/kernel";
 import { headers } from "next/headers";
+import type { ApiRouteAuthActor } from "@/lib/auth/resolve-api-route-auth-actor.server";
 import { resolveApiRouteAuthActor } from "@/lib/auth/resolve-api-route-auth-actor.server";
+import { hasServiceActorIngressHeaders } from "@/lib/auth/resolve-service-actor.server";
 import { createServerExecutionContext } from "@/lib/context/create-server-execution-context.server";
 import { runProtectedMutation } from "@/lib/spine/run-protected-mutation";
 import type { ApiRouteContract } from "../contracts/api-contract";
 import type { ApiContractId } from "../contracts/api-contract-registry";
 import { getApiContractById } from "../contracts/api-contract-registry";
 import { isMutationMethod } from "../contracts/api-route-policy.contract";
+import {
+  type ApiAuthPolicy,
+  requiresSessionAuth,
+} from "../contracts/auth-policy.contract";
 import { acceptsIdempotencyKey } from "../contracts/idempotency.contract";
 import type { PaginationMeta } from "../contracts/pagination.contract";
 import {
@@ -33,6 +39,7 @@ import {
 } from "./api-request-context";
 import { jsonErrorResponse, jsonSuccessResponse } from "./api-response";
 import {
+  ApiRouteError,
   isApiRouteError,
   parseRequestBody,
   parseResponseData,
@@ -58,6 +65,47 @@ function isPaginatedApiHandlerResult<TResponse>(
     "data" in result &&
     "pagination" in result
   );
+}
+
+const SERVICE_ACTOR_ACCEPTING_AUTH_POLICIES = new Set<ApiAuthPolicy>([
+  "service-token-required",
+  "internal-only",
+]);
+
+/**
+ * ADR-0034 — enforce contract authPolicy before body parse / handler.
+ * Session-only production: reject forged S2S headers on session/public routes.
+ */
+export function assertApiRouteAuthPolicy(input: {
+  readonly authActor: ApiRouteAuthActor | null;
+  readonly contract: ApiRouteContract<unknown, unknown>;
+  readonly request: Request;
+}): void {
+  const { authPolicy } = input.contract;
+
+  if (
+    hasServiceActorIngressHeaders(input.request.headers) &&
+    !SERVICE_ACTOR_ACCEPTING_AUTH_POLICIES.has(authPolicy)
+  ) {
+    throw new ApiRouteError(
+      "unauthenticated",
+      "Service actor ingress is not accepted for this operation."
+    );
+  }
+
+  if (authPolicy === "service-token-required") {
+    throw new ApiRouteError(
+      "unauthenticated",
+      "Service-token routes are not enabled until token verification is implemented."
+    );
+  }
+
+  if (requiresSessionAuth(authPolicy) && input.authActor?.kind !== "human") {
+    throw new ApiRouteError(
+      "unauthenticated",
+      "A signed-in session is required for this operation."
+    );
+  }
 }
 
 function unwrapHandlerResponse<TResponse>(
@@ -167,6 +215,13 @@ async function executeHandlerBody<TRequest, TResponse>(input: {
 }): Promise<Response> {
   const requestHeaders = await headers();
   const authActor = await resolveApiRouteAuthActor(requestHeaders);
+
+  assertApiRouteAuthPolicy({
+    authActor,
+    contract: input.config.contract,
+    request: input.request,
+  });
+
   const session = authActor?.kind === "human" ? authActor.session : null;
 
   let requestBody: TRequest;

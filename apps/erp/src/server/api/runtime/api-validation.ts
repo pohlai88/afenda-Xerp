@@ -79,16 +79,12 @@ export function parseResponseData<T>(schema: ZodType<T>, value: unknown): T {
   const result = schema.safeParse(value);
 
   if (!result.success) {
-    throw new ApiRouteError(
-      "internal_error",
-      "Response validation failed.",
-      {
-        issues: result.error.issues.map((issue) => ({
-          message: issue.message,
-          path: issue.path.join("."),
-        })),
-      }
-    );
+    throw new ApiRouteError("internal_error", "Response validation failed.", {
+      issues: result.error.issues.map((issue) => ({
+        message: issue.message,
+        path: issue.path.join("."),
+      })),
+    });
   }
 
   return result.data;

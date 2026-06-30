@@ -56,7 +56,11 @@ function run(): readonly ErpModuleFoundationViolation[] {
     f.includes("knowledge")
   );
   for (const failure of knowledgeFailures) {
-    violations.push({ rule: "knowledge-readiness", file: GATE, message: failure });
+    violations.push({
+      rule: "knowledge-readiness",
+      file: GATE,
+      message: failure,
+    });
   }
 
   return violations;

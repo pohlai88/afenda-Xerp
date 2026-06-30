@@ -1,6 +1,6 @@
 #!/usr/bin/env tsx
 /** One-shot normalizer: PAS-003 slice handoff fences must use triple backticks. */
-import { readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const sliceDir = join(

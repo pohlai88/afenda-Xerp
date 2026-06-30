@@ -45,8 +45,10 @@ if (existsSync(contractPath)) {
   }
 
   if (
-    !source.includes("assertTenantHumanReferenceWireText") &&
-    !source.includes("rejectIfCanonicalEnterpriseId")
+    !(
+      source.includes("assertTenantHumanReferenceWireText") ||
+      source.includes("rejectIfCanonicalEnterpriseId")
+    )
   ) {
     violations.push(
       "tenant-human-reference.contract.ts must reject canonical enterprise IDs at ingress (assertTenantHumanReferenceWireText or rejectIfCanonicalEnterpriseId)"
@@ -62,10 +64,14 @@ if (existsSync(contractPath)) {
     "packages/kernel/src/identity/tenant-human-reference/tenant-human-reference.parser.ts"
   );
   if (!existsSync(assertPath)) {
-    violations.push("Missing tenant-human-reference.assert.ts (wire assert tier)");
+    violations.push(
+      "Missing tenant-human-reference.assert.ts (wire assert tier)"
+    );
   }
   if (!existsSync(parserPath)) {
-    violations.push("Missing tenant-human-reference.parser.ts (wire parser tier)");
+    violations.push(
+      "Missing tenant-human-reference.parser.ts (wire parser tier)"
+    );
   }
 
   for (const scope of TENANT_HUMAN_REFERENCE_SCOPES) {

@@ -1,9 +1,9 @@
 import type { ZodType } from "zod";
 
 import type { ApiAuthPolicy } from "./auth-policy.contract";
+import type { ApiContextPolicy } from "./context-policy.contract";
 import type { ApiConsumerImpactDeclaration } from "./core/api-consumer-impact.contract";
 import type { ApiOperationOwnershipOverride } from "./core/api-ownership.contract";
-import type { ApiContextPolicy } from "./context-policy.contract";
 import type { ApiRouteLifecycleStatus } from "./lifecycle.contract";
 import type { ApiRateLimitPolicy } from "./rate-limit.contract";
 import type { ApiStabilityClassification } from "./stability.contract";

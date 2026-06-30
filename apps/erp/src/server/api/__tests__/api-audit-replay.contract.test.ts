@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { API_CONTRACTS } from "@/server/api/contracts/api-contract-registry";
+import { parseGovernedResponseMeta } from "@/server/api/contracts/api-envelope.contract";
 import {
   API_ERROR_CODES,
   API_ERROR_DEFINITIONS,
@@ -12,7 +13,6 @@ import {
   parseApiCorrelationIdentity,
   resolveCorrelationPolicy,
 } from "@/server/api/contracts/core";
-import { parseGovernedResponseMeta } from "@/server/api/contracts/api-envelope.contract";
 
 describe("ApiAuditReplayMinimumRecord", () => {
   it("documents readonly audit replay minimum fields", () => {
@@ -53,9 +53,7 @@ describe("ApiCorrelationPolicy", () => {
       }
     }
 
-    expect(() =>
-      assertRegistryCorrelationPolicy(API_CONTRACTS)
-    ).not.toThrow();
+    expect(() => assertRegistryCorrelationPolicy(API_CONTRACTS)).not.toThrow();
   });
 
   it("parses governed response meta trace identity", () => {

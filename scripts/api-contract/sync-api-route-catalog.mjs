@@ -6,6 +6,7 @@
  * with DEFAULT_GOVERNED_ROUTE_TEST_PATHS and registry exports before commit.
  */
 import { execSync } from "node:child_process";
+import { closeSync, existsSync, openSync, unlinkSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -27,12 +28,59 @@ if (!shouldSync) {
   process.exit(0);
 }
 
-execSync("pnpm export:api-route-catalog", {
-  cwd: repoRoot,
-  stdio: "inherit",
-});
+const lockPath = join(repoRoot, ".git/api-route-catalog-sync.lock");
 
-execSync(`git add ${snapshotRelative}`, {
-  cwd: repoRoot,
-  stdio: "inherit",
-});
+function releaseLock() {
+  try {
+    unlinkSync(lockPath);
+  } catch {
+    // ignore — lock may already be released by the owner
+  }
+}
+
+function sleepMs(ms) {
+  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+}
+
+function acquireLock(maxWaitMs = 120_000) {
+  const deadline = Date.now() + maxWaitMs;
+  while (Date.now() < deadline) {
+    try {
+      const fd = openSync(lockPath, "wx");
+      closeSync(fd);
+      return true;
+    } catch (error) {
+      if (error?.code !== "EEXIST") {
+        throw error;
+      }
+      sleepMs(100);
+    }
+  }
+  return false;
+}
+
+function waitForLockRelease(maxWaitMs = 120_000) {
+  const deadline = Date.now() + maxWaitMs;
+  while (existsSync(lockPath) && Date.now() < deadline) {
+    sleepMs(100);
+  }
+}
+
+if (!acquireLock()) {
+  waitForLockRelease();
+  process.exit(0);
+}
+
+try {
+  execSync("pnpm export:api-route-catalog", {
+    cwd: repoRoot,
+    stdio: "inherit",
+  });
+
+  execSync(`git add ${snapshotRelative}`, {
+    cwd: repoRoot,
+    stdio: "inherit",
+  });
+} finally {
+  releaseLock();
+}

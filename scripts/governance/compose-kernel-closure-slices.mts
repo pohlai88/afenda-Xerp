@@ -6,39 +6,39 @@ import fs from "node:fs";
 import path from "node:path";
 
 interface SliceDef {
-  readonly id: string;
-  readonly filename: string;
-  readonly title: string;
-  readonly pas: "PAS-001" | "PAS-001A" | "PAS-001B";
-  readonly pasSection: string;
-  readonly positionN: number;
-  readonly positionTotal: number;
-  readonly blueprintBox: string;
-  readonly prerequisite: string;
-  readonly type: string;
-  readonly risk: string;
-  readonly cleanCore: string;
-  readonly purpose: string;
-  readonly objective: string;
   readonly allowedLayer: string;
-  readonly files: readonly string[];
-  readonly prohibited: string;
-  readonly authority: string;
-  readonly gates: readonly string[];
-  readonly closes: string;
-  readonly evidence: readonly string[];
   readonly attestation: string;
-  readonly rules: readonly string[];
+  readonly authority: string;
+  readonly blueprintBox: string;
+  readonly cleanCore: string;
+  readonly closes: string;
   readonly dod: readonly {
     readonly criterion: string;
     readonly gate: string;
     readonly trace: string;
   }[];
+  readonly evidence: readonly string[];
+  readonly extra?: string;
+  readonly filename: string;
+  readonly files: readonly string[];
+  readonly gates: readonly string[];
+  readonly id: string;
+  readonly objective: string;
+  readonly pas: "PAS-001" | "PAS-001A" | "PAS-001B";
+  readonly pasSection: string;
+  readonly positionN: number;
+  readonly positionTotal: number;
+  readonly prerequisite: string;
+  readonly prohibited: string;
+  readonly purpose: string;
+  readonly risk: string;
+  readonly rules: readonly string[];
   readonly runtime: readonly {
     readonly capability: string;
     readonly path: string;
   }[];
-  readonly extra?: string;
+  readonly title: string;
+  readonly type: string;
 }
 
 const OUT = path.join("docs", "PAS", "KERNEL", "SLICE");
@@ -52,7 +52,7 @@ function pas001WireSlice(
   prerequisite: string,
   purpose: string,
   kernelPath: string,
-  gate: string,
+  gate: string
 ): SliceDef {
   return {
     id,
@@ -120,10 +120,7 @@ function pas001WireSlice(
 function render(s: SliceDef): string {
   const handoffPath = `docs/PAS/KERNEL/SLICE/${s.filename}`;
   const dodRows = s.dod
-    .map(
-      (r, i) =>
-        `| ${i + 1} | ${r.criterion} | ${r.gate} | ${r.trace} |`,
-    )
+    .map((r, i) => `| ${i + 1} | ${r.criterion} | ${r.gate} | ${r.trace} |`)
     .join("\n");
   const f8Map = s.dod
     .map((r, i) => `| ${i + 1} | ${s.evidence[i] ?? r.gate} |`)
@@ -211,7 +208,8 @@ const SLICES: SliceDef[] = [
     prerequisite: "ADR-0022 tenant wire · B16 operating-context baseline",
     type: "Evidence-sync",
     risk: "Low",
-    cleanCore: "A→A — documents delivered triad; consumer typing collateral only",
+    cleanCore:
+      "A→A — documents delivered triad; consumer typing collateral only",
     purpose:
       "Close PAS-001 §4.4 tenant operating-context wire ingress: registry promotion, wire triad, ADR-0022 ERP split-ID branding, and PAS-004C consumer projection typing collateral.",
     objective:
@@ -292,7 +290,8 @@ const SLICES: SliceDef[] = [
       "Replace @afenda/kernel self-imports in context __tests__ with relative identity/vocabulary imports per PAS-001 §3.3 — closes PAS-001 Enterprise Accepted track.",
     objective:
       "Zero @afenda/kernel imports in context/__tests__; all context tests pass.",
-    allowedLayer: "packages/kernel/src/context/__tests__/** · docs/PAS/KERNEL/SLICE/**",
+    allowedLayer:
+      "packages/kernel/src/context/__tests__/** · docs/PAS/KERNEL/SLICE/**",
     files: [
       "packages/kernel/src/context/__tests__/tenant-context.test.ts",
       "packages/kernel/src/context/__tests__/operating-context.test.ts",
@@ -347,7 +346,8 @@ const SLICES: SliceDef[] = [
     prerequisite: "PAS-001 Enterprise Accepted (B70 Delivered)",
     type: "Implementation",
     risk: "High",
-    cleanCore: "A→B — parser moves to permissions package; kernel projection-only (justified)",
+    cleanCore:
+      "A→B — parser moves to permissions package; kernel projection-only (justified)",
     purpose:
       "Close IS-001 permission-scope ownership split per PAS-001A §2.2: wire assert/parse live in @afenda/permissions; kernel retains branded projection only for OperatingContext.permissionScope.",
     objective:
@@ -513,7 +513,8 @@ const SLICES: SliceDef[] = [
       "PAS-001A §6 acceptance matrix (10 rows)",
       "pnpm check:documentation-drift",
     ],
-    closes: "Closes DoD #1–#3 · PAS-001A Production Candidate · INV-001–INV-006",
+    closes:
+      "Closes DoD #1–#3 · PAS-001A Production Candidate · INV-001–INV-006",
     evidence: [
       "docs/PAS/pas-status-index.md",
       "docs/PAS/pas-status-index.md",
@@ -636,7 +637,8 @@ const SLICES: SliceDef[] = [
     prerequisite: "B81–B105 Delivered",
     type: "Implementation",
     risk: "High",
-    cleanCore: "A→B — re-scaffold foundation modules to catalog scaffold (justified)",
+    cleanCore:
+      "A→B — re-scaffold foundation modules to catalog scaffold (justified)",
     purpose:
       "Close structural drift between hand-built foundation modules (accounting, inventory) and governed scaffold pattern. Re-scaffold from foundation specs while preserving ADR-0020 cross-refs and fiscal ID quarantine.",
     objective:
@@ -668,7 +670,8 @@ const SLICES: SliceDef[] = [
       "scripts/governance/scaffold-foundation-erp-domain-modules.mts",
       "Gate output: all §13 gates",
     ],
-    attestation: "Contract · Test · Governance · Documentation · Maintainability",
+    attestation:
+      "Contract · Test · Governance · Documentation · Maintainability",
     rules: [
       "ACCOUNTING_REGISTRY_ID = PKG-R01; INVENTORY_REGISTRY_ID = PKGR02_INVENTORY preserved.",
       "FiscalCalendarId/FiscalPeriodId remain forbidden platform floor branded ids.",
@@ -712,7 +715,7 @@ const SLICES: SliceDef[] = [
     "B49 Delivered",
     "Complete ADR-0022 split-ID wire triad for company, organization unit, and entity group at ERP mapper boundary.",
     "packages/kernel/src/context/company-context.parser.ts",
-    "pnpm check:kernel-context-surface",
+    "pnpm check:kernel-context-surface"
   ),
   pas001WireSlice(
     "B51",
@@ -723,7 +726,7 @@ const SLICES: SliceDef[] = [
     "B50 Delivered",
     "Wire parent organization context triad and ERP mapper enrichment for hierarchy traversal.",
     "packages/kernel/src/context/organization-unit-context.parser.ts",
-    "pnpm check:kernel-context-surface",
+    "pnpm check:kernel-context-surface"
   ),
   pas001WireSlice(
     "B52",
@@ -734,7 +737,7 @@ const SLICES: SliceDef[] = [
     "B51 Delivered",
     "Close full operating-context hierarchy wire chain tenant → company → org → entity group.",
     "packages/kernel/src/context/entity-group-context.parser.ts",
-    "pnpm check:kernel-context-surface",
+    "pnpm check:kernel-context-surface"
   ),
   pas001WireSlice(
     "B53",
@@ -745,7 +748,7 @@ const SLICES: SliceDef[] = [
     "B16 §10 Delivered",
     "Register propagation frame wire vocabulary aligned with PAS-001 §4.11 and async propagation rules.",
     "packages/kernel/src/context/propagation-frame-context.parser.ts",
-    "pnpm check:kernel-propagation-isolation",
+    "pnpm check:kernel-propagation-isolation"
   ),
   pas001WireSlice(
     "B54",
@@ -756,7 +759,7 @@ const SLICES: SliceDef[] = [
     "B52 Delivered",
     "Deliver project context wire triad for project-scoped operating context.",
     "packages/kernel/src/context/project-context.parser.ts",
-    "pnpm check:kernel-context-surface",
+    "pnpm check:kernel-context-surface"
   ),
   pas001WireSlice(
     "B55",
@@ -767,7 +770,7 @@ const SLICES: SliceDef[] = [
     "B15-4.9 Delivered",
     "Deliver policy context wire triad for lifecycle enforcement vocabulary.",
     "packages/kernel/src/context/policy-context.parser.ts",
-    "pnpm check:kernel-context-surface",
+    "pnpm check:kernel-context-surface"
   ),
   pas001WireSlice(
     "B57",
@@ -778,7 +781,7 @@ const SLICES: SliceDef[] = [
     "B55 Delivered",
     "Deliver permission vocabulary wire triad preceding permission-scope ownership split (PAS-001A).",
     "packages/kernel/src/context/permission-context.parser.ts",
-    "pnpm check:kernel-context-surface",
+    "pnpm check:kernel-context-surface"
   ),
   {
     id: "B67",
@@ -795,14 +798,17 @@ const SLICES: SliceDef[] = [
     cleanCore: "A→A — documentation attestation only",
     purpose:
       "Attest PAS-001 documentation chain closure: composed headers, pas-status-index, kernel-authority SKILL mirror, runtime matrix kernel rows.",
-    objective: "PAS-001 doc attestation gates green; Enterprise Accepted evidence archived.",
-    allowedLayer: "docs/PAS/** · docs/PAS/** · .cursor/skills/kernel-authority/**",
+    objective:
+      "PAS-001 doc attestation gates green; Enterprise Accepted evidence archived.",
+    allowedLayer:
+      "docs/PAS/** · docs/PAS/** · .cursor/skills/kernel-authority/**",
     files: [
       "docs/PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md",
       "docs/PAS/pas-status-index.md",
       "docs/PAS/KERNEL/SLICE/b67-pas001-doc-attestation-closure.md",
     ],
-    prohibited: "packages/kernel/** source edits · foundation-disposition without registry-owner",
+    prohibited:
+      "packages/kernel/** source edits · foundation-disposition without registry-owner",
     authority: "PAS-001 §14 · documentation-drift · kernel-authority",
     gates: [
       "pnpm check:documentation-drift",
@@ -852,7 +858,7 @@ const SLICES: SliceDef[] = [
     "B67 Delivered",
     "Deliver hierarchy-id-boundary wire triad enforcing branded id families at wire ingress.",
     "packages/kernel/src/context/hierarchy-id-boundary.parser.ts",
-    "pnpm check:kernel-context-surface",
+    "pnpm check:kernel-context-surface"
   ),
   {
     id: "B69",
@@ -869,7 +875,8 @@ const SLICES: SliceDef[] = [
     cleanCore: "A→A — governance gate for context wire triads",
     purpose:
       "Add check:kernel-context-wire-triad gate verifying every wireIngress context in context-registry has contract/assert/parser triad on disk.",
-    objective: "Machine-enforce context wire triad completeness across context-registry.",
+    objective:
+      "Machine-enforce context wire triad completeness across context-registry.",
     allowedLayer:
       "scripts/governance/check-kernel-context-wire-triad.mts · packages/kernel/src/context/**",
     files: [
@@ -933,7 +940,8 @@ const SLICES: SliceDef[] = [
     cleanCore: "A→A — documentation sync only",
     purpose:
       "Sync documentation with post–PAS-001 runtime: fix stale resolver paths in runtime matrix; close multi-tenancy delivery-doc gaps; update PAS-001 §9 rule-14 prose.",
-    objective: "Documentation reflects ERP resolver + permissions ownership split from B71.",
+    objective:
+      "Documentation reflects ERP resolver + permissions ownership split from B71.",
     allowedLayer:
       "docs/PAS/** · docs/PAS/** · apps/docs delivery evidence if generated",
     files: [
@@ -1064,7 +1072,8 @@ const SLICES: SliceDef[] = [
     cleanCore: "A→A — PAS authoring and authority chain sync",
     purpose:
       "Author composed PAS-001B at catalog_authority maturity and sync authority chain (README, pas-status-index, runtime matrix, kernel tree).",
-    objective: "Publish ERP Wire Vocabulary Catalog PAS + authority chain sync.",
+    objective:
+      "Publish ERP Wire Vocabulary Catalog PAS + authority chain sync.",
     allowedLayer:
       "docs/PAS/KERNEL/** · docs/PAS/** · packages/kernel/PAS-001-KERNEL-TREE.md · .cursor/skills/kernel-authority/**",
     files: [
@@ -1127,7 +1136,8 @@ const SLICES: SliceDef[] = [
     cleanCore: "A→A — layout contract + gate",
     purpose:
       "Deliver erp-domain-layout.contract.ts and check:erp-domain-layout gate enforcing module folder maturity and KV-* registry parity.",
-    objective: "Machine-enforce ERP domain layout contract for catalog modules.",
+    objective:
+      "Machine-enforce ERP domain layout contract for catalog modules.",
     allowedLayer:
       "packages/kernel/src/erp-domain/erp-domain-layout.contract.ts · scripts/governance/check-erp-domain-layout.mts",
     files: [
@@ -1198,12 +1208,11 @@ const SLICES: SliceDef[] = [
       "docs/PAS/KERNEL/SLICE/slice-compliance-audit.md",
       "docs/PAS/pas-status-index.md",
     ],
-    prohibited: "Module promotions in same session · kernel erp-domain slug folders",
-    authority: "PAS-001B §11 · pas-prohibited-surface-scan · documentation-drift",
-    gates: [
-      "pnpm check:erp-domain-layout",
-      "pnpm check:documentation-drift",
-    ],
+    prohibited:
+      "Module promotions in same session · kernel erp-domain slug folders",
+    authority:
+      "PAS-001B §11 · pas-prohibited-surface-scan · documentation-drift",
+    gates: ["pnpm check:erp-domain-layout", "pnpm check:documentation-drift"],
     closes: "Closes DoD #1–#3 · pre-promotion audit",
     evidence: [
       "docs/PAS/KERNEL/SLICE/b78-pas001b-audit-closure.md",
@@ -1254,7 +1263,8 @@ const SLICES: SliceDef[] = [
     cleanCore: "A→A — contracts-only wire promotion",
     purpose:
       "Promote KV-INV inventory from catalog-only to delivered under PAS-001B Rule 3 — first individual module promotion after audit closure.",
-    objective: "Deliver inventory kernel ERP wire vocabulary module (contracts-only).",
+    objective:
+      "Deliver inventory kernel ERP wire vocabulary module (contracts-only).",
     allowedLayer:
       "packages/kernel/src/erp-domain/inventory/** · governance gates · docs/PAS/KERNEL/**",
     files: [

@@ -17,7 +17,10 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
 );
 
 const erpSrcRoot = join(repoRoot, "apps/erp/src");
-const registryPath = join(erpSrcRoot, "lib/context/context-integration-registry.ts");
+const registryPath = join(
+  erpSrcRoot,
+  "lib/context/context-integration-registry.ts"
+);
 const protectedSurfaceRegistryPath = join(
   erpSrcRoot,
   "lib/context/operating-context-protected-surface.registry.ts"
@@ -56,10 +59,7 @@ const REQUIRED_METADATA_MODULES = [
   },
   {
     file: "lib/metadata/hydrate-metadata-binding-slots.server.ts",
-    markers: [
-      "hydrateMetadataBindingSlots",
-      "AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE",
-    ],
+    markers: ["hydrateMetadataBindingSlots", "AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE"],
   },
 ] as const;
 
@@ -68,9 +68,11 @@ const FORBIDDEN_METADATA_IMPORTS = [
   "@afenda/ui-composition",
 ] as const;
 
-function parseMetadataConsumerWiring(
-  source: string
-): readonly { readonly id: string; readonly module: string; readonly delegate: string }[] {
+function parseMetadataConsumerWiring(source: string): readonly {
+  readonly id: string;
+  readonly module: string;
+  readonly delegate: string;
+}[] {
   const match = source.match(
     /export const METADATA_PAS006_CONSUMER_WIRING\s*=\s*(\[[\s\S]*?\])\s*as const;/
   );
@@ -132,13 +134,7 @@ export function checkErpMetadataPas006Consumer(): ErpMetadataPas006ConsumerViola
     }
   }
 
-  if (!existsSync(registryPath)) {
-    violations.push({
-      rule: "registry-missing",
-      file: registryPath,
-      message: "context-integration-registry.ts is required",
-    });
-  } else {
+  if (existsSync(registryPath)) {
     const registrySource = readFileSync(registryPath, "utf8");
     const wiring = parseMetadataConsumerWiring(registrySource);
 
@@ -172,15 +168,15 @@ export function checkErpMetadataPas006Consumer(): ErpMetadataPas006ConsumerViola
         });
       }
     }
+  } else {
+    violations.push({
+      rule: "registry-missing",
+      file: registryPath,
+      message: "context-integration-registry.ts is required",
+    });
   }
 
-  if (!existsSync(protectedSurfaceRegistryPath)) {
-    violations.push({
-      rule: "protected-surface-registry-missing",
-      file: protectedSurfaceRegistryPath,
-      message: "operating-context-protected-surface.registry.ts is required",
-    });
-  } else {
+  if (existsSync(protectedSurfaceRegistryPath)) {
     const protectedSource = readFileSync(protectedSurfaceRegistryPath, "utf8");
 
     if (!protectedSource.includes("protected-rsc-metadata-workspace")) {
@@ -191,15 +187,15 @@ export function checkErpMetadataPas006Consumer(): ErpMetadataPas006ConsumerViola
           "metadata-workspace must be registered in OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY (R1b)",
       });
     }
+  } else {
+    violations.push({
+      rule: "protected-surface-registry-missing",
+      file: protectedSurfaceRegistryPath,
+      message: "operating-context-protected-surface.registry.ts is required",
+    });
   }
 
-  if (!existsSync(metadataWorkspacePagePath)) {
-    violations.push({
-      rule: "metadata-workspace-page-missing",
-      file: metadataWorkspacePagePath,
-      message: "metadata-workspace page is required",
-    });
-  } else {
+  if (existsSync(metadataWorkspacePagePath)) {
     const pageSource = readFileSync(metadataWorkspacePagePath, "utf8");
     const requiredPageMarkers = [
       "loadProtectedRequestOperatingContext",
@@ -228,6 +224,12 @@ export function checkErpMetadataPas006Consumer(): ErpMetadataPas006ConsumerViola
         });
       }
     }
+  } else {
+    violations.push({
+      rule: "metadata-workspace-page-missing",
+      file: metadataWorkspacePagePath,
+      message: "metadata-workspace page is required",
+    });
   }
 
   return violations;

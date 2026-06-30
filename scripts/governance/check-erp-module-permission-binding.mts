@@ -24,7 +24,8 @@ function run(): readonly ErpModuleFoundationViolation[] {
   }
 
   const permissionKeys = new Set(binding.kernelPermissionKeys);
-  for (const surface of PROCUREMENT_FOUNDATION_BUNDLE.metadataBinding.surfaces) {
+  for (const surface of PROCUREMENT_FOUNDATION_BUNDLE.metadataBinding
+    .surfaces) {
     if (!permissionKeys.has(surface.permissionKey)) {
       violations.push({
         rule: "permission-metadata-binding",

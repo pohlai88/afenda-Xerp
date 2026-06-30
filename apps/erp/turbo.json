@@ -1,0 +1,23 @@
+{
+  "extends": ["//"],
+  "tasks": {
+    "build": {
+      "env": ["NEXT_PUBLIC_*", "DATABASE_URL", "BETTER_AUTH_*"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "test:run": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"]
+    }
+  }
+}

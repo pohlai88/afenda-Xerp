@@ -22,7 +22,8 @@ paths:
 
 ```text
 MCP install (packages/shadcn-studio cwd)
-  → @afenda/shadcn-studio/src/blocks|components/ui/
+  → @afenda/shadcn-studio/src/components/ui/ + src/components/shadcn-studio/blocks/
+  → pnpm storybook generate (auto block stories)
   → import in apps/erp
   → pnpm --filter @afenda/shadcn-studio typecheck
   → pnpm --filter @afenda/erp typecheck && build
@@ -46,8 +47,11 @@ MCP install (packages/shadcn-studio cwd)
 | Package | `@afenda/shadcn-studio` |
 | Theme presets | `packages/shadcn-studio/src/theme/theme-presets.ts` |
 | Primitives | `packages/shadcn-studio/src/components/ui/` |
-| Blocks | `packages/shadcn-studio/src/blocks/` |
-| Lab stories | `apps/storybook/stories/shadcn-studio-*.stories.tsx` |
+| Blocks | `packages/shadcn-studio/src/components/shadcn-studio/blocks/` |
+| Curated lab stories | `packages/shadcn-studio/src/shadcn-studio-blocks.stories.tsx` |
+| Auto block stories | `packages/shadcn-studio/src/shadcn-studio-blocks-auto.stories.tsx` (codegen) |
+| Theme / primitive stories | `packages/shadcn-studio/src/shadcn-studio-{theme-lab,primitives}.stories.tsx` |
+| Lab welcome | `apps/storybook/stories/` |
 
 Toolbar:
 
@@ -97,6 +101,21 @@ pnpm --filter @afenda/erp build
 ```
 
 **Do not run:** `pnpm ui:guard*`, PAS-005 slice gates, css-authority consumption gates.
+
+---
+
+## Storybook lab (after MCP install)
+
+| Step | Command |
+| --- | --- |
+| Regenerate auto block stories | `pnpm storybook generate` |
+| Dev lab | `pnpm storybook dev` → `http://localhost:6006` |
+| Story tests | `pnpm test:storybook:run` |
+| Lab typecheck | `pnpm --filter @afenda/storybook typecheck` |
+
+Browse **Shadcn Studio/Blocks Auto** for every installed block entry; add curated variants in `shadcn-studio-blocks.stories.tsx` when needed. Skill detail: [afenda-storybook](../afenda-storybook/SKILL.md).
+
+**Storybook MCP:** `@storybook/addon-mcp` — preview URLs and `run-story-tests` when dev server is up.
 
 ---
 

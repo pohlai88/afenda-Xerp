@@ -18,7 +18,8 @@ export const MULTI_TENANCY_DOC_DOCUMENTATION_VERIFICATION_MARKERS = [
 ] as const;
 
 /** Delivery doc H2 containing Step 10 verification content. */
-export const MULTI_TENANCY_VERIFICATION_SECTION = "Verification results" as const;
+export const MULTI_TENANCY_VERIFICATION_SECTION =
+  "Verification results" as const;
 
 /** Root commands required by multi-tenancy.md Step 10 (§607–610). */
 export const MULTI_TENANCY_VERIFICATION_COMMANDS = [

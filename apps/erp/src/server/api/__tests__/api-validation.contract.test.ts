@@ -28,12 +28,12 @@ describe("ApiSchemaAuthorityRef contract", () => {
   });
 
   it("rejects binding-specific or external schema locators", () => {
-    expect(isValidSchemaAuthorityRefFormat("openapi/components/HealthResponse")).toBe(
-      false
-    );
-    expect(isValidSchemaAuthorityRefFormat("https://example.com/schema.json")).toBe(
-      false
-    );
+    expect(
+      isValidSchemaAuthorityRefFormat("openapi/components/HealthResponse")
+    ).toBe(false);
+    expect(
+      isValidSchemaAuthorityRefFormat("https://example.com/schema.json")
+    ).toBe(false);
     expect(isValidSchemaAuthorityRefFormat("")).toBe(false);
   });
 
@@ -41,7 +41,9 @@ describe("ApiSchemaAuthorityRef contract", () => {
     const ref = parseApiSchemaAuthorityRef(
       "apps/erp/src/server/api/contracts/health.api-contract.ts#healthResponseSchema"
     );
-    expect(unbrandApiSchemaAuthorityRef(ref)).toContain("#healthResponseSchema");
+    expect(unbrandApiSchemaAuthorityRef(ref)).toContain(
+      "#healthResponseSchema"
+    );
   });
 
   it("throws when parsing invalid refs", () => {

@@ -294,6 +294,8 @@ Only **designated ingress boundaries** may parse untrusted wire input. Kernel re
 untrusted input → permissions/API/resolver ingress → validated wire → kernel parse/brand → OperatingContext
 ```
 
+> **Superseded (composed SSOT):** [PAS-001A §4.2](../PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md#42-runtime-ingress) — `kernel brand/projection (no untrusted parse)` at permission-scope; ingress parse only at designated ERP/permissions boundaries. This archive block is historical pre-2026-06-30 wording.
+
 **Violation examples (BLOCK):**
 
 - `permission-scope-context.parser.ts` under kernel after B71

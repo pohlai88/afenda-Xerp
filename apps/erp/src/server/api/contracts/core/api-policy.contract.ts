@@ -42,9 +42,7 @@ export interface ApiOperationPolicyDeclaration {
   readonly permission: ApiPermissionDeclaration;
 }
 
-export function resolveActorPolicy(
-  authPolicy: ApiAuthPolicy
-): ApiActorPolicy {
+export function resolveActorPolicy(authPolicy: ApiAuthPolicy): ApiActorPolicy {
   if (isPublicAuthPolicy(authPolicy)) {
     return { kind: "anonymous" };
   }
@@ -65,7 +63,9 @@ export function resolveActorPolicy(
     return { kind: "human-session", sessionClass: "standard" };
   }
 
-  throw new Error(`Unsupported auth policy for actor resolution: ${authPolicy}`);
+  throw new Error(
+    `Unsupported auth policy for actor resolution: ${authPolicy}`
+  );
 }
 
 export function resolveOperatingContextPolicyDeclaration(
@@ -128,9 +128,7 @@ export function isServiceActor(actor: ApiActorPolicy): boolean {
 
 export function assertRegistryOperationPolicyDeclarations<
   TContract extends ApiRouteContract<unknown, unknown>,
->(
-  contracts: readonly TContract[]
-): readonly ApiOperationPolicyDeclaration[] {
+>(contracts: readonly TContract[]): readonly ApiOperationPolicyDeclaration[] {
   return contracts.map((contract) => {
     const declaration = extractOperationPolicyDeclaration(contract);
 

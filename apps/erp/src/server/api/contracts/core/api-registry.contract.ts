@@ -27,9 +27,7 @@ const DEFAULT_OPERATION_BINDINGS = [
 
 export function buildApiOperationRegistry<
   TContract extends ApiRouteContract<unknown, unknown>,
->(
-  contracts: readonly TContract[]
-): readonly ApiOperationRegistryEntry[] {
+>(contracts: readonly TContract[]): readonly ApiOperationRegistryEntry[] {
   assertUniqueApiOperationIds(contracts.map((entry) => entry.id));
 
   return contracts.map((contract) => ({

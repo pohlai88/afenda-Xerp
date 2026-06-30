@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 
 /** Ordered Storybook codegen steps — add new generators here. */
-const GENERATORS = [];
+const GENERATORS = ["generate-block-auto-stories.mjs"];
 
 function runStep(scriptName) {
   const scriptPath = join(scriptDir, scriptName);

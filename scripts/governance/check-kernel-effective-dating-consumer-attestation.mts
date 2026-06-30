@@ -22,21 +22,23 @@ export interface EffectiveDatingConsumerAttestationViolation {
   readonly message: string;
 }
 
-const REQUIRED_MARKERS: readonly { readonly file: string; readonly markers: readonly string[] }[] =
-  [
-    {
-      file: "consolidation-scope-resolution.server.ts",
-      markers: ["isOwnershipInterestEffectiveAt"],
-    },
-    {
-      file: "operating-context.mappers.ts",
-      markers: ["effectiveFrom", "effectiveTo"],
-    },
-    {
-      file: "to-ownership-interest-context.ts",
-      markers: ["effectiveFrom", "effectiveTo"],
-    },
-  ];
+const REQUIRED_MARKERS: readonly {
+  readonly file: string;
+  readonly markers: readonly string[];
+}[] = [
+  {
+    file: "consolidation-scope-resolution.server.ts",
+    markers: ["isOwnershipInterestEffectiveAt"],
+  },
+  {
+    file: "operating-context.mappers.ts",
+    markers: ["effectiveFrom", "effectiveTo"],
+  },
+  {
+    file: "to-ownership-interest-context.ts",
+    markers: ["effectiveFrom", "effectiveTo"],
+  },
+];
 
 export function checkEffectiveDatingConsumerAttestation(): EffectiveDatingConsumerAttestationViolation[] {
   const violations: EffectiveDatingConsumerAttestationViolation[] = [];

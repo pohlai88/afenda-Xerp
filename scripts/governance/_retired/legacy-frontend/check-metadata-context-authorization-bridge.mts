@@ -68,13 +68,7 @@ function listSourceFiles(directory: string): string[] {
 export function checkMetadataContextAuthorizationBridge(): MetadataContextAuthorizationBridgeViolation[] {
   const violations: MetadataContextAuthorizationBridgeViolation[] = [];
 
-  if (!existsSync(metadataWorkspacePage)) {
-    violations.push({
-      rule: "metadata-workspace-page-missing",
-      file: metadataWorkspacePage,
-      message: "metadata-workspace/page.tsx is required",
-    });
-  } else {
+  if (existsSync(metadataWorkspacePage)) {
     const pageSource = readFileSync(metadataWorkspacePage, "utf8");
     if (!pageSource.includes("resolveOperatingContextFromHeaders")) {
       violations.push({
@@ -84,6 +78,12 @@ export function checkMetadataContextAuthorizationBridge(): MetadataContextAuthor
           "metadata-workspace/page.tsx must delegate to resolveOperatingContextFromHeaders",
       });
     }
+  } else {
+    violations.push({
+      rule: "metadata-workspace-page-missing",
+      file: metadataWorkspacePage,
+      message: "metadata-workspace/page.tsx is required",
+    });
   }
 
   if (existsSync(parseProtectedActionInput)) {

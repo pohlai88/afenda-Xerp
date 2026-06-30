@@ -15,7 +15,9 @@ export interface ErpDomainFoundationModuleSpec extends ErpDomainVocabularySpec {
   readonly authorityFingerprint: string;
   readonly brandedIds: readonly ErpDomainBrandedIdSpec[];
   readonly permissionMode: "accounting" | "standard";
-  readonly policyNoteField: "businessReferenceNote" | "forbiddenPlatformFloorNote";
+  readonly policyNoteField:
+    | "businessReferenceNote"
+    | "forbiddenPlatformFloorNote";
   readonly registryId: string;
   readonly vocabularyRegistryId: string;
   readonly wireContextMode: "accounting" | "inventory";

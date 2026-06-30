@@ -12,6 +12,9 @@ export default defineProject({
   root,
   test: {
     ...base.test,
-    include: ["governance/__tests__/**/*.{test,spec}.{ts,tsx}"],
+    include: [
+      "governance/__tests__/**/*.{test,spec}.{ts,tsx}",
+      "api-contract/__tests__/**/*.{test,spec}.{ts,tsx}",
+    ],
   },
 });

@@ -22,6 +22,7 @@ const contractPath = join(
   repoRoot,
   "packages/kernel/src/governance/kernel-runtime-rules.contract.ts"
 );
+
 import { KERNEL_PAS_VOCABULARY_ARCHIVE } from "./kernel-pas-paths.mts";
 
 const pasPath = join(repoRoot, KERNEL_PAS_VOCABULARY_ARCHIVE);

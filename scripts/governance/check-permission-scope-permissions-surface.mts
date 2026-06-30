@@ -16,10 +16,7 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   ""
 );
 
-const permissionsScopeRoot = join(
-  repoRoot,
-  "packages/permissions/src/scope"
-);
+const permissionsScopeRoot = join(repoRoot, "packages/permissions/src/scope");
 const kernelContextRoot = join(repoRoot, "packages/kernel/src/context");
 const permissionsIndex = join(repoRoot, "packages/permissions/src/index.ts");
 const erpResolverPath = join(
@@ -111,7 +108,8 @@ export function checkPermissionScopePermissionsSurface(): PermissionScopePermiss
     violations.push({
       rule: "context-registry-wire-ingress",
       file: join(kernelContextRoot, "context-registry.ts"),
-      message: "permission-scope must have wireIngress: false in context-registry",
+      message:
+        "permission-scope must have wireIngress: false in context-registry",
     });
   }
 

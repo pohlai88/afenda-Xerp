@@ -8,7 +8,7 @@
  * 3. Deprecated KNOWLEDGE_RELATIONSHIPS adapter still derives from KNOWLEDGE_EDGES.
  */
 
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -24,10 +24,7 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   ""
 );
 
-const pkgSrcRoot = join(
-  repoRoot,
-  "packages/enterprise-knowledge/src"
-);
+const pkgSrcRoot = join(repoRoot, "packages/enterprise-knowledge/src");
 const deprecatedRegistryPath = join(
   pkgSrcRoot,
   "data/knowledge-relationships.registry.ts"
@@ -92,12 +89,7 @@ export function checkKnowledgeLegacySurfaceRetirement(): KnowledgeLegacySurfaceR
 
   const atomsJsonRaw = readFileSync(atomsJsonPath, "utf8");
   const atomsJson = JSON.parse(atomsJsonRaw) as unknown;
-  if (!Array.isArray(atomsJson)) {
-    violations.push({
-      rule: "atoms-json-retains-legacy-field",
-      message: "atoms.json must remain a JSON array",
-    });
-  } else {
+  if (Array.isArray(atomsJson)) {
     const legacyCount = atomsJson.filter(
       (entry) =>
         typeof entry === "object" &&
@@ -111,6 +103,11 @@ export function checkKnowledgeLegacySurfaceRetirement(): KnowledgeLegacySurfaceR
           "atoms.json must retain implementationMapping for one release (migration note in PAS-004D §4.2)",
       });
     }
+  } else {
+    violations.push({
+      rule: "atoms-json-retains-legacy-field",
+      message: "atoms.json must remain a JSON array",
+    });
   }
 
   if (KNOWLEDGE_RELATIONSHIPS.length === 0) {

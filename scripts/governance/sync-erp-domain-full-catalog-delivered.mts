@@ -30,8 +30,14 @@ ${ERP_DOMAIN_MODULES.map((slug) => `  ${slug.includes("-") ? `"${slug}"` : slug}
 } as const satisfies Record<ErpDomainModule, ErpDomainModuleMaturity>;`
 );
 
-layout = layout.replace(/vocabularyGate: "[^"]+",/g, `vocabularyGate: "${UNIFIED_GATE}",`);
-layout = layout.replace(/vocabularyGate: null,/g, `vocabularyGate: "${UNIFIED_GATE}",`);
+layout = layout.replace(
+  /vocabularyGate: "[^"]+",/g,
+  `vocabularyGate: "${UNIFIED_GATE}",`
+);
+layout = layout.replace(
+  /vocabularyGate: null,/g,
+  `vocabularyGate: "${UNIFIED_GATE}",`
+);
 
 layout = layout.replace(
   /export const ERP_DOMAIN_MODULE_INDEX_PATHS = \{[\s\S]*?\} as const satisfies Partial<Record<ErpDomainModule, string>>;/,

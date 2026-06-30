@@ -43,7 +43,10 @@ describe("ApiGovernanceExceptionRecord", () => {
     });
 
     expect(
-      isGovernanceExceptionExpired(expired, new Date("2026-06-30T00:00:00.000Z"))
+      isGovernanceExceptionExpired(
+        expired,
+        new Date("2026-06-30T00:00:00.000Z")
+      )
     ).toBe(true);
 
     const violations = collectGovernanceExceptionViolations(
@@ -71,8 +74,10 @@ describe("ApiGovernanceExceptionRecord", () => {
   });
 
   it("passes check:api-contracts gate when registry has no expired entries", async () => {
-    const { API_GOVERNANCE_EXCEPTION_REGISTRY, collectGovernanceExceptionViolations } =
-      await import("@/server/api/contracts/core/api-exception.contract");
+    const {
+      API_GOVERNANCE_EXCEPTION_REGISTRY,
+      collectGovernanceExceptionViolations,
+    } = await import("@/server/api/contracts/core/api-exception.contract");
 
     expect(
       collectGovernanceExceptionViolations(API_GOVERNANCE_EXCEPTION_REGISTRY)

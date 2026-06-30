@@ -26,13 +26,13 @@ import {
   OBSOLETE_BASELINE_FINGERPRINT,
   PAS_ACCOUNTING_STANDARDS_SLICE_DIR,
   PAS_ACCOUNTING_STANDARDS_STANDARD,
-  PAS_PRESENTATION_README,
-  PAS_PRESENTATION_STANDARD,
   PAS_ENTERPRISE_KNOWLEDGE_SLICE_DIR,
   PAS_ENTERPRISE_KNOWLEDGE_STANDARD,
-  PAS_KERNEL_STANDARD,
-  PAS_README,
   PAS_KERNEL_SLICE_DIR,
+  PAS_KERNEL_STANDARD,
+  PAS_PRESENTATION_README,
+  PAS_PRESENTATION_STANDARD,
+  PAS_README,
   PAS_STATUS_INDEX,
   PRE_ACCOUNTING_ROADMAP,
   REQUIRED_ACCEPTED_ADRS,
@@ -102,9 +102,9 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
     PAS_KERNEL_SLICE_DIR,
     PAS_ACCOUNTING_STANDARDS_STANDARD,
     PAS_ACCOUNTING_STANDARDS_SLICE_DIR,
-  PAS_PRESENTATION_STANDARD,
-  PAS_PRESENTATION_README,
-  PAS_ENTERPRISE_KNOWLEDGE_STANDARD,
+    PAS_PRESENTATION_STANDARD,
+    PAS_PRESENTATION_README,
+    PAS_ENTERPRISE_KNOWLEDGE_STANDARD,
     PAS_ENTERPRISE_KNOWLEDGE_SLICE_DIR,
     PAS_STATUS_INDEX,
   ]) {
@@ -317,7 +317,8 @@ export function checkDocumentationDrift(): DocumentationDriftViolation[] {
     });
   }
 
-  const snapshotPath = "packages/architecture-authority/dependency-snapshot.json";
+  const snapshotPath =
+    "packages/architecture-authority/dependency-snapshot.json";
   const snapshot = readText(snapshotPath);
   if (snapshot) {
     try {

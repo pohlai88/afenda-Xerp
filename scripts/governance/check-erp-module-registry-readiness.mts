@@ -1,8 +1,8 @@
 #!/usr/bin/env tsx
 import { assertErpRuntimeModuleRegistry } from "../../packages/erp-module-foundation/src/assert-module-registry-readiness.js";
 import {
-  type ErpModuleFoundationViolation,
   buildReferenceRegistryBundle,
+  type ErpModuleFoundationViolation,
   reportViolations,
 } from "./erp-module-foundation-registry.mts";
 

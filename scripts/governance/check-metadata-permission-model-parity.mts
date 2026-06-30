@@ -23,11 +23,7 @@ const erpMirrorPath = join(
 
 const violations: string[] = [];
 
-if (!existsSync(erpMirrorPath)) {
-  violations.push(
-    "ERP metadata permission vocabulary mirror missing (ADR-0027 consumer attestation)"
-  );
-} else {
+if (existsSync(erpMirrorPath)) {
   const erpSource = readFileSync(erpMirrorPath, "utf8");
   if (!erpSource.includes('from "@afenda/kernel"')) {
     violations.push(
@@ -52,6 +48,10 @@ if (!existsSync(erpMirrorPath)) {
       "ERP mirror must assign METADATA_RUNTIME_PERMISSION_MODEL_SCOPES from kernel PERMISSION_MODEL_SCOPES"
     );
   }
+} else {
+  violations.push(
+    "ERP metadata permission vocabulary mirror missing (ADR-0027 consumer attestation)"
+  );
 }
 
 const permissionsScopeContract = join(
@@ -59,11 +59,7 @@ const permissionsScopeContract = join(
   "packages/permissions/src/scope/permission-scope-context.contract.ts"
 );
 
-if (!existsSync(permissionsScopeContract)) {
-  violations.push(
-    "@afenda/permissions scope contract missing — grant vocabulary consumer attestation failed"
-  );
-} else {
+if (existsSync(permissionsScopeContract)) {
   const scopeSource = readFileSync(permissionsScopeContract, "utf8");
   if (!scopeSource.includes('from "@afenda/kernel"')) {
     violations.push(
@@ -75,6 +71,10 @@ if (!existsSync(permissionsScopeContract)) {
       "@afenda/permissions must not define local PERMISSION_ACTIONS — kernel owns vocabulary"
     );
   }
+} else {
+  violations.push(
+    "@afenda/permissions scope contract missing — grant vocabulary consumer attestation failed"
+  );
 }
 
 async function loadErpMirror(): Promise<{
@@ -84,7 +84,8 @@ async function loadErpMirror(): Promise<{
   const module = await import(pathToFileURL(erpMirrorPath).href);
   return {
     actions: module.METADATA_RUNTIME_PERMISSION_ACTIONS as readonly string[],
-    scopes: module.METADATA_RUNTIME_PERMISSION_MODEL_SCOPES as readonly string[],
+    scopes:
+      module.METADATA_RUNTIME_PERMISSION_MODEL_SCOPES as readonly string[],
   };
 }
 

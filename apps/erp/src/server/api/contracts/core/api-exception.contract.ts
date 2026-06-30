@@ -30,9 +30,9 @@ export interface ApiGovernanceExceptionRecord {
 function isDeferralKind(
   value: string
 ): value is ApiGovernanceExceptionDeferralKind {
-  return (API_GOVERNANCE_EXCEPTION_DEFERRAL_KINDS as readonly string[]).includes(
-    value
-  );
+  return (
+    API_GOVERNANCE_EXCEPTION_DEFERRAL_KINDS as readonly string[]
+  ).includes(value);
 }
 
 function parseExpiryInstant(expiresAt: string): number {
@@ -96,7 +96,10 @@ export function assertNoExpiredGovernanceExceptions(
   records: readonly ApiGovernanceExceptionRecord[],
   referenceTime: Date = new Date()
 ): void {
-  const violations = collectGovernanceExceptionViolations(records, referenceTime);
+  const violations = collectGovernanceExceptionViolations(
+    records,
+    referenceTime
+  );
 
   if (violations.length > 0) {
     throw new Error(violations.join("\n"));

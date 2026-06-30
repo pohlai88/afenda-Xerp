@@ -5,6 +5,7 @@ import {
   isPublicAuthPolicy,
   requiresSessionAuth,
 } from "@/server/api/contracts/auth-policy.contract";
+import { requiresOperatingContext } from "@/server/api/contracts/context-policy.contract";
 import {
   assertRegistryOperationPolicyDeclarations,
   buildOperationPolicyDeclarationRegistry,
@@ -13,7 +14,6 @@ import {
   isServiceActor,
   resolveActorPolicy,
 } from "@/server/api/contracts/core";
-import { requiresOperatingContext } from "@/server/api/contracts/context-policy.contract";
 
 describe("ApiOperationPolicyDeclaration", () => {
   it("keeps human-session and service-actor kinds distinct at contract layer", () => {
@@ -81,7 +81,8 @@ describe("ApiOperationPolicyDeclaration", () => {
   });
 
   it("asserts registry-wide family policy declarations", () => {
-    const declarations = assertRegistryOperationPolicyDeclarations(API_CONTRACTS);
+    const declarations =
+      assertRegistryOperationPolicyDeclarations(API_CONTRACTS);
     expect(declarations).toHaveLength(API_CONTRACTS.length);
 
     const registry = buildOperationPolicyDeclarationRegistry(API_CONTRACTS);

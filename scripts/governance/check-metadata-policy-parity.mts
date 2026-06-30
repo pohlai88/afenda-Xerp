@@ -23,11 +23,7 @@ const erpMirrorPath = join(
 
 const violations: string[] = [];
 
-if (!existsSync(erpMirrorPath)) {
-  violations.push(
-    "ERP metadata policy vocabulary mirror missing (ADR-0027 consumer attestation)"
-  );
-} else {
+if (existsSync(erpMirrorPath)) {
   const erpSource = readFileSync(erpMirrorPath, "utf8");
   if (!erpSource.includes('from "@afenda/kernel"')) {
     violations.push(
@@ -52,6 +48,10 @@ if (!existsSync(erpMirrorPath)) {
       "ERP mirror must assign METADATA_RUNTIME_POLICY_DENIAL_REASONS from kernel POLICY_DENIAL_REASONS"
     );
   }
+} else {
+  violations.push(
+    "ERP metadata policy vocabulary mirror missing (ADR-0027 consumer attestation)"
+  );
 }
 
 const permissionsPolicyContract = join(
@@ -59,11 +59,7 @@ const permissionsPolicyContract = join(
   "packages/permissions/src/policy.contract.ts"
 );
 
-if (!existsSync(permissionsPolicyContract)) {
-  violations.push(
-    "@afenda/permissions policy.contract.ts missing — evaluation owner attestation failed"
-  );
-} else {
+if (existsSync(permissionsPolicyContract)) {
   const policySource = readFileSync(permissionsPolicyContract, "utf8");
   if (/POLICY_DECISION_KINDS/.test(policySource)) {
     violations.push(
@@ -75,6 +71,10 @@ if (!existsSync(permissionsPolicyContract)) {
       "@afenda/permissions must not duplicate kernel POLICY_DENIAL_REASONS vocabulary"
     );
   }
+} else {
+  violations.push(
+    "@afenda/permissions policy.contract.ts missing — evaluation owner attestation failed"
+  );
 }
 
 async function loadErpMirror(): Promise<{
@@ -83,8 +83,10 @@ async function loadErpMirror(): Promise<{
 }> {
   const module = await import(pathToFileURL(erpMirrorPath).href);
   return {
-    decisionKinds: module.METADATA_RUNTIME_POLICY_DECISION_KINDS as readonly string[],
-    denialReasons: module.METADATA_RUNTIME_POLICY_DENIAL_REASONS as readonly string[],
+    decisionKinds:
+      module.METADATA_RUNTIME_POLICY_DECISION_KINDS as readonly string[],
+    denialReasons:
+      module.METADATA_RUNTIME_POLICY_DENIAL_REASONS as readonly string[],
   };
 }
 

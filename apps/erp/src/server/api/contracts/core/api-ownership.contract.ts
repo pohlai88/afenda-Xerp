@@ -20,17 +20,12 @@ export interface ApiOperationOwnershipMetadata {
 export type ApiOperationOwnershipOverride = Partial<
   Pick<
     ApiOperationOwnershipMetadata,
-    | "consumerImpactOwner"
-    | "domainOwner"
-    | "lifecycleOwner"
-    | "technicalOwner"
+    "consumerImpactOwner" | "domainOwner" | "lifecycleOwner" | "technicalOwner"
   >
 >;
 
 function resolveDomainOwnerFromTags(tags: readonly string[]): string {
-  const domainTag = tags.find(
-    (tag) => tag !== "public" && tag !== "telemetry"
-  );
+  const domainTag = tags.find((tag) => tag !== "public" && tag !== "telemetry");
   return domainTag ?? API_GOVERNANCE_DOMAIN_OWNER;
 }
 
@@ -52,8 +47,7 @@ export function resolveOperationOwnership(
       API_CONTRACT_DEFAULT_OWNERSHIP.consumerImpactOwner,
     domainOwner,
     lifecycleOwner:
-      override?.lifecycleOwner ??
-      API_CONTRACT_DEFAULT_OWNERSHIP.lifecycleOwner,
+      override?.lifecycleOwner ?? API_CONTRACT_DEFAULT_OWNERSHIP.lifecycleOwner,
     technicalOwner: override?.technicalOwner ?? contract.owner,
   };
 }

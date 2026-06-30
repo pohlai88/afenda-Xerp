@@ -5,8 +5,8 @@ import {
   API_OPERATION_REGISTRY,
 } from "@/server/api/contracts/api-contract-registry";
 import {
-  assertUniqueApiOperationIds,
   API_STYLE_BINDINGS,
+  assertUniqueApiOperationIds,
   findRegistryEntryByOperationId,
   getActiveStyleBindings,
   getRegistryOperationIds,
@@ -18,9 +18,9 @@ import {
 describe("ApiOperationId contract", () => {
   it("accepts known internal v1 operation id formats", () => {
     expect(isValidApiOperationIdFormat("internal.v1.health.get")).toBe(true);
-    expect(isValidApiOperationIdFormat("internal.v1.auth.memberships.get")).toBe(
-      true
-    );
+    expect(
+      isValidApiOperationIdFormat("internal.v1.auth.memberships.get")
+    ).toBe(true);
     expect(
       isValidApiOperationIdFormat("internal.v1.workspace.dashboard-layout.put")
     ).toBe(true);

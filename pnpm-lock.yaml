@@ -87,7 +87,7 @@ importers:
         specifier: 3.8.4
         version: 3.8.4
       turbo:
-        specifier: ^2.5.4
+        specifier: ^2.9.18
         version: 2.9.18
       typescript:
         specifier: 'catalog:'
@@ -300,6 +300,9 @@ importers:
       '@afenda/enterprise-knowledge':
         specifier: workspace:*
         version: link:../../packages/enterprise-knowledge
+      '@afenda/erp-modules':
+        specifier: workspace:*
+        version: link:../../packages/features/erp-modules
       '@afenda/kernel':
         specifier: workspace:*
         version: link:../../packages/kernel
@@ -11472,7 +11475,7 @@ snapshots:
       eventsource: 3.0.7
       eventsource-parser: 3.1.0
       express: 5.2.1(supports-color@10.2.2)
-      express-rate-limit: 8.5.2(express@5.2.1)
+      express-rate-limit: 8.5.2(express@5.2.1(supports-color@10.2.2))
       hono: 4.12.26
       jose: 6.2.3
       json-schema-typed: 8.0.2
@@ -15396,7 +15399,7 @@ snapshots:
 
   expect-type@1.3.0: {}
 
-  express-rate-limit@8.5.2(express@5.2.1):
+  express-rate-limit@8.5.2(express@5.2.1(supports-color@10.2.2)):
     dependencies:
       express: 5.2.1(supports-color@10.2.2)
       ip-address: 10.2.0

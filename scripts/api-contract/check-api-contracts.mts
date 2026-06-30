@@ -118,10 +118,7 @@ async function main(): Promise<void> {
 
   for (const contract of apiContractRegistry.API_CONTRACTS) {
     try {
-      if (
-        contract.lifecycle === "active" ||
-        contract.lifecycle === "planned"
-      ) {
+      if (contract.lifecycle === "active" || contract.lifecycle === "planned") {
         ownershipPolicy.assertActiveOperationOwnership(contract);
       }
       consumerImpactPolicy.resolveConsumerImpactDeclaration(contract);

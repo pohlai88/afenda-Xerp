@@ -66,6 +66,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -82,7 +84,12 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Verify docs build before preview
-        run: pnpm --filter @afenda/docs typecheck && pnpm --filter @afenda/docs test:run && pnpm --filter @afenda/docs build
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+        run: |
+          pnpm ci:biome
+          pnpm exec turbo run typecheck build --affected --filter=@afenda/docs...
 
       - name: Pull Vercel preview environment
         if: ${{ env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != '' }}

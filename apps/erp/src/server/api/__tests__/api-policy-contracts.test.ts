@@ -2,6 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import { API_CONTRACTS } from "@/server/api/contracts/api-contract-registry";
 import {
+  API_AUTH_POLICIES,
+  isPublicAuthPolicy,
+  requiresSessionAuth,
+} from "@/server/api/contracts/auth-policy.contract";
+import { API_CONTEXT_POLICIES } from "@/server/api/contracts/context-policy.contract";
+import {
   API_CONSUMER_IMPACT_CLASSES,
   assertActiveOperationOwnership,
   assertRegistryConsumerImpactPolicy,
@@ -11,12 +17,6 @@ import {
   resolveConsumerImpactDeclaration,
   resolveOperationOwnership,
 } from "@/server/api/contracts/core";
-import {
-  API_AUTH_POLICIES,
-  isPublicAuthPolicy,
-  requiresSessionAuth,
-} from "@/server/api/contracts/auth-policy.contract";
-import { API_CONTEXT_POLICIES } from "@/server/api/contracts/context-policy.contract";
 import { API_ROUTE_LIFECYCLE_STATUSES } from "@/server/api/contracts/lifecycle.contract";
 import { API_RATE_LIMIT_POLICIES } from "@/server/api/contracts/rate-limit.contract";
 import { API_STABILITY_CLASSIFICATIONS } from "@/server/api/contracts/stability.contract";

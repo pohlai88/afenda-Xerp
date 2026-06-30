@@ -31,7 +31,7 @@ for (const name of readdirSync(dir).filter((f) => /^b.*\.md$/.test(f))) {
   const attestationLineEnd = original.indexOf("\n", bodyEnd);
   const body = original.slice(bodyStart + 1, attestationLineEnd).trimEnd();
 
-const FENCE = "```";
+  const FENCE = "```";
 
   const repaired =
     original.slice(0, start) +

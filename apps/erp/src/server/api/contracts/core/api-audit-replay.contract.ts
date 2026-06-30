@@ -6,8 +6,8 @@
 import type { ApiRouteContract } from "../api-contract";
 import type { ApiContextPolicy } from "../context-policy.contract";
 import type { ApiRouteLifecycleStatus } from "../lifecycle.contract";
-import { extractOperationPolicyDeclaration } from "./api-policy.contract";
 import type { Brand } from "./api-operation-id.contract";
+import { extractOperationPolicyDeclaration } from "./api-policy.contract";
 
 /** Branded trace identity — aligns with kernel correlation vocabulary at wire boundary. */
 export type ApiCorrelationId = Brand<string, "ApiCorrelationId">;
@@ -80,11 +80,7 @@ export interface ApiAuditReplayMinimumRecord {
 export function buildAuditReplayMinimumRecord(input: {
   readonly contract: Pick<
     ApiRouteContract<unknown, unknown>,
-    | "authPolicy"
-    | "contextPolicy"
-    | "id"
-    | "lifecycle"
-    | "permission"
+    "authPolicy" | "contextPolicy" | "id" | "lifecycle" | "permission"
   >;
   readonly correlation: ApiCorrelationIdentity;
   readonly recordedAt: string;

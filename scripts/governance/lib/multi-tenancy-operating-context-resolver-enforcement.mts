@@ -9,10 +9,10 @@ import {
   MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_DIMENSIONS,
   MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_FUNCTION_MARKERS,
   MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_PIPELINE_MARKERS,
+  MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_SECTION,
   OPERATING_CONTEXT_RESOLVER_FORBIDDEN_PATTERNS,
   OPERATING_CONTEXT_RESOLVER_FUNCTIONS,
   OPERATING_CONTEXT_RESOLVER_PIPELINE,
-  MULTI_TENANCY_OPERATING_CONTEXT_RESOLVER_SECTION,
 } from "../multi-tenancy-operating-context-resolver-registry.mts";
 
 export interface OperatingContextResolverEnforcementViolation {
@@ -197,7 +197,7 @@ function collectResolverFunctionViolations(
     repoRoot,
     "apps/erp/src/__tests__/operating-context.test.ts"
   );
-  if (!existsSync(integrationTestPath) && !existsSync(legacyTestPath)) {
+  if (!(existsSync(integrationTestPath) || existsSync(legacyTestPath))) {
     violations.push({
       rule: "resolver-test-missing",
       file: integrationTestPath,

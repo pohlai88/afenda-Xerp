@@ -3,7 +3,7 @@
  * One-shot link rewrite: root PAS-004* paths + legacy slice/ → ENTERPRISE-KNOWLEDGE composed SSOT.
  */
 
-import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -166,10 +166,7 @@ for (const slug of EK_SLICES) {
     `../slice/${slug}.md`,
     `../ENTERPRISE-KNOWLEDGE/SLICE/${slug}.md`,
   ]);
-  REPLACEMENTS.push([
-    `](SLICE/${slug}.md)`,
-    `](SLICE/${slug}.md)`,
-  ]);
+  REPLACEMENTS.push([`](SLICE/${slug}.md)`, `](SLICE/${slug}.md)`]);
 }
 
 REPLACEMENTS.sort((a, b) => b[0].length - a[0].length);
@@ -208,7 +205,7 @@ for (const file of walk(repoRoot)) {
     continue;
   }
 
-  let content = readFileSync(file, "utf8");
+  const content = readFileSync(file, "utf8");
   let next = content;
   for (const [from, to] of REPLACEMENTS) {
     next = next.replaceAll(from, to);
@@ -220,4 +217,6 @@ for (const file of walk(repoRoot)) {
   }
 }
 
-console.log(`rewrite-enterprise-knowledge-pas-links: ${changed} file(s) updated`);
+console.log(
+  `rewrite-enterprise-knowledge-pas-links: ${changed} file(s) updated`
+);

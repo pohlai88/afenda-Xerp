@@ -6,11 +6,6 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
-import {
-  checkObservabilityIdentityParity,
-  formatObservabilityIdentityParityViolations,
-} from "./identity/observability-identity-parity.governance.mts";
 import {
   OBSERVABILITY_APPROVED_RUNTIME_DEPENDENCIES,
   OBSERVABILITY_CONSUMER_SCAN_ROOTS,
@@ -22,6 +17,7 @@ import {
   OBSERVABILITY_REQUIRED_MODULES,
   OBSERVABILITY_SENSITIVE_AUDIT_POLICY_MODULES,
 } from "../../packages/observability/src/surface/observability-surface-registry.ts";
+import { checkObservabilityIdentityParity } from "./identity/observability-identity-parity.governance.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   /[/\\]$/,

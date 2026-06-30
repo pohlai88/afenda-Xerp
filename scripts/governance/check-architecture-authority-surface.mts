@@ -215,7 +215,10 @@ function verifyDocRegistryAlignment(
     }
   }
 
-  const layerDocPath = join(repoRoot, "packages/architecture-authority/src/data/layer-registry.data.ts");
+  const layerDocPath = join(
+    repoRoot,
+    "packages/architecture-authority/src/data/layer-registry.data.ts"
+  );
   if (existsSync(layerDocPath)) {
     const layerDoc = readFileSync(layerDocPath, "utf8");
     const activeLayerCount = Object.keys(layerContract.assignments).length;

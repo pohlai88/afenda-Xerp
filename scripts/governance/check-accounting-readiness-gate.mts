@@ -12,12 +12,12 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import {
+  ACCOUNTING_READINESS_DELIVERY_DOC,
   ACCOUNTING_READINESS_GATE_CHECK_SCRIPT,
   ACCOUNTING_READINESS_GATE_PACKAGE_SCRIPT,
   ACCOUNTING_READINESS_GATE_REQUIREMENTS,
   ACCOUNTING_READINESS_GATE_SURFACE_RULE,
   PHASE_9_ROADMAP_DOC,
-  ACCOUNTING_READINESS_DELIVERY_DOC,
 } from "./accounting-readiness-gate-registry.mts";
 import { checkAccountingReadinessErpCopyParity } from "./lib/accounting-readiness-gate-erp-copy-parity.mts";
 import { evaluateAccountingReadinessGateLiveStatus } from "./lib/accounting-readiness-gate-live-status.mts";

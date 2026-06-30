@@ -1,0 +1,90 @@
+{
+  "generatedAt": "2026-06-30T02:29:40.209Z",
+  "autoStoryCount": 10,
+  "manualStoryRequiredCount": 31,
+  "autoStories": [
+    {
+      "slug": "account-settings-01",
+      "importPath": "./components/shadcn-studio/blocks/account-settings-01/account-settings-01.js",
+      "layout": "fullscreen"
+    },
+    {
+      "slug": "account-settings-02",
+      "importPath": "./components/shadcn-studio/blocks/account-settings-02/account-settings-02.js",
+      "layout": "fullscreen"
+    },
+    {
+      "slug": "account-settings-03",
+      "importPath": "./components/shadcn-studio/blocks/account-settings-03/account-settings-03.js",
+      "layout": "fullscreen"
+    },
+    {
+      "slug": "account-settings-04",
+      "importPath": "./components/shadcn-studio/blocks/account-settings-04/account-settings-04.js",
+      "layout": "fullscreen"
+    },
+    {
+      "slug": "account-settings-05",
+      "importPath": "./components/shadcn-studio/blocks/account-settings-05/account-settings-05.js",
+      "layout": "fullscreen"
+    },
+    {
+      "slug": "account-settings-06",
+      "importPath": "./components/shadcn-studio/blocks/account-settings-06/account-settings-06.js",
+      "layout": "fullscreen"
+    },
+    {
+      "slug": "account-settings-07",
+      "importPath": "./components/shadcn-studio/blocks/account-settings-07/account-settings-07.js",
+      "layout": "fullscreen"
+    },
+    {
+      "slug": "error-page-02",
+      "importPath": "./components/shadcn-studio/blocks/error-page-02/error-page-02.js",
+      "layout": "fullscreen"
+    },
+    {
+      "slug": "hero-section-01",
+      "importPath": "./components/shadcn-studio/blocks/hero-section-01/hero-section-01.js",
+      "layout": "centered"
+    },
+    {
+      "slug": "login-page-04",
+      "importPath": "./components/shadcn-studio/blocks/login-page-04/login-page-04.js",
+      "layout": "fullscreen"
+    }
+  ],
+  "manualStoryRequired": [
+    "chart-earning-report",
+    "chart-sales-metrics",
+    "chart-total-revenue",
+    "dashboard-dialog-03",
+    "dashboard-dialog-09",
+    "datatable-invoice",
+    "dialog-activity",
+    "dialog-search",
+    "dropdown-language",
+    "dropdown-notification",
+    "dropdown-profile",
+    "menu-trigger",
+    "sidebar-user-dropdown",
+    "statistics-activity-card",
+    "statistics-card-01",
+    "statistics-card-02",
+    "statistics-card-03",
+    "statistics-card-04",
+    "statistics-expense-card",
+    "statistics-income-card",
+    "statistics-leads-card",
+    "statistics-line-trends-card",
+    "statistics-orders-progress-card",
+    "statistics-profile-traffic-card",
+    "statistics-revenue-card",
+    "statistics-sales-overview-card",
+    "statistics-trend-card",
+    "widget-payment-history",
+    "widget-sales-by-countries",
+    "widget-total-earning",
+    "widget-transactions"
+  ]
+}

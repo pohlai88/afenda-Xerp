@@ -5,12 +5,12 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-
-import { ERP_DOMAIN_MODULE_KV_IDS } from "../../packages/kernel/src/erp-domain/erp-domain-layout.contract.ts";
-import { ERP_RUNTIME_MODULE_REGISTRY as PROCUREMENT_REGISTRY } from "../../packages/erp-module-foundation/src/reference/erp-runtime-module-registry.ts";
 import { PROCUREMENT_FOUNDATION_BUNDLE } from "../../packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts";
+import { ERP_RUNTIME_MODULE_REGISTRY as PROCUREMENT_REGISTRY } from "../../packages/erp-module-foundation/src/reference/erp-runtime-module-registry.ts";
+import { ERP_DOMAIN_MODULE_KV_IDS } from "../../packages/kernel/src/erp-domain/erp-domain-layout.contract.ts";
 
-export const ERP_MODULE_FOUNDATION_GATE = "check:erp-module-foundation" as const;
+export const ERP_MODULE_FOUNDATION_GATE =
+  "check:erp-module-foundation" as const;
 
 export const ERP_MODULE_FOUNDATION_SUB_GATES = [
   "check:erp-module-ownership",
@@ -47,7 +47,10 @@ export interface ErpModuleFoundationViolation {
 }
 
 export function getRepoRoot(): string {
-  return fileURLToPath(new URL("../../", import.meta.url)).replace(/[/\\]$/, "");
+  return fileURLToPath(new URL("../../", import.meta.url)).replace(
+    /[/\\]$/,
+    ""
+  );
 }
 
 export function pathExists(relativePath: string): boolean {
@@ -79,13 +82,15 @@ export function reportViolations(
 
   console.error(`✗ ${gate} failed (${violations.length} violation(s)):`);
   for (const violation of violations) {
-    console.error(`  [${violation.rule}] ${violation.file}: ${violation.message}`);
+    console.error(
+      `  [${violation.rule}] ${violation.file}: ${violation.message}`
+    );
   }
   process.exitCode = 1;
 }
 
 export {
   ERP_DOMAIN_MODULE_KV_IDS,
-  ERP_RUNTIME_MODULE_REGISTRY,
+  type ERP_RUNTIME_MODULE_REGISTRY,
   PROCUREMENT_FOUNDATION_BUNDLE,
 };

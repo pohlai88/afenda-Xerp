@@ -39,7 +39,13 @@ const config: StorybookConfig = {
   },
   typescript: {
     check: false,
-    reactDocgen: false,
+    reactDocgen: "react-docgen-typescript",
+    reactDocgenTypescriptOptions: {
+      shouldExtractLiteralValuesFromEnum: true,
+      shouldRemoveUndefinedFromOptional: true,
+      propFilter: (prop) =>
+        prop.parent ? !/node_modules/u.test(prop.parent.fileName) : true,
+    },
   },
   async viteFinal(viteConfig) {
     const storybookAliases = [

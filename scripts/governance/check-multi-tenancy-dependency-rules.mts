@@ -19,8 +19,8 @@ import {
   MULTI_TENANCY_REQUIRED_APPROVED_RUNTIME_EDGES,
 } from "../../packages/architecture-authority/src/surface/index.ts";
 import {
-  MULTI_TENANCY_DOC_REFERENCE,
   MULTI_TENANCY_DELIVERY_DOC,
+  MULTI_TENANCY_DOC_REFERENCE,
 } from "./delivery-evidence-surface-registry.mts";
 import {
   collectArchitectureAuthorityDistFreshnessViolations,

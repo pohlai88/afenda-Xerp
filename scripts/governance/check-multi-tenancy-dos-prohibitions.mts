@@ -12,8 +12,8 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
-  MULTI_TENANCY_DOC_REFERENCE,
   MULTI_TENANCY_DELIVERY_DOC,
+  MULTI_TENANCY_DOC_REFERENCE,
 } from "./delivery-evidence-surface-registry.mts";
 import {
   collectArchitectureSilenceViolations,
@@ -32,9 +32,9 @@ import {
   MULTI_TENANCY_DOS_DELEGATED_GATES,
   MULTI_TENANCY_DOS_PROHIBITIONS_ENFORCEMENT_LIB,
   MULTI_TENANCY_DOS_PROHIBITIONS_GATE,
+  MULTI_TENANCY_DOS_PROHIBITIONS_SECTION,
   MULTI_TENANCY_DOS_PROHIBITIONS_SURFACE_RULE,
   MULTI_TENANCY_PROHIBITION_ENFORCEMENT,
-  MULTI_TENANCY_DOS_PROHIBITIONS_SECTION,
 } from "./multi-tenancy-dos-prohibitions-registry.mts";
 
 const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
@@ -137,7 +137,9 @@ function collectDeliveryDocViolations(
     });
   }
 
-  if (!deliveryContent.includes(`## ${MULTI_TENANCY_DOS_PROHIBITIONS_SECTION}`)) {
+  if (
+    !deliveryContent.includes(`## ${MULTI_TENANCY_DOS_PROHIBITIONS_SECTION}`)
+  ) {
     violations.push({
       rule: "delivery-section-missing",
       file: deliveryDocPath,

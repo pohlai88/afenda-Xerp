@@ -364,9 +364,9 @@ Use changed-files matrix from `VERIFICATION.md`:
 
 | Changed files | Minimum gate |
 | --- | --- |
-| `packages/ui/src/components/**` | `pnpm --filter @afenda/ui check:governance` + test:run |
-| `packages/appshell/**` | `pnpm ui:guard:scan` + appshell test:run |
-| `packages/appshell/src/styles/**`, `packages/ui/src/styles/**`, `packages/metadata-ui/src/**/*.css` | `pnpm sync:package-css-dist` + `pnpm check:package-css-dist-sync` before ERP visual verification |
+| `packages/shadcn-studio/**` | `pnpm --filter @afenda/shadcn-studio typecheck` + `pnpm check:studio-metadata-binding` |
+| `packages/shadcn-studio/src/styles/**` | `pnpm sync:package-css-dist -- --package @afenda/shadcn-studio` + `pnpm check:package-css-dist-sync` |
+| `apps/erp/src/lib/metadata/**` | `pnpm check:erp-metadata-pas006-consumer` |
 | `apps/erp/src/**` | `pnpm --filter @afenda/erp typecheck` + test:run |
 | `packages/database/**` | database typecheck + test:run |
 | Any TypeScript | `pnpm typecheck` |
@@ -376,10 +376,11 @@ Use changed-files matrix from `VERIFICATION.md`:
 Common additional gates:
 
 ```bash
-pnpm sync:package-css-dist -- --package @afenda/appshell
+pnpm sync:package-css-dist -- --package @afenda/shadcn-studio
 pnpm check:package-css-dist-sync
-pnpm --filter @afenda/appshell build
-pnpm check:css-governance
+pnpm --filter @afenda/shadcn-studio build
+pnpm check:studio-metadata-binding
+pnpm check:erp-metadata-pas006-consumer
 pnpm check:api-contracts
 pnpm quality:boundaries
 ```
@@ -500,8 +501,8 @@ Every session ends with:
 
 Run `git diff --name-only` and classify every changed file. All paths must be within Phase 0 allowed scope or explicitly escalated.
 
-### Gate G / negative-search proof
-For CSS bridge, studio block, or Governed UI governance work, paste the **`pnpm ui:guard:proof` attestation block** verbatim in this report (NS1–NS5 counts). A Pass claim without Gate G output is incomplete for 9.5 acceptance.
+### PAS-006 presentation proof
+For studio block, metadata binding, or ERP presentation work, paste **`pnpm check:studio-metadata-binding`** and **`pnpm check:erp-metadata-pas006-consumer`** output verbatim in this report. A Pass claim without gate output is incomplete for 9.5 acceptance.
 
 ### Collateral consumer scan
 | Search | Result | Action |

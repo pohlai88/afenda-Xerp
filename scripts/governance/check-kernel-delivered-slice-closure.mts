@@ -72,9 +72,7 @@ const CLOSURE_TRACK_EVIDENCE: readonly {
   },
   {
     label: "B68 hierarchy id boundary",
-    paths: [
-      "packages/kernel/src/context/hierarchy-id-boundary.contract.ts",
-    ],
+    paths: ["packages/kernel/src/context/hierarchy-id-boundary.contract.ts"],
   },
   {
     label: "B107 tenant SaaS lifecycle wire",
@@ -132,9 +130,9 @@ const REGISTERED_CLOSURE_GATES = [
   "check:kernel-implementation-sequence",
   "check:kernel-slice-catalog-consistency",
   "check:kernel-effective-dating-consumer-attestation",
-    "check:erp-auth-actor-protected-path-attestation",
-    "check:erp-service-actor-s2s-attestation",
-    "check:erp-tenant-lifecycle-extension-consumer-attestation",
+  "check:erp-auth-actor-protected-path-attestation",
+  "check:erp-service-actor-s2s-attestation",
+  "check:erp-tenant-lifecycle-extension-consumer-attestation",
 ] as const;
 
 function assertDeliveredHandoff(

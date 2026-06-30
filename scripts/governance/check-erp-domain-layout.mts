@@ -62,8 +62,8 @@ export const ERP_DOMAIN_LAYOUT_GATE_FAILURE_MATRIX = [
 ] as const;
 
 export interface ErpDomainLayoutViolation {
-  readonly rule: string;
   readonly message: string;
+  readonly rule: string;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -75,8 +75,10 @@ function isAllowedMaturity(value: string): value is ErpDomainModuleMaturity {
 }
 
 function readKernelErpDomainExports(): Set<string> {
-  const raw = JSON.parse(readFileSync(kernelPackageJsonPath, "utf8")) as unknown;
-  if (!isRecord(raw) || !isRecord(raw.exports)) {
+  const raw = JSON.parse(
+    readFileSync(kernelPackageJsonPath, "utf8")
+  ) as unknown;
+  if (!(isRecord(raw) && isRecord(raw.exports))) {
     return new Set();
   }
 
@@ -348,7 +350,7 @@ function checkDeliveredModuleSurfaces(
     }
 
     const indexPath = ERP_DOMAIN_MODULE_INDEX_PATHS[slug as ErpDomainModule];
-    if (!indexPath || !existsSync(join(repoRoot, indexPath))) {
+    if (!(indexPath && existsSync(join(repoRoot, indexPath)))) {
       violations.push({
         rule: "delivered-requires-index",
         message: `Delivered module "${slug}" missing index.ts barrel.`,
@@ -388,19 +390,19 @@ function checkDeliveredModuleSurfaces(
 
     const metadata = ERP_DOMAIN_MODULE_METADATA[slug];
     const gateCommand = metadata?.vocabularyGate;
-    if (!gateCommand) {
-      violations.push({
-        rule: "delivered-requires-gate",
-        message: `Delivered module "${slug}" missing vocabularyGate in module metadata.`,
-      });
-    } else {
+    if (gateCommand) {
       const gatePath = gateScriptPathFromCommand(gateCommand);
-      if (!gatePath || !existsSync(gatePath)) {
+      if (!(gatePath && existsSync(gatePath))) {
         violations.push({
           rule: "delivered-requires-gate-script",
           message: `Delivered module "${slug}" vocabularyGate "${gateCommand}" missing script at scripts/governance/.`,
         });
       }
+    } else {
+      violations.push({
+        rule: "delivered-requires-gate",
+        message: `Delivered module "${slug}" missing vocabularyGate in module metadata.`,
+      });
     }
 
     if (!packageExports.has(slug)) {
