@@ -1,62 +1,12 @@
 {
-  "generatedAt": "2026-06-30T10:23:02.836Z",
-  "autoStoryCount": 13,
-  "manualStoryRequiredCount": 80,
+  "generatedAt": "2026-06-30T19:24:11.525Z",
+  "autoStoryCount": 3,
+  "manualStoryRequiredCount": 33,
   "autoStories": [
     {
       "slug": "account-settings-01",
       "importPath": "./components/shadcn-studio/blocks/account-settings-01/account-settings-01.js",
       "layout": "fullscreen"
-    },
-    {
-      "slug": "account-settings-02",
-      "importPath": "./components/shadcn-studio/blocks/account-settings-02/account-settings-02.js",
-      "layout": "fullscreen"
-    },
-    {
-      "slug": "account-settings-03",
-      "importPath": "./components/shadcn-studio/blocks/account-settings-03/account-settings-03.js",
-      "layout": "fullscreen"
-    },
-    {
-      "slug": "account-settings-04",
-      "importPath": "./components/shadcn-studio/blocks/account-settings-04/account-settings-04.js",
-      "layout": "fullscreen"
-    },
-    {
-      "slug": "account-settings-05",
-      "importPath": "./components/shadcn-studio/blocks/account-settings-05/account-settings-05.js",
-      "layout": "fullscreen"
-    },
-    {
-      "slug": "account-settings-06",
-      "importPath": "./components/shadcn-studio/blocks/account-settings-06/account-settings-06.js",
-      "layout": "fullscreen"
-    },
-    {
-      "slug": "account-settings-07",
-      "importPath": "./components/shadcn-studio/blocks/account-settings-07/account-settings-07.js",
-      "layout": "fullscreen"
-    },
-    {
-      "slug": "empty-state-01",
-      "importPath": "./components/shadcn-studio/blocks/empty-state-01/empty-state-01.js",
-      "layout": "centered"
-    },
-    {
-      "slug": "empty-state-02",
-      "importPath": "./components/shadcn-studio/blocks/empty-state-02/empty-state-02.js",
-      "layout": "centered"
-    },
-    {
-      "slug": "error-page-02",
-      "importPath": "./components/shadcn-studio/blocks/error-page-02/error-page-02.js",
-      "layout": "fullscreen"
-    },
-    {
-      "slug": "form-layout-02",
-      "importPath": "./components/shadcn-studio/blocks/form-layout-02/form-layout-02.js",
-      "layout": "centered"
     },
     {
       "slug": "hero-section-01",
@@ -70,26 +20,13 @@
     }
   ],
   "manualStoryRequired": [
-    "chart-conversion-rate",
-    "chart-country-sales",
-    "chart-earning-insights",
     "chart-earning-report",
-    "chart-finance",
-    "chart-performance",
-    "chart-project-financial-status",
     "chart-sales-metrics",
-    "chart-sales-report",
-    "chart-services-by-sales",
-    "chart-total-earning",
-    "chart-total-income",
-    "chart-total-orders",
     "chart-total-revenue",
-    "chart-weekly-overview",
     "dashboard-dialog-03",
     "dashboard-dialog-09",
-    "dashboard-dialog-25",
-    "datatable-course",
     "datatable-invoice",
+    "datatable-product",
     "datatable-user",
     "dialog-activity",
     "dialog-search",
@@ -97,58 +34,24 @@
     "dropdown-notification",
     "dropdown-profile",
     "menu-trigger",
-    "multi-step-form-01",
     "sidebar-user-dropdown",
     "statistics-activity-card",
     "statistics-card-01",
     "statistics-card-02",
     "statistics-card-03",
     "statistics-card-04",
-    "statistics-card-05",
-    "statistics-category-card",
-    "statistics-company-stock-graph",
     "statistics-expense-card",
-    "statistics-finance-card",
-    "statistics-impression-card",
     "statistics-income-card",
-    "statistics-latency-card",
     "statistics-leads-card",
     "statistics-line-trends-card",
-    "statistics-metric-card",
-    "statistics-order-card",
     "statistics-orders-progress-card",
     "statistics-profile-traffic-card",
-    "statistics-profit-card",
     "statistics-revenue-card",
-    "statistics-revenue-channel-distribution",
-    "statistics-sales-growth-card",
     "statistics-sales-overview-card",
-    "statistics-score-card",
-    "statistics-sessions-card",
-    "statistics-total-growth-card",
-    "statistics-total-profit-card",
-    "statistics-total-revenue-card",
-    "statistics-total-sales-card",
     "statistics-trend-card",
-    "statistics-usage-card",
-    "statistics-with-status",
-    "widget-advertisement",
-    "widget-browser-states",
-    "widget-component-20",
-    "widget-for-business-shark",
-    "widget-general-finance-reviews",
-    "widget-monthly-campaign",
-    "widget-orders",
     "widget-payment-history",
-    "widget-popular-product",
-    "widget-product-insights",
     "widget-sales-by-countries",
-    "widget-social-network-visits",
-    "widget-top-products",
     "widget-total-earning",
-    "widget-transactions",
-    "widget-upgrade-your-plan",
-    "widget-user-order",
-    "widget-your-accounts"
+    "widget-transactions"
   ]
 }

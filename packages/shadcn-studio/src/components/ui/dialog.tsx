@@ -3,37 +3,69 @@
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
 import { XIcon } from "lucide-react";
 import type * as React from "react";
+
 import { Button } from "@/components/ui/button";
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function Dialog({ ...props }: DialogPrimitive.Root.Props) {
-  return <DialogPrimitive.Root data-slot="dialog" {...props} />;
+import {
+  DIALOG_SLOTS,
+  dialogCloseButtonClassName,
+  dialogContentClassName,
+  dialogDescriptionClassName,
+  dialogFooterClassName,
+  dialogHeaderClassName,
+  dialogOverlayClassName,
+  dialogTitleClassName,
+  dialogViewportClassName,
+} from "./dialog.contract.js";
+
+type DialogProps = WithoutGovernedDataSlot<DialogPrimitive.Root.Props>;
+type DialogTriggerProps =
+  WithoutGovernedDataSlot<DialogPrimitive.Trigger.Props>;
+type DialogPortalProps = WithoutGovernedDataSlot<DialogPrimitive.Portal.Props>;
+type DialogCloseProps = WithoutGovernedDataSlot<DialogPrimitive.Close.Props>;
+type DialogOverlayProps =
+  WithoutGovernedDataSlot<DialogPrimitive.Backdrop.Props>;
+type DialogViewportProps = WithoutGovernedDataSlot<React.ComponentProps<"div">>;
+type DialogContentProps =
+  WithoutGovernedDataSlot<DialogPrimitive.Popup.Props> & {
+    showCloseButton?: boolean;
+  };
+type DialogHeaderProps = WithoutGovernedDataSlot<React.ComponentProps<"div">>;
+type DialogFooterProps = WithoutGovernedDataSlot<
+  React.ComponentProps<"div">
+> & {
+  showCloseButton?: boolean;
+};
+type DialogTitleProps = WithoutGovernedDataSlot<DialogPrimitive.Title.Props>;
+type DialogDescriptionProps =
+  WithoutGovernedDataSlot<DialogPrimitive.Description.Props>;
+
+function Dialog({ ...props }: DialogProps) {
+  return <DialogPrimitive.Root {...props} data-slot={DIALOG_SLOTS.root} />;
 }
 
-function DialogTrigger({ ...props }: DialogPrimitive.Trigger.Props) {
-  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />;
+function DialogTrigger({ ...props }: DialogTriggerProps) {
+  return (
+    <DialogPrimitive.Trigger {...props} data-slot={DIALOG_SLOTS.trigger} />
+  );
 }
 
-function DialogPortal({ ...props }: DialogPrimitive.Portal.Props) {
-  return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />;
+function DialogPortal({ ...props }: DialogPortalProps) {
+  return <DialogPrimitive.Portal {...props} data-slot={DIALOG_SLOTS.portal} />;
 }
 
-function DialogClose({ ...props }: DialogPrimitive.Close.Props) {
-  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />;
+function DialogClose({ ...props }: DialogCloseProps) {
+  return <DialogPrimitive.Close {...props} data-slot={DIALOG_SLOTS.close} />;
 }
 
-function DialogOverlay({
-  className,
-  ...props
-}: DialogPrimitive.Backdrop.Props) {
+function DialogOverlay({ className, ...props }: DialogOverlayProps) {
   return (
     <DialogPrimitive.Backdrop
-      className={cn(
-        "data-open:fade-in-0 data-closed:fade-out-0 fixed inset-0 isolate z-50 bg-black/10 duration-100 data-closed:animate-out data-open:animate-in supports-backdrop-filter:backdrop-blur-xs",
-        className
-      )}
-      data-slot="dialog-overlay"
       {...props}
+      className={cn(dialogOverlayClassName, className)}
+      data-slot={DIALOG_SLOTS.overlay}
     />
   );
 }
@@ -43,47 +75,47 @@ function DialogContent({
   children,
   showCloseButton = true,
   ...props
-}: DialogPrimitive.Popup.Props & {
-  showCloseButton?: boolean;
-}) {
+}: DialogContentProps) {
   return (
     <DialogPortal>
       <DialogOverlay />
-      <DialogPrimitive.Popup
-        className={cn(
-          "data-open:fade-in-0 data-open:zoom-in-95 data-closed:fade-out-0 data-closed:zoom-out-95 fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-6 rounded-xl bg-popover p-6 text-popover-foreground text-sm outline-none ring-1 ring-foreground/10 duration-100 data-closed:animate-out data-open:animate-in sm:max-w-md",
-          className
-        )}
-        data-slot="dialog-content"
-        {...props}
+      <div
+        className={dialogViewportClassName}
+        data-slot={DIALOG_SLOTS.viewport}
       >
-        {children}
-        {showCloseButton && (
-          <DialogPrimitive.Close
-            data-slot="dialog-close"
-            render={
-              <Button
-                className="absolute top-4 right-4"
-                size="icon-sm"
-                variant="ghost"
-              />
-            }
-          >
-            <XIcon />
-            <span className="sr-only">Close</span>
-          </DialogPrimitive.Close>
-        )}
-      </DialogPrimitive.Popup>
+        <DialogPrimitive.Popup
+          {...props}
+          className={cn(dialogContentClassName, className)}
+          data-slot={DIALOG_SLOTS.content}
+        >
+          {children}
+          {showCloseButton && (
+            <DialogPrimitive.Close
+              data-slot={DIALOG_SLOTS.close}
+              render={
+                <Button
+                  className={dialogCloseButtonClassName}
+                  size="icon-sm"
+                  variant="ghost"
+                />
+              }
+            >
+              <XIcon />
+              <span className="sr-only">Close</span>
+            </DialogPrimitive.Close>
+          )}
+        </DialogPrimitive.Popup>
+      </div>
     </DialogPortal>
   );
 }
 
-function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
+function DialogHeader({ className, ...props }: DialogHeaderProps) {
   return (
     <div
-      className={cn("flex flex-col gap-2", className)}
-      data-slot="dialog-header"
       {...props}
+      className={cn(dialogHeaderClassName, className)}
+      data-slot={DIALOG_SLOTS.header}
     />
   );
 }
@@ -93,17 +125,12 @@ function DialogFooter({
   showCloseButton = false,
   children,
   ...props
-}: React.ComponentProps<"div"> & {
-  showCloseButton?: boolean;
-}) {
+}: DialogFooterProps) {
   return (
     <div
-      className={cn(
-        "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
-        className
-      )}
-      data-slot="dialog-footer"
       {...props}
+      className={cn(dialogFooterClassName, className)}
+      data-slot={DIALOG_SLOTS.footer}
     >
       {children}
       {showCloseButton && (
@@ -115,32 +142,40 @@ function DialogFooter({
   );
 }
 
-function DialogTitle({ className, ...props }: DialogPrimitive.Title.Props) {
+function DialogTitle({ className, ...props }: DialogTitleProps) {
   return (
     <DialogPrimitive.Title
-      className={cn("font-heading font-medium leading-none", className)}
-      data-slot="dialog-title"
       {...props}
+      className={cn(dialogTitleClassName, className)}
+      data-slot={DIALOG_SLOTS.title}
     />
   );
 }
 
-function DialogDescription({
-  className,
-  ...props
-}: DialogPrimitive.Description.Props) {
+function DialogDescription({ className, ...props }: DialogDescriptionProps) {
   return (
     <DialogPrimitive.Description
-      className={cn(
-        "text-muted-foreground text-sm *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
-        className
-      )}
-      data-slot="dialog-description"
       {...props}
+      className={cn(dialogDescriptionClassName, className)}
+      data-slot={DIALOG_SLOTS.description}
     />
   );
 }
 
+export type { DialogSlot } from "./dialog.contract.js";
+export type {
+  DialogCloseProps,
+  DialogContentProps,
+  DialogDescriptionProps,
+  DialogFooterProps,
+  DialogHeaderProps,
+  DialogOverlayProps,
+  DialogPortalProps,
+  DialogProps,
+  DialogTitleProps,
+  DialogTriggerProps,
+  DialogViewportProps,
+};
 export {
   Dialog,
   DialogClose,

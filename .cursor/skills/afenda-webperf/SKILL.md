@@ -31,6 +31,7 @@ Spawned agent or main agent must Read:
 2. `.cursor/skills/enterprise-frontend-audit/reference/performance.md`
 3. `.cursor/skills/vendor/agent-skills/skills/performance-optimization/SKILL.md` — measure-first workflow
 4. `.cursor/references/performance-checklist.md` — CWV targets and anti-patterns
+5. `.cursor/skills/afenda-shadcn-performance/SKILL.md` — when diff touches `packages/shadcn-studio/**` or ERP presentation (PAS-006 stack)
 
 ### 3. Spawn analysis Task
 

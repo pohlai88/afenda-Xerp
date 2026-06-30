@@ -3,6 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
 function BubbleGroup({ className, ...props }: React.ComponentProps<"div">) {
@@ -42,22 +43,26 @@ const bubbleVariants = cva(
   }
 );
 
+type BubbleProps = WithoutGovernedDataSlot<
+  React.ComponentProps<"div"> &
+    VariantProps<typeof bubbleVariants> & {
+      align?: "start" | "end";
+    }
+>;
+
 function Bubble({
   variant = "default",
   align = "start",
   className,
   ...props
-}: React.ComponentProps<"div"> &
-  VariantProps<typeof bubbleVariants> & {
-    align?: "start" | "end";
-  }) {
+}: BubbleProps) {
   return (
     <div
+      {...props}
       className={cn(bubbleVariants({ variant }), className)}
       data-align={align}
       data-slot="bubble"
       data-variant={variant}
-      {...props}
     />
   );
 }
@@ -125,4 +130,6 @@ function BubbleReactions({
   );
 }
 
+export type { BubbleSlot } from "./bubble.contract.js";
+export type { BubbleProps };
 export { Bubble, BubbleContent, BubbleGroup, BubbleReactions };

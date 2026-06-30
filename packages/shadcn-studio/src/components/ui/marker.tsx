@@ -3,6 +3,7 @@ import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
 const markerVariants = cva(
@@ -19,12 +20,16 @@ const markerVariants = cva(
   }
 );
 
+type MarkerProps = WithoutGovernedDataSlot<
+  useRender.ComponentProps<"div"> & VariantProps<typeof markerVariants>
+>;
+
 function Marker({
   className,
   variant = "default",
   render,
   ...props
-}: useRender.ComponentProps<"div"> & VariantProps<typeof markerVariants>) {
+}: MarkerProps) {
   return useRender({
     defaultTagName: "div",
     props: mergeProps<"div">(
@@ -68,4 +73,6 @@ function MarkerContent({ className, ...props }: React.ComponentProps<"span">) {
   );
 }
 
+export type { MarkerSlot } from "./marker.contract.js";
+export type { MarkerProps };
 export { Marker, MarkerContent, MarkerIcon, markerVariants };

@@ -1,12 +1,13 @@
 {
-  "biome.configurationPath": "biome.lsp.jsonc",
+  "biome.configurationPath": "${workspaceFolder}/biome.lsp.jsonc",
+  "biome.enabled": true,
   "biome.lsp.bin": {
-    "darwin-arm64": "./node_modules/@biomejs/cli-darwin-arm64/biome",
-    "darwin-x64": "./node_modules/@biomejs/cli-darwin-x64/biome",
-    "linux-arm64": "./node_modules/@biomejs/cli-linux-arm64/biome",
-    "linux-x64": "./node_modules/@biomejs/cli-linux-x64/biome",
-    "win32-arm64": "./node_modules/@biomejs/cli-win32-arm64/biome.exe",
-    "win32-x64": "./node_modules/@biomejs/cli-win32-x64/biome.exe"
+    "darwin-arm64": "${workspaceFolder}/node_modules/@biomejs/cli-darwin-arm64/biome",
+    "darwin-x64": "${workspaceFolder}/node_modules/@biomejs/cli-darwin-x64/biome",
+    "linux-arm64": "${workspaceFolder}/node_modules/@biomejs/cli-linux-arm64/biome",
+    "linux-x64": "${workspaceFolder}/node_modules/@biomejs/cli-linux-x64/biome",
+    "win32-arm64": "${workspaceFolder}/node_modules/@biomejs/cli-win32-arm64/biome.exe",
+    "win32-x64": "${workspaceFolder}/node_modules/@biomejs/cli-win32-x64/biome.exe"
   },
   "biome.lsp.trace.server": "off",
   "biome.lsp.watcher.kind": "none",
@@ -50,9 +51,11 @@
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[javascript]": {
+    "biome.enabled": true,
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[javascriptreact]": {
+    "biome.enabled": true,
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[json]": {
@@ -94,9 +97,11 @@
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescript]": {
+    "biome.enabled": true,
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescriptreact]": {
+    "biome.enabled": true,
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[vue]": {

@@ -28,7 +28,6 @@ const config: StorybookConfig = {
   stories: [
     "../stories/**/*.mdx",
     "../stories/**/*.stories.@(ts|tsx)",
-    "../../../packages/shadcn-studio/src/_storybook/docs/**/*.mdx",
     "../../../packages/shadcn-studio/src/**/*.stories.@(ts|tsx)",
   ],
   staticDirs: [
@@ -71,6 +70,10 @@ const config: StorybookConfig = {
       {
         find: "@afenda/shadcn-studio/shadcn-studio.css",
         replacement: join(shadcnStudioRoot, "src/styles/shadcn-studio.css"),
+      },
+      {
+        find: "@afenda/shadcn-studio/lab",
+        replacement: join(shadcnStudioSrcRoot, "lab/index.ts"),
       },
       {
         find: "@afenda/shadcn-studio",
@@ -152,6 +155,7 @@ const config: StorybookConfig = {
       "@/lib/utils": join(shadcnStudioSrcRoot, "lib/utils.ts"),
       "@/hooks": join(shadcnStudioSrcRoot, "hooks"),
       "@": shadcnStudioSrcRoot,
+      "@afenda/shadcn-studio/lab": join(shadcnStudioSrcRoot, "lab/index.ts"),
       "next/link": nextLinkMock,
       "next/image": nextImageMock,
       "next/dynamic": nextDynamicMock,
@@ -162,6 +166,7 @@ const config: StorybookConfig = {
         (dep) => dep !== "next/link"
       ),
       "@storybook/addon-docs/blocks",
+      "@afenda/shadcn-studio/lab",
       "@afenda/shadcn-studio",
       "next-themes",
       "react",

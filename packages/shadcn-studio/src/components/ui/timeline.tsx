@@ -1,6 +1,8 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import { CheckIcon, CircleIcon, XIcon } from "lucide-react";
 import type * as React from "react";
+
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
 const timelineVariants = cva("grid", {
@@ -16,9 +18,9 @@ const timelineVariants = cva("grid", {
   },
 });
 
-interface TimelineProps
-  extends React.HTMLAttributes<HTMLUListElement>,
-    VariantProps<typeof timelineVariants> {}
+type TimelineProps = WithoutGovernedDataSlot<
+  React.HTMLAttributes<HTMLUListElement> & VariantProps<typeof timelineVariants>
+>;
 
 const Timeline = ({
   children,
@@ -270,6 +272,8 @@ const TimelineLine = ({
 
 TimelineLine.displayName = "TimelineLine";
 
+export type { TimelineSlot } from "./timeline.contract.js";
+export type { TimelineProps };
 export {
   Timeline,
   TimelineContent,

@@ -2,20 +2,45 @@
 
 import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible";
 
-function Collapsible({ ...props }: CollapsiblePrimitive.Root.Props) {
-  return <CollapsiblePrimitive.Root data-slot="collapsible" {...props} />;
-}
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 
-function CollapsibleTrigger({ ...props }: CollapsiblePrimitive.Trigger.Props) {
+import { COLLAPSIBLE_SLOTS } from "./collapsible.contract.js";
+
+type CollapsibleProps =
+  WithoutGovernedDataSlot<CollapsiblePrimitive.Root.Props>;
+type CollapsibleTriggerProps =
+  WithoutGovernedDataSlot<CollapsiblePrimitive.Trigger.Props>;
+type CollapsibleContentProps =
+  WithoutGovernedDataSlot<CollapsiblePrimitive.Panel.Props>;
+
+function Collapsible({ ...props }: CollapsibleProps) {
   return (
-    <CollapsiblePrimitive.Trigger data-slot="collapsible-trigger" {...props} />
+    <CollapsiblePrimitive.Root {...props} data-slot={COLLAPSIBLE_SLOTS.root} />
   );
 }
 
-function CollapsibleContent({ ...props }: CollapsiblePrimitive.Panel.Props) {
+function CollapsibleTrigger({ ...props }: CollapsibleTriggerProps) {
   return (
-    <CollapsiblePrimitive.Panel data-slot="collapsible-content" {...props} />
+    <CollapsiblePrimitive.Trigger
+      {...props}
+      data-slot={COLLAPSIBLE_SLOTS.trigger}
+    />
   );
 }
 
+function CollapsibleContent({ ...props }: CollapsibleContentProps) {
+  return (
+    <CollapsiblePrimitive.Panel
+      {...props}
+      data-slot={COLLAPSIBLE_SLOTS.content}
+    />
+  );
+}
+
+export type { CollapsibleSlot } from "./collapsible.contract.js";
+export type {
+  CollapsibleContentProps,
+  CollapsibleProps,
+  CollapsibleTriggerProps,
+};
 export { Collapsible, CollapsibleContent, CollapsibleTrigger };

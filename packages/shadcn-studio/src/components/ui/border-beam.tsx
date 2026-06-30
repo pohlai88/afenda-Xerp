@@ -2,10 +2,12 @@
 
 import type { MotionStyle, Transition } from "motion/react";
 import { motion } from "motion/react";
+import type * as React from "react";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-interface BorderBeamProps {
+type BorderBeamProps = WithoutGovernedDataSlot<{
   borderWidth?: number;
   className?: string;
   colorFrom?: string;
@@ -17,7 +19,7 @@ interface BorderBeamProps {
   size?: number;
   style?: React.CSSProperties;
   transition?: Transition;
-}
+}>;
 
 function BorderBeam({
   className,
@@ -74,4 +76,6 @@ function BorderBeam({
   );
 }
 
-export { BorderBeam, type BorderBeamProps };
+export type { BorderBeamSlot } from "./border-beam.contract.js";
+export type { BorderBeamProps };
+export { BorderBeam };

@@ -2,15 +2,38 @@
 
 import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function HoverCard({ ...props }: PreviewCardPrimitive.Root.Props) {
-  return <PreviewCardPrimitive.Root data-slot="hover-card" {...props} />;
+import {
+  HOVER_CARD_SLOTS,
+  hoverCardContentClassName,
+  hoverCardPositionerClassName,
+} from "./hover-card.contract.js";
+
+type HoverCardProps = WithoutGovernedDataSlot<PreviewCardPrimitive.Root.Props>;
+type HoverCardTriggerProps =
+  WithoutGovernedDataSlot<PreviewCardPrimitive.Trigger.Props>;
+type HoverCardContentProps = WithoutGovernedDataSlot<
+  PreviewCardPrimitive.Popup.Props &
+    Pick<
+      PreviewCardPrimitive.Positioner.Props,
+      "align" | "alignOffset" | "side" | "sideOffset"
+    >
+>;
+
+function HoverCard({ ...props }: HoverCardProps) {
+  return (
+    <PreviewCardPrimitive.Root {...props} data-slot={HOVER_CARD_SLOTS.root} />
+  );
 }
 
-function HoverCardTrigger({ ...props }: PreviewCardPrimitive.Trigger.Props) {
+function HoverCardTrigger({ ...props }: HoverCardTriggerProps) {
   return (
-    <PreviewCardPrimitive.Trigger data-slot="hover-card-trigger" {...props} />
+    <PreviewCardPrimitive.Trigger
+      {...props}
+      data-slot={HOVER_CARD_SLOTS.trigger}
+    />
   );
 }
 
@@ -21,31 +44,27 @@ function HoverCardContent({
   align = "center",
   alignOffset = 4,
   ...props
-}: PreviewCardPrimitive.Popup.Props &
-  Pick<
-    PreviewCardPrimitive.Positioner.Props,
-    "align" | "alignOffset" | "side" | "sideOffset"
-  >) {
+}: HoverCardContentProps) {
   return (
-    <PreviewCardPrimitive.Portal data-slot="hover-card-portal">
+    <PreviewCardPrimitive.Portal data-slot={HOVER_CARD_SLOTS.portal}>
       <PreviewCardPrimitive.Positioner
         align={align}
         alignOffset={alignOffset}
-        className="isolate z-50"
+        className={hoverCardPositionerClassName}
+        data-slot={HOVER_CARD_SLOTS.positioner}
         side={side}
         sideOffset={sideOffset}
       >
         <PreviewCardPrimitive.Popup
-          className={cn(
-            "data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:fade-in-0 data-open:zoom-in-95 data-closed:fade-out-0 data-closed:zoom-out-95 z-50 w-64 origin-(--transform-origin) rounded-lg bg-popover p-4 text-popover-foreground text-sm shadow-md outline-hidden ring-1 ring-foreground/10 duration-100 data-closed:animate-out data-open:animate-in",
-            className
-          )}
-          data-slot="hover-card-content"
           {...props}
+          className={cn(hoverCardContentClassName, className)}
+          data-slot={HOVER_CARD_SLOTS.content}
         />
       </PreviewCardPrimitive.Positioner>
     </PreviewCardPrimitive.Portal>
   );
 }
 
+export type { HoverCardSlot } from "./hover-card.contract.js";
+export type { HoverCardContentProps, HoverCardProps, HoverCardTriggerProps };
 export { HoverCard, HoverCardContent, HoverCardTrigger };

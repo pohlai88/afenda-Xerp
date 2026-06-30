@@ -3,102 +3,106 @@
 import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar";
 import type * as React from "react";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function Avatar({
-  className,
-  size = "default",
-  ...props
-}: AvatarPrimitive.Root.Props & {
-  size?: "default" | "sm" | "lg";
-}) {
+import {
+  AVATAR_SLOTS,
+  avatarBadgeClassName,
+  avatarFallbackClassName,
+  avatarGroupClassName,
+  avatarGroupCountClassName,
+  avatarImageClassName,
+  avatarRootClassName,
+} from "./avatar.contract.js";
+
+type AvatarSize = "default" | "sm" | "lg";
+
+type AvatarProps = WithoutGovernedDataSlot<
+  AvatarPrimitive.Root.Props & {
+    size?: AvatarSize;
+  }
+>;
+type AvatarImageProps = WithoutGovernedDataSlot<AvatarPrimitive.Image.Props>;
+type AvatarFallbackProps =
+  WithoutGovernedDataSlot<AvatarPrimitive.Fallback.Props>;
+type AvatarBadgeProps = WithoutGovernedDataSlot<React.ComponentProps<"span">>;
+type AvatarGroupProps = WithoutGovernedDataSlot<React.ComponentProps<"div">>;
+type AvatarGroupCountProps = WithoutGovernedDataSlot<
+  React.ComponentProps<"div">
+>;
+
+function Avatar({ className, size = "default", ...props }: AvatarProps) {
   return (
     <AvatarPrimitive.Root
-      className={cn(
-        "group/avatar relative flex size-8 shrink-0 select-none rounded-full after:absolute after:inset-0 after:rounded-full after:border after:border-border after:mix-blend-darken data-[size=lg]:size-10 data-[size=sm]:size-6 dark:after:mix-blend-lighten",
-        className
-      )}
-      data-size={size}
-      data-slot="avatar"
       {...props}
+      className={cn(avatarRootClassName, className)}
+      data-size={size}
+      data-slot={AVATAR_SLOTS.root}
     />
   );
 }
 
-function AvatarImage({ className, ...props }: AvatarPrimitive.Image.Props) {
+function AvatarImage({ className, ...props }: AvatarImageProps) {
   return (
     <AvatarPrimitive.Image
-      className={cn(
-        "aspect-square size-full rounded-full object-cover",
-        className
-      )}
-      data-slot="avatar-image"
       {...props}
+      className={cn(avatarImageClassName, className)}
+      data-slot={AVATAR_SLOTS.image}
     />
   );
 }
 
-function AvatarFallback({
-  className,
-  ...props
-}: AvatarPrimitive.Fallback.Props) {
+function AvatarFallback({ className, ...props }: AvatarFallbackProps) {
   return (
     <AvatarPrimitive.Fallback
-      className={cn(
-        "flex size-full items-center justify-center rounded-full bg-muted text-muted-foreground text-sm group-data-[size=sm]/avatar:text-xs",
-        className
-      )}
-      data-slot="avatar-fallback"
       {...props}
+      className={cn(avatarFallbackClassName, className)}
+      data-slot={AVATAR_SLOTS.fallback}
     />
   );
 }
 
-function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
+function AvatarBadge({ className, ...props }: AvatarBadgeProps) {
   return (
     <span
-      className={cn(
-        "absolute right-0 bottom-0 z-10 inline-flex select-none items-center justify-center rounded-full bg-primary text-primary-foreground bg-blend-color ring-2 ring-background",
-        "group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden",
-        "group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2",
-        "group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2",
-        className
-      )}
-      data-slot="avatar-badge"
       {...props}
+      className={cn(avatarBadgeClassName, className)}
+      data-slot={AVATAR_SLOTS.badge}
     />
   );
 }
 
-function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
+function AvatarGroup({ className, ...props }: AvatarGroupProps) {
   return (
     <div
-      className={cn(
-        "group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
-        className
-      )}
-      data-slot="avatar-group"
       {...props}
+      className={cn(avatarGroupClassName, className)}
+      data-slot={AVATAR_SLOTS.group}
     />
   );
 }
 
-function AvatarGroupCount({
-  className,
-  ...props
-}: React.ComponentProps<"div">) {
+function AvatarGroupCount({ className, ...props }: AvatarGroupCountProps) {
   return (
     <div
-      className={cn(
-        "relative flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground text-sm ring-2 ring-background group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 [&>svg]:size-4 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3",
-        className
-      )}
-      data-slot="avatar-group-count"
       {...props}
+      className={cn(avatarGroupCountClassName, className)}
+      data-slot={AVATAR_SLOTS.groupCount}
     />
   );
 }
 
+export type { AvatarSlot } from "./avatar.contract.js";
+export type {
+  AvatarBadgeProps,
+  AvatarFallbackProps,
+  AvatarGroupCountProps,
+  AvatarGroupProps,
+  AvatarImageProps,
+  AvatarProps,
+  AvatarSize,
+};
 export {
   Avatar,
   AvatarBadge,

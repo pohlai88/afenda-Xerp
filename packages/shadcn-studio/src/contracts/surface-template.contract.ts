@@ -4,6 +4,7 @@
 
 import {
   isNonEmptyString,
+  isReadonlyArrayOf,
   isStringMemberOf,
   isWireRecord,
 } from "./wire-guard.helpers.js";
@@ -50,8 +51,8 @@ function isSurfaceTemplateBlockBindingWire(
     return false;
   }
 
-  return Object.values(slotFills).every(
-    (fill) => typeof fill === "string" && fill.length > 0
+  return Object.entries(slotFills).every(
+    ([slotId, fill]) => isNonEmptyString(slotId) && isNonEmptyString(fill)
   );
 }
 
@@ -62,18 +63,21 @@ export function isSurfaceTemplateContractWire(
     return false;
   }
 
-  const acceptanceRecordIds = value["acceptanceRecordIds"];
   const blockBindings = value["blockBindings"];
 
   return (
     isNonEmptyString(value["surfaceTemplateId"]) &&
     isSurfaceTemplateClass(value["templateClass"]) &&
     isNonEmptyString(value["metadataBindingId"]) &&
-    Array.isArray(acceptanceRecordIds) &&
-    acceptanceRecordIds.every(
-      (recordId) => typeof recordId === "string" && recordId.length > 0
-    ) &&
-    Array.isArray(blockBindings) &&
-    blockBindings.every(isSurfaceTemplateBlockBindingWire)
+    isReadonlyArrayOf(value["acceptanceRecordIds"], isNonEmptyString) &&
+    isReadonlyArrayOf(blockBindings, isSurfaceTemplateBlockBindingWire)
   );
+}
+
+export function assertSurfaceTemplateContractWire(
+  value: unknown
+): asserts value is SurfaceTemplateContractWire {
+  if (!isSurfaceTemplateContractWire(value)) {
+    throw new Error("Invalid surface template contract wire payload.");
+  }
 }

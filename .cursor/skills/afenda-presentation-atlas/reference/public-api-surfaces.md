@@ -14,7 +14,9 @@
 
 ---
 
-## Storybook helpers (for stories / lab)
+## Storybook helpers — `@afenda/shadcn-studio/lab`
+
+Not exported from the main barrel. Import from `@afenda/shadcn-studio/lab` in Storybook only.
 
 | Export | Purpose |
 | --- | --- |
@@ -24,12 +26,13 @@
 | `shadcnStudioCenteredLayout` | Story layout |
 | `shadcnStudioFullscreenLayout` | Story layout |
 | `shadcnStudioPaddedLayout` | Story layout |
+| `shadcnStudioPageBlockParameters` | Fullscreen page block params |
 | `shadcnStudioDarkThemeGlobals` | Dark globals helper |
 | `shadcnStudioStoryA11y` | a11y parameters |
 
 ---
 
-## Block components (36 barrel exports)
+## Block components (barrel)
 
 `AccountSettings01Block` … `AccountSettings07Block`, `ChartEarningReportBlock`, `ChartSalesMetricsBlock`, `DatatableInvoiceBlock`, `ActivityDialogBlock`, `SearchDialogBlock`, `LanguageDropdownBlock`, `NotificationDropdownBlock`, `ProfileDropdownBlock`, `ErrorPage02Block`, `HeroSection01Block`, `LoginPage04Block`, `MenuTriggerBlock`, `SidebarUserDropdownBlock`, `StatisticsActivityCardBlock`, `StatisticsCard01Block` … `StatisticsCard03Block`, `StatisticsIncomeCardBlock`, `StatisticsLeadsCardBlock`, `StatisticsLineTrendsCardBlock`, `StatisticsOrdersProgressCardBlock`, `StatisticsProfileTrafficCardBlock`, `StatisticsRevenueCardBlock`, `StatisticsSalesOverviewCardBlock`, `StatisticsTrendCardBlock`, `WidgetPaymentHistoryBlock`, `WidgetSalesByCountriesBlock`, `WidgetTotalEarningBlock`, `WidgetTransactionsBlock`.
 

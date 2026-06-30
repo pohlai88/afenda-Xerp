@@ -7,6 +7,7 @@ import {
   isBlockLifecycleState,
 } from "./block-lifecycle.contract.js";
 import {
+  isBoolean,
   isNonEmptyString,
   isStringMemberOf,
   isWireRecord,
@@ -82,7 +83,15 @@ export function isAcceptanceRecordWire(
     isNonEmptyString(value["acpaProfileVersion"]) &&
     isNonEmptyString(value["sealedAt"]) &&
     isNonEmptyString(value["sealedBy"]) &&
-    typeof value["wcagAaAuthAdjacent"] === "boolean" &&
+    isBoolean(value["wcagAaAuthAdjacent"]) &&
     isCriteriaResultsRecord(value["criteriaResults"])
   );
+}
+
+export function assertAcceptanceRecordWire(
+  value: unknown
+): asserts value is AcceptanceRecordWire {
+  if (!isAcceptanceRecordWire(value)) {
+    throw new Error("Invalid acceptance record wire payload.");
+  }
 }

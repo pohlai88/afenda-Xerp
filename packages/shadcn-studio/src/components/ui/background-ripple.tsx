@@ -1,10 +1,19 @@
 "use client";
 
+// Util Imports
+import type * as React from "react";
 // React Imports
 import { useEffect, useMemo, useState } from "react";
 
-// Util Imports
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
+
+type BackgroundRippleEffectProps = WithoutGovernedDataSlot<{
+  rows?: number;
+  cols?: number;
+  cellSize?: number;
+  activeSquares?: number;
+}>;
 
 const getInitialActiveSet = (totalCells: number, activeSquares: number) => {
   const safeActiveSquares = Math.max(1, Math.min(activeSquares, totalCells));
@@ -26,12 +35,7 @@ const BackgroundRippleEffect = ({
   cols = 27,
   cellSize = 56.815,
   activeSquares = 18,
-}: {
-  rows?: number;
-  cols?: number;
-  cellSize?: number;
-  activeSquares?: number;
-}) => {
+}: BackgroundRippleEffectProps) => {
   const [activeSet, setActiveSet] = useState<Set<number>>(() => {
     const totalCells = rows * cols;
 
@@ -142,4 +146,6 @@ const DivGrid = ({
   );
 };
 
+export type { BackgroundRippleSlot } from "./background-ripple.contract.js";
+export type { BackgroundRippleEffectProps };
 export { BackgroundRippleEffect };

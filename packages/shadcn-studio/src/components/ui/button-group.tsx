@@ -1,38 +1,29 @@
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { cva, type VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
+import type * as React from "react";
 import { Separator } from "@/components/ui/separator";
+
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-const buttonGroupVariants = cva(
-  "flex w-fit items-stretch *:focus-visible:relative *:focus-visible:z-10 has-[>[data-slot=button-group]]:gap-2 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-md [&>[data-slot=select-trigger]:not([class*='w-'])]:w-fit [&>input]:flex-1",
-  {
-    variants: {
-      orientation: {
-        horizontal:
-          "*:data-slot:rounded-r-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-r-md! [&>[data-slot]~[data-slot]]:rounded-l-none [&>[data-slot]~[data-slot]]:border-l-0",
-        vertical:
-          "flex-col *:data-slot:rounded-b-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-md! [&>[data-slot]~[data-slot]]:rounded-t-none [&>[data-slot]~[data-slot]]:border-t-0",
-      },
-    },
-    defaultVariants: {
-      orientation: "horizontal",
-    },
-  }
-);
+import {
+  BUTTON_GROUP_SLOTS,
+  buttonGroupVariants,
+} from "./button-group.contract.js";
 
-function ButtonGroup({
-  className,
-  orientation,
-  ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof buttonGroupVariants>) {
+type ButtonGroupProps = WithoutGovernedDataSlot<
+  React.ComponentProps<"div"> & VariantProps<typeof buttonGroupVariants>
+>;
+
+function ButtonGroup({ className, orientation, ...props }: ButtonGroupProps) {
   return (
     <div
+      {...props}
       className={cn(buttonGroupVariants({ orientation }), className)}
       data-orientation={orientation}
-      data-slot="button-group"
+      data-slot={BUTTON_GROUP_SLOTS.root}
       role="group"
-      {...props}
     />
   );
 }
@@ -78,6 +69,8 @@ function ButtonGroupSeparator({
   );
 }
 
+export type { ButtonGroupSlot } from "./button-group.contract.js";
+export type { ButtonGroupProps };
 export {
   ButtonGroup,
   ButtonGroupSeparator,

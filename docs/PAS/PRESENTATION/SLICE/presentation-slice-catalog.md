@@ -4,7 +4,7 @@
 | --- | --- |
 | **Blueprint box** | shadcn/studio Presentation |
 | **Registry** | PKGR05A_SHADCN_STUDIO · PKG-026 |
-| **Last reviewed** | 2026-06-29 |
+| **Last reviewed** | 2026-07-01 |
 
 > Sync this catalog and Blueprint §10 on every slice close. Runtime truth: [`pas-status-index.md`](../../pas-status-index.md).
 
@@ -36,6 +36,8 @@ P06-008-R2  DOM slot markers (006D)           [Delivered]
 P06-009  Surface template registry (006D)    [Delivered]
     ↓
 P06-010  Enterprise Accepted attestation (family)  [Delivered — registry promotion via foundation-registry-owner]
+    ↓
+P06-011  Source structure clarity (006A)         [Delivered — ADR-0037]
 ```
 
 ---
@@ -56,6 +58,7 @@ P06-010  Enterprise Accepted attestation (family)  [Delivered — registry promo
 | **P06-008-R2** | 006D | DOM slot markers (`data-afenda-slot`) | **Delivered** | P06-008-R1 | NS §3.5 Metadata-bound DOM · `check:studio-block-slot-markers` · login password help slot (`login.password.help`) |
 | **P06-009** | 006D | Surface template registry | **Delivered** | P06-008 | Template → operator surface |
 | **P06-010** | 006 family | Enterprise Accepted attestation | **Delivered** (doc attestation; PKGR05A promotion via registry owner) | P06-002–P06-007 minimum | Blueprint Enterprise Accepted |
+| **P06-011** | 006A | Source structure clarity — layered docs, contract vocabulary, barrel hygiene | **Delivered** | P06-010 · [ADR-0037](../../../adr/ADR-0037-shadcn-studio-src-layered-structure.md) | `ARCHITECTURE.md` · `@afenda/shadcn-studio/lab` |
 
 ---
 
@@ -73,6 +76,7 @@ P06-010  Enterprise Accepted attestation (family)  [Delivered — registry promo
 
 | Track | Owner | Notes |
 | --- | --- | --- |
+| **P06-011 structure clarity** | PAS-006A · `@afenda/shadcn-studio` | [Handoff](./p06-011-src-structure-clarity.md) · [ADR-0037](../../../adr/ADR-0037-shadcn-studio-src-layered-structure.md) — **Delivered** |
 | ERP operator routes | PAS-001A · `apps/erp` | `/settings/profile` · `/operator/auth/sign-in` live — extend registry for more templates |
 | Help slot pattern | PAS-006D · `@afenda/shadcn-studio` | Reference on login + account-settings — replicate on remaining form blocks |
 | Optional gate | Root `package.json` | `check:erp-metadata-pas006-consumer` registered in `pnpm quality` |

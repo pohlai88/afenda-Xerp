@@ -5,7 +5,7 @@
 | **Catalog (full table)** | [presentation-slice-catalog.md](./presentation-slice-catalog.md) |
 | **Closure registry** | [pas-status-index.md](../../pas-status-index.md) |
 | **Lane boundaries** | [DEVELOPMENT-LANE-BOUNDARIES.md](../../DEVELOPMENT-LANE-BOUNDARIES.md) |
-| **Last reviewed** | 2026-06-29 |
+| **Last reviewed** | 2026-07-01 |
 
 > **Hard stop:** Do not execute PAS-005 CSS slices for ERP — use this lane only.
 
@@ -27,6 +27,7 @@
 | P06-008-R2 | [p06-008-r2-dom-slot-markers.md](./p06-008-r2-dom-slot-markers.md) | 006D | **Delivered** |
 | P06-009 | [p06-009-surface-template-registry.md](./p06-009-surface-template-registry.md) | 006D | **Delivered** |
 | P06-010 | [p06-010-enterprise-accepted-attestation.md](./p06-010-enterprise-accepted-attestation.md) | 006 family | **Delivered** — PKGR05A promotion via foundation-registry-owner |
+| P06-011 | [p06-011-src-structure-clarity.md](./p06-011-src-structure-clarity.md) | 006A | **Delivered** — [ADR-0037](../../../adr/ADR-0037-shadcn-studio-src-layered-structure.md) |
 
 ---
 
@@ -34,6 +35,7 @@
 
 | Track | Where | Notes |
 | --- | --- | --- |
+| Source structure clarity | [P06-011](./p06-011-src-structure-clarity.md) | **Delivered** — ADR-0037 + lab barrel |
 | ERP runtime hydration | [PAS-001A-R1](../../KERNEL/SLICE/pas-001a-r1c-metadata-consumer-pas006.md) | IS-003 consumer wiring in `apps/erp` |
 | Operator-surface routes | PAS-006D + ERP | Expand accepted blocks to production routes |
 | Optional gate | Root `package.json` | Register `check:erp-metadata-pas006-consumer` if not yet wired |

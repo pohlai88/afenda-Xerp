@@ -3,13 +3,18 @@
 import * as React from "react";
 import type { TooltipValueType } from "recharts";
 import * as RechartsPrimitive from "recharts";
-
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
+
+import {
+  CHART_INITIAL_DIMENSION,
+  CHART_SLOTS,
+  chartContainerClassName,
+} from "./chart.contract.js";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
 
-const INITIAL_DIMENSION = { width: 320, height: 200 } as const;
 type TooltipNameType = number | string;
 
 export type ChartConfig = Record<
@@ -39,36 +44,37 @@ function useChart() {
   return context;
 }
 
+type ChartContainerProps = WithoutGovernedDataSlot<
+  React.ComponentProps<"div"> & {
+    config: ChartConfig;
+    children: React.ComponentProps<
+      typeof RechartsPrimitive.ResponsiveContainer
+    >["children"];
+    initialDimension?: {
+      width: number;
+      height: number;
+    };
+  }
+>;
+
 function ChartContainer({
   id,
   className,
   children,
   config,
-  initialDimension = INITIAL_DIMENSION,
+  initialDimension = CHART_INITIAL_DIMENSION,
   ...props
-}: React.ComponentProps<"div"> & {
-  config: ChartConfig;
-  children: React.ComponentProps<
-    typeof RechartsPrimitive.ResponsiveContainer
-  >["children"];
-  initialDimension?: {
-    width: number;
-    height: number;
-  };
-}) {
+}: ChartContainerProps) {
   const uniqueId = React.useId();
   const chartId = `chart-${id ?? uniqueId.replace(/:/g, "")}`;
 
   return (
     <ChartContext.Provider value={{ config }}>
       <div
-        className={cn(
-          "flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-sector]:outline-hidden [&_.recharts-surface]:outline-hidden",
-          className
-        )}
-        data-chart={chartId}
-        data-slot="chart"
         {...props}
+        className={cn(chartContainerClassName, className)}
+        data-chart={chartId}
+        data-slot={CHART_SLOTS.root}
       >
         <ChartStyle config={config} id={chartId} />
         <RechartsPrimitive.ResponsiveContainer
@@ -363,6 +369,8 @@ function getPayloadConfigFromPayload(
   return configLabelKey in config ? config[configLabelKey] : config[key];
 }
 
+export type { ChartSlot } from "./chart.contract.js";
+export type { ChartContainerProps };
 export {
   ChartContainer,
   ChartLegend,

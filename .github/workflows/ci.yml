@@ -214,7 +214,7 @@ jobs:
         run: pnpm turbo run typecheck ${{ steps.turbo_scope.outputs.affected }}
 
       # ── Gate 2 · Code Quality ─────────────────────────────────────────────
-      - name: Gate 2 · biome (format + lint + imports)
+      - name: Gate 2 · biome (format + lint + imports + editor sync)
         run: pnpm ci:biome
 
       - name: Gate 3cov · phase-1 coverage

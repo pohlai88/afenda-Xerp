@@ -30,4 +30,20 @@ describe("metadata binding waiver contract (P06-008-R1)", () => {
     expect(isMetadataBindingWaiverReason("chrome-navigation")).toBe(true);
     expect(isMetadataBindingWaiverReason("invalid")).toBe(false);
   });
+
+  it("rejects empty or whitespace-only required strings", () => {
+    expect(isMetadataBindingWaiverWire([])).toBe(false);
+    expect(
+      isMetadataBindingWaiverWire({
+        ...sample,
+        notes: "",
+      })
+    ).toBe(false);
+    expect(
+      isMetadataBindingWaiverWire({
+        ...sample,
+        blockId: "   ",
+      })
+    ).toBe(false);
+  });
 });

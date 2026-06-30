@@ -3,36 +3,47 @@
 import { Radio as RadioPrimitive } from "@base-ui/react/radio";
 import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
+import {
+  RADIO_GROUP_SLOTS,
+  radioGroupIndicatorClassName,
+  radioGroupIndicatorDotClassName,
+  radioGroupItemClassName,
+  radioGroupRootClassName,
+} from "./radio-group.contract.js";
+
+type RadioGroupProps = WithoutGovernedDataSlot<RadioGroupPrimitive.Props>;
+type RadioGroupItemProps = WithoutGovernedDataSlot<RadioPrimitive.Root.Props>;
+
+function RadioGroup({ className, ...props }: RadioGroupProps) {
   return (
     <RadioGroupPrimitive
-      className={cn("grid w-full gap-3", className)}
-      data-slot="radio-group"
       {...props}
+      className={cn(radioGroupRootClassName, className)}
+      data-slot={RADIO_GROUP_SLOTS.root}
     />
   );
 }
 
-function RadioGroupItem({ className, ...props }: RadioPrimitive.Root.Props) {
+function RadioGroupItem({ className, ...props }: RadioGroupItemProps) {
   return (
     <RadioPrimitive.Root
-      className={cn(
-        "group/radio-group-item peer relative flex aspect-square size-4 shrink-0 rounded-full border border-input outline-none after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground dark:bg-input/30 dark:data-checked:bg-primary dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
-        className
-      )}
-      data-slot="radio-group-item"
       {...props}
+      className={cn(radioGroupItemClassName, className)}
+      data-slot={RADIO_GROUP_SLOTS.item}
     >
       <RadioPrimitive.Indicator
-        className="flex size-4 items-center justify-center"
-        data-slot="radio-group-indicator"
+        className={radioGroupIndicatorClassName}
+        data-slot={RADIO_GROUP_SLOTS.indicator}
       >
-        <span className="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-foreground" />
+        <span className={radioGroupIndicatorDotClassName} />
       </RadioPrimitive.Indicator>
     </RadioPrimitive.Root>
   );
 }
 
+export type { RadioGroupSlot } from "./radio-group.contract.js";
+export type { RadioGroupItemProps, RadioGroupProps };
 export { RadioGroup, RadioGroupItem };

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  assertMetadataBindingContractWire,
   isMetadataBindingContractWire,
   type MetadataBindingContractWire,
 } from "../contracts/metadata-binding.contract.js";
@@ -56,5 +57,14 @@ describe("metadata binding contract (PAS-006D)", () => {
         surfaceTemplateClass: "not-a-class",
       })
     ).toBe(false);
+  });
+
+  it("assertMetadataBindingContractWire throws on invalid payload", () => {
+    expect(() =>
+      assertMetadataBindingContractWire(sampleBinding)
+    ).not.toThrow();
+    expect(() => assertMetadataBindingContractWire(null)).toThrow(
+      "Invalid metadata binding contract wire payload."
+    );
   });
 });

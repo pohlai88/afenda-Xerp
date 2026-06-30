@@ -1,22 +1,32 @@
+import type * as React from "react";
+
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function AspectRatio({
-  ratio,
-  className,
-  ...props
-}: React.ComponentProps<"div"> & { ratio: number }) {
+import {
+  ASPECT_RATIO_SLOTS,
+  aspectRatioRootClassName,
+} from "./aspect-ratio.contract.js";
+
+type AspectRatioProps = WithoutGovernedDataSlot<
+  React.ComponentProps<"div"> & { ratio: number }
+>;
+
+function AspectRatio({ ratio, className, ...props }: AspectRatioProps) {
   return (
     <div
-      className={cn("relative aspect-(--ratio)", className)}
-      data-slot="aspect-ratio"
+      {...props}
+      className={cn(aspectRatioRootClassName, className)}
+      data-slot={ASPECT_RATIO_SLOTS.root}
       style={
         {
           "--ratio": ratio,
         } as React.CSSProperties
       }
-      {...props}
     />
   );
 }
 
+export type { AspectRatioSlot } from "./aspect-ratio.contract.js";
+export type { AspectRatioProps };
 export { AspectRatio };

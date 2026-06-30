@@ -3,17 +3,20 @@
 import { useInView, useMotionValue, useSpring } from "motion/react";
 import * as React from "react";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-interface NumberTickerProps extends React.ComponentPropsWithoutRef<"span"> {
-  damping?: number;
-  decimalPlaces?: number;
-  delay?: number;
-  direction?: "up" | "down";
-  startValue?: number;
-  stiffness?: number;
-  value: number;
-}
+type NumberTickerProps = WithoutGovernedDataSlot<
+  React.ComponentPropsWithoutRef<"span"> & {
+    damping?: number;
+    decimalPlaces?: number;
+    delay?: number;
+    direction?: "up" | "down";
+    startValue?: number;
+    stiffness?: number;
+    value: number;
+  }
+>;
 
 function NumberTicker({
   value,
@@ -70,4 +73,6 @@ function NumberTicker({
   );
 }
 
-export { NumberTicker, type NumberTickerProps };
+export type { NumberTickerSlot } from "./number-ticker.contract.js";
+export type { NumberTickerProps };
+export { NumberTicker };

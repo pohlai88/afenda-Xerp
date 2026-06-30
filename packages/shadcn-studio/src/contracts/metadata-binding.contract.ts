@@ -7,6 +7,9 @@ import type { SurfaceTemplateClass } from "./surface-template.contract.js";
 import { isSurfaceTemplateClass } from "./surface-template.contract.js";
 import {
   isNonEmptyString,
+  isOptionalBoolean,
+  isOptionalNonEmptyString,
+  isReadonlyArrayOf,
   isStringMemberOf,
   isWireRecord,
 } from "./wire-guard.helpers.js";
@@ -99,12 +102,9 @@ export function isMetadataBindingFieldWire(
     ) &&
     (value["density"] === undefined ||
       isStringMemberOf(value["density"], METADATA_BINDING_DENSITIES)) &&
-    (value["labelAtomRef"] === undefined ||
-      typeof value["labelAtomRef"] === "string") &&
-    (value["helpTextAtomRef"] === undefined ||
-      typeof value["helpTextAtomRef"] === "string") &&
-    (value["requiredDisplay"] === undefined ||
-      typeof value["requiredDisplay"] === "boolean")
+    isOptionalNonEmptyString(value["labelAtomRef"]) &&
+    isOptionalNonEmptyString(value["helpTextAtomRef"]) &&
+    isOptionalBoolean(value["requiredDisplay"])
   );
 }
 
@@ -118,10 +118,8 @@ function isMetadataBindingTableColumnWire(
   return (
     isNonEmptyString(value["columnKey"]) &&
     isNonEmptyString(value["slotId"]) &&
-    (value["labelAtomRef"] === undefined ||
-      typeof value["labelAtomRef"] === "string") &&
-    (value["sortableDisplay"] === undefined ||
-      typeof value["sortableDisplay"] === "boolean")
+    isOptionalNonEmptyString(value["labelAtomRef"]) &&
+    isOptionalBoolean(value["sortableDisplay"])
   );
 }
 
@@ -135,8 +133,7 @@ function isMetadataBindingStateTemplateWire(
   return (
     isNonEmptyString(value["slotId"]) &&
     isStringMemberOf(value["stateKind"], METADATA_BINDING_STATE_KINDS) &&
-    (value["messageAtomRef"] === undefined ||
-      typeof value["messageAtomRef"] === "string")
+    isOptionalNonEmptyString(value["messageAtomRef"])
   );
 }
 
@@ -154,19 +151,22 @@ export function isMetadataBindingContractWire(
   return (
     isNonEmptyString(value["metadataBindingId"]) &&
     isNonEmptyString(value["blockId"]) &&
-    Array.isArray(value["fields"]) &&
-    value["fields"].every(isMetadataBindingFieldWire) &&
-    (value["erpDomainKvId"] === undefined ||
-      typeof value["erpDomainKvId"] === "string") &&
-    (value["erpDomainModuleSlug"] === undefined ||
-      typeof value["erpDomainModuleSlug"] === "string") &&
+    isReadonlyArrayOf(value["fields"], isMetadataBindingFieldWire) &&
+    isOptionalNonEmptyString(value["erpDomainKvId"]) &&
+    isOptionalNonEmptyString(value["erpDomainModuleSlug"]) &&
     (surfaceTemplateClass === undefined ||
       isSurfaceTemplateClass(surfaceTemplateClass)) &&
     (stateTemplates === undefined ||
-      (Array.isArray(stateTemplates) &&
-        stateTemplates.every(isMetadataBindingStateTemplateWire))) &&
+      isReadonlyArrayOf(stateTemplates, isMetadataBindingStateTemplateWire)) &&
     (tableColumns === undefined ||
-      (Array.isArray(tableColumns) &&
-        tableColumns.every(isMetadataBindingTableColumnWire)))
+      isReadonlyArrayOf(tableColumns, isMetadataBindingTableColumnWire))
   );
+}
+
+export function assertMetadataBindingContractWire(
+  value: unknown
+): asserts value is MetadataBindingContractWire {
+  if (!isMetadataBindingContractWire(value)) {
+    throw new Error("Invalid metadata binding contract wire payload.");
+  }
 }

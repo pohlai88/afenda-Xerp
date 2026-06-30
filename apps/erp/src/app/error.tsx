@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@afenda/shadcn-studio";
+import { ClientSafeRetryButton } from "@/components/client-safe-retry-button.client";
 
 interface RootErrorProps {
   readonly error: Error & { digest?: string };
@@ -20,9 +20,7 @@ export default function RootError({ error, reset }: RootErrorProps) {
         {process.env.NODE_ENV === "development" && error.message ? (
           <p className="text-muted-foreground text-sm">{error.message}</p>
         ) : null}
-        <Button onClick={reset} type="button">
-          Try again
-        </Button>
+        <ClientSafeRetryButton onClick={reset} />
       </div>
     </main>
   );

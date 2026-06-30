@@ -35,4 +35,5 @@ export const themeConfig = {
   sidebarOpen: true,
 } as const satisfies ThemeConfig;
 
+/** @deprecated Use named `themeConfig` export — default retained for legacy imports. */
 export default themeConfig;

@@ -8,6 +8,7 @@ import {
   type BlockSlotTemplate,
   resolveBlockSlotTemplate,
 } from "./block-slot-template-families.js";
+import { MCP_SEED_BLOCK_MANIFEST } from "./mcp-seed-block-manifest.js";
 import { SHADCN_STUDIO_BLOCK_PARITY_REGISTRY } from "./studio-block-parity.registry.js";
 
 export type { BlockSlotEntry, BlockSlotRole } from "./block-slot.types.js";
@@ -239,6 +240,35 @@ const BLOCK_SLOT_TEMPLATES: Readonly<Record<string, BlockSlotTemplate>> = {
     },
   },
 };
+
+/** Blocks with explicit slot templates — governed by block contract lane. */
+export const METADATA_BOUND_BLOCK_TEMPLATE_IDS = [
+  "login-page-04",
+  "hero-section-01",
+  "statistics-card-01",
+  "account-settings-01",
+  "dialog-activity",
+] as const;
+
+/** MCP datatable blocks resolved via DATATABLE_SLOT_TEMPLATE family rule. */
+export const DATATABLE_BLOCK_CONTRACT_IDS = MCP_SEED_BLOCK_MANIFEST.filter(
+  (entry) => entry.blockId.startsWith("datatable-")
+).map((entry) => entry.blockId);
+
+/** Full block contract gate surface (explicit templates + datatable family). */
+export const GOVERNED_BLOCK_CONTRACT_IDS = [
+  ...METADATA_BOUND_BLOCK_TEMPLATE_IDS,
+  ...DATATABLE_BLOCK_CONTRACT_IDS,
+] as const;
+
+export type MetadataBoundBlockTemplateId =
+  (typeof METADATA_BOUND_BLOCK_TEMPLATE_IDS)[number];
+
+export type DatatableBlockContractId =
+  (typeof DATATABLE_BLOCK_CONTRACT_IDS)[number];
+
+export type GovernedBlockContractId =
+  (typeof GOVERNED_BLOCK_CONTRACT_IDS)[number];
 
 function buildBlockSlotRegistry(): readonly BlockSlotEntry[] {
   return SHADCN_STUDIO_BLOCK_PARITY_REGISTRY.flatMap((parity) => {

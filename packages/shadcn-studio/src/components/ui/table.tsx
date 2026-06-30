@@ -2,18 +2,24 @@
 
 import type * as React from "react";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function Table({ className, ...props }: React.ComponentProps<"table">) {
+import {
+  TABLE_SLOTS,
+  tableContainerClassName,
+  tableRootClassName,
+} from "./table.contract.js";
+
+type TableProps = WithoutGovernedDataSlot<React.ComponentProps<"table">>;
+
+function Table({ className, ...props }: TableProps) {
   return (
-    <div
-      className="relative w-full overflow-x-auto"
-      data-slot="table-container"
-    >
+    <div className={tableContainerClassName} data-slot={TABLE_SLOTS.container}>
       <table
-        className={cn("w-full caption-bottom text-sm", className)}
-        data-slot="table"
         {...props}
+        className={cn(tableRootClassName, className)}
+        data-slot={TABLE_SLOTS.root}
       />
     </div>
   );
@@ -104,6 +110,8 @@ function TableCaption({
   );
 }
 
+export type { TableSlot } from "./table.contract.js";
+export type { TableProps };
 export {
   Table,
   TableBody,

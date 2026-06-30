@@ -1,5 +1,9 @@
 {
   "mcpServers": {
+    "filesystem": {
+      "command": "node",
+      "args": ["${workspaceFolder}/.cursor/mcp/filesystem.mjs"]
+    },
     "shadcn": {
       "command": "npx",
       "args": ["-y", "shadcn@latest", "mcp", "-c", "packages/shadcn-studio"]

@@ -1,5 +1,6 @@
 import type * as React from "react";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
 function MessageGroup({ className, ...props }: React.ComponentProps<"div">) {
@@ -12,20 +13,20 @@ function MessageGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function Message({
-  className,
-  align = "start",
-  ...props
-}: React.ComponentProps<"div"> & { align?: "start" | "end" }) {
+type MessageProps = WithoutGovernedDataSlot<
+  React.ComponentProps<"div"> & { align?: "start" | "end" }
+>;
+
+function Message({ className, align = "start", ...props }: MessageProps) {
   return (
     <div
+      {...props}
       className={cn(
         "group/message relative flex w-full min-w-0 gap-2 text-sm data-[align=end]:flex-row-reverse",
         className
       )}
       data-align={align}
       data-slot="message"
-      {...props}
     />
   );
 }
@@ -82,6 +83,8 @@ function MessageFooter({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+export type { MessageSlot } from "./message.contract.js";
+export type { MessageProps };
 export {
   Message,
   MessageAvatar,

@@ -23,12 +23,15 @@ Thin composer — **does not duplicate** PAS-006 authority. Read child skills in
 | Trigger | Read first |
 | --- | --- |
 | MCP block install / studio package edit | `shadcn-studio/SKILL.md` |
+| `components/ui/**` primitive edit | `afenda-primitive-contract/SKILL.md` |
+| ERP refactor / AI-generated TSX review | `afenda-react-surface-quality/SKILL.md` |
 | ERP `globals.css`, `preview.css`, or Tailwind in TSX | `afenda-tailwind/SKILL.md` |
 | ERP metadata operator route | `shadcn-studio/SKILL.md` + IS-003 consumer gate |
 | Storybook presentation lab | `afenda-storybook/SKILL.md` |
 | Component structure review | `vercel-composition-patterns` (vendor) |
 | React/TS review before merge | `typescript-react-reviewer` (vendor) |
 | RSC performance | `vercel-react-best-practices/react-best-practices` (vendor) |
+| Bundle size, lazy-load, CVA, dynamic import | `afenda-shadcn-performance/SKILL.md` |
 
 ## Phase 1 CSS (PAS-006A — do not optimize)
 
@@ -113,6 +116,7 @@ pnpm --filter @afenda/erp typecheck
 pnpm --filter @afenda/erp build
 pnpm check:studio-metadata-binding       # block registry / binding changes
 pnpm check:studio-block-slot-markers     # data-afenda-slot markers
+pnpm check:studio-primitive-contracts  # ui/* contract + adapter gate
 pnpm check:erp-metadata-pas006-consumer  # ERP operator surface parity (requires fresh @afenda/shadcn-studio dist — gate auto-builds if @/* aliases remain)
 pnpm sync:package-css-dist -- --package @afenda/shadcn-studio  # after CSS src edits
 pnpm check:package-css-dist-sync

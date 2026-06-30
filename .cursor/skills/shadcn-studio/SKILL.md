@@ -127,11 +127,19 @@ Start the target dev server **before** the toolbar.
 
 ### Primitives — all Base UI components
 
+**Never** use `--overwrite` on existing `components/ui/*` — it destroys Afenda contract/adapter splits.
+
 ```powershell
+# From repo root — safe wrapper injects --no-overwrite
+pnpm studio:shadcn add button --yes
+pnpm studio:shadcn add --all --yes
 cd packages/shadcn-studio
-pnpm dlx shadcn@latest add --all --overwrite --yes
 pnpm dlx shadcn@latest info
 ```
+
+For bulk refresh, use `pnpm studio:shadcn` (see `scripts/studio/shadcn-add.mjs`). Edit `{name}.contract.ts` + `{name}.tsx` manually when updating existing primitives.
+
+Skill: [`afenda-primitive-contract`](../afenda-primitive-contract/SKILL.md)
 
 ### Pro blocks — `@ss-blocks/*`
 
@@ -187,7 +195,7 @@ pnpm check:downstream-integration
 | Story tests | `pnpm test:storybook:run` |
 | Lab typecheck | `pnpm --filter @afenda/storybook typecheck` |
 
-Browse **Shadcn Studio/Blocks Auto** for every installed block entry; add curated variants in `shadcn-studio-blocks.stories.tsx` when needed. **PAS-006C promotion checklists:** `Shadcn Studio/Promotion` (codegen MDX). Skill detail: [afenda-storybook](../afenda-storybook/SKILL.md).
+Browse **Shadcn Studio/Blocks Auto** for every installed block entry; add curated variants in `shadcn-studio-blocks.stories.tsx` when needed. Skill detail: [afenda-storybook](../afenda-storybook/SKILL.md).
 
 **Storybook MCP:** `@storybook/addon-mcp` — preview URLs and `run-story-tests` when dev server is up.
 

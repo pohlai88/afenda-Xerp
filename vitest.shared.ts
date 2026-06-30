@@ -43,6 +43,7 @@ const WORKSPACE_DEPS = {
 export interface ReactProjectOptions {
   alias?: Record<string, string>;
   setupFiles?: string[];
+  testInclude?: string[];
 }
 
 function coverageOptions(root: string) {
@@ -166,6 +167,7 @@ export function createReactProject(
     },
     test: {
       ...sharedTestOptions(name, root),
+      include: options.testInclude ?? [TEST_FILE_PATTERN],
       environment: "jsdom",
       setupFiles: [REACT_SETUP, ...(options.setupFiles ?? [])],
       env: {

@@ -27,11 +27,12 @@ describe("block-flat-story registry coverage", () => {
     const registrySource = readFileSync(registryPath, "utf8");
     const flatStoriesSource = readFileSync(flatStoriesPath, "utf8");
 
+    expect(manifest.manualStoryRequired.length).toBeGreaterThan(0);
+
     for (const slug of manifest.manualStoryRequired) {
       expect(registrySource).toContain(`slug: "${slug}"`);
     }
 
-    expect(manifest.manualStoryRequired.length).toBeGreaterThan(0);
     expect(flatStoriesSource).toContain("Shadcn Studio/Blocks Flat");
   });
 });

@@ -4,13 +4,13 @@ import { useTheme } from "next-themes";
 
 import { useSettings } from "./settings-context.js";
 import {
+  assertThemePresetSlug,
   NAMED_THEME_PRESET_SLUGS,
   RADIUS_VALUES,
   THEME_LAYOUTS,
   THEME_SIDEBAR_COLLAPSIBLES,
   THEME_SIDEBAR_VARIANTS,
   type ThemeMode,
-  type ThemePresetSlug,
   type ThemeRadius,
   type ThemeScale,
 } from "./theme-preset.contract.js";
@@ -126,7 +126,7 @@ export function ThemeCustomizer() {
             className="w-full rounded-md border border-border bg-background px-2 py-1.5"
             onChange={(event) =>
               updateSettings({
-                themePreset: event.target.value as ThemePresetSlug,
+                themePreset: assertThemePresetSlug(event.target.value),
               })
             }
             value={settings.themePreset}

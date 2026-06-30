@@ -6,12 +6,16 @@
  * - biome.lsp.jsonc (editor LSP, no type-aware)
  * - biome.project.jsonc (shared excludes)
  * - .vscode/settings.json (formatter + biome.enabled per language)
+ * - _reference/.vscode/settings.json (Biome-excluded reference templates)
  * - package.json lint-staged + prettier.config.mjs
  *
  * @see scripts/governance/check-biome-editor-sync.mjs
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+
+/** VS Code settings placeholder — built without a literal ${…} string for Biome. */
+const VSCODE_WORKSPACE_FOLDER = ["$", "{", "workspaceFolder", "}"].join("");
 
 /** @typedef {{ ok: true } | { ok: false; violations: string[] }} BiomeEditorSyncResult */
 
@@ -20,6 +24,7 @@ export const BIOME_EDITOR_POLICY = {
   ciConfigPath: "biome.jsonc",
   sharedConfigPath: "biome.project.jsonc",
   vscodeSettingsPath: ".vscode/settings.json",
+  referenceVscodeSettingsPath: "_reference/.vscode/settings.json",
   prettierConfigPath: "prettier.config.mjs",
   typeAwarePreset: "ultracite/biome/type-aware",
   biomeCliExcludedGlobs: [
@@ -31,7 +36,22 @@ export const BIOME_EDITOR_POLICY = {
     "!!**/.cursor",
   ],
   vscode: {
-    configurationPath: "biome.lsp.jsonc",
+    configurationPath: `${VSCODE_WORKSPACE_FOLDER}/biome.lsp.jsonc`,
+    lspBinByPlatform: {
+      "darwin-arm64": `${VSCODE_WORKSPACE_FOLDER}/node_modules/@biomejs/cli-darwin-arm64/biome`,
+      "darwin-x64": `${VSCODE_WORKSPACE_FOLDER}/node_modules/@biomejs/cli-darwin-x64/biome`,
+      "linux-arm64": `${VSCODE_WORKSPACE_FOLDER}/node_modules/@biomejs/cli-linux-arm64/biome`,
+      "linux-x64": `${VSCODE_WORKSPACE_FOLDER}/node_modules/@biomejs/cli-linux-x64/biome`,
+      "win32-arm64": `${VSCODE_WORKSPACE_FOLDER}/node_modules/@biomejs/cli-win32-arm64/biome.exe`,
+      "win32-x64": `${VSCODE_WORKSPACE_FOLDER}/node_modules/@biomejs/cli-win32-x64/biome.exe`,
+    },
+    biomeEnabledDefault: true,
+    biomeFormatterLanguages: [
+      "typescript",
+      "typescriptreact",
+      "javascript",
+      "javascriptreact",
+    ],
     lspWatcherKind: "none",
     requireConfiguration: true,
     watcherExclude: ["**/docs/**", "**/.cursor/**"],
@@ -58,6 +78,17 @@ export const BIOME_EDITOR_POLICY = {
       },
     },
   },
+  referenceVscode: {
+    biomeEnabledDefault: false,
+    requireConfiguration: false,
+    formatterLanguages: [
+      "typescript",
+      "typescriptreact",
+      "javascript",
+      "javascriptreact",
+    ],
+    defaultFormatter: "vscode.typescript-language-features",
+  },
   lintStaged: {
     ultraciteGlob: "*.{js,jsx,ts,tsx,mjs,cjs,json,jsonc}",
     ultraciteCommand: "ultracite fix",
@@ -65,6 +96,16 @@ export const BIOME_EDITOR_POLICY = {
     prettierMdxCommand: "prettier --write",
     prettierCssGlob: "*.css",
     prettierCssCommand: "prettier --write",
+    biomeEditorSyncCommand:
+      "node scripts/governance/check-biome-editor-sync.mjs",
+    biomeEditorSyncPaths: [
+      "biome.jsonc",
+      "biome.lsp.jsonc",
+      "biome.project.jsonc",
+      ".vscode/settings.json",
+      "_reference/.vscode/settings.json",
+      "scripts/governance/biome-editor-policy.mjs",
+    ],
   },
   prettierDocumentSelectors: ["**/*.mdx", "**/*.css"],
   huskyPreCommitPath: ".husky/pre-commit",
@@ -194,8 +235,48 @@ export function checkBiomeEditorSync(repoRoot) {
     policy.vscode.configurationPath
   ) {
     violations.push(
-      `.vscode/settings.json biome.configurationPath must be "${policy.vscode.configurationPath}"`
+      `.vscode/settings.json biome.configurationPath must be "${policy.vscode.configurationPath}" (Biome 2.4+ LSP requires workspaceFolder-absolute path)`
     );
+  }
+
+  const lspBin = expectObject(
+    vscodeSettings["biome.lsp.bin"] ?? {},
+    "biome.lsp.bin"
+  );
+
+  for (const [platform, expectedPath] of Object.entries(
+    policy.vscode.lspBinByPlatform
+  )) {
+    if (lspBin[platform] !== expectedPath) {
+      violations.push(
+        `.vscode/settings.json biome.lsp.bin["${platform}"] must be "${expectedPath}"`
+      );
+    }
+  }
+
+  if (vscodeSettings["biome.enabled"] !== policy.vscode.biomeEnabledDefault) {
+    violations.push(
+      `.vscode/settings.json biome.enabled must be ${policy.vscode.biomeEnabledDefault}`
+    );
+  }
+
+  for (const languageId of policy.vscode.biomeFormatterLanguages) {
+    const scope = expectObject(
+      vscodeSettings[`[${languageId}]`] ?? {},
+      `[${languageId}]`
+    );
+
+    if (scope["biome.enabled"] !== true) {
+      violations.push(
+        `[${languageId}] biome.enabled must be true (Biome must register as formatter for ${languageId})`
+      );
+    }
+
+    if (scope["editor.defaultFormatter"] !== "biomejs.biome") {
+      violations.push(
+        `[${languageId}] editor.defaultFormatter must be "biomejs.biome"`
+      );
+    }
   }
 
   if (
@@ -271,6 +352,74 @@ export function checkBiomeEditorSync(repoRoot) {
     violations.push(
       "lint-staged must not format *.md (docs are Biome-excluded; use dedicated doc tooling)"
     );
+  }
+
+  for (const stagedPath of policy.lintStaged.biomeEditorSyncPaths) {
+    const command = lintStaged[stagedPath];
+
+    if (command !== policy.lintStaged.biomeEditorSyncCommand) {
+      violations.push(
+        `lint-staged["${stagedPath}"] must be "${policy.lintStaged.biomeEditorSyncCommand}"`
+      );
+    }
+  }
+
+  const referenceSettingsPath = join(
+    repoRoot,
+    policy.referenceVscodeSettingsPath
+  );
+
+  let referenceSettings;
+
+  try {
+    referenceSettings = JSON.parse(readFileSync(referenceSettingsPath, "utf8"));
+  } catch {
+    violations.push(
+      `${policy.referenceVscodeSettingsPath} must exist (Biome-excluded _reference editor scope)`
+    );
+    referenceSettings = null;
+  }
+
+  if (referenceSettings !== null) {
+    const referencePolicy = policy.referenceVscode;
+
+    if (
+      referenceSettings["biome.enabled"] !== referencePolicy.biomeEnabledDefault
+    ) {
+      violations.push(
+        `${policy.referenceVscodeSettingsPath} biome.enabled must be ${referencePolicy.biomeEnabledDefault}`
+      );
+    }
+
+    if (
+      referenceSettings["biome.requireConfiguration"] !==
+      referencePolicy.requireConfiguration
+    ) {
+      violations.push(
+        `${policy.referenceVscodeSettingsPath} biome.requireConfiguration must be ${referencePolicy.requireConfiguration}`
+      );
+    }
+
+    for (const languageId of referencePolicy.formatterLanguages) {
+      const scope = expectObject(
+        referenceSettings[`[${languageId}]`] ?? {},
+        `[${languageId}]`
+      );
+
+      if (scope["biome.enabled"] !== false) {
+        violations.push(
+          `${policy.referenceVscodeSettingsPath} [${languageId}] biome.enabled must be false`
+        );
+      }
+
+      if (
+        scope["editor.defaultFormatter"] !== referencePolicy.defaultFormatter
+      ) {
+        violations.push(
+          `${policy.referenceVscodeSettingsPath} [${languageId}] editor.defaultFormatter must be "${referencePolicy.defaultFormatter}"`
+        );
+      }
+    }
   }
 
   for (const selector of policy.prettierDocumentSelectors) {

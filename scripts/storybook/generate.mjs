@@ -7,8 +7,8 @@ const repoRoot = join(scriptDir, "../..");
 
 /** Ordered Storybook codegen steps — add new generators here. */
 const GENERATORS = [
+  "discard-blocks-without-consumer.mjs",
   "generate-block-auto-stories.mjs",
-  "generate-block-promotion-docs.mjs",
 ];
 
 function runStep(scriptName) {

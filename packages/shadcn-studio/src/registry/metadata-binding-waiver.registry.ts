@@ -49,12 +49,6 @@ export const METADATA_BINDING_WAIVER_REGISTRY = [
     reason: "dialog-shell-only",
     waiverId: "metadata-binding-waiver.dialog-search",
   },
-  {
-    blockId: "error-page-02",
-    notes: "Static error surface — no metadata-driven LoB field model.",
-    reason: "static-error-surface",
-    waiverId: "metadata-binding-waiver.error-page-02",
-  },
 ] as const satisfies readonly MetadataBindingWaiverWire[];
 
 const WAIVER_BLOCK_ID_SET = new Set<string>(

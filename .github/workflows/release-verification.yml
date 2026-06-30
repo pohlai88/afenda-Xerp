@@ -46,7 +46,7 @@ jobs:
         run: pnpm typecheck
 
       # Gate 2 — Code Quality
-      - name: Gate 2 · biome (format + lint + imports)
+      - name: Gate 2 · biome (format + lint + imports + editor sync)
         run: pnpm ci:biome
 
       # Gate 3 — Test Quality

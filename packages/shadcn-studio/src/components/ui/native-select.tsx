@@ -1,10 +1,14 @@
 import { ChevronDownIcon } from "lucide-react";
 import type * as React from "react";
+
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-type NativeSelectProps = Omit<React.ComponentProps<"select">, "size"> & {
-  size?: "sm" | "default";
-};
+type NativeSelectProps = WithoutGovernedDataSlot<
+  Omit<React.ComponentProps<"select">, "size"> & {
+    size?: "sm" | "default";
+  }
+>;
 
 function NativeSelect({
   className,
@@ -61,4 +65,6 @@ function NativeSelectOptGroup({
   );
 }
 
+export type { NativeSelectSlot } from "./native-select.contract.js";
+export type { NativeSelectProps };
 export { NativeSelect, NativeSelectOptGroup, NativeSelectOption };

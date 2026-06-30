@@ -1,6 +1,11 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import bundleAnalyzer from "@next/bundle-analyzer";
 import type { NextConfig } from "next";
+
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === "true",
+});
 
 const appDir = path.dirname(fileURLToPath(import.meta.url));
 const monorepoRoot = path.join(appDir, "../..");
@@ -63,14 +68,25 @@ const nextConfig: NextConfig = {
     "@afenda/observability",
     "@afenda/shadcn-studio",
   ],
-  // Prepared for a future Next release; Next 16.2.9 does not honor extensionAlias in Turbopack yet.
+  // Turbopack: root only — extensionAlias is webpack-only until Next honors it in turbopack.
   turbopack: {
     root: monorepoRoot,
-    extensionAlias,
-  } as NextConfig["turbopack"],
+  },
   webpack: (config) => {
     config.resolve ??= {};
     config.resolve.extensionAlias = { ...extensionAlias };
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      // transpilePackages resolves the package root only — wire subpath exports for webpack.
+      "@afenda/shadcn-studio/theme": path.join(
+        monorepoRoot,
+        "packages/shadcn-studio/src/theme/index.ts"
+      ),
+      "@afenda/shadcn-studio/governance": path.join(
+        monorepoRoot,
+        "packages/shadcn-studio/src/governance/index.ts"
+      ),
+    };
     return config;
   },
   async headers() {
@@ -83,4 +99,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withBundleAnalyzer(nextConfig);

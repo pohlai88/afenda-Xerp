@@ -59,7 +59,8 @@ Presentation **product runtime** — the install target for shadcn/studio MCP, t
 
 | Surface | Path | Contract rule |
 | --- | --- | --- |
-| Public barrel | `packages/shadcn-studio/src/index.ts` | Explicit block + theme exports |
+| Maintainer architecture | `packages/shadcn-studio/ARCHITECTURE.md` | L1–L4 layer map · contract vocabulary · [ADR-0037](../../adr/ADR-0037-shadcn-studio-src-layered-structure.md) |
+| Public barrel | `packages/shadcn-studio/src/index.ts` | Explicit block + theme exports; no L4 lab exports ([P06-011](SLICE/p06-011-src-structure-clarity.md)) |
 | Theme presets | `src/theme/theme-presets.ts` | JSON-serializable |
 | CSS source | `src/styles/shadcn-studio.css` | Authoring only |
 | CSS dist | `dist/shadcn-studio.css` | App import target |

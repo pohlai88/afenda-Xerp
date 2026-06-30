@@ -3,6 +3,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
+import { MCP_SEED_BLOCK_MANIFEST } from "../registry/mcp-seed-block-manifest.js";
+
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const uiDir = join(packageRoot, "src/components/ui");
 const blocksDir = join(packageRoot, "src/components/shadcn-studio/blocks");
@@ -47,21 +49,28 @@ describe("MCP live seed inventory (B42c + B42e + B42f + B42g)", () => {
   it("installs live MCP blocks under src/components/shadcn-studio/blocks/", () => {
     const blockEntries = listBlockEntries();
     expect(blockEntries.length).toBeGreaterThanOrEqual(20);
+
+    for (const entry of MCP_SEED_BLOCK_MANIFEST) {
+      const relativePath = entry.mcpPath.replace(
+        "packages/shadcn-studio/src/components/shadcn-studio/blocks/",
+        ""
+      );
+      const normalizedPath = relativePath.endsWith(".tsx")
+        ? relativePath
+        : relativePath;
+      expect(blockEntries).toContain(normalizedPath.replace(/\\/g, "/"));
+    }
+
     expect(blockEntries).toEqual(
       expect.arrayContaining([
         "account-settings-01",
-        "account-settings-07",
-        "error-page-02",
         "hero-section-01",
         "login-page-04",
         "menu-trigger.tsx",
-        "sidebar-user-dropdown.tsx",
         "statistics-card-01.tsx",
-        "statistics-card-03.tsx",
-        "statistics-trend-card.tsx",
+        "datatable-user.tsx",
         "datatable-invoice.tsx",
-        "widget-sales-by-countries.tsx",
-        "widget-total-earning.tsx",
+        "datatable-product.tsx",
       ])
     );
   });

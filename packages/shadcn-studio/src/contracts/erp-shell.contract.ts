@@ -1,5 +1,12 @@
 /** Serializable ERP operator shell contracts (PAS-006 — boundary-safe for RSC → client). */
 
+import {
+  isNonEmptyString,
+  isOptionalBoolean,
+  isReadonlyArrayOf,
+  isWireRecord,
+} from "./wire-guard.helpers.js";
+
 export interface ErpNavItemWire {
   readonly href: string;
   readonly isActive?: boolean;
@@ -18,30 +25,38 @@ export interface ErpShellOperatingContextWire {
 }
 
 export function isErpNavItemWire(value: unknown): value is ErpNavItemWire {
-  if (typeof value !== "object" || value === null) {
+  if (!isWireRecord(value)) {
     return false;
   }
 
-  const record = value as Record<string, unknown>;
-
   return (
-    typeof record["href"] === "string" &&
-    typeof record["label"] === "string" &&
-    (record["isActive"] === undefined ||
-      typeof record["isActive"] === "boolean")
+    isNonEmptyString(value["href"]) &&
+    isNonEmptyString(value["label"]) &&
+    isOptionalBoolean(value["isActive"])
   );
 }
 
 export function isErpNavGroupWire(value: unknown): value is ErpNavGroupWire {
-  if (typeof value !== "object" || value === null) {
+  if (!isWireRecord(value)) {
     return false;
   }
 
-  const record = value as Record<string, unknown>;
+  return (
+    isNonEmptyString(value["label"]) &&
+    isReadonlyArrayOf(value["items"], isErpNavItemWire)
+  );
+}
+
+export function isErpShellOperatingContextWire(
+  value: unknown
+): value is ErpShellOperatingContextWire {
+  if (!isWireRecord(value)) {
+    return false;
+  }
 
   return (
-    typeof record["label"] === "string" &&
-    Array.isArray(record["items"]) &&
-    record["items"].every(isErpNavItemWire)
+    isNonEmptyString(value["legalEntityLabel"]) &&
+    isNonEmptyString(value["tenantLabel"]) &&
+    isNonEmptyString(value["workspaceLabel"])
   );
 }

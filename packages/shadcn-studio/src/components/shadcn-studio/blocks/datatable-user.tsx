@@ -2,6 +2,7 @@
 
 import { useId, useMemo, useState } from 'react'
 
+import { blockSlotDomMarkerProps } from '../../../contracts/block-slot-dom-marker.contract.js'
 import type { Column, ColumnDef, ColumnFiltersState, PaginationState, RowData } from '@tanstack/react-table'
 import {
   flexRender,
@@ -169,7 +170,7 @@ const columns: ColumnDef<Item>[] = [
     id: 'actions',
     header: () => 'Actions',
     cell: () => (
-      <div className='flex items-center gap-1'>
+      <div className='flex items-center gap-1' {...blockSlotDomMarkerProps('table.actions')}>
         <Tooltip>
           <TooltipTrigger render={<Button variant='ghost' size='icon' aria-label='Delete item' />}>
             <Trash2Icon className='size-4.5' />
@@ -240,7 +241,7 @@ const UserDatatable = ({ data }: { data: Item[] }) => {
           </div>
         </div>
         <Table>
-          <TableHeader>
+          <TableHeader {...blockSlotDomMarkerProps('table.header')}>
             {table.getHeaderGroups().map(headerGroup => (
               <TableRow key={headerGroup.id} className='h-14 border-t'>
                 {headerGroup.headers.map(header => {
@@ -284,7 +285,7 @@ const UserDatatable = ({ data }: { data: Item[] }) => {
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
+          <TableBody {...blockSlotDomMarkerProps('table.rows')}>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map(row => (
                 <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>

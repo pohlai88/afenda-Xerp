@@ -2,19 +2,23 @@
 
 import type * as React from "react";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function Label({ className, ...props }: React.ComponentProps<"label">) {
+import { LABEL_SLOTS, labelRootClassName } from "./label.contract.js";
+
+type LabelProps = WithoutGovernedDataSlot<React.ComponentProps<"label">>;
+
+function Label({ className, ...props }: LabelProps) {
   return (
     <label
-      className={cn(
-        "flex select-none items-center gap-2 font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50",
-        className
-      )}
-      data-slot="label"
       {...props}
+      className={cn(labelRootClassName, className)}
+      data-slot={LABEL_SLOTS.root}
     />
   );
 }
 
+export type { LabelSlot } from "./label.contract.js";
+export type { LabelProps };
 export { Label };

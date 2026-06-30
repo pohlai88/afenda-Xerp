@@ -95,6 +95,41 @@ export function installJsdomPolyfills(): void {
     window.IntersectionObserver = MockIntersectionObserver;
   }
 
+  if (typeof window.PointerEvent === "undefined") {
+    class MockPointerEvent extends MouseEvent implements PointerEvent {
+      readonly altitudeAngle = 0;
+      readonly azimuthAngle = 0;
+      readonly height = 1;
+      readonly isPrimary = true;
+      readonly pointerId: number;
+      readonly pointerType: string;
+      readonly pressure = 0;
+      readonly tangentialPressure = 0;
+      readonly tiltX = 0;
+      readonly tiltY = 0;
+      readonly twist = 0;
+      readonly width = 1;
+      readonly coalescedEvents: PointerEvent[] = [];
+      readonly predictedEvents: PointerEvent[] = [];
+
+      constructor(type: string, params: PointerEventInit = {}) {
+        super(type, params);
+        this.pointerId = params.pointerId ?? 0;
+        this.pointerType = params.pointerType ?? "mouse";
+      }
+
+      getCoalescedEvents(): PointerEvent[] {
+        return this.coalescedEvents;
+      }
+
+      getPredictedEvents(): PointerEvent[] {
+        return this.predictedEvents;
+      }
+    }
+
+    window.PointerEvent = MockPointerEvent as typeof PointerEvent;
+  }
+
   Object.defineProperty(window, "matchMedia", {
     writable: true,
     configurable: true,

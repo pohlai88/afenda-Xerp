@@ -19,6 +19,8 @@ import ChartTotalRevenueBlock from "../components/shadcn-studio/blocks/chart-tot
 import AddPaymentMethodDialog from "../components/shadcn-studio/blocks/dashboard-dialog-03/dialog-add-payment-method.js";
 import VerifyDialog from "../components/shadcn-studio/blocks/dashboard-dialog-09/dialog-verify.js";
 import DatatableInvoiceBlock from "../components/shadcn-studio/blocks/datatable-invoice.js";
+import DatatableProductBlock from "../components/shadcn-studio/blocks/datatable-product.js";
+import DatatableUserBlock from "../components/shadcn-studio/blocks/datatable-user.js";
 import ActivityDialog from "../components/shadcn-studio/blocks/dialog-activity.js";
 import SearchDialog from "../components/shadcn-studio/blocks/dialog-search.js";
 import LanguageDropdown from "../components/shadcn-studio/blocks/dropdown-language.js";
@@ -163,6 +165,46 @@ export function DatatableInvoiceSample() {
           total: 1200,
           issuedDate: new Date("2026-01-15"),
           balance: 0,
+        },
+      ]}
+    />
+  );
+}
+
+export function DatatableUserSample() {
+  return (
+    <DatatableUserBlock
+      data={[
+        {
+          id: "user_preview_01",
+          avatar: "",
+          fallback: "JD",
+          user: "Jane Doe",
+          email: "jane.doe@example.com",
+          role: "admin",
+          plan: "enterprise",
+          status: "active",
+          billing: "auto-debit",
+        },
+      ]}
+    />
+  );
+}
+
+export function DatatableProductSample() {
+  return (
+    <DatatableProductBlock
+      data={[
+        {
+          id: "product_preview_01",
+          productImage: "",
+          product: "Studio Headphones",
+          brand: "Acme Audio",
+          category: "headphone",
+          stock: "available",
+          amount: 199,
+          quantity: 42,
+          status: "publish",
         },
       ]}
     />

@@ -30,6 +30,10 @@ const SAFE_VERCEL =
 const ENV_PULL = /\bvercel\b[\s\S]*\benv\s+pull\b/i;
 const SHELL_WRITE_HINT =
   /(?:>>?|\|\s*tee\b|\bSet-Content\b|\bAdd-Content\b|\bOut-File\b|\bsp\s)/i;
+const SHADCN_OVERWRITE =
+  /\bshadcn(?:@|\b)[\s\S]*(?:--overwrite\b|-(?:so|o)\b|--silent-overwrite\b)/i;
+const SHADCN_UI_OVERWRITE =
+  /\bshadcn(?:@|\b)[\s\S]*(?:components[/\\]ui|add\s+(?:--all|--yes|\S+))/i;
 
 const normalizeCommand = (command) =>
   command.trim().replace(/\s+/g, " ").replace(/\\\\/g, "/");
@@ -184,6 +188,28 @@ function isAllowedShellMigration(command) {
   return isReadOnlyMigrationAudit(normalized);
 }
 
+function checkShadcnPrimitiveOverwrite(command) {
+  if (!(command && SHADCN_OVERWRITE.test(command))) {
+    return null;
+  }
+
+  if (
+    SHADCN_UI_OVERWRITE.test(command) ||
+    /\badd\s+--all\b/.test(command) ||
+    /\bcomponents[/\\]ui\b/.test(command)
+  ) {
+    return {
+      kind: "deny",
+      user_message:
+        "shadcn --overwrite on components/ui is forbidden. Use pnpm studio:shadcn (no overwrite) or edit {name}.contract.ts + {name}.tsx manually.",
+      agent_message:
+        "Blocked shadcn CLI overwrite on primitives. Use pnpm studio:shadcn add <name> --yes or manual contract/adapter edit. Blocks may use overwrite only with post-install marker restore per shadcn-studio SKILL.",
+    };
+  }
+
+  return null;
+}
+
 function checkBlockedMigration(command, repoRoot) {
   if (!(hasDrizzleWorkflow(repoRoot) && command)) {
     return null;
@@ -237,6 +263,7 @@ const command = extractCommand(input);
 const checks = [
   checkDestructiveGit,
   checkWrongPackageManager,
+  checkShadcnPrimitiveOverwrite,
   checkDevServers,
   checkVercelProduction,
   checkVercelEnvPull,

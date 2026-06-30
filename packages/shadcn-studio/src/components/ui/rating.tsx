@@ -4,6 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { StarIcon } from "lucide-react";
 import * as React from "react";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
 type IconElementProps = {
@@ -54,20 +55,22 @@ interface RatingItemProps extends React.ComponentProps<"label"> {
   variant?: VariantProps<typeof ratingVariants>["variant"];
 }
 
-interface RatingProps extends React.ComponentProps<"div"> {
-  defaultValue?: number;
-  disabled?: boolean;
-  icon?: React.ReactElement<IconElementProps>;
-  max?: number;
-  name?: string;
-  onValueChange?: (value: number) => void;
-  onValueHover?: (value: number) => void;
-  precision?: number;
-  readOnly?: boolean;
-  size?: number;
-  value?: number;
-  variant?: VariantProps<typeof ratingVariants>["variant"];
-}
+type RatingProps = WithoutGovernedDataSlot<
+  React.ComponentProps<"div"> & {
+    defaultValue?: number;
+    disabled?: boolean;
+    icon?: React.ReactElement<IconElementProps>;
+    max?: number;
+    name?: string;
+    onValueChange?: (value: number) => void;
+    onValueHover?: (value: number) => void;
+    precision?: number;
+    readOnly?: boolean;
+    size?: number;
+    value?: number;
+    variant?: VariantProps<typeof ratingVariants>["variant"];
+  }
+>;
 
 // Rating Item Component
 function RatingItem({
@@ -374,4 +377,6 @@ function Rating({
   );
 }
 
-export { Rating, type RatingProps, ratingVariants };
+export type { RatingSlot } from "./rating.contract.js";
+export type { RatingProps };
+export { Rating, ratingVariants };

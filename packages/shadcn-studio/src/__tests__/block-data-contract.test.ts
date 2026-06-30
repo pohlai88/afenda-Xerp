@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  assertBlockDataContractWire,
   type BlockDataContractWire,
   isBlockDataContractWire,
 } from "../contracts/block-data.contract.js";
@@ -56,6 +57,25 @@ describe("block data contract (PAS-006B P06-003)", () => {
     );
     expect(contract?.fields.some((field) => field.fieldKey === "value")).toBe(
       true
+    );
+  });
+
+  it("assertBlockDataContractWire throws on invalid payload", () => {
+    const sample: BlockDataContractWire = {
+      blockDataContractId: "block-data-contract:hero-section-01",
+      blockId: "hero-section-01",
+      fields: [
+        {
+          fieldKey: "title",
+          slotId: "hero.title",
+          kind: "text",
+        },
+      ],
+    };
+
+    expect(() => assertBlockDataContractWire(sample)).not.toThrow();
+    expect(() => assertBlockDataContractWire(null)).toThrow(
+      "Invalid block data contract wire payload."
     );
   });
 });

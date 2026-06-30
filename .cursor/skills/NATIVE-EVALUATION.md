@@ -67,6 +67,9 @@ Retained for coding reference even without heavy Afenda wiring:
 | --- | --- | --- |
 | `afenda-tailwind` | **keep** | 2026-06-29 consolidated; **reinstated PAS-006 Phase 1** 2026-06-30 (replaces retired legacy-ui copy) |
 | `afenda-presentation-quality` | **keep** | 2026-06-30 — PAS-006 composer; Phase 1 CSS doctrine; replaces ui-consistency-bundle |
+| `afenda-primitive-contract` | **keep** | 2026-06-30 — ui/* 2-file contract + `check:studio-primitive-contracts` |
+| `afenda-react-surface-quality` | **keep** | 2026-06-30 — ERP React B→A→T scan; vendor index on failure |
+| `afenda-shadcn-performance` | **keep** | 2026-06-30 — shadcn + Tailwind v4 + React synergy; bundle analyze wired in apps/erp |
 | `enterprise-architecture-audit` | **keep** | 2026-06-28 — read-only full-stack platform audit |
 | `enterprise-architecture-auditor` | **keep** | 2026-06-28 — phase worker agent |
 | `enterprise-architecture-audit-orchestrator` | **keep** | 2026-06-28 — deterministic 8-phase audit orchestrator |

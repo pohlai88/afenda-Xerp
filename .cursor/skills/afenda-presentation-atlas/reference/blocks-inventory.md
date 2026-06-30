@@ -78,10 +78,3 @@ Curated stories required — add to `shadcn-studio-blocks.stories.tsx` when inst
 Filesystem `blockId` ≠ `@ss-blocks/*` registry id. Install map: [`shadcn-studio/reference/base-vega-install.md`](../../shadcn-studio/reference/base-vega-install.md).
 
 Post-install: restore `blockSlotDomMarkerProps`, fix Base UI `render` props, `pnpm storybook generate`.
-
----
-
-## Promotion (PAS-006C)
-
-Checklist MDX per block under `packages/shadcn-studio/src/_storybook/docs/blocks/`.  
-Storybook: **Shadcn Studio/Promotion** + `promotion-index.mdx`.

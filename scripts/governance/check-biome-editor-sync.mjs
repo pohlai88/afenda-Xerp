@@ -23,6 +23,6 @@ for (const violation of result.violations) {
   process.stderr.write(`- ${violation}\n`);
 }
 process.stderr.write(
-  "\nFix: align biome.jsonc, biome.lsp.jsonc, biome.project.jsonc, .vscode/settings.json, .husky/pre-commit, scripts.precommit, and lint-staged with scripts/governance/biome-editor-policy.mjs\n"
+  "\nFix: align biome.jsonc, biome.lsp.jsonc, biome.project.jsonc, .vscode/settings.json, _reference/.vscode/settings.json, scripts/governance/biome-editor-policy.mjs, .husky/pre-commit, scripts.precommit, and lint-staged with scripts/governance/biome-editor-policy.mjs\n"
 );
 process.exit(1);

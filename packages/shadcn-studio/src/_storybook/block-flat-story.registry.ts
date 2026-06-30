@@ -7,6 +7,8 @@ import {
   DashboardDialog03Sample,
   DashboardDialog09Sample,
   DatatableInvoiceSample,
+  DatatableProductSample,
+  DatatableUserSample,
   DialogActivitySample,
   DialogSearchSample,
   DropdownLanguageSample,
@@ -79,6 +81,18 @@ export const FLAT_BLOCK_STORY_REGISTRY = [
     slug: "datatable-invoice",
     storyName: "DatatableInvoice",
     sample: DatatableInvoiceSample,
+    layout: "fullscreen",
+  },
+  {
+    slug: "datatable-user",
+    storyName: "DatatableUser",
+    sample: DatatableUserSample,
+    layout: "fullscreen",
+  },
+  {
+    slug: "datatable-product",
+    storyName: "DatatableProduct",
+    sample: DatatableProductSample,
     layout: "fullscreen",
   },
   {

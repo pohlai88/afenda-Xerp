@@ -9,7 +9,13 @@ import {
 import { ArrowDownIcon } from "lucide-react";
 import type * as React from "react";
 import { Button } from "@/components/ui/button";
+
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
+
+type MessageScrollerProps = WithoutGovernedDataSlot<
+  React.ComponentProps<typeof MessageScrollerPrimitive.Root>
+>;
 
 function MessageScrollerProvider(
   props: React.ComponentProps<typeof MessageScrollerPrimitive.Provider>
@@ -17,18 +23,15 @@ function MessageScrollerProvider(
   return <MessageScrollerPrimitive.Provider {...props} />;
 }
 
-function MessageScroller({
-  className,
-  ...props
-}: React.ComponentProps<typeof MessageScrollerPrimitive.Root>) {
+function MessageScroller({ className, ...props }: MessageScrollerProps) {
   return (
     <MessageScrollerPrimitive.Root
+      {...props}
       className={cn(
         "group/message-scroller relative flex size-full min-h-0 flex-col overflow-hidden",
         className
       )}
       data-slot="message-scroller"
-      {...props}
     />
   );
 }
@@ -116,6 +119,8 @@ function MessageScrollerButton({
   );
 }
 
+export type { MessageScrollerSlot } from "./message-scroller.contract.js";
+export type { MessageScrollerProps };
 export {
   MessageScroller,
   MessageScrollerButton,

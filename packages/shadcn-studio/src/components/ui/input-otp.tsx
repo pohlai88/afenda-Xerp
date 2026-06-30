@@ -3,7 +3,20 @@
 import { OTPInput, OTPInputContext } from "input-otp";
 import { MinusIcon } from "lucide-react";
 import * as React from "react";
+
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
+
+import {
+  INPUT_OTP_SLOTS,
+  inputOtpSlotClassName,
+} from "./input-otp.contract.js";
+
+type InputOTPSlotProps = WithoutGovernedDataSlot<
+  React.ComponentProps<"div"> & {
+    index: number;
+  }
+>;
 
 function InputOTP({
   className,
@@ -39,25 +52,16 @@ function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
-function InputOTPSlot({
-  index,
-  className,
-  ...props
-}: React.ComponentProps<"div"> & {
-  index: number;
-}) {
+function InputOTPSlot({ index, className, ...props }: InputOTPSlotProps) {
   const inputOTPContext = React.useContext(OTPInputContext);
   const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
 
   return (
     <div
-      className={cn(
-        "relative flex size-9 items-center justify-center border-input border-y border-r text-sm shadow-xs outline-none transition-all first:rounded-l-md first:border-l last:rounded-r-md aria-invalid:border-destructive data-[active=true]:z-10 data-[active=true]:border-ring data-[active=true]:ring-3 data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:border-destructive data-[active=true]:aria-invalid:ring-destructive/20 dark:bg-input/30 dark:data-[active=true]:aria-invalid:ring-destructive/40",
-        className
-      )}
-      data-active={isActive}
-      data-slot="input-otp-slot"
       {...props}
+      className={cn(inputOtpSlotClassName, className)}
+      data-active={isActive}
+      data-slot={INPUT_OTP_SLOTS.slot}
     >
       {char}
       {hasFakeCaret && (
@@ -82,4 +86,6 @@ function InputOTPSeparator({ ...props }: React.ComponentProps<"div">) {
   );
 }
 
+export type { InputOtpSlot } from "./input-otp.contract.js";
+export type { InputOTPSlotProps };
 export { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot };

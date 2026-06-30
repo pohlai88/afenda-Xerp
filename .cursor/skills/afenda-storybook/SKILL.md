@@ -246,7 +246,7 @@ pnpm --filter @afenda/erp build
 
 ---
 
-## 10. Static assets, promotion MDX, Chromatic, Pages
+## 10. Static assets, Chromatic, Pages
 
 ### staticDirs
 
@@ -255,14 +255,7 @@ pnpm --filter @afenda/erp build
 | `/` | `apps/storybook/public/` | Lab-only fixtures |
 | `/studio-assets/` | `packages/shadcn-studio/public/` | Promoted block assets (replace CDN at accept time) |
 
-### Promotion checklists (PAS-006C)
-
-Codegen emits MDX under `packages/shadcn-studio/src/_storybook/docs/`:
-
-- **Index:** `Shadcn Studio/Promotion`
-- **Per block:** `Shadcn Studio/Promotion/<slug>`
-
-Regenerate with `pnpm storybook generate` after MCP install.
+Regenerate block auto-stories with `pnpm storybook generate` after MCP install.
 
 ### Chromatic (optional)
 

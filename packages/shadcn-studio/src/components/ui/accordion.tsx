@@ -1,23 +1,46 @@
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
+
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
+import {
+  ACCORDION_SLOTS,
+  accordionContentInnerClassName,
+  accordionContentPanelClassName,
+  accordionHeaderClassName,
+  accordionItemClassName,
+  accordionRootClassName,
+  accordionTriggerClassName,
+  accordionTriggerIconClassName,
+} from "./accordion.contract.js";
+
+type AccordionProps = WithoutGovernedDataSlot<AccordionPrimitive.Root.Props>;
+type AccordionItemProps =
+  WithoutGovernedDataSlot<AccordionPrimitive.Item.Props>;
+type AccordionTriggerProps =
+  WithoutGovernedDataSlot<AccordionPrimitive.Trigger.Props>;
+type AccordionContentProps =
+  WithoutGovernedDataSlot<AccordionPrimitive.Panel.Props> & {
+    innerClassName?: string;
+  };
+
+function Accordion({ className, ...props }: AccordionProps) {
   return (
     <AccordionPrimitive.Root
-      className={cn("flex w-full flex-col", className)}
-      data-slot="accordion"
       {...props}
+      className={cn(accordionRootClassName, className)}
+      data-slot={ACCORDION_SLOTS.root}
     />
   );
 }
 
-function AccordionItem({ className, ...props }: AccordionPrimitive.Item.Props) {
+function AccordionItem({ className, ...props }: AccordionItemProps) {
   return (
     <AccordionPrimitive.Item
-      className={cn("not-last:border-b", className)}
-      data-slot="accordion-item"
       {...props}
+      className={cn(accordionItemClassName, className)}
+      data-slot={ACCORDION_SLOTS.item}
     />
   );
 }
@@ -26,25 +49,25 @@ function AccordionTrigger({
   className,
   children,
   ...props
-}: AccordionPrimitive.Trigger.Props) {
+}: AccordionTriggerProps) {
   return (
-    <AccordionPrimitive.Header className="flex">
+    <AccordionPrimitive.Header
+      className={accordionHeaderClassName}
+      data-slot={ACCORDION_SLOTS.header}
+    >
       <AccordionPrimitive.Trigger
-        className={cn(
-          "group/accordion-trigger relative flex flex-1 items-start justify-between rounded-md border border-transparent py-4 text-left font-medium text-sm outline-none transition-all hover:underline focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:after:border-ring aria-disabled:pointer-events-none aria-disabled:opacity-50 **:data-[slot=accordion-trigger-icon]:ml-auto **:data-[slot=accordion-trigger-icon]:size-4 **:data-[slot=accordion-trigger-icon]:text-muted-foreground",
-          className
-        )}
-        data-slot="accordion-trigger"
         {...props}
+        className={cn(accordionTriggerClassName, className)}
+        data-slot={ACCORDION_SLOTS.trigger}
       >
         {children}
         <ChevronDownIcon
-          className="pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden"
-          data-slot="accordion-trigger-icon"
+          className={`${accordionTriggerIconClassName} group-aria-expanded/accordion-trigger:hidden`}
+          data-slot={ACCORDION_SLOTS.triggerIcon}
         />
         <ChevronUpIcon
-          className="pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline"
-          data-slot="accordion-trigger-icon"
+          className={`${accordionTriggerIconClassName} hidden group-aria-expanded/accordion-trigger:inline`}
+          data-slot={ACCORDION_SLOTS.triggerIcon}
         />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
@@ -53,20 +76,19 @@ function AccordionTrigger({
 
 function AccordionContent({
   className,
+  innerClassName,
   children,
   ...props
-}: AccordionPrimitive.Panel.Props) {
+}: AccordionContentProps) {
   return (
     <AccordionPrimitive.Panel
-      className="overflow-hidden text-sm data-closed:animate-accordion-up data-open:animate-accordion-down"
-      data-slot="accordion-content"
       {...props}
+      className={cn(accordionContentPanelClassName, className)}
+      data-slot={ACCORDION_SLOTS.content}
     >
       <div
-        className={cn(
-          "h-(--accordion-panel-height) pt-0 pb-4 data-ending-style:h-0 data-starting-style:h-0 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4",
-          className
-        )}
+        className={cn(accordionContentInnerClassName, innerClassName)}
+        data-slot={ACCORDION_SLOTS.contentInner}
       >
         {children}
       </div>
@@ -74,4 +96,11 @@ function AccordionContent({
   );
 }
 
+export type { AccordionSlot } from "./accordion.contract.js";
+export type {
+  AccordionContentProps,
+  AccordionItemProps,
+  AccordionProps,
+  AccordionTriggerProps,
+};
 export { Accordion, AccordionContent, AccordionItem, AccordionTrigger };

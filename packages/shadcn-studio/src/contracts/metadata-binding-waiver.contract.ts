@@ -2,6 +2,8 @@
  * PAS-006D P06-008-R1 — metadata binding waiver wire contract (NO path).
  */
 
+import { isNonEmptyString, isWireRecord } from "./wire-guard.helpers.js";
+
 export type MetadataBindingWaiverReason =
   | "chrome-navigation"
   | "dialog-shell-only"
@@ -31,17 +33,15 @@ export function isMetadataBindingWaiverReason(
 export function isMetadataBindingWaiverWire(
   value: unknown
 ): value is MetadataBindingWaiverWire {
-  if (typeof value !== "object" || value === null) {
+  if (!isWireRecord(value)) {
     return false;
   }
 
-  const record = value as Record<string, unknown>;
-
   return (
-    typeof record["blockId"] === "string" &&
-    typeof record["waiverId"] === "string" &&
-    typeof record["notes"] === "string" &&
-    typeof record["reason"] === "string" &&
-    isMetadataBindingWaiverReason(record["reason"])
+    isNonEmptyString(value["blockId"]) &&
+    isNonEmptyString(value["waiverId"]) &&
+    isNonEmptyString(value["notes"]) &&
+    typeof value["reason"] === "string" &&
+    isMetadataBindingWaiverReason(value["reason"])
   );
 }

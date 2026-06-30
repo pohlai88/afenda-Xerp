@@ -1,26 +1,28 @@
 "use client";
 
 import type * as React from "react";
-
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-interface CircularProgressProps extends React.HTMLAttributes<HTMLDivElement> {
-  circleStrokeWidth?: number;
-  gaugePrimaryColor?: string;
-  gaugeSecondaryColor?: string;
-  labelClassName?: string;
-  progressBgClassName?: string;
-  progressClassName?: string;
-  progressStrokeWidth?: number;
-  renderLabel?: (progress: number) => React.ReactNode;
-  shape?: "square" | "round";
-  showLabel?: boolean;
-  size?: number;
-  strokeWidth?: number;
-  trackDashArray?: string | number;
-  value: number;
-  variant?: "default" | "animated";
-}
+type CircularProgressProps = WithoutGovernedDataSlot<
+  React.HTMLAttributes<HTMLDivElement> & {
+    circleStrokeWidth?: number;
+    gaugePrimaryColor?: string;
+    gaugeSecondaryColor?: string;
+    labelClassName?: string;
+    progressBgClassName?: string;
+    progressClassName?: string;
+    progressStrokeWidth?: number;
+    renderLabel?: (progress: number) => React.ReactNode;
+    shape?: "square" | "round";
+    showLabel?: boolean;
+    size?: number;
+    strokeWidth?: number;
+    trackDashArray?: string | number;
+    value: number;
+    variant?: "default" | "animated";
+  }
+>;
 
 const CircularProgress = ({
   value,
@@ -190,4 +192,6 @@ const CircularProgress = ({
   );
 };
 
+export type { CircularProgressSlot } from "./circular-progress.contract.js";
+export type { CircularProgressProps };
 export { CircularProgress };

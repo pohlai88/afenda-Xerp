@@ -11,20 +11,21 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { InputGroup, InputGroupAddon } from "@/components/ui/input-group";
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function Command({
-  className,
-  ...props
-}: React.ComponentProps<typeof CommandPrimitive>) {
+import { COMMAND_SLOTS, commandRootClassName } from "./command.contract.js";
+
+type CommandProps = WithoutGovernedDataSlot<
+  React.ComponentProps<typeof CommandPrimitive>
+>;
+
+function Command({ className, ...props }: CommandProps) {
   return (
     <CommandPrimitive
-      className={cn(
-        "flex size-full flex-col overflow-hidden rounded-xl! bg-popover p-1 text-popover-foreground",
-        className
-      )}
-      data-slot="command"
       {...props}
+      className={cn(commandRootClassName, className)}
+      data-slot={COMMAND_SLOTS.root}
     />
   );
 }
@@ -179,6 +180,8 @@ function CommandShortcut({
   );
 }
 
+export type { CommandSlot } from "./command.contract.js";
+export type { CommandProps };
 export {
   Command,
   CommandDialog,

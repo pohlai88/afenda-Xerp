@@ -31,7 +31,7 @@ describe("block slot registry (PAS-006B P06-003)", () => {
       getBlockSlotsForBlockId("chart-earning-report").length
     ).toBeGreaterThanOrEqual(3);
     expect(
-      getBlockSlotsForBlockId("account-settings-05").length
+      getBlockSlotsForBlockId("account-settings-01").length
     ).toBeGreaterThanOrEqual(4);
   });
 

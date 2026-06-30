@@ -32,7 +32,9 @@ pnpm dlx shadcn@latest add @ss-blocks/<registry-name> --overwrite --yes
 | `statistics-card-01` | `statistics-component-01` |
 | `statistics-card-02` | `statistics-component-02` |
 | `chart-sales-metrics` | `chart-component-01` |
+| `datatable-user` | `datatable-component-04` |
 | `datatable-invoice` | `datatable-component-05` |
+| `datatable-product` | `datatable-component-06` |
 | `widget-total-earning` | `widget-component-01` |
 | `widget-transactions` | `widget-component-03` |
 | `widget-payment-history` | `widget-component-14` |

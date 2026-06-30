@@ -2,15 +2,21 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { ChevronRightIcon, MoreHorizontalIcon } from "lucide-react";
 import type * as React from "react";
+
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function Breadcrumb({ className, ...props }: React.ComponentProps<"nav">) {
+import { BREADCRUMB_SLOTS } from "./breadcrumb.contract.js";
+
+type BreadcrumbProps = WithoutGovernedDataSlot<React.ComponentProps<"nav">>;
+
+function Breadcrumb({ className, ...props }: BreadcrumbProps) {
   return (
     <nav
+      {...props}
       aria-label="breadcrumb"
       className={cn(className)}
-      data-slot="breadcrumb"
-      {...props}
+      data-slot={BREADCRUMB_SLOTS.root}
     />
   );
 }
@@ -109,6 +115,8 @@ function BreadcrumbEllipsis({
   );
 }
 
+export type { BreadcrumbSlot } from "./breadcrumb.contract.js";
+export type { BreadcrumbProps };
 export {
   Breadcrumb,
   BreadcrumbEllipsis,

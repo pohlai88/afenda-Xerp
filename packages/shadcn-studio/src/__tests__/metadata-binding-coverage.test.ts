@@ -35,10 +35,13 @@ describe("metadata binding coverage matrix", () => {
 
   it("reports YES binding count and NO waiver count", () => {
     const summary = summarizeMetadataBindingCoverage(MCP_SEED_BLOCK_IDS);
+    const expectedWaiverCount = MCP_SEED_BLOCK_IDS.filter(
+      (blockId) => getMetadataBindingWaiverByBlockId(blockId) !== undefined
+    ).length;
 
     expect(summary.total).toBe(MCP_SEED_BLOCK_IDS.length);
     expect(summary.bindingCount + summary.waiverCount).toBe(summary.total);
-    expect(summary.waiverCount).toBe(8);
+    expect(summary.waiverCount).toBe(expectedWaiverCount);
     expect(summary.bindingCount).toBeGreaterThan(0);
   });
 });

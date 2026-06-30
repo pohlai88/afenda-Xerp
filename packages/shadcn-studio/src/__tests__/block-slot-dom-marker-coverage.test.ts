@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import {
   assertBlockSlotDomMarkerCoverage,
   summarizeBlockSlotDomMarkerCoverage,
-} from "../registry/assert-block-slot-dom-marker-coverage.js";
+} from "../governance/index.js";
 import { METADATA_BINDING_REGISTRY } from "../registry/metadata-binding.registry.js";
 
 const REPO_ROOT = join(import.meta.dirname, "../../../..");

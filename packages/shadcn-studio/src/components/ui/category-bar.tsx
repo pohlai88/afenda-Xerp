@@ -7,39 +7,58 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-const DEFAULT_BAR_COLOR = "bg-muted";
+import {
+  CATEGORY_BAR_SLOTS,
+  categoryBarDefaultBarColor,
+  categoryBarLabelSegmentClassName,
+  categoryBarLabelsClassName,
+  categoryBarLabelsEndClassName,
+  categoryBarLabelsStartClassName,
+  categoryBarLabelValueClassName,
+  categoryBarMarkerAnimatedClassName,
+  categoryBarMarkerClassName,
+  categoryBarMarkerIndicatorClassName,
+  categoryBarMarkerIndicatorHitAreaClassName,
+  categoryBarMarkerIndicatorStaticClassName,
+  categoryBarRootClassName,
+  categoryBarSegmentClassName,
+  categoryBarSegmentHiddenClassName,
+  categoryBarTrackClassName,
+  categoryBarTrackRowClassName,
+  categoryBarTrackWithLabelsClassName,
+} from "./category-bar.contract.js";
 
 const getMarkerBgColor = (
   marker: number | undefined,
   values: number[],
   colors: string[]
 ): string => {
-  if (marker === undefined) return "";
+  if (marker === undefined) {
+    return "";
+  }
 
   if (marker === 0) {
-    for (let index = 0; index < values.length; index++) {
-      const segment = values[index];
-      if (segment !== undefined && segment > 0) {
-        return colors[index] ?? DEFAULT_BAR_COLOR;
+    for (const [index, segment] of values.entries()) {
+      if (segment > 0) {
+        return colors[index] ?? categoryBarDefaultBarColor;
       }
     }
   }
 
   let prefixSum = 0;
 
-  for (let index = 0; index < values.length; index++) {
-    const segment = values[index] ?? 0;
+  for (const [index, segment] of values.entries()) {
     prefixSum += segment;
 
     if (prefixSum >= marker) {
-      return colors[index] ?? DEFAULT_BAR_COLOR;
+      return colors[index] ?? categoryBarDefaultBarColor;
     }
   }
 
-  return colors[values.length - 1] ?? DEFAULT_BAR_COLOR;
+  return colors.at(-1) ?? categoryBarDefaultBarColor;
 };
 
 const getPositionLeft = (
@@ -47,32 +66,32 @@ const getPositionLeft = (
   maxValue: number
 ): number => (value ? (value / maxValue) * 100 : 0);
 
-const sumNumericArray = (arr: number[]) =>
-  arr.reduce((prefixSum, num) => prefixSum + num, 0);
+const sumNumericArray = (values: number[]) =>
+  values.reduce((prefixSum, value) => prefixSum + value, 0);
 
-const formatNumber = (num: number): string => {
-  if (Number.isInteger(num)) {
-    return num.toString();
+const formatNumber = (value: number): string =>
+  Number.isInteger(value) ? value.toString() : value.toFixed(1);
+
+type CategoryBarProps = WithoutGovernedDataSlot<
+  React.HTMLAttributes<HTMLDivElement> & {
+    colors?: string[];
+    marker?: { value: number; tooltip?: string; showAnimation?: boolean };
+    showLabels?: boolean;
+    values: number[];
   }
+>;
 
-  return num.toFixed(1);
-};
-
-const BarLabels = ({ values }: { values: number[] }) => {
+function BarLabels({ values }: { values: number[] }) {
   const sumValues = React.useMemo(() => sumNumericArray(values), [values]);
   let prefixSum = 0;
   let sumConsecutiveHiddenLabels = 0;
 
   return (
     <div
-      className={cn(
-        "relative mb-2 flex h-5 w-full font-medium text-sm",
-
-        // text color
-        "text-muted-foreground"
-      )}
+      className={categoryBarLabelsClassName}
+      data-slot={CATEGORY_BAR_SLOTS.labels}
     >
-      <div className="absolute bottom-0 left-0 flex items-center">0</div>
+      <div className={categoryBarLabelsStartClassName}>0</div>
       {values.map((widthPercentage, index) => {
         prefixSum += widthPercentage;
 
@@ -85,49 +104,39 @@ const BarLabels = ({ values }: { values: number[] }) => {
 
         sumConsecutiveHiddenLabels = showLabel
           ? 0
-          : (sumConsecutiveHiddenLabels += widthPercentage);
+          : sumConsecutiveHiddenLabels + widthPercentage;
 
         const widthPositionLeft = getPositionLeft(widthPercentage, sumValues);
 
         return (
           <div
-            className="flex items-center justify-end pr-0.5"
-            key={`item-${index}`}
+            className={categoryBarLabelSegmentClassName}
+            key={`category-bar-label-${index}`}
             style={{ width: `${widthPositionLeft}%` }}
           >
             {showLabel ? (
-              <span
-                className={cn("block translate-x-1/2 text-sm tabular-nums")}
-              >
+              <span className={categoryBarLabelValueClassName}>
                 {formatNumber(prefixSum)}
               </span>
             ) : null}
           </div>
         );
       })}
-      <div className="absolute right-0 bottom-0 flex items-center">
+      <div className={categoryBarLabelsEndClassName}>
         {formatNumber(sumValues)}
       </div>
     </div>
   );
-};
-
-interface CategoryBarProps extends React.HTMLAttributes<HTMLDivElement> {
-  colors?: string[];
-  marker?: { value: number; tooltip?: string; showAnimation?: boolean };
-  showLabels?: boolean;
-  values: number[];
 }
 
-const CategoryBar = ({
+function CategoryBar({
   values = [],
   colors = [],
   marker,
   showLabels = true,
   className,
-  ref: forwardedRef,
   ...props
-}: CategoryBarProps & { ref?: React.RefObject<HTMLDivElement | null> }) => {
+}: CategoryBarProps) {
   const markerBgColor = React.useMemo(
     () => getMarkerBgColor(marker?.value, values, colors),
     [marker, values, colors]
@@ -136,42 +145,56 @@ const CategoryBar = ({
   const maxValue = React.useMemo(() => sumNumericArray(values), [values]);
 
   const adjustedMarkerValue = React.useMemo(() => {
-    if (marker === undefined) return;
-    if (marker.value < 0) return 0;
-    if (marker.value > maxValue) return maxValue;
+    if (marker === undefined) {
+      return;
+    }
+    if (marker.value < 0) {
+      return 0;
+    }
+    if (marker.value > maxValue) {
+      return maxValue;
+    }
 
     return marker.value;
   }, [marker, maxValue]);
 
-  const markerPositionLeft: number = React.useMemo(
+  const markerPositionLeft = React.useMemo(
     () => getPositionLeft(adjustedMarkerValue, maxValue),
     [adjustedMarkerValue, maxValue]
   );
 
   return (
     <div
+      {...props}
       aria-label="Category bar"
       aria-valuenow={marker?.value}
-      className={cn(className)}
-      ref={forwardedRef}
-      {...props}
+      className={cn(categoryBarRootClassName, className)}
+      data-slot={CATEGORY_BAR_SLOTS.root}
     >
       {showLabels ? <BarLabels values={values} /> : null}
-      <div className="relative flex h-2 w-full items-center">
+      <div className={categoryBarTrackRowClassName}>
         <div
           className={cn(
-            "flex h-full flex-1 items-center overflow-hidden rounded-full",
-            showLabels ? "gap-0.5" : ""
+            categoryBarTrackClassName,
+            showLabels ? categoryBarTrackWithLabelsClassName : undefined
           )}
+          data-slot={CATEGORY_BAR_SLOTS.track}
         >
           {values.map((value, index) => {
-            const barColor = colors[index] ?? DEFAULT_BAR_COLOR;
-            const percentage = (value / maxValue) * 100;
+            const barColor = colors[index] ?? categoryBarDefaultBarColor;
+            const percentage = maxValue === 0 ? 0 : (value / maxValue) * 100;
 
             return (
               <div
-                className={cn("h-full", barColor, percentage === 0 && "hidden")}
-                key={`item-${index}`}
+                className={cn(
+                  categoryBarSegmentClassName,
+                  barColor,
+                  percentage === 0
+                    ? categoryBarSegmentHiddenClassName
+                    : undefined
+                )}
+                data-slot={CATEGORY_BAR_SLOTS.segment}
+                key={`category-bar-segment-${index}`}
                 style={{ width: `${percentage}%` }}
               />
             );
@@ -181,13 +204,13 @@ const CategoryBar = ({
         {marker === undefined ? null : (
           <div
             className={cn(
-              "absolute w-2 -translate-x-1/2",
-              marker.showAnimation &&
-                "transform-gpu transition-all duration-300 ease-in-out"
+              categoryBarMarkerClassName,
+              marker.showAnimation
+                ? categoryBarMarkerAnimatedClassName
+                : undefined
             )}
-            style={{
-              left: `${markerPositionLeft}%`,
-            }}
+            data-slot={CATEGORY_BAR_SLOTS.marker}
+            style={{ left: `${markerPositionLeft}%` }}
           >
             {marker.tooltip ? (
               <Tooltip>
@@ -196,14 +219,13 @@ const CategoryBar = ({
                     <div
                       aria-hidden="true"
                       className={cn(
-                        "relative mx-auto h-4 w-1 rounded-full ring-2",
-                        "ring-background",
+                        categoryBarMarkerIndicatorClassName,
                         markerBgColor
                       )}
                     >
                       <div
                         aria-hidden
-                        className="absolute size-7 -translate-x-[45%] -translate-y-[15%]"
+                        className={categoryBarMarkerIndicatorHitAreaClassName}
                       />
                     </div>
                   }
@@ -213,8 +235,7 @@ const CategoryBar = ({
             ) : (
               <div
                 className={cn(
-                  "mx-auto h-4 w-1 rounded-full ring-2",
-                  "ring-background",
+                  categoryBarMarkerIndicatorStaticClassName,
                   markerBgColor
                 )}
               />
@@ -224,8 +245,10 @@ const CategoryBar = ({
       </div>
     </div>
   );
-};
+}
 
 CategoryBar.displayName = "CategoryBar";
 
-export { CategoryBar, type CategoryBarProps };
+export type { CategoryBarSlot } from "./category-bar.contract.js";
+export type { CategoryBarProps };
+export { CategoryBar };

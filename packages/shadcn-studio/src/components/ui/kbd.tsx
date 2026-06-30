@@ -1,14 +1,22 @@
+import type * as React from "react";
+
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
+import {
+  KBD_SLOTS,
+  kbdGroupClassName,
+  kbdRootClassName,
+} from "./kbd.contract.js";
+
+type KbdProps = WithoutGovernedDataSlot<React.ComponentProps<"kbd">>;
+
+function Kbd({ className, ...props }: KbdProps) {
   return (
     <kbd
-      className={cn(
-        "pointer-events-none inline-flex h-5 w-fit min-w-5 select-none items-center justify-center gap-1 rounded-sm bg-muted in-data-[slot=tooltip-content]:bg-background/20 px-1 font-medium font-sans in-data-[slot=tooltip-content]:text-background text-muted-foreground text-xs dark:in-data-[slot=tooltip-content]:bg-background/10 [&_svg:not([class*='size-'])]:size-3",
-        className
-      )}
-      data-slot="kbd"
       {...props}
+      className={cn(kbdRootClassName, className)}
+      data-slot={KBD_SLOTS.root}
     />
   );
 }
@@ -16,11 +24,13 @@ function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {
 function KbdGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <kbd
-      className={cn("inline-flex items-center gap-1", className)}
-      data-slot="kbd-group"
       {...props}
+      className={cn(kbdGroupClassName, className)}
+      data-slot={KBD_SLOTS.group}
     />
   );
 }
 
+export type { KbdSlot } from "./kbd.contract.js";
+export type { KbdProps };
 export { Kbd, KbdGroup };

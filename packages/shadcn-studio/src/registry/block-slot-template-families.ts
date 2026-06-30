@@ -169,6 +169,38 @@ export const DROPDOWN_SLOT_TEMPLATE = {
   },
 } as const satisfies BlockSlotTemplate;
 
+export const DATATABLE_SLOT_TEMPLATE = {
+  slots: [
+    { slotId: "table.header", role: "table", label: "Table header" },
+    { slotId: "table.rows", role: "table", label: "Table rows" },
+    { slotId: "table.actions", role: "form-action", label: "Row actions" },
+  ],
+  contract: {
+    fields: [
+      {
+        fieldKey: "displayColumn",
+        slotId: "table.header",
+        kind: "readonly",
+        labelAtomRef: "atom.table.header",
+      },
+      {
+        fieldKey: "rowData",
+        slotId: "table.rows",
+        kind: "readonly",
+        labelAtomRef: "atom.table.rows",
+      },
+    ],
+    actions: [
+      {
+        actionKey: "row-action",
+        slotId: "table.actions",
+        kind: "navigate",
+        labelAtomRef: "atom.actions.view",
+      },
+    ],
+  },
+} as const satisfies BlockSlotTemplate;
+
 export const ERROR_PAGE_SLOT_TEMPLATE = {
   slots: [
     { slotId: "error.title", role: "content", label: "Error title" },
@@ -278,6 +310,10 @@ export function resolveBlockSlotTemplate(
 
   if (blockId.startsWith("dropdown-")) {
     return DROPDOWN_SLOT_TEMPLATE;
+  }
+
+  if (blockId.startsWith("datatable-")) {
+    return DATATABLE_SLOT_TEMPLATE;
   }
 
   if (blockId.startsWith("error-page-")) {

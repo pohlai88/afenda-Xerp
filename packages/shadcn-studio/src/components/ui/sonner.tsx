@@ -45,4 +45,5 @@ const Toaster = ({ theme: themeProp, ...props }: ToasterProps) => {
   );
 };
 
+export type { SonnerSlot } from "./sonner.contract.js";
 export { Toaster };

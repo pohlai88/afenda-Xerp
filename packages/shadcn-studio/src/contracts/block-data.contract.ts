@@ -4,6 +4,9 @@
 
 import {
   isNonEmptyString,
+  isOptionalBoolean,
+  isOptionalNonEmptyString,
+  isReadonlyArrayOf,
   isStringMemberOf,
   isWireRecord,
 } from "./wire-guard.helpers.js";
@@ -75,10 +78,8 @@ export function isBlockDataFieldWire(
     isNonEmptyString(value["fieldKey"]) &&
     isNonEmptyString(value["slotId"]) &&
     isBlockDataFieldKind(value["kind"]) &&
-    (value["labelAtomRef"] === undefined ||
-      typeof value["labelAtomRef"] === "string") &&
-    (value["requiredDisplay"] === undefined ||
-      typeof value["requiredDisplay"] === "boolean")
+    isOptionalNonEmptyString(value["labelAtomRef"]) &&
+    isOptionalBoolean(value["requiredDisplay"])
   );
 }
 
@@ -91,8 +92,7 @@ function isBlockDataActionWire(value: unknown): value is BlockDataActionWire {
     isNonEmptyString(value["actionKey"]) &&
     isNonEmptyString(value["slotId"]) &&
     isBlockDataActionKind(value["kind"]) &&
-    (value["labelAtomRef"] === undefined ||
-      typeof value["labelAtomRef"] === "string")
+    isOptionalNonEmptyString(value["labelAtomRef"])
   );
 }
 
@@ -108,9 +108,15 @@ export function isBlockDataContractWire(
   return (
     isNonEmptyString(value["blockDataContractId"]) &&
     isNonEmptyString(value["blockId"]) &&
-    Array.isArray(value["fields"]) &&
-    value["fields"].every(isBlockDataFieldWire) &&
-    (actions === undefined ||
-      (Array.isArray(actions) && actions.every(isBlockDataActionWire)))
+    isReadonlyArrayOf(value["fields"], isBlockDataFieldWire) &&
+    (actions === undefined || isReadonlyArrayOf(actions, isBlockDataActionWire))
   );
+}
+
+export function assertBlockDataContractWire(
+  value: unknown
+): asserts value is BlockDataContractWire {
+  if (!isBlockDataContractWire(value)) {
+    throw new Error("Invalid block data contract wire payload.");
+  }
 }

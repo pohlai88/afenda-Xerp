@@ -6,19 +6,26 @@ import useEmblaCarousel, {
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
+
+import { CAROUSEL_SLOTS, carouselRootClassName } from "./carousel.contract.js";
 
 type CarouselApi = UseEmblaCarouselType[1];
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>;
 type CarouselOptions = UseCarouselParameters[0];
 type CarouselPlugin = UseCarouselParameters[1];
 
-type CarouselProps = {
+type CarouselConfig = {
   opts?: CarouselOptions;
   plugins?: CarouselPlugin;
   orientation?: "horizontal" | "vertical";
   setApi?: (api: CarouselApi) => void;
 };
+
+type CarouselRootProps = WithoutGovernedDataSlot<
+  React.ComponentProps<"div"> & CarouselConfig
+>;
 
 type CarouselContextProps = {
   carouselRef: ReturnType<typeof useEmblaCarousel>[0];
@@ -27,7 +34,7 @@ type CarouselContextProps = {
   scrollNext: () => void;
   canScrollPrev: boolean;
   canScrollNext: boolean;
-} & CarouselProps;
+} & CarouselConfig;
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null);
 
@@ -49,7 +56,7 @@ function Carousel({
   className,
   children,
   ...props
-}: React.ComponentProps<"div"> & CarouselProps) {
+}: CarouselRootProps) {
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
@@ -118,12 +125,12 @@ function Carousel({
       }}
     >
       <div
+        {...props}
         aria-roledescription="carousel"
-        className={cn("relative", className)}
-        data-slot="carousel"
+        className={cn(carouselRootClassName, className)}
+        data-slot={CAROUSEL_SLOTS.root}
         onKeyDownCapture={handleKeyDown}
         role="region"
-        {...props}
       >
         {children}
       </div>
@@ -230,6 +237,8 @@ function CarouselNext({
   );
 }
 
+export type { CarouselSlot } from "./carousel.contract.js";
+export type { CarouselRootProps };
 export {
   Carousel,
   type CarouselApi,

@@ -2,9 +2,10 @@
 
 import { useEffect, useRef } from "react";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-interface DotGridProps {
+type DotGridProps = WithoutGovernedDataSlot<{
   activeColor?: string;
   baseColor?: string;
   className?: string;
@@ -13,7 +14,7 @@ interface DotGridProps {
   gap?: number;
   maxScale?: number;
   radius?: number;
-}
+}>;
 
 interface Dot {
   offsetX: number;
@@ -28,7 +29,7 @@ interface Dot {
   y: number;
 }
 
-export function DotGrid({
+function DotGrid({
   className,
   dotSize = 2,
   gap = 22,
@@ -222,3 +223,7 @@ export function DotGrid({
     />
   );
 }
+
+export type { BgDotGridSlot } from "./bg-dot-grid.contract.js";
+export type { DotGridProps };
+export { DotGrid };

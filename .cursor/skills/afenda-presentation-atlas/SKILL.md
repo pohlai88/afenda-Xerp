@@ -117,7 +117,7 @@ Actions · Forms · Overlays · Navigation · Data display · Feedback · Layout
 | Folder (auto codegen) | 10 | `Shadcn Studio/Blocks Auto` |
 | Flat (curated stories) | 31 | `Shadcn Studio/Blocks` |
 
-Slug ↔ export map: [blocks-inventory.md](./reference/blocks-inventory.md) · Promotion MDX: `Shadcn Studio/Promotion`
+Slug ↔ export map: [blocks-inventory.md](./reference/blocks-inventory.md)
 
 ---
 
@@ -129,7 +129,6 @@ Slug ↔ export map: [blocks-inventory.md](./reference/blocks-inventory.md) · P
 | `Shadcn Studio/Theme Lab` | `shadcn-studio-theme-lab.stories.tsx` |
 | `Shadcn Studio/Blocks Auto` | `shadcn-studio-blocks-auto.stories.tsx` |
 | `Shadcn Studio/Blocks` | `shadcn-studio-blocks.stories.tsx` |
-| `Shadcn Studio/Promotion` | `_storybook/docs/blocks/*.mdx` |
 | `Afenda/Lab` | `apps/storybook/stories/` |
 
 ```bash

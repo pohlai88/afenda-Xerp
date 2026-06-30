@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   type AcceptanceRecordWire,
+  assertAcceptanceRecordWire,
   isAcceptanceRecordWire,
   isSealEligibleLifecycleState,
 } from "../contracts/acceptance-record.contract.js";
@@ -67,5 +68,31 @@ describe("acceptance record contract (PAS-006C P06-005)", () => {
         criteriaResults: { keyboard: "maybe" },
       })
     ).toBe(false);
+  });
+
+  it("rejects whitespace-only ids but allows empty presentationLabProof at wire layer", () => {
+    expect(
+      isAcceptanceRecordWire({
+        ...baseRecord,
+        blockId: "   ",
+      })
+    ).toBe(false);
+
+    const emptyProofRecord = {
+      ...baseRecord,
+      presentationLabProof: "",
+    };
+    expect(isAcceptanceRecordWire(emptyProofRecord)).toBe(true);
+    expect(validateAcceptanceRecordSeal(emptyProofRecord)).toEqual({
+      ok: false,
+      code: "missing-lab-proof",
+    });
+  });
+
+  it("assertAcceptanceRecordWire throws on invalid payload", () => {
+    expect(() => assertAcceptanceRecordWire(baseRecord)).not.toThrow();
+    expect(() => assertAcceptanceRecordWire(null)).toThrow(
+      "Invalid acceptance record wire payload."
+    );
   });
 });

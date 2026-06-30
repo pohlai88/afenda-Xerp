@@ -1,7 +1,8 @@
 import {
   assertThemePresetSlug,
-  type NamedThemePresetSlug,
+  isNamedThemePresetSlug,
   PRESET_CSS_VARS,
+  type PresetCssVar,
   type ThemePresetSlug,
 } from "./theme-preset.contract.js";
 import { themePresets } from "./theme-presets.js";
@@ -21,15 +22,17 @@ export function applyThemePresetStyles(
 ): void {
   const slug = assertThemePresetSlug(presetSlug);
 
-  if (slug === "default") {
+  if (!isNamedThemePresetSlug(slug)) {
     clearThemePresetStyles(root);
     return;
   }
 
-  const preset = themePresets[slug as NamedThemePresetSlug];
-  const styles = preset.styles[mode];
+  const styles = themePresets[slug].styles[mode];
 
-  for (const [key, value] of Object.entries(styles)) {
+  for (const [key, value] of Object.entries(styles) as [
+    PresetCssVar,
+    string | undefined,
+  ][]) {
     if (value !== undefined) {
       root.style.setProperty(`--${key}`, value);
     }

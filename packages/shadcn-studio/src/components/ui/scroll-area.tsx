@@ -2,27 +2,36 @@
 
 import { ScrollArea as ScrollAreaPrimitive } from "@base-ui/react/scroll-area";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function ScrollArea({
-  className,
-  children,
-  ...props
-}: ScrollAreaPrimitive.Root.Props) {
+import {
+  SCROLL_AREA_SLOTS,
+  scrollAreaRootClassName,
+  scrollAreaScrollbarClassName,
+  scrollAreaThumbClassName,
+  scrollAreaViewportClassName,
+} from "./scroll-area.contract.js";
+
+type ScrollAreaProps = WithoutGovernedDataSlot<ScrollAreaPrimitive.Root.Props>;
+type ScrollBarProps =
+  WithoutGovernedDataSlot<ScrollAreaPrimitive.Scrollbar.Props>;
+
+function ScrollArea({ className, children, ...props }: ScrollAreaProps) {
   return (
     <ScrollAreaPrimitive.Root
-      className={cn("relative", className)}
-      data-slot="scroll-area"
       {...props}
+      className={cn(scrollAreaRootClassName, className)}
+      data-slot={SCROLL_AREA_SLOTS.root}
     >
       <ScrollAreaPrimitive.Viewport
-        className="size-full rounded-[inherit] outline-none transition-[color,box-shadow] focus-visible:outline-1 focus-visible:ring-[3px] focus-visible:ring-ring/50"
-        data-slot="scroll-area-viewport"
+        className={scrollAreaViewportClassName}
+        data-slot={SCROLL_AREA_SLOTS.viewport}
       >
         {children}
       </ScrollAreaPrimitive.Viewport>
       <ScrollBar />
-      <ScrollAreaPrimitive.Corner />
+      <ScrollAreaPrimitive.Corner data-slot={SCROLL_AREA_SLOTS.corner} />
     </ScrollAreaPrimitive.Root>
   );
 }
@@ -31,24 +40,23 @@ function ScrollBar({
   className,
   orientation = "vertical",
   ...props
-}: ScrollAreaPrimitive.Scrollbar.Props) {
+}: ScrollBarProps) {
   return (
     <ScrollAreaPrimitive.Scrollbar
-      className={cn(
-        "flex touch-none select-none p-px transition-colors data-horizontal:h-2.5 data-vertical:h-full data-vertical:w-2.5 data-horizontal:flex-col data-horizontal:border-t data-horizontal:border-t-transparent data-vertical:border-l data-vertical:border-l-transparent",
-        className
-      )}
-      data-orientation={orientation}
-      data-slot="scroll-area-scrollbar"
-      orientation={orientation}
       {...props}
+      className={cn(scrollAreaScrollbarClassName, className)}
+      data-orientation={orientation}
+      data-slot={SCROLL_AREA_SLOTS.scrollbar}
+      orientation={orientation}
     >
       <ScrollAreaPrimitive.Thumb
-        className="relative flex-1 rounded-full bg-border"
-        data-slot="scroll-area-thumb"
+        className={scrollAreaThumbClassName}
+        data-slot={SCROLL_AREA_SLOTS.thumb}
       />
     </ScrollAreaPrimitive.Scrollbar>
   );
 }
 
+export type { ScrollAreaSlot } from "./scroll-area.contract.js";
+export type { ScrollAreaProps, ScrollBarProps };
 export { ScrollArea, ScrollBar };

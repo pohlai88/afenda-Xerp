@@ -61,6 +61,12 @@ export const DashboardDialog09Dark: Story = storyPair("DashboardDialog09").dark;
 export const DatatableInvoice: Story = storyPair("DatatableInvoice").light;
 export const DatatableInvoiceDark: Story = storyPair("DatatableInvoice").dark;
 
+export const DatatableUser: Story = storyPair("DatatableUser").light;
+export const DatatableUserDark: Story = storyPair("DatatableUser").dark;
+
+export const DatatableProduct: Story = storyPair("DatatableProduct").light;
+export const DatatableProductDark: Story = storyPair("DatatableProduct").dark;
+
 export const DialogActivity: Story = storyPair("DialogActivity").light;
 export const DialogActivityDark: Story = storyPair("DialogActivity").dark;
 

@@ -136,6 +136,8 @@ When handoff is under `docs/PAS/<DOMAIN-FOLDER>/SLICE/` (e.g. `docs/PAS/KERNEL/S
 | Enterprise knowledge (PAS-004) | `.cursor/skills/enterprise-knowledge/SKILL.md` |
 | Enterprise SAP/Oracle gates | `.cursor/skills/enterprise-erp-standards/SKILL.md` |
 | shadcn/studio ERP frontend (PAS-006) | `.cursor/skills/shadcn-studio/SKILL.md` |
+| Primitive 2-file contracts (ui/*) | `.cursor/skills/afenda-primitive-contract/SKILL.md` |
+| ERP React/TS surface quality (B/A/T) | `.cursor/skills/afenda-react-surface-quality/SKILL.md` |
 | ERP presentation quality composer | `.cursor/skills/afenda-presentation-quality/SKILL.md` |
 | ERP Tailwind / Phase 1 CSS | `.cursor/skills/afenda-tailwind/SKILL.md` |
 | Package CSS dist | `.cursor/skills/package-css-dist-sync/SKILL.md` |

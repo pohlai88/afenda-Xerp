@@ -47,6 +47,9 @@ SKILL regen from PAS? ────→ kernel-authority/reference/pas-skill-templ
 Any code edit? ───────────→ coding-consistency-bundle (mandatory)
 Design system inventory? ─→ afenda-presentation-atlas (read-only · /afenda-presentation-atlas)
 UI/CSS/visual (ERP)? ───→ afenda-presentation-quality + shadcn-studio (PAS-006 · ADR-0027)
+components/ui primitive? ─→ afenda-primitive-contract (+ studio:shadcn — no overwrite)
+ERP React/TS refactor? ───→ afenda-react-surface-quality (B→A→T scan)
+ERP bundle / lazy-load / perf? → afenda-shadcn-performance (+ /afenda-webperf for audit)
 Kernel boundary? ─────────→ kernel-authority
 Enterprise knowledge? ────→ enterprise-knowledge
 Drizzle migrations? ──────→ afenda-drizzle-migration
@@ -80,7 +83,10 @@ Platform audit? ──────────→ enterprise-architecture-audit 
 | --- | --- |
 | `coding-consistency-bundle` | Any implementer file edit |
 | `afenda-presentation-quality` + `shadcn-studio` | ERP UI, CSS, Storybook, or `@afenda/shadcn-studio` changes |
+| `afenda-primitive-contract` | `packages/shadcn-studio/src/components/ui/**` edits or shadcn primitive install |
+| `afenda-react-surface-quality` | ERP React refactor, AI TSX review, perf/structure/a11y before merge |
 | `afenda-tailwind` | ERP `globals.css`, theme CSS, Tailwind `className` edits |
+| `afenda-shadcn-performance` | Bundle size, `next/dynamic`, CVA trim, lazy-load, perf regression on studio/ERP UI |
 
 **Retired for ERP (ADR-0027):** `ui-consistency-bundle`, `govern-primitive`, `css-authority`, `afenda-shadcn-components` — archived under `.cursor/skills/_retired/legacy-ui/`. Do not attach for ERP frontend work.
 
@@ -126,6 +132,7 @@ From [orchestration-patterns.md](../references/orchestration-patterns.md):
 | `@afenda/shadcn-studio` inventory / imports | `afenda-presentation-atlas` |
 | ERP presentation (ADR-0027) | `afenda-presentation-quality` + `shadcn-studio` |
 | Tailwind v4 / Phase 1 CSS (ERP) | `afenda-tailwind` |
+| shadcn bundle / lazy-load / perf | `afenda-shadcn-performance` |
 | SAP/Oracle gates | `enterprise-erp-standards` |
 | Accessibility | `afenda-accessibility` |
 

@@ -12,15 +12,15 @@
   },
   "iconLibrary": "lucide",
   "rtl": false,
+  "menuColor": "default",
+  "menuAccent": "subtle",
   "aliases": {
     "components": "@/components/shadcn-studio",
     "utils": "@/lib/utils",
-    "hooks": "@/hooks",
+    "ui": "@/components/ui",
     "lib": "@/lib",
-    "ui": "@/components/ui"
+    "hooks": "@/hooks"
   },
-  "menuColor": "default",
-  "menuAccent": "subtle",
   "registries": {
     "@shadcn-studio": "https://shadcnstudio.com/r/{style}/{name}.json",
     "@ss-blocks": {
@@ -35,6 +35,13 @@
       "params": {
         "email": "${EMAIL}",
         "license_key": "${LICENSE_KEY}"
+      }
+    },
+    "@shadcncraft": {
+      "url": "https://shadcncraft.com/r/{style}/{name}",
+      "headers": {
+        "X-License-Key": "${SHADCNCRAFT_LICENSE_KEY}",
+        "X-Instance-Name": "${SHADCNCRAFT_INSTANCE_NAME}"
       }
     }
   }

@@ -2,14 +2,16 @@
 
 import { useCallback, useEffect, useRef } from "react";
 
-interface SilkBackgroundProps {
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
+
+type SilkBackgroundProps = WithoutGovernedDataSlot<{
   className?: string;
   color?: string;
   noiseIntensity?: number;
   rotation?: number;
   scale?: number;
   speed?: number;
-}
+}>;
 
 function hexToRgb(hex: string): [number, number, number] {
   const clean = hex.replace("#", "");
@@ -37,7 +39,7 @@ function rotateUV(u: number, v: number, angle: number): [number, number] {
   return [c * u - s * v, s * u + c * v];
 }
 
-export default function SilkBackground({
+function SilkBackground({
   speed = 5,
   scale = 1,
   color = "#7B7481",
@@ -188,3 +190,7 @@ export default function SilkBackground({
     />
   );
 }
+
+export type { BgSilkSlot } from "./bg-silk.contract.js";
+export type { SilkBackgroundProps };
+export { SilkBackground };

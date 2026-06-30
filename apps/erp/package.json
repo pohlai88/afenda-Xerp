@@ -5,6 +5,7 @@
   "description": "Afenda ERP application entry point (ADR-0027 presentation reset skeleton)",
   "scripts": {
     "build": "next build",
+    "analyze": "cross-env ANALYZE=true next build --webpack",
     "predev": "pnpm --filter @afenda/kernel build && pnpm --filter @afenda/accounting-standards build && pnpm --filter @afenda/database build && pnpm --filter @afenda/permissions build && pnpm --filter @afenda/auth build && pnpm --filter @afenda/execution build",
     "dev": "next dev --port 3000 --webpack",
     "dev:turbopack": "next dev --port 3000",
@@ -37,12 +38,14 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^16.2.9",
     "@afenda/testing": "workspace:*",
     "@afenda/typescript-config": "workspace:*",
     "@playwright/test": "^1.61.0",
     "@tailwindcss/postcss": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "cross-env": "^7.0.3",
     "shadcn": "^4.11.0",
     "tailwindcss": "catalog:",
     "vitest": "catalog:",

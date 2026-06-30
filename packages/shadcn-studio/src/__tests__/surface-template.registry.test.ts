@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { isSurfaceTemplateContractWire } from "../contracts/surface-template.contract.js";
+import {
+  assertSurfaceTemplateContractWire,
+  isSurfaceTemplateContractWire,
+} from "../contracts/surface-template.contract.js";
 import {
   assertSurfaceTemplateBlockDataCoverage,
   assertSurfaceTemplateMetadataBinding,
@@ -33,6 +36,39 @@ describe("surface template registry (PAS-006D P06-009)", () => {
     expect(template?.templateClass).toBe("form");
     expect(template && assertSurfaceTemplateBlockDataCoverage(template)).toBe(
       true
+    );
+  });
+
+  it("rejects surface templates with empty slotFills keys", () => {
+    const sample = SURFACE_TEMPLATE_REGISTRY[0];
+    expect(sample).toBeDefined();
+    if (!sample) {
+      return;
+    }
+
+    expect(
+      isSurfaceTemplateContractWire({
+        ...sample,
+        blockBindings: [
+          {
+            blockId: sample.blockBindings[0]?.blockId ?? "login-page-04",
+            slotFills: { "": "hero.title" },
+          },
+        ],
+      })
+    ).toBe(false);
+  });
+
+  it("assertSurfaceTemplateContractWire throws on invalid payload", () => {
+    const sample = SURFACE_TEMPLATE_REGISTRY[0];
+    expect(sample).toBeDefined();
+    if (!sample) {
+      return;
+    }
+
+    expect(() => assertSurfaceTemplateContractWire(sample)).not.toThrow();
+    expect(() => assertSurfaceTemplateContractWire(null)).toThrow(
+      "Invalid surface template contract wire payload."
     );
   });
 });

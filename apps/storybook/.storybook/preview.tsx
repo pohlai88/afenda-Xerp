@@ -27,7 +27,7 @@ function StorybookThemeShell({
   }, [isDark]);
 
   return (
-    <TooltipProvider delayDuration={0}>
+    <TooltipProvider delay={0}>
       <div
         className={
           isFullscreen

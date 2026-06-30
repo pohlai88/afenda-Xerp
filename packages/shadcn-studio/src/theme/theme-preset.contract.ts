@@ -1,4 +1,4 @@
-/** PAS-005A §4.2 — typed theme preset contracts (Afenda-free Phase 1). */
+/** PAS-006A — typed theme preset contracts (Afenda-free Phase 1). */
 
 export interface ThemeStyleProps {
   accent: string;
@@ -125,6 +125,12 @@ export function isThemePresetSlug(value: string): value is ThemePresetSlug {
   return (THEME_PRESET_SLUGS as readonly string[]).includes(value);
 }
 
+export function isNamedThemePresetSlug(
+  slug: ThemePresetSlug
+): slug is NamedThemePresetSlug {
+  return slug !== "default";
+}
+
 /** Fail-closed: throws when slug is not in the typed union. */
 export function assertThemePresetSlug(value: string): ThemePresetSlug {
   if (!isThemePresetSlug(value)) {
@@ -139,6 +145,37 @@ export type ThemeMode = "light" | "dark" | "system";
 export type ThemeRadius = "none" | "sm" | "md" | "lg";
 
 export type ThemeScale = "sm" | "md" | "lg";
+
+export const THEME_MODES = [
+  "light",
+  "dark",
+  "system",
+] as const satisfies readonly ThemeMode[];
+
+export const THEME_RADII = [
+  "none",
+  "sm",
+  "md",
+  "lg",
+] as const satisfies readonly ThemeRadius[];
+
+export const THEME_SCALES = [
+  "sm",
+  "md",
+  "lg",
+] as const satisfies readonly ThemeScale[];
+
+export function isThemeMode(value: string): value is ThemeMode {
+  return (THEME_MODES as readonly string[]).includes(value);
+}
+
+export function isThemeRadius(value: string): value is ThemeRadius {
+  return (THEME_RADII as readonly string[]).includes(value);
+}
+
+export function isThemeScale(value: string): value is ThemeScale {
+  return (THEME_SCALES as readonly string[]).includes(value);
+}
 
 export type ThemeLayout = "compact" | "full";
 

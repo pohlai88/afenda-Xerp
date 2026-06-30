@@ -696,6 +696,7 @@ function SidebarMenuSubButton({
   });
 }
 
+export type { SidebarSlot } from "./sidebar.contract.js";
 export {
   Sidebar,
   SidebarContent,

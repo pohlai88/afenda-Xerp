@@ -16,30 +16,6 @@ export const MCP_SEED_BLOCK_MANIFEST = [
     mcpPath: `${BLOCKS_ROOT}/account-settings-01`,
   },
   {
-    blockId: "account-settings-02",
-    mcpPath: `${BLOCKS_ROOT}/account-settings-02`,
-  },
-  {
-    blockId: "account-settings-03",
-    mcpPath: `${BLOCKS_ROOT}/account-settings-03`,
-  },
-  {
-    blockId: "account-settings-04",
-    mcpPath: `${BLOCKS_ROOT}/account-settings-04`,
-  },
-  {
-    blockId: "account-settings-05",
-    mcpPath: `${BLOCKS_ROOT}/account-settings-05`,
-  },
-  {
-    blockId: "account-settings-06",
-    mcpPath: `${BLOCKS_ROOT}/account-settings-06`,
-  },
-  {
-    blockId: "account-settings-07",
-    mcpPath: `${BLOCKS_ROOT}/account-settings-07`,
-  },
-  {
     blockId: "chart-earning-report",
     mcpPath: `${BLOCKS_ROOT}/chart-earning-report.tsx`,
   },
@@ -64,6 +40,14 @@ export const MCP_SEED_BLOCK_MANIFEST = [
     mcpPath: `${BLOCKS_ROOT}/datatable-invoice.tsx`,
   },
   {
+    blockId: "datatable-user",
+    mcpPath: `${BLOCKS_ROOT}/datatable-user.tsx`,
+  },
+  {
+    blockId: "datatable-product",
+    mcpPath: `${BLOCKS_ROOT}/datatable-product.tsx`,
+  },
+  {
     blockId: "dialog-activity",
     mcpPath: `${BLOCKS_ROOT}/dialog-activity.tsx`,
   },
@@ -83,7 +67,6 @@ export const MCP_SEED_BLOCK_MANIFEST = [
     blockId: "dropdown-profile",
     mcpPath: `${BLOCKS_ROOT}/dropdown-profile.tsx`,
   },
-  { blockId: "error-page-02", mcpPath: `${BLOCKS_ROOT}/error-page-02` },
   { blockId: "hero-section-01", mcpPath: `${BLOCKS_ROOT}/hero-section-01` },
   { blockId: "login-page-04", mcpPath: `${BLOCKS_ROOT}/login-page-04` },
   { blockId: "menu-trigger", mcpPath: `${BLOCKS_ROOT}/menu-trigger.tsx` },

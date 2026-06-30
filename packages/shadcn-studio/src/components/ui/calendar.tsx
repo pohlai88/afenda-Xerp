@@ -13,7 +13,10 @@ import {
   type Locale,
 } from "react-day-picker";
 import { Button, buttonVariants } from "@/components/ui/button";
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
+
+import { CALENDAR_SLOTS } from "./calendar.contract.js";
 
 function Calendar({
   className,
@@ -130,12 +133,12 @@ function Calendar({
         ...classNames,
       }}
       components={{
-        Root: ({ className, rootRef, ...props }) => (
+        Root: ({ className, rootRef, ...rootProps }) => (
           <div
+            {...rootProps}
             className={cn(className)}
-            data-slot="calendar"
+            data-slot={CALENDAR_SLOTS.root}
             ref={rootRef}
-            {...props}
           />
         ),
         Chevron: ({ className, orientation, ...props }) => {
@@ -161,9 +164,12 @@ function Calendar({
         DayButton: (dayButtonProps) => (
           <CalendarDayButton {...dayButtonProps} locale={locale} />
         ),
-        WeekNumber: ({ children, ...props }) => (
-          <td {...props}>
-            <div className="flex size-(--cell-size) items-center justify-center text-center">
+        WeekNumber: ({ children, ...weekNumberProps }) => (
+          <td {...weekNumberProps}>
+            <div
+              className="flex size-(--cell-size) items-center justify-center text-center"
+              data-slot={CALENDAR_SLOTS.weekNumber}
+            >
               {children}
             </div>
           </td>
@@ -199,6 +205,7 @@ function CalendarDayButton({
 
   return (
     <Button
+      {...props}
       className={cn(
         "relative isolate z-10 flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 border-0 font-normal leading-none data-[range-end=true]:rounded-(--cell-radius) data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-(--cell-radius) data-[range-end=true]:rounded-r-(--cell-radius) data-[range-start=true]:rounded-l-(--cell-radius) data-[range-end=true]:bg-primary data-[range-middle=true]:bg-muted data-[range-start=true]:bg-primary data-[selected-single=true]:bg-primary data-[range-end=true]:text-primary-foreground data-[range-middle=true]:text-foreground data-[range-start=true]:text-primary-foreground data-[selected-single=true]:text-primary-foreground group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-[3px] group-data-[focused=true]/day:ring-ring/50 dark:hover:text-foreground [&>span]:text-xs [&>span]:opacity-70",
         defaultClassNames.day,
@@ -214,11 +221,22 @@ function CalendarDayButton({
         !modifiers["range_end"] &&
         !modifiers["range_middle"]
       }
+      ref={ref}
       size="icon"
       variant="ghost"
-      {...props}
     />
   );
 }
 
 export { Calendar, CalendarDayButton };
+export type CalendarProps = WithoutGovernedDataSlot<
+  React.ComponentProps<typeof DayPicker> & {
+    buttonVariant?: React.ComponentProps<typeof Button>["variant"];
+  }
+>;
+export type CalendarDayButtonProps = WithoutGovernedDataSlot<
+  React.ComponentProps<typeof DayButton> & {
+    locale?: Partial<Locale> | undefined;
+  }
+>;
+export type { CalendarSlot } from "./calendar.contract.js";

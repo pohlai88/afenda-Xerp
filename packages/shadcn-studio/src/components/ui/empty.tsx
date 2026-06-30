@@ -1,16 +1,19 @@
 import { cva, type VariantProps } from "class-variance-authority";
+import type * as React from "react";
 
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function Empty({ className, ...props }: React.ComponentProps<"div">) {
+import { EMPTY_SLOTS, emptyRootClassName } from "./empty.contract.js";
+
+type EmptyProps = WithoutGovernedDataSlot<React.ComponentProps<"div">>;
+
+function Empty({ className, ...props }: EmptyProps) {
   return (
     <div
-      className={cn(
-        "flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-4 text-balance rounded-lg border-dashed p-12 text-center",
-        className
-      )}
-      data-slot="empty"
       {...props}
+      className={cn(emptyRootClassName, className)}
+      data-slot={EMPTY_SLOTS.root}
     />
   );
 }
@@ -94,6 +97,8 @@ function EmptyContent({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+export type { EmptySlot } from "./empty.contract.js";
+export type { EmptyProps };
 export {
   Empty,
   EmptyContent,

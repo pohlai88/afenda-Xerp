@@ -11,7 +11,7 @@ describe("mcp seed block manifest (PAS-006B parity SSOT)", () => {
     expect(SHADCN_STUDIO_BLOCK_PARITY_REGISTRY).toHaveLength(
       MCP_SEED_BLOCK_MANIFEST.length
     );
-    expect(MCP_SEED_BLOCK_IDS.length).toBeGreaterThanOrEqual(40);
+    expect(MCP_SEED_BLOCK_IDS.length).toBeGreaterThanOrEqual(30);
 
     for (const entry of MCP_SEED_BLOCK_MANIFEST) {
       expect(

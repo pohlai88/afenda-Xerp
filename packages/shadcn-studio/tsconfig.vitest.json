@@ -8,6 +8,8 @@
   "include": [
     "src/**/__tests__/**/*",
     "src/**/__mocks__/**/*",
+    "src/**/*.contract.test.ts",
+    "src/**/*.interaction.test.tsx",
     "src/**/*.d.ts",
     "src/**/*.tsx"
   ],

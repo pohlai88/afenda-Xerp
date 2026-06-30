@@ -3,6 +3,8 @@ import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 import { Separator } from "@/components/ui/separator";
+
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
 function ItemGroup({ className, ...props }: React.ComponentProps<"div">) {
@@ -55,13 +57,17 @@ const itemVariants = cva(
   }
 );
 
+type ItemProps = WithoutGovernedDataSlot<
+  useRender.ComponentProps<"div"> & VariantProps<typeof itemVariants>
+>;
+
 function Item({
   className,
   variant = "default",
   size = "default",
   render,
   ...props
-}: useRender.ComponentProps<"div"> & VariantProps<typeof itemVariants>) {
+}: ItemProps) {
   return useRender({
     defaultTagName: "div",
     props: mergeProps<"div">(
@@ -186,6 +192,8 @@ function ItemFooter({ className, ...props }: React.ComponentProps<"div">) {
   );
 }
 
+export type { ItemSlot } from "./item.contract.js";
+export type { ItemProps };
 export {
   Item,
   ItemActions,

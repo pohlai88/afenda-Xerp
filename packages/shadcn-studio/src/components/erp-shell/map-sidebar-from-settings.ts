@@ -1,4 +1,4 @@
-import type { Settings } from "../../theme/settings-context.js";
+import type { Settings } from "../../theme/settings.contract.js";
 import type { ThemeSidebarVariant } from "../../theme/theme-preset.contract.js";
 
 export function mapSidebarVariant(

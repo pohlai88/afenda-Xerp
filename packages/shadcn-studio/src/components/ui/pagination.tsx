@@ -5,15 +5,23 @@ import {
 } from "lucide-react";
 import type * as React from "react";
 import { Button } from "@/components/ui/button";
+import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/lib/utils";
 
-function Pagination({ className, ...props }: React.ComponentProps<"nav">) {
+import {
+  PAGINATION_SLOTS,
+  paginationRootClassName,
+} from "./pagination.contract.js";
+
+type PaginationProps = WithoutGovernedDataSlot<React.ComponentProps<"nav">>;
+
+function Pagination({ className, ...props }: PaginationProps) {
   return (
     <nav
-      aria-label="pagination"
-      className={cn("mx-auto flex w-full justify-center", className)}
-      data-slot="pagination"
       {...props}
+      aria-label="pagination"
+      className={cn(paginationRootClassName, className)}
+      data-slot={PAGINATION_SLOTS.root}
     />
   );
 }
@@ -120,6 +128,8 @@ function PaginationEllipsis({
   );
 }
 
+export type { PaginationSlot } from "./pagination.contract.js";
+export type { PaginationProps };
 export {
   Pagination,
   PaginationContent,
