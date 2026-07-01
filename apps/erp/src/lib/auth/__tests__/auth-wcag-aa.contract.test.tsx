@@ -15,6 +15,7 @@ describe("auth-adjacent WCAG AA contract (PAS-006C P06-007)", () => {
         "/mfa/recovery",
         "/session-expired",
         "/access-denied",
+        "/maintenance",
         "/security/review",
       ])
     );

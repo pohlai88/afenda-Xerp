@@ -25,6 +25,11 @@
       "import": "./dist/meta-gates/index.js",
       "default": "./dist/meta-gates/index.js"
     },
+    "./error-ui": {
+      "types": "./dist/error-ui/index.d.ts",
+      "import": "./dist/error-ui/index.js",
+      "default": "./dist/error-ui/index.js"
+    },
     "./shadcn-studio.css": {
       "types": "./dist/shadcn-studio.css.d.ts",
       "import": "./dist/shadcn-studio.css",
@@ -104,4 +109,3 @@
     "vitest": "catalog:"
   }
 }
-

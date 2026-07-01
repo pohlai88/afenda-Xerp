@@ -62,9 +62,7 @@ function compareToSsot(label, paths, ssotPaths, violations) {
 
 const violations = [];
 
-if (!existsSync(pathsSsotPath)) {
-  violations.push(`${STUDIO_PATHS_SSOT} is missing`);
-} else {
+if (existsSync(pathsSsotPath)) {
   const ssotPaths = pathsFrom(readJson(pathsSsotPath));
 
   assertRequiredKeys(STUDIO_PATHS_SSOT, ssotPaths, violations);
@@ -82,6 +80,8 @@ if (!existsSync(pathsSsotPath)) {
     assertNoForbiddenKeys(fileName, paths, violations);
     compareToSsot(fileName, paths, ssotPaths, violations);
   }
+} else {
+  violations.push(`${STUDIO_PATHS_SSOT} is missing`);
 }
 
 if (existsSync(join(repoRoot, LEGACY_COMPONENTS_DIR))) {

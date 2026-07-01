@@ -8,12 +8,6 @@
  * Gate: check:studio-governance-envelope
  */
 
-import {
-  toUiPrimitiveId,
-  UI_PRIMITIVE_CONTRACT_SLUGS,
-  type UiPrimitiveContractSlug,
-} from "./_governance.registry.js";
-
 import { accordionPrimitiveMetadata } from "../components-ui/accordion.contract.js";
 import { alertPrimitiveMetadata } from "../components-ui/alert.contract.js";
 import { alertDialogPrimitiveMetadata } from "../components-ui/alert-dialog.contract.js";
@@ -51,8 +45,8 @@ import { inputPrimitiveMetadata } from "../components-ui/input.contract.js";
 import { inputGroupPrimitiveMetadata } from "../components-ui/input-group.contract.js";
 import { inputOtpPrimitiveMetadata } from "../components-ui/input-otp.contract.js";
 import { itemPrimitiveMetadata } from "../components-ui/item.contract.js";
-import { kbdPrimitiveMetadata } from "../components-ui/kbd.contract.js";
 import { kanbanPrimitiveMetadata } from "../components-ui/kanban.contract.js";
+import { kbdPrimitiveMetadata } from "../components-ui/kbd.contract.js";
 import { labelPrimitiveMetadata } from "../components-ui/label.contract.js";
 import { markerPrimitiveMetadata } from "../components-ui/marker.contract.js";
 import { menubarPrimitiveMetadata } from "../components-ui/menubar.contract.js";
@@ -84,6 +78,11 @@ import { timelinePrimitiveMetadata } from "../components-ui/timeline.contract.js
 import { togglePrimitiveMetadata } from "../components-ui/toggle.contract.js";
 import { toggleGroupPrimitiveMetadata } from "../components-ui/toggle-group.contract.js";
 import { tooltipPrimitiveMetadata } from "../components-ui/tooltip.contract.js";
+import {
+  toUiPrimitiveId,
+  UI_PRIMITIVE_CONTRACT_SLUGS,
+  type UiPrimitiveContractSlug,
+} from "./_governance.registry.js";
 
 const METADATA_FACTORIES = [
   accordionPrimitiveMetadata,
@@ -182,7 +181,8 @@ export function getUiPrimitiveMetadata(
 /** Slugs materialized from aggregated metadata — for inventory parity tests. */
 export function getUiPrimitiveMetadataSlugs(): readonly UiPrimitiveContractSlug[] {
   return UI_PRIMITIVE_METADATA_REGISTRY.map(
-    (entry) => entry.id.replace("shadcn-studio.ui.", "") as UiPrimitiveContractSlug
+    (entry) =>
+      entry.id.replace("shadcn-studio.ui.", "") as UiPrimitiveContractSlug
   );
 }
 

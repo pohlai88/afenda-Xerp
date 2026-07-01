@@ -2,10 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
-const BLOCKS_ROOT = join(
-  import.meta.dirname,
-  "../components-layouts"
-);
+const BLOCKS_ROOT = join(import.meta.dirname, "../components-layouts");
 
 const SAMPLE_MCP_BLOCKS = [
   "statistics-revenue-card.tsx",

@@ -135,6 +135,33 @@ describe("hydrateMetadataBindingSlots (PAS-001A R1c-2)", () => {
     );
   });
 
+  it("hydrates login-page-04 Afenda branding copy from presentation atoms", () => {
+    const binding = getMetadataBindingByBlockId("login-page-04");
+    if (binding === undefined) {
+      throw new Error("login-page-04 binding must exist in registry");
+    }
+
+    const runtime = createMetadataRuntimeContext({
+      correlationId: "corr-login-branding",
+    });
+    const projection = projectMetadataUiBindingWire({ binding, runtime });
+    const hydration = hydrateMetadataBindingSlots({
+      binding,
+      projection,
+      runtime,
+    });
+
+    expect(
+      hydration.slotTargets.find(
+        (target) => target.slotId === "login.branding.title"
+      )?.value
+    ).toBe("Sign in to Afenda ERP");
+    expect(
+      hydration.slotTargets.find((target) => target.slotId === "login.submit")
+        ?.value
+    ).toBe("Sign in");
+  });
+
   it("resolves presentation atom refs for seeded hero block labels", () => {
     const binding = getMetadataBindingByBlockId("hero-section-01");
     if (binding === undefined) {

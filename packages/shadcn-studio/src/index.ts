@@ -4,22 +4,23 @@ export const SHADCN_STUDIO_PACKAGE_VERSION = "0.0.0" as const;
 export const SHADCN_STUDIO_PACKAGE_NAME = "@afenda/shadcn-studio" as const;
 export const SHADCN_STUDIO_CSS_PATH = "./shadcn-studio.css" as const;
 
-export {
-  AppShell,
-  type AppShellProps,
-} from "./components-app-shell/app-shell.js";
-export {
-  AppShellNav,
-  type AppShellNavProps,
-} from "./components-app-shell/app-shell-nav.js";
-/** @deprecated Use `AppShell` */
-export { AppShell as ErpDashboardShell } from "./components-app-shell/app-shell.js";
 /** @deprecated Use `AppShellProps` */
 export type { AppShellProps as ErpDashboardShellProps } from "./components-app-shell/app-shell.js";
-/** @deprecated Use `AppShellNav` */
-export { AppShellNav as ErpShellNav } from "./components-app-shell/app-shell-nav.js";
+/** @deprecated Use `AppShell` */
+export {
+  AppShell,
+  AppShell as ErpDashboardShell,
+  type AppShellProps,
+} from "./components-app-shell/app-shell.js";
 /** @deprecated Use `AppShellNavProps` */
 export type { AppShellNavProps as ErpShellNavProps } from "./components-app-shell/app-shell-nav.js";
+/** @deprecated Use `AppShellNav` */
+export {
+  AppShellNav,
+  AppShellNav as ErpShellNav,
+  type AppShellNavProps,
+} from "./components-app-shell/app-shell-nav.js";
+export { default as LoginPage04Block } from "./components-auth-shell/login-page-04/login-page-04.js";
 export { default as AccountSettings01Block } from "./components-layouts/account-settings-01/account-settings-01.js";
 export { default as ChartEarningReportBlock } from "./components-layouts/chart-earning-report.js";
 export { default as ChartSalesMetricsBlock } from "./components-layouts/chart-sales-metrics.js";
@@ -34,12 +35,11 @@ export { default as LanguageDropdownBlock } from "./components-layouts/dropdown-
 export { default as NotificationDropdownBlock } from "./components-layouts/dropdown-notification.js";
 export { default as ProfileDropdownBlock } from "./components-layouts/dropdown-profile.js";
 export { default as HeroSection01Block } from "./components-layouts/hero-section-01/hero-section-01.js";
-export { default as LoginPage04Block } from "./components-auth-shell/login-page-04/login-page-04.js";
+export { default as MenuTriggerBlock } from "./components-layouts/menu-trigger.js";
 export {
   MorphingText,
   type MorphingTextProps,
 } from "./components-layouts/morphing-text.js";
-export { default as MenuTriggerBlock } from "./components-layouts/menu-trigger.js";
 export { default as SidebarUserDropdownBlock } from "./components-layouts/sidebar-user-dropdown.js";
 export { default as StatisticsActivityCardBlock } from "./components-layouts/statistics-activity-card.js";
 export { default as StatisticsCard01Block } from "./components-layouts/statistics-card-01.js";
@@ -78,8 +78,8 @@ export {
   KanbanColumnHandle,
   KanbanItem,
   KanbanItemHandle,
-  KanbanOverlay,
   type KanbanMoveEvent,
+  KanbanOverlay,
 } from "./components-ui/kanban.js";
 export {
   type AcceptanceCriterionResult,
@@ -96,6 +96,20 @@ export {
   type AcceptanceRecordSealSuccess,
   validateAcceptanceRecordSeal,
 } from "./meta-contracts/acceptance-record.validator.js";
+export {
+  type AppShellNavGroupWire,
+  type AppShellNavItemWire,
+  type AppShellOperatingContextWire,
+  type ErpNavGroupWire,
+  type ErpNavItemWire,
+  type ErpShellOperatingContextWire,
+  isAppShellNavGroupWire,
+  isAppShellNavItemWire,
+  isAppShellOperatingContextWire,
+  isErpNavGroupWire,
+  isErpNavItemWire,
+  isErpShellOperatingContextWire,
+} from "./meta-contracts/app-shell.contract.js";
 export {
   assertBlockDataContractWire,
   BLOCK_DATA_ACTION_KINDS,
@@ -120,20 +134,6 @@ export {
   type BlockSlotDomMarkerProps,
   blockSlotDomMarkerProps,
 } from "./meta-contracts/block-slot-dom-marker.contract.js";
-export {
-  type AppShellNavGroupWire,
-  type AppShellNavItemWire,
-  type AppShellOperatingContextWire,
-  type ErpNavGroupWire,
-  type ErpNavItemWire,
-  type ErpShellOperatingContextWire,
-  isAppShellNavGroupWire,
-  isAppShellNavItemWire,
-  isAppShellOperatingContextWire,
-  isErpNavGroupWire,
-  isErpNavItemWire,
-  isErpShellOperatingContextWire,
-} from "./meta-contracts/app-shell.contract.js";
 export {
   assertMetadataBindingContractWire,
   isMetadataBindingContractWire,

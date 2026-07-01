@@ -3,7 +3,8 @@
  * Gate: `pnpm check:studio-l1-contracts`
  */
 
-export const L1_CONTRACT_ENVELOPE_MARKER = "@afenda.l1-contract-envelope" as const;
+export const L1_CONTRACT_ENVELOPE_MARKER =
+  "@afenda.l1-contract-envelope" as const;
 
 export const L1_CONTRACT_ENVELOPE_SERIES = "flat-L1" as const;
 
@@ -107,10 +108,7 @@ export const L1_CONTRACT_ENVELOPE_REGISTRY = [
     family: "acceptance-record",
     role: "Acceptance record wire + ACPA seal fields",
     reliesOn: ["block-lifecycle.contract", "wire-guard.helpers"],
-    reliedOnBy: [
-      "acceptance-record.validator",
-      "index barrel",
-    ],
+    reliedOnBy: ["acceptance-record.validator", "index barrel"],
     refactored: L1_CONTRACT_ENVELOPE_REFACTORED,
   },
   {

@@ -7,8 +7,7 @@ export interface McpSeedBlockManifestEntry {
   readonly mcpPath: string;
 }
 
-const BLOCKS_ROOT =
-  "packages/shadcn-studio/src/components-layouts" as const;
+const BLOCKS_ROOT = "packages/shadcn-studio/src/components-layouts" as const;
 
 export const MCP_SEED_BLOCK_MANIFEST = [
   {
@@ -72,7 +71,10 @@ export const MCP_SEED_BLOCK_MANIFEST = [
     mcpPath: `${BLOCKS_ROOT}/error-page-shell.tsx`,
   },
   { blockId: "hero-section-01", mcpPath: `${BLOCKS_ROOT}/hero-section-01` },
-  { blockId: "login-page-04", mcpPath: "packages/shadcn-studio/src/components-auth-shell/login-page-04" },
+  {
+    blockId: "login-page-04",
+    mcpPath: "packages/shadcn-studio/src/components-auth-shell/login-page-04",
+  },
   { blockId: "menu-trigger", mcpPath: `${BLOCKS_ROOT}/menu-trigger.tsx` },
   {
     blockId: "sidebar-user-dropdown",

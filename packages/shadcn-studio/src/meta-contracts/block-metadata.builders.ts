@@ -9,8 +9,8 @@
  */
 
 import {
-  getBlockSlotsForBlockId,
   GOVERNED_BLOCK_CONTRACT_IDS,
+  getBlockSlotsForBlockId,
 } from "../meta-registry/block-slot.registry.js";
 import {
   BLOCK_METADATA_VERSION,
@@ -51,7 +51,8 @@ function resolveSurfaceTemplateClass(blockId: string): SurfaceTemplateClass {
   if (
     blockId === "hero-section-01" ||
     blockId === "statistics-card-01" ||
-    blockId.startsWith("statistics-")
+    blockId.startsWith("statistics-") ||
+    blockId.startsWith("error-page-")
   ) {
     return "dashboard";
   }

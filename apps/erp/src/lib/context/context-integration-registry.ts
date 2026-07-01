@@ -263,8 +263,8 @@ export const METADATA_PAS006_CONSUMER_WIRING = [
   },
   {
     id: "metadata-operator-auth-sign-in",
-    step: "Operator auth sign-in preview route consumes metadata operator surface",
-    module: "app/(protected)/operator/auth/sign-in/page.tsx",
-    delegate: "loadMetadataOperatorSurfacePage",
+    step: "Metadata workspace previews auth sign-in surface template",
+    module: "app/(protected)/metadata-workspace/page.tsx",
+    delegate: "resolveMetadataWorkspaceSurfaces",
   },
 ] as const;

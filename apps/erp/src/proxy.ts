@@ -1,11 +1,12 @@
 import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 
+import { AUTH_PATHS } from "@/lib/auth/auth-path.registry";
 import { isProtectedAppRouterPath } from "@/lib/auth/auth-protected-surface.registry";
+import { resolveSafeInternalPath } from "@/lib/auth/resolve-safe-internal-path";
+import { resolveUnauthenticatedRedirectPath } from "@/lib/auth/resolve-unauthenticated-redirect-path";
 
 export const CORRELATION_ID_HEADER = "x-correlation-id";
-
-const SIGN_IN_PATH = "/sign-in";
 
 function resolveCorrelationId(request: NextRequest): string {
   return request.headers.get(CORRELATION_ID_HEADER) ?? crypto.randomUUID();
@@ -26,9 +27,17 @@ function resolveProtectedRouteRedirect(
     return null;
   }
 
-  const signInUrl = new URL(SIGN_IN_PATH, request.url);
-  signInUrl.searchParams.set("next", pathname);
-  return NextResponse.redirect(signInUrl);
+  const destination = resolveUnauthenticatedRedirectPath(sessionCookie);
+  const redirectUrl = new URL(destination, request.url);
+
+  if (destination === AUTH_PATHS.signIn) {
+    redirectUrl.searchParams.set(
+      "next",
+      resolveSafeInternalPath(pathname, "/")
+    );
+  }
+
+  return NextResponse.redirect(redirectUrl);
 }
 
 export function proxy(request: NextRequest) {

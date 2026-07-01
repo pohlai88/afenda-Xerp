@@ -2,10 +2,10 @@
 
 import type { ReactNode } from "react";
 
-import { DotGrid } from "@/components/ui/bg-dot-grid";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { DotGrid } from "../components-ui/bg-dot-grid.js";
+import { Button } from "../components-ui/button.js";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
+import { cn } from "../utils/utils.js";
 
 import {
   ERROR_PAGE_COPY_REGISTRY,

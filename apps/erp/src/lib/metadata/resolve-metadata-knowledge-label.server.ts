@@ -25,9 +25,13 @@ const LABEL_ATOM_REF_TO_KNOWLEDGE_ATOM_ID = {
  * Presentation vocabulary only; business meaning remains in PAS-004 atoms.
  */
 const PRESENTATION_ATOM_REF_TO_LABEL = {
+  "atom.auth.branding-title": "Sign in to Afenda ERP",
+  "atom.auth.branding-lead": "Access your governed operator workspace.",
+  "atom.auth.form-title": "Welcome back",
+  "atom.auth.form-subtitle": "Use your workspace credentials to continue.",
   "atom.auth.email": "Email field",
   "atom.auth.password": "Password field",
-  "atom.auth.sign-in": "Submit action",
+  "atom.auth.sign-in": "Sign in",
   "atom.marketing.hero-title": "Hero title",
   "atom.marketing.hero-subtitle": "Hero subtitle",
   "atom.marketing.hero-cta": "Primary CTA",

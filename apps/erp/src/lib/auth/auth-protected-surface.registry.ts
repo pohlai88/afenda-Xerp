@@ -26,9 +26,6 @@ export type ProtectedAppRouterPathPrefix =
 export const PUBLIC_APP_ROUTER_PATH_PREFIXES = [
   "/api/auth",
   "/api/health",
-  "/401",
-  "/403",
-  "/500",
   "/maintenance",
   "/sign-in",
   "/sign-up",

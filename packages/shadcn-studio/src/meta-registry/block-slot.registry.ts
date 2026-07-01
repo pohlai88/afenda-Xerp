@@ -22,6 +22,26 @@ const BLOCK_SLOT_TEMPLATES: Readonly<Record<string, BlockSlotTemplate>> = {
         label: "Sign-in branding",
       },
       {
+        slotId: "login.branding.title",
+        role: "content",
+        label: "Branding headline",
+      },
+      {
+        slotId: "login.branding.lead",
+        role: "content",
+        label: "Branding lead",
+      },
+      {
+        slotId: "login.form.title",
+        role: "content",
+        label: "Form title",
+      },
+      {
+        slotId: "login.form.subtitle",
+        role: "content",
+        label: "Form subtitle",
+      },
+      {
         slotId: "login.email",
         role: "form-field",
         label: "Email field",

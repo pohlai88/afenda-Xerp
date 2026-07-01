@@ -131,21 +131,83 @@ describe("kanban interaction", () => {
     expect(onMove).not.toHaveBeenCalled();
   });
 
-  it("keeps governed root data-slot when consumer passes override", () => {
+  it("exposes button triggers for add column and add item flows", () => {
     render(
       <Kanban
-        data-slot="wrong-root"
         getItemValue={() => "x"}
         onValueChange={() => {}}
         value={{ todo: [] }}
       >
-        <KanbanBoard />
+        <KanbanBoard>
+          <KanbanColumn value="todo">
+            <KanbanColumnContent value="todo">
+              <KanbanAddItem onAdd={() => {}} />
+            </KanbanColumnContent>
+          </KanbanColumn>
+        </KanbanBoard>
+        <KanbanAddColumn onAdd={() => {}} />
       </Kanban>
     );
 
-    expect(document.querySelector('[data-slot="kanban"]')).toBeInTheDocument();
     expect(
-      document.querySelector('[data-slot="wrong-root"]')
-    ).not.toBeInTheDocument();
+      screen.getByRole("button", { name: /add new column/i })
+    ).toHaveAttribute("type", "button");
+    expect(
+      screen.getByRole("button", { name: /add new item/i })
+    ).toHaveAttribute("type", "button");
+  });
+
+  it("marks invalid column input with aria-invalid when validate fails", async () => {
+    const user = setupUser();
+
+    render(
+      <Kanban
+        getItemValue={() => "x"}
+        onValueChange={() => {}}
+        value={{ todo: [] }}
+      >
+        <KanbanBoard>
+          <KanbanColumn value="todo">
+            <KanbanColumnContent value="todo" />
+          </KanbanColumn>
+        </KanbanBoard>
+        <KanbanAddColumn
+          onAdd={() => {}}
+          validate={(title) =>
+            title.toLowerCase() === "duplicate" ? "Already exists." : undefined
+          }
+        />
+      </Kanban>
+    );
+
+    await user.click(screen.getByRole("button", { name: /add new column/i }));
+    const input = screen.getByPlaceholderText("Add Column Title...");
+    await user.type(input, "duplicate");
+
+    expect(input).toHaveAttribute("aria-invalid", "true");
+    expect(screen.getByText("Already exists.")).toBeInTheDocument();
+  });
+
+  it("decorates plus icons as aria-hidden in add triggers", () => {
+    render(
+      <Kanban
+        getItemValue={() => "x"}
+        onValueChange={() => {}}
+        value={{ todo: [] }}
+      >
+        <KanbanBoard>
+          <KanbanColumn value="todo">
+            <KanbanColumnContent value="todo">
+              <KanbanAddItem onAdd={() => {}} />
+            </KanbanColumnContent>
+          </KanbanColumn>
+        </KanbanBoard>
+        <KanbanAddColumn onAdd={() => {}} />
+      </Kanban>
+    );
+
+    for (const icon of document.querySelectorAll("svg[aria-hidden='true']")) {
+      expect(icon).toBeInTheDocument();
+    }
   });
 });

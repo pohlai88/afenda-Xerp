@@ -88,7 +88,7 @@ const nextConfig: NextConfig = {
       ),
       "@afenda/shadcn-studio/error-ui": path.join(
         monorepoRoot,
-        "packages/shadcn-studio/src/error-ui/index.ts"
+        "packages/shadcn-studio/dist/error-ui/index.js"
       ),
     };
     return config;
@@ -99,6 +99,26 @@ const nextConfig: NextConfig = {
         destination: "/system-admin/users",
         permanent: true,
         source: "/system-admin",
+      },
+      {
+        destination: "/session-expired",
+        permanent: true,
+        source: "/401",
+      },
+      {
+        destination: "/access-denied",
+        permanent: true,
+        source: "/403",
+      },
+      {
+        destination: "/",
+        permanent: true,
+        source: "/500",
+      },
+      {
+        destination: "/metadata-workspace",
+        permanent: false,
+        source: "/operator/auth/sign-in",
       },
     ];
   },

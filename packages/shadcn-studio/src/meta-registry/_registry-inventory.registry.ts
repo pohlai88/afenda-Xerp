@@ -14,7 +14,8 @@ export const REGISTRY_INVENTORY_SERIES = "flat-L1-registry" as const;
 
 export const REGISTRY_INVENTORY_REFACTORED = "2026-07-01" as const;
 
-export const REGISTRY_INVENTORY_GATE = "check:studio-registry-inventory" as const;
+export const REGISTRY_INVENTORY_GATE =
+  "check:studio-registry-inventory" as const;
 
 export const REGISTRY_MODULE_FAMILIES = [
   "block-slot",

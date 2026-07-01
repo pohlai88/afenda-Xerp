@@ -16,12 +16,18 @@ export default createReactProject(import.meta.url, "@afenda/shadcn-studio", {
     // ADR-0038 prefixed buckets
     "@/components-ui": resolve(packageRoot, "src/components-ui"),
     "@/components-layouts": resolve(packageRoot, "src/components-layouts"),
-    "@/components-auth-shell": resolve(packageRoot, "src/components-auth-shell"),
+    "@/components-auth-shell": resolve(
+      packageRoot,
+      "src/components-auth-shell"
+    ),
     "@/components-app-shell": resolve(packageRoot, "src/components-app-shell"),
     "@/components-assets": resolve(packageRoot, "src/components-assets"),
     // MCP / legacy import paths (components.json + migrated blocks)
     "@/components/ui": resolve(packageRoot, "src/components-ui"),
-    "@/components/shadcn-studio": resolve(packageRoot, "src/components-layouts"),
+    "@/components/shadcn-studio": resolve(
+      packageRoot,
+      "src/components-layouts"
+    ),
     "@/lib/utils": resolve(packageRoot, "src/utils/utils.ts"),
     "@/utils/utils": resolve(packageRoot, "src/utils/utils.ts"),
     "@": resolve(packageRoot, "src"),

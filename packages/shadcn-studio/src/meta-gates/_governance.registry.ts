@@ -19,7 +19,9 @@ export const GOVERNANCE_ENVELOPE_GATE =
   "check:studio-governance-envelope" as const;
 
 /** Meta file — excluded from governance/ envelope scans. */
-export const GOVERNANCE_REGISTRY_EXCLUDED = ["_governance.registry.ts"] as const;
+export const GOVERNANCE_REGISTRY_EXCLUDED = [
+  "_governance.registry.ts",
+] as const;
 
 export const UI_PRIMITIVE_METADATA_MARKER = GOVERNANCE_ENVELOPE_MARKER;
 
@@ -78,10 +80,7 @@ export const GOVERNANCE_ENVELOPE_REGISTRY = [
     family: "ui-primitive-metadata",
     role: "Runtime aggregator — UI_PRIMITIVE_METADATA_REGISTRY from L2 contracts",
     reliesOn: ["_governance.registry", "components-ui/*.contract"],
-    reliedOnBy: [
-      "governance/index",
-      "check:studio-ui-primitive-metadata",
-    ],
+    reliedOnBy: ["governance/index", "check:studio-ui-primitive-metadata"],
     refactored: GOVERNANCE_ENVELOPE_REFACTORED,
   },
 ] as const satisfies readonly GovernanceEnvelope[];

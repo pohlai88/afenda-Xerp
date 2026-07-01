@@ -12,12 +12,17 @@ const Login = () => {
         className="flex flex-col items-center justify-between gap-12 bg-primary p-10 max-lg:hidden xl:p-16"
       >
         <div className="text-primary-foreground">
-          <h1 className="mb-6 font-bold text-3xl">
-            Welcome back! Please sign in to your Shadcn Studio account
+          <h1
+            {...blockSlotDomMarkerProps("login.branding.title")}
+            className="mb-6 font-bold text-3xl"
+          >
+            Sign in to Afenda ERP
           </h1>
-          <p className="text-xl">
-            Thank you for registering! Please check your inbox and click the
-            verification link to activate your account.
+          <p
+            {...blockSlotDomMarkerProps("login.branding.lead")}
+            className="text-xl"
+          >
+            Access your governed operator workspace.
           </p>
         </div>
 
@@ -72,11 +77,17 @@ const Login = () => {
       <div className="flex h-full flex-col items-center justify-center py-10 sm:px-5">
         <div className="flex w-full max-w-lg flex-col gap-6 p-6">
           <div className="space-y-3 text-center">
-            <h2 className="font-semibold text-2xl md:text-3xl lg:text-4xl">
-              Welcome Back 👋
+            <h2
+              {...blockSlotDomMarkerProps("login.form.title")}
+              className="font-semibold text-2xl md:text-3xl lg:text-4xl"
+            >
+              Welcome back
             </h2>
-            <p className="text-muted-foreground">
-              Lets get started with your 30 days free trial
+            <p
+              {...blockSlotDomMarkerProps("login.form.subtitle")}
+              className="text-muted-foreground"
+            >
+              Use your workspace credentials to continue.
             </p>
           </div>
 

@@ -72,7 +72,7 @@ const LoginForm = () => {
             className="w-full"
             type="submit"
           >
-            Sign in to Shadcn Studio
+            Sign in
           </Button>
         </Field>
       </FieldGroup>

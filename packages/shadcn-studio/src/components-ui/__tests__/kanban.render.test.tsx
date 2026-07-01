@@ -92,6 +92,26 @@ describe("kanban render", () => {
     expect(container.innerHTML).not.toContain("useKanbanStore");
     expect(container.innerHTML).not.toContain("fake-db");
   });
+
+  it("keeps governed root data-slot when consumer passes override", () => {
+    render(
+      <Kanban
+        data-slot="wrong-root"
+        getItemValue={() => "x"}
+        onValueChange={() => {}}
+        value={{ todo: [] }}
+      >
+        <KanbanBoard />
+      </Kanban>
+    );
+
+    expect(
+      document.querySelector(`[data-slot="${KANBAN_SLOTS.root}"]`)
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-slot="wrong-root"]')
+    ).not.toBeInTheDocument();
+  });
 });
 
 describe("kanban add controls render", () => {

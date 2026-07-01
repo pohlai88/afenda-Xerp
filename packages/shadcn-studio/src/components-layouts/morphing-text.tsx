@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useId, useRef } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "../utils/utils.js";
 
 const MORPH_TIME_SECONDS = 1.5;
 const COOLDOWN_TIME_SECONDS = 0.5;

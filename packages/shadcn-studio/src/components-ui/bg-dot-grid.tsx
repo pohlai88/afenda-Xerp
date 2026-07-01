@@ -2,8 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
-import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
-import { cn } from "@/utils/utils";
+import type { WithoutGovernedDataSlot } from "../lib/governed-primitive-props.js";
+import { cn } from "../utils/utils.js";
 
 type DotGridProps = WithoutGovernedDataSlot<{
   activeColor?: string;

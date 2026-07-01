@@ -21,12 +21,12 @@ export const METADATA_OPERATOR_SURFACE_REGISTRY = [
   },
   {
     id: "operator-auth-sign-in",
-    routePattern: "/operator/auth/sign-in",
+    routePattern: "/metadata-workspace",
     surfaceTemplateId: "surface-template.auth-sign-in",
-    module: "app/(protected)/operator/auth/sign-in/page.tsx",
-    title: "Sign-in surface",
+    module: "app/(protected)/metadata-workspace/page.tsx",
+    title: "Sign-in surface preview",
     description:
-      "Protected operator preview of the auth sign-in block with help slots.",
+      "Metadata workspace preview of the auth sign-in block (not public ingress).",
   },
 ] as const satisfies readonly MetadataOperatorSurfaceRouteEntry[];
 

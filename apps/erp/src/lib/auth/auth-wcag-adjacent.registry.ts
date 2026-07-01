@@ -2,6 +2,8 @@
  * PAS-006C P06-007 — auth-adjacent surface registry for WCAG 2.2 AA pack.
  */
 
+import { ERROR_PAGE_PUBLIC_PATH_PREFIXES } from "@/lib/presentation/error-page-surface.registry";
+
 export const AUTH_ADJACENT_SURFACE_PATHS = [
   "/sign-in",
   "/mfa",
@@ -9,6 +11,9 @@ export const AUTH_ADJACENT_SURFACE_PATHS = [
   "/session-expired",
   "/access-denied",
   "/security/review",
+  ...ERROR_PAGE_PUBLIC_PATH_PREFIXES.filter(
+    (path) => path !== "/session-expired" && path !== "/access-denied"
+  ),
 ] as const;
 
 export type AuthAdjacentSurfacePath =
@@ -24,5 +29,11 @@ export type AuthAdjacentAuthBlockId =
 export const AUTH_ADJACENT_WCAG_REQUIRED_SLOTS: Readonly<
   Record<AuthAdjacentAuthBlockId, readonly string[]>
 > = {
-  "login-page-04": ["login.email", "login.password", "login.submit"],
+  "login-page-04": [
+    "login.branding.title",
+    "login.form.title",
+    "login.email",
+    "login.password",
+    "login.submit",
+  ],
 };

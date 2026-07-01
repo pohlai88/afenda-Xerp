@@ -28,6 +28,30 @@ export const METADATA_BINDING_OVERRIDE_REGISTRY: readonly MetadataBindingOverrid
       patch: {
         fields: [
           {
+            fieldKey: "brandingTitle",
+            slotId: "login.branding.title",
+            presentationKind: "text",
+            labelAtomRef: "atom.auth.branding-title",
+          },
+          {
+            fieldKey: "brandingLead",
+            slotId: "login.branding.lead",
+            presentationKind: "text",
+            labelAtomRef: "atom.auth.branding-lead",
+          },
+          {
+            fieldKey: "formTitle",
+            slotId: "login.form.title",
+            presentationKind: "text",
+            labelAtomRef: "atom.auth.form-title",
+          },
+          {
+            fieldKey: "formSubtitle",
+            slotId: "login.form.subtitle",
+            presentationKind: "text",
+            labelAtomRef: "atom.auth.form-subtitle",
+          },
+          {
             fieldKey: "email",
             slotId: "login.email",
             presentationKind: "text",
@@ -41,6 +65,12 @@ export const METADATA_BINDING_OVERRIDE_REGISTRY: readonly MetadataBindingOverrid
             labelAtomRef: "atom.auth.password",
             helpTextAtomRef: "atom.auth.password.help",
             requiredDisplay: true,
+          },
+          {
+            fieldKey: "submitLabel",
+            slotId: "login.submit",
+            presentationKind: "text",
+            labelAtomRef: "atom.auth.sign-in",
           },
         ],
       },

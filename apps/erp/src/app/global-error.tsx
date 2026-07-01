@@ -1,10 +1,5 @@
 "use client";
 
-import {
-  ERROR_PAGE_COPY_REGISTRY,
-  ErrorPageShell,
-} from "@afenda/shadcn-studio/error-ui";
-
 import { ClientSafeRetryButton } from "@/components/client-safe-retry-button.client";
 
 import "./globals.css";
@@ -15,20 +10,24 @@ interface GlobalErrorProps {
 }
 
 export default function GlobalError({ error, reset }: GlobalErrorProps) {
-  const copy = ERROR_PAGE_COPY_REGISTRY["500"];
-
   return (
     <html lang="en">
       <body className="bg-background text-foreground">
-        <ErrorPageShell
-          {...copy}
-          action={<ClientSafeRetryButton onClick={reset} />}
-          description={
-            process.env.NODE_ENV === "development" && error.message
-              ? `${copy.description} (${error.message})`
-              : copy.description
-          }
-        />
+        <main className="flex min-h-dvh flex-col items-center justify-center gap-4 p-6">
+          <div className="flex w-full max-w-md flex-col items-center gap-4 rounded-xl border bg-card p-8 text-center">
+            <h1 className="font-semibold text-foreground text-xl">
+              Application error
+            </h1>
+            <p className="text-muted-foreground text-sm">
+              A critical error occurred while loading the application. Please
+              try again.
+            </p>
+            {process.env.NODE_ENV === "development" && error.message ? (
+              <p className="text-muted-foreground text-sm">{error.message}</p>
+            ) : null}
+            <ClientSafeRetryButton onClick={reset} />
+          </div>
+        </main>
       </body>
     </html>
   );

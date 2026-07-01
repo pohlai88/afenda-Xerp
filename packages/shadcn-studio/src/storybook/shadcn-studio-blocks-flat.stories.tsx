@@ -50,7 +50,8 @@ export const ChartEarningReport: Story = {
   ...storyPair("ChartEarningReport").light,
   tags: ["autodocs", "lab-smoke"],
 };
-export const ChartEarningReportDark: Story = storyPair("ChartEarningReport").dark;
+export const ChartEarningReportDark: Story =
+  storyPair("ChartEarningReport").dark;
 
 export const ChartSalesMetrics: Story = storyPair("ChartSalesMetrics").light;
 export const ChartSalesMetricsDark: Story = storyPair("ChartSalesMetrics").dark;
@@ -88,8 +89,12 @@ export const DropdownLanguage: Story = {
 };
 export const DropdownLanguageDark: Story = storyPair("DropdownLanguage").dark;
 
-export const DropdownNotification: Story = storyPair("DropdownNotification").light;
-export const DropdownNotificationDark: Story = storyPair("DropdownNotification").dark;
+export const DropdownNotification: Story = storyPair(
+  "DropdownNotification"
+).light;
+export const DropdownNotificationDark: Story = storyPair(
+  "DropdownNotification"
+).dark;
 
 export const DropdownProfile: Story = {
   ...storyPair("DropdownProfile").light,
@@ -100,11 +105,19 @@ export const DropdownProfileDark: Story = storyPair("DropdownProfile").dark;
 export const MenuTrigger: Story = storyPair("MenuTrigger").light;
 export const MenuTriggerDark: Story = storyPair("MenuTrigger").dark;
 
-export const SidebarUserDropdown: Story = storyPair("SidebarUserDropdown").light;
-export const SidebarUserDropdownDark: Story = storyPair("SidebarUserDropdown").dark;
+export const SidebarUserDropdown: Story = storyPair(
+  "SidebarUserDropdown"
+).light;
+export const SidebarUserDropdownDark: Story = storyPair(
+  "SidebarUserDropdown"
+).dark;
 
-export const StatisticsActivityCard: Story = storyPair("StatisticsActivityCard").light;
-export const StatisticsActivityCardDark: Story = storyPair("StatisticsActivityCard").dark;
+export const StatisticsActivityCard: Story = storyPair(
+  "StatisticsActivityCard"
+).light;
+export const StatisticsActivityCardDark: Story = storyPair(
+  "StatisticsActivityCard"
+).dark;
 
 export const StatisticsCard01: Story = {
   ...storyPair("StatisticsCard01").light,
@@ -121,47 +134,93 @@ export const StatisticsCard03Dark: Story = storyPair("StatisticsCard03").dark;
 export const StatisticsCard04: Story = storyPair("StatisticsCard04").light;
 export const StatisticsCard04Dark: Story = storyPair("StatisticsCard04").dark;
 
-export const StatisticsExpenseCard: Story = storyPair("StatisticsExpenseCard").light;
-export const StatisticsExpenseCardDark: Story = storyPair("StatisticsExpenseCard").dark;
+export const StatisticsExpenseCard: Story = storyPair(
+  "StatisticsExpenseCard"
+).light;
+export const StatisticsExpenseCardDark: Story = storyPair(
+  "StatisticsExpenseCard"
+).dark;
 
-export const StatisticsIncomeCard: Story = storyPair("StatisticsIncomeCard").light;
-export const StatisticsIncomeCardDark: Story = storyPair("StatisticsIncomeCard").dark;
+export const StatisticsIncomeCard: Story = storyPair(
+  "StatisticsIncomeCard"
+).light;
+export const StatisticsIncomeCardDark: Story = storyPair(
+  "StatisticsIncomeCard"
+).dark;
 
-export const StatisticsLeadsCard: Story = storyPair("StatisticsLeadsCard").light;
-export const StatisticsLeadsCardDark: Story = storyPair("StatisticsLeadsCard").dark;
+export const StatisticsLeadsCard: Story = storyPair(
+  "StatisticsLeadsCard"
+).light;
+export const StatisticsLeadsCardDark: Story = storyPair(
+  "StatisticsLeadsCard"
+).dark;
 
-export const StatisticsLineTrendsCard: Story = storyPair("StatisticsLineTrendsCard").light;
-export const StatisticsLineTrendsCardDark: Story = storyPair("StatisticsLineTrendsCard").dark;
+export const StatisticsLineTrendsCard: Story = storyPair(
+  "StatisticsLineTrendsCard"
+).light;
+export const StatisticsLineTrendsCardDark: Story = storyPair(
+  "StatisticsLineTrendsCard"
+).dark;
 
-export const StatisticsOrdersProgressCard: Story = storyPair("StatisticsOrdersProgressCard").light;
-export const StatisticsOrdersProgressCardDark: Story = storyPair("StatisticsOrdersProgressCard").dark;
+export const StatisticsOrdersProgressCard: Story = storyPair(
+  "StatisticsOrdersProgressCard"
+).light;
+export const StatisticsOrdersProgressCardDark: Story = storyPair(
+  "StatisticsOrdersProgressCard"
+).dark;
 
-export const StatisticsProfileTrafficCard: Story = storyPair("StatisticsProfileTrafficCard").light;
-export const StatisticsProfileTrafficCardDark: Story = storyPair("StatisticsProfileTrafficCard").dark;
+export const StatisticsProfileTrafficCard: Story = storyPair(
+  "StatisticsProfileTrafficCard"
+).light;
+export const StatisticsProfileTrafficCardDark: Story = storyPair(
+  "StatisticsProfileTrafficCard"
+).dark;
 
-export const StatisticsRevenueCard: Story = storyPair("StatisticsRevenueCard").light;
-export const StatisticsRevenueCardDark: Story = storyPair("StatisticsRevenueCard").dark;
+export const StatisticsRevenueCard: Story = storyPair(
+  "StatisticsRevenueCard"
+).light;
+export const StatisticsRevenueCardDark: Story = storyPair(
+  "StatisticsRevenueCard"
+).dark;
 
-export const StatisticsSalesOverviewCard: Story = storyPair("StatisticsSalesOverviewCard").light;
-export const StatisticsSalesOverviewCardDark: Story = storyPair("StatisticsSalesOverviewCard").dark;
+export const StatisticsSalesOverviewCard: Story = storyPair(
+  "StatisticsSalesOverviewCard"
+).light;
+export const StatisticsSalesOverviewCardDark: Story = storyPair(
+  "StatisticsSalesOverviewCard"
+).dark;
 
-export const StatisticsTrendCard: Story = storyPair("StatisticsTrendCard").light;
-export const StatisticsTrendCardDark: Story = storyPair("StatisticsTrendCard").dark;
+export const StatisticsTrendCard: Story = storyPair(
+  "StatisticsTrendCard"
+).light;
+export const StatisticsTrendCardDark: Story = storyPair(
+  "StatisticsTrendCard"
+).dark;
 
-export const WidgetPaymentHistory: Story = storyPair("WidgetPaymentHistory").light;
-export const WidgetPaymentHistoryDark: Story = storyPair("WidgetPaymentHistory").dark;
+export const WidgetPaymentHistory: Story = storyPair(
+  "WidgetPaymentHistory"
+).light;
+export const WidgetPaymentHistoryDark: Story = storyPair(
+  "WidgetPaymentHistory"
+).dark;
 
-export const WidgetSalesByCountries: Story = storyPair("WidgetSalesByCountries").light;
-export const WidgetSalesByCountriesDark: Story = storyPair("WidgetSalesByCountries").dark;
+export const WidgetSalesByCountries: Story = storyPair(
+  "WidgetSalesByCountries"
+).light;
+export const WidgetSalesByCountriesDark: Story = storyPair(
+  "WidgetSalesByCountries"
+).dark;
 
 export const WidgetTotalEarning: Story = storyPair("WidgetTotalEarning").light;
-export const WidgetTotalEarningDark: Story = storyPair("WidgetTotalEarning").dark;
+export const WidgetTotalEarningDark: Story =
+  storyPair("WidgetTotalEarning").dark;
 
 export const WidgetTransactions: Story = {
   ...storyPair("WidgetTransactions").light,
   tags: ["autodocs", "lab-smoke"],
 };
-export const WidgetTransactionsDark: Story = storyPair("WidgetTransactions").dark;
+export const WidgetTransactionsDark: Story =
+  storyPair("WidgetTransactions").dark;
 
 /** Registry count guard — visible in Storybook docs for lab operators. */
 export const FlatBlockCatalog: Story = {
@@ -173,9 +232,7 @@ export const FlatBlockCatalog: Story = {
     </p>
   ),
   play: async ({ canvas }) => {
-    await expect(
-      canvas.getByText(/33 curated flat blocks/i)
-    ).toBeVisible();
+    await expect(canvas.getByText(/36 curated flat blocks/i)).toBeVisible();
   },
   parameters: {
     docs: {
