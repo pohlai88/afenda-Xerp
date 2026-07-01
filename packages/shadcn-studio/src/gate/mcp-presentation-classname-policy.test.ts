@@ -27,16 +27,19 @@ const DELEGATING_BRIDGE_BLOCK_SOURCES = [
 
 const EXPECTED_DELEGATING_BRIDGE_BLOCK_COUNT = 8 as const;
 
+/** ADR-0038 prefixed path or legacy MCP `@/components/ui/*` — both resolve to components-ui. */
+const STOCK_UI_IMPORT_PATTERN = /@\/components-ui\/|@\/components\/ui\//;
+
 /**
- * PAS-005A B42j — MCP lab blocks use stock shadcn `@/components-ui/*`, not `@afenda/ui`.
- * Governed UI consumer zero-className rules apply to appshell/metadata-ui/erp only.
+ * PAS-006A B42j — MCP lab blocks use stock shadcn ui primitives, not `@afenda/ui`.
+ * ADR-0038: production imports use `@/components/ui/*`; legacy MCP path remains valid.
  */
 describe("MCP presentation-layer className policy (B42j)", () => {
   it.each(
     SAMPLE_MCP_BLOCKS
   )("%s imports stock shadcn ui primitives, not @afenda/ui", (fileName) => {
     const source = readFileSync(join(BLOCKS_ROOT, fileName), "utf8");
-    expect(source).toMatch(/@\/components\/ui\//);
+    expect(source).toMatch(STOCK_UI_IMPORT_PATTERN);
     expect(source).not.toMatch(/@afenda\/ui/);
   });
 
@@ -72,7 +75,7 @@ describe("MCP delegating bridge block className policy (B42p)", () => {
     DELEGATING_BRIDGE_BLOCK_SOURCES
   )("%s imports stock shadcn ui primitives, not @afenda/ui", (relativePath) => {
     const source = readFileSync(join(BLOCKS_ROOT, relativePath), "utf8");
-    expect(source).toMatch(/@\/components\/ui\//);
+    expect(source).toMatch(STOCK_UI_IMPORT_PATTERN);
     expect(source).not.toMatch(/@afenda\/ui/);
   });
 });

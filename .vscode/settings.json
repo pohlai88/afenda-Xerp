@@ -37,6 +37,24 @@
     ]
   },
   "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.preferTypeOnlyAutoImports": true,
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.suggest.autoImports": true,
+  "tailwindCSS.emmetCompletions": true,
+  "tailwindCSS.experimental.configFile": {
+    "apps/erp/src/app/globals.css": [
+      "apps/erp/**",
+      "packages/shadcn-studio/**"
+    ],
+    "apps/storybook/.storybook/preview.css": "apps/storybook/**",
+    "apps/docs/src/app/globals.css": "apps/docs/**"
+  },
+  "errorLens.enabledDiagnosticLevels": ["error", "warning"],
+  "errorLens.excludeBySource": ["cSpell"],
+  "cSpell.enabled": true,
+  "dotenv.enableAutocloaking": true,
   "[css]": {
     "biome.enabled": false,
     "editor.defaultFormatter": "esbenp.prettier-vscode",

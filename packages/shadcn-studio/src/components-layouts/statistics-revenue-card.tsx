@@ -2,16 +2,15 @@
 
 import { useId } from "react";
 import { Bar, BarChart, XAxis } from "recharts";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Badge } from "@/components-ui/badge";
-import { Card, CardContent } from "@/components-ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components-ui/chart";
+} from "@/components/ui/chart";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 // Revenue chart data
 const revenueChartData = [
@@ -94,15 +93,16 @@ const StatisticsRevenueCard = ({ className }: { className?: string }) => {
   const footnoteId = useId();
 
   return (
-    <article
-      aria-labelledby={titleId}
-      className={className}
-    >
+    <article aria-labelledby={titleId} className={className}>
       <Card>
         <CardContent className="flex justify-between gap-6 max-sm:flex-col sm:items-center">
           <div className="flex shrink-0 grow flex-col gap-6">
             <div className="flex flex-col gap-1">
-              <span {...blockSlotDomMarkerProps("metric.label")} className="font-semibold" id={titleId}>
+              <span
+                {...blockSlotDomMarkerProps("metric.label")}
+                className="font-semibold"
+                id={titleId}
+              >
                 {StatisticsCardData.title}
               </span>
               <span className="text-muted-foreground text-sm">

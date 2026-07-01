@@ -1,231 +1,283 @@
-'use client'
+"use client";
 
-import { useId, useMemo, useState } from 'react'
-
-import { blockSlotDomMarkerProps } from '../meta-contracts/block-slot-dom-marker.contract.js'
-import Papa from 'papaparse'
-import * as XLSX from 'xlsx'
-
-import type { Column, ColumnDef, ColumnFiltersState, PaginationState, RowData } from '@tanstack/react-table'
+import type {
+  Column,
+  ColumnDef,
+  ColumnFiltersState,
+  PaginationState,
+  RowData,
+} from "@tanstack/react-table";
 import {
   flexRender,
   getCoreRowModel,
   getFacetedMinMaxValues,
   getFacetedRowModel,
-  getPaginationRowModel,
   getFacetedUniqueValues,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
-  useReactTable
-} from '@tanstack/react-table'
-import { Avatar, AvatarFallback } from '@/components-ui/avatar'
-import { Badge } from '@/components-ui/badge'
-import { Button } from '@/components-ui/button'
-import { Checkbox } from '@/components-ui/checkbox'
+  useReactTable,
+} from "@tanstack/react-table";
+import {
+  ArmchairIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+  EllipsisVerticalIcon,
+  FileSpreadsheetIcon,
+  FileTextIcon,
+  Gamepad2Icon,
+  HeadphonesIcon,
+  LaptopIcon,
+  PlusIcon,
+  SearchIcon,
+  ShirtIcon,
+  SmartphoneIcon,
+  UploadIcon,
+  WatchIcon,
+} from "lucide-react";
+import Papa from "papaparse";
+import { useId, useMemo, useState } from "react";
+import * as XLSX from "xlsx";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from '@/components-ui/dropdown-menu'
-import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components-ui/input-group'
-import { Label } from '@/components-ui/label'
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem } from '@/components-ui/pagination'
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@/components-ui/select'
-import { Switch } from '@/components-ui/switch'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components-ui/table'
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group";
+import { Label } from "@/components/ui/label";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+} from "@/components/ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-import { computePaginationRange } from '@/lib/compute-pagination-range'
+import { computePaginationRange } from "@/lib/compute-pagination-range";
 
-import { cn } from '@/utils/utils'
-import { Gamepad2Icon, ShirtIcon, ArmchairIcon, HeadphonesIcon, LaptopIcon, SmartphoneIcon, WatchIcon, UploadIcon, FileTextIcon, FileSpreadsheetIcon, PlusIcon, ChevronUpIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, SearchIcon, EllipsisVerticalIcon } from "lucide-react"
+import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
-declare module '@tanstack/react-table' {
+declare module "@tanstack/react-table" {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   interface ColumnMeta<TData extends RowData, TValue> {
-    filterVariant?: 'text' | 'range' | 'select'
+    filterVariant?: "text" | "range" | "select";
   }
 }
 
 export type Item = {
-  id: string
-  productImage: string
-  product: string
-  brand: string
-  category: 'controller' | 'fashion' | 'furniture' | 'headphone' | 'laptop' | 'smartphone' | 'smartwatch'
-  stock: 'available' | 'unavailable'
-  amount: number
-  quantity: number
-  status: 'inactive' | 'publish' | 'scheduled'
-}
+  id: string;
+  productImage: string;
+  product: string;
+  brand: string;
+  category:
+    | "controller"
+    | "fashion"
+    | "furniture"
+    | "headphone"
+    | "laptop"
+    | "smartphone"
+    | "smartwatch";
+  stock: "available" | "unavailable";
+  amount: number;
+  quantity: number;
+  status: "inactive" | "publish" | "scheduled";
+};
 
 const columns: ColumnDef<Item>[] = [
   {
-    id: 'select',
+    id: "select",
     header: ({ table }) => (
       <Checkbox
+        aria-label="Select all"
         checked={table.getIsAllPageRowsSelected()}
         indeterminate={table.getIsSomePageRowsSelected()}
-        onCheckedChange={value => table.toggleAllRowsSelected(!!value)}
-        aria-label='Select all'
+        onCheckedChange={(value) => table.toggleAllRowsSelected(!!value)}
       />
     ),
     cell: ({ row }) => (
       <Checkbox
+        aria-label="Select row"
         checked={row.getIsSelected()}
-        onCheckedChange={value => row.toggleSelected(!!value)}
-        aria-label='Select row'
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
       />
     ),
-    size: 50
+    size: 50,
   },
   {
-    header: 'Product',
-    accessorKey: 'product',
+    header: "Product",
+    accessorKey: "product",
     cell: ({ row }) => (
-      <div className='flex items-center gap-2'>
-        <div className='bg-primary/5 flex size-10 items-center justify-center rounded-sm'>
-          <img src={row.original.productImage} alt={row.getValue('product')} className='w-7.5' />
+      <div className="flex items-center gap-2">
+        <div className="flex size-10 items-center justify-center rounded-sm bg-primary/5">
+          <img
+            alt={row.getValue("product")}
+            className="w-7.5"
+            src={row.original.productImage}
+          />
         </div>
-        <div className='flex flex-col'>
-          <span className='font-medium'>{row.getValue('product')}</span>
-          <span className='text-muted-foreground'>{row.original.brand}</span>
+        <div className="flex flex-col">
+          <span className="font-medium">{row.getValue("product")}</span>
+          <span className="text-muted-foreground">{row.original.brand}</span>
         </div>
       </div>
     ),
-    size: 246
+    size: 246,
   },
   {
-    header: 'Category',
-    accessorKey: 'category',
+    header: "Category",
+    accessorKey: "category",
     cell: ({ row }) => {
-      const category = row.getValue('category') as string
+      const category = row.getValue("category") as string;
 
       const categories = {
-        controller: (
-          <Gamepad2Icon className='size-4.5' />
-        ),
-        fashion: (
-          <ShirtIcon className='size-4.5' />
-        ),
-        furniture: (
-          <ArmchairIcon className='size-4.5' />
-        ),
-        headphone: (
-          <HeadphonesIcon className='size-4.5' />
-        ),
-        laptop: (
-          <LaptopIcon className='size-4.5' />
-        ),
-        smartphone: (
-          <SmartphoneIcon className='size-4.5' />
-        ),
-        smartwatch: (
-          <WatchIcon className='size-4.5' />
-        )
-      }[category]
+        controller: <Gamepad2Icon className="size-4.5" />,
+        fashion: <ShirtIcon className="size-4.5" />,
+        furniture: <ArmchairIcon className="size-4.5" />,
+        headphone: <HeadphonesIcon className="size-4.5" />,
+        laptop: <LaptopIcon className="size-4.5" />,
+        smartphone: <SmartphoneIcon className="size-4.5" />,
+        smartwatch: <WatchIcon className="size-4.5" />,
+      }[category];
 
       return (
-        <div className='flex items-center gap-2'>
-          <Avatar className='size-7'>
-            <AvatarFallback className='bg-primary/10 text-primary'>{categories}</AvatarFallback>
+        <div className="flex items-center gap-2">
+          <Avatar className="size-7">
+            <AvatarFallback className="bg-primary/10 text-primary">
+              {categories}
+            </AvatarFallback>
           </Avatar>
-          <span className='text-muted-foreground capitalize'>{category}</span>
+          <span className="text-muted-foreground capitalize">{category}</span>
         </div>
-      )
+      );
     },
     size: 180,
     meta: {
-      filterVariant: 'select'
-    }
+      filterVariant: "select",
+    },
   },
   {
-    header: 'Stock',
-    accessorKey: 'stock',
-    filterFn: 'equalsString',
+    header: "Stock",
+    accessorKey: "stock",
+    filterFn: "equalsString",
     cell: ({ row }) => (
-      <Switch aria-label='Medium switch' defaultChecked={row.getValue('stock') === 'available' ? true : false} />
+      <Switch
+        aria-label="Medium switch"
+        defaultChecked={row.getValue("stock") === "available"}
+      />
     ),
     size: 110,
     meta: {
-      filterVariant: 'select'
-    }
+      filterVariant: "select",
+    },
   },
   {
-    header: 'Amount',
-    accessorKey: 'amount',
+    header: "Amount",
+    accessorKey: "amount",
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue('amount'))
+      const amount = Number.parseFloat(row.getValue("amount"));
 
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD'
-      }).format(amount)
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(amount);
 
-      return <span>{formatted.slice(0, -3)}</span>
-    }
+      return <span>{formatted.slice(0, -3)}</span>;
+    },
   },
   {
-    header: 'QTY',
-    accessorKey: 'quantity',
-    cell: ({ row }) => <span>{row.getValue('quantity')}</span>
+    header: "QTY",
+    accessorKey: "quantity",
+    cell: ({ row }) => <span>{row.getValue("quantity")}</span>,
   },
   {
-    header: 'Status',
-    accessorKey: 'status',
+    header: "Status",
+    accessorKey: "status",
     cell: ({ row }) => {
-      const status = row.getValue('status') as string
+      const status = row.getValue("status") as string;
 
       const styles = {
         publish:
-          'bg-green-600/10 text-green-600 focus-visible:ring-green-600/20 dark:bg-green-400/10 dark:text-green-400 dark:focus-visible:ring-green-400/40 [a&]:hover:bg-green-600/5 dark:[a&]:hover:bg-green-400/5',
+          "bg-green-600/10 text-green-600 focus-visible:ring-green-600/20 dark:bg-green-400/10 dark:text-green-400 dark:focus-visible:ring-green-400/40 [a&]:hover:bg-green-600/5 dark:[a&]:hover:bg-green-400/5",
         inactive:
-          'bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive',
+          "bg-destructive/10 [a&]:hover:bg-destructive/5 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 text-destructive",
         scheduled:
-          'bg-amber-600/10 text-amber-600 focus-visible:ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-400 dark:focus-visible:ring-amber-400/40 [a&]:hover:bg-amber-600/5 dark:[a&]:hover:bg-amber-400/5'
-      }[status]
+          "bg-amber-600/10 text-amber-600 focus-visible:ring-amber-600/20 dark:bg-amber-400/10 dark:text-amber-400 dark:focus-visible:ring-amber-400/40 [a&]:hover:bg-amber-600/5 dark:[a&]:hover:bg-amber-400/5",
+      }[status];
 
       return (
-        <Badge className={cn('h-auto rounded-sm border-none capitalize focus-visible:outline-none', styles)}>
-          {row.getValue('status')}
+        <Badge
+          className={cn(
+            "h-auto rounded-sm border-none capitalize focus-visible:outline-none",
+            styles
+          )}
+        >
+          {row.getValue("status")}
         </Badge>
-      )
+      );
     },
     meta: {
-      filterVariant: 'select'
-    }
+      filterVariant: "select",
+    },
   },
   {
-    id: 'actions',
-    header: () => 'Actions',
+    id: "actions",
+    header: () => "Actions",
     cell: () => (
-      <div {...blockSlotDomMarkerProps('table.actions')}>
+      <div {...blockSlotDomMarkerProps("table.actions")}>
         <RowActions />
       </div>
     ),
     size: 60,
-    enableHiding: false
-  }
-]
+    enableHiding: false,
+  },
+];
 
 const ProductDatatable = ({ data }: { data: Item[] }) => {
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
-  const pageSize = 5
+  const pageSize = 5;
 
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
-    pageSize: pageSize
-  })
+    pageSize,
+  });
 
   const table = useReactTable({
     data,
     columns,
     state: {
       columnFilters,
-      pagination
+      pagination,
     },
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
@@ -236,114 +288,134 @@ const ProductDatatable = ({ data }: { data: Item[] }) => {
     getFacetedMinMaxValues: getFacetedMinMaxValues(),
     enableSortingRemoval: false,
     getPaginationRowModel: getPaginationRowModel(),
-    onPaginationChange: setPagination
-  })
+    onPaginationChange: setPagination,
+  });
 
   const exportToCSV = () => {
-    const selectedRows = table.getSelectedRowModel().rows
+    const selectedRows = table.getSelectedRowModel().rows;
 
     const dataToExport =
       selectedRows.length > 0
-        ? selectedRows.map(row => row.original)
-        : table.getFilteredRowModel().rows.map(row => row.original)
+        ? selectedRows.map((row) => row.original)
+        : table.getFilteredRowModel().rows.map((row) => row.original);
 
     const csv = Papa.unparse(dataToExport, {
-      header: true
-    })
+      header: true,
+    });
 
-    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
-    const link = document.createElement('a')
-    const url = URL.createObjectURL(blob)
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
 
-    link.setAttribute('href', url)
-    link.setAttribute('download', `payments-export-${new Date().toISOString().split('T')[0]}.csv`)
-    link.style.visibility = 'hidden'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  }
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `payments-export-${new Date().toISOString().split("T")[0]}.csv`
+    );
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const exportToExcel = () => {
-    const selectedRows = table.getSelectedRowModel().rows
+    const selectedRows = table.getSelectedRowModel().rows;
 
     const dataToExport =
       selectedRows.length > 0
-        ? selectedRows.map(row => row.original)
-        : table.getFilteredRowModel().rows.map(row => row.original)
+        ? selectedRows.map((row) => row.original)
+        : table.getFilteredRowModel().rows.map((row) => row.original);
 
-    const worksheet = XLSX.utils.json_to_sheet(dataToExport)
-    const workbook = XLSX.utils.book_new()
+    const worksheet = XLSX.utils.json_to_sheet(dataToExport);
+    const workbook = XLSX.utils.book_new();
 
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Payments')
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Payments");
 
-    const cols = [{ wch: 10 }, { wch: 20 }, { wch: 15 }, { wch: 25 }, { wch: 15 }]
+    const cols = [
+      { wch: 10 },
+      { wch: 20 },
+      { wch: 15 },
+      { wch: 25 },
+      { wch: 15 },
+    ];
 
-    worksheet['!cols'] = cols
+    worksheet["!cols"] = cols;
 
-    XLSX.writeFile(workbook, `payments-export-${new Date().toISOString().split('T')[0]}.xlsx`)
-  }
+    XLSX.writeFile(
+      workbook,
+      `payments-export-${new Date().toISOString().split("T")[0]}.xlsx`
+    );
+  };
 
   const exportToJSON = () => {
-    const selectedRows = table.getSelectedRowModel().rows
+    const selectedRows = table.getSelectedRowModel().rows;
 
     const dataToExport =
       selectedRows.length > 0
-        ? selectedRows.map(row => row.original)
-        : table.getFilteredRowModel().rows.map(row => row.original)
+        ? selectedRows.map((row) => row.original)
+        : table.getFilteredRowModel().rows.map((row) => row.original);
 
-    const json = JSON.stringify(dataToExport, null, 2)
-    const blob = new Blob([json], { type: 'application/json' })
-    const link = document.createElement('a')
-    const url = URL.createObjectURL(blob)
+    const json = JSON.stringify(dataToExport, null, 2);
+    const blob = new Blob([json], { type: "application/json" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
 
-    link.setAttribute('href', url)
-    link.setAttribute('download', `payments-export-${new Date().toISOString().split('T')[0]}.json`)
-    link.style.visibility = 'hidden'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-  }
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `payments-export-${new Date().toISOString().split("T")[0]}.json`
+    );
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
-  const { pages, showLeftEllipsis, showRightEllipsis } = computePaginationRange({
-    currentPage: table.getState().pagination.pageIndex + 1,
-    totalPages: table.getPageCount(),
-    paginationItemsToDisplay: 2
-  })
+  const { pages, showLeftEllipsis, showRightEllipsis } = computePaginationRange(
+    {
+      currentPage: table.getState().pagination.pageIndex + 1,
+      totalPages: table.getPageCount(),
+      paginationItemsToDisplay: 2,
+    }
+  );
 
   return (
-    <div className='w-full'>
-      <div className='border-b'>
-        <div className='flex flex-col gap-4 border-b p-6'>
-          <span className='text-xl font-semibold'>Filter</span>
-          <div className='grid grid-cols-1 gap-6 max-md:*:last:col-span-full sm:grid-cols-2 md:grid-cols-3'>
-            <Filter column={table.getColumn('category')!} />
-            <Filter column={table.getColumn('stock')!} />
-            <Filter column={table.getColumn('status')!} />
+    <div className="w-full">
+      <div className="border-b">
+        <div className="flex flex-col gap-4 border-b p-6">
+          <span className="font-semibold text-xl">Filter</span>
+          <div className="grid grid-cols-1 gap-6 max-md:*:last:col-span-full sm:grid-cols-2 md:grid-cols-3">
+            <Filter column={table.getColumn("category")!} />
+            <Filter column={table.getColumn("stock")!} />
+            <Filter column={table.getColumn("status")!} />
           </div>
         </div>
-        <div className='flex gap-4 p-6 max-sm:flex-col sm:items-center sm:justify-between'>
-          <Filter column={table.getColumn('product')!} />
-          <div className='flex flex-wrap items-center gap-4 sm:justify-between'>
-            <div className='flex items-center gap-2'>
-              <Label htmlFor='#rowSelect' className='sr-only'>
+        <div className="flex gap-4 p-6 max-sm:flex-col sm:items-center sm:justify-between">
+          <Filter column={table.getColumn("product")!} />
+          <div className="flex flex-wrap items-center gap-4 sm:justify-between">
+            <div className="flex items-center gap-2">
+              <Label className="sr-only" htmlFor="#rowSelect">
                 Show
               </Label>
               <Select
-                items={[5, 10, 25, 50].map(s => ({
+                items={[5, 10, 25, 50].map((s) => ({
                   label: String(s),
-                  value: String(s)
+                  value: String(s),
                 }))}
-                value={table.getState().pagination.pageSize.toString()}
                 onValueChange={(value: string | null) => {
-                  if (value) table.setPageSize(Number(value))
+                  if (value) table.setPageSize(Number(value));
                 }}
+                value={table.getState().pagination.pageSize.toString()}
               >
-                <SelectTrigger id='rowSelect' className='w-fit whitespace-nowrap'>
+                <SelectTrigger
+                  className="w-fit whitespace-nowrap"
+                  id="rowSelect"
+                >
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    {[5, 10, 25, 50].map(pageSize => (
+                    {[5, 10, 25, 50].map((pageSize) => (
                       <SelectItem key={pageSize} value={pageSize.toString()}>
                         {pageSize}
                       </SelectItem>
@@ -355,95 +427,120 @@ const ProductDatatable = ({ data }: { data: Item[] }) => {
             <DropdownMenu>
               <DropdownMenuTrigger
                 render={
-                  <Button className='bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40' />
+                  <Button className="bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40" />
                 }
               >
-                <UploadIcon
-                />
+                <UploadIcon />
                 Export
               </DropdownMenuTrigger>
-              <DropdownMenuContent align='end' className='w-auto'>
+              <DropdownMenuContent align="end" className="w-auto">
                 <DropdownMenuItem onClick={exportToCSV}>
-                  <FileTextIcon className='mr-2 size-4' />
+                  <FileTextIcon className="mr-2 size-4" />
                   Export as CSV
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={exportToExcel}>
-                  <FileSpreadsheetIcon className='mr-2 size-4' />
+                  <FileSpreadsheetIcon className="mr-2 size-4" />
                   Export as Excel
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={exportToJSON}>
-                  <FileTextIcon className='mr-2 size-4' />
+                  <FileTextIcon className="mr-2 size-4" />
                   Export as JSON
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
             <Button>
-              <PlusIcon
-              />
+              <PlusIcon />
               Add Product
             </Button>
           </div>
         </div>
         <Table>
-          <TableHeader {...blockSlotDomMarkerProps('table.header')}>
-            {table.getHeaderGroups().map(headerGroup => (
-              <TableRow key={headerGroup.id} className='h-14 border-t'>
-                {headerGroup.headers.map(header => {
-                  return (
-                    <TableHead
-                      key={header.id}
-                      style={{ width: `${header.getSize()}px` }}
-                      className='text-muted-foreground first:pl-4 last:px-4'
-                    >
-                      {header.isPlaceholder ? null : header.column.getCanSort() ? (
-                        <div
-                          className={cn(
+          <TableHeader {...blockSlotDomMarkerProps("table.header")}>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow className="h-14 border-t" key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    className="text-muted-foreground first:pl-4 last:px-4"
+                    key={header.id}
+                    style={{ width: `${header.getSize()}px` }}
+                  >
+                    {header.isPlaceholder ? null : header.column.getCanSort() ? (
+                      <div
+                        className={cn(
+                          header.column.getCanSort() &&
+                            "flex h-full cursor-pointer select-none items-center justify-between gap-2"
+                        )}
+                        onClick={header.column.getToggleSortingHandler()}
+                        onKeyDown={(e) => {
+                          if (
                             header.column.getCanSort() &&
-                              'flex h-full cursor-pointer items-center justify-between gap-2 select-none'
-                          )}
-                          onClick={header.column.getToggleSortingHandler()}
-                          onKeyDown={e => {
-                            if (header.column.getCanSort() && (e.key === 'Enter' || e.key === ' ')) {
-                              e.preventDefault()
-                              header.column.getToggleSortingHandler()?.(e)
-                            }
-                          }}
-                          tabIndex={header.column.getCanSort() ? 0 : undefined}
-                        >
-                          {flexRender(header.column.columnDef.header, header.getContext())}
-                          {{
-                            asc: (
-                              <ChevronUpIcon className='shrink-0 opacity-60' size={16} aria-hidden='true' />
-                            ),
-                            desc: (
-                              <ChevronDownIcon className='shrink-0 opacity-60' size={16} aria-hidden='true' />
-                            )
-                          }[header.column.getIsSorted() as string] ?? null}
-                        </div>
-                      ) : (
-                        flexRender(header.column.columnDef.header, header.getContext())
-                      )}
-                    </TableHead>
-                  )
-                })}
+                            (e.key === "Enter" || e.key === " ")
+                          ) {
+                            e.preventDefault();
+                            header.column.getToggleSortingHandler()?.(e);
+                          }
+                        }}
+                        tabIndex={header.column.getCanSort() ? 0 : undefined}
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                        {{
+                          asc: (
+                            <ChevronUpIcon
+                              aria-hidden="true"
+                              className="shrink-0 opacity-60"
+                              size={16}
+                            />
+                          ),
+                          desc: (
+                            <ChevronDownIcon
+                              aria-hidden="true"
+                              className="shrink-0 opacity-60"
+                              size={16}
+                            />
+                          ),
+                        }[header.column.getIsSorted() as string] ?? null}
+                      </div>
+                    ) : (
+                      flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )
+                    )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody {...blockSlotDomMarkerProps('table.rows')}>
+          <TableBody {...blockSlotDomMarkerProps("table.rows")}>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map(row => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && 'selected'}>
-                  {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id} className='h-14 first:w-12.5 first:pl-4 last:w-29 last:px-4'>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  data-state={row.getIsSelected() && "selected"}
+                  key={row.id}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      className="h-14 first:w-12.5 first:pl-4 last:w-29 last:px-4"
+                      key={cell.id}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className='h-24 text-center'>
+                <TableCell
+                  className="h-24 text-center"
+                  colSpan={columns.length}
+                >
                   No results.
                 </TableCell>
               </TableRow>
@@ -452,20 +549,27 @@ const ProductDatatable = ({ data }: { data: Item[] }) => {
         </Table>
       </div>
 
-      <div className='flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col'>
-        <p className='text-muted-foreground text-sm whitespace-nowrap' aria-live='polite'>
-          Showing{' '}
+      <div className="flex items-center justify-between gap-3 px-6 py-4 max-sm:flex-col">
+        <p
+          aria-live="polite"
+          className="whitespace-nowrap text-muted-foreground text-sm"
+        >
+          Showing{" "}
           <span>
-            {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} to{' '}
+            {table.getState().pagination.pageIndex *
+              table.getState().pagination.pageSize +
+              1}{" "}
+            to{" "}
             {Math.min(
               Math.max(
-                table.getState().pagination.pageIndex * table.getState().pagination.pageSize +
+                table.getState().pagination.pageIndex *
+                  table.getState().pagination.pageSize +
                   table.getState().pagination.pageSize,
                 0
               ),
               table.getRowCount()
             )}
-          </span>{' '}
+          </span>{" "}
           of <span>{table.getRowCount().toString()} entries</span>
         </p>
 
@@ -474,14 +578,14 @@ const ProductDatatable = ({ data }: { data: Item[] }) => {
             <PaginationContent>
               <PaginationItem>
                 <Button
-                  className='disabled:pointer-events-none disabled:opacity-50'
-                  variant='ghost'
-                  onClick={() => table.previousPage()}
+                  aria-label="Go to previous page"
+                  className="disabled:pointer-events-none disabled:opacity-50"
                   disabled={!table.getCanPreviousPage()}
-                  aria-label='Go to previous page'
+                  onClick={() => table.previousPage()}
+                  variant="ghost"
                 >
-                  <ChevronLeftIcon aria-hidden='true' />
-                  <span className='max-sm:hidden'>Previous</span>
+                  <ChevronLeftIcon aria-hidden="true" />
+                  <span className="max-sm:hidden">Previous</span>
                 </Button>
               </PaginationItem>
 
@@ -491,21 +595,22 @@ const ProductDatatable = ({ data }: { data: Item[] }) => {
                 </PaginationItem>
               )}
 
-              {pages.map(page => {
-                const isActive = page === table.getState().pagination.pageIndex + 1
+              {pages.map((page) => {
+                const isActive =
+                  page === table.getState().pagination.pageIndex + 1;
 
                 return (
                   <PaginationItem key={page}>
                     <Button
-                      size='icon'
-                      className={`${!isActive && 'bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40'}`}
+                      aria-current={isActive ? "page" : undefined}
+                      className={`${!isActive && "bg-primary/10 text-primary hover:bg-primary/20 focus-visible:ring-primary/20 dark:focus-visible:ring-primary/40"}`}
                       onClick={() => table.setPageIndex(page - 1)}
-                      aria-current={isActive ? 'page' : undefined}
+                      size="icon"
                     >
                       {page}
                     </Button>
                   </PaginationItem>
-                )
+                );
               })}
 
               {showRightEllipsis && (
@@ -516,14 +621,14 @@ const ProductDatatable = ({ data }: { data: Item[] }) => {
 
               <PaginationItem>
                 <Button
-                  className='disabled:pointer-events-none disabled:opacity-50'
-                  variant='ghost'
-                  onClick={() => table.nextPage()}
+                  aria-label="Go to next page"
+                  className="disabled:pointer-events-none disabled:opacity-50"
                   disabled={!table.getCanNextPage()}
-                  aria-label='Go to next page'
+                  onClick={() => table.nextPage()}
+                  variant="ghost"
                 >
-                  <span className='max-sm:hidden'>Next</span>
-                  <ChevronRightIcon aria-hidden='true' />
+                  <span className="max-sm:hidden">Next</span>
+                  <ChevronRightIcon aria-hidden="true" />
                 </Button>
               </PaginationItem>
             </PaginationContent>
@@ -531,60 +636,67 @@ const ProductDatatable = ({ data }: { data: Item[] }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProductDatatable
+export default ProductDatatable;
 
 function Filter({ column }: { column: Column<any, unknown> }) {
-  const id = useId()
-  const columnFilterValue = column.getFilterValue()
-  const { filterVariant } = column.columnDef.meta ?? {}
+  const id = useId();
+  const columnFilterValue = column.getFilterValue();
+  const { filterVariant } = column.columnDef.meta ?? {};
 
-  const columnHeader = typeof column.columnDef.header === 'string' ? column.columnDef.header : ''
+  const columnHeader =
+    typeof column.columnDef.header === "string" ? column.columnDef.header : "";
 
   const sortedUniqueValues = useMemo(() => {
-    if (filterVariant === 'range') return []
+    if (filterVariant === "range") return [];
 
-    const values = Array.from(column.getFacetedUniqueValues().keys())
+    const values = Array.from(column.getFacetedUniqueValues().keys());
 
     const flattenedValues = values.reduce((acc: string[], curr) => {
       if (Array.isArray(curr)) {
-        return [...acc, ...curr]
+        return [...acc, ...curr];
       }
 
-      return [...acc, curr]
-    }, [])
+      return [...acc, curr];
+    }, []);
 
-    return Array.from(new Set(flattenedValues)).sort()
+    return Array.from(new Set(flattenedValues)).sort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [column.getFacetedUniqueValues(), filterVariant])
+  }, [column.getFacetedUniqueValues(), filterVariant]);
 
-  if (filterVariant === 'select') {
+  if (filterVariant === "select") {
     return (
-      <div className='flex w-full flex-col gap-2'>
+      <div className="flex w-full flex-col gap-2">
         <Label htmlFor={`${id}-select`}>Select {columnHeader}</Label>
         <Select
           items={[
-            { label: 'All', value: 'all' },
-            ...sortedUniqueValues.map(value => ({
+            { label: "All", value: "all" },
+            ...sortedUniqueValues.map((value) => ({
               label: String(value),
-              value: String(value)
-            }))
+              value: String(value),
+            })),
           ]}
-          value={columnFilterValue?.toString() ?? 'all'}
           onValueChange={(value: string | null) => {
-            column.setFilterValue(value === 'all' || value === null ? undefined : value)
+            column.setFilterValue(
+              value === "all" || value === null ? undefined : value
+            );
           }}
+          value={columnFilterValue?.toString() ?? "all"}
         >
-          <SelectTrigger id={`${id}-select`} className='w-full capitalize'>
+          <SelectTrigger className="w-full capitalize" id={`${id}-select`}>
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectItem value='all'>All</SelectItem>
-              {sortedUniqueValues.map(value => (
-                <SelectItem key={String(value)} value={String(value)} className='capitalize'>
+              <SelectItem value="all">All</SelectItem>
+              {sortedUniqueValues.map((value) => (
+                <SelectItem
+                  className="capitalize"
+                  key={String(value)}
+                  value={String(value)}
+                >
                   {String(value)}
                 </SelectItem>
               ))}
@@ -592,36 +704,37 @@ function Filter({ column }: { column: Column<any, unknown> }) {
           </SelectContent>
         </Select>
       </div>
-    )
+    );
   }
 
   return (
-    <div className='w-full max-w-2xs'>
-      <Label htmlFor={`${id}-input`} className='sr-only'>
+    <div className="w-full max-w-2xs">
+      <Label className="sr-only" htmlFor={`${id}-input`}>
         {columnHeader}
       </Label>
       <InputGroup>
         <InputGroupAddon>
-          <SearchIcon
-          />
+          <SearchIcon />
         </InputGroupAddon>
         <InputGroupInput
           id={`${id}-input`}
-          value={(columnFilterValue ?? '') as string}
-          onChange={e => column.setFilterValue(e.target.value)}
+          onChange={(e) => column.setFilterValue(e.target.value)}
           placeholder={`Search ${columnHeader.toLowerCase()}`}
-          type='text'
+          type="text"
+          value={(columnFilterValue ?? "") as string}
         />
       </InputGroup>
     </div>
-  )
+  );
 }
 
 function RowActions() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button size='icon' variant='ghost' aria-label='Edit item' />}>
-        <EllipsisVerticalIcon className='size-4.5' aria-hidden='true' />
+      <DropdownMenuTrigger
+        render={<Button aria-label="Edit item" size="icon" variant="ghost" />}
+      >
+        <EllipsisVerticalIcon aria-hidden="true" className="size-4.5" />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
@@ -631,11 +744,11 @@ function RowActions() {
           <DropdownMenuItem>
             <span>Duplicate</span>
           </DropdownMenuItem>
-          <DropdownMenuItem variant='destructive'>
+          <DropdownMenuItem variant="destructive">
             <span>Delete</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

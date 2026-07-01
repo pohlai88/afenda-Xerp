@@ -195,6 +195,7 @@ When documentation status, PAS slices, ADR acceptance, registry lanes, or runtim
 | Plan PAS slice execution | `pas-slice-planner` |
 | Implement governed work | [`afenda-governed-implementer`](.cursor/agents/afenda-governed-implementer.md) |
 | Audit vibe-coding / bundle preflight violations | [`vibe-coding-violation-auditor`](.cursor/agents/vibe-coding-violation-auditor.md) |
+| Studio import/path alias drift diagnosis | [`studio-import-path-auditor`](.cursor/agents/studio-import-path-auditor.md) |
 | Registry edit | [`foundation-registry-owner`](.cursor/agents/foundation-registry-owner.md) |
 | New package filesystem scaffold | [`monorepo-discipline`](.cursor/skills/monorepo-discipline/SKILL.md) — `pnpm scaffold:package` (non-interactive; `--pas` for real packages; env via `--with-env-scripts` / `--env-sync-target`; template smoke via `--verify`) |
 | Enterprise knowledge (PAS-004) | [`.cursor/skills/enterprise-knowledge/SKILL.md`](.cursor/skills/enterprise-knowledge/SKILL.md) |

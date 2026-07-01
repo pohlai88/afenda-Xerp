@@ -3,7 +3,7 @@
 Governed presentation product for Afenda ERP — shadcn/studio MCP install target, theme surface, primitives, blocks, and inventory pipeline.
 
 **Architecture map:** [ARCHITECTURE.md](./ARCHITECTURE.md)  
-**Authority:** [PAS-006A](../../docs/PAS/PRESENTATION/PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md) · [ADR-0027](../../docs/adr/ADR-0027-frontend-presentation-reset.md) · [ADR-0037](../../docs/adr/ADR-0037-shadcn-studio-src-layered-structure.md)
+**Authority:** [PAS-006A](../../docs/PAS/PRESENTATION/PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md) · [ADR-0027](../../docs/adr/ADR-0027-frontend-presentation-reset.md) · [ADR-0037](../../docs/adr/ADR-0037-shadcn-studio-src-layered-structure.md) · [ADR-0038](../../docs/adr/ADR-0038-shadcn-studio-prefixed-folder-layout.md)
 
 ---
 
@@ -39,10 +39,10 @@ pnpm storybook dev
 
 | Layer | Paths |
 | --- | --- |
-| L1 Authority | `src/contracts/`, `src/registry/`, `src/governance/` |
-| L2 Product | `src/components/ui/`, `src/components-layouts/`, `src/lib/`, `src/hooks/`, `src/theme/`, `src/styles/` |
-| L3 Surfaces | `src/components/app-shell/` |
-| L4 Lab | `src/storybook/`, `src/__tests__/`, `src/*.stories.tsx` |
+| L1 Authority | `src/meta-contracts/`, `src/meta-registry/`, `src/meta-gates/` |
+| L2 Product | `src/components-ui/`, `src/components-layouts/`, `src/lib/`, `src/hooks/`, `src/theme/`, `src/styles/` |
+| L3 Surfaces | `src/components-app-shell/` |
+| L4 Lab | `src/storybook/`, `src/gate/`, `src/**/__tests__/`, `src/*.stories.tsx` |
 
 Detail: [ARCHITECTURE.md](./ARCHITECTURE.md)
 
@@ -75,7 +75,7 @@ Detail: [ARCHITECTURE.md](./ARCHITECTURE.md)
 
 ## Hard stops
 
-- Do not rename `src/components/ui/` or `src/components-layouts/` (MCP cwd).
+- Do not rename `src/components-ui/` or `src/components-layouts/` (production buckets; MCP installs land in `components-quarantine/`).
 - Do not `shadcn add --overwrite` on existing primitives.
 - Do not import `@afenda/kernel` in this package.
 - Do not revive `@afenda/ui`, `@afenda/appshell`, or PAS-005 ERP gates.

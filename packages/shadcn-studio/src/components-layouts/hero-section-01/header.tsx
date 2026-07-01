@@ -1,49 +1,49 @@
-import { Button } from '@/components-ui/button'
+import { MenuIcon } from "lucide-react";
+import Logo from "@/components/shadcn-studio/logo.js";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
-} from '@/components-ui/dropdown-menu'
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
-  NavigationMenuList
-} from '@/components-ui/navigation-menu'
-
-import { cn } from '@/utils/utils'
-
-import Logo from "@/components-layouts/logo.js";
-import { MenuIcon } from "lucide-react"
+  NavigationMenuList,
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/utils/utils";
 
 export type NavigationSection = {
-  title: string
-  href: string
-}
+  title: string;
+  href: string;
+};
 
 type HeaderProps = {
-  navigationData: NavigationSection[]
-  className?: string
-}
+  navigationData: NavigationSection[];
+  className?: string;
+};
 
 const Header = ({ navigationData, className }: HeaderProps) => {
   return (
-    <header className={cn('bg-background sticky top-0 z-50 h-16 border-b', className)}>
-      <div className='mx-auto flex h-full max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8'>
+    <header
+      className={cn("sticky top-0 z-50 h-16 border-b bg-background", className)}
+    >
+      <div className="mx-auto flex h-full max-w-7xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <a href='#'>
-          <Logo className='gap-3' />
+        <a href="#">
+          <Logo className="gap-3" />
         </a>
 
         {/* Navigation */}
-        <NavigationMenu className='max-md:hidden'>
-          <NavigationMenuList className='flex-wrap justify-start gap-0'>
-            {navigationData.map(navItem => (
+        <NavigationMenu className="max-md:hidden">
+          <NavigationMenuList className="flex-wrap justify-start gap-0">
+            {navigationData.map((navItem) => (
               <NavigationMenuItem key={navItem.title}>
                 <NavigationMenuLink
+                  className="bg-transparent! px-3 py-1.5 font-medium text-base! text-muted-foreground hover:text-primary"
                   href={navItem.href}
-                  className='text-muted-foreground hover:text-primary bg-transparent! px-3 py-1.5 text-base! font-medium'
                 >
                   {navItem.title}
                 </NavigationMenuLink>
@@ -53,23 +53,29 @@ const Header = ({ navigationData, className }: HeaderProps) => {
         </NavigationMenu>
 
         {/* Login Button */}
-        <Button size='lg' className='max-md:hidden' render={<a href='#' />} nativeButton={false}>
+        <Button
+          className="max-md:hidden"
+          nativeButton={false}
+          render={<a href="#" />}
+          size="lg"
+        >
           Login
         </Button>
 
         {/* Navigation for small screens */}
-        <div className='flex gap-4 md:hidden'>
-          <Button size='lg' render={<a href='#' />} nativeButton={false}>
+        <div className="flex gap-4 md:hidden">
+          <Button nativeButton={false} render={<a href="#" />} size="lg">
             Login
           </Button>
 
           <DropdownMenu>
-            <DropdownMenuTrigger render={<Button variant='outline' size='icon-lg' />}>
-              <MenuIcon
-              />
-              <span className='sr-only'>Menu</span>
+            <DropdownMenuTrigger
+              render={<Button size="icon-lg" variant="outline" />}
+            >
+              <MenuIcon />
+              <span className="sr-only">Menu</span>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className='w-56' align='end'>
+            <DropdownMenuContent align="end" className="w-56">
               {navigationData.map((item, index) => (
                 <DropdownMenuItem key={index}>
                   <a href={item.href}>{item.title}</a>
@@ -80,7 +86,7 @@ const Header = ({ navigationData, className }: HeaderProps) => {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

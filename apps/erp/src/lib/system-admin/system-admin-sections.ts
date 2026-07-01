@@ -1,5 +1,7 @@
 import { PERMISSION_REGISTRY } from "@afenda/permissions";
 
+import { SYSTEM_ADMIN_NAV_LABELS } from "@/lib/navigation/operator-nav-label.registry";
+
 export interface SystemAdminSectionDefinition {
   readonly href: string;
   readonly label: string;
@@ -11,43 +13,43 @@ export interface SystemAdminSectionDefinition {
 export const SYSTEM_ADMIN_SECTIONS = [
   {
     href: "/system-admin/users",
-    label: "Users",
+    label: SYSTEM_ADMIN_NAV_LABELS.users.label,
     readPermissionKey: PERMISSION_REGISTRY.systemAdmin.users.read,
     sectionId: "users",
   },
   {
     href: "/system-admin/memberships",
-    label: "Memberships",
+    label: SYSTEM_ADMIN_NAV_LABELS.memberships.label,
     readPermissionKey: PERMISSION_REGISTRY.systemAdmin.users.read,
     sectionId: "memberships",
   },
   {
     href: "/system-admin/roles",
-    label: "Roles",
+    label: SYSTEM_ADMIN_NAV_LABELS.roles.label,
     readPermissionKey: PERMISSION_REGISTRY.systemAdmin.roles.manage,
     sectionId: "roles",
   },
   {
     href: "/system-admin/permissions",
-    label: "Permissions",
+    label: SYSTEM_ADMIN_NAV_LABELS.permissions.label,
     readPermissionKey: PERMISSION_REGISTRY.systemAdmin.permissions.manage,
     sectionId: "permissions",
   },
   {
     href: "/system-admin/audit",
-    label: "Audit",
+    label: SYSTEM_ADMIN_NAV_LABELS.audit.label,
     readPermissionKey: PERMISSION_REGISTRY.systemAdmin.audit.read,
     sectionId: "audit",
   },
   {
     href: "/system-admin/settings",
-    label: "Settings",
+    label: SYSTEM_ADMIN_NAV_LABELS.settings.label,
     readPermissionKey: PERMISSION_REGISTRY.systemAdmin.modules.manage,
     sectionId: "settings",
   },
   {
     href: "/system-admin/diagnostics",
-    label: "Diagnostics",
+    label: SYSTEM_ADMIN_NAV_LABELS.diagnostics.label,
     readPermissionKey: PERMISSION_REGISTRY.systemAdmin.audit.read,
     sectionId: "diagnostics",
   },

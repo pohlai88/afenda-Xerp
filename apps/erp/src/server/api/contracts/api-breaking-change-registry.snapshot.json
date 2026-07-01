@@ -121,6 +121,13 @@
       "stability": "internal-stable"
     },
     {
+      "breakingChangeClass": "compatible",
+      "consumerImpactExplicit": false,
+      "id": "internal.v1.system-admin.memberships.get",
+      "lifecycle": "active",
+      "stability": "internal-stable"
+    },
+    {
       "breakingChangeClass": "deprecated",
       "consumerImpactExplicit": true,
       "id": "internal.v1.system-admin.memberships.role.post",
@@ -130,7 +137,35 @@
     {
       "breakingChangeClass": "compatible",
       "consumerImpactExplicit": false,
+      "id": "internal.v1.system-admin.permissions.get",
+      "lifecycle": "active",
+      "stability": "internal-stable"
+    },
+    {
+      "breakingChangeClass": "compatible",
+      "consumerImpactExplicit": false,
+      "id": "internal.v1.system-admin.roles.get",
+      "lifecycle": "active",
+      "stability": "internal-stable"
+    },
+    {
+      "breakingChangeClass": "compatible",
+      "consumerImpactExplicit": false,
+      "id": "internal.v1.system-admin.settings.get",
+      "lifecycle": "active",
+      "stability": "internal-stable"
+    },
+    {
+      "breakingChangeClass": "compatible",
+      "consumerImpactExplicit": false,
       "id": "internal.v1.system-admin.user-invitations.post",
+      "lifecycle": "active",
+      "stability": "internal-stable"
+    },
+    {
+      "breakingChangeClass": "compatible",
+      "consumerImpactExplicit": false,
+      "id": "internal.v1.system-admin.users.get",
       "lifecycle": "active",
       "stability": "internal-stable"
     },

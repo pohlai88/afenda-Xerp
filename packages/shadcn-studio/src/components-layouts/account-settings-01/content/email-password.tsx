@@ -2,17 +2,15 @@
 
 import { CheckIcon, EyeIcon, EyeOffIcon, MailIcon, XIcon } from "lucide-react";
 import { useMemo, useState } from "react";
-
-import { blockSlotDomMarkerProps } from "../../../meta-contracts/block-slot-dom-marker.contract.js";
-import { Button } from "@/components-ui/button";
+import { Button } from "@/components/ui/button";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "@/components-ui/input-group";
-import { Label } from "@/components-ui/label";
-
+} from "@/components/ui/input-group";
+import { Label } from "@/components/ui/label";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../../../meta-contracts/block-slot-dom-marker.contract.js";
 
 const requirements = [
   { regex: /.{12,}/, text: "At least 12 characters" },
@@ -62,7 +60,7 @@ const EmailPass = () => {
   };
 
   return (
-    <div className="grid min-w-0 w-full grid-cols-1 gap-10 xl:grid-cols-3">
+    <div className="grid w-full min-w-0 grid-cols-1 gap-10 xl:grid-cols-3">
       {/* Vertical Tabs List */}
       <div className="flex flex-col space-y-1">
         <h3 className="font-semibold">Email & Password</h3>

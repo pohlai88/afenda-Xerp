@@ -1,15 +1,13 @@
 import { EllipsisVerticalIcon } from "lucide-react";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Button } from "@/components-ui/button";
-import { Card, CardContent, CardHeader } from "@/components-ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components-ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -17,9 +15,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components-ui/table";
-
+} from "@/components/ui/table";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 const listItems = ["Share", "Update", "Refresh"];
 
@@ -40,7 +38,10 @@ type Props = {
 const PaymentHistoryCard = ({ title, paymentData, className }: Props) => (
   <Card className={cn("justify-between gap-2.5", className)}>
     <CardHeader className="flex items-center justify-between">
-      <span {...blockSlotDomMarkerProps("widget.title")} className="font-semibold text-lg">
+      <span
+        {...blockSlotDomMarkerProps("widget.title")}
+        className="font-semibold text-lg"
+      >
         {title}
       </span>
       <DropdownMenu>
@@ -66,7 +67,10 @@ const PaymentHistoryCard = ({ title, paymentData, className }: Props) => (
         </DropdownMenuContent>
       </DropdownMenu>
     </CardHeader>
-    <CardContent {...blockSlotDomMarkerProps("widget.summary")} className="px-0">
+    <CardContent
+      {...blockSlotDomMarkerProps("widget.summary")}
+      className="px-0"
+    >
       <Table>
         <TableHeader>
           <TableRow>

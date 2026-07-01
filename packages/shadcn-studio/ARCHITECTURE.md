@@ -28,7 +28,7 @@ L4 VERIFICATION (internal) storybook/  gate/  *.stories.tsx
 | **L3 Surfaces** | App shell composition | Run `shadcn --overwrite` on ui/* |
 | **L4 Verification** | Storybook params, package gate tests, MDX docs | Export from main `@afenda/shadcn-studio` barrel |
 
-**L4 note:** L4 is not production runtime. Gate tests under `__tests__/` remain authoritative verification artifacts.
+**L4 note:** L4 is not production runtime. Package gate tests live in `gate/`; colocated module tests stay in `**/__tests__/` per repo `vitest.shared.ts`.
 
 ---
 
@@ -36,20 +36,22 @@ L4 VERIFICATION (internal) storybook/  gate/  *.stories.tsx
 
 | Path | Layer | Files (approx) | Owns |
 | --- | --- | ---: | --- |
-| `contracts/` | L1 | 13 | Wire contracts: acceptance, lifecycle, metadata binding, surface templates, block metadata builders |
-| `registry/` | L1 | 19 | Inventory SSOT: slots, lifecycle, parity, metadata-binding graphs + `_registry-inventory.registry` |
-| `governance/` | L1 | 4 | **One inventory SSOT** (`_governance.registry.ts`) + runtime aggregators + gate barrel |
-| `components/ui/` | L2 | 252 | Primitives: adapter `{name}.tsx` + `{name}.contract.ts` |
+| `meta-contracts/` | L1 | 13 | Wire contracts: acceptance, lifecycle, metadata binding, surface templates, block metadata builders |
+| `meta-registry/` | L1 | 19 | Inventory SSOT: slots, lifecycle, parity, metadata-binding graphs + `_registry-inventory.registry` |
+| `meta-gates/` | L1 | 4 | **One inventory SSOT** (`_governance.registry.ts`) + runtime aggregators + gate barrel |
+| `components-ui/` | L2 | 252 | Primitives: adapter `{name}.tsx` + `{name}.contract.ts` |
 | `components-layouts/` | L2 | ~70 | MCP Pro blocks (flat or folder per block) |
-| `components/app-shell/` | L3 | 3 | App shell (dashboard layout + nav, post ADR-0027) |
-| `lib/` | L2 | 5 | `utils`, `compose-class-name`, `compute-pagination-range`, `governed-primitive-props`, `_lib-inventory.registry` |
-| `hooks/` | L2 | 1 | React hooks (`useIsMobile` for sidebar) — pagination logic lives in `lib/` |
-| `assets/svg/` | L2 | 13 | Block illustrations and icons |
+| `components-app-shell/` | L3 | 3 | App shell (dashboard layout + nav, post ADR-0027) |
+| `lib/` | L2 | 5 | `compose-class-name`, `compute-pagination-range`, `governed-primitive-props`, `_lib-inventory.registry` |
+| `utils/` | L2 | 1 | `cn()` helper (`utils.ts`) |
+| `hooks/` | L2 | 1 | React hooks (`useIsMobile` for sidebar) |
+| `components-assets/` | L2 | 13 | Block illustrations and icons |
 | `theme/` | L2 | 10 | Presets, ThemeCustomizer, settings context |
 | `styles/shadcn-studio.css` | L2 | 1 | Theme CSS source → `dist/shadcn-studio.css` |
 | `lab/index.ts` | L4 export | 1 | Public subpath barrel for Storybook parameters |
 | `storybook/` | L4 | 11 | Story parameters source, promotion MDX |
-| `__tests__/` | L4 | 27 | Package gate tests |
+| `gate/` | L4 | 29 | Package gate tests (inventory, metadata binding, theme, MCP policy) |
+| `**/__tests__/` | L4 | 18 | Colocated render/registry tests (`lib/`, `components-ui/`, `meta-*`, …) |
 | `src/storybook/*.stories.tsx` | L4 | 10+ | Storybook lab stories (codegen + curated) |
 | `index.ts` | Public | 1 | L2 + L3 + selective L1 wire types (no L4) |
 
@@ -109,9 +111,9 @@ Legacy Zone shorthand:
 
 | Zone | Paths | Allowed | Forbidden |
 | --- | --- | --- | --- |
-| **A** | `contracts/**`, `registry/**`, `governance/**` | Relative (`../meta-contracts/...`) | `@/`, `@afenda/shadcn-studio` self-import |
-| **B** | `components/**`, `lib/**`, `hooks/**` | `@/components-ui/*`, `@/lib/utils` | `@/contracts/*`, `@/registry/*` |
-| **C** | `apps/erp`, Storybook | `@afenda/shadcn-studio` barrel | Deep `src/...` paths |
+| **A** | `meta-contracts/**`, `meta-registry/**`, `meta-gates/**` | Relative (`../meta-contracts/...`) | `@/`, `@afenda/shadcn-studio` self-import |
+| **B** | `components-ui/**`, `components-layouts/**`, `lib/**`, `hooks/**` | `@/components/ui/*`, `@/components/shadcn-studio/*`, `@/lib/utils` | `@/components-ui/*`, `@/components-layouts/*`, `@/contracts/*`, `@/registry/*` |
+| **C** | `apps/erp`, Storybook | `@afenda/shadcn-studio` barrel | Deep `src/...` paths · studio internal `@/` in docs |
 
 ---
 
@@ -130,12 +132,32 @@ Legacy Zone shorthand:
 }
 ```
 
-| MCP target | Path |
-| --- | --- |
-| Primitives | `src/components/ui/` |
-| Pro blocks | `src/components-layouts/` |
+| MCP target | Physical path | Import alias |
+| --- | --- | --- |
+| Primitives | `src/components-ui/` | `@/components/ui/*` |
+| Pro blocks | `src/components-layouts/` | `@/components/shadcn-studio/*` |
 
-**Never** `shadcn add --overwrite` on existing `components/ui/*`.
+**Never** `shadcn add --overwrite` on existing `components-ui/*`.
+
+---
+
+## Import path SSOT and prevention
+
+Physical folder names (ADR-0038) differ from MCP virtual import aliases (ADR-0017).
+
+| SSOT | Role |
+| --- | --- |
+| `tsconfig.paths.json` | Canonical TypeScript path map |
+| `scripts/governance/studio-import-path-policy.mjs` | Shared forbidden patterns + hook reminders |
+| `.cursor/rules/studio-import-path-aliases.mdc` | Agent rule |
+
+```bash
+pnpm check:studio-tsconfig-paths   # tsconfig drift + legacy tree
+pnpm check:studio-import-zones     # source import vocabulary
+pnpm check:studio-paths            # both
+```
+
+Diagnosis (read-only): `@studio-import-path-auditor`
 
 ---
 
@@ -195,7 +217,9 @@ Full lifecycle: [PAS-006B](../../docs/PAS/PRESENTATION/PAS-006B-INVENTORY-PRODUC
 ```bash
 pnpm check:studio-l1-contracts
 pnpm check:studio-registry-inventory
+pnpm check:studio-tsconfig-paths
 pnpm check:studio-import-zones
+pnpm check:studio-paths
 pnpm check:studio-metadata-binding
 pnpm check:studio-block-slot-markers
 pnpm check:studio-blocks

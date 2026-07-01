@@ -1,9 +1,7 @@
 import type { ReactNode } from "react";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Card, CardContent, CardHeader } from "@/components-ui/card";
-
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 // Statistics card data type
 type StatisticsCardProps = {
@@ -31,7 +29,10 @@ const StatisticsCard = ({
       </span>
     </CardHeader>
     <CardContent className="flex flex-col gap-2">
-      <span {...blockSlotDomMarkerProps("metric.label")} className="font-semibold">
+      <span
+        {...blockSlotDomMarkerProps("metric.label")}
+        className="font-semibold"
+      >
         {title}
       </span>
       <p {...blockSlotDomMarkerProps("metric.change")} className="space-x-2">

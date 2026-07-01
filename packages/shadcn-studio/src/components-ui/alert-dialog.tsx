@@ -3,7 +3,7 @@
 import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog";
 import type * as React from "react";
 
-import { Button } from "@/components-ui/button";
+import { Button } from "@/components/ui/button";
 import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/utils/utils";
 

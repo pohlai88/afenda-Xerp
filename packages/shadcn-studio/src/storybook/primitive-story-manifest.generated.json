@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-07-01T10:07:30.635Z",
-  "primitiveCount": 69,
+  "generatedAt": "2026-07-01T16:36:05.640Z",
+  "primitiveCount": 70,
   "generatedStoryCount": 59,
   "manualCompositionRequired": [],
   "entries": [
@@ -230,6 +230,12 @@
       "slug": "kbd",
       "kind": "simple",
       "exportName": "Kbd",
+      "hasStory": true
+    },
+    {
+      "slug": "kanban",
+      "kind": "simple",
+      "exportName": "Kanban",
       "hasStory": true
     },
     {

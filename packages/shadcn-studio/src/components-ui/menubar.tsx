@@ -19,7 +19,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "@/components-ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/utils/utils";
 

@@ -56,8 +56,8 @@ jobs:
           pnpm --filter @afenda/shadcn-studio typecheck
           pnpm --filter @afenda/storybook typecheck
 
-      - name: Studio import zone gate
-        run: pnpm check:studio-import-zones
+      - name: Studio path alias gates
+        run: pnpm check:studio-paths
 
       - name: Build static Storybook
         run: pnpm storybook:build

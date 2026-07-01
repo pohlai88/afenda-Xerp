@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components-ui/button.js";
+import { Button } from "@/components/ui/button.js";
 import {
   Command,
   CommandEmpty,
@@ -8,34 +8,34 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components-ui/command.js";
+} from "@/components/ui/command.js";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components-ui/dialog.js";
+} from "@/components/ui/dialog.js";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components-ui/dropdown-menu.js";
+} from "@/components/ui/dropdown-menu.js";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components-ui/select.js";
+} from "@/components/ui/select.js";
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@/components-ui/sheet.js";
+} from "@/components/ui/sheet.js";
 import {
   Sidebar,
   SidebarContent,
@@ -45,8 +45,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarProvider,
-} from "@/components-ui/sidebar.js";
-import { Toaster } from "@/components-ui/sonner.js";
+} from "@/components/ui/sidebar.js";
+import { Toaster } from "@/components/ui/sonner.js";
 
 export function DialogDefaultSample() {
   return (

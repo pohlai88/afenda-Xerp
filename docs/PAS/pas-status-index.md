@@ -412,6 +412,23 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 ---
 
+## PAS-004E Enterprise Vocabulary Admission and Coverage — Delivered
+
+| Field | Value |
+| --- | --- |
+| **Status** | **Delivered** — export + CI gate + operator nav registry linkage operational |
+| **Authority** | [PAS-004E](ENTERPRISE-KNOWLEDGE/PAS-004E-ENTERPRISE-VOCABULARY-ADMISSION-AND-COVERAGE-STANDARD.md) · PAS-004C corpus · `PKGR04_ENTERPRISE_KNOWLEDGE` |
+| **Maturity** | `production_candidate` |
+| **Runtime status** | Derived allowlist + governed surface scan; Phase C.2 surface labels fail CI; module maps iterate `buildReferenceRegistryBundle().bundles` |
+| **Remaining slices** | none — multi-module bundle loop extends automatically as foundation bundles register |
+| **Runtime evidence** | `scripts/governance/export-knowledge-vocabulary.mts` · `scripts/governance/check-code-vocabulary-coverage.mts` · `apps/erp/src/lib/navigation/operator-nav-label.registry.ts` |
+| **Gates** | `pnpm export:knowledge-vocabulary` · `pnpm check:code-vocabulary-coverage` · `pnpm check:legacy-delivery-terminology` |
+| **Result** | cspell is derived IDE comfort only; authority remains concepts/terms/atoms; operator nav labels registered in corpus |
+
+**Next sequence item:** none — PAS-004E operational. Registry row promotion → `foundation-registry-owner` when PKGR04 disposition updates.
+
+---
+
 ## PAS-003 Accounting Standards Authority — Enterprise Accepted
 
 | Field | Value |

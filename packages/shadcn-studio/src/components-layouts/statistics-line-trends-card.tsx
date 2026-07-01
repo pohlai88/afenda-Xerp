@@ -1,17 +1,15 @@
 "use client";
 
 import { CartesianGrid, Line, LineChart, XAxis } from "recharts";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components-ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components-ui/chart";
-
+} from "@/components/ui/chart";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 // Types
 
@@ -44,7 +42,10 @@ const MetricTrendCard = ({
   return (
     <Card className={cn("gap-4", className)}>
       <CardHeader className="grid-rows-none">
-        <CardTitle {...blockSlotDomMarkerProps("metric.label")} className="font-medium">
+        <CardTitle
+          {...blockSlotDomMarkerProps("metric.label")}
+          className="font-medium"
+        >
           {title}
         </CardTitle>
       </CardHeader>
@@ -57,7 +58,9 @@ const MetricTrendCard = ({
                 style={{ backgroundColor: series[0].color }}
               />
               <div>
-                <p className="text-muted-foreground text-xs">{series[0].label}</p>
+                <p className="text-muted-foreground text-xs">
+                  {series[0].label}
+                </p>
                 <p
                   {...blockSlotDomMarkerProps("metric.value")}
                   className="font-semibold text-2xl"
@@ -72,7 +75,9 @@ const MetricTrendCard = ({
                 style={{ backgroundColor: series[1].color }}
               />
               <div>
-                <p className="text-muted-foreground text-xs">{series[1].label}</p>
+                <p className="text-muted-foreground text-xs">
+                  {series[1].label}
+                </p>
                 <p
                   {...blockSlotDomMarkerProps("metric.change")}
                   className="font-semibold text-2xl"

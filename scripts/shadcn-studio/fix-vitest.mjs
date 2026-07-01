@@ -1,14 +1,13 @@
-import { writeFileSync, readFileSync } from "node:fs";
-import { resolve, dirname } from "node:path";
-import { fileURLToPath } from "node:url";
+import { readFileSync, writeFileSync } from "node:fs";
+
 const pkg = "packages/shadcn-studio";
-const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), pkg);
 writeFileSync(
   `${pkg}/vitest.config.ts`,
   `import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   createReactProject,
+  GATE_TEST_PATTERN,
   INTERACTION_TEST_PATTERN,
   TEST_FILE_PATTERN,
 } from "../../vitest.shared";
@@ -16,7 +15,6 @@ import {
 const packageRoot = dirname(fileURLToPath(import.meta.url));
 
 const PRIMITIVE_CONTRACT_TEST_PATTERN = "src/**/*.contract.test.{ts,tsx}";
-const GATE_TEST_PATTERN = "src/gate/**/*.{test,spec}.{ts,tsx}";
 
 export default createReactProject(import.meta.url, "@afenda/shadcn-studio", {
   alias: {
@@ -39,10 +37,7 @@ export default createReactProject(import.meta.url, "@afenda/shadcn-studio", {
 `
 );
 let lib = readFileSync(`${pkg}/src/lib/_lib-inventory.registry.ts`, "utf8");
-lib = lib.replace(
-  /  \{\n    file: "utils\.ts",[\s\S]*?  \},\n/,
-  ""
-);
+lib = lib.replace(/ {2}\{\n {4}file: "utils\.ts",[\s\S]*? {2}\},\n/, "");
 writeFileSync(`${pkg}/src/lib/_lib-inventory.registry.ts`, lib);
 let uiTest = readFileSync(
   `${pkg}/src/meta-gates/__tests__/ui-primitive-metadata.registry.test.ts`,

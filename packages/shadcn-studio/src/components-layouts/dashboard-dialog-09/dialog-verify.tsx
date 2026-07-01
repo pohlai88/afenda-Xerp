@@ -2,10 +2,8 @@
 
 import { MessageSquareTextIcon, SettingsIcon } from "lucide-react";
 import { type ReactElement, useState } from "react";
-
-import { blockSlotDomMarkerProps } from "../../meta-contracts/block-slot-dom-marker.contract.js";
-import { Alert, AlertDescription, AlertTitle } from "@/components-ui/alert";
-import { Button } from "@/components-ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -15,13 +13,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components-ui/dialog";
-import { Input } from "@/components-ui/input";
-import { Label } from "@/components-ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components-ui/radio-group";
-import { ScrollArea } from "@/components-ui/scroll-area";
-
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../../meta-contracts/block-slot-dom-marker.contract.js";
 
 type Props = {
   trigger: ReactElement;
@@ -188,7 +186,10 @@ const VerifyDialog = ({ defaultOpen = false, trigger, className }: Props) => {
         >
           <ScrollArea className="flex max-h-full flex-col overflow-hidden">
             <div className="flex flex-col gap-4 p-6">
-              <DialogHeader {...blockSlotDomMarkerProps("dialog.header")} className="items-center text-center">
+              <DialogHeader
+                {...blockSlotDomMarkerProps("dialog.header")}
+                className="items-center text-center"
+              >
                 <DialogTitle className="leading-7">
                   Select Authentication Method
                 </DialogTitle>
@@ -198,7 +199,10 @@ const VerifyDialog = ({ defaultOpen = false, trigger, className }: Props) => {
                 </DialogDescription>
               </DialogHeader>
 
-              <div {...blockSlotDomMarkerProps("dialog.body")} className="flex flex-col gap-6">
+              <div
+                {...blockSlotDomMarkerProps("dialog.body")}
+                className="flex flex-col gap-6"
+              >
                 <RadioGroup
                   className="gap-6"
                   defaultValue="authenticator-app"
@@ -248,7 +252,10 @@ const VerifyDialog = ({ defaultOpen = false, trigger, className }: Props) => {
                 </RadioGroup>
               </div>
 
-              <DialogFooter {...blockSlotDomMarkerProps("dialog.footer")} className="justify-center gap-4">
+              <DialogFooter
+                {...blockSlotDomMarkerProps("dialog.footer")}
+                className="justify-center gap-4"
+              >
                 <Button onClick={handleContinue} size="lg">
                   Continue
                 </Button>

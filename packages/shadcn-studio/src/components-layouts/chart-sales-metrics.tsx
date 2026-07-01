@@ -10,16 +10,15 @@ import {
 } from "lucide-react";
 
 import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Avatar, AvatarFallback } from "@/components-ui/avatar";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components-ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components-ui/chart";
+} from "@/components/ui/chart";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 const salesPlanPercentage = 54;
 const totalBars = 24;
@@ -99,10 +98,16 @@ const SalesMetricsCard = ({ className }: { className?: string }) => (
     <CardContent className="space-y-4">
       <div className="grid gap-6 lg:grid-cols-5">
         <div className="flex flex-col gap-7 lg:col-span-3">
-          <span {...blockSlotDomMarkerProps("chart.title")} className="font-semibold text-lg">
+          <span
+            {...blockSlotDomMarkerProps("chart.title")}
+            className="font-semibold text-lg"
+          >
             Sales metrics
           </span>
-          <div {...blockSlotDomMarkerProps("chart.legend")} className="flex items-center gap-3">
+          <div
+            {...blockSlotDomMarkerProps("chart.legend")}
+            className="flex items-center gap-3"
+          >
             <img
               alt="logo"
               className="size-10.5 rounded-lg"

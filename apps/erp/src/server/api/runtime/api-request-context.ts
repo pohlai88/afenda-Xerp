@@ -20,9 +20,9 @@ import { resolveApiRouteAuthActor } from "@/lib/auth/resolve-api-route-auth-acto
 import type {
   ApiRouteContract,
   ApiRoutePermissionPolicy,
-} from "../meta-contracts/api-contract";
-import type { ListQuery } from "../meta-contracts/list-query.contract";
-import type { PaginationQuery } from "../meta-contracts/pagination.contract";
+} from "../contracts/api-contract";
+import type { ListQuery } from "../contracts/list-query.contract";
+import type { PaginationQuery } from "../contracts/pagination.contract";
 import { ApiRouteError } from "./api-validation";
 
 export interface ApiRequestContext<TRequest = undefined> {

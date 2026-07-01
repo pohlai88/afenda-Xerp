@@ -5,7 +5,7 @@ import useEmblaCarousel, {
 } from "embla-carousel-react";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import * as React from "react";
-import { Button } from "@/components-ui/button";
+import { Button } from "@/components/ui/button";
 import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/utils/utils";
 

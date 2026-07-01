@@ -2,7 +2,7 @@ import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
-import { Button } from "@/components-ui/button";
+import { Button } from "@/components/ui/button";
 
 import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/utils/utils";

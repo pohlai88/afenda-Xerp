@@ -1,22 +1,27 @@
 import { PackageIcon, ShoppingCartIcon } from "lucide-react";
-
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Separator } from "@/components/ui/separator";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Card, CardContent, CardHeader } from "@/components-ui/card";
-import { Progress } from "@/components-ui/progress";
-import { Separator } from "@/components-ui/separator";
 
 const StatisticsSalesOverviewCard = ({ className }: { className?: string }) => (
   <Card className={className}>
     <CardHeader className="flex flex-col gap-1">
       <div className="flex w-full items-center justify-between gap-2">
-        <span {...blockSlotDomMarkerProps("metric.label")} className="text-muted-foreground">
+        <span
+          {...blockSlotDomMarkerProps("metric.label")}
+          className="text-muted-foreground"
+        >
           Sales Overview
         </span>
         <span {...blockSlotDomMarkerProps("metric.change")} className="text-sm">
           +18.2%
         </span>
       </div>
-      <span {...blockSlotDomMarkerProps("metric.value")} className="font-semibold text-2xl">
+      <span
+        {...blockSlotDomMarkerProps("metric.value")}
+        className="font-semibold text-2xl"
+      >
         $38.5k
       </span>
     </CardHeader>

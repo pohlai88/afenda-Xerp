@@ -53,6 +53,24 @@ const GATES = [
     command: "pnpm check:package-css-dist-sync",
     label: "package CSS dist sync (src → dist)",
   },
+  {
+    key: "shadcn-studio-typecheck",
+    scope: "packages/shadcn-studio",
+    command: "pnpm --filter @afenda/shadcn-studio typecheck",
+    label: "@afenda/shadcn-studio typecheck",
+  },
+  {
+    key: "studio-import-zones",
+    scope: "packages/shadcn-studio/src",
+    command: "pnpm check:studio-import-zones",
+    label: "studio import zones",
+  },
+  {
+    key: "studio-tsconfig-paths",
+    scope: "packages/shadcn-studio/tsconfig",
+    command: "pnpm check:studio-tsconfig-paths",
+    label: "studio tsconfig paths",
+  },
 ];
 
 const input = parseStdinJson();

@@ -4,13 +4,13 @@ import { Combobox as ComboboxPrimitive } from "@base-ui/react";
 import { CheckIcon, ChevronDownIcon, XIcon } from "lucide-react";
 import * as React from "react";
 
-import { Button } from "@/components-ui/button";
+import { Button } from "@/components/ui/button";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupButton,
   InputGroupInput,
-} from "@/components-ui/input-group";
+} from "@/components/ui/input-group";
 import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/utils/utils";
 

@@ -74,7 +74,7 @@ disable-model-invocation: true
 | Surface | Path |
 | --- | --- |
 | npm package | `@afenda/shadcn-studio` |
-| Primitives (**69**) | `packages/shadcn-studio/src/components/ui/` |
+| Primitives (**70**) | `packages/shadcn-studio/src/components-ui/` |
 | Blocks (**41** files) | `packages/shadcn-studio/src/components/shadcn-studio/blocks/` |
 | Internal L2 helpers | `src/lib/` · `src/hooks/` — not barrel-exported ([public-api-surfaces.md](./reference/public-api-surfaces.md)) |
 | Public barrel | `packages/shadcn-studio/src/index.ts` |
@@ -105,7 +105,7 @@ import { StatisticsCard01Block, LoginPage04Block } from "@afenda/shadcn-studio";
 
 ## Primitives (summary)
 
-**69** in `components/ui/`. Full grouped list: [primitives-catalog.md](./reference/primitives-catalog.md).
+**70** in `components-ui/`. Full grouped list: [primitives-catalog.md](./reference/primitives-catalog.md).
 
 Actions · Forms · Overlays · Navigation · Data display · Feedback · Layout · Studio extras (see reference for every filename).
 
@@ -185,7 +185,7 @@ After MCP block install:
 pnpm storybook generate
 ```
 
-Reconcile: `index.ts`, `block-story-manifest.generated.json`, `components/ui/*.tsx` count.
+Reconcile: `index.ts`, `block-story-manifest.generated.json`, `components-ui/*.tsx` count.
 
 ---
 
@@ -193,7 +193,7 @@ Reconcile: `index.ts`, `block-story-manifest.generated.json`, `components/ui/*.t
 
 | File | Contents |
 | --- | --- |
-| [primitives-catalog.md](./reference/primitives-catalog.md) | All 69 primitives |
+| [primitives-catalog.md](./reference/primitives-catalog.md) | All 70 primitives |
 | [blocks-inventory.md](./reference/blocks-inventory.md) | Block slugs + exports |
 | [public-api-surfaces.md](./reference/public-api-surfaces.md) | Barrel + registries |
 | [external-docs.md](./reference/external-docs.md) | Context7 + optional OSS skills |

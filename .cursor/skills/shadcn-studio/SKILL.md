@@ -45,8 +45,8 @@ shadcn CLI install (packages/shadcn-studio cwd, base-vega)
 
 | Zone | Paths | Allowed | Forbidden |
 | --- | --- | --- | --- |
-| **A — Afenda authority** | `src/contracts/**`, `src/registry/**`, generators | Relative (`../contracts/...`) | `@/`, `@afenda/shadcn-studio` self-import |
-| **B — MCP / shadcn UI** | `src/components/ui/**`, `blocks/**`, `lib/**`, `hooks/**` | `@/components/ui/*`, `@/lib/utils` | `@/contracts/*`, `@/registry/*` |
+| **A — Afenda authority** | `src/meta-contracts/**`, `src/meta-registry/**`, generators | Relative (`../meta-contracts/...`) | `@/`, `@afenda/shadcn-studio` self-import |
+| **B — MCP / shadcn UI** | `src/components-ui/**`, `src/components-layouts/**`, `lib/**`, `hooks/**` | `@/components/ui/*`, `@/components/shadcn-studio/*`, `@/lib/utils` | `@/components-ui/*`, `@/components-layouts/*`, `@/contracts/*`, `@/registry/*` |
 | **C — Cross-package** | `apps/erp`, Storybook lab | `@afenda/shadcn-studio` barrel · `@afenda/shadcn-studio/lab` (L4 only) | Deep `@afenda/shadcn-studio/src/...` · lab on ERP routes |
 
 **Public exports (ADR-0037):**

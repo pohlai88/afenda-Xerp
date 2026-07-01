@@ -2,17 +2,15 @@
 
 import { useId } from "react";
 import { Bar, BarChart, XAxis } from "recharts";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Card, CardContent } from "@/components-ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components-ui/chart";
-
+} from "@/components/ui/chart";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 // Profile traffic chart data
 const profileTrafficChartData = [
@@ -78,14 +76,15 @@ const StatisticsProfileTrafficCard = ({
   const footnoteId = useId();
 
   return (
-    <article
-      aria-labelledby={titleId}
-      className={className}
-    >
+    <article aria-labelledby={titleId} className={className}>
       <Card className={cn("gap-6")}>
         <CardContent className="flex flex-col gap-6">
           <div className="flex flex-col gap-1">
-            <span {...blockSlotDomMarkerProps("metric.label")} className="font-semibold" id={titleId}>
+            <span
+              {...blockSlotDomMarkerProps("metric.label")}
+              className="font-semibold"
+              id={titleId}
+            >
               {StatisticsCardData.title}
             </span>
             <span className="text-muted-foreground text-sm">Weekly Report</span>
@@ -99,7 +98,11 @@ const StatisticsProfileTrafficCard = ({
               >
                 {StatisticsCardData.amount}
               </span>
-              <span {...blockSlotDomMarkerProps("metric.change")} className="text-primary text-sm" id={footnoteId}>
+              <span
+                {...blockSlotDomMarkerProps("metric.change")}
+                className="text-primary text-sm"
+                id={footnoteId}
+              >
                 +{StatisticsCardData.changePercentage}%
               </span>
             </div>

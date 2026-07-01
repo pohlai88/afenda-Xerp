@@ -3,7 +3,7 @@
  * Role: Sole registry/ folder inventory SSOT — fail-fast on add/delete
  * Family: registry-inventory
  * Relies on: (none — pure inventory)
- * Relied on by: check:studio-registry-inventory, registry/__tests__/registry-inventory.registry.test.ts
+ * Relied on by: check:studio-registry-inventory, meta-registry/__tests__/registry-inventory.registry.test.ts
  * Refactored: 2026-07-01 · series flat-L1-registry
  * Gate: check:studio-registry-inventory
  */

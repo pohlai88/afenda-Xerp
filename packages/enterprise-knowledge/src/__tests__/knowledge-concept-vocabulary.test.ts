@@ -91,8 +91,8 @@ describe("PAS-004C §4.1 — concept + vocabulary layer (B38)", () => {
   });
 
   it("public exports include concept and term corpora", () => {
-    expect(ENTERPRISE_KNOWLEDGE_CONCEPTS.length).toBe(47);
-    expect(ENTERPRISE_KNOWLEDGE_TERMS.length).toBe(52);
+    expect(ENTERPRISE_KNOWLEDGE_CONCEPTS.length).toBe(48);
+    expect(ENTERPRISE_KNOWLEDGE_TERMS.length).toBe(69);
     expect([...KNOWLEDGE_ATOM_IDS]).toHaveLength(47);
     for (const term of ENTERPRISE_KNOWLEDGE_TERMS) {
       expect(term.ownedByPas).toBe("PAS-004C");

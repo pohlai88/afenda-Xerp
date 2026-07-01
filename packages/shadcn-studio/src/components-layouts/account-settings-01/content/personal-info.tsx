@@ -2,11 +2,9 @@
 
 import { ImageIcon, TrashIcon, UploadCloudIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-
-import { blockSlotDomMarkerProps } from "../../../meta-contracts/block-slot-dom-marker.contract.js";
-import { Button } from "@/components-ui/button";
-import { Input } from "@/components-ui/input";
-import { Label } from "@/components-ui/label";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -14,7 +12,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components-ui/select";
+} from "@/components/ui/select";
+import { blockSlotDomMarkerProps } from "../../../meta-contracts/block-slot-dom-marker.contract.js";
 
 const countries = [
   {
@@ -121,9 +120,9 @@ const PersonalInfo = () => {
   };
 
   return (
-    <div className="grid min-w-0 w-full grid-cols-1 gap-10 xl:grid-cols-3">
+    <div className="grid w-full min-w-0 grid-cols-1 gap-10 xl:grid-cols-3">
       {/* Vertical Tabs List */}
-      <div className="min-w-0 flex flex-col space-y-1">
+      <div className="flex min-w-0 flex-col space-y-1">
         <h3 className="font-semibold">Personal Information</h3>
         <p className="text-muted-foreground text-sm">
           Manage your personal information and role.
@@ -132,7 +131,7 @@ const PersonalInfo = () => {
 
       {/* Content */}
       <div className="min-w-0 space-y-6 xl:col-span-2">
-        <form className="mx-auto min-w-0 w-full">
+        <form className="mx-auto w-full min-w-0">
           <div className="mb-6 w-full min-w-0 space-y-2">
             <Label>Your Avatar</Label>
             <div className="flex flex-wrap items-center gap-4">

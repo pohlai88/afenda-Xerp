@@ -258,3 +258,29 @@ export {
   getSupersessionChain,
   resolveAcceptanceGraphRoots,
 } from "./query/knowledge-graph.query.js";
+export {
+  extractSurfaceStrings,
+  formatVocabularyCoverageViolations,
+  hasVocabularyCoverageErrors,
+  type ModuleKnowledgeMapCoverageInput,
+  type ModuleKnowledgeTermCoverageInput,
+  type ModuleKnowledgeTermCoverageStatus,
+  type VocabularyCoverageViolation,
+  validateModuleKnowledgeTerms,
+  validateSurfaceStrings,
+} from "./vocabulary/knowledge-vocabulary-coverage.js";
+// ── Vocabulary admission export (PAS-004E — derived artifacts only) ───────────
+export {
+  buildCspellEnterpriseDictionary,
+  buildVocabularyAllowlist,
+  buildVocabularyCoverageSchema,
+  findAllowlistEntryByConceptId,
+  findAllowlistEntryByTermId,
+  tokenizeVocabularyText,
+  VOCABULARY_ALLOWLIST_VERSION,
+  type VocabularyAdmissionState,
+  type VocabularyAllowlist,
+  type VocabularyAllowlistEntry,
+  type VocabularyCoverageFailCode,
+  type VocabularyCoverageSchema,
+} from "./vocabulary/knowledge-vocabulary-export.js";

@@ -8,26 +8,24 @@ import {
 import type { ReactNode } from "react";
 
 import { Bar, BarChart, XAxis } from "recharts";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Avatar, AvatarFallback } from "@/components-ui/avatar";
-import { Button } from "@/components-ui/button";
-import { Card, CardContent, CardHeader } from "@/components-ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components-ui/chart";
+} from "@/components/ui/chart";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components-ui/dropdown-menu";
-
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 const listItems = ["Share", "Update", "Refresh"];
 
@@ -67,7 +65,10 @@ const EarningReportCard = ({
   <Card className={className}>
     <CardHeader className="flex justify-between">
       <div className="flex flex-col gap-1">
-        <span {...blockSlotDomMarkerProps("chart.title")} className="font-semibold text-lg">
+        <span
+          {...blockSlotDomMarkerProps("chart.title")}
+          className="font-semibold text-lg"
+        >
           {title}
         </span>
         <span className="text-muted-foreground text-sm">{subTitle}</span>

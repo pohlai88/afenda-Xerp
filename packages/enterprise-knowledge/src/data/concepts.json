@@ -327,5 +327,12 @@
     "label": "Supplier quote",
     "description": "Supplier's priced response to a procurement sourcing invitation — evidence for award decision before purchase order.",
     "ownedByPas": "PAS-004C"
+  },
+  {
+    "conceptId": "system_administration",
+    "fqn": "afenda.enterprise.concept.system_administration",
+    "label": "System administration",
+    "description": "Platform operator surfaces for tenant-wide configuration, diagnostics, and governed system controls — distinct from business module runtime.",
+    "ownedByPas": "PAS-004C"
   }
 ]

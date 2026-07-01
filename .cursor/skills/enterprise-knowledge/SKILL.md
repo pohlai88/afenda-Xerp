@@ -17,8 +17,9 @@ paths:
 | **PAS-004B** (Enterprise Accepted) | B33–B37 closed — scorecard 40/40; PKGR04 authority PAS-004B | none |
 | **PAS-004C** (semantic model) | B38–B48 delivered — scorecard **58/58**; PKGR04 authority PAS-004C | none — superseded by PAS-004D |
 | **PAS-004D** (operational closure) | B49–B54 delivered — scorecard **70/70**; PKGR04 authority PAS-004D | none |
+| **PAS-004E** (vocabulary admission) | B55 blueprint — export + coverage gates + derived cspell dictionary | B55 implementation in progress |
 
-> Canonical: [`PAS-004`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [`PAS-004A`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [`PAS-004B`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · [`PAS-004C`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · [`PAS-004D`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
+> Canonical: [`PAS-004`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004-ENTERPRISE-KNOWLEDGE-STANDARD.md) · [`PAS-004A`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004A-ENTERPRISE-KNOWLEDGE-PLATFORM-STANDARD.md) · [`PAS-004B`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004B-ENTERPRISE-KNOWLEDGE-KERNEL-CONSUMER-STANDARD.md) · [`PAS-004C`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004C-ENTERPRISE-KNOWLEDGE-SEMANTIC-MODEL-STANDARD.md) · [`PAS-004D`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004D-ENTERPRISE-KNOWLEDGE-OPERATIONAL-CLOSURE-STANDARD.md) · [`PAS-004E`](../../../docs/PAS/ENTERPRISE-KNOWLEDGE/PAS-004E-ENTERPRISE-VOCABULARY-ADMISSION-AND-COVERAGE-STANDARD.md) · Closure: [`pas-status-index.md`](../../../docs/PAS/pas-status-index.md)
 
 ---
 
@@ -75,9 +76,19 @@ Apply this skill when touching:
 
 ---
 
-## Hard stops
+## PAS-004E vocabulary admission (B55)
 
-### Prohibited imports — never add runtime dependencies on:
+When a business term is discovered in governed ERP surfaces:
+
+1. Add **concept** → **term** in `src/data/concepts.json` / `terms.json`
+2. Promote to **accepted atom** in `atoms.json` when meaning is accepted
+3. Regenerate derived artifacts: `pnpm export:knowledge-vocabulary`
+4. Link module foundation bundle with `termId`, `conceptId`, `atomId`, `appliesTo`
+5. Verify: `pnpm check:code-vocabulary-coverage` + `pnpm check:legacy-delivery-terminology`
+
+**Never** add business vocabulary to `cspell.json` manually — use the generated `cspell.enterprise-knowledge.txt` only.
+
+---
 
 ```
 @afenda/architecture-authority

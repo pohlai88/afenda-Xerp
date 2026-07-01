@@ -21,7 +21,8 @@
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\"",
-    "check:knowledge-json-authority": "tsx ../../scripts/governance/check-knowledge-json-authority.mts"
+    "check:knowledge-json-authority": "tsx ../../scripts/governance/check-knowledge-json-authority.mts",
+    "export:knowledge-vocabulary": "tsx ../../scripts/governance/export-knowledge-vocabulary.mts"
   },
   "sideEffects": false,
   "dependencies": {},

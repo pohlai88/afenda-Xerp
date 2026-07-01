@@ -2,17 +2,16 @@
 
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState } from "react";
-
-import { blockSlotDomMarkerProps } from "../../meta-contracts/block-slot-dom-marker.contract.js";
-import { Button } from "@/components-ui/button";
-import { Checkbox } from "@/components-ui/checkbox";
-import { Field, FieldGroup, FieldLabel } from "@/components-ui/field";
-import { Input } from "@/components-ui/input";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
-} from "@/components-ui/input-group";
+} from "@/components/ui/input-group";
+import { blockSlotDomMarkerProps } from "../../meta-contracts/block-slot-dom-marker.contract.js";
 
 const LoginForm = () => {
   const [isVisible, setIsVisible] = useState(false);

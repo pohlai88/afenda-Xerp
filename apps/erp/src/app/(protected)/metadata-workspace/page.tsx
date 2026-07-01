@@ -11,18 +11,20 @@ import { loadProtectedRequestOperatingContext } from "@/lib/context/load-protect
 import { resolveMetadataActorUserIdFromOperatingContext } from "@/lib/metadata/resolve-metadata-auth-actor.server";
 import { resolveMetadataUiRenderContextFromTenantContext } from "@/lib/metadata/resolve-metadata-ui-render-context.server";
 import { resolveMetadataWorkspaceSurfaces } from "@/lib/metadata/resolve-metadata-workspace-surfaces.server";
+import { OPERATOR_NAV_LABELS } from "@/lib/navigation/operator-nav-label.registry";
 
 export const metadata = {
-  title: "Metadata Workspace",
+  title: OPERATOR_NAV_LABELS.metadataWorkspace.label,
 };
 
 export default async function MetadataWorkspacePage() {
+  const pageTitle = OPERATOR_NAV_LABELS.metadataWorkspace.label;
   const { operatingResult } = await loadProtectedRequestOperatingContext();
 
   if (!operatingResult.ok) {
     return (
       <main className="mx-auto flex max-w-3xl flex-col gap-4 p-6">
-        <h1 className="font-semibold text-2xl">Metadata Workspace</h1>
+        <h1 className="font-semibold text-2xl">{pageTitle}</h1>
         <p className="text-muted-foreground text-sm">
           {operatingResult.error.userMessage}
         </p>
@@ -45,7 +47,7 @@ export default async function MetadataWorkspacePage() {
   return (
     <section className="mx-auto flex max-w-5xl flex-col gap-6">
       <header className="flex flex-col gap-2">
-        <h1 className="font-semibold text-2xl">Metadata Workspace</h1>
+        <h1 className="font-semibold text-2xl">{pageTitle}</h1>
         <p className="text-muted-foreground text-sm">
           Surface templates bound to studio metadata contracts (PAS-006D).
         </p>

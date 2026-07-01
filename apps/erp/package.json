@@ -6,7 +6,7 @@
   "scripts": {
     "build": "next build",
     "analyze": "cross-env ANALYZE=true next build --webpack",
-    "predev": "pnpm --filter @afenda/kernel build && pnpm --filter @afenda/accounting-standards build && pnpm --filter @afenda/database build && pnpm --filter @afenda/permissions build && pnpm --filter @afenda/auth build && pnpm --filter @afenda/execution build",
+    "predev": "pnpm --filter @afenda/kernel build && pnpm --filter @afenda/accounting-standards build && pnpm --filter @afenda/database build && pnpm --filter @afenda/permissions build && pnpm --filter @afenda/auth build && pnpm --filter @afenda/execution build && pnpm --filter @afenda/erp-modules build",
     "dev": "next dev --port 3000 --webpack",
     "dev:turbopack": "next dev --port 3000",
     "typecheck": "tsc -p tsconfig.json --noEmit",

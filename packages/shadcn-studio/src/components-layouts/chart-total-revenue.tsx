@@ -16,11 +16,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Avatar, AvatarFallback } from "@/components-ui/avatar";
-import { Button } from "@/components-ui/button";
-import { Card, CardContent, CardHeader } from "@/components-ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
@@ -28,14 +26,14 @@ import {
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components-ui/chart";
+} from "@/components/ui/chart";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components-ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   Select,
   SelectContent,
@@ -43,9 +41,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components-ui/select";
-
+} from "@/components/ui/select";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 const listItems = ["Share", "Update", "Refresh"];
 
@@ -236,7 +234,10 @@ const TotalRevenueCard = ({ className }: { className?: string }) => (
   <Card className={cn("grid lg:grid-cols-5", className)}>
     <div className="flex flex-col gap-4 max-lg:border-b max-lg:pb-6 lg:col-span-3 lg:border-r">
       <CardHeader className="flex justify-between">
-        <span {...blockSlotDomMarkerProps("chart.title")} className="font-semibold text-lg">
+        <span
+          {...blockSlotDomMarkerProps("chart.title")}
+          className="font-semibold text-lg"
+        >
           Total Revenue
         </span>
         <DropdownMenu>

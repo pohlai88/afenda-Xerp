@@ -9,6 +9,8 @@ import {
   ERP_PROCUREMENT_NAV_GROUP,
   type ErpOperatorNavItemDefinition,
 } from "@/lib/navigation/erp-operator-nav.registry";
+import { OPERATOR_NAV_LABELS } from "@/lib/navigation/operator-nav-label.registry";
+import { resolveOperatorNavLabel } from "@/lib/navigation/resolve-operator-nav-label.server";
 import { isOperatingContextPermissionGranted } from "@/lib/permissions/check-operating-context-permission.server";
 import { SYSTEM_ADMIN_SECTIONS } from "@/lib/system-admin/system-admin-sections";
 
@@ -20,7 +22,10 @@ async function filterNavItems(
 
   for (const item of items) {
     if (item.readPermissionKey === undefined) {
-      visible.push({ href: item.href, label: item.label });
+      visible.push({
+        href: item.href,
+        label: resolveOperatorNavLabel({ label: item.label }),
+      });
       continue;
     }
 
@@ -30,7 +35,10 @@ async function filterNavItems(
     });
 
     if (granted) {
-      visible.push({ href: item.href, label: item.label });
+      visible.push({
+        href: item.href,
+        label: resolveOperatorNavLabel({ label: item.label }),
+      });
     }
   }
 
@@ -80,7 +88,7 @@ async function buildSystemAdminNavGroup(
   }
 
   return {
-    label: "System Admin",
+    label: resolveOperatorNavLabel(OPERATOR_NAV_LABELS.systemAdminGroup),
     items,
   };
 }

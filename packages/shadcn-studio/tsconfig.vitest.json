@@ -3,22 +3,39 @@
   "compilerOptions": {
     "noEmit": true,
     "composite": false,
-    "types": [
-      "vitest",
-      "@testing-library/jest-dom"
-    ]
+    "types": ["vitest", "@testing-library/jest-dom"],
+    "paths": {
+      "@/components/ui/*": ["./src/components-ui/*"],
+      "@/components/shadcn-studio/*": ["./src/components-layouts/*"],
+      "@/components-auth-shell/*": ["./src/components-auth-shell/*"],
+      "@/components-app-shell/*": ["./src/components-app-shell/*"],
+      "@/components-assets/*": ["./src/components-assets/*"],
+      "@/lib/utils": ["./src/utils/utils.ts"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/*": ["./src/*"]
+    }
   },
   "include": [
-    "src/**/gate/**/*",
+    "src/gate/**/*",
     "src/**/__tests__/**/*",
     "src/**/__mocks__/**/*",
     "src/**/*.contract.test.ts",
+    "src/**/*.contract.test.tsx",
     "src/**/*.interaction.test.tsx",
     "src/**/*.d.ts",
-    "src/**/*.tsx"
+    "src/components-ui/**/*.tsx",
+    "src/components-layouts/**/*.tsx",
+    "src/components-auth-shell/**/*.tsx",
+    "src/components-app-shell/**/*.tsx",
+    "src/theme/**/*.tsx",
+    "src/theme/**/*.ts",
+    "src/hooks/**/*.ts",
+    "src/lib/**/*.ts",
+    "src/utils/**/*.ts",
+    "src/meta-contracts/**/*.ts",
+    "src/meta-registry/**/*.ts",
+    "src/meta-gates/**/*.ts"
   ],
-  "exclude": [
-    "src/**/*.stories.ts",
-    "src/**/*.stories.tsx"
-  ]
+  "exclude": ["src/**/*.stories.ts", "src/**/*.stories.tsx"]
 }

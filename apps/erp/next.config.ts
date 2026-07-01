@@ -86,8 +86,21 @@ const nextConfig: NextConfig = {
         monorepoRoot,
         "packages/shadcn-studio/src/meta-gates/index.ts"
       ),
+      "@afenda/shadcn-studio/error-ui": path.join(
+        monorepoRoot,
+        "packages/shadcn-studio/src/error-ui/index.ts"
+      ),
     };
     return config;
+  },
+  async redirects() {
+    return [
+      {
+        destination: "/system-admin/users",
+        permanent: true,
+        source: "/system-admin",
+      },
+    ];
   },
   async headers() {
     return [

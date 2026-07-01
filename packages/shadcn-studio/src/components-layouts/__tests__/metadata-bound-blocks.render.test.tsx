@@ -2,18 +2,16 @@ import "@testing-library/jest-dom/vitest";
 import { render } from "@testing-library/react";
 import { DollarSignIcon } from "lucide-react";
 import { describe, expect, it } from "vitest";
-
+import LoginPage04 from "../../components-auth-shell/login-page-04/login-page-04.js";
 import { AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE } from "../../meta-contracts/block-slot-dom-marker.contract.js";
+import { BLOCK_METADATA_REGISTRY } from "../../meta-gates/block-metadata.registry.js";
 import AccountSettings01 from "../account-settings-01/account-settings-01.js";
 import DatatableInvoice from "../datatable-invoice.js";
 import DatatableProduct from "../datatable-product.js";
 import DatatableUser from "../datatable-user.js";
+import ErrorPageShellBlock from "../error-page-shell.js";
 import HeroSection01 from "../hero-section-01/hero-section-01.js";
-import LoginPage04 from "../../components-auth-shell/login-page-04/login-page-04.js";
 import StatisticsCard01 from "../statistics-card-01.js";
-import {
-  BLOCK_METADATA_REGISTRY,
-} from "../../meta-gates/block-metadata.registry.js";
 
 function expectBlockSlotMarkers(blockId: string) {
   const metadata = BLOCK_METADATA_REGISTRY.find(
@@ -24,9 +22,7 @@ function expectBlockSlotMarkers(blockId: string) {
 
   for (const slotId of Object.values(metadata?.slots ?? {})) {
     expect(
-      document.querySelector(
-        `[${AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE}="${slotId}"]`
-      )
+      document.querySelector(`[${AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE}="${slotId}"]`)
     ).toBeInTheDocument();
   }
 }
@@ -120,5 +116,10 @@ describe("metadata-bound blocks render", () => {
       />
     );
     expectBlockSlotMarkers("datatable-product");
+  });
+
+  it("renders error-page-shell with governed afenda slot markers", () => {
+    render(<ErrorPageShellBlock />);
+    expectBlockSlotMarkers("error-page-shell");
   });
 });

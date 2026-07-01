@@ -59,6 +59,15 @@ const AFENDA_OPENAPI_DOCUMENT_TAGS = [
   },
   { name: "dashboard", description: "Workspace dashboard layout preferences." },
   { name: "users", description: "System-admin user lifecycle operations." },
+  { name: "roles", description: "System-admin role lifecycle operations." },
+  {
+    name: "permissions",
+    description: "System-admin permission registry operations.",
+  },
+  {
+    name: "settings",
+    description: "System-admin module and platform settings.",
+  },
   { name: "audit", description: "System-admin audit event queries." },
   { name: "telemetry", description: "Client-side telemetry ingestion." },
   {

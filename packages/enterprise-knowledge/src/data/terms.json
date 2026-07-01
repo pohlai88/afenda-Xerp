@@ -362,5 +362,124 @@
     "label": "Supplier quote",
     "preferred": true,
     "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "metadata_workspace_nav",
+    "conceptId": "metadata_surface_binding",
+    "label": "Metadata Workspace",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "foundation_readiness_nav",
+    "conceptId": "foundation_lifecycle_phase",
+    "label": "Foundation Readiness",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "purchase_orders_nav_plural",
+    "conceptId": "purchase_order",
+    "label": "Purchase Orders",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "system_administration_preferred",
+    "conceptId": "system_administration",
+    "label": "System administration",
+    "preferred": true,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "system_admin_nav",
+    "conceptId": "system_administration",
+    "label": "System Admin",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "requisitions_nav_plural",
+    "conceptId": "procurement_requisition",
+    "label": "Requisitions",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "platform_nav_group",
+    "conceptId": "module_ingress",
+    "label": "Platform",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "procurement_nav_group",
+    "conceptId": "procurement_requisition",
+    "label": "Procurement",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "account_nav_group",
+    "conceptId": "operating_context",
+    "label": "Account",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "profile_nav",
+    "conceptId": "human_reference",
+    "label": "Profile",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "users_nav",
+    "conceptId": "human_reference",
+    "label": "Users",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "memberships_nav",
+    "conceptId": "organization_unit",
+    "label": "Memberships",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "roles_nav",
+    "conceptId": "permission_binding",
+    "label": "Roles",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "permissions_nav",
+    "conceptId": "permission_scope",
+    "label": "Permissions",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "audit_nav",
+    "conceptId": "audit_action_map",
+    "label": "Audit",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "settings_nav",
+    "conceptId": "module_policy_declaration",
+    "label": "Settings",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
+  },
+  {
+    "termId": "diagnostics_nav",
+    "conceptId": "readiness_report",
+    "label": "Diagnostics",
+    "preferred": false,
+    "ownedByPas": "PAS-004C"
   }
 ]

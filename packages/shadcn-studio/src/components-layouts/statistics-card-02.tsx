@@ -7,19 +7,17 @@ import {
   TrendingUpIcon,
 } from "lucide-react";
 import { type ReactNode, useState } from "react";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Avatar, AvatarFallback } from "@/components-ui/avatar";
-import { Badge } from "@/components-ui/badge";
-import { Card, CardContent, CardHeader } from "@/components-ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components-ui/dropdown-menu";
-
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 const days = [5, 10, 20, 30];
 
@@ -62,7 +60,10 @@ const StatisticsCard = ({
               {icon}
             </AvatarFallback>
           </Avatar>
-          <span {...blockSlotDomMarkerProps("metric.label")} className="text-sm">
+          <span
+            {...blockSlotDomMarkerProps("metric.label")}
+            className="text-sm"
+          >
             {title}
           </span>
         </div>
@@ -84,10 +85,16 @@ const StatisticsCard = ({
         </DropdownMenu>
       </CardHeader>
       <CardContent className="flex items-center gap-2">
-        <span {...blockSlotDomMarkerProps("metric.value")} className="font-semibold text-2xl">
+        <span
+          {...blockSlotDomMarkerProps("metric.value")}
+          className="font-semibold text-2xl"
+        >
           {value}
         </span>
-        <Badge {...blockSlotDomMarkerProps("metric.change")} className="bg-primary/10 text-primary">
+        <Badge
+          {...blockSlotDomMarkerProps("metric.change")}
+          className="bg-primary/10 text-primary"
+        >
           {changePercentage > 0 ? (
             <TrendingUpIcon className="size-3" />
           ) : (

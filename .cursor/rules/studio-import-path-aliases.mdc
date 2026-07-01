@@ -1,0 +1,51 @@
+---
+description: >-
+  shadcn-studio import path aliases — virtual MCP paths vs ADR-0038 physical
+  folders. SSOT tsconfig.paths.json; forbid physical-alias drift.
+globs: packages/shadcn-studio/**,apps/storybook/**,packages/shadcn-studio/tsconfig*.json,vitest.shared.ts,apps/storybook/.storybook/main.ts
+alwaysApply: false
+---
+
+# Studio import path aliases
+
+Physical folders (ADR-0038) are **not** import aliases. Source must use MCP virtual paths.
+
+## Canonical map
+
+| Import in source | Resolves to (disk) |
+| --- | --- |
+| `@/components/ui/*` | `src/components-ui/*` |
+| `@/components/shadcn-studio/*` | `src/components-layouts/*` |
+| `@/lib/utils` | `src/utils/utils.ts` |
+
+**SSOT:** `packages/shadcn-studio/tsconfig.paths.json` — wire into all studio tsconfigs.
+
+## Forbidden
+
+- `@/components-ui/*` or `@/components-layouts/*` in studio/storybook source
+- Physical-only aliases in tsconfig (without virtual counterparts)
+- `apps/docs` / `apps/erp` importing studio internal aliases (use `@afenda/shadcn-studio` barrel or app-local UI)
+
+## Symptom → fix
+
+| Symptom | Likely cause | First check |
+| --- | --- | --- |
+| Docs: `@/components-ui/button` not found | Docs `@/*` is local | `fumadocs-ui/components/ui/button` |
+| Storybook fails, studio typecheck OK | Vite alias drift | `apps/storybook/.storybook/main.ts` vs SSOT |
+| Wrong component at runtime | Legacy `src/components/` tree | `pnpm check:studio-tsconfig-paths` |
+| IDE red squiggle on `@/components/ui` | Main tsconfig missing virtual alias | `tsconfig.paths.json` wired into tsconfig.json |
+
+## Gates
+
+```bash
+pnpm check:studio-tsconfig-paths
+pnpm check:studio-import-zones
+pnpm check:studio-paths   # both
+node scripts/shadcn-studio/fix-ui-aliases.mjs   # bulk normalize
+```
+
+## Debugger
+
+Read-only diagnosis: `@studio-import-path-auditor` — Path Drift Report without code edits.
+
+Skill: `.cursor/skills/shadcn-studio/SKILL.md` · Authority: ADR-0017, ADR-0038, PAS-006

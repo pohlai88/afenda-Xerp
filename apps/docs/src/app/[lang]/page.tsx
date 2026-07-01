@@ -1,6 +1,6 @@
 import { HomeLayout } from "fumadocs-ui/layouts/home";
 import Link from "next/link";
-import { buttonVariants } from "@/components-ui/button";
+import { buttonVariants } from "fumadocs-ui/components/ui/button";
 import { docsHomeSections } from "@/lib/docs-home.constants";
 import { docsHref } from "@/lib/docs-nav.contract";
 import { cn } from "@/lib/cn";

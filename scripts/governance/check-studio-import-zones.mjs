@@ -9,6 +9,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
+import { FORBIDDEN_IMPORT_PATTERNS } from "./studio-import-path-policy.mjs";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const studioSrcRoot = join(repoRoot, "packages/shadcn-studio/src");
@@ -42,6 +43,12 @@ const FORBIDDEN_ALIAS_PATTERNS = [
     message:
       "Same-package imports must be relative — @afenda/shadcn-studio self-import forbidden",
   },
+  ...FORBIDDEN_IMPORT_PATTERNS.map((entry) => ({
+    id: entry.id,
+    pattern: entry.pattern,
+    zones: ["all-src"],
+    message: entry.message,
+  })),
 ];
 
 function collectSourceFiles(directory, files = []) {

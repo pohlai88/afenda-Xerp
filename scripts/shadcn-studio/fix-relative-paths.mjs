@@ -1,5 +1,7 @@
-import { readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+
+const TS_SOURCE_PATTERN = /\.(ts|tsx)$/;
 const roots = [
   "packages/shadcn-studio/src/components-layouts",
   "packages/shadcn-studio/src/components-auth-shell",
@@ -12,13 +14,16 @@ const reps = [
   ["../../../../components-ui/", "@/components/ui/"],
   ["../../../components-ui/", "@/components/ui/"],
   ["../../lib/utils", "@/utils/utils"],
-  ["@/components/shadcn-studio/logo", "@/components-layouts/logo"],
+  ["@/components/shadcn-studio/logo", "@/components/shadcn-studio/logo"],
 ];
 function walk(d, f = []) {
   for (const n of readdirSync(d)) {
     const p = join(d, n);
-    if (statSync(p).isDirectory()) walk(p, f);
-    else if (/\.(ts|tsx)$/.test(n)) f.push(p);
+    if (statSync(p).isDirectory()) {
+      walk(p, f);
+    } else if (TS_SOURCE_PATTERN.test(n)) {
+      f.push(p);
+    }
   }
   return f;
 }
@@ -27,8 +32,13 @@ for (const r of roots) {
   for (const file of walk(r)) {
     let t = readFileSync(file, "utf8");
     const b = t;
-    for (const [a, b2] of reps) t = t.split(a).join(b2);
-    if (t !== b) { writeFileSync(file, t); c++; }
+    for (const [a, b2] of reps) {
+      t = t.split(a).join(b2);
+    }
+    if (t !== b) {
+      writeFileSync(file, t);
+      c++;
+    }
   }
 }
 const misc = [
@@ -42,11 +52,20 @@ const misc = [
 for (const file of misc) {
   let t = readFileSync(file, "utf8");
   const b = t;
-  t = t.replaceAll("./components-layouts/login-page-04/", "./components-auth-shell/login-page-04/");
-  t = t.replaceAll("../components-layouts/login-page-04/", "../components-auth-shell/login-page-04/");
+  t = t.replaceAll(
+    "./components-layouts/login-page-04/",
+    "./components-auth-shell/login-page-04/"
+  );
+  t = t.replaceAll(
+    "../components-layouts/login-page-04/",
+    "../components-auth-shell/login-page-04/"
+  );
   t = t.replaceAll("../lib/utils.js", "../utils/utils.js");
   t = t.replaceAll("../assets/svg/index.js", "../components-assets/index.js");
   t = t.replaceAll('from "./utils.js"', 'from "../utils/utils.js"');
-  if (t !== b) { writeFileSync(file, t); c++; }
+  if (t !== b) {
+    writeFileSync(file, t);
+    c++;
+  }
 }
 console.log("fixed", c);

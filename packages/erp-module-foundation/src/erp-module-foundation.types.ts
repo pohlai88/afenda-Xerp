@@ -144,10 +144,13 @@ export interface ErpRuntimeModuleRegistryDefinition {
 export type ErpDomainModuleKvCatalog = Readonly<Record<string, string>>;
 
 export interface ModuleKnowledgeTerm {
+  readonly appliesTo?: readonly string[];
   readonly atomId?: string;
+  readonly conceptId?: string;
   readonly requiredAction: string;
   readonly status: KnowledgeStatus;
   readonly term: string;
+  readonly termId?: string;
   readonly wireArtifact?: string;
 }
 

@@ -1,7 +1,7 @@
-import { blockSlotDomMarkerProps } from "../../meta-contracts/block-slot-dom-marker.contract.js";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import LoginForm from "@/components-auth-shell/login-page-04/login-form";
-import { Button } from "@/components-ui/button";
-import { Separator } from "@/components-ui/separator";
+import { blockSlotDomMarkerProps } from "../../meta-contracts/block-slot-dom-marker.contract.js";
 
 const Login = () => {
   return (

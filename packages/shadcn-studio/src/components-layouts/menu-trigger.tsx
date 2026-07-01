@@ -2,9 +2,9 @@
 
 import type { VariantProps } from "class-variance-authority";
 import { PanelLeftCloseIcon, PanelRightCloseIcon } from "lucide-react";
-import type { buttonVariants } from "@/components-ui/button";
-import { Button } from "@/components-ui/button";
-import { useSidebar } from "@/components-ui/sidebar";
+import type { buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { useSidebar } from "@/components/ui/sidebar";
 
 type Props = {
   className?: string;

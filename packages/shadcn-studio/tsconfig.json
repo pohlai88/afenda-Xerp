@@ -6,39 +6,18 @@
     "tsBuildInfoFile": "dist/.tsbuildinfo",
     "baseUrl": ".",
     "paths": {
-      "@/components-ui/*": [
-        "./src/components-ui/*"
-      ],
-      "@/components-layouts/*": [
-        "./src/components-layouts/*"
-      ],
-      "@/components-auth-shell/*": [
-        "./src/components-auth-shell/*"
-      ],
-      "@/components-app-shell/*": [
-        "./src/components-app-shell/*"
-      ],
-      "@/components-assets/*": [
-        "./src/components-assets/*"
-      ],
-      "@/lib/*": [
-        "./src/lib/*"
-      ],
-      "@/hooks/*": [
-        "./src/hooks/*"
-      ],
-      "@/utils/utils": [
-        "./src/utils/utils.ts"
-      ],
-      "@/lib/utils": [
-        "./src/utils/utils.ts"
-      ]
+      "@/components/ui/*": ["./src/components-ui/*"],
+      "@/components/shadcn-studio/*": ["./src/components-layouts/*"],
+      "@/components-auth-shell/*": ["./src/components-auth-shell/*"],
+      "@/components-app-shell/*": ["./src/components-app-shell/*"],
+      "@/components-assets/*": ["./src/components-assets/*"],
+      "@/lib/utils": ["./src/utils/utils.ts"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/*": ["./src/*"]
     }
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": [
     "dist",
     "node_modules",

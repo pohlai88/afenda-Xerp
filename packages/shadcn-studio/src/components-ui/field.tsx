@@ -3,8 +3,8 @@
 import type { VariantProps } from "class-variance-authority";
 import type * as React from "react";
 import { useMemo } from "react";
-import { Label } from "@/components-ui/label";
-import { Separator } from "@/components-ui/separator";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/utils/utils";
 

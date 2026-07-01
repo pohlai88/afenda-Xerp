@@ -158,20 +158,29 @@ function buildKnowledgeMap() {
     terms: [
       {
         term: "procurement_requisition",
-        status: "accepted",
+        termId: "procurement_requisition_preferred",
+        conceptId: "procurement_requisition",
         atomId: "procurement_requisition",
+        status: "accepted",
+        appliesTo: ["procurement"],
         requiredAction: "Accepted — PAS-004 B53 bridge.",
       },
       {
         term: "purchase_order",
-        status: "accepted",
+        termId: "purchase_order_preferred",
+        conceptId: "purchase_order",
         atomId: "purchase_order",
+        status: "accepted",
+        appliesTo: ["procurement"],
         requiredAction: "Accepted — PAS-004 B56 KV-PROC P0.",
       },
       {
         term: "supplier",
-        status: "accepted",
+        termId: "supplier_preferred",
+        conceptId: "supplier",
         atomId: "supplier",
+        status: "accepted",
+        appliesTo: ["procurement"],
         requiredAction: "Accepted — PAS-004 B56 KV-PROC P0.",
       },
       {
@@ -200,13 +209,17 @@ function buildKnowledgeMap() {
       },
       {
         term: "goods_receipt_signal",
-        status: "missing",
+        status: "wire_only",
+        wireArtifact:
+          "packages/kernel/src/erp-domain/inventory/inventory-domain-layout.contract.ts",
         requiredAction:
           "Cross-domain KV-INV atom — receipt signal not stock movement.",
       },
       {
         term: "three_way_match",
-        status: "missing",
+        status: "wire_only",
+        wireArtifact:
+          "docs/adr/ADR-0031-procurement-runtime-authority-boundary.md",
         requiredAction:
           "Cross-domain ADR-gated — Accounting owns match runtime.",
       },

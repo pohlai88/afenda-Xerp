@@ -2,15 +2,15 @@
 
 import { PaletteIcon } from "lucide-react";
 import type { ReactNode } from "react";
-import NotificationDropdownBlock from "@/components-layouts/dropdown-notification.js";
-import MenuTriggerBlock from "@/components-layouts/menu-trigger.js";
-import SidebarUserDropdownBlock from "@/components-layouts/sidebar-user-dropdown.js";
-import { Button } from "@/components-ui/button";
+import NotificationDropdownBlock from "@/components/shadcn-studio/dropdown-notification.js";
+import MenuTriggerBlock from "@/components/shadcn-studio/menu-trigger.js";
+import SidebarUserDropdownBlock from "@/components/shadcn-studio/sidebar-user-dropdown.js";
+import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components-ui/popover";
+} from "@/components/ui/popover";
 import {
   Sidebar,
   SidebarContent,
@@ -19,7 +19,7 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarRail,
-} from "@/components-ui/sidebar";
+} from "@/components/ui/sidebar";
 import type {
   AppShellNavGroupWire,
   AppShellOperatingContextWire,

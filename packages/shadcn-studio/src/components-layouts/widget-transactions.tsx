@@ -1,19 +1,17 @@
 import { ArrowDownIcon, ArrowUpIcon, EllipsisVerticalIcon } from "lucide-react";
 import type { ComponentType } from "react";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Avatar, AvatarFallback } from "@/components-ui/avatar";
-import { Button } from "@/components-ui/button";
-import { Card, CardContent, CardHeader } from "@/components-ui/card";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components-ui/dropdown-menu";
-
+} from "@/components/ui/dropdown-menu";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 const listItems = ["Share", "Update", "Refresh"];
 
@@ -33,7 +31,10 @@ type Props = {
 const TransactionsCard = ({ title, transactions, className }: Props) => (
   <Card className={cn("gap-8", className)}>
     <CardHeader className="flex items-center justify-between">
-      <span {...blockSlotDomMarkerProps("widget.title")} className="font-semibold text-lg">
+      <span
+        {...blockSlotDomMarkerProps("widget.title")}
+        className="font-semibold text-lg"
+      >
         {title}
       </span>
       <DropdownMenu>
@@ -59,7 +60,10 @@ const TransactionsCard = ({ title, transactions, className }: Props) => (
         </DropdownMenuContent>
       </DropdownMenu>
     </CardHeader>
-    <CardContent {...blockSlotDomMarkerProps("widget.summary")} className="flex flex-1 flex-col justify-between gap-4">
+    <CardContent
+      {...blockSlotDomMarkerProps("widget.summary")}
+      className="flex flex-1 flex-col justify-between gap-4"
+    >
       {transactions.map((transaction, index) => (
         <div className="flex items-center justify-between gap-2" key={index}>
           <div className="flex items-center justify-between gap-4">

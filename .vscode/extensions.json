@@ -1,13 +1,23 @@
 {
   "recommendations": [
     "EditorConfig.EditorConfig",
-    "yzhang.markdown-all-in-one",
-    "esbenp.prettier-vscode",
     "biomejs.biome",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "yoavbls.pretty-ts-errors",
+    "usernamehw.errorlens",
+    "streetsidesoftware.code-spell-checker",
     "vitest.explorer",
-    "Themeselection.shadcn-studio-vscode-extension"
+    "yzhang.markdown-all-in-one",
+    "Themeselection.shadcn-studio-vscode-extension",
+    "mikestead.dotenv",
+    "christian-kohler.path-intellisense",
+    "christian-kohler.npm-intellisense"
   ],
   "unwantedRecommendations": [
-    "ms-vscode.vscode-typescript-next"
+    "ms-vscode.vscode-typescript-next",
+    "dbaeumer.vscode-eslint",
+    "steoates.autoimport",
+    "MylesMurphy.prettify-ts"
   ]
 }

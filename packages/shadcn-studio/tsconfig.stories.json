@@ -4,11 +4,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "jsx": "react-jsx",
-    "lib": [
-      "ES2022",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "noEmit": true,
     "composite": false,
     "declaration": false,
@@ -16,39 +12,17 @@
     "sourceMap": false,
     "exactOptionalPropertyTypes": false,
     "paths": {
-      "@afenda/shadcn-studio/lab": [
-        "./src/lab/index.ts"
-      ],
-      "@afenda/shadcn-studio": [
-        "./src/index.ts"
-      ],
-      "@/components-ui/*": [
-        "./src/components-ui/*"
-      ],
-      "@/components-layouts/*": [
-        "./src/components-layouts/*"
-      ],
-      "@/components-auth-shell/*": [
-        "./src/components-auth-shell/*"
-      ],
-      "@/components-app-shell/*": [
-        "./src/components-app-shell/*"
-      ],
-      "@/components-assets/*": [
-        "./src/components-assets/*"
-      ],
-      "@/lib/*": [
-        "./src/lib/*"
-      ],
-      "@/hooks/*": [
-        "./src/hooks/*"
-      ],
-      "@/utils/utils": [
-        "./src/utils/utils.ts"
-      ],
-      "@/lib/utils": [
-        "./src/utils/utils.ts"
-      ],
+      "@afenda/shadcn-studio/lab": ["./src/lab/index.ts"],
+      "@afenda/shadcn-studio": ["./src/index.ts"],
+      "@/components/ui/*": ["./src/components-ui/*"],
+      "@/components/shadcn-studio/*": ["./src/components-layouts/*"],
+      "@/components-auth-shell/*": ["./src/components-auth-shell/*"],
+      "@/components-app-shell/*": ["./src/components-app-shell/*"],
+      "@/components-assets/*": ["./src/components-assets/*"],
+      "@/lib/utils": ["./src/utils/utils.ts"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/hooks/*": ["./src/hooks/*"],
+      "@/*": ["./src/*"],
       "storybook/test": [
         "../../apps/storybook/node_modules/storybook/dist/test/index.d.ts"
       ]
@@ -70,9 +44,5 @@
     "src/hooks/**/*.ts",
     "src/lib/**/*.ts"
   ],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "src/**/__tests__/**"
-  ]
+  "exclude": ["dist", "node_modules", "src/**/__tests__/**"]
 }

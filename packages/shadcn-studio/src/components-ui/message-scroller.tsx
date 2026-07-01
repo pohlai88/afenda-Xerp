@@ -8,7 +8,7 @@ import {
 } from "@shadcn/react/message-scroller";
 import { ArrowDownIcon } from "lucide-react";
 import type * as React from "react";
-import { Button } from "@/components-ui/button";
+import { Button } from "@/components/ui/button";
 
 import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/utils/utils";

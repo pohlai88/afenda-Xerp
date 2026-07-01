@@ -35,6 +35,10 @@ export { default as NotificationDropdownBlock } from "./components-layouts/dropd
 export { default as ProfileDropdownBlock } from "./components-layouts/dropdown-profile.js";
 export { default as HeroSection01Block } from "./components-layouts/hero-section-01/hero-section-01.js";
 export { default as LoginPage04Block } from "./components-auth-shell/login-page-04/login-page-04.js";
+export {
+  MorphingText,
+  type MorphingTextProps,
+} from "./components-layouts/morphing-text.js";
 export { default as MenuTriggerBlock } from "./components-layouts/menu-trigger.js";
 export { default as SidebarUserDropdownBlock } from "./components-layouts/sidebar-user-dropdown.js";
 export { default as StatisticsActivityCardBlock } from "./components-layouts/statistics-activity-card.js";
@@ -64,6 +68,19 @@ export {
   CardHeader,
   CardTitle,
 } from "./components-ui/card.js";
+export {
+  Kanban,
+  KanbanAddColumn,
+  KanbanAddItem,
+  KanbanBoard,
+  KanbanColumn,
+  KanbanColumnContent,
+  KanbanColumnHandle,
+  KanbanItem,
+  KanbanItemHandle,
+  KanbanOverlay,
+  type KanbanMoveEvent,
+} from "./components-ui/kanban.js";
 export {
   type AcceptanceCriterionResult,
   type AcceptanceRecordWire,

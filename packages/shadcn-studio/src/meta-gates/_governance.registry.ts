@@ -69,7 +69,7 @@ export const GOVERNANCE_ENVELOPE_REGISTRY = [
     reliedOnBy: [
       "governance/index",
       "check:studio-block-contracts",
-      "blocks/__tests__/metadata-bound-blocks.render.test",
+      "components-layouts/__tests__/metadata-bound-blocks.render.test",
     ],
     refactored: GOVERNANCE_ENVELOPE_REFACTORED,
   },
@@ -130,6 +130,7 @@ export const UI_PRIMITIVE_CONTRACT_SLUGS = [
   "input-otp",
   "item",
   "kbd",
+  "kanban",
   "label",
   "marker",
   "menubar",

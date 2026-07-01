@@ -2,15 +2,14 @@
 
 import { useId } from "react";
 import { Label, Pie, PieChart } from "recharts";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Card, CardContent } from "@/components-ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components-ui/chart";
+} from "@/components/ui/chart";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 // Lead chart data
 const leadChartData = [
@@ -92,15 +91,16 @@ const StatisticsLeadCard = ({ className }: { className?: string }) => {
   const footnoteId = useId();
 
   return (
-    <article
-      aria-labelledby={titleId}
-      className={className}
-    >
+    <article aria-labelledby={titleId} className={className}>
       <Card>
         <CardContent className="flex justify-between gap-6 max-sm:flex-col sm:items-center">
           <div className="flex shrink-0 grow flex-col gap-6">
             <div className="flex flex-col gap-1">
-              <span {...blockSlotDomMarkerProps("metric.label")} className="font-semibold" id={titleId}>
+              <span
+                {...blockSlotDomMarkerProps("metric.label")}
+                className="font-semibold"
+                id={titleId}
+              >
                 {StatisticsCardData.title}
               </span>
               <span className="text-muted-foreground text-sm">
@@ -115,7 +115,11 @@ const StatisticsLeadCard = ({ className }: { className?: string }) => {
               >
                 {StatisticsCardData.amount}
               </span>
-              <span {...blockSlotDomMarkerProps("metric.change")} className="text-primary text-sm" id={footnoteId}>
+              <span
+                {...blockSlotDomMarkerProps("metric.change")}
+                className="text-primary text-sm"
+                id={footnoteId}
+              >
                 +{StatisticsCardData.changePercentage}%
               </span>
             </div>

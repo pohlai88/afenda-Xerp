@@ -1,10 +1,10 @@
 # Primitives catalog — `@afenda/shadcn-studio`
 
-**Path:** `packages/shadcn-studio/src/components/ui/`  
-**Count:** 69 files  
-**Import (ERP):** `@afenda/shadcn-studio` when exported in `index.ts`; otherwise deep `@/components/ui/<name>` inside studio package only.
+**Path:** `packages/shadcn-studio/src/components-ui/`  
+**Count:** 70 adapter files (+ 70 `.contract.ts`)  
+**Import (ERP):** `@afenda/shadcn-studio` when exported in `index.ts`; otherwise in-package `@/components/ui/<name>` only (virtual MCP alias → `components-ui/` on disk).
 
-**Barrel exports today:** `Button`, `buttonVariants`, `Card`, `CardAction`, `CardContent`, `CardDescription`, `CardFooter`, `CardHeader`, `CardTitle`.
+**Barrel exports today:** `Button`, `buttonVariants`, `Card` family, **Kanban** board primitives (see below).
 
 ---
 
@@ -66,6 +66,7 @@
 | `scroll-area.tsx` | Scroll area |
 | `resizable.tsx` | Resizable panels |
 | `aspect-ratio.tsx` | Aspect ratio |
+| `kanban.tsx` | Drag-and-drop board (T3 · `@dnd-kit`) ✓ barrel |
 
 ## Data display
 

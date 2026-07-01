@@ -21,6 +21,21 @@ const MERGE_ONLY = new Set([
   "sidebar",
 ]);
 
+/** T0 static primitives — covered by aggregate registry test instead of per-file contract tests. */
+const T0_AGGREGATE_COVERED = new Set([
+  "aspect-ratio",
+  "kbd",
+  "separator",
+  "skeleton",
+  "spinner",
+]);
+
+const AGGREGATE_REGISTRY_TEST = join(
+  uiDir,
+  "__tests__",
+  "components-ui.contract-registry.test.ts"
+);
+
 function isWidgetPrimitive(content, name) {
   if (MERGE_ONLY.has(name)) {
     return false;
@@ -95,6 +110,15 @@ export function checkStudioPrimitiveContracts() {
     }
 
     if (!existsSync(testPath)) {
+      if (T0_AGGREGATE_COVERED.has(name)) {
+        if (!existsSync(AGGREGATE_REGISTRY_TEST)) {
+          violations.push(
+            `${name}: missing ${AGGREGATE_REGISTRY_TEST} for T0 aggregate coverage`
+          );
+        }
+        continue;
+      }
+
       violations.push(`${name}: missing ${name}.contract.test.ts`);
     }
   }

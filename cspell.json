@@ -1,0 +1,33 @@
+{
+  "version": "0.2",
+  "language": "en-US",
+  "dictionaries": ["en_us", "softwareTerms", "enterprise-knowledge", "tech"],
+  "dictionaryDefinitions": [
+    {
+      "name": "enterprise-knowledge",
+      "path": "./cspell.enterprise-knowledge.txt",
+      "addWords": false
+    },
+    {
+      "name": "tech",
+      "path": "./cspell.tech.txt",
+      "addWords": false
+    }
+  ],
+  "ignorePaths": [
+    "node_modules/**",
+    "dist/**",
+    "build/**",
+    ".next/**",
+    "out/**",
+    "coverage/**",
+    "storybook-static/**",
+    "pnpm-lock.yaml",
+    "**/_reference/**",
+    "**/*.snap",
+    "apps/docs/openapi/**",
+    "apps/erp/src/server/api/contracts/**",
+    "docs/**",
+    "apps/docs/content/**"
+  ]
+}

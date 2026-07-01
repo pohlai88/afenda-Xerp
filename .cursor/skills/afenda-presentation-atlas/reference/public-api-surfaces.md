@@ -40,14 +40,28 @@ See [blocks-inventory.md](./blocks-inventory.md) for slug mapping.
 
 ---
 
+## Layout utilities (barrel)
+
+| Export | Module | Purpose |
+| --- | --- | --- |
+| `DotGrid`, `DotGridProps`, `BgDotGridSlot` | `./components-ui/bg-dot-grid.js` |
+| `ErrorPageShell`, `ErrorPageShellBlock`, `ErrorPageShellProps` | `./components-layouts/error-page-shell.js` |
+| `ERROR_PAGE_COPY_REGISTRY`, `ERROR_PAGE_VARIANTS`, `ErrorPageCopyWire`, `ErrorPageVariant` | `./components-layouts/error-page-shell.contract.js` |
+| `MorphingText`, `MorphingTextProps` | `./components-layouts/morphing-text.js` |
+
+**Client-safe error boundary subpath:** `@afenda/shadcn-studio/error-ui` — `ErrorPageShell`, `MorphingText`, `DotGrid`, `Button`, copy registry (no governance/fs deps).
+
+---
+
 ## UI primitives (barrel)
 
 | Export | Module |
 | --- | --- |
-| `Button`, `buttonVariants` | `./components/ui/button.js` |
-| `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardContent`, `CardFooter` | `./components/ui/card.js` |
+| `Button`, `buttonVariants` | `./components-ui/button.js` |
+| `Card`, `CardHeader`, `CardTitle`, `CardDescription`, `CardAction`, `CardContent`, `CardFooter` | `./components-ui/card.js` |
+| `Kanban`, `KanbanBoard`, `KanbanColumn`, `KanbanColumnContent`, `KanbanColumnHandle`, `KanbanItem`, `KanbanItemHandle`, `KanbanOverlay`, `KanbanAddColumn`, `KanbanAddItem`, `KanbanMoveEvent` | `./components-ui/kanban.js` |
 
-Other primitives: use filesystem catalog until barrel extended.
+Other primitives: use [primitives-catalog.md](./primitives-catalog.md) until barrel extended.
 
 ---
 
@@ -57,7 +71,7 @@ In-package `@/` imports only. ERP and apps consume these **via blocks/primitives
 
 | Module | Export | Consumers | Notes |
 | --- | --- | --- | --- |
-| `src/hooks/use-mobile.ts` | `useIsMobile()` | `components/ui/sidebar.tsx` | SSR-safe: `false` until mount; Tailwind `md` (768px) breakpoint |
+| `src/hooks/use-mobile.ts` | `useIsMobile()` | `components-ui/sidebar.tsx` | SSR-safe: `false` until mount; Tailwind `md` (768px) breakpoint |
 | `src/lib/utils.ts` | `cn()` | Primitives, blocks, `_storybook` | Tailwind merge |
 | `src/lib/governed-primitive-props.ts` | `WithoutGovernedDataSlot<T>` | Primitive adapters | Compile-time `data-slot` guard |
 | `src/lib/compose-class-name.ts` | `composeClassName()` | Base UI adapters (Gold pattern) | Stateful className merge |

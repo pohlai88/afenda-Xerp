@@ -19,6 +19,11 @@
         "../../packages/shadcn-studio/src/lab/index.ts"
       ],
       "@afenda/shadcn-studio": ["../../packages/shadcn-studio/src/index.ts"],
+      "@/components/ui/*": ["../../packages/shadcn-studio/src/components-ui/*"],
+      "@/components/shadcn-studio/*": [
+        "../../packages/shadcn-studio/src/components-layouts/*"
+      ],
+      "@/lib/utils": ["../../packages/shadcn-studio/src/utils/utils.ts"],
       "@/*": ["../../packages/shadcn-studio/src/*"],
       "@storybook/react": ["./node_modules/@storybook/react"],
       "storybook/test": ["./node_modules/storybook/dist/test/index.d.ts"],

@@ -118,7 +118,7 @@ export const L1_CONTRACT_ENVELOPE_REGISTRY = [
     family: "acceptance-record",
     role: "validateAcceptanceRecordSeal()",
     reliesOn: ["acceptance-record.contract"],
-    reliedOnBy: ["index barrel", "__tests__"],
+    reliedOnBy: ["index barrel", "gate/acceptance-record"],
     refactored: L1_CONTRACT_ENVELOPE_REFACTORED,
   },
   {

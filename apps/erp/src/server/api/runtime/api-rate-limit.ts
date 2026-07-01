@@ -1,6 +1,6 @@
 import { consumeApiRateLimitBucket } from "@afenda/database";
 
-import type { ApiRateLimitPolicy } from "../meta-contracts/rate-limit.contract";
+import type { ApiRateLimitPolicy } from "../contracts/rate-limit.contract";
 import { ApiRouteError } from "./api-validation";
 
 export interface ApiRateLimitContext {
@@ -53,7 +53,7 @@ function buildRateLimitBucketKey(context: ApiRateLimitContext): string {
 function resolveRateLimitConfig(
   policy: ApiRateLimitPolicy
 ): ApiRateLimitWindowConfig | null {
-  return API_RATE_LIMIT_POLICY_LIMITS[policy];
+  return API_RATE_LIMIT_POLICY_LIMITS[policy] ?? null;
 }
 
 function buildAllowedConsumeResult(

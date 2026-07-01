@@ -3,17 +3,15 @@
 import { ArrowDownIcon, ArrowUpIcon } from "lucide-react";
 import { useId } from "react";
 import { Area, AreaChart, XAxis } from "recharts";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Card, CardContent } from "@/components-ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   type ChartConfig,
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components-ui/chart";
-
+} from "@/components/ui/chart";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 // Sales growth chart data
 const salesGrowthChartData = [
@@ -86,13 +84,14 @@ const StatisticsActivityCard = ({ className }: { className?: string }) => {
   const footnoteId = useId();
 
   return (
-    <article
-      aria-labelledby={titleId}
-      className={className}
-    >
+    <article aria-labelledby={titleId} className={className}>
       <Card className={cn("gap-4")}>
         <div className="flex items-center justify-between gap-2 px-6">
-          <span {...blockSlotDomMarkerProps("metric.label")} className="font-medium" id={titleId}>
+          <span
+            {...blockSlotDomMarkerProps("metric.label")}
+            className="font-medium"
+            id={titleId}
+          >
             {StatisticsCardData.title}
           </span>
           <span className="text-muted-foreground text-sm">Weekly Report</span>
@@ -112,7 +111,11 @@ const StatisticsActivityCard = ({ className }: { className?: string }) => {
               ) : (
                 <ArrowDownIcon aria-hidden="true" className="size-4" />
               )}
-              <span {...blockSlotDomMarkerProps("metric.change")} className="text-xs" id={footnoteId}>
+              <span
+                {...blockSlotDomMarkerProps("metric.change")}
+                className="text-xs"
+                id={footnoteId}
+              >
                 +{StatisticsCardData.changePercentage}%
               </span>
             </div>

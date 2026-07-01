@@ -1,10 +1,8 @@
 import type { ReactNode } from "react";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Badge } from "@/components-ui/badge";
-import { Card, CardContent, CardHeader } from "@/components-ui/card";
-
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 // Statistics card data type
 type StatisticsCardProps = {
@@ -26,13 +24,19 @@ const StatisticsCard = ({
 }: StatisticsCardProps) => (
   <Card className={cn("relative justify-between gap-6", className)}>
     <CardHeader className="flex flex-col gap-3">
-      <span {...blockSlotDomMarkerProps("metric.label")} className="font-medium">
+      <span
+        {...blockSlotDomMarkerProps("metric.label")}
+        className="font-medium"
+      >
         {title}
       </span>
       <Badge className="bg-primary/10 text-primary">{badgeContent}</Badge>
     </CardHeader>
     <CardContent className="flex items-center gap-2 lg:max-[1100px]:flex-col lg:max-[1100px]:items-start">
-      <span {...blockSlotDomMarkerProps("metric.value")} className="font-semibold text-2xl">
+      <span
+        {...blockSlotDomMarkerProps("metric.value")}
+        className="font-semibold text-2xl"
+      >
         {value}
       </span>
       <span

@@ -25,7 +25,7 @@ import { resolveContextPolicyHeaders } from "@/server/api/contracts/openapi/cont
 
 const snapshotPath = join(
   import.meta.dirname,
-  "../meta-contracts/afenda-internal-v1.openapi.json"
+  "../contracts/afenda-internal-v1.openapi.json"
 );
 
 function resolveExpectedOperationDescription(
@@ -105,6 +105,18 @@ describe("OpenAPI document generation", () => {
         description: "Workspace dashboard layout preferences.",
       },
       { name: "users", description: "System-admin user lifecycle operations." },
+      {
+        name: "roles",
+        description: "System-admin role lifecycle operations.",
+      },
+      {
+        name: "permissions",
+        description: "System-admin permission registry operations.",
+      },
+      {
+        name: "settings",
+        description: "System-admin module and platform settings.",
+      },
       { name: "audit", description: "System-admin audit event queries." },
       { name: "telemetry", description: "Client-side telemetry ingestion." },
       {

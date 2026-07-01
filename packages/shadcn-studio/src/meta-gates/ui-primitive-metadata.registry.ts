@@ -52,6 +52,7 @@ import { inputGroupPrimitiveMetadata } from "../components-ui/input-group.contra
 import { inputOtpPrimitiveMetadata } from "../components-ui/input-otp.contract.js";
 import { itemPrimitiveMetadata } from "../components-ui/item.contract.js";
 import { kbdPrimitiveMetadata } from "../components-ui/kbd.contract.js";
+import { kanbanPrimitiveMetadata } from "../components-ui/kanban.contract.js";
 import { labelPrimitiveMetadata } from "../components-ui/label.contract.js";
 import { markerPrimitiveMetadata } from "../components-ui/marker.contract.js";
 import { menubarPrimitiveMetadata } from "../components-ui/menubar.contract.js";
@@ -123,6 +124,7 @@ const METADATA_FACTORIES = [
   inputPrimitiveMetadata,
   itemPrimitiveMetadata,
   kbdPrimitiveMetadata,
+  kanbanPrimitiveMetadata,
   labelPrimitiveMetadata,
   markerPrimitiveMetadata,
   menubarPrimitiveMetadata,

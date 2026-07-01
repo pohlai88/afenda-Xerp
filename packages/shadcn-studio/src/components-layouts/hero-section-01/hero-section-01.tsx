@@ -1,6 +1,6 @@
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { blockSlotDomMarkerProps } from "../../meta-contracts/block-slot-dom-marker.contract.js";
-import { Badge } from "@/components-ui/badge";
-import { Button } from "@/components-ui/button";
 
 const HeroSection = () => {
   return (

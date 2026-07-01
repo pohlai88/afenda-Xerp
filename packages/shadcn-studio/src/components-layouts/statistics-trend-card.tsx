@@ -3,12 +3,10 @@
 import { useState } from "react";
 
 import { Area, AreaChart, Tooltip } from "recharts";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Card, CardContent } from "@/components-ui/card";
-import { type ChartConfig, ChartContainer } from "@/components-ui/chart";
-
+import { Card, CardContent } from "@/components/ui/card";
+import { type ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 export type TrendFormat = "number" | "compact" | "currency";
 
@@ -77,10 +75,16 @@ const StatisticsTrendCard = <T extends Record<string, unknown>>({
   return (
     <Card className={className}>
       <CardContent className="flex flex-col gap-1.5">
-        <span {...blockSlotDomMarkerProps("metric.label")} className="text-muted-foreground text-sm">
+        <span
+          {...blockSlotDomMarkerProps("metric.label")}
+          className="text-muted-foreground text-sm"
+        >
           {title}
         </span>
-        <span {...blockSlotDomMarkerProps("metric.value")} className="font-bold text-3xl tracking-tight">
+        <span
+          {...blockSlotDomMarkerProps("metric.value")}
+          className="font-bold text-3xl tracking-tight"
+        >
           {fmt(currVal, format)}
         </span>
         <div className="flex items-center justify-between pb-2">

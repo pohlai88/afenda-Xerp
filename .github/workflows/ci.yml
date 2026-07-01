@@ -231,6 +231,9 @@ jobs:
       - name: Gate 3c · shadcn-studio typecheck (PAS-006)
         run: pnpm --filter @afenda/shadcn-studio typecheck
 
+      - name: Gate 3c2 · shadcn-studio path aliases (PAS-006 / ADR-0038)
+        run: pnpm check:studio-paths
+
       - name: Gate 3d · ERP API contract governance (ADR-0030)
         run: pnpm check:api-contracts
 
@@ -245,6 +248,9 @@ jobs:
 
       - name: Gate 3h · Knowledge vocabulary richness (PAS-004D B52)
         run: pnpm check:knowledge-vocabulary-richness
+
+      - name: Gate 3h2 · Code vocabulary coverage (PAS-004E B55)
+        run: pnpm check:code-vocabulary-coverage
 
       - name: Gate 3i · Foundation disposition registry (ADR-0014)
         run: pnpm check:foundation-disposition

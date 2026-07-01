@@ -12,7 +12,7 @@ import {
   getDefaultClassNames,
   type Locale,
 } from "react-day-picker";
-import { Button, buttonVariants } from "@/components-ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
 import { cn } from "@/utils/utils";
 

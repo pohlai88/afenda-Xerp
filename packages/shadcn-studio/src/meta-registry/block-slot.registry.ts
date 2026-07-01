@@ -248,6 +248,7 @@ export const METADATA_BOUND_BLOCK_TEMPLATE_IDS = [
   "statistics-card-01",
   "account-settings-01",
   "dialog-activity",
+  "error-page-shell",
 ] as const;
 
 /** MCP datatable blocks resolved via DATATABLE_SLOT_TEMPLATE family rule. */

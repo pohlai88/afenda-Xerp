@@ -9,7 +9,7 @@ import {
   UsersIcon,
 } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components-ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,13 +18,13 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components-ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
   useSidebar,
-} from "@/components-ui/sidebar";
+} from "@/components/ui/sidebar";
 
 const SidebarUserDropdown = () => {
   const { isMobile } = useSidebar();
@@ -41,18 +41,18 @@ const SidebarUserDropdown = () => {
               />
             }
           >
-              <Avatar className="rounded-lg">
-                <AvatarImage
-                  alt="John Doe"
-                  src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png"
-                />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">John Doe</span>
-                <span className="truncate text-xs">Admin</span>
-              </div>
-              <ChevronRightIcon className="ml-auto size-4 transition-transform duration-200 max-lg:rotate-270 [[data-state=open]>&]:rotate-90 lg:[[data-state=open]>&]:-rotate-180" />
+            <Avatar className="rounded-lg">
+              <AvatarImage
+                alt="John Doe"
+                src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png"
+              />
+              <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+            </Avatar>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-medium">John Doe</span>
+              <span className="truncate text-xs">Admin</span>
+            </div>
+            <ChevronRightIcon className="ml-auto size-4 transition-transform duration-200 max-lg:rotate-270 [[data-state=open]>&]:rotate-90 lg:[[data-state=open]>&]:-rotate-180" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"

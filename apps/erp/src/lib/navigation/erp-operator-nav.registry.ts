@@ -1,6 +1,8 @@
 import { toProcurementPermissionKey } from "@afenda/kernel/erp-domain/procurement";
 import { PERMISSION_REGISTRY } from "@afenda/permissions";
 
+import { OPERATOR_NAV_LABELS } from "./operator-nav-label.registry";
+
 export interface ErpOperatorNavItemDefinition {
   readonly href: string;
   readonly label: string;
@@ -14,42 +16,42 @@ export interface ErpOperatorNavGroupDefinition {
 }
 
 export const ERP_PLATFORM_NAV_GROUP = {
-  label: "Platform",
+  label: OPERATOR_NAV_LABELS.platformGroup.label,
   items: [
     {
       href: "/metadata-workspace",
-      label: "Metadata Workspace",
+      label: OPERATOR_NAV_LABELS.metadataWorkspace.label,
       readPermissionKey: PERMISSION_REGISTRY.workspace.dashboard.read,
     },
   ],
 } as const satisfies ErpOperatorNavGroupDefinition;
 
 export const ERP_PROCUREMENT_NAV_GROUP = {
-  label: "Procurement",
+  label: OPERATOR_NAV_LABELS.procurementGroup.label,
   items: [
     {
       href: "/modules/procurement/readiness",
-      label: "Foundation Readiness",
+      label: OPERATOR_NAV_LABELS.foundationReadiness.label,
     },
     {
       href: "/modules/procurement/requisitions",
-      label: "Requisitions",
+      label: OPERATOR_NAV_LABELS.requisitions.label,
       readPermissionKey: toProcurementPermissionKey("requisition", "read"),
     },
     {
       href: "/modules/procurement/purchase-orders",
-      label: "Purchase Orders",
+      label: OPERATOR_NAV_LABELS.purchaseOrders.label,
       readPermissionKey: toProcurementPermissionKey("purchaseOrder", "read"),
     },
   ],
 } as const satisfies ErpOperatorNavGroupDefinition;
 
 export const ERP_ACCOUNT_NAV_GROUP = {
-  label: "Account",
+  label: OPERATOR_NAV_LABELS.accountGroup.label,
   items: [
     {
       href: "/settings/profile",
-      label: "Profile",
+      label: OPERATOR_NAV_LABELS.profile.label,
     },
   ],
 } as const satisfies ErpOperatorNavGroupDefinition;

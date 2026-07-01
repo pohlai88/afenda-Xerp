@@ -1,17 +1,4 @@
-import type { ReactNode } from "react";
-
-import { Badge } from "@/components-ui/badge";
-import { Button } from "@/components-ui/button";
-import { Card, CardContent } from "@/components-ui/card";
-import { Separator } from "@/components-ui/separator";
-import {
-  Timeline,
-  TimelineContent,
-  TimelineDot,
-  TimelineHeading,
-  TimelineItem,
-  TimelineLine,
-} from "@/components-ui/timeline";
+import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
   Building2,
@@ -21,11 +8,36 @@ import {
   Palette,
   Sparkles,
 } from "lucide-react";
-import type { LucideIcon } from "lucide-react";
+import type { ReactNode } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import {
+  Timeline,
+  TimelineContent,
+  TimelineDot,
+  TimelineHeading,
+  TimelineItem,
+  TimelineLine,
+} from "@/components/ui/timeline";
 
 import { afendaExpensiveCalmPreset } from "./afenda-expensive-calm.preset";
 import { vercelLabPreset } from "./lab-welcome-vercel.preset";
-import * as lab from "./presentation-lab.recipe";
+import {
+  presentationLabAirlockActionClassName,
+  presentationLabAirlockFooterClassName,
+  presentationLabAirlockKickerClassName,
+  presentationLabAirlockMainClassName,
+  presentationLabAirlockShellClassName,
+  presentationLabAirlockSubtitleClassName,
+  presentationLabAirlockTitleClassName,
+  presentationLabCatalogRowClassName,
+  presentationLabContainerClassName,
+  presentationLabMetricLabelClassName,
+  presentationLabSectionTitleClassName,
+  presentationLabShellClassName,
+} from "./presentation-lab.recipe";
 
 export type LabWelcomeVariant = "calm" | "compact";
 
@@ -62,7 +74,8 @@ const labSections = [
     title: "App Shell",
     path: "Shadcn Studio / App Shell",
     storyId: "shadcn-studio-app-shell",
-    description: "Operator chrome and shell surfaces before ERP route promotion.",
+    description:
+      "Operator chrome and shell surfaces before ERP route promotion.",
     icon: Building2,
     featured: false,
   },
@@ -116,15 +129,21 @@ const labSections = [
 const acceptanceGates = [
   { command: "pnpm storybook generate", label: "Codegen" },
   { command: "pnpm check:storybook-block-coverage", label: "Block coverage" },
-  { command: "pnpm check:storybook-primitive-coverage", label: "Primitive coverage" },
+  {
+    command: "pnpm check:storybook-primitive-coverage",
+    label: "Primitive coverage",
+  },
   { command: "pnpm --filter @afenda/storybook typecheck", label: "Lab types" },
   { command: "pnpm test:storybook:run", label: "Smoke" },
   { command: "pnpm check:studio-block-slot-markers", label: "Slot markers" },
-  { command: "pnpm --filter @afenda/erp typecheck && build", label: "ERP build" },
+  {
+    command: "pnpm --filter @afenda/erp typecheck && build",
+    label: "ERP build",
+  },
 ] as const;
 
 const airlockTitle: Record<LabWelcomeVariant, string> = {
-  calm: lab.presentationLabAirlockTitleClassName,
+  calm: presentationLabAirlockTitleClassName,
   compact:
     "mt-3 max-w-3xl text-balance font-semibold text-4xl text-foreground tracking-tight md:text-5xl",
 };
@@ -138,8 +157,8 @@ function LabThemeShell({
 }) {
   const shellClass =
     shell === "airlock"
-      ? lab.presentationLabAirlockShellClassName
-      : lab.presentationLabShellClassName;
+      ? presentationLabAirlockShellClassName
+      : presentationLabShellClassName;
 
   return (
     <div className={`${afendaExpensiveCalmPreset.className} ${shellClass}`}>
@@ -149,23 +168,25 @@ function LabThemeShell({
 }
 
 /** The front door — one message, one path. Sidebar holds the rest. */
-export function LabWelcomeSurface({ variant = "calm" }: LabWelcomeSurfaceProps) {
+export function LabWelcomeSurface({
+  variant = "calm",
+}: LabWelcomeSurfaceProps) {
   return (
     <LabThemeShell shell="airlock">
-      <main className={lab.presentationLabAirlockMainClassName}>
-        <p className={lab.presentationLabAirlockKickerClassName}>Afenda</p>
+      <main className={presentationLabAirlockMainClassName}>
+        <p className={presentationLabAirlockKickerClassName}>Afenda</p>
 
         <h1 className={airlockTitle[variant]}>
           <span className="sr-only">Afenda </span>
           Presentation Lab
         </h1>
 
-        <p className={lab.presentationLabAirlockSubtitleClassName}>
+        <p className={presentationLabAirlockSubtitleClassName}>
           Verify before ERP.
         </p>
 
         <p
-          className={`${lab.presentationLabAirlockActionClassName} cursor-default`}
+          className={`${presentationLabAirlockActionClassName} cursor-default`}
           role="note"
         >
           {PRIMARY_LANE.label}
@@ -176,7 +197,7 @@ export function LabWelcomeSurface({ variant = "calm" }: LabWelcomeSurfaceProps) 
         </p>
       </main>
 
-      <footer className={lab.presentationLabAirlockFooterClassName}>
+      <footer className={presentationLabAirlockFooterClassName}>
         <p>pnpm storybook:ui</p>
         <p className="mt-1 opacity-60">PAS-006 · ADR-0027</p>
       </footer>
@@ -190,16 +211,16 @@ function CatalogIndex() {
   const items = labSections.filter((s) => !s.featured);
 
   return (
-    <ul className="divide-y divide-border/50" role="list">
+    <ul className="divide-y divide-border/50">
       {items.map((section) => {
         const Icon = section.icon;
         return (
           <li key={section.title}>
-            <article className={lab.presentationLabCatalogRowClassName}>
+            <article className={presentationLabCatalogRowClassName}>
               <div className="flex min-w-0 flex-1 flex-col gap-2">
                 <div className="flex items-center gap-2">
                   <Icon aria-hidden className="size-4 shrink-0 text-primary" />
-                  <span className={lab.presentationLabMetricLabelClassName}>
+                  <span className={presentationLabMetricLabelClassName}>
                     {section.title}
                   </span>
                 </div>
@@ -226,7 +247,7 @@ function AcceptancePipeline() {
   return (
     <section aria-labelledby="acceptance-gates-heading">
       <h2
-        className={lab.presentationLabSectionTitleClassName}
+        className={presentationLabSectionTitleClassName}
         id="acceptance-gates-heading"
       >
         Acceptance gates
@@ -244,9 +265,9 @@ function AcceptancePipeline() {
                   {String(index + 1).padStart(2, "0")}
                 </span>
               </TimelineDot>
-              {!isLast ? (
+              {isLast ? null : (
                 <TimelineLine className="min-h-8 bg-border/80" done />
-              ) : null}
+              )}
               <TimelineHeading className="pt-0.5 font-medium text-foreground text-sm">
                 {gate.label}
               </TimelineHeading>
@@ -266,7 +287,7 @@ function AcceptancePipeline() {
 export function LabSectionCatalog(_props: LabWelcomeSurfaceProps) {
   return (
     <LabThemeShell shell="editorial">
-      <div className={`${lab.presentationLabContainerClassName} gap-8 py-12`}>
+      <div className={`${presentationLabContainerClassName} gap-8 py-12`}>
         <CatalogIndex />
       </div>
     </LabThemeShell>
@@ -276,7 +297,7 @@ export function LabSectionCatalog(_props: LabWelcomeSurfaceProps) {
 export function LabAcceptanceGatesPanel(_props: LabWelcomeSurfaceProps) {
   return (
     <LabThemeShell shell="editorial">
-      <div className={`${lab.presentationLabContainerClassName} py-12`}>
+      <div className={`${presentationLabContainerClassName} py-12`}>
         <AcceptancePipeline />
       </div>
     </LabThemeShell>
@@ -299,11 +320,11 @@ export function LabWelcomeFigmaSurface() {
   return (
     <LabThemeShell shell="airlock">
       <main
-        className={lab.presentationLabAirlockMainClassName}
+        className={presentationLabAirlockMainClassName}
         data-name="Afenda Presentation Lab Landing"
         data-node-id="2:2"
       >
-        <p className={lab.presentationLabAirlockKickerClassName} data-node-id="2:3">
+        <p className={presentationLabAirlockKickerClassName} data-node-id="2:3">
           Afenda
         </p>
 
@@ -312,12 +333,15 @@ export function LabWelcomeFigmaSurface() {
           Presentation Lab
         </h1>
 
-        <p className={lab.presentationLabAirlockSubtitleClassName} data-node-id="2:5">
+        <p
+          className={presentationLabAirlockSubtitleClassName}
+          data-node-id="2:5"
+        >
           Verify before ERP.
         </p>
 
         <p
-          className={`${lab.presentationLabAirlockActionClassName} cursor-default`}
+          className={`${presentationLabAirlockActionClassName} cursor-default`}
           data-node-id="2:6"
           role="note"
         >
@@ -333,7 +357,10 @@ export function LabWelcomeFigmaSurface() {
         </p>
       </main>
 
-      <footer className={lab.presentationLabAirlockFooterClassName} data-node-id="2:8">
+      <footer
+        className={presentationLabAirlockFooterClassName}
+        data-node-id="2:8"
+      >
         <p>pnpm storybook:ui</p>
         <p className="mt-1 opacity-60">PAS-006 · ADR-0027</p>
       </footer>
@@ -355,7 +382,7 @@ export const labWelcomeShadcnMcpRegistryItems = [
 export function LabWelcomeShadcnMcpSurface() {
   return (
     <LabThemeShell shell="airlock">
-      <main className={lab.presentationLabAirlockMainClassName}>
+      <main className={presentationLabAirlockMainClassName}>
         <Badge className="tracking-[0.2em]" variant="outline">
           Afenda
         </Badge>
@@ -365,7 +392,7 @@ export function LabWelcomeShadcnMcpSurface() {
           Presentation Lab
         </h1>
 
-        <p className={lab.presentationLabAirlockSubtitleClassName}>
+        <p className={presentationLabAirlockSubtitleClassName}>
           Verify before ERP.
         </p>
 
@@ -379,7 +406,7 @@ export function LabWelcomeShadcnMcpSurface() {
         </p>
       </main>
 
-      <footer className={lab.presentationLabAirlockFooterClassName}>
+      <footer className={presentationLabAirlockFooterClassName}>
         <p>pnpm storybook:ui</p>
         <p className="mt-1 opacity-60">PAS-006 · ADR-0027 · shadcn MCP</p>
       </footer>
@@ -395,6 +422,7 @@ function VercelMark() {
       fill="currentColor"
       viewBox="0 0 76 65"
     >
+      <title>Vercel</title>
       <path d="M37.5274 0L75.0548 65H0L37.5274 0Z" />
     </svg>
   );
@@ -406,7 +434,9 @@ function VercelMark() {
  */
 export function LabWelcomeVercelSurface() {
   return (
-    <div className={`${vercelLabPreset.className} vercel-lab-shell relative flex min-h-dvh flex-col`}>
+    <div
+      className={`${vercelLabPreset.className} vercel-lab-shell relative flex min-h-dvh flex-col`}
+    >
       <main className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-16 text-center sm:px-8">
         <div className="mb-6 flex items-center gap-2">
           <VercelMark />

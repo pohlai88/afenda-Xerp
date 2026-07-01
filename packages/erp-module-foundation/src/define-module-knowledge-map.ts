@@ -48,7 +48,12 @@ export function defineModuleKnowledgeMap(
       requiredAction: entry.requiredAction,
       ...(entry.atomId ? { atomId: entry.atomId } : {}),
       ...(entry.wireArtifact ? { wireArtifact: entry.wireArtifact } : {}),
-    } as const;
+      ...(entry.conceptId ? { conceptId: entry.conceptId } : {}),
+      ...(entry.termId ? { termId: entry.termId } : {}),
+      ...(entry.appliesTo && entry.appliesTo.length > 0
+        ? { appliesTo: entry.appliesTo }
+        : {}),
+    } satisfies ModuleKnowledgeTerm;
   });
 
   return {

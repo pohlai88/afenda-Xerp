@@ -184,6 +184,10 @@ export const Inventory: Story = {
         <code>kbd</code>
         <span className="text-muted-foreground"> — simple</span>
       </li>
+      <li key="kanban">
+        <code>kanban</code>
+        <span className="text-muted-foreground"> — simple</span>
+      </li>
       <li key="label">
         <code>label</code>
         <span className="text-muted-foreground"> — simple</span>

@@ -1,12 +1,10 @@
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import type { ReactNode } from "react";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Avatar, AvatarFallback } from "@/components-ui/avatar";
-import { Badge } from "@/components-ui/badge";
-import { Card, CardContent, CardHeader } from "@/components-ui/card";
-
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { cn } from "@/utils/utils";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 // Statistics card data type
 export type StatisticsCardProps = {
@@ -42,7 +40,10 @@ const StatisticsCard = ({
           {icon}
         </AvatarFallback>
       </Avatar>
-      <p {...blockSlotDomMarkerProps("metric.change")} className="flex items-center gap-1">
+      <p
+        {...blockSlotDomMarkerProps("metric.change")}
+        className="flex items-center gap-1"
+      >
         {changePercentage}{" "}
         {trend === "up" ? (
           <ChevronUpIcon className="size-4" />
@@ -53,10 +54,16 @@ const StatisticsCard = ({
     </CardHeader>
     <CardContent className="flex flex-1 flex-col justify-between gap-4">
       <p className="flex flex-col gap-1">
-        <span {...blockSlotDomMarkerProps("metric.value")} className="font-semibold text-lg">
+        <span
+          {...blockSlotDomMarkerProps("metric.value")}
+          className="font-semibold text-lg"
+        >
           {value}
         </span>
-        <span {...blockSlotDomMarkerProps("metric.label")} className="text-muted-foreground text-sm">
+        <span
+          {...blockSlotDomMarkerProps("metric.label")}
+          className="text-muted-foreground text-sm"
+        >
           {title}
         </span>
       </p>

@@ -3,17 +3,16 @@ import {
   ChevronUpIcon,
   EllipsisVerticalIcon,
 } from "lucide-react";
-
-import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { Button } from "@/components-ui/button";
-import { Card, CardContent, CardHeader } from "@/components-ui/card";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components-ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
 const listItems = ["Share", "Update", "Refresh"];
 
@@ -39,10 +38,16 @@ const SalesByCountryCard = ({
   <Card className={className}>
     <CardHeader className="flex justify-between">
       <div className="flex flex-col gap-1">
-        <span {...blockSlotDomMarkerProps("widget.title")} className="font-semibold text-lg">
+        <span
+          {...blockSlotDomMarkerProps("widget.title")}
+          className="font-semibold text-lg"
+        >
           {title}
         </span>
-        <span {...blockSlotDomMarkerProps("widget.summary")} className="text-muted-foreground text-sm">
+        <span
+          {...blockSlotDomMarkerProps("widget.summary")}
+          className="text-muted-foreground text-sm"
+        >
           {subTitle}
         </span>
       </div>

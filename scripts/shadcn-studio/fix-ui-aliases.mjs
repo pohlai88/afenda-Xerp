@@ -1,27 +1,70 @@
-import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  readdirSync,
+  readFileSync,
+  statSync,
+  writeFileSync,
+} from "node:fs";
 import { join } from "node:path";
-const root = join(process.cwd(), "packages/shadcn-studio/src");
-function walk(d) {
-  for (const n of readdirSync(d)) {
-    const p = join(d, n);
-    if (statSync(p).isDirectory()) walk(p);
-    else if (/\.(ts|tsx|json)$/.test(n)) {
-      let t = readFileSync(p, "utf8");
-      const b = t;
-      t = t.replaceAll("@/components-ui/", "@/components/ui/");
-      t = t.replaceAll("@/components-layouts/logo", "@/components/shadcn-studio/logo");
-      if (t !== b) writeFileSync(p, t);
+
+const SOURCE_FILE_PATTERN = /\.(ts|tsx|json)$/;
+
+const roots = [
+  join(process.cwd(), "packages/shadcn-studio/src"),
+  join(process.cwd(), "apps/storybook/stories"),
+  join(process.cwd(), "apps/storybook/.storybook"),
+];
+
+function normalizeImports(content) {
+  return content
+    .replaceAll("@/components-ui/", "@/components/ui/")
+    .replaceAll("@/components-layouts/", "@/components/shadcn-studio/");
+}
+
+function walk(directory) {
+  if (!existsSync(directory)) {
+    return;
+  }
+
+  for (const name of readdirSync(directory)) {
+    const filePath = join(directory, name);
+    if (statSync(filePath).isDirectory()) {
+      walk(filePath);
+      continue;
+    }
+
+    if (!SOURCE_FILE_PATTERN.test(name)) {
+      continue;
+    }
+
+    const before = readFileSync(filePath, "utf8");
+    const after = normalizeImports(before);
+    if (after !== before) {
+      writeFileSync(filePath, after);
     }
   }
 }
-walk(root);
-const assetsDir = join(root, "components-assets");
+
+for (const root of roots) {
+  walk(root);
+}
+
+const assetsDir = join(
+  process.cwd(),
+  "packages/shadcn-studio/src/components-assets"
+);
 const indexPath = join(assetsDir, "index.ts");
-if (!existsSync(indexPath)) {
-  const files = readdirSync(assetsDir).filter((f) => f.endsWith(".tsx"));
+if (existsSync(assetsDir) && !existsSync(indexPath)) {
+  const files = readdirSync(assetsDir).filter((file) => file.endsWith(".tsx"));
   writeFileSync(
     indexPath,
-    files.map((f) => `export { default as ${f.replace(".tsx", "")} } from "./${f.replace(".tsx", "")}.js";`).join("\n") + "\n"
+    `${files
+      .map(
+        (file) =>
+          `export { default as ${file.replace(".tsx", "")} } from "./${file.replace(".tsx", "")}.js";`
+      )
+      .join("\n")}\n`
   );
 }
-console.log("ok");
+
+console.log("fix-ui-aliases: ok");
