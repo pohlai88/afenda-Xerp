@@ -1,6 +1,6 @@
 import { consumeApiRateLimitBucket } from "@afenda/database";
 
-import type { ApiRateLimitPolicy } from "../contracts/rate-limit.contract";
+import type { ApiRateLimitPolicy } from "../meta-contracts/rate-limit.contract";
 import { ApiRouteError } from "./api-validation";
 
 export interface ApiRateLimitContext {

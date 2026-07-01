@@ -49,18 +49,6 @@ export const switchOutline06InfoClassName =
 export const switchOutline06WarningClassName =
   "data-checked:[&_span]:border-background focus-visible:border-amber-600 focus-visible:ring-amber-600/20 data-checked:border-amber-600 data-checked:bg-transparent dark:focus-visible:border-amber-400 dark:focus-visible:ring-amber-400/40 dark:data-checked:border-amber-400 [&_span]:border data-checked:[&_span]:bg-amber-600 dark:data-checked:[&_span]:bg-amber-400" as const;
 
-/** @deprecated Use switchOutline06PrimaryClassName — merged on root, not split root/thumb. */
-export const switchOutlineRootClassName = switchOutline06PrimaryClassName;
-
-/** @deprecated Outline color is driven by switch-06 `[&_span]` on root. */
-export const switchOutlineThumbClassName = switchThumbMotionClassName;
-
-/** @deprecated Use switchOutline06SuccessClassName / switchOutline06InfoClassName (switch-06 outline). */
-export const switchSemanticSuccessClassName = switchOutline06SuccessClassName;
-
-/** @deprecated Use switchOutline06InfoClassName. */
-export const switchSemanticInfoClassName = switchOutline06InfoClassName;
-
 export function switchPrimitiveMetadata() {
   return {
     id: SWITCH_PRIMITIVE_ID,

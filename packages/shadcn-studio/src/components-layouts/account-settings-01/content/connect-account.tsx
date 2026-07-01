@@ -14,6 +14,11 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  accountSettingsSectionContentClassName,
+  accountSettingsSectionGridClassName,
+  accountSettingsSectionHeadingClassName,
+} from "../../_shared/account-settings-page-shell.js";
 
 interface ConnectedAccount {
   iconUrl: string;
@@ -77,9 +82,9 @@ const ConnectedAccount = () => {
   };
 
   return (
-    <div className="grid w-full min-w-0 grid-cols-1 gap-10 xl:grid-cols-3">
+    <div className={accountSettingsSectionGridClassName}>
       {/* Vertical Tabs List */}
-      <div className="flex flex-col">
+      <div className={accountSettingsSectionHeadingClassName}>
         <h3 className="font-semibold text-foreground">Connect Accounts</h3>
         <p className="text-muted-foreground text-sm">
           Manage your connected accounts.
@@ -87,7 +92,7 @@ const ConnectedAccount = () => {
       </div>
 
       {/* Content */}
-      <div className="min-w-0 space-y-4 xl:col-span-2">
+      <div className={accountSettingsSectionContentClassName("4")}>
         <div className="flex flex-wrap items-center gap-4">
           {connectedAccounts.map((account) => (
             <div

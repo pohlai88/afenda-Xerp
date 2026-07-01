@@ -271,6 +271,24 @@ pnpm --filter @afenda/shadcn-studio build                     # full TS + CSS bu
 
 ---
 
+## Dead code / housekeeping
+
+Orchestration: [`.cursor/skills/afenda-repo-housekeeping/SKILL.md`](.cursor/skills/afenda-repo-housekeeping/SKILL.md) (`/afenda-repo-housekeeping`). Removal delegates to [`afenda-monorepo-refactor`](.cursor/skills/afenda-monorepo-refactor/SKILL.md) Slice D.
+
+```bash
+pnpm housekeeping:knip:workspace packages/<name>  # preferred scoped scan
+pnpm housekeeping:audit    # knip + downstream-integration + legacy terminology
+pnpm housekeeping:verify   # audit + quality:boundaries + quality:exports
+pnpm housekeeping:knip:turbo # strict knip via turbo root task
+pnpm housekeeping:knip:advisory:turbo # non-blocking CI signal (see housekeeping-advisory.yml)
+pnpm housekeeping:storybook-orphans           # dry-run orphan MCP layout blocks
+pnpm housekeeping:storybook-orphans -- --apply  # delete confirmed orphans only
+```
+
+Runbook: [`.cursor/skills/afenda-repo-housekeeping/reference/knip-rollout.md`](.cursor/skills/afenda-repo-housekeeping/reference/knip-rollout.md) · legacy redirect: [`.cursor/references/knip-afenda.md`](.cursor/references/knip-afenda.md).
+
+---
+
 ## CSP third-party scripts (ERP)
 
 The ERP skeleton (`apps/erp`) currently runs correlation-id pass-through in `apps/erp/src/proxy.ts` only. **Nonce-based CSP is not wired** until protected routes and third-party scripts return — follow [`.cursor/skills/csp-third-party/SKILL.md`](.cursor/skills/csp-third-party/SKILL.md) and [`.cursor/rules/csp-third-party-scripts.mdc`](.cursor/rules/csp-third-party-scripts.mdc) when reintroducing external scripts.

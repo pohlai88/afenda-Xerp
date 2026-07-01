@@ -42,6 +42,8 @@ export function widgetPrimitiveMetadata() {
 
 ## Rules
 
+- No boolean visual modes on primitives — use explicit recipe wrappers ([composition-patterns-bridge.md](composition-patterns-bridge.md))
+- Visual styling via contract class strings only — no inline `style` in adapters ([react-best-practices-bridge.md](react-best-practices-bridge.md) P3)
 - `as const` on slot maps and class string exports
 - No `any`; explicit Base UI `.Props` in adapter only
 - DRY — class strings live once in contract

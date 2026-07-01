@@ -34,8 +34,7 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "pino": "^10.3.1",
-    "pino-std-serializers": "^7.1.0"
+    "pino": "^10.3.1"
   },
   "devDependencies": {
     "@afenda/typescript-config": "workspace:*",

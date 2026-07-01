@@ -1,0 +1,6 @@
+
+> afenda@ housekeeping:storybook-orphans C:\JackProject\afenda-bolt\afenda-Xerp
+> node scripts/storybook/discard-blocks-without-consumer.mjs
+
+discard-blocks-without-consumer ÔÇö dry-run (pass --apply to delete)
+discard-blocks-without-consumer ÔÇö would remove 0 of 0 orphan block(s)

@@ -56,7 +56,7 @@ for (const step of GENERATORS) {
 
 const coverageCheck = spawnSync(
   process.execPath,
-  [join(scriptDir, "../governance/check-storybook-block-coverage.mjs")],
+  [join(scriptDir, "../meta-gates/check-storybook-block-coverage.mjs")],
   { cwd: repoRoot, stdio: "inherit" }
 );
 
@@ -66,7 +66,7 @@ if (coverageCheck.status !== 0) {
 
 const primitiveCoverageCheck = spawnSync(
   process.execPath,
-  [join(scriptDir, "../governance/check-storybook-primitive-coverage.mjs")],
+  [join(scriptDir, "../meta-gates/check-storybook-primitive-coverage.mjs")],
   { cwd: repoRoot, stdio: "inherit" }
 );
 

@@ -23,7 +23,7 @@ Thin composer — **does not duplicate** PAS-006 authority. Read child skills in
 | Trigger | Read first |
 | --- | --- |
 | MCP block install / studio package edit | `shadcn-studio/SKILL.md` |
-| `components/ui/**` primitive edit | `afenda-primitive-contract/SKILL.md` |
+| `components-ui/**` primitive edit | `afenda-primitive-contract/SKILL.md` + mismatch frame on E0 |
 | ERP refactor / AI-generated TSX review | `afenda-react-surface-quality/SKILL.md` |
 | ERP `globals.css`, `preview.css`, or Tailwind in TSX | `afenda-tailwind/SKILL.md` |
 | ERP metadata operator route | `shadcn-studio/SKILL.md` + IS-003 consumer gate |
@@ -97,13 +97,13 @@ MCP blocks split into two shapes after install:
 | Shape | Example | Story location |
 | --- | --- | --- |
 | **Folder page block** | `login-page-04/login-page-04.tsx` | `shadcn-studio-blocks-auto.stories.tsx` (codegen, zero props) |
-| **Flat prop-driven block** | `statistics-card-01.tsx` | `shadcn-studio-blocks.stories.tsx` + `_storybook/*.compositions.tsx` (fixtures required) |
+| **Flat prop-driven block** | `statistics-card-01.tsx` | `shadcn-studio-blocks.stories.tsx` + `storybook/*.compositions.tsx` (fixtures required) |
 
 **After every MCP install:** `pnpm storybook generate` (runs codegen **and** stories typecheck). Never hand-edit the auto file.
 
-Manifest SSOT: `packages/shadcn-studio/src/_storybook/block-story-manifest.generated.json` → `manualStoryRequired` lists blocks needing curated props.
+Manifest SSOT: `packages/shadcn-studio/src/storybook/block-story-manifest.generated.json` → `manualStoryRequired` lists blocks needing curated props.
 
-**Curated flat blocks:** `shadcn-studio-blocks-flat.stories.tsx` (33 blocks · light/dark) · fixtures in `_storybook/block-flat-story.compositions.tsx` · multi-block preview in `shadcn-studio-blocks-dashboard-preview.stories.tsx`.
+**Curated flat blocks:** `shadcn-studio-blocks-flat.stories.tsx` (33 blocks · light/dark) · fixtures in `storybook/block-flat-story.compositions.tsx` · multi-block preview in `shadcn-studio-blocks-dashboard-preview.stories.tsx`.
 
 ## Mandatory gates (ERP — ADR-0027)
 

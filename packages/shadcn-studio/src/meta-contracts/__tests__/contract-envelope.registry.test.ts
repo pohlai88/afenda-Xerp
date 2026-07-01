@@ -36,10 +36,7 @@ describe("L1 contract envelope registry", () => {
   const diff = diffL1ContractEnvelopeRegistry(discovered);
 
   it("registry count matches total flat contracts/ files on disk", () => {
-    expect(
-      diff,
-      formatL1ContractEnvelopeInventoryDiff(diff)
-    ).toEqual({
+    expect(diff, formatL1ContractEnvelopeInventoryDiff(diff)).toEqual({
       registeredCount: discovered.length,
       discoveredCount: discovered.length,
       missingOnDisk: [],
@@ -74,7 +71,7 @@ describe("L1 contract envelope registry", () => {
     for (const forbidden of FORBIDDEN_L1_CONTRACT_PATHS) {
       expect(
         existsSync(join(contractsDir, forbidden)),
-        `forbidden path must not exist: meta-contracts/${forbidden}`
+        `forbidden path must not exist: meta-meta-contracts/${forbidden}`
       ).toBe(false);
     }
   });

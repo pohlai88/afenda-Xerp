@@ -1,17 +1,18 @@
 "use client";
 
 import {
+  BadgePercentIcon,
   BanknoteIcon,
+  CircleDollarSignIcon,
   CreditCardIcon,
   DollarSignIcon,
+  ShoppingBagIcon,
   ShoppingCartIcon,
   TrendingUpIcon,
   UsersIcon,
   WalletIcon,
 } from "lucide-react";
 import type { ComponentType, ReactNode } from "react";
-
-import { TotalOrdersCardSvg } from "../components-assets/index.js";
 
 import ChartEarningReportBlock from "../components-layouts/chart-earning-report.js";
 import ChartSalesMetricsBlock from "../components-layouts/chart-sales-metrics.js";
@@ -26,6 +27,7 @@ import SearchDialog from "../components-layouts/dialog-search.js";
 import LanguageDropdown from "../components-layouts/dropdown-language.js";
 import NotificationDropdown from "../components-layouts/dropdown-notification.js";
 import ProfileDropdown from "../components-layouts/dropdown-profile.js";
+import ErrorPageShellBlock from "../components-layouts/error-page-shell.js";
 import MenuTriggerBlock from "../components-layouts/menu-trigger.js";
 import SidebarUserDropdownBlock from "../components-layouts/sidebar-user-dropdown.js";
 import StatisticsActivityCardBlock from "../components-layouts/statistics-activity-card.js";
@@ -57,14 +59,38 @@ import {
 
 import {
   CHART_EARNING_DATA,
+  CHART_SALES_METRICS_PIE_DATA,
+  CHART_TOTAL_REVENUE_BAR_DATA,
+  CHART_TOTAL_REVENUE_GROWTH_DATA,
   METRIC_TREND_DATA,
   METRIC_TREND_SERIES,
+  STATISTICS_ACTIVITY_CHART_DATA,
+  STATISTICS_EXPENSE_CHART_DATA,
+  STATISTICS_INCOME_CHART_DATA,
+  STATISTICS_LEADS_CHART_DATA,
+  STATISTICS_PROFILE_TRAFFIC_CHART_DATA,
+  STATISTICS_REVENUE_CHART_DATA,
   STATISTICS_TREND_DATA,
   WIDGET_PAYMENT_HISTORY,
   WIDGET_SALES_BY_COUNTRIES,
   WIDGET_TOTAL_EARNING_ROWS,
   WIDGET_TRANSACTIONS,
 } from "./block-flat-story-fixtures.js";
+
+function buildSalesPlanBarData(salesPlanPercentage: number, totalBars = 24) {
+  const filledBars = Math.round((salesPlanPercentage * totalBars) / 100);
+  const date = new Date(2025, 5, 15);
+  const formattedDate = date.toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+
+  return Array.from({ length: totalBars }, (_, index) => ({
+    date: formattedDate,
+    sales: index < filledBars ? 315 : 0.0001,
+  }));
+}
 
 const TRANSACTION_ICONS: Record<
   (typeof WIDGET_TRANSACTIONS)[number]["icon"],
@@ -128,11 +154,75 @@ export function ChartEarningReportSample() {
 }
 
 export function ChartSalesMetricsSample() {
-  return <ChartSalesMetricsBlock />;
+  const salesPlanPercentage = 54;
+
+  return (
+    <ChartSalesMetricsBlock
+      company={{
+        email: "sandy@company.com",
+        logoUrl: "https://cdn.shadcnstudio.com/ss-assets/logo/logo-square.png",
+        name: "Sandy's Company",
+      }}
+      metrics={[
+        {
+          icon: <TrendingUpIcon className="size-5" />,
+          title: "Sales trend",
+          value: "$11,548",
+        },
+        {
+          icon: <BadgePercentIcon className="size-5" />,
+          title: "Discount offers",
+          value: "$1,326",
+        },
+        {
+          icon: <DollarSignIcon className="size-5" />,
+          title: "Net profit",
+          value: "$17,356",
+        },
+        {
+          icon: <ShoppingBagIcon className="size-5" />,
+          title: "Total orders",
+          value: "248",
+        },
+      ]}
+      planCompletedLabel="Plan completed"
+      planCompletedPercent="56%"
+      revenueCenterLabel="Total Profit"
+      revenueCenterValue="256.24"
+      revenueGoalTitle="Revenue goal"
+      revenuePieData={[...CHART_SALES_METRICS_PIE_DATA]}
+      salesBarChartData={buildSalesPlanBarData(salesPlanPercentage)}
+      salesPlanDescription="Percentage profit from total sales"
+      salesPlanPercentage={salesPlanPercentage}
+      salesPlanTitle="Sales plan"
+      title="Sales metrics"
+    />
+  );
 }
 
 export function ChartTotalRevenueSample() {
-  return <ChartTotalRevenueBlock />;
+  return (
+    <ChartTotalRevenueBlock
+      barChartData={[...CHART_TOTAL_REVENUE_BAR_DATA]}
+      growthCenterLabel="Growth"
+      growthCenterValue="78%"
+      growthFootnote="62% Company Growth"
+      growthPieData={[...CHART_TOTAL_REVENUE_GROWTH_DATA]}
+      title="Total Revenue"
+      yearSummaries={[
+        {
+          amount: "$32.5K",
+          icon: <CircleDollarSignIcon className="size-5" />,
+          year: "2024",
+        },
+        {
+          amount: "$41.2K",
+          icon: <WalletIcon className="size-5" />,
+          year: "2023",
+        },
+      ]}
+    />
+  );
 }
 
 export function DashboardDialog03Sample() {
@@ -227,6 +317,10 @@ export function DialogSearchSample() {
   );
 }
 
+export function ErrorPageShellSample() {
+  return <ErrorPageShellBlock />;
+}
+
 export function DropdownLanguageSample() {
   return (
     <LanguageDropdown
@@ -272,7 +366,14 @@ export function SidebarUserDropdownSample() {
 }
 
 export function StatisticsActivityCardSample() {
-  return <StatisticsActivityCardBlock />;
+  return (
+    <StatisticsActivityCardBlock
+      amount="82%"
+      changePercentage={38}
+      chartData={[...STATISTICS_ACTIVITY_CHART_DATA]}
+      title="Activity"
+    />
+  );
 }
 
 export function StatisticsCard01Sample() {
@@ -315,7 +416,7 @@ export function StatisticsCard04Sample() {
     <StatisticsCard04Block
       badgeContent="Monthly"
       changePercentage={4.8}
-      svg={<TotalOrdersCardSvg />}
+      svg={<TrendingUpIcon aria-hidden className="size-16 text-primary/25" />}
       title="Conversion rate"
       value="3.42%"
     />
@@ -323,15 +424,37 @@ export function StatisticsCard04Sample() {
 }
 
 export function StatisticsExpenseCardSample() {
-  return <StatisticsExpenseCardBlock />;
+  return (
+    <StatisticsExpenseCardBlock
+      amount="$4,120"
+      changePercentage="-12.2%"
+      chartData={[...STATISTICS_EXPENSE_CHART_DATA]}
+      title="Expense this month"
+    />
+  );
 }
 
 export function StatisticsIncomeCardSample() {
-  return <StatisticsIncomeCardBlock />;
+  return (
+    <StatisticsIncomeCardBlock
+      amount="$5,280"
+      changePercentage="+12.2%"
+      chartData={[...STATISTICS_INCOME_CHART_DATA]}
+      title="Income this month"
+    />
+  );
 }
 
 export function StatisticsLeadsCardSample() {
-  return <StatisticsLeadsCardBlock />;
+  return (
+    <StatisticsLeadsCardBlock
+      amount="4,350"
+      changePercentage={18.2}
+      chartCenterLabel="$23K"
+      chartData={[...STATISTICS_LEADS_CHART_DATA]}
+      title="Generated leads"
+    />
+  );
 }
 
 export function StatisticsLineTrendsCardSample() {
@@ -345,19 +468,68 @@ export function StatisticsLineTrendsCardSample() {
 }
 
 export function StatisticsOrdersProgressCardSample() {
-  return <StatisticsOrdersProgressCardBlock />;
+  return (
+    <StatisticsOrdersProgressCardBlock
+      sections={[
+        {
+          badgeValue: "+11",
+          detailLabel: "12 New orders",
+          label: "Order placed",
+          progressValue: 85,
+        },
+        {
+          badgeValue: "-4",
+          detailLabel: "8 New orders",
+          label: "Order Delivered",
+          progressValue: 85,
+        },
+      ]}
+      title="Statistics"
+    />
+  );
 }
 
 export function StatisticsProfileTrafficCardSample() {
-  return <StatisticsProfileTrafficCardBlock />;
+  return (
+    <StatisticsProfileTrafficCardBlock
+      amount="2.84k"
+      changePercentage={15}
+      chartData={[...STATISTICS_PROFILE_TRAFFIC_CHART_DATA]}
+      title="Average profile traffic"
+    />
+  );
 }
 
 export function StatisticsRevenueCardSample() {
-  return <StatisticsRevenueCardBlock />;
+  return (
+    <StatisticsRevenueCardBlock
+      amount="$3,234"
+      changePercentage={15}
+      chartData={[...STATISTICS_REVENUE_CHART_DATA]}
+      title="Revenue growth"
+    />
+  );
 }
 
 export function StatisticsSalesOverviewCardSample() {
-  return <StatisticsSalesOverviewCardBlock />;
+  return (
+    <StatisticsSalesOverviewCardBlock
+      changePercentage="+18.2%"
+      deliveredSide={{
+        count: "12,740",
+        label: "Delivered",
+        percentage: "25.5%",
+      }}
+      orderSide={{
+        count: "6,440",
+        label: "Order",
+        percentage: "62.2%",
+      }}
+      progressValue={60}
+      title="Sales Overview"
+      totalValue="$38.5k"
+    />
+  );
 }
 
 export function StatisticsTrendCardSample() {

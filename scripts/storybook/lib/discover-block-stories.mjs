@@ -12,7 +12,8 @@ export const FULLSCREEN_BLOCK_SLUG_PATTERN =
 
 const TSX_FILE_EXTENSION_PATTERN = /\.tsx$/;
 
-const SHARED_LAYOUT_FILES = new Set(["logo.tsx"]);
+const SHARED_LAYOUT_FILES = new Set(["logo.tsx", "morphing-text.tsx"]);
+const SKIP_FLAT_BLOCK_SLUGS = new Set(["morphing-text"]);
 const SKIP_DIR_NAMES = new Set(["__tests__", "_shared", "_internal"]);
 
 /** @typedef {{ slug: string; importPath: string; importName: string; layout: "centered" | "fullscreen" }} BlockEntry */
@@ -73,8 +74,17 @@ export function discoverBlockStories(blocksRoot) {
     }
 
     if (name.endsWith(".tsx")) {
-      if (SHARED_LAYOUT_FILES.has(name)) continue;
-      manualStoryRequired.push(name.replace(TSX_FILE_EXTENSION_PATTERN, ""));
+      if (SHARED_LAYOUT_FILES.has(name)) {
+        continue;
+      }
+      if (name.endsWith(".stories.tsx")) {
+        continue;
+      }
+      const slug = name.replace(TSX_FILE_EXTENSION_PATTERN, "");
+      if (SKIP_FLAT_BLOCK_SLUGS.has(slug)) {
+        continue;
+      }
+      manualStoryRequired.push(slug);
     }
   }
 

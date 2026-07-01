@@ -15,7 +15,7 @@ describe("check-erp-api-import-authority", () => {
     mkdirSync(apiRoot, { recursive: true });
     writeFileSync(
       join(apiRoot, "create-api-handler.ts"),
-      'import type { ApiRouteContract } from "../contracts/api-contract";\n',
+      'import type { ApiRouteContract } from "../meta-contracts/api-contract";\n',
       "utf8"
     );
 

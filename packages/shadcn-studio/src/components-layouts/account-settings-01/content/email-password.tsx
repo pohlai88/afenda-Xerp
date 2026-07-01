@@ -11,6 +11,10 @@ import {
 import { Label } from "@/components/ui/label";
 import { cn } from "@/utils/utils";
 import { blockSlotDomMarkerProps } from "../../../meta-contracts/block-slot-dom-marker.contract.js";
+import {
+  accountSettingsSectionGridClassName,
+  accountSettingsSectionHeadingClassName,
+} from "../../_shared/account-settings-page-shell.js";
 
 const requirements = [
   { regex: /.{12,}/, text: "At least 12 characters" },
@@ -60,9 +64,9 @@ const EmailPass = () => {
   };
 
   return (
-    <div className="grid w-full min-w-0 grid-cols-1 gap-10 xl:grid-cols-3">
+    <div className={accountSettingsSectionGridClassName}>
       {/* Vertical Tabs List */}
-      <div className="flex flex-col space-y-1">
+      <div className={accountSettingsSectionHeadingClassName}>
         <h3 className="font-semibold">Email & Password</h3>
         <p className="text-muted-foreground text-sm">
           Manage your email and password settings.

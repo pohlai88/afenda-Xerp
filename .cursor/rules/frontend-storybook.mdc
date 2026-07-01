@@ -1,6 +1,6 @@
 ---
 description: Storybook lab layer — PAS-006 presentation verification on port 6006.
-globs: apps/storybook/**,packages/shadcn-studio/**/*.stories.tsx,packages/shadcn-studio/src/_storybook/**
+globs: apps/storybook/**,packages/shadcn-studio/**/*.stories.tsx,packages/shadcn-studio/src/storybook/**
 ---
 
 # Frontend — Storybook lab (PAS-006)
@@ -9,7 +9,7 @@ globs: apps/storybook/**,packages/shadcn-studio/**/*.stories.tsx,packages/shadcn
 
 ## Layer order
 
-Storybook is **layer 2** (after `apps/erp`, before editing `components/ui` primitives). Visual polish in ERP does not justify primitive refactors for Storybook alone.
+Storybook is **layer 2** (after `apps/erp`, before editing `components-ui/` primitives). Virtual import: `@/components/ui/*`. Visual polish in ERP does not justify primitive refactors for Storybook alone.
 
 ## What this app owns
 
@@ -18,7 +18,7 @@ Storybook is **layer 2** (after `apps/erp`, before editing `components/ui` primi
 | `apps/storybook/.storybook/` | Vite aliases, preview, MSW, Vitest plugin |
 | `apps/storybook/stories/` | Lab shell stories (Welcome) |
 | `packages/shadcn-studio/src/**/*.stories.tsx` | Colocated studio stories |
-| `packages/shadcn-studio/src/_storybook/` | Fixtures, parameters, flat registry |
+| `packages/shadcn-studio/src/storybook/` | Fixtures, parameters, flat registry |
 
 ## Commands
 

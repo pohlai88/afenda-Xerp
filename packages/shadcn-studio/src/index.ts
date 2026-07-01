@@ -24,6 +24,9 @@ export { default as LoginPage04Block } from "./components-auth-shell/login-page-
 export { default as AccountSettings01Block } from "./components-layouts/account-settings-01/account-settings-01.js";
 export { default as ChartEarningReportBlock } from "./components-layouts/chart-earning-report.js";
 export { default as ChartSalesMetricsBlock } from "./components-layouts/chart-sales-metrics.js";
+export { default as ChartTotalRevenueBlock } from "./components-layouts/chart-total-revenue.js";
+export { default as AddPaymentMethodDialogBlock } from "./components-layouts/dashboard-dialog-03/dialog-add-payment-method.js";
+export { default as VerifyDialogBlock } from "./components-layouts/dashboard-dialog-09/dialog-verify.js";
 export { default as DatatableInvoiceBlock } from "./components-layouts/datatable-invoice.js";
 export type { Item as DatatableProductRow } from "./components-layouts/datatable-product.js";
 export { default as DatatableProductBlock } from "./components-layouts/datatable-product.js";
@@ -34,6 +37,11 @@ export { default as SearchDialogBlock } from "./components-layouts/dialog-search
 export { default as LanguageDropdownBlock } from "./components-layouts/dropdown-language.js";
 export { default as NotificationDropdownBlock } from "./components-layouts/dropdown-notification.js";
 export { default as ProfileDropdownBlock } from "./components-layouts/dropdown-profile.js";
+export {
+  ERROR_PAGE_COPY_REGISTRY,
+  type ErrorPageCopyWire,
+} from "./components-layouts/error-page-shell.contract.js";
+export { default as ErrorPageShellBlock } from "./components-layouts/error-page-shell.js";
 export { default as HeroSection01Block } from "./components-layouts/hero-section-01/hero-section-01.js";
 export { default as MenuTriggerBlock } from "./components-layouts/menu-trigger.js";
 export {
@@ -45,6 +53,8 @@ export { default as StatisticsActivityCardBlock } from "./components-layouts/sta
 export { default as StatisticsCard01Block } from "./components-layouts/statistics-card-01.js";
 export { default as StatisticsCard02Block } from "./components-layouts/statistics-card-02.js";
 export { default as StatisticsCard03Block } from "./components-layouts/statistics-card-03.js";
+export { default as StatisticsCard04Block } from "./components-layouts/statistics-card-04.js";
+export { default as StatisticsExpenseCardBlock } from "./components-layouts/statistics-expense-card.js";
 export { default as StatisticsIncomeCardBlock } from "./components-layouts/statistics-income-card.js";
 export { default as StatisticsLeadsCardBlock } from "./components-layouts/statistics-leads-card.js";
 export { default as StatisticsLineTrendsCardBlock } from "./components-layouts/statistics-line-trends-card.js";
@@ -53,11 +63,19 @@ export { default as StatisticsProfileTrafficCardBlock } from "./components-layou
 export { default as StatisticsRevenueCardBlock } from "./components-layouts/statistics-revenue-card.js";
 export { default as StatisticsSalesOverviewCardBlock } from "./components-layouts/statistics-sales-overview-card.js";
 export { default as StatisticsTrendCardBlock } from "./components-layouts/statistics-trend-card.js";
+export {
+  default as UserProfileAvatar,
+  type UserProfileAvatarProps,
+} from "./components-layouts/user-profile-avatar.js";
+export {
+  default as UserProfileAvatarPicker,
+  type UserProfileAvatarPickerProps,
+  type UserProfileAvatarValue,
+} from "./components-layouts/user-profile-avatar-picker.js";
 export { default as WidgetPaymentHistoryBlock } from "./components-layouts/widget-payment-history.js";
 export { default as WidgetSalesByCountriesBlock } from "./components-layouts/widget-sales-by-countries.js";
 export { default as WidgetTotalEarningBlock } from "./components-layouts/widget-total-earning.js";
 export { default as WidgetTransactionsBlock } from "./components-layouts/widget-transactions.js";
-
 export { Button, buttonVariants } from "./components-ui/button.js";
 export {
   Card,
@@ -81,6 +99,24 @@ export {
   type KanbanMoveEvent,
   KanbanOverlay,
 } from "./components-ui/kanban.js";
+export {
+  userProfileAvatarFallbackClassName,
+  userProfileAvatarHeroClassName,
+  userProfileAvatarPanelClassName,
+  userProfileAvatarPresetButtonClassName,
+  userProfileAvatarPresetGridClassName,
+  userProfileAvatarPresetIdleClassName,
+  userProfileAvatarPresetSelectedClassName,
+} from "./lib/user-profile-avatar.contract.js";
+export {
+  DEFAULT_USER_PROFILE_AVATAR_PRESET_ID,
+  getUserProfileAvatarPreset,
+  resolveUserProfileAvatarFallback,
+  resolveUserProfileAvatarImageSrc,
+  USER_PROFILE_AVATAR_PRESETS,
+  type UserProfileAvatarPreset,
+  type UserProfileAvatarPresetId,
+} from "./lib/user-profile-avatar.policy.js";
 export {
   type AcceptanceCriterionResult,
   type AcceptanceRecordWire,
@@ -106,9 +142,6 @@ export {
   isAppShellNavGroupWire,
   isAppShellNavItemWire,
   isAppShellOperatingContextWire,
-  isErpNavGroupWire,
-  isErpNavItemWire,
-  isErpShellOperatingContextWire,
 } from "./meta-contracts/app-shell.contract.js";
 export {
   assertBlockDataContractWire,
@@ -163,6 +196,16 @@ export {
   type SurfaceTemplateClass,
   type SurfaceTemplateContractWire,
 } from "./meta-contracts/surface-template.contract.js";
+export {
+  ACCEPTANCE_RECORD_REGISTRY,
+  ACCEPTANCE_RECORD_SEALED_AT,
+  ACCEPTANCE_RECORD_SEALED_BY,
+  ACPA_PROFILE_VERSION,
+  assertAllAcceptanceRecordsSealed,
+  getAcceptanceRecordByBlockId,
+  getAcceptanceRecordById,
+  listAcceptanceRecordIds,
+} from "./meta-registry/acceptance-record.registry.js";
 export {
   assertMetadataBindingCoverage,
   type MetadataBindingCoverageResult,
@@ -224,8 +267,10 @@ export {
   type PresentationLayerKind,
 } from "./meta-registry/presentation-inventory.registry.js";
 export {
+  assertStudioBlockPreviewComponentsRegistered,
   assertSurfaceTemplateBlockComponentsRegistered,
   isStudioBlockComponentId,
+  listStudioBlockPreviewIds,
   listSurfaceTemplateBlockComponentIds,
   resolveStudioBlockComponent,
   STUDIO_BLOCK_COMPONENT_REGISTRY,

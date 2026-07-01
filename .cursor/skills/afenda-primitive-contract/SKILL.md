@@ -1,13 +1,13 @@
 ---
 name: afenda-primitive-contract
 description: >-
-  PAS-006 primitive contract authority for @afenda/shadcn-studio components/ui.
+  PAS-006 primitive contract authority for @afenda/shadcn-studio components-ui.
   Use when scanning, splitting, editing, or upgrading Base UI widget primitives.
   Contract owns primitive identity, slots, classes, cva, metadata, and diagnostics.
   Adapter owns Base UI anatomy, rendering composition, public props, and client boundary.
-  Never run shadcn --overwrite on existing components/ui/*.
+  E0 scans must run M1–M10 mismatch frame + P1–P8 perf checklist before gold approval. Never shadcn --overwrite on existing primitives.
 paths:
-  - packages/shadcn-studio/src/components/ui/**
+  - packages/shadcn-studio/src/components-ui/**
 ---
 
 # Afenda Primitive Contract Skill
@@ -18,11 +18,15 @@ paths:
 
 **CLI:** `pnpm studio:shadcn add <name> --yes`
 
-**Hard rule:** Never use `--overwrite` on existing `components/ui/*`.
+**Hard rule:** Never use `--overwrite` on existing primitives under `components-ui/`.
+
+**Physical vs virtual:** Files live in `src/components-ui/`; MCP/tsconfig alias is `@/components/ui/*`.
+
+**Mismatch frame (E0):** [reference/mismatch-inspection-frame.md](reference/mismatch-inspection-frame.md) · **Composition:** [reference/composition-patterns-bridge.md](reference/composition-patterns-bridge.md) · **Performance:** [reference/react-best-practices-bridge.md](reference/react-best-practices-bridge.md) · **Testing:** [reference/react-testing-patterns-bridge.md](reference/react-testing-patterns-bridge.md)
 
 **Gold examples:**
 
-- `accordion` v1.2.0 — panel/inner split, header slot, state-safe class composition
+- `accordion` v1.2.0 — panel/inner split, header slot, two-icon hide/show via `data-panel-open` only (no rotate)
 - `alert-dialog` v1.2.0 — Portal → Backdrop → Viewport → Popup; governed layout slots; T2 focus/Escape/close paths
 - `avatar` v1.2.0 — Root → Image → Fallback; composition Badge/Group slots; static render smoke (T2 N/A)
 - `button` v1.2.0 — cva in contract; `composeClassName` + governed prop order; render smoke for click/disabled
@@ -91,7 +95,7 @@ Adapter target: keep each component function **≤ ~40 lines** where practical.
 | Tier | Version | Gate | Meaning |
 | --- | --- | --- | --- |
 | **Batch** | `1.0.0` | T1 minimum | Slots + version exist; classes may still be inline |
-| **Enterprise** | `≥ 1.1.0` | T1 + types + metadata | Classes in contract, metadata id, slot types, `composeClassName`, `WithoutGovernedDataSlot` |
+| **Enterprise** | `≥ 1.1.0` | T1 + types + metadata | Classes in contract, metadata id, slot types, `composeClassName`, `GovernedPrimitiveProps` |
 | **Gold** | `≥ 1.2.0` | T1 + T2 + docs | Reference implementation for future primitives |
 
 Batch primitives may pass the gate, but they are not ERP-promotion ready.
@@ -148,7 +152,7 @@ Enterprise adapters must follow all rules below:
 1. Import contract symbols from `./{name}.contract`.
 2. Use Base UI `.Props` types where applicable.
 3. Export public `{Name}Props` types from the adapter.
-4. Wrap public Base UI props with `WithoutGovernedDataSlot<BaseUI.Part.Props>`.
+4. Wrap public Base UI props with `GovernedPrimitiveProps<BaseUI.Part.Props>` (string-only `className`; no consumer `data-slot`).
 5. Use `composeClassName(contractClassName, className)` on every styled Base UI part.
 6. JSX order on governed primitive parts must be:
 
@@ -164,19 +168,38 @@ Enterprise adapters must follow all rules below:
 8. No `React.FC`.
 9. No `any`.
 10. No `forwardRef`; use ref as prop for React 19.
-11. No inline subcomponents.
+11. No inline subcomponents (**P1** / `rerender-no-inline-components`).
 12. Icons stay in adapter or a dedicated visual file, never in contract.
 13. Full documented Base UI anatomy must be represented.
 14. If a component has an outer behavior shell and inner layout shell, split props honestly:
     - `className` for Base UI outer part
     - `innerClassName` for inner layout/content wrapper
+15. No `useEffect` mirroring open/selected/value state Base UI already owns (**P2** / **M2**).
+16. No inline `style` for visual meaning — contract classes only (**P3** / `js-batch-dom-css`).
+17. Lucide transform/rotate: wrap in `<span>` if using single-icon rotate (**P4**); prefer CSS hide/show for two-icon strategy.
+
+Performance detail: [reference/react-best-practices-bridge.md](reference/react-best-practices-bridge.md).
 
 Helpers:
 
 ```ts
 import { composeClassName } from "@/lib/compose-class-name";
-import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
+import type { GovernedPrimitiveProps } from "@/lib/governed-primitive-props";
 ```
+
+---
+
+## 5b. Primitive vs recipe (composition)
+
+Do not add boolean visual modes (`isCard`, `isFAQ`, `variant="marketing"`) to base primitives.
+
+| Layer | Owns |
+| --- | --- |
+| **Primitive** | Neutral parts, contract classes, `GovernedPrimitiveProps` |
+| **Recipe** | Named wrapper (`AccordionSurface`, `AccordionFAQ`) with decorative surface classes |
+| **Block** | Domain layout composing recipes + primitives |
+
+See [composition-patterns-bridge.md](reference/composition-patterns-bridge.md) (validated against Vercel composition patterns).
 
 ---
 
@@ -236,9 +259,11 @@ When asked to scan or evaluate a primitive:
    - `{name}.interaction.test.tsx` if present
 2. Identify tier: Batch · Enterprise · Gold · Fail
 3. Run E1–E12 checklist ([reference/enterprise-checklist.md](reference/enterprise-checklist.md))
-4. Compare against gold examples: `accordion`, `alert-dialog`
-5. Decide effort level: E0 · E1 · E2 · E3 · E4
-6. Output report using the standard template (§8)
+4. Run M1–M10 mismatch frame ([reference/mismatch-inspection-frame.md](reference/mismatch-inspection-frame.md)) — report-first
+5. Run P1–P8 adapter perf checklist ([reference/react-best-practices-bridge.md](reference/react-best-practices-bridge.md)) — report-first; N/A for static T0 primitives where noted
+6. Compare against gold examples: `accordion`, `alert-dialog`
+7. Decide effort level: E0 · E1 · E2 · E3 · E4
+8. Output report using §8 (tier table + mismatch findings + P failures)
 
 **Do not patch code** unless the user explicitly requests upgrade/fix beyond E0.
 
@@ -260,7 +285,7 @@ When asked to scan or evaluate a primitive:
 | E2 | Slot types exported | ✅/❌ | |
 | E3 | Classes in contract | ✅/❌ | |
 | E4 | composeClassName in adapter | ✅/❌ | |
-| E5 | WithoutGovernedDataSlot | ✅/❌ | |
+| E5 | GovernedPrimitiveProps | ✅/❌ | |
 | E6 | Prop order: props → className → data-slot | ✅/❌ | |
 | E7 | Full Base UI anatomy | ✅/❌ | |
 | E8 | No icons/React/Base UI in contract | ✅/❌ | |
@@ -269,11 +294,21 @@ When asked to scan or evaluate a primitive:
 | E11 | Gate passes | ✅/❌/Not run | |
 | E12 | Exported adapter prop types | ✅/❌ | |
 
-### Findings
+### Mismatch findings (M1–M10)
 
-1. ...
-2. ...
-3. ...
+For each issue:
+
+```txt
+Mismatch:
+Expected:
+Actual:
+Why it matters:
+Required fix:
+Acceptance check:
+```
+
+**Safe to approve:** Yes / No  
+**Remaining risks:** …
 
 ### Required actions
 
@@ -295,18 +330,24 @@ Do not promote until:
 
 | ID | File | Required when | Must assert |
 | --- | --- | --- | --- |
-| **T1** | `{name}.contract.test.ts` | Every primitive | version, primitive id, metadata JSON, slot map, class constants, type assertions |
-| **T2** | `{name}.interaction.test.tsx` | Interactive primitives | open/close, keyboard, focus, close action, disabled state where applicable |
+| **T1** | `{name}.contract.test.ts` | Every primitive | Contract SSOT — see §10; **not** RTL behavior tests |
+| **T2** | `{name}.interaction.test.tsx` | Interactive primitives | User-visible behavior — see §11; `@afenda/testing/react` |
+| **T2g** | `{name}.interaction.test.tsx` | Governed primitives | Slot override blocked; role-first queries where possible |
+| **T2a** | `{name}.interaction.test.tsx` | Gold interactive (optional) | jest-axe — repo-wide optional per Afenda testing-afenda.md |
+
+Detail: [reference/react-testing-patterns-bridge.md](reference/react-testing-patterns-bridge.md) (resolves T1 class strings vs “don’t test CSS”).
 
 Use `@afenda/testing/react` `setupUser`.
 
 Do not use `fireEvent`.
 
-Gold T1: [`accordion.contract.test.ts`](../../../packages/shadcn-studio/src/components/ui/accordion.contract.test.ts) · [`alert-dialog.contract.test.ts`](../../../packages/shadcn-studio/src/components/ui/alert-dialog.contract.test.ts) · [`avatar.contract.test.ts`](../../../packages/shadcn-studio/src/components/ui/avatar.contract.test.ts) · [`button.contract.test.ts`](../../../packages/shadcn-studio/src/components/ui/button.contract.test.ts) · [`checkbox.contract.test.ts`](../../../packages/shadcn-studio/src/components/ui/checkbox.contract.test.ts) · [`calendar.contract.test.ts`](../../../packages/shadcn-studio/src/components/ui/calendar.contract.test.ts) · [`dialog.contract.test.ts`](../../../packages/shadcn-studio/src/components/ui/dialog.contract.test.ts) · [`sheet.contract.test.ts`](../../../packages/shadcn-studio/src/components/ui/sheet.contract.test.ts) · [`tabs.contract.test.ts`](../../../packages/shadcn-studio/src/components/ui/tabs.contract.test.ts) · [`toggle.contract.test.ts`](../../../packages/shadcn-studio/src/components/ui/toggle.contract.test.ts) · [`input.contract.test.ts`](../../../packages/shadcn-studio/src/components/ui/input.contract.test.ts)
+Prefer `findByRole` / `findByText` after interactions that reveal content (RTL official).
 
-Gold T2: [`accordion.interaction.test.tsx`](../../../packages/shadcn-studio/src/components/ui/accordion.interaction.test.tsx) · [`alert-dialog.interaction.test.tsx`](../../../packages/shadcn-studio/src/components/ui/alert-dialog.interaction.test.tsx) · [`checkbox.interaction.test.tsx`](../../../packages/shadcn-studio/src/components/ui/checkbox.interaction.test.tsx) · [`calendar.interaction.test.tsx`](../../../packages/shadcn-studio/src/components/ui/calendar.interaction.test.tsx) · [`dialog.interaction.test.tsx`](../../../packages/shadcn-studio/src/components/ui/dialog.interaction.test.tsx) · [`sheet.interaction.test.tsx`](../../../packages/shadcn-studio/src/components/ui/sheet.interaction.test.tsx) · [`tabs.interaction.test.tsx`](../../../packages/shadcn-studio/src/components/ui/tabs.interaction.test.tsx) · [`toggle.interaction.test.tsx`](../../../packages/shadcn-studio/src/components/ui/toggle.interaction.test.tsx) · [`input.interaction.test.tsx`](../../../packages/shadcn-studio/src/components/ui/input.interaction.test.tsx)
+Gold T1: [`accordion.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/accordion.contract.test.ts) · [`alert-dialog.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/alert-dialog.contract.test.ts) · [`avatar.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/avatar.contract.test.ts) · [`button.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/button.contract.test.ts) · [`checkbox.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/checkbox.contract.test.ts) · [`calendar.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/calendar.contract.test.ts) · [`dialog.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/dialog.contract.test.ts) · [`sheet.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/sheet.contract.test.ts) · [`tabs.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/tabs.contract.test.ts) · [`toggle.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/toggle.contract.test.ts) · [`input.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/input.contract.test.ts)
 
-Gold render smoke: [`avatar.render.test.tsx`](../../../packages/shadcn-studio/src/components/ui/__tests__/avatar.render.test.tsx) (static, T2 N/A) · [`button.render.test.tsx`](../../../packages/shadcn-studio/src/components/ui/__tests__/button.render.test.tsx) (cva + click/disabled)
+Gold T2: [`accordion.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/accordion.interaction.test.tsx) · [`alert-dialog.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/alert-dialog.interaction.test.tsx) · [`checkbox.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/checkbox.interaction.test.tsx) · [`calendar.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/calendar.interaction.test.tsx) · [`dialog.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/dialog.interaction.test.tsx) · [`sheet.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/sheet.interaction.test.tsx) · [`tabs.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/tabs.interaction.test.tsx) · [`toggle.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/toggle.interaction.test.tsx) · [`input.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/input.interaction.test.tsx)
+
+Gold render smoke: [`avatar.render.test.tsx`](../../../packages/shadcn-studio/src/components-ui/__tests__/avatar.render.test.tsx) (static, T2 N/A) · [`button.render.test.tsx`](../../../packages/shadcn-studio/src/components-ui/__tests__/button.render.test.tsx) (cva + click/disabled)
 
 ---
 
@@ -321,7 +362,7 @@ A valid enterprise T1 test should check:
 5. slot map contains expected slot values
 6. class constants are non-empty strings
 7. slot type exports compile
-8. `WithoutGovernedDataSlot` rejects consumer `data-slot` override at type level where practical
+8. `GovernedPrimitiveProps` rejects consumer `data-slot` and function `className` at type level where practical
 
 ---
 
@@ -337,9 +378,16 @@ Interactive primitives need T2 when they include any of:
 - dismissal
 - controlled / uncontrolled state
 
+**T2 style (RTL + Afenda):**
+
+- Arrange → Act (`setupUser`) → Assert on **roles/text/visibility**
+- Add **keyboard** case when SKILL table says “keyboard path works”
+- Use `findBy*` when content appears after interaction
+- T2g: governed `data-slot` override blocked (type-level in T1 + runtime in T2g)
+
 | Primitive | T2 required? | Minimum behavior |
 | --- | --- | --- |
-| Accordion | Yes | trigger opens panel; keyboard path works |
+| Accordion | Yes | click **and** Enter/Space toggle panel; `findByText` when opening |
 | Alert Dialog | Yes | trigger opens; cancel/action closes; focus returns |
 | Tooltip | Yes | hover/focus opens; escape closes |
 | Avatar | No | static display (image/fallback) |
@@ -360,7 +408,7 @@ When upgrading a primitive (E2 or E3):
 6. Add slot types.
 7. Add metadata function.
 8. Refactor adapter to `composeClassName`.
-9. Apply `WithoutGovernedDataSlot`.
+9. Apply `GovernedPrimitiveProps`.
 10. Enforce prop order.
 11. Add or extend T1.
 12. Add T2 if interactive.
@@ -393,7 +441,7 @@ Never run:
 pnpm dlx shadcn@latest add <name> --overwrite
 ```
 
-on existing `components/ui/*`.
+on existing `components-ui/*`.
 
 ---
 
@@ -409,8 +457,8 @@ pnpm --filter @afenda/shadcn-studio test:run -- src/components/ui
 For one primitive:
 
 ```bash
-pnpm --filter @afenda/shadcn-studio test:run -- src/components/ui/{name}.contract.test.ts
-pnpm --filter @afenda/shadcn-studio test:run -- src/components/ui/{name}.interaction.test.tsx
+pnpm --filter @afenda/shadcn-studio test:run -- src/components-ui/{name}.contract.test.ts
+pnpm --filter @afenda/shadcn-studio test:run -- src/components-ui/{name}.interaction.test.tsx
 ```
 
 ---
@@ -420,7 +468,7 @@ pnpm --filter @afenda/shadcn-studio test:run -- src/components/ui/{name}.interac
 In scope:
 
 - Base UI widget primitives imported from `@base-ui/react/*`
-- interactive shadcn-studio `components/ui/*`
+- interactive shadcn-studio `components-ui/*`
 - primitives used by ERP presentation surfaces
 
 Excluded unless explicitly requested:
@@ -455,6 +503,9 @@ Stop and report instead of patching when:
 A primitive is **enterprise-ready** only when:
 
 - E1–E12 are complete or explicitly marked N/A.
+- M1–M10 mismatch frame passes (zero fast-reject items).
+- P1–P8 pass or documented N/A (static primitives: P2/P6 often N/A).
+- T1 + T2 (+ T2g where governed) per [react-testing-patterns-bridge.md](reference/react-testing-patterns-bridge.md).
 - Contract owns identity, slots, classes, variants, and metadata.
 - Adapter owns anatomy only.
 - Public props prevent governed slot override.

@@ -75,13 +75,13 @@ disable-model-invocation: true
 | --- | --- |
 | npm package | `@afenda/shadcn-studio` |
 | Primitives (**70**) | `packages/shadcn-studio/src/components-ui/` |
-| Blocks (**41** files) | `packages/shadcn-studio/src/components/shadcn-studio/blocks/` |
+| Blocks (**41** files) | `packages/shadcn-studio/src/components-layouts/` |
 | Internal L2 helpers | `src/lib/` · `src/hooks/` — not barrel-exported ([public-api-surfaces.md](./reference/public-api-surfaces.md)) |
 | Public barrel | `packages/shadcn-studio/src/index.ts` |
 | Theme CSS (author) | `packages/shadcn-studio/src/styles/shadcn-studio.css` |
 | Theme CSS (apps) | `@afenda/shadcn-studio/shadcn-studio.css` |
-| Registries / contracts | `packages/shadcn-studio/src/registry/` · `contracts/` |
-| Block manifest | `packages/shadcn-studio/src/_storybook/block-story-manifest.generated.json` |
+| Registries / contracts | `packages/shadcn-studio/src/meta-registry/` · `meta-contracts/` · `meta-gates/` |
+| Block manifest | `packages/shadcn-studio/src/storybook/block-story-manifest.generated.json` |
 | shadcn CLI cwd | **`packages/shadcn-studio`** (`base-vega`, Base UI) |
 | ERP CSS entry | `apps/erp/src/app/globals.css` |
 | Storybook lab | `http://localhost:6006` |

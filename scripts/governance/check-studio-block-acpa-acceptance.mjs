@@ -27,6 +27,7 @@ const testRun = spawnSync(
     "vitest",
     "run",
     "statistics-metric-a11y.contract",
+    "acceptance-record.registry",
   ],
   { cwd: repoRoot, stdio: "inherit", shell: true }
 );

@@ -5,6 +5,12 @@ import StatisticsActivityCardBlock from "../components-layouts/statistics-activi
 import StatisticsLeadsCardBlock from "../components-layouts/statistics-leads-card.js";
 import StatisticsProfileTrafficCardBlock from "../components-layouts/statistics-profile-traffic-card.js";
 import StatisticsRevenueCardBlock from "../components-layouts/statistics-revenue-card.js";
+import {
+  STATISTICS_ACTIVITY_CHART_DATA,
+  STATISTICS_LEADS_CHART_DATA,
+  STATISTICS_PROFILE_TRAFFIC_CHART_DATA,
+  STATISTICS_REVENUE_CHART_DATA,
+} from "../storybook/block-flat-story-fixtures.js";
 
 /**
  * PAS-005A B42k — MCP statistics blocks expose article + footnote a11y contract
@@ -13,36 +19,65 @@ import StatisticsRevenueCardBlock from "../components-layouts/statistics-revenue
 describe("statistics metric MCP blocks a11y contract (B42k)", () => {
   it.each([
     {
-      Block: StatisticsRevenueCardBlock,
+      block: (
+        <StatisticsRevenueCardBlock
+          amount="$3,234"
+          changePercentage={15}
+          chartData={[...STATISTICS_REVENUE_CHART_DATA]}
+          title="Revenue growth"
+        />
+      ),
       title: "Revenue growth",
       amount: "$3,234",
       change: "+15%",
     },
     {
-      Block: StatisticsLeadsCardBlock,
+      block: (
+        <StatisticsLeadsCardBlock
+          amount="4,350"
+          changePercentage={18.2}
+          chartCenterLabel="$23K"
+          chartData={[...STATISTICS_LEADS_CHART_DATA]}
+          title="Generated leads"
+        />
+      ),
       title: "Generated leads",
       amount: "4,350",
       change: "+18.2%",
     },
     {
-      Block: StatisticsActivityCardBlock,
+      block: (
+        <StatisticsActivityCardBlock
+          amount="82%"
+          changePercentage={38}
+          chartData={[...STATISTICS_ACTIVITY_CHART_DATA]}
+          title="Activity"
+        />
+      ),
       title: "Activity",
       amount: "82%",
       change: "+38%",
     },
     {
-      Block: StatisticsProfileTrafficCardBlock,
+      block: (
+        <StatisticsProfileTrafficCardBlock
+          amount="2.84k"
+          changePercentage={15}
+          chartData={[...STATISTICS_PROFILE_TRAFFIC_CHART_DATA]}
+          title="Average profile traffic"
+        />
+      ),
       title: "Average profile traffic",
       amount: "2.84k",
       change: "+15%",
     },
   ])("$title exposes article with amount described by change footnote", ({
-    Block,
+    block,
     title,
     amount,
     change,
   }) => {
-    render(<Block />);
+    render(block);
 
     expect(screen.getByRole("article", { name: title })).toBeInTheDocument();
     expect(screen.getByText(amount)).toHaveAttribute("aria-describedby");

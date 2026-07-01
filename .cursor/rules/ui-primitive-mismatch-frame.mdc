@@ -1,0 +1,36 @@
+---
+description: Mismatch inspection before editing governed shadcn-studio primitives (PAS-006).
+globs: packages/shadcn-studio/src/components-ui/**
+---
+
+# UI primitive mismatch frame
+
+**Full frame:** [mismatch-inspection-frame.md](../skills/afenda-primitive-contract/reference/mismatch-inspection-frame.md) · **Perf:** [react-best-practices-bridge.md](../skills/afenda-primitive-contract/reference/react-best-practices-bridge.md)
+
+**Skill:** [afenda-primitive-contract](../skills/afenda-primitive-contract/SKILL.md)
+
+Physical path: `components-ui/`. Virtual MCP import: `@/components/ui/*`.
+
+## Before edit or approval
+
+1. If user asked **review/evaluate** → **E0 only**: run M1–M10 mismatch frame; report before patch.
+2. Ask the four pre-flight questions (duplication, state source, class purpose, primitive vs recipe) + adapter state mirror check.
+3. Run E1–E12 + M1–M10 + P1–P8; use mismatch finding format for every issue.
+
+## Hard reject (do not approve)
+
+```txt
+two visual mechanisms for one state
+mixed state sources
+dead classes
+hardcoded slot strings
+consumer-overridable data-slot
+recipe styling inside primitive
+unexplained pseudo-element classes
+animation not aligned with primitive state
+className required to make default usable
+```
+
+## Composition borrowings
+
+Recipe/boolean-mode decisions: [composition-patterns-bridge.md](../skills/afenda-primitive-contract/reference/composition-patterns-bridge.md) (Vercel explicit variants → Afenda recipes).

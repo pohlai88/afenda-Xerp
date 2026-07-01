@@ -12,40 +12,20 @@ import {
 } from "@/components/ui/chart";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
-// Revenue chart data
-const revenueChartData = [
-  {
-    day: "Monday",
-    revenue: 150,
-    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
-  },
-  {
-    day: "Tuesday",
-    revenue: 250,
-    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
-  },
-  {
-    day: "Wednesday",
-    revenue: 190,
-    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
-  },
-  { day: "Thursday", revenue: 290 },
-  {
-    day: "Friday",
-    revenue: 220,
-    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
-  },
-  {
-    day: "Saturday",
-    revenue: 350,
-    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
-  },
-  {
-    day: "Sunday",
-    revenue: 250,
-    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
-  },
-];
+export type RevenueChartPoint = {
+  day: string;
+  revenue: number;
+  fill?: string;
+};
+
+export type StatisticsRevenueCardProps = {
+  title: string;
+  amount: string;
+  changePercentage: number;
+  periodLabel?: string;
+  chartData: readonly RevenueChartPoint[];
+  className?: string;
+};
 
 const revenueChartConfig = {
   revenue: {
@@ -53,42 +33,14 @@ const revenueChartConfig = {
   },
 } satisfies ChartConfig;
 
-const StatisticsCardData = {
-  title: "Revenue growth",
-  amount: "$3,234",
-  changePercentage: 15,
-  children: (
-    <>
-      <ChartContainer className="size-full" config={revenueChartConfig}>
-        <BarChart
-          accessibilityLayer
-          barSize={12}
-          data={revenueChartData}
-          margin={{
-            left: -8,
-            right: -8,
-          }}
-        >
-          <XAxis
-            axisLine={false}
-            dataKey="day"
-            tick={{ fontSize: 14, fill: "var(--muted-foreground)" }}
-            tickFormatter={(value) => value.slice(0, 1)}
-            tickLine={false}
-            tickMargin={5.5}
-          />
-          <ChartTooltip
-            content={<ChartTooltipContent hideLabel />}
-            cursor={false}
-          />
-          <Bar dataKey="revenue" fill="var(--primary)" radius={12} />
-        </BarChart>
-      </ChartContainer>
-    </>
-  ),
-};
-
-const StatisticsRevenueCard = ({ className }: { className?: string }) => {
+const StatisticsRevenueCard = ({
+  title,
+  amount,
+  changePercentage,
+  periodLabel = "Weekly Report",
+  chartData,
+  className,
+}: StatisticsRevenueCardProps) => {
   const titleId = useId();
   const footnoteId = useId();
 
@@ -103,10 +55,10 @@ const StatisticsRevenueCard = ({ className }: { className?: string }) => {
                 className="font-semibold"
                 id={titleId}
               >
-                {StatisticsCardData.title}
+                {title}
               </span>
               <span className="text-muted-foreground text-sm">
-                Weekly Report
+                {periodLabel}
               </span>
             </div>
             <div className="flex flex-col gap-2">
@@ -115,18 +67,44 @@ const StatisticsRevenueCard = ({ className }: { className?: string }) => {
                 aria-describedby={footnoteId}
                 className="font-semibold text-2xl"
               >
-                {StatisticsCardData.amount}
+                {amount}
               </span>
               <Badge
                 {...blockSlotDomMarkerProps("metric.change")}
                 className="rounded-sm bg-primary/10 text-primary"
                 id={footnoteId}
               >
-                +{StatisticsCardData.changePercentage}%
+                +{changePercentage}%
               </Badge>
             </div>
           </div>
-          <div className="h-37.5 sm:pl-6">{StatisticsCardData.children}</div>
+          <div className="h-37.5 sm:pl-6">
+            <ChartContainer className="size-full" config={revenueChartConfig}>
+              <BarChart
+                accessibilityLayer
+                barSize={12}
+                data={[...chartData]}
+                margin={{
+                  left: -8,
+                  right: -8,
+                }}
+              >
+                <XAxis
+                  axisLine={false}
+                  dataKey="day"
+                  tick={{ fontSize: 14, fill: "var(--muted-foreground)" }}
+                  tickFormatter={(value) => value.slice(0, 1)}
+                  tickLine={false}
+                  tickMargin={5.5}
+                />
+                <ChartTooltip
+                  content={<ChartTooltipContent hideLabel />}
+                  cursor={false}
+                />
+                <Bar dataKey="revenue" fill="var(--primary)" radius={12} />
+              </BarChart>
+            </ChartContainer>
+          </div>
         </CardContent>
       </Card>
     </article>

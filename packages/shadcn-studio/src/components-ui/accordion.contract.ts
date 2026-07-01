@@ -21,12 +21,12 @@ export const accordionRootClassName = "flex w-full flex-col" as const;
 export const accordionItemClassName = "not-last:border-b" as const;
 export const accordionHeaderClassName = "flex" as const;
 export const accordionTriggerClassName =
-  "group/accordion-trigger relative flex flex-1 items-start justify-between rounded-md border border-transparent py-4 text-left font-medium text-sm outline-none transition-all hover:underline focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:after:border-ring aria-disabled:pointer-events-none aria-disabled:opacity-50" as const;
+  "group/accordion-trigger relative flex flex-1 items-start justify-between gap-3 rounded-md border border-transparent py-4 text-left text-sm font-medium outline-none transition-all hover:underline focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-disabled:pointer-events-none aria-disabled:opacity-50" as const;
 export const accordionTriggerIconClassName =
-  "pointer-events-none ml-auto size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-data-[panel-open]/accordion-trigger:rotate-180" as const;
+  "pointer-events-none ml-auto size-4 shrink-0 text-muted-foreground" as const;
 /** Panel — collapse height driven by Base UI `--accordion-panel-height` + data attributes. */
 export const accordionContentPanelClassName =
-  "overflow-hidden text-sm h-[var(--accordion-panel-height)] transition-[height] duration-200 ease-out data-[starting-style]:h-0 data-[ending-style]:h-0" as const;
+  "h-[var(--accordion-panel-height)] overflow-hidden text-sm transition-[height] duration-200 ease-out data-[starting-style]:h-0 data-[ending-style]:h-0" as const;
 export const accordionContentInnerClassName =
   "pt-0 pb-4 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground [&_p:not(:last-child)]:mb-4" as const;
 

@@ -38,10 +38,7 @@ describe("registry module inventory", () => {
   const diff = diffRegistryModuleInventory(discovered);
 
   it("registry count matches total registry/* modules on disk", () => {
-    expect(
-      diff,
-      formatRegistryModuleInventoryDiff(diff)
-    ).toEqual({
+    expect(diff, formatRegistryModuleInventoryDiff(diff)).toEqual({
       registeredCount: discovered.length,
       discoveredCount: discovered.length,
       missingOnDisk: [],
@@ -82,6 +79,7 @@ describe("registry module inventory", () => {
       .sort();
 
     expect(serializableFiles).toEqual([
+      "acceptance-record.registry.ts",
       "block-lifecycle.ts",
       "block-slot-template-families.ts",
       "block-slot.registry.ts",

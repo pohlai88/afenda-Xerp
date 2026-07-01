@@ -85,4 +85,4 @@ Detail: [ARCHITECTURE.md](./ARCHITECTURE.md)
 ## Agent skills
 
 - [shadcn-studio](../../.cursor/skills/shadcn-studio/SKILL.md) — MCP workflows
-- [afenda-primitive-contract](../../.cursor/skills/afenda-primitive-contract/SKILL.md) — ui/* contract split
+- [afenda-primitive-contract](../../.cursor/skills/afenda-primitive-contract/SKILL.md) — `components-ui/*` contract split + M1–M10 mismatch frame

@@ -6,17 +6,17 @@ import {
   getBlockMetadataById,
 } from "../../meta-gates/block-metadata.registry.js";
 import {
+  DATATABLE_BLOCK_CONTRACT_IDS,
+  GOVERNED_BLOCK_CONTRACT_IDS,
+  getBlockSlotsForBlockId,
+} from "../../meta-registry/block-slot.registry.js";
+import {
   buildBlockMetadata,
   buildSlotMapFromRegistry,
   DATATABLE_BLOCK_FAMILY_PREFIX,
   isDatatableBlockId,
 } from "../block-metadata.builders.js";
 import { BLOCK_METADATA_VERSION } from "../block-metadata.contract.js";
-import {
-  DATATABLE_BLOCK_CONTRACT_IDS,
-  getBlockSlotsForBlockId,
-  GOVERNED_BLOCK_CONTRACT_IDS,
-} from "../../meta-registry/block-slot.registry.js";
 
 describe("block metadata registry", () => {
   it("covers every governed block id", () => {
@@ -86,9 +86,12 @@ describe("buildBlockMetadata", () => {
     expect(metadata.slots["displayNameHelp"]).toBe("profile.displayName.help");
   });
 
-  it("omits acceptance record for dialog-activity and datatable-user", () => {
-    expect(buildBlockMetadata("dialog-activity").acceptanceRecordId).toBeUndefined();
-    expect(buildBlockMetadata("datatable-user").acceptanceRecordId).toBeUndefined();
+  it("assigns acceptance record id for every governed block contract", () => {
+    for (const blockId of GOVERNED_BLOCK_CONTRACT_IDS) {
+      expect(buildBlockMetadata(blockId).acceptanceRecordId).toBe(
+        `acceptance-record:${blockId}`
+      );
+    }
   });
 
   it("buildSlotMapFromRegistry matches buildBlockMetadata slots", () => {

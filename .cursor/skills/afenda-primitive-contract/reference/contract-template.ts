@@ -1,5 +1,5 @@
 /**
- * Reference template — copy to packages/shadcn-studio/src/components/ui/{name}.contract.ts
+ * Reference template — copy to packages/shadcn-studio/src/components-ui/{name}.contract.ts
  * Do not import this file from runtime code.
  */
 import { cva, type VariantProps } from "class-variance-authority";

@@ -4,6 +4,11 @@ import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  accountSettingsSectionContentClassName,
+  accountSettingsSectionGridClassName,
+  accountSettingsSectionHeadingClassName,
+} from "../../_shared/account-settings-page-shell.js";
 
 const SocialUrl = () => {
   const [urls, setUrls] = useState<string[]>(["", "", ""]);
@@ -14,9 +19,9 @@ const SocialUrl = () => {
     setUrls((prev) => prev.map((u, i) => (i === index ? value : u)));
 
   return (
-    <div className="grid w-full min-w-0 grid-cols-1 gap-10 xl:grid-cols-3">
+    <div className={accountSettingsSectionGridClassName}>
       {/* Vertical Tabs List */}
-      <div className="flex flex-col">
+      <div className={accountSettingsSectionHeadingClassName}>
         <h3 className="font-semibold text-foreground">Social URLs</h3>
         <p className="text-muted-foreground text-sm">
           Manage your social URLs.
@@ -24,7 +29,7 @@ const SocialUrl = () => {
       </div>
 
       {/* Content */}
-      <div className="min-w-0 space-y-6 xl:col-span-2">
+      <div className={accountSettingsSectionContentClassName("6")}>
         <div className="space-y-4">
           {urls.map((url, idx) => (
             <Input

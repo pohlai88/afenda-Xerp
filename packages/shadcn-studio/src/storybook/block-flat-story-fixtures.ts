@@ -133,3 +133,163 @@ export const WIDGET_PAYMENT_HISTORY = [
     remaining: "$4,110",
   },
 ] as const;
+
+export const STATISTICS_REVENUE_CHART_DATA = [
+  {
+    day: "Monday",
+    revenue: 150,
+    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
+  },
+  {
+    day: "Tuesday",
+    revenue: 250,
+    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
+  },
+  {
+    day: "Wednesday",
+    revenue: 190,
+    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
+  },
+  { day: "Thursday", revenue: 290 },
+  {
+    day: "Friday",
+    revenue: 220,
+    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
+  },
+  {
+    day: "Saturday",
+    revenue: 350,
+    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
+  },
+  {
+    day: "Sunday",
+    revenue: 250,
+    fill: "color-mix(in oklab, var(--primary) 20%, transparent)",
+  },
+] as const;
+
+export const STATISTICS_ACTIVITY_CHART_DATA = [
+  { day: "Monday", sales: 260 },
+  { day: "Tuesday", sales: 380 },
+  { day: "Wednesday", sales: 250 },
+  { day: "Thursday", sales: 580 },
+  { day: "Friday", sales: 370 },
+  { day: "Saturday", sales: 420 },
+  { day: "Sunday", sales: 300 },
+] as const;
+
+export const STATISTICS_INCOME_CHART_DATA = [
+  { date: "2024-06-24", income: 190 },
+  { date: "2024-06-25", income: 285 },
+  { date: "2024-06-26", income: 420 },
+  { date: "2024-06-27", income: 280 },
+  { date: "2024-06-28", income: 250 },
+  { date: "2024-06-29", income: 500 },
+  { date: "2024-06-30", income: 550 },
+  { date: "2024-06-31", income: 300 },
+] as const;
+
+export const STATISTICS_EXPENSE_CHART_DATA = [
+  { date: "2024-06-14", expense: 290 },
+  { date: "2024-06-15", expense: 360 },
+  { date: "2024-06-16", expense: 360 },
+  { date: "2024-06-17", expense: 360 },
+  { date: "2024-06-18", expense: 400 },
+  { date: "2024-06-19", expense: 550 },
+  { date: "2024-06-20", expense: 590 },
+  { date: "2024-06-21", expense: 500 },
+  { date: "2024-06-22", expense: 450 },
+  { date: "2024-06-23", expense: 460 },
+  { date: "2024-06-24", expense: 400 },
+  { date: "2024-06-25", expense: 350 },
+  { date: "2024-06-26", expense: 320 },
+  { date: "2024-06-27", expense: 300 },
+] as const;
+
+export const STATISTICS_LEADS_CHART_DATA = [
+  { month: "january", sales: 340, fill: "var(--color-january)" },
+  { month: "february", sales: 200, fill: "var(--color-february)" },
+  { month: "march", sales: 200, fill: "var(--color-march)" },
+] as const;
+
+export const STATISTICS_PROFILE_TRAFFIC_CHART_DATA = [
+  { index: "01", traffic: 150 },
+  { index: "02", traffic: 250 },
+  { index: "03", traffic: 190 },
+  { index: "04", traffic: 290 },
+  { index: "05", traffic: 220 },
+  { index: "06", traffic: 350 },
+  { index: "07", traffic: 250 },
+] as const;
+
+export const CHART_SALES_METRICS_PIE_DATA = [
+  { month: "january", sales: 340, fill: "var(--color-january)" },
+  { month: "february", sales: 200, fill: "var(--color-february)" },
+  { month: "march", sales: 200, fill: "var(--color-march)" },
+] as const;
+
+export const CHART_TOTAL_REVENUE_BAR_DATA = [
+  { name: "January", uv: -13, pv: 21, amt: 2210 },
+  { name: "February", uv: -16, pv: 10, amt: 2290 },
+  { name: "March", uv: -14, pv: 13, amt: 2210 },
+  { name: "April", uv: -10, pv: 12, amt: 2500 },
+  { name: "May", uv: -17, pv: 20, amt: 2100 },
+  { name: "June", uv: -13, pv: 12, amt: 2100 },
+  { name: "July", uv: -12, pv: 15, amt: 2100 },
+] as const;
+
+export const CHART_TOTAL_REVENUE_GROWTH_DATA = [
+  { date: "2023-11-30", revenue: 20, fill: "var(--primary)" },
+  { date: "2023-12-12", revenue: 20, fill: "var(--primary)" },
+  { date: "2023-11-20", revenue: 20, fill: "var(--primary)" },
+  {
+    date: "2023-12-12",
+    revenue: 20,
+    fill: "color-mix(in oklab, var(--primary) 90%, var(--background))",
+  },
+  {
+    date: "2023-12-12",
+    revenue: 20,
+    fill: "color-mix(in oklab, var(--primary) 80%, var(--background))",
+  },
+  {
+    date: "2023-12-12",
+    revenue: 20,
+    fill: "color-mix(in oklab, var(--primary) 70%, var(--background))",
+  },
+  {
+    date: "2023-12-12",
+    revenue: 20,
+    fill: "color-mix(in oklab, var(--primary) 60%, var(--background))",
+  },
+  {
+    date: "2023-12-12",
+    revenue: 20,
+    fill: "color-mix(in oklab, var(--primary) 50%, var(--background))",
+  },
+  {
+    date: "2023-12-12",
+    revenue: 20,
+    fill: "color-mix(in oklab, var(--primary) 40%, var(--background))",
+  },
+  {
+    date: "2023-12-12",
+    revenue: 20,
+    fill: "color-mix(in oklab, var(--primary) 30%, var(--background))",
+  },
+  {
+    date: "2023-12-12",
+    revenue: 20,
+    fill: "color-mix(in oklab, var(--primary) 20%, var(--background))",
+  },
+  {
+    date: "2023-12-12",
+    revenue: 20,
+    fill: "color-mix(in oklab, var(--primary) 10%, var(--background))",
+  },
+  {
+    date: "2023-12-12",
+    revenue: 20,
+    fill: "color-mix(in oklab, var(--primary) 5%, var(--background))",
+  },
+] as const;

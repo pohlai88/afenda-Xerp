@@ -1,7 +1,8 @@
 "use client";
 
-import { PaletteIcon } from "lucide-react";
+import { PaletteIcon, SearchIcon } from "lucide-react";
 import type { ReactNode } from "react";
+import SearchDialogBlock from "@/components/shadcn-studio/dialog-search.js";
 import NotificationDropdownBlock from "@/components/shadcn-studio/dropdown-notification.js";
 import MenuTriggerBlock from "@/components/shadcn-studio/menu-trigger.js";
 import SidebarUserDropdownBlock from "@/components/shadcn-studio/sidebar-user-dropdown.js";
@@ -64,7 +65,10 @@ export function AppShell({
           <AppShellNav groups={navGroups} />
         </SidebarContent>
         <SidebarFooter>
-          <SidebarUserDropdownBlock />
+          <SidebarUserDropdownBlock
+            displayName={operatingContext.workspaceLabel}
+            roleLabel={operatingContext.tenantLabel}
+          />
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>
@@ -80,6 +84,14 @@ export function AppShell({
             </p>
           </div>
           <div className="flex items-center gap-1">
+            <SearchDialogBlock
+              trigger={
+                <Button size="icon-sm" type="button" variant="ghost">
+                  <SearchIcon className="size-4" />
+                  <span className="sr-only">Search workspace</span>
+                </Button>
+              }
+            />
             <NotificationDropdownBlock
               trigger={
                 <Button size="icon-sm" type="button" variant="ghost">

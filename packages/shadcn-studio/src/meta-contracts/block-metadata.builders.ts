@@ -24,16 +24,11 @@ export function isDatatableBlockId(blockId: string): boolean {
   return blockId.startsWith(DATATABLE_BLOCK_FAMILY_PREFIX);
 }
 
-const GOVERNED_BLOCK_ACCEPTANCE_RECORD = {
-  "account-settings-01": "acceptance-record:account-settings-01",
-  "datatable-invoice": "acceptance-record:datatable-invoice",
-  "hero-section-01": "acceptance-record:hero-section-01",
-  "login-page-04": "acceptance-record:login-page-04",
-  "statistics-card-01": "acceptance-record:statistics-card-01",
-} as const;
-
-type GovernedBlockAcceptanceRecordId =
-  keyof typeof GOVERNED_BLOCK_ACCEPTANCE_RECORD;
+export function resolveGovernedBlockAcceptanceRecordId(
+  blockId: string
+): string {
+  return `acceptance-record:${blockId}`;
+}
 
 function resolveSurfaceTemplateClass(blockId: string): SurfaceTemplateClass {
   if (isDatatableBlockId(blockId)) {
@@ -98,12 +93,7 @@ export function buildBlockMetadata(blockId: string): BlockMetadata {
     throw new Error(`Expected governed block id, received ${blockId}`);
   }
 
-  const acceptanceRecordId =
-    blockId in GOVERNED_BLOCK_ACCEPTANCE_RECORD
-      ? GOVERNED_BLOCK_ACCEPTANCE_RECORD[
-          blockId as GovernedBlockAcceptanceRecordId
-        ]
-      : undefined;
+  const acceptanceRecordId = resolveGovernedBlockAcceptanceRecordId(blockId);
 
   return {
     blockDataContractId: `block-data-contract:${blockId}`,
@@ -111,7 +101,7 @@ export function buildBlockMetadata(blockId: string): BlockMetadata {
     slots: buildSlotMapFromRegistry(blockId),
     surfaceTemplateClass: resolveSurfaceTemplateClass(blockId),
     version: BLOCK_METADATA_VERSION,
-    ...(acceptanceRecordId === undefined ? {} : { acceptanceRecordId }),
+    acceptanceRecordId,
   } as const;
 }
 

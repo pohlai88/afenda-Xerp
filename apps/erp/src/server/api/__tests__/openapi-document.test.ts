@@ -25,7 +25,7 @@ import { resolveContextPolicyHeaders } from "@/server/api/contracts/openapi/cont
 
 const snapshotPath = join(
   import.meta.dirname,
-  "../contracts/afenda-internal-v1.openapi.json"
+  "../meta-contracts/afenda-internal-v1.openapi.json"
 );
 
 function resolveExpectedOperationDescription(

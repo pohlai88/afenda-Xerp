@@ -78,12 +78,12 @@ All commands: `disable-model-invocation: true`.
 | Skill | Class | `paths` | Trigger | Gates |
 | --- | --- | --- | --- | --- |
 | `shadcn-studio` | UI MCP | `packages/shadcn-studio/**`, `apps/erp/**`, `apps/storybook/**` | MCP install, blocks, ERP wiring | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm check:studio-metadata-binding` |
-| `afenda-primitive-contract` | UI authority | `packages/shadcn-studio/src/components/ui/**` | Primitive 2-file contract split · `pnpm studio:shadcn` | `pnpm check:studio-primitive-contracts` |
+| `afenda-primitive-contract` | UI authority | `packages/shadcn-studio/src/components-ui/**` | Primitive contract + M1–M10 mismatch E0 · `pnpm studio:shadcn` | `pnpm check:studio-primitive-contracts` |
 | `afenda-react-surface-quality` | UI review | `apps/erp/**`, `packages/shadcn-studio/**` | ERP React/TS B→A→T scan · refactor proof | `pnpm typecheck`, `pnpm test:interaction` |
 | `afenda-presentation-quality` | UI composer | `apps/erp/**`, `packages/shadcn-studio/**` | PAS-006 gate bundle · Phase 1 CSS doctrine · replaces retired ui-consistency-bundle | PAS-006 gates (see skill) |
 | `afenda-tailwind` | Afenda domain | `**/*.css`, `apps/erp/**`, `packages/shadcn-studio/**` | PAS-006 Phase 1 Tailwind · import-only globals.css | `pnpm quality:css`, `pnpm check:downstream-integration` |
 | `afenda-shadcn-performance` | Afenda domain | `apps/erp/**`, `packages/shadcn-studio/**`, `apps/storybook/**` | Bundle, lazy-load, CVA, Tailwind JIT + React perf synergy | `pnpm --filter @afenda/erp analyze`, typecheck, build |
-| `afenda-primitive-contract` | Afenda domain | `packages/shadcn-studio/src/components/ui/**` | 2-file primitive contract + adapter; no shadcn overwrite | `pnpm check:studio-primitive-contracts` |
+| `afenda-primitive-contract` | Afenda domain | `packages/shadcn-studio/src/components-ui/**` | 2-file contract + adapter; mismatch frame; no shadcn overwrite | `pnpm check:studio-primitive-contracts` |
 | `afenda-react-surface-quality` | Afenda domain | `apps/erp/**`, studio blocks | B/A/C/T React/TS scan for ERP surfaces | typecheck, `pnpm test:interaction` |
 | `package-css-dist-sync` | UI infra | `packages/shadcn-studio/src/styles/**` | shadcn-studio CSS dist sync | `pnpm check:package-css-dist-sync` |
 | `afenda-storybook` | UI | `apps/storybook/**` | shadcn-studio Storybook lab | `pnpm --filter @afenda/storybook storybook:build` |
@@ -127,6 +127,7 @@ All commands: `disable-model-invocation: true`.
 | `platform-observability-usage` | Platform | `packages/observability/**`, `apps/erp/**` | Logs, metrics |
 | `platform-cross-boundary-anti-pattern-scan` | Platform | `packages/**` | Cross-package anti-patterns |
 | `afenda-monorepo-refactor` | Refactor | `packages/**` | Stabilize → implementer |
+| `afenda-repo-housekeeping` | Refactor | `knip.jsonc`, `packages/**`, `apps/**` | Knip audit → Slice D delegate |
 
 ---
 

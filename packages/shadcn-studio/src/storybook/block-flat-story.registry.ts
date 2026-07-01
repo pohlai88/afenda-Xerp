@@ -14,6 +14,7 @@ import {
   DropdownLanguageSample,
   DropdownNotificationSample,
   DropdownProfileSample,
+  ErrorPageShellSample,
   MenuTriggerSample,
   SidebarUserDropdownSample,
   StatisticsActivityCardSample,
@@ -39,8 +40,8 @@ import {
 export type FlatBlockStoryLayout = "centered" | "fullscreen" | "padded";
 
 export interface FlatBlockStoryEntry {
-  readonly layout: FlatBlockStoryLayout;
   readonly labSmoke?: boolean;
+  readonly layout: FlatBlockStoryLayout;
   readonly sample: ComponentType;
   readonly slug: string;
   readonly storyName: string;
@@ -109,6 +110,12 @@ export const FLAT_BLOCK_STORY_REGISTRY = [
     sample: DialogSearchSample,
     layout: "centered",
     labSmoke: true,
+  },
+  {
+    slug: "error-page-shell",
+    storyName: "ErrorPageShell",
+    sample: ErrorPageShellSample,
+    layout: "fullscreen",
   },
   {
     slug: "dropdown-language",

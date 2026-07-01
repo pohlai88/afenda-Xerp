@@ -90,10 +90,9 @@ export const OBSERVABILITY_CONSUMER_SCAN_ROOTS = [
   "packages/permissions/src",
   "packages/auth/src",
   "packages/execution/src",
-  "packages/appshell/src",
   "packages/kernel/src",
-  "packages/metadata-ui/src",
   "packages/ai-governance/src",
+  "packages/shadcn-studio/src",
 ] as const;
 
 /** ERP server bootstrap must wire audit persistence before protected actions run. */
@@ -143,10 +142,7 @@ export const OBSERVABILITY_FORBIDDEN_DEPENDENCIES = [
 ] as const;
 
 /** Approved runtime dependency edges for observability (platform-pure). */
-export const OBSERVABILITY_APPROVED_RUNTIME_DEPENDENCIES = [
-  "pino",
-  "pino-std-serializers",
-] as const;
+export const OBSERVABILITY_APPROVED_RUNTIME_DEPENDENCIES = ["pino"] as const;
 
 /** Symbols that indicate authority resolution — forbidden in observability production source. */
 export const OBSERVABILITY_FORBIDDEN_AUTHORITY_SYMBOLS = [

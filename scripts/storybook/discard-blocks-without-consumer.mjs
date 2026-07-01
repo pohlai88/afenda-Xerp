@@ -1,16 +1,21 @@
 /**
  * Removes MCP block files/folders with no Storybook or ERP consumer.
- * Run before pnpm storybook generate after MCP prune.
+ * Default: dry-run. Pass --apply to delete on disk.
  */
 import { existsSync, readFileSync, rmSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { resolveBlockConsumerSlugs } from "./lib/resolve-block-consumers.mjs";
+import {
+  isProtectedBlockSlug,
+  resolveBlockConsumerSlugs,
+} from "./lib/resolve-block-consumers.mjs";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(scriptDir, "../..");
-const SHARED_BLOCK_FILES = new Set(["logo.tsx"]);
+const args = process.argv.slice(2);
+const apply = args.includes("--apply");
+const dryRun = !apply;
 
 const blocksRoot = join(
   repoRoot,
@@ -48,7 +53,15 @@ function main() {
       ...(manifest.manualStoryRequired ?? []),
     ]),
   ];
-  const discard = allSlugs.filter((slug) => !consumers.has(slug));
+  const discard = allSlugs.filter(
+    (slug) => !isProtectedBlockSlug(slug, consumers)
+  );
+
+  if (dryRun) {
+    console.log(
+      "discard-blocks-without-consumer — dry-run (pass --apply to delete)"
+    );
+  }
 
   let removed = 0;
   for (const slug of discard) {
@@ -62,13 +75,21 @@ function main() {
       console.log("discard-blocks-without-consumer — keep shared: logo.tsx");
       continue;
     }
+
+    if (dryRun) {
+      console.log(`discard-blocks-without-consumer — would remove: ${slug}`);
+      continue;
+    }
+
     rmSync(target, { recursive: true, force: true });
     console.log(`discard-blocks-without-consumer — removed: ${slug}`);
     removed += 1;
   }
 
+  const verb = dryRun ? "would remove" : "removed";
+  const count = dryRun ? discard.length : removed;
   console.log(
-    `discard-blocks-without-consumer — removed ${removed} of ${discard.length} orphan block(s)`
+    `discard-blocks-without-consumer — ${verb} ${count} of ${discard.length} orphan block(s)`
   );
 }
 

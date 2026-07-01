@@ -26,8 +26,36 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-const SidebarUserDropdown = () => {
+import {
+  DEFAULT_USER_PROFILE_AVATAR_PRESET_ID,
+  resolveUserProfileAvatarFallback,
+  resolveUserProfileAvatarImageSrc,
+} from "../lib/user-profile-avatar.policy.js";
+
+export interface SidebarUserDropdownProps {
+  readonly avatarFallback?: string;
+  readonly avatarPresetId?: string;
+  readonly avatarUrl?: string;
+  readonly displayName?: string;
+  readonly roleLabel?: string;
+}
+
+const SidebarUserDropdown = ({
+  avatarFallback,
+  avatarPresetId = DEFAULT_USER_PROFILE_AVATAR_PRESET_ID,
+  avatarUrl,
+  displayName = "Operator",
+  roleLabel = "Workspace user",
+}: SidebarUserDropdownProps) => {
   const { isMobile } = useSidebar();
+  const resolvedFallback = resolveUserProfileAvatarFallback(
+    displayName,
+    avatarFallback
+  );
+  const resolvedAvatarUrl = resolveUserProfileAvatarImageSrc({
+    ...(avatarUrl === undefined ? {} : { customImageUrl: avatarUrl }),
+    presetId: avatarPresetId,
+  });
 
   return (
     <SidebarMenu>
@@ -42,36 +70,38 @@ const SidebarUserDropdown = () => {
             }
           >
             <Avatar className="rounded-lg">
-              <AvatarImage
-                alt="John Doe"
-                src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png"
-              />
-              <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+              {resolvedAvatarUrl ? (
+                <AvatarImage alt={displayName} src={resolvedAvatarUrl} />
+              ) : null}
+              <AvatarFallback className="rounded-lg">
+                {resolvedFallback}
+              </AvatarFallback>
             </Avatar>
             <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-medium">John Doe</span>
-              <span className="truncate text-xs">Admin</span>
+              <span className="truncate font-medium">{displayName}</span>
+              <span className="truncate text-xs">{roleLabel}</span>
             </div>
             <ChevronRightIcon className="ml-auto size-4 transition-transform duration-200 max-lg:rotate-270 [[data-state=open]>&]:rotate-90 lg:[[data-state=open]>&]:-rotate-180" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="end"
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            className="w-[var(--anchor-width,14rem)] min-w-56 rounded-lg"
             side={isMobile ? "bottom" : "right"}
             sideOffset={isMobile ? 8 : 16}
           >
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="rounded-lg">
-                  <AvatarImage
-                    alt="John Doe"
-                    src="https://cdn.shadcnstudio.com/ss-assets/avatar/avatar-1.png"
-                  />
-                  <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                  {resolvedAvatarUrl ? (
+                    <AvatarImage alt={displayName} src={resolvedAvatarUrl} />
+                  ) : null}
+                  <AvatarFallback className="rounded-lg">
+                    {resolvedFallback}
+                  </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">John Doe</span>
-                  <span className="truncate text-xs">Admin</span>
+                  <span className="truncate font-medium">{displayName}</span>
+                  <span className="truncate text-xs">{roleLabel}</span>
                 </div>
               </div>
             </DropdownMenuLabel>

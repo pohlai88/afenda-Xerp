@@ -1,8 +1,7 @@
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion";
 import { ChevronDownIcon, ChevronUpIcon } from "lucide-react";
-
-import type { WithoutGovernedDataSlot } from "@/lib/governed-primitive-props";
-import { cn } from "@/utils/utils";
+import { composeClassName } from "@/lib/compose-class-name";
+import type { GovernedPrimitiveProps } from "@/lib/governed-primitive-props";
 
 import {
   ACCORDION_SLOTS,
@@ -15,13 +14,12 @@ import {
   accordionTriggerIconClassName,
 } from "./accordion.contract.js";
 
-type AccordionProps = WithoutGovernedDataSlot<AccordionPrimitive.Root.Props>;
-type AccordionItemProps =
-  WithoutGovernedDataSlot<AccordionPrimitive.Item.Props>;
+type AccordionProps = GovernedPrimitiveProps<AccordionPrimitive.Root.Props>;
+type AccordionItemProps = GovernedPrimitiveProps<AccordionPrimitive.Item.Props>;
 type AccordionTriggerProps =
-  WithoutGovernedDataSlot<AccordionPrimitive.Trigger.Props>;
+  GovernedPrimitiveProps<AccordionPrimitive.Trigger.Props>;
 type AccordionContentProps =
-  WithoutGovernedDataSlot<AccordionPrimitive.Panel.Props> & {
+  GovernedPrimitiveProps<AccordionPrimitive.Panel.Props> & {
     innerClassName?: string;
   };
 
@@ -29,7 +27,7 @@ function Accordion({ className, ...props }: AccordionProps) {
   return (
     <AccordionPrimitive.Root
       {...props}
-      className={cn(accordionRootClassName, className)}
+      className={composeClassName(accordionRootClassName, className)}
       data-slot={ACCORDION_SLOTS.root}
     />
   );
@@ -39,7 +37,7 @@ function AccordionItem({ className, ...props }: AccordionItemProps) {
   return (
     <AccordionPrimitive.Item
       {...props}
-      className={cn(accordionItemClassName, className)}
+      className={composeClassName(accordionItemClassName, className)}
       data-slot={ACCORDION_SLOTS.item}
     />
   );
@@ -57,16 +55,16 @@ function AccordionTrigger({
     >
       <AccordionPrimitive.Trigger
         {...props}
-        className={cn(accordionTriggerClassName, className)}
+        className={composeClassName(accordionTriggerClassName, className)}
         data-slot={ACCORDION_SLOTS.trigger}
       >
         {children}
         <ChevronDownIcon
-          className={`${accordionTriggerIconClassName} group-aria-expanded/accordion-trigger:hidden`}
+          className={`${accordionTriggerIconClassName} group-data-[panel-open]/accordion-trigger:hidden`}
           data-slot={ACCORDION_SLOTS.triggerIcon}
         />
         <ChevronUpIcon
-          className={`${accordionTriggerIconClassName} hidden group-aria-expanded/accordion-trigger:inline`}
+          className={`${accordionTriggerIconClassName} hidden group-data-[panel-open]/accordion-trigger:inline`}
           data-slot={ACCORDION_SLOTS.triggerIcon}
         />
       </AccordionPrimitive.Trigger>
@@ -83,11 +81,14 @@ function AccordionContent({
   return (
     <AccordionPrimitive.Panel
       {...props}
-      className={cn(accordionContentPanelClassName, className)}
+      className={composeClassName(accordionContentPanelClassName, className)}
       data-slot={ACCORDION_SLOTS.content}
     >
       <div
-        className={cn(accordionContentInnerClassName, innerClassName)}
+        className={composeClassName(
+          accordionContentInnerClassName,
+          innerClassName
+        )}
         data-slot={ACCORDION_SLOTS.contentInner}
       >
         {children}

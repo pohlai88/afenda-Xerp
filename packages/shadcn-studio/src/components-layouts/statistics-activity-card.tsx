@@ -13,16 +13,19 @@ import {
 import { cn } from "@/utils/utils";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
-// Sales growth chart data
-const salesGrowthChartData = [
-  { day: "Monday", sales: 260 },
-  { day: "Tuesday", sales: 380 },
-  { day: "Wednesday", sales: 250 },
-  { day: "Thursday", sales: 580 },
-  { day: "Friday", sales: 370 },
-  { day: "Saturday", sales: 420 },
-  { day: "Sunday", sales: 300 },
-];
+export type ActivityChartPoint = {
+  day: string;
+  sales: number;
+};
+
+export type StatisticsActivityCardProps = {
+  title: string;
+  amount: string;
+  changePercentage: number;
+  periodLabel?: string;
+  chartData: readonly ActivityChartPoint[];
+  className?: string;
+};
 
 const salesGrowthChartConfig = {
   sales: {
@@ -30,58 +33,17 @@ const salesGrowthChartConfig = {
   },
 } satisfies ChartConfig;
 
-const StatisticsCardData = {
-  title: "Activity",
-  amount: "82%",
-  changePercentage: 38,
-  children: (
-    <>
-      <ChartContainer
-        className="h-36 w-full uppercase"
-        config={salesGrowthChartConfig}
-      >
-        <AreaChart
-          data={salesGrowthChartData}
-          margin={{
-            left: 12,
-            right: 12,
-          }}
-        >
-          <defs>
-            <linearGradient id="fillSales" x1="0" x2="0" y1="0" y2="1">
-              <stop offset="10%" stopColor="var(--primary)" stopOpacity={0.5} />
-              <stop offset="90%" stopColor="var(--primary)" stopOpacity={0} />
-            </linearGradient>
-          </defs>
-          <XAxis
-            axisLine={false}
-            dataKey="day"
-            tick={{ fontSize: 14, fill: "var(--muted-foreground)" }}
-            tickFormatter={(value) => value.slice(0, 2)}
-            tickLine={false}
-            tickMargin={5.5}
-          />
-          <ChartTooltip
-            content={<ChartTooltipContent hideLabel />}
-            cursor={false}
-          />
-          <Area
-            dataKey="sales"
-            fill="url(#fillSales)"
-            stackId="a"
-            stroke="var(--primary)"
-            strokeWidth={2}
-            type="natural"
-          />
-        </AreaChart>
-      </ChartContainer>
-    </>
-  ),
-};
-
-const StatisticsActivityCard = ({ className }: { className?: string }) => {
+const StatisticsActivityCard = ({
+  title,
+  amount,
+  changePercentage,
+  periodLabel = "Weekly Report",
+  chartData,
+  className,
+}: StatisticsActivityCardProps) => {
   const titleId = useId();
   const footnoteId = useId();
+  const gradientId = useId();
 
   return (
     <article aria-labelledby={titleId} className={className}>
@@ -92,9 +54,9 @@ const StatisticsActivityCard = ({ className }: { className?: string }) => {
             className="font-medium"
             id={titleId}
           >
-            {StatisticsCardData.title}
+            {title}
           </span>
-          <span className="text-muted-foreground text-sm">Weekly Report</span>
+          <span className="text-muted-foreground text-sm">{periodLabel}</span>
         </div>
         <CardContent className="flex justify-between gap-6 max-sm:flex-col">
           <div className="flex flex-col gap-2 self-end">
@@ -103,10 +65,10 @@ const StatisticsActivityCard = ({ className }: { className?: string }) => {
               aria-describedby={footnoteId}
               className="font-semibold text-5xl"
             >
-              {StatisticsCardData.amount}
+              {amount}
             </span>
             <div className="flex items-center gap-1 text-primary">
-              {StatisticsCardData.changePercentage > 0 ? (
+              {changePercentage > 0 ? (
                 <ArrowUpIcon aria-hidden="true" className="size-4" />
               ) : (
                 <ArrowDownIcon aria-hidden="true" className="size-4" />
@@ -116,11 +78,59 @@ const StatisticsActivityCard = ({ className }: { className?: string }) => {
                 className="text-xs"
                 id={footnoteId}
               >
-                +{StatisticsCardData.changePercentage}%
+                +{changePercentage}%
               </span>
             </div>
           </div>
-          <div className="grow sm:pl-6">{StatisticsCardData.children}</div>
+          <div className="grow sm:pl-6">
+            <ChartContainer
+              className="h-36 w-full uppercase"
+              config={salesGrowthChartConfig}
+            >
+              <AreaChart
+                data={[...chartData]}
+                margin={{
+                  left: 12,
+                  right: 12,
+                }}
+              >
+                <defs>
+                  <linearGradient id={gradientId} x1="0" x2="0" y1="0" y2="1">
+                    <stop
+                      offset="10%"
+                      stopColor="var(--primary)"
+                      stopOpacity={0.5}
+                    />
+                    <stop
+                      offset="90%"
+                      stopColor="var(--primary)"
+                      stopOpacity={0}
+                    />
+                  </linearGradient>
+                </defs>
+                <XAxis
+                  axisLine={false}
+                  dataKey="day"
+                  tick={{ fontSize: 14, fill: "var(--muted-foreground)" }}
+                  tickFormatter={(value) => value.slice(0, 2)}
+                  tickLine={false}
+                  tickMargin={5.5}
+                />
+                <ChartTooltip
+                  content={<ChartTooltipContent hideLabel />}
+                  cursor={false}
+                />
+                <Area
+                  dataKey="sales"
+                  fill={`url(#${gradientId})`}
+                  stackId="a"
+                  stroke="var(--primary)"
+                  strokeWidth={2}
+                  type="natural"
+                />
+              </AreaChart>
+            </ChartContainer>
+          </div>
         </CardContent>
       </Card>
     </article>

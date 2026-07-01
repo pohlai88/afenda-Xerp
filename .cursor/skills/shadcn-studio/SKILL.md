@@ -30,7 +30,7 @@ paths:
 
 ```text
 shadcn CLI install (packages/shadcn-studio cwd, base-vega)
-  → src/components/ui/* (@base-ui/react primitives)
+  → src/components-ui/* (@base-ui/react primitives; import as @/components/ui/*)
   → src/components/shadcn-studio/blocks/* (@ss-blocks)
   → restore P06-008-R2 DOM markers (git) + Base UI render props
   → seam imports to contracts/registry: **relative only** (never `@/contracts` or `@/registry`)
@@ -98,7 +98,7 @@ Composition entries are **imports + `@source` only** in Phase 1. Detail: [`afend
 | Package | `@afenda/shadcn-studio` |
 | **Architecture map** | [`packages/shadcn-studio/ARCHITECTURE.md`](../../packages/shadcn-studio/ARCHITECTURE.md) |
 | Theme presets | `packages/shadcn-studio/src/theme/theme-presets.ts` |
-| Primitives | `packages/shadcn-studio/src/components/ui/` |
+| Primitives | `packages/shadcn-studio/src/components-ui/` |
 | Blocks | `packages/shadcn-studio/src/components/shadcn-studio/blocks/` |
 | Curated lab stories | `packages/shadcn-studio/src/shadcn-studio-blocks.stories.tsx` |
 | Auto block stories | `packages/shadcn-studio/src/stories/shadcn-studio-blocks-auto.stories.tsx` (codegen) |
@@ -158,7 +158,7 @@ In-repo mapping SSOT: `packages/shadcn-studio/src/styles/shadcn-studio.figma-man
 
 ### Primitives — all Base UI components
 
-**Never** use `--overwrite` on existing `components/ui/*` — it destroys Afenda contract/adapter splits.
+**Never** use `--overwrite` on existing `components-ui/*` — it destroys Afenda contract/adapter splits.
 
 ```powershell
 # From repo root — safe wrapper injects --no-overwrite
@@ -170,7 +170,7 @@ pnpm dlx shadcn@latest info
 
 For bulk refresh, use `pnpm studio:shadcn` (see `scripts/studio/shadcn-add.mjs`). Edit `{name}.contract.ts` + `{name}.tsx` manually when updating existing primitives.
 
-Skill: [`afenda-primitive-contract`](../afenda-primitive-contract/SKILL.md)
+Skill: [`afenda-primitive-contract`](../afenda-primitive-contract/SKILL.md) · E0: [mismatch-inspection-frame.md](../afenda-primitive-contract/reference/mismatch-inspection-frame.md)
 
 ### Pro blocks — `@ss-blocks/*`
 

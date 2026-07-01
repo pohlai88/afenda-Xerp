@@ -41,6 +41,8 @@ L4 VERIFICATION (internal) storybook/  gate/  *.stories.tsx
 | `meta-gates/` | L1 | 4 | **One inventory SSOT** (`_governance.registry.ts`) + runtime aggregators + gate barrel |
 | `components-ui/` | L2 | 252 | Primitives: adapter `{name}.tsx` + `{name}.contract.ts` |
 | `components-layouts/` | L2 | ~70 | MCP Pro blocks (flat or folder per block) |
+| `components-auth-shell/` | L2 | 1+ | Auth ingress blocks (login-page-04) |
+| `components-quarantine/` | L2 | varies | MCP blocks pending promotion — see README |
 | `components-app-shell/` | L3 | 3 | App shell (dashboard layout + nav, post ADR-0027) |
 | `lib/` | L2 | 5 | `compose-class-name`, `compute-pagination-range`, `governed-primitive-props`, `_lib-inventory.registry` |
 | `utils/` | L2 | 1 | `cn()` helper (`utils.ts`) |
@@ -63,29 +65,31 @@ The word **contract** is overloaded. Use these terms in PRs and Phase 0 handoffs
 
 | Term | Pattern | Layer | Example | Owns |
 | --- | --- | --- | --- | --- |
-| **Primitive contract** | `components/ui/{name}.contract.ts` | **L2** | `button.contract.ts` | `PRIMITIVE_ID`, slots, cva, variant types |
-| **Primitive adapter** | `components/ui/{name}.tsx` | L2 | `button.tsx` | Base UI render, public props, `data-slot` |
-| **Block metadata** | `block-metadata.contract.ts` + `block-metadata.builders.ts` | L1 | `buildBlockMetadata()` | Governed block metadata derived from `registry/block-slot.registry.ts` |
-| **Wire contract** | `contracts/{topic}.contract.ts` | L1 | `app-shell.contract.ts` | Serializable boundary types (nav, operating context) |
+| **Block metadata** | `block-metadata.contract.ts` + `block-metadata.builders.ts` | L1 | `buildBlockMetadata()` | Governed block metadata derived from `meta-registry/block-slot.registry.ts` |
+| **Wire contract** | `meta-contracts/{topic}.contract.ts` | L1 | `app-shell.contract.ts` | Serializable boundary types (nav, operating context) |
 | **L1 envelope** | `_contract-envelope.registry.ts` + `@afenda.l1-contract-envelope` header | L1 | flat-L1 series (2026-07-01) | Inventory SSOT; gate fails on add/delete without registry update |
-| **Data contract** | `contracts/block-data.contract.ts` | L1 | — | Column/action wire shapes for datatables |
+| **Data contract** | `meta-contracts/block-data.contract.ts` | L1 | — | Column/action wire shapes for datatables |
+| **Primitive contract** | `components-ui/{name}.contract.ts` | **L2** | `button.contract.ts` | `PRIMITIVE_ID`, slots, cva, variant types |
+| **Primitive adapter** | `components-ui/{name}.tsx` | L2 | `button.tsx` | Base UI render, public props, `data-slot` |
 
 **Not all `*.contract.ts` files are L1 authority contracts.**
 
 Primitive contracts are **product-local**. They live beside the primitive in L2 because they govern MCP-installed UI adapter behavior. L1 contracts define cross-surface wire, block governance, lifecycle, acceptance, and metadata-binding truth.
 
-Skill: [afenda-primitive-contract](../../.cursor/skills/afenda-primitive-contract/SKILL.md)
+Skill: [afenda-primitive-contract](../../.cursor/skills/afenda-primitive-contract/SKILL.md) · Mismatch frame: [reference/mismatch-inspection-frame.md](../../.cursor/skills/afenda-primitive-contract/reference/mismatch-inspection-frame.md) · Rule: [ui-primitive-mismatch-frame.mdc](../../.cursor/rules/ui-primitive-mismatch-frame.mdc)
 
 ---
 
-## registry/ vs governance/
+## meta-registry/ vs meta-gates/
 
 | Folder | Role | Rule |
 | --- | --- | --- |
-| `registry/` | **Inventory source of truth** | Slots, lifecycle states, MCP parity, metadata-binding registry |
-| `governance/` | **CI gate aggregation** | One `_governance.registry.ts` inventory + runtime aggregators (`*.registry.ts` derive from `registry/` + L2) |
+| `meta-registry/` | **Inventory source of truth** | Slots, lifecycle states, MCP parity, metadata-binding, acceptance records, surface templates |
+| `meta-gates/` | **CI gate aggregation** | One `_governance.registry.ts` inventory + runtime aggregators (`*.registry.ts` derive from `meta-registry/` + L2) |
 
-`governance/` must not introduce parallel inventory truth — aggregate from `registry/` + `contracts/`.
+`meta-gates/` must not introduce parallel inventory truth — aggregate from `meta-registry/` + `meta-contracts/`.
+
+**Quarantine:** `components-quarantine/` holds MCP blocks pending promotion review. See [`components-quarantine/README.md`](src/components-quarantine/README.md) for the pipeline.
 
 ---
 

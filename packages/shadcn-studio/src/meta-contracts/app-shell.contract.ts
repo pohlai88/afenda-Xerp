@@ -81,12 +81,3 @@ export type ErpNavGroupWire = AppShellNavGroupWire;
 
 /** @deprecated Use `AppShellOperatingContextWire` */
 export type ErpShellOperatingContextWire = AppShellOperatingContextWire;
-
-/** @deprecated Use `isAppShellNavItemWire` */
-export const isErpNavItemWire = isAppShellNavItemWire;
-
-/** @deprecated Use `isAppShellNavGroupWire` */
-export const isErpNavGroupWire = isAppShellNavGroupWire;
-
-/** @deprecated Use `isAppShellOperatingContextWire` */
-export const isErpShellOperatingContextWire = isAppShellOperatingContextWire;

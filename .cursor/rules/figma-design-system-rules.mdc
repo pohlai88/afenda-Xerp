@@ -50,8 +50,8 @@ Use when integrating Figma designs via MCP (`get_design_context`, `get_screensho
 | Primitives | `packages/shadcn-studio/src/components/ui/` | `@afenda/shadcn-studio` barrel |
 | Contracts | `packages/shadcn-studio/src/components/ui/{name}.contract.ts` | variant axes before compose |
 | Registry | `packages/shadcn-studio/src/governance/ui-primitive-metadata.registry.ts` | governed inventory |
-| Blocks | `packages/shadcn-studio/src/components/shadcn-studio/blocks/` | `/ftc` or `@ss-blocks/*` |
-| Storybook lab | `packages/shadcn-studio/src/_storybook/` | verification only |
+| Blocks | `packages/shadcn-studio/src/components-layouts/` | `/ftc` or `@ss-blocks/*` |
+| Storybook lab | `packages/shadcn-studio/src/storybook/` | verification only |
 
 **Install cwd:** `packages/shadcn-studio`
 
@@ -83,7 +83,7 @@ Use when integrating Figma designs via MCP (`get_design_context`, `get_screensho
 |------------|----------|
 | Storybook static | `apps/storybook/public/` |
 | ERP public | `apps/erp/public/` |
-| Presentation lab | `packages/shadcn-studio/src/_storybook/presentation-lab/` |
+| Presentation lab | `packages/shadcn-studio/src/storybook/presentation-lab/` |
 | Figma MCP exports | Save under app `public/`; `apps/erp/next.config.ts` allows `localhost:3845` for desktop MCP |
 
 **Images in Figma workflows:** When source UI has images, run `generate_figma_design` capture in parallel with `use_figma`; transfer `imageHash` from capture — Plugin API cannot fetch external URLs.
@@ -124,7 +124,7 @@ apps/erp/src/app/globals.css
 
 **Hard stops (CSS authority):**
 
-- **Never** copy `:root` / `.dark` token blocks into `_storybook/*.css` — that creates drift (vibe-coding V011).
+- **Never** copy `:root` / `.dark` token blocks into `storybook/*.css` — that creates drift (vibe-coding V011).
 - **Never** put global `:root` or bare `.dark` overrides in `presentation-lab.visual.css` — lab themes use scoped classes only (`.theme-afenda-verdant-milk-noir`).
 - **Never** add new semantic tokens to fix one Storybook story — use existing `--primary`, `--destructive`, etc.
 - Side-by-side columns inherit from `html`; keep story `globals.theme: "light"` so AdminCN Light column reads `:root` SSOT.

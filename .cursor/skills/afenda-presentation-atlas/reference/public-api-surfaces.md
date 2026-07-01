@@ -72,12 +72,12 @@ In-package `@/` imports only. ERP and apps consume these **via blocks/primitives
 | Module | Export | Consumers | Notes |
 | --- | --- | --- | --- |
 | `src/hooks/use-mobile.ts` | `useIsMobile()` | `components-ui/sidebar.tsx` | SSR-safe: `false` until mount; Tailwind `md` (768px) breakpoint |
-| `src/lib/utils.ts` | `cn()` | Primitives, blocks, `_storybook` | Tailwind merge |
+| `src/lib/utils.ts` | `cn()` | Primitives, blocks, `storybook/` | Tailwind merge |
 | `src/lib/governed-primitive-props.ts` | `WithoutGovernedDataSlot<T>` | Primitive adapters | Compile-time `data-slot` guard |
 | `src/lib/compose-class-name.ts` | `composeClassName()` | Base UI adapters (Gold pattern) | Stateful className merge |
 | `src/lib/compute-pagination-range.ts` | `computePaginationRange()` | `datatable-invoice`, `datatable-user`, `datatable-product` | Serializable boundary payload |
 | `src/lib/_lib-inventory.registry.ts` | inventory SSOT | vitest `lib-inventory.registry` | Fail-fast on add/delete |
-| `src/registry/_registry-inventory.registry.ts` | L1 inventory SSOT | vitest `registry-inventory.registry` | Fail-fast on add/delete (`check:studio-registry-inventory`) |
+| `src/meta-registry/_registry-inventory.registry.ts` | L1 inventory SSOT | vitest `registry-inventory.registry` | Fail-fast on add/delete (`check:studio-registry-inventory`) |
 
 **MCP note:** shadcn CLI may still scaffold `hooks/use-pagination.ts` on datatable refresh — reconcile to `lib/compute-pagination-range.ts` after overwrite.
 

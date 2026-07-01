@@ -8,7 +8,6 @@ import {
   type BlockSlotTemplate,
   resolveBlockSlotTemplate,
 } from "./block-slot-template-families.js";
-import { MCP_SEED_BLOCK_MANIFEST } from "./mcp-seed-block-manifest.js";
 import { SHADCN_STUDIO_BLOCK_PARITY_REGISTRY } from "./studio-block-parity.registry.js";
 
 export type { BlockSlotEntry, BlockSlotRole } from "./block-slot.types.js";
@@ -272,9 +271,11 @@ export const METADATA_BOUND_BLOCK_TEMPLATE_IDS = [
 ] as const;
 
 /** MCP datatable blocks resolved via DATATABLE_SLOT_TEMPLATE family rule. */
-export const DATATABLE_BLOCK_CONTRACT_IDS = MCP_SEED_BLOCK_MANIFEST.filter(
-  (entry) => entry.blockId.startsWith("datatable-")
-).map((entry) => entry.blockId);
+export const DATATABLE_BLOCK_CONTRACT_IDS = [
+  "datatable-invoice",
+  "datatable-user",
+  "datatable-product",
+] as const;
 
 /** Full block contract gate surface (explicit templates + datatable family). */
 export const GOVERNED_BLOCK_CONTRACT_IDS = [

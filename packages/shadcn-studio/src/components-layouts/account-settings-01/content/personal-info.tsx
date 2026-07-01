@@ -1,7 +1,6 @@
 "use client";
 
-import { ImageIcon, TrashIcon, UploadCloudIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,7 +12,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { DEFAULT_USER_PROFILE_AVATAR_PRESET_ID } from "../../../lib/user-profile-avatar.policy.js";
 import { blockSlotDomMarkerProps } from "../../../meta-contracts/block-slot-dom-marker.contract.js";
+import {
+  accountSettingsSectionContentClassName,
+  accountSettingsSectionGridClassName,
+  accountSettingsSectionHeadingClassName,
+} from "../../_shared/account-settings-page-shell.js";
+import UserProfileAvatarPicker, {
+  type UserProfileAvatarValue,
+} from "../../user-profile-avatar-picker.js";
 
 const countries = [
   {
@@ -69,60 +77,14 @@ const countries = [
 ];
 
 const PersonalInfo = () => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!file) {
-      const t = window.setTimeout(() => setPreview(null), 0);
-
-      return () => clearTimeout(t);
-    }
-
-    const url = URL.createObjectURL(file);
-
-    const t = window.setTimeout(() => setPreview(url), 0);
-
-    return () => {
-      clearTimeout(t);
-      URL.revokeObjectURL(url);
-    };
-  }, [file]);
-
-  const onSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const f = e.target.files?.[0];
-
-    if (!f) return;
-
-    if (!f.type.startsWith("image/")) {
-      window.alert("Please select an image file");
-      e.currentTarget.value = "";
-
-      return;
-    }
-
-    if (f.size > 1024 * 1024) {
-      window.alert("File must be smaller than 1MB");
-      e.currentTarget.value = "";
-
-      return;
-    }
-
-    setFile(f);
-  };
-
-  const openPicker = () => inputRef.current?.click();
-
-  const remove = () => {
-    setFile(null);
-    if (inputRef.current) inputRef.current.value = "";
-  };
+  const [avatar, setAvatar] = useState<UserProfileAvatarValue>({
+    presetId: DEFAULT_USER_PROFILE_AVATAR_PRESET_ID,
+  });
 
   return (
-    <div className="grid w-full min-w-0 grid-cols-1 gap-10 xl:grid-cols-3">
+    <div className={accountSettingsSectionGridClassName}>
       {/* Vertical Tabs List */}
-      <div className="flex min-w-0 flex-col space-y-1">
+      <div className={accountSettingsSectionHeadingClassName}>
         <h3 className="font-semibold">Personal Information</h3>
         <p className="text-muted-foreground text-sm">
           Manage your personal information and role.
@@ -130,68 +92,17 @@ const PersonalInfo = () => {
       </div>
 
       {/* Content */}
-      <div className="min-w-0 space-y-6 xl:col-span-2">
+      <div className={accountSettingsSectionContentClassName("6")}>
         <form className="mx-auto w-full min-w-0">
-          <div className="mb-6 w-full min-w-0 space-y-2">
-            <Label>Your Avatar</Label>
-            <div className="flex flex-wrap items-center gap-4">
-              <div
-                {...blockSlotDomMarkerProps("profile.avatar")}
-                aria-label="Upload your avatar"
-                className="flex h-20 w-20 cursor-pointer items-center justify-center overflow-hidden rounded-full border border-dashed hover:opacity-95"
-                onClick={openPicker}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    openPicker();
-                  }
-                }}
-                role="button"
-                tabIndex={0}
-              >
-                {preview ? (
-                  <img
-                    alt="avatar preview"
-                    className="h-full w-full object-cover"
-                    src={preview}
-                  />
-                ) : (
-                  <ImageIcon />
-                )}
-              </div>
-
-              <div className="flex items-center gap-2">
-                <input
-                  accept="image/*"
-                  className="hidden"
-                  onChange={onSelect}
-                  ref={inputRef}
-                  type="file"
-                />
-                <Button
-                  className="flex items-center gap-2"
-                  onClick={openPicker}
-                  type="button"
-                  variant="outline"
-                >
-                  <UploadCloudIcon />
-                  Upload avatar
-                </Button>
-                <Button
-                  aria-label="Remove avatar"
-                  className="text-destructive!"
-                  disabled={!file}
-                  onClick={remove}
-                  type="button"
-                  variant="ghost"
-                >
-                  <TrashIcon />
-                </Button>
-              </div>
-            </div>
-            <p className="text-muted-foreground text-sm">
-              Pick a photo up to 1MB.
-            </p>
+          <div
+            {...blockSlotDomMarkerProps("profile.avatar")}
+            className="mb-6 w-full min-w-0"
+          >
+            <UserProfileAvatarPicker
+              displayName="John Doe"
+              onChange={setAvatar}
+              value={avatar}
+            />
           </div>
           <div className="grid min-w-0 grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="flex flex-col items-start gap-2">

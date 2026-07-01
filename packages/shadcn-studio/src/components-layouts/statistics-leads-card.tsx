@@ -11,12 +11,21 @@ import {
 } from "@/components/ui/chart";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
-// Lead chart data
-const leadChartData = [
-  { month: "january", sales: 340, fill: "var(--color-january)" },
-  { month: "february", sales: 200, fill: "var(--color-february)" },
-  { month: "march", sales: 200, fill: "var(--color-march)" },
-];
+export type LeadsChartPoint = {
+  month: string;
+  sales: number;
+  fill: string;
+};
+
+export type StatisticsLeadsCardProps = {
+  title: string;
+  amount: string;
+  changePercentage: number;
+  periodLabel?: string;
+  chartCenterLabel: string;
+  chartData: readonly LeadsChartPoint[];
+  className?: string;
+};
 
 const leadChartConfig = {
   sales: {
@@ -36,57 +45,15 @@ const leadChartConfig = {
   },
 } satisfies ChartConfig;
 
-const StatisticsCardData = {
-  title: "Generated leads",
-  amount: "4,350",
-  changePercentage: 18.2,
-  children: (
-    <>
-      <ChartContainer className="h-37.5 w-full px-4.5" config={leadChartConfig}>
-        <PieChart margin={{ top: 0, bottom: 0, left: 0, right: 0 }}>
-          <ChartTooltip
-            content={<ChartTooltipContent hideLabel />}
-            cursor={false}
-          />
-          <Pie
-            data={leadChartData}
-            dataKey="sales"
-            innerRadius={55}
-            nameKey="month"
-            outerRadius={75}
-            paddingAngle={3}
-            strokeWidth={20}
-          >
-            <Label
-              content={({ viewBox }) => {
-                if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                  return (
-                    <text
-                      dominantBaseline="middle"
-                      textAnchor="middle"
-                      x={viewBox.cx}
-                      y={viewBox.cy}
-                    >
-                      <tspan
-                        className="fill-foreground font-medium text-xl"
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                      >
-                        $23K
-                      </tspan>
-                    </text>
-                  );
-                }
-              }}
-            />
-          </Pie>
-        </PieChart>
-      </ChartContainer>
-    </>
-  ),
-};
-
-const StatisticsLeadCard = ({ className }: { className?: string }) => {
+const StatisticsLeadCard = ({
+  title,
+  amount,
+  changePercentage,
+  periodLabel = "Weekly Report",
+  chartCenterLabel,
+  chartData,
+  className,
+}: StatisticsLeadsCardProps) => {
   const titleId = useId();
   const footnoteId = useId();
 
@@ -101,10 +68,10 @@ const StatisticsLeadCard = ({ className }: { className?: string }) => {
                 className="font-semibold"
                 id={titleId}
               >
-                {StatisticsCardData.title}
+                {title}
               </span>
               <span className="text-muted-foreground text-sm">
-                Weekly Report
+                {periodLabel}
               </span>
             </div>
             <div className="flex flex-col gap-2">
@@ -113,18 +80,62 @@ const StatisticsLeadCard = ({ className }: { className?: string }) => {
                 aria-describedby={footnoteId}
                 className="font-semibold text-2xl"
               >
-                {StatisticsCardData.amount}
+                {amount}
               </span>
               <span
                 {...blockSlotDomMarkerProps("metric.change")}
                 className="text-primary text-sm"
                 id={footnoteId}
               >
-                +{StatisticsCardData.changePercentage}%
+                +{changePercentage}%
               </span>
             </div>
           </div>
-          <div className="h-37.5 sm:pl-6">{StatisticsCardData.children}</div>
+          <div className="h-37.5 sm:pl-6">
+            <ChartContainer
+              className="h-37.5 w-full px-4.5"
+              config={leadChartConfig}
+            >
+              <PieChart margin={{ top: 0, bottom: 0, left: 0, right: 0 }}>
+                <ChartTooltip
+                  content={<ChartTooltipContent hideLabel />}
+                  cursor={false}
+                />
+                <Pie
+                  data={[...chartData]}
+                  dataKey="sales"
+                  innerRadius={55}
+                  nameKey="month"
+                  outerRadius={75}
+                  paddingAngle={3}
+                  strokeWidth={20}
+                >
+                  <Label
+                    content={({ viewBox }) => {
+                      if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                        return (
+                          <text
+                            dominantBaseline="middle"
+                            textAnchor="middle"
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                          >
+                            <tspan
+                              className="fill-foreground font-medium text-xl"
+                              x={viewBox.cx}
+                              y={viewBox.cy}
+                            >
+                              {chartCenterLabel}
+                            </tspan>
+                          </text>
+                        );
+                      }
+                    }}
+                  />
+                </Pie>
+              </PieChart>
+            </ChartContainer>
+          </div>
         </CardContent>
       </Card>
     </article>

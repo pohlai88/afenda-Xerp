@@ -18,6 +18,7 @@ export const REGISTRY_INVENTORY_GATE =
   "check:studio-registry-inventory" as const;
 
 export const REGISTRY_MODULE_FAMILIES = [
+  "acceptance-record",
   "block-slot",
   "presentation-inventory",
   "block-lifecycle",
@@ -38,6 +39,12 @@ export type RegistryModuleEntry = {
 
 /** Envelope-registered registry/ source modules (excludes this meta file). */
 export const REGISTRY_MODULE_REGISTRY = [
+  {
+    file: "acceptance-record.registry.ts",
+    family: "acceptance-record",
+    role: "Sealed acceptance records for governed blocks",
+    serializable: true,
+  },
   {
     file: "block-slot.types.ts",
     family: "block-slot",

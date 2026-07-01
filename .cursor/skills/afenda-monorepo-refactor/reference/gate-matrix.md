@@ -49,7 +49,7 @@ Run **scoped gates first**. Expand to workspace gates only when the slice touche
 |-----------------|------|
 | `pnpm --filter <consumer> typecheck` | Required per consumer |
 | `pnpm --filter <consumer> test:run` | Consumer has tests for migrated paths |
-| `pnpm ui:guard:scan` | Consumer is `apps/erp` and touches UI imports |
+| `pnpm check:erp-metadata-pas006-consumer` | Consumer is `apps/erp` and touches PAS-006 metadata |
 
 ---
 
@@ -59,10 +59,9 @@ Run **scoped gates first**. Expand to workspace gates only when the slice touche
 |-----------------|---------------------------|
 | `@afenda/kernel` | `pnpm quality:kernel-context-surface`; PAS-001 slice gates if applicable |
 | `@afenda/database` | `pnpm quality:migrations` — never hand-edit SQL |
-| `@afenda/ui` | `pnpm ui:guard` — Governed UI governed primitives |
-| `@afenda/appshell` | `pnpm --filter @afenda/appshell test:run` |
+| `@afenda/shadcn-studio` | `pnpm --filter @afenda/shadcn-studio typecheck`; `pnpm check:studio-import-zones` |
 | `apps/erp` | `pnpm --filter @afenda/erp typecheck`; Next.js MCP `get_errors` if routes changed |
-| CSS in packages | `pnpm sync:package-css-dist` then `pnpm check:package-css-dist-sync` |
+| CSS in `@afenda/shadcn-studio` | `pnpm sync:package-css-dist` then `pnpm check:package-css-dist-sync` |
 
 Verify optional commands exist in `package.json` before running. Mark `NOT AVAILABLE`, not `FAIL`, if missing.
 

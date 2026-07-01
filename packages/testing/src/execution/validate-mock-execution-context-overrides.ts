@@ -1,8 +1,7 @@
 import type { ExecutionContextInput } from "@afenda/execution";
 
 /** PAS §4.1.3 / ADR-0021 — same shape enforced at mock execution boundaries. */
-export const MOCK_EXECUTION_CANONICAL_ID_PATTERN =
-  /^[a-z]{3}_[0-9A-HJKMNP-TV-Z]{26}$/;
+const MOCK_EXECUTION_CANONICAL_ID_PATTERN = /^[a-z]{3}_[0-9A-HJKMNP-TV-Z]{26}$/;
 
 const MOCK_EXECUTION_ID_FIELDS = [
   "actorId",

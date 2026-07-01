@@ -1,0 +1,161 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema-jsonc.json",
+  // Expand one package per housekeeping slice (see .cursor/skills/afenda-repo-housekeeping/)
+  "ignoreWorkspaces": [
+    "apps/*",
+    "packages/**",
+    "!packages/observability",
+    "!packages/testing",
+    "!packages/typescript-config",
+    "!packages/auth",
+    "!packages/permissions",
+    "!packages/entitlements",
+    "!packages/feature-flags",
+    "!packages/shadcn-studio",
+    "!packages/database",
+    "!packages/ai-governance",
+    "!packages/execution",
+    "!packages/storage",
+    "!packages/erp-module-foundation",
+    "!packages/accounting-standards",
+    "!packages/kernel",
+    "!packages/architecture-authority",
+    "!packages/enterprise-knowledge",
+    "!packages/features/erp-modules",
+    "!apps/erp",
+    "!apps/storybook",
+    "!apps/docs"
+  ],
+  "ignore": [
+    "**/_retired/**",
+    "scripts/governance/_retired/**",
+    ".cursor/skills/_retired/**"
+  ],
+  "tags": ["-internal", "-lintignore"],
+  "workspaces": {
+    "packages/observability": {
+      "entry": ["src/**/*.test.ts"],
+      "project": ["src/**/*.ts"],
+      "ignoreDependencies": ["pino-pretty"]
+    },
+    "packages/testing": {
+      "entry": ["src/**/*.test.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "packages/typescript-config": {
+      "entry": ["package.json"],
+      "project": ["*.json"]
+    },
+    "packages/auth": {
+      "entry": ["src/**/*.test.ts", "scripts/**/*.ts"],
+      "project": ["src/**/*.{ts,tsx}", "scripts/**/*.ts"]
+    },
+    "packages/permissions": {
+      "entry": ["src/**/*.test.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "packages/entitlements": {
+      "entry": [
+        "src/**/*.test.ts",
+        "src/**/*.service.ts",
+        "src/contracts/**/*.ts",
+        "src/evaluation/**/*.ts"
+      ],
+      "project": ["src/**/*.ts"]
+    },
+    "packages/feature-flags": {
+      "entry": ["src/**/*.test.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "packages/shadcn-studio": {
+      "entry": ["src/**/index.ts", "src/**/*.test.ts", "src/**/*.stories.tsx"],
+      "project": ["src/**/*.{ts,tsx}"],
+      "ignoreDependencies": ["next", "shadcn", "tw-animate-css"],
+      "ignoreIssues": {
+        "src/**/*.{ts,tsx}": ["exports", "types"]
+      }
+    },
+    "packages/database": {
+      "entry": ["src/index.ts", "src/**/*.test.ts", "src/seeds/**/*.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "packages/ai-governance": {
+      "entry": ["src/**/*.test.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "packages/execution": {
+      "entry": [
+        "src/**/*.test.ts",
+        "src/trigger/tasks.ts",
+        "src/providers/trigger-worker-bootstrap.ts"
+      ],
+      "project": ["src/**/*.ts"],
+      "ignoreDependencies": ["@trigger.dev/build"]
+    },
+    "packages/storage": {
+      "entry": ["src/**/*.test.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "packages/erp-module-foundation": {
+      "entry": ["src/**/*.test.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "packages/accounting-standards": {
+      "entry": ["src/**/*.test.ts", "src/standards/**/*.registry.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "packages/kernel": {
+      "entry": ["src/**/index.ts", "src/**/*.test.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "packages/architecture-authority": {
+      "entry": ["src/**/index.ts", "src/**/*.test.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "packages/enterprise-knowledge": {
+      "entry": ["src/index.ts", "src/**/*.test.ts"],
+      "project": ["src/**/*.ts"],
+      "ignoreBinaries": ["tsx"]
+    },
+    "packages/features/erp-modules": {
+      "entry": ["src/**/*.test.ts"],
+      "project": ["src/**/*.ts"]
+    },
+    "apps/erp": {
+      "entry": [
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+        "src/app/globals.css",
+        "playwright.config.mts",
+        "src/lib/**/*-ingress.contract.ts",
+        "src/lib/**/*registry.ts",
+        "src/lib/context/tenant-domain.ts",
+        "src/lib/metadata/*-vocabulary.contract.ts",
+        "src/lib/observability/create-erp-background-logger.ts",
+        "src/lib/utils.ts",
+        "src/lib/workspace/**/*.{ts,tsx}",
+        "src/server/api/contracts/openapi/index.ts"
+      ],
+      "project": [
+        "src/lib/**/*.{ts,tsx}",
+        "src/components/**/*.{ts,tsx}",
+        "src/app/**/*.{ts,tsx}",
+        "src/server/**/*.{ts,tsx}"
+      ],
+      "ignoreDependencies": ["shadcn", "tailwindcss"]
+    },
+    "apps/storybook": {
+      "entry": ["stories/**/*.stories.tsx", ".storybook/**/*.{ts,tsx}"],
+      "project": ["stories/**/*.{ts,tsx}", ".storybook/**/*.{ts,tsx}"]
+    },
+    "apps/docs": {
+      "entry": [
+        "vitest.config.ts",
+        "src/__tests__/setup/empty-module.ts",
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx"
+      ],
+      "project": ["src/**/*.{ts,tsx}"]
+    }
+  }
+}

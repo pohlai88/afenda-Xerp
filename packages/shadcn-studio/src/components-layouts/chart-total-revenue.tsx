@@ -1,10 +1,7 @@
 "use client";
 
-import {
-  CircleDollarSignIcon,
-  EllipsisVerticalIcon,
-  WalletIcon,
-} from "lucide-react";
+import { EllipsisVerticalIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 import {
   Bar,
@@ -45,52 +42,36 @@ import {
 import { cn } from "@/utils/utils";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
-const listItems = ["Share", "Update", "Refresh"];
+export type TotalRevenueBarPoint = {
+  name: string;
+  uv: number;
+  pv: number;
+  amt: number;
+};
 
-const totalEarningChartData = [
-  {
-    name: "January",
-    uv: -13,
-    pv: 21,
-    amt: 2210,
-  },
-  {
-    name: "February",
-    uv: -16,
-    pv: 10,
-    amt: 2290,
-  },
-  {
-    name: "March",
-    uv: -14,
-    pv: 13,
-    amt: 2210,
-  },
-  {
-    name: "April",
-    uv: -10,
-    pv: 12,
-    amt: 2500,
-  },
-  {
-    name: "May",
-    uv: -17,
-    pv: 20,
-    amt: 2100,
-  },
-  {
-    name: "June",
-    uv: -13,
-    pv: 12,
-    amt: 2100,
-  },
-  {
-    name: "July",
-    uv: -12,
-    pv: 15,
-    amt: 2100,
-  },
-];
+export type TotalRevenueGrowthPoint = {
+  date: string;
+  revenue: number;
+  fill: string;
+};
+
+export type TotalRevenueYearSummary = {
+  icon: ReactNode;
+  year: string;
+  amount: string;
+};
+
+export type ChartTotalRevenueProps = {
+  title: string;
+  menuItems?: readonly string[];
+  barChartData: readonly TotalRevenueBarPoint[];
+  growthPieData: readonly TotalRevenueGrowthPoint[];
+  growthCenterValue: string;
+  growthCenterLabel: string;
+  growthFootnote: string;
+  yearSummaries: readonly TotalRevenueYearSummary[];
+  className?: string;
+};
 
 const totalEarningChartConfig = {
   uv: {
@@ -103,134 +84,23 @@ const totalEarningChartConfig = {
   },
 } satisfies ChartConfig;
 
-const growthChartData = [
-  { date: "2023-11-30", revenue: 20, fill: "var(--primary)" },
-  { date: "2023-12-12", revenue: 20, fill: "var(--primary)" },
-  { date: "2023-11-20", revenue: 20, fill: "var(--primary)" },
-  { date: "2023-12-12", revenue: 20, fill: "var(--primary)" },
-  { date: "2023-12-12", revenue: 20, fill: "var(--primary)" },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 90%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 90%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 80%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 80%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 70%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 70%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 60%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 60%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 50%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 50%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 40%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 40%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 30%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 30%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 20%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 20%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 10%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 10%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 5%, var(--background))",
-  },
-  {
-    date: "2023-12-12",
-    revenue: 20,
-    fill: "color-mix(in oklab, var(--primary) 5%, var(--background))",
-  },
-];
-
 const growthChartConfig = {
   revenue: {
     label: "Revenue",
   },
 } satisfies ChartConfig;
 
-const data = [
-  {
-    icon: <CircleDollarSignIcon className="size-5" />,
-    year: "2024",
-    amount: "$32.5K",
-  },
-  {
-    icon: <WalletIcon className="size-5" />,
-    year: "2023",
-    amount: "$41.2K",
-  },
-];
-
-const TotalRevenueCard = ({ className }: { className?: string }) => (
+const TotalRevenueCard = ({
+  title,
+  menuItems = ["Share", "Update", "Refresh"],
+  barChartData,
+  growthPieData,
+  growthCenterValue,
+  growthCenterLabel,
+  growthFootnote,
+  yearSummaries,
+  className,
+}: ChartTotalRevenueProps) => (
   <Card className={cn("grid lg:grid-cols-5", className)}>
     <div className="flex flex-col gap-4 max-lg:border-b max-lg:pb-6 lg:col-span-3 lg:border-r">
       <CardHeader className="flex justify-between">
@@ -238,7 +108,7 @@ const TotalRevenueCard = ({ className }: { className?: string }) => (
           {...blockSlotDomMarkerProps("chart.title")}
           className="font-semibold text-lg"
         >
-          Total Revenue
+          {title}
         </span>
         <DropdownMenu>
           <DropdownMenuTrigger
@@ -256,8 +126,8 @@ const TotalRevenueCard = ({ className }: { className?: string }) => (
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuGroup>
-              {listItems.map((item, index) => (
-                <DropdownMenuItem key={index}>{item}</DropdownMenuItem>
+              {menuItems.map((item) => (
+                <DropdownMenuItem key={item}>{item}</DropdownMenuItem>
               ))}
             </DropdownMenuGroup>
           </DropdownMenuContent>
@@ -271,7 +141,7 @@ const TotalRevenueCard = ({ className }: { className?: string }) => (
         >
           <BarChart
             barSize={12}
-            data={totalEarningChartData}
+            data={[...barChartData]}
             margin={{
               left: -25,
             }}
@@ -349,7 +219,7 @@ const TotalRevenueCard = ({ className }: { className?: string }) => (
           >
             <PieChart margin={{ top: 0, bottom: -20 }}>
               <Pie
-                data={growthChartData}
+                data={[...growthPieData]}
                 dataKey="revenue"
                 endAngle={220}
                 innerRadius={60}
@@ -373,14 +243,14 @@ const TotalRevenueCard = ({ className }: { className?: string }) => (
                             x={viewBox.cx}
                             y={(viewBox.cy || 0) + 3}
                           >
-                            78%
+                            {growthCenterValue}
                           </tspan>
                           <tspan
                             className="fill-muted-foreground text-sm"
                             x={viewBox.cx}
                             y={(viewBox.cy || 0) + 24}
                           >
-                            Growth
+                            {growthCenterLabel}
                           </tspan>
                         </text>
                       );
@@ -392,13 +262,13 @@ const TotalRevenueCard = ({ className }: { className?: string }) => (
           </ChartContainer>
 
           <span className="text-muted-foreground text-sm">
-            62% Company Growth
+            {growthFootnote}
           </span>
         </div>
 
         <div className="flex items-center justify-between gap-4 md:max-lg:gap-0">
-          {data.map((item, index) => (
-            <div className="flex items-center gap-2 p-2" key={index}>
+          {yearSummaries.map((item) => (
+            <div className="flex items-center gap-2 p-2" key={item.year}>
               <Avatar className="size-10 rounded-sm">
                 <AvatarFallback className="shrink-0 rounded-sm bg-primary/10 text-primary">
                   {item.icon}

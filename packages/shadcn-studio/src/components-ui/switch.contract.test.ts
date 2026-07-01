@@ -4,11 +4,9 @@ import {
   SWITCH_PRIMITIVE_ID,
   SWITCH_SLOTS,
   switchOutline06PrimaryClassName,
-  switchOutlineRootClassName,
-  switchOutlineThumbClassName,
+  switchOutline06SuccessClassName,
   switchPrimitiveMetadata,
   switchRootClassName,
-  switchSemanticSuccessClassName,
   switchThumbClassName,
   switchThumbMotionClassName,
 } from "./switch.contract.js";
@@ -36,12 +34,13 @@ describe("switch primitive contract", () => {
     expect(switchOutline06PrimaryClassName).toContain(
       "data-checked:[&_span]:bg-primary"
     );
-    expect(switchOutline06PrimaryClassName).toContain("data-checked:bg-transparent");
-    expect(switchOutlineRootClassName).toBe(switchOutline06PrimaryClassName);
-    expect(switchOutlineThumbClassName).toBe(switchThumbMotionClassName);
-    expect(switchSemanticSuccessClassName).toContain(
+    expect(switchOutline06PrimaryClassName).toContain(
+      "data-checked:bg-transparent"
+    );
+    expect(switchOutline06SuccessClassName).toContain(
       "dark:data-checked:[&_span]:bg-green-400"
     );
+    expect(switchThumbMotionClassName).toContain("rounded-full");
   });
 
   it("switchPrimitiveMetadata includes variant axis", () => {

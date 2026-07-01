@@ -83,6 +83,9 @@ export const DialogSearch: Story = {
 };
 export const DialogSearchDark: Story = storyPair("DialogSearch").dark;
 
+export const ErrorPageShell: Story = storyPair("ErrorPageShell").light;
+export const ErrorPageShellDark: Story = storyPair("ErrorPageShell").dark;
+
 export const DropdownLanguage: Story = {
   ...storyPair("DropdownLanguage").light,
   tags: ["autodocs", "lab-smoke"],

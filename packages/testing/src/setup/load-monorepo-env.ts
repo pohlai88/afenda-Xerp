@@ -7,7 +7,7 @@ const repoRoot = path.resolve(setupDir, "../../../..");
 const databaseEnvPath = path.join(repoRoot, "packages/database/.env");
 
 /** Loads synced monorepo env files (same paths as @afenda/database/load-synced-env). */
-export function loadMonorepoEnv(): void {
+function loadMonorepoEnv(): void {
   loadEnv({ path: path.join(repoRoot, ".env") });
   loadEnv({ path: path.join(repoRoot, ".env.local"), override: true });
   loadEnv({ path: databaseEnvPath, override: true });

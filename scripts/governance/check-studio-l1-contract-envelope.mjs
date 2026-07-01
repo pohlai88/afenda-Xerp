@@ -1,15 +1,18 @@
 #!/usr/bin/env node
+import { spawnSync } from "node:child_process";
 /**
  * PAS-006 L1 — flat meta-contracts/ envelope registry gate.
  * Fails on add/delete without updating _contract-envelope.registry.ts.
  */
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = join(fileURLToPath(new URL(".", import.meta.url)), "../..");
-const contractsDir = join(repoRoot, "packages/shadcn-studio/src/meta-contracts");
+const contractsDir = join(
+  repoRoot,
+  "packages/shadcn-studio/src/meta-contracts"
+);
 const registryPath = join(contractsDir, "_contract-envelope.registry.ts");
 const envelopeMarker = "@afenda.l1-contract-envelope";
 
@@ -65,14 +68,14 @@ for (const forbidden of forbiddenPaths) {
   if (forbidden.endsWith("/")) {
     if (existsSync(forbiddenPath)) {
       violations.push(
-        `forbidden path exists: meta-contracts/${forbidden} (flat-L1 series)`
+        `forbidden path exists: meta-meta-contracts/${forbidden} (flat-L1 series)`
       );
     }
     continue;
   }
 
   if (existsSync(forbiddenPath)) {
-    violations.push(`forbidden file exists: meta-contracts/${forbidden}`);
+    violations.push(`forbidden file exists: meta-meta-contracts/${forbidden}`);
   }
 }
 

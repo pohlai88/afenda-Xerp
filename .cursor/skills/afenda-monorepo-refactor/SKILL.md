@@ -19,6 +19,7 @@ Governed refactoring for the `@afenda/*` pnpm + Turborepo workspace. Combines mo
 
 | Phase | Delegate to |
 |-------|-------------|
+| Dead-code discovery / Knip rollout | `/afenda-repo-housekeeping` |
 | PAS/PAS compliance audit | `/pas-codebase-bridge` |
 | Semantic boundary scan | `/platform-cross-boundary-anti-pattern-scan` |
 | PAS kernel slice planning | `/pas-slice-planner` |
@@ -286,9 +287,9 @@ List next serialized slices with one-line objective each.
 
 ```text
 /afenda-monorepo-refactor audit move resolveFoo from apps/erp to @afenda/kernel
-/afenda-monorepo-refactor plan extract shared wire types from @afenda/ui-composition to @afenda/kernel
-/afenda-monorepo-refactor execute Slice B — move implementation per plan above
-/afenda-monorepo-refactor stabilize @afenda/kernel after extract slice
+/afenda-monorepo-refactor plan extract shared wire types from apps/erp to @afenda/kernel
+/afenda-monorepo-refactor execute Slice D — remove stale governance tests (housekeeping)
+/afenda-monorepo-refactor stabilize @afenda/observability — Knip dead-code slice 1
 ```
 
 ---

@@ -7,21 +7,18 @@ import {
   diffUiPrimitiveMetadataRegistry,
   formatUiPrimitiveMetadataInventoryDiff,
   GOVERNANCE_ENVELOPE_MARKER,
+  GOVERNANCE_ENVELOPE_REFACTORED,
   GOVERNANCE_ENVELOPE_SERIES,
   GOVERNANCE_REGISTRY_EXCLUDED,
+  toUiPrimitiveId,
   UI_PRIMITIVE_CONTRACT_SLUGS,
   UI_PRIMITIVE_GOLD_VERSION,
   UI_PRIMITIVE_ID_PREFIX,
   UI_PRIMITIVE_METADATA_GATE,
-  UI_PRIMITIVE_METADATA_MARKER,
-  UI_PRIMITIVE_METADATA_REFACTORED,
-  UI_PRIMITIVE_METADATA_SERIES,
-  toUiPrimitiveId,
 } from "../_governance.registry.js";
 import {
   getUiPrimitiveMetadata,
   getUiPrimitiveMetadataSlugs,
-  listUiPrimitiveMetadata,
   UI_PRIMITIVE_METADATA_BY_ID,
   UI_PRIMITIVE_METADATA_FACTORY_COUNT,
   UI_PRIMITIVE_METADATA_REGISTRY,
@@ -47,10 +44,7 @@ describe("ui-primitive metadata inventory registry", () => {
   const diff = diffUiPrimitiveMetadataRegistry(discovered);
 
   it("registry count matches total ui/*.contract.ts files on disk", () => {
-    expect(
-      diff,
-      formatUiPrimitiveMetadataInventoryDiff(diff)
-    ).toEqual({
+    expect(diff, formatUiPrimitiveMetadataInventoryDiff(diff)).toEqual({
       registeredCount: discovered.length,
       discoveredCount: discovered.length,
       missingOnDisk: [],
@@ -65,10 +59,12 @@ describe("ui-primitive metadata inventory registry", () => {
   });
 
   it("exports flat-governance series metadata for envelope headers", () => {
-    expect(UI_PRIMITIVE_METADATA_SERIES).toBe(GOVERNANCE_ENVELOPE_SERIES);
-    expect(UI_PRIMITIVE_METADATA_MARKER).toBe(GOVERNANCE_ENVELOPE_MARKER);
-    expect(UI_PRIMITIVE_METADATA_GATE).toBe("check:studio-ui-primitive-metadata");
-    expect(UI_PRIMITIVE_METADATA_REFACTORED).toBe("2026-07-01");
+    expect(GOVERNANCE_ENVELOPE_SERIES).toBe("flat-governance");
+    expect(GOVERNANCE_ENVELOPE_MARKER).toBe("@afenda.governance-envelope");
+    expect(UI_PRIMITIVE_METADATA_GATE).toBe(
+      "check:studio-ui-primitive-metadata"
+    );
+    expect(GOVERNANCE_ENVELOPE_REFACTORED).toBe("2026-07-01");
   });
 
   it("inventory lives in sole _governance.registry.ts", () => {

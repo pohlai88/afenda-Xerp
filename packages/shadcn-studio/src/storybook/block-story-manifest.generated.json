@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-01T17:18:03.652Z",
+  "generatedAt": "2026-07-01T22:17:25.081Z",
   "autoStoryCount": 2,
   "manualStoryRequiredCount": 36,
   "autoStories": [
@@ -30,8 +30,6 @@
     "dropdown-profile",
     "error-page-shell",
     "menu-trigger",
-    "morphing-text",
-    "morphing-text.stories",
     "sidebar-user-dropdown",
     "statistics-activity-card",
     "statistics-card-01",
@@ -47,6 +45,8 @@
     "statistics-revenue-card",
     "statistics-sales-overview-card",
     "statistics-trend-card",
+    "user-profile-avatar",
+    "user-profile-avatar-picker",
     "widget-payment-history",
     "widget-sales-by-countries",
     "widget-total-earning",

@@ -41,6 +41,34 @@ export const LIB_MODULE_REGISTRY = [
     role: "Pure datatable pagination window (not a React hook)",
     serializable: true,
   },
+  {
+    file: "user-profile-avatar.contract.ts",
+    exports: [
+      "userProfileAvatarHeroClassName",
+      "userProfileAvatarPresetGridClassName",
+      "userProfileAvatarPresetButtonClassName",
+      "userProfileAvatarPresetSelectedClassName",
+      "userProfileAvatarPresetIdleClassName",
+      "userProfileAvatarPanelClassName",
+      "userProfileAvatarFallbackClassName",
+    ],
+    role: "Profile avatar picker className SSOT (sidebar-user-dropdown)",
+    serializable: false,
+  },
+  {
+    file: "user-profile-avatar.policy.ts",
+    exports: [
+      "USER_PROFILE_AVATAR_PRESETS",
+      "DEFAULT_USER_PROFILE_AVATAR_PRESET_ID",
+      "UserProfileAvatarPreset",
+      "UserProfileAvatarPresetId",
+      "getUserProfileAvatarPreset",
+      "resolveUserProfileAvatarFallback",
+      "resolveUserProfileAvatarImageSrc",
+    ],
+    role: "Curated avatar presets + resolve helpers for lab surfaces",
+    serializable: false,
+  },
 ] as const satisfies readonly LibModuleEntry[];
 
 export const LIB_MODULE_FILES = LIB_MODULE_REGISTRY.map((entry) => entry.file);

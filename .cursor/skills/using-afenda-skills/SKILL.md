@@ -47,10 +47,11 @@ SKILL regen from PAS? ────→ kernel-authority/reference/pas-skill-templ
 Any code edit? ───────────→ coding-consistency-bundle (mandatory)
 Design system inventory? ─→ afenda-presentation-atlas (read-only · /afenda-presentation-atlas)
 UI/CSS/visual (ERP)? ───→ afenda-presentation-quality + shadcn-studio (PAS-006 · ADR-0027)
-components/ui primitive? ─→ afenda-primitive-contract (+ studio:shadcn — no overwrite)
+components-ui primitive? ─→ afenda-primitive-contract + ui-primitive-mismatch-frame rule (+ studio:shadcn — no overwrite)
 ERP React/TS refactor? ───→ afenda-react-surface-quality (B→A→T scan)
 ERP bundle / lazy-load / perf? → afenda-shadcn-performance (+ /afenda-webperf for audit)
 Kernel boundary? ─────────→ kernel-authority
+Dead code / Knip / housekeeping? → afenda-repo-housekeeping (removal → afenda-monorepo-refactor Slice D)
 Enterprise knowledge? ────→ enterprise-knowledge
 Drizzle migrations? ──────→ afenda-drizzle-migration
 Multi-tenancy? ───────────→ multi-tenancy-erp

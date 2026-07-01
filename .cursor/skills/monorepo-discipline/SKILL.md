@@ -15,18 +15,20 @@ The `@afenda/architecture-authority` package enforces these rules automatically 
 ## Layer hierarchy (from `layer-registry.data.ts`)
 
 ```
-Rank 6 — Application  : @afenda/erp, @afenda/docs, @afenda/storybook
+Rank 6 — Application  : @afenda/erp, @afenda/docs, @afenda/storybook, @afenda/email
 Rank 5 — Domain       : (future domain packages)
-Rank 4 — ERPSpine     : @afenda/appshell
-Rank 3 — Metadata     : @afenda/ui-composition, @afenda/ui-composition-ui
+Rank 4 — ERPSpine     : (retired — ADR-0027; no @afenda/appshell)
 Rank 3 — Integration  : @afenda/entitlements, @afenda/feature-flags, @afenda/testing
-Rank 2 — Foundation   : @afenda/execution, @afenda/storage, @afenda/accounting-standards
-Rank 2 — Design       : @afenda/design-system, @afenda/ui
+Rank 2 — Foundation   : @afenda/execution, @afenda/erp-module-foundation, @afenda/storage,
+                         @afenda/accounting-standards
+Rank 2 — Design       : @afenda/shadcn-studio (PAS-006 · ADR-0027)
 Rank 1 — Platform     : @afenda/auth, @afenda/database, @afenda/observability,
                          @afenda/permissions, @afenda/architecture-authority,
                          @afenda/typescript-config, @afenda/ai-governance,
                          @afenda/kernel, @afenda/enterprise-knowledge
 ```
+
+Retired presentation packages (`@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui`, `@afenda/css-authority`) are **archive-lane only** — see ADR-0027.
 
 **Direction rule:** packages may only import from the same rank or lower (lower rank number = closer to platform). Higher-rank packages must never be imported by lower-rank packages.
 
@@ -93,7 +95,7 @@ Templates live under `templates/package-scaffold/`. Env wiring is integrated: Vi
 | Foundation authority (kernel contracts) | `foundation-with-kernel` | `@afenda/kernel` |
 | Platform authority (zero runtime deps) | `platform-zero-deps` | none |
 | Contract-heavy metadata | Manual peer copy from `packages/ui-composition` | varies |
-| React/UI (Design layer only) | Manual peer copy from `packages/ui` | many — ask before use |
+| React/UI (Design layer only) | Manual peer copy from `packages/shadcn-studio` | PAS-006 — ask before use |
 
 **Do not copy:** `packages/kernel` wholesale (wrong layout gates). **Do not scaffold:** `crm`, `hrm`, `procurement`, `inventory` — blocked by `pnpm check:business-master-data-scaffold`.
 
@@ -185,5 +187,9 @@ pnpm --filter @afenda/architecture-authority test:run
 # Full workspace type check (catches phantom dep import errors)
 pnpm typecheck
 ```
+
+## Dead code (Knip)
+
+Discovery: `pnpm housekeeping:knip:workspace packages/<name>` or `pnpm housekeeping:knip` (config [`knip.jsonc`](../../../knip.jsonc)). Orchestration: [`/afenda-repo-housekeeping`](../afenda-repo-housekeeping/SKILL.md). Removal: [`/afenda-monorepo-refactor`](../afenda-monorepo-refactor/SKILL.md) Slice D.
 
 See [LAYERS.md](LAYERS.md) for the full layer diagram with package assignments and known exceptions.

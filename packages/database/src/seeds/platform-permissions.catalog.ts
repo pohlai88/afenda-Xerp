@@ -123,6 +123,43 @@ export const PLATFORM_PERMISSION_CATALOG = [
       "Create and update warehouse master data within authorized company scope.",
   },
   {
+    key: catalogKey("inventory", "stock_movement_read"),
+    name: "Read stock movements",
+    description: "Read inventory stock movement records within tenant scope.",
+  },
+  {
+    key: catalogKey("inventory", "stock_movement_post"),
+    name: "Post stock movements",
+    description: "Post inventory stock movement transactions.",
+  },
+  {
+    key: catalogKey("inventory", "stock_movement_cancel"),
+    name: "Cancel stock movements",
+    description: "Cancel pending inventory stock movement transactions.",
+  },
+  {
+    key: catalogKey("inventory", "stock_reservation_read"),
+    name: "Read stock reservations",
+    description:
+      "Read inventory stock reservation records within tenant scope.",
+  },
+  {
+    key: catalogKey("inventory", "stock_reservation_reserve"),
+    name: "Reserve stock",
+    description: "Create inventory stock reservations against available stock.",
+  },
+  {
+    key: catalogKey("inventory", "stock_reservation_fulfill"),
+    name: "Fulfill stock reservations",
+    description:
+      "Fulfill inventory stock reservations and consume reserved stock.",
+  },
+  {
+    key: catalogKey("inventory", "stock_reservation_cancel"),
+    name: "Cancel stock reservations",
+    description: "Cancel inventory stock reservations without fulfillment.",
+  },
+  {
     key: catalogKey("hr", "employee_read"),
     name: "Read employees",
     description: "Read employee records.",

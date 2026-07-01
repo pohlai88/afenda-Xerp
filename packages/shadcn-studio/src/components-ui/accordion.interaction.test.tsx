@@ -27,13 +27,34 @@ describe("accordion interaction", () => {
     expect(screen.queryByText("Panel body")).not.toBeInTheDocument();
 
     await user.click(trigger);
-    expect(screen.getByText("Panel body")).toBeVisible();
+    expect(await screen.findByText("Panel body")).toBeVisible();
 
     await user.click(trigger);
     expect(screen.queryByText("Panel body")).not.toBeInTheDocument();
   });
 
-  it("applies innerClassName to content inner wrapper", async () => {
+  it("toggles panel via Enter on focused trigger", async () => {
+    const user = setupUser();
+
+    render(
+      <Accordion>
+        <AccordionItem>
+          <AccordionTrigger>Section title</AccordionTrigger>
+          <AccordionContent>Panel body</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    );
+
+    const trigger = screen.getByRole("button", { name: "Section title" });
+    trigger.focus();
+    await user.keyboard("{Enter}");
+    expect(await screen.findByText("Panel body")).toBeVisible();
+
+    await user.keyboard("{Enter}");
+    expect(screen.queryByText("Panel body")).not.toBeInTheDocument();
+  });
+
+  it("consumer innerClassName merges to content inner slot", async () => {
     const user = setupUser();
 
     render(
@@ -49,7 +70,7 @@ describe("accordion interaction", () => {
 
     await user.click(screen.getByRole("button", { name: "Section" }));
 
-    const inner = screen.getByText("Panel body");
+    const inner = await screen.findByText("Panel body");
     expect(inner).toHaveClass("custom-inner-padding");
     expect(inner).toHaveAttribute("data-slot", "accordion-content-inner");
   });

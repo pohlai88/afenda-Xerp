@@ -1,0 +1,60 @@
+name: Housekeeping advisory
+
+# Wave 5 — non-blocking Knip signal until Platform rollout debt is burned down.
+# Does not gate merge. Promote to ci.yml when knip.jsonc covers enough workspaces.
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: housekeeping-advisory-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  knip-advisory:
+    name: Advisory · Knip (scoped workspaces)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    continue-on-error: true
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Knip (turbo-cached root task)
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ vars.TURBO_TEAM }}
+        run: pnpm housekeeping:knip:advisory:turbo
+
+      - name: Summarise advisory result
+        if: always()
+        run: |
+          {
+            echo "## Housekeeping advisory (non-blocking)"
+            echo ""
+            echo "Scoped workspaces: \`knip.jsonc\` (Platform rollout in progress)."
+            echo ""
+            echo "Local fix loop: \`pnpm housekeeping:knip\` · removal via \`/afenda-monorepo-refactor\` Slice D."
+            echo ""
+            echo "Promote to blocking CI when rollout completes and debt is near zero."
+          } >> "$GITHUB_STEP_SUMMARY"

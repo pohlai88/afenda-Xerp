@@ -1,7 +1,7 @@
 # Blocks inventory — `@afenda/shadcn-studio`
 
-**Path:** `packages/shadcn-studio/src/components/shadcn-studio/blocks/`  
-**Manifest:** `packages/shadcn-studio/src/_storybook/block-story-manifest.generated.json` (regenerate: `pnpm storybook generate`)
+**Path:** `packages/shadcn-studio/src/components-layouts/`  
+**Manifest:** `packages/shadcn-studio/src/storybook/block-story-manifest.generated.json` (regenerate: `pnpm storybook generate`)
 
 ---
 

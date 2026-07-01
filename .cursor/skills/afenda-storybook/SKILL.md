@@ -53,7 +53,7 @@ Stack: Storybook **10** · `@storybook/react-vite` · Vitest browser · `@storyb
 ../../../packages/shadcn-studio/src/**/*.stories.@(ts|tsx)
 ```
 
-**Helpers** live in `packages/shadcn-studio/src/_storybook/`:
+**Helpers** live in `packages/shadcn-studio/src/storybook/`:
 
 ```text
 story-parameters.ts          ← L4 source (re-exported by src/lab/index.ts)
@@ -63,7 +63,7 @@ shadcn-studio-theme-lab.compositions.tsx
 block-story-manifest.generated.json   ← codegen manifest (do not hand-edit)
 ```
 
-**Rule:** Keep `*.stories.tsx` thin — render logic in `_storybook/*.compositions.tsx`, data in fixtures when needed.
+**Rule:** Keep `*.stories.tsx` thin — render logic in `storybook/*.compositions.tsx`, data in fixtures when needed.
 
 ### Title naming
 
@@ -84,13 +84,13 @@ block-story-manifest.generated.json   ← codegen manifest (do not hand-edit)
 | Location | Import from |
 | --- | --- |
 | `packages/shadcn-studio/src/stories/*.stories.tsx` | `./lab/index.js` or `../lab/index.js` from colocated ui |
-| `packages/shadcn-studio/src/_storybook/**` | `../lab/index.js` |
+| `packages/shadcn-studio/src/storybook/**` | `../lab/index.js` |
 | `apps/storybook/stories/**` | `@afenda/shadcn-studio/lab` (Zone C) |
 
 ```tsx
 import type { Meta, StoryObj } from "@storybook/react";
 
-import MyBlock from "./components/shadcn-studio/blocks/my-block/my-block.js";
+import MyBlock from "../components-layouts/my-block.js";
 import {
   shadcnStudioCenteredLayout,
   shadcnStudioDarkThemeGlobals,
@@ -189,7 +189,7 @@ Install target cwd is `packages/shadcn-studio`. Storybook resolves block imports
 | `@afenda/shadcn-studio/lab` | L4 story parameters (`src/lab/index.ts`) |
 | `next/link`, `next/image`, `next/dynamic` | `packages/testing/src/mocks/*` |
 
-**Story parameters:** in-package stories use `./lab/index.js` (or `../lab/index.js` from `_storybook/`). `apps/storybook/stories/**` use `@afenda/shadcn-studio/lab`. Never import lab helpers from the main barrel.
+**Story parameters:** in-package stories use `./lab/index.js` (or `../lab/index.js` from `storybook/`). `apps/storybook/stories/**` use `@afenda/shadcn-studio/lab`. Never import lab helpers from the main barrel.
 
 After MCP install, run `pnpm storybook generate` then add curated stories if the block needs sample data or dark variants.
 

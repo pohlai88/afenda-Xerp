@@ -81,6 +81,68 @@ export const SURFACE_TEMPLATE_REGISTRY = [
     surfaceTemplateId: "surface-template.marketing-hero",
     templateClass: "dashboard",
   },
+  {
+    acceptanceRecordIds: ["acceptance-record:dialog-activity"],
+    blockBindings: [
+      {
+        blockId: "dialog-activity",
+        slotFills: {
+          "dialog.header": "dialog.header",
+          "dialog.body": "dialog.body",
+          "dialog.footer": "dialog.footer",
+        },
+      },
+    ],
+    metadataBindingId: "metadata-binding.dialog-activity",
+    surfaceTemplateId: "surface-template.activity-dialog",
+    templateClass: "form",
+  },
+  {
+    acceptanceRecordIds: ["acceptance-record:error-page-shell"],
+    blockBindings: [
+      {
+        blockId: "error-page-shell",
+        slotFills: {
+          "error.title": "error.title",
+          "error.message": "error.message",
+          "error.action": "error.action",
+        },
+      },
+    ],
+    metadataBindingId: "metadata-binding.error-page-shell",
+    surfaceTemplateId: "surface-template.error-page",
+    templateClass: "dashboard",
+  },
+  {
+    acceptanceRecordIds: ["acceptance-record:datatable-user"],
+    blockBindings: [
+      {
+        blockId: "datatable-user",
+        slotFills: {
+          "table.header": "table.header",
+          "table.rows": "table.rows",
+        },
+      },
+    ],
+    metadataBindingId: "metadata-binding.datatable-user",
+    surfaceTemplateId: "surface-template.user-table",
+    templateClass: "table",
+  },
+  {
+    acceptanceRecordIds: ["acceptance-record:datatable-product"],
+    blockBindings: [
+      {
+        blockId: "datatable-product",
+        slotFills: {
+          "table.header": "table.header",
+          "table.rows": "table.rows",
+        },
+      },
+    ],
+    metadataBindingId: "metadata-binding.datatable-product",
+    surfaceTemplateId: "surface-template.product-table",
+    templateClass: "table",
+  },
 ] as const satisfies readonly SurfaceTemplateContractWire[];
 
 export function getSurfaceTemplateById(

@@ -12,9 +12,6 @@ import type { SurfaceTemplateClass } from "./surface-template.contract.js";
 
 export const BLOCK_METADATA_VERSION = "1.0.0" as const;
 
-/** @deprecated Use BLOCK_METADATA_VERSION — kept for governance gate compatibility. */
-export const BLOCK_CONTRACT_VERSION = BLOCK_METADATA_VERSION;
-
 export type BlockMetadata = {
   readonly acceptanceRecordId?: string;
   readonly blockDataContractId: string;

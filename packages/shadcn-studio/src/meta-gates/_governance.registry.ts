@@ -23,12 +23,6 @@ export const GOVERNANCE_REGISTRY_EXCLUDED = [
   "_governance.registry.ts",
 ] as const;
 
-export const UI_PRIMITIVE_METADATA_MARKER = GOVERNANCE_ENVELOPE_MARKER;
-
-export const UI_PRIMITIVE_METADATA_SERIES = GOVERNANCE_ENVELOPE_SERIES;
-
-export const UI_PRIMITIVE_METADATA_REFACTORED = GOVERNANCE_ENVELOPE_REFACTORED;
-
 export const UI_PRIMITIVE_METADATA_GATE =
   "check:studio-ui-primitive-metadata" as const;
 
@@ -51,7 +45,7 @@ export const GOVERNANCE_ENVELOPE_REGISTRY = [
       "block-metadata.registry",
       "ui-primitive-metadata.registry",
       "_governance.registry",
-      "registry/assert-block-slot-dom-marker-coverage",
+      "meta-registry/assert-block-slot-dom-marker-coverage",
     ],
     reliedOnBy: [
       "scripts/governance/check-studio-*",
@@ -62,14 +56,14 @@ export const GOVERNANCE_ENVELOPE_REGISTRY = [
   {
     file: "block-metadata.registry.ts",
     family: "block-metadata",
-    role: "Runtime aggregator — BLOCK_METADATA_REGISTRY from registry/block-slot",
+    role: "Runtime aggregator — BLOCK_METADATA_REGISTRY from meta-registry/block-slot",
     reliesOn: [
-      "contracts/block-metadata.builders",
-      "contracts/block-metadata.contract",
-      "registry/block-slot.registry",
+      "meta-contracts/block-metadata.builders",
+      "meta-contracts/block-metadata.contract",
+      "meta-registry/block-slot.registry",
     ],
     reliedOnBy: [
-      "governance/index",
+      "meta-gates/index",
       "check:studio-block-contracts",
       "components-layouts/__tests__/metadata-bound-blocks.render.test",
     ],
@@ -80,7 +74,7 @@ export const GOVERNANCE_ENVELOPE_REGISTRY = [
     family: "ui-primitive-metadata",
     role: "Runtime aggregator — UI_PRIMITIVE_METADATA_REGISTRY from L2 contracts",
     reliesOn: ["_governance.registry", "components-ui/*.contract"],
-    reliedOnBy: ["governance/index", "check:studio-ui-primitive-metadata"],
+    reliedOnBy: ["meta-gates/index", "check:studio-ui-primitive-metadata"],
     refactored: GOVERNANCE_ENVELOPE_REFACTORED,
   },
 ] as const satisfies readonly GovernanceEnvelope[];

@@ -1,0 +1,765 @@
+
+> afenda@ housekeeping:knip:workspace C:\JackProject\afenda-bolt\afenda-Xerp
+> knip --workspace "packages/shadcn-studio"
+
+Unused exports (415)
+accountSettingsSectionGridClassName                     ÔÇªomponents-layouts/_shared/account-settings-page-shell.tsx:17:14
+accountSettingsSectionHeadingClassName                  ÔÇªomponents-layouts/_shared/account-settings-page-shell.tsx:20:14
+accountSettingsSectionContentClassName        function  ÔÇªomponents-layouts/_shared/account-settings-page-shell.tsx:23:17
+AlertDialogMedia                                        packages/shadcn-studio/src/components-ui/alert-dialog.tsx:219:3 
+AlertDialogOverlay                                      packages/shadcn-studio/src/components-ui/alert-dialog.tsx:220:3 
+AlertDialogPortal                                       packages/shadcn-studio/src/components-ui/alert-dialog.tsx:221:3 
+AlertAction                                             packages/shadcn-studio/src/components-ui/alert.tsx:65:17        
+PRIMITIVE_CONTRACT_VERSION                              ÔÇªs/shadcn-studio/src/components-ui/aspect-ratio.contract.ts:1:14
+ASPECT_RATIO_PRIMITIVE_ID                               ÔÇªs/shadcn-studio/src/components-ui/aspect-ratio.contract.ts:3:14
+attachmentMediaVariants                                 ÔÇªes/shadcn-studio/src/components-ui/attachment.contract.ts:50:14
+attachmentContentClassName                              ÔÇªes/shadcn-studio/src/components-ui/attachment.contract.ts:70:14
+attachmentTitleClassName                                ÔÇªes/shadcn-studio/src/components-ui/attachment.contract.ts:73:14
+attachmentDescriptionClassName                          ÔÇªes/shadcn-studio/src/components-ui/attachment.contract.ts:76:14
+attachmentActionsClassName                              ÔÇªes/shadcn-studio/src/components-ui/attachment.contract.ts:79:14
+attachmentTriggerClassName                              ÔÇªes/shadcn-studio/src/components-ui/attachment.contract.ts:82:14
+attachmentGroupClassName                                ÔÇªes/shadcn-studio/src/components-ui/attachment.contract.ts:85:14
+AttachmentAction                                        packages/shadcn-studio/src/components-ui/attachment.tsx:190:3   
+AttachmentActions                                       packages/shadcn-studio/src/components-ui/attachment.tsx:191:3   
+AttachmentContent                                       packages/shadcn-studio/src/components-ui/attachment.tsx:192:3   
+AttachmentDescription                                   packages/shadcn-studio/src/components-ui/attachment.tsx:193:3   
+AttachmentGroup                                         packages/shadcn-studio/src/components-ui/attachment.tsx:194:3   
+AttachmentMedia                                         packages/shadcn-studio/src/components-ui/attachment.tsx:195:3   
+AttachmentTitle                                         packages/shadcn-studio/src/components-ui/attachment.tsx:196:3   
+AttachmentTrigger                                       packages/shadcn-studio/src/components-ui/attachment.tsx:197:3   
+backgroundRippleInnerClassName                          ÔÇªcn-studio/src/components-ui/background-ripple.contract.ts:22:14
+backgroundRippleOverlayClassName                        ÔÇªcn-studio/src/components-ui/background-ripple.contract.ts:25:14
+backgroundRippleGridClassName                           ÔÇªcn-studio/src/components-ui/background-ripple.contract.ts:28:14
+backgroundRippleCellClassName                           ÔÇªcn-studio/src/components-ui/background-ripple.contract.ts:31:14
+badgeOutlineDestructiveClassName                        packages/shadcn-studio/src/components-ui/badge.contract.ts:45:14
+badgeVariants                                           packages/shadcn-studio/src/components-ui/badge.tsx:38:17        
+bgSilkRootClassName                                     ÔÇªkages/shadcn-studio/src/components-ui/bg-silk.contract.ts:13:14
+breadcrumbRootClassName                                 ÔÇªes/shadcn-studio/src/components-ui/breadcrumb.contract.ts:19:14
+breadcrumbItemClassName                                 ÔÇªes/shadcn-studio/src/components-ui/breadcrumb.contract.ts:24:14
+breadcrumbLinkClassName                                 ÔÇªes/shadcn-studio/src/components-ui/breadcrumb.contract.ts:27:14
+breadcrumbPageClassName                                 ÔÇªes/shadcn-studio/src/components-ui/breadcrumb.contract.ts:30:14
+breadcrumbSeparatorClassName                            ÔÇªes/shadcn-studio/src/components-ui/breadcrumb.contract.ts:32:14
+breadcrumbEllipsisClassName                             ÔÇªes/shadcn-studio/src/components-ui/breadcrumb.contract.ts:34:14
+BreadcrumbEllipsis                                      packages/shadcn-studio/src/components-ui/breadcrumb.tsx:122:3   
+bubbleGroupClassName                                    ÔÇªckages/shadcn-studio/src/components-ui/bubble.contract.ts:18:14
+bubbleContentClassName                                  ÔÇªckages/shadcn-studio/src/components-ui/bubble.contract.ts:49:14
+bubbleReactionsVariants                                 ÔÇªckages/shadcn-studio/src/components-ui/bubble.contract.ts:52:14
+BubbleContent                                           packages/shadcn-studio/src/components-ui/bubble.tsx:135:18      
+BubbleGroup                                             packages/shadcn-studio/src/components-ui/bubble.tsx:135:33      
+BubbleReactions                                         packages/shadcn-studio/src/components-ui/bubble.tsx:135:46      
+buttonGroupSeparatorClassName                           ÔÇª/shadcn-studio/src/components-ui/button-group.contract.ts:40:14
+ButtonGroupSeparator                                    packages/shadcn-studio/src/components-ui/button-group.tsx:76:3  
+ButtonGroupText                                         packages/shadcn-studio/src/components-ui/button-group.tsx:77:3  
+buttonGroupVariants                                     packages/shadcn-studio/src/components-ui/button-group.tsx:78:3  
+calendarRtlNextClassName                                ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:18:14
+calendarRtlPreviousClassName                            ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:21:14
+calendarDayPickerRootClassName                          ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:24:14
+calendarMonthsClassName                                 ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:26:14
+calendarMonthClassName                                  ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:29:14
+calendarNavClassName                                    ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:31:14
+calendarButtonNavClassName                              ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:34:14
+calendarMonthCaptionClassName                           ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:37:14
+calendarDropdownsClassName                              ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:40:14
+calendarDropdownRootClassName                           ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:43:14
+calendarDropdownClassName                               ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:46:14
+calendarCaptionLabelClassName                           ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:49:14
+calendarCaptionLabelTextClassName                       ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:51:14
+calendarCaptionLabelDropdownClassName                   ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:53:14
+calendarMonthGridClassName                              ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:56:14
+calendarWeekdaysClassName                               ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:58:14
+calendarWeekdayClassName                                ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:60:14
+calendarWeekClassName                                   ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:63:14
+calendarWeekNumberHeaderClassName                       ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:65:14
+calendarWeekNumberClassName                             ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:68:14
+calendarDayClassName                                    ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:71:14
+calendarDayWithWeekNumberClassName                      ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:74:14
+calendarDayWithoutWeekNumberClassName                   ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:77:14
+calendarRangeStartClassName                             ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:80:14
+calendarRangeMiddleClassName                            ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:83:14
+calendarRangeEndClassName                               ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:85:14
+calendarTodayClassName                                  ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:88:14
+calendarOutsideClassName                                ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:91:14
+calendarDisabledClassName                               ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:94:14
+calendarHiddenClassName                                 ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:97:14
+calendarDayButtonClassName                              ÔÇªages/shadcn-studio/src/components-ui/calendar.contract.ts:99:14
+calendarChevronClassName                                ÔÇªges/shadcn-studio/src/components-ui/calendar.contract.ts:102:14
+calendarWeekNumberCellClassName                         ÔÇªges/shadcn-studio/src/components-ui/calendar.contract.ts:104:14
+CalendarDayButton                                       packages/shadcn-studio/src/components-ui/calendar.tsx:231:20    
+cardHeaderClassName                                     packages/shadcn-studio/src/components-ui/card.contract.ts:22:14 
+cardTitleClassName                                      packages/shadcn-studio/src/components-ui/card.contract.ts:25:14 
+cardDescriptionClassName                                packages/shadcn-studio/src/components-ui/card.contract.ts:28:14 
+cardActionClassName                                     packages/shadcn-studio/src/components-ui/card.contract.ts:31:14 
+cardContentClassName                                    packages/shadcn-studio/src/components-ui/card.contract.ts:34:14 
+cardFooterClassName                                     packages/shadcn-studio/src/components-ui/card.contract.ts:36:14 
+carouselContentWrapperClassName                         ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:20:14
+carouselContentInnerClassNameHorizontal                 ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:22:14
+carouselContentInnerClassNameVertical                   ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:24:14
+carouselContentInnerClassNameBase                       ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:27:14
+carouselItemClassNameBase                               ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:29:14
+carouselItemClassNameHorizontal                         ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:32:14
+carouselItemClassNameVertical                           ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:34:14
+carouselControlClassNameBase                            ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:36:14
+carouselPreviousClassNameHorizontal                     ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:39:14
+carouselPreviousClassNameVertical                       ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:42:14
+carouselNextClassNameHorizontal                         ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:45:14
+carouselNextClassNameVertical                           ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:48:14
+carouselPreviousSrOnlyClassName                         ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:51:14
+carouselNextSrOnlyClassName                             ÔÇªages/shadcn-studio/src/components-ui/carousel.contract.ts:53:14
+useCarousel                                             packages/shadcn-studio/src/components-ui/carousel.tsx:249:3     
+CHART_THEMES                                            packages/shadcn-studio/src/components-ui/chart.contract.ts:14:14
+chartTooltipContentClassName                            packages/shadcn-studio/src/components-ui/chart.contract.ts:21:14
+chartTooltipLabelClassName                              packages/shadcn-studio/src/components-ui/chart.contract.ts:24:14
+chartTooltipItemsClassName                              packages/shadcn-studio/src/components-ui/chart.contract.ts:26:14
+chartTooltipRowClassName                                packages/shadcn-studio/src/components-ui/chart.contract.ts:28:14
+chartTooltipRowDotClassName                             packages/shadcn-studio/src/components-ui/chart.contract.ts:31:14
+chartTooltipIndicatorClassName                          packages/shadcn-studio/src/components-ui/chart.contract.ts:33:14
+chartTooltipIndicatorDotClassName                       packages/shadcn-studio/src/components-ui/chart.contract.ts:36:14
+chartTooltipIndicatorLineClassName                      packages/shadcn-studio/src/components-ui/chart.contract.ts:38:14
+chartTooltipIndicatorDashedClassName                    packages/shadcn-studio/src/components-ui/chart.contract.ts:40:14
+chartTooltipIndicatorDashedNestClassName                packages/shadcn-studio/src/components-ui/chart.contract.ts:43:14
+chartTooltipValueRowClassName                           packages/shadcn-studio/src/components-ui/chart.contract.ts:45:14
+chartTooltipValueRowNestEndClassName                    packages/shadcn-studio/src/components-ui/chart.contract.ts:48:14
+chartTooltipValueRowCenterClassName                     packages/shadcn-studio/src/components-ui/chart.contract.ts:50:14
+chartTooltipValueLabelGridClassName                     packages/shadcn-studio/src/components-ui/chart.contract.ts:52:14
+chartTooltipValueNameClassName                          packages/shadcn-studio/src/components-ui/chart.contract.ts:54:14
+chartTooltipValueAmountClassName                        packages/shadcn-studio/src/components-ui/chart.contract.ts:56:14
+chartLegendContentClassName                             packages/shadcn-studio/src/components-ui/chart.contract.ts:59:14
+chartLegendContentTopClassName                          packages/shadcn-studio/src/components-ui/chart.contract.ts:62:14
+chartLegendContentBottomClassName                       packages/shadcn-studio/src/components-ui/chart.contract.ts:64:14
+chartLegendItemClassName                                packages/shadcn-studio/src/components-ui/chart.contract.ts:66:14
+chartLegendSwatchClassName                              packages/shadcn-studio/src/components-ui/chart.contract.ts:69:14
+ChartStyle                                              packages/shadcn-studio/src/components-ui/chart.tsx:378:3        
+circularProgressSvgClassNameAnimated                    ÔÇªcn-studio/src/components-ui/circular-progress.contract.ts:19:14
+circularProgressSvgClassNameDefault                     ÔÇªcn-studio/src/components-ui/circular-progress.contract.ts:22:14
+circularProgressTrackClassNameAnimated                  ÔÇªcn-studio/src/components-ui/circular-progress.contract.ts:25:14
+circularProgressBarClassNameAnimated                    ÔÇªcn-studio/src/components-ui/circular-progress.contract.ts:28:14
+circularProgressTrackClassNameDefault                   ÔÇªcn-studio/src/components-ui/circular-progress.contract.ts:31:14
+circularProgressBarClassNameDefault                     ÔÇªcn-studio/src/components-ui/circular-progress.contract.ts:33:14
+circularProgressLabelClassNameAnimated                  ÔÇªcn-studio/src/components-ui/circular-progress.contract.ts:36:14
+circularProgressLabelClassNameDefault                   ÔÇªcn-studio/src/components-ui/circular-progress.contract.ts:39:14
+ComboboxChip                                            packages/shadcn-studio/src/components-ui/combobox.tsx:331:3     
+ComboboxChips                                           packages/shadcn-studio/src/components-ui/combobox.tsx:332:3     
+ComboboxChipsInput                                      packages/shadcn-studio/src/components-ui/combobox.tsx:333:3     
+ComboboxCollection                                      packages/shadcn-studio/src/components-ui/combobox.tsx:334:3     
+ComboboxTrigger                                         packages/shadcn-studio/src/components-ui/combobox.tsx:343:3     
+ComboboxValue                                           packages/shadcn-studio/src/components-ui/combobox.tsx:344:3     
+useComboboxAnchor                                       packages/shadcn-studio/src/components-ui/combobox.tsx:345:3     
+commandDialogHeaderClassName                            ÔÇªkages/shadcn-studio/src/components-ui/command.contract.ts:25:14
+commandDialogContentClassName                           ÔÇªkages/shadcn-studio/src/components-ui/command.contract.ts:27:14
+commandInputWrapperClassName                            ÔÇªkages/shadcn-studio/src/components-ui/command.contract.ts:30:14
+commandInputGroupClassName                              ÔÇªkages/shadcn-studio/src/components-ui/command.contract.ts:32:14
+commandInputClassName                                   ÔÇªkages/shadcn-studio/src/components-ui/command.contract.ts:35:14
+commandListClassName                                    ÔÇªkages/shadcn-studio/src/components-ui/command.contract.ts:38:14
+commandEmptyClassName                                   ÔÇªkages/shadcn-studio/src/components-ui/command.contract.ts:41:14
+commandGroupClassName                                   ÔÇªkages/shadcn-studio/src/components-ui/command.contract.ts:43:14
+commandSeparatorClassName                               ÔÇªkages/shadcn-studio/src/components-ui/command.contract.ts:46:14
+commandItemClassName                                    ÔÇªkages/shadcn-studio/src/components-ui/command.contract.ts:48:14
+commandItemCheckClassName                               ÔÇªkages/shadcn-studio/src/components-ui/command.contract.ts:51:14
+commandShortcutClassName                                ÔÇªkages/shadcn-studio/src/components-ui/command.contract.ts:54:14
+commandSearchIconClassName                              ÔÇªkages/shadcn-studio/src/components-ui/command.contract.ts:57:14
+CommandDialog                                           packages/shadcn-studio/src/components-ui/command.tsx:187:3      
+CommandSeparator                                        packages/shadcn-studio/src/components-ui/command.tsx:193:3      
+CommandShortcut                                         packages/shadcn-studio/src/components-ui/command.tsx:194:3      
+ContextMenuCheckboxItem                                 packages/shadcn-studio/src/components-ui/context-menu.tsx:316:3 
+ContextMenuGroup                                        packages/shadcn-studio/src/components-ui/context-menu.tsx:318:3 
+ContextMenuLabel                                        packages/shadcn-studio/src/components-ui/context-menu.tsx:320:3 
+ContextMenuPortal                                       packages/shadcn-studio/src/components-ui/context-menu.tsx:321:3 
+ContextMenuRadioGroup                                   packages/shadcn-studio/src/components-ui/context-menu.tsx:322:3 
+ContextMenuRadioItem                                    packages/shadcn-studio/src/components-ui/context-menu.tsx:323:3 
+ContextMenuSeparator                                    packages/shadcn-studio/src/components-ui/context-menu.tsx:324:3 
+ContextMenuShortcut                                     packages/shadcn-studio/src/components-ui/context-menu.tsx:325:3 
+ContextMenuSub                                          packages/shadcn-studio/src/components-ui/context-menu.tsx:326:3 
+ContextMenuSubContent                                   packages/shadcn-studio/src/components-ui/context-menu.tsx:327:3 
+ContextMenuSubTrigger                                   packages/shadcn-studio/src/components-ui/context-menu.tsx:328:3 
+DialogOverlay                                           packages/shadcn-studio/src/components-ui/dialog.tsx:186:3       
+DialogPortal                                            packages/shadcn-studio/src/components-ui/dialog.tsx:187:3       
+useDirection                                            packages/shadcn-studio/src/components-ui/direction.tsx:28:29    
+drawerOverlayClassName                                  ÔÇªckages/shadcn-studio/src/components-ui/drawer.contract.ts:24:14
+drawerHandleClassName                                   ÔÇªckages/shadcn-studio/src/components-ui/drawer.contract.ts:30:14
+drawerHeaderClassName                                   ÔÇªckages/shadcn-studio/src/components-ui/drawer.contract.ts:33:14
+drawerFooterClassName                                   ÔÇªckages/shadcn-studio/src/components-ui/drawer.contract.ts:36:14
+drawerTitleClassName                                    ÔÇªckages/shadcn-studio/src/components-ui/drawer.contract.ts:38:14
+drawerDescriptionClassName                              ÔÇªckages/shadcn-studio/src/components-ui/drawer.contract.ts:41:14
+DrawerClose                                             packages/shadcn-studio/src/components-ui/drawer.tsx:123:3       
+DrawerFooter                                            packages/shadcn-studio/src/components-ui/drawer.tsx:126:3       
+DrawerHeader                                            packages/shadcn-studio/src/components-ui/drawer.tsx:127:3       
+DrawerOverlay                                           packages/shadcn-studio/src/components-ui/drawer.tsx:128:3       
+DrawerPortal                                            packages/shadcn-studio/src/components-ui/drawer.tsx:129:3       
+DropdownMenuCheckboxItem                                packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:309:3
+emptyHeaderClassName                                    packages/shadcn-studio/src/components-ui/empty.contract.ts:23:14
+emptyMediaVariants                                      packages/shadcn-studio/src/components-ui/empty.contract.ts:26:14
+emptyTitleClassName                                     packages/shadcn-studio/src/components-ui/empty.contract.ts:43:14
+emptyDescriptionClassName                               packages/shadcn-studio/src/components-ui/empty.contract.ts:46:14
+emptyContentClassName                                   packages/shadcn-studio/src/components-ui/empty.contract.ts:49:14
+fieldSetClassName                                       packages/shadcn-studio/src/components-ui/field.contract.ts:24:14
+fieldLegendClassName                                    packages/shadcn-studio/src/components-ui/field.contract.ts:27:14
+fieldGroupClassName                                     packages/shadcn-studio/src/components-ui/field.contract.ts:30:14
+fieldLabelClassName                                     packages/shadcn-studio/src/components-ui/field.contract.ts:56:14
+fieldTitleClassName                                     packages/shadcn-studio/src/components-ui/field.contract.ts:59:14
+fieldDescriptionClassName                               packages/shadcn-studio/src/components-ui/field.contract.ts:62:14
+fieldSeparatorClassName                                 packages/shadcn-studio/src/components-ui/field.contract.ts:65:14
+fieldSeparatorContentClassName                          packages/shadcn-studio/src/components-ui/field.contract.ts:68:14
+fieldErrorClassName                                     packages/shadcn-studio/src/components-ui/field.contract.ts:71:14
+fieldErrorListClassName                                 packages/shadcn-studio/src/components-ui/field.contract.ts:74:14
+FieldContent                                            packages/shadcn-studio/src/components-ui/field.tsx:218:3        
+FieldDescription                                        packages/shadcn-studio/src/components-ui/field.tsx:219:3        
+FieldError                                              packages/shadcn-studio/src/components-ui/field.tsx:220:3        
+FieldLegend                                             packages/shadcn-studio/src/components-ui/field.tsx:223:3        
+FieldSeparator                                          packages/shadcn-studio/src/components-ui/field.tsx:224:3        
+FieldSet                                                packages/shadcn-studio/src/components-ui/field.tsx:225:3        
+FieldTitle                                              packages/shadcn-studio/src/components-ui/field.tsx:226:3        
+InputGroupTextarea                                      packages/shadcn-studio/src/components-ui/input-group.tsx:128:3  
+inputOtpRootClassName                                   ÔÇªges/shadcn-studio/src/components-ui/input-otp.contract.ts:16:14
+inputOtpGroupClassName                                  ÔÇªges/shadcn-studio/src/components-ui/input-otp.contract.ts:21:14
+inputOtpCaretWrapperClassName                           ÔÇªges/shadcn-studio/src/components-ui/input-otp.contract.ts:27:14
+inputOtpCaretClassName                                  ÔÇªges/shadcn-studio/src/components-ui/input-otp.contract.ts:30:14
+inputOtpSeparatorClassName                              ÔÇªges/shadcn-studio/src/components-ui/input-otp.contract.ts:33:14
+InputOTPSeparator                                       packages/shadcn-studio/src/components-ui/input-otp.tsx:91:35    
+itemGroupClassName                                      packages/shadcn-studio/src/components-ui/item.contract.ts:24:14 
+itemSeparatorClassName                                  packages/shadcn-studio/src/components-ui/item.contract.ts:27:14 
+itemContentClassName                                    packages/shadcn-studio/src/components-ui/item.contract.ts:72:14 
+itemTitleClassName                                      packages/shadcn-studio/src/components-ui/item.contract.ts:75:14 
+itemDescriptionClassName                                packages/shadcn-studio/src/components-ui/item.contract.ts:78:14 
+itemActionsClassName                                    packages/shadcn-studio/src/components-ui/item.contract.ts:81:14 
+itemHeaderClassName                                     packages/shadcn-studio/src/components-ui/item.contract.ts:83:14 
+itemFooterClassName                                     packages/shadcn-studio/src/components-ui/item.contract.ts:86:14 
+ItemActions                                             packages/shadcn-studio/src/components-ui/item.tsx:199:3         
+ItemContent                                             packages/shadcn-studio/src/components-ui/item.tsx:200:3         
+ItemDescription                                         packages/shadcn-studio/src/components-ui/item.tsx:201:3         
+ItemFooter                                              packages/shadcn-studio/src/components-ui/item.tsx:202:3         
+ItemGroup                                               packages/shadcn-studio/src/components-ui/item.tsx:203:3         
+ItemHeader                                              packages/shadcn-studio/src/components-ui/item.tsx:204:3         
+ItemMedia                                               packages/shadcn-studio/src/components-ui/item.tsx:205:3         
+ItemSeparator                                           packages/shadcn-studio/src/components-ui/item.tsx:206:3         
+ItemTitle                                               packages/shadcn-studio/src/components-ui/item.tsx:207:3         
+PRIMITIVE_CONTRACT_VERSION                              packages/shadcn-studio/src/components-ui/kbd.contract.ts:1:14   
+KBD_PRIMITIVE_ID                                        packages/shadcn-studio/src/components-ui/kbd.contract.ts:3:14   
+KbdGroup                                                packages/shadcn-studio/src/components-ui/kbd.tsx:36:15          
+MarkerContent                                           packages/shadcn-studio/src/components-ui/marker.tsx:78:18       
+MarkerIcon                                              packages/shadcn-studio/src/components-ui/marker.tsx:78:33       
+markerVariants                                          packages/shadcn-studio/src/components-ui/marker.tsx:78:45       
+MenubarCheckboxItem                                     packages/shadcn-studio/src/components-ui/menubar.tsx:305:3      
+MenubarGroup                                            packages/shadcn-studio/src/components-ui/menubar.tsx:307:3      
+MenubarLabel                                            packages/shadcn-studio/src/components-ui/menubar.tsx:309:3      
+MenubarPortal                                           packages/shadcn-studio/src/components-ui/menubar.tsx:311:3      
+MenubarRadioGroup                                       packages/shadcn-studio/src/components-ui/menubar.tsx:312:3      
+MenubarRadioItem                                        packages/shadcn-studio/src/components-ui/menubar.tsx:313:3      
+MenubarSeparator                                        packages/shadcn-studio/src/components-ui/menubar.tsx:314:3      
+MenubarShortcut                                         packages/shadcn-studio/src/components-ui/menubar.tsx:315:3      
+MenubarSub                                              packages/shadcn-studio/src/components-ui/menubar.tsx:316:3      
+MenubarSubContent                                       packages/shadcn-studio/src/components-ui/menubar.tsx:317:3      
+MenubarSubTrigger                                       packages/shadcn-studio/src/components-ui/menubar.tsx:318:3      
+messageScrollerContentClassName                         ÔÇªdcn-studio/src/components-ui/message-scroller.contract.ts:28:14
+messageScrollerItemClassName                            ÔÇªdcn-studio/src/components-ui/message-scroller.contract.ts:31:14
+messageScrollerButtonClassName                          ÔÇªdcn-studio/src/components-ui/message-scroller.contract.ts:34:14
+MessageScrollerButton                                   ÔÇªages/shadcn-studio/src/components-ui/message-scroller.tsx:126:3
+MessageScrollerContent                                  ÔÇªages/shadcn-studio/src/components-ui/message-scroller.tsx:127:3
+MessageScrollerItem                                     ÔÇªages/shadcn-studio/src/components-ui/message-scroller.tsx:128:3
+MessageScrollerProvider                                 ÔÇªages/shadcn-studio/src/components-ui/message-scroller.tsx:129:3
+MessageScrollerViewport                                 ÔÇªages/shadcn-studio/src/components-ui/message-scroller.tsx:130:3
+useMessageScroller                                      ÔÇªages/shadcn-studio/src/components-ui/message-scroller.tsx:131:3
+useMessageScrollerScrollable                            ÔÇªages/shadcn-studio/src/components-ui/message-scroller.tsx:132:3
+useMessageScrollerVisibility                            ÔÇªages/shadcn-studio/src/components-ui/message-scroller.tsx:133:3
+messageAvatarClassName                                  ÔÇªkages/shadcn-studio/src/components-ui/message.contract.ts:23:14
+messageContentClassName                                 ÔÇªkages/shadcn-studio/src/components-ui/message.contract.ts:26:14
+messageHeaderClassName                                  ÔÇªkages/shadcn-studio/src/components-ui/message.contract.ts:29:14
+messageFooterClassName                                  ÔÇªkages/shadcn-studio/src/components-ui/message.contract.ts:32:14
+MessageAvatar                                           packages/shadcn-studio/src/components-ui/message.tsx:90:3       
+MessageContent                                          packages/shadcn-studio/src/components-ui/message.tsx:91:3       
+MessageFooter                                           packages/shadcn-studio/src/components-ui/message.tsx:92:3       
+MessageGroup                                            packages/shadcn-studio/src/components-ui/message.tsx:93:3       
+MessageHeader                                           packages/shadcn-studio/src/components-ui/message.tsx:94:3       
+nativeSelectOptionClassName                             ÔÇªshadcn-studio/src/components-ui/native-select.contract.ts:27:14
+NativeSelectOptGroup                                    packages/shadcn-studio/src/components-ui/native-select.tsx:70:24
+NavigationMenuIndicator                                 ÔÇªkages/shadcn-studio/src/components-ui/navigation-menu.tsx:189:3
+NavigationMenuPositioner                                ÔÇªkages/shadcn-studio/src/components-ui/navigation-menu.tsx:193:3
+navigationMenuTriggerStyle                              ÔÇªkages/shadcn-studio/src/components-ui/navigation-menu.tsx:195:3
+paginationContentClassName                              ÔÇªes/shadcn-studio/src/components-ui/pagination.contract.ts:20:14
+paginationPreviousClassName                             ÔÇªes/shadcn-studio/src/components-ui/pagination.contract.ts:22:14
+paginationNextClassName                                 ÔÇªes/shadcn-studio/src/components-ui/pagination.contract.ts:24:14
+paginationPreviousTextClassName                         ÔÇªes/shadcn-studio/src/components-ui/pagination.contract.ts:26:14
+paginationNextTextClassName                             ÔÇªes/shadcn-studio/src/components-ui/pagination.contract.ts:28:14
+paginationEllipsisClassName                             ÔÇªes/shadcn-studio/src/components-ui/pagination.contract.ts:30:14
+paginationEllipsisSrOnlyClassName                       ÔÇªes/shadcn-studio/src/components-ui/pagination.contract.ts:33:14
+ProgressIndicator                                       packages/shadcn-studio/src/components-ui/progress.tsx:93:3      
+ProgressLabel                                           packages/shadcn-studio/src/components-ui/progress.tsx:94:3      
+ProgressTrack                                           packages/shadcn-studio/src/components-ui/progress.tsx:95:3      
+ProgressValue                                           packages/shadcn-studio/src/components-ui/progress.tsx:96:3      
+ratingRootDisabledClassName                             ÔÇªckages/shadcn-studio/src/components-ui/rating.contract.ts:45:14
+ratingStarClassName                                     ÔÇªckages/shadcn-studio/src/components-ui/rating.contract.ts:47:14
+ratingStarInteractiveClassName                          ÔÇªckages/shadcn-studio/src/components-ui/rating.contract.ts:49:14
+ratingStarDisabledClassName                             ÔÇªckages/shadcn-studio/src/components-ui/rating.contract.ts:52:14
+ratingItemBaseClassName                                 ÔÇªckages/shadcn-studio/src/components-ui/rating.contract.ts:54:14
+ratingItemPartialClassName                              ÔÇªckages/shadcn-studio/src/components-ui/rating.contract.ts:56:14
+ratingItemInteractiveClassName                          ÔÇªckages/shadcn-studio/src/components-ui/rating.contract.ts:59:14
+ratingItemDisabledClassName                             ÔÇªckages/shadcn-studio/src/components-ui/rating.contract.ts:62:14
+ratingEmptyIconClassName                                ÔÇªckages/shadcn-studio/src/components-ui/rating.contract.ts:65:14
+ratingEmptyIconYellowClassName                          ÔÇªckages/shadcn-studio/src/components-ui/rating.contract.ts:68:14
+ratingInputClassName                                    ÔÇªckages/shadcn-studio/src/components-ui/rating.contract.ts:71:14
+ratingVariants                                          packages/shadcn-studio/src/components-ui/rating.tsx:382:18      
+resizableHandleGripClassName                            ÔÇªges/shadcn-studio/src/components-ui/resizable.contract.ts:21:14
+ScrollBar                                               packages/shadcn-studio/src/components-ui/scroll-area.tsx:62:22  
+SelectLabel                                             packages/shadcn-studio/src/components-ui/select.tsx:224:3       
+SelectScrollDownButton                                  packages/shadcn-studio/src/components-ui/select.tsx:225:3       
+SelectScrollUpButton                                    packages/shadcn-studio/src/components-ui/select.tsx:226:3       
+SelectSeparator                                         packages/shadcn-studio/src/components-ui/select.tsx:227:3       
+PRIMITIVE_CONTRACT_VERSION                              ÔÇªages/shadcn-studio/src/components-ui/separator.contract.ts:1:14
+SEPARATOR_PRIMITIVE_ID                                  ÔÇªages/shadcn-studio/src/components-ui/separator.contract.ts:3:14
+SheetClose                                              packages/shadcn-studio/src/components-ui/sheet.tsx:160:3        
+SheetFooter                                             packages/shadcn-studio/src/components-ui/sheet.tsx:163:3        
+SheetOverlay                                            packages/shadcn-studio/src/components-ui/sheet.tsx:165:3        
+SheetPortal                                             packages/shadcn-studio/src/components-ui/sheet.tsx:166:3        
+sidebarStaticRootClassName                              ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:43:14
+sidebarMobileSheetClassName                             ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:46:14
+sidebarMobileInnerClassName                             ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:49:14
+sidebarPeerClassName                                    ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:52:14
+sidebarGapBaseClassName                                 ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:55:14
+sidebarGapOffcanvasClassName                            ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:58:14
+sidebarGapRightClassName                                ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:61:14
+sidebarGapIconFloatingClassName                         ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:64:14
+sidebarGapIconDefaultClassName                          ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:67:14
+sidebarContainerBaseClassName                           ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:70:14
+sidebarContainerFloatingClassName                       ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:73:14
+sidebarContainerDefaultClassName                        ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:76:14
+sidebarInnerClassName                                   ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:79:14
+sidebarRailClassName                                    ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:82:14
+sidebarInsetClassName                                   ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:85:14
+sidebarInputClassName                                   ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:88:14
+sidebarHeaderClassName                                  ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:91:14
+sidebarFooterClassName                                  ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:93:14
+sidebarSeparatorClassName                               ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:95:14
+sidebarContentClassName                                 ÔÇªkages/shadcn-studio/src/components-ui/sidebar.contract.ts:98:14
+sidebarGroupClassName                                   ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:101:14
+sidebarGroupLabelClassName                              ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:104:14
+sidebarGroupActionClassName                             ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:107:14
+sidebarGroupContentClassName                            ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:110:14
+sidebarMenuClassName                                    ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:112:14
+sidebarMenuItemClassName                                ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:115:14
+sidebarMenuActionClassName                              ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:143:14
+sidebarMenuActionShowOnHoverClassName                   ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:146:14
+sidebarMenuBadgeClassName                               ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:149:14
+sidebarMenuSkeletonClassName                            ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:152:14
+sidebarMenuSkeletonIconClassName                        ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:155:14
+sidebarMenuSkeletonTextClassName                        ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:157:14
+sidebarMenuSubClassName                                 ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:160:14
+sidebarMenuSubItemClassName                             ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:163:14
+sidebarMenuSubButtonClassName                           ÔÇªages/shadcn-studio/src/components-ui/sidebar.contract.ts:166:14
+SidebarGroupAction                                      packages/shadcn-studio/src/components-ui/sidebar.tsx:705:3      
+SidebarInput                                            packages/shadcn-studio/src/components-ui/sidebar.tsx:709:3      
+SidebarMenuAction                                       packages/shadcn-studio/src/components-ui/sidebar.tsx:712:3      
+SidebarMenuBadge                                        packages/shadcn-studio/src/components-ui/sidebar.tsx:713:3      
+SidebarMenuSkeleton                                     packages/shadcn-studio/src/components-ui/sidebar.tsx:716:3      
+SidebarMenuSub                                          packages/shadcn-studio/src/components-ui/sidebar.tsx:717:3      
+SidebarMenuSubButton                                    packages/shadcn-studio/src/components-ui/sidebar.tsx:718:3      
+SidebarMenuSubItem                                      packages/shadcn-studio/src/components-ui/sidebar.tsx:719:3      
+SidebarSeparator                                        packages/shadcn-studio/src/components-ui/sidebar.tsx:722:3      
+PRIMITIVE_CONTRACT_VERSION                              ÔÇªkages/shadcn-studio/src/components-ui/skeleton.contract.ts:1:14
+SKELETON_PRIMITIVE_ID                                   ÔÇªkages/shadcn-studio/src/components-ui/skeleton.contract.ts:3:14
+sonnerIconClassName                                     ÔÇªckages/shadcn-studio/src/components-ui/sonner.contract.ts:18:14
+sonnerLoadingIconClassName                              ÔÇªckages/shadcn-studio/src/components-ui/sonner.contract.ts:20:14
+PRIMITIVE_CONTRACT_VERSION                              ÔÇªckages/shadcn-studio/src/components-ui/spinner.contract.ts:1:14
+SPINNER_PRIMITIVE_ID                                    ÔÇªckages/shadcn-studio/src/components-ui/spinner.contract.ts:3:14
+SWITCH_VARIANTS                                         packages/shadcn-studio/src/components-ui/switch.contract.ts:4:14
+tableHeaderClassName                                    packages/shadcn-studio/src/components-ui/table.contract.ts:26:14
+tableBodyClassName                                      packages/shadcn-studio/src/components-ui/table.contract.ts:28:14
+tableFooterClassName                                    packages/shadcn-studio/src/components-ui/table.contract.ts:30:14
+tableRowClassName                                       packages/shadcn-studio/src/components-ui/table.contract.ts:33:14
+tableHeadClassName                                      packages/shadcn-studio/src/components-ui/table.contract.ts:36:14
+tableCellClassName                                      packages/shadcn-studio/src/components-ui/table.contract.ts:39:14
+tableCaptionClassName                                   packages/shadcn-studio/src/components-ui/table.contract.ts:42:14
+tabsListVariants                                        packages/shadcn-studio/src/components-ui/tabs.tsx:73:52         
+timelineDotMarkerClassName                              ÔÇªages/shadcn-studio/src/components-ui/timeline.contract.ts:75:14
+timelineIconCircleClassName                             ÔÇªages/shadcn-studio/src/components-ui/timeline.contract.ts:77:14
+timelineIconCheckClassName                              ÔÇªages/shadcn-studio/src/components-ui/timeline.contract.ts:80:14
+timelineIconXClassName                                  ÔÇªages/shadcn-studio/src/components-ui/timeline.contract.ts:83:14
+timelineTagVariants                                     ÔÇªages/shadcn-studio/src/components-ui/timeline.contract.ts:86:14
+timelineContentVariants                                 ÔÇªges/shadcn-studio/src/components-ui/timeline.contract.ts:103:14
+timelineHeadingVariants                                 ÔÇªges/shadcn-studio/src/components-ui/timeline.contract.ts:122:14
+timelineLineBaseClassName                               ÔÇªges/shadcn-studio/src/components-ui/timeline.contract.ts:146:14
+timelineLineDoneClassName                               ÔÇªges/shadcn-studio/src/components-ui/timeline.contract.ts:149:14
+timelineLinePendingClassName                            ÔÇªges/shadcn-studio/src/components-ui/timeline.contract.ts:151:14
+TimelineTag                                             packages/shadcn-studio/src/components-ui/timeline.tsx:284:3     
+toggleVariants                                          packages/shadcn-studio/src/components-ui/toggle.tsx:35:18       
+LIB_INVENTORY_GATE                                      packages/shadcn-studio/src/lib/_lib-inventory.registry.ts:12:14 
+assertLibModuleRegistryCompleteOrThrow        function  packages/shadcn-studio/src/lib/_lib-inventory.registry.ts:86:17 
+assertL1ContractEnvelopeRegistryComplete      function  ÔÇªstudio/src/meta-contracts/_contract-envelope.registry.ts:203:17
+ACCEPTANCE_CRITERION_RESULTS                            ÔÇªn-studio/src/meta-contracts/acceptance-record.contract.ts:24:14
+METADATA_BINDING_STATE_KINDS                            ÔÇªcn-studio/src/meta-contracts/metadata-binding.contract.ts:44:14
+isMetadataBindingFieldWire                    function  ÔÇªcn-studio/src/meta-contracts/metadata-binding.contract.ts:94:17
+GOVERNANCE_ENVELOPE_GATE                                ÔÇªages/shadcn-studio/src/meta-gates/_governance.registry.ts:18:14
+assertGovernanceEnvelopeRegistryComplete      function  ÔÇªges/shadcn-studio/src/meta-gates/_governance.registry.ts:196:17
+formatBlockMetadataRegistryDiff               function  ÔÇªs/shadcn-studio/src/meta-gates/block-metadata.registry.ts:54:17
+assertBlockMetadataRegistryCompleteOrThrow    function  ÔÇªs/shadcn-studio/src/meta-gates/block-metadata.registry.ts:84:17
+buildBlockMetadata                                      ÔÇªs/shadcn-studio/src/meta-gates/block-metadata.registry.ts:96:10
+REGISTRY_MODULE_FAMILIES                                ÔÇª-studio/src/meta-registry/_registry-inventory.registry.ts:20:14
+assertRegistryModuleInventoryCompleteOrThrow  function  ÔÇªstudio/src/meta-registry/_registry-inventory.registry.ts:200:17
+isBlockLifecycleState                                   packages/shadcn-studio/src/meta-registry/block-lifecycle.ts:8:3 
+STATISTICS_METRIC_SLOT_TEMPLATE                         ÔÇª-studio/src/meta-registry/block-slot-template-families.ts:22:14
+ACCOUNT_SETTINGS_SLOT_TEMPLATE                          ÔÇª-studio/src/meta-registry/block-slot-template-families.ts:52:14
+WIDGET_SLOT_TEMPLATE                                    ÔÇª-studio/src/meta-registry/block-slot-template-families.ts:91:14
+CHART_SLOT_TEMPLATE                                     ÔÇªstudio/src/meta-registry/block-slot-template-families.ts:123:14
+DROPDOWN_SLOT_TEMPLATE                                  ÔÇªstudio/src/meta-registry/block-slot-template-families.ts:147:14
+DATATABLE_SLOT_TEMPLATE                                 ÔÇªstudio/src/meta-registry/block-slot-template-families.ts:172:14
+ERROR_PAGE_SLOT_TEMPLATE                                ÔÇªstudio/src/meta-registry/block-slot-template-families.ts:204:14
+DIALOG_SLOT_TEMPLATE                                    ÔÇªstudio/src/meta-registry/block-slot-template-families.ts:236:14
+NAVIGATION_TRIGGER_SLOT_TEMPLATE                        ÔÇªstudio/src/meta-registry/block-slot-template-families.ts:268:14
+METADATA_BOUND_BLOCK_TEMPLATE_IDS                       ÔÇªs/shadcn-studio/src/meta-registry/block-slot.registry.ts:265:14
+AccountSettingsPageShell                      function  ÔÇªstudio/src/storybook/account-settings-01.compositions.tsx:31:17
+ACCOUNT_SETTINGS_01_BLOCK_ID                            ÔÇªhadcn-studio/src/storybook/account-settings-01.fixtures.ts:5:14
+ACCOUNT_SETTINGS_01_LAB_OPERATOR                        ÔÇªhadcn-studio/src/storybook/account-settings-01.fixtures.ts:7:14
+StoryTriggerButton                            function  ÔÇªn-studio/src/storybook/block-flat-story.compositions.tsx:106:17
+SidebarStorySurface                           function  ÔÇªn-studio/src/storybook/block-flat-story.compositions.tsx:114:17
+createFlatBlockStory                          function  ÔÇª/shadcn-studio/src/storybook/block-flat-story.helpers.tsx:25:17
+createFlatBlockStoryDark                      function  ÔÇª/shadcn-studio/src/storybook/block-flat-story.helpers.tsx:34:17
+PRIMITIVE_COMPOSITION_SLUGS                             ÔÇªcn-studio/src/storybook/primitive-story.compositions.tsx:146:14
+ThemePreviewStatisticsGrid                    function  ÔÇªio/src/storybook/shadcn-studio-theme-lab.compositions.tsx:57:17
+PresetSwatch                                  function  ÔÇªio/src/storybook/shadcn-studio-theme-lab.compositions.tsx:91:17
+AFENDA_BRAND_PRESET_ID                                  packages/shadcn-studio/src/styles/afenda-brand.preset.ts:11:14  
+afendaBrandTokenGroups                                  packages/shadcn-studio/src/styles/afenda-brand.preset.ts:25:14  
+THEME_INVENTORY_GATE                                    ÔÇªages/shadcn-studio/src/theme/_theme-inventory.registry.ts:12:14
+assertThemeModuleRegistryCompleteOrThrow      function  ÔÇªges/shadcn-studio/src/theme/_theme-inventory.registry.ts:171:17
+Unused exported types (338)
+SalesMetricsMetric                 type       ÔÇªckages/shadcn-studio/src/components-layouts/chart-sales-metrics.tsx:21:13
+SalesMetricsPiePoint               type       ÔÇªckages/shadcn-studio/src/components-layouts/chart-sales-metrics.tsx:27:13
+SalesMetricsBarPoint               type       ÔÇªckages/shadcn-studio/src/components-layouts/chart-sales-metrics.tsx:33:13
+ChartSalesMetricsProps             type       ÔÇªckages/shadcn-studio/src/components-layouts/chart-sales-metrics.tsx:38:13
+TotalRevenueBarPoint               type       ÔÇªckages/shadcn-studio/src/components-layouts/chart-total-revenue.tsx:48:13
+TotalRevenueGrowthPoint            type       ÔÇªckages/shadcn-studio/src/components-layouts/chart-total-revenue.tsx:55:13
+TotalRevenueYearSummary            type       ÔÇªckages/shadcn-studio/src/components-layouts/chart-total-revenue.tsx:61:13
+ChartTotalRevenueProps             type       ÔÇªckages/shadcn-studio/src/components-layouts/chart-total-revenue.tsx:67:13
+Item                               type       packages/shadcn-studio/src/components-layouts/datatable-invoice.tsx:93:13 
+SidebarUserDropdownProps           interface  ÔÇªages/shadcn-studio/src/components-layouts/sidebar-user-dropdown.tsx:29:18
+ActivityChartPoint                 type       ÔÇªs/shadcn-studio/src/components-layouts/statistics-activity-card.tsx:16:13
+StatisticsActivityCardProps        type       ÔÇªs/shadcn-studio/src/components-layouts/statistics-activity-card.tsx:21:13
+StatisticsCardProps                type       packages/shadcn-studio/src/components-layouts/statistics-card-02.tsx:25:13
+StatisticsCardProps                type       packages/shadcn-studio/src/components-layouts/statistics-card-03.tsx:10:13
+ExpenseChartPoint                  type       ÔÇªes/shadcn-studio/src/components-layouts/statistics-expense-card.tsx:15:13
+StatisticsExpenseCardProps         type       ÔÇªes/shadcn-studio/src/components-layouts/statistics-expense-card.tsx:20:13
+IncomeChartPoint                   type       ÔÇªges/shadcn-studio/src/components-layouts/statistics-income-card.tsx:15:13
+StatisticsIncomeCardProps          type       ÔÇªges/shadcn-studio/src/components-layouts/statistics-income-card.tsx:20:13
+LeadsChartPoint                    type       ÔÇªages/shadcn-studio/src/components-layouts/statistics-leads-card.tsx:14:13
+StatisticsLeadsCardProps           type       ÔÇªages/shadcn-studio/src/components-layouts/statistics-leads-card.tsx:20:13
+MetricTrendCardProps               type       ÔÇªhadcn-studio/src/components-layouts/statistics-line-trends-card.tsx:23:13
+OrderProgressSection               type       ÔÇªn-studio/src/components-layouts/statistics-orders-progress-card.tsx:16:13
+StatisticsOrdersProgressCardProps  type       ÔÇªn-studio/src/components-layouts/statistics-orders-progress-card.tsx:23:13
+ProfileTrafficChartPoint           type       ÔÇªn-studio/src/components-layouts/statistics-profile-traffic-card.tsx:15:13
+StatisticsProfileTrafficCardProps  type       ÔÇªn-studio/src/components-layouts/statistics-profile-traffic-card.tsx:20:13
+RevenueChartPoint                  type       ÔÇªes/shadcn-studio/src/components-layouts/statistics-revenue-card.tsx:15:13
+StatisticsRevenueCardProps         type       ÔÇªes/shadcn-studio/src/components-layouts/statistics-revenue-card.tsx:21:13
+StatisticsSalesOverviewSide        type       ÔÇªdcn-studio/src/components-layouts/statistics-sales-overview-card.tsx:7:13
+StatisticsSalesOverviewCardProps   type       ÔÇªcn-studio/src/components-layouts/statistics-sales-overview-card.tsx:13:13
+TrendFormat                        type       ÔÇªages/shadcn-studio/src/components-layouts/statistics-trend-card.tsx:11:13
+StatisticsTrendCardProps           type       ÔÇªages/shadcn-studio/src/components-layouts/statistics-trend-card.tsx:13:13
+AccordionPrimitiveId               type       packages/shadcn-studio/src/components-ui/accordion.contract.ts:5:13       
+AccordionSlotMap                   type       packages/shadcn-studio/src/components-ui/accordion.contract.ts:17:13      
+AccordionItemProps                 type       packages/shadcn-studio/src/components-ui/accordion.tsx:102:3              
+AccordionTriggerProps              type       packages/shadcn-studio/src/components-ui/accordion.tsx:104:3              
+AlertDialogPrimitiveId             type       packages/shadcn-studio/src/components-ui/alert-dialog.contract.ts:7:13    
+AlertDialogSlotMap                 type       packages/shadcn-studio/src/components-ui/alert-dialog.contract.ts:26:13   
+AlertDialogActionProps             type       packages/shadcn-studio/src/components-ui/alert-dialog.tsx:199:3           
+AlertDialogCancelProps             type       packages/shadcn-studio/src/components-ui/alert-dialog.tsx:200:3           
+AlertDialogDescriptionProps        type       packages/shadcn-studio/src/components-ui/alert-dialog.tsx:202:3           
+AlertDialogOverlayProps            type       packages/shadcn-studio/src/components-ui/alert-dialog.tsx:206:3           
+AlertDialogProps                   type       packages/shadcn-studio/src/components-ui/alert-dialog.tsx:207:3           
+AlertDialogTitleProps              type       packages/shadcn-studio/src/components-ui/alert-dialog.tsx:208:3           
+AlertPrimitiveId                   type       packages/shadcn-studio/src/components-ui/alert.contract.ts:6:13           
+AlertSlotMap                       type       packages/shadcn-studio/src/components-ui/alert.contract.ts:15:13          
+AspectRatioPrimitiveId             type       packages/shadcn-studio/src/components-ui/aspect-ratio.contract.ts:5:13    
+AspectRatioSlotMap                 type       packages/shadcn-studio/src/components-ui/aspect-ratio.contract.ts:11:13   
+AspectRatioSlot                    type       packages/shadcn-studio/src/components-ui/aspect-ratio.contract.ts:12:13   
+AspectRatioSlot                    type       packages/shadcn-studio/src/components-ui/aspect-ratio.tsx:30:15           
+AspectRatioProps                   type       packages/shadcn-studio/src/components-ui/aspect-ratio.tsx:31:15           
+AttachmentPrimitiveId              type       packages/shadcn-studio/src/components-ui/attachment.contract.ts:6:13      
+AttachmentSlotMap                  type       packages/shadcn-studio/src/components-ui/attachment.contract.ts:20:13     
+AttachmentState                    type       packages/shadcn-studio/src/components-ui/attachment.contract.ts:23:13     
+AttachmentVariantProps             type       packages/shadcn-studio/src/components-ui/attachment.contract.ts:48:13     
+AttachmentMediaVariantProps        type       packages/shadcn-studio/src/components-ui/attachment.contract.ts:66:13     
+AvatarPrimitiveId                  type       packages/shadcn-studio/src/components-ui/avatar.contract.ts:6:13          
+AvatarSlotMap                      type       packages/shadcn-studio/src/components-ui/avatar.contract.ts:17:13         
+AvatarFallbackProps                type       packages/shadcn-studio/src/components-ui/avatar.tsx:99:3                  
+AvatarImageProps                   type       packages/shadcn-studio/src/components-ui/avatar.tsx:102:3                 
+BackgroundRipplePrimitiveId        type       ÔÇªckages/shadcn-studio/src/components-ui/background-ripple.contract.ts:5:13
+BackgroundRippleSlotMap            type       ÔÇªkages/shadcn-studio/src/components-ui/background-ripple.contract.ts:15:13
+BadgePrimitiveId                   type       packages/shadcn-studio/src/components-ui/badge.contract.ts:6:13           
+BadgeSlotMap                       type       packages/shadcn-studio/src/components-ui/badge.contract.ts:12:13          
+BadgeVariantProps                  type       packages/shadcn-studio/src/components-ui/badge.contract.ts:38:13          
+BgDotGridPrimitiveId               type       packages/shadcn-studio/src/components-ui/bg-dot-grid.contract.ts:4:13     
+BgDotGridSlotMap                   type       packages/shadcn-studio/src/components-ui/bg-dot-grid.contract.ts:10:13    
+BgSilkPrimitiveId                  type       packages/shadcn-studio/src/components-ui/bg-silk.contract.ts:4:13         
+BgSilkSlotMap                      type       packages/shadcn-studio/src/components-ui/bg-silk.contract.ts:10:13        
+BorderBeamPrimitiveId              type       packages/shadcn-studio/src/components-ui/border-beam.contract.ts:4:13     
+BorderBeamSlotMap                  type       packages/shadcn-studio/src/components-ui/border-beam.contract.ts:11:13    
+BreadcrumbPrimitiveId              type       packages/shadcn-studio/src/components-ui/breadcrumb.contract.ts:4:13      
+BreadcrumbSlotMap                  type       packages/shadcn-studio/src/components-ui/breadcrumb.contract.ts:16:13     
+BubblePrimitiveId                  type       packages/shadcn-studio/src/components-ui/bubble.contract.ts:6:13          
+BubbleSlotMap                      type       packages/shadcn-studio/src/components-ui/bubble.contract.ts:15:13         
+BubbleVariantProps                 type       packages/shadcn-studio/src/components-ui/bubble.contract.ts:47:13         
+ButtonGroupPrimitiveId             type       packages/shadcn-studio/src/components-ui/button-group.contract.ts:7:13    
+ButtonGroupSlotMap                 type       packages/shadcn-studio/src/components-ui/button-group.contract.ts:15:13   
+ButtonGroupVariantProps            type       packages/shadcn-studio/src/components-ui/button-group.contract.ts:35:13   
+ButtonPrimitiveId                  type       packages/shadcn-studio/src/components-ui/button.contract.ts:8:13          
+ButtonSlotMap                      type       packages/shadcn-studio/src/components-ui/button.contract.ts:14:13         
+ButtonVariantProps                 type       packages/shadcn-studio/src/components-ui/button.tsx:32:28                 
+CalendarPrimitiveId                type       packages/shadcn-studio/src/components-ui/calendar.contract.ts:5:13        
+CalendarSlotMap                    type       packages/shadcn-studio/src/components-ui/calendar.contract.ts:12:13       
+CardPrimitiveId                    type       packages/shadcn-studio/src/components-ui/card.contract.ts:4:13            
+CardSlotMap                        type       packages/shadcn-studio/src/components-ui/card.contract.ts:16:13           
+CarouselPrimitiveId                type       packages/shadcn-studio/src/components-ui/carousel.contract.ts:5:13        
+CarouselSlotMap                    type       packages/shadcn-studio/src/components-ui/carousel.contract.ts:15:13       
+CategoryBarPrimitiveId             type       packages/shadcn-studio/src/components-ui/category-bar.contract.ts:6:13    
+CategoryBarSlotMap                 type       packages/shadcn-studio/src/components-ui/category-bar.contract.ts:16:13   
+ChartPrimitiveId                   type       packages/shadcn-studio/src/components-ui/chart.contract.ts:5:13           
+ChartSlotMap                       type       packages/shadcn-studio/src/components-ui/chart.contract.ts:11:13          
+CheckboxPrimitiveId                type       packages/shadcn-studio/src/components-ui/checkbox.contract.ts:5:13        
+CheckboxSlotMap                    type       packages/shadcn-studio/src/components-ui/checkbox.contract.ts:12:13       
+CircularProgressPrimitiveId        type       ÔÇªckages/shadcn-studio/src/components-ui/circular-progress.contract.ts:5:13
+CircularProgressSlotMap            type       ÔÇªkages/shadcn-studio/src/components-ui/circular-progress.contract.ts:12:13
+CollapsiblePrimitiveId             type       packages/shadcn-studio/src/components-ui/collapsible.contract.ts:4:13     
+CollapsibleSlotMap                 type       packages/shadcn-studio/src/components-ui/collapsible.contract.ts:12:13    
+CollapsibleTriggerProps            type       packages/shadcn-studio/src/components-ui/collapsible.tsx:44:3             
+ComboboxPrimitiveId                type       packages/shadcn-studio/src/components-ui/combobox.contract.ts:4:13        
+ComboboxSlotMap                    type       packages/shadcn-studio/src/components-ui/combobox.contract.ts:29:13       
+ComboboxChipProps                  type       packages/shadcn-studio/src/components-ui/combobox.tsx:312:3               
+ComboboxChipsInputProps            type       packages/shadcn-studio/src/components-ui/combobox.tsx:313:3               
+ComboboxChipsProps                 type       packages/shadcn-studio/src/components-ui/combobox.tsx:314:3               
+ComboboxClearProps                 type       packages/shadcn-studio/src/components-ui/combobox.tsx:315:3               
+ComboboxCollectionProps            type       packages/shadcn-studio/src/components-ui/combobox.tsx:316:3               
+ComboboxEmptyProps                 type       packages/shadcn-studio/src/components-ui/combobox.tsx:318:3               
+ComboboxGroupProps                 type       packages/shadcn-studio/src/components-ui/combobox.tsx:319:3               
+ComboboxInputProps                 type       packages/shadcn-studio/src/components-ui/combobox.tsx:320:3               
+ComboboxItemProps                  type       packages/shadcn-studio/src/components-ui/combobox.tsx:321:3               
+ComboboxLabelProps                 type       packages/shadcn-studio/src/components-ui/combobox.tsx:322:3               
+ComboboxListProps                  type       packages/shadcn-studio/src/components-ui/combobox.tsx:323:3               
+ComboboxProps                      type       packages/shadcn-studio/src/components-ui/combobox.tsx:324:3               
+ComboboxSeparatorProps             type       packages/shadcn-studio/src/components-ui/combobox.tsx:325:3               
+ComboboxValueProps                 type       packages/shadcn-studio/src/components-ui/combobox.tsx:327:3               
+CommandPrimitiveId                 type       packages/shadcn-studio/src/components-ui/command.contract.ts:5:13         
+CommandSlotMap                     type       packages/shadcn-studio/src/components-ui/command.contract.ts:19:13        
+ContextMenuPrimitiveId             type       packages/shadcn-studio/src/components-ui/context-menu.contract.ts:5:13    
+ContextMenuSlotMap                 type       packages/shadcn-studio/src/components-ui/context-menu.contract.ts:28:13   
+ContextMenuCheckboxItemProps       type       packages/shadcn-studio/src/components-ui/context-menu.tsx:298:3           
+ContextMenuGroupProps              type       packages/shadcn-studio/src/components-ui/context-menu.tsx:300:3           
+ContextMenuItemProps               type       packages/shadcn-studio/src/components-ui/context-menu.tsx:301:3           
+ContextMenuLabelProps              type       packages/shadcn-studio/src/components-ui/context-menu.tsx:302:3           
+ContextMenuPortalProps             type       packages/shadcn-studio/src/components-ui/context-menu.tsx:303:3           
+ContextMenuProps                   type       packages/shadcn-studio/src/components-ui/context-menu.tsx:304:3           
+ContextMenuRadioGroupProps         type       packages/shadcn-studio/src/components-ui/context-menu.tsx:305:3           
+ContextMenuRadioItemProps          type       packages/shadcn-studio/src/components-ui/context-menu.tsx:306:3           
+ContextMenuSeparatorProps          type       packages/shadcn-studio/src/components-ui/context-menu.tsx:307:3           
+ContextMenuShortcutProps           type       packages/shadcn-studio/src/components-ui/context-menu.tsx:308:3           
+ContextMenuSubContentProps         type       packages/shadcn-studio/src/components-ui/context-menu.tsx:309:3           
+ContextMenuSubProps                type       packages/shadcn-studio/src/components-ui/context-menu.tsx:310:3           
+ContextMenuSubTriggerProps         type       packages/shadcn-studio/src/components-ui/context-menu.tsx:311:3           
+DialogPrimitiveId                  type       packages/shadcn-studio/src/components-ui/dialog.contract.ts:5:13          
+DialogSlotMap                      type       packages/shadcn-studio/src/components-ui/dialog.contract.ts:21:13         
+DialogCloseProps                   type       packages/shadcn-studio/src/components-ui/dialog.tsx:167:3                 
+DialogDescriptionProps             type       packages/shadcn-studio/src/components-ui/dialog.tsx:169:3                 
+DialogOverlayProps                 type       packages/shadcn-studio/src/components-ui/dialog.tsx:172:3                 
+DialogPortalProps                  type       packages/shadcn-studio/src/components-ui/dialog.tsx:173:3                 
+DialogProps                        type       packages/shadcn-studio/src/components-ui/dialog.tsx:174:3                 
+DialogTitleProps                   type       packages/shadcn-studio/src/components-ui/dialog.tsx:175:3                 
+DirectionPrimitiveId               type       packages/shadcn-studio/src/components-ui/direction.contract.ts:4:13       
+DirectionSlotMap                   type       packages/shadcn-studio/src/components-ui/direction.contract.ts:10:13      
+DrawerPrimitiveId                  type       packages/shadcn-studio/src/components-ui/drawer.contract.ts:5:13          
+DrawerSlotMap                      type       packages/shadcn-studio/src/components-ui/drawer.contract.ts:21:13         
+DropdownMenuPrimitiveId            type       packages/shadcn-studio/src/components-ui/dropdown-menu.contract.ts:5:13   
+DropdownMenuSlotMap                type       packages/shadcn-studio/src/components-ui/dropdown-menu.contract.ts:28:13  
+DropdownMenuCheckboxItemProps      type       packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:291:3          
+DropdownMenuGroupProps             type       packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:293:3          
+DropdownMenuItemProps              type       packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:294:3          
+DropdownMenuLabelProps             type       packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:295:3          
+DropdownMenuPortalProps            type       packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:296:3          
+DropdownMenuProps                  type       packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:297:3          
+DropdownMenuRadioGroupProps        type       packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:298:3          
+DropdownMenuRadioItemProps         type       packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:299:3          
+DropdownMenuSeparatorProps         type       packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:300:3          
+DropdownMenuShortcutProps          type       packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:301:3          
+DropdownMenuSubContentProps        type       packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:302:3          
+DropdownMenuSubProps               type       packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:303:3          
+DropdownMenuSubTriggerProps        type       packages/shadcn-studio/src/components-ui/dropdown-menu.tsx:304:3          
+EmptyPrimitiveId                   type       packages/shadcn-studio/src/components-ui/empty.contract.ts:6:13           
+EmptySlotMap                       type       packages/shadcn-studio/src/components-ui/empty.contract.ts:17:13          
+EmptyMediaVariantProps             type       packages/shadcn-studio/src/components-ui/empty.contract.ts:41:13          
+FieldPrimitiveId                   type       packages/shadcn-studio/src/components-ui/field.contract.ts:6:13           
+FieldSlotMap                       type       packages/shadcn-studio/src/components-ui/field.contract.ts:21:13          
+FieldVariantProps                  type       packages/shadcn-studio/src/components-ui/field.contract.ts:51:13          
+HoverCardPrimitiveId               type       packages/shadcn-studio/src/components-ui/hover-card.contract.ts:4:13      
+HoverCardSlotMap                   type       packages/shadcn-studio/src/components-ui/hover-card.contract.ts:14:13     
+HoverCardProps                     type       packages/shadcn-studio/src/components-ui/hover-card.tsx:69:38             
+InputGroupPrimitiveId              type       packages/shadcn-studio/src/components-ui/input-group.contract.ts:6:13     
+InputGroupSlotMap                  type       packages/shadcn-studio/src/components-ui/input-group.contract.ts:14:13    
+InputGroupAddonProps               type       packages/shadcn-studio/src/components-ui/input-group.tsx:115:3            
+InputGroupButtonProps              type       packages/shadcn-studio/src/components-ui/input-group.tsx:116:3            
+InputGroupInputProps               type       packages/shadcn-studio/src/components-ui/input-group.tsx:117:3            
+InputGroupTextareaProps            type       packages/shadcn-studio/src/components-ui/input-group.tsx:119:3            
+InputGroupTextProps                type       packages/shadcn-studio/src/components-ui/input-group.tsx:120:3            
+InputOtpPrimitiveId                type       packages/shadcn-studio/src/components-ui/input-otp.contract.ts:4:13       
+InputOtpSlotMap                    type       packages/shadcn-studio/src/components-ui/input-otp.contract.ts:13:13      
+InputPrimitiveId                   type       packages/shadcn-studio/src/components-ui/input.contract.ts:4:13           
+InputSlotMap                       type       packages/shadcn-studio/src/components-ui/input.contract.ts:10:13          
+ItemPrimitiveId                    type       packages/shadcn-studio/src/components-ui/item.contract.ts:6:13            
+ItemSlotMap                        type       packages/shadcn-studio/src/components-ui/item.contract.ts:21:13           
+ItemVariantProps                   type       packages/shadcn-studio/src/components-ui/item.contract.ts:51:13           
+ItemMediaVariantProps              type       packages/shadcn-studio/src/components-ui/item.contract.ts:70:13           
+KanbanPrimitiveId                  type       packages/shadcn-studio/src/components-ui/kanban.contract.ts:5:13          
+KanbanSlotMap                      type       packages/shadcn-studio/src/components-ui/kanban.contract.ts:19:13         
+KanbanAddColumnProps               interface  packages/shadcn-studio/src/components-ui/kanban.tsx:202:18                
+KanbanAddItemProps                 interface  packages/shadcn-studio/src/components-ui/kanban.tsx:210:18                
+KanbanColumnContentProps           type       packages/shadcn-studio/src/components-ui/kanban.tsx:1079:3                
+KanbanColumnHandleProps            type       packages/shadcn-studio/src/components-ui/kanban.tsx:1080:3                
+KanbanColumnProps                  type       packages/shadcn-studio/src/components-ui/kanban.tsx:1081:3                
+KanbanItemHandleProps              type       packages/shadcn-studio/src/components-ui/kanban.tsx:1082:3                
+KanbanItemProps                    type       packages/shadcn-studio/src/components-ui/kanban.tsx:1083:3                
+KanbanOverlayProps                 type       packages/shadcn-studio/src/components-ui/kanban.tsx:1084:3                
+KbdPrimitiveId                     type       packages/shadcn-studio/src/components-ui/kbd.contract.ts:4:13             
+KbdSlotMap                         type       packages/shadcn-studio/src/components-ui/kbd.contract.ts:11:13            
+KbdSlot                            type       packages/shadcn-studio/src/components-ui/kbd.contract.ts:12:13            
+KbdSlot                            type       packages/shadcn-studio/src/components-ui/kbd.tsx:34:15                    
+KbdProps                           type       packages/shadcn-studio/src/components-ui/kbd.tsx:35:15                    
+LabelPrimitiveId                   type       packages/shadcn-studio/src/components-ui/label.contract.ts:4:13           
+LabelSlotMap                       type       packages/shadcn-studio/src/components-ui/label.contract.ts:10:13          
+MarkerPrimitiveId                  type       packages/shadcn-studio/src/components-ui/marker.contract.ts:6:13          
+MarkerSlotMap                      type       packages/shadcn-studio/src/components-ui/marker.contract.ts:14:13         
+MarkerVariantProps                 type       packages/shadcn-studio/src/components-ui/marker.contract.ts:31:13         
+MenubarPrimitiveId                 type       packages/shadcn-studio/src/components-ui/menubar.contract.ts:4:13         
+MenubarSlotMap                     type       packages/shadcn-studio/src/components-ui/menubar.contract.ts:27:13        
+MenubarCheckboxItemProps           type       packages/shadcn-studio/src/components-ui/menubar.tsx:286:3                
+MenubarContentProps                type       packages/shadcn-studio/src/components-ui/menubar.tsx:287:3                
+MenubarGroupProps                  type       packages/shadcn-studio/src/components-ui/menubar.tsx:288:3                
+MenubarItemProps                   type       packages/shadcn-studio/src/components-ui/menubar.tsx:289:3                
+MenubarLabelProps                  type       packages/shadcn-studio/src/components-ui/menubar.tsx:290:3                
+MenubarMenuProps                   type       packages/shadcn-studio/src/components-ui/menubar.tsx:291:3                
+MenubarPortalProps                 type       packages/shadcn-studio/src/components-ui/menubar.tsx:292:3                
+MenubarProps                       type       packages/shadcn-studio/src/components-ui/menubar.tsx:293:3                
+MenubarRadioGroupProps             type       packages/shadcn-studio/src/components-ui/menubar.tsx:294:3                
+MenubarRadioItemProps              type       packages/shadcn-studio/src/components-ui/menubar.tsx:295:3                
+MenubarSeparatorProps              type       packages/shadcn-studio/src/components-ui/menubar.tsx:296:3                
+MenubarShortcutProps               type       packages/shadcn-studio/src/components-ui/menubar.tsx:297:3                
+MenubarSubContentProps             type       packages/shadcn-studio/src/components-ui/menubar.tsx:298:3                
+MenubarSubProps                    type       packages/shadcn-studio/src/components-ui/menubar.tsx:299:3                
+MenubarSubTriggerProps             type       packages/shadcn-studio/src/components-ui/menubar.tsx:300:3                
+MessageScrollerPrimitiveId         type       packages/shadcn-studio/src/components-ui/message-scroller.contract.ts:5:13
+MessageScrollerSlotMap             type       ÔÇªckages/shadcn-studio/src/components-ui/message-scroller.contract.ts:18:13
+MessagePrimitiveId                 type       packages/shadcn-studio/src/components-ui/message.contract.ts:4:13         
+MessageSlotMap                     type       packages/shadcn-studio/src/components-ui/message.contract.ts:15:13        
+NativeSelectPrimitiveId            type       packages/shadcn-studio/src/components-ui/native-select.contract.ts:5:13   
+NativeSelectSlotMap                type       packages/shadcn-studio/src/components-ui/native-select.contract.ts:15:13  
+NavigationMenuPrimitiveId          type       packages/shadcn-studio/src/components-ui/navigation-menu.contract.ts:7:13 
+NavigationMenuSlotMap              type       packages/shadcn-studio/src/components-ui/navigation-menu.contract.ts:23:13
+NavigationMenuContentProps         type       packages/shadcn-studio/src/components-ui/navigation-menu.tsx:177:3        
+NavigationMenuIndicatorProps       type       packages/shadcn-studio/src/components-ui/navigation-menu.tsx:178:3        
+NavigationMenuItemProps            type       packages/shadcn-studio/src/components-ui/navigation-menu.tsx:179:3        
+NavigationMenuLinkProps            type       packages/shadcn-studio/src/components-ui/navigation-menu.tsx:180:3        
+NavigationMenuListProps            type       packages/shadcn-studio/src/components-ui/navigation-menu.tsx:181:3        
+NavigationMenuPositionerProps      type       packages/shadcn-studio/src/components-ui/navigation-menu.tsx:182:3        
+NavigationMenuProps                type       packages/shadcn-studio/src/components-ui/navigation-menu.tsx:183:3        
+NumberTickerPrimitiveId            type       packages/shadcn-studio/src/components-ui/number-ticker.contract.ts:5:13   
+NumberTickerSlotMap                type       packages/shadcn-studio/src/components-ui/number-ticker.contract.ts:11:13  
+PaginationPrimitiveId              type       packages/shadcn-studio/src/components-ui/pagination.contract.ts:4:13      
+PaginationSlotMap                  type       packages/shadcn-studio/src/components-ui/pagination.contract.ts:14:13     
+PopoverPrimitiveId                 type       packages/shadcn-studio/src/components-ui/popover.contract.ts:4:13         
+PopoverSlotMap                     type       packages/shadcn-studio/src/components-ui/popover.contract.ts:17:13        
+PopoverDescriptionProps            type       packages/shadcn-studio/src/components-ui/popover.tsx:104:3                
+PopoverHeaderProps                 type       packages/shadcn-studio/src/components-ui/popover.tsx:105:3                
+PopoverProps                       type       packages/shadcn-studio/src/components-ui/popover.tsx:106:3                
+PopoverTitleProps                  type       packages/shadcn-studio/src/components-ui/popover.tsx:107:3                
+ProgressPrimitiveId                type       packages/shadcn-studio/src/components-ui/progress.contract.ts:4:13        
+ProgressSlotMap                    type       packages/shadcn-studio/src/components-ui/progress.contract.ts:14:13       
+ProgressIndicatorProps             type       packages/shadcn-studio/src/components-ui/progress.tsx:85:3                
+ProgressLabelProps                 type       packages/shadcn-studio/src/components-ui/progress.tsx:86:3                
+ProgressTrackProps                 type       packages/shadcn-studio/src/components-ui/progress.tsx:88:3                
+ProgressValueProps                 type       packages/shadcn-studio/src/components-ui/progress.tsx:89:3                
+RadioGroupPrimitiveId              type       packages/shadcn-studio/src/components-ui/radio-group.contract.ts:4:13     
+RadioGroupSlotMap                  type       packages/shadcn-studio/src/components-ui/radio-group.contract.ts:12:13    
+RatingPrimitiveId                  type       packages/shadcn-studio/src/components-ui/rating.contract.ts:6:13          
+RatingSlotMap                      type       packages/shadcn-studio/src/components-ui/rating.contract.ts:15:13         
+RatingVariantProps                 type       packages/shadcn-studio/src/components-ui/rating.contract.ts:40:13         
+ResizablePrimitiveId               type       packages/shadcn-studio/src/components-ui/resizable.contract.ts:4:13       
+ResizableSlotMap                   type       packages/shadcn-studio/src/components-ui/resizable.contract.ts:12:13      
+ScrollAreaPrimitiveId              type       packages/shadcn-studio/src/components-ui/scroll-area.contract.ts:4:13     
+ScrollAreaSlotMap                  type       packages/shadcn-studio/src/components-ui/scroll-area.contract.ts:14:13    
+ScrollBarProps                     type       packages/shadcn-studio/src/components-ui/scroll-area.tsx:61:32            
+SelectPrimitiveId                  type       packages/shadcn-studio/src/components-ui/select.contract.ts:4:13          
+SelectSlotMap                      type       packages/shadcn-studio/src/components-ui/select.contract.ts:23:13         
+SelectGroupProps                   type       packages/shadcn-studio/src/components-ui/select.tsx:209:3                 
+SelectItemProps                    type       packages/shadcn-studio/src/components-ui/select.tsx:210:3                 
+SelectLabelProps                   type       packages/shadcn-studio/src/components-ui/select.tsx:211:3                 
+SelectProps                        type       packages/shadcn-studio/src/components-ui/select.tsx:212:3                 
+SelectScrollDownButtonProps        type       packages/shadcn-studio/src/components-ui/select.tsx:213:3                 
+SelectScrollUpButtonProps          type       packages/shadcn-studio/src/components-ui/select.tsx:214:3                 
+SelectSeparatorProps               type       packages/shadcn-studio/src/components-ui/select.tsx:215:3                 
+SelectValueProps                   type       packages/shadcn-studio/src/components-ui/select.tsx:217:3                 
+SeparatorPrimitiveId               type       packages/shadcn-studio/src/components-ui/separator.contract.ts:4:13       
+SeparatorSlotMap                   type       packages/shadcn-studio/src/components-ui/separator.contract.ts:10:13      
+SeparatorSlot                      type       packages/shadcn-studio/src/components-ui/separator.contract.ts:11:13      
+SeparatorSlot                      type       packages/shadcn-studio/src/components-ui/separator.tsx:30:15              
+SeparatorProps                     type       packages/shadcn-studio/src/components-ui/separator.tsx:31:15              
+SheetPrimitiveId                   type       packages/shadcn-studio/src/components-ui/sheet.contract.ts:5:13           
+SheetSlotMap                       type       packages/shadcn-studio/src/components-ui/sheet.contract.ts:21:13          
+SheetCloseProps                    type       packages/shadcn-studio/src/components-ui/sheet.tsx:146:3                  
+SheetDescriptionProps              type       packages/shadcn-studio/src/components-ui/sheet.tsx:148:3                  
+SheetOverlayProps                  type       packages/shadcn-studio/src/components-ui/sheet.tsx:151:3                  
+SheetPortalProps                   type       packages/shadcn-studio/src/components-ui/sheet.tsx:152:3                  
+SheetProps                         type       packages/shadcn-studio/src/components-ui/sheet.tsx:153:3                  
+SheetTitleProps                    type       packages/shadcn-studio/src/components-ui/sheet.tsx:154:3                  
+SidebarPrimitiveId                 type       packages/shadcn-studio/src/components-ui/sidebar.contract.ts:6:13         
+SidebarSlotMap                     type       packages/shadcn-studio/src/components-ui/sidebar.contract.ts:37:13        
+SidebarMenuButtonVariantProps      type       packages/shadcn-studio/src/components-ui/sidebar.contract.ts:139:13       
+SkeletonPrimitiveId                type       packages/shadcn-studio/src/components-ui/skeleton.contract.ts:4:13        
+SkeletonSlotMap                    type       packages/shadcn-studio/src/components-ui/skeleton.contract.ts:10:13       
+SkeletonSlot                       type       packages/shadcn-studio/src/components-ui/skeleton.contract.ts:11:13       
+SkeletonSlot                       type       packages/shadcn-studio/src/components-ui/skeleton.tsx:20:15               
+SkeletonProps                      type       packages/shadcn-studio/src/components-ui/skeleton.tsx:21:15               
+SliderPrimitiveId                  type       packages/shadcn-studio/src/components-ui/slider.contract.ts:4:13          
+SliderSlotMap                      type       packages/shadcn-studio/src/components-ui/slider.contract.ts:14:13         
+SonnerPrimitiveId                  type       packages/shadcn-studio/src/components-ui/sonner.contract.ts:4:13          
+SonnerSlotMap                      type       packages/shadcn-studio/src/components-ui/sonner.contract.ts:11:13         
+SonnerSlot                         type       packages/shadcn-studio/src/components-ui/sonner.contract.ts:12:13         
+SonnerSlot                         type       packages/shadcn-studio/src/components-ui/sonner.tsx:48:15                 
+SpinnerPrimitiveId                 type       packages/shadcn-studio/src/components-ui/spinner.contract.ts:4:13         
+SpinnerSlotMap                     type       packages/shadcn-studio/src/components-ui/spinner.contract.ts:10:13        
+SpinnerSlot                        type       packages/shadcn-studio/src/components-ui/spinner.contract.ts:11:13        
+SpinnerSlot                        type       packages/shadcn-studio/src/components-ui/spinner.tsx:23:15                
+SpinnerProps                       type       packages/shadcn-studio/src/components-ui/spinner.tsx:24:15                
+SwitchPrimitiveId                  type       packages/shadcn-studio/src/components-ui/switch.contract.ts:8:13          
+SwitchSlotMap                      type       packages/shadcn-studio/src/components-ui/switch.contract.ts:15:13         
+TablePrimitiveId                   type       packages/shadcn-studio/src/components-ui/table.contract.ts:4:13           
+TableSlotMap                       type       packages/shadcn-studio/src/components-ui/table.contract.ts:18:13          
+TabsPrimitiveId                    type       packages/shadcn-studio/src/components-ui/tabs.contract.ts:6:13            
+TabsSlotMap                        type       packages/shadcn-studio/src/components-ui/tabs.contract.ts:15:13           
+TabsContentProps                   type       packages/shadcn-studio/src/components-ui/tabs.tsx:67:3                    
+TabsListProps                      type       packages/shadcn-studio/src/components-ui/tabs.tsx:68:3                    
+TabsListVariantProps               type       packages/shadcn-studio/src/components-ui/tabs.tsx:69:3                    
+TabsTriggerProps                   type       packages/shadcn-studio/src/components-ui/tabs.tsx:71:3                    
+TextareaPrimitiveId                type       packages/shadcn-studio/src/components-ui/textarea.contract.ts:4:13        
+TextareaSlotMap                    type       packages/shadcn-studio/src/components-ui/textarea.contract.ts:10:13       
+TimelinePrimitiveId                type       packages/shadcn-studio/src/components-ui/timeline.contract.ts:6:13        
+TimelineSlotMap                    type       packages/shadcn-studio/src/components-ui/timeline.contract.ts:18:13       
+TimelineVariantProps               type       packages/shadcn-studio/src/components-ui/timeline.contract.ts:34:13       
+TimelineItemVariantProps           type       packages/shadcn-studio/src/components-ui/timeline.contract.ts:48:13       
+TimelineDotVariantProps            type       packages/shadcn-studio/src/components-ui/timeline.contract.ts:73:13       
+TimelineTagVariantProps            type       packages/shadcn-studio/src/components-ui/timeline.contract.ts:101:13      
+TimelineContentVariantProps        type       packages/shadcn-studio/src/components-ui/timeline.contract.ts:118:13      
+TimelineHeadingVariantProps        type       packages/shadcn-studio/src/components-ui/timeline.contract.ts:142:13      
+ToggleGroupPrimitiveId             type       packages/shadcn-studio/src/components-ui/toggle-group.contract.ts:5:13    
+ToggleGroupSlotMap                 type       packages/shadcn-studio/src/components-ui/toggle-group.contract.ts:12:13   
+TogglePrimitiveId                  type       packages/shadcn-studio/src/components-ui/toggle.contract.ts:6:13          
+ToggleSlotMap                      type       packages/shadcn-studio/src/components-ui/toggle.contract.ts:12:13         
+ToggleVariantProps                 type       packages/shadcn-studio/src/components-ui/toggle.tsx:34:28                 
+TooltipPrimitiveId                 type       packages/shadcn-studio/src/components-ui/tooltip.contract.ts:4:13         
+TooltipSlotMap                     type       packages/shadcn-studio/src/components-ui/tooltip.contract.ts:16:13        
+TooltipProps                       type       packages/shadcn-studio/src/components-ui/tooltip.tsx:82:3                 
+TooltipProviderProps               type       packages/shadcn-studio/src/components-ui/tooltip.tsx:83:3                 
+ClassNameStateFn                   type       packages/shadcn-studio/src/lib/compose-class-name.ts:22:31                
+BlockContractMetadataFactory       type       packages/shadcn-studio/src/meta-contracts/block-metadata.contract.ts:28:13
+RegistryModuleFamily               type       ÔÇªges/shadcn-studio/src/meta-registry/_registry-inventory.registry.ts:31:13
+MetadataBoundBlockTemplateId       type       packages/shadcn-studio/src/meta-registry/block-slot.registry.ts:287:13    
+DatatableBlockContractId           type       packages/shadcn-studio/src/meta-registry/block-slot.registry.ts:290:13    
+FlatBlockStoryLayout               type       packages/shadcn-studio/src/storybook/block-flat-story.registry.ts:40:13   
+AfendaBrandPreset                  type       packages/shadcn-studio/src/styles/afenda-brand.preset.ts:203:13           
+Configuration hints (4)
+src/_reference/**        packages/shadcn-studio  knip.jsonc  Remove from ignore            
+src/theme/index.ts       packages/shadcn-studio  knip.jsonc  Remove redundant entry pattern
+src/meta-gates/index.ts  packages/shadcn-studio  knip.jsonc  Remove redundant entry pattern
+src/error-ui/index.ts    packages/shadcn-studio  knip.jsonc  Remove redundant entry pattern
+ÔÇëELIFECYCLEÔÇë Command failed with exit code 1.

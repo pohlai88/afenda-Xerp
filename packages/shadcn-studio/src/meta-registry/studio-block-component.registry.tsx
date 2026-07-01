@@ -1,56 +1,42 @@
+"use client";
+
 /**
- * PAS-006D — maps surface-template block ids to live React block components.
+ * PAS-006D — maps MCP block ids to live React block components (metadata-workspace preview).
  */
 
 import type { ComponentType } from "react";
 
-import AccountSettings01Block from "../components-layouts/account-settings-01/account-settings-01.js";
-import DatatableInvoiceBlock from "../components-layouts/datatable-invoice.js";
-import HeroSection01Block from "../components-layouts/hero-section-01/hero-section-01.js";
 import LoginPage04Block from "../components-auth-shell/login-page-04/login-page-04.js";
-import StatisticsCard01Block from "../components-layouts/statistics-card-01.js";
+import AccountSettings01Block from "../components-layouts/account-settings-01/account-settings-01.js";
+import HeroSection01Block from "../components-layouts/hero-section-01/hero-section-01.js";
+import { FLAT_BLOCK_STORY_REGISTRY } from "../storybook/block-flat-story.registry.js";
+import {
+  MCP_SEED_BLOCK_IDS,
+  type McpSeedBlockId,
+} from "./mcp-seed-block-manifest.js";
 import { SURFACE_TEMPLATE_REGISTRY } from "./surface-template.registry.js";
 
 export type StudioBlockComponent = ComponentType<Record<string, never>>;
 
-const STUDIO_BLOCK_PREVIEW_SAMPLE_INVOICE_ROWS = [
-  {
-    id: "inv_preview_01",
-    status: "paid" as const,
-    avatar: "",
-    fallback: "AC",
-    client: "Acme Corp",
-    field: "Consulting",
-    total: 1200,
-    issuedDate: new Date("2026-01-15"),
-    balance: 0,
-  },
-];
+function buildFlatBlockPreviewRegistry(): Record<
+  McpSeedBlockId,
+  StudioBlockComponent
+> {
+  const entries = {} as Record<McpSeedBlockId, StudioBlockComponent>;
 
-function DatatableInvoicePreview() {
-  return (
-    <DatatableInvoiceBlock data={STUDIO_BLOCK_PREVIEW_SAMPLE_INVOICE_ROWS} />
-  );
-}
+  for (const { slug, sample } of FLAT_BLOCK_STORY_REGISTRY) {
+    entries[slug as McpSeedBlockId] = sample as StudioBlockComponent;
+  }
 
-function StatisticsCard01Preview() {
-  return (
-    <StatisticsCard01Block
-      changePercentage="+8.2%"
-      icon={<span aria-hidden="true">↑</span>}
-      title="Weekly revenue"
-      value="$42,500"
-    />
-  );
+  return entries;
 }
 
 export const STUDIO_BLOCK_COMPONENT_REGISTRY = {
+  ...buildFlatBlockPreviewRegistry(),
   "account-settings-01": AccountSettings01Block,
-  "datatable-invoice": DatatableInvoicePreview,
   "hero-section-01": HeroSection01Block,
   "login-page-04": LoginPage04Block,
-  "statistics-card-01": StatisticsCard01Preview,
-} as const satisfies Record<string, StudioBlockComponent>;
+} as const satisfies Record<McpSeedBlockId, StudioBlockComponent>;
 
 export type StudioBlockComponentId =
   keyof typeof STUDIO_BLOCK_COMPONENT_REGISTRY;
@@ -71,7 +57,7 @@ export function resolveStudioBlockComponent(
   return STUDIO_BLOCK_COMPONENT_REGISTRY[blockId];
 }
 
-/** Surface-template block ids that must resolve for metadata workspace live preview. */
+/** Surface-template block ids that must resolve for template-bound metadata preview. */
 export function listSurfaceTemplateBlockComponentIds(): readonly string[] {
   const blockIds = new Set<string>();
 
@@ -88,6 +74,23 @@ export function assertSurfaceTemplateBlockComponentsRegistered(): readonly strin
   const missing: string[] = [];
 
   for (const blockId of listSurfaceTemplateBlockComponentIds()) {
+    if (!isStudioBlockComponentId(blockId)) {
+      missing.push(blockId);
+    }
+  }
+
+  return missing;
+}
+
+/** MCP seed block ids registered for metadata-workspace live preview. */
+export function listStudioBlockPreviewIds(): readonly McpSeedBlockId[] {
+  return MCP_SEED_BLOCK_IDS;
+}
+
+export function assertStudioBlockPreviewComponentsRegistered(): readonly string[] {
+  const missing: string[] = [];
+
+  for (const blockId of listStudioBlockPreviewIds()) {
     if (!isStudioBlockComponentId(blockId)) {
       missing.push(blockId);
     }

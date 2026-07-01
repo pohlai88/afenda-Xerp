@@ -41,7 +41,7 @@ describe("avatar primitive contract", () => {
   });
 
   it("exports governed class constants", () => {
-    expect(avatarRootClassName).toContain("group/avatar");
+    expect(avatarRootClassName).toContain("data-[size=profile]:size-20");
     expect(avatarImageClassName).toContain("object-cover");
     expect(avatarFallbackClassName).toContain("bg-muted");
     expect(avatarBadgeClassName).toContain("ring-background");
@@ -73,7 +73,9 @@ describe("avatar primitive contract", () => {
 
   it("AvatarProps.size is AvatarSize union", () => {
     expectTypeOf<AvatarProps["size"]>().toEqualTypeOf<AvatarSize | undefined>();
-    expectTypeOf<AvatarSize>().toEqualTypeOf<"default" | "sm" | "lg">();
+    expectTypeOf<AvatarSize>().toEqualTypeOf<
+      "default" | "lg" | "profile" | "sm"
+    >();
   });
 
   it("composition slot props omit governed data-slot key", () => {

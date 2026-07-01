@@ -63,7 +63,7 @@ function ErrorPageShell({
       <div className="relative max-h-dvh w-full p-2 max-lg:hidden">
         <div className="relative h-full min-h-[24rem] w-full overflow-hidden rounded-2xl bg-black">
           <DotGrid
-            activeColor="#10B981"
+            activeColor="var(--success)"
             baseColor="var(--muted-foreground)"
             displacement={14}
             dotSize={1.9}

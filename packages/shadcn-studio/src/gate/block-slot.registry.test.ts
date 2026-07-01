@@ -39,6 +39,10 @@ describe("block slot registry (PAS-006B P06-003)", () => {
     const slots = getBlockSlotsForBlockId("login-page-04");
     expect(slots.map((slot) => slot.slotId)).toEqual([
       "login.branding",
+      "login.branding.title",
+      "login.branding.lead",
+      "login.form.title",
+      "login.form.subtitle",
       "login.email",
       "login.password",
       "login.password.help",

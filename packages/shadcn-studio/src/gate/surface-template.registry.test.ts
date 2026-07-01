@@ -37,6 +37,12 @@ describe("surface template registry (PAS-006D P06-009)", () => {
     expect(template && assertSurfaceTemplateBlockDataCoverage(template)).toBe(
       true
     );
+
+    const errorTemplate = getSurfaceTemplateById("surface-template.error-page");
+    expect(errorTemplate?.blockBindings[0]?.blockId).toBe("error-page-shell");
+    expect(
+      errorTemplate && assertSurfaceTemplateBlockDataCoverage(errorTemplate)
+    ).toBe(true);
   });
 
   it("rejects surface templates with empty slotFills keys", () => {

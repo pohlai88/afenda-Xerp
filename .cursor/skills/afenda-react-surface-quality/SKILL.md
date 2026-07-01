@@ -47,7 +47,7 @@ Before scanning, classify the target.
 
 | Target | Route |
 | --- | --- |
-| `packages/shadcn-studio/src/components/ui/*` primitive | `afenda-primitive-contract` |
+| `packages/shadcn-studio/src/components-ui/*` primitive | `afenda-primitive-contract` (+ M1–M10 mismatch frame on E0) |
 | `packages/shadcn-studio/src/components/shadcn-studio/*` block | This skill |
 | `apps/erp/**/page.tsx` | This skill, RSC-first scan |
 | `apps/erp/**/layout.tsx` | This skill, strict client-boundary scan |
@@ -55,7 +55,7 @@ Before scanning, classify the target.
 | `apps/erp/**/*.server.ts` / loaders | This skill, A1/A6/B8 scan |
 | Tests | This skill, T-tier scan |
 
-If the file imports `@base-ui/react/*` inside `components/ui/*`, stop and route to primitive contract.
+If the file imports `@base-ui/react/*` inside `components-ui/*`, stop and route to primitive contract.
 
 ---
 
@@ -319,7 +319,7 @@ For primitive changes, stop and route to:
 ```bash
 pnpm check:studio-primitive-contracts
 pnpm --filter @afenda/shadcn-studio typecheck
-pnpm --filter @afenda/shadcn-studio test:run -- src/components/ui
+pnpm --filter @afenda/shadcn-studio test:run -- src/components-ui
 ```
 
 ---
@@ -328,7 +328,7 @@ pnpm --filter @afenda/shadcn-studio test:run -- src/components/ui
 
 Stop and report instead of patching when:
 
-1. Target is a `components/ui/*` primitive.
+1. Target is a `components-ui/*` primitive.
 2. A B-tier issue exists but the requested change is cosmetic.
 3. Fix requires changing business behavior.
 4. Server truth is being moved into client state.

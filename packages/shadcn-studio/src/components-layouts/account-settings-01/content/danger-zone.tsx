@@ -9,12 +9,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  accountSettingsSectionContentClassName,
+  accountSettingsSectionGridClassName,
+  accountSettingsSectionHeadingClassName,
+} from "../../_shared/account-settings-page-shell.js";
 
 const DangerZone = () => {
   return (
-    <div className="grid w-full min-w-0 grid-cols-1 gap-10 xl:grid-cols-3">
+    <div className={accountSettingsSectionGridClassName}>
       {/* Vertical Tabs List */}
-      <div className="flex flex-col space-y-1">
+      <div className={accountSettingsSectionHeadingClassName}>
         <h3 className="font-semibold">Danger Zone</h3>
         <p className="text-muted-foreground text-sm">
           Delete your account permanently. This action will remove all your data
@@ -29,7 +34,7 @@ const DangerZone = () => {
       </div>
 
       {/* Content */}
-      <div className="min-w-0 space-y-6 xl:col-span-2">
+      <div className={accountSettingsSectionContentClassName("6")}>
         <Card>
           <CardContent>
             <div className="flex justify-between gap-4 max-lg:flex-col lg:items-center">

@@ -6,6 +6,8 @@ import {
   accordionHeaderClassName,
   accordionPrimitiveMetadata,
   accordionRootClassName,
+  accordionTriggerClassName,
+  accordionTriggerIconClassName,
   PRIMITIVE_CONTRACT_VERSION,
 } from "./accordion.contract.js";
 import type {
@@ -41,6 +43,16 @@ describe("accordion primitive contract", () => {
     expect(accordionContentPanelClassName).toContain(
       "var(--accordion-panel-height)"
     );
+    expect(accordionContentPanelClassName).toMatch(
+      /^h-\[var\(--accordion-panel-height\)\]/
+    );
+  });
+
+  it("trigger contract uses Base UI panel-open semantics without redundant rotate", () => {
+    expect(accordionTriggerClassName).toContain("gap-3");
+    expect(accordionTriggerClassName).toContain("focus-visible:ring-[3px]");
+    expect(accordionTriggerClassName).not.toContain("focus-visible:after:");
+    expect(accordionTriggerIconClassName).not.toContain("rotate");
   });
 
   it("accordionPrimitiveMetadata is JSON-serializable", () => {
@@ -72,5 +84,11 @@ describe("accordion primitive contract", () => {
       ? true
       : false;
     expectTypeOf<HasGovernedSlot>().toEqualTypeOf<false>();
+  });
+
+  it("AccordionProps className is string-only", () => {
+    expectTypeOf<AccordionProps["className"]>().toEqualTypeOf<
+      string | undefined
+    >();
   });
 });

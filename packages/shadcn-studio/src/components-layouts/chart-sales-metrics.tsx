@@ -1,13 +1,7 @@
 "use client";
 
-import {
-  BadgePercentIcon,
-  ChartNoAxesCombinedIcon,
-  CirclePercentIcon,
-  DollarSignIcon,
-  ShoppingBagIcon,
-  TrendingUpIcon,
-} from "lucide-react";
+import { ChartNoAxesCombinedIcon, CirclePercentIcon } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { Bar, BarChart, Label, Pie, PieChart } from "recharts";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -20,60 +14,49 @@ import {
 } from "@/components/ui/chart";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
-const salesPlanPercentage = 54;
-const totalBars = 24;
-const filledBars = Math.round((salesPlanPercentage * totalBars) / 100);
+export type SalesMetricsMetric = {
+  icon: ReactNode;
+  title: string;
+  value: string;
+};
 
-// Sales chart data
-const salesChartData = Array.from({ length: totalBars }, (_, index) => {
-  const date = new Date(2025, 5, 15);
+export type SalesMetricsPiePoint = {
+  month: string;
+  sales: number;
+  fill: string;
+};
 
-  const formattedDate = date.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
+export type SalesMetricsBarPoint = {
+  date: string;
+  sales: number;
+};
 
-  return {
-    date: formattedDate,
-    sales: index < filledBars ? 315 : 0.0001,
+export type ChartSalesMetricsProps = {
+  title: string;
+  company: {
+    logoUrl: string;
+    name: string;
+    email: string;
   };
-});
+  metrics: readonly SalesMetricsMetric[];
+  revenueGoalTitle: string;
+  revenuePieData: readonly SalesMetricsPiePoint[];
+  revenueCenterValue: string;
+  revenueCenterLabel: string;
+  planCompletedLabel: string;
+  planCompletedPercent: string;
+  salesPlanTitle: string;
+  salesPlanPercentage: number;
+  salesPlanDescription: string;
+  salesBarChartData: readonly SalesMetricsBarPoint[];
+  className?: string;
+};
 
 const salesChartConfig = {
   sales: {
     label: "Sales",
   },
 } satisfies ChartConfig;
-
-const MetricsData = [
-  {
-    icons: <TrendingUpIcon className="size-5" />,
-    title: "Sales trend",
-    value: "$11,548",
-  },
-  {
-    icons: <BadgePercentIcon className="size-5" />,
-    title: "Discount offers",
-    value: "$1,326",
-  },
-  {
-    icons: <DollarSignIcon className="size-5" />,
-    title: "Net profit",
-    value: "$17,356",
-  },
-  {
-    icons: <ShoppingBagIcon className="size-5" />,
-    title: "Total orders",
-    value: "248",
-  },
-];
-
-const revenueChartData = [
-  { month: "january", sales: 340, fill: "var(--color-january)" },
-  { month: "february", sales: 200, fill: "var(--color-february)" },
-  { month: "march", sales: 200, fill: "var(--color-march)" },
-];
 
 const revenueChartConfig = {
   sales: {
@@ -93,7 +76,22 @@ const revenueChartConfig = {
   },
 } satisfies ChartConfig;
 
-const SalesMetricsCard = ({ className }: { className?: string }) => (
+const SalesMetricsCard = ({
+  title,
+  company,
+  metrics,
+  revenueGoalTitle,
+  revenuePieData,
+  revenueCenterValue,
+  revenueCenterLabel,
+  planCompletedLabel,
+  planCompletedPercent,
+  salesPlanTitle,
+  salesPlanPercentage,
+  salesPlanDescription,
+  salesBarChartData,
+  className,
+}: ChartSalesMetricsProps) => (
   <Card className={className}>
     <CardContent className="space-y-4">
       <div className="grid gap-6 lg:grid-cols-5">
@@ -102,34 +100,34 @@ const SalesMetricsCard = ({ className }: { className?: string }) => (
             {...blockSlotDomMarkerProps("chart.title")}
             className="font-semibold text-lg"
           >
-            Sales metrics
+            {title}
           </span>
           <div
             {...blockSlotDomMarkerProps("chart.legend")}
             className="flex items-center gap-3"
           >
             <img
-              alt="logo"
+              alt=""
               className="size-10.5 rounded-lg"
-              src="https://cdn.shadcnstudio.com/ss-assets/logo/logo-square.png"
+              src={company.logoUrl}
             />
             <div className="flex flex-col gap-0.5">
-              <span className="font-medium text-xl">Sandy&apos; Company</span>
+              <span className="font-medium text-xl">{company.name}</span>
               <span className="text-muted-foreground text-sm">
-                sandy@company.com
+                {company.email}
               </span>
             </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            {MetricsData.map((metric, index) => (
+            {metrics.map((metric) => (
               <div
                 className="flex items-center gap-3 rounded-md border px-4 py-2"
-                key={index}
+                key={metric.title}
               >
                 <Avatar className="size-8.5 rounded-sm">
                   <AvatarFallback className="shrink-0 rounded-sm bg-primary/10 text-primary">
-                    {metric.icons}
+                    {metric.icon}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col gap-0.5">
@@ -145,7 +143,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => (
         <Card className="gap-4 py-4 shadow-none lg:col-span-2">
           <CardHeader className="gap-1">
             <CardTitle className="font-semibold text-lg">
-              Revenue goal
+              {revenueGoalTitle}
             </CardTitle>
           </CardHeader>
 
@@ -160,7 +158,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => (
                   cursor={false}
                 />
                 <Pie
-                  data={revenueChartData}
+                  data={[...revenuePieData]}
                   dataKey="sales"
                   endAngle={660}
                   innerRadius={58}
@@ -184,14 +182,14 @@ const SalesMetricsCard = ({ className }: { className?: string }) => (
                               x={viewBox.cx}
                               y={(viewBox.cy || 0) - 12}
                             >
-                              256.24
+                              {revenueCenterValue}
                             </tspan>
                             <tspan
                               className="fill-muted-foreground text-sm"
                               x={viewBox.cx}
                               y={(viewBox.cy || 0) + 19}
                             >
-                              Total Profit
+                              {revenueCenterLabel}
                             </tspan>
                           </text>
                         );
@@ -202,8 +200,10 @@ const SalesMetricsCard = ({ className }: { className?: string }) => (
               </PieChart>
             </ChartContainer>
             <div className="flex items-center justify-between">
-              <span className="text-xl">Plan completed</span>
-              <span className="font-medium text-2xl">56%</span>
+              <span className="text-xl">{planCompletedLabel}</span>
+              <span className="font-medium text-2xl">
+                {planCompletedPercent}
+              </span>
             </div>
           </CardContent>
         </Card>
@@ -211,10 +211,10 @@ const SalesMetricsCard = ({ className }: { className?: string }) => (
       <Card className="shadow-none">
         <CardContent className="grid gap-4 px-4 lg:grid-cols-5">
           <div className="flex flex-col justify-center gap-6">
-            <span className="font-semibold text-lg">Sales plan</span>
+            <span className="font-semibold text-lg">{salesPlanTitle}</span>
             <span className="max-lg:5xl text-6xl">{salesPlanPercentage}%</span>
             <span className="text-muted-foreground text-sm">
-              Percentage profit from total sales
+              {salesPlanDescription}
             </span>
           </div>
           <div className="flex flex-col gap-6 text-lg md:col-span-4">
@@ -241,7 +241,7 @@ const SalesMetricsCard = ({ className }: { className?: string }) => (
             >
               <BarChart
                 accessibilityLayer
-                data={salesChartData}
+                data={[...salesBarChartData]}
                 margin={{
                   left: 0,
                   right: 0,

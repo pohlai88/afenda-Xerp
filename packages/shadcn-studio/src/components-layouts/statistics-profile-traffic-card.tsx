@@ -12,16 +12,19 @@ import {
 import { cn } from "@/utils/utils";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
-// Profile traffic chart data
-const profileTrafficChartData = [
-  { index: "01", traffic: 150 },
-  { index: "02", traffic: 250 },
-  { index: "03", traffic: 190 },
-  { index: "04", traffic: 290 },
-  { index: "05", traffic: 220 },
-  { index: "06", traffic: 350 },
-  { index: "07", traffic: 250 },
-];
+export type ProfileTrafficChartPoint = {
+  index: string;
+  traffic: number;
+};
+
+export type StatisticsProfileTrafficCardProps = {
+  title: string;
+  amount: string;
+  changePercentage: number;
+  periodLabel?: string;
+  chartData: readonly ProfileTrafficChartPoint[];
+  className?: string;
+};
 
 const profileTrafficChartConfig = {
   traffic: {
@@ -29,49 +32,14 @@ const profileTrafficChartConfig = {
   },
 } satisfies ChartConfig;
 
-const StatisticsCardData = {
-  title: "Average profile traffic",
-  amount: "2.84k",
-  changePercentage: 15,
-  children: (
-    <>
-      <ChartContainer
-        className="h-28.75 w-full px-2.75"
-        config={profileTrafficChartConfig}
-      >
-        <BarChart
-          accessibilityLayer
-          barSize={12}
-          data={profileTrafficChartData}
-          margin={{
-            left: -8,
-            right: -8,
-          }}
-        >
-          <XAxis
-            axisLine={false}
-            dataKey="index"
-            tick={{ fontSize: 14, fill: "var(--muted-foreground)" }}
-            tickFormatter={(value) => value.slice(0, 3)}
-            tickLine={false}
-            tickMargin={10}
-          />
-          <ChartTooltip
-            content={<ChartTooltipContent hideLabel />}
-            cursor={false}
-          />
-          <Bar dataKey="traffic" fill="var(--primary)" radius={12} />
-        </BarChart>
-      </ChartContainer>
-    </>
-  ),
-};
-
 const StatisticsProfileTrafficCard = ({
+  title,
+  amount,
+  changePercentage,
+  periodLabel = "Weekly Report",
+  chartData,
   className,
-}: {
-  className?: string;
-}) => {
+}: StatisticsProfileTrafficCardProps) => {
   const titleId = useId();
   const footnoteId = useId();
 
@@ -85,9 +53,9 @@ const StatisticsProfileTrafficCard = ({
               className="font-semibold"
               id={titleId}
             >
-              {StatisticsCardData.title}
+              {title}
             </span>
-            <span className="text-muted-foreground text-sm">Weekly Report</span>
+            <span className="text-muted-foreground text-sm">{periodLabel}</span>
           </div>
           <div className="flex items-end justify-between gap-4">
             <div className="flex flex-col gap-2">
@@ -96,18 +64,45 @@ const StatisticsProfileTrafficCard = ({
                 aria-describedby={footnoteId}
                 className="font-semibold text-2xl"
               >
-                {StatisticsCardData.amount}
+                {amount}
               </span>
               <span
                 {...blockSlotDomMarkerProps("metric.change")}
                 className="text-primary text-sm"
                 id={footnoteId}
               >
-                +{StatisticsCardData.changePercentage}%
+                +{changePercentage}%
               </span>
             </div>
           </div>
-          {StatisticsCardData.children}
+          <ChartContainer
+            className="h-28.75 w-full px-2.75"
+            config={profileTrafficChartConfig}
+          >
+            <BarChart
+              accessibilityLayer
+              barSize={12}
+              data={[...chartData]}
+              margin={{
+                left: -8,
+                right: -8,
+              }}
+            >
+              <XAxis
+                axisLine={false}
+                dataKey="index"
+                tick={{ fontSize: 14, fill: "var(--muted-foreground)" }}
+                tickFormatter={(value) => value.slice(0, 3)}
+                tickLine={false}
+                tickMargin={10}
+              />
+              <ChartTooltip
+                content={<ChartTooltipContent hideLabel />}
+                cursor={false}
+              />
+              <Bar dataKey="traffic" fill="var(--primary)" radius={12} />
+            </BarChart>
+          </ChartContainer>
         </CardContent>
       </Card>
     </article>

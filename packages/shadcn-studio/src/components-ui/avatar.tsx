@@ -16,7 +16,7 @@ import {
   avatarRootClassName,
 } from "./avatar.contract.js";
 
-type AvatarSize = "default" | "sm" | "lg";
+type AvatarSize = "default" | "lg" | "profile" | "sm";
 
 type AvatarProps = WithoutGovernedDataSlot<
   AvatarPrimitive.Root.Props & {

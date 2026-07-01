@@ -4,7 +4,31 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 
-const StatisticsSalesOverviewCard = ({ className }: { className?: string }) => (
+export type StatisticsSalesOverviewSide = {
+  label: string;
+  percentage: string;
+  count: string;
+};
+
+export type StatisticsSalesOverviewCardProps = {
+  title: string;
+  totalValue: string;
+  changePercentage: string;
+  orderSide: StatisticsSalesOverviewSide;
+  deliveredSide: StatisticsSalesOverviewSide;
+  progressValue: number;
+  className?: string;
+};
+
+const StatisticsSalesOverviewCard = ({
+  title,
+  totalValue,
+  changePercentage,
+  orderSide,
+  deliveredSide,
+  progressValue,
+  className,
+}: StatisticsSalesOverviewCardProps) => (
   <Card className={className}>
     <CardHeader className="flex flex-col gap-1">
       <div className="flex w-full items-center justify-between gap-2">
@@ -12,17 +36,17 @@ const StatisticsSalesOverviewCard = ({ className }: { className?: string }) => (
           {...blockSlotDomMarkerProps("metric.label")}
           className="text-muted-foreground"
         >
-          Sales Overview
+          {title}
         </span>
         <span {...blockSlotDomMarkerProps("metric.change")} className="text-sm">
-          +18.2%
+          {changePercentage}
         </span>
       </div>
       <span
         {...blockSlotDomMarkerProps("metric.value")}
         className="font-semibold text-2xl"
       >
-        $38.5k
+        {totalValue}
       </span>
     </CardHeader>
     <CardContent className="space-y-6">
@@ -32,11 +56,13 @@ const StatisticsSalesOverviewCard = ({ className }: { className?: string }) => (
             <div className="flex size-8 items-center justify-center rounded-md bg-primary/10">
               <ShoppingCartIcon className="size-4 text-primary" />
             </div>
-            <span>Order</span>
+            <span>{orderSide.label}</span>
           </div>
           <div className="flex flex-col gap-2">
-            <span className="font-medium text-xl">62.2%</span>
-            <span className="text-muted-foreground text-sm">6,440</span>
+            <span className="font-medium text-xl">{orderSide.percentage}</span>
+            <span className="text-muted-foreground text-sm">
+              {orderSide.count}
+            </span>
           </div>
         </div>
         <div className="flex flex-col items-center gap-1">
@@ -48,18 +74,22 @@ const StatisticsSalesOverviewCard = ({ className }: { className?: string }) => (
         </div>
         <div className="flex flex-1 flex-col gap-6">
           <div className="flex items-center justify-end gap-2">
-            <span>Delivered</span>
+            <span>{deliveredSide.label}</span>
             <div className="flex size-8 items-center justify-center rounded-md bg-primary/10">
               <PackageIcon className="size-4 text-primary" />
             </div>
           </div>
           <div className="flex flex-col items-end gap-2">
-            <span className="font-medium text-xl">25.5%</span>
-            <span className="text-muted-foreground text-sm">12,740</span>
+            <span className="font-medium text-xl">
+              {deliveredSide.percentage}
+            </span>
+            <span className="text-muted-foreground text-sm">
+              {deliveredSide.count}
+            </span>
           </div>
         </div>
       </div>
-      <Progress value={60} />
+      <Progress value={progressValue} />
     </CardContent>
   </Card>
 );
