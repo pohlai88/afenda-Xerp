@@ -1,28 +1,28 @@
 # shadcn/studio Presentation Architecture Blueprint
 
-| Field | Value |
-| --- | --- |
-| **Document class** | `architecture_blueprint` |
-| **Document role** | `domain_architecture_box_map` |
-| **Architectural identity** | **Blueprint Box name** (§4) — permanent |
-| **Workspace mapping** | [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) — `@afenda/*` npm name |
-| **Scope** | shadcn/studio Presentation — ERP frontend visual truth |
-| **Parent** | [Platform North Star](../architecture/afenda-platform-north-star.md) · [Presentation North Star](../NORTHSTAR/shadcn-studio-presentation-north-star.md) |
-| **Platform rollup** | [Afenda Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) § Design system (ERP frontend) |
-| **Constitutional ADR** | [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md) |
-| **MCP vendor ADR** | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) — retained; install target changed |
-| **Derived documents** | [PAS-006 family](../PAS/PRESENTATION/README.md) (006 · 006A–006D) · `@afenda/shadcn-studio` |
-| **Maturity** | Production Candidate — **not yet Enterprise Accepted** |
-| **Runtime stance** | Documentation only — references registries; does not duplicate PKG tables |
-| **Total PAS at maturity** | `5` (PAS-006 charter · PAS-006A–006D) |
-| **Live PAS today** | `2` (006 charter · 006A product) · `3` proposed (006B–006D) |
-| **Planned PAS** | `0` (extensions fold into 006B–006D slices) |
-| **Does not confer** | Business meaning, kernel vocabulary, permission evaluation, metadata workspace UI, accounting runtime |
-| **Machine registry** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) · `PKGR05A_SHADCN_STUDIO` |
-| **Quality target** | Enterprise **10 / 10** |
-| **Evidence standard** | [doc-evidence-standard.md](../../.cursor/skills/kernel-authority/reference/doc-evidence-standard.md) |
-| **Last reviewed** | 2026-06-29 |
-| **Next document** | [PAS family README](../PAS/PRESENTATION/README.md) · [PAS-006A](../PAS/PRESENTATION/PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md) · [shadcn-studio SKILL](../../.cursor/skills/shadcn-studio/SKILL.md) |
+| Field                      | Value                                                                                                                                                                                                |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Document class**         | `architecture_blueprint`                                                                                                                                                                             |
+| **Document role**          | `domain_architecture_box_map`                                                                                                                                                                        |
+| **Architectural identity** | **Blueprint Box name** (§4) — permanent                                                                                                                                                              |
+| **Workspace mapping**      | [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) — `@afenda/*` npm name                                                                         |
+| **Scope**                  | shadcn/studio Presentation — ERP frontend visual truth                                                                                                                                               |
+| **Parent**                 | [Platform North Star](../architecture/afenda-platform-north-star.md) · [Presentation North Star](../NORTHSTAR/shadcn-studio-presentation-north-star.md)                                              |
+| **Platform rollup**        | [Afenda Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) § Design system (ERP frontend)                                                                                     |
+| **Constitutional ADR**     | [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md)                                                                                                                                           |
+| **MCP vendor ADR**         | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) — retained; install target changed                                                                                             |
+| **Derived documents**      | [PAS-006 family](../PAS/PRESENTATION/README.md) (006 · 006A–006D) · `@afenda/shadcn-studio`                                                                                                          |
+| **Maturity**               | Production Candidate — **not yet Enterprise Accepted**                                                                                                                                               |
+| **Runtime stance**         | Documentation only — references registries; does not duplicate PKG tables                                                                                                                            |
+| **Total PAS at maturity**  | `5` (PAS-006 charter · PAS-006A–006D)                                                                                                                                                                |
+| **Live PAS today**         | `2` (006 charter · 006A product) · `3` proposed (006B–006D)                                                                                                                                          |
+| **Planned PAS**            | `0` (extensions fold into 006B–006D slices)                                                                                                                                                          |
+| **Does not confer**        | Business meaning, kernel vocabulary, permission evaluation, metadata workspace UI, accounting runtime                                                                                                |
+| **Machine registry**       | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) · `PKGR05A_SHADCN_STUDIO`                                                  |
+| **Quality target**         | Enterprise **10 / 10**                                                                                                                                                                               |
+| **Evidence standard**      | [doc-evidence-standard.md](../../.cursor/skills/kernel-authority/reference/doc-evidence-standard.md)                                                                                                 |
+| **Last reviewed**          | 2026-06-29                                                                                                                                                                                           |
+| **Next document**          | [PAS family README](../PAS/PRESENTATION/README.md) · [PAS-006A](../PAS/PRESENTATION/PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md) · [shadcn-studio SKILL](../../.cursor/skills/shadcn-studio/SKILL.md) |
 
 > **One sentence:** One **Design-layer shadcn/studio Presentation** box owns a **five-PAS frontend manufacturing family** — product runtime, relational inventory pipeline, ACPA acceptance, and metadata-driven surfaces — consumed by ERP and Storybook only.
 
@@ -59,12 +59,12 @@
 
 **Skill routing ([using-afenda-skills](../../.cursor/skills/using-afenda-skills/SKILL.md)):**
 
-| Task | Entry |
-| --- | --- |
-| MCP install / blocks / theme | [shadcn-studio SKILL](../../.cursor/skills/shadcn-studio/SKILL.md) |
-| CSS dist sync | [package-css-dist-sync SKILL](../../.cursor/skills/package-css-dist-sync/SKILL.md) |
-| Kernel boundary questions | [kernel-authority SKILL](../../.cursor/skills/kernel-authority/SKILL.md) — presentation is **outside** kernel |
-| Registry lane edits | `@foundation-registry-owner` |
+| Task                         | Entry                                                                                                         |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| MCP install / blocks / theme | [shadcn-studio SKILL](../../.cursor/skills/shadcn-studio/SKILL.md)                                            |
+| CSS dist sync                | [package-css-dist-sync SKILL](../../.cursor/skills/package-css-dist-sync/SKILL.md)                            |
+| Kernel boundary questions    | [kernel-authority SKILL](../../.cursor/skills/kernel-authority/SKILL.md) — presentation is **outside** kernel |
+| Registry lane edits          | `@foundation-registry-owner`                                                                                  |
 
 ---
 
@@ -86,35 +86,35 @@ Business **why single presentation owner:** [Presentation North Star §1](../NOR
 
 # 2. Upstream Traceability
 
-| Upstream | Link | This Blueprint uses |
-| --- | --- | --- |
-| Platform North Star | §4 Design / Application surfaces | Platform scope confirmation |
-| Presentation North Star | §4 capabilities · success signals | Box justification |
-| ADR-0027 | Frontend presentation reset | Constitutional sole chain |
-| ADR-0017 | MCP vendor approval | Install cwd and MCP servers |
-| ADR-0026 | Blueprint document class | This document structure |
+| Upstream                | Link                              | This Blueprint uses         |
+| ----------------------- | --------------------------------- | --------------------------- |
+| Platform North Star     | §4 Design / Application surfaces  | Platform scope confirmation |
+| Presentation North Star | §4 capabilities · success signals | Box justification           |
+| ADR-0027                | Frontend presentation reset       | Constitutional sole chain   |
+| ADR-0017                | MCP vendor approval               | Install cwd and MCP servers |
+| ADR-0026                | Blueprint document class          | This document structure     |
 
-| Presentation NS capability | Blueprint §4 box | NS §4 / §3 |
-| --- | --- | --- |
-| Governed frontend production chain | shadcn/studio Presentation | §3.3 |
-| Relational presentation inventory | shadcn/studio Presentation | §3.1 |
-| Stabilization-first block pipeline | shadcn/studio Presentation | §3.4 · P06-002–004 |
-| ACPA surface acceptance | shadcn/studio Presentation | §3.7 · PAS-006C |
-| Authorization-adjacent WCAG AA | shadcn/studio Presentation | §3.7 · PAS-006C |
-| Theme surface governance | shadcn/studio Presentation | §3.2 · PAS-006A |
-| Metadata-driven surface composition | shadcn/studio Presentation | §3.5 · PAS-006D |
-| Visual composition chain | shadcn/studio Presentation | §3.2 · PAS-006A |
-| Design delivery acceleration | shadcn/studio Presentation | §3.3 · PAS-006A |
+| Presentation NS capability          | Blueprint §4 box           | NS §4 / §3         |
+| ----------------------------------- | -------------------------- | ------------------ |
+| Governed frontend production chain  | shadcn/studio Presentation | §3.3               |
+| Relational presentation inventory   | shadcn/studio Presentation | §3.1               |
+| Stabilization-first block pipeline  | shadcn/studio Presentation | §3.4 · P06-002–004 |
+| ACPA surface acceptance             | shadcn/studio Presentation | §3.7 · PAS-006C    |
+| Authorization-adjacent WCAG AA      | shadcn/studio Presentation | §3.7 · PAS-006C    |
+| Theme surface governance            | shadcn/studio Presentation | §3.2 · PAS-006A    |
+| Metadata-driven surface composition | shadcn/studio Presentation | §3.5 · PAS-006D    |
+| Visual composition chain            | shadcn/studio Presentation | §3.2 · PAS-006A    |
+| Design delivery acceleration        | shadcn/studio Presentation | §3.3 · PAS-006A    |
 
 ---
 
 # 3. Layer Map
 
-| Layer | Blueprint boxes in scope | Role |
-| --- | --- | --- |
-| **Design** | shadcn/studio Presentation | Visual truth — blocks, theme, CSS export |
-| **Application** | `apps/erp`, `apps/storybook` | Delivery — compose presentation; ERP also wires auth/database/observability |
-| **Platform** | `@afenda/kernel` (adjacent, not imported) | Vocabulary and wire contracts — consumed by ERP integration spine, **not** by shadcn-studio |
+| Layer           | Blueprint boxes in scope                  | Role                                                                                        |
+| --------------- | ----------------------------------------- | ------------------------------------------------------------------------------------------- |
+| **Design**      | shadcn/studio Presentation                | Visual truth — blocks, theme, CSS export                                                    |
+| **Application** | `apps/erp`, `apps/storybook`              | Delivery — compose presentation; ERP also wires auth/database/observability                 |
+| **Platform**    | `@afenda/kernel` (adjacent, not imported) | Vocabulary and wire contracts — consumed by ERP integration spine, **not** by shadcn-studio |
 
 Presentation sits in the **Design** layer. ERP is **Application** and may import Design + Platform packages independently.
 
@@ -124,37 +124,37 @@ Presentation sits in the **Design** layer. ERP is **Application** and may import
 
 ## 3.1 Architecture Decision Matrix
 
-| Question | If Yes | If No |
-| --- | --- | --- |
-| Different business capability? | New box | Same box |
-| Different lifecycle / maturity gate? | New box | Same box |
-| Different ownership team? | New box | Same box |
-| Independent deployment unit? | Candidate split | Same box |
-| Shared platform vocabulary only? | Platform layer (kernel) | Design layer |
-| Visual / rendering surface only? | shadcn/studio Presentation | Not kernel |
-| Consumer wiring proof only? | ERP Integration Spine (PAS-001A) | Not presentation box |
+| Question                             | If Yes                           | If No                |
+| ------------------------------------ | -------------------------------- | -------------------- |
+| Different business capability?       | New box                          | Same box             |
+| Different lifecycle / maturity gate? | New box                          | Same box             |
+| Different ownership team?            | New box                          | Same box             |
+| Independent deployment unit?         | Candidate split                  | Same box             |
+| Shared platform vocabulary only?     | Platform layer (kernel)          | Design layer         |
+| Visual / rendering surface only?     | shadcn/studio Presentation       | Not kernel           |
+| Consumer wiring proof only?          | ERP Integration Spine (PAS-001A) | Not presentation box |
 
 **Applied decisions:**
 
-| Decision | Outcome | Reasoning |
-| --- | --- | --- |
-| Merge ui + appshell + css-authority + metadata-ui? | **No — retired** | ADR-0027 deleted parallel stacks; single MCP-fed owner |
-| Split Storybook into its own presentation box? | **No** | Storybook is Application lab; consumes same Design box |
-| Import kernel into shadcn-studio? | **No** | Presentation renders; kernel defines cross-package vocabulary ([kernel-authority](../../.cursor/skills/kernel-authority/SKILL.md)) |
-| Metadata workspace on deleted metadata-ui? | **No — greenfield on PAS-006D** | Core scalability path (NS §3.5) — not optional future |
-| Split PAS-006 into family? | **Yes — 006A–006D** | Single box · multiple PAS — same pattern as PAS-004 family |
+| Decision                                           | Outcome                         | Reasoning                                                                                                                          |
+| -------------------------------------------------- | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Merge ui + appshell + css-authority + metadata-ui? | **No — retired**                | ADR-0027 deleted parallel stacks; single MCP-fed owner                                                                             |
+| Split Storybook into its own presentation box?     | **No**                          | Storybook is Application lab; consumes same Design box                                                                             |
+| Import kernel into shadcn-studio?                  | **No**                          | Presentation renders; kernel defines cross-package vocabulary ([kernel-authority](../../.cursor/skills/kernel-authority/SKILL.md)) |
+| Metadata workspace on deleted metadata-ui?         | **No — greenfield on PAS-006D** | Core scalability path (NS §3.5) — not optional future                                                                              |
+| Split PAS-006 into family?                         | **Yes — 006A–006D**             | Single box · multiple PAS — same pattern as PAS-004 family                                                                         |
 
 ---
 
 ## 3.2 Canonical Dependency Categories
 
-| Category | Presentation box uses | Example |
-| --- | --- | --- |
-| **Compile-time** | ERP/Storybook import blocks and CSS from `@afenda/shadcn-studio` | `import { HeroSection01Block } from "@afenda/shadcn-studio"` |
-| **Runtime (integration)** | ERP assembles auth + database + observability separately | `@afenda/erp` approved runtime list |
-| **Metadata** | Metadata surfaces bind kernel wire at ERP layer — contracts in PAS-006D | PAS-006D · P06-008–P06-009 |
-| **Configuration** | Foundation disposition lane + CSS dist policy | `PKGR05A_SHADCN_STUDIO` |
-| **Knowledge** | ERP labels cite PAS-004 atoms — presentation does not own meaning | Read-only at app wiring layer |
+| Category                  | Presentation box uses                                                   | Example                                                      |
+| ------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------------ |
+| **Compile-time**          | ERP/Storybook import blocks and CSS from `@afenda/shadcn-studio`        | `import { HeroSection01Block } from "@afenda/shadcn-studio"` |
+| **Runtime (integration)** | ERP assembles auth + database + observability separately                | `@afenda/erp` approved runtime list                          |
+| **Metadata**              | Metadata surfaces bind kernel wire at ERP layer — contracts in PAS-006D | PAS-006D · P06-008–P06-009                                   |
+| **Configuration**         | Foundation disposition lane + CSS dist policy                           | `PKGR05A_SHADCN_STUDIO`                                      |
+| **Knowledge**             | ERP labels cite PAS-004 atoms — presentation does not own meaning       | Read-only at app wiring layer                                |
 
 ---
 
@@ -172,29 +172,29 @@ foundation-disposition.registry.ts PKGR05A_SHADCN_STUDIO (green-lane)
 packages/shadcn-studio/ filesystem
 ```
 
-| Blueprint box | Layer | Registry PKG | Why separate | Source | Reasoning (Because → Therefore) | Status | Governing PAS |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+| Blueprint box                  | Layer  | Registry PKG                        | Why separate                                          | Source                                | Reasoning (Because → Therefore)                                                                                                    | Status   | Governing PAS       |
+| ------------------------------ | ------ | ----------------------------------- | ----------------------------------------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | -------- | ------------------- |
 | **shadcn/studio Presentation** | Design | `PKG-026` → `@afenda/shadcn-studio` | Sole ERP visual owner + frontend manufacturing family | ADR-0027 · ADR-0017 · Presentation NS | **Because** one PKG must own the manufacturing chain · **Therefore** one box with PAS-006·006A–006D extensions — not five packages | **live** | PAS-006 · 006A–006D |
 
 ---
 
 ## 4.1 Blueprint Evidence Register
 
-| ID | Source | Tier | Justifies | Link |
-| --- | --- | --- | --- | --- |
-| B1 | ADR-0027 | T0 | Sole presentation chain · retired packages | [`docs/adr/ADR-0027-frontend-presentation-reset.md`](../adr/ADR-0027-frontend-presentation-reset.md) |
-| B2 | ADR-0017 | T0 | MCP vendor approval · install cwd | [`docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md`](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) |
-| B3 | Presentation North Star | T1 | Capability expectations | [`docs/NORTHSTAR/shadcn-studio-presentation-north-star.md`](../NORTHSTAR/shadcn-studio-presentation-north-star.md) |
-| B4 | PKG-026 / layer Design | T4 | Layer assignment | [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts) |
-| B5 | PKGR05A disposition | T5 | green-lane · gates · prohibited | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
-| B6 | ERP globals.css | T5 | Three-layer CSS composition | [`apps/erp/src/app/globals.css`](../../apps/erp/src/app/globals.css) |
+| ID  | Source                  | Tier | Justifies                                  | Link                                                                                                                       |
+| --- | ----------------------- | ---- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- |
+| B1  | ADR-0027                | T0   | Sole presentation chain · retired packages | [`docs/adr/ADR-0027-frontend-presentation-reset.md`](../adr/ADR-0027-frontend-presentation-reset.md)                       |
+| B2  | ADR-0017                | T0   | MCP vendor approval · install cwd          | [`docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md`](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) |
+| B3  | Presentation North Star | T1   | Capability expectations                    | [`docs/NORTHSTAR/shadcn-studio-presentation-north-star.md`](../NORTHSTAR/shadcn-studio-presentation-north-star.md)         |
+| B4  | PKG-026 / layer Design  | T4   | Layer assignment                           | [`package-registry.data.ts`](../../packages/architecture-authority/src/data/package-registry.data.ts)                      |
+| B5  | PKGR05A disposition     | T5   | green-lane · gates · prohibited            | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts)  |
+| B6  | ERP globals.css         | T5   | Three-layer CSS composition                | [`apps/erp/src/app/globals.css`](../../apps/erp/src/app/globals.css)                                                       |
 
 ---
 
 ## 4.2 Box Responsibility Matrix
 
-| Blueprint box | Owns (architectural) | Never owns (explicit exclusions) | Trace |
-| --- | --- | --- | --- |
+| Blueprint box                  | Owns (architectural)                                                                                                                                    | Never owns (explicit exclusions)                                                 | Trace                                  |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------------------------- |
 | **shadcn/studio Presentation** | MCP install cwd · theme/CSS · primitives · blocks · relational inventory (target) · Acceptance Record doctrine · metadata template path · Storybook lab | Kernel · permission eval · metadata schema · business runtime · legacy UI stacks | Presentation NS §3–§8 · PAS-006 family |
 
 **Kernel boundary (PAS-001 doctrine):**
@@ -212,11 +212,11 @@ apps/erp                → composes all three at Application layer
 
 ## 4.3 Change Impact Matrix
 
-| If this box changes… | PAS impacted | Registry PKG | Primary gates / tests | ADR required |
-| --- | --- | --- | --- | --- |
-| **shadcn/studio Presentation** | PAS-006 · 006A–006D | `PKG-026` | See §10.1 per PAS | ADR-0027 amendment if chain changes |
-| **New presentation box** | New PAS + §10 row | New PKG via registry owner | Architecture + disposition gates | Yes |
-| **Restore retired UI package** | Retired PAS-005 family | Archive-lane PKG | — | **Yes — mandatory** |
+| If this box changes…           | PAS impacted           | Registry PKG               | Primary gates / tests            | ADR required                        |
+| ------------------------------ | ---------------------- | -------------------------- | -------------------------------- | ----------------------------------- |
+| **shadcn/studio Presentation** | PAS-006 · 006A–006D    | `PKG-026`                  | See §10.1 per PAS                | ADR-0027 amendment if chain changes |
+| **New presentation box**       | New PAS + §10 row      | New PKG via registry owner | Architecture + disposition gates | Yes                                 |
+| **Restore retired UI package** | Retired PAS-005 family | Archive-lane PKG           | —                                | **Yes — mandatory**                 |
 
 ---
 
@@ -233,10 +233,10 @@ flowchart LR
   KERNEL["@afenda/kernel"] -.->|"PAS-001A spine\n(not via shadcn-studio)"| ERP
 ```
 
-| Blueprint box | Declared consumers | Dependency category (§3.2) | Notes |
-| --- | --- | --- | --- |
-| **shadcn/studio Presentation** | `apps/erp` · `apps/storybook` | Compile-time | PAS-006 **Consumers** ⊆ this list |
-| **ERP Application** | End users | Runtime | Approved runtime: auth, database, observability, shadcn-studio |
+| Blueprint box                  | Declared consumers            | Dependency category (§3.2) | Notes                                                          |
+| ------------------------------ | ----------------------------- | -------------------------- | -------------------------------------------------------------- |
+| **shadcn/studio Presentation** | `apps/erp` · `apps/storybook` | Compile-time               | PAS-006 **Consumers** ⊆ this list                              |
+| **ERP Application**            | End users                     | Runtime                    | Approved runtime: auth, database, observability, shadcn-studio |
 
 **Approved runtime edges** (machine truth — link only):
 
@@ -269,13 +269,13 @@ ERP Integration Spine (PAS-001A) + kernel vocabulary
 
 > **ADR-0027 note:** ERP on `main` is a skeleton. PAS-001A full spine is **partial** (B111 consumer wire only) until protected routes return — see [PAS-001A §1.4](../PAS/KERNEL/PAS-001A-ERP-INTEGRATION-SPINE-STANDARD.md#14-adr-0027-runtime-suspension-2026-06-29). Presentation rebuild (this Blueprint) and spine rebuild (PAS-001A-R1) are **parallel tracks** — presentation does not substitute for integration proof.
 
-| Upstream box | Downstream box | Relationship (conceptual) | Category (§3.2) |
-| --- | --- | --- | --- |
-| shadcn/studio MCP | shadcn/studio Presentation | feeds install artifacts | Configuration |
-| shadcn/studio Presentation | ERP Application | supplies blocks + CSS | Compile-time |
-| shadcn/studio Presentation | Storybook Application | supplies blocks for lab stories | Compile-time |
-| Kernel Vocabulary | ERP Application | supplies wire context (not presentation) | Compile-time |
-| Enterprise knowledge | ERP Application | supplies accepted labels (representations) | Knowledge |
+| Upstream box               | Downstream box             | Relationship (conceptual)                  | Category (§3.2) |
+| -------------------------- | -------------------------- | ------------------------------------------ | --------------- |
+| shadcn/studio MCP          | shadcn/studio Presentation | feeds install artifacts                    | Configuration   |
+| shadcn/studio Presentation | ERP Application            | supplies blocks + CSS                      | Compile-time    |
+| shadcn/studio Presentation | Storybook Application      | supplies blocks for lab stories            | Compile-time    |
+| Kernel Vocabulary          | ERP Application            | supplies wire context (not presentation)   | Compile-time    |
+| Enterprise knowledge       | ERP Application            | supplies accepted labels (representations) | Knowledge       |
 
 **ERP CSS composition** (AdminCN four-import chain — order matters):
 
@@ -350,14 +350,14 @@ MCP install (packages/shadcn-studio cwd)
 
 **Integration invariants (E2E):**
 
-| # | Invariant | Enforced at |
-| --- | --- | --- |
-| E1 | No `@afenda/kernel` import in shadcn-studio | PKGR05A prohibited · `quality:boundaries` |
-| E2 | CSS consumed from package `dist/` only | `check:package-css-dist-sync` |
-| E3 | Raw MCP blocks ≠ production-ready without Acceptance Record | NS §3.7 · PAS-006C (target) |
-| E4 | Customize only after Stabilized + Theme-bound | NS §3.4 · PAS-006B (target) |
-| E5 | Metadata surfaces bind kernel wire — not embedded in presentation PKG | PAS-006D · ERP context layer |
-| E6 | Docs claim only what slices + gates prove | `check:documentation-drift` · P06-010 attestation |
+| #   | Invariant                                                             | Enforced at                                       |
+| --- | --------------------------------------------------------------------- | ------------------------------------------------- |
+| E1  | No `@afenda/kernel` import in shadcn-studio                           | PKGR05A prohibited · `quality:boundaries`         |
+| E2  | CSS consumed from package `dist/` only                                | `check:package-css-dist-sync`                     |
+| E3  | Raw MCP blocks ≠ production-ready without Acceptance Record           | NS §3.7 · PAS-006C (target)                       |
+| E4  | Customize only after Stabilized + Theme-bound                         | NS §3.4 · PAS-006B (target)                       |
+| E5  | Metadata surfaces bind kernel wire — not embedded in presentation PKG | PAS-006D · ERP context layer                      |
+| E6  | Docs claim only what slices + gates prove                             | `check:documentation-drift` · P06-010 attestation |
 
 ---
 
@@ -365,17 +365,17 @@ MCP install (packages/shadcn-studio cwd)
 
 North Star §3.1 defines nine relational layers. Blueprint maps each layer to PAS ownership and slice closure:
 
-| Layer (NS §3.1) | Architectural owner | Governing PAS | Slice closure |
-| --- | --- | --- | --- |
-| Theme Preset | shadcn/studio Presentation | PAS-006A | P06-001 ✓ |
-| Primitive | shadcn/studio Presentation | PAS-006A | P06-001 ✓ |
-| Variant | shadcn/studio Presentation | PAS-006A | P06-001 ✓ |
-| Block | shadcn/studio Presentation | PAS-006A · 006B | P06-001 ✓ · P06-004 |
-| Slot | shadcn/studio Presentation | PAS-006B | P06-003 |
-| Block Data Contract | shadcn/studio Presentation | PAS-006B | P06-003 |
-| Surface Template | shadcn/studio Presentation | PAS-006D | P06-009 |
-| Operator Surface | ERP Application + Storybook lab | PAS-006C · 006D | P06-006–P06-009 |
-| Acceptance Record | shadcn/studio Presentation (contract) | PAS-006C | P06-005–P06-007 |
+| Layer (NS §3.1)     | Architectural owner                   | Governing PAS   | Slice closure       |
+| ------------------- | ------------------------------------- | --------------- | ------------------- |
+| Theme Preset        | shadcn/studio Presentation            | PAS-006A        | P06-001 ✓           |
+| Primitive           | shadcn/studio Presentation            | PAS-006A        | P06-001 ✓           |
+| Variant             | shadcn/studio Presentation            | PAS-006A        | P06-001 ✓           |
+| Block               | shadcn/studio Presentation            | PAS-006A · 006B | P06-001 ✓ · P06-004 |
+| Slot                | shadcn/studio Presentation            | PAS-006B        | P06-003             |
+| Block Data Contract | shadcn/studio Presentation            | PAS-006B        | P06-003             |
+| Surface Template    | shadcn/studio Presentation            | PAS-006D        | P06-009             |
+| Operator Surface    | ERP Application + Storybook lab       | PAS-006C · 006D | P06-006–P06-009     |
+| Acceptance Record   | shadcn/studio Presentation (contract) | PAS-006C        | P06-005–P06-007     |
 
 **Block lifecycle** (NS §8.1 — registry enforcement target P06-004):
 
@@ -390,13 +390,13 @@ Imported → Normalized → Stabilized → Theme-bound → Metadata-bound
 
 One Blueprint box · one PKG-026 · five PAS documents (charter + four derived):
 
-| PAS | Role | Maturity | Agent entry |
-| --- | --- | --- | --- |
-| **PAS-006** | Constitutional charter · manufacturing doctrine | MVP Authority | NS alignment · scope disputes |
-| **PAS-006A** | Product runtime — theme, CSS, MCP, exports | Production Candidate | MCP install · CSS · block exports |
-| **PAS-006B** | Relational inventory · lifecycle · slots · contracts | Proposed | Registry · slot map · lifecycle |
-| **PAS-006C** | Acceptance Record · ACPA · auth WCAG 2.2 AA | Proposed | Operator-surface acceptance |
-| **PAS-006D** | Metadata binding · surface templates | Proposed | Metadata workspace path |
+| PAS          | Role                                                 | Maturity             | Agent entry                       |
+| ------------ | ---------------------------------------------------- | -------------------- | --------------------------------- |
+| **PAS-006**  | Constitutional charter · manufacturing doctrine      | MVP Authority        | NS alignment · scope disputes     |
+| **PAS-006A** | Product runtime — theme, CSS, MCP, exports           | Production Candidate | MCP install · CSS · block exports |
+| **PAS-006B** | Relational inventory · lifecycle · slots · contracts | Proposed             | Registry · slot map · lifecycle   |
+| **PAS-006C** | Acceptance Record · ACPA · auth WCAG 2.2 AA          | Proposed             | Operator-surface acceptance       |
+| **PAS-006D** | Metadata binding · surface templates                 | Proposed             | Metadata workspace path           |
 
 **Documentation sync chain:**
 
@@ -412,29 +412,29 @@ packages/shadcn-studio/src/ + governance scripts (slice-gated)
 pnpm check:documentation-drift · disposition · boundaries
 ```
 
-| Event | Update order |
-| --- | --- |
-| New NS §4 capability | NS → Blueprint §2 + §10 → PAS amendment → SLICE catalog row |
-| Slice delivered | PAS metadata · skill mirror · pas-status-index · Blueprint §10 |
-| Enterprise Accepted | P06-010 → disposition promotion via `@foundation-registry-owner` |
+| Event                | Update order                                                     |
+| -------------------- | ---------------------------------------------------------------- |
+| New NS §4 capability | NS → Blueprint §2 + §10 → PAS amendment → SLICE catalog row      |
+| Slice delivered      | PAS metadata · skill mirror · pas-status-index · Blueprint §10   |
+| Enterprise Accepted  | P06-010 → disposition promotion via `@foundation-registry-owner` |
 
 ---
 
 # 6. Filesystem Map (reference paths)
 
-| Surface | Path | Role |
-| --- | --- | --- |
-| Public barrel | `packages/shadcn-studio/src/index.ts` | Block exports · theme · registry |
-| Primitives | `packages/shadcn-studio/src/components/ui/` | shadcn CLI targets |
-| Blocks | `packages/shadcn-studio/src/components/shadcn-studio/blocks/` | MCP-installed blocks |
-| Theme | `packages/shadcn-studio/src/theme/theme-presets.ts` | JSON-serializable presets |
-| Block registry | `packages/shadcn-studio/src/registry/studio-block-parity.registry.ts` | Parity inventory |
-| CSS source | `packages/shadcn-studio/src/styles/shadcn-studio.css` | Authoring surface |
-| CSS dist | `packages/shadcn-studio/dist/shadcn-studio.css` | App import target |
-| ERP globals | `apps/erp/src/app/globals.css` | Composition entry |
-| Storybook stories | `apps/storybook/stories/shadcn-studio-*.stories.tsx` | Block verification |
-| MCP config | `.cursor/mcp.json` · `shadcn-studio.config.json` | Agent install paths |
-| Agent skill | `.cursor/skills/shadcn-studio/SKILL.md` | Operational workflow |
+| Surface           | Path                                                                  | Role                             |
+| ----------------- | --------------------------------------------------------------------- | -------------------------------- |
+| Public barrel     | `packages/shadcn-studio/src/index.ts`                                 | Block exports · theme · registry |
+| Primitives        | `packages/shadcn-studio/src/components/ui/`                           | shadcn CLI targets               |
+| Blocks            | `packages/shadcn-studio/src/components/shadcn-studio/blocks/`         | MCP-installed blocks             |
+| Theme             | `packages/shadcn-studio/src/theme/theme-presets.ts`                   | JSON-serializable presets        |
+| Block registry    | `packages/shadcn-studio/src/registry/studio-block-parity.registry.ts` | Parity inventory                 |
+| CSS source        | `packages/shadcn-studio/src/styles/shadcn-studio.css`                 | Authoring surface                |
+| CSS dist          | `packages/shadcn-studio/dist/shadcn-studio.css`                       | App import target                |
+| ERP globals       | `apps/erp/src/app/globals.css`                                        | Composition entry                |
+| Storybook stories | `apps/storybook/stories/shadcn-studio-*.stories.tsx`                  | Block verification               |
+| MCP config        | `.cursor/mcp.json` · `shadcn-studio.config.json`                      | Agent install paths              |
+| Agent skill       | `.cursor/skills/shadcn-studio/SKILL.md`                               | Operational workflow             |
 
 ---
 
@@ -461,15 +461,15 @@ PAS-006 family **satisfies** §7 for the live box. Before **any new** presentati
 
 # 8. Blocked and Retired Boxes
 
-| Blueprint box | Registry PKG | Status | Blocker / retire ADR | Required before proceeding |
-| --- | --- | --- | --- | --- |
-| Governed UI primitives | `@afenda/ui` | **retired** | ADR-0027 | New ADR + Blueprint amendment to recreate |
-| ERP shell (legacy) | `@afenda/appshell` | **retired** | ADR-0027 | Same |
-| Metadata UI (legacy) | `@afenda/metadata-ui` | **retired** | ADR-0027 | Greenfield on shadcn-studio instead |
-| UI composition (legacy) | `@afenda/ui-composition` | **retired** | ADR-0027 | Same |
-| CSS authority (legacy) | `@afenda/css-authority` · `PKGR05_CSS_AUTHORITY` | **retired** | ADR-0027 | Theme surface lives in shadcn-studio |
-| Design system (legacy) | `@afenda/design-system` · `PKGR05B_DESIGN_RETIREMENT` | **retired** | ADR-0025 · ADR-0027 | Do not recreate package |
-| Metadata workspace UI | — | **planned** | PAS-006D · P06-008–P06-009 | Author slice under PAS-006D (core path — NS §3.5) |
+| Blueprint box           | Registry PKG                                          | Status      | Blocker / retire ADR       | Required before proceeding                        |
+| ----------------------- | ----------------------------------------------------- | ----------- | -------------------------- | ------------------------------------------------- |
+| Governed UI primitives  | `@afenda/ui`                                          | **retired** | ADR-0027                   | New ADR + Blueprint amendment to recreate         |
+| ERP shell (legacy)      | `@afenda/appshell`                                    | **retired** | ADR-0027                   | Same                                              |
+| Metadata UI (legacy)    | `@afenda/metadata-ui`                                 | **retired** | ADR-0027                   | Greenfield on shadcn-studio instead               |
+| UI composition (legacy) | `@afenda/ui-composition`                              | **retired** | ADR-0027                   | Same                                              |
+| CSS authority (legacy)  | `@afenda/css-authority` · `PKGR05_CSS_AUTHORITY`      | **retired** | ADR-0027                   | Theme surface lives in shadcn-studio              |
+| Design system (legacy)  | `@afenda/design-system` · `PKGR05B_DESIGN_RETIREMENT` | **retired** | ADR-0025 · ADR-0027        | Do not recreate package                           |
+| Metadata workspace UI   | —                                                     | **planned** | PAS-006D · P06-008–P06-009 | Author slice under PAS-006D (core path — NS §3.5) |
 
 Disposition: `archive-lane` for retired PKG rows in [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts).
 
@@ -477,17 +477,17 @@ Disposition: `archive-lane` for retired PKG rows in [`foundation-disposition.reg
 
 # 9. Blueprint → PAS Handoff Contract
 
-| §4 field | Pre-fills PAS-006 family |
-| --- | --- |
-| Blueprint box name | Metadata `Blueprint box` — **shadcn/studio Presentation** |
-| Registry PKG | `@afenda/shadcn-studio` · `PKG-026` |
-| Layer | Design |
-| §4.2 Owns / never owns | PAS-006 §2 distill · 006A–006D §0 boundaries |
-| §5.2 E2E chain | PAS §0 agent path · shadcn-studio SKILL |
-| §5.3 inventory layers | PAS-006B §4 · SLICE P06-002–P06-004 |
-| §5 consumers | Metadata `Consumers`: `apps/erp`, `apps/storybook` |
-| §8 retired boxes | Family-wide hard stops (PRESENTATION README) |
-| Governing PAS | PAS-006 · 006A–006D (pick by work type — §13) |
+| §4 field               | Pre-fills PAS-006 family                                  |
+| ---------------------- | --------------------------------------------------------- |
+| Blueprint box name     | Metadata `Blueprint box` — **shadcn/studio Presentation** |
+| Registry PKG           | `@afenda/shadcn-studio` · `PKG-026`                       |
+| Layer                  | Design                                                    |
+| §4.2 Owns / never owns | PAS-006 §2 distill · 006A–006D §0 boundaries              |
+| §5.2 E2E chain         | PAS §0 agent path · shadcn-studio SKILL                   |
+| §5.3 inventory layers  | PAS-006B §4 · SLICE P06-002–P06-004                       |
+| §5 consumers           | Metadata `Consumers`: `apps/erp`, `apps/storybook`        |
+| §8 retired boxes       | Family-wide hard stops (PRESENTATION README)              |
+| Governing PAS          | PAS-006 · 006A–006D (pick by work type — §13)             |
 
 **Workflow:** Define (§4) → Plan (target PAS §4 + §12) → Build (SLICE `P06-*` handoff) → Ship (§10 sync)
 
@@ -499,13 +499,13 @@ PAS owns: contract types · gate commands · slice order. Blueprint does not dup
 
 **Total PAS at maturity: 5** (006 charter · 006A–006D)
 
-| PAS | Title | Blueprint box (§4) | Live / Total slices | Status |
-| --- | --- | --- | --- | --- |
-| PAS-006 | shadcn-studio Frontend Standard (charter) | shadcn/studio Presentation | — | **Active** · MVP Authority |
-| PAS-006A | shadcn-studio Product Standard | shadcn/studio Presentation | 1 / 1 | **Active** · Production Candidate |
-| PAS-006B | Inventory & Production Pipeline | shadcn/studio Presentation | 0 / 3 | **Proposed** |
-| PAS-006C | Surface Acceptance (ACPA) | shadcn/studio Presentation | 0 / 3 | **Proposed** |
-| PAS-006D | Metadata-Driven Surfaces | shadcn/studio Presentation | 0 / 2 | **Proposed** |
+| PAS      | Title                                     | Blueprint box (§4)         | Live / Total slices | Status                            |
+| -------- | ----------------------------------------- | -------------------------- | ------------------- | --------------------------------- |
+| PAS-006  | shadcn-studio Frontend Standard (charter) | shadcn/studio Presentation | —                   | **Active** · MVP Authority        |
+| PAS-006A | shadcn-studio Product Standard            | shadcn/studio Presentation | 1 / 1               | **Active** · Production Candidate |
+| PAS-006B | Inventory & Production Pipeline           | shadcn/studio Presentation | 0 / 3               | **Proposed**                      |
+| PAS-006C | Surface Acceptance (ACPA)                 | shadcn/studio Presentation | 0 / 3               | **Proposed**                      |
+| PAS-006D | Metadata-Driven Surfaces                  | shadcn/studio Presentation | 0 / 2               | **Proposed**                      |
 
 Retired: PAS-005 family merged into PAS-006A baseline (P06-001) per ADR-0027.
 
@@ -517,18 +517,18 @@ Family index: [`PRESENTATION/README.md`](../PAS/PRESENTATION/README.md)
 
 **Authoritative catalog:** [`PRESENTATION/SLICE/presentation-slice-catalog.md`](../PAS/PRESENTATION/SLICE/presentation-slice-catalog.md)
 
-| Slice | PAS | Title | Status |
-| --- | --- | --- | --- |
-| P06-001 | 006A | Product baseline — theme, CSS, MCP, lab, ERP globals | **Delivered** |
-| P06-002 | 006B | Relational inventory registry scaffold | **Delivered** |
-| P06-003 | 006B | Block slot + block data contracts | **Delivered** |
-| P06-004 | 006B | Block lifecycle in registry | **Delivered** |
-| P06-005 | 006C | Acceptance Record wire contract | **Delivered** |
-| P06-006 | 006C | ACPA block acceptance gate suite | **Delivered** |
-| P06-007 | 006C | Auth-adjacent WCAG 2.2 AA pack | **Delivered** |
-| P06-008 | 006D | Metadata binding contract | **Delivered** |
-| P06-009 | 006D | Surface template registry | **Delivered** |
-| P06-010 | 006 family | Enterprise Accepted attestation | **Delivered** (PKGR05A promotion via registry owner) |
+| Slice   | PAS        | Title                                                | Status                                               |
+| ------- | ---------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| P06-001 | 006A       | Product baseline — theme, CSS, MCP, lab, ERP globals | **Delivered**                                        |
+| P06-002 | 006B       | Relational inventory registry scaffold               | **Delivered**                                        |
+| P06-003 | 006B       | Block slot + block data contracts                    | **Delivered**                                        |
+| P06-004 | 006B       | Block lifecycle in registry                          | **Delivered**                                        |
+| P06-005 | 006C       | Acceptance Record wire contract                      | **Delivered**                                        |
+| P06-006 | 006C       | ACPA block acceptance gate suite                     | **Delivered**                                        |
+| P06-007 | 006C       | Auth-adjacent WCAG 2.2 AA pack                       | **Delivered**                                        |
+| P06-008 | 006D       | Metadata binding contract                            | **Delivered**                                        |
+| P06-009 | 006D       | Surface template registry                            | **Delivered**                                        |
+| P06-010 | 006 family | Enterprise Accepted attestation                      | **Delivered** (PKGR05A promotion via registry owner) |
 
 **Next sequence item:** **PKGR05A disposition promotion** — `@foundation-registry-owner`.
 
@@ -536,12 +536,12 @@ Family index: [`PRESENTATION/README.md`](../PAS/PRESENTATION/README.md)
 
 # 11. PAS Maturity Rollup (read-only)
 
-| Blueprint box | Registry PKG | PAS | Maturity |
-| --- | --- | --- | --- |
-| shadcn/studio Presentation | `PKG-026` → `@afenda/shadcn-studio` | PAS-006 (charter) | MVP Authority |
-| shadcn/studio Presentation | `PKG-026` | PAS-006A | Production Candidate |
-| shadcn/studio Presentation | `PKG-026` | PAS-006B–006D | Proposed |
-| shadcn/studio Presentation | `PKG-026` | **Family rollup** | Production Candidate — **not Enterprise Accepted** until P06-010 |
+| Blueprint box              | Registry PKG                        | PAS               | Maturity                                                         |
+| -------------------------- | ----------------------------------- | ----------------- | ---------------------------------------------------------------- |
+| shadcn/studio Presentation | `PKG-026` → `@afenda/shadcn-studio` | PAS-006 (charter) | MVP Authority                                                    |
+| shadcn/studio Presentation | `PKG-026`                           | PAS-006A          | Production Candidate                                             |
+| shadcn/studio Presentation | `PKG-026`                           | PAS-006B–006D     | Proposed                                                         |
+| shadcn/studio Presentation | `PKG-026`                           | **Family rollup** | Production Candidate — **not Enterprise Accepted** until P06-010 |
 
 ---
 
@@ -572,28 +572,28 @@ Family index: [`PRESENTATION/README.md`](../PAS/PRESENTATION/README.md)
 
 ## PAS picker (work type → PAS)
 
-| Work type | PAS | Slice queue |
-| --- | --- | --- |
-| Doctrine · NS alignment · scope dispute | PAS-006 | — |
-| Theme · CSS · MCP install · block exports | PAS-006A | P06-001 ✓ |
+| Work type                                           | PAS      | Slice queue     |
+| --------------------------------------------------- | -------- | --------------- |
+| Doctrine · NS alignment · scope dispute             | PAS-006  | —               |
+| Theme · CSS · MCP install · block exports           | PAS-006A | P06-001 ✓       |
 | Registry · slots · lifecycle · block data contracts | PAS-006B | P06-002–P06-004 |
-| Acceptance Record · ACPA · auth WCAG AA | PAS-006C | P06-005–P06-007 |
-| Metadata binding · surface templates | PAS-006D | P06-008–P06-009 |
+| Acceptance Record · ACPA · auth WCAG AA             | PAS-006C | P06-005–P06-007 |
+| Metadata binding · surface templates                | PAS-006D | P06-008–P06-009 |
 
 ## Agent decision matrix
 
-| Question | If yes → |
-| --- | --- |
-| MCP block install or theme work? | PAS-006A · shadcn-studio SKILL · cwd `packages/shadcn-studio` |
-| Block lifecycle / slot / inventory registry? | PAS-006B · P06-002+ handoff |
-| Operator-surface acceptance / ACPA? | PAS-006C · P06-005+ handoff |
-| Metadata workspace / surface template? | PAS-006D · P06-008+ handoff |
-| CSS source edited? | sync dist + `pnpm check:package-css-dist-sync` |
-| Kernel ID or OperatingContext in presentation package? | **Stop** — kernel-authority · move to ERP spine or kernel |
-| Restore appshell/ui/css-authority? | **Stop** — ADR-0027 · §8 retired |
-| Registry lane change? | `@foundation-registry-owner` |
-| Business label / term authority? | enterprise-knowledge PAS-004 — not presentation box |
-| Wire block to ERP without Acceptance Record? | **Stop** — PAS-006C · NS §3.7 |
+| Question                                               | If yes →                                                      |
+| ------------------------------------------------------ | ------------------------------------------------------------- |
+| MCP block install or theme work?                       | PAS-006A · shadcn-studio SKILL · cwd `packages/shadcn-studio` |
+| Block lifecycle / slot / inventory registry?           | PAS-006B · P06-002+ handoff                                   |
+| Operator-surface acceptance / ACPA?                    | PAS-006C · P06-005+ handoff                                   |
+| Metadata workspace / surface template?                 | PAS-006D · P06-008+ handoff                                   |
+| CSS source edited?                                     | sync dist + `pnpm check:package-css-dist-sync`                |
+| Kernel ID or OperatingContext in presentation package? | **Stop** — kernel-authority · move to ERP spine or kernel     |
+| Restore appshell/ui/css-authority?                     | **Stop** — ADR-0027 · §8 retired                              |
+| Registry lane change?                                  | `@foundation-registry-owner`                                  |
+| Business label / term authority?                       | enterprise-knowledge PAS-004 — not presentation box           |
+| Wire block to ERP without Acceptance Record?           | **Stop** — PAS-006C · NS §3.7                                 |
 
 ## Runtime chain (implement mode)
 
@@ -627,23 +627,23 @@ Target PAS §13 gates → disposition check
 
 ## References
 
-| Document | Role |
-| --- | --- |
-| Presentation North Star | [`shadcn-studio-presentation-north-star.md`](../NORTHSTAR/shadcn-studio-presentation-north-star.md) |
-| Constitutional ADR | [`ADR-0027-frontend-presentation-reset.md`](../adr/ADR-0027-frontend-presentation-reset.md) |
-| MCP vendor ADR | [`ADR-0017-shadcn-studio-ui-delivery-acceleration.md`](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) |
-| PAS family README | [`PRESENTATION/README.md`](../PAS/PRESENTATION/README.md) |
-| PAS-006 (charter) | [`PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md`](../PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) |
-| PAS-006A (product) | [`PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md`](../PAS/PRESENTATION/PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md) |
-| PAS-006B (inventory) | [`PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md`](../PAS/PRESENTATION/PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md) |
-| PAS-006C (acceptance) | [`PAS-006C-SURFACE-ACCEPTANCE-ACPA-STANDARD.md`](../PAS/PRESENTATION/PAS-006C-SURFACE-ACCEPTANCE-ACPA-STANDARD.md) |
-| PAS-006D (metadata) | [`PAS-006D-METADATA-DRIVEN-SURFACES-STANDARD.md`](../PAS/PRESENTATION/PAS-006D-METADATA-DRIVEN-SURFACES-STANDARD.md) |
-| Slice catalog | [`presentation-slice-catalog.md`](../PAS/PRESENTATION/SLICE/presentation-slice-catalog.md) |
-| Platform Blueprint rollup | [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md) |
-| Blueprint template | [`.cursor/skills/kernel-authority/reference/blueprint-template.md`](../../.cursor/skills/kernel-authority/reference/blueprint-template.md) |
-| shadcn-studio SKILL | [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md) |
-| kernel-authority SKILL | [`.cursor/skills/kernel-authority/SKILL.md`](../../.cursor/skills/kernel-authority/SKILL.md) |
-| package-css-dist-sync SKILL | [`.cursor/skills/package-css-dist-sync/SKILL.md`](../../.cursor/skills/package-css-dist-sync/SKILL.md) |
+| Document                    | Role                                                                                                                                       |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| Presentation North Star     | [`shadcn-studio-presentation-north-star.md`](../NORTHSTAR/shadcn-studio-presentation-north-star.md)                                        |
+| Constitutional ADR          | [`ADR-0027-frontend-presentation-reset.md`](../adr/ADR-0027-frontend-presentation-reset.md)                                                |
+| MCP vendor ADR              | [`ADR-0017-shadcn-studio-ui-delivery-acceleration.md`](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md)                          |
+| PAS family README           | [`PRESENTATION/README.md`](../PAS/PRESENTATION/README.md)                                                                                  |
+| PAS-006 (charter)           | [`PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md`](../PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md)                             |
+| PAS-006A (product)          | [`PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md`](../PAS/PRESENTATION/PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md)                             |
+| PAS-006B (inventory)        | [`PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md`](../PAS/PRESENTATION/PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md)             |
+| PAS-006C (acceptance)       | [`PAS-006C-SURFACE-ACCEPTANCE-ACPA-STANDARD.md`](../PAS/PRESENTATION/PAS-006C-SURFACE-ACCEPTANCE-ACPA-STANDARD.md)                         |
+| PAS-006D (metadata)         | [`PAS-006D-METADATA-DRIVEN-SURFACES-STANDARD.md`](../PAS/PRESENTATION/PAS-006D-METADATA-DRIVEN-SURFACES-STANDARD.md)                       |
+| Slice catalog               | [`presentation-slice-catalog.md`](../PAS/PRESENTATION/SLICE/presentation-slice-catalog.md)                                                 |
+| Platform Blueprint rollup   | [`afenda-architecture-blueprint.md`](../architecture/afenda-architecture-blueprint.md)                                                     |
+| Blueprint template          | [`.cursor/skills/kernel-authority/reference/blueprint-template.md`](../../.cursor/skills/kernel-authority/reference/blueprint-template.md) |
+| shadcn-studio SKILL         | [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md)                                                     |
+| kernel-authority SKILL      | [`.cursor/skills/kernel-authority/SKILL.md`](../../.cursor/skills/kernel-authority/SKILL.md)                                               |
+| package-css-dist-sync SKILL | [`.cursor/skills/package-css-dist-sync/SKILL.md`](../../.cursor/skills/package-css-dist-sync/SKILL.md)                                     |
 
 ---
 
@@ -651,12 +651,12 @@ Target PAS §13 gates → disposition check
 
 This Blueprint owns **what presentation box exists, why one box decomposes into a five-PAS manufacturing family, how MCP → shadcn-studio → apps composes, what the box owns, and which PAS + slice governs each work type**.
 
-| Identity | Owner | Changes when |
-| --- | --- | --- |
-| **Blueprint Box name** | This document §4 | Architectural split/merge (ADR + §4.3) |
-| **`@afenda/shadcn-studio`** | `package-registry.data.ts` PKG-026 | Rename/scaffold — box unchanged |
-| **Lane / disposition** | `foundation-disposition.registry.ts` PKGR05A | `@foundation-registry-owner` |
-| **PAS family** | `docs/PAS/PRESENTATION/` | In-box extension — no new PKG without ADR |
+| Identity                    | Owner                                        | Changes when                              |
+| --------------------------- | -------------------------------------------- | ----------------------------------------- |
+| **Blueprint Box name**      | This document §4                             | Architectural split/merge (ADR + §4.3)    |
+| **`@afenda/shadcn-studio`** | `package-registry.data.ts` PKG-026           | Rename/scaffold — box unchanged           |
+| **Lane / disposition**      | `foundation-disposition.registry.ts` PKGR05A | `@foundation-registry-owner`              |
+| **PAS family**              | `docs/PAS/PRESENTATION/`                     | In-box extension — no new PKG without ADR |
 
 Presentation North Star owns **capability expectations and the manufacturing operating model**. PAS-006 family owns **doctrine, contracts, gates, and slice order**. Kernel and Enterprise Knowledge own **shape and meaning** — ERP composes them at the Application layer.
 

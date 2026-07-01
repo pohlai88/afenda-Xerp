@@ -13,7 +13,7 @@ const ACTIVE_PACKAGES = [
     layer: "ERPSpine",
     lifecycle: "retired",
     purpose:
-      "Retired per ADR-0027 — legacy ERP shell removed; presentation via @afenda/shadcn-studio",
+      "Retired per ADR-0027 — legacy `@afenda/appshell` removed; app shell via `@afenda/shadcn-studio` (`components/app-shell/`)",
     publicApiOwner: "ERP Spine Authority",
     layerDepExempt: false,
     filesystemRequired: false,

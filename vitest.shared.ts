@@ -139,12 +139,20 @@ export function createReactProject(
     resolve: {
       alias: [
         {
+          find: "@/components/shadcn-studio",
+          replacement: resolve(shadcnStudioSrcRoot, "components-layouts"),
+        },
+        {
+          find: "@/components-auth-shell",
+          replacement: resolve(shadcnStudioSrcRoot, "components-auth-shell"),
+        },
+        {
           find: "@/components/ui",
-          replacement: resolve(shadcnStudioSrcRoot, "components/ui"),
+          replacement: resolve(shadcnStudioSrcRoot, "components-ui"),
         },
         {
           find: "@/lib/utils",
-          replacement: resolve(shadcnStudioSrcRoot, "lib/utils.ts"),
+          replacement: resolve(shadcnStudioSrcRoot, "utils/utils.ts"),
         },
         {
           find: "@afenda/shadcn-studio",

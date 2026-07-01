@@ -185,7 +185,7 @@ OperatingContext (branded kernel shape)
 | Parse / assert | `@afenda/permissions` | Wire ingress for grant scope (**IS-001**) | — |
 | Assembly | `apps/erp` | Full `OperatingContext` (**IS-002**) | imports kernel + permissions |
 | Persistence | `@afenda/database` | Tenant, company, org rows | — |
-| Presentation | PAS-006 ERP shell (target) — *was* `@afenda/appshell` | Shell labels + switch UI | receives branded context |
+| Presentation | PAS-006 App Shell (target) — *was* `@afenda/appshell` | Shell labels + switch UI | receives branded context |
 | Authorization bridge | `apps/erp` metadata runtime (target) — *was* `@afenda/metadata-ui` | Verified context for metadata (**IS-003**) | — |
 
 Key surfaces: `PermissionScopeWireContext` assert/parse → Permissions · branded `OperatingContext` slot → kernel projection · `resolvePermissionScopeContext` → Permissions · full assembly → `apps/erp`.

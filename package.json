@@ -313,6 +313,8 @@
     "studio:toolbar:docs": "npx shadcn-studio-extension-cli@latest -a 3001 -p 3200 -s",
     "storybook": "node scripts/storybook/run.mjs",
     "storybook:generate": "node scripts/storybook/generate.mjs",
+    "check:storybook-block-coverage": "node scripts/governance/check-storybook-block-coverage.mjs",
+    "check:storybook-primitive-coverage": "node scripts/governance/check-storybook-primitive-coverage.mjs",
     "storybook:ui": "pnpm storybook dev",
     "storybook:build": "pnpm storybook build",
     "storybook:chromatic": "pnpm --filter @afenda/storybook chromatic",

@@ -1,117 +1,78 @@
-import type { Decorator, Preview } from "@storybook/react";
-import type { ReactNode } from "react";
-import React, { useEffect } from "react";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import type { Preview } from "@storybook/react";
+import { initialize, mswLoader } from "msw-storybook-addon";
+import React from "react";
+
+import {
+  shadcnStudioLabGlobalTypes,
+  shadcnStudioLabInitialGlobals,
+  shadcnStudioLabPreviewParameters,
+  shadcnStudioThemeDecorator,
+} from "@afenda/shadcn-studio/lab";
+
+import { mswHandlers } from "./msw-handlers";
+import { allModes } from "./modes";
 import "./preview.css";
+
+initialize({ onUnhandledRequest: "bypass" });
 
 (globalThis as Record<string, unknown>)["React"] = React;
 
-function StorybookThemeShell({
-  isDark,
-  isFullscreen,
-  children,
-}: {
-  readonly children: ReactNode;
-  readonly isDark: boolean;
-  readonly isFullscreen: boolean;
-}) {
-  useEffect(() => {
-    const root = document.documentElement;
-    root.classList.toggle("dark", isDark);
-    root.style.colorScheme = isDark ? "dark" : "light";
-
-    return () => {
-      root.classList.remove("dark");
-      root.style.colorScheme = "light";
-    };
-  }, [isDark]);
-
-  return (
-    <TooltipProvider delay={0}>
-      <div
-        className={
-          isFullscreen
-            ? "min-h-svh bg-background text-foreground"
-            : "bg-background p-4 text-foreground"
-        }
-      >
-        {children}
-      </div>
-    </TooltipProvider>
-  );
-}
-
-const themeDecorator: Decorator = (Story, context) => {
-  const theme = context.globals["theme"];
-  const isDark = theme === "dark";
-  const isFullscreen = context.parameters["layout"] === "fullscreen";
-
-  return (
-    <StorybookThemeShell isDark={isDark} isFullscreen={isFullscreen}>
-      <Story />
-    </StorybookThemeShell>
-  );
-};
+const vitestStorybookRun = __AFENDA_VITEST_STORYBOOK__ === "true";
 
 const preview: Preview = {
+  // CSF layering: preview owns global tags, loaders (MSW), parameters, decorators.
+  // Meta/story files supply component, args, story-level parameters, play, and smoke tags.
   tags: ["autodocs"],
+  loaders: [mswLoader],
   parameters: {
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
+    ...shadcnStudioLabPreviewParameters,
+    docs: {
+      ...shadcnStudioLabPreviewParameters.docs,
+      // Storybook 10 replacement for discontinued @storybook/addon-storysource
+      codePanel: true,
+    },
+    msw: { handlers: mswHandlers },
+    chromatic: {
+      modes: {
+        light: allModes.light,
+        dark: allModes.dark,
+        "mobile-light": allModes["mobile-light"],
+        "mobile-dark": allModes["mobile-dark"],
       },
     },
-    layout: "centered",
-    backgrounds: {
-      disable: true,
-    },
-    a11y: {
-      config: {
-        rules: [
-          { id: "color-contrast", enabled: true },
-          { id: "label", enabled: true },
+    ...(vitestStorybookRun ? { a11y: { test: "off" as const } } : {}),
+    options: {
+      // Storybook 10 requires storySort inline (not imported reference).
+      storySort: {
+        order: [
+          "Afenda",
+          ["Lab"],
+          "Presentation Lab",
+          [
+            "Swiss Noir Control Room",
+            "Verdant Milk Noir",
+          ],
+          "Shadcn Studio",
+          [
+            "Blocks",
+            "Blocks Auto",
+            "Blocks Flat",
+            "Blocks Preview",
+            "App Shell",
+            "Assets",
+            "Theme Lab",
+            "Token Verification",
+            "Primitives",
+            "Primitives Catalog",
+          ],
         ],
       },
-      test: "warn",
-    },
-    viewport: {
-      defaultViewport: "responsive",
-      viewports: {
-        mobile: {
-          name: "Mobile",
-          styles: { width: "375px", height: "667px" },
-        },
-        tablet: {
-          name: "Tablet",
-          styles: { width: "768px", height: "1024px" },
-        },
-        desktop: {
-          name: "Desktop",
-          styles: { width: "1440px", height: "900px" },
-        },
-      },
     },
   },
-  globalTypes: {
-    theme: {
-      description: "Global theme for shadcn-studio tokens",
-      defaultValue: "light",
-      toolbar: {
-        title: "Theme",
-        icon: "circlehollow",
-        items: [
-          { value: "light", title: "Light" },
-          { value: "dark", title: "Dark" },
-        ],
-        dynamicTitle: true,
-      },
-    },
-  },
-  initialGlobals: {
-    theme: "light",
-  },
-  decorators: [themeDecorator],
+  globalTypes:
+    shadcnStudioLabGlobalTypes as Preview["globalTypes"],
+  initialGlobals: shadcnStudioLabInitialGlobals,
+  decorators: [shadcnStudioThemeDecorator],
 };
 
 export default preview;

@@ -49,7 +49,7 @@ ${whenToUse}
 
 ## Product routes
 
-${manifest.productRoutes.map((route) => `- \`${route}\` — module landing in the ERP shell`).join("\n")}
+${manifest.productRoutes.map((route) => `- \`${route}\` — module landing in the app shell`).join("\n")}
 
 ## Access requirements
 

@@ -4,7 +4,7 @@
 
 **Prerequisite:** P06-010 Delivered · [ADR-0037](../../../adr/ADR-0037-shadcn-studio-src-layered-structure.md) **Accepted**
 
-**Status:** Delivered (2026-07-01 — Phase 0–1)
+**Status:** Delivered (2026-07-01 — Phase 0–2)
 
 **Type:** Documentation + barrel hygiene (no MCP path renames)
 
@@ -60,8 +60,15 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md
      packages/shadcn-studio/src/index.ts header comment
      packages/shadcn-studio/src/theme/theme-preset.contract.ts header
      packages/shadcn-studio/src/_storybook/story-parameters.ts header
-   Phase 2 (optional):
-     .cursor/skills/shadcn-studio/SKILL.md (link ARCHITECTURE.md)
+   Phase 2 (delivered):
+     .cursor/skills/shadcn-studio/SKILL.md
+     .cursor/skills/afenda-storybook/SKILL.md
+     .cursor/skills/afenda-presentation-atlas/SKILL.md
+     packages/shadcn-studio/src/**/*.stories.tsx (lab import path)
+     packages/shadcn-studio/src/_storybook/block-flat-story.helpers.tsx
+     scripts/storybook/generate-block-auto-stories.mjs
+     packages/shadcn-studio/tsconfig.stories.json
+     apps/storybook/tsconfig.storybook.json
    Phase 3 (deferred — separate approval):
      Physical lab/ folder consolidation — NOT in initial close
 4. Prohibited   — Rename components/ui/ or components/shadcn-studio/blocks/ · shadcn --overwrite on existing ui/* · @afenda/kernel import · foundation-disposition.registry.ts · ERP route changes · PAS-005 slice re-execution · moving contracts/registry/governance under components/
@@ -104,22 +111,30 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md
 | **0** | ADR-0037 + `ARCHITECTURE.md` + package `README.md` + catalog sync | Structure vocabulary live |
 | **1** | Lab barrel split; PAS-006 header relabel; Storybook import fix | Public contract hygiene |
 | **2** | PAS-006A §2 link; shadcn-studio skill cross-link | Doc authority chain |
-| **3** | (Deferred) `lab/` folder consolidation, optional `surfaces/` rename for erp-shell | Future slice if needed |
+| **3** | (Deferred) `lab/` folder consolidation | Future slice if needed |
 
 ### Phase 0 deliverable checklist
 
-- [ ] ADR-0037 reviewed and **Accepted**
-- [ ] `ARCHITECTURE.md` layer diagram + file naming table
-- [ ] `README.md` quick start (commands, links, layer summary)
-- [ ] Catalog + SLICE README list P06-011
+- [x] ADR-0037 reviewed and **Accepted**
+- [x] `ARCHITECTURE.md` layer diagram + file naming table
+- [x] `README.md` quick start (commands, links, layer summary)
+- [x] Catalog + SLICE README list P06-011
 
 ### Phase 1 deliverable checklist
 
-- [ ] `package.json` adds `"./lab"` export pointing to `dist/lab/index.js`
-- [ ] `src/lab/index.ts` re-exports `_storybook/story-parameters` (and lab-only helpers)
-- [ ] `src/index.ts` removes L4 exports
-- [ ] Storybook stories import from `@afenda/shadcn-studio/lab`
-- [ ] Header comments: `PAS-005A` → `PAS-006A` in `index.ts`, `theme-preset.contract.ts`, `_storybook/story-parameters.ts`
+- [x] `package.json` adds `"./lab"` export pointing to `dist/lab/index.js`
+- [x] `src/lab/index.ts` re-exports `_storybook/story-parameters` (and lab-only helpers)
+- [x] `src/index.ts` removes L4 exports
+- [x] Storybook stories import via `./lab/index.js` (in-package) per import zone gate
+- [x] Header comments: `PAS-005A` → `PAS-006A` in `index.ts`, `theme-preset.contract.ts`, `_storybook/story-parameters.ts`
+
+### Phase 2 deliverable checklist
+
+- [x] `shadcn-studio` skill links `ARCHITECTURE.md` + documents lab subpath
+- [x] `afenda-storybook` skill documents lab import matrix
+- [x] `afenda-presentation-atlas` links `ARCHITECTURE.md`
+- [x] Codegen emits `./lab/index.js` imports
+- [x] `tsconfig.stories.json` + `tsconfig.storybook.json` resolve `@afenda/shadcn-studio/lab`
 
 ## DoD
 
@@ -148,5 +163,5 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md
 
 - [ADR-0037](../../../adr/ADR-0037-shadcn-studio-src-layered-structure.md)
 - [PAS-006A](../PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md)
-- [P06-SHELL-001](./p06-shell-001-erp-operator-shell-authority.md) — L3 Surfaces reference
+- [P06-SHELL-001](./p06-shell-001-app-shell-authority.md) — L3 Surfaces reference
 - [Presentation slice catalog](./presentation-slice-catalog.md)

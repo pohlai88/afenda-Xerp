@@ -1,85 +1,227 @@
-# Figma MCP + Afenda ERP (shadcn/studio)
+# Figma MCP + Afenda ERP (PAS-006) — **No Code Connect**
 
-Authority: [ADR-0017](../../../docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) · [Figma to Code (shadcn/studio)](https://shadcnstudio.com/docs/documentation-figma/figma-to-code-mcp-server) · [Figma MCP remote setup](https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/)
+Authority: [PAS-006](../../docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) · [ADR-0027](../../docs/adr/ADR-0027-frontend-presentation-reset.md) · [ADR-0017](../../docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) · [Figma MCP docs](https://developers.figma.com/docs/figma-mcp-server/)
+
+**Mandatory for all agents:** Afenda does **not** use Figma Code Connect. Do **not** call `get_code_connect_suggestions`, `add_code_connect_map`, or block work on an Organization/Enterprise Figma license. Component mapping is **repo-owned** (registry + manifests + primitive contracts).
+
+---
+
+## Surface vocabulary (use in docs and code)
+
+| Term | Meaning | Code / path |
+| --- | --- | --- |
+| **App shell** | Protected operator chrome — sidebar, header, nav, tenant context | `@afenda/shadcn-studio` → `AppShell`, `components/app-shell/`, `contracts/app-shell.contract.ts` |
+| **Auth shell** | Sign-in, verify, recover, error lanes | `apps/erp` auth routes · `AuthShellFormLane` in auth registry |
+| **Retired `@afenda/appshell`** | Legacy package (ADR-0027) — **do not restore** or call "ERP shell" | Archive-lane only |
+
+Do **not** invent `erp-shell`, `ErpDashboardShell`, or `ERP Shell` in Storybook titles — use **App Shell** / `AppShell`.
+
+---
+
+## What Code Connect would do (and why we skip it)
+
+Code Connect tells Figma MCP: *“this Figma `Button` = this file in your repo”* so generated snippets import your real component instead of inventing raw Tailwind.
+
+That is **optional glue**. Afenda replaces it with registry-first install, in-repo manifests, MCP + skills, and Storybook design links. **FULL PASS** on the Afenda design system file does **not** require Code Connect.
+
+---
+
+## Required stack (pick one path per task)
+
+```text
+Unmodified shadcn/studio block in Figma  →  /ftc (shadcn-studio MCP) → @ss-blocks/*
+shadcncraft kit frame                    →  registry match + shadcn add @shadcncraft/*
+Custom / auth / one-off frame            →  Figma MCP get_design_context + shadcncraft-generate-code
+Tokens only                              →  get_variable_defs + shadcncraft-import-variables
+Visual QA (not codegen)                  →  Storybook addon-designs + STORYBOOK_FIGMA_* env vars
+```
+
+| Task | Required path | Never |
+| --- | --- | --- |
+| Stock studio block | `/ftc` or `pnpm dlx shadcn@latest add @ss-blocks/<id> -c packages/shadcn-studio` | Regenerate block JSX from scratch |
+| shadcncraft kit frame | Name / `data-slot` → `registry-index.json` → `@shadcncraft/<name>` | Match by Figma node ID alone |
+| Custom screen | Figma MCP + explicit `@afenda/shadcn-studio` primitive list in prompt | Raw Tailwind buttons/inputs in `apps/erp` |
+| Design tokens | `tokens-complete.json` + CSS SSOT; optional Figma variable import skill | Duplicate STRING collections in Figma |
+| Primitive identity | `ui-primitive-metadata.registry.ts` + `{name}.contract.ts` | Invent props/variants not in contract |
+
+---
 
 ## Repo wiring
 
 | Item | Value |
-|------|--------|
+| --- | --- |
 | Remote MCP | `.cursor/mcp.json` → `figma` → `https://mcp.figma.com/mcp` |
 | Desktop MCP (optional) | `.cursor/mcp.json` → `figma-desktop` → `http://127.0.0.1:3845/mcp` |
-| Auth design file | `https://www.figma.com/design/2ZNqNOxyNb5TwCTBIaMVPD/loginauth` (file key `2ZNqNOxyNb5TwCTBIaMVPD`) |
-| Design system rules | `.cursor/rules/figma-afenda-design-system-rules.mdc` |
-| Next.js image loader | `apps/erp/next.config.ts` → `localhost:3845` / `127.0.0.1:3845` |
-| Studio MCP | `shadcn-studio` (for `/ftc` block install workflow) |
+| Studio MCP | `shadcn-studio` — `/cui`, `/rui`, `/iui`, `/ftc` |
+| **Design system file (tokens + v1 primitives)** | [Afenda Brand Tokens (AdminCN)](https://www.figma.com/design/LsmtG4KiaTUi3KpjxZXHwH/Afenda-Brand-Tokens-AdminCN) · file key `LsmtG4KiaTUi3KpjxZXHwH` |
+| Auth / login reference file | `2ZNqNOxyNb5TwCTBIaMVPD` (loginauth) — legacy reference; prefer studio blocks + `@afenda/shadcn-studio` |
+| Install cwd | **`packages/shadcn-studio`** |
+| MCP workflow rule | `.cursor/rules/shadcn-studio.instructions.mdc` |
 
-## One-time setup (you)
+---
 
-1. **Restart Cursor** after `.cursor/mcp.json` changes.
-2. **Authenticate remote Figma MCP:** Cursor → Settings → MCP → `figma` → **Connect** → allow OAuth ([Figma docs](https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/)).
-3. **Optional desktop MCP** (selection-based, local images on port 3845):
-   - Figma Desktop → Preferences → **Enable Dev Mode MCP Server**
-   - Enable MCP server `figma-desktop` in Cursor (green status)
-4. **Optional:** set `FIGMA_AUTH_DESIGN_URL` in `.env` from `.env.example`.
+## In-repo “Code Connect” (required reading order)
 
-## When to use which tool
+Agents resolve Figma → code using these files **before** generating JSX:
 
-| Workflow | Tool | Use when |
-|----------|------|----------|
-| `/ftc` | shadcn/studio MCP | Pro/Free block instances in Figma, minimal customization — installs matching `@ss-blocks` |
-| Figma MCP `get_design_context` | `figma` or `figma-desktop` | Heavily customized frames or fully custom auth UI |
-| Promotion pipeline | afenda-shadcn-components skill | After any generated UI lands in repo |
+| File | Purpose |
+| --- | --- |
+| `packages/shadcn-studio/src/styles/shadcn-studio.figma-manifest.json` | Master Figma file map: collections, v1 components, node IDs → source paths |
+| `packages/shadcn-studio/src/styles/afenda-brand.figma-manifest.json` | Color Brand collection ↔ `afenda-brand.css` |
+| `.cursor/dsb-state-ds-build-afenda-shadcn-2026-001.json` | Design-system build ledger (FULL_PASS) |
+| `packages/shadcn-studio/tokens-complete.json` | Token SSOT |
+| `packages/shadcn-studio/src/governance/ui-primitive-metadata.registry.ts` | Governed primitive inventory |
+| `packages/shadcn-studio/src/components/ui/{name}.contract.ts` | Variant axes, slots, cva per primitive |
+| `.cursor/skills/shadcncraft-generate-code/references/registry-index.json` | Frame name / data-slot → `@shadcncraft/{name}` |
+| `.cursor/skills/shadcncraft-generate-code/references/figma-node-hints.json` | Weak node-id hints only — corroboration, not primary key |
 
-**Auth shell today:** `packages/appshell/src/auth-shell/` — promote Figma output here, not raw Tailwind in `apps/erp`.
+Skill cross-refs:
 
-## Prompting patterns
+- [shadcncraft-generate-code](../shadcncraft-generate-code/SKILL.md) · [component-mapping.md](../shadcncraft-generate-code/references/component-mapping.md) — **Rule 0: install registry item first**
+- [shadcncraft-import-variables](../shadcncraft-import-variables/SKILL.md) — Figma variables → CSS tokens
 
-### Remote server (link-based)
+---
 
-Copy a frame/layer link from [loginauth](https://www.figma.com/design/2ZNqNOxyNb5TwCTBIaMVPD/loginauth), then:
+## Path 1 — Registry-first (shadcncraft / kit blocks)
 
-```text
-Implement the auth entry frame from this Figma link using @afenda/ui governed props
-and the auth-shell promotion pipeline. File: packages/appshell/src/auth-shell/
+**Rule 0:** Before writing JSX, resolve the selection to a registry item and install.
+
+```powershell
+cd packages/shadcn-studio
+pnpm dlx shadcn@latest add @shadcncraft/<name> --yes
+# Pro items: SHADCNCRAFT_LICENSE_KEY from .env.secret
 ```
 
-### Desktop server (selection-based)
+Match order (from component-mapping.md):
 
-1. Open Figma Desktop, select the frame (blue outline).
-2. In Cursor:
+1. **`data-slot`** on specimen frame → `registry-index.json` item key
+2. **Frame name** (kebab-case; try `-1` suffix for variants)
+3. **`get_screenshot`** to confirm before install
+4. **`figma-node-hints.json`** — corroboration only, never primary key
 
-```text
-Generate code for the selected Figma frame. Map to AuthShellEntry compound API,
-@afenda/appshell auth-shell CSS (§L), zero className on @afenda/ui primitives.
-```
+On the reuse path you do **not** need `get_design_context` — `get_metadata` + `get_screenshot` is enough.
 
-## Afenda conversion rules (mandatory)
+---
 
-Do **not** paste raw Figma Tailwind output into production paths.
+## Path 2 — shadcn/studio `/ftc` (unmodified block instances)
 
-1. **Primitives:** `@afenda/ui` + `@afenda/ui/governance` — `intent`, `emphasis`, `size`, `presentation`; **no `className`** on primitives.
-2. **Shell chrome:** BEM in `packages/appshell/src/styles/afenda-appshell-studio.css` §L — not Tailwind on blocks.
-3. **App forms:** `apps/erp/src/app/(auth)/auth.css` + `AuthForm` compound only.
-4. **Install cwd:** `npx shadcn@latest add … -c packages/ui` for missing primitives.
-5. **After CSS edits:** `pnpm sync:package-css-dist -- --package @afenda/appshell`
-6. **Gates:** `pnpm ui:guard:scan` → `pnpm --filter @afenda/appshell test auth-shell`
+For **unmodified** shadcn/studio block instances in Figma:
 
-## Figma MCP tools (common)
+| Tool | Workflow |
+| --- | --- |
+| `shadcn-studio` MCP | `/ftc` → installs matching `@ss-blocks/*` into `packages/shadcn-studio` |
 
-| Tool | Purpose |
-|------|---------|
-| `get_design_context` | Layout + styles → code (customize prompt for governed React) |
+Requires `SHADCN_STUDIO_LICENSE_KEY` (see [credentials-env.md](./reference/credentials-env.md)). No Code Connect.
+
+Post-install: restore P06-008-R2 markers, run gates — see [SKILL.md](./SKILL.md) § Post-install.
+
+---
+
+## Path 3 — Custom frames (Figma MCP + skills)
+
+For heavily customized or one-off UI:
+
+| Tool | Role |
+| --- | --- |
+| `get_design_context` | Layout + styles reference (adapt, do not paste raw) |
+| `get_variable_defs` | Spacing, color, radius from selection |
 | `get_screenshot` | Visual fidelity check |
-| `get_variable_defs` | Tokens / spacing / typography from selection |
-| `get_metadata` | Large files — outline first, then drill into node IDs |
+| `get_metadata` | Large files — outline first, drill by node ID |
 
-See [Figma tools and prompts](https://developers.figma.com/docs/figma-mcp-server/tools-and-prompts/).
+**Mandatory prompt pattern:**
+
+```text
+Implement this Figma frame using @afenda/shadcn-studio primitives only.
+Map layers to existing components/ui/* adapters; do not generate raw Tailwind buttons/inputs.
+Read {name}.contract.ts for variant axes before composing.
+Install cwd: packages/shadcn-studio
+Import in ERP from @afenda/shadcn-studio barrel only.
+```
+
+**Afenda conversion rules:**
+
+1. **Primitives:** `packages/shadcn-studio/src/components/ui/{name}.tsx` + contract — match variant props from `{name}.contract.ts`
+2. **Blocks:** `src/components/shadcn-studio/blocks/` — install via `/ftc` or `@ss-blocks` when possible
+3. **Theme CSS:** `@afenda/shadcn-studio/shadcn-studio.css` + optional `afenda-brand.css` — edit sources under `src/styles/`, then `pnpm sync:package-css-dist -- --package @afenda/shadcn-studio`
+4. **ERP wiring:** `apps/erp` imports package barrel — no deep `src/` paths
+5. **Gates:** `pnpm --filter @afenda/shadcn-studio typecheck` · `pnpm check:studio-metadata-binding` · `pnpm --filter @afenda/erp build`
+
+**Retired — do not use:** `@afenda/ui`, `@afenda/appshell`, `ui:guard*`, PAS-005 css-authority pipeline.
+
+---
+
+## Path 4 — Tokens only
+
+| Source | Action |
+| --- | --- |
+| `tokens-complete.json` | Code SSOT — Figma collections mirror this |
+| `shadcn-studio.css` / `afenda-brand.css` | Runtime theme — apps import from package `dist/` |
+| Figma `get_variable_defs` | Diff against manifest; import via [shadcncraft-import-variables](../shadcncraft-import-variables/SKILL.md) |
+
+Figma file collections (verified FULL_PASS): **Primitives**, **Color** (Light/Dark), **Color Brand** (Brand Light/Dark), **Spacing**, **Radius**. Legacy STRING collection **Afenda Brand Tokens** — removed; use **Color Brand** only.
+
+---
+
+## Path 5 — Storybook ↔ Figma traceability (QA only)
+
+Does **not** generate code. Links stories to Figma frames for visual comparison.
+
+| Item | Location |
+| --- | --- |
+| Addon | `@storybook/addon-designs` in `apps/storybook` |
+| Helper | `packages/shadcn-studio/src/_storybook/story-parameters.ts` → `shadcnStudioFigmaDesignFromEnv` |
+| Env vars | `.env.example` → `STORYBOOK_FIGMA_*` optional URLs |
+
+---
+
+## OSS backup reader (optional)
+
+If official Figma MCP is unavailable, [Framelink figma-developer-mcp](https://github.com/GLips/Figma-Context-MCP) (MIT) reads Figma via REST + personal access token. Pair with shadcncraft skills — it is a **reader**, not Code Connect.
+
+---
+
+## What we intentionally omit (no mitigation needed)
+
+| Code Connect feature | Afenda substitute |
+| --- | --- |
+| Auto “use `Button.tsx`” in Figma Dev Mode | Manifest nodeId → source + primitive registry |
+| Connected-component badge in Figma UI | Storybook design links + contract tests |
+| Bidirectional design↔code in Figma | One-way MCP + registry install is sufficient for ERP |
+
+**Agents:** If Code Connect API returns a license error, **ignore it** and continue with the paths above. Do not report FULL_PASS as blocked.
+
+---
+
+## One-time setup (human)
+
+1. Restart Cursor after `.cursor/mcp.json` changes.
+2. Authenticate remote Figma MCP: Cursor → Settings → MCP → `figma` → **Connect** → OAuth.
+3. Optional desktop MCP: Figma Desktop → Dev Mode MCP Server → enable `figma-desktop` in Cursor.
+4. Studio license: `.env.secret` → `SHADCN_STUDIO_LICENSE_KEY` · `pnpm env:sync`.
+
+---
 
 ## Troubleshooting
 
 | Symptom | Fix |
-|---------|-----|
-| `figma` tools missing | Restart Cursor; authenticate MCP |
-| Can't access file | Ensure your Figma account has access to `loginauth` |
-| Images 403 in dev | Enable desktop MCP; confirm `next.config.ts` port 3845 patterns |
-| `/ftc` vs Figma MCP confusion | Unmodified blocks → `/ftc`; custom frames → Figma MCP + promotion |
+| --- | --- |
+| Code Connect license error | **Expected** — use registry/manifest paths; do not upgrade Figma for this |
+| `/ftc` vs Figma MCP confusion | Unmodified blocks → `/ftc`; custom → Path 3 |
+| Generated raw Tailwind in ERP | Re-run with primitive-only prompt; read contracts |
+| Token drift Figma ↔ CSS | Diff against `tokens-complete.json` + manifests |
+| Images 403 in dev | Enable desktop MCP; `apps/erp/next.config.ts` port 3845 patterns |
+
+---
+
+## Verification
+
+- Agent used registry-first or `/ftc` before custom generation
+- No `add_code_connect_map` / Code Connect dependency
+- Imports from `@afenda/shadcn-studio` in ERP, not duplicated primitives
+- CSS edits synced: `pnpm check:package-css-dist-sync`
+
+```bash
+pnpm --filter @afenda/shadcn-studio typecheck
+pnpm check:studio-metadata-binding
+pnpm --filter @afenda/erp build
+```

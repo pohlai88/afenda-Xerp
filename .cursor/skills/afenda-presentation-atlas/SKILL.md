@@ -46,7 +46,7 @@ disable-model-invocation: true
 | You need | Read | Then (if editing) |
 | --- | --- | --- |
 | Component / block list | [primitives-catalog.md](./reference/primitives-catalog.md) · [blocks-inventory.md](./reference/blocks-inventory.md) | — |
-| Import / public API | [public-api-surfaces.md](./reference/public-api-surfaces.md) | — |
+| Import / public API | [public-api-surfaces.md](./reference/public-api-surfaces.md) · [ARCHITECTURE.md](../../../packages/shadcn-studio/ARCHITECTURE.md) | — |
 | Storybook story location | §Storybook sidebar | [`afenda-storybook`](../afenda-storybook/SKILL.md) |
 | MCP block install | — | [`shadcn-studio`](../shadcn-studio/SKILL.md) |
 | `globals.css` / tokens / Tailwind | §CSS chain | [`afenda-tailwind`](../afenda-tailwind/SKILL.md) |
@@ -76,6 +76,7 @@ disable-model-invocation: true
 | npm package | `@afenda/shadcn-studio` |
 | Primitives (**69**) | `packages/shadcn-studio/src/components/ui/` |
 | Blocks (**41** files) | `packages/shadcn-studio/src/components/shadcn-studio/blocks/` |
+| Internal L2 helpers | `src/lib/` · `src/hooks/` — not barrel-exported ([public-api-surfaces.md](./reference/public-api-surfaces.md)) |
 | Public barrel | `packages/shadcn-studio/src/index.ts` |
 | Theme CSS (author) | `packages/shadcn-studio/src/styles/shadcn-studio.css` |
 | Theme CSS (apps) | `@afenda/shadcn-studio/shadcn-studio.css` |

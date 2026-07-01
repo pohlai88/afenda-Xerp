@@ -1,6 +1,6 @@
-import type { ApiErrorEnvelope } from "../contracts/api-envelope.contract";
-import type { ApiErrorCode } from "../contracts/api-error.contract";
-import { getApiErrorDefinition } from "../contracts/api-error.contract";
+import type { ApiErrorEnvelope } from "../meta-contracts/api-envelope.contract";
+import type { ApiErrorCode } from "../meta-contracts/api-error.contract";
+import { getApiErrorDefinition } from "../meta-contracts/api-error.contract";
 
 export function createTestApiErrorEnvelope(
   input: {

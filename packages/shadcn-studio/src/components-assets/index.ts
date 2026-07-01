@@ -1,0 +1,13 @@
+export { default as BadgeCheckIcon } from "./badge-check.js";
+export { default as FacebookIcon } from "./facebook-icon.js";
+export { default as FigmaIcon } from "./figma-icon.js";
+export { default as InstagramIcon } from "./instagram-icon.js";
+export { default as LinkedinIcon } from "./linkedin-icon.js";
+export { default as TwitterIcon } from "./twitter-icon.js";
+export { default as CustomersCardSvg } from "./customers-card-svg.js";
+export { default as RatingsCardSvg } from "./ratings-card-svg.js";
+export { default as SessionCardSvg } from "./session-card-svg.js";
+export { default as TotalOrdersCardSvg } from "./total-orders-card-svg.js";
+export { default as Error02Illustration } from "./error-02-illustration.js";
+export { default as LogoSvg } from "./logo.js";
+export { default as MultiStep01Illustration } from "./multi-step-01.js";

@@ -48,10 +48,16 @@ jobs:
       - name: Generate Storybook artifacts
         run: pnpm storybook:generate
 
+      - name: Flat block coverage gate
+        run: pnpm check:storybook-block-coverage
+
       - name: Typecheck Storybook lab
         run: |
           pnpm --filter @afenda/shadcn-studio typecheck
           pnpm --filter @afenda/storybook typecheck
+
+      - name: Studio import zone gate
+        run: pnpm check:studio-import-zones
 
       - name: Build static Storybook
         run: pnpm storybook:build
@@ -61,6 +67,54 @@ jobs:
         with:
           name: storybook-static
           path: apps/storybook/storybook-static
+          retention-days: 14
+
+  test:
+    name: Storybook browser tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: build
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate Storybook artifacts
+        run: pnpm storybook:generate
+
+      - name: Flat block coverage gate
+        run: pnpm check:storybook-block-coverage
+
+      - name: Install Playwright Chromium
+        run: pnpm --filter @afenda/storybook exec playwright install chromium --with-deps
+
+      - name: Run Storybook browser tests
+        run: pnpm test:storybook:run
+
+      - name: Storybook interaction coverage (optional report)
+        if: vars.STORYBOOK_COVERAGE_ENABLED == 'true'
+        run: pnpm test:storybook:coverage
+
+      - name: Upload Storybook coverage artifact
+        if: vars.STORYBOOK_COVERAGE_ENABLED == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-coverage
+          path: apps/storybook/coverage/storybook
           retention-days: 14
 
   chromatic:

@@ -8,15 +8,15 @@ const testDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(testDir, "../../..");
 const manifestPath = join(
   repoRoot,
-  "packages/shadcn-studio/src/_storybook/block-story-manifest.generated.json"
+  "packages/shadcn-studio/src/storybook/block-story-manifest.generated.json"
 );
 const registryPath = join(
   repoRoot,
-  "packages/shadcn-studio/src/_storybook/block-flat-story.registry.ts"
+  "packages/shadcn-studio/src/storybook/block-flat-story.registry.ts"
 );
 const flatStoriesPath = join(
   repoRoot,
-  "packages/shadcn-studio/src/shadcn-studio-blocks-flat.stories.tsx"
+  "packages/shadcn-studio/src/storybook/shadcn-studio-blocks-flat.stories.tsx"
 );
 
 describe("block-flat-story registry coverage", () => {

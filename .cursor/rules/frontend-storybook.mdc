@@ -1,0 +1,48 @@
+---
+description: Storybook lab layer — PAS-006 presentation verification on port 6006.
+globs: apps/storybook/**,packages/shadcn-studio/**/*.stories.tsx,packages/shadcn-studio/src/_storybook/**
+---
+
+# Frontend — Storybook lab (PAS-006)
+
+**Authority:** [ADR-0027](../../docs/adr/ADR-0027-frontend-presentation-reset.md) · [PAS-006](../../docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) · skill: [afenda-storybook](../skills/afenda-storybook/SKILL.md)
+
+## Layer order
+
+Storybook is **layer 2** (after `apps/erp`, before editing `components/ui` primitives). Visual polish in ERP does not justify primitive refactors for Storybook alone.
+
+## What this app owns
+
+| Path | Role |
+| --- | --- |
+| `apps/storybook/.storybook/` | Vite aliases, preview, MSW, Vitest plugin |
+| `apps/storybook/stories/` | Lab shell stories (Welcome) |
+| `packages/shadcn-studio/src/**/*.stories.tsx` | Colocated studio stories |
+| `packages/shadcn-studio/src/_storybook/` | Fixtures, parameters, flat registry |
+
+## Commands
+
+```bash
+pnpm storybook                    # codegen + dev :6006
+pnpm storybook generate           # block manifest + auto stories
+pnpm test:storybook:run           # Vitest browser — lab-smoke only
+pnpm check:storybook-block-coverage
+pnpm check:storybook-primitive-coverage
+```
+
+## Do not
+
+- Reference retired packages (`@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui`)
+- Hand-edit `shadcn-studio-blocks-auto.stories.tsx` (codegen)
+- Import `@afenda/shadcn-studio/lab` from ERP production code
+- Add PAS-005 / `ui:guard` gates to this lab
+
+## After MCP block install
+
+1. `pnpm storybook generate`
+2. Curated fixtures → `shadcn-studio-blocks.stories.tsx` or flat registry
+3. `pnpm test:storybook:run` for smoke-tagged stories
+
+## CI
+
+`.github/workflows/storybook-lab.yml` — typecheck, import zones, block coverage, static build, browser tests. Chromatic opt-in: `apps/storybook/CHROMATIC.md`.

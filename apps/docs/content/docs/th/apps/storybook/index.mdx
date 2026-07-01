@@ -1,6 +1,6 @@
 ---
 title: Storybook
-description: "@afenda/storybook — visual composition gate on port 6006, PKG-021."
+description: "@afenda/storybook — PAS-006 presentation lab on port 6006 (ADR-0027 · PKG-021)."
 ---
 
 import { LayersIcon, PaletteIcon, TerminalIcon } from "lucide-react";
@@ -9,16 +9,14 @@ import { Callout } from "fumadocs-ui/components/callout";
 import { DocsFeatureStrip } from "@/components/blocks/docs-feature-strip";
 
 <Callout type="info" title="Authority">
-  Storybook status and runner evidence:
-  [monorepo-feature-inventory.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/monorepo-feature-inventory.md)
-  and
+  Presentation lab: [ADR-0027](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/adr/ADR-0027-frontend-presentation-reset.md),
+  [PAS-006](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md),
   [pas-status-index.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/pas-status-index.md) (PKG-021).
 </Callout>
 
-<Callout type="warn" title="Status honesty">
-  Storybook runtime exists (app + colocated stories), but PAS slice closeout may remain open.
-  Test runner debt (`storybook-test-runner-red`) may remain — verify with
-  `pnpm --filter @afenda/storybook test:storybook:run` before relying on visual regression gates.
+<Callout type="info" title="Runner status">
+  Vitest browser smoke (`lab-smoke`) via `@storybook/addon-vitest` + Playwright.
+  Verify: `pnpm test:storybook:run`
 </Callout>
 
 ## Identity
@@ -33,24 +31,26 @@ import { DocsFeatureStrip } from "@/components/blocks/docs-feature-strip";
 
 ## Purpose
 
-Composed stories from `@afenda/ui`, `@afenda/appshell`, and `@afenda/metadata-ui` — visual gate for governed primitives and shell blocks.
+Afenda **Presentation Lab** for `@afenda/shadcn-studio` — primitives, MCP blocks, theme presets, flat-block fixtures. Does not own ERP runtime.
+
+**Retired:** `@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui`, PAS-005 CSS gates.
 
 <DocsFeatureStrip
   title="Commands"
   items={[
     {
       title: "Dev server",
-      description: "pnpm --filter @afenda/storybook dev — port 6006",
+      description: "pnpm storybook — port 6006",
       icon: TerminalIcon,
     },
     {
       title: "Story inventory",
-      description: "Colocated under packages/ and apps/storybook/",
+      description: "packages/shadcn-studio/src/**/*.stories.tsx",
       icon: LayersIcon,
     },
     {
-      title: "Visual gate",
-      description: "Runner status tracked in PKG-021 PAS slice — may be red",
+      title: "Visual regression",
+      description: "Optional Chromatic — apps/storybook/CHROMATIC.md",
       icon: PaletteIcon,
     },
   ]}
@@ -59,39 +59,42 @@ Composed stories from `@afenda/ui`, `@afenda/appshell`, and `@afenda/metadata-ui
 ## Run locally
 
 ```bash
-pnpm --filter @afenda/storybook dev
+pnpm storybook
 ```
-
-Or from repo root: `pnpm storybook`
 
 ## Boundary rules
 
-- Storybook **consumes** design-system and appshell stories — does not own ERP runtime
-- Promoted blocks pipeline: ADR-0017 · `@afenda/appshell` — not direct ERP imports from staging
+- Consumes `@afenda/shadcn-studio` only (ADR-0027)
+- Lab parameters: `@afenda/shadcn-studio/lab` — not for ERP production
 
 ## Quality gates
 
 ```bash
+pnpm storybook:generate
+pnpm check:storybook-block-coverage
 pnpm --filter @afenda/storybook typecheck
-pnpm --filter @afenda/storybook test:storybook:run
+pnpm test:storybook:run
 ```
 
-Runner failures are a **known gap** until PKG-021 PAS slice Slice 3 closes `storybook-test-runner-red`.
+## Optional: Chromatic
+
+Set `CHROMATIC_ENABLED=true` and secret `CHROMATIC_PROJECT_TOKEN`. See `apps/storybook/CHROMATIC.md`.
 
 ## Status and known gaps
 
 <Accordions type="single">
-<Accordion title="Runner and PAS status (expand)" id="status-and-known-gaps">
+<Accordion title="PAS and backlog (expand)" id="status-and-known-gaps">
 
-- PAS slice closeout open — registry onboarding and runner green pending
-- ~400/1860 test runner failures reported in inventory (taxonomy in PKG-021 PAS slice Research)
-- metadata-ui styles import and a11y debt tracked as blue-lane backlog
+- PKG-021 slice closeout may remain open — runner smoke green locally
+- Full catalog in Storybook UI; CI runs `lab-smoke` stories only
+- Chromatic / GitHub Pages are opt-in
 
 </Accordion>
 </Accordions>
 
 ## Authority links
 
-- [Monorepo feature inventory](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/monorepo-feature-inventory.md)
-- [pas-status-index.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/pas-status-index.md) (PKG-021)
+- [PAS-006](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md)
+- [ADR-0027](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/adr/ADR-0027-frontend-presentation-reset.md)
+- [pas-status-index.md](https://github.com/pohlai88/afenda-Xerp/blob/main/docs/PAS/pas-status-index.md)
 - [Monorepo Map](/docs/monorepo-map)

@@ -10,9 +10,9 @@ import { fileURLToPath } from "node:url";
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
 const requiredPaths = [
-  "packages/shadcn-studio/src/registry/block-lifecycle-mutation.ts",
-  "packages/shadcn-studio/src/registry/block-lifecycle.ts",
-  "packages/shadcn-studio/src/registry/presentation-inventory.registry.ts",
+  "packages/shadcn-studio/src/meta-registry/block-lifecycle-mutation.ts",
+  "packages/shadcn-studio/src/meta-registry/block-lifecycle.ts",
+  "packages/shadcn-studio/src/meta-registry/presentation-inventory.registry.ts",
 ];
 
 const missing = requiredPaths.filter(

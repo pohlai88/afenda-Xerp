@@ -20,6 +20,9 @@
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.tsserver.experimental.enableProjectDiagnostics": false,
+  "typescript.tsserver.useSyntaxServer": "always",
+  "vitest.enable": false,
+  "vitest.disabledWorkspaceFolders": ["."],
   "typescript.tsserver.watchOptions": {
     "excludeDirectories": [
       "**/node_modules",
@@ -140,5 +143,6 @@
   "search.exclude": {
     "**/_reference": true,
     "**/.cursor": true
-  }
+  },
+  "shadcnstudio.telemetry.enabled": false
 }

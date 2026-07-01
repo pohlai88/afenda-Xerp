@@ -1,8 +1,8 @@
-import type { ApiCachePolicy } from "../contracts/api-contract";
+import type { ApiCachePolicy } from "../meta-contracts/api-contract";
 import {
   resolveNextDynamic,
   resolveRevalidateSeconds,
-} from "../contracts/api-route-policy.contract";
+} from "../meta-contracts/api-route-policy.contract";
 
 export function resolveRouteDynamicExport(
   cache: ApiCachePolicy

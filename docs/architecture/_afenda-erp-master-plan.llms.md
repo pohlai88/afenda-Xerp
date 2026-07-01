@@ -208,7 +208,7 @@ Phase 9  ACCOUNTING READINESS GATE ──► Foundation phase 14+ only after pas
 | --- | --- | --- | --- | --- |
 | UI phase 1 | CSS Pipeline | **Complete** | `globals.css`, tokens.css | — |
 | UI phase 2 | Component Library | **Complete** | 58 components, tests | ADR-0008 ref-as-prop deferred |
-| UI phase 3 | AppShell Token Migration | **Complete** | `afenda-appshell.css`; ERP shell closeout test | — |
+| UI phase 3 | AppShell Token Migration | **Complete** | `afenda-appshell.css`; App Shell closeout test | — |
 | UI phase 4 | Metadata-UI Renderers | **Complete** | Section renderers + `/metadata-workspace` | — |
 | UI phase 5 | ERP App Surfaces | **Complete** | Slices 1–12; DoD #1–24 closed | — |
 | UI phase 6 | React 19 ref-as-prop | **Blocked** | ADR-0008 Proposed | Package-wide batch not started |

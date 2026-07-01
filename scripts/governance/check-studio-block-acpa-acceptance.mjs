@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
 const contractTestPath =
-  "packages/shadcn-studio/src/__tests__/statistics-metric-a11y.contract.test.tsx";
+  "packages/shadcn-studio/src/gate/statistics-metric-a11y.contract.test.tsx";
 
 if (!existsSync(join(repoRoot, contractTestPath))) {
   process.stderr.write("studio block ACPA acceptance: FAIL\n");

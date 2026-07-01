@@ -22,7 +22,7 @@ export interface Settings {
   themePreset: ThemePresetSlug;
 }
 
-export const initialSettings: Settings = {
+export const initialSettings = {
   mode: themeConfig.mode,
   themePreset: themeConfig.themePreset,
   font: themeConfig.font,
@@ -32,4 +32,4 @@ export const initialSettings: Settings = {
   sidebarVariant: themeConfig.sidebarVariant,
   sidebarCollapsible: themeConfig.sidebarCollapsible,
   sidebarOpen: themeConfig.sidebarOpen,
-};
+} satisfies Settings;

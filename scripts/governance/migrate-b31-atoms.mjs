@@ -255,7 +255,7 @@ const expansion = [
     rules: ["PAS-001 §4.1.13 tenant human reference policy", "ADR-0023"],
     domains: ["identity", "security"],
     evidenceSource:
-      "packages/kernel/src/identity/governance/tenant-human-reference.policy.ts",
+      "packages/kernel/src/identity/meta-gates/tenant-human-reference.policy.ts",
   }),
 ];
 

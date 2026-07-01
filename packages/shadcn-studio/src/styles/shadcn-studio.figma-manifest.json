@@ -1,0 +1,138 @@
+{
+  "runId": "ds-build-afenda-shadcn-2026-001",
+  "fileKey": "LsmtG4KiaTUi3KpjxZXHwH",
+  "fileName": "Afenda Brand Tokens (AdminCN)",
+  "fileUrl": "https://www.figma.com/design/LsmtG4KiaTUi3KpjxZXHwH/Afenda-Brand-Tokens-AdminCN",
+  "acceptanceVerdict": "FULL_PASS",
+  "acceptanceDate": "2026-07-01",
+  "cssMirror": "packages/shadcn-studio/src/styles/shadcn-studio.css",
+  "tokenSource": "packages/shadcn-studio/tokens-complete.json",
+  "brandManifest": "packages/shadcn-studio/src/styles/afenda-brand.figma-manifest.json",
+  "stateLedger": ".cursor/dsb-state-ds-build-afenda-shadcn-2026-001.json",
+  "pages": {
+    "cover": "Cover",
+    "gettingStarted": "Getting Started",
+    "foundations": "Foundations",
+    "foundationsFrame": "Foundations / CSS Preview",
+    "componentsIndex": "Components"
+  },
+  "collections": [
+    {
+      "name": "Primitives",
+      "modes": ["Value"],
+      "variableCount": 14,
+      "resolvedType": "COLOR",
+      "cssRole": "raw anchors for future aliasing"
+    },
+    {
+      "name": "Color",
+      "modes": ["Light", "Dark"],
+      "variableCount": 37,
+      "resolvedType": "COLOR",
+      "cssRole": ":root and .dark in shadcn-studio.css"
+    },
+    {
+      "name": "Color Brand",
+      "modes": ["Brand Light", "Brand Dark"],
+      "variableCount": 39,
+      "resolvedType": "COLOR",
+      "cssRole": ".theme-afenda-brand in afenda-brand.css",
+      "manifest": "afenda-brand.figma-manifest.json"
+    },
+    {
+      "name": "Spacing",
+      "modes": ["Value"],
+      "variableCount": 10,
+      "resolvedType": "FLOAT"
+    },
+    {
+      "name": "Radius",
+      "modes": ["Value"],
+      "variableCount": 9,
+      "resolvedType": "FLOAT"
+    }
+  ],
+  "componentsV1": [
+    {
+      "name": "Button",
+      "figmaPage": "Button",
+      "nodeId": "5:16",
+      "contract": "packages/shadcn-studio/src/components-ui/button.contract.ts",
+      "source": "packages/shadcn-studio/src/components-ui/button.tsx"
+    },
+    {
+      "name": "Input",
+      "figmaPage": "Input",
+      "nodeId": "6:134",
+      "contract": "packages/shadcn-studio/src/components-ui/input.contract.ts",
+      "source": "packages/shadcn-studio/src/components-ui/input.tsx"
+    },
+    {
+      "name": "Card",
+      "figmaPage": "Card",
+      "nodeId": "6:145",
+      "contract": "packages/shadcn-studio/src/components-ui/card.contract.ts",
+      "source": "packages/shadcn-studio/src/components-ui/card.tsx"
+    },
+    {
+      "name": "Badge",
+      "figmaPage": "Badge",
+      "nodeId": "9:26",
+      "contract": "packages/shadcn-studio/src/components-ui/badge.contract.ts",
+      "source": "packages/shadcn-studio/src/components-ui/badge.tsx"
+    },
+    {
+      "name": "Alert",
+      "figmaPage": "Alert",
+      "nodeId": "9:38",
+      "contract": "packages/shadcn-studio/src/components-ui/alert.contract.ts",
+      "source": "packages/shadcn-studio/src/components-ui/alert.tsx"
+    },
+    {
+      "name": "Checkbox",
+      "figmaPage": "Checkbox",
+      "nodeId": "9:48",
+      "contract": "packages/shadcn-studio/src/components-ui/checkbox.contract.ts",
+      "source": "packages/shadcn-studio/src/components-ui/checkbox.tsx"
+    },
+    {
+      "name": "Switch",
+      "figmaPage": "Switch",
+      "nodeId": "9:62",
+      "contract": "packages/shadcn-studio/src/components-ui/switch.contract.ts",
+      "source": "packages/shadcn-studio/src/components-ui/switch.tsx"
+    },
+    {
+      "name": "Separator",
+      "figmaPage": "Separator",
+      "nodeId": "9:70",
+      "contract": "packages/shadcn-studio/src/components-ui/separator.contract.ts",
+      "source": "packages/shadcn-studio/src/components-ui/separator.tsx"
+    },
+    {
+      "name": "Progress",
+      "figmaPage": "Progress",
+      "nodeId": "9:88",
+      "contract": "packages/shadcn-studio/src/components-ui/progress.contract.ts",
+      "source": "packages/shadcn-studio/src/components-ui/progress.tsx"
+    },
+    {
+      "name": "Spinner",
+      "figmaPage": "Spinner",
+      "nodeId": "9:100",
+      "contract": "packages/shadcn-studio/src/components-ui/spinner.contract.ts",
+      "source": "packages/shadcn-studio/src/components-ui/spinner.tsx"
+    }
+  ],
+  "designToCode": {
+    "policy": "no_code_connect",
+    "authority": ".cursor/skills/shadcn-studio/figma-mcp-afenda.md",
+    "paths": {
+      "studioBlock": "/ftc or @ss-blocks/*",
+      "shadcncraftFrame": "registry-index.json → @shadcncraft/*",
+      "customFrame": "Figma MCP + shadcncraft-generate-code + ui/* contracts",
+      "tokens": "tokens-complete.json + shadcncraft-import-variables",
+      "visualQa": "Storybook addon-designs STORYBOOK_FIGMA_*"
+    }
+  }
+}

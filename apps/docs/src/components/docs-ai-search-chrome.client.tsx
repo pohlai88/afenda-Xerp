@@ -6,7 +6,7 @@ import {
   AISearchPanel,
   AISearchTrigger,
 } from "@/components/ai/search";
-import { buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components-ui/button";
 import { cn } from "@/lib/cn";
 
 export function DocsAiSearchChrome() {

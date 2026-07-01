@@ -7,7 +7,7 @@ import { basename, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const repoRoot = join(fileURLToPath(new URL(".", import.meta.url)), "../..");
-const uiDir = join(repoRoot, "packages/shadcn-studio/src/components/ui");
+const uiDir = join(repoRoot, "packages/shadcn-studio/src/components-ui");
 
 const GOLD_ALREADY = new Set([
   "accordion",

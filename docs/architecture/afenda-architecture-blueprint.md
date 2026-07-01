@@ -1,17 +1,17 @@
 # Afenda Architecture Blueprint
 
-| Field | Value |
-| --- | --- |
-| **Document class** | `architecture_blueprint` |
-| **Authority** | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md) |
-| **Canonical location** | `docs/architecture/afenda-architecture-blueprint.md` |
-| **North Star** | [afenda-platform-north-star.md](afenda-platform-north-star.md) |
-| **Machine truth** | [package-registry.md](package-registry.md) · [layer-registry.md](layer-registry.md) · [dependency-registry.md](dependency-registry.md) · [foundation-disposition.md](foundation-disposition.md) |
-| **Does not confer** | Runtime APIs, contracts, slice handoffs, or registry rows |
-| **Total PAS at maturity** | `~15 root PAS · ~25+ total documents (including derived extensions)` |
-| **Live PAS today** | `15 documents` (PAS-001 family, PAS-002 family, PAS-003, PAS-004 family, **PAS-006 family**; PAS-005 family **retired for ERP**) |
-| **Last reviewed** | 2026-06-29 (ADR-0027 frontend presentation reset · PAS-003 documentation-audit sync) |
-| **Planned PAS** | `9+ root PAS` (accounting runtime, consolidation, intercompany, tax, finance, reporting, HRM, CRM, procurement) |
+| Field                     | Value                                                                                                                                                                                           |
+| ------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Document class**        | `architecture_blueprint`                                                                                                                                                                        |
+| **Authority**             | [ADR-0026](../adr/ADR-0026-platform-north-star-and-architecture-blueprint.md)                                                                                                                   |
+| **Canonical location**    | `docs/architecture/afenda-architecture-blueprint.md`                                                                                                                                            |
+| **North Star**            | [afenda-platform-north-star.md](afenda-platform-north-star.md)                                                                                                                                  |
+| **Machine truth**         | [package-registry.md](package-registry.md) · [layer-registry.md](layer-registry.md) · [dependency-registry.md](dependency-registry.md) · [foundation-disposition.md](foundation-disposition.md) |
+| **Does not confer**       | Runtime APIs, contracts, slice handoffs, or registry rows                                                                                                                                       |
+| **Total PAS at maturity** | `~15 root PAS · ~25+ total documents (including derived extensions)`                                                                                                                            |
+| **Live PAS today**        | `15 documents` (PAS-001 family, PAS-002 family, PAS-003, PAS-004 family, **PAS-006 family**; PAS-005 family **retired for ERP**)                                                                |
+| **Last reviewed**         | 2026-06-29 (ADR-0027 frontend presentation reset · PAS-003 documentation-audit sync)                                                                                                            |
+| **Planned PAS**           | `9+ root PAS` (accounting runtime, consolidation, intercompany, tax, finance, reporting, HRM, CRM, procurement)                                                                                 |
 
 > **One sentence:** The Architecture Blueprint declares **what packages and domain authorities exist, why each exists, how they compose, and which PAS governs each box** — so PAS documents are discovered, not invented.
 
@@ -68,16 +68,16 @@ If any condition fails, stop and update the Blueprint (and ADR/registry if neede
 
 Afenda uses eight layers. **Machine assignments:** [`layer-registry.md`](layer-registry.md).
 
-| Layer | Platform role | Blueprint intent |
-| --- | --- | --- |
-| **Platform** | Shared truth — identity, persistence, kernel, permissions, observability, governance, knowledge | Stable contracts consumed by all higher layers |
-| **Design** | ERP frontend visual truth — `@afenda/shadcn-studio` only (ADR-0027) | No business rules; stock MCP surfaces during stabilization |
-| **Foundation** | Shared infrastructure — execution, storage, standards authority | Cross-domain services that are not "business modules" |
-| **Metadata** | Rendering truth — metadata contracts and metadata UI | Describes surfaces; does not own domain posting |
-| **Integration** | Cross-cutting — entitlements, feature flags, test utilities | Wires platform to apps without domain logic |
-| **ERPSpine** | Operating shell — navigation, layout, command center | ERP chrome; not domain runtime |
-| **Domain** | Business truth — accounting, inventory, HRM, CRM, procurement, … | One package family per LoB authority |
-| **Application** | Delivery — ERP, docs, Storybook, email preview | Composes platform + domain; never owns canonical rules |
+| Layer           | Platform role                                                                                   | Blueprint intent                                           |
+| --------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| **Platform**    | Shared truth — identity, persistence, kernel, permissions, observability, governance, knowledge | Stable contracts consumed by all higher layers             |
+| **Design**      | ERP frontend visual truth — `@afenda/shadcn-studio` only (ADR-0027)                             | No business rules; stock MCP surfaces during stabilization |
+| **Foundation**  | Shared infrastructure — execution, storage, standards authority                                 | Cross-domain services that are not "business modules"      |
+| **Metadata**    | Rendering truth — metadata contracts and metadata UI                                            | Describes surfaces; does not own domain posting            |
+| **Integration** | Cross-cutting — entitlements, feature flags, test utilities                                     | Wires platform to apps without domain logic                |
+| **ERPSpine**    | Operating shell — navigation, layout, command center                                            | ERP chrome; not domain runtime                             |
+| **Domain**      | Business truth — accounting, inventory, HRM, CRM, procurement, …                                | One package family per LoB authority                       |
+| **Application** | Delivery — ERP, docs, Storybook, email preview                                                  | Composes platform + domain; never owns canonical rules     |
 
 ---
 
@@ -85,8 +85,8 @@ Afenda uses eight layers. **Machine assignments:** [`layer-registry.md`](layer-r
 
 Narrative **why** only. Paths, PKG IDs, and lifecycle: [`package-registry.md`](package-registry.md).
 
-| Family | Representative packages | Why it exists | Capability presented |
-| --- | --- | --- | --- |
+| Family         | Representative packages                                   | Why it exists                                               | Capability presented                        |
+| -------------- | --------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------- |
 | **Governance** | `@afenda/architecture-authority`, `@afenda/ai-governance` | Prevent architectural entropy; enforce registry-first rules | "Is this package/layer/dependency allowed?" |
 
 **Domain blueprint (Architecture authority):** [`docs/BLUEPRINT/architecture-authority-blueprint.md`](../BLUEPRINT/architecture-authority-blueprint.md) — registry surfaces, E2E integration chain, PAS-002/002A handoff. **Domain North Star:** [`docs/NORTHSTAR/architecture-authority-north-star.md`](../NORTHSTAR/architecture-authority-north-star.md).
@@ -114,12 +114,12 @@ Each live family with a PAS is listed in [Blueprint → PAS traceability](#bluep
 
 Forward-looking **business domain** map. Status values:
 
-| Status | Meaning |
-| --- | --- |
-| **live** | Package or runtime surface exists; see registry + runtime matrix |
-| **planned** | Declared in Blueprint; not yet PKG/PAS or not yet implemented |
-| **blocked** | Declared but ADR-gated (no implementation until gate clears) |
-| **retired** | Superseded; historical reference only |
+| Status      | Meaning                                                          |
+| ----------- | ---------------------------------------------------------------- |
+| **live**    | Package or runtime surface exists; see registry + runtime matrix |
+| **planned** | Declared in Blueprint; not yet PKG/PAS or not yet implemented    |
+| **blocked** | Declared but ADR-gated (no implementation until gate clears)     |
+| **retired** | Superseded; historical reference only                            |
 
 ### Accounting & finance domain
 
@@ -144,16 +144,16 @@ accounting   consolidation  intercompany   tax        finance
                          apps/erp (surfaces)
 ```
 
-| Blueprint box | Package | Layer | Status | Why separate | PAS |
-| --- | --- | --- | --- | --- | --- |
-| Accounting standards authority | `@afenda/accounting-standards` | Foundation | **live** | Versioned IFRS/MFRS/SFRS evidence and deterministic validation — not posting | [PAS-003](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md) |
-| Accounting vocabulary (contracts) | `@afenda/kernel` (`erp-domain/accounting`) | Platform | **live** | Wire vocabulary only; not ledger runtime ([ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md)) | [PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
-| Accounting runtime | `@afenda/accounting` | Domain | **blocked** | Journal posting, ledger mutation, COA runtime — distinct from standards | Planned PAS-006+ (after ADR-0010 gate) |
-| Consolidation runtime | `@afenda/consolidation` | Domain | **planned** | Group consolidation calculations — not standards metadata | Planned PAS (TBD) |
-| Intercompany runtime | `@afenda/intercompany` | Domain | **planned** | IC pricing, eliminations, matching — not tax filing | Planned PAS (TBD) |
-| Tax runtime | `@afenda/tax` | Domain | **planned** | Tax computation and filing workflows — not IFRS presentation | Planned PAS (TBD) |
-| Finance / management reporting | `@afenda/finance` | Domain | **planned** | Management reporting and finance ops — not GL posting | Planned PAS (TBD) |
-| Financial reporting (statements) | `@afenda/reporting` | Domain | **planned** | Statement generation and disclosure packs — consumes accounting + consolidation | Planned PAS (TBD) |
+| Blueprint box                     | Package                                    | Layer      | Status      | Why separate                                                                                                  | PAS                                                                                                                                                   |
+| --------------------------------- | ------------------------------------------ | ---------- | ----------- | ------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Accounting standards authority    | `@afenda/accounting-standards`             | Foundation | **live**    | Versioned IFRS/MFRS/SFRS evidence and deterministic validation — not posting                                  | [PAS-003](../PAS/ACCOUNTING-STANDARDS/PAS-003-ACCOUNTING-STANDARDS-AUTHORITY-STANDARD.md)                                                             |
+| Accounting vocabulary (contracts) | `@afenda/kernel` (`erp-domain/accounting`) | Platform   | **live**    | Wire vocabulary only; not ledger runtime ([ADR-0020](../adr/ADR-0020-master-data-authority-consolidation.md)) | [PAS-001](../PAS/KERNEL/PAS-001-KERNEL-VOCABULARY-AUTHORITY-STANDARD.md) · [PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md) |
+| Accounting runtime                | `@afenda/accounting`                       | Domain     | **blocked** | Journal posting, ledger mutation, COA runtime — distinct from standards                                       | Planned PAS-006+ (after ADR-0010 gate)                                                                                                                |
+| Consolidation runtime             | `@afenda/consolidation`                    | Domain     | **planned** | Group consolidation calculations — not standards metadata                                                     | Planned PAS (TBD)                                                                                                                                     |
+| Intercompany runtime              | `@afenda/intercompany`                     | Domain     | **planned** | IC pricing, eliminations, matching — not tax filing                                                           | Planned PAS (TBD)                                                                                                                                     |
+| Tax runtime                       | `@afenda/tax`                              | Domain     | **planned** | Tax computation and filing workflows — not IFRS presentation                                                  | Planned PAS (TBD)                                                                                                                                     |
+| Finance / management reporting    | `@afenda/finance`                          | Domain     | **planned** | Management reporting and finance ops — not GL posting                                                         | Planned PAS (TBD)                                                                                                                                     |
+| Financial reporting (statements)  | `@afenda/reporting`                        | Domain     | **planned** | Statement generation and disclosure packs — consumes accounting + consolidation                               | Planned PAS (TBD)                                                                                                                                     |
 
 **Accounting runtime gate:** `@afenda/accounting` posting/ledger implementation remains **blocked** until [ADR-0010](../adr/ADR-0010-no-accounting-before-foundation-gate.md) **and** a new ADR amends `PKGR01_ACCOUNTING` prohibited rules in the disposition registry.
 
@@ -161,13 +161,13 @@ accounting   consolidation  intercompany   tax        finance
 
 ### ERP business domains (non-accounting)
 
-| Blueprint box | Package | Layer | Status | Why separate | PAS |
-| --- | --- | --- | --- | --- | --- |
-| Inventory master data & stock | `@afenda/database` + `apps/erp` | Platform + Application | **live** | Physical master data in database layer per ADR-0020 | [ADR-0019](../adr/ADR-0019-inventory-domain-master-data-activation.md) · kernel inventory vocabulary PAS-001B |
-| Inventory domain package | `@afenda/inventory` | Domain | **retired** | Runtime consolidated — do not recreate PKG-R02 path | — |
-| Procurement | `@afenda/procurement` | Domain | **planned** | Source-to-pay LoB — distinct from inventory movement | Planned PAS (TBD) |
-| HRM | `@afenda/hrm` | Domain | **planned** | People operations LoB | Planned PAS (TBD) |
-| CRM | `@afenda/crm` | Domain | **planned** | Customer lifecycle LoB | Planned PAS (TBD) |
+| Blueprint box                 | Package                         | Layer                  | Status      | Why separate                                         | PAS                                                                                                           |
+| ----------------------------- | ------------------------------- | ---------------------- | ----------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| Inventory master data & stock | `@afenda/database` + `apps/erp` | Platform + Application | **live**    | Physical master data in database layer per ADR-0020  | [ADR-0019](../adr/ADR-0019-inventory-domain-master-data-activation.md) · kernel inventory vocabulary PAS-001B |
+| Inventory domain package      | `@afenda/inventory`             | Domain                 | **retired** | Runtime consolidated — do not recreate PKG-R02 path  | —                                                                                                             |
+| Procurement                   | `@afenda/procurement`           | Domain                 | **planned** | Source-to-pay LoB — distinct from inventory movement | Planned PAS (TBD)                                                                                             |
+| HRM                           | `@afenda/hrm`                   | Domain                 | **planned** | People operations LoB                                | Planned PAS (TBD)                                                                                             |
+| CRM                           | `@afenda/crm`                   | Domain                 | **planned** | Customer lifecycle LoB                               | Planned PAS (TBD)                                                                                             |
 
 Kernel ERP domain catalog ([PAS-001B](../PAS/KERNEL/PAS-001B-ERP-WIRE-VOCABULARY-CATALOG-STANDARD.md)) lists vocabulary for domains above; it does **not** imply runtime delivery.
 
@@ -226,37 +226,37 @@ flowchart TB
 
 This table is the canonical count. Every PAS row must trace back to a Blueprint box above. When a new PAS is authored, add it here and update the metadata table counts at the top of this document.
 
-| PAS | Title | Blueprint box | Live slices / Total slices | Status |
-| --- | --- | --- | --- | --- |
-| PAS-001 | Kernel Authority Standard | Kernel & context | Multiple / TBD | Enterprise Accepted |
-| PAS-001A | ERP Integration Spine | Kernel & context | B71–B75 historical · B111 skeleton · PAS-001A-R1 pending | Production Candidate (doctrine) · runtime partial |
-| PAS-001B | Kernel ERP Domain Vocabulary Catalog | Kernel & context | B76–B106 closed | Enterprise Accepted · catalog authority |
-| PAS-001C | ERP Module Foundation Standard | ERP Module Runtime Foundation | ERP-MOD-FDN-003 Delivered | Production Candidate · foundation_authority |
-| PAS-002 | Architecture Authority | Governance | Multiple / TBD | MVP Authority |
-| PAS-002A | Architecture Authority extension | Governance | — / TBD | Enterprise Accepted |
-| PAS-003 | Accounting Standards Authority | Accounting standards authority | B0–B20 delivered | Enterprise Accepted |
-| PAS-004 | Enterprise Knowledge Standard | Knowledge | Multiple / TBD | MVP → Production Candidate |
-| PAS-004A | Enterprise Knowledge extension A | Knowledge | — | Production Candidate |
-| PAS-004B | Enterprise Knowledge Kernel Consumer | Knowledge | — | Production Candidate |
-| PAS-004C | Enterprise Knowledge Semantic Model | Knowledge | — | Production Candidate |
-| PAS-004D | Enterprise Knowledge Operational Closure | Knowledge | — | Production Candidate |
-| PAS-006 | shadcn/studio Frontend Standard (charter) | Design (ERP) | — | MVP Authority |
-| PAS-006A | shadcn/studio Product Standard | Design (ERP) | 1 / 1 | Production Candidate |
-| PAS-006B | Inventory & Production Pipeline | Design (ERP) | 0 / 3 | Proposed |
-| PAS-006C | Surface Acceptance (ACPA) | Design (ERP) | 0 / 3 | Proposed |
-| PAS-006D | Metadata-Driven Surfaces | Design (ERP) | 0 / 2 | Proposed |
-| PAS-005 | CSS Authority Standard | Design (archived) | Retired for ERP — B26–B37 historical | Retired |
-| PAS-005A | shadcn/studio Presentation | Design (archived) | Merged into PAS-006 | Retired |
-| PAS-005B | Design System Retirement | Design (archived) | Superseded by ADR-0027 cutover | Retired |
-| PAS-006+ | Accounting Runtime | Accounting runtime | 0 / TBD | Blocked — ADR-0010 |
-| Planned | Consolidation | Consolidation runtime | 0 / TBD | Planned |
-| Planned | Intercompany | Intercompany runtime | 0 / TBD | Planned |
-| Planned | Tax | Tax runtime | 0 / TBD | Planned |
-| Planned | Finance / Management Reporting | Finance / management reporting | 0 / TBD | Planned |
-| Planned | Financial Reporting | Financial reporting (statements) | 0 / TBD | Planned |
-| Planned | HRM | HRM | 0 / TBD | Planned |
-| Planned | CRM | CRM | 0 / TBD | Planned |
-| Planned | Procurement | Procurement | 1 / TBD | Planned · [Procurement NS](../NORTHSTAR/procurement-north-star.md) · [readiness scaffold](../PAS/ERP-MODULES/PROCUREMENT/procurement-runtime-readiness-report.md) · ERP-PROC-FDN-001 Delivered |
+| PAS      | Title                                     | Blueprint box                    | Live slices / Total slices                               | Status                                                                                                                                                                                         |
+| -------- | ----------------------------------------- | -------------------------------- | -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| PAS-001  | Kernel Authority Standard                 | Kernel & context                 | Multiple / TBD                                           | Enterprise Accepted                                                                                                                                                                            |
+| PAS-001A | ERP Integration Spine                     | Kernel & context                 | B71–B75 historical · B111 skeleton · PAS-001A-R1 pending | Production Candidate (doctrine) · runtime partial                                                                                                                                              |
+| PAS-001B | Kernel ERP Domain Vocabulary Catalog      | Kernel & context                 | B76–B106 closed                                          | Enterprise Accepted · catalog authority                                                                                                                                                        |
+| PAS-001C | ERP Module Foundation Standard            | ERP Module Runtime Foundation    | ERP-MOD-FDN-003 Delivered                                | Production Candidate · foundation_authority                                                                                                                                                    |
+| PAS-002  | Architecture Authority                    | Governance                       | Multiple / TBD                                           | MVP Authority                                                                                                                                                                                  |
+| PAS-002A | Architecture Authority extension          | Governance                       | — / TBD                                                  | Enterprise Accepted                                                                                                                                                                            |
+| PAS-003  | Accounting Standards Authority            | Accounting standards authority   | B0–B20 delivered                                         | Enterprise Accepted                                                                                                                                                                            |
+| PAS-004  | Enterprise Knowledge Standard             | Knowledge                        | Multiple / TBD                                           | MVP → Production Candidate                                                                                                                                                                     |
+| PAS-004A | Enterprise Knowledge extension A          | Knowledge                        | —                                                        | Production Candidate                                                                                                                                                                           |
+| PAS-004B | Enterprise Knowledge Kernel Consumer      | Knowledge                        | —                                                        | Production Candidate                                                                                                                                                                           |
+| PAS-004C | Enterprise Knowledge Semantic Model       | Knowledge                        | —                                                        | Production Candidate                                                                                                                                                                           |
+| PAS-004D | Enterprise Knowledge Operational Closure  | Knowledge                        | —                                                        | Production Candidate                                                                                                                                                                           |
+| PAS-006  | shadcn/studio Frontend Standard (charter) | Design (ERP)                     | —                                                        | MVP Authority                                                                                                                                                                                  |
+| PAS-006A | shadcn/studio Product Standard            | Design (ERP)                     | 1 / 1                                                    | Production Candidate                                                                                                                                                                           |
+| PAS-006B | Inventory & Production Pipeline           | Design (ERP)                     | 0 / 3                                                    | Proposed                                                                                                                                                                                       |
+| PAS-006C | Surface Acceptance (ACPA)                 | Design (ERP)                     | 0 / 3                                                    | Proposed                                                                                                                                                                                       |
+| PAS-006D | Metadata-Driven Surfaces                  | Design (ERP)                     | 0 / 2                                                    | Proposed                                                                                                                                                                                       |
+| PAS-005  | CSS Authority Standard                    | Design (archived)                | Retired for ERP — B26–B37 historical                     | Retired                                                                                                                                                                                        |
+| PAS-005A | shadcn/studio Presentation                | Design (archived)                | Merged into PAS-006                                      | Retired                                                                                                                                                                                        |
+| PAS-005B | Design System Retirement                  | Design (archived)                | Superseded by ADR-0027 cutover                           | Retired                                                                                                                                                                                        |
+| PAS-006+ | Accounting Runtime                        | Accounting runtime               | 0 / TBD                                                  | Blocked — ADR-0010                                                                                                                                                                             |
+| Planned  | Consolidation                             | Consolidation runtime            | 0 / TBD                                                  | Planned                                                                                                                                                                                        |
+| Planned  | Intercompany                              | Intercompany runtime             | 0 / TBD                                                  | Planned                                                                                                                                                                                        |
+| Planned  | Tax                                       | Tax runtime                      | 0 / TBD                                                  | Planned                                                                                                                                                                                        |
+| Planned  | Finance / Management Reporting            | Finance / management reporting   | 0 / TBD                                                  | Planned                                                                                                                                                                                        |
+| Planned  | Financial Reporting                       | Financial reporting (statements) | 0 / TBD                                                  | Planned                                                                                                                                                                                        |
+| Planned  | HRM                                       | HRM                              | 0 / TBD                                                  | Planned                                                                                                                                                                                        |
+| Planned  | CRM                                       | CRM                              | 0 / TBD                                                  | Planned                                                                                                                                                                                        |
+| Planned  | Procurement                               | Procurement                      | 1 / TBD                                                  | Planned · [Procurement NS](../NORTHSTAR/procurement-north-star.md) · [readiness scaffold](../PAS/ERP-MODULES/PROCUREMENT/procurement-runtime-readiness-report.md) · ERP-PROC-FDN-001 Delivered |
 
 > **Rule:** A PAS may be marked Live only when its Blueprint box is `live` and at least one slice is Delivered. Update `Live slices / Total slices` on every slice close.
 
@@ -266,23 +266,23 @@ This table is the canonical count. Every PAS row must trace back to a Blueprint 
 
 **Every governed box → one PAS.** Derived extensions use `PAS-NNNA` without amending parent §1–§16 unless an explicit amendment slice says so.
 
-| Blueprint box | Package / surface | PAS | Maturity (see PAS index) |
-| --- | --- | --- | --- |
-| Kernel | `@afenda/kernel` | PAS-001, PAS-001A, PAS-001B | Enterprise Accepted · PAS-001A doctrine PC · runtime partial (ADR-0027 skeleton) |
-| ERP module runtime foundation | `@afenda/erp-module-foundation` | PAS-001C | Production Candidate · [Blueprint](../BLUEPRINT/erp-module-runtime-blueprint.md) |
-| Architecture authority | `@afenda/architecture-authority` | PAS-002, PAS-002A | MVP / Enterprise Accepted |
-| Accounting standards | `@afenda/accounting-standards` | PAS-003 | Production Candidate |
-| Enterprise knowledge | `@afenda/enterprise-knowledge` | PAS-004 … PAS-004D | MVP → Production Candidate |
-| shadcn/studio (ERP frontend) | `@afenda/shadcn-studio` | PAS-006, PAS-006A–006D | Production Candidate — not Enterprise Accepted until P06-010 |
-| CSS authority (archived) | `@afenda/css-authority` | PAS-005 | Retired for ERP |
-| Legacy UI/appshell (archived for ERP) | `@afenda/ui`, `@afenda/appshell` | — | Retired for ERP consumer paths |
-| Accounting runtime | `@afenda/accounting` | *Planned PAS-006+* | Not started — blocked |
-| Consolidation | `@afenda/consolidation` | *Planned* | Not started |
-| Intercompany | `@afenda/intercompany` | *Planned* | Not started |
-| Tax | `@afenda/tax` | *Planned* | Not started |
-| Finance | `@afenda/finance` | *Planned* | Not started |
-| Reporting | `@afenda/reporting` | *Planned* | Not started |
-| HRM / CRM / Procurement | respective `@afenda/*` | *Planned* | Reserved in package registry |
+| Blueprint box                         | Package / surface                | PAS                         | Maturity (see PAS index)                                                         |
+| ------------------------------------- | -------------------------------- | --------------------------- | -------------------------------------------------------------------------------- |
+| Kernel                                | `@afenda/kernel`                 | PAS-001, PAS-001A, PAS-001B | Enterprise Accepted · PAS-001A doctrine PC · runtime partial (ADR-0027 skeleton) |
+| ERP module runtime foundation         | `@afenda/erp-module-foundation`  | PAS-001C                    | Production Candidate · [Blueprint](../BLUEPRINT/erp-module-runtime-blueprint.md) |
+| Architecture authority                | `@afenda/architecture-authority` | PAS-002, PAS-002A           | MVP / Enterprise Accepted                                                        |
+| Accounting standards                  | `@afenda/accounting-standards`   | PAS-003                     | Production Candidate                                                             |
+| Enterprise knowledge                  | `@afenda/enterprise-knowledge`   | PAS-004 … PAS-004D          | MVP → Production Candidate                                                       |
+| shadcn/studio (ERP frontend)          | `@afenda/shadcn-studio`          | PAS-006, PAS-006A–006D      | Production Candidate — not Enterprise Accepted until P06-010                     |
+| CSS authority (archived)              | `@afenda/css-authority`          | PAS-005                     | Retired for ERP                                                                  |
+| Legacy UI/appshell (archived for ERP) | `@afenda/ui`, `@afenda/appshell` | —                           | Retired for ERP consumer paths                                                   |
+| Accounting runtime                    | `@afenda/accounting`             | *Planned PAS-006+*          | Not started — blocked                                                            |
+| Consolidation                         | `@afenda/consolidation`          | *Planned*                   | Not started                                                                      |
+| Intercompany                          | `@afenda/intercompany`           | *Planned*                   | Not started                                                                      |
+| Tax                                   | `@afenda/tax`                    | *Planned*                   | Not started                                                                      |
+| Finance                               | `@afenda/finance`                | *Planned*                   | Not started                                                                      |
+| Reporting                             | `@afenda/reporting`              | *Planned*                   | Not started                                                                      |
+| HRM / CRM / Procurement               | respective `@afenda/*`           | *Planned*                   | Reserved in package registry                                                     |
 
 Packages without a PAS today (auth, database, permissions, appshell, etc.) are governed by ADRs, registries, and domain guides until promoted to PAS when boundary complexity crosses the governance threshold ([`docs/PAS/README.md`](../PAS/README.md)).
 
@@ -315,11 +315,11 @@ This Blueprint must **not** contain:
 
 ## Related documents
 
-| Document | Role |
-| --- | --- |
-| [afenda-platform-north-star.md](afenda-platform-north-star.md) | Platform why + capability expectations |
-| [foundation-delivery-authority.md](foundation-delivery-authority.md) | PAS implementation workflow |
-| [docs/PAS/README.md](../PAS/README.md) | PAS index and maturity |
-| [afenda-runtime-truth-matrix.md](afenda-runtime-truth-matrix.md) | What is live today (evidence matrix) |
-| [shadcn-studio-presentation-north-star.md](../NORTHSTAR/shadcn-studio-presentation-north-star.md) | shadcn/studio Presentation domain NS |
-| [shadcn-studio-presentation-blueprint.md](../BLUEPRINT/shadcn-studio-presentation-blueprint.md) | shadcn/studio Presentation blueprint |
+| Document                                                                                          | Role                                   |
+| ------------------------------------------------------------------------------------------------- | -------------------------------------- |
+| [afenda-platform-north-star.md](afenda-platform-north-star.md)                                    | Platform why + capability expectations |
+| [foundation-delivery-authority.md](foundation-delivery-authority.md)                              | PAS implementation workflow            |
+| [docs/PAS/README.md](../PAS/README.md)                                                            | PAS index and maturity                 |
+| [afenda-runtime-truth-matrix.md](afenda-runtime-truth-matrix.md)                                  | What is live today (evidence matrix)   |
+| [shadcn-studio-presentation-north-star.md](../NORTHSTAR/shadcn-studio-presentation-north-star.md) | shadcn/studio Presentation domain NS   |
+| [shadcn-studio-presentation-blueprint.md](../BLUEPRINT/shadcn-studio-presentation-blueprint.md)   | shadcn/studio Presentation blueprint   |

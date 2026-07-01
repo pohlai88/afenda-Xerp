@@ -6,5 +6,8 @@
     "biomejs.biome",
     "vitest.explorer",
     "Themeselection.shadcn-studio-vscode-extension"
+  ],
+  "unwantedRecommendations": [
+    "ms-vscode.vscode-typescript-next"
   ]
 }

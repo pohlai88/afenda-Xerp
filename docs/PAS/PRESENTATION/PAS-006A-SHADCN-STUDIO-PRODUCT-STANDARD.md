@@ -67,7 +67,7 @@ Presentation **product runtime** — the install target for shadcn/studio MCP, t
 | Primitives | `src/components/ui/` | shadcn CLI targets |
 | Blocks | `src/components/shadcn-studio/blocks/` | MCP install targets |
 | Block parity registry | `src/registry/studio-block-parity.registry.ts` | Inventory seed — extended by 006B |
-| Storybook lab | `apps/storybook/stories/shadcn-studio-*.stories.tsx` | Pre-ERP verification |
+| Storybook lab | `apps/storybook` · `packages/shadcn-studio/src/**/*.stories.tsx` | Pre-ERP verification · [P06-012](SLICE/p06-012-storybook-enterprise-lab.md) CI smoke |
 
 ---
 

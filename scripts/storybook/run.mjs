@@ -8,7 +8,7 @@ const root = join(scriptDir, "../..");
 const HELP = `Afenda Storybook CLI
 
 Usage:
-  pnpm storybook              Start dev server (port 6006) after codegen
+  pnpm storybook              Start dev server (port 6006, exact-port) after codegen
   pnpm storybook dev          Same as above
   pnpm storybook generate     Run Storybook codegen (docs CSS sync, etc.)
   pnpm storybook build        Production Storybook build after codegen

@@ -1,0 +1,172 @@
+---
+description: Figma MCP design-to-code rules for Afenda ERP (PAS-006) — tokens, components, Storybook SSOT, no Code Connect.
+globs:
+  - packages/shadcn-studio/**
+  - apps/storybook/**
+  - apps/erp/**
+alwaysApply: false
+---
+
+# Figma MCP — Afenda Design System Rules (PAS-006)
+
+Use when integrating Figma designs via MCP (`get_design_context`, `get_screenshot`, `use_figma`, `generate_figma_design`) into this monorepo.
+
+**Operational authority:** [`.cursor/skills/shadcn-studio/figma-mcp-afenda.md`](../skills/shadcn-studio/figma-mcp-afenda.md)  
+**Design system file:** [Afenda Brand Tokens (AdminCN)](https://www.figma.com/design/LsmtG4KiaTUi3KpjxZXHwH/Afenda-Brand-Tokens-AdminCN) · file key `LsmtG4KiaTUi3KpjxZXHwH`
+
+**Policy:** No Figma Code Connect. Map Figma → code via manifests + primitive registry + Storybook.
+
+---
+
+## 1. Token definitions
+
+| Series | Figma collection | Modes | CSS authority | Scoped class |
+|--------|------------------|-------|---------------|--------------|
+| AdminCN default | **Color** | Light, Dark | `packages/shadcn-studio/src/styles/shadcn-studio.css` | `:root` / `.dark` |
+| Brand (Swiss Noir DNA) | **Color Brand** | Brand Light, Brand Dark | `packages/shadcn-studio/src/styles/afenda-brand.css` | `.theme-afenda-brand` |
+| Lab editorial | — (Storybook only) | — | `presentation-lab.noir.css` | `.theme-afenda-swiss-noir` |
+| Raw anchors | **Primitives** | Value | `tokens-complete.json` | future aliasing |
+| Spacing / radius | **Spacing**, **Radius** | Value | `shadcn-studio.css` `@theme` | `--spacing-*`, `--radius-*` |
+
+**SSOT JSON:** `packages/shadcn-studio/tokens-complete.json`
+
+**Manifests:**
+
+- `packages/shadcn-studio/src/styles/shadcn-studio.figma-manifest.json` — master file map
+- `packages/shadcn-studio/src/styles/afenda-brand.figma-manifest.json` — Color Brand ↔ CSS
+
+**Preset (review artifact):** `packages/shadcn-studio/src/styles/afenda-brand.preset.ts` — Swiss Noir anchors (ink, paper, gold, blueprint)
+
+**Figma → code:** Use `get_variable_defs` or import-variables skill; diff against manifests. Never invent hex in components when a semantic token exists.
+
+**After CSS edits:** `pnpm sync:package-css-dist -- --package @afenda/shadcn-studio` · `pnpm check:package-css-dist-sync`
+
+---
+
+## 2. Component library
+
+| Layer | Path | Import |
+|-------|------|--------|
+| Primitives | `packages/shadcn-studio/src/components/ui/` | `@afenda/shadcn-studio` barrel |
+| Contracts | `packages/shadcn-studio/src/components/ui/{name}.contract.ts` | variant axes before compose |
+| Registry | `packages/shadcn-studio/src/governance/ui-primitive-metadata.registry.ts` | governed inventory |
+| Blocks | `packages/shadcn-studio/src/components/shadcn-studio/blocks/` | `/ftc` or `@ss-blocks/*` |
+| Storybook lab | `packages/shadcn-studio/src/_storybook/` | verification only |
+
+**Install cwd:** `packages/shadcn-studio`
+
+**Stock blocks:** shadcn/studio MCP `/ftc` → `@ss-blocks/<id>`
+
+**Kit frames:** shadcncraft registry → `@shadcncraft/<name>` (Rule 0: install before JSX)
+
+---
+
+## 3. Frameworks and libraries
+
+| Stack | Version / note |
+|-------|----------------|
+| React | 19 function components |
+| Next.js | App Router — `apps/erp` |
+| Storybook | `apps/storybook` — visual SSOT for tokens + primitives |
+| Tailwind | v4 via `@import "tailwindcss"` in package/app CSS |
+| shadcn | unprefixed CSS vars; `@afenda/shadcn-studio/shadcn-studio.css` |
+| Icons | `lucide-react` |
+| Build | pnpm monorepo · Turborepo |
+
+**Retired for ERP:** `@afenda/ui`, `@afenda/appshell`, PAS-005 css-authority, `ui:guard*`
+
+---
+
+## 4. Asset management
+
+| Asset type | Location |
+|------------|----------|
+| Storybook static | `apps/storybook/public/` |
+| ERP public | `apps/erp/public/` |
+| Presentation lab | `packages/shadcn-studio/src/_storybook/presentation-lab/` |
+| Figma MCP exports | Save under app `public/`; `apps/erp/next.config.ts` allows `localhost:3845` for desktop MCP |
+
+**Images in Figma workflows:** When source UI has images, run `generate_figma_design` capture in parallel with `use_figma`; transfer `imageHash` from capture — Plugin API cannot fetch external URLs.
+
+---
+
+## 5. Icon system
+
+- **Library:** `lucide-react` only in `@afenda/shadcn-studio` and ERP consumers
+- **Usage:** `<Search />` etc. on Button `size="icon-sm"`; decorative icons `aria-hidden`
+- **Figma:** Import SVG via `figma.createNodeFromSvg()` — never reconstruct from rotated primitives
+
+---
+
+## 6. Styling approach
+
+```
+apps/storybook/.storybook/preview.css
+  → @afenda/shadcn-studio/shadcn-studio.css   (AdminCN :root / .dark)
+  → afenda-brand.css                          (Color Brand scoped class)
+  → presentation-lab.noir.css                 (Swiss Noir lab — L4 only)
+
+apps/erp/src/app/globals.css
+  → @afenda/shadcn-studio/shadcn-studio.css   (production default)
+```
+
+**Methodology:** Tailwind v4 utility classes + CSS custom properties. No CSS Modules for shadcn primitives.
+
+**Theme switching:** `next-themes` `class` strategy; brand surfaces use `.theme-afenda-brand` wrapper + optional `.dark`.
+
+**Responsive:** Tailwind breakpoints (`sm`, `lg`, `xl`, `2xl`); Storybook fullscreen layouts via `shadcnStudioFullscreenLayout`.
+
+**Three palette series (Token Verification):**
+
+1. AdminCN Light — `:root` from `shadcn-studio.css` (no wrapper class)
+2. AdminCN Dark — `.dark` on panel wrapper only
+3. Brand Dark — `.dark` + `.theme-afenda-brand` + `.theme-afenda-swiss-noir` + `lab-noir-canvas`
+
+**Hard stops (CSS authority):**
+
+- **Never** copy `:root` / `.dark` token blocks into `_storybook/*.css` — that creates drift (vibe-coding V011).
+- **Never** put global `:root` or bare `.dark` overrides in `presentation-lab.visual.css` — lab themes use scoped classes only (`.theme-afenda-verdant-milk-noir`).
+- **Never** add new semantic tokens to fix one Storybook story — use existing `--primary`, `--destructive`, etc.
+- Side-by-side columns inherit from `html`; keep story `globals.theme: "light"` so AdminCN Light column reads `:root` SSOT.
+
+---
+
+## 7. Project structure
+
+```text
+packages/shadcn-studio/     ← PAS-006 presentation package (install + CSS + stories)
+apps/storybook/             ← Storybook host + lab stories
+apps/erp/                   ← ERP consumer (barrel imports only)
+docs/PAS/PRESENTATION/      ← PAS-006 standard
+.cursor/skills/shadcn-studio/ ← MCP workflows, figma-mcp-afenda.md
+```
+
+**Verification stories (code SSOT):**
+
+| Story | Purpose |
+|-------|---------|
+| `Shadcn Studio/Token Verification` | AdminCN + Brand side-by-side component matrix |
+| `Shadcn Studio/Afenda Brand Theme Lab` | Brand tokens on sidebar/table chrome |
+| `Presentation Lab/Swiss Noir Control Room` | Editorial palette reference (L4) |
+
+**Figma role:** Optional capture/QA — not runtime SSOT. Use `generate_figma_design` for pixel reference; `use_figma` for design-system component instances.
+
+---
+
+## 8. MCP workflow quick reference
+
+| Task | Path |
+|------|------|
+| Composed Figma screen | [figma-generate-design](https://developers.figma.com) skill — wrapper first, section-by-section `use_figma` |
+| Token import | `shadcncraft-import-variables` skill |
+| Custom frame → code | `get_design_context` + primitives-only prompt |
+| Visual QA | Storybook + optional Figma capture node `26:2` |
+
+**Gates before merge:**
+
+```bash
+pnpm --filter @afenda/shadcn-studio typecheck
+pnpm check:studio-metadata-binding
+pnpm check:package-css-dist-sync
+pnpm --filter @afenda/erp build
+```

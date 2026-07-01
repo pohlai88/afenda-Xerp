@@ -8,7 +8,7 @@ import {
   isThemeScale,
   isThemeSidebarCollapsible,
   isThemeSidebarVariant,
-  type ThemeFont,
+  isThemeFont,
 } from "./theme-preset.contract.js";
 
 /** JSON-safe subset persisted to localStorage (boundary contract). */
@@ -80,8 +80,8 @@ export function parseStoredSettings(raw: string): Partial<Settings> | null {
       partial.sidebarOpen = record["sidebarOpen"];
     }
 
-    if (record["font"] === "geist") {
-      partial.font = record["font"] satisfies ThemeFont;
+    if (typeof record["font"] === "string" && isThemeFont(record["font"])) {
+      partial.font = record["font"];
     }
 
     return partial;

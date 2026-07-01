@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 import { STUDIO_COMPOSITION_COMPONENTS } from "./studio-composition-manifest.mjs";
 
 const repoRoot = join(fileURLToPath(new URL(".", import.meta.url)), "../..");
-const uiDir = join(repoRoot, "packages/shadcn-studio/src/components/ui");
+const uiDir = join(repoRoot, "packages/shadcn-studio/src/components-ui");
 
 function bumpFile(path) {
   if (!existsSync(path)) {

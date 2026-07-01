@@ -183,7 +183,13 @@ export type ThemeSidebarVariant = "default" | "inset" | "floating";
 
 export type ThemeSidebarCollapsible = "offcanvas" | "icon" | "none";
 
-export type ThemeFont = "geist";
+export type ThemeFont = "geist" | "inter" | "system";
+
+export const THEME_FONTS = [
+  "geist",
+  "inter",
+  "system",
+] as const satisfies readonly ThemeFont[];
 
 export const THEME_LAYOUTS = [
   "compact",
@@ -201,6 +207,10 @@ export const THEME_SIDEBAR_COLLAPSIBLES = [
   "icon",
   "none",
 ] as const satisfies readonly ThemeSidebarCollapsible[];
+
+export function isThemeFont(value: string): value is ThemeFont {
+  return (THEME_FONTS as readonly string[]).includes(value);
+}
 
 export function isThemeLayout(value: string): value is ThemeLayout {
   return (THEME_LAYOUTS as readonly string[]).includes(value);

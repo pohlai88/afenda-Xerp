@@ -1,6 +1,6 @@
 # @afenda/shadcn-studio — Source Architecture
 
-> **Authority:** [ADR-0037](../../docs/adr/ADR-0037-shadcn-studio-src-layered-structure.md) · [PAS-006A](../../docs/PAS/PRESENTATION/PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md) · [P06-011](../../docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md)
+> **Authority:** [ADR-0038](../../docs/adr/ADR-0038-shadcn-studio-prefixed-folder-layout.md) (amends ADR-0037) · [ADR-0037](../../docs/adr/ADR-0037-shadcn-studio-src-layered-structure.md) · [PAS-006A](../../docs/PAS/PRESENTATION/PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md) · [P06-011](../../docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md)
 
 This document is the **maintainer map** for `packages/shadcn-studio/src`. Physical paths are frozen for MCP; logical layers explain what each folder owns.
 
@@ -9,23 +9,23 @@ This document is the **maintainer map** for `packages/shadcn-studio/src`. Physic
 ## Four layers
 
 ```text
-L1 AUTHORITY (Zone A)     contracts/  registry/  governance/
+L1 AUTHORITY (Zone A)     meta-contracts/  meta-registry/  meta-gates/
         │                      relative imports only — no @/
         ▼
-L2 PRODUCT (Zone B)       components/ui/  components/shadcn-studio/blocks/
+L2 PRODUCT (Zone B)       components-ui/  components-layouts/  components-auth-shell/  components-quarantine/
                           lib/  hooks/  assets/  theme/  styles/
         │                      @/components/ui  @/lib/utils OK
         ▼
-L3 SURFACES (Afenda)      components/erp-shell/
+L3 SURFACES (Afenda)      components-app-shell/
         ▼
-L4 VERIFICATION (internal) _storybook/  __tests__/  *.stories.tsx
+L4 VERIFICATION (internal) storybook/  gate/  *.stories.tsx
 ```
 
 | Layer | You edit here when… | Must not |
 | --- | --- | --- |
 | **L1 Authority** | Defining cross-surface wire shapes, inventory, lifecycle, gate matrices | Import `@/` · render React in L1 contracts |
 | **L2 Product** | MCP primitives/blocks, theme, CSS, utilities, **primitive contracts** | Import `@/contracts` or `@/registry` |
-| **L3 Surfaces** | ERP operator shell composition | Run `shadcn --overwrite` on ui/* |
+| **L3 Surfaces** | App shell composition | Run `shadcn --overwrite` on ui/* |
 | **L4 Verification** | Storybook params, package gate tests, MDX docs | Export from main `@afenda/shadcn-studio` barrel |
 
 **L4 note:** L4 is not production runtime. Gate tests under `__tests__/` remain authoritative verification artifacts.
@@ -36,22 +36,21 @@ L4 VERIFICATION (internal) _storybook/  __tests__/  *.stories.tsx
 
 | Path | Layer | Files (approx) | Owns |
 | --- | --- | ---: | --- |
-| `contracts/` | L1 | 21 | Wire contracts: acceptance, lifecycle, metadata binding, surface templates |
-| `contracts/blocks/` | L1 | 11 | Block governance metadata (`*.block.contract.ts`) |
-| `registry/` | L1 | 18 | Inventory SSOT: slots, lifecycle, parity, metadata-binding graphs |
-| `governance/` | L1 | 4 | Gate aggregators — metadata registries for `pnpm check:*` |
+| `contracts/` | L1 | 13 | Wire contracts: acceptance, lifecycle, metadata binding, surface templates, block metadata builders |
+| `registry/` | L1 | 19 | Inventory SSOT: slots, lifecycle, parity, metadata-binding graphs + `_registry-inventory.registry` |
+| `governance/` | L1 | 4 | **One inventory SSOT** (`_governance.registry.ts`) + runtime aggregators + gate barrel |
 | `components/ui/` | L2 | 252 | Primitives: adapter `{name}.tsx` + `{name}.contract.ts` |
-| `components/shadcn-studio/blocks/` | L2 | ~70 | MCP Pro blocks (flat or folder per block) |
-| `components/erp-shell/` | L3 | 3 | ERP dashboard shell + nav (post ADR-0027) |
-| `lib/` | L2 | 4 | `utils`, `compose-class-name`, governed prop helpers |
-| `hooks/` | L2 | 2 | Shared hooks (e.g. pagination) |
+| `components-layouts/` | L2 | ~70 | MCP Pro blocks (flat or folder per block) |
+| `components/app-shell/` | L3 | 3 | App shell (dashboard layout + nav, post ADR-0027) |
+| `lib/` | L2 | 5 | `utils`, `compose-class-name`, `compute-pagination-range`, `governed-primitive-props`, `_lib-inventory.registry` |
+| `hooks/` | L2 | 1 | React hooks (`useIsMobile` for sidebar) — pagination logic lives in `lib/` |
 | `assets/svg/` | L2 | 13 | Block illustrations and icons |
 | `theme/` | L2 | 10 | Presets, ThemeCustomizer, settings context |
 | `styles/shadcn-studio.css` | L2 | 1 | Theme CSS source → `dist/shadcn-studio.css` |
 | `lab/index.ts` | L4 export | 1 | Public subpath barrel for Storybook parameters |
-| `_storybook/` | L4 | 11 | Story parameters source, promotion MDX |
+| `storybook/` | L4 | 11 | Story parameters source, promotion MDX |
 | `__tests__/` | L4 | 27 | Package gate tests |
-| `*.stories.tsx` (src root) | L4 | 7+ | Storybook lab stories (codegen + curated) |
+| `src/storybook/*.stories.tsx` | L4 | 10+ | Storybook lab stories (codegen + curated) |
 | `index.ts` | Public | 1 | L2 + L3 + selective L1 wire types (no L4) |
 
 ---
@@ -64,8 +63,9 @@ The word **contract** is overloaded. Use these terms in PRs and Phase 0 handoffs
 | --- | --- | --- | --- | --- |
 | **Primitive contract** | `components/ui/{name}.contract.ts` | **L2** | `button.contract.ts` | `PRIMITIVE_ID`, slots, cva, variant types |
 | **Primitive adapter** | `components/ui/{name}.tsx` | L2 | `button.tsx` | Base UI render, public props, `data-slot` |
-| **Block contract** | `contracts/blocks/{id}.block.contract.ts` | L1 | `login-page-04.block.contract.ts` | Block metadata for governance gates |
-| **Wire contract** | `contracts/{topic}.contract.ts` | L1 | `acceptance-record.contract.ts` | Serializable boundary types |
+| **Block metadata** | `block-metadata.contract.ts` + `block-metadata.builders.ts` | L1 | `buildBlockMetadata()` | Governed block metadata derived from `registry/block-slot.registry.ts` |
+| **Wire contract** | `contracts/{topic}.contract.ts` | L1 | `app-shell.contract.ts` | Serializable boundary types (nav, operating context) |
+| **L1 envelope** | `_contract-envelope.registry.ts` + `@afenda.l1-contract-envelope` header | L1 | flat-L1 series (2026-07-01) | Inventory SSOT; gate fails on add/delete without registry update |
 | **Data contract** | `contracts/block-data.contract.ts` | L1 | — | Column/action wire shapes for datatables |
 
 **Not all `*.contract.ts` files are L1 authority contracts.**
@@ -81,7 +81,7 @@ Skill: [afenda-primitive-contract](../../.cursor/skills/afenda-primitive-contrac
 | Folder | Role | Rule |
 | --- | --- | --- |
 | `registry/` | **Inventory source of truth** | Slots, lifecycle states, MCP parity, metadata-binding registry |
-| `governance/` | **CI gate aggregation** | Combines contract metadata for `check:studio-metadata-binding` and related gates |
+| `governance/` | **CI gate aggregation** | One `_governance.registry.ts` inventory + runtime aggregators (`*.registry.ts` derive from `registry/` + L2) |
 
 `governance/` must not introduce parallel inventory truth — aggregate from `registry/` + `contracts/`.
 
@@ -109,8 +109,8 @@ Legacy Zone shorthand:
 
 | Zone | Paths | Allowed | Forbidden |
 | --- | --- | --- | --- |
-| **A** | `contracts/**`, `registry/**`, `governance/**` | Relative (`../contracts/...`) | `@/`, `@afenda/shadcn-studio` self-import |
-| **B** | `components/**`, `lib/**`, `hooks/**` | `@/components/ui/*`, `@/lib/utils` | `@/contracts/*`, `@/registry/*` |
+| **A** | `contracts/**`, `registry/**`, `governance/**` | Relative (`../meta-contracts/...`) | `@/`, `@afenda/shadcn-studio` self-import |
+| **B** | `components/**`, `lib/**`, `hooks/**` | `@/components-ui/*`, `@/lib/utils` | `@/contracts/*`, `@/registry/*` |
 | **C** | `apps/erp`, Storybook | `@afenda/shadcn-studio` barrel | Deep `src/...` paths |
 
 ---
@@ -133,7 +133,7 @@ Legacy Zone shorthand:
 | MCP target | Path |
 | --- | --- |
 | Primitives | `src/components/ui/` |
-| Pro blocks | `src/components/shadcn-studio/blocks/` |
+| Pro blocks | `src/components-layouts/` |
 
 **Never** `shadcn add --overwrite` on existing `components/ui/*`.
 
@@ -156,8 +156,10 @@ Folder name = registry `mcpBlockId`.
 
 | Export path | Contents |
 | --- | --- |
-| `@afenda/shadcn-studio` | L2 blocks/primitives/theme + L3 erp-shell + selective L1 wire types |
+| `@afenda/shadcn-studio` | L2 blocks/primitives/theme + L3 app-shell + selective L1 wire types |
 | `@afenda/shadcn-studio/lab` | L4 Storybook parameters — **not for ERP** |
+
+**In-package stories** import `./lab/index.js` (not `@afenda/shadcn-studio/lab`) — same-package import zone gate.
 | `@afenda/shadcn-studio/theme` | Theme preset surface |
 | `@afenda/shadcn-studio/governance` | Server/gate-only assert helpers |
 | `@afenda/shadcn-studio/shadcn-studio.css` | Dist CSS |
@@ -191,9 +193,12 @@ Full lifecycle: [PAS-006B](../../docs/PAS/PRESENTATION/PAS-006B-INVENTORY-PRODUC
 ## Gates (structure-related)
 
 ```bash
+pnpm check:studio-l1-contracts
+pnpm check:studio-registry-inventory
 pnpm check:studio-import-zones
 pnpm check:studio-metadata-binding
 pnpm check:studio-block-slot-markers
+pnpm check:studio-blocks
 pnpm --filter @afenda/shadcn-studio typecheck
 pnpm --filter @afenda/shadcn-studio test:run
 pnpm --filter @afenda/shadcn-studio build
@@ -205,4 +210,4 @@ pnpm --filter @afenda/shadcn-studio build
 
 - [README.md](./README.md) — commands and quick start
 - [shadcn-studio skill](../../.cursor/skills/shadcn-studio/SKILL.md)
-- [P06-SHELL-001](../../docs/PAS/PRESENTATION/SLICE/p06-shell-001-erp-operator-shell-authority.md)
+- [P06-SHELL-001](../../docs/PAS/PRESENTATION/SLICE/p06-shell-001-app-shell-authority.md)

@@ -22,7 +22,7 @@ export const clientErrorPostContract = {
   id: "internal.v1.client-error.post",
   summary: "Report client-side error",
   description:
-    "Ingests client-side JavaScript errors and telemetry from the ERP shell. Public route for pre-auth error reporting.",
+    "Ingests client-side JavaScript errors and telemetry from the app shell. Public route for pre-auth error reporting.",
   idempotency: { mode: "optional" },
   lifecycle: "deprecated",
   lifecycleMigration: {

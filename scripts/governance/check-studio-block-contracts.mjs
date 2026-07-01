@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
 /**
- * PAS-006 Phase 3 — block contract lane gate (template-bound MCP blocks).
+ * PAS-006 Phase 3 — block metadata lane gate (registry-derived, flat meta-contracts/).
  */
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -10,48 +10,79 @@ import { fileURLToPath } from "node:url";
 import { GOVERNED_BLOCK_CONTRACT_IDS } from "./studio-block-contract-manifest.mjs";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
-const blocksDir = join(repoRoot, "packages/shadcn-studio/src/contracts/blocks");
+const contractsDir = join(repoRoot, "packages/shadcn-studio/src/meta-contracts");
+
+const requiredFiles = [
+  "block-metadata.contract.ts",
+  "block-metadata.builders.ts",
+];
 
 const violations = [];
 
-for (const blockId of GOVERNED_BLOCK_CONTRACT_IDS) {
-  const contractPath = join(blocksDir, `${blockId}.block.contract.ts`);
+for (const fileName of requiredFiles) {
+  const filePath = join(contractsDir, fileName);
 
-  if (!existsSync(contractPath)) {
-    violations.push(`${blockId}: missing ${blockId}.block.contract.ts`);
+  if (!existsSync(filePath)) {
+    violations.push(`missing meta-contracts/${fileName}`);
     continue;
   }
 
-  const source = readFileSync(contractPath, "utf8");
+  const source = readFileSync(filePath, "utf8");
 
-  if (!/BlockMetadata\s*\(\)/.test(source)) {
-    violations.push(`${blockId}: missing blockMetadata() factory export`);
-  }
-
-  const usesDatatableFamilyContract =
-    blockId.startsWith("datatable-") &&
-    source.includes("datatable-block.contract");
-
-  if (
-    !(source.includes("BLOCK_CONTRACT_VERSION") || usesDatatableFamilyContract)
-  ) {
-    violations.push(`${blockId}: must import BLOCK_CONTRACT_VERSION`);
+  if (!source.includes("BLOCK_METADATA_VERSION")) {
+    violations.push(`${fileName}: must export BLOCK_METADATA_VERSION`);
   }
 }
 
-const familyContractPath = join(blocksDir, "datatable-block.contract.ts");
+const buildersPath = join(contractsDir, "block-metadata.builders.ts");
 
-if (!existsSync(familyContractPath)) {
-  violations.push("missing datatable-block.contract.ts family SSOT");
+if (existsSync(buildersPath)) {
+  const buildersSource = readFileSync(buildersPath, "utf8");
+
+  if (!buildersSource.includes("buildBlockMetadata")) {
+    violations.push("block-metadata.builders.ts: missing buildBlockMetadata()");
+  }
+
+  if (!buildersSource.includes("buildGovernedBlockMetadataRegistry")) {
+    violations.push(
+      "block-metadata.builders.ts: missing buildGovernedBlockMetadataRegistry()"
+    );
+  }
+
+  if (!buildersSource.includes("DATATABLE_BLOCK_FAMILY_PREFIX")) {
+    violations.push(
+      "block-metadata.builders.ts: missing datatable family prefix"
+    );
+  }
+}
+
+const legacyBlocksDir = join(contractsDir, "blocks");
+
+if (existsSync(legacyBlocksDir)) {
+  violations.push(
+    "meta-contracts/blocks/ must not exist — use block-metadata.builders.ts + registry SSOT"
+  );
 }
 
 const registryPath = join(
   repoRoot,
-  "packages/shadcn-studio/src/governance/block-metadata.registry.ts"
+  "packages/shadcn-studio/src/meta-gates/block-metadata.registry.ts"
 );
 
 if (!existsSync(registryPath)) {
-  violations.push("missing block-metadata.registry.ts");
+  violations.push("missing meta-gates/block-metadata.registry.ts");
+} else {
+  const registrySource = readFileSync(registryPath, "utf8");
+
+  if (!registrySource.includes("buildGovernedBlockMetadataRegistry")) {
+    violations.push(
+      "block-metadata.registry.ts: must derive from buildGovernedBlockMetadataRegistry()"
+    );
+  }
+}
+
+if (GOVERNED_BLOCK_CONTRACT_IDS.length === 0) {
+  violations.push("studio-block-contract-manifest: no governed block ids");
 }
 
 if (violations.length > 0) {
@@ -70,7 +101,7 @@ const testRun = spawnSync(
     "exec",
     "vitest",
     "run",
-    "block-contracts.registry",
+    "block-metadata.registry",
   ],
   { cwd: repoRoot, stdio: "inherit", shell: true }
 );

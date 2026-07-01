@@ -18,7 +18,11 @@ paths:
 
 **Surface map:** [`afenda-presentation-atlas`](../afenda-presentation-atlas/SKILL.md) — `/afenda-presentation-atlas` · what exists in `@afenda/shadcn-studio` before MCP install or ERP import.
 
+**Source architecture (L1–L4):** [`packages/shadcn-studio/ARCHITECTURE.md`](../../packages/shadcn-studio/ARCHITECTURE.md) · [ADR-0037](../../docs/adr/ADR-0037-shadcn-studio-src-layered-structure.md) · [P06-011](../../docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md)
+
 **Install reference:** [reference/base-vega-install.md](./reference/base-vega-install.md) · [reference/credentials-env.md](./reference/credentials-env.md)
+
+**Figma → code (required — no Code Connect):** [figma-mcp-afenda.md](./figma-mcp-afenda.md) — registry-first, `/ftc`, MCP + skills, in-repo manifests. **Do not** use Figma Code Connect or block on Enterprise license.
 
 ---
 
@@ -43,7 +47,16 @@ shadcn CLI install (packages/shadcn-studio cwd, base-vega)
 | --- | --- | --- | --- |
 | **A — Afenda authority** | `src/contracts/**`, `src/registry/**`, generators | Relative (`../contracts/...`) | `@/`, `@afenda/shadcn-studio` self-import |
 | **B — MCP / shadcn UI** | `src/components/ui/**`, `blocks/**`, `lib/**`, `hooks/**` | `@/components/ui/*`, `@/lib/utils` | `@/contracts/*`, `@/registry/*` |
-| **C — Cross-package** | `apps/erp`, appshell bridge | `@afenda/shadcn-studio` barrel | Deep `@afenda/shadcn-studio/src/...` |
+| **C — Cross-package** | `apps/erp`, Storybook lab | `@afenda/shadcn-studio` barrel · `@afenda/shadcn-studio/lab` (L4 only) | Deep `@afenda/shadcn-studio/src/...` · lab on ERP routes |
+
+**Public exports (ADR-0037):**
+
+| Subpath | Layer | Consumer |
+| --- | --- | --- |
+| `@afenda/shadcn-studio` | L2 + L3 + selective L1 | ERP, metadata gates |
+| `@afenda/shadcn-studio/lab` | L4 verification | Storybook only — never ERP |
+| `@afenda/shadcn-studio/governance` | L1 gate helpers | CI scripts |
+| `@afenda/shadcn-studio/shadcn-studio.css` | L2 theme | ERP + Storybook `preview.css` |
 
 Gate: `pnpm check:studio-import-zones` · dist must have no unresolved `@/` after `pnpm --filter @afenda/shadcn-studio build` (ERP consumer gate).
 
@@ -83,11 +96,12 @@ Composition entries are **imports + `@source` only** in Phase 1. Detail: [`afend
 | Studio toolbar config | `shadcn-studio.config.json` |
 | **Install cwd** | **`packages/shadcn-studio`** |
 | Package | `@afenda/shadcn-studio` |
+| **Architecture map** | [`packages/shadcn-studio/ARCHITECTURE.md`](../../packages/shadcn-studio/ARCHITECTURE.md) |
 | Theme presets | `packages/shadcn-studio/src/theme/theme-presets.ts` |
 | Primitives | `packages/shadcn-studio/src/components/ui/` |
 | Blocks | `packages/shadcn-studio/src/components/shadcn-studio/blocks/` |
 | Curated lab stories | `packages/shadcn-studio/src/shadcn-studio-blocks.stories.tsx` |
-| Auto block stories | `packages/shadcn-studio/src/shadcn-studio-blocks-auto.stories.tsx` (codegen) |
+| Auto block stories | `packages/shadcn-studio/src/stories/shadcn-studio-blocks-auto.stories.tsx` (codegen) |
 | Theme / primitive stories | `packages/shadcn-studio/src/shadcn-studio-{theme-lab,primitives}.stories.tsx` |
 | Lab welcome | `apps/storybook/stories/` |
 
@@ -102,12 +116,29 @@ Start the target dev server **before** the toolbar.
 
 ---
 
+## Figma design → code (no Code Connect)
+
+Afenda does **not** use Figma Code Connect (Org/Enterprise). Agents **must** follow [figma-mcp-afenda.md](./figma-mcp-afenda.md):
+
+| Task | Path |
+| --- | --- |
+| Studio block | `/ftc` or `@ss-blocks/*` install |
+| shadcncraft kit frame | `registry-index.json` → `@shadcncraft/*` |
+| Custom frame | Figma MCP + `shadcncraft-generate-code` + `@afenda/shadcn-studio` primitives |
+| Tokens | `tokens-complete.json` + optional `shadcncraft-import-variables` |
+| Figma ↔ implementation QA | Storybook `addon-designs` + `STORYBOOK_FIGMA_*` |
+
+In-repo mapping SSOT: `packages/shadcn-studio/src/styles/shadcn-studio.figma-manifest.json` · `ui-primitive-metadata.registry.ts`.
+
+---
+
 ## MCP servers
 
 | Server | Role |
 | --- | --- |
 | `shadcn` | Registry search, `shadcn add` — `-c packages/shadcn-studio` |
 | `shadcn-studio` | `/cui`, `/rui`, `/iui`, `/ftc` via `.cursor/mcp/shadcn-studio.mjs` |
+| `figma` / `figma-desktop` | `get_design_context`, `get_variable_defs`, `get_screenshot` — **not** Code Connect |
 
 ---
 

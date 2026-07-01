@@ -4,7 +4,7 @@ applyTo: "**"
 
 # Upstream shadcn/studio Figma MCP notes (generic)
 
-> **Afenda ERP:** Use [figma-mcp-afenda.md](./figma-mcp-afenda.md) instead — governed `@afenda/ui`, auth-shell promotion, and repo MCP wiring.
+> **Afenda ERP:** Use [figma-mcp-afenda.md](./figma-mcp-afenda.md) instead — **no Figma Code Connect**; registry-first + `/ftc` + `@afenda/shadcn-studio` primitives + in-repo manifests.
 
 # GitHub Copilot Instructions for shadcn/ui Project Figma MCP
 

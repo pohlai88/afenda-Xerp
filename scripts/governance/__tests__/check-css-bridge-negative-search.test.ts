@@ -14,7 +14,7 @@ import {
 describe("check-css-bridge-negative-search probes", () => {
   it("NS1 flags staging path references in production files", () => {
     const content =
-      'const x = "packages/ui/src/components/shadcn-studio/blocks/foo";';
+      'const x = "packages/ui/src/components-layouts/foo";';
     const hits = probeNs1StagingRefs(content, "apps/erp/src/lib/foo.ts");
     expect(hits).toHaveLength(1);
     expect(hits[0]).toMatch(/staging path/);

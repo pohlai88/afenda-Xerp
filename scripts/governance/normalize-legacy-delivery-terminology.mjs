@@ -86,7 +86,7 @@ const REPLACEMENTS = [
   ],
   [
     /docs\/architecture\/architecture-authority-baseline\.md/gi,
-    "packages/architecture-authority/src/contracts/architecture-authority-version.ts",
+    "packages/architecture-authority/src/meta-contracts/architecture-authority-version.ts",
   ],
   [
     /docs\/architecture\/dependency-snapshot\.json/gi,

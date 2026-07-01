@@ -2,7 +2,7 @@ import type { ZodType } from "zod";
 
 import { rejectUntrustedAuthorityFields } from "@/lib/context/reject-untrusted-authority-fields";
 
-import type { ApiErrorCode } from "../contracts/api-error.contract";
+import type { ApiErrorCode } from "../meta-contracts/api-error.contract";
 
 export class ApiRouteError extends Error {
   readonly code: ApiErrorCode;

@@ -2,6 +2,7 @@
 
 import { useTheme } from "next-themes";
 
+import { resolveColorMode } from "./apply-theme-preset.js";
 import { useSettings } from "./settings-context.js";
 import {
   assertThemePresetSlug,
@@ -10,10 +11,13 @@ import {
   THEME_LAYOUTS,
   THEME_SIDEBAR_COLLAPSIBLES,
   THEME_SIDEBAR_VARIANTS,
+  THEME_FONTS,
+  type ThemeFont,
   type ThemeMode,
   type ThemeRadius,
   type ThemeScale,
 } from "./theme-preset.contract.js";
+import { THEME_FONT_LABELS } from "./theme-font-stacks.js";
 import { themePresets } from "./theme-presets.js";
 
 const MODES: { value: ThemeMode; label: string }[] = [
@@ -82,7 +86,7 @@ function RadioGrid<T extends string>({
 export function ThemeCustomizer() {
   const { settings, updateSettings, resetSettings } = useSettings();
   const { resolvedTheme } = useTheme();
-  const colorMode = resolvedTheme === "dark" ? "dark" : "light";
+  const colorMode = resolveColorMode(resolvedTheme);
 
   const activePreset =
     settings.themePreset === "default"
@@ -169,6 +173,17 @@ export function ThemeCustomizer() {
         onChange={(value) => updateSettings({ scale: value })}
         options={SCALES}
         value={settings.scale}
+      />
+
+      <RadioGrid
+        legend="Font"
+        name="theme-font"
+        onChange={(value: ThemeFont) => updateSettings({ font: value })}
+        options={THEME_FONTS.map((font) => ({
+          label: THEME_FONT_LABELS[font],
+          value: font,
+        }))}
+        value={settings.font}
       />
 
       <RadioGrid

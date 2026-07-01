@@ -1,0 +1,45 @@
+"use client";
+
+/** PAS-006A L4 — Storybook theme decorator (canonical). Re-exported by `src/lab/index.ts`. */
+
+import type { Decorator } from "@storybook/react";
+import { ThemeProvider } from "next-themes";
+
+import { TooltipProvider } from "../components-ui/tooltip.js";
+import { SettingsProvider } from "../theme/settings-context.js";
+import type { ThemePresetSlug } from "../theme/theme-preset.contract.js";
+
+export interface ShadcnStudioStoryParameters {
+  shadcnStudioPreset?: ThemePresetSlug;
+}
+
+export const shadcnStudioThemeDecorator: Decorator = (Story, context) => {
+  const preset =
+    (context.parameters as ShadcnStudioStoryParameters).shadcnStudioPreset ??
+    "default";
+  const colorMode = context.globals["theme"] === "dark" ? "dark" : "light";
+  const isFullscreen = context.parameters["layout"] === "fullscreen";
+
+  return (
+    <ThemeProvider
+      attribute="class"
+      defaultTheme={colorMode}
+      enableSystem={false}
+      forcedTheme={colorMode}
+    >
+      <SettingsProvider initial={{ themePreset: preset, mode: colorMode }}>
+        <TooltipProvider delay={0}>
+          <div
+            className={
+              isFullscreen
+                ? "min-h-svh bg-background font-sans text-foreground antialiased"
+                : "bg-background p-4 font-sans text-foreground antialiased"
+            }
+          >
+            <Story />
+          </div>
+        </TooltipProvider>
+      </SettingsProvider>
+    </ThemeProvider>
+  );
+};

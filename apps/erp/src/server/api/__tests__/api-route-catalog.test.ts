@@ -10,7 +10,7 @@ import {
 
 const snapshotPath = join(
   import.meta.dirname,
-  "../contracts/api-route-catalog.snapshot.json"
+  "../meta-contracts/api-route-catalog.snapshot.json"
 );
 
 describe("API route catalog", () => {

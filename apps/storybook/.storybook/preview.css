@@ -6,6 +6,13 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@afenda/shadcn-studio/shadcn-studio.css";
+/* Brand token mirror — Storybook Theme Lab only (Layer 1 scoped class) */
+@import "../../../packages/shadcn-studio/src/styles/afenda-brand.css";
+/* L4 Presentation Lab scoped themes — not for ERP production */
+@import "../../../packages/shadcn-studio/src/storybook/presentation-lab/presentation-lab.visual.css";
+@import "../../../packages/shadcn-studio/src/storybook/presentation-lab/presentation-lab.noir.css";
+@import "../stories/afenda-expensive-calm.css";
+@import "../stories/lab-welcome-vercel.css";
 
 @source "../../../packages/shadcn-studio/src/**/*.{ts,tsx}";
 @source "../stories/**/*.{ts,tsx}";
@@ -16,4 +23,9 @@ body,
 #storybook-root,
 #storybook-docs {
   min-height: 100%;
+}
+
+#storybook-root,
+#storybook-docs {
+  font-family: var(--font-sans);
 }

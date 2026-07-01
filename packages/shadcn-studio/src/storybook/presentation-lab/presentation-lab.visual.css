@@ -1,0 +1,371 @@
+@custom-variant dark (&:is(.dark *));
+
+/*
+  Afenda Presentation Lab — Verdant Milk Noir
+  A calm, luxury, long-hour verification chamber.
+
+  Formula:
+  - hero is monumental but quiet
+  - floating box is the jewel
+  - green-black atmosphere
+  - milk typography
+  - niche gold hairline
+*/
+
+.theme-afenda-verdant-milk-noir {
+  --background: oklch(0.978 0.008 110);
+  --foreground: oklch(0.19 0.012 145);
+
+  --card: oklch(0.988 0.006 110);
+  --card-foreground: oklch(0.19 0.012 145);
+
+  --popover: oklch(0.992 0.005 110);
+  --popover-foreground: oklch(0.19 0.012 145);
+
+  --primary: oklch(0.43 0.055 155);
+  --primary-foreground: oklch(0.965 0.012 98);
+
+  --secondary: oklch(0.95 0.01 110);
+  --secondary-foreground: oklch(0.24 0.012 145);
+
+  --muted: oklch(0.945 0.008 110);
+  --muted-foreground: oklch(0.5 0.012 145);
+
+  --accent: oklch(0.935 0.018 150);
+  --accent-foreground: oklch(0.24 0.02 145);
+
+  --destructive: oklch(0.57 0.19 27.3);
+  --destructive-foreground: oklch(0.985 0.004 95);
+
+  --border: oklch(0.87 0.008 110);
+  --input: oklch(0.89 0.008 110);
+  --ring: oklch(0.52 0.04 70);
+
+  --chart-1: oklch(0.72 0.08 150);
+  --chart-2: oklch(0.63 0.06 165);
+  --chart-3: oklch(0.56 0.05 180);
+  --chart-4: oklch(0.72 0.07 82);
+  --chart-5: oklch(0.48 0.03 120);
+
+  --sidebar: oklch(0.968 0.008 110);
+  --sidebar-foreground: oklch(0.19 0.012 145);
+  --sidebar-primary: oklch(0.43 0.055 155);
+  --sidebar-primary-foreground: oklch(0.965 0.012 98);
+  --sidebar-accent: oklch(0.935 0.018 150);
+  --sidebar-accent-foreground: oklch(0.24 0.02 145);
+  --sidebar-border: oklch(0.87 0.008 110);
+  --sidebar-ring: oklch(0.52 0.04 70);
+
+  --header: oklch(0.982 0.007 110);
+  --header-foreground: oklch(0.19 0.012 145);
+  --footer: oklch(0.972 0.007 110);
+  --footer-foreground: oklch(0.36 0.012 145);
+
+  --code: oklch(0.95 0.008 110);
+  --code-foreground: oklch(0.34 0.012 145);
+  --code-highlight: oklch(0.9 0.016 150);
+  --code-number: oklch(0.58 0.018 150);
+  --code-selection: oklch(0.9 0.016 150);
+  --code-border: oklch(0.86 0.008 110);
+
+  --radius: 0.875rem;
+
+  --afenda-canvas: oklch(0.978 0.008 110);
+  --afenda-surface: oklch(0.988 0.006 110);
+  --afenda-surface-raised: oklch(0.998 0.003 110);
+
+  --afenda-ink: oklch(0.19 0.012 145);
+  --afenda-ink-muted: oklch(0.5 0.012 145);
+  --afenda-milk: oklch(0.985 0.005 98);
+
+  --afenda-green: oklch(0.43 0.055 155);
+  --afenda-green-soft: oklch(0.84 0.03 145 / 0.55);
+  --afenda-gold: oklch(0.73 0.05 82);
+  --afenda-gold-soft: oklch(0.84 0.035 82 / 0.35);
+
+  --afenda-hairline: oklch(0.83 0.01 100 / 0.72);
+  --afenda-shadow-soft: 0 20px 48px oklch(0.18 0.01 145 / 0.12);
+  --afenda-shadow-float: 0 32px 84px oklch(0.18 0.01 145 / 0.18);
+}
+
+.dark .theme-afenda-verdant-milk-noir {
+  --display-family: var(--font-sans);
+  --body-family: var(--font-sans);
+
+  --background: oklch(0.105 0.018 150);
+  --foreground: oklch(0.93 0.01 95);
+
+  --card: oklch(0.14 0.016 150);
+  --card-foreground: oklch(0.93 0.01 95);
+
+  --popover: oklch(0.155 0.017 150);
+  --popover-foreground: oklch(0.93 0.01 95);
+
+  --primary: oklch(0.61 0.07 150);
+  --primary-foreground: oklch(0.105 0.018 150);
+
+  --secondary: oklch(0.175 0.013 150);
+  --secondary-foreground: oklch(0.86 0.01 95);
+
+  --muted: oklch(0.18 0.011 150);
+  --muted-foreground: oklch(0.62 0.01 95);
+
+  --accent: oklch(0.205 0.023 152);
+  --accent-foreground: oklch(0.9 0.012 95);
+
+  --destructive: oklch(0.62 0.16 28);
+  --destructive-foreground: oklch(0.96 0.008 95);
+
+  --border: oklch(0.78 0.025 82 / 0.14);
+  --input: oklch(1 0 0 / 0.09);
+  --ring: oklch(0.72 0.045 82);
+
+  --chart-1: oklch(0.72 0.08 150);
+  --chart-2: oklch(0.63 0.06 165);
+  --chart-3: oklch(0.56 0.05 180);
+  --chart-4: oklch(0.74 0.05 82);
+  --chart-5: oklch(0.5 0.025 120);
+
+  --sidebar: oklch(0.13 0.014 150);
+  --sidebar-foreground: oklch(0.9 0.01 95);
+  --sidebar-primary: oklch(0.64 0.075 150);
+  --sidebar-primary-foreground: oklch(0.105 0.018 150);
+  --sidebar-accent: oklch(0.18 0.012 150);
+  --sidebar-accent-foreground: oklch(0.9 0.01 95);
+  --sidebar-border: oklch(0.78 0.025 82 / 0.14);
+  --sidebar-ring: oklch(0.72 0.045 82);
+
+  --header: oklch(0.105 0.018 150);
+  --header-foreground: oklch(0.93 0.01 95);
+  --footer: oklch(0.095 0.016 150);
+  --footer-foreground: oklch(0.62 0.01 95);
+
+  --code: oklch(0.155 0.014 150);
+  --code-foreground: oklch(0.73 0.01 95);
+  --code-highlight: oklch(0.22 0.028 150);
+  --code-number: oklch(0.75 0.02 82);
+  --code-selection: oklch(0.23 0.03 150);
+  --code-border: oklch(0.78 0.025 82 / 0.14);
+
+  --radius: 0.875rem;
+
+  --afenda-canvas: oklch(0.105 0.018 150);
+  --afenda-surface: oklch(0.14 0.016 150);
+  --afenda-surface-raised: oklch(0.17 0.016 150);
+
+  --afenda-ink: oklch(0.93 0.01 95);
+  --afenda-ink-muted: oklch(0.62 0.01 95);
+  --afenda-milk: oklch(0.945 0.008 95);
+
+  --afenda-green: oklch(0.61 0.07 150);
+  --afenda-green-soft: oklch(0.61 0.07 150 / 0.14);
+  --afenda-gold: oklch(0.72 0.045 82);
+  --afenda-gold-soft: oklch(0.72 0.045 82 / 0.18);
+
+  --afenda-hairline: oklch(0.78 0.025 82 / 0.18);
+  --afenda-shadow-soft: 0 22px 54px oklch(0 0 0 / 0.28);
+  --afenda-shadow-float: 0 44px 120px oklch(0 0 0 / 0.46);
+}
+
+.theme-afenda-verdant-milk-noir ::selection {
+  background: var(--afenda-gold-soft);
+  color: var(--afenda-milk);
+}
+
+@theme inline {
+  --font-display-family: var(--display-family);
+  --font-display-weight: 600;
+  --font-display-tracking: -0.04em;
+
+  --font-body-family: var(--body-family);
+  --font-body-weight: 400;
+  --font-body-tracking: 0em;
+
+  --font-mono-family: var(--font-mono);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --color-header: var(--header);
+  --color-header-foreground: var(--header-foreground);
+  --color-footer: var(--footer);
+  --color-footer-foreground: var(--footer-foreground);
+
+  --color-code: var(--code);
+  --color-code-foreground: var(--code-foreground);
+  --color-code-highlight: var(--code-highlight);
+  --color-code-number: var(--code-number);
+  --color-code-selection: var(--code-selection);
+  --color-code-border: var(--code-border);
+
+  --color-afenda-canvas: var(--afenda-canvas);
+  --color-afenda-surface: var(--afenda-surface);
+  --color-afenda-surface-raised: var(--afenda-surface-raised);
+  --color-afenda-ink: var(--afenda-ink);
+  --color-afenda-ink-muted: var(--afenda-ink-muted);
+  --color-afenda-milk: var(--afenda-milk);
+  --color-afenda-green: var(--afenda-green);
+  --color-afenda-green-soft: var(--afenda-green-soft);
+  --color-afenda-gold: var(--afenda-gold);
+  --color-afenda-gold-soft: var(--afenda-gold-soft);
+  --color-afenda-hairline: var(--afenda-hairline);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.82);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.35);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+@utility font-display {
+  font-family: var(--display-family);
+  font-weight: var(--font-display-weight);
+  letter-spacing: var(--font-display-tracking);
+}
+
+@utility font-body {
+  font-family: var(--body-family);
+  font-weight: var(--font-body-weight);
+  letter-spacing: var(--font-body-tracking);
+}
+
+@utility font-editorial {
+  font-family:
+    "Iowan Old Style",
+    "Palatino Linotype",
+    "Book Antiqua",
+    Georgia,
+    serif;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+@utility font-lab-mono {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  letter-spacing: 0.18em;
+}
+
+@utility verdant-canvas {
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 74% 20%, var(--afenda-green-soft), transparent 28rem),
+    radial-gradient(circle at 18% 0%, oklch(0.31 0.03 165 / 0.18), transparent 34rem),
+    radial-gradient(circle at 52% 68%, oklch(0.16 0.02 150 / 0.52), transparent 40rem),
+    linear-gradient(
+      180deg,
+      color-mix(in oklch, var(--background) 92%, black),
+      color-mix(in oklch, var(--background) 76%, black)
+    );
+}
+
+@utility verdant-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.62;
+  background-image:
+    linear-gradient(to right, oklch(1 0 0 / 0.028) 1px, transparent 1px),
+    linear-gradient(to bottom, oklch(1 0 0 / 0.022) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(to bottom, transparent, black 16%, black 72%, transparent);
+}
+
+@utility verdant-vignette {
+  position: absolute;
+  inset: -2px;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at center, transparent 40%, oklch(0 0 0 / 0.32) 100%),
+    linear-gradient(90deg, oklch(0 0 0 / 0.34), transparent 24%, transparent 76%, oklch(0 0 0 / 0.36));
+}
+
+@utility hero-ghost {
+  color: color-mix(in oklch, var(--afenda-milk) 24%, transparent);
+}
+
+@utility text-milk {
+  color: var(--afenda-milk);
+}
+
+@utility text-milk-muted {
+  color: var(--afenda-ink-muted);
+}
+
+@utility gold-hairline {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--afenda-gold-soft),
+    var(--afenda-gold),
+    var(--afenda-gold-soft),
+    transparent
+  );
+}
+
+@utility float-focus {
+  background:
+    radial-gradient(circle at 18% 0%, oklch(1 0 0 / 0.065), transparent 34%),
+    radial-gradient(circle at 100% 18%, var(--afenda-green-soft), transparent 36%),
+    linear-gradient(180deg, oklch(1 0 0 / 0.04), transparent 46%),
+    color-mix(in oklch, var(--afenda-surface-raised) 88%, transparent);
+  border: 1px solid var(--afenda-hairline);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / 0.07),
+    0 0 0 1px oklch(0.72 0.045 82 / 0.04),
+    var(--afenda-shadow-float);
+  backdrop-filter: blur(24px) saturate(1.08);
+}
+
+@utility lab-kicker {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  line-height: 1rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}

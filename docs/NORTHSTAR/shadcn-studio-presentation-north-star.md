@@ -132,7 +132,7 @@ Business meanings — canonical input for Enterprise Knowledge promotion. Do not
 | **Block slot** | Named layout region inside a block where content, actions, or metadata-bound widgets attach | Database column | Compositional UI pattern (T3) ✓ | `planned` |
 | **Block data contract** | Serializable description of data a block expects at boundaries (fields, columns, actions) | Database schema or ORM model | PAS-006 serializable rules (T5) | `planned` |
 | **Metadata binding** | Mapping from metadata field definitions to block slots and render behavior | Permission evaluation outcome | Metadata-driven UI (T1) | `planned` |
-| **Surface template** | Screen-level composition of one or more accepted blocks and slots for a workflow class | Single route implementation | ERP shell pattern (T3) ✓ | `planned` |
+| **Surface template** | Screen-level composition of one or more accepted blocks and slots for a workflow class | Single route implementation | App Shell pattern (T3) ✓ | `planned` |
 | **Presentation inventory** | Relational catalog of presets, primitives, variants, blocks, slots, contracts, templates, and acceptance records | Feature backlog | ADR-0027 sole chain (T0) ✓ | `planned` |
 | **Acceptance record** | Documented proof that a block met stabilization, ACPA, and lifecycle gates before production wiring | Informal code review | §3.7 acceptance criteria (T1) | `planned` |
 | **ACPA** | Afenda Contrast and Presentation Accessibility — governed operator-surface profile (contrast, focus, motion, chart/KPI visualization semantics) stricter than generic WCAG spot-checks | WCAG AA alone | Afenda token profile (T5) ✓ | `planned` |

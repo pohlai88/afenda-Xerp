@@ -9,6 +9,9 @@ const repoRoot = join(scriptDir, "../..");
 const GENERATORS = [
   "discard-blocks-without-consumer.mjs",
   "generate-block-auto-stories.mjs",
+  "generate-flat-block-stories.mjs",
+  "generate-primitive-stories.mjs",
+  "generate-svg-gallery.mjs",
 ];
 
 function runStep(scriptName) {
@@ -49,6 +52,26 @@ console.log("storybook:generate — running codegen steps…");
 
 for (const step of GENERATORS) {
   runStep(step);
+}
+
+const coverageCheck = spawnSync(
+  process.execPath,
+  [join(scriptDir, "../governance/check-storybook-block-coverage.mjs")],
+  { cwd: repoRoot, stdio: "inherit" }
+);
+
+if (coverageCheck.status !== 0) {
+  process.exit(coverageCheck.status ?? 1);
+}
+
+const primitiveCoverageCheck = spawnSync(
+  process.execPath,
+  [join(scriptDir, "../governance/check-storybook-primitive-coverage.mjs")],
+  { cwd: repoRoot, stdio: "inherit" }
+);
+
+if (primitiveCoverageCheck.status !== 0) {
+  process.exit(primitiveCoverageCheck.status ?? 1);
 }
 
 runStoriesTypecheck();

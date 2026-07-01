@@ -7,6 +7,7 @@ function getAbsolutePath(value: string): string {
 }
 
 const appRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
+const storybookTsconfig = join(appRoot, "tsconfig.storybook.json");
 const addonDocsRoot = getAbsolutePath("@storybook/addon-docs");
 const addonDocsBlocks = join(addonDocsRoot, "dist/blocks.js");
 const shadcnTailwindCss = join(
@@ -26,7 +27,6 @@ const storybookTest = join(
 
 const config: StorybookConfig = {
   stories: [
-    "../stories/**/*.mdx",
     "../stories/**/*.stories.@(ts|tsx)",
     "../../../packages/shadcn-studio/src/**/*.stories.@(ts|tsx)",
   ],
@@ -38,19 +38,34 @@ const config: StorybookConfig = {
     },
   ],
   addons: [
+    getAbsolutePath("@chromatic-com/storybook"),
     getAbsolutePath("@storybook/addon-docs"),
+    getAbsolutePath("@storybook/addon-designs"),
     getAbsolutePath("@storybook/addon-a11y"),
     getAbsolutePath("@storybook/addon-vitest"),
-    getAbsolutePath("@storybook/addon-mcp"),
+    {
+      name: getAbsolutePath("@storybook/addon-mcp"),
+      options: {
+        toolsets: {
+          dev: true,
+          docs: true,
+          test: true,
+        },
+      },
+    },
   ],
   framework: {
     name: getAbsolutePath("@storybook/react-vite"),
     options: {},
   },
+  docs: {
+    defaultName: "Documentation",
+  },
   typescript: {
     check: false,
     reactDocgen: "react-docgen-typescript",
     reactDocgenTypescriptOptions: {
+      tsconfigPath: storybookTsconfig,
       shouldExtractLiteralValuesFromEnum: true,
       shouldRemoveUndefinedFromOptional: true,
       propFilter: (prop) =>
@@ -81,15 +96,19 @@ const config: StorybookConfig = {
       },
       {
         find: "@/components/ui",
-        replacement: join(shadcnStudioSrcRoot, "components/ui"),
+        replacement: join(shadcnStudioSrcRoot, "components-ui"),
       },
       {
         find: "@/components/shadcn-studio",
-        replacement: join(shadcnStudioSrcRoot, "components/shadcn-studio"),
+        replacement: join(shadcnStudioSrcRoot, "components-layouts"),
+      },
+      {
+        find: "@/components-auth-shell",
+        replacement: join(shadcnStudioSrcRoot, "components-auth-shell"),
       },
       {
         find: "@/lib/utils",
-        replacement: join(shadcnStudioSrcRoot, "lib/utils.ts"),
+        replacement: join(shadcnStudioSrcRoot, "utils/utils.ts"),
       },
       {
         find: "@/hooks",
@@ -131,7 +150,23 @@ const config: StorybookConfig = {
       "process.env.NODE_ENV": JSON.stringify(
         process.env["NODE_ENV"] ?? "development"
       ),
+      // Dev server must define this — preview.tsx reads it; vitest sets "true" in vitest.storybook.config.ts.
+      __AFENDA_VITEST_STORYBOOK__: JSON.stringify(
+        process.env["VITEST_STORYBOOK"] === "true" ? "true" : "false"
+      ),
     };
+
+    viteConfig.server ??= {};
+    viteConfig.server.watch ??= {};
+    const existingIgnored = viteConfig.server.watch.ignored;
+    viteConfig.server.watch.ignored = [
+      ...(Array.isArray(existingIgnored)
+        ? existingIgnored
+        : existingIgnored
+          ? [existingIgnored]
+          : []),
+      "**/storybook-static/**",
+    ];
 
     viteConfig.optimizeDeps ??= {};
     viteConfig.optimizeDeps.exclude = [
@@ -147,12 +182,10 @@ const config: StorybookConfig = {
     viteConfig.optimizeDeps.esbuildOptions.alias = {
       ...(viteConfig.optimizeDeps.esbuildOptions.alias ?? {}),
       "@storybook/addon-docs/blocks": addonDocsBlocks,
-      "@/components/ui": join(shadcnStudioSrcRoot, "components/ui"),
-      "@/components/shadcn-studio": join(
-        shadcnStudioSrcRoot,
-        "components/shadcn-studio"
-      ),
-      "@/lib/utils": join(shadcnStudioSrcRoot, "lib/utils.ts"),
+      "@/components/ui": join(shadcnStudioSrcRoot, "components-ui"),
+      "@/components/shadcn-studio": join(shadcnStudioSrcRoot, "components-layouts"),
+      "@/components-auth-shell": join(shadcnStudioSrcRoot, "components-auth-shell"),
+      "@/lib/utils": join(shadcnStudioSrcRoot, "utils/utils.ts"),
       "@/hooks": join(shadcnStudioSrcRoot, "hooks"),
       "@": shadcnStudioSrcRoot,
       "@afenda/shadcn-studio/lab": join(shadcnStudioSrcRoot, "lab/index.ts"),

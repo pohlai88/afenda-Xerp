@@ -14,6 +14,10 @@ const storybookPlugins = await storybookTest({
   configDir: path.join(dirname, ".storybook"),
   storybookScript: "pnpm --filter @afenda/storybook storybook -- --no-open",
   storybookUrl: "http://localhost:6006",
+  tags: {
+    include: ["lab-smoke"],
+    exclude: ["skip-test"],
+  },
 });
 
 export default defineConfig({
@@ -28,6 +32,7 @@ export default defineConfig({
   },
   define: {
     "import.meta.env.VITEST_STORYBOOK": JSON.stringify(true),
+    __AFENDA_VITEST_STORYBOOK__: JSON.stringify("true"),
   },
   plugins: [...storybookPlugins],
   resolve: {
@@ -65,5 +70,17 @@ export default defineConfig({
       },
     },
     setupFiles: [path.join(dirname, ".storybook/vitest.setup.ts")],
+    coverage: {
+      provider: "v8",
+      reportsDirectory: "./coverage/storybook",
+      reporter: ["text", "json-summary", "lcov"],
+      include: ["../../packages/shadcn-studio/src/**/*.{ts,tsx}"],
+      exclude: [
+        "**/*.stories.tsx",
+        "**/storybook/**",
+        "**/__tests__/**",
+        "**/*.test.{ts,tsx}",
+      ],
+    },
   },
 });

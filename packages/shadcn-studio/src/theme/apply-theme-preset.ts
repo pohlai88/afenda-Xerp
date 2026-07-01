@@ -9,6 +9,12 @@ import { themePresets } from "./theme-presets.js";
 
 export type ResolvedColorMode = "light" | "dark";
 
+export function resolveColorMode(
+  resolvedTheme: string | undefined
+): ResolvedColorMode {
+  return resolvedTheme === "dark" ? "dark" : "light";
+}
+
 export function clearThemePresetStyles(root: HTMLElement): void {
   for (const key of PRESET_CSS_VARS) {
     root.style.removeProperty(`--${key}`);
@@ -27,12 +33,15 @@ export function applyThemePresetStyles(
     return;
   }
 
-  const styles = themePresets[slug].styles[mode];
+  clearThemePresetStyles(root);
 
-  for (const [key, value] of Object.entries(styles) as [
-    PresetCssVar,
-    string | undefined,
-  ][]) {
+  const presetValues = themePresets[slug].styles[mode] as Partial<
+    Record<PresetCssVar, string>
+  >;
+
+  for (const key of PRESET_CSS_VARS) {
+    const value = presetValues[key];
+
     if (value !== undefined) {
       root.style.setProperty(`--${key}`, value);
     }

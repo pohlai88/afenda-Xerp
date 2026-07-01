@@ -41,7 +41,7 @@ Adopt a **documented four-layer logical model** on top of **unchanged MCP physic
 | --- | --- | --- | --- | --- |
 | **Authority** | L1 | `contracts/**`, `registry/**`, `governance/**` | Zone A — relative imports only | Cross-surface wire shapes, inventory graph, gate aggregators |
 | **Product** | L2 | `components/ui/**`, `components/shadcn-studio/blocks/**`, `lib/**`, `hooks/**`, `assets/**`, `theme/**`, `styles/**` | Zone B — `@/` for ui/lib/hooks | MCP output, primitives, blocks, theme CSS, **product-local primitive contracts** |
-| **Surfaces** | L3 | `components/erp-shell/**` | Zone B + selective L1 wire types | Afenda-composed operator chrome (not MCP `--overwrite`) |
+| **Surfaces** | L3 | `components/app-shell/**` | Zone B + selective L1 wire types | Afenda-composed app shell (not MCP `--overwrite`) |
 | **Verification** | L4 | `_storybook/**`, `__tests__/**`, `*.stories.tsx` at `src/` root | Internal only | Storybook parameters, gate tests, MDX docs, verification fixtures |
 
 **L4 note:** L4 is not production runtime. Gate tests under L4 remain **authoritative verification artifacts** — not optional lab trash.
@@ -132,7 +132,7 @@ Structural clarity is delivered in phases by [P06-011](../PAS/PRESENTATION/SLICE
 
 - **Phase 0** — `ARCHITECTURE.md` + package `README.md` (no moves)
 - **Phase 1** — Barrel hygiene + PAS-005A → PAS-006A header relabel + `@afenda/shadcn-studio/lab`
-- **Phase 2** — PAS-006A authority surfaces table sync
+- **Phase 2** — Skill cross-links + Storybook `@afenda/shadcn-studio/lab` imports — **Delivered**
 - **Phase 3** — Optional lab path consolidation (deferred unless approved)
 
 ---

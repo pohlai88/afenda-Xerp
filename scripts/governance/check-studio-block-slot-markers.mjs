@@ -10,8 +10,8 @@ import { fileURLToPath } from "node:url";
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
 const requiredPaths = [
-  "packages/shadcn-studio/src/contracts/block-slot-dom-marker.contract.ts",
-  "packages/shadcn-studio/src/registry/assert-block-slot-dom-marker-coverage.ts",
+  "packages/shadcn-studio/src/meta-contracts/block-slot-dom-marker.contract.ts",
+  "packages/shadcn-studio/src/meta-registry/assert-block-slot-dom-marker-coverage.ts",
 ];
 
 const missing = requiredPaths.filter(

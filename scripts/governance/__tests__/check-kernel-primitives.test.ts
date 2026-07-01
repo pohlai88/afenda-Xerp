@@ -45,7 +45,7 @@ describe("primitive-contract-source (PAS-001 §4.1.5)", () => {
       {
         path: "packages/kernel/src/identity/primitives/uom-code.contract.ts",
         source:
-          "import { ID_FAMILIES } from '../registry/id-family.registry.js';",
+          "import { ID_FAMILIES } from '../meta-registry/id-family.registry.js';",
       },
     ]);
 
@@ -64,7 +64,7 @@ describe("primitive-contract-source (PAS-001 §4.1.5)", () => {
       {
         path: "packages/kernel/src/identity/primitives/primitive-brand.helpers.ts",
         source:
-          "import { ID_FAMILIES } from '../registry/id-family.registry.js';",
+          "import { ID_FAMILIES } from '../meta-registry/id-family.registry.js';",
       },
       {
         path: "packages/kernel/src/identity/primitives/locale-code.contract.ts",

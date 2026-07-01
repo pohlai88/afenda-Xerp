@@ -27,7 +27,7 @@ export function readFlatBlockStorySlugs(repoRootPath = repoRoot) {
   const source = readFileSync(
     join(
       repoRootPath,
-      "packages/shadcn-studio/src/_storybook/block-flat-story.registry.ts"
+      "packages/shadcn-studio/src/storybook/block-flat-story.registry.ts"
     ),
     "utf8"
   );

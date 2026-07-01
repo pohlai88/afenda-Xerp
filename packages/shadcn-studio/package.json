@@ -21,9 +21,9 @@
       "default": "./dist/theme/index.js"
     },
     "./governance": {
-      "types": "./dist/governance/index.d.ts",
-      "import": "./dist/governance/index.js",
-      "default": "./dist/governance/index.js"
+      "types": "./dist/meta-gates/index.d.ts",
+      "import": "./dist/meta-gates/index.js",
+      "default": "./dist/meta-gates/index.js"
     },
     "./shadcn-studio.css": {
       "types": "./dist/shadcn-studio.css.d.ts",
@@ -104,3 +104,4 @@
     "vitest": "catalog:"
   }
 }
+

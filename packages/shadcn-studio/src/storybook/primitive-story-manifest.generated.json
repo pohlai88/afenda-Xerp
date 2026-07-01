@@ -1,0 +1,422 @@
+{
+  "generatedAt": "2026-07-01T10:07:30.635Z",
+  "primitiveCount": 69,
+  "generatedStoryCount": 59,
+  "manualCompositionRequired": [],
+  "entries": [
+    {
+      "slug": "accordion",
+      "kind": "simple",
+      "exportName": "Accordion",
+      "hasStory": true
+    },
+    {
+      "slug": "alert",
+      "kind": "simple",
+      "exportName": "Alert",
+      "hasStory": true
+    },
+    {
+      "slug": "alert-dialog",
+      "kind": "simple",
+      "exportName": "AlertDialog",
+      "hasStory": true
+    },
+    {
+      "slug": "aspect-ratio",
+      "kind": "simple",
+      "exportName": "AspectRatio",
+      "hasStory": true
+    },
+    {
+      "slug": "attachment",
+      "kind": "simple",
+      "exportName": "Attachment",
+      "hasStory": true
+    },
+    {
+      "slug": "avatar",
+      "kind": "simple",
+      "exportName": "Avatar",
+      "hasStory": true
+    },
+    {
+      "slug": "background-ripple",
+      "kind": "simple",
+      "exportName": "BackgroundRippleEffect",
+      "hasStory": true
+    },
+    {
+      "slug": "badge",
+      "kind": "simple",
+      "exportName": "Badge",
+      "hasStory": true
+    },
+    {
+      "slug": "bg-dot-grid",
+      "kind": "simple",
+      "exportName": "DotGrid",
+      "hasStory": true
+    },
+    {
+      "slug": "bg-silk",
+      "kind": "simple",
+      "exportName": "SilkBackground",
+      "hasStory": true
+    },
+    {
+      "slug": "border-beam",
+      "kind": "simple",
+      "exportName": "BorderBeam",
+      "hasStory": true
+    },
+    {
+      "slug": "breadcrumb",
+      "kind": "simple",
+      "exportName": "Breadcrumb",
+      "hasStory": true
+    },
+    {
+      "slug": "bubble",
+      "kind": "simple",
+      "exportName": "Bubble",
+      "hasStory": true
+    },
+    {
+      "slug": "button",
+      "kind": "simple",
+      "exportName": "Button",
+      "hasStory": true
+    },
+    {
+      "slug": "button-group",
+      "kind": "simple",
+      "exportName": "ButtonGroup",
+      "hasStory": true
+    },
+    {
+      "slug": "calendar",
+      "kind": "simple",
+      "exportName": "Calendar",
+      "hasStory": true
+    },
+    {
+      "slug": "card",
+      "kind": "simple",
+      "exportName": "Card",
+      "hasStory": true
+    },
+    {
+      "slug": "carousel",
+      "kind": "simple",
+      "exportName": "Carousel",
+      "hasStory": true
+    },
+    {
+      "slug": "category-bar",
+      "kind": "simple",
+      "exportName": "CategoryBar",
+      "hasStory": true
+    },
+    {
+      "slug": "chart",
+      "kind": "simple",
+      "exportName": "ChartContainer",
+      "hasStory": true
+    },
+    {
+      "slug": "checkbox",
+      "kind": "simple",
+      "exportName": "Checkbox",
+      "hasStory": true
+    },
+    {
+      "slug": "circular-progress",
+      "kind": "simple",
+      "exportName": "CircularProgress",
+      "hasStory": true
+    },
+    {
+      "slug": "collapsible",
+      "kind": "simple",
+      "exportName": "Collapsible",
+      "hasStory": true
+    },
+    {
+      "slug": "combobox",
+      "kind": "simple",
+      "exportName": "Combobox",
+      "hasStory": true
+    },
+    {
+      "slug": "command",
+      "kind": "complex",
+      "exportName": "Command",
+      "hasStory": true
+    },
+    {
+      "slug": "context-menu",
+      "kind": "simple",
+      "exportName": "ContextMenu",
+      "hasStory": true
+    },
+    {
+      "slug": "dialog",
+      "kind": "complex",
+      "exportName": "Dialog",
+      "hasStory": true
+    },
+    {
+      "slug": "direction",
+      "kind": "simple",
+      "exportName": "DirectionProvider",
+      "hasStory": true
+    },
+    {
+      "slug": "drawer",
+      "kind": "simple",
+      "exportName": "Drawer",
+      "hasStory": true
+    },
+    {
+      "slug": "dropdown-menu",
+      "kind": "complex",
+      "exportName": "DropdownMenu",
+      "hasStory": true
+    },
+    {
+      "slug": "empty",
+      "kind": "simple",
+      "exportName": "Empty",
+      "hasStory": true
+    },
+    {
+      "slug": "field",
+      "kind": "simple",
+      "exportName": "Field",
+      "hasStory": true
+    },
+    {
+      "slug": "hover-card",
+      "kind": "simple",
+      "exportName": "HoverCard",
+      "hasStory": true
+    },
+    {
+      "slug": "input",
+      "kind": "simple",
+      "exportName": "Input",
+      "hasStory": true
+    },
+    {
+      "slug": "input-group",
+      "kind": "simple",
+      "exportName": "InputGroup",
+      "hasStory": true
+    },
+    {
+      "slug": "input-otp",
+      "kind": "simple",
+      "exportName": "InputOTP",
+      "hasStory": true
+    },
+    {
+      "slug": "item",
+      "kind": "simple",
+      "exportName": "Item",
+      "hasStory": true
+    },
+    {
+      "slug": "kbd",
+      "kind": "simple",
+      "exportName": "Kbd",
+      "hasStory": true
+    },
+    {
+      "slug": "label",
+      "kind": "simple",
+      "exportName": "Label",
+      "hasStory": true
+    },
+    {
+      "slug": "marker",
+      "kind": "simple",
+      "exportName": "Marker",
+      "hasStory": true
+    },
+    {
+      "slug": "menubar",
+      "kind": "simple",
+      "exportName": "Menubar",
+      "hasStory": true
+    },
+    {
+      "slug": "message",
+      "kind": "simple",
+      "exportName": "Message",
+      "hasStory": true
+    },
+    {
+      "slug": "message-scroller",
+      "kind": "simple",
+      "exportName": "MessageScroller",
+      "hasStory": true
+    },
+    {
+      "slug": "native-select",
+      "kind": "simple",
+      "exportName": "NativeSelect",
+      "hasStory": true
+    },
+    {
+      "slug": "navigation-menu",
+      "kind": "simple",
+      "exportName": "NavigationMenu",
+      "hasStory": true
+    },
+    {
+      "slug": "number-ticker",
+      "kind": "simple",
+      "exportName": "NumberTicker",
+      "hasStory": true
+    },
+    {
+      "slug": "pagination",
+      "kind": "simple",
+      "exportName": "Pagination",
+      "hasStory": true
+    },
+    {
+      "slug": "popover",
+      "kind": "simple",
+      "exportName": "Popover",
+      "hasStory": true
+    },
+    {
+      "slug": "progress",
+      "kind": "simple",
+      "exportName": "Progress",
+      "hasStory": true
+    },
+    {
+      "slug": "radio-group",
+      "kind": "simple",
+      "exportName": "RadioGroup",
+      "hasStory": true
+    },
+    {
+      "slug": "rating",
+      "kind": "simple",
+      "exportName": "Rating",
+      "hasStory": true
+    },
+    {
+      "slug": "resizable",
+      "kind": "simple",
+      "exportName": "ResizablePanelGroup",
+      "hasStory": true
+    },
+    {
+      "slug": "scroll-area",
+      "kind": "simple",
+      "exportName": "ScrollArea",
+      "hasStory": true
+    },
+    {
+      "slug": "select",
+      "kind": "complex",
+      "exportName": "Select",
+      "hasStory": true
+    },
+    {
+      "slug": "separator",
+      "kind": "simple",
+      "exportName": "Separator",
+      "hasStory": true
+    },
+    {
+      "slug": "sheet",
+      "kind": "complex",
+      "exportName": "Sheet",
+      "hasStory": true
+    },
+    {
+      "slug": "sidebar",
+      "kind": "complex",
+      "exportName": "Sidebar",
+      "hasStory": true
+    },
+    {
+      "slug": "skeleton",
+      "kind": "simple",
+      "exportName": "Skeleton",
+      "hasStory": true
+    },
+    {
+      "slug": "slider",
+      "kind": "simple",
+      "exportName": "Slider",
+      "hasStory": true
+    },
+    {
+      "slug": "sonner",
+      "kind": "complex",
+      "exportName": "Toaster",
+      "hasStory": true
+    },
+    {
+      "slug": "spinner",
+      "kind": "simple",
+      "exportName": "Spinner",
+      "hasStory": true
+    },
+    {
+      "slug": "switch",
+      "kind": "simple",
+      "exportName": "Switch",
+      "hasStory": true
+    },
+    {
+      "slug": "table",
+      "kind": "simple",
+      "exportName": "Table",
+      "hasStory": true
+    },
+    {
+      "slug": "tabs",
+      "kind": "simple",
+      "exportName": "Tabs",
+      "hasStory": true
+    },
+    {
+      "slug": "textarea",
+      "kind": "simple",
+      "exportName": "Textarea",
+      "hasStory": true
+    },
+    {
+      "slug": "timeline",
+      "kind": "simple",
+      "exportName": "Timeline",
+      "hasStory": true
+    },
+    {
+      "slug": "toggle",
+      "kind": "simple",
+      "exportName": "Toggle",
+      "hasStory": true
+    },
+    {
+      "slug": "toggle-group",
+      "kind": "simple",
+      "exportName": "ToggleGroup",
+      "hasStory": true
+    },
+    {
+      "slug": "tooltip",
+      "kind": "simple",
+      "exportName": "Tooltip",
+      "hasStory": true
+    }
+  ]
+}

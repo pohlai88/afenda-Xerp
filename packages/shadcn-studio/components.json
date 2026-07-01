@@ -15,9 +15,9 @@
   "menuColor": "default",
   "menuAccent": "subtle",
   "aliases": {
-    "components": "@/components/shadcn-studio",
-    "utils": "@/lib/utils",
-    "ui": "@/components/ui",
+    "components": "@/components-quarantine/blocks",
+    "utils": "@/utils/utils",
+    "ui": "@/components-quarantine/ui",
     "lib": "@/lib",
     "hooks": "@/hooks"
   },

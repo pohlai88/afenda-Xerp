@@ -13,21 +13,24 @@ import {
 
 import {
   applyThemePresetStyles,
+  resolveColorMode,
   type ResolvedColorMode,
 } from "./apply-theme-preset.js";
 import { initialSettings, type Settings } from "./settings.contract.js";
 import { readStoredSettings, serializeSettings } from "./settings-storage.js";
+import { syncThemeFontAttribute } from "./theme-font-stacks.js";
 import { themeConfig } from "./theme-config.js";
 import {
   assertThemePresetSlug,
+  isThemeFont,
   isThemeLayout,
+  isThemeMode,
+  isThemeRadius,
+  isThemeScale,
   isThemeSidebarCollapsible,
   isThemeSidebarVariant,
   RADIUS_VALUES,
 } from "./theme-preset.contract.js";
-
-export type { Settings } from "./settings.contract.js";
-export { initialSettings } from "./settings.contract.js";
 
 export interface SettingsContextValue {
   resetSettings: () => void;
@@ -37,12 +40,6 @@ export interface SettingsContextValue {
 
 const SettingsContext = createContext<SettingsContextValue | null>(null);
 
-function resolveColorMode(
-  resolvedTheme: string | undefined
-): ResolvedColorMode {
-  return resolvedTheme === "dark" ? "dark" : "light";
-}
-
 function syncPresentationAttributes(
   root: HTMLElement,
   settings: Settings,
@@ -50,6 +47,7 @@ function syncPresentationAttributes(
 ): void {
   applyThemePresetStyles(root, settings.themePreset, colorMode);
   root.style.setProperty("--radius", RADIUS_VALUES[settings.radius]);
+  syncThemeFontAttribute(root, settings.font);
 
   if (settings.scale === "md") {
     root.removeAttribute("data-theme-scale");
@@ -76,8 +74,24 @@ export function SettingsProvider({ children, initial }: SettingsProviderProps) {
   }));
 
   const updateSettings = useCallback((partial: Partial<Settings>) => {
+    if (partial.mode !== undefined && !isThemeMode(partial.mode)) {
+      throw new Error(`Invalid theme mode: "${partial.mode}"`);
+    }
+
     if (partial.themePreset !== undefined) {
       assertThemePresetSlug(partial.themePreset);
+    }
+
+    if (partial.radius !== undefined && !isThemeRadius(partial.radius)) {
+      throw new Error(`Invalid theme radius: "${partial.radius}"`);
+    }
+
+    if (partial.scale !== undefined && !isThemeScale(partial.scale)) {
+      throw new Error(`Invalid theme scale: "${partial.scale}"`);
+    }
+
+    if (partial.font !== undefined && !isThemeFont(partial.font)) {
+      throw new Error(`Invalid theme font: "${partial.font}"`);
     }
 
     if (partial.layout !== undefined && !isThemeLayout(partial.layout)) {
@@ -112,6 +126,10 @@ export function SettingsProvider({ children, initial }: SettingsProviderProps) {
   }, [settings.mode, setTheme]);
 
   useEffect(() => {
+    if (resolvedTheme === undefined) {
+      return;
+    }
+
     syncPresentationAttributes(
       document.documentElement,
       settings,

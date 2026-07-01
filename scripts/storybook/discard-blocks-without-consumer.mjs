@@ -10,13 +10,15 @@ import { resolveBlockConsumerSlugs } from "./lib/resolve-block-consumers.mjs";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(scriptDir, "../..");
+const SHARED_BLOCK_FILES = new Set(["logo.tsx"]);
+
 const blocksRoot = join(
   repoRoot,
-  "packages/shadcn-studio/src/components/shadcn-studio/blocks"
+  "packages/shadcn-studio/src/components-layouts"
 );
 const manifestPath = join(
   repoRoot,
-  "packages/shadcn-studio/src/_storybook/block-story-manifest.generated.json"
+  "packages/shadcn-studio/src/storybook/block-story-manifest.generated.json"
 );
 
 /**
@@ -56,6 +58,10 @@ function main() {
       continue;
     }
 
+    if (target.endsWith("logo.tsx")) {
+      console.log("discard-blocks-without-consumer — keep shared: logo.tsx");
+      continue;
+    }
     rmSync(target, { recursive: true, force: true });
     console.log(`discard-blocks-without-consumer — removed: ${slug}`);
     removed += 1;

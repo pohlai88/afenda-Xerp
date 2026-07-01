@@ -1,0 +1,1 @@
+# MCP quarantine\n\nRaw CLI installs. Overwrite OK.\n

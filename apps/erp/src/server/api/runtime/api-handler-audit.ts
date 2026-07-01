@@ -2,7 +2,7 @@ import { unbrand } from "@afenda/kernel";
 
 import { recordErpAuditEvent } from "@/lib/observability/record-erp-audit-event";
 
-import type { ApiAuditPolicy } from "../contracts/api-contract";
+import type { ApiAuditPolicy } from "../meta-contracts/api-contract";
 import type { ApiRequestContext } from "./api-request-context";
 
 function buildAuditScopeMetadata(context: ApiRequestContext<unknown>) {

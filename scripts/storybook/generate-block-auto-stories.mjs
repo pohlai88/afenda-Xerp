@@ -17,15 +17,15 @@ const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(scriptDir, "../..");
 const blocksRoot = join(
   repoRoot,
-  "packages/shadcn-studio/src/components/shadcn-studio/blocks"
+  "packages/shadcn-studio/src/components-layouts"
 );
 const manifestPath = join(
   repoRoot,
-  "packages/shadcn-studio/src/_storybook/block-story-manifest.generated.json"
+  "packages/shadcn-studio/src/storybook/block-story-manifest.generated.json"
 );
 const outputPath = join(
   repoRoot,
-  "packages/shadcn-studio/src/shadcn-studio-blocks-auto.stories.tsx"
+  "packages/shadcn-studio/src/storybook/shadcn-studio-blocks-auto.stories.tsx"
 );
 
 /**
@@ -62,12 +62,11 @@ ${layoutSpread}};`;
 import type { Meta, StoryObj } from "@storybook/react";
 
 ${imports}
-import { shadcnStudioThemeDecorator } from "./_storybook/shadcn-studio-theme.decorator.js";
 import {
   shadcnStudioCenteredLayout,
   shadcnStudioPageBlockParameters,
   shadcnStudioStoryA11y,
-} from "./_storybook/story-parameters.js";
+} from "../lab/index.js";
 
 const meta = {
   title: "Shadcn Studio/Blocks Auto",
@@ -82,7 +81,6 @@ const meta = {
     },
     a11y: shadcnStudioStoryA11y,
   },
-  decorators: [shadcnStudioThemeDecorator],
 } satisfies Meta;
 
 export default meta;

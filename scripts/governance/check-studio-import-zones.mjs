@@ -17,7 +17,7 @@ const FORBIDDEN_ALIAS_PATTERNS = [
   {
     id: "authority-at-alias",
     pattern: /from\s+["']@\//,
-    zones: ["contracts", "registry"],
+    zones: ["meta-contracts", "meta-registry"],
     message:
       "Zone A (contracts/registry) must use relative imports — no @/ alias",
   },
@@ -33,7 +33,7 @@ const FORBIDDEN_ALIAS_PATTERNS = [
     pattern: /from\s+["']@\/registry\//,
     zones: ["all-src"],
     message:
-      "Afenda seam imports must be relative — @/registry/* is forbidden in src/**",
+      "Afenda seam imports must be relative — @/meta-registry/* is forbidden in src/**",
   },
   {
     id: "self-package-import",
@@ -72,12 +72,12 @@ function collectSourceFiles(directory, files = []) {
 function zoneForFile(relativePath) {
   const normalized = relativePath.replace(/\\/g, "/");
 
-  if (normalized.startsWith("contracts/")) {
-    return "contracts";
+  if (normalized.startsWith("meta-contracts/")) {
+    return "meta-contracts";
   }
 
-  if (normalized.startsWith("registry/")) {
-    return "registry";
+  if (normalized.startsWith("meta-registry/")) {
+    return "meta-registry";
   }
 
   return "all-src";

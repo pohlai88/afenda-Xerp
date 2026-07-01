@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 import { STUDIO_COMPOSITION_COMPONENTS } from "./studio-composition-manifest.mjs";
 
 const repoRoot = join(fileURLToPath(new URL(".", import.meta.url)), "../..");
-const uiDir = join(repoRoot, "packages/shadcn-studio/src/components/ui");
+const uiDir = join(repoRoot, "packages/shadcn-studio/src/components-ui");
 
 export function checkStudioCompositionContracts() {
   const violations = [];
@@ -49,7 +49,7 @@ export function checkStudioCompositionContracts() {
 
     const adapterContent = readFileSync(adapterPath, "utf8");
     const importPattern = new RegExp(
-      `from\\s+["']\\.\\/${name}\\.contract["']`
+      `from\\s+["']\\.\\/${name}\\.contract(?:\\.js)?["']`
     );
     if (!importPattern.test(adapterContent)) {
       violations.push(

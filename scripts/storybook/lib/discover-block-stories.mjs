@@ -12,6 +12,9 @@ export const FULLSCREEN_BLOCK_SLUG_PATTERN =
 
 const TSX_FILE_EXTENSION_PATTERN = /\.tsx$/;
 
+const SHARED_LAYOUT_FILES = new Set(["logo.tsx"]);
+const SKIP_DIR_NAMES = new Set(["__tests__", "_shared", "_internal"]);
+
 /** @typedef {{ slug: string; importPath: string; importName: string; layout: "centered" | "fullscreen" }} BlockEntry */
 
 /**
@@ -44,7 +47,7 @@ export function discoverBlockStories(blocksRoot) {
   const manualStoryRequired = [];
 
   for (const name of readdirSync(blocksRoot)) {
-    if (name.startsWith("_")) {
+    if (name.startsWith("_") || SKIP_DIR_NAMES.has(name)) {
       continue;
     }
 
@@ -62,7 +65,7 @@ export function discoverBlockStories(blocksRoot) {
 
       auto.push({
         slug: name,
-        importPath: `./components/shadcn-studio/blocks/${name}/${name}.js`,
+        importPath: `../components-layouts/${name}/${name}.js`,
         importName: `${slugToImportName(name)}Block`,
         layout: resolveBlockStoryLayout(name),
       });
@@ -70,6 +73,7 @@ export function discoverBlockStories(blocksRoot) {
     }
 
     if (name.endsWith(".tsx")) {
+      if (SHARED_LAYOUT_FILES.has(name)) continue;
       manualStoryRequired.push(name.replace(TSX_FILE_EXTENSION_PATTERN, ""));
     }
   }

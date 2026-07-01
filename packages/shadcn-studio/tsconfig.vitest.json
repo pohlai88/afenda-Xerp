@@ -3,9 +3,13 @@
   "compilerOptions": {
     "noEmit": true,
     "composite": false,
-    "types": ["vitest", "@testing-library/jest-dom"]
+    "types": [
+      "vitest",
+      "@testing-library/jest-dom"
+    ]
   },
   "include": [
+    "src/**/gate/**/*",
     "src/**/__tests__/**/*",
     "src/**/__mocks__/**/*",
     "src/**/*.contract.test.ts",
@@ -13,5 +17,8 @@
     "src/**/*.d.ts",
     "src/**/*.tsx"
   ],
-  "exclude": []
+  "exclude": [
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx"
+  ]
 }

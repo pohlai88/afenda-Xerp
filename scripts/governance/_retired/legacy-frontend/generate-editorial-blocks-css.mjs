@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const root = join(dirname(fileURLToPath(import.meta.url)), "../..");
 const srcPath = join(
   root,
-  "packages/ui/src/components/_storybook/afenda-docs/afenda-docs-preview.css"
+  "packages/ui/src/components/storybook/afenda-docs/afenda-docs-preview.css"
 );
 const outPath = join(root, "apps/docs/src/app/docs-editorial-blocks.css");
 

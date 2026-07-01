@@ -40,9 +40,9 @@ pnpm storybook dev
 | Layer | Paths |
 | --- | --- |
 | L1 Authority | `src/contracts/`, `src/registry/`, `src/governance/` |
-| L2 Product | `src/components/ui/`, `src/components/shadcn-studio/blocks/`, `src/theme/`, `src/styles/` |
-| L3 Surfaces | `src/components/erp-shell/` |
-| L4 Lab | `src/_storybook/`, `src/__tests__/`, `src/*.stories.tsx` |
+| L2 Product | `src/components/ui/`, `src/components-layouts/`, `src/lib/`, `src/hooks/`, `src/theme/`, `src/styles/` |
+| L3 Surfaces | `src/components/app-shell/` |
+| L4 Lab | `src/storybook/`, `src/__tests__/`, `src/*.stories.tsx` |
 
 Detail: [ARCHITECTURE.md](./ARCHITECTURE.md)
 
@@ -75,7 +75,7 @@ Detail: [ARCHITECTURE.md](./ARCHITECTURE.md)
 
 ## Hard stops
 
-- Do not rename `src/components/ui/` or `src/components/shadcn-studio/blocks/` (MCP cwd).
+- Do not rename `src/components/ui/` or `src/components-layouts/` (MCP cwd).
 - Do not `shadcn add --overwrite` on existing primitives.
 - Do not import `@afenda/kernel` in this package.
 - Do not revive `@afenda/ui`, `@afenda/appshell`, or PAS-005 ERP gates.

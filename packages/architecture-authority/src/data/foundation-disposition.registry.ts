@@ -909,10 +909,17 @@ const foundationDispositionEntries = [
     evidence: [
       "apps/storybook/.storybook/main.ts",
       "apps/storybook/.storybook/preview.tsx",
+      "apps/storybook/.storybook/vitest.setup.ts",
+      "apps/storybook/vitest.storybook.config.ts",
       "apps/storybook/stories/lab-welcome.stories.tsx",
+      "packages/shadcn-studio/src/lab/index.ts",
+      "packages/shadcn-studio/src/_storybook/story-parameters.ts",
+      ".github/workflows/storybook-lab.yml",
       "apps/storybook/package.json",
     ],
-    knownGaps: [],
+    knownGaps: [
+      "chromatic-visual-regression-optional-until-token-configured",
+    ],
     allowedAgents: ["foundation-registry-owner", "afenda-governed-implementer"],
     prohibited: [
       "do-not-couple-erp-runtime",
@@ -921,7 +928,9 @@ const foundationDispositionEntries = [
     ],
     gates: [
       "pnpm --filter @afenda/storybook typecheck",
-      "pnpm --filter @afenda/storybook test:storybook:run",
+      "pnpm test:storybook:run",
+      "pnpm storybook:build",
+      "pnpm check:studio-import-zones",
     ],
     legacyTipEvidence: [],
   },

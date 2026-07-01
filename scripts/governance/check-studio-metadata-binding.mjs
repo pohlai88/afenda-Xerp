@@ -10,11 +10,11 @@ import { fileURLToPath } from "node:url";
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
 const requiredPaths = [
-  "packages/shadcn-studio/src/contracts/metadata-binding-waiver.contract.ts",
-  "packages/shadcn-studio/src/registry/metadata-binding-waiver.registry.ts",
-  "packages/shadcn-studio/src/registry/build-metadata-binding-from-data-contracts.ts",
-  "packages/shadcn-studio/src/registry/assert-metadata-binding-coverage.ts",
-  "packages/shadcn-studio/src/registry/metadata-binding.registry.ts",
+  "packages/shadcn-studio/src/meta-contracts/metadata-binding-waiver.contract.ts",
+  "packages/shadcn-studio/src/meta-registry/metadata-binding-waiver.registry.ts",
+  "packages/shadcn-studio/src/meta-registry/build-metadata-binding-from-data-contracts.ts",
+  "packages/shadcn-studio/src/meta-registry/assert-metadata-binding-coverage.ts",
+  "packages/shadcn-studio/src/meta-registry/metadata-binding.registry.ts",
 ];
 
 const missing = requiredPaths.filter(

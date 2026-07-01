@@ -1,7 +1,7 @@
 /**
  * Consumer-layer className anti-slop policy.
  *
- * Mirrors packages/ui/src/governance/class-name-guard.ts VISUAL_SLOP_PATTERNS
+ * Mirrors packages/ui/src/meta-gates/class-name-guard.ts VISUAL_SLOP_PATTERNS
  * plus raw palette detection from .cursor/hooks/guard-pre-tool-use.mjs.
  *
  * Applied to plain HTML wrapper className strings in consumer packages

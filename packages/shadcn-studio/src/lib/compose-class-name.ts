@@ -1,4 +1,4 @@
-import { cn } from "./utils";
+import { cn } from "../utils/utils.js";
 
 type ClassNameStateFn<TState> = (state: TState) => string | undefined;
 

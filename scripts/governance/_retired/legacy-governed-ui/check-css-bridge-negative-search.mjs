@@ -33,7 +33,7 @@ const SCAN_SKIP = [
   /\.test\.(ts|tsx)$/,
   /\.spec\.(ts|tsx)$/,
   /\.stories\.(ts|tsx)$/,
-  /_storybook/,
+  /storybook/,
   /\.storybook/,
 ];
 

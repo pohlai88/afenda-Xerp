@@ -1552,7 +1552,7 @@
       "post": {
         "operationId": "internalV1Client-errorPost",
         "summary": "Report client-side error",
-        "description": "Ingests client-side JavaScript errors and telemetry from the ERP shell. Public route for pre-auth error reporting.",
+        "description": "Ingests client-side JavaScript errors and telemetry from the app shell. Public route for pre-auth error reporting.",
         "tags": [
           "observability",
           "public",

@@ -84,7 +84,7 @@ const nextConfig: NextConfig = {
       ),
       "@afenda/shadcn-studio/governance": path.join(
         monorepoRoot,
-        "packages/shadcn-studio/src/governance/index.ts"
+        "packages/shadcn-studio/src/meta-gates/index.ts"
       ),
     };
     return config;

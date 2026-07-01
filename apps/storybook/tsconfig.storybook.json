@@ -15,6 +15,9 @@
       "@afenda/shadcn-studio/shadcn-studio.css": [
         "../../packages/shadcn-studio/src/styles/shadcn-studio.css"
       ],
+      "@afenda/shadcn-studio/lab": [
+        "../../packages/shadcn-studio/src/lab/index.ts"
+      ],
       "@afenda/shadcn-studio": ["../../packages/shadcn-studio/src/index.ts"],
       "@/*": ["../../packages/shadcn-studio/src/*"],
       "@storybook/react": ["./node_modules/@storybook/react"],

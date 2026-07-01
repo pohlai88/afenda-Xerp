@@ -14,11 +14,11 @@ const blocksRoot = join(
 );
 const manifestPath = join(
   repoRoot,
-  "packages/shadcn-studio/src/_storybook/block-story-manifest.generated.json"
+  "packages/shadcn-studio/src/storybook/block-story-manifest.generated.json"
 );
 const autoStoriesPath = join(
   repoRoot,
-  "packages/shadcn-studio/src/shadcn-studio-blocks-auto.stories.tsx"
+  "packages/shadcn-studio/src/storybook/shadcn-studio-blocks-auto.stories.tsx"
 );
 
 describe("discover-block-stories", () => {
