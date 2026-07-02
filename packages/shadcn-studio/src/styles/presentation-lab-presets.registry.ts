@@ -22,7 +22,11 @@ export type PresentationLabPresetRegistryEntry = {
   readonly figmaManifestPath: string | null;
   readonly editorialVocab: EditorialVocab;
   readonly storyImportPath: string;
+  readonly erpDashboardStoryPath: string;
 };
+
+export const ERP_WORKSPACE_DASHBOARD_BASELINE_STORY_PATH =
+  "apps/storybook/stories/erp-workspace-dashboard-baseline.stories.tsx";
 
 export const PRESENTATION_LAB_PRESET_REGISTRY = [
   {
@@ -38,6 +42,8 @@ export const PRESENTATION_LAB_PRESET_REGISTRY = [
       "packages/shadcn-studio/src/styles/afenda-brand.figma-manifest.json",
     editorialVocab: "lab-*",
     storyImportPath: "../../../packages/shadcn-studio/docs/swiss-noir.css",
+    erpDashboardStoryPath:
+      "apps/storybook/stories/erp-workspace-dashboard-swiss-noir.stories.tsx",
   },
   {
     presetId: "afenda-verdant",
@@ -52,6 +58,8 @@ export const PRESENTATION_LAB_PRESET_REGISTRY = [
       "packages/shadcn-studio/src/styles/afenda-verdant.figma-manifest.json",
     editorialVocab: "afenda-*",
     storyImportPath: "../../../packages/shadcn-studio/docs/verdant-noir.css",
+    erpDashboardStoryPath:
+      "apps/storybook/stories/erp-workspace-dashboard-verdant-noir.stories.tsx",
   },
 ] as const satisfies readonly PresentationLabPresetRegistryEntry[];
 

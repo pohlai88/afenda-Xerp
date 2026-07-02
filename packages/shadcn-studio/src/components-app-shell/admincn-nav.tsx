@@ -13,11 +13,11 @@ import type {
   AppShellNavItemWire,
 } from "../meta-contracts/app-shell.contract.js";
 
-export interface AppShellNavProps {
+export interface AdmincnNavProps {
   readonly groups: readonly AppShellNavGroupWire[];
 }
 
-function AppShellNavItem({ item }: { item: AppShellNavItemWire }) {
+function AdmincnNavItem({ item }: { item: AppShellNavItemWire }) {
   return (
     <SidebarMenuItem>
       <SidebarMenuButton
@@ -30,7 +30,7 @@ function AppShellNavItem({ item }: { item: AppShellNavItemWire }) {
   );
 }
 
-export function AppShellNav({ groups }: AppShellNavProps) {
+export function AdmincnNav({ groups }: AdmincnNavProps) {
   return (
     <>
       {groups.map((group) => (
@@ -39,7 +39,7 @@ export function AppShellNav({ groups }: AppShellNavProps) {
           <SidebarGroupContent>
             <SidebarMenu>
               {group.items.map((item) => (
-                <AppShellNavItem item={item} key={item.href} />
+                <AdmincnNavItem item={item} key={item.href} />
               ))}
             </SidebarMenu>
           </SidebarGroupContent>

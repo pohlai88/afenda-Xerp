@@ -7,7 +7,7 @@ import { operatingContextSelectionHintsSchema } from "@/lib/context/operating-co
 import {
   type PresentationShellOperatingContext,
   toPresentationShellOperatingContext,
-} from "@/lib/context/to-presentation-shell-operating-context";
+} from "@/lib/context/to-shell-operating-context-wire";
 import { persistWorkspaceSelectionCookies } from "@/lib/context/workspace-selection-cookies.server";
 import { failServerAction } from "@/lib/server-actions/fail-server-action";
 import { parseProtectedActionInput } from "@/lib/server-actions/parse-protected-action-input";

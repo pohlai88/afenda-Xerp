@@ -17,6 +17,100 @@ Governed presentation product for Afenda ERP (PAS-006 / ADR-0027). This file is 
 
 ---
 
+## Naming convention (reference-aligned)
+
+Afenda borrows **roles, structure, and inline simplicity** from the read-only AdminCN reference template (`_reference/shadcn-nextjs-admincn-admin-template-1.0.0/`). File names stay **local repo kebab-case** — do not introduce reference PascalCase filenames (`Sidebar.tsx`).
+
+### Rules
+
+| Rule | Decision |
+| --- | --- |
+| Bucket prefix | On **folder only** (`components-app-shell/`) — never repeat in filename |
+| File casing | **kebab-case** everywhere under `src/` |
+| React exports | **PascalCase** (`AdmincnShell`, `AdmincnNav`, `resolveShell`) |
+| L3 shell files | `{slug}-shell.tsx` + `{slug}-nav.tsx` (e.g. `admincn-shell.tsx`, `admincn-nav.tsx`) |
+| Resolver | `resolve-shell.tsx` exporting `resolveShell(slug)`; barrel exports `AppShell` alias for default slug |
+| Multi-shell | Flat bucket; slugs `admincn` (default), `crm-shell`, `ai-shell` (future) |
+| No mappers | **No** `map-*-from-*` files — inline 1–3 lines in shell composer |
+| L2 MCP blocks | Keep registry slug stems (`dialog-search.tsx`, `statistics-card-01.tsx`) |
+| Settings fields | Keep Afenda names (`sidebarVariant`, `sidebarCollapsible`, `sidebarOpen`) — document reference mapping only |
+
+### Reference → Afenda mapping
+
+| Reference (AdminCN template) | Afenda file | Export |
+| --- | --- | --- |
+| `components/layout/Sidebar.tsx` | `components-app-shell/admincn-shell.tsx` | `AdmincnShell` |
+| Sidebar nav items | `components-app-shell/admincn-nav.tsx` | `AdmincnNav` |
+| Shell resolver | `components-app-shell/resolve-shell.tsx` | `resolveShell` |
+| `components/layout/ThemeCustomizer.tsx` | `theme/theme-customizer.tsx` | `ThemeCustomizer` |
+| `configs/themeConfig.ts` | `theme/theme-config.ts` | `themeConfig` |
+| `contexts/settingsContext.tsx` | `theme/settings-context.tsx` | `useSettings` |
+| `components/ui/button.tsx` | `components-ui/button.tsx` | `Button` |
+| `views/*` | ERP `apps/erp/**/_components/` | — |
+
+### Settings vocabulary (reference vs Afenda)
+
+Reference AdminCN uses `variant` / `collapsible` on the sidebar primitive. Afenda keeps **stable settings field names** in `settings.contract.ts`:
+
+| Reference concept | Afenda settings field | Inline in shell composer |
+| --- | --- | --- |
+| Sidebar visual variant (`default` / `floating` / `inset`) | `sidebarVariant` | Map `"default"` → `"sidebar"` for `Sidebar` `variant` prop |
+| Collapse mode | `sidebarCollapsible` | Pass through to `Sidebar` `collapsible` |
+| Initial open state | `sidebarOpen` | Pass through to `SidebarProvider` `defaultOpen` |
+
+```tsx
+const sidebarVariant =
+  settings.sidebarVariant === "default" ? "sidebar" : settings.sidebarVariant;
+```
+
+Do **not** rename settings fields to match reference without a new ADR.
+
+### L3 multi-shell recipe
+
+Flat bucket only — **no nested folders** under `components-app-shell/`.
+
+```text
+components-app-shell/
+  admincn-shell.tsx       ← composer (default slug: admincn)
+  admincn-nav.tsx         ← nav for admincn shell
+  resolve-shell.tsx       ← slug → component map
+  crm-shell.tsx           ← future: CRM module shell
+  ai-shell.tsx            ← future: AI module shell
+```
+
+To add a shell:
+
+1. Add `{slug}-shell.tsx` (+ optional `{slug}-nav.tsx`) in the flat bucket.
+2. Register the slug in `resolve-shell.tsx` `SHELL_MAP`.
+3. Wire ERP pathname → slug in `apps/erp/src/lib/presentation/resolve-shell-slug.ts`.
+4. Add Storybook story with `parameters.shellSlug: "<slug>"` for L4 lab proof.
+
+Barrel exports: **`AdmincnShell`**, **`AdmincnNav`**, **`resolveShell`**, and **`AppShell`** (alias for default `admincn` slug).
+
+### MCP copy / adopt workflow
+
+Raw MCP output never lands directly in `components-app-shell/`. Install blocks to quarantine first, classify, then promote shared chrome to L2 or shell-private parts to flat `admincn-*.tsx`.
+
+Full pipeline: [components-quarantine/README.md](./src/components-quarantine/README.md) · skill: `shadcn-studio`
+
+```bash
+pnpm studio:shadcn:quarantine add @ss-blocks/application-shell-02 --overwrite --yes
+pnpm studio:quarantine sync
+pnpm studio:promote --block application-shell-02   # preflight first
+```
+
+### Anti-patterns (ban list)
+
+- `admincn-app-shell.tsx` inside `components-app-shell/` → use `admincn-shell.tsx`
+- `map-sidebar-from-settings.ts` or any `map-*-from-*` in the app-shell bucket → inline in composer
+- `resolve-app-shell.tsx` → `resolve-shell.tsx`
+- Nested `components-app-shell/admincn/` (or any subfolder) for variant shells
+- PascalCase filenames under `src/`
+- Direct `components-quarantine/` imports in ERP, Storybook, or production buckets
+- Duplicating ThemeCustomizer or settings context inside shell files — import from `theme/`
+
+---
+
 ## Skill routing
 
 Start from [`.cursor/skills/using-afenda-skills/SKILL.md`](../../.cursor/skills/using-afenda-skills/SKILL.md):

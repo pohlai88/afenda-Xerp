@@ -14,6 +14,8 @@ parameters: { shadcnStudioPreset: "default", layout: "fullscreen" }
 
 Shell class: `dark theme-afenda-brand lab-noir-canvas` (see contract).
 
+**ERP workspace dashboard (Tier A v1 grid):** `Presentation Lab/ERP Workspace Dashboard/Swiss Noir` — [`erp-workspace-dashboard-swiss-noir.stories.tsx`](../../../apps/storybook/stories/erp-workspace-dashboard-swiss-noir.stories.tsx)
+
 ---
 Yes. Let’s switch mode.
 

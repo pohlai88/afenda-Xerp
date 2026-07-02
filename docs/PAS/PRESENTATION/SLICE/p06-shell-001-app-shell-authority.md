@@ -6,7 +6,7 @@
 
 ## Authority
 
-After [ADR-0027](../../../adr/ADR-0027-frontend-presentation-reset.md), the operator app shell lives in `@afenda/shadcn-studio` under `src/components/app-shell/` and is composed by `apps/erp` protected layouts. This is **not** a restoration of the retired `@afenda/appshell` package or PAS-005 governed UI — it is the same **app-shell** concept under PAS-006 presentation.
+After [ADR-0027](../../../adr/ADR-0027-frontend-presentation-reset.md), the operator app shell lives in `@afenda/shadcn-studio` under `src/components-app-shell/` and is composed by `apps/erp` protected layouts. This is **not** a restoration of the retired `@afenda/appshell` package or PAS-005 governed UI — it is the same **app-shell** concept under PAS-006 presentation.
 
 ## Contract
 
@@ -21,7 +21,7 @@ After [ADR-0027](../../../adr/ADR-0027-frontend-presentation-reset.md), the oper
 | --- | --- |
 | Root providers | `apps/erp/src/app/layout.tsx` → `ErpPresentationProviders` |
 | Protected app shell | `apps/erp/src/app/(protected)/layout.tsx` → `AppProtectedShell` |
-| Nav SSOT | `apps/erp/src/lib/navigation/resolve-app-shell-nav.server.ts` |
+| Nav SSOT | `apps/erp/src/lib/navigation/resolve-shell-nav.server.ts` |
 
 ## Gates
 

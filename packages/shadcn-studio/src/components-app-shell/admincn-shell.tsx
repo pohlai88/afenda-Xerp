@@ -27,30 +27,27 @@ import type {
 } from "../meta-contracts/app-shell.contract.js";
 import { useSettings } from "../theme/settings-context.js";
 import { ThemeCustomizer } from "../theme/theme-customizer.js";
-import { AppShellNav } from "./app-shell-nav.js";
-import {
-  mapSidebarVariant,
-  resolveSidebarProviderDefaultOpen,
-} from "./map-sidebar-from-settings.js";
+import { AdmincnNav } from "./admincn-nav.js";
 
-export interface AppShellProps {
+export interface AdmincnShellProps {
   readonly brandLabel?: string;
   readonly children: ReactNode;
   readonly navGroups: readonly AppShellNavGroupWire[];
   readonly operatingContext: AppShellOperatingContextWire;
 }
 
-export function AppShell({
+export function AdmincnShell({
   brandLabel = "Afenda ERP",
   children,
   navGroups,
   operatingContext,
-}: AppShellProps) {
+}: AdmincnShellProps) {
   const { settings } = useSettings();
-  const sidebarVariant = mapSidebarVariant(settings.sidebarVariant);
+  const sidebarVariant =
+    settings.sidebarVariant === "default" ? "sidebar" : settings.sidebarVariant;
 
   return (
-    <SidebarProvider defaultOpen={resolveSidebarProviderDefaultOpen(settings)}>
+    <SidebarProvider defaultOpen={settings.sidebarOpen}>
       <Sidebar
         collapsible={settings.sidebarCollapsible}
         variant={sidebarVariant}
@@ -62,7 +59,7 @@ export function AppShell({
           </p>
         </SidebarHeader>
         <SidebarContent>
-          <AppShellNav groups={navGroups} />
+          <AdmincnNav groups={navGroups} />
         </SidebarContent>
         <SidebarFooter>
           <SidebarUserDropdownBlock

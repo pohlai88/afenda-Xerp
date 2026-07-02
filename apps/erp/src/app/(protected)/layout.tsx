@@ -8,9 +8,8 @@ import { readAfendaSessionCookieFromHeaders } from "@/lib/auth/read-session-cook
 import { resolveProtectedPathActorUserIdFromSession } from "@/lib/auth/resolve-protected-path-actor.server";
 import { resolveUnauthenticatedRedirectPath } from "@/lib/auth/resolve-unauthenticated-redirect-path";
 import { loadProtectedRequestOperatingContext } from "@/lib/context/load-protected-request-operating-context.server";
-import { toAppShellOperatingContextWire } from "@/lib/context/to-app-shell-operating-context";
-import { toPresentationShellOperatingContext } from "@/lib/context/to-presentation-shell-operating-context";
-import { resolveAppShellNavGroups } from "@/lib/navigation/resolve-app-shell-nav.server";
+import { toShellOperatingContextWire } from "@/lib/context/to-shell-operating-context-wire";
+import { resolveShellNavGroups } from "@/lib/navigation/resolve-shell-nav.server";
 
 export default async function ProtectedLayout({
   children,
@@ -36,11 +35,8 @@ export default async function ProtectedLayout({
     redirect("/access-denied");
   }
 
-  const presentationContext = toPresentationShellOperatingContext(
-    operatingResult.value
-  );
-  const operatingContext = toAppShellOperatingContextWire(presentationContext);
-  const navGroups = await resolveAppShellNavGroups(operatingResult.value);
+  const operatingContext = toShellOperatingContextWire(operatingResult.value);
+  const navGroups = await resolveShellNavGroups(operatingResult.value);
 
   return (
     <AppProtectedShell

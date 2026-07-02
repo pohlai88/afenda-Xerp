@@ -4,22 +4,20 @@ export const SHADCN_STUDIO_PACKAGE_VERSION = "0.0.0" as const;
 export const SHADCN_STUDIO_PACKAGE_NAME = "@afenda/shadcn-studio" as const;
 export const SHADCN_STUDIO_CSS_PATH = "./shadcn-studio.css" as const;
 
-/** @deprecated Use `AppShellProps` */
-export type { AppShellProps as ErpDashboardShellProps } from "./components-app-shell/app-shell.js";
-/** @deprecated Use `AppShell` */
+export {
+  AdmincnNav,
+  type AdmincnNavProps,
+} from "./components-app-shell/admincn-nav.js";
+export {
+  AdmincnShell,
+  type AdmincnShellProps,
+} from "./components-app-shell/admincn-shell.js";
 export {
   AppShell,
-  AppShell as ErpDashboardShell,
   type AppShellProps,
-} from "./components-app-shell/app-shell.js";
-/** @deprecated Use `AppShellNavProps` */
-export type { AppShellNavProps as ErpShellNavProps } from "./components-app-shell/app-shell-nav.js";
-/** @deprecated Use `AppShellNav` */
-export {
-  AppShellNav,
-  AppShellNav as ErpShellNav,
-  type AppShellNavProps,
-} from "./components-app-shell/app-shell-nav.js";
+  resolveShell,
+  type ShellSlug,
+} from "./components-app-shell/resolve-shell.js";
 export { default as LoginPage04Block } from "./components-auth-shell/login-page-04/login-page-04.js";
 export { default as AccountSettings01Block } from "./components-layouts/account-settings-01/account-settings-01.js";
 export { default as ChartEarningReportBlock } from "./components-layouts/chart-earning-report.js";
@@ -136,9 +134,6 @@ export {
   type AppShellNavGroupWire,
   type AppShellNavItemWire,
   type AppShellOperatingContextWire,
-  type ErpNavGroupWire,
-  type ErpNavItemWire,
-  type ErpShellOperatingContextWire,
   isAppShellNavGroupWire,
   isAppShellNavItemWire,
   isAppShellOperatingContextWire,

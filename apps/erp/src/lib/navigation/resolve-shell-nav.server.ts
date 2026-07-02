@@ -93,8 +93,8 @@ async function buildSystemAdminNavGroup(
   };
 }
 
-/** Serializable app-shell navigation filtered by read permissions. */
-export async function resolveAppShellNavGroups(
+/** Serializable shell navigation filtered by read permissions. */
+export async function resolveShellNavGroups(
   operatingContext: OperatingContext
 ): Promise<readonly AppShellNavGroupWire[]> {
   const groups: AppShellNavGroupWire[] = [];

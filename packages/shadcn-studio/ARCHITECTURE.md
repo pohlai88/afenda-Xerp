@@ -43,7 +43,7 @@ L4 VERIFICATION (internal) storybook/  gate/  *.stories.tsx
 | `components-layouts/` | L2 | ~70 | MCP Pro blocks (flat or folder per block) |
 | `components-auth-shell/` | L2 | 1+ | Auth ingress blocks (login-page-04) |
 | `components-quarantine/` | L2 | varies | MCP blocks pending promotion — see README |
-| `components-app-shell/` | L3 | 3 | App shell (dashboard layout + nav, post ADR-0027) |
+| `components-app-shell/` | L3 | 3+ | App shell composers (flat bucket — see Naming) |
 | `lib/` | L2 | 5 | `compose-class-name`, `compute-pagination-range`, `governed-primitive-props`, `_lib-inventory.registry` |
 | `utils/` | L2 | 1 | `cn()` helper (`utils.ts`) |
 | `hooks/` | L2 | 1 | React hooks (`useIsMobile` for sidebar) |
@@ -55,6 +55,12 @@ L4 VERIFICATION (internal) storybook/  gate/  *.stories.tsx
 | `src/__tests__/` | L4 | 157 | All package tests: gate, primitive contracts, interactions, inventory, theme, MCP policy |
 | `src/storybook/*.stories.tsx` | L4 | 10+ | Storybook lab stories (codegen + curated) |
 | `index.ts` | Public | 1 | L2 + L3 + selective L1 wire types (no L4) |
+
+---
+
+## Naming
+
+L3 shell file stems, reference→Afenda mapping, multi-shell recipe, and anti-patterns are authoritative in [AGENTS.md § Naming convention (reference-aligned)](./AGENTS.md#naming-convention-reference-aligned). Do not duplicate the full rules table here.
 
 ---
 

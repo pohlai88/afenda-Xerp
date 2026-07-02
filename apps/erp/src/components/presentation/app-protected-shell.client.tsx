@@ -1,13 +1,15 @@
 "use client";
 
 import {
-  AppShell,
   type AppShellNavGroupWire,
   type AppShellOperatingContextWire,
+  resolveShell,
 } from "@afenda/shadcn-studio";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { useMemo } from "react";
+
+import { resolveShellSlugFromPathname } from "@/lib/presentation/resolve-shell-slug";
 
 export interface AppProtectedShellProps {
   readonly children: ReactNode;
@@ -38,10 +40,12 @@ export function AppProtectedShell({
     () => annotateActiveNavGroups(navGroups, pathname),
     [navGroups, pathname]
   );
+  const shellSlug = resolveShellSlugFromPathname(pathname);
+  const Shell = resolveShell(shellSlug);
 
   return (
-    <AppShell navGroups={activeNavGroups} operatingContext={operatingContext}>
+    <Shell navGroups={activeNavGroups} operatingContext={operatingContext}>
       {children}
-    </AppShell>
+    </Shell>
   );
 }

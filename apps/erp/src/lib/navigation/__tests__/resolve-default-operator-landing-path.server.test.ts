@@ -1,18 +1,18 @@
 import type { OperatingContext } from "@afenda/kernel";
 import { describe, expect, it, vi } from "vitest";
 
-vi.mock("@/lib/navigation/resolve-app-shell-nav.server", () => ({
-  resolveAppShellNavGroups: vi.fn(),
+vi.mock("@/lib/navigation/resolve-shell-nav.server", () => ({
+  resolveShellNavGroups: vi.fn(),
 }));
 
-import { resolveAppShellNavGroups } from "@/lib/navigation/resolve-app-shell-nav.server";
 import { resolveDefaultOperatorLandingPath } from "@/lib/navigation/resolve-default-operator-landing-path.server";
+import { resolveShellNavGroups } from "@/lib/navigation/resolve-shell-nav.server";
 
 const operatingContext = {} as OperatingContext;
 
 describe("resolveDefaultOperatorLandingPath", () => {
   it("returns the first nav item href across permission-filtered groups", async () => {
-    vi.mocked(resolveAppShellNavGroups).mockResolvedValue([
+    vi.mocked(resolveShellNavGroups).mockResolvedValue([
       {
         label: "Platform",
         items: [{ href: "/metadata-workspace", label: "Metadata Workspace" }],
@@ -34,7 +34,7 @@ describe("resolveDefaultOperatorLandingPath", () => {
   });
 
   it("returns null when no nav groups remain after permission filtering", async () => {
-    vi.mocked(resolveAppShellNavGroups).mockResolvedValue([]);
+    vi.mocked(resolveShellNavGroups).mockResolvedValue([]);
 
     await expect(
       resolveDefaultOperatorLandingPath(operatingContext)

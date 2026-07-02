@@ -1,4 +1,5 @@
 import type { OperatingContext } from "@afenda/kernel";
+import type { AppShellOperatingContextWire } from "@afenda/shadcn-studio";
 
 /** PAS-006 protected shell context labels — not @afenda/appshell. */
 export interface PresentationShellOperatingContext {
@@ -21,5 +22,18 @@ export function toPresentationShellOperatingContext(
       organizationUnitLabel === undefined
         ? legalEntityLabel
         : `${legalEntityLabel} · ${organizationUnitLabel}`,
+  };
+}
+
+/** Kernel operating context → L1 `AppShellOperatingContextWire` for `@afenda/shadcn-studio` shells. */
+export function toShellOperatingContextWire(
+  context: OperatingContext
+): AppShellOperatingContextWire {
+  const presentation = toPresentationShellOperatingContext(context);
+
+  return {
+    tenantLabel: presentation.tenantLabel,
+    legalEntityLabel: presentation.legalEntityLabel,
+    workspaceLabel: presentation.workspaceLabel,
   };
 }

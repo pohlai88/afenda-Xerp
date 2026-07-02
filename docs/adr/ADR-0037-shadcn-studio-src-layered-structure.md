@@ -41,7 +41,7 @@ Adopt a **documented four-layer logical model** on top of **unchanged MCP physic
 | --- | --- | --- | --- | --- |
 | **Authority** | L1 | `contracts/**`, `registry/**`, `governance/**` | Zone A — relative imports only | Cross-surface wire shapes, inventory graph, gate aggregators |
 | **Product** | L2 | `components/ui/**`, `components/shadcn-studio/blocks/**`, `lib/**`, `hooks/**`, `assets/**`, `theme/**`, `styles/**` | Zone B — `@/` for ui/lib/hooks | MCP output, primitives, blocks, theme CSS, **product-local primitive contracts** |
-| **Surfaces** | L3 | `components/app-shell/**` | Zone B + selective L1 wire types | Afenda-composed app shell (not MCP `--overwrite`) |
+| **Surfaces** | L3 | `components-app-shell/**` | Zone B + selective L1 wire types | Afenda-composed app shell (not MCP `--overwrite`) |
 | **Verification** | L4 | `_storybook/**`, `__tests__/**`, `*.stories.tsx` at `src/` root | Internal only | Storybook parameters, gate tests, MDX docs, verification fixtures |
 
 **L4 note:** L4 is not production runtime. Gate tests under L4 remain **authoritative verification artifacts** — not optional lab trash.

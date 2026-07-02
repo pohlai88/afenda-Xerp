@@ -88,7 +88,7 @@ export const CONTEXT_INTEGRATION_WIRING = [
     id: "presentation-shell-context",
     step: "Pass allowed contexts to PAS-006 protected shell",
     module: "app/(protected)/layout.tsx",
-    delegate: "toPresentationShellOperatingContext",
+    delegate: "toShellOperatingContextWire",
   },
   {
     id: "permission-checks",

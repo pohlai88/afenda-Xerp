@@ -72,12 +72,3 @@ export function isAppShellOperatingContextWire(
     isNonEmptyString(value["workspaceLabel"])
   );
 }
-
-/** @deprecated Use `AppShellNavItemWire` */
-export type ErpNavItemWire = AppShellNavItemWire;
-
-/** @deprecated Use `AppShellNavGroupWire` */
-export type ErpNavGroupWire = AppShellNavGroupWire;
-
-/** @deprecated Use `AppShellOperatingContextWire` */
-export type ErpShellOperatingContextWire = AppShellOperatingContextWire;

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { DotGrid } from "@/components/ui/bg-dot-grid";
+import { DotGrid } from "../components-ui/bg-dot-grid.js";
 
 import { MorphingText } from "./morphing-text.js";
 

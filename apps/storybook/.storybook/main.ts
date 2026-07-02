@@ -25,6 +25,24 @@ const storybookTest = join(
   "node_modules/storybook/dist/test/index.js"
 );
 
+/** Vitest addon change-detection uses acorn without TS/JSX — breaks dev on .tsx CSF. Tests run via vitest.storybook.config.ts. */
+const storybookAddons = [
+  getAbsolutePath("@chromatic-com/storybook"),
+  getAbsolutePath("@storybook/addon-docs"),
+  getAbsolutePath("@storybook/addon-designs"),
+  getAbsolutePath("@storybook/addon-a11y"),
+  {
+    name: getAbsolutePath("@storybook/addon-mcp"),
+    options: {
+      toolsets: {
+        dev: true,
+        docs: true,
+        test: true,
+      },
+    },
+  },
+];
+
 const config: StorybookConfig = {
   stories: [
     "../stories/**/*.stories.@(ts|tsx)",
@@ -37,23 +55,7 @@ const config: StorybookConfig = {
       to: "/studio-assets",
     },
   ],
-  addons: [
-    getAbsolutePath("@chromatic-com/storybook"),
-    getAbsolutePath("@storybook/addon-docs"),
-    getAbsolutePath("@storybook/addon-designs"),
-    getAbsolutePath("@storybook/addon-a11y"),
-    getAbsolutePath("@storybook/addon-vitest"),
-    {
-      name: getAbsolutePath("@storybook/addon-mcp"),
-      options: {
-        toolsets: {
-          dev: true,
-          docs: true,
-          test: true,
-        },
-      },
-    },
-  ],
+  addons: storybookAddons,
   framework: {
     name: getAbsolutePath("@storybook/react-vite"),
     options: {},

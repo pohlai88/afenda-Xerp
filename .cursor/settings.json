@@ -4,5 +4,5 @@
       "enabled": true
     }
   },
-  "biome.configurationPath": "biome.lsp.jsonc"
+  "biome.configurationPath": "${workspaceFolder}/biome.lsp.jsonc"
 }

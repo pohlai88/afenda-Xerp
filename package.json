@@ -382,6 +382,7 @@
     "biome.lsp.jsonc": "node scripts/governance/check-biome-editor-sync.mjs",
     "biome.project.jsonc": "node scripts/governance/check-biome-editor-sync.mjs",
     ".vscode/settings.json": "node scripts/governance/check-biome-editor-sync.mjs",
+    ".cursor/settings.json": "node scripts/governance/check-biome-editor-sync.mjs",
     "_reference/.vscode/settings.json": "node scripts/governance/check-biome-editor-sync.mjs",
     "scripts/governance/biome-editor-policy.mjs": "node scripts/governance/check-biome-editor-sync.mjs",
     "packages/shadcn-studio/src/**/*.css": "node scripts/governance/sync-package-css-dist.mjs",

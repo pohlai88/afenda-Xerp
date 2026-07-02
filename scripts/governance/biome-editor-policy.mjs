@@ -6,6 +6,7 @@
  * - biome.lsp.jsonc (editor LSP, no type-aware)
  * - biome.project.jsonc (shared excludes)
  * - .vscode/settings.json (formatter + biome.enabled per language)
+ * - .cursor/settings.json (Cursor overlay — biome.configurationPath must not drift)
  * - _reference/.vscode/settings.json (Biome-excluded reference templates)
  * - package.json lint-staged + prettier.config.mjs
  *
@@ -24,6 +25,7 @@ export const BIOME_EDITOR_POLICY = {
   ciConfigPath: "biome.jsonc",
   sharedConfigPath: "biome.project.jsonc",
   vscodeSettingsPath: ".vscode/settings.json",
+  cursorSettingsPath: ".cursor/settings.json",
   referenceVscodeSettingsPath: "_reference/.vscode/settings.json",
   prettierConfigPath: "prettier.config.mjs",
   typeAwarePreset: "ultracite/biome/type-aware",
@@ -103,6 +105,7 @@ export const BIOME_EDITOR_POLICY = {
       "biome.lsp.jsonc",
       "biome.project.jsonc",
       ".vscode/settings.json",
+      ".cursor/settings.json",
       "_reference/.vscode/settings.json",
       "scripts/governance/biome-editor-policy.mjs",
     ],
@@ -317,6 +320,26 @@ export function checkBiomeEditorSync(repoRoot) {
       `[${languageId}]`,
       expected,
       violations
+    );
+  }
+
+  const cursorSettingsPath = join(repoRoot, policy.cursorSettingsPath);
+
+  try {
+    const cursorSettings = JSON.parse(readFileSync(cursorSettingsPath, "utf8"));
+
+    if (
+      Object.hasOwn(cursorSettings, "biome.configurationPath") &&
+      cursorSettings["biome.configurationPath"] !==
+        policy.vscode.configurationPath
+    ) {
+      violations.push(
+        `${policy.cursorSettingsPath} biome.configurationPath must be "${policy.vscode.configurationPath}" or omitted (relative paths break Biome 2.4+ LSP in Cursor)`
+      );
+    }
+  } catch {
+    violations.push(
+      `${policy.cursorSettingsPath} must exist and be valid JSON (Cursor Biome overlay)`
     );
   }
 

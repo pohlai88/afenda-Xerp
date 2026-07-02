@@ -14,6 +14,8 @@ parameters: { shadcnStudioPreset: "default", layout: "fullscreen" }
 
 Shell class: `theme-afenda-verdant-milk-noir verdant-canvas` (see contract).
 
+**ERP workspace dashboard (Tier A v1 grid):** `Presentation Lab/ERP Workspace Dashboard/Verdant Noir` — [`erp-workspace-dashboard-verdant-noir.stories.tsx`](../../../apps/storybook/stories/erp-workspace-dashboard-verdant-noir.stories.tsx)
+
 ---
 Yes — fair. I gave you fragments. Below is the **complete furnished drop-in** that turns the idea into one usable screen.
 
