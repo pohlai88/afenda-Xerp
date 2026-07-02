@@ -58,18 +58,38 @@ Do **not** skip quarantine and install into:
 Raw UI in quarantine is lifecycle state **Imported** only. Promotion follows PAS-006B:
 
 ```text
-components-quarantine/     ← MCP/CLI inbox (this folder)
+pnpm studio:shadcn:quarantine add …     ← install to mirrored inbox
+pnpm studio:quarantine sync             ← quarantine-inbox.registry.json
+pnpm studio:promote --block <id>          ← preflight (always run first)
+pnpm studio:promote --block <id> --apply ← only when verdict = READY_TO_PROMOTE
         │
-        ▼  normalize: naming, exports, slot map, prop extraction
-components-ui/ | components-layouts/ | components-auth-shell/
-        │
-        ▼  stabilize: a11y, responsive, theme tokens, DOM markers
-        ▼  registry: lifecycle → Normalized → Stabilized → Theme-bound → Metadata-bound
+        ▼  meta-registry lifecycle (manual): Normalized → … → Metadata-bound
         ▼  accept: PAS-006C Acceptance Record
-        ▼  wire: apps/erp imports via @afenda/shadcn-studio barrel
+        ▼  wire: apps/erp via @afenda/shadcn-studio barrel
 ```
 
-Minimum checklist before moving a file out of quarantine:
+**Hard stop:** `--apply` never runs when verdict is `BLOCKED_DUPLICATE` (production file already exists).
+
+### Promote preflight (4 steps)
+
+Every `pnpm studio:promote --block <id>` runs:
+
+1. Registry sync
+2. Block lookup in `quarantine-inbox.registry.json`
+3. Path verify (quarantine file + production target + bucket)
+4. Verdict label
+
+| Verdict | Meaning | `--apply`? |
+| --- | --- | --- |
+| `BLOCKED_DUPLICATE` | Production already has this block | **Never** — use `discard` |
+| `BLOCKED_CHECKLIST` | Hard checklist fail (e.g. slot markers) | No — fix in quarantine |
+| `BLOCKED_MISSING` | Not registered or file missing on disk | No — run `sync` + `list` |
+| `INBOX` | Needs normalization before promote | No |
+| `READY_TO_PROMOTE` | Production slot free, checklist passes | **Yes** |
+
+Preflight prints a single **Next:** line — the only command to run after the report.
+
+Minimum checklist before `--apply`:
 
 - [ ] Demo/mock data replaced with typed props or wire-contract shapes
 - [ ] Theme uses `@afenda/shadcn-studio` CSS variables — no one-off hex or local `:root` blocks
@@ -84,6 +104,63 @@ Until those steps complete, the artifact stays in quarantine or is deleted — *
 ---
 
 ## Operational rules
+
+### Mirrored inbox layout
+
+```text
+src/components-quarantine/
+  README.md
+  quarantine-inbox.registry.json    ← generated (`pnpm studio:quarantine sync`)
+  components-layouts/               ← blocks (flat .tsx or <slug>/ dirs)
+  components-ui/                    ← install-time primitive deps
+  components-auth-shell/            ← auth ingress blocks (e.g. login-page-04)
+```
+
+Install aliases in `components.json`:
+
+```json
+"components": "@/components-quarantine/components-layouts",
+"ui": "@/components-quarantine/components-ui"
+```
+
+### Command reference
+
+**Inbox** (`pnpm studio:quarantine …`):
+
+| Command | Effect |
+| --- | --- |
+| `sync` | Regenerate `quarantine-inbox.registry.json` from disk |
+| `list [--json]` | Human table or JSON for tooling |
+| `reset` | Dry-run: show paths to delete + origin layout to restore |
+| `reset --apply` | Wipe inbox to origin (README + empty buckets + empty registry) |
+| `discard --block <id>` | Remove one block from inbox |
+
+**Promote** (`pnpm studio:promote …`):
+
+| Command | Effect |
+| --- | --- |
+| `--block <id>` | Full preflight — no filesystem writes |
+| `--block <id> --apply` | Move to production when verdict is `READY_TO_PROMOTE` |
+| `list [--json]` | Same as `studio:quarantine list` |
+
+**Install** (from repo root):
+
+```bash
+pnpm studio:shadcn:quarantine add @ss-blocks/<registry-name> --overwrite --yes
+pnpm studio:quarantine sync
+pnpm studio:promote --block <blockId>
+```
+
+**Typical outcomes:**
+
+| Situation | Verdict | Next command |
+| --- | --- | --- |
+| Re-import of existing production block | `BLOCKED_DUPLICATE` | `pnpm studio:quarantine discard --block <id>` |
+| Net-new block, missing slot markers | `BLOCKED_CHECKLIST` or `INBOX` | Fix in quarantine, re-run preflight |
+| Net-new block, checklist green | `READY_TO_PROMOTE` | `pnpm studio:promote --block <id> --apply` |
+| Clean slate before new install | — | `pnpm studio:quarantine reset --apply` |
+
+Legacy aliases (`studio:quarantine:sync`, `studio:quarantine:list`, etc.) forward to the same scripts.
 
 ### Overwrite is OK here
 
@@ -110,7 +187,9 @@ MCP install targets and ADR-0038 bucket layout depend on the physical path `src/
 | [ADR-0038](../../../docs/adr/ADR-0038-shadcn-studio-prefixed-folder-layout.md) | Declares `components-quarantine/` as MCP inbox |
 | [ARCHITECTURE.md](../../ARCHITECTURE.md) | L2 bucket map and import zone matrix |
 | [PAS-006B](../../../docs/PAS/PRESENTATION/PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md) | Block lifecycle — no skip from **Imported** to **Accepted** |
-| [shadcn-studio skill](../../../.cursor/skills/shadcn-studio/SKILL.md) | MCP workflows, `--overwrite` recovery, post-install marker restore |
+| [AGENTS.md](../../AGENTS.md) | Agent command console + gates |
+| [shadcn-studio skill](../../../.cursor/skills/shadcn-studio/SKILL.md) | MCP install, marker restore |
+| [using-afenda-skills](../../../.cursor/skills/using-afenda-skills/SKILL.md) | Skill routing — `studio:quarantine` · `studio:promote` |
 
 ---
 

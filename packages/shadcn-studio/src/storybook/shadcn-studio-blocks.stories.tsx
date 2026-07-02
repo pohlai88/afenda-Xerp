@@ -65,7 +65,7 @@ export const LoginPage04: Story = {
   },
   play: async ({ canvas }) => {
     await expect(
-      canvas.getByRole("heading", { level: 2, name: "Welcome Back 👋" })
+      canvas.getByRole("heading", { level: 2, name: /Welcome back/i })
     ).toBeVisible();
   },
 };

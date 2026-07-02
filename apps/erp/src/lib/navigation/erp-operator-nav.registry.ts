@@ -19,6 +19,11 @@ export const ERP_PLATFORM_NAV_GROUP = {
   label: OPERATOR_NAV_LABELS.platformGroup.label,
   items: [
     {
+      href: "/workspace",
+      label: OPERATOR_NAV_LABELS.workspaceHome.label,
+      readPermissionKey: PERMISSION_REGISTRY.workspace.dashboard.read,
+    },
+    {
       href: "/metadata-workspace",
       label: OPERATOR_NAV_LABELS.metadataWorkspace.label,
       readPermissionKey: PERMISSION_REGISTRY.workspace.dashboard.read,

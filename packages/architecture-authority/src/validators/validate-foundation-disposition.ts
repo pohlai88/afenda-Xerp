@@ -102,14 +102,17 @@ function validateLegacyTipNotSoleAuthority(
   return [];
 }
 
-function validateBlueLaneAccountingRequirement(
+function validateNonProductionLaneAccountingRequirement(
   entry: FoundationDispositionEntry
 ): ArchitectureViolation[] {
-  if (entry.lane === "blue-lane" && entry.requiredBeforeAccounting) {
+  if (
+    (entry.lane === "blue-lane" || entry.lane === "lab-lane") &&
+    entry.requiredBeforeAccounting
+  ) {
     return [
       violation(
         entry.id,
-        "blue-lane entry must not set requiredBeforeAccounting: true",
+        `${entry.lane} entry must not set requiredBeforeAccounting: true`,
         entry.packageName
       ),
     ];
@@ -187,7 +190,7 @@ export function validateFoundationDisposition(
     ...validateRedLaneEvidence(entry),
     ...validatePackageIdAlignment(entry),
     ...validateLegacyTipNotSoleAuthority(entry),
-    ...validateBlueLaneAccountingRequirement(entry),
+    ...validateNonProductionLaneAccountingRequirement(entry),
     ...validateProhibitedRules(entry),
     ...validateRedLaneAllowedAgents(entry),
   ]);

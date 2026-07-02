@@ -33,16 +33,79 @@ Start from [`.cursor/skills/using-afenda-skills/SKILL.md`](../../.cursor/skills/
 
 ---
 
+---
+
+## Command console
+
+Quick reference for agents — full detail in [components-quarantine/README.md](./src/components-quarantine/README.md).
+
+### Install → inbox
+
+```bash
+# From repo root
+pnpm studio:shadcn:quarantine add @ss-blocks/<registry-name> --overwrite --yes
+pnpm studio:quarantine sync
+pnpm studio:quarantine list
+```
+
+### Promote (preflight always first)
+
+```bash
+pnpm studio:promote --block <blockId>              # sync + verify + verdict (no writes)
+pnpm studio:promote --block <blockId> --apply      # only when READY_TO_PROMOTE
+```
+
+### Inbox hygiene
+
+```bash
+pnpm studio:quarantine discard --block <blockId>   # remove one entry
+pnpm studio:quarantine reset                       # dry-run origin restore
+pnpm studio:quarantine reset --apply               # execute origin restore
+```
+
+### Verdict → action
+
+| Verdict | Agent action |
+| --- | --- |
+| `BLOCKED_DUPLICATE` | Never `--apply`. Show diff in preflight. Run `discard` or leave for review. |
+| `BLOCKED_CHECKLIST` / `INBOX` | Fix normalization in quarantine. Re-run preflight. |
+| `READY_TO_PROMOTE` | Run `--apply`, then manual PAS-006B tail (lifecycle, barrel, storybook). |
+| `BLOCKED_MISSING` | Run `sync` + `list`; re-install if needed. |
+
+### Post-apply manual steps (never auto-run)
+
+1. Restore `blockSlotDomMarkerProps` if MCP stripped them
+2. Lifecycle: imported → normalized → stabilized → theme-bound → metadata-bound
+3. Barrel export in `src/index.ts`
+4. `pnpm storybook generate`
+5. Gates: `check:studio-block-slot-markers`, `check:studio-metadata-binding`
+
+---
+
 ## Quarantine → promotion pipeline
 
 ```text
 MCP / CLI (pnpm studio:shadcn:quarantine)
-  → src/components-quarantine/     ← components.json install aliases (overwrite OK)
-  → normalize: naming, contract split, slot map, props
-  → components-ui/ | components-layouts/ | components-auth-shell/
+  → src/components-quarantine/          ← mirrored buckets (overwrite OK)
+      components-layouts/ | components-ui/ | components-auth-shell/
+  → pnpm studio:promote --block <id>    ← preflight (verdict label)
+  → pnpm studio:promote --block <id> --apply   ← only when READY_TO_PROMOTE
   → meta-registry lifecycle + PAS-006C acceptance
   → @afenda/shadcn-studio barrel → apps/erp | Storybook (production paths only)
 ```
+
+| Command | Purpose |
+| --- | --- |
+| `pnpm studio:quarantine sync` | Regenerate inbox registry |
+| `pnpm studio:quarantine list [--json]` | Inbox table |
+| `pnpm studio:quarantine reset [--apply]` | Restore empty origin inbox |
+| `pnpm studio:quarantine discard --block <id>` | Remove one inbox entry |
+| `pnpm studio:promote --block <id>` | **Preflight** — sync, verify paths, verdict label |
+| `pnpm studio:promote --block <id> --apply` | Promote only when verdict is `READY_TO_PROMOTE` |
+
+**Verdict labels:** `BLOCKED_DUPLICATE` · `BLOCKED_CHECKLIST` · `BLOCKED_MISSING` · `INBOX` · `READY_TO_PROMOTE`
+
+Legacy aliases (`studio:quarantine:sync`, etc.) still work.
 
 | Command | Target | Overwrite |
 | --- | --- | --- |
@@ -72,6 +135,7 @@ pnpm check:studio-quarantine-isolation
 pnpm check:studio-tsconfig-paths
 pnpm check:studio-import-zones
 pnpm check:studio-paths
+pnpm check:quarantine-registry-sync
 pnpm check:studio-metadata-binding
 pnpm check:studio-block-slot-markers
 pnpm check:studio-primitive-contracts

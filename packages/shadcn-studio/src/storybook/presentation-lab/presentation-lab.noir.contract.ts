@@ -1,5 +1,6 @@
-export const PRESENTATION_LAB_NOIR_THEME_CLASS =
-  "theme-afenda-swiss-noir" as const;
+/** Brand shell — semantics from docs/swiss-noir.css (per-story import). */
+export const PRESENTATION_LAB_NOIR_BRAND_SHELL_CLASS =
+  "dark theme-afenda-brand" as const;
 
 export const labNoirShellClassName =
   "lab-noir-canvas bg-background text-foreground" as const;

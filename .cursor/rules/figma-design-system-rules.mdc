@@ -23,8 +23,9 @@ Use when integrating Figma designs via MCP (`get_design_context`, `get_screensho
 | Series | Figma collection | Modes | CSS authority | Scoped class |
 |--------|------------------|-------|---------------|--------------|
 | AdminCN default | **Color** | Light, Dark | `packages/shadcn-studio/src/styles/shadcn-studio.css` | `:root` / `.dark` |
-| Brand (Swiss Noir DNA) | **Color Brand** | Brand Light, Brand Dark | `packages/shadcn-studio/src/styles/afenda-brand.css` | `.theme-afenda-brand` |
-| Lab editorial | — (Storybook only) | — | `presentation-lab.noir.css` | `.theme-afenda-swiss-noir` |
+| Brand (Swiss Noir DNA) | **Color Brand** | Brand Light, Brand Dark | `packages/shadcn-studio/docs/swiss-noir.css` | `.theme-afenda-brand` |
+| Lab editorial (Swiss) | — (Storybook per-story) | — | `docs/swiss-noir.css` | `.theme-afenda-swiss-noir` |
+| Lab editorial (Verdant) | — (Storybook per-story) | — | `docs/verdant-noir.css` | `.theme-afenda-verdant-milk-noir` |
 | Raw anchors | **Primitives** | Value | `tokens-complete.json` | future aliasing |
 | Spacing / radius | **Spacing**, **Radius** | Value | `shadcn-studio.css` `@theme` | `--spacing-*`, `--radius-*` |
 
@@ -104,8 +105,10 @@ Use when integrating Figma designs via MCP (`get_design_context`, `get_screensho
 ```
 apps/storybook/.storybook/preview.css
   → @afenda/shadcn-studio/shadcn-studio.css   (AdminCN :root / .dark)
-  → afenda-brand.css                          (Color Brand scoped class)
-  → presentation-lab.noir.css                 (Swiss Noir lab — L4 only)
+
+Per-story (Presentation Lab — not global preview):
+  → packages/shadcn-studio/docs/swiss-noir.css   (Swiss / brand shell)
+  → packages/shadcn-studio/docs/verdant-noir.css (Verdant Milk Noir)
 
 apps/erp/src/app/globals.css
   → @afenda/shadcn-studio/shadcn-studio.css   (production default)
@@ -126,7 +129,7 @@ apps/erp/src/app/globals.css
 **Hard stops (CSS authority):**
 
 - **Never** copy `:root` / `.dark` token blocks into `storybook/*.css` — that creates drift (vibe-coding V011).
-- **Never** put global `:root` or bare `.dark` overrides in `presentation-lab.visual.css` — lab themes use scoped classes only (`.theme-afenda-verdant-milk-noir`).
+- **Never** put global `:root` or bare `.dark` overrides in lab theme CSS — use scoped classes only (`.theme-afenda-verdant-milk-noir`, `.theme-afenda-brand`).
 - **Never** add new semantic tokens to fix one Storybook story — use existing `--primary`, `--destructive`, etc.
 - Side-by-side columns inherit from `html`; keep story `globals.theme: "light"` so AdminCN Light column reads `:root` SSOT.
 

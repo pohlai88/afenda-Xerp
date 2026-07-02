@@ -67,7 +67,8 @@ Agents resolve Figma → code using these files **before** generating JSX:
 | File | Purpose |
 | --- | --- |
 | `packages/shadcn-studio/src/styles/shadcn-studio.figma-manifest.json` | Master Figma file map: collections, v1 components, node IDs → source paths |
-| `packages/shadcn-studio/src/styles/afenda-brand.figma-manifest.json` | Color Brand collection ↔ `afenda-brand.css` |
+| `packages/shadcn-studio/src/styles/afenda-brand.figma-manifest.json` | Color Brand collection ↔ `docs/swiss-noir.css` (per-story quarantine) |
+| `packages/shadcn-studio/src/styles/afenda-verdant.figma-manifest.json` | Verdant Milk Noir lab ↔ `docs/verdant-noir.css` (per-story quarantine) |
 | `packages/shadcn-studio/src/styles/dsb-state-ds-build-afenda-shadcn-2026-001.json` | Design-system build ledger (FULL_PASS) |
 | `packages/shadcn-studio/tokens-complete.json` | Token SSOT |
 | `packages/shadcn-studio/src/governance/ui-primitive-metadata.registry.ts` | Governed primitive inventory |
@@ -141,7 +142,7 @@ Import in ERP from @afenda/shadcn-studio barrel only.
 
 1. **Primitives:** `packages/shadcn-studio/src/components-ui/{name}.tsx` + `{name}.contract.ts` — match variant props from contract
 2. **Blocks:** `src/components-quarantine/` on install → promote to `src/components-layouts/` — install via `/ftc` or `pnpm studio:shadcn:quarantine add @ss-blocks/*`
-3. **Theme CSS:** `@afenda/shadcn-studio/shadcn-studio.css` + optional `afenda-brand.css` — edit sources under `src/styles/`, then `pnpm sync:package-css-dist -- --package @afenda/shadcn-studio`
+3. **Theme CSS:** `@afenda/shadcn-studio/shadcn-studio.css` + optional per-story `docs/swiss-noir.css` / `docs/verdant-noir.css` — edit noir sources under `packages/shadcn-studio/docs/`, TS mirrors under `src/styles/*.preset.ts`, then `pnpm sync:package-css-dist -- --package @afenda/shadcn-studio` when `shadcn-studio.css` changes
 4. **ERP wiring:** `apps/erp` imports package barrel — no deep `src/` paths
 5. **Gates:** `pnpm --filter @afenda/shadcn-studio typecheck` · `pnpm check:studio-metadata-binding` · `pnpm --filter @afenda/erp build`
 
@@ -154,7 +155,8 @@ Import in ERP from @afenda/shadcn-studio barrel only.
 | Source | Action |
 | --- | --- |
 | `tokens-complete.json` | Code SSOT — Figma collections mirror this |
-| `shadcn-studio.css` / `afenda-brand.css` | Runtime theme — apps import from package `dist/` |
+| `shadcn-studio.css` | Runtime AdminCN theme — apps import from package `dist/` |
+| `docs/swiss-noir.css` / `docs/verdant-noir.css` | Scoped noir lab themes — Storybook per-story `@import` only (not ERP globals) |
 | Figma `get_variable_defs` | Diff against manifest; import via [shadcncraft-import-variables](../shadcncraft-import-variables/SKILL.md) |
 
 Figma file collections (verified FULL_PASS): **Primitives**, **Color** (Light/Dark), **Color Brand** (Brand Light/Dark), **Spacing**, **Radius**. Legacy STRING collection **Afenda Brand Tokens** — removed; use **Color Brand** only.

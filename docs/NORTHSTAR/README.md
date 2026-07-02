@@ -16,6 +16,16 @@ Five constitutional platform domains — orthogonal concerns with minimal overla
 
 **Note:** PAS-005 CSS Authority is **retired for ERP** (ADR-0027). [css-authority-north-star.md](css-authority-north-star.md) redirects to Presentation North Star; Blueprint box uses **PAS-006** / `@afenda/shadcn-studio` as today's primary web representation.
 
+## Presentation-adjunct North Stars
+
+Scoped lab doctrine under [ERP Presentation North Star](shadcn-studio-presentation-north-star.md) — not separate constitutional domains.
+
+| Concern | North Star | Constitutional question | Authority | Maturity |
+| --- | --- | --- | --- | --- |
+| Developer Route Lab | [developer-sandbox-north-star.md](developer-sandbox-north-star.md) | *How do we prototype full operator surfaces before ERP auth and spine wiring?* | [ADR-0039](../adr/ADR-0039-developer-presentation-sandbox.md) · [PAS-006E](../PAS/PRESENTATION/PAS-006E-DEVELOPER-ROUTE-LAB-STANDARD.md) | P06-013 docs Delivered · app Planned |
+
+**Read order — Route lab:** Presentation North Star §3 (Block lab vs Route lab) → developer-sandbox North Star → [developer-sandbox Blueprint](../BLUEPRINT/developer-sandbox-blueprint.md) → PAS-006E → P06-014+ handoffs.
+
 ## Cross-cutting platform North Stars
 
 HTTP contract governance spans Kernel integration spine, Platform API Contract family, Architecture Authority disposition, and ERP runtime wiring — it is **not** a sixth constitutional domain orthogonal to the five rows above. It is indexed here as a **cross-cutting integration North Star** so discovery order stays explicit without diluting domain boundaries.
@@ -72,4 +82,4 @@ PAS → Slice → Code
 
 **Template authority:** `.cursor/skills/kernel-authority/reference/north-star-template.md` · **Boundary contract:** `.cursor/skills/kernel-authority/reference/doc-boundary-contract.md`
 
-**Last updated:** 2026-06-30
+**Last updated:** 2026-07-02

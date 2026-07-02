@@ -1,5 +1,4 @@
 import {
-  PRESENTATION_LAB_NOIR_THEME_CLASS,
   labNoirCommandIndexClassName,
   labNoirCommandItemClassName,
   labNoirCommandListClassName,
@@ -27,6 +26,7 @@ import {
   labNoirTitlePrimaryClassName,
   labNoirTopbarClassName,
   labNoirVerticalMarkClassName,
+  PRESENTATION_LAB_NOIR_BRAND_SHELL_CLASS,
 } from "./presentation-lab.noir.contract.js";
 
 const proof = [
@@ -44,7 +44,7 @@ const commands = [
 export function PresentationLabNoirLanding() {
   return (
     <main
-      className={`${PRESENTATION_LAB_NOIR_THEME_CLASS} ${labNoirShellClassName}`}
+      className={`${PRESENTATION_LAB_NOIR_BRAND_SHELL_CLASS} ${labNoirShellClassName}`}
     >
       <div aria-hidden className="lab-noir-orb" />
 

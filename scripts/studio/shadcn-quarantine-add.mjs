@@ -2,11 +2,9 @@
 /**
  * PAS-006 — Quarantine shadcn CLI wrapper for @afenda/shadcn-studio.
  *
- * Installs via components.json quarantine aliases. @ss-blocks registry JSON may
- * still write to legacy src/components/shadcn-studio/blocks/ — this wrapper
- * relocates those files into src/components-quarantine/ after install.
- *
- * Use: pnpm studio:shadcn:quarantine add @ss-blocks/foo --overwrite --yes
+ * Installs via components.json mirrored quarantine aliases. @ss-blocks registry
+ * JSON may still write to legacy src/components/shadcn-studio/blocks/ — this
+ * wrapper relocates into mirrored quarantine buckets after install.
  */
 import { spawnSync } from "node:child_process";
 import {
@@ -14,26 +12,32 @@ import {
   existsSync,
   mkdirSync,
   readdirSync,
+  readFileSync,
   rmSync,
   statSync,
   unlinkSync,
+  writeFileSync,
 } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { basename, join } from "node:path";
+import {
+  AUTH_SHELL_BLOCK_IDS,
+  CANONICAL_UTILS,
+  LEGACY_BLOCKS_ROOT,
+  LEGACY_COMPONENTS_ROOT,
+  productionTargetForBlock,
+  QUARANTINE_AUTH,
+  QUARANTINE_LAYOUTS,
+  QUARANTINE_LEGACY_UI,
+  QUARANTINE_ROOT,
+  QUARANTINE_UI,
+  REPO_ROOT,
+  STRAY_LIB_UTILS,
+  STUDIO_ROOT,
+} from "./quarantine-paths.mjs";
+import { resolveBlockIdFromRegistryArg } from "./registry-block-id-map.mjs";
 
-const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
-const studioRoot = join(repoRoot, "packages/shadcn-studio");
-const studioSrc = join(studioRoot, "src");
-const quarantineRoot = join(studioSrc, "components-quarantine");
-const legacyBlocksRoot = join(
-  studioSrc,
-  "components",
-  "shadcn-studio",
-  "blocks"
-);
-const legacyComponentsRoot = join(studioSrc, "components");
-const strayLibUtils = join(studioSrc, "lib", "utils.ts");
-const canonicalUtils = join(studioSrc, "utils", "utils.ts");
+const TSX_SUFFIX_RE = /\.tsx$/;
+const TSX_FILE_RE = /\.tsx?$/;
 
 const args = process.argv.slice(2);
 
@@ -45,43 +49,214 @@ if (args.length === 0) {
   process.exit(1);
 }
 
+function ensureDir(path) {
+  mkdirSync(path, { recursive: true });
+}
+
+function blockIdFromEntryName(entry) {
+  return entry.replace(TSX_SUFFIX_RE, "");
+}
+
+function targetDirForBlock(blockId) {
+  if (AUTH_SHELL_BLOCK_IDS.has(blockId)) {
+    return QUARANTINE_AUTH;
+  }
+  return QUARANTINE_LAYOUTS;
+}
+
+function relocateFile(sourcePath, targetPath) {
+  ensureDir(join(targetPath, ".."));
+  copyFileSync(sourcePath, targetPath);
+  unlinkSync(sourcePath);
+}
+
 function relocateLegacyBlocks() {
-  if (!existsSync(legacyBlocksRoot)) {
+  if (!existsSync(LEGACY_BLOCKS_ROOT)) {
     return [];
   }
 
-  mkdirSync(quarantineRoot, { recursive: true });
+  ensureDir(QUARANTINE_ROOT);
   const moved = [];
 
-  for (const entry of readdirSync(legacyBlocksRoot)) {
-    const sourcePath = join(legacyBlocksRoot, entry);
-    if (!statSync(sourcePath).isFile()) {
+  for (const entry of readdirSync(LEGACY_BLOCKS_ROOT)) {
+    const sourcePath = join(LEGACY_BLOCKS_ROOT, entry);
+    const stat = statSync(sourcePath);
+
+    if (stat.isDirectory()) {
+      const blockId = entry;
+      const targetPath = join(targetDirForBlock(blockId), blockId);
+      ensureDir(targetPath);
+      for (const file of readdirSync(sourcePath)) {
+        const innerSource = join(sourcePath, file);
+        if (statSync(innerSource).isFile()) {
+          relocateFile(innerSource, join(targetPath, file));
+        }
+      }
+      rmSync(sourcePath, { recursive: true, force: true });
+      moved.push(
+        `components-quarantine/${basename(targetDirForBlock(blockId))}/${blockId}/`
+      );
       continue;
     }
 
-    const targetPath = join(quarantineRoot, entry);
-    copyFileSync(sourcePath, targetPath);
-    unlinkSync(sourcePath);
-    moved.push(`components-quarantine/${entry}`);
+    if (!stat.isFile()) {
+      continue;
+    }
+
+    const blockId = blockIdFromEntryName(entry);
+    const targetPath = join(targetDirForBlock(blockId), entry);
+    relocateFile(sourcePath, targetPath);
+    moved.push(
+      `components-quarantine/${basename(targetDirForBlock(blockId))}/${entry}`
+    );
   }
 
-  if (existsSync(legacyComponentsRoot)) {
-    rmSync(legacyComponentsRoot, { recursive: true, force: true });
+  if (existsSync(LEGACY_COMPONENTS_ROOT)) {
+    rmSync(LEGACY_COMPONENTS_ROOT, { recursive: true, force: true });
   }
 
   return moved;
 }
 
+function relocateFlatQuarantineRoot() {
+  const moved = [];
+  if (!existsSync(QUARANTINE_ROOT)) {
+    return moved;
+  }
+
+  for (const entry of readdirSync(QUARANTINE_ROOT)) {
+    if (!entry.endsWith(".tsx")) {
+      continue;
+    }
+
+    const sourcePath = join(QUARANTINE_ROOT, entry);
+    if (!statSync(sourcePath).isFile()) {
+      continue;
+    }
+
+    const blockId = blockIdFromEntryName(entry);
+    const targetPath = join(targetDirForBlock(blockId), entry);
+    relocateFile(sourcePath, targetPath);
+    moved.push(
+      `components-quarantine/${basename(targetDirForBlock(blockId))}/${entry}`
+    );
+  }
+
+  return moved;
+}
+
+function relocateLegacyUiFolder() {
+  if (!existsSync(QUARANTINE_LEGACY_UI)) {
+    return [];
+  }
+
+  ensureDir(QUARANTINE_UI);
+  const moved = [];
+
+  for (const entry of readdirSync(QUARANTINE_LEGACY_UI)) {
+    const sourcePath = join(QUARANTINE_LEGACY_UI, entry);
+    if (!statSync(sourcePath).isFile() || entry === ".gitkeep") {
+      continue;
+    }
+
+    const targetPath = join(QUARANTINE_UI, entry);
+    relocateFile(sourcePath, targetPath);
+    moved.push(`components-quarantine/components-ui/${entry}`);
+  }
+
+  rmSync(QUARANTINE_LEGACY_UI, { recursive: true, force: true });
+  return moved;
+}
+
+function rewriteQuarantineImportsInTree(rootDir) {
+  if (!existsSync(rootDir)) {
+    return [];
+  }
+
+  const updated = [];
+  const files = [];
+
+  const walk = (dir) => {
+    for (const entry of readdirSync(dir)) {
+      const fullPath = join(dir, entry);
+      if (statSync(fullPath).isDirectory()) {
+        walk(fullPath);
+      } else if (TSX_FILE_RE.test(entry)) {
+        files.push(fullPath);
+      }
+    }
+  };
+  walk(rootDir);
+
+  for (const filePath of files) {
+    const source = readFileSync(filePath, "utf8");
+    const next = source
+      .replaceAll(
+        "@/components-quarantine/ui/",
+        "@/components-quarantine/components-ui/"
+      )
+      .replaceAll(
+        '@/components-quarantine/ui"',
+        '@/components-quarantine/components-ui"'
+      );
+    if (next !== source) {
+      writeFileSync(filePath, next, "utf8");
+      updated.push(filePath);
+    }
+  }
+
+  return updated;
+}
+
 function removeStrayLibUtils() {
-  if (existsSync(strayLibUtils) && existsSync(canonicalUtils)) {
-    unlinkSync(strayLibUtils);
+  if (existsSync(STRAY_LIB_UTILS) && existsSync(CANONICAL_UTILS)) {
+    unlinkSync(STRAY_LIB_UTILS);
     return true;
   }
   return false;
 }
 
+function warnOnProductionDuplicate(registryArg) {
+  const blockId = resolveBlockIdFromRegistryArg(registryArg);
+  if (!blockId) {
+    return;
+  }
+
+  const target = productionTargetForBlock(blockId);
+  const productionExists =
+    existsSync(target.absolutePath) ||
+    (target.directoryPath && existsSync(target.directoryPath));
+
+  if (productionExists) {
+    process.stdout.write(
+      `studio:shadcn:quarantine: warning — production already has "${blockId}" (review_only inbox; use studio:promote --review-duplicate)\n`
+    );
+  }
+}
+
+function runRegistrySync() {
+  const sync = spawnSync(
+    "node",
+    ["scripts/studio/sync-quarantine-registry.mjs"],
+    {
+      cwd: REPO_ROOT,
+      stdio: "inherit",
+      shell: true,
+    }
+  );
+  return (sync.status ?? 1) === 0;
+}
+
+const addIndex = args.indexOf("add");
+const registryArg =
+  addIndex >= 0 && args[addIndex + 1] ? args[addIndex + 1] : null;
+
+if (registryArg) {
+  warnOnProductionDuplicate(registryArg);
+}
+
 const result = spawnSync("pnpm", ["dlx", "shadcn@latest", ...args], {
-  cwd: studioRoot,
+  cwd: STUDIO_ROOT,
   stdio: "inherit",
   shell: true,
   env: process.env,
@@ -96,19 +271,40 @@ if (!isAddCommand) {
   process.exit(0);
 }
 
-const movedBlocks = relocateLegacyBlocks();
+const moved = [
+  ...relocateLegacyBlocks(),
+  ...relocateFlatQuarantineRoot(),
+  ...relocateLegacyUiFolder(),
+];
 const removedStrayUtils = removeStrayLibUtils();
 
-if (movedBlocks.length > 0) {
-  process.stdout.write(
-    `studio:shadcn:quarantine: relocated legacy block path → ${movedBlocks.join(", ")}\n`
+if (existsSync(LEGACY_BLOCKS_ROOT)) {
+  process.stderr.write(
+    "studio:shadcn:quarantine: FAIL — legacy path still exists after relocation:\n" +
+      `  ${LEGACY_BLOCKS_ROOT}\n`
   );
+  process.exit(1);
+}
+
+for (const path of moved) {
+  process.stdout.write(`studio:shadcn:quarantine: relocated → ${path}\n`);
 }
 
 if (removedStrayUtils) {
   process.stdout.write(
     "studio:shadcn:quarantine: removed stray src/lib/utils.ts (canonical: src/utils/utils.ts)\n"
   );
+}
+
+const rewritten = rewriteQuarantineImportsInTree(QUARANTINE_ROOT);
+for (const filePath of rewritten) {
+  process.stdout.write(
+    `studio:shadcn:quarantine: normalized import paths → ${filePath.replace(STUDIO_ROOT, "packages/shadcn-studio").replaceAll("\\", "/")}\n`
+  );
+}
+
+if (!runRegistrySync()) {
+  process.exit(1);
 }
 
 process.exit(0);

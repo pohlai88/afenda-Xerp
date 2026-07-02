@@ -10,7 +10,7 @@
 /* ── Layer 1 — Global tokens ─────────────────────────────────────────────
    Semantic CSS variables (`--background`, `--primary`, …) in `:root` / `.dark`.
    Tailwind maps via `@theme inline` below. Brand overrides use scoped
-   `.theme-afenda-brand` in afenda-brand.css (Storybook only until review).
+   `.theme-afenda-brand` in docs/swiss-noir.css (Storybook per-story import until review).
    Do not add per-component vars (`--button-bg`, `--menuitem-hover`). */
 
 @theme inline {

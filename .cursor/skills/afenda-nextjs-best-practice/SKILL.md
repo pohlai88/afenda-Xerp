@@ -8,6 +8,7 @@ description: >-
 paths:
   - apps/erp/**
   - apps/docs/**
+  - apps/developer/**
 ---
 
 # Afenda Next.js Best Practice
@@ -15,6 +16,8 @@ paths:
 **For ERP module folders and routes → read [`erp-module-foundation-authority`](../erp-module-foundation-authority/SKILL.md) and [template §2/§5](../../../docs/PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) FIRST.**
 
 This skill covers **Next.js 16 mechanics** on the Afenda ingress model — it does not invent module layout.
+
+**Route lab (`apps/developer`):** Same frontend law as ERP production — [developer-route-lab-parity.md](reference/developer-route-lab-parity.md). **Only** auth, spine, BFF, and production deploy differ. Do not lower standards because “it’s the lab.”
 
 ---
 
@@ -58,8 +61,13 @@ apps/erp/src/app/(protected)/modules/
 ## MCP (mandatory after App Router edits)
 
 ```text
-nextjs_index → get_routes → get_errors (port 3000)
+nextjs_index → get_routes → get_errors
 ```
+
+| App | Port |
+| --- | ---- |
+| ERP | 3000 |
+| Developer route lab | **3002** |
 
 P0: `get_errors` clean. Known: `error.tsx` must not import `@afenda/shadcn-studio`.
 
@@ -84,6 +92,8 @@ BFF: `api/internal/v1/**` via `createApiHandler` + contract `cache: no-store` �
 | --- | ---- | ---- |
 | ERP | 3000 | Module ingress + BFF |
 | Docs | 3001 | `[lang]/docs/[[...slug]]` — static/MDX reference only |
+| Developer (route lab) | 3002 | **ERP-parity** operator UX — same page law as production · auth/spine/BFF **only** exclusions · [ADR-0039](../../../docs/adr/ADR-0039-developer-presentation-sandbox.md) |
+| Storybook (block lab) | 6006 | Single-block ACPA verification |
 
 ---
 
@@ -156,8 +166,9 @@ Afenda module rules **override** generic Next.js colocation advice.
 ## Hard stops
 
 - Module UI defaulting to `src/components/`
-- Routes without `pas006-ui.contract.ts` / manifest entry
+- Routes without `pas006-ui.contract.ts` / manifest entry (ERP production; borrow-map row in route lab until promotion)
 - `force-static` or cross-tenant cache on module data
 - Studio import in `error.tsx` / `global-error.tsx`
 - Skipping MCP `get_errors` after route changes
 - Business logic in `page.tsx` or `apps/erp` that belongs in `packages/features/erp-modules`
+- **Route lab:** documenting or implementing “ERP cannot, lab can” for page law, colocation, segment boundaries, or RSC-first composition — [parity reference](reference/developer-route-lab-parity.md)

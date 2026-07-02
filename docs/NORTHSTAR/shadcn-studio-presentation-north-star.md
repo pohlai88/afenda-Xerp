@@ -139,7 +139,8 @@ Business meanings — canonical input for Enterprise Knowledge promotion. Do not
 | **Authorization-adjacent surface** | Sign-in, MFA, session expiry, access-denied, and permission-denial operator flows | Authorization policy evaluation | Identity UX (T3) ✓ | `planned` |
 | **Surface acceptance** | Lifecycle transition backed by Acceptance Record — block may wire to ERP | Code review approval alone | §3.7 · §8.1 (T1) | `planned` |
 | **Stabilization-first pipeline** | Rule that stock blocks normalize, prove behavior/a11y, bind theme, bind metadata, and accept before customization | Design-then-code ad hoc | §3.5 (T1) | `planned` |
-| **Presentation lab** | Isolated environment where blocks render for verification before ERP routes adopt them | Production tenant sandbox | Storybook role (T5) | `planned` |
+| **Block lab** | Storybook environment where individual presentation blocks render for ACPA verification before ERP routes adopt them | Route lab · production tenant sandbox | P06-012 Delivered · `apps/storybook` :6006 (T5) | `planned` |
+| **Route lab** | Developer sandbox where full operator chrome and multi-block screens prototype Afenda page law before ERP spine wiring | Block lab (single-block only) · production ERP | ADR-0039 · P06-013 docs Delivered · P06-014+ app Planned · `apps/developer` :3002 (T5) | `planned` |
 | **Design delivery acceleration** | Vendor MCP-assisted block generation into inventory intake — not into app folders | Ungoverned copy-paste | ADR-0017 (T0) ✓ | `planned` |
 
 ## 3.1 Relational presentation inventory

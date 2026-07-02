@@ -5,7 +5,8 @@
  * Values are derived from Presentation Lab Swiss Noir anchors; numbers marked
  * `review` should be validated on dense surfaces before ERP promotion.
  *
- * Phase 2: mirror into `.theme-afenda-brand { }` CSS — not wired to ERP yet.
+ * CSS mirror: packages/shadcn-studio/docs/swiss-noir.css
+ * Storybook / lab only — not registered in theme-presets.ts or ERP globals.
  */
 
 export const AFENDA_BRAND_PRESET_ID = "afenda-brand" as const;

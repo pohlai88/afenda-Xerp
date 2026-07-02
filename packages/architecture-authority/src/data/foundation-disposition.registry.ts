@@ -7,7 +7,7 @@ import { createReadonlyLookupMap } from "./create-readonly-lookup-map.js";
 export { FOUNDATION_LANES } from "../contracts/foundation-disposition.contract.js";
 
 export const FOUNDATION_DISPOSITION_FINGERPRINT =
-  "FOUNDATION-DISPOSITION-2026-06-30-v39" as const;
+  "FOUNDATION-DISPOSITION-2026-07-02-v40" as const;
 
 const foundationDispositionEntries = [
   {
@@ -929,6 +929,49 @@ const foundationDispositionEntries = [
       "pnpm test:storybook:run",
       "pnpm storybook:build",
       "pnpm check:studio-import-zones",
+    ],
+    legacyTipEvidence: [],
+  },
+  {
+    id: "PKG028_DEVELOPER",
+    packageId: "PKG-028",
+    packageName: "@afenda/developer",
+    domain: "developer-route-lab",
+    lane: "lab-lane",
+    runtimeOwner: "apps/developer",
+    authority: "ADR-0039",
+    requiredBeforeAccounting: false,
+    evidence: [
+      "docs/adr/ADR-0039-developer-presentation-sandbox.md",
+      "docs/NORTHSTAR/developer-sandbox-north-star.md",
+      "docs/BLUEPRINT/developer-sandbox-blueprint.md",
+      "docs/PAS/PRESENTATION/PAS-006E-DEVELOPER-ROUTE-LAB-STANDARD.md",
+      "docs/PAS/PRESENTATION/SLICE/p06-014-developer-app-scaffold.md",
+      "docs/PAS/PRESENTATION/SLICE/p06-015-dashboard-compositions.md",
+      "docs/PAS/PRESENTATION/SLICE/p06-016-admin-list-theme-smoke.md",
+      "docs/PAS/PRESENTATION/SLICE/reference-borrow-map.md",
+      "apps/developer/package.json",
+      "apps/developer/src/app/layout.tsx",
+      "apps/developer/src/app/(lab)/layout.tsx",
+      "apps/developer/src/app/(lab)/dashboard/sales/page.tsx",
+      "apps/developer/src/app/(lab)/dashboard/finance/page.tsx",
+      "apps/developer/src/app/(lab)/admin/users/page.tsx",
+      "apps/developer/src/app/(lab)/settings/appearance/page.tsx",
+      "apps/developer/src/lib/lab/load-dashboard-sales-page.server.ts",
+      "apps/developer/e2e/lab-smoke.spec.ts",
+      ".github/workflows/developer-lab.yml",
+    ],
+    knownGaps: [],
+    allowedAgents: ["foundation-registry-owner", "afenda-governed-implementer"],
+    prohibited: [
+      "do-not-ship-developer-as-production-surface",
+      "do-not-couple-erp-runtime",
+      "do-not-import-reference-runtime",
+      "do-not-create-accounting-package",
+    ],
+    gates: [
+      "pnpm --filter @afenda/developer typecheck",
+      "pnpm --filter @afenda/developer build",
     ],
     legacyTipEvidence: [],
   },

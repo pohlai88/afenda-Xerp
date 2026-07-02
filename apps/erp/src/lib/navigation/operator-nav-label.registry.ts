@@ -14,6 +14,10 @@ export const OPERATOR_NAV_LABELS = {
     label: "Metadata Workspace",
     labelAtomId: "metadata_surface_binding",
   },
+  workspaceHome: {
+    label: "Workspace",
+    labelAtomId: "module_ingress",
+  },
   foundationReadiness: {
     label: "Foundation Readiness",
     labelAtomId: "foundation_lifecycle_phase",

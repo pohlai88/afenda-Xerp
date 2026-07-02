@@ -3,6 +3,8 @@ import { ChevronDown, LayoutDashboard, Settings, Users } from "lucide-react";
 import { ThemeProvider } from "next-themes";
 import { expect } from "storybook/test";
 
+import "../../docs/swiss-noir.css";
+
 import { Button } from "../components-ui/button.js";
 import {
   DropdownMenu,
@@ -40,7 +42,7 @@ import {
   shadcnStudioDarkThemeGlobals,
   shadcnStudioStoryA11y,
 } from "../lab/index.js";
-import { afendaBrandPreset } from "../styles/afenda-brand.preset.js";
+import { afendaBrandPreset } from "../styles/presentation-lab-presets.js";
 
 const BRAND_CLASS = afendaBrandPreset.className;
 
@@ -77,6 +79,7 @@ const meta = {
   decorators: [afendaBrandThemeDecorator],
   parameters: {
     ...shadcnStudioCenteredLayout,
+    shadcnStudioPreset: "default",
     docs: {
       description: {
         component:
@@ -130,7 +133,9 @@ export const ButtonAndDropdown: Story = {
         Outline
       </Button>
       <DropdownMenu>
-        <DropdownMenuTrigger render={<Button type="button" variant="outline" />}>
+        <DropdownMenuTrigger
+          render={<Button type="button" variant="outline" />}
+        >
           Menu
           <ChevronDown className="size-4" />
         </DropdownMenuTrigger>
@@ -198,8 +203,18 @@ export const SidebarPreview: Story = {
 };
 
 const tableRows = [
-  { id: "PO-1042", vendor: "Northwind Traders", amount: "$4,280.00", status: "Open" },
-  { id: "PO-1043", vendor: "Contoso Ltd", amount: "$1,120.50", status: "Approved" },
+  {
+    id: "PO-1042",
+    vendor: "Northwind Traders",
+    amount: "$4,280.00",
+    status: "Open",
+  },
+  {
+    id: "PO-1043",
+    vendor: "Contoso Ltd",
+    amount: "$1,120.50",
+    status: "Approved",
+  },
   { id: "PO-1044", vendor: "Fabrikam Inc", amount: "$890.00", status: "Draft" },
 ];
 

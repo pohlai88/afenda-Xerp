@@ -5,6 +5,11 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 
+import {
+  COMPONENTS_JSON_INSTALL_ALIASES,
+  INSTALL_ALIAS_PATH_KEYS,
+} from "../studio/quarantine-paths.mjs";
+
 /** Virtual MCP aliases — required in source imports (production buckets). */
 export const REQUIRED_VIRTUAL_PATH_KEYS = [
   "@/components/ui/*",
@@ -20,19 +25,8 @@ export const REQUIRED_VIRTUAL_PATH_KEYS = [
 ];
 
 /** Install-only aliases — components.json MCP/CLI write targets (quarantine inbox). */
-export const INSTALL_ALIAS_PATH_KEYS = [
-  "@/components-quarantine",
-  "@/components-quarantine/*",
-];
-
 /** Expected components.json aliases (ADR-0038 install layer). */
-export const COMPONENTS_JSON_INSTALL_ALIASES = {
-  components: "@/components-quarantine",
-  ui: "@/components-quarantine/ui",
-  utils: "@/lib/utils",
-  lib: "@/lib",
-  hooks: "@/hooks",
-};
+export { COMPONENTS_JSON_INSTALL_ALIASES, INSTALL_ALIAS_PATH_KEYS };
 
 /** Transitional utils import — same target as @/lib/utils until promotion normalizes. */
 export const LEGACY_UTILS_ALIAS = "@/utils/utils";

@@ -7,7 +7,7 @@
 | **Slice SSOT** | [`SLICE/`](SLICE/README.md) — handoffs `P06-001` … |
 | **Lane boundaries** | [DEVELOPMENT-LANE-BOUNDARIES.md](../DEVELOPMENT-LANE-BOUNDARIES.md) |
 | **Maturity** | **Enterprise Accepted** — PKGR05A promoted (P06-010) |
-| **Last reviewed** | 2026-06-29 |
+| **Last reviewed** | 2026-07-02 |
 
 > **One sentence:** Five PAS documents govern frontend manufacturing doctrine, presentation product runtime, relational inventory & production pipeline, ACPA/WCAG acceptance, and metadata-driven surfaces — with slice handoffs in `PRESENTATION/SLICE/` and runtime in `@afenda/shadcn-studio`.
 
@@ -37,8 +37,9 @@ Platform North Star
 | **PAS-006B** | [PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md](PAS-006B-INVENTORY-PRODUCTION-PIPELINE-STANDARD.md) | Relational inventory · lifecycle · slots · contracts | Production Candidate | P06-002–P06-004 **Delivered** |
 | **PAS-006C** | [PAS-006C-SURFACE-ACCEPTANCE-ACPA-STANDARD.md](PAS-006C-SURFACE-ACCEPTANCE-ACPA-STANDARD.md) | Acceptance Record · ACPA · auth WCAG AA | Production Candidate | P06-005–P06-007 **Delivered** |
 | **PAS-006D** | [PAS-006D-METADATA-DRIVEN-SURFACES-STANDARD.md](PAS-006D-METADATA-DRIVEN-SURFACES-STANDARD.md) | Metadata binding · surface templates · DOM slot markers | Production Candidate | P06-008–P06-009 · P06-008-R1/R2 **Delivered** |
+| **PAS-006E** | [PAS-006E-DEVELOPER-ROUTE-LAB-STANDARD.md](PAS-006E-DEVELOPER-ROUTE-LAB-STANDARD.md) | Developer route lab — full-screen UX prototype · port 3002 | Planned (docs Delivered) | P06-013 **Delivered** · P06-014–P06-016 Planned |
 
-**Runtime authority today:** PAS-006 family P06-001–P06-010 + P06-008-R1/R2 delivered. **Not** PAS-005 (retired — see [DEVELOPMENT-LANE-BOUNDARIES.md](../DEVELOPMENT-LANE-BOUNDARIES.md)).
+**Runtime authority today:** PAS-006 family P06-001–P06-013 + P06-008-R1/R2 delivered. Route lab app **P06-014+ Planned**.
 
 **Agent skill:** `shadcn-studio` · `.cursor/skills/shadcn-studio/SKILL.md`
 
@@ -62,6 +63,7 @@ Platform North Star
 | Registry · slots · lifecycle · block data contracts | PAS-006B §0 |
 | Acceptance Record · ACPA · auth WCAG AA gates | PAS-006C §0 |
 | Metadata binding · surface templates | PAS-006D §0 |
+| Route lab · developer sandbox · port 3002 | PAS-006E §0 · [ADR-0039](../../adr/ADR-0039-developer-presentation-sandbox.md) |
 
 ---
 

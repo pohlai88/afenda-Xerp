@@ -30,4 +30,31 @@ describe("check-downstream-integration", () => {
     expect(globals).not.toContain("@afenda/appshell/");
     expect(globals).not.toContain("@afenda/metadata-ui/");
   });
+
+  it("uses PAS-006 developer globals import chain only", () => {
+    const globals = readFileSync(
+      join(repoRoot, "apps/developer/src/app/globals.css"),
+      "utf8"
+    );
+
+    expect(globals).toContain("@afenda/shadcn-studio/shadcn-studio.css");
+    expect(globals).toContain('@import "tailwindcss"');
+    expect(globals).not.toContain("presentation-lab");
+    expect(globals).not.toContain("swiss-noir.css");
+    expect(globals).not.toContain("verdant-noir.css");
+  });
+
+  it("keeps scoped noir CSS out of Storybook preview globals", () => {
+    const preview = readFileSync(
+      join(repoRoot, "apps/storybook/.storybook/preview.css"),
+      "utf8"
+    );
+
+    expect(preview).toContain("@afenda/shadcn-studio/shadcn-studio.css");
+    expect(preview).not.toContain("swiss-noir.css");
+    expect(preview).not.toContain("verdant-noir.css");
+    expect(preview).not.toContain("afenda-brand.css");
+    expect(preview).not.toContain("presentation-lab.noir.css");
+    expect(preview).not.toContain("presentation-lab.visual.css");
+  });
 });

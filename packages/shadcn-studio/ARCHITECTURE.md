@@ -129,8 +129,8 @@ MCP/CLI **writes** land in quarantine only (ADR-0038):
 ```json
 {
   "aliases": {
-    "components": "@/components-quarantine",
-    "ui": "@/components-quarantine/ui",
+    "components": "@/components-quarantine/components-layouts",
+    "ui": "@/components-quarantine/components-ui",
     "utils": "@/lib/utils",
     "lib": "@/lib",
     "hooks": "@/hooks"
@@ -140,8 +140,10 @@ MCP/CLI **writes** land in quarantine only (ADR-0038):
 
 | Install command | Physical path | Overwrite |
 | --- | --- | --- |
-| `pnpm studio:shadcn:quarantine` | `src/components-quarantine/` | **OK** (inbox) |
+| `pnpm studio:shadcn:quarantine` | `src/components-quarantine/components-{layouts,ui,auth-shell}/` | **OK** (inbox) |
 | `pnpm studio:shadcn` | `src/components-ui/` (production) | **Blocked** on existing primitives |
+
+Inbox registry: `src/components-quarantine/quarantine-inbox.registry.json` · commands: `studio:quarantine:sync`, `studio:promote`
 
 Gate: `pnpm check:studio-install-paths` · `pnpm check:studio-quarantine-isolation`
 

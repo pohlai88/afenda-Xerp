@@ -3,6 +3,7 @@ export const FOUNDATION_LANES = [
   "amber-lane",
   "green-lane",
   "blue-lane",
+  "lab-lane",
   "black-lane",
   "archive-lane",
 ] as const;

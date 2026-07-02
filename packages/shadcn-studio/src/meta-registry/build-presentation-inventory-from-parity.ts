@@ -2,6 +2,7 @@
  * PAS-006B — derive relational inventory rows from parity + theme presets.
  */
 
+import { PRESENTATION_LAB_PRESET_REGISTRY } from "../styles/presentation-lab-presets.registry.js";
 import { NAMED_THEME_PRESET_SLUGS } from "../theme/theme-preset.contract.js";
 import { themePresets } from "../theme/theme-presets.js";
 import type { PresentationInventoryEntry } from "./presentation-inventory.registry.js";
@@ -35,5 +36,21 @@ export function buildPresentationInventoryFromParity(): readonly PresentationInv
       }) satisfies PresentationInventoryEntry
   );
 
-  return [...themePresetEntries, ...blockEntries];
+  const editorialLabPresetEntries = PRESENTATION_LAB_PRESET_REGISTRY.map(
+    (preset) =>
+      ({
+        entryId: `editorial-lab-preset:${preset.presetId}`,
+        layerKind: "editorial-lab-preset",
+        label: preset.label,
+        presetId: preset.presetId,
+        status: preset.status,
+        className: preset.className,
+        presetSourcePath: preset.presetSourcePath,
+        cssMirrorPath: preset.cssMirrorPath,
+        specPath: preset.specPath,
+        editorialVocab: preset.editorialVocab,
+      }) satisfies PresentationInventoryEntry
+  );
+
+  return [...themePresetEntries, ...editorialLabPresetEntries, ...blockEntries];
 }

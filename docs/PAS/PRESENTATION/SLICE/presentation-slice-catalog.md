@@ -4,7 +4,7 @@
 | --- | --- |
 | **Blueprint box** | shadcn/studio Presentation |
 | **Registry** | PKGR05A_SHADCN_STUDIO · PKG-026 |
-| **Last reviewed** | 2026-07-01 |
+| **Last reviewed** | 2026-07-02 |
 
 > Sync this catalog and Blueprint §10 on every slice close. Runtime truth: [`pas-status-index.md`](../../pas-status-index.md).
 
@@ -40,6 +40,14 @@ P06-010  Enterprise Accepted attestation (family)  [Delivered — registry promo
 P06-011  Source structure clarity (006A)         [Delivered — ADR-0037]
     ↓
 P06-012  Storybook enterprise lab (006A)         [Delivered]
+    ↓
+P06-013  Developer route lab docs (006E)       [Delivered]
+    ↓
+P06-014  Developer app scaffold (006E)          [Delivered]
+    ↓
+P06-015  Dashboard compositions (006E)           [Delivered]
+    ↓
+P06-016  Admin list + theme smoke (006E)         [Delivered]
 ```
 
 ---
@@ -62,6 +70,10 @@ P06-012  Storybook enterprise lab (006A)         [Delivered]
 | **P06-010** | 006 family | Enterprise Accepted attestation | **Delivered** (doc attestation; PKGR05A promotion via registry owner) | P06-002–P06-007 minimum | Blueprint Enterprise Accepted |
 | **P06-011** | 006A | Source structure clarity — layered docs, contract vocabulary, barrel hygiene | **Delivered** | P06-010 · [ADR-0037](../../../adr/ADR-0037-shadcn-studio-src-layered-structure.md) | `ARCHITECTURE.md` · `@afenda/shadcn-studio/lab` |
 | **P06-012** | 006A | Storybook enterprise lab — CI smoke, lab-smoke Vitest, welcome surface | **Delivered** | P06-011 | PKG021 evidence · `storybook-lab.yml` · lab-smoke tag |
+| **P06-013** | 006E | Developer route lab docs — ADR-0039, NS, Blueprint, PAS-006E, borrow map | **Delivered** | P06-012 · [ADR-0039](../../../adr/ADR-0039-developer-presentation-sandbox.md) | Route lab authority before app scaffold |
+| **P06-014** | 006E | Developer app scaffold — port 3002, `/dashboard/sales`, production guard | **Delivered** | P06-013 · registry row | `@afenda/developer` lab-lane |
+| **P06-015** | 006E | Dashboard compositions — `/dashboard/finance` | **Delivered** | P06-014 | Second reference-inspired composition |
+| **P06-016** | 006E | Admin list + theme smoke — `/admin/users`, `/settings/appearance`, Playwright :3002 | **Delivered** | P06-015 (or P06-014 min) | v1 borrow map complete · advisory CI |
 
 ---
 
@@ -75,11 +87,13 @@ P06-012  Storybook enterprise lab (006A)         [Delivered]
 
 ---
 
-## Next work (post P06 family close)
+## Next work (post P06-012)
 
 | Track | Owner | Notes |
 | --- | --- | --- |
-| **P06-012 Storybook enterprise lab** | PAS-006A · `@afenda/storybook` | [Handoff](./p06-012-storybook-enterprise-lab.md) — **Delivered** |
+| **P06-013 Developer route lab docs** | PAS-006E | [Handoff](./p06-013-developer-route-lab-docs.md) — **Delivered** |
+| **P06-014 Developer app scaffold** | PAS-006E · `@afenda/developer` | [Handoff](./p06-014-developer-app-scaffold.md) — registry via foundation-registry-owner |
+| **P06-015/016 Route compositions + smoke** | PAS-006E | [Handoff](./p06-015-dashboard-compositions.md) · [p06-016](./p06-016-admin-list-theme-smoke.md) |
 | ERP operator routes | PAS-001A · `apps/erp` | `/settings/profile` · `/operator/auth/sign-in` live — extend registry for more templates |
 | Help slot pattern | PAS-006D · `@afenda/shadcn-studio` | Reference on login + account-settings — replicate on remaining form blocks |
 | Optional gate | Root `package.json` | `check:erp-metadata-pas006-consumer` registered in `pnpm quality` |

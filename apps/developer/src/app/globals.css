@@ -1,0 +1,12 @@
+/**
+ * apps/developer — CSS composition entry (AdminCN / shadcn studio SSOT).
+ * Same four-import chain as ERP — PAS-006E.
+ */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@afenda/shadcn-studio/shadcn-studio.css";
+
+@source "../**/*.{ts,tsx}";
+@source "../../../../packages/shadcn-studio/src/**/*.{ts,tsx}";

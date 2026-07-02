@@ -4,6 +4,7 @@
     "globalConfiguration": true
   },
   "global": {
+    "concurrency": "25",
     "ui": "tui",
     "inputs": [
       "tsconfig.json",

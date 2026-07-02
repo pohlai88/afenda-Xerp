@@ -37,6 +37,7 @@ const RETIRED_PACKAGE_DIRS = [
 ] as const;
 
 const ERP_GLOBALS = join(repoRoot, "apps/erp/src/app/globals.css");
+const DEVELOPER_GLOBALS = join(repoRoot, "apps/developer/src/app/globals.css");
 const STORYBOOK_PREVIEW_CSS = join(
   repoRoot,
   "apps/storybook/.storybook/preview.css"
@@ -55,6 +56,16 @@ const FORBIDDEN_ERP_CSS_IMPORTS = [
   "@afenda/metadata-ui/",
   "@afenda/css-authority/",
   "@afenda/design-system/",
+] as const;
+
+/** Scoped noir lab themes — per-story import only (not globals / preview). */
+const FORBIDDEN_GLOBAL_NOIR_CSS = [
+  "swiss-noir.css",
+  "verdant-noir.css",
+  "afenda-brand.css",
+  "presentation-lab.noir.css",
+  "presentation-lab.visual.css",
+  "presentation-lab.theme.css",
 ] as const;
 
 const CSS_IMPORT_PATTERN = /@import\s+["']([^"']+)["']/g;
@@ -172,7 +183,7 @@ function checkCssImports(
     }
   }
 
-  if (label === "ERP globals" || label === "Storybook preview") {
+  if (label === "ERP globals" || label === "Storybook preview" || label === "Developer globals") {
     const tailwindIdx = imports.indexOf("tailwindcss");
     const animateIdx = imports.indexOf("tw-animate-css");
     const shadcnTailwindIdx = imports.indexOf("shadcn/tailwind.css");
@@ -190,6 +201,27 @@ function checkCssImports(
         rule: "css-import-order",
         file: rel(cssPath),
         message: `${label} CSS import order must be tailwindcss → tw-animate-css → shadcn/tailwind.css → @afenda/shadcn-studio/shadcn-studio.css (AdminCN SSOT)`,
+      });
+    }
+  }
+}
+
+function checkNoirCssNotGlobal(
+  violations: DownstreamViolation[],
+  cssPath: string,
+  label: string
+): void {
+  if (!existsSync(cssPath)) {
+    return;
+  }
+
+  const content = readFileSync(cssPath, "utf8");
+  for (const forbidden of FORBIDDEN_GLOBAL_NOIR_CSS) {
+    if (content.includes(forbidden)) {
+      violations.push({
+        rule: "noir-css-global-forbidden",
+        file: rel(cssPath),
+        message: `${label} must not import scoped noir lab CSS "${forbidden}" — use per-story import from packages/shadcn-studio/docs/*-noir.css`,
       });
     }
   }
@@ -218,6 +250,10 @@ export function checkDownstreamIntegration(): DownstreamViolation[] {
     "@afenda/testing",
   ]);
 
+  checkConsumerDependencies(violations, "apps/developer", "apps/developer", [
+    "@afenda/shadcn-studio",
+  ]);
+
   checkCssImports(
     violations,
     ERP_GLOBALS,
@@ -225,6 +261,18 @@ export function checkDownstreamIntegration(): DownstreamViolation[] {
     APPROVED_ERP_CSS_IMPORTS,
     FORBIDDEN_ERP_CSS_IMPORTS
   );
+  checkNoirCssNotGlobal(violations, ERP_GLOBALS, "ERP globals");
+
+  if (existsSync(DEVELOPER_GLOBALS)) {
+    checkCssImports(
+      violations,
+      DEVELOPER_GLOBALS,
+      "Developer globals",
+      APPROVED_ERP_CSS_IMPORTS,
+      FORBIDDEN_ERP_CSS_IMPORTS
+    );
+    checkNoirCssNotGlobal(violations, DEVELOPER_GLOBALS, "Developer globals");
+  }
 
   if (existsSync(STORYBOOK_PREVIEW_CSS)) {
     checkCssImports(
@@ -234,6 +282,7 @@ export function checkDownstreamIntegration(): DownstreamViolation[] {
       APPROVED_ERP_CSS_IMPORTS,
       FORBIDDEN_ERP_CSS_IMPORTS
     );
+    checkNoirCssNotGlobal(violations, STORYBOOK_PREVIEW_CSS, "Storybook preview");
   }
 
   return violations;

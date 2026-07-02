@@ -235,15 +235,15 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 | **Authority** | PAS-006 family · PKG-026 · `@afenda/shadcn-studio` |
 | **Family index** | [`PRESENTATION/README.md`](PRESENTATION/README.md) |
 | **Maturity** | **Enterprise Accepted** — PKGR05A promoted (P06-010 + foundation-registry-owner) |
-| **Runtime authority today** | PAS-006 family slices P06-001–P06-010 delivered; **P06-008-R1 + P06-008-R2** metadata binding + DOM slot enforcement |
-| **Proposed extensions** | PAS-006B (inventory) · PAS-006C (ACPA acceptance) · PAS-006D (metadata surfaces) — **runtime delivered**; P06-008-R1/R2 enforcement **live** |
-| **Runtime status** | ERP skeleton + metadata/context wire + studio registries (inventory, slots, lifecycle, acceptance, surface templates, **metadata binding + DOM slot markers**); legacy UI packages **deleted** |
-| **Remaining slices** | **None** for PAS-006 family — disposition promotion is registry-owner scope |
-| **Runtime evidence** | [PAS family](PRESENTATION/README.md), [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md), [North star](../NORTHSTAR/shadcn-studio-presentation-north-star.md), [Blueprint](../BLUEPRINT/shadcn-studio-presentation-blueprint.md), `packages/shadcn-studio/`, `apps/erp/src/lib/metadata/`, `apps/erp/src/lib/auth/` |
+| **Runtime authority today** | PAS-006 family slices P06-001–P06-016 delivered; **P06-008-R1 + P06-008-R2** metadata binding + DOM slot enforcement; **PAS-006E** route lab app `@afenda/developer` :3002 (ADR-0039) |
+| **Proposed extensions** | — |
+| **Runtime status** | ERP skeleton + metadata/context wire + studio registries; **`apps/developer` route lab live** (v1 borrow map 5/5 routes) |
+| **Remaining slices** | — (PAS-006E v1 complete) |
+| **Runtime evidence** | [PAS family](PRESENTATION/README.md), [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md), [ADR-0039](../adr/ADR-0039-developer-presentation-sandbox.md), [North star](../NORTHSTAR/shadcn-studio-presentation-north-star.md), [Developer sandbox NS](../NORTHSTAR/developer-sandbox-north-star.md), [Blueprint](../BLUEPRINT/shadcn-studio-presentation-blueprint.md), [Developer sandbox Blueprint](../BLUEPRINT/developer-sandbox-blueprint.md), `packages/shadcn-studio/`, `apps/developer/`, `apps/erp/src/lib/metadata/`, `apps/erp/src/lib/auth/` |
 | **Gates (006 family live)** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm check:studio-inventory-lifecycle`, `pnpm check:studio-block-acpa-acceptance`, `pnpm check:studio-auth-surface-wcag-aa`, `pnpm check:studio-metadata-binding`, `pnpm check:studio-block-slot-markers`, `pnpm check:package-css-dist-sync`, `pnpm quality:boundaries`, `pnpm check:documentation-drift`, `pnpm check:foundation-disposition` |
 | **Result** | Five-PAS manufacturing family; single CSS chain; metadata-driven UI path operational (PAS-006D) |
 
-**Next sequence item:** **None for PAS-006 family** — database-backed metadata operating context + full MCP slot-template families delivered.
+**Next sequence item:** — (PAS-006E v1 route lab delivered; extend borrow map via ADR amendment if needed).
 
 ---
 

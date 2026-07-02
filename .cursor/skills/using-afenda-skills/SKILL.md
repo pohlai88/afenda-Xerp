@@ -58,7 +58,8 @@ Drizzle migrations? ──────→ afenda-drizzle-migration
 Multi-tenancy? ───────────→ multi-tenancy-erp
 Next.js / App Router / BFF? → erp-module-foundation-authority FIRST, then afenda-nextjs-best-practice
   Module layout / force-dynamic / _components → reference/erp-module-frontend-layout.md
-  Runtime verify → next-devtools MCP get_routes + get_errors (port 3000)
+  Route lab (@afenda/developer)? → afenda-nextjs-best-practice reference/developer-route-lab-parity.md — **ERP production parity**; auth/spine/BFF/deploy **only** exclusions — never “lab lite”
+  Runtime verify → next-devtools MCP get_routes + get_errors (ERP 3000 · developer 3002)
 Library API uncertain? ───→ Context7 MCP (resolve ID → query docs)
 ```
 
@@ -133,11 +134,12 @@ From [orchestration-patterns.md](../references/orchestration-patterns.md):
 | Architecture / registries | `architecture-authority` |
 | `@afenda/shadcn-studio` inventory / imports | `afenda-presentation-atlas` |
 | ERP presentation (ADR-0027) | `afenda-presentation-quality` + `shadcn-studio` |
+| Route lab (`apps/developer`) | `afenda-nextjs-best-practice` + [developer-route-lab-parity](../afenda-nextjs-best-practice/reference/developer-route-lab-parity.md) — ERP-parity frontend; auth/spine only |
 | Tailwind v4 / Phase 1 CSS (ERP) | `afenda-tailwind` |
 | shadcn bundle / lazy-load / perf | `afenda-shadcn-performance` |
 | SAP/Oracle gates | `enterprise-erp-standards` |
 | Accessibility | vendor `web-accessibility` |
-| MCP quarantine → promotion | [`components-quarantine/README.md`](../../../packages/shadcn-studio/src/components-quarantine/README.md) + `shadcn-studio` |
+| MCP quarantine → promotion | [`components-quarantine/README.md`](../../../packages/shadcn-studio/src/components-quarantine/README.md) + `shadcn-studio` · `pnpm studio:quarantine` · `pnpm studio:promote` |
 
 **Removed ERP UI skills (2026-07-02):** `govern-primitive`, `ui-consistency-bundle`, `afenda-shadcn-components`, `afenda-ui-quality` — use `afenda-presentation-quality` + `shadcn-studio` + active `afenda-tailwind`. Skill removal map: [NATIVE-EVALUATION.md](../NATIVE-EVALUATION.md).
 

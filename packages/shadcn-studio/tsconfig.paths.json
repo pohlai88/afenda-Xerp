@@ -4,7 +4,24 @@
     "paths": {
       "@/components/ui/*": ["./src/components-ui/*"],
       "@/components/shadcn-studio/*": ["./src/components-layouts/*"],
-      "@/components-quarantine": ["./src/components-quarantine"],
+      "@/components-quarantine/components-layouts": [
+        "./src/components-quarantine/components-layouts"
+      ],
+      "@/components-quarantine/components-layouts/*": [
+        "./src/components-quarantine/components-layouts/*"
+      ],
+      "@/components-quarantine/components-ui": [
+        "./src/components-quarantine/components-ui"
+      ],
+      "@/components-quarantine/components-ui/*": [
+        "./src/components-quarantine/components-ui/*"
+      ],
+      "@/components-quarantine/components-auth-shell": [
+        "./src/components-quarantine/components-auth-shell"
+      ],
+      "@/components-quarantine/components-auth-shell/*": [
+        "./src/components-quarantine/components-auth-shell/*"
+      ],
       "@/components-quarantine/*": ["./src/components-quarantine/*"],
       "@/components-auth-shell/*": ["./src/components-auth-shell/*"],
       "@/components-app-shell/*": ["./src/components-app-shell/*"],

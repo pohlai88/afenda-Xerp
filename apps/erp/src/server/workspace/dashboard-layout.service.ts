@@ -1,13 +1,10 @@
+import { DASHBOARD_DEFAULT_LAYOUT_PRESET } from "@/lib/workspace/dashboard-default-layout.preset";
 import type { DashboardLayoutPresetDto } from "@/server/api/contracts/workspace/dashboard-layout.api-contract";
 import { dashboardLayoutPresetSchema } from "@/server/api/contracts/workspace/dashboard-layout.api-contract";
 import { ApiRouteError } from "@/server/api/runtime/api-validation";
 
-const DEFAULT_DASHBOARD_LAYOUT: DashboardLayoutPresetDto = {
-  columns: 12,
-  items: [],
-  rowHeight: 80,
-  version: 1,
-};
+const DEFAULT_DASHBOARD_LAYOUT: DashboardLayoutPresetDto =
+  DASHBOARD_DEFAULT_LAYOUT_PRESET;
 
 interface StoredDashboardLayout {
   readonly layout: DashboardLayoutPresetDto;

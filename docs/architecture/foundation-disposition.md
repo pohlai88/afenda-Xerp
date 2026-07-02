@@ -5,7 +5,7 @@
 | **Authority** | ADR-0014 |
 | **Workflow** | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — **read before implementation** |
 | **Source of truth** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
-| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-06-30-v39` |
+| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-07-02-v40` |
 | **Enforcement** | `pnpm check:foundation-disposition` |
 
 > **Read-only view.** This document is synced from the typed registry. Do not treat this file as authority — edit the registry (via `foundation-registry-owner`) and re-sync this view.
@@ -20,6 +20,7 @@
 | `amber-lane` | Incomplete but bounded; safe if scope is not expanded |
 | `green-lane` | Stable and consumable |
 | `blue-lane` | Incubating; no production dependency |
+| `lab-lane` | Presentation route lab only — no auth, no production deploy (ADR-0039) |
 | `black-lane` | ADR-gated; do not touch |
 | `archive-lane` | Historical delivery evidence only |
 
@@ -58,6 +59,7 @@
 | PKGR05B_DESIGN_RETIREMENT | `@afenda/design-system` | archive-lane | no | retired for ERP frontend — ADR-0027 |
 | PKG020_AI_GOVERNANCE | `@afenda/ai-governance` | green-lane | no | see ADR-0007 |
 | PKG021_STORYBOOK | `@afenda/storybook` | blue-lane | no | — |
+| PKG028_DEVELOPER | `@afenda/developer` | lab-lane | no | P06-014 scaffold pending · port 3002 |
 | PKG022_EMAIL | `@afenda/email` | blue-lane | no | — |
 | PKGR02_ARCHITECTURE_AUTHORITY | `@afenda/architecture-authority` | green-lane | yes | see PAS-002A |
 | PKGR03_ACCOUNTING_STANDARDS | `@afenda/accounting-standards` | green-lane | no | B0–B20 delivered · Enterprise Accepted (2026-06-30) |

@@ -8,6 +8,10 @@
   "cssMirror": "packages/shadcn-studio/src/styles/shadcn-studio.css",
   "tokenSource": "packages/shadcn-studio/tokens-complete.json",
   "brandManifest": "packages/shadcn-studio/src/styles/afenda-brand.figma-manifest.json",
+  "editorialLabManifests": [
+    "packages/shadcn-studio/src/styles/afenda-brand.figma-manifest.json",
+    "packages/shadcn-studio/src/styles/afenda-verdant.figma-manifest.json"
+  ],
   "stateLedger": "packages/shadcn-studio/src/styles/dsb-state-ds-build-afenda-shadcn-2026-001.json",
   "pages": {
     "cover": "Cover",
@@ -36,7 +40,7 @@
       "modes": ["Brand Light", "Brand Dark"],
       "variableCount": 39,
       "resolvedType": "COLOR",
-      "cssRole": ".theme-afenda-brand in afenda-brand.css",
+      "cssRole": ".theme-afenda-brand in docs/swiss-noir.css (Storybook per-story quarantine)",
       "manifest": "afenda-brand.figma-manifest.json"
     },
     {

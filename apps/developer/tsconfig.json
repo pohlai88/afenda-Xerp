@@ -1,0 +1,17 @@
+{
+  "extends": "@afenda/typescript-config/nextjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo/tsconfig.tsbuildinfo",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", "src/**/__tests__/**", "e2e/**"]
+}

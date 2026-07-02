@@ -13,7 +13,7 @@
   "foundationsPage": "Foundations",
   "foundationsFrame": "Foundations / CSS Preview",
   "presetSource": "packages/shadcn-studio/src/styles/afenda-brand.preset.ts",
-  "cssMirror": "packages/shadcn-studio/src/styles/afenda-brand.css",
+  "cssMirror": "packages/shadcn-studio/docs/swiss-noir.css",
   "className": "theme-afenda-brand",
   "tokenNames": [
     "background",

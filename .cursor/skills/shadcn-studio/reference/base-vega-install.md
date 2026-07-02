@@ -18,7 +18,23 @@ pnpm studio:shadcn:quarantine add @ss-blocks/<registry-name> --overwrite --yes
 pnpm studio:shadcn:quarantine add @shadcncraft/<name> --yes
 ```
 
-Physical landing zone: `packages/shadcn-studio/src/components-quarantine/` (vendor layout preserved).
+Physical landing zone: `packages/shadcn-studio/src/components-quarantine/` with **mirrored production buckets**:
+
+```text
+components-quarantine/components-layouts/
+components-quarantine/components-ui/
+components-quarantine/components-auth-shell/
+```
+
+After install:
+
+```powershell
+pnpm studio:quarantine sync
+pnpm studio:quarantine list
+pnpm studio:promote --block <blockId>              # preflight + verdict
+pnpm studio:promote --block <blockId> --apply        # when READY_TO_PROMOTE
+pnpm studio:quarantine reset                         # dry-run empty inbox
+```
 
 ## Production primitives (`components-ui/`)
 

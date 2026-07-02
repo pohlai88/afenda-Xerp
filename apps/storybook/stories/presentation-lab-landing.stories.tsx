@@ -4,12 +4,15 @@ import { expect } from "storybook/test";
 import { shadcnStudioFullscreenLayout } from "@afenda/shadcn-studio/lab";
 import { PresentationLabLanding } from "../../../packages/shadcn-studio/src/storybook/presentation-lab/presentation-lab-landing.js";
 
+import "../../../packages/shadcn-studio/docs/verdant-noir.css";
+
 const meta = {
   title: "Presentation Lab/Verdant Milk Noir",
   component: PresentationLabLanding,
   tags: ["autodocs"],
   parameters: {
     ...shadcnStudioFullscreenLayout,
+    shadcnStudioPreset: "default",
     docs: {
       description: {
         component:
@@ -35,11 +38,15 @@ export const VerdantMilkNoir: Story = {
       })
     ).toBeVisible();
     await expect(
-      canvas.getByText(/quiet proving ground for governed enterprise interfaces/i)
+      canvas.getByText(
+        /quiet proving ground for governed enterprise interfaces/i
+      )
     ).toBeVisible();
     await expect(canvas.getByText("pnpm storybook:ui")).toBeVisible();
     await expect(
-      canvas.getByText(/not a demo · not decoration · verification before import/i)
+      canvas.getByText(
+        /not a demo · not decoration · verification before import/i
+      )
     ).toBeVisible();
   },
 };

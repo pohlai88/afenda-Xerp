@@ -11,11 +11,12 @@
 | **Platform rollup**        | [Afenda Architecture Blueprint](../architecture/afenda-architecture-blueprint.md) § Design system (ERP frontend)                                                                                     |
 | **Constitutional ADR**     | [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md)                                                                                                                                           |
 | **MCP vendor ADR**         | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) — retained; install target changed                                                                                             |
-| **Derived documents**      | [PAS-006 family](../PAS/PRESENTATION/README.md) (006 · 006A–006D) · `@afenda/shadcn-studio`                                                                                                          |
+| **Derived documents**      | [PAS-006 family](../PAS/PRESENTATION/README.md) (006 · 006A–006E) · `@afenda/shadcn-studio`                                                                                                          |
+| **Sibling blueprint**      | [Developer Sandbox Blueprint](developer-sandbox-blueprint.md) — Route lab (`apps/developer` :3002) · [ADR-0039](../adr/ADR-0039-developer-presentation-sandbox.md)                                      |
 | **Maturity**               | Production Candidate — **not yet Enterprise Accepted**                                                                                                                                               |
 | **Runtime stance**         | Documentation only — references registries; does not duplicate PKG tables                                                                                                                            |
-| **Total PAS at maturity**  | `5` (PAS-006 charter · PAS-006A–006D)                                                                                                                                                                |
-| **Live PAS today**         | `2` (006 charter · 006A product) · `3` proposed (006B–006D)                                                                                                                                          |
+| **Total PAS at maturity**  | `6` (PAS-006 charter · PAS-006A–006E)                                                                                                                                                                |
+| **Live PAS today**         | `3` (006 charter · 006A product · 006E route lab docs) · `3` proposed (006B–006D runtime extensions delivered; 006E app Planned)                                                                      |
 | **Planned PAS**            | `0` (extensions fold into 006B–006D slices)                                                                                                                                                          |
 | **Does not confer**        | Business meaning, kernel vocabulary, permission evaluation, metadata workspace UI, accounting runtime                                                                                                |
 | **Machine registry**       | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) · `PKGR05A_SHADCN_STUDIO`                                                  |
@@ -76,7 +77,7 @@ Before authoring or extending presentation work, answer from **this document onl
 2. **Why separate** from kernel, metadata-ui, appshell, css-authority? → §3.1 · §4 Reasoning · ADR-0027
 3. **Which layer**? → Design (§3)
 4. **What does the box own / never owns**? → §4.2
-5. **Who consumes**? → `apps/erp`, `apps/storybook` (§5)
+5. **Who consumes**? → `apps/erp`, `apps/storybook`, `apps/developer` (route lab — §5 · [Developer Sandbox Blueprint](developer-sandbox-blueprint.md))
 6. **Which PAS family doc?** → §10 · [PAS README](../PAS/PRESENTATION/README.md)
 7. **Registry PKG**? → `PKG-026` → `@afenda/shadcn-studio`
 
@@ -226,7 +227,8 @@ apps/erp                → composes all three at Application layer
 flowchart LR
   MCP["shadcn/studio MCP\n+ shadcn CLI"] --> SS["@afenda/shadcn-studio\nDesign layer"]
   SS --> ERP["apps/erp\nApplication"]
-  SS --> SB["apps/storybook\nApplication"]
+  SS --> SB["apps/storybook\nBlock lab"]
+  SS --> DEV["apps/developer\nRoute lab :3002"]
   AUTH["@afenda/auth"] --> ERP
   DB["@afenda/database"] --> ERP
   OBS["@afenda/observability"] --> ERP
@@ -235,7 +237,7 @@ flowchart LR
 
 | Blueprint box                  | Declared consumers            | Dependency category (§3.2) | Notes                                                          |
 | ------------------------------ | ----------------------------- | -------------------------- | -------------------------------------------------------------- |
-| **shadcn/studio Presentation** | `apps/erp` · `apps/storybook` | Compile-time               | PAS-006 **Consumers** ⊆ this list                              |
+| **shadcn/studio Presentation** | `apps/erp` · `apps/storybook` · `apps/developer` | Compile-time               | PAS-006 **Consumers** ⊆ this list · route lab [ADR-0039](../adr/ADR-0039-developer-presentation-sandbox.md) |
 | **ERP Application**            | End users                     | Runtime                    | Approved runtime: auth, database, observability, shadcn-studio |
 
 **Approved runtime edges** (machine truth — link only):

@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { DASHBOARD_DEFAULT_LAYOUT_PRESET } from "@/lib/workspace/dashboard-default-layout.preset";
+
 import {
   clearWorkspaceDashboardLayoutStoreForTests,
   getWorkspaceDashboardLayout,
@@ -7,12 +9,7 @@ import {
   saveWorkspaceDashboardLayout,
 } from "@/server/workspace/dashboard-layout.service";
 
-const DEFAULT_LAYOUT = {
-  columns: 12 as const,
-  items: [],
-  rowHeight: 80,
-  version: 1 as const,
-};
+const DEFAULT_LAYOUT = DASHBOARD_DEFAULT_LAYOUT_PRESET;
 
 const TENANT_A = "tenant-a";
 const TENANT_B = "tenant-b";

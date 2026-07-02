@@ -65,6 +65,28 @@ describe("presentation inventory registry (PAS-006B P06-002)", () => {
     }
   });
 
+  it("includes editorial lab preset inventory rows (review-only, not theme-presets.ts)", () => {
+    const editorialEntries = PRESENTATION_INVENTORY_REGISTRY.filter(
+      (entry) => entry.layerKind === "editorial-lab-preset"
+    );
+
+    expect(editorialEntries).toHaveLength(2);
+    expect(
+      editorialEntries.some((entry) => entry.presetId === "afenda-brand")
+    ).toBe(true);
+    expect(
+      editorialEntries.some((entry) => entry.presetId === "afenda-verdant")
+    ).toBe(true);
+    expect(editorialEntries.every((entry) => entry.status === "review")).toBe(
+      true
+    );
+    expect(
+      editorialEntries.every((entry) =>
+        entry.cssMirrorPath.startsWith("packages/shadcn-studio/docs/")
+      )
+    ).toBe(true);
+  });
+
   it("validates block lifecycle transitions along NS §8.1 order", () => {
     expect(BLOCK_LIFECYCLE_ORDER[0]).toBe("imported");
     expect(BLOCK_LIFECYCLE_ORDER.at(-1)).toBe("retired");

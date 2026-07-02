@@ -1,6 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect } from "storybook/test";
 
+import "../../docs/swiss-noir.css";
+
 import { EnterpriseTokenDashboardSideBySide } from "../storybook/enterprise-token-dashboard.compositions.js";
 import {
   shadcnStudioFullscreenLayout,
@@ -12,6 +14,7 @@ const meta = {
   tags: ["autodocs", "lab-smoke"],
   parameters: {
     ...shadcnStudioFullscreenLayout,
+    shadcnStudioPreset: "default",
     layout: "fullscreen",
     docs: {
       description: {
@@ -52,7 +55,9 @@ export const EnterpriseDashboard: Story = {
     await expect(canvas.getByText("Dark mode")).toBeVisible();
     await expect(canvas.getByText("Brand dark")).toBeVisible();
     await expect(canvas.getByText("Swiss Noir anchors")).toBeVisible();
-    await expect(canvas.getAllByText("Color palette").length).toBeGreaterThan(0);
+    await expect(canvas.getAllByText("Color palette").length).toBeGreaterThan(
+      0
+    );
     await expect(
       canvas.getAllByRole("button", { name: "Primary" }).length
     ).toBeGreaterThan(0);

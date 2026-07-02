@@ -315,6 +315,18 @@ const ACTIVE_PACKAGES = [
     filesystemRequired: true,
   },
   {
+    registryId: "PKG-028",
+    packageName: "@afenda/developer",
+    path: "apps/developer",
+    layer: "Application",
+    lifecycle: "planned",
+    purpose:
+      "Developer route lab — full operator UX prototyping on port 3002 (PAS-006E · ADR-0039)",
+    publicApiOwner: "Application Authority",
+    layerDepExempt: false,
+    filesystemRequired: false,
+  },
+  {
     registryId: "PKG-R01",
     packageName: "@afenda/accounting",
     path: "packages/accounting",

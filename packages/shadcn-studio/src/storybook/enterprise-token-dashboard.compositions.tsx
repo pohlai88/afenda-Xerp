@@ -1,6 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
 import {
   ArrowDownRight,
   ArrowUpRight,
@@ -8,11 +7,12 @@ import {
   Search,
   Settings,
 } from "lucide-react";
+import type { ReactNode } from "react";
 
 import { Alert, AlertDescription, AlertTitle } from "../components-ui/alert.js";
 import { Avatar, AvatarFallback } from "../components-ui/avatar.js";
-import { Badge } from "../components-ui/badge.js";
 import { badgeSolidDestructiveClassName } from "../components-ui/badge.contract.js";
+import { Badge } from "../components-ui/badge.js";
 import { Button } from "../components-ui/button.js";
 import {
   Card,
@@ -50,6 +50,10 @@ import {
   TabsTrigger,
 } from "../components-ui/tabs.js";
 import { Textarea } from "../components-ui/textarea.js";
+import {
+  afendaBrandPaletteAnchors,
+  afendaBrandPreset,
+} from "../styles/presentation-lab-presets.js";
 import { cn } from "../utils/utils.js";
 import {
   labNoirProofItemClassName,
@@ -58,12 +62,7 @@ import {
   labNoirProofValueClassName,
   labNoirStatusClassName,
   labNoirSystemLineClassName,
-  PRESENTATION_LAB_NOIR_THEME_CLASS,
 } from "./presentation-lab/presentation-lab.noir.contract.js";
-import {
-  afendaBrandPaletteAnchors,
-  afendaBrandPreset,
-} from "../styles/afenda-brand.preset.js";
 
 type DashboardSeries = "admincn-light" | "admincn-dark" | "brand-dark";
 
@@ -154,7 +153,8 @@ function seriesMeta(series: DashboardSeries) {
         title: "Light mode",
         subtitle: "shadcn-studio.css semantic palette · :root",
         badge: "base-vega",
-        footer: "packages/shadcn-studio/src/styles/shadcn-studio.css · :root tokens",
+        footer:
+          "packages/shadcn-studio/src/styles/shadcn-studio.css · :root tokens",
         modeKey: "light" as const,
       };
     case "admincn-dark":
@@ -162,7 +162,8 @@ function seriesMeta(series: DashboardSeries) {
         title: "Dark mode",
         subtitle: "shadcn-studio.css semantic palette · .dark",
         badge: "base-vega",
-        footer: "packages/shadcn-studio/src/styles/shadcn-studio.css · .dark tokens",
+        footer:
+          "packages/shadcn-studio/src/styles/shadcn-studio.css · .dark tokens",
         modeKey: "dark" as const,
       };
     case "brand-dark":
@@ -171,7 +172,7 @@ function seriesMeta(series: DashboardSeries) {
         subtitle: "Color Brand · Figma Brand Dark · Swiss Noir DNA",
         badge: "color-brand",
         footer:
-          "packages/shadcn-studio/src/styles/afenda-brand.css · .dark .theme-afenda-brand",
+          "packages/shadcn-studio/docs/swiss-noir.css · .dark .theme-afenda-brand",
         modeKey: "brand" as const,
       };
   }
@@ -217,7 +218,9 @@ function TableStatusBadge({
   if (tone === "pending") {
     return (
       <Badge
-        className={onDark ? "border-border/70 bg-muted/40 text-foreground" : undefined}
+        className={
+          onDark ? "border-border/70 bg-muted/40 text-foreground" : undefined
+        }
         variant="outline"
       >
         {children}
@@ -242,18 +245,16 @@ function EnterpriseDashboardPanel({ series }: { series: DashboardSeries }) {
       className={cn(
         "relative flex min-h-full flex-col gap-6 bg-background p-6 text-foreground",
         isAdminCnDark && "dark",
-        isBrand && [
-          "dark",
-          BRAND_CLASS,
-          PRESENTATION_LAB_NOIR_THEME_CLASS,
-          "lab-noir-canvas overflow-hidden",
-        ]
+        isBrand && ["dark", BRAND_CLASS, "lab-noir-canvas overflow-hidden"]
       )}
       data-mode={meta.modeKey}
       data-series={series}
     >
       {isBrand ? (
-        <div aria-hidden className="lab-noir-orb pointer-events-none absolute" />
+        <div
+          aria-hidden
+          className="lab-noir-orb pointer-events-none absolute"
+        />
       ) : null}
 
       <header className="relative z-10 flex flex-wrap items-center justify-between gap-4 border-border border-b pb-4">
@@ -286,13 +287,28 @@ function EnterpriseDashboardPanel({ series }: { series: DashboardSeries }) {
               Swiss Noir
             </span>
           ) : null}
-          <Button aria-label="Search" size="icon-sm" type="button" variant="outline">
+          <Button
+            aria-label="Search"
+            size="icon-sm"
+            type="button"
+            variant="outline"
+          >
             <Search />
           </Button>
-          <Button aria-label="Notifications" size="icon-sm" type="button" variant="outline">
+          <Button
+            aria-label="Notifications"
+            size="icon-sm"
+            type="button"
+            variant="outline"
+          >
             <Bell />
           </Button>
-          <Button aria-label="Settings" size="icon-sm" type="button" variant="default">
+          <Button
+            aria-label="Settings"
+            size="icon-sm"
+            type="button"
+            variant="default"
+          >
             <Settings />
           </Button>
         </div>
@@ -451,7 +467,11 @@ function EnterpriseDashboardPanel({ series }: { series: DashboardSeries }) {
             </Badge>
           </div>
           <div className="flex flex-wrap items-center gap-6">
-            <Progress aria-label="Token verification progress" className="w-48" value={68} />
+            <Progress
+              aria-label="Token verification progress"
+              className="w-48"
+              value={68}
+            />
             <Spinner />
           </div>
         </div>
@@ -474,8 +494,7 @@ function EnterpriseDashboardPanel({ series }: { series: DashboardSeries }) {
             <CardTitle className="text-2xl tabular-nums">$18,902</CardTitle>
           </CardHeader>
           <CardContent className="flex items-center gap-1 text-destructive text-sm">
-            <ArrowDownRight className="size-4" />
-            3 overdue invoices
+            <ArrowDownRight className="size-4" />3 overdue invoices
           </CardContent>
         </Card>
         <Card>
@@ -557,10 +576,16 @@ function EnterpriseDashboardPanel({ series }: { series: DashboardSeries }) {
               </Table>
             </div>
           </TabsContent>
-          <TabsContent className="mt-3 text-muted-foreground text-sm" value="inventory">
+          <TabsContent
+            className="mt-3 text-muted-foreground text-sm"
+            value="inventory"
+          >
             Inventory tab — placeholder for secondary surface check.
           </TabsContent>
-          <TabsContent className="mt-3 text-muted-foreground text-sm" value="audit">
+          <TabsContent
+            className="mt-3 text-muted-foreground text-sm"
+            value="audit"
+          >
             Audit tab — placeholder for secondary surface check.
           </TabsContent>
         </Tabs>
