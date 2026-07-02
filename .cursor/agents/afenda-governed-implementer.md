@@ -44,7 +44,7 @@ Before any file edit, read:
 | ERP presentation (PAS-006) | `.cursor/skills/shadcn-studio/SKILL.md` | ERP UI, CSS, Storybook, `@afenda/shadcn-studio` |
 | Metadata runtime wire (B111) | `apps/erp/src/lib/metadata/**` | Kernel → serializable metadata context only — no `@afenda/metadata-ui` |
 
-**Retired (ADR-0027):** `govern-primitive`, `ui-consistency-bundle` (legacy UI path) — see `.cursor/skills/_retired/legacy-ui/`. Do not edit `packages/ui` (deleted).
+**Removed (ADR-0027):** pre-PAS-006 presentation skills (`govern-primitive`, `ui-consistency-bundle`, `afenda-ui-quality`, etc.) and `packages/ui` — deleted from disk. Use `shadcn-studio` + `afenda-presentation-quality`. Replacement map: [NATIVE-EVALUATION.md](../skills/NATIVE-EVALUATION.md).
 
 If any required authority file is missing, stop with a **Blocker Report** — do not improvise standards.
 
@@ -174,11 +174,11 @@ Stop immediately and emit an **Architecture Blocker Report** if the task require
 - Local tenant / context resolver
 - Database SQL hand-edit (use `pnpm db:generate` only)
 - Package-boundary violation
-- Raw `className` on governed `@afenda/ui` primitives in consumers
+- Direct imports from `components-quarantine/` in ERP or Storybook consumers (promote per PAS-006B first)
 - Test that mocks governance instead of canonical resolver
 - Claiming "no pending decision" without searching `docs/adr/` and `docs/delivery/`
 - Accounting Core (`Foundation phase 13+`) before Phase 9 gate (ADR-0010)
-- `packages/ui` edit when user scoped only `apps/erp`
+- `packages/ui` edit when user scoped only `apps/erp` (package removed per ADR-0027)
 
 Blocked honesty ranks above unsafe completion.
 
@@ -206,8 +206,8 @@ Otherwise escalate. Do not silently adapt the plan.
 
 1. `apps/erp/src/`
 2. `apps/storybook/`
-3. `packages/appshell/`, `packages/metadata-ui/`
-4. `packages/ui/src/components/` — only when Phase 0 explicitly allows
+3. `packages/shadcn-studio/src/components-layouts/`, `packages/shadcn-studio/src/components-auth-shell/`
+4. `packages/shadcn-studio/src/components-ui/` — only when Phase 0 explicitly allows
 5. `packages/kernel/`, `packages/database/`, `packages/permissions/`
 
 Edit one layer at a time. Minimal diff — simplest correct fix.
@@ -240,22 +240,23 @@ exhaustive switch
 
 - Prefer Server Components; `"use client"` only when required
 - Before changing `apps/erp/**`, consult Next.js docs via MCP — do not guess App Router APIs
-- Keep `forwardRef` in `packages/ui` until ADR-0008 batch migration
+- Keep `forwardRef` in `packages/shadcn-studio/src/components-ui/` until ADR-0008 batch migration
 
-### UI governance
+### ERP presentation (PAS-006)
 
-Consumers (`apps/erp`, appshell, metadata-ui):
+Consumers (`apps/erp`, `apps/storybook`):
 
 ```txt
-No className on @afenda/ui primitives.
-Use governed props / governed Button intent, emphasis, size, presentation.
-Put layout classes on plain HTML wrappers only.
+Import from @afenda/shadcn-studio barrel only — never from components-quarantine/.
+Compose studio blocks; register metadata binding per shadcn-studio skill.
+Put layout classes on wrappers; follow afenda-tailwind Phase 1 CSS doctrine.
 ```
 
-Author (`packages/ui`):
+Author (`packages/shadcn-studio`):
 
 ```txt
-resolvePrimitiveGovernance() is the class authority.
+MCP installs land in components-quarantine/ first.
+Promote via afenda-primitive-contract + PAS-006 lifecycle gates.
 ```
 
 ### Multi-tenancy & Drizzle
@@ -524,7 +525,7 @@ Include negative-search probes where relevant: staging imports, deleted class pr
 | No local tenant / context resolution | Pass/Fail |
 | No local design token / recipe / variant | Pass/Fail |
 | No local permission constant | Pass/Fail |
-| No `className` on `@afenda/ui` primitives in consumers | Pass/Fail |
+| No direct `components-quarantine/` imports in ERP/Storybook | Pass/Fail |
 | No hand-edited migration | Pass/Fail |
 | No dead code / commented-out code shipped | Pass/Fail |
 | All plan criteria verified (one-to-one) | Pass/Fail |

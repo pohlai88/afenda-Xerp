@@ -8,7 +8,7 @@
   "cssMirror": "packages/shadcn-studio/src/styles/shadcn-studio.css",
   "tokenSource": "packages/shadcn-studio/tokens-complete.json",
   "brandManifest": "packages/shadcn-studio/src/styles/afenda-brand.figma-manifest.json",
-  "stateLedger": ".cursor/dsb-state-ds-build-afenda-shadcn-2026-001.json",
+  "stateLedger": "packages/shadcn-studio/src/styles/dsb-state-ds-build-afenda-shadcn-2026-001.json",
   "pages": {
     "cover": "Cover",
     "gettingStarted": "Getting Started",

@@ -125,8 +125,8 @@ For each status change, cite **runtime proof**:
 | Evidence type | Where to look |
 | --- | --- |
 | Package exists / exports | `packages/*/package.json`, `src/index.ts` |
-| UI components | `packages/ui/src/components/`, `@afenda/ui` tests |
-| AppShell blocks | `packages/appshell/src/` |
+| UI components | `packages/shadcn-studio/src/components-ui/`, `@afenda/shadcn-studio` tests |
+| AppShell blocks | removed — ADR-0027; use `packages/shadcn-studio/src/components-layouts/` |
 | ERP routes / API | `apps/erp/src/app/` |
 | DB schema | `packages/database/src/schema/` |
 | CI gates | `package.json` quality scripts, passing tests |

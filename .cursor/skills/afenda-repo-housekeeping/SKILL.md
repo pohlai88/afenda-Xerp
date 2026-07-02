@@ -91,6 +91,8 @@ pnpm housekeeping:knip:advisory:turbo              # CI signal — exit 0, logs 
 pnpm housekeeping:storybook-orphans                  # dry-run orphan MCP blocks only
 ```
 
+Knip and storybook-orphan output stays in the terminal — do not commit captures under `.cursor/audit/` (see `pnpm check:local-artifact-leakage`).
+
 Full command reference: [reference/knip-rollout.md](reference/knip-rollout.md).
 
 ---

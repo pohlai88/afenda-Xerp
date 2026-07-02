@@ -22,8 +22,7 @@ All quality gates for the Afenda monorepo. Run the narrowest gate that covers yo
 
 ```bash
 # Single package (fast)
-pnpm --filter @afenda/ui typecheck
-pnpm --filter @afenda/appshell typecheck
+pnpm --filter @afenda/shadcn-studio typecheck
 pnpm --filter @afenda/erp typecheck
 pnpm --filter @afenda/database typecheck
 pnpm --filter @afenda/kernel typecheck
@@ -55,10 +54,9 @@ pnpm test
 pnpm test:run
 
 # Single package
-pnpm --filter @afenda/ui test:run
-pnpm --filter @afenda/appshell test:run
-pnpm --filter @afenda/database test:run
+pnpm --filter @afenda/shadcn-studio test:run
 pnpm --filter @afenda/erp test:run
+pnpm --filter @afenda/database test:run
 pnpm --filter @afenda/kernel test:run
 
 # Interaction tests only
@@ -98,7 +96,7 @@ pnpm sync:package-css-dist -- --package @afenda/shadcn-studio
 pnpm check:package-css-dist-sync
 ```
 
-**Retired for ERP:** `pnpm ui:guard*` — scripts removed per ADR-0027. Historical reference: `.cursor/skills/_retired/legacy-ui/`.
+**Removed for ERP:** `pnpm ui:guard*` — scripts removed per ADR-0027. Use PAS-006 gates in the ERP presentation section above.
 
 ---
 

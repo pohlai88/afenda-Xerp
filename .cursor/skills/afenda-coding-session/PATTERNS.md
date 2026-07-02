@@ -228,13 +228,13 @@ Never edit generated migration SQL files directly. If the generated SQL is wrong
 
 ## Testing: Vitest patterns
 
-### Governance constraint test
+### Studio primitive contract test
 
 ```tsx
-// Every @afenda/ui primitive must have this test
-it("governed data-intent cannot be overridden by consumer props", () => {
-  render(<Button data-intent="danger" intent="primary">Save</Button>);
-  expect(screen.getByRole("button")).toHaveAttribute("data-intent", "primary");
+// components-ui primitives should honor contract variant axes
+it("maps stock button props through the adapter", () => {
+  render(<Button variant="destructive">Save</Button>);
+  expect(screen.getByRole("button")).toBeInTheDocument();
 });
 ```
 
@@ -294,12 +294,11 @@ export default async function Page() {
 
 | Import source | Allowed in |
 |---------------|-----------|
-| `@afenda/ui` | All consumer packages |
-| `@afenda/ui/governance` | `packages/appshell/`, `packages/metadata-ui/`, `apps/erp/` |
+| `@afenda/shadcn-studio` | `apps/erp/`, `apps/storybook/` |
 | `@afenda/kernel` | All packages (read operating context) |
 | `@afenda/database` | `apps/erp/` server only, `packages/database/` |
 | `@afenda/auth` | `apps/erp/` — never in UI packages |
-| `@/components/ui/*` | **Banned** — use `@afenda/ui` |
+| `@/components/ui/*` (studio internal) | `packages/shadcn-studio/` only — not ERP |
 | Local re-export barrels (`index.ts` that re-exports everything) | **Banned** — import directly |
 
 ---

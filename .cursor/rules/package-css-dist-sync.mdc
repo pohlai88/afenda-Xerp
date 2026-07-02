@@ -1,14 +1,14 @@
 ---
 description: >-
   Package CSS dist sync — apps import CSS from package dist/, not src/. Run sync
-  or build after editing appshell/ui/metadata-ui CSS sources.
-globs: packages/appshell/src/styles/**,packages/ui/src/styles/**,packages/metadata-ui/src/**/*.css,scripts/governance/package-css-dist-*.mjs,.cursor/hooks/post-package-css-source-edit.mjs
+  or build after editing @afenda/shadcn-studio CSS sources.
+globs: packages/shadcn-studio/src/styles/**,scripts/governance/package-css-dist-*.mjs,.cursor/hooks/post-package-css-source-edit.mjs
 alwaysApply: false
 ---
 
 # Package CSS dist sync
 
-Several foundation packages export CSS from **`dist/`**, not from `src/`. Next.js apps import the export path (for example `@afenda/appshell/afenda-appshell.css` → `packages/appshell/dist/styles/afenda-appshell.css`).
+Presentation packages export CSS from **`dist/`**, not from `src/`. Next.js apps import the export path (for example `@afenda/shadcn-studio/shadcn-studio.css` → `packages/shadcn-studio/dist/shadcn-studio.css`).
 
 Editing **`src/` CSS alone does not update what ERP, docs, or Storybook render** until `dist/` is refreshed.
 
@@ -16,9 +16,7 @@ Editing **`src/` CSS alone does not update what ERP, docs, or Storybook render**
 
 | Package | Source (edit here) | Runtime import |
 |---------|-------------------|----------------|
-| `@afenda/appshell` | `packages/appshell/src/styles/*.css` | `@afenda/appshell/afenda-appshell.css` → `dist/styles/` |
-| `@afenda/ui` | `packages/ui/src/styles/afenda-ui.css` | `@afenda/ui/afenda-ui.css` → `dist/styles/` |
-| `@afenda/metadata-ui` | `packages/metadata-ui/src/**/*.css` | `@afenda/metadata-ui/afenda-metadata-ui.css` → `dist/` |
+| `@afenda/shadcn-studio` | `packages/shadcn-studio/src/styles/shadcn-studio.css` | `@afenda/shadcn-studio/shadcn-studio.css` → `dist/shadcn-studio.css` |
 
 ## Required workflow after CSS edits
 
@@ -27,10 +25,10 @@ Editing **`src/` CSS alone does not update what ERP, docs, or Storybook render**
 pnpm sync:package-css-dist
 
 # Scoped
-pnpm sync:package-css-dist -- --package @afenda/appshell
+pnpm sync:package-css-dist -- --package @afenda/shadcn-studio
 
 # Full package build (TypeScript + CSS)
-pnpm --filter @afenda/appshell build
+pnpm --filter @afenda/shadcn-studio build
 ```
 
 Verify before claiming ERP/visual work is done:
@@ -59,6 +57,6 @@ Then refresh the app (`pnpm --filter @afenda/erp dev`) and hard-reload the brows
 
 ## Symptom (stale dist)
 
-CSS rules that use package-scoped custom properties (for example `--app-shell-gap-*` under `.app-shell-root`) appear partially applied: shadcn bridge tokens work, but spacing/radius using `--app-shell-*` collapse to `0px` when the token bridge rule never reached `dist/`.
+Token bridge rules and theme-scoped custom properties appear partially applied when the synced `dist/` file is stale — shadcn base tokens may work while Afenda-scoped layout/spacing collapse.
 
 Policy source: `scripts/governance/package-css-dist-policy.mjs`

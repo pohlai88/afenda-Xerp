@@ -12,7 +12,7 @@ enterprise-architecture-audit-orchestrator = audit controller
 enterprise-architecture-auditor            = phase worker
 afenda-governance-auditor                  = Phase 3 governance slice
 afenda-security-auditor                    = Phase 3 security slice
-enterprise-frontend-audit (attached)       = Phase 3 frontend slice (audit only)
+enterprise-frontend-audit (removed 2026-07-02)  = Phase 3 frontend slice → use afenda-presentation-quality + afenda-react-surface-quality (audit only)
 ```
 
 ---
@@ -91,7 +91,7 @@ THE AGENT IS USING ENTERPRISE ARCHITECTURE AUDIT.
 | 1 | `.cursor/agents/enterprise-architecture-auditor.md` | Phase 3, backend/API/DB scope |
 | 2 | `.cursor/agents/afenda-governance-auditor.md` | Full scope governance audit |
 | 3 | `.cursor/agents/afenda-security-auditor.md` | Full scope security audit |
-| 4 | Attach `enterprise-frontend-audit` skill | Phases 1–10 audit only; **ignore fix-first** |
+| 4 | Attach `afenda-presentation-quality` + `afenda-react-surface-quality` | PAS-006 frontend audit only; read-only |
 
 Each Task prompt must include: Scope, read-only mode, evidence contract, output template.
 

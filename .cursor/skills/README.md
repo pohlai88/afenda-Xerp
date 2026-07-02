@@ -26,7 +26,7 @@ Machine-readable index for agents and humans. **Do not load this entire file int
 
 Both bundles: `disable-model-invocation: true` — explicit attach or slash only.
 
-**Retired (ADR-0027):** `ui-consistency-bundle`, `govern-primitive`, `css-authority`, `afenda-shadcn-components`, and related UI guard skills — see `.cursor/skills/_retired/legacy-ui/`.
+**Removed (ADR-0027 · 2026-07-02):** `ui-consistency-bundle`, `govern-primitive`, `css-authority`, `afenda-shadcn-components`, `afenda-ui-quality`, `enterprise-frontend-audit` — replacement map in [NATIVE-EVALUATION.md](NATIVE-EVALUATION.md).
 
 ---
 
@@ -69,7 +69,7 @@ All commands: `disable-model-invocation: true`.
 | `enterprise-knowledge` | Enterprise | `packages/enterprise-knowledge/**`, `docs/PAS/ENTERPRISE-KNOWLEDGE/**` | Knowledge atoms, PAS-004 | `pnpm check:knowledge-conformance` |
 | `enterprise-erp-standards` | Enterprise | `packages/**`, `apps/erp/**` | SAP/Oracle red-amber gates | — |
 
-**Retired authority (ADR-0027):** `css-authority`, `shadcn-studio-authority` (PAS-005A doc path), `govern-primitive` — see `_retired/legacy-ui/`.
+**Removed authority (ADR-0027):** `css-authority`, `shadcn-studio-authority` (PAS-005A doc path), `govern-primitive` — use `shadcn-studio` + `afenda-tailwind` + PAS-006 docs.
 
 ---
 
@@ -89,8 +89,7 @@ All commands: `disable-model-invocation: true`.
 | `afenda-storybook` | UI | `apps/storybook/**` | shadcn-studio Storybook lab | `pnpm --filter @afenda/storybook storybook:build` |
 | `afenda-presentation-atlas` | Reference | `packages/shadcn-studio/**`, `apps/storybook/**` | `@afenda/shadcn-studio` design system map — primitives, blocks, exports | — |
 | `docs-editorial-design` | Docs UI | `apps/docs/**` | Fumadocs editorial design | — |
-
-**Retired (do not route ERP work here):** `ui-consistency-bundle`, `govern-primitive`, `afenda-ui-quality`, `afenda-shadcn-components`, `css-authority` — archived under `_retired/legacy-ui/`.
+| MCP quarantine inbox | Workflow | `packages/shadcn-studio/src/components-quarantine/**` | Raw MCP/CLI landing — promote per PAS-006B before ERP export | — |
 
 ---
 
@@ -102,7 +101,6 @@ All commands: `disable-model-invocation: true`.
 | `afenda-nextjs-best-practice` | ERP | `apps/erp/**`, `apps/docs/**` | Module-first App Router, force-dynamic modules, manifest surfaces, MCP |
 | `rbac-erp` | ERP | `packages/permissions/**`, `apps/erp/**` | RBAC, grants |
 | `better-auth-erp` | ERP | `apps/erp/**`, `packages/auth/**` | Better Auth integration |
-| `react-erp-quality` | ERP | `apps/erp/**` | ERP React/Next patterns |
 | `csp-third-party` | ERP security | `apps/erp/src/proxy.ts`, `apps/erp/src/lib/security/**` | CSP, third-party scripts |
 | `server-action-security` | ERP security | `apps/erp/**` | Server actions, auth |
 | `pino-erp-logger` | ERP ops | `apps/erp/**`, `packages/observability/**` | Structured logging |
@@ -136,7 +134,6 @@ All commands: `disable-model-invocation: true`.
 | Skill | Class | `paths` | Trigger |
 | --- | --- | --- | --- |
 | `afenda-test` | Command | — | `/afenda-test` |
-| `enterprise-frontend-audit` | Audit | `apps/erp/**`, `packages/shadcn-studio/**` | Frontend maturity audit (PAS-006 baseline) |
 | `enterprise-architecture-audit` | Audit | — | Full platform audit (read-only) |
 | `afenda-governance-audit-repair` | Audit+Repair | `packages/**`, `apps/**`, `docs/PAS/**` | Governance audit loop until PASS |
 | `pas-kernel-audit-orchestrator` | Audit+Repair | `docs/PAS/KERNEL/audit/**`, `packages/kernel/**` | PAS-001 / 001A / 001B AUD-XX catalog waves |

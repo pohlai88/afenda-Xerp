@@ -5,7 +5,7 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
 
-/** Virtual MCP aliases — required in source imports. */
+/** Virtual MCP aliases — required in source imports (production buckets). */
 export const REQUIRED_VIRTUAL_PATH_KEYS = [
   "@/components/ui/*",
   "@/components/shadcn-studio/*",
@@ -13,10 +13,31 @@ export const REQUIRED_VIRTUAL_PATH_KEYS = [
   "@/components-app-shell/*",
   "@/components-assets/*",
   "@/lib/utils",
+  "@/utils/utils",
   "@/lib/*",
   "@/hooks/*",
   "@/*",
 ];
+
+/** Install-only aliases — components.json MCP/CLI write targets (quarantine inbox). */
+export const INSTALL_ALIAS_PATH_KEYS = [
+  "@/components-quarantine",
+  "@/components-quarantine/*",
+];
+
+/** Expected components.json aliases (ADR-0038 install layer). */
+export const COMPONENTS_JSON_INSTALL_ALIASES = {
+  components: "@/components-quarantine",
+  ui: "@/components-quarantine/ui",
+  utils: "@/lib/utils",
+  lib: "@/lib",
+  hooks: "@/hooks",
+};
+
+/** Transitional utils import — same target as @/lib/utils until promotion normalizes. */
+export const LEGACY_UTILS_ALIAS = "@/utils/utils";
+
+export const UTILS_TARGET = "./src/utils/utils.ts";
 
 /** Physical folder mirrors — forbidden in tsconfig and source imports. */
 export const FORBIDDEN_PHYSICAL_PATH_KEYS = [

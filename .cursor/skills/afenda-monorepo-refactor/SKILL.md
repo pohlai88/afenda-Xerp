@@ -230,7 +230,7 @@ pnpm architecture:cycles
 pnpm --filter @afenda/architecture-authority test:run
 ```
 
-Optional when UI/CSS touched: `pnpm ui:guard:scan`, `pnpm check:package-css-dist-sync`.
+Optional when UI/CSS touched: `pnpm check:studio-metadata-binding`, `pnpm check:package-css-dist-sync`.
 
 Full gate matrix: [reference/gate-matrix.md](reference/gate-matrix.md).
 

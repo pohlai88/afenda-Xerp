@@ -75,7 +75,7 @@ When the task touches a foundation or domain package listed in [`foundation-disp
 **Stop immediately and ask for architectural direction** if any of these are true:
 
 - A consumer package needs to define its own design token, recipe, variant, permission, tenant resolver, or metadata contract.
-- A UI request appears to require editing `packages/ui` when the user only asked for `apps/erp`.
+- A UI request appears to require editing `packages/shadcn-studio/src/components-ui/` when the user only asked for `apps/erp`.
 - A feature requires cross-package imports not already allowed by the Architecture Authority.
 - A change requires database schema changes but no migration ownership is defined.
 - A test requires mocking governance instead of using the canonical resolver.
@@ -95,8 +95,7 @@ never *redefine* it locally.
 | Authority | Owning package(s) | Owns | Consumers may NOT |
 |-----------|-------------------|------|-------------------|
 | **Architecture** | `packages/architecture-authority` | Allowed dependency directions, package boundaries | Cross-import outside declared boundaries |
-| **CSS Authority (retired ERP)** | `_retired/` archive only | Historical PAS-005 — **do not use for ERP** | Define local tokens in ERP |
-| **Presentation (PAS-006)** | `@afenda/shadcn-studio` | Blocks, metadata binding, studio CSS | Import `@afenda/ui` / appshell (removed) |
+| **Presentation (PAS-006)** | `@afenda/shadcn-studio` | Blocks, metadata binding, studio CSS | Fork presentation SSOT in ERP; import removed legacy packages |
 | **Metadata UI (ERP consumer)** | `apps/erp/src/lib/metadata/` | IS-003 operator surface hydration | Invent local metadata contracts |
 | **Kernel / Multi-tenancy** | `packages/kernel` | Operating-context + tenant resolution | Inline tenant/context lookups |
 | **Database** | `packages/database` | Schema, migrations, RLS | Hand-edit migrations; raw cross-tenant queries |
@@ -128,11 +127,11 @@ Before writing any code, confirm:
 |---|-------|------|
 | 1 | App wiring | `apps/erp/src/` |
 | 2 | Storybook | `apps/storybook/` |
-| 3 | Shell/composition | `packages/appshell/`, `packages/metadata-ui/` |
-| 4 | Design system primitives | `packages/ui/src/components/` — **ask before editing** |
+| 3 | Studio blocks / layouts | `packages/shadcn-studio/src/components-layouts/`, `components-auth-shell/` |
+| 4 | Studio primitives | `packages/shadcn-studio/src/components-ui/` — **ask before editing** |
 | 5 | Shared packages | `packages/kernel/`, `packages/database/`, `packages/permissions/` |
 
-A layout or polish request in `apps/erp` is **not** permission to edit `packages/ui`.  
+A layout or polish request in `apps/erp` is **not** permission to edit `packages/shadcn-studio/src/components-ui/` without explicit scope.  
 Edit one layer at a time; finish it before moving to the next.
 
 ---
@@ -239,7 +238,7 @@ export const MetricCard = React.forwardRef<HTMLDivElement, MetricCardProps>(
 MetricCard.displayName = "MetricCard";
 ```
 
-> **`forwardRef` vs ref-as-prop — [ADR-0008](../../../docs/adr/ADR-0008-react19-ref-as-prop-ui-author-layer.md) status: Proposed/deferred.** Migration batch `UI phase 6` not started. Keep `forwardRef` in all `packages/ui` primitives; `govern-primitive` forbids piecemeal migration before the package-wide batch. Consumers unchanged: `<Primitive ref={…} />` works either way. After ADR-0008 Accepted, a gate will ban `forwardRef` in `packages/ui/src/components/**`.
+> **`forwardRef` vs ref-as-prop — [ADR-0008](../../../docs/adr/ADR-0008-react19-ref-as-prop-ui-author-layer.md) status: Proposed/deferred.** Keep `forwardRef` in `packages/shadcn-studio/src/components-ui/` until a package-wide ADR-0008 batch is Accepted.
 
 ### Hooks discipline
 ```ts
@@ -306,7 +305,7 @@ await db.transaction(async (tx) => {
 
 **Authority:** [`.cursor/skills/shadcn-studio/SKILL.md`](../shadcn-studio/SKILL.md) · [`docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md`](../../../docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md)
 
-**Retired for ERP:** `ui:guard*`, `@afenda/ui`, `@afenda/appshell`, `govern-primitive`, `ui-consistency-bundle` — archived under `.cursor/skills/_retired/legacy-ui/`.
+**Removed for ERP (ADR-0027):** `ui:guard*`, `@afenda/ui`, `@afenda/appshell`, `govern-primitive`, `ui-consistency-bundle` — use PAS-006 skills. Replacement map: [NATIVE-EVALUATION.md](../NATIVE-EVALUATION.md).
 
 | Layer | Files | Rule |
 |-------|-------|------|
@@ -424,6 +423,8 @@ pnpm test:run                   # full vitest suite (or --filter <pkg>)
 pnpm ci:biome                   # Biome format + lint (CI mode)
 pnpm check                      # full pre-PR gate: biome + typecheck + tests
 ```
+
+**Shell discipline:** Never redirect gate output into the repo (`Out-File`, `>`, `tee`, `Set-Content` to paths like `.cursor-biome-report.json`). Run commands and read shell stdout.
 
 Skill: `.cursor/skills/package-css-dist-sync/SKILL.md` — apps import CSS from package `dist/`, not `src/`.
 

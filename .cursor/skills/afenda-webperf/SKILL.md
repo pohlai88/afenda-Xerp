@@ -1,6 +1,6 @@
 ---
 name: afenda-webperf
-description: Web performance audit — enterprise-frontend-audit performance section plus vendor performance-optimization checklist. Spawns readonly analysis on UI/runtime changes.
+description: Web performance audit — afenda-shadcn-performance plus vendor performance-optimization checklist. Spawns readonly analysis on UI/runtime changes.
 disable-model-invocation: true
 ---
 
@@ -10,7 +10,7 @@ Thin orchestrator for performance review on frontend and docs surfaces.
 
 ## When to use
 
-- Diff touches `apps/erp/**`, `apps/docs/**`, `packages/ui/**`, `packages/appshell/**`, or CSS
+- Diff touches `apps/erp/**`, `apps/docs/**`, `packages/shadcn-studio/**`, or CSS
 - User asks for Core Web Vitals / bundle / render performance review
 
 ## Workflow
@@ -27,25 +27,25 @@ Confirm UI/runtime paths are in scope.
 
 Spawned agent or main agent must Read:
 
-1. `.cursor/skills/enterprise-frontend-audit/SKILL.md` — performance section
-2. `.cursor/skills/enterprise-frontend-audit/reference/performance.md`
-3. `.cursor/skills/vendor/agent-skills/skills/performance-optimization/SKILL.md` — measure-first workflow
-4. `.cursor/references/performance-checklist.md` — CWV targets and anti-patterns
-5. `.cursor/skills/afenda-shadcn-performance/SKILL.md` — when diff touches `packages/shadcn-studio/**` or ERP presentation (PAS-006 stack)
+1. `.cursor/skills/afenda-shadcn-performance/SKILL.md` — bundle, lazy-load, RSC boundaries
+2. `.cursor/skills/vendor/agent-skills/skills/performance-optimization/SKILL.md` — measure-first workflow
+3. `.cursor/references/performance-checklist.md` — CWV targets and anti-patterns
+4. `.cursor/skills/afenda-presentation-quality/SKILL.md` — when diff touches ERP presentation surfaces
 
 ### 3. Spawn analysis Task
 
 Single Task with `readonly: true`:
 
-- Attach enterprise-frontend-audit performance criteria
+- Attach afenda-shadcn-performance criteria
 - Apply vendor checklist: measure before optimize, N+1, bundle size, LCP/INP/CLS risks
 - Output findings with file:line evidence
 
-Optional gates when CSS authority touched:
+Optional gates when studio CSS touched:
 
 ```bash
-pnpm check:css-visual-regression
-pnpm ui:guard:scan
+pnpm sync:package-css-dist -- --package @afenda/shadcn-studio
+pnpm check:package-css-dist-sync
+pnpm --filter @afenda/erp analyze
 ```
 
 ### 4. Output template
@@ -71,23 +71,18 @@ pnpm ui:guard:scan
 ## Rules
 
 1. Measure-first — no speculative micro-optimizations without evidence
-2. Cross-check PAS-005 CSS authority if token/runtime bridge changed
+2. Cross-check PAS-006 presentation gates if studio blocks or CSS changed
 3. Not a substitute for `/afenda-ship` — security and governance still need ship fan-out for production merges
 
 ## Composition
 
 - **Invoke directly when:** `/afenda-webperf` or performance questions on UI diff
 - **Do not invoke from:** personas
-- **May combine with:** `/afenda-ship` optional fifth spawn for UI-heavy PRs
-
----
 
 ## Verification
 
-Webperf command complete when:
+Before ending a webperf turn:
 
-1. Mandatory reads completed (enterprise-frontend-audit performance + vendor checklist)
-2. Analysis Task output uses PASS | CONCERNS | FAIL template with file:line evidence
-3. Measurements recommended section lists concrete tools/routes (measure-first — no speculative fixes)
-
-Optional gates run with Shell evidence when CSS authority touched.
+1. Mandatory reads completed (afenda-shadcn-performance + vendor checklist)
+2. Findings cite file:line or measurement evidence
+3. Optional gates pasted when CSS/bundle scope touched

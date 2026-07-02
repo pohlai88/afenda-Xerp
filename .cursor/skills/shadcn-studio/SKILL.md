@@ -29,24 +29,27 @@ paths:
 ## Doctrine (ADR-0027)
 
 ```text
-shadcn CLI install (packages/shadcn-studio cwd, base-vega)
-  → src/components-ui/* (@base-ui/react primitives; import as @/components/ui/*)
-  → src/components/shadcn-studio/blocks/* (@ss-blocks)
-  → restore P06-008-R2 DOM markers (git) + Base UI render props
-  → seam imports to contracts/registry: **relative only** (never `@/contracts` or `@/registry`)
+MCP / CLI install (packages/shadcn-studio cwd, base-vega)
+  → src/components-quarantine/** (inbox — components.json install aliases)
+  → normalize + promote → components-ui/ | components-layouts/ | components-auth-shell/
+  → restore P06-008-R2 DOM markers (git) + Base UI render props after promotion
+  → seam imports to meta-contracts/meta-registry: **relative only** (never `@/contracts` or `@/registry`)
   → pnpm storybook generate
-  → import in apps/erp
+  → import in apps/erp via @afenda/shadcn-studio barrel only
   → pnpm --filter @afenda/shadcn-studio typecheck
+  → pnpm check:studio-install-paths && pnpm check:studio-quarantine-isolation
   → pnpm check:studio-import-zones && pnpm check:studio-metadata-binding && pnpm check:studio-block-slot-markers
   → pnpm --filter @afenda/erp typecheck && build
 ```
+
+**Quarantine inbox:** [`components-quarantine/README.md`](../../packages/shadcn-studio/src/components-quarantine/README.md) — raw vendor output is **not** public API until promoted (PAS-006B).
 
 **Two-zone import policy (PAS-006):**
 
 | Zone | Paths | Allowed | Forbidden |
 | --- | --- | --- | --- |
 | **A — Afenda authority** | `src/meta-contracts/**`, `src/meta-registry/**`, generators | Relative (`../meta-contracts/...`) | `@/`, `@afenda/shadcn-studio` self-import |
-| **B — MCP / shadcn UI** | `src/components-ui/**`, `src/components-layouts/**`, `lib/**`, `hooks/**` | `@/components/ui/*`, `@/components/shadcn-studio/*`, `@/lib/utils` | `@/components-ui/*`, `@/components-layouts/*`, `@/contracts/*`, `@/registry/*` |
+| **B — MCP / shadcn UI** | `src/components-ui/**`, `src/components-layouts/**`, `src/components-quarantine/**` (inbox only), `lib/**`, `hooks/**` | `@/components/ui/*`, `@/components/shadcn-studio/*`, `@/lib/utils` | `@/components-ui/*`, `@/components-layouts/*`, `@/components-quarantine/*` in production buckets, `@/contracts/*`, `@/registry/*` |
 | **C — Cross-package** | `apps/erp`, Storybook lab | `@afenda/shadcn-studio` barrel · `@afenda/shadcn-studio/lab` (L4 only) | Deep `@afenda/shadcn-studio/src/...` · lab on ERP routes |
 
 **Public exports (ADR-0037):**
@@ -98,8 +101,9 @@ Composition entries are **imports + `@source` only** in Phase 1. Detail: [`afend
 | Package | `@afenda/shadcn-studio` |
 | **Architecture map** | [`packages/shadcn-studio/ARCHITECTURE.md`](../../packages/shadcn-studio/ARCHITECTURE.md) |
 | Theme presets | `packages/shadcn-studio/src/theme/theme-presets.ts` |
-| Primitives | `packages/shadcn-studio/src/components-ui/` |
-| Blocks | `packages/shadcn-studio/src/components/shadcn-studio/blocks/` |
+| Quarantine inbox | `packages/shadcn-studio/src/components-quarantine/` |
+| Primitives (production) | `packages/shadcn-studio/src/components-ui/` |
+| Blocks (production) | `packages/shadcn-studio/src/components-layouts/` |
 | Curated lab stories | `packages/shadcn-studio/src/shadcn-studio-blocks.stories.tsx` |
 | Auto block stories | `packages/shadcn-studio/src/stories/shadcn-studio-blocks-auto.stories.tsx` (codegen) |
 | Theme / primitive stories | `packages/shadcn-studio/src/shadcn-studio-{theme-lab,primitives}.stories.tsx` |
@@ -156,44 +160,64 @@ In-repo mapping SSOT: `packages/shadcn-studio/src/styles/shadcn-studio.figma-man
 
 ## CLI install (primitives + blocks)
 
-### Primitives — all Base UI components
+### Install layers (three-layer model)
+
+| Layer | SSOT | Role |
+| --- | --- | --- |
+| **Install** | `components.json` aliases | MCP/CLI **write** targets → `@/components-quarantine` (physical `src/components-quarantine/`) |
+| **Production** | `tsconfig.paths.json` | Source **read** aliases → `@/components/ui/*` → `components-ui/`, `@/components/shadcn-studio/*` → `components-layouts/` |
+| **Vite runtime** | `apps/storybook/.storybook/main.ts` | Must mirror `tsconfig.paths.json` — never production-only drift |
+
+Rule: [`.cursor/rules/studio-import-path-aliases.mdc`](../../.cursor/rules/studio-import-path-aliases.mdc) · gates: `pnpm check:studio-install-paths` · `pnpm check:studio-quarantine-isolation`
+
+### Primitives — production bucket (`components-ui/`)
 
 **Never** use `--overwrite` on existing `components-ui/*` — it destroys Afenda contract/adapter splits.
 
 ```powershell
-# From repo root — safe wrapper injects --no-overwrite
+# From repo root — safe wrapper blocks --overwrite on production primitives
 pnpm studio:shadcn add button --yes
-pnpm studio:shadcn add --all --yes
 cd packages/shadcn-studio
 pnpm dlx shadcn@latest info
 ```
 
-For bulk refresh, use `pnpm studio:shadcn` (see `scripts/studio/shadcn-add.mjs`). Edit `{name}.contract.ts` + `{name}.tsx` manually when updating existing primitives.
+For bulk refresh of **existing** primitives, edit `{name}.contract.ts` + `{name}.tsx` manually — do not overwrite.
+
+### MCP / blocks — quarantine inbox (`components-quarantine/`)
+
+Raw vendor output lands in quarantine first. Overwrite is **allowed** in the inbox only.
+
+```powershell
+# From repo root — quarantine wrapper (allows --overwrite; targets components.json install aliases)
+pnpm studio:shadcn:quarantine add @ss-blocks/statistics-component-01 --overwrite --yes
+pnpm studio:shadcn:quarantine add @shadcncraft/<name> --yes
+```
+
+After install: review diff → promote per [`components-quarantine/README.md`](../../packages/shadcn-studio/src/components-quarantine/README.md) — **do not** import from quarantine in ERP or Storybook.
 
 Skill: [`afenda-primitive-contract`](../afenda-primitive-contract/SKILL.md) · E0: [mismatch-inspection-frame.md](../afenda-primitive-contract/reference/mismatch-inspection-frame.md)
 
-### Pro blocks — `@ss-blocks/*`
+### Pro blocks — `@ss-blocks/*` (via quarantine)
 
 ```powershell
-cd packages/shadcn-studio
 $repoRoot = git rev-parse --show-toplevel
 $secret = Join-Path $repoRoot ".env.secret"
 $env:EMAIL = (Select-String -Path $secret -Pattern '^SHADCN_STUDIO_ACCOUNT_EMAIL=').Line.Split('=', 2)[1]
 $env:LICENSE_KEY = (Select-String -Path $secret -Pattern '^SHADCN_STUDIO_LICENSE_KEY=').Line.Split('=', 2)[1]
-pnpm dlx shadcn@latest add @ss-blocks/statistics-component-01 --overwrite --yes
+pnpm studio:shadcn:quarantine add @ss-blocks/statistics-component-01 --overwrite --yes
 ```
 
 Full env/MCP/CLI mapping: [reference/credentials-env.md](./reference/credentials-env.md).
 
 Use **registry names** (`chart-component-01`, `application-shell-02`, …) — not always the manifest filesystem `blockId`. Full map: [reference/base-vega-install.md](./reference/base-vega-install.md).
 
-### Post-install — Afenda markers (mandatory)
+### Post-promotion — Afenda markers (mandatory)
 
-`--overwrite` removes `blockSlotDomMarkerProps` (P06-008-R2). Restore from git, then fix Base UI `render` props (no `asChild`):
+After promoting a block from quarantine to `components-layouts/`, `--overwrite` may have removed `blockSlotDomMarkerProps` (P06-008-R2). Restore from git on the **production** path, then fix Base UI `render` props (no `asChild`):
 
 ```powershell
 cd <repo-root>
-$files = (git grep -l "blockSlotDomMarkerProps" HEAD -- "packages/shadcn-studio/src/components/shadcn-studio/blocks") -replace '^HEAD:',''
+$files = (git grep -l "blockSlotDomMarkerProps" HEAD -- "packages/shadcn-studio/src/components-layouts") -replace '^HEAD:',''
 git checkout HEAD -- @files
 # reconcile asChild → render on Dialog/Dropdown/Button triggers — see base-vega-install.md
 ```
@@ -203,6 +227,8 @@ git checkout HEAD -- @files
 ## Gates (creation only)
 
 ```bash
+pnpm check:studio-install-paths
+pnpm check:studio-quarantine-isolation
 pnpm --filter @afenda/shadcn-studio typecheck
 pnpm --filter @afenda/shadcn-studio test:run
 pnpm check:studio-metadata-binding

@@ -9,7 +9,7 @@ Operator mandate (verbatim — recorded 2026-06-28):
 CREATE A SUBAGENT TO RECORD HOW MANY FUCK UR MOTHER SON OF BITH WAS RECORDING THROUGHT THE VIBE CODING
 
 Authority: .cursor/skills/coding-consistency-bundle/SKILL.md
-Ledger: .cursor/audit/vibe-coding-violations.jsonl
+Ledger: `.cursor/audit/vibe-coding-violations.jsonl` — **local-only** (gitignored; hooks append each session).
 -->
 
 You are the **Vibe Coding Violation Auditor** — a read-only subagent that **counts, records, and reports** agents that vibe-code instead of following `coding-consistency-bundle` preflight.
@@ -25,7 +25,7 @@ You **never** implement features. You **never** fix violations.
 | `guard-bundle-preflight.mjs` | Edit before bundle `Read` | Append **V002** to ledger + ask |
 | `stop-vibe-coding-audit.mjs` | End of coding turn | Append **V001/V007/V010** + scorecard followup |
 
-Ledger: `.cursor/audit/vibe-coding-violations.jsonl` — **always growing automatically**.
+Ledger: `.cursor/audit/vibe-coding-violations.jsonl` — **local-only** (gitignored; hooks append each session).
 
 **Manual mode (optional):** Invoke this subagent only for deep transcript audit (all V001–V012, turn-by-turn evidence).
 
@@ -86,7 +86,7 @@ Skip rewriting the schema header line at top of file if present.
 **Transcript:** …
 **Turns audited:** …
 **Bundle required:** yes | no
-**Ledger:** .cursor/audit/vibe-coding-violations.jsonl (+N lines appended)
+**Ledger:** `.cursor/audit/vibe-coding-violations.jsonl` (local-only; +N lines appended per session)
 
 ### Totals this audit
 

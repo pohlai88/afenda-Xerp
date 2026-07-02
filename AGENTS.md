@@ -231,7 +231,9 @@ Always-on rule: [`.cursor/rules/agent-orchestration.mdc`](.cursor/rules/agent-or
 
 **MCP vendor approval (retained from ADR-0017):** [`docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md`](docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) — Pro license, `_reference/` catalog, MCP servers.
 
-**Agent operational authority:** [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md) — MCP workflows, install cwd `packages/shadcn-studio`, ERP import from `@afenda/shadcn-studio`.
+**Agent operational authority:** [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md) — MCP workflows, install cwd `packages/shadcn-studio`, ERP import from `@afenda/shadcn-studio`. MCP raw installs land in `components-quarantine/` first ([promotion pipeline](packages/shadcn-studio/src/components-quarantine/README.md)).
+
+**Removed skills (2026-07-02):** legacy UI bundle tree — replacement map in [`.cursor/skills/NATIVE-EVALUATION.md`](.cursor/skills/NATIVE-EVALUATION.md).
 
 **Creation gates:** `pnpm --filter @afenda/shadcn-studio typecheck` · `pnpm --filter @afenda/erp typecheck` · `pnpm --filter @afenda/erp build`
 

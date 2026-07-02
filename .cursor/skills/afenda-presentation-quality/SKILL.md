@@ -79,13 +79,19 @@ Gate: `pnpm check:downstream-integration` validates this four-import chain on ER
 
 Detail: [`afenda-tailwind/SKILL.md`](../afenda-tailwind/SKILL.md)
 
-## MCP block install — post-install contract
+## MCP block install — quarantine → promotion contract
+
+**Install (inbox):** `pnpm studio:shadcn:quarantine add @ss-blocks/<id> --overwrite --yes` — lands in `src/components-quarantine/` per `components.json` install aliases (ADR-0038).
+
+**Production primitives (existing bucket):** `pnpm studio:shadcn add <name> --yes` — blocks `--overwrite` on `components-ui/*`.
 
 **Credentials:** repo root `.env.secret` (`SHADCN_STUDIO_*`) → `pnpm env:sync` for MCP; CLI needs `EMAIL` + `LICENSE_KEY` — [shadcn-studio/reference/credentials-env.md](../shadcn-studio/reference/credentials-env.md).
 
-Studio CLI `--overwrite` replaces block TSX and **removes** Afenda P06-008-R2 DOM markers. After any block refresh:
+**Promotion:** Follow [`components-quarantine/README.md`](../../../packages/shadcn-studio/src/components-quarantine/README.md) — move to `components-layouts/` or `components-ui/` only after contract split, slot markers, and registry lifecycle updates.
 
-1. Restore marker layer from git (see [shadcn-studio/reference/base-vega-install.md](../shadcn-studio/reference/base-vega-install.md))
+Studio CLI `--overwrite` in quarantine replaces raw TSX and **removes** Afenda P06-008-R2 DOM markers. After **promotion** to `components-layouts/`:
+
+1. Restore marker layer from git on production path (see [shadcn-studio/reference/base-vega-install.md](../shadcn-studio/reference/base-vega-install.md))
 2. Reconcile **Base UI** triggers (`render` prop — no Radix `asChild`)
 3. Run `pnpm check:studio-block-slot-markers` + `pnpm check:studio-metadata-binding`
 4. Run `pnpm storybook generate`
@@ -108,6 +114,8 @@ Manifest SSOT: `packages/shadcn-studio/src/storybook/block-story-manifest.genera
 ## Mandatory gates (ERP — ADR-0027)
 
 ```bash
+pnpm check:studio-install-paths
+pnpm check:studio-quarantine-isolation
 pnpm check:downstream-integration        # ADR-0027 chain + CSS import order
 pnpm storybook generate                  # after MCP block install — includes stories typecheck
 pnpm --filter @afenda/shadcn-studio typecheck
@@ -144,9 +152,9 @@ pnpm quality:boundaries
 
 - No `@afenda/kernel` imports in `@afenda/shadcn-studio`
 - No parallel metadata binding registries in ERP
-- No restoration of `@afenda/ui` / appshell without new ADR
+- No direct imports from `components-quarantine/` in ERP or Storybook — promote per PAS-006B first
 - No custom `@layer components` rules in ERP or Storybook composition CSS
-- No legacy class names from retired packages in ERP TSX
+- No restoration of `@afenda/ui` / appshell without new ADR
 
 ## References
 

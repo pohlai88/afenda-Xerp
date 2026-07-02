@@ -47,6 +47,7 @@ SKILL regen from PAS? ────→ kernel-authority/reference/pas-skill-templ
 Any code edit? ───────────→ coding-consistency-bundle (mandatory)
 Design system inventory? ─→ afenda-presentation-atlas (read-only · /afenda-presentation-atlas)
 UI/CSS/visual (ERP)? ───→ afenda-presentation-quality + shadcn-studio (PAS-006 · ADR-0027)
+MCP block / CLI install? ─→ shadcn-studio (`/cui` `/rui`) → `components-quarantine/` first → promotion pipeline ([`components-quarantine/README.md`](../../../packages/shadcn-studio/src/components-quarantine/README.md))
 components-ui primitive? ─→ afenda-primitive-contract + ui-primitive-mismatch-frame rule (+ studio:shadcn — no overwrite)
 ERP React/TS refactor? ───→ afenda-react-surface-quality (B→A→T scan)
 ERP bundle / lazy-load / perf? → afenda-shadcn-performance (+ /afenda-webperf for audit)
@@ -65,7 +66,7 @@ Library API uncertain? ───→ Context7 MCP (resolve ID → query docs)
 
 ```
 Tests / coverage? ────────→ /afenda-test (+ vendor test-driven-development)
-Accessibility audit? ───→ afenda-accessibility (+ Storybook addon-a11y on changed stories)
+Accessibility audit? ───→ vendor `web-accessibility` (+ Storybook addon-a11y on changed stories)
 Pre-merge review? ────────→ /afenda-review
 Ship go/no-go? ───────────→ /afenda-ship
 Web perf audit? ──────────→ /afenda-webperf
@@ -89,7 +90,7 @@ Platform audit? ──────────→ enterprise-architecture-audit 
 | `afenda-tailwind` | ERP `globals.css`, theme CSS, Tailwind `className` edits |
 | `afenda-shadcn-performance` | Bundle size, `next/dynamic`, CVA trim, lazy-load, perf regression on studio/ERP UI |
 
-**Retired for ERP (ADR-0027):** `ui-consistency-bundle`, `govern-primitive`, `css-authority`, `afenda-shadcn-components` — archived under `.cursor/skills/_retired/legacy-ui/`. Do not attach for ERP frontend work.
+**Removed (ADR-0027 · 2026-07-02):** `ui-consistency-bundle`, `govern-primitive`, `css-authority`, `afenda-shadcn-components`, `afenda-ui-quality`, `enterprise-frontend-audit` — use PAS-006 replacements in [NATIVE-EVALUATION.md](../NATIVE-EVALUATION.md). Do not attach retired skills for ERP frontend work.
 
 Orchestrators paste bundle read lists into implementer prompts — personas do not invoke bundles when `readonly: true`.
 
@@ -135,8 +136,9 @@ From [orchestration-patterns.md](../references/orchestration-patterns.md):
 | Tailwind v4 / Phase 1 CSS (ERP) | `afenda-tailwind` |
 | shadcn bundle / lazy-load / perf | `afenda-shadcn-performance` |
 | SAP/Oracle gates | `enterprise-erp-standards` |
-| Accessibility | `afenda-accessibility` |
+| Accessibility | vendor `web-accessibility` |
+| MCP quarantine → promotion | [`components-quarantine/README.md`](../../../packages/shadcn-studio/src/components-quarantine/README.md) + `shadcn-studio` |
 
-**Retired for ERP UI:** `govern-primitive`, `ui-consistency-bundle`, `afenda-shadcn-components`, legacy `afenda-tailwind` under `_retired/legacy-ui/` — use `afenda-presentation-quality` + `shadcn-studio` + active `afenda-tailwind` instead.
+**Removed ERP UI skills (2026-07-02):** `govern-primitive`, `ui-consistency-bundle`, `afenda-shadcn-components`, `afenda-ui-quality` — use `afenda-presentation-quality` + `shadcn-studio` + active `afenda-tailwind`. Skill removal map: [NATIVE-EVALUATION.md](../NATIVE-EVALUATION.md).
 
 Full inventory: [README.md](README.md).

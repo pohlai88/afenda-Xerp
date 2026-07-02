@@ -74,6 +74,7 @@ disable-model-invocation: true
 | Surface | Path |
 | --- | --- |
 | npm package | `@afenda/shadcn-studio` |
+| Quarantine inbox | `packages/shadcn-studio/src/components-quarantine/` — MCP/CLI landing; **not** barrel-exported |
 | Primitives (**70**) | `packages/shadcn-studio/src/components-ui/` |
 | Blocks (**41** files) | `packages/shadcn-studio/src/components-layouts/` |
 | Internal L2 helpers | `src/lib/` · `src/hooks/` — not barrel-exported ([public-api-surfaces.md](./reference/public-api-surfaces.md)) |
@@ -83,6 +84,7 @@ disable-model-invocation: true
 | Registries / contracts | `packages/shadcn-studio/src/meta-registry/` · `meta-contracts/` · `meta-gates/` |
 | Block manifest | `packages/shadcn-studio/src/storybook/block-story-manifest.generated.json` |
 | shadcn CLI cwd | **`packages/shadcn-studio`** (`base-vega`, Base UI) |
+| MCP install | `pnpm studio:shadcn:quarantine` → `components-quarantine/` → promotion pipeline |
 | ERP CSS entry | `apps/erp/src/app/globals.css` |
 | Storybook lab | `http://localhost:6006` |
 
@@ -179,13 +181,13 @@ pnpm sync:package-css-dist -- --package @afenda/shadcn-studio && pnpm check:pack
 
 ## Keep atlas fresh
 
-After MCP block install:
+After MCP block install (quarantine → promote → registry):
 
 ```bash
 pnpm storybook generate
 ```
 
-Reconcile: `index.ts`, `block-story-manifest.generated.json`, `components-ui/*.tsx` count.
+Reconcile: `index.ts`, `block-story-manifest.generated.json`, `components-ui/*.tsx` count. **Never** wire ERP against `components-quarantine/` — promote first ([`components-quarantine/README.md`](../../../packages/shadcn-studio/src/components-quarantine/README.md)).
 
 ---
 

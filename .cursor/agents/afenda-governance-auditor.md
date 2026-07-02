@@ -34,7 +34,7 @@ Skip `coding-consistency-bundle` preflight — this persona is read-only.
 - Unauthorized cross-package imports
 - Local tenant/context resolvers
 - Hand-edited migrations
-- Raw `className` on `@afenda/ui` primitives in consumers
+- Direct imports from `components-quarantine/` in ERP or Storybook consumers
 
 ### Enterprise ERP gates
 

@@ -38,7 +38,7 @@ Visual QA (not codegen)                  →  Storybook addon-designs + STORYBOO
 
 | Task | Required path | Never |
 | --- | --- | --- |
-| Stock studio block | `/ftc` or `pnpm dlx shadcn@latest add @ss-blocks/<id> -c packages/shadcn-studio` | Regenerate block JSX from scratch |
+| Stock studio block | `/ftc` or `pnpm studio:shadcn:quarantine add @ss-blocks/<id>` | Regenerate block JSX from scratch |
 | shadcncraft kit frame | Name / `data-slot` → `registry-index.json` → `@shadcncraft/<name>` | Match by Figma node ID alone |
 | Custom screen | Figma MCP + explicit `@afenda/shadcn-studio` primitive list in prompt | Raw Tailwind buttons/inputs in `apps/erp` |
 | Design tokens | `tokens-complete.json` + CSS SSOT; optional Figma variable import skill | Duplicate STRING collections in Figma |
@@ -68,7 +68,7 @@ Agents resolve Figma → code using these files **before** generating JSX:
 | --- | --- |
 | `packages/shadcn-studio/src/styles/shadcn-studio.figma-manifest.json` | Master Figma file map: collections, v1 components, node IDs → source paths |
 | `packages/shadcn-studio/src/styles/afenda-brand.figma-manifest.json` | Color Brand collection ↔ `afenda-brand.css` |
-| `.cursor/dsb-state-ds-build-afenda-shadcn-2026-001.json` | Design-system build ledger (FULL_PASS) |
+| `packages/shadcn-studio/src/styles/dsb-state-ds-build-afenda-shadcn-2026-001.json` | Design-system build ledger (FULL_PASS) |
 | `packages/shadcn-studio/tokens-complete.json` | Token SSOT |
 | `packages/shadcn-studio/src/governance/ui-primitive-metadata.registry.ts` | Governed primitive inventory |
 | `packages/shadcn-studio/src/components/ui/{name}.contract.ts` | Variant axes, slots, cva per primitive |
@@ -87,8 +87,7 @@ Skill cross-refs:
 **Rule 0:** Before writing JSX, resolve the selection to a registry item and install.
 
 ```powershell
-cd packages/shadcn-studio
-pnpm dlx shadcn@latest add @shadcncraft/<name> --yes
+pnpm studio:shadcn:quarantine add @shadcncraft/<name> --yes
 # Pro items: SHADCNCRAFT_LICENSE_KEY from .env.secret
 ```
 
@@ -109,7 +108,7 @@ For **unmodified** shadcn/studio block instances in Figma:
 
 | Tool | Workflow |
 | --- | --- |
-| `shadcn-studio` MCP | `/ftc` → installs matching `@ss-blocks/*` into `packages/shadcn-studio` |
+| `shadcn-studio` MCP | `/ftc` → installs matching `@ss-blocks/*` into `components-quarantine/` (promote before ERP) |
 
 Requires `SHADCN_STUDIO_LICENSE_KEY` (see [credentials-env.md](./reference/credentials-env.md)). No Code Connect.
 
@@ -140,8 +139,8 @@ Import in ERP from @afenda/shadcn-studio barrel only.
 
 **Afenda conversion rules:**
 
-1. **Primitives:** `packages/shadcn-studio/src/components/ui/{name}.tsx` + contract — match variant props from `{name}.contract.ts`
-2. **Blocks:** `src/components/shadcn-studio/blocks/` — install via `/ftc` or `@ss-blocks` when possible
+1. **Primitives:** `packages/shadcn-studio/src/components-ui/{name}.tsx` + `{name}.contract.ts` — match variant props from contract
+2. **Blocks:** `src/components-quarantine/` on install → promote to `src/components-layouts/` — install via `/ftc` or `pnpm studio:shadcn:quarantine add @ss-blocks/*`
 3. **Theme CSS:** `@afenda/shadcn-studio/shadcn-studio.css` + optional `afenda-brand.css` — edit sources under `src/styles/`, then `pnpm sync:package-css-dist -- --package @afenda/shadcn-studio`
 4. **ERP wiring:** `apps/erp` imports package barrel — no deep `src/` paths
 5. **Gates:** `pnpm --filter @afenda/shadcn-studio typecheck` · `pnpm check:studio-metadata-binding` · `pnpm --filter @afenda/erp build`

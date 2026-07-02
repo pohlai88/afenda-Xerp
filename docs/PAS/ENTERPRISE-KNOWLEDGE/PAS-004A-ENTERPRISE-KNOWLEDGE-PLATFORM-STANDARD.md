@@ -424,7 +424,7 @@ A PAS-004A track is **Enterprise 9.5 ready** only when **≥ 28.5 / 30** on this
 | 10 | Foundation disposition gates listed | 2 | PKGR04 row |
 | 11 | No prohibited imports | 2 | `pnpm quality:boundaries` |
 | 12 | Completion Report culture on slices | 2 | afenda-coding-session §11 |
-| 13 | Vibe-coding hook ledger optional | 1 | `.cursor/audit/vibe-coding-violations.jsonl` |
+| 13 | Vibe-coding hook ledger optional (local, gitignored) | 1 | `.cursor/audit/vibe-coding-violations.jsonl` (not required in repo) |
 | 14 | Documentation drift clean for PAS paths | 2 | `pnpm check:documentation-drift` |
 | 15 | TypeScript strict + tests | 2 | typecheck + test:run |
 | | **Total** | **30** | **Target: ≥ 28.5** |

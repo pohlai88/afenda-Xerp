@@ -13,6 +13,7 @@ Every housekeeping finding gets **exactly one** class before action. Wrong class
 | `catalog-drift` | Seed catalog missing keys tests expect | Add keys + rebuild database dist | **align** |
 | `intentional-public` | Foundation stub, facade re-export, planned API | knip ignore / `@public` tag; no delete | audit only |
 | `storybook-orphan` | MCP block dir with no consumer | Dry-run script → Slice D if confirmed | Delegate |
+| `local-artifact-leak` | Tracked or root agent/IDE dump outside `.cursor/audit/checkpoints/` | Delete + `git rm --cached` + `check:local-artifact-leakage` | audit / implement |
 
 ## Triage decision tree
 

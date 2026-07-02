@@ -39,6 +39,28 @@ Decisions recorded 2026-06-28. Vendor eval: `.cursor/skills/vendor/EVALUATION.md
 
 ---
 
+## Executed removals (2026-07-02 — ADR-0027 legacy UI skills purge)
+
+Filesystem deleted: `.cursor/skills/_retired/legacy-ui/` tree, `.cursor/skills/ui-consistency-bundle/`, `.cursor/agents/ui-primitive-refactor.md`.
+
+| Removed | Replacement |
+| --- | --- |
+| `ui-consistency-bundle` | `afenda-presentation-quality` + `shadcn-studio` |
+| `govern-primitive` | `afenda-primitive-contract` |
+| `afenda-ui-quality` | `afenda-presentation-quality` + `shadcn-studio` |
+| `afenda-shadcn-components` | `shadcn-studio` |
+| `css-authority` | `afenda-tailwind` + PAS-006 presentation docs |
+| `afenda-accessibility` | vendor `web-accessibility` |
+| `react-erp-quality` | `afenda-react-surface-quality` |
+| `enterprise-frontend-audit` | `afenda-presentation-quality` + `afenda-react-surface-quality` + `/afenda-webperf` |
+| `shadcn-studio-authority` | `shadcn-studio` |
+| `ui-primitive-refactor` agent | `afenda-primitive-contract` + `@afenda-governed-implementer` |
+| `@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui` | `@afenda/shadcn-studio` (ADR-0027) |
+| `ui:guard*` | PAS-006 gates: `pnpm check:studio-metadata-binding`, `pnpm check:erp-metadata-pas006-consumer`, `pnpm test:interaction` |
+| MCP raw install (no inbox) | `packages/shadcn-studio/src/components-quarantine/` → promotion pipeline |
+
+---
+
 ## Keep — generic / reference skills (user decision 2026-06-28)
 
 Retained for coding reference even without heavy Afenda wiring:
@@ -61,7 +83,7 @@ Retained for coding reference even without heavy Afenda wiring:
 
 ## Keep — authority + bundles
 
-`coding-consistency-bundle`, `ui-consistency-bundle`, PAS authority skills, PAS writers, UI chain, security skills, orchestration commands (`afenda-ship`, `using-afenda-skills`, etc.).
+`coding-consistency-bundle`, PAS authority skills, PAS writers, PAS-006 UI chain, security skills, orchestration commands (`afenda-ship`, `using-afenda-skills`, etc.).
 
 | Skill / agent | Status | Added |
 | --- | --- | --- |

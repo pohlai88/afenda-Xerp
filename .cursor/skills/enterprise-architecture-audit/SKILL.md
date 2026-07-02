@@ -88,8 +88,8 @@ Invent registry entries, permissions, tenant resolvers, or architecture
 Score a dimension without file:line, test, or gate evidence
 Skip Phase 1 repository understanding on full-platform scope
 Spawn personas from worker agents (orchestrator only may fan-out Phase 3)
-Apply enterprise-frontend-audit fix-first mandate (audit sections only in Phase 3)
-Run coding-consistency-bundle preflight (audit mode). **Retired:** `ui-consistency-bundle` — see redirect stub at `.cursor/skills/ui-consistency-bundle/SKILL.md`.
+Apply afenda-presentation-quality fix-first mandate only outside audit mode (audit sections only in Phase 3)
+Run coding-consistency-bundle preflight (audit mode). **Removed:** `ui-consistency-bundle`, `enterprise-frontend-audit` — use `afenda-presentation-quality` + `afenda-react-surface-quality` (see [NATIVE-EVALUATION.md](../NATIVE-EVALUATION.md)).
 ```
 
 ---
@@ -150,7 +150,7 @@ Do not skip phases on full-platform audits without explicit `phase-only` contrac
 | 7 | platform-observability-usage | `.cursor/skills/platform-observability-usage/SKILL.md` | Audit / logging scope |
 | 8 | platform-api-contract | `.cursor/skills/platform-api-contract/SKILL.md` | API / contract scope |
 | 9 | monorepo-discipline | `.cursor/skills/monorepo-discipline/SKILL.md` | Topology / packages |
-| 10 | enterprise-frontend-audit | `.cursor/skills/enterprise-frontend-audit/SKILL.md` | Phase 3 frontend — **audit only** |
+| 10 | afenda-presentation-quality + afenda-react-surface-quality | `.cursor/skills/afenda-presentation-quality/SKILL.md` + `.cursor/skills/afenda-react-surface-quality/SKILL.md` | Phase 3 frontend — **audit only** |
 
 Composed agents (orchestrator Phase 3 fan-out):
 

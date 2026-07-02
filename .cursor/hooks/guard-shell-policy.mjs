@@ -14,6 +14,7 @@ import {
   resolveRepoRoot,
 } from "./_hook-utils.mjs";
 import { LOCAL_SYNC_TARGETS } from "./env-policy.mjs";
+import { matchForbiddenArtifactRedirect } from "../../scripts/governance/local-artifact-registry.mjs";
 
 const TAG = "guard-shell-policy";
 
@@ -118,6 +119,25 @@ function isAllowedShellCommand(command) {
     /pnpm\s+(env:console|env:sync|env:doctor)\b/.test(normalized) ||
     /sync-env\.mjs\b/.test(normalized)
   );
+}
+
+function checkBlockedArtifactShellWrite(command) {
+  if (!(command && SHELL_WRITE_HINT.test(command))) {
+    return null;
+  }
+
+  const matched = matchForbiddenArtifactRedirect(command);
+  if (!matched) {
+    return null;
+  }
+
+  return {
+    kind: "deny",
+    user_message:
+      "Redirecting shell output to a local agent artifact path is blocked. Run the command and read terminal output instead.",
+    agent_message:
+      `Blocked shell redirect to local artifact (${matched}). Do not use Out-File, >, tee, or Set-Content for gate output — run e.g. pnpm ci:biome and read shell stdout.`,
+  };
 }
 
 function checkSyncedEnvShellWrite(command, repoRoot) {
@@ -267,6 +287,7 @@ const checks = [
   checkDevServers,
   checkVercelProduction,
   checkVercelEnvPull,
+  checkBlockedArtifactShellWrite,
   (value) => checkSyncedEnvShellWrite(value, repoRoot),
   (value) => checkBlockedMigration(value, repoRoot),
 ];

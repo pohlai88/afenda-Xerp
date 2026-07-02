@@ -55,7 +55,7 @@ The correct benchmark is not "do we have every SAP/Oracle feature?" It is whethe
 | SAP Change Transport System | No direct DDL | `pnpm quality:migrations` |
 | SAP Namespace Governance | No unregistered packages | `pnpm quality:architecture` |
 | SAP HANA Row-Level Security | Tenant/company/org isolation | `pnpm check:database-tenant-rls-coverage` |
-| SAP Fiori UX | Accessible, semantic, keyboard-navigable UI | `pnpm ui:guard` |
+| SAP Fiori UX | Accessible, semantic, keyboard-navigable UI | `pnpm check:studio-metadata-binding` + `pnpm test:interaction` |
 | SAP Solution Documentation (SOLMAN) | Docs match runtime | `pnpm check:documentation-drift` |
 | SAP AIF integration contracts | Documented API envelopes | `pnpm check:api-contracts` |
 | Oracle CEMLI classification | Customization lane documented | `pnpm check:foundation-disposition` |
@@ -82,7 +82,7 @@ Accounting agents may run only when **all** pass:
 4. pnpm check:database-tenant-rls-coverage — tenant RLS proofs.
 5. pnpm quality:migrations — no hand-edited DDL.
 6. pnpm check:documentation-drift — runtime and docs in sync.
-7. pnpm ui:guard — zero className on @afenda/ui primitives in consumers.
+7. PAS-006 presentation gates — `pnpm check:studio-metadata-binding`, `pnpm check:erp-metadata-pas006-consumer`, `pnpm test:interaction` on ERP UI changes.
 8. pnpm check:foundation-disposition — registry validator green.
 9. pnpm quality:architecture — no unregistered packages.
 10. pnpm ci:biome — zero lint/format violations.
@@ -158,7 +158,7 @@ Target for Phase 9 sign-off: **4+ on all dimensions for green-lane entries**; re
 | `auth` | Auth objects / Logon | Identity Governance | `better-auth-erp` discipline, `check:api-contracts` |
 | `audit-coverage` | SOLMAN diagnostics | Advanced Controls | `quality:erp-observability` |
 | `rbac` | Authorization objects | RBAC policies | `check:api-contracts`, permissions surface |
-| `governed-primitives` | Fiori UX | Fusion UX | `pnpm ui:guard` |
+| `governed-primitives` | Fiori UX | Fusion UX | `pnpm check:studio-metadata-binding` + `pnpm check:studio-primitive-contracts` |
 | `accounting-contracts` | FI config (design) | Financials setup | `check:accounting-domain-contracts` |
 | `persistence` | CTS / no DDL | Change management | `quality:migrations`, `check:database-tenant-rls-coverage` |
 | `outbox-jobs` | AIF / RFC | Oracle AQ | execution test gates, `quality:boundaries` |
@@ -216,7 +216,7 @@ Map product-quality characteristics to Afenda gates. PAS §NFR must document tar
 | Functional suitability | Completeness, correctness | Gherkin AC + `pnpm --filter <pkg> test:run` |
 | Performance efficiency | Time behaviour | P99 target in PAS §NFR; load test or benchmark path |
 | Compatibility | Interoperability, co-existence | `pnpm quality:boundaries`; backward-compat test |
-| Usability | Accessibility, operability | `pnpm ui:guard` |
+| Usability | Accessibility, operability | `pnpm test:interaction` + vendor `web-accessibility` on changed UI |
 | Reliability | Fault tolerance, recoverability | Retry/idempotency test; rollback in §Rollback strategy |
 | Security | Confidentiality, integrity | `pnpm check:api-contracts`, RLS coverage |
 | Maintainability | Modularity, analysability | `pnpm ci:biome` + `pnpm typecheck` |
