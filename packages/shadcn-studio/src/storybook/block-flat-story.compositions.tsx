@@ -13,7 +13,7 @@ import {
   WalletIcon,
 } from "lucide-react";
 import type { ComponentType, ReactNode } from "react";
-
+import { useState } from "react";
 import ChartEarningReportBlock from "../components-layouts/chart-earning-report.js";
 import ChartSalesMetricsBlock from "../components-layouts/chart-sales-metrics.js";
 import ChartTotalRevenueBlock from "../components-layouts/chart-total-revenue.js";
@@ -44,6 +44,10 @@ import StatisticsProfileTrafficCardBlock from "../components-layouts/statistics-
 import StatisticsRevenueCardBlock from "../components-layouts/statistics-revenue-card.js";
 import StatisticsSalesOverviewCardBlock from "../components-layouts/statistics-sales-overview-card.js";
 import StatisticsTrendCardBlock from "../components-layouts/statistics-trend-card.js";
+import UserProfileAvatar from "../components-layouts/user-profile-avatar.js";
+import UserProfileAvatarPicker, {
+  type UserProfileAvatarValue,
+} from "../components-layouts/user-profile-avatar-picker.js";
 import PaymentHistoryCard from "../components-layouts/widget-payment-history.js";
 import SalesByCountryCard from "../components-layouts/widget-sales-by-countries.js";
 import TotalEarningCard from "../components-layouts/widget-total-earning.js";
@@ -56,6 +60,7 @@ import {
   SidebarProvider,
   SidebarRail,
 } from "../components-ui/sidebar.js";
+import { DEFAULT_USER_PROFILE_AVATAR_PRESET_ID } from "../lib/user-profile-avatar.policy.js";
 
 import {
   CHART_EARNING_DATA,
@@ -363,6 +368,36 @@ export function SidebarUserDropdownSample() {
       </Sidebar>
     </SidebarProvider>
   );
+}
+
+function UserProfileAvatarPickerDemo() {
+  const [value, setValue] = useState<UserProfileAvatarValue>({
+    presetId: DEFAULT_USER_PROFILE_AVATAR_PRESET_ID,
+  });
+
+  return (
+    <div className="w-full max-w-xl rounded-xl border bg-card p-6">
+      <UserProfileAvatarPicker
+        displayName="Alex Morgan"
+        onChange={setValue}
+        value={value}
+      />
+    </div>
+  );
+}
+
+export function UserProfileAvatarSample() {
+  return (
+    <UserProfileAvatar
+      displayName="Alex Morgan"
+      presetId={DEFAULT_USER_PROFILE_AVATAR_PRESET_ID}
+      size="profile"
+    />
+  );
+}
+
+export function UserProfileAvatarPickerSample() {
+  return <UserProfileAvatarPickerDemo />;
 }
 
 export function StatisticsActivityCardSample() {

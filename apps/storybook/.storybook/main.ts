@@ -154,6 +154,9 @@ const config: StorybookConfig = {
       __AFENDA_VITEST_STORYBOOK__: JSON.stringify(
         process.env["VITEST_STORYBOOK"] === "true" ? "true" : "false"
       ),
+      __AFENDA_VITEST_STORYBOOK_A11Y__: JSON.stringify(
+        process.env["VITEST_STORYBOOK_A11Y"] === "true" ? "true" : "false"
+      ),
     };
 
     viteConfig.server ??= {};
@@ -183,8 +186,14 @@ const config: StorybookConfig = {
       ...(viteConfig.optimizeDeps.esbuildOptions.alias ?? {}),
       "@storybook/addon-docs/blocks": addonDocsBlocks,
       "@/components/ui": join(shadcnStudioSrcRoot, "components-ui"),
-      "@/components/shadcn-studio": join(shadcnStudioSrcRoot, "components-layouts"),
-      "@/components-auth-shell": join(shadcnStudioSrcRoot, "components-auth-shell"),
+      "@/components/shadcn-studio": join(
+        shadcnStudioSrcRoot,
+        "components-layouts"
+      ),
+      "@/components-auth-shell": join(
+        shadcnStudioSrcRoot,
+        "components-auth-shell"
+      ),
       "@/lib/utils": join(shadcnStudioSrcRoot, "utils/utils.ts"),
       "@/hooks": join(shadcnStudioSrcRoot, "hooks"),
       "@": shadcnStudioSrcRoot,

@@ -44,6 +44,7 @@ export const GOVERNANCE_ENVELOPE_REGISTRY = [
     reliesOn: [
       "block-metadata.registry",
       "ui-primitive-metadata.registry",
+      "primitive-evidence.registry",
       "_governance.registry",
       "meta-registry/assert-block-slot-dom-marker-coverage",
     ],
@@ -75,6 +76,20 @@ export const GOVERNANCE_ENVELOPE_REGISTRY = [
     role: "Runtime aggregator — UI_PRIMITIVE_METADATA_REGISTRY from L2 contracts",
     reliesOn: ["_governance.registry", "components-ui/*.contract"],
     reliedOnBy: ["meta-gates/index", "check:studio-ui-primitive-metadata"],
+    refactored: GOVERNANCE_ENVELOPE_REFACTORED,
+  },
+  {
+    file: "primitive-evidence.registry.ts",
+    family: "primitive-evidence",
+    role: "Storybook primitive evidence tiers, interaction, slots, mismatch rules",
+    reliesOn: ["_governance.registry"],
+    reliedOnBy: [
+      "meta-gates/index",
+      "check:storybook-primitive-coverage",
+      "check:primitive-mismatch",
+      "check:storybook-evidence",
+      "scripts/storybook/generate.mjs",
+    ],
     refactored: GOVERNANCE_ENVELOPE_REFACTORED,
   },
 ] as const satisfies readonly GovernanceEnvelope[];

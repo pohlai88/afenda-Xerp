@@ -17,12 +17,8 @@
     }
   },
   "include": [
-    "src/gate/**/*",
-    "src/**/__tests__/**/*",
+    "src/__tests__/**/*",
     "src/**/__mocks__/**/*",
-    "src/**/*.contract.test.ts",
-    "src/**/*.contract.test.tsx",
-    "src/**/*.interaction.test.tsx",
     "src/**/*.d.ts",
     "src/components-ui/**/*.tsx",
     "src/components-layouts/**/*.tsx",

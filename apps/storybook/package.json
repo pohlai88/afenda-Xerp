@@ -15,6 +15,7 @@
     "typecheck": "tsc -p tsconfig.storybook.json --noEmit",
     "test:storybook": "vitest --config vitest.storybook.config.ts",
     "test:storybook:run": "vitest run --config vitest.storybook.config.ts",
+    "test:storybook:a11y:run": "vitest run --config vitest.storybook-a11y.config.ts",
     "test:storybook:coverage": "vitest run --config vitest.storybook.config.ts --coverage",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('storybook-static', { recursive: true, force: true })\""
   },

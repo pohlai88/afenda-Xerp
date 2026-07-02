@@ -24,6 +24,11 @@ export const accordionTriggerClassName =
   "group/accordion-trigger relative flex flex-1 items-start justify-between gap-3 rounded-md border border-transparent py-4 text-left text-sm font-medium outline-none transition-all hover:underline focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-disabled:pointer-events-none aria-disabled:opacity-50" as const;
 export const accordionTriggerIconClassName =
   "pointer-events-none ml-auto size-4 shrink-0 text-muted-foreground" as const;
+/** Two-icon hide/show — closed chevron visible until Base UI marks panel open. */
+export const accordionTriggerIconPanelClosedClassName =
+  "group-data-[panel-open]/accordion-trigger:hidden" as const;
+export const accordionTriggerIconPanelOpenClassName =
+  "hidden group-data-[panel-open]/accordion-trigger:inline" as const;
 /** Panel — collapse height driven by Base UI `--accordion-panel-height` + data attributes. */
 export const accordionContentPanelClassName =
   "h-[var(--accordion-panel-height)] overflow-hidden text-sm transition-[height] duration-200 ease-out data-[starting-style]:h-0 data-[ending-style]:h-0" as const;

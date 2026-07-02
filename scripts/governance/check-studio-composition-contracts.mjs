@@ -11,6 +11,24 @@ import { STUDIO_COMPOSITION_COMPONENTS } from "./studio-composition-manifest.mjs
 
 const repoRoot = join(fileURLToPath(new URL(".", import.meta.url)), "../..");
 const uiDir = join(repoRoot, "packages/shadcn-studio/src/components-ui");
+const testsUiDir = join(
+  repoRoot,
+  "packages/shadcn-studio/src/__tests__/components-ui"
+);
+
+/** T0 static primitives — covered by aggregate registry test instead of per-file contract tests. */
+const T0_AGGREGATE_COVERED = new Set([
+  "aspect-ratio",
+  "kbd",
+  "separator",
+  "skeleton",
+  "spinner",
+]);
+
+const AGGREGATE_REGISTRY_TEST = join(
+  testsUiDir,
+  "components-ui.contract-registry.test.ts"
+);
 
 export function checkStudioCompositionContracts() {
   const violations = [];
@@ -18,7 +36,7 @@ export function checkStudioCompositionContracts() {
   for (const name of STUDIO_COMPOSITION_COMPONENTS) {
     const adapterPath = join(uiDir, `${name}.tsx`);
     const contractPath = join(uiDir, `${name}.contract.ts`);
-    const testPath = join(uiDir, `${name}.contract.test.ts`);
+    const testPath = join(testsUiDir, `${name}.contract.test.ts`);
 
     if (!existsSync(adapterPath)) {
       violations.push(`${name}: missing adapter ${name}.tsx`);
@@ -58,6 +76,15 @@ export function checkStudioCompositionContracts() {
     }
 
     if (!existsSync(testPath)) {
+      if (T0_AGGREGATE_COVERED.has(name)) {
+        if (!existsSync(AGGREGATE_REGISTRY_TEST)) {
+          violations.push(
+            `${name}: missing ${AGGREGATE_REGISTRY_TEST} for T0 aggregate coverage`
+          );
+        }
+        continue;
+      }
+
       violations.push(`${name}: missing ${name}.contract.test.ts`);
     }
   }

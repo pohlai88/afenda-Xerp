@@ -304,6 +304,7 @@
     "housekeeping:verify": "pnpm housekeeping:audit && pnpm quality:boundaries && pnpm quality:exports",
     "housekeeping:storybook-orphans": "node scripts/storybook/discard-blocks-without-consumer.mjs",
     "clean": "turbo run clean",
+    "clean:next": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const d of ['apps/docs/.next','apps/erp/.next','.turbo','coverage','storybook-static']) rmSync(d, { recursive: true, force: true })\"",
     "env:sync": "node scripts/sync-env.mjs",
     "env:doctor": "node scripts/env-doctor.mjs",
     "resend:validate": "node .cursor/mcp/resend-validate.mjs",
@@ -331,10 +332,14 @@
     "storybook:generate": "node scripts/storybook/generate.mjs",
     "check:storybook-block-coverage": "node scripts/governance/check-storybook-block-coverage.mjs",
     "check:storybook-primitive-coverage": "node scripts/governance/check-storybook-primitive-coverage.mjs",
+    "check:primitive-mismatch": "node scripts/governance/check-primitive-mismatch.mjs",
+    "check:storybook-evidence": "node scripts/governance/check-storybook-evidence.mjs",
+    "check:storybook-primitive-evidence": "node scripts/governance/check-storybook-primitive-coverage.mjs && node scripts/governance/check-primitive-mismatch.mjs && node scripts/governance/check-storybook-evidence.mjs",
     "storybook:ui": "pnpm storybook dev",
     "storybook:build": "pnpm storybook build",
     "storybook:chromatic": "pnpm --filter @afenda/storybook chromatic",
     "test:storybook:run": "pnpm --filter @afenda/storybook test:storybook:run",
+    "test:storybook:a11y:run": "pnpm --filter @afenda/storybook test:storybook:a11y:run",
     "prepare": "husky"
   },
   "devDependencies": {

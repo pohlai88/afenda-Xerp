@@ -21,8 +21,13 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.tsserver.experimental.enableProjectDiagnostics": false,
   "typescript.tsserver.useSyntaxServer": "always",
-  "vitest.enable": false,
-  "vitest.disabledWorkspaceFolders": ["."],
+  "vitest.enable": true,
+  "vitest.rootConfig": "${workspaceFolder}/vitest.config.ts",
+  "vitest.ignoreWorkspace": true,
+  "vitest.configSearchPatternInclude": "vitest.config.ts",
+  "vitest.configSearchPatternExclude": "{**/node_modules/**,**/packages/**,**/apps/**,**/templates/**,**/scripts/**}",
+  "vitest.filesWatcherInclude": "{packages/*/src/**,apps/*/src/**,scripts/**}",
+  "vitest.watchOnStartup": false,
   "typescript.tsserver.watchOptions": {
     "excludeDirectories": [
       "**/node_modules",
@@ -142,6 +147,15 @@
   "prettier.requireConfig": true,
   "prettier.configPath": "./prettier.config.mjs",
   "prettier.documentSelectors": ["**/*.mdx", "**/*.css"],
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/.turbo": true,
+    "**/coverage": true,
+    "**/storybook-static": true,
+    "**/out": true,
+    "**/dist": true
+  },
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
@@ -159,6 +173,13 @@
     "**/storybook-static/**": true
   },
   "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/.turbo": true,
+    "**/coverage": true,
+    "**/storybook-static": true,
+    "**/out": true,
+    "**/dist": true,
     "**/_reference": true,
     "**/.cursor": true
   },

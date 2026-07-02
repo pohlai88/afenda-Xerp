@@ -2,6 +2,20 @@
 
 Optional visual regression for `@afenda/storybook`. The workflow job is **off by default** until repository settings are configured.
 
+## Snapshot scope (Step 10)
+
+Chromatic captures **Gold primitive Primary stories only** — not blocks, theme lab, or variant stories.
+
+| Layer | Behavior |
+| --- | --- |
+| **Global** | `preview.tsx` sets `chromatic.disableSnapshot: true` |
+| **Gold Primary** | Each hand-curated Primary spreads `shadcnStudioChromaticSmokeParameters` (`disableSnapshot: false`) |
+| **Modes** | 4 modes from `modes.ts`: `light`, `dark`, `mobile-light`, `mobile-dark` |
+
+Expected baseline when enabled: **21 primitives × 4 modes = 84 snapshots** (TurboSnap may reduce on unchanged files).
+
+Gate A enforces `shadcnStudioChromaticSmokeParameters` on Gold tier colocated stories.
+
 ## Prerequisites
 
 1. [Chromatic](https://www.chromatic.com/) project linked to this repo

@@ -5,7 +5,7 @@
  */
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { RadioGroup } from "./radio-group.js";
+import { RadioGroup, RadioGroupItem } from "./radio-group.js";
 
 const meta = {
   component: RadioGroup,
@@ -16,5 +16,16 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: { defaultValue: "a", className: "flex gap-4" },
+  render: () => (
+    <RadioGroup className="flex flex-col gap-2" defaultValue="standard">
+      <label className="flex items-center gap-2 text-sm">
+        <RadioGroupItem aria-label="Standard shipping" value="standard" />
+        Standard shipping
+      </label>
+      <label className="flex items-center gap-2 text-sm">
+        <RadioGroupItem aria-label="Express shipping" value="express" />
+        Express shipping
+      </label>
+    </RadioGroup>
+  ),
 };

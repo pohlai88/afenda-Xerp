@@ -1,28 +1,60 @@
-/**
- * AUTO-GENERATED — do not edit by hand.
- * Regenerate: pnpm storybook generate
- * Source: scripts/storybook/generate-primitive-stories.mjs
- */
 import type { Meta, StoryObj } from "@storybook/react";
+import { expect, userEvent, within } from "storybook/test";
 
-import { DialogDefaultSample } from "../storybook/primitive-story.compositions.js";
+import {
+  shadcnStudioChromaticSmokeParameters,
+  shadcnStudioPrimitiveFigmaDesignFromEnv,
+} from "../storybook/story-parameters.js";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./dialog.js";
 
 const meta = {
-  component: DialogDefaultSample,
-  tags: ["autodocs", "colocated"],
+  component: Dialog,
+  tags: ["autodocs", "lab-smoke", "colocated"],
   parameters: {
-    docs: {
-      description: {
-        component:
-          "Composition-backed primitive story — fixture in storybook/primitive-story.compositions.tsx.",
-      },
-    },
+    ...shadcnStudioPrimitiveFigmaDesignFromEnv("dialog"),
   },
-} satisfies Meta<typeof DialogDefaultSample>;
+} satisfies Meta<typeof Dialog>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {
-  render: () => <DialogDefaultSample />,
+export const Primary: Story = {
+  tags: ["a11y-smoke"],
+  ...shadcnStudioChromaticSmokeParameters,
+  render: () => (
+    <Dialog>
+      <DialogTrigger>View PO-1042 details</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Purchase order PO-1042</DialogTitle>
+          <DialogDescription>
+            Approval workflow, line items, and vendor terms for Acme Supplies.
+          </DialogDescription>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  ),
+  play: async ({ canvas, canvasElement }) => {
+    const trigger = canvas.getByRole("button", {
+      name: /view PO-1042 details/i,
+    });
+    await expect(trigger).toBeVisible();
+    await expect(trigger).toHaveAttribute("data-slot", "dialog-trigger");
+
+    await userEvent.click(trigger);
+
+    const body = within(canvasElement.ownerDocument.body);
+    const dialog = await body.findByRole("dialog");
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toHaveAttribute("data-slot", "dialog-content");
+    await expect(body.getByText(/approval workflow/i)).toBeVisible();
+  },
 };

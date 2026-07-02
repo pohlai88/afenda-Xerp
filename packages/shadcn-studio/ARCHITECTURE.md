@@ -28,7 +28,7 @@ L4 VERIFICATION (internal) storybook/  gate/  *.stories.tsx
 | **L3 Surfaces** | App shell composition | Run `shadcn --overwrite` on ui/* |
 | **L4 Verification** | Storybook params, package gate tests, MDX docs | Export from main `@afenda/shadcn-studio` barrel |
 
-**L4 note:** L4 is not production runtime. Package gate tests live in `gate/`; colocated module tests stay in `**/__tests__/` per repo `vitest.shared.ts`.
+**L4 note:** L4 is not production runtime. All package tests live under `src/__tests__/` (repo convention); `vitest.config.ts` uses `src/__tests__/**/*.{test,spec}.{ts,tsx}`.
 
 ---
 
@@ -52,8 +52,7 @@ L4 VERIFICATION (internal) storybook/  gate/  *.stories.tsx
 | `styles/shadcn-studio.css` | L2 | 1 | Theme CSS source → `dist/shadcn-studio.css` |
 | `lab/index.ts` | L4 export | 1 | Public subpath barrel for Storybook parameters |
 | `storybook/` | L4 | 11 | Story parameters source, promotion MDX |
-| `gate/` | L4 | 29 | Package gate tests (inventory, metadata binding, theme, MCP policy) |
-| `**/__tests__/` | L4 | 18 | Colocated render/registry tests (`lib/`, `components-ui/`, `meta-*`, …) |
+| `src/__tests__/` | L4 | 157 | All package tests: gate, primitive contracts, interactions, inventory, theme, MCP policy |
 | `src/storybook/*.stories.tsx` | L4 | 10+ | Storybook lab stories (codegen + curated) |
 | `index.ts` | Public | 1 | L2 + L3 + selective L1 wire types (no L4) |
 

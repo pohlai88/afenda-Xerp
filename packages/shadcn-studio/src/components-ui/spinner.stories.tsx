@@ -1,19 +1,29 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect } from "storybook/test";
 
+import {
+  shadcnStudioChromaticSmokeParameters,
+  shadcnStudioPrimitiveFigmaDesignFromEnv,
+} from "../storybook/story-parameters.js";
 import { Spinner } from "./spinner.js";
 
 const meta = {
   component: Spinner,
   tags: ["autodocs", "lab-smoke", "colocated"],
+  parameters: {
+    ...shadcnStudioPrimitiveFigmaDesignFromEnv("spinner"),
+  },
 } satisfies Meta<typeof Spinner>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
+  tags: ["a11y-smoke"],
+  ...shadcnStudioChromaticSmokeParameters,
   play: async ({ canvas }) => {
     const status = canvas.getByRole("status", { name: /loading/i });
+    await expect(status).toBeVisible();
     await expect(status).toHaveAttribute("data-slot", "spinner");
     await expect(status).toHaveAttribute("aria-label", "Loading");
   },

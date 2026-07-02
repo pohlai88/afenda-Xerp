@@ -5,7 +5,7 @@
  */
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { ToggleGroup } from "./toggle-group.js";
+import { ToggleGroup, ToggleGroupItem } from "./toggle-group.js";
 
 const meta = {
   component: ToggleGroup,
@@ -16,5 +16,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  render: () => (
+    <ToggleGroup>
+      <ToggleGroupItem aria-label="Week view" value="week">
+        Week
+      </ToggleGroupItem>
+      <ToggleGroupItem aria-label="Month view" value="month">
+        Month
+      </ToggleGroupItem>
+      <ToggleGroupItem aria-label="Year view" value="year">
+        Year
+      </ToggleGroupItem>
+    </ToggleGroup>
+  ),
 };

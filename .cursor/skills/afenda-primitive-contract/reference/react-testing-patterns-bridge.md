@@ -4,7 +4,7 @@
 
 **Afenda authority:** `AGENTS.md` · `@afenda/testing/react` · [afenda-react-surface-quality/reference/testing-afenda.md](../../afenda-react-surface-quality/reference/testing-afenda.md)
 
-**Scope:** `components-ui/{name}.contract.test.ts` (T1) · `{name}.interaction.test.tsx` (T2) — not ERP MSW suites.
+**Scope:** `src/__tests__/components-ui/{name}.contract.test.ts` (T1) · `{name}.interaction.test.tsx` (T2) — not ERP MSW suites.
 
 ---
 

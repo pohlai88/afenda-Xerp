@@ -11,6 +11,9 @@ on:
       - "apps/storybook/**"
       - "packages/shadcn-studio/**"
       - "scripts/storybook/**"
+      - "scripts/governance/check-storybook-*.mjs"
+      - "scripts/governance/check-primitive-mismatch.mjs"
+      - "scripts/governance/lib/load-primitive-evidence-registry.mjs"
       - ".github/workflows/storybook-lab.yml"
 
 concurrency:
@@ -50,6 +53,9 @@ jobs:
 
       - name: Flat block coverage gate
         run: pnpm check:storybook-block-coverage
+
+      - name: Primitive evidence gates (coverage + mismatch + story play)
+        run: pnpm check:storybook-primitive-evidence
 
       - name: Typecheck Storybook lab
         run: |
@@ -99,11 +105,17 @@ jobs:
       - name: Flat block coverage gate
         run: pnpm check:storybook-block-coverage
 
+      - name: Primitive evidence gates (coverage + mismatch + story play)
+        run: pnpm check:storybook-primitive-evidence
+
       - name: Install Playwright Chromium
         run: pnpm --filter @afenda/storybook exec playwright install chromium --with-deps
 
       - name: Run Storybook browser tests
         run: pnpm test:storybook:run
+
+      - name: Run Storybook a11y smoke (Gold primitives)
+        run: pnpm test:storybook:a11y:run
 
       - name: Storybook interaction coverage (optional report)
         if: vars.STORYBOOK_COVERAGE_ENABLED == 'true'
@@ -143,6 +155,12 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: Generate Storybook artifacts
+        run: pnpm storybook:generate
+
+      - name: Primitive evidence gates (coverage + mismatch + story play)
+        run: pnpm check:storybook-primitive-evidence
 
       - name: Publish to Chromatic
         uses: chromaui/action@v13

@@ -23,8 +23,13 @@ function buildFlatBlockPreviewRegistry(): Record<
   StudioBlockComponent
 > {
   const entries = {} as Record<McpSeedBlockId, StudioBlockComponent>;
+  const seedIds = new Set<string>(MCP_SEED_BLOCK_IDS);
 
   for (const { slug, sample } of FLAT_BLOCK_STORY_REGISTRY) {
+    if (!seedIds.has(slug)) {
+      continue;
+    }
+
     entries[slug as McpSeedBlockId] = sample as StudioBlockComponent;
   }
 

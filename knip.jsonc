@@ -68,7 +68,11 @@
       "project": ["src/**/*.ts"]
     },
     "packages/shadcn-studio": {
-      "entry": ["src/**/index.ts", "src/**/*.test.ts", "src/**/*.stories.tsx"],
+      "entry": [
+        "src/**/index.ts",
+        "src/__tests__/**/*.{test,spec}.{ts,tsx}",
+        "src/**/*.stories.tsx"
+      ],
       "project": ["src/**/*.{ts,tsx}"],
       "ignoreDependencies": ["next", "shadcn", "tw-animate-css"],
       "ignoreIssues": {

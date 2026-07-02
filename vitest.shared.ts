@@ -7,9 +7,6 @@ const MONOREPO_ROOT = resolve(dirname(fileURLToPath(import.meta.url)));
 
 export const TEST_FILE_PATTERN = "src/**/__tests__/**/*.{test,spec}.{ts,tsx}";
 
-/** Package-level gate suites (ADR-0038 `@afenda/shadcn-studio` L4 `src/gate/`). */
-export const GATE_TEST_PATTERN = "src/gate/**/*.{test,spec}.{ts,tsx}";
-
 /** Convention for Radix / user-event interaction suites (subset of TEST_FILE_PATTERN). */
 export const INTERACTION_TEST_PATTERN = "**/*.interaction.test.{ts,tsx}";
 

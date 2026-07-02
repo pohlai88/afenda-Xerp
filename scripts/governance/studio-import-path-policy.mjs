@@ -70,7 +70,6 @@ export function studioImportPathReminder(relativePath) {
     "- Physical folders (components-ui/) ≠ import aliases (@/components/ui/).",
     `- SSOT: ${STUDIO_PATHS_SSOT}`,
     "- Forbidden in source: @/components-ui/, @/components-layouts/",
-    "- Fix script: node scripts/shadcn-studio/fix-ui-aliases.mjs",
     "- Gates: pnpm check:studio-tsconfig-paths && pnpm check:studio-import-zones",
     "- Diagnosis agent: @studio-import-path-auditor",
   ].join("\n");

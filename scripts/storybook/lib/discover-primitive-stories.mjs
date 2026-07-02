@@ -1,8 +1,77 @@
 /**
  * PAS-006 Storybook lab — primitive discovery for colocated vs composition stories.
  */
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+
+const EXPORT_BLOCK_RE = /export\s*\{([^}]+)\}/s;
+const WHITESPACE_SPLIT_RE = /\s+/;
+const UI_PRIMITIVE_CONTRACT_SLUGS_RE =
+  /UI_PRIMITIVE_CONTRACT_SLUGS\s*=\s*\[([\s\S]*?)\]\s*as const/;
+
+/** Compound primitives with colocated render fixtures (not composition-backed). */
+export const COMPOUND_COLLOCATED_SLUGS = new Set([
+  "accordion",
+  "alert-dialog",
+  "calendar",
+  "collapsible",
+  "drawer",
+  "popover",
+  "radio-group",
+  "tabs",
+  "toggle-group",
+  "tooltip",
+]);
+
+/**
+ * @param {string} slug
+ * @returns {string | undefined}
+ */
+export function compoundStoryImports(slug) {
+  const importsBySlug = {
+    accordion:
+      'import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "./accordion.js";',
+    "alert-dialog":
+      'import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./alert-dialog.js";',
+    calendar: 'import { Calendar } from "./calendar.js";',
+    collapsible:
+      'import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./collapsible.js";',
+    drawer:
+      'import { Drawer, DrawerContent, DrawerDescription, DrawerHeader, DrawerTitle, DrawerTrigger } from "./drawer.js";',
+    popover:
+      'import { Popover, PopoverContent, PopoverDescription, PopoverHeader, PopoverTitle, PopoverTrigger } from "./popover.js";',
+    "radio-group":
+      'import { RadioGroup, RadioGroupItem } from "./radio-group.js";',
+    tabs: 'import { Tabs, TabsContent, TabsList, TabsTrigger } from "./tabs.js";',
+    "toggle-group":
+      'import { ToggleGroup, ToggleGroupItem } from "./toggle-group.js";',
+    tooltip:
+      'import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip.js";',
+  };
+
+  return importsBySlug[slug];
+}
+
+/**
+ * @param {string} slug
+ * @returns {string | undefined}
+ */
+export function compoundMetaComponent(slug) {
+  const metaBySlug = {
+    accordion: "Accordion",
+    "alert-dialog": "AlertDialog",
+    calendar: "Calendar",
+    collapsible: "Collapsible",
+    drawer: "Drawer",
+    popover: "Popover",
+    "radio-group": "RadioGroup",
+    tabs: "Tabs",
+    "toggle-group": "ToggleGroup",
+    tooltip: "TooltipProvider",
+  };
+
+  return metaBySlug[slug];
+}
 
 /** First-wave compound primitives — always use compositions. */
 export const FIRST_WAVE_COMPLEX_SLUGS = new Set([
@@ -41,7 +110,7 @@ export function compositionExportName(slug) {
  * @returns {number}
  */
 export function countValueExports(source) {
-  const exportBlock = source.match(/export\s*\{([^}]+)\}/s);
+  const exportBlock = source.match(EXPORT_BLOCK_RE);
   if (!exportBlock) {
     return 0;
   }
@@ -49,8 +118,7 @@ export function countValueExports(source) {
   return exportBlock[1]
     .split(",")
     .map((part) => part.trim())
-    .filter((part) => part.length > 0 && !part.startsWith("type "))
-    .length;
+    .filter((part) => part.length > 0 && !part.startsWith("type ")).length;
 }
 
 /**
@@ -94,12 +162,12 @@ export function resolvePrimaryExportName(slug, source) {
   }
 
   const expected = slugToPascalCase(slug);
-  const exportBlock = source.match(/export\s*\{([^}]+)\}/s);
+  const exportBlock = source.match(EXPORT_BLOCK_RE);
 
   if (exportBlock) {
     const names = exportBlock[1]
       .split(",")
-      .map((part) => part.trim().split(/\s+/).pop())
+      .map((part) => part.trim().split(WHITESPACE_SPLIT_RE).pop())
       .filter((name) => name && !name.startsWith("type"));
 
     if (names.includes(expected)) {
@@ -119,12 +187,12 @@ export function resolvePrimaryExportName(slug, source) {
  * @returns {string[]}
  */
 export function parseUiPrimitiveSlugs(governanceRegistrySource) {
-  const match = governanceRegistrySource.match(
-    /UI_PRIMITIVE_CONTRACT_SLUGS\s*=\s*\[([\s\S]*?)\]\s*as const/
-  );
+  const match = governanceRegistrySource.match(UI_PRIMITIVE_CONTRACT_SLUGS_RE);
 
   if (!match) {
-    throw new Error("UI_PRIMITIVE_CONTRACT_SLUGS not found in governance registry");
+    throw new Error(
+      "UI_PRIMITIVE_CONTRACT_SLUGS not found in governance registry"
+    );
   }
 
   return [...match[1].matchAll(/"([^"]+)"/g)].map((entry) => entry[1]);
@@ -197,9 +265,9 @@ export function defaultStoryArgsLiteral(slug) {
     slider: `{ defaultValue: [40], max: 100, step: 1, className: "w-48" }`,
     "radio-group": `{ defaultValue: "a", className: "flex gap-4" }`,
     "aspect-ratio": `{ ratio: 16 / 9, className: "w-48 overflow-hidden rounded-md bg-muted" }`,
-    "category-bar": `{ values: [40, 35, 25] }`,
-    "circular-progress": `{ value: 62 }`,
-    "number-ticker": `{ value: 1284 }`,
+    "category-bar": "{ values: [40, 35, 25] }",
+    "circular-progress": "{ value: 62 }",
+    "number-ticker": "{ value: 1284 }",
     direction: `{ direction: "ltr", children: "LTR content" }`,
   };
 
@@ -281,6 +349,111 @@ export function renderStoryBody(slug, exportName) {
         <InputOTPSlot index={5} />
       </InputOTPGroup>
     </InputOTP>
+  ),
+};`,
+    tabs: `export const Default: Story = {
+  render: () => (
+    <Tabs defaultValue="overview">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="details">Details</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview">Purchase order summary for PO-1042.</TabsContent>
+      <TabsContent value="details">Line items, tax, and approval history.</TabsContent>
+    </Tabs>
+  ),
+};`,
+    collapsible: `export const Default: Story = {
+  render: () => (
+    <Collapsible defaultOpen className="w-full max-w-sm">
+      <CollapsibleTrigger className="font-medium text-sm">Shipping details</CollapsibleTrigger>
+      <CollapsibleContent className="pt-2 text-muted-foreground text-sm">
+        Deliver to warehouse WH-12 by Friday.
+      </CollapsibleContent>
+    </Collapsible>
+  ),
+};`,
+    "alert-dialog": `export const Default: Story = {
+  render: () => (
+    <AlertDialog>
+      <AlertDialogTrigger render={<button type="button">Delete purchase order</button>} />
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete PO-1042?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This removes the draft purchase order from the workspace queue.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction>Delete</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  ),
+};`,
+    tooltip: `export const Default: Story = {
+  render: () => (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger render={<button type="button">Approval status</button>} />
+        <TooltipContent>Awaiting finance manager sign-off.</TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  ),
+};`,
+    popover: `export const Default: Story = {
+  render: () => (
+    <Popover>
+      <PopoverTrigger render={<button type="button">Filter vendors</button>} />
+      <PopoverContent className="w-64">
+        <PopoverHeader>
+          <PopoverTitle>Vendor filters</PopoverTitle>
+          <PopoverDescription>Refine the procurement list.</PopoverDescription>
+        </PopoverHeader>
+      </PopoverContent>
+    </Popover>
+  ),
+};`,
+    calendar: `export const Default: Story = {
+  render: () => (
+    <Calendar mode="single" className="rounded-md border" />
+  ),
+};`,
+    "radio-group": `export const Default: Story = {
+  render: () => (
+    <RadioGroup defaultValue="standard" className="flex flex-col gap-2">
+      <label className="flex items-center gap-2 text-sm">
+        <RadioGroupItem value="standard" aria-label="Standard shipping" />
+        Standard shipping
+      </label>
+      <label className="flex items-center gap-2 text-sm">
+        <RadioGroupItem value="express" aria-label="Express shipping" />
+        Express shipping
+      </label>
+    </RadioGroup>
+  ),
+};`,
+    "toggle-group": `export const Default: Story = {
+  render: () => (
+    <ToggleGroup>
+      <ToggleGroupItem value="week" aria-label="Week view">Week</ToggleGroupItem>
+      <ToggleGroupItem value="month" aria-label="Month view">Month</ToggleGroupItem>
+      <ToggleGroupItem value="year" aria-label="Year view">Year</ToggleGroupItem>
+    </ToggleGroup>
+  ),
+};`,
+    drawer: `export const Default: Story = {
+  render: () => (
+    <Drawer>
+      <DrawerTrigger>Open shipment drawer</DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Shipment WH-12</DrawerTitle>
+          <DrawerDescription>Track inbound inventory for PO-1042.</DrawerDescription>
+        </DrawerHeader>
+      </DrawerContent>
+    </Drawer>
   ),
 };`,
   };

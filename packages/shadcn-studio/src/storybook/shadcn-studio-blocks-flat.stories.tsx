@@ -225,6 +225,16 @@ export const WidgetTransactions: Story = {
 export const WidgetTransactionsDark: Story =
   storyPair("WidgetTransactions").dark;
 
+export const UserProfileAvatar: Story = storyPair("UserProfileAvatar").light;
+export const UserProfileAvatarDark: Story = storyPair("UserProfileAvatar").dark;
+
+export const UserProfileAvatarPicker: Story = storyPair(
+  "UserProfileAvatarPicker"
+).light;
+export const UserProfileAvatarPickerDark: Story = storyPair(
+  "UserProfileAvatarPicker"
+).dark;
+
 /** Registry count guard — visible in Storybook docs for lab operators. */
 export const FlatBlockCatalog: Story = {
   tags: ["autodocs", "lab-smoke"],

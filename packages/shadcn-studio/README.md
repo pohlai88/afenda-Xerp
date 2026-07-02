@@ -42,7 +42,7 @@ pnpm storybook dev
 | L1 Authority | `src/meta-contracts/`, `src/meta-registry/`, `src/meta-gates/` |
 | L2 Product | `src/components-ui/`, `src/components-layouts/`, `src/lib/`, `src/hooks/`, `src/theme/`, `src/styles/` |
 | L3 Surfaces | `src/components-app-shell/` |
-| L4 Lab | `src/storybook/`, `src/gate/`, `src/**/__tests__/`, `src/*.stories.tsx` |
+| L4 Lab | `src/storybook/`, `src/__tests__/`, `src/*.stories.tsx` |
 
 Detail: [ARCHITECTURE.md](./ARCHITECTURE.md)
 

@@ -4,15 +4,25 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-
+import { loadPrimitiveEvidenceRegistry } from "../governance/lib/load-primitive-evidence-registry.mjs";
+import {
+  argTypesImportName,
+  argTypesMetaField,
+  defaultArgsWithFn,
+  requiresArgTypes,
+} from "../governance/lib/primitive-args-first-controls.mjs";
 import {
   compositionExportName,
+  compoundMetaComponent,
+  compoundStoryImports,
   defaultStoryArgsLiteral,
   discoverPrimitiveStories,
   parseUiPrimitiveSlugs,
   renderStoryBody,
-  slugToPascalCase,
 } from "./lib/discover-primitive-stories.mjs";
+
+const PRIMITIVE_COMPOSITION_SLUGS_RE =
+  /PRIMITIVE_COMPOSITION_SLUGS\s*=\s*\[([\s\S]*?)\]\s*as const/;
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(scriptDir, "../..");
@@ -37,14 +47,71 @@ const catalogPath = join(
 const NO_COMPONENT_META_SLUGS = new Set(["chart", "input-otp"]);
 
 /**
- * @param {import("./lib/discover-primitive-stories.mjs").PrimitiveDiscoveryEntry} entry
+ * @param {import("../governance/lib/primitive-args-first-controls.mjs").PrimitiveEvidenceSpec | undefined} spec
  * @returns {string}
  */
-function renderSimpleStoryFile(entry) {
+function storyMetaTagsLiteral(spec) {
+  if (spec?.tier === "gold") {
+    return '["autodocs", "lab-smoke", "colocated"]';
+  }
+
+  return '["autodocs", "colocated"]';
+}
+
+/**
+ * @param {import("../governance/lib/primitive-args-first-controls.mjs").PrimitiveEvidenceSpec | undefined} spec
+ * @returns {string}
+ */
+function defaultStoryA11yTagsField(spec) {
+  if (spec?.tier === "gold") {
+    return `\n  tags: ["a11y-smoke"],`;
+  }
+
+  return "";
+}
+
+/**
+ * @param {import("../governance/lib/primitive-args-first-controls.mjs").PrimitiveEvidenceSpec | undefined} spec
+ * @returns {string}
+ */
+function defaultStoryChromaticField(spec) {
+  if (spec?.tier === "gold") {
+    return "\n  ...shadcnStudioChromaticSmokeParameters,";
+  }
+
+  return "";
+}
+
+/**
+ * @param {string} slug
+ * @param {import("../governance/lib/primitive-args-first-controls.mjs").PrimitiveEvidenceSpec | undefined} spec
+ * @returns {string}
+ */
+function storyMetaParametersField(slug, spec) {
+  if (spec?.tier !== "gold") {
+    return "";
+  }
+
+  return `\n  parameters: {\n    ...shadcnStudioPrimitiveFigmaDesignFromEnv("${slug}"),\n  },`;
+}
+
+/**
+ * @param {import("./lib/discover-primitive-stories.mjs").PrimitiveDiscoveryEntry} entry
+ * @param {import("../governance/lib/primitive-args-first-controls.mjs").PrimitiveEvidenceSpec | undefined} spec
+ * @returns {string}
+ */
+function renderSimpleStoryFile(entry, spec) {
   const renderBody = renderStoryBody(entry.slug, entry.exportName);
+  const needsControls = spec !== undefined && requiresArgTypes(spec);
+  const argTypesImport = needsControls
+    ? argTypesImportName(entry.slug)
+    : undefined;
+  const compoundImport = compoundStoryImports(entry.slug);
   const extraImports = [];
 
-  if (entry.slug === "resizable") {
+  if (compoundImport) {
+    extraImports.push(compoundImport);
+  } else if (entry.slug === "resizable") {
     extraImports.push(
       `import { ${entry.exportName}, ResizableHandle, ResizablePanel } from "./${entry.slug}.js";`
     );
@@ -71,7 +138,8 @@ function renderSimpleStoryFile(entry) {
   }
 
   const metaComponent =
-    entry.slug === "card"
+    compoundMetaComponent(entry.slug) ??
+    (entry.slug === "card"
       ? "Card"
       : entry.slug === "empty"
         ? "Empty"
@@ -79,22 +147,35 @@ function renderSimpleStoryFile(entry) {
           ? "Avatar"
           : entry.slug === "input-otp"
             ? "InputOTP"
-            : entry.exportName;
+            : entry.exportName);
 
   const defaultExport =
     renderBody ??
-    `export const Default: Story = {
-  args: ${defaultStoryArgsLiteral(entry.slug) ?? `{}`},
+    `export const Default: Story = {${defaultStoryA11yTagsField(spec)}${defaultStoryChromaticField(spec)}
+  args: ${needsControls ? defaultArgsWithFn(entry.slug, defaultStoryArgsLiteral(entry.slug) ?? "{}") : (defaultStoryArgsLiteral(entry.slug) ?? "{}")},
 };`;
 
   const metaBlock = NO_COMPONENT_META_SLUGS.has(entry.slug)
     ? `const meta = {
-  tags: ["autodocs", "colocated"],
+  tags: ${storyMetaTagsLiteral(spec)},${storyMetaParametersField(entry.slug, spec)}
 } satisfies Meta;`
     : `const meta = {
   component: ${metaComponent},
-  tags: ["autodocs", "colocated"],
+  tags: ${storyMetaTagsLiteral(spec)},${needsControls && argTypesImport ? `\n${argTypesMetaField(entry.slug)}` : ""}${storyMetaParametersField(entry.slug, spec)}
 } satisfies Meta<typeof ${metaComponent}>;`;
+
+  const chromaticImport =
+    spec?.tier === "gold"
+      ? `import { shadcnStudioChromaticSmokeParameters, shadcnStudioPrimitiveFigmaDesignFromEnv } from "../storybook/story-parameters.js";\n`
+      : "";
+
+  const controlImports =
+    needsControls && argTypesImport
+      ? `import { fn } from "storybook/test";
+
+import { ${argTypesImport} } from "../storybook/colocated-argtypes.js";
+`
+      : "";
 
   return `/**
  * AUTO-GENERATED — do not edit by hand.
@@ -103,7 +184,7 @@ function renderSimpleStoryFile(entry) {
  */
 import type { Meta, StoryObj } from "@storybook/react";
 
-${extraImports.join("\n")}
+${chromaticImport}${controlImports}${extraImports.join("\n")}
 
 ${metaBlock}
 
@@ -158,13 +239,12 @@ export const Default: Story = {
  */
 function renderCatalogStory(entries) {
   const rows = entries
-    .map((entry) => {
-      const label = slugToPascalCase(entry.slug);
-      return `      <li key="${entry.slug}">
+    .map(
+      (entry) => `      <li key="${entry.slug}">
         <code>${entry.slug}</code>
         <span className="text-muted-foreground"> — ${entry.kind}${entry.hasStory ? "" : " (pending story)"}</span>
-      </li>`;
-    })
+      </li>`
+    )
     .join("\n");
 
   return `/**
@@ -214,9 +294,7 @@ export const InventoryDark: Story = {
 }
 
 function readCompositionSlugs(compositionsSource) {
-  const match = compositionsSource.match(
-    /PRIMITIVE_COMPOSITION_SLUGS\s*=\s*\[([\s\S]*?)\]\s*as const/
-  );
+  const match = compositionsSource.match(PRIMITIVE_COMPOSITION_SLUGS_RE);
 
   if (!match) {
     return [];
@@ -238,6 +316,8 @@ function isAutoGeneratedStory(storyPath) {
 function main() {
   const governanceSource = readFileSync(governanceRegistryPath, "utf8");
   const compositionsSource = readFileSync(compositionsPath, "utf8");
+  const { registry } = loadPrimitiveEvidenceRegistry();
+  const specBySlug = new Map(registry.map((spec) => [spec.slug, spec]));
   const slugs = parseUiPrimitiveSlugs(governanceSource);
   const entries = discoverPrimitiveStories(uiRoot, slugs);
   const compositionSlugs = readCompositionSlugs(compositionsSource);
@@ -273,7 +353,7 @@ function main() {
 
     writeFileSync(
       join(uiRoot, `${entry.slug}.stories.tsx`),
-      renderSimpleStoryFile(entry),
+      renderSimpleStoryFile(entry, specBySlug.get(entry.slug)),
       "utf8"
     );
     generatedSlugs.push(entry.slug);
@@ -304,12 +384,16 @@ function main() {
     "utf8"
   );
 
-  writeFileSync(catalogPath, renderCatalogStory(
-    entries.map((entry) => ({
-      ...entry,
-      hasStory: entry.hasStory || generatedSlugSet.has(entry.slug),
-    }))
-  ), "utf8");
+  writeFileSync(
+    catalogPath,
+    renderCatalogStory(
+      entries.map((entry) => ({
+        ...entry,
+        hasStory: entry.hasStory || generatedSlugSet.has(entry.slug),
+      }))
+    ),
+    "utf8"
+  );
 
   console.log(
     `storybook:generate-primitive-stories — ${generatedCount} new colocated story(ies), ${manualCompositionRequired.length} need compositions → manifest ${manifestPath}`

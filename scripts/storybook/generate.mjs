@@ -56,7 +56,7 @@ for (const step of GENERATORS) {
 
 const coverageCheck = spawnSync(
   process.execPath,
-  [join(scriptDir, "../meta-gates/check-storybook-block-coverage.mjs")],
+  [join(scriptDir, "../governance/check-storybook-block-coverage.mjs")],
   { cwd: repoRoot, stdio: "inherit" }
 );
 
@@ -64,14 +64,30 @@ if (coverageCheck.status !== 0) {
   process.exit(coverageCheck.status ?? 1);
 }
 
-const primitiveCoverageCheck = spawnSync(
-  process.execPath,
-  [join(scriptDir, "../meta-gates/check-storybook-primitive-coverage.mjs")],
-  { cwd: repoRoot, stdio: "inherit" }
-);
+const evidenceGateScripts = [
+  "check-storybook-primitive-coverage.mjs",
+  "check-primitive-mismatch.mjs",
+  "check-storybook-evidence.mjs",
+];
 
-if (primitiveCoverageCheck.status !== 0) {
-  process.exit(primitiveCoverageCheck.status ?? 1);
+for (const gateScript of evidenceGateScripts) {
+  const gateResult = spawnSync(
+    process.execPath,
+    [join(scriptDir, "../governance", gateScript)],
+    {
+      cwd: repoRoot,
+      stdio: "inherit",
+      env: {
+        ...process.env,
+        STORYBOOK_EVIDENCE_ENFORCE:
+          process.env.STORYBOOK_EVIDENCE_ENFORCE ?? "gold",
+      },
+    }
+  );
+
+  if (gateResult.status !== 0) {
+    process.exit(gateResult.status ?? 1);
+  }
 }
 
 runStoriesTypecheck();

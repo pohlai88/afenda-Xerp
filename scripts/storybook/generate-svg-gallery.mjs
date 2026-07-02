@@ -54,7 +54,9 @@ function renderAssetGrid(names, kind) {
 
   const cells = names
     .map(
-      (name) => `      <figure key="${name}" className="flex flex-col items-center gap-2 rounded-lg border bg-card p-4">
+      (
+        name
+      ) => `      <figure key="${name}" className="flex flex-col items-center gap-2 rounded-lg border bg-card p-4">
         <${name} className="text-primary" />
         <figcaption className="text-muted-foreground text-xs">${name}</figcaption>
       </figure>`

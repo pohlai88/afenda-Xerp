@@ -3,7 +3,7 @@
  * Role: Sealed AcceptanceRecordWire payloads for governed block contracts
  * Family: acceptance-record
  * Relies on: acceptance-record.contract, block-metadata.builders, block-slot.registry
- * Relied on by: gate/acceptance-record.registry.test, index barrel
+ * Relied on by: src/__tests__/acceptance-record.registry.test, index barrel
  * Refactored: 2026-07-02 · series flat-L1-registry
  * Gate: check:studio-block-acpa-acceptance
  */

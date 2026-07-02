@@ -31,6 +31,8 @@ import {
   StatisticsRevenueCardSample,
   StatisticsSalesOverviewCardSample,
   StatisticsTrendCardSample,
+  UserProfileAvatarPickerSample,
+  UserProfileAvatarSample,
   WidgetPaymentHistorySample,
   WidgetSalesByCountriesSample,
   WidgetTotalEarningSample,
@@ -258,5 +260,17 @@ export const FLAT_BLOCK_STORY_REGISTRY = [
     sample: WidgetTransactionsSample,
     layout: "centered",
     labSmoke: true,
+  },
+  {
+    slug: "user-profile-avatar",
+    storyName: "UserProfileAvatar",
+    sample: UserProfileAvatarSample,
+    layout: "centered",
+  },
+  {
+    slug: "user-profile-avatar-picker",
+    storyName: "UserProfileAvatarPicker",
+    sample: UserProfileAvatarPickerSample,
+    layout: "centered",
   },
 ] as const satisfies readonly FlatBlockStoryEntry[];

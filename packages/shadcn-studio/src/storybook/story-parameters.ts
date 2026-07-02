@@ -69,6 +69,8 @@ export const shadcnStudioLabStorySort = {
   order: [
     "Afenda",
     ["Lab"],
+    "Presentation Lab",
+    ["Swiss Noir Control Room", "Verdant Milk Noir"],
     "Shadcn Studio",
     [
       "Blocks",
@@ -82,6 +84,8 @@ export const shadcnStudioLabStorySort = {
       "Primitives",
       "Primitives Catalog",
     ],
+    "components-ui",
+    "components-layouts",
   ],
 } as const;
 
@@ -90,7 +94,8 @@ export const shadcnStudioLabStorySort = {
 /** Storybook `GlobalTypes` — icon literals must stay narrow for toolbar typing. */
 export const shadcnStudioLabGlobalTypes = {
   theme: {
-    description: "Presentation color mode — shadcn-studio CSS tokens (ADR-0027)",
+    description:
+      "Presentation color mode — shadcn-studio CSS tokens (ADR-0027)",
     defaultValue: "light",
     toolbar: {
       title: "Color mode",
@@ -175,10 +180,41 @@ export const shadcnStudioLabColocatedTags = [
   "colocated",
 ] as const;
 
+/** Gold colocated primitives — tag on Primary story (not meta) for Vitest a11y CI. */
+export const shadcnStudioLabA11ySmokeStoryTags = ["a11y-smoke"] as const;
+
+/** Meta tags when documenting the full Gold colocated bundle (reference only). */
+export const shadcnStudioLabA11ySmokeTags = [
+  "autodocs",
+  "lab-smoke",
+  "colocated",
+  "a11y-smoke",
+] as const;
+
+/** Vitest a11y run — fail on violations (scoped to `a11y-smoke` stories only). */
+export const shadcnStudioStoryA11yVitest = {
+  ...shadcnStudioStoryA11y,
+  test: "error" as const,
+} as const;
+
+/** Chromatic default — snapshots off until Gold Primary opts in (Step 10). */
+export const shadcnStudioChromaticDisabledParameters = {
+  chromatic: {
+    disableSnapshot: true,
+  },
+} as const;
+
+/** Gold Primary story — Chromatic visual smoke (inherits modes from preview). */
+export const shadcnStudioChromaticSmokeParameters = {
+  chromatic: {
+    disableSnapshot: false,
+  },
+} as const;
+
 /** Optional Figma frame link via env — no-op when unset (addon-designs). */
-export function shadcnStudioFigmaDesignFromEnv(
-  envKey: string
-): { design?: { type: "figma"; url: string } } {
+export function shadcnStudioFigmaDesignFromEnv(envKey: string): {
+  design?: { type: "figma"; url: string };
+} {
   const url = process.env[envKey]?.trim();
   if (!url) {
     return {};
@@ -190,4 +226,16 @@ export function shadcnStudioFigmaDesignFromEnv(
       url,
     },
   };
+}
+
+/** Env key for Gold primitive Figma design — `STORYBOOK_FIGMA_PRIMITIVE_{SLUG}`. */
+export function shadcnStudioPrimitiveFigmaEnvKey(slug: string): string {
+  return `STORYBOOK_FIGMA_PRIMITIVE_${slug.replace(/-/g, "_").toUpperCase()}`;
+}
+
+/** Optional Figma frame on Gold primitive meta — no-op when env unset (Step 11). */
+export function shadcnStudioPrimitiveFigmaDesignFromEnv(slug: string): {
+  design?: { type: "figma"; url: string };
+} {
+  return shadcnStudioFigmaDesignFromEnv(shadcnStudioPrimitiveFigmaEnvKey(slug));
 }

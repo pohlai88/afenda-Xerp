@@ -25,7 +25,10 @@ Stack: Storybook **10** · `@storybook/react-vite` · Vitest browser · `@storyb
 | `pnpm storybook` / `pnpm storybook dev` | Codegen + dev server `:6006` |
 | `pnpm storybook generate` | Block manifest, auto/flat/asset stories, primitive scaffolds |
 | `pnpm check:storybook-block-coverage` | Flat block registry ↔ manifest gate |
-| `pnpm check:storybook-primitive-coverage` | Colocated primitive story coverage gate |
+| `pnpm check:storybook-primitive-coverage` | Gate A — tier rules, render/play/lab-smoke (registry-driven) |
+| `pnpm check:primitive-mismatch` | Gate B — adapter+contract M1/M2/M3/M4/M6 |
+| `pnpm check:storybook-evidence` | Gate C — role-first play, data-slot, interaction evidence |
+| `pnpm check:storybook-primitive-evidence` | All three gates (default `STORYBOOK_EVIDENCE_ENFORCE=gold`) |
 | `pnpm test:storybook:run` | Vitest browser story tests (`lab-smoke` only) |
 | `pnpm test:storybook:coverage` | Interaction tests + V8 coverage report |
 | `pnpm --filter @afenda/storybook typecheck` | TS for lab config |
@@ -36,14 +39,14 @@ Stack: Storybook **10** · `@storybook/react-vite` · Vitest browser · `@storyb
 
 | Story kind | Path |
 | --- | --- |
-| **Curated blocks** (dark variants, sample data) | `packages/shadcn-studio/src/stories/shadcn-studio-blocks.stories.tsx` |
-| **Auto-discovered blocks** (codegen) | `packages/shadcn-studio/src/stories/shadcn-studio-blocks-auto.stories.tsx` |
-| **Flat block exports** (codegen) | `packages/shadcn-studio/src/stories/shadcn-studio-blocks-flat.stories.tsx` |
-| **SVG / asset gallery** (codegen) | `packages/shadcn-studio/src/stories/shadcn-studio-assets.stories.tsx` |
-| **Primitive catalog** (codegen) | `packages/shadcn-studio/src/stories/shadcn-studio-primitives-catalog.stories.tsx` |
-| **Colocated primitives** (codegen scaffolds) | `packages/shadcn-studio/src/components/ui/*.stories.tsx` |
-| **Primitives showcase** | `packages/shadcn-studio/src/stories/shadcn-studio-primitives.stories.tsx` |
-| **Theme lab / presets** | `packages/shadcn-studio/src/stories/shadcn-studio-theme-lab.stories.tsx` |
+| **Curated blocks** (dark variants, sample data) | `packages/shadcn-studio/src/storybook/shadcn-studio-blocks.stories.tsx` |
+| **Auto-discovered blocks** (codegen) | `packages/shadcn-studio/src/storybook/shadcn-studio-blocks-auto.stories.tsx` |
+| **Flat block exports** (codegen) | `packages/shadcn-studio/src/storybook/shadcn-studio-blocks-flat.stories.tsx` |
+| **SVG / asset gallery** (codegen) | `packages/shadcn-studio/src/storybook/shadcn-studio-assets.stories.tsx` |
+| **Primitive catalog** (codegen) | `packages/shadcn-studio/src/storybook/shadcn-studio-primitives-catalog.stories.tsx` |
+| **Colocated primitives** (codegen scaffolds) | `packages/shadcn-studio/src/components-ui/*.stories.tsx` |
+| **Primitives showcase** | `packages/shadcn-studio/src/storybook/shadcn-studio-primitives.stories.tsx` |
+| **Theme lab / presets** | `packages/shadcn-studio/src/storybook/shadcn-studio-theme-lab.stories.tsx` |
 | **Lab welcome** | `apps/storybook/stories/*.stories.tsx` |
 
 **Discovery globs** (`apps/storybook/.storybook/main.ts`):
@@ -83,7 +86,7 @@ block-story-manifest.generated.json   ← codegen manifest (do not hand-edit)
 
 | Location | Import from |
 | --- | --- |
-| `packages/shadcn-studio/src/stories/*.stories.tsx` | `./lab/index.js` or `../lab/index.js` from colocated ui |
+| `packages/shadcn-studio/src/storybook/*.stories.tsx` | `./lab/index.js` or `../lab/index.js` from colocated ui |
 | `packages/shadcn-studio/src/storybook/**` | `../lab/index.js` |
 | `apps/storybook/stories/**` | `@afenda/shadcn-studio/lab` (Zone C) |
 
@@ -212,12 +215,25 @@ MCP collect → install once (packages/shadcn-studio cwd)
 
 **Prerequisite:** start `pnpm storybook dev` before enabling the **storybook** MCP server in Cursor — otherwise catalog tools return 500.
 
-Agent workflow ([Storybook MCP overview](https://storybook.js.org/blog/storybook-mcp-sneak-peek/)):
+### MCP toolsets (local config — all enabled)
 
-1. Start Storybook → enable **storybook** MCP in Cursor
-2. Agent reads component metadata + story catalog (curated, not raw `node_modules`)
-3. Agent writes/updates stories using CSF patterns above
-4. Agent runs `pnpm test:storybook:run` — `play` functions on `lab-smoke` stories self-verify interactions
+| Toolset | Tools | Afenda use |
+| --- | --- | --- |
+| **docs** | `list-all-documentation`, `get-documentation`, `get-documentation-for-story` | Prop tables + story IDs before editing primitives/blocks |
+| **dev** | `get-storybook-story-instructions`, `preview-stories`, `get-changed-stories` | CSF conventions + visual preview URLs in agent responses |
+| **test** | `run-story-tests` | **Prefer `pnpm test:storybook:run`** — MCP Vitest spawn is unreliable on Windows dev |
+
+**Documentation IDs:** colocated primitives use `components-ui-{slug}` (e.g. `components-ui-button`). Stories use kebab IDs like `components-ui-button--primary`. Call `list-all-documentation` with `withStoryIds: true` once per task.
+
+**Agent workflow** ([Storybook MCP overview](https://storybook.js.org/docs/ai/mcp/overview)):
+
+1. Start Storybook → enable **storybook** MCP in Cursor (Settings → MCP)
+2. `get-storybook-story-instructions` → CSF 10 patterns for this project
+3. `list-all-documentation` / `get-documentation` → never guess props or variants
+4. Write or edit stories → `preview-stories` for visual verification URLs
+5. Validate with **`pnpm test:storybook:run`** (`lab-smoke` only) — not MCP `run-story-tests` until Vitest bridge is stable
+
+**Catalog scale (typical):** ~323 stories · ~70 colocated primitives · ~73 `lab-smoke` CI subset · ~166 colocated-tagged variants.
 
 **MSW (HTTP mocks):** global handlers in `apps/storybook/.storybook/msw-handlers.ts` (named buckets). Story-level override:
 
@@ -309,27 +325,38 @@ Run `pnpm storybook generate` — check **Shadcn Studio/Blocks Auto**. Add curat
 ```bash
 pnpm storybook generate
 pnpm check:storybook-block-coverage
-pnpm check:storybook-primitive-coverage
+pnpm check:storybook-primitive-evidence   # Gates A+B+C (enforce=gold default)
 pnpm --filter @afenda/shadcn-studio typecheck
 pnpm --filter @afenda/storybook typecheck
 pnpm test:storybook:run   # lab-smoke tagged stories only (Vitest browser)
+pnpm test:storybook:a11y:run   # a11y-smoke Gold primitives only (Vitest + axe error)
 pnpm test:storybook:coverage   # optional — V8 report under apps/storybook/coverage/storybook
 pnpm lint
 ```
 
-**CI:** `.github/workflows/storybook-lab.yml` runs typecheck, `check:studio-import-zones`, static build, and `test:storybook:run`.
+**Evidence enforcement:** `STORYBOOK_EVIDENCE_ENFORCE` — `gold` (default, CI), `silver`, `all`, or `none`. Registry SSOT: `packages/shadcn-studio/src/meta-gates/primitive-evidence.registry.ts`.
+
+**Args-first Controls (Step 8):** Gold/Silver non-compound primitives with `click-toggles` or `input-updates` require `meta.argTypes` (from `storybook/colocated-argtypes.ts`) and `fn()` on callback args. Gate A enforces under `enforce=gold`.
+
+**A11y smoke (Step 9):** Gold colocated primitives tag **Primary** with `a11y-smoke` (see `shadcnStudioLabA11ySmokeStoryTags`). Vitest interaction runs keep a11y **off** (`lab-smoke` only); `pnpm test:storybook:a11y:run` uses `vitest.storybook-a11y.config.ts` with axe **error**. Dev Storybook stays `test: "warn"`.
+
+**Chromatic smoke (Step 10):** Snapshots **off globally** (`chromatic.disableSnapshot: true` in preview). Gold **Primary** spreads `shadcnStudioChromaticSmokeParameters` — 21 primitives × 4 modes when `CHROMATIC_ENABLED=true`. Blocks/theme lab stay excluded despite `lab-smoke`.
+
+**Figma design env (Step 11):** Gold **meta** spreads `shadcnStudioPrimitiveFigmaDesignFromEnv("<slug>")` — reads `STORYBOOK_FIGMA_PRIMITIVE_{SLUG}` (no-op when unset; addon-designs panel). Env naming: `shadcnStudioPrimitiveFigmaEnvKey("alert-dialog")` → `STORYBOOK_FIGMA_PRIMITIVE_ALERT_DIALOG`.
+
+**CI:** `.github/workflows/storybook-lab.yml` runs typecheck, evidence gates, static build, `test:storybook:run`, `test:storybook:a11y:run`, and optional Chromatic.
 
 ### Testing matrix
 
 | Type | Tool | Scope |
 | --- | --- | --- |
 | Interaction | `play` + `@storybook/addon-vitest` | Stories tagged `lab-smoke` |
-| Accessibility | `@storybook/addon-a11y` | Dev + Chromatic; **off** during Vitest |
-| Visual | Chromatic (`@chromatic-com/storybook`) | Optional CI — `CHROMATIC_ENABLED=true` |
+| Accessibility | `@storybook/addon-a11y` | Dev `warn`; Vitest **error** on `a11y-smoke` only |
+| Visual | Chromatic (`@chromatic-com/storybook`) | Gold Primary only × 4 modes — `CHROMATIC_ENABLED=true` |
 | Coverage | Vitest V8 (`test:storybook:coverage`) | Optional CI — `STORYBOOK_COVERAGE_ENABLED=true` |
 | Snapshot | — | Not used in this lab |
 
-**Vitest smoke tag:** Stories tagged `lab-smoke` run in CI browser tests. Tag curated entry points (welcome, theme lab, hero, login, metadata hydration, colocated primitives). Full catalog stays manual/a11y-warn in dev.
+**Vitest smoke tag:** Stories tagged `lab-smoke` run in CI browser tests. Gold primitives also carry `a11y-smoke` for the separate a11y Vitest config. Tag curated entry points (welcome, theme lab, hero, login, metadata hydration, colocated primitives). Full catalog stays manual/a11y-warn in dev.
 
 **Storybook 10:** `options.storySort` must be **inline** in `apps/storybook/.storybook/preview.tsx` (not an imported object reference). Keep `shadcnStudioLabStorySort` in `@afenda/shadcn-studio/lab` as documentation mirror only.
 

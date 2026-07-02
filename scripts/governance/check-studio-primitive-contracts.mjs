@@ -9,6 +9,10 @@ import { fileURLToPath } from "node:url";
 
 const repoRoot = join(fileURLToPath(new URL(".", import.meta.url)), "../..");
 const uiDir = join(repoRoot, "packages/shadcn-studio/src/components-ui");
+const testsUiDir = join(
+  repoRoot,
+  "packages/shadcn-studio/src/__tests__/components-ui"
+);
 
 const MERGE_ONLY = new Set([
   "badge",
@@ -31,8 +35,7 @@ const T0_AGGREGATE_COVERED = new Set([
 ]);
 
 const AGGREGATE_REGISTRY_TEST = join(
-  uiDir,
-  "__tests__",
+  testsUiDir,
   "components-ui.contract-registry.test.ts"
 );
 
@@ -87,7 +90,7 @@ export function checkStudioPrimitiveContracts() {
   for (const name of listWidgetPrimitives()) {
     const contractPath = join(uiDir, `${name}.contract.ts`);
     const adapterPath = join(uiDir, `${name}.tsx`);
-    const testPath = join(uiDir, `${name}.contract.test.ts`);
+    const testPath = join(testsUiDir, `${name}.contract.test.ts`);
 
     if (!existsSync(contractPath)) {
       violations.push(`${name}: missing ${name}.contract.ts`);

@@ -3,7 +3,7 @@
  * Role: validateAcceptanceRecordSeal() eligibility + criteria checks
  * Family: acceptance-record · flat L1 validator
  * Relies on: acceptance-record.contract
- * Relied on by: index barrel, gate/acceptance-record.contract.test
+ * Relied on by: index barrel, src/__tests__/acceptance-record.contract.test
  * Refactored: 2026-07-01 · series flat-L1
  * Gate: check:studio-l1-contracts
  */

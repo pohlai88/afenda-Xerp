@@ -12,8 +12,8 @@ import {
   InstagramIcon,
   LinkedinIcon,
   TwitterIcon,
-  Error02Illustration,
   LogoSvg,
+  Error02Illustration,
   MultiStep01Illustration,
 } from "../components-assets/index.js";
 import {
@@ -112,20 +112,20 @@ export const AllIllustrations: Story = {
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
       <figure
         className="flex flex-col items-center gap-2 rounded-lg border bg-card p-4"
-        key="Error02Illustration"
-      >
-        <Error02Illustration className="text-primary" />
-        <figcaption className="text-muted-foreground text-xs">
-          Error02Illustration
-        </figcaption>
-      </figure>
-      <figure
-        className="flex flex-col items-center gap-2 rounded-lg border bg-card p-4"
         key="LogoSvg"
       >
         <LogoSvg className="text-primary" />
         <figcaption className="text-muted-foreground text-xs">
           LogoSvg
+        </figcaption>
+      </figure>
+      <figure
+        className="flex flex-col items-center gap-2 rounded-lg border bg-card p-4"
+        key="Error02Illustration"
+      >
+        <Error02Illustration className="text-primary" />
+        <figcaption className="text-muted-foreground text-xs">
+          Error02Illustration
         </figcaption>
       </figure>
       <figure
@@ -215,20 +215,20 @@ export const AllAssetsDark: Story = {
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
           <figure
             className="flex flex-col items-center gap-2 rounded-lg border bg-card p-4"
-            key="Error02Illustration"
-          >
-            <Error02Illustration className="text-primary" />
-            <figcaption className="text-muted-foreground text-xs">
-              Error02Illustration
-            </figcaption>
-          </figure>
-          <figure
-            className="flex flex-col items-center gap-2 rounded-lg border bg-card p-4"
             key="LogoSvg"
           >
             <LogoSvg className="text-primary" />
             <figcaption className="text-muted-foreground text-xs">
               LogoSvg
+            </figcaption>
+          </figure>
+          <figure
+            className="flex flex-col items-center gap-2 rounded-lg border bg-card p-4"
+            key="Error02Illustration"
+          >
+            <Error02Illustration className="text-primary" />
+            <figcaption className="text-muted-foreground text-xs">
+              Error02Illustration
             </figcaption>
           </figure>
           <figure

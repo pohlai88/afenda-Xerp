@@ -41,7 +41,6 @@ Physical folders (ADR-0038) are **not** import aliases. Source must use MCP virt
 pnpm check:studio-tsconfig-paths
 pnpm check:studio-import-zones
 pnpm check:studio-paths   # both
-node scripts/shadcn-studio/fix-ui-aliases.mjs   # bulk normalize
 ```
 
 ## Debugger

@@ -92,8 +92,6 @@ export const LEGACY_DELIVERY_TERMINOLOGY_SKIP_PATH_PREFIXES = [
 /** Individual files excluded (audit trail, one-shot migration scripts, this guard). */
 export const LEGACY_DELIVERY_TERMINOLOGY_SKIP_FILES = new Set([
   "docs/PAS/pas-status-index.md",
-  "scripts/governance/normalize-legacy-delivery-terminology.mjs",
-  "scripts/governance/rename-tip-governance-constants.mjs",
   "scripts/governance/legacy-delivery-terminology-registry.mts",
   "scripts/governance/check-legacy-delivery-terminology.mts",
   "scripts/governance/documentation-drift-registry.mts",

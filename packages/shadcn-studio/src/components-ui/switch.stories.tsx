@@ -1,10 +1,13 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { expect } from "storybook/test";
+import { expect, fn, userEvent } from "storybook/test";
 
 import { Label } from "./label.js";
 import {
+  shadcnStudioChromaticSmokeParameters,
   shadcnStudioDarkThemeGlobals,
+  shadcnStudioPrimitiveFigmaDesignFromEnv,
 } from "../storybook/story-parameters.js";
+import { switchStoryArgTypes } from "../storybook/colocated-argtypes.js";
 import {
   switchOutline06DestructiveClassName,
   switchOutline06InfoClassName,
@@ -17,12 +20,14 @@ import { Switch } from "./switch.js";
 const meta = {
   component: Switch,
   tags: ["autodocs", "lab-smoke", "colocated"],
+  argTypes: switchStoryArgTypes,
   parameters: {
+    ...shadcnStudioPrimitiveFigmaDesignFromEnv("switch"),
     shadcnStudioPreset: "default",
     docs: {
       description: {
         component:
-          "Base UI switch. switch-06 passes outline classes on the **root** only (`[&_span]`); thumb keeps base-vega `switchThumbClassName`. Use `variant=\"outline\"` for the primary outline preset.",
+          'Base UI switch. switch-06 passes outline classes on the **root** only (`[&_span]`); thumb keeps base-vega `switchThumbClassName`. Use `variant="outline"` for the primary outline preset.',
       },
     },
   },
@@ -32,16 +37,27 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
-  args: { "aria-label": "Enable notifications" },
-  play: async ({ canvas }) => {
-    const toggle = canvas.getByRole("switch", { name: /enable notifications/i });
+  tags: ["a11y-smoke"],
+  ...shadcnStudioChromaticSmokeParameters,
+  args: { "aria-label": "Enable notifications", onCheckedChange: fn() },
+  play: async ({ args, canvas }) => {
+    const toggle = canvas.getByRole("switch", {
+      name: /enable notifications/i,
+    });
     await expect(toggle).toHaveAttribute("data-slot", "switch");
     await expect(toggle).toHaveAttribute("aria-checked", "false");
+    await userEvent.click(toggle);
+    await expect(toggle).toHaveAttribute("aria-checked", "true");
+    await expect(args.onCheckedChange).toHaveBeenCalled();
   },
 };
 
 export const Checked: Story = {
-  args: { "aria-label": "Dark mode", defaultChecked: true },
+  args: {
+    "aria-label": "Dark mode",
+    defaultChecked: true,
+    onCheckedChange: fn(),
+  },
 };
 
 export const Small: Story = {

@@ -2,6 +2,11 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { expect } from "storybook/test";
 
 import {
+  shadcnStudioChromaticSmokeParameters,
+  shadcnStudioPrimitiveFigmaDesignFromEnv,
+} from "../storybook/story-parameters.js";
+
+import {
   Card,
   CardContent,
   CardDescription,
@@ -12,12 +17,17 @@ import {
 const meta = {
   component: Card,
   tags: ["autodocs", "lab-smoke", "colocated"],
+  parameters: {
+    ...shadcnStudioPrimitiveFigmaDesignFromEnv("card"),
+  },
 } satisfies Meta<typeof Card>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
+  tags: ["a11y-smoke"],
+  ...shadcnStudioChromaticSmokeParameters,
   render: () => (
     <Card className="w-full max-w-sm">
       <CardHeader>
@@ -30,8 +40,13 @@ export const Primary: Story = {
     </Card>
   ),
   play: async ({ canvas }) => {
-    await expect(canvas.getByText("Purchase order")).toBeVisible();
+    const title = canvas.getByText("Purchase order");
+    await expect(title).toBeVisible();
     await expect(canvas.getByText(/PO-1042/)).toBeVisible();
+    await expect(title.closest('[data-slot="card"]')).toHaveAttribute(
+      "data-slot",
+      "card"
+    );
   },
 };
 

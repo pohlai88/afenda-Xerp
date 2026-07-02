@@ -7,7 +7,7 @@ description: >-
   Adapter owns Base UI anatomy, rendering composition, public props, and client boundary.
   E0 scans must run M1–M10 mismatch frame + P1–P8 perf checklist before gold approval. Never shadcn --overwrite on existing primitives.
 paths:
-  - packages/shadcn-studio/src/components-ui/**
+  - packages/shadcn-studio/src/__tests__/components-ui/**
 ---
 
 # Afenda Primitive Contract Skill
@@ -343,11 +343,11 @@ Do not use `fireEvent`.
 
 Prefer `findByRole` / `findByText` after interactions that reveal content (RTL official).
 
-Gold T1: [`accordion.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/accordion.contract.test.ts) · [`alert-dialog.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/alert-dialog.contract.test.ts) · [`avatar.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/avatar.contract.test.ts) · [`button.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/button.contract.test.ts) · [`checkbox.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/checkbox.contract.test.ts) · [`calendar.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/calendar.contract.test.ts) · [`dialog.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/dialog.contract.test.ts) · [`sheet.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/sheet.contract.test.ts) · [`tabs.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/tabs.contract.test.ts) · [`toggle.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/toggle.contract.test.ts) · [`input.contract.test.ts`](../../../packages/shadcn-studio/src/components-ui/input.contract.test.ts)
+Gold T1: [`accordion.contract.test.ts`](../../../packages/shadcn-studio/src/__tests__/components-ui/accordion.contract.test.ts) · [`alert-dialog.contract.test.ts`](../../../packages/shadcn-studio/src/__tests__/components-ui/alert-dialog.contract.test.ts) · [`avatar.contract.test.ts`](../../../packages/shadcn-studio/src/__tests__/components-ui/avatar.contract.test.ts) · [`button.contract.test.ts`](../../../packages/shadcn-studio/src/__tests__/components-ui/button.contract.test.ts) · [`checkbox.contract.test.ts`](../../../packages/shadcn-studio/src/__tests__/components-ui/checkbox.contract.test.ts) · [`calendar.contract.test.ts`](../../../packages/shadcn-studio/src/__tests__/components-ui/calendar.contract.test.ts) · [`dialog.contract.test.ts`](../../../packages/shadcn-studio/src/__tests__/components-ui/dialog.contract.test.ts) · [`sheet.contract.test.ts`](../../../packages/shadcn-studio/src/__tests__/components-ui/sheet.contract.test.ts) · [`tabs.contract.test.ts`](../../../packages/shadcn-studio/src/__tests__/components-ui/tabs.contract.test.ts) · [`toggle.contract.test.ts`](../../../packages/shadcn-studio/src/__tests__/components-ui/toggle.contract.test.ts) · [`input.contract.test.ts`](../../../packages/shadcn-studio/src/__tests__/components-ui/input.contract.test.ts)
 
-Gold T2: [`accordion.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/accordion.interaction.test.tsx) · [`alert-dialog.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/alert-dialog.interaction.test.tsx) · [`checkbox.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/checkbox.interaction.test.tsx) · [`calendar.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/calendar.interaction.test.tsx) · [`dialog.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/dialog.interaction.test.tsx) · [`sheet.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/sheet.interaction.test.tsx) · [`tabs.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/tabs.interaction.test.tsx) · [`toggle.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/toggle.interaction.test.tsx) · [`input.interaction.test.tsx`](../../../packages/shadcn-studio/src/components-ui/input.interaction.test.tsx)
+Gold T2: [`accordion.interaction.test.tsx`](../../../packages/shadcn-studio/src/__tests__/components-ui/accordion.interaction.test.tsx) · [`alert-dialog.interaction.test.tsx`](../../../packages/shadcn-studio/src/__tests__/components-ui/alert-dialog.interaction.test.tsx) · [`checkbox.interaction.test.tsx`](../../../packages/shadcn-studio/src/__tests__/components-ui/checkbox.interaction.test.tsx) · [`calendar.interaction.test.tsx`](../../../packages/shadcn-studio/src/__tests__/components-ui/calendar.interaction.test.tsx) · [`dialog.interaction.test.tsx`](../../../packages/shadcn-studio/src/__tests__/components-ui/dialog.interaction.test.tsx) · [`sheet.interaction.test.tsx`](../../../packages/shadcn-studio/src/__tests__/components-ui/sheet.interaction.test.tsx) · [`tabs.interaction.test.tsx`](../../../packages/shadcn-studio/src/__tests__/components-ui/tabs.interaction.test.tsx) · [`toggle.interaction.test.tsx`](../../../packages/shadcn-studio/src/__tests__/components-ui/toggle.interaction.test.tsx) · [`input.interaction.test.tsx`](../../../packages/shadcn-studio/src/__tests__/components-ui/input.interaction.test.tsx)
 
-Gold render smoke: [`avatar.render.test.tsx`](../../../packages/shadcn-studio/src/components-ui/__tests__/avatar.render.test.tsx) (static, T2 N/A) · [`button.render.test.tsx`](../../../packages/shadcn-studio/src/components-ui/__tests__/button.render.test.tsx) (cva + click/disabled)
+Gold render smoke: [`avatar.render.test.tsx`](../../../packages/shadcn-studio/src/__tests__/components-ui/avatar.render.test.tsx) (static, T2 N/A) · [`button.render.test.tsx`](../../../packages/shadcn-studio/src/__tests__/components-ui/button.render.test.tsx) (cva + click/disabled)
 
 ---
 
@@ -457,8 +457,8 @@ pnpm --filter @afenda/shadcn-studio test:run -- src/components/ui
 For one primitive:
 
 ```bash
-pnpm --filter @afenda/shadcn-studio test:run -- src/components-ui/{name}.contract.test.ts
-pnpm --filter @afenda/shadcn-studio test:run -- src/components-ui/{name}.interaction.test.tsx
+pnpm --filter @afenda/shadcn-studio test:run -- src/__tests__/components-ui/{name}.contract.test.ts
+pnpm --filter @afenda/shadcn-studio test:run -- src/__tests__/components-ui/{name}.interaction.test.tsx
 ```
 
 ---

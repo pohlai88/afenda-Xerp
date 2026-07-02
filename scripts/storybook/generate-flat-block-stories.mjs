@@ -20,6 +20,10 @@ const outputPath = join(
   "packages/shadcn-studio/src/storybook/shadcn-studio-blocks-flat.stories.tsx"
 );
 
+const FLAT_BLOCK_SPLIT_RE = /\{\s*\n?\s*slug:/;
+const STORY_NAME_RE = /storyName:\s*"([^"]+)"/;
+const LAB_SMOKE_TRUE_RE = /labSmoke:\s*true/;
+
 /**
  * @param {string} source
  * @returns {{ storyName: string; labSmoke: boolean }[]}
@@ -27,17 +31,17 @@ const outputPath = join(
 function parseFlatBlockRegistry(source) {
   /** @type {{ storyName: string; labSmoke: boolean }[]} */
   const entries = [];
-  const blocks = source.split(/\{\s*\n?\s*slug:/).slice(1);
+  const blocks = source.split(FLAT_BLOCK_SPLIT_RE).slice(1);
 
   for (const block of blocks) {
-    const storyName = block.match(/storyName:\s*"([^"]+)"/)?.[1];
+    const storyName = block.match(STORY_NAME_RE)?.[1];
     if (!storyName) {
       continue;
     }
 
     entries.push({
       storyName,
-      labSmoke: /labSmoke:\s*true/.test(block),
+      labSmoke: LAB_SMOKE_TRUE_RE.test(block),
     });
   }
 
@@ -150,8 +154,7 @@ function main() {
   const registrySource = readFileSync(registryPath, "utf8");
   const entries = parseFlatBlockRegistry(registrySource);
   const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-  const manifestCount =
-    manifest.manualStoryRequiredCount ?? entries.length;
+  const manifestCount = manifest.manualStoryRequiredCount ?? entries.length;
 
   writeFileSync(outputPath, renderStoriesFile(entries, manifestCount), "utf8");
 

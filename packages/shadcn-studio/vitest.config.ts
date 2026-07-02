@@ -1,15 +1,11 @@
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import {
-  createReactProject,
-  GATE_TEST_PATTERN,
-  INTERACTION_TEST_PATTERN,
-  TEST_FILE_PATTERN,
-} from "../../vitest.shared";
+import { createReactProject } from "../../vitest.shared";
 
 const packageRoot = dirname(fileURLToPath(import.meta.url));
 
-const PRIMITIVE_CONTRACT_TEST_PATTERN = "src/**/*.contract.test.{ts,tsx}";
+/** All package tests live under src/__tests__/ (repo convention). */
+const STUDIO_TEST_PATTERN = "src/__tests__/**/*.{test,spec}.{ts,tsx}";
 
 export default createReactProject(import.meta.url, "@afenda/shadcn-studio", {
   alias: {
@@ -32,10 +28,5 @@ export default createReactProject(import.meta.url, "@afenda/shadcn-studio", {
     "@/utils/utils": resolve(packageRoot, "src/utils/utils.ts"),
     "@": resolve(packageRoot, "src"),
   },
-  testInclude: [
-    TEST_FILE_PATTERN,
-    GATE_TEST_PATTERN,
-    PRIMITIVE_CONTRACT_TEST_PATTERN,
-    INTERACTION_TEST_PATTERN,
-  ],
+  testInclude: [STUDIO_TEST_PATTERN],
 });
