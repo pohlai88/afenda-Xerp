@@ -18,7 +18,7 @@ paths:
 
 Single Tailwind entry for **ADR-0027 ERP presentation**. Scoped to `@afenda/shadcn-studio`, `apps/erp`, `apps/storybook`.
 
-**Retired scope:** `packages/ui`, `packages/appshell`, `packages/css-authority`, governed-ui layered model — historical only under `_retired/legacy-ui/afenda-tailwind/`. Do not apply those rules to ERP.
+**Removed scope:** `packages/ui`, `packages/appshell`, `packages/css-authority`, governed-ui layered model — deleted per ADR-0027. Do not apply those rules to ERP.
 
 **Authority:** [PAS-006A §4](../../../docs/PAS/PRESENTATION/PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md) · [ADR-0027](../../../docs/adr/ADR-0027-frontend-presentation-reset.md)
 
@@ -32,7 +32,7 @@ Single Tailwind entry for **ADR-0027 ERP presentation**. Scoped to `@afenda/shad
 | MCP block install, studio barrel, metadata binding | `shadcn-studio` |
 | Full ERP presentation gate bundle | `afenda-presentation-quality` |
 | CSS dist sync policy | `package-css-dist-sync` |
-| PAS-005 / css-authority (audit only) | `_retired/legacy-ui/css-authority` — **do not use for ERP** |
+| PAS-005 / css-authority (audit only) | **Removed** — use `shadcn-studio` + this skill for ERP |
 
 ---
 
@@ -127,7 +127,7 @@ pnpm check:package-css-dist-sync
 | `@afenda/css-authority` imports | `@afenda/shadcn-studio/shadcn-studio.css` |
 | `pnpm ui:guard*` | `pnpm check:downstream-integration` |
 
-Extended historical reference: `_retired/legacy-ui/afenda-tailwind/reference/v3-banlist.md`
+Extended v3 banlist reference: [reference/v3-banlist.md](./reference/v3-banlist.md)
 
 ---
 
@@ -165,5 +165,5 @@ Manual checks:
 - Composer: [`afenda-presentation-quality/SKILL.md`](../afenda-presentation-quality/SKILL.md)
 - MCP authority: [`shadcn-studio/SKILL.md`](../shadcn-studio/SKILL.md)
 - CSS dist: [`package-css-dist-sync/SKILL.md`](../package-css-dist-sync/SKILL.md)
-- Retired layered model (audit): `_retired/legacy-ui/afenda-tailwind/`
+- Removed layered model (ADR-0027): use import-only composition entries in this skill
 - Tailwind v4: [theme](https://tailwindcss.com/docs/theme) · [directives](https://tailwindcss.com/docs/functions-and-directives)

@@ -18,6 +18,8 @@ alwaysApply: true
 3. **Implement:** Follow skill §3–§10; hard stops at skill §0.1.
 4. **Before ending turn:** Post **Completion Report** per skill §11 (drift-prevention table + gate evidence).
 
+**Shell discipline:** See afenda-coding-session skill §10 — never redirect gate output into repo artifact paths; run commands and read shell stdout.
+
 If upstream contract is missing: **stop and report** — no local registries, tokens, permissions, or tenant resolvers.
 
 **PAS foundation work:** read [`foundation-delivery-authority.md`](../../docs/PAS/README.md) and derive Phase 0 from registry + `docs/PAS/CSS-AUTHORITY/SLICE/` handoffs.

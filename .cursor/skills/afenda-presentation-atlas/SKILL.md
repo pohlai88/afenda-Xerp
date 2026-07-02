@@ -65,7 +65,7 @@ disable-model-invocation: true
 | **`afenda-presentation-quality`** | Composer | Ordered child reads + merged gates before merge |
 | **`afenda-storybook`** | Lab workflow | Story patterns, codegen, Vite/tsconfig, a11y tests |
 
-**Retired:** `.cursor/skills/_retired/legacy-ui/` — do not route ERP work there.
+**Removed:** pre-PAS-006 presentation skills — use `shadcn-studio` + `afenda-presentation-quality`. Replacement map: [NATIVE-EVALUATION.md](../NATIVE-EVALUATION.md) (2026-07-02 removals).
 
 ---
 

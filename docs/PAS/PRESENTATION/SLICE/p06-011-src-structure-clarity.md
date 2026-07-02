@@ -4,7 +4,7 @@
 
 **Prerequisite:** P06-010 Delivered · [ADR-0037](../../../adr/ADR-0037-shadcn-studio-src-layered-structure.md) **Accepted**
 
-**Status:** Delivered (2026-07-01 — Phase 0–2)
+**Status:** Delivered (2026-07-01 — Phase 0–2) · **Amended** 2026-07-02 — ADR-0038 quarantine install targets (Phase 3–4 docs)
 
 **Type:** Documentation + barrel hygiene (no MCP path renames)
 
@@ -23,7 +23,7 @@ The slice implements [ADR-0037](../../../adr/ADR-0037-shadcn-studio-src-layered-
 | Question | Answer | Owner |
 | --- | --- | --- |
 | Does P06-011 add kernel vocabulary? | **No** | PAS-006A |
-| Does P06-011 rename MCP install paths? | **No** — `components/ui/` and `components/shadcn-studio/blocks/` frozen | ADR-0017 · ADR-0037 |
+| Does P06-011 rename MCP install paths? | **Amended (ADR-0038)** — install aliases → `components-quarantine/`; production virtual aliases unchanged | ADR-0038 · ADR-0017 |
 | Does P06-011 change block lifecycle or acceptance? | **No** | PAS-006B/C |
 | Does P06-011 touch `foundation-disposition.registry.ts`? | **No** | foundation-registry-owner |
 
@@ -69,8 +69,21 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md
      scripts/storybook/generate-block-auto-stories.mjs
      packages/shadcn-studio/tsconfig.stories.json
      apps/storybook/tsconfig.storybook.json
-   Phase 3 (deferred — separate approval):
-     Physical lab/ folder consolidation — NOT in initial close
+   Phase 3 (delivered 2026-07-02 — quarantine docs):
+     .cursor/skills/shadcn-studio/SKILL.md
+     .cursor/skills/shadcn-studio/reference/base-vega-install.md
+     .cursor/skills/shadcn-studio/figma-mcp-afenda.md
+     .cursor/skills/afenda-presentation-atlas/SKILL.md
+     .cursor/skills/afenda-presentation-quality/SKILL.md
+     .cursor/skills/afenda-primitive-contract/SKILL.md
+     .cursor/skills/afenda-storybook/SKILL.md
+     .cursor/rules/figma-design-system-rules.mdc
+     .cursor/rules/studio-import-path-aliases.mdc
+     packages/shadcn-studio/AGENTS.md
+     packages/shadcn-studio/ARCHITECTURE.md (install three-layer amendment)
+     packages/shadcn-studio/README.md
+   Phase 4 (deferred — separate approval):
+     Physical lab folder consolidation — NOT in initial close
 4. Prohibited   — Rename components/ui/ or components/shadcn-studio/blocks/ · shadcn --overwrite on existing ui/* · @afenda/kernel import · foundation-disposition.registry.ts · ERP route changes · PAS-005 slice re-execution · moving contracts/registry/governance under components/
 5. Authority    — ADR-0037 · PAS-006A · ADR-0027 · shadcn-studio skill · afenda-primitive-contract skill
 6. Gates        —
@@ -93,16 +106,18 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md
 
 ## P06-011 MUST rules
 
-1. MCP install paths (`components/ui/`, `components/shadcn-studio/blocks/`) MUST NOT move or rename.
-2. L1 Authority folders (`contracts/`, `registry/`, `governance/`) MUST remain at `src/` root — not nested under `components/`.
-3. Zone A/B import policy MUST remain enforced by `pnpm check:studio-import-zones`.
-4. `ARCHITECTURE.md` MUST define all four contract vocabulary terms (primitive, block, wire, data).
-5. Main barrel (`index.ts` / package `"."` export) MUST NOT export L4 lab story parameters after Phase 1.
-6. Lab exports MUST move to `@afenda/shadcn-studio/lab` subpath or Storybook-local relative imports.
-7. PAS-005A user-facing header comments in touched files MUST relabel to PAS-006A (no slice id resurrection).
-8. Phase 3 physical lab moves are **out of scope** for initial slice close.
-9. No primitive contract/adapter file splits in this slice — documentation and exports only.
-10. `governance/` MUST be documented as gate aggregation, not parallel inventory SSOT.
+1. MCP **install** aliases (`components.json`) MUST target `components-quarantine/` — not production buckets (ADR-0038).
+2. Production **import** virtual paths (`@/components/ui/*`, `@/components/shadcn-studio/*`) MUST NOT move or rename.
+3. L1 Authority folders (`meta-contracts/`, `meta-registry/`, `meta-gates/`) MUST remain at `src/` root — not nested under `components/`.
+4. Zone A/B import policy MUST remain enforced by `pnpm check:studio-import-zones`.
+5. `ARCHITECTURE.md` MUST define all four contract vocabulary terms (primitive, block, wire, data).
+6. Main barrel (`index.ts` / package `"."` export) MUST NOT export L4 lab story parameters after Phase 1.
+7. Lab exports MUST move to `@afenda/shadcn-studio/lab` subpath or Storybook-local relative imports.
+8. PAS-005A user-facing header comments in touched files MUST relabel to PAS-006A (no slice id resurrection).
+9. Phase 4 physical lab moves are **out of scope** for initial slice close.
+10. No primitive contract/adapter file splits in this slice — documentation and exports only.
+11. `meta-gates/` MUST be documented as gate aggregation, not parallel inventory SSOT.
+12. Quarantine contents MUST NOT export from main barrel — `pnpm check:studio-quarantine-isolation`.
 
 ## Implementation sequence
 
@@ -111,7 +126,8 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md
 | **0** | ADR-0037 + `ARCHITECTURE.md` + package `README.md` + catalog sync | Structure vocabulary live |
 | **1** | Lab barrel split; PAS-006 header relabel; Storybook import fix | Public contract hygiene |
 | **2** | PAS-006A §2 link; shadcn-studio skill cross-link | Doc authority chain |
-| **3** | (Deferred) `lab/` folder consolidation | Future slice if needed |
+| **3** | Quarantine install docs + three-layer alias rule + `AGENTS.md` | ADR-0038 agent alignment |
+| **4** | (Deferred) `lab/` folder consolidation | Future slice if needed |
 
 ### Phase 0 deliverable checklist
 
@@ -142,9 +158,10 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md
 | --- | --- | --- |
 | 1 | Four-layer model documented and matches ADR-0037 | `ARCHITECTURE.md` review |
 | 2 | Contract vocabulary table present | `ARCHITECTURE.md` § naming |
-| 3 | MCP paths unchanged | `components.json` diff empty |
+| 3 | MCP install aliases target quarantine | `pnpm check:studio-install-paths` |
 | 4 | Import zones green | `pnpm check:studio-import-zones` |
-| 5 | Main barrel has no lab exports (Phase 1) | `src/index.ts` grep + typecheck |
+| 5 | Quarantine not in barrel | `pnpm check:studio-quarantine-isolation` |
+| 6 | Main barrel has no lab exports (Phase 1) | `src/index.ts` grep + typecheck |
 | 6 | Storybook typecheck green (Phase 1) | `pnpm --filter @afenda/storybook typecheck` |
 | 7 | Package build + tests green | `pnpm --filter @afenda/shadcn-studio test:run` · `build` |
 | 8 | PAS catalog lists P06-011 Delivered | `presentation-slice-catalog.md` |
@@ -155,7 +172,7 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md
 | --- | --- |
 | Primitive contract batch upgrades | afenda-primitive-contract skill / future slices |
 | ERP operator route expansion | PAS-001A · apps/erp |
-| Physical rename `shadcn-studio/blocks` → `blocks` | Requires ADR + MCP alias migration |
+| Physical rename `shadcn-studio/blocks` → `blocks` | Superseded by ADR-0038 `components-layouts/` + quarantine inbox |
 | Merge `governance/` into `registry/` | Phase 3+ only with gate refactor |
 | PAS-005 doc tree edits | Retired lane — historical only |
 

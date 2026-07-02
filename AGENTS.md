@@ -279,7 +279,8 @@ Orchestration: [`.cursor/skills/afenda-repo-housekeeping/SKILL.md`](.cursor/skil
 
 ```bash
 pnpm housekeeping:knip:workspace packages/<name>  # preferred scoped scan
-pnpm housekeeping:audit    # knip + downstream-integration + legacy terminology
+pnpm check:local-artifact-leakage  # tracked local agent/IDE artifact guard (PAS-004A gate 13)
+pnpm housekeeping:audit    # local-artifact-leakage + legacy-skills + knip:audit (files) + downstream-integration + legacy terminology
 pnpm housekeeping:verify   # audit + quality:boundaries + quality:exports
 pnpm housekeeping:knip:turbo # strict knip via turbo root task
 pnpm housekeeping:knip:advisory:turbo # non-blocking CI signal (see housekeeping-advisory.yml)

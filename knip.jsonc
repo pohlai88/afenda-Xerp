@@ -26,13 +26,46 @@
     "!apps/storybook",
     "!apps/docs"
   ],
+  // Root-level scripts and Cursor infra live in the "." workspace (not package workspaces).
   "ignore": [
     "**/_retired/**",
     "scripts/governance/_retired/**",
-    ".cursor/skills/_retired/**"
+    ".cursor/skills/**",
+    "scripts/governance/consumer-class-name-policy.mjs"
   ],
   "tags": ["-internal", "-lintignore"],
   "workspaces": {
+    ".": {
+      "entry": [
+        "package.json",
+        "drizzle.config.ts",
+        "vitest.config.ts",
+        "scripts/vitest.config.ts",
+        ".cursor/hooks.json",
+        ".cursor/hooks/**/*.mjs",
+        ".cursor/mcp/**/*.mjs",
+        "scripts/scaffold-package.mjs",
+        "templates/package-scaffold/**/*.{ts,tsx,mjs}",
+        "scripts/storybook/generate.mjs",
+        "scripts/storybook/generate-*.mjs",
+        "scripts/storybook/discard-blocks-without-consumer.mjs",
+        "scripts/docs/run-catalog-export.mts",
+        "scripts/ops/supabase-auth-redirects.mjs",
+        "scripts/ops/supabase-preview-branch.mjs",
+        "scripts/governance/erp-domain-foundation-module-specs.mts",
+        "scripts/governance/erp-domain-vocabulary-module-specs.mts",
+        "scripts/governance/lib/export-primitive-evidence-registry.mts"
+      ],
+      "project": [
+        "scripts/**/*.{mjs,mts,ts}",
+        ".cursor/hooks/**/*.mjs",
+        ".cursor/mcp/**/*.mjs",
+        "templates/**/*.{ts,tsx,mjs}",
+        "drizzle.config.ts",
+        "vitest.config.ts",
+        "scripts/vitest.config.ts"
+      ]
+    },
     "packages/observability": {
       "entry": ["src/**/*.test.ts"],
       "project": ["src/**/*.ts"],
@@ -74,6 +107,7 @@
         "src/**/*.stories.tsx"
       ],
       "project": ["src/**/*.{ts,tsx}"],
+      "ignore": ["src/components-quarantine/**"],
       "ignoreDependencies": ["next", "shadcn", "tw-animate-css"],
       "ignoreIssues": {
         "src/**/*.{ts,tsx}": ["exports", "types"]

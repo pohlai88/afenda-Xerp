@@ -197,6 +197,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Gate 0 · local artifact leakage (PAS-004A)
+        run: pnpm check:local-artifact-leakage
+
       - name: Resolve Turbo scope
         id: turbo_scope
         run: |

@@ -1,16 +1,45 @@
 ---
 description: >-
-  shadcn-studio import path aliases — virtual MCP paths vs ADR-0038 physical
-  folders. SSOT tsconfig.paths.json; forbid physical-alias drift.
+  shadcn-studio import path aliases — three layers: components.json install
+  (quarantine), tsconfig production (virtual MCP paths), Vite runtime (Storybook).
+  SSOT tsconfig.paths.json; forbid physical-alias drift and quarantine leaks.
 globs: packages/shadcn-studio/**,apps/storybook/**,packages/shadcn-studio/tsconfig*.json,vitest.shared.ts,apps/storybook/.storybook/main.ts
 alwaysApply: false
 ---
 
 # Studio import path aliases
 
-Physical folders (ADR-0038) are **not** import aliases. Source must use MCP virtual paths.
+Physical folders (ADR-0038) are **not** import aliases in production source. MCP install targets use a **separate** `components.json` layer.
 
-## Canonical map
+## Three-layer model
+
+| Layer | SSOT | Purpose | Example |
+| --- | --- | --- | --- |
+| **1 — Install** | `packages/shadcn-studio/components.json` | MCP/CLI **write** targets only | `components` → `@/components-quarantine` |
+| **2 — Production** | `packages/shadcn-studio/tsconfig.paths.json` | TypeScript **read** in governed source | `@/components/ui/*` → `src/components-ui/*` |
+| **3 — Vite runtime** | `apps/storybook/.storybook/main.ts` | Storybook resolve at dev/build | Must mirror layer 2 — no drift |
+
+**Install command:** `pnpm studio:shadcn:quarantine` (overwrite OK in inbox) · **Production primitive add:** `pnpm studio:shadcn` (no overwrite on `components-ui/*`).
+
+Gate: `pnpm check:studio-install-paths` validates layer 1 matches [`studio-import-path-policy.mjs`](../../scripts/governance/studio-import-path-policy.mjs).
+
+## Layer 1 — components.json (install / quarantine)
+
+```json
+{
+  "aliases": {
+    "components": "@/components-quarantine",
+    "ui": "@/components-quarantine/ui",
+    "utils": "@/lib/utils",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  }
+}
+```
+
+Physical disk: `src/components-quarantine/` (+ `components-quarantine/ui/` for primitives). **Not** exported from `@afenda/shadcn-studio` barrel.
+
+## Layer 2 — tsconfig production map
 
 | Import in source | Resolves to (disk) |
 | --- | --- |
@@ -20,31 +49,41 @@ Physical folders (ADR-0038) are **not** import aliases. Source must use MCP virt
 
 **SSOT:** `packages/shadcn-studio/tsconfig.paths.json` — wire into all studio tsconfigs.
 
+## Layer 3 — Vite runtime (Storybook)
+
+`apps/storybook/.storybook/main.ts` `resolve.alias` must match layer 2. Symptom when drifted: studio typecheck passes, Storybook fails at runtime.
+
 ## Forbidden
 
 - `@/components-ui/*` or `@/components-layouts/*` in studio/storybook source
+- `@/components-quarantine/*` imports in production buckets (`components-ui/`, `components-layouts/`, `components-auth-shell/`) or ERP/Storybook consumers
 - Physical-only aliases in tsconfig (without virtual counterparts)
 - `apps/docs` / `apps/erp` importing studio internal aliases (use `@afenda/shadcn-studio` barrel or app-local UI)
+- Pointing `components.json` install aliases at production paths (`@/components/ui`, `@/components/shadcn-studio`)
 
 ## Symptom → fix
 
 | Symptom | Likely cause | First check |
 | --- | --- | --- |
 | Docs: `@/components-ui/button` not found | Docs `@/*` is local | `fumadocs-ui/components/ui/button` |
-| Storybook fails, studio typecheck OK | Vite alias drift | `apps/storybook/.storybook/main.ts` vs SSOT |
+| Storybook fails, studio typecheck OK | Vite alias drift (layer 3) | `apps/storybook/.storybook/main.ts` vs SSOT |
+| MCP overwrote production primitive | Install alias targets production | `pnpm check:studio-install-paths` |
+| ERP imports quarantine block | Skipped promotion | `pnpm check:studio-quarantine-isolation` |
 | Wrong component at runtime | Legacy `src/components/` tree | `pnpm check:studio-tsconfig-paths` |
 | IDE red squiggle on `@/components/ui` | Main tsconfig missing virtual alias | `tsconfig.paths.json` wired into tsconfig.json |
 
 ## Gates
 
 ```bash
+pnpm check:studio-install-paths
+pnpm check:studio-quarantine-isolation
 pnpm check:studio-tsconfig-paths
 pnpm check:studio-import-zones
-pnpm check:studio-paths   # both
+pnpm check:studio-paths   # tsconfig + import zones
 ```
 
 ## Debugger
 
 Read-only diagnosis: `@studio-import-path-auditor` — Path Drift Report without code edits.
 
-Skill: `.cursor/skills/shadcn-studio/SKILL.md` · Authority: ADR-0017, ADR-0038, PAS-006
+Skill: `.cursor/skills/shadcn-studio/SKILL.md` · Inbox: [`components-quarantine/README.md`](../../packages/shadcn-studio/src/components-quarantine/README.md) · Authority: ADR-0017, ADR-0038, PAS-006

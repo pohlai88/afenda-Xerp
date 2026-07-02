@@ -16,7 +16,9 @@ paths:
 
 **Gate:** `pnpm check:studio-primitive-contracts`
 
-**CLI:** `pnpm studio:shadcn add <name> --yes`
+**CLI (production primitives):** `pnpm studio:shadcn add <name> --yes` — blocks `--overwrite` on existing `components-ui/*`.
+
+**CLI (quarantine inbox):** `pnpm studio:shadcn:quarantine add <name> --yes` — raw vendor output; promote before ERP export.
 
 **Hard rule:** Never use `--overwrite` on existing primitives under `components-ui/`.
 
@@ -422,6 +424,10 @@ When upgrading a primitive (E2 or E3):
 When adding from CLI:
 
 ```bash
+# New primitive via quarantine (review + contract split before promotion)
+pnpm studio:shadcn:quarantine add <name> --yes
+
+# Direct add to production bucket (no overwrite on existing files)
 pnpm studio:shadcn add <name> --yes
 ```
 
@@ -439,9 +445,10 @@ Never run:
 
 ```bash
 pnpm dlx shadcn@latest add <name> --overwrite
+pnpm studio:shadcn add <name> --overwrite   # blocked by production wrapper
 ```
 
-on existing `components-ui/*`.
+on existing `components-ui/*`. Use `pnpm studio:shadcn:quarantine` when overwrite is intentional in the inbox.
 
 ---
 

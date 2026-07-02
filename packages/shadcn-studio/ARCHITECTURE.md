@@ -120,27 +120,47 @@ Legacy Zone shorthand:
 
 ---
 
-## MCP install paths (do not rename)
+## MCP install paths (three-layer model)
 
-`packages/shadcn-studio/components.json`:
+### Layer 1 — Install (`components.json`)
+
+MCP/CLI **writes** land in quarantine only (ADR-0038):
 
 ```json
 {
   "aliases": {
-    "components": "@/components/shadcn-studio",
-    "ui": "@/components/ui",
+    "components": "@/components-quarantine",
+    "ui": "@/components-quarantine/ui",
+    "utils": "@/lib/utils",
     "lib": "@/lib",
     "hooks": "@/hooks"
   }
 }
 ```
 
-| MCP target | Physical path | Import alias |
+| Install command | Physical path | Overwrite |
 | --- | --- | --- |
-| Primitives | `src/components-ui/` | `@/components/ui/*` |
-| Pro blocks | `src/components-layouts/` | `@/components/shadcn-studio/*` |
+| `pnpm studio:shadcn:quarantine` | `src/components-quarantine/` | **OK** (inbox) |
+| `pnpm studio:shadcn` | `src/components-ui/` (production) | **Blocked** on existing primitives |
+
+Gate: `pnpm check:studio-install-paths` · `pnpm check:studio-quarantine-isolation`
+
+Promotion: [`components-quarantine/README.md`](src/components-quarantine/README.md) · agent guide: [AGENTS.md](./AGENTS.md)
+
+### Layer 2 — Production (`tsconfig.paths.json`)
+
+Source **reads** use virtual MCP aliases — not physical folder names:
+
+| MCP virtual alias | Physical path |
+| --- | --- |
+| `@/components/ui/*` | `src/components-ui/*` |
+| `@/components/shadcn-studio/*` | `src/components-layouts/*` |
 
 **Never** `shadcn add --overwrite` on existing `components-ui/*`.
+
+### Layer 3 — Vite runtime
+
+`apps/storybook/.storybook/main.ts` must mirror layer 2. Rule: [`.cursor/rules/studio-import-path-aliases.mdc`](../../.cursor/rules/studio-import-path-aliases.mdc)
 
 ---
 
@@ -218,6 +238,8 @@ Full lifecycle: [PAS-006B](../../docs/PAS/PRESENTATION/PAS-006B-INVENTORY-PRODUC
 ## Gates (structure-related)
 
 ```bash
+pnpm check:studio-install-paths
+pnpm check:studio-quarantine-isolation
 pnpm check:studio-l1-contracts
 pnpm check:studio-registry-inventory
 pnpm check:studio-tsconfig-paths
@@ -236,5 +258,6 @@ pnpm --filter @afenda/shadcn-studio build
 ## Related
 
 - [README.md](./README.md) — commands and quick start
+- [AGENTS.md](./AGENTS.md) — agent authority chain, quarantine pipeline, gates
 - [shadcn-studio skill](../../.cursor/skills/shadcn-studio/SKILL.md)
 - [P06-SHELL-001](../../docs/PAS/PRESENTATION/SLICE/p06-shell-001-app-shell-authority.md)

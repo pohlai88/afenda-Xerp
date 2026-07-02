@@ -20,6 +20,7 @@
       "@/components-app-shell/*": ["./src/components-app-shell/*"],
       "@/components-assets/*": ["./src/components-assets/*"],
       "@/lib/utils": ["./src/utils/utils.ts"],
+      "@/utils/utils": ["./src/utils/utils.ts"],
       "@/lib/*": ["./src/lib/*"],
       "@/hooks/*": ["./src/hooks/*"],
       "@/*": ["./src/*"],

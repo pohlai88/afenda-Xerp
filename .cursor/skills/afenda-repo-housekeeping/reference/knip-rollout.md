@@ -7,17 +7,20 @@ Knip discovers unused files, dependencies, and exports. **Removal** is governed 
 ```bash
 pnpm housekeeping:knip:workspace packages/<name>  # preferred — single scoped workspace
 pnpm housekeeping:knip          # all enabled workspaces (exit 1 on findings)
+pnpm housekeeping:knip:audit    # unused files only — used by housekeeping:audit (no export noise)
 pnpm housekeeping:knip:turbo    # same, turbo-cached root task (local strict)
 pnpm housekeeping:knip:advisory # CI signal — logs findings, exit 0
 pnpm housekeeping:knip:advisory:turbo  # advisory + turbo cache (used in CI workflow)
 pnpm housekeeping:knip:fix      # auto-fix deps only — never repo-wide without review
-pnpm housekeeping:audit         # knip + downstream-integration + legacy terminology
+pnpm housekeeping:audit         # knip:audit (files) + downstream-integration + legacy terminology
 pnpm housekeeping:verify        # audit + quality:boundaries + quality:exports
 pnpm housekeeping:storybook-orphans           # dry-run orphan MCP blocks
 pnpm housekeeping:storybook-orphans -- --apply # delete orphan MCP blocks (after dry-run)
 ```
 
-**Prefer** `housekeeping:knip:workspace` for agent sessions — root `housekeeping:knip` also reports unused root scripts and is noisier.
+**Prefer** `housekeeping:knip:workspace` for agent sessions — root `housekeeping:knip` also reports unused exports and is noisier.
+
+**`housekeeping:audit`** uses `housekeeping:knip:audit` (`knip --files`) per [ci-promotion.md](./ci-promotion.md): zero unused **files** at root + enabled workspaces; export/type debt remains advisory until turbo promotion.
 
 **CI:** [`.github/workflows/housekeeping-advisory.yml`](../../../.github/workflows/housekeeping-advisory.yml) runs on PRs with `continue-on-error: true`. Promotion criteria: [ci-promotion.md](ci-promotion.md).
 

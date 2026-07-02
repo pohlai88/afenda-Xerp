@@ -40,6 +40,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Local artifact leakage (blocking advisory)
+        run: pnpm check:local-artifact-leakage
+
       - name: Knip (turbo-cached root task)
         env:
           TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}

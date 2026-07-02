@@ -48,7 +48,7 @@ export function verifyEntityGroupBoundary(
 }
 
 /**
- * Project scope is planned for TIP-030 — reject any client hint until persistence exists.
+ * Project scope is planned — reject any client hint until persistence exists.
  */
 export function verifyProjectSelection(input: {
   readonly projectId?: string | null;

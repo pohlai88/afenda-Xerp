@@ -47,17 +47,18 @@ Use when integrating Figma designs via MCP (`get_design_context`, `get_screensho
 
 | Layer | Path | Import |
 |-------|------|--------|
-| Primitives | `packages/shadcn-studio/src/components/ui/` | `@afenda/shadcn-studio` barrel |
-| Contracts | `packages/shadcn-studio/src/components/ui/{name}.contract.ts` | variant axes before compose |
-| Registry | `packages/shadcn-studio/src/governance/ui-primitive-metadata.registry.ts` | governed inventory |
-| Blocks | `packages/shadcn-studio/src/components-layouts/` | `/ftc` or `@ss-blocks/*` |
+| Quarantine inbox | `packages/shadcn-studio/src/components-quarantine/` | **Not exported** — install via `pnpm studio:shadcn:quarantine` |
+| Primitives (production) | `packages/shadcn-studio/src/components-ui/` | `@afenda/shadcn-studio` barrel |
+| Contracts | `packages/shadcn-studio/src/components-ui/{name}.contract.ts` | variant axes before compose |
+| Registry | `packages/shadcn-studio/src/meta-registry/` | governed inventory |
+| Blocks (production) | `packages/shadcn-studio/src/components-layouts/` | `/ftc` or `@ss-blocks/*` → quarantine → promote |
 | Storybook lab | `packages/shadcn-studio/src/storybook/` | verification only |
 
 **Install cwd:** `packages/shadcn-studio`
 
-**Stock blocks:** shadcn/studio MCP `/ftc` → `@ss-blocks/<id>`
+**Stock blocks:** shadcn/studio MCP `/ftc` → `@ss-blocks/<id>` → `components-quarantine/` → promotion pipeline
 
-**Kit frames:** shadcncraft registry → `@shadcncraft/<name>` (Rule 0: install before JSX)
+**Kit frames:** shadcncraft registry → `pnpm studio:shadcn:quarantine add @shadcncraft/<name>` (Rule 0: install before JSX)
 
 ---
 
@@ -165,6 +166,8 @@ docs/PAS/PRESENTATION/      ← PAS-006 standard
 **Gates before merge:**
 
 ```bash
+pnpm check:studio-install-paths
+pnpm check:studio-quarantine-isolation
 pnpm --filter @afenda/shadcn-studio typecheck
 pnpm check:studio-metadata-binding
 pnpm check:package-css-dist-sync

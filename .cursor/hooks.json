@@ -8,10 +8,15 @@
       },
       {
         "type": "prompt",
-        "prompt": "Repo: afenda-Xerp (pnpm + turbo). Apps: apps/erp (3000), apps/docs (3001). Governance: AGENTS.md + .cursor/rules/ (env: env-workflow.mdc; package CSS dist: package-css-dist-sync.mdc; studio import paths: studio-import-path-aliases.mdc; coding session: afenda-coding-session.mdc). Skills: .cursor/skills/ — attach /coding-consistency-bundle on every coding turn. First line exact: THE AGENT IS USING CODING CONSISTENY BUNDLE.. Hooks auto-record vibe-coding violations to .cursor/audit/vibe-coding-violations.jsonl (no manual auditor run). Every coding turn: Preflight Receipt → Phase 0 → edits → §11 Completion Report. Use pnpm only. Env: edit .env.config / .env.secret only, then pnpm env:sync && pnpm env:doctor. Package CSS: edit src only, then pnpm sync:package-css-dist (apps import dist/). Studio paths: virtual aliases @/components/ui (not @/components-ui); SSOT packages/shadcn-studio/tsconfig.paths.json; gates pnpm check:studio-paths. Prefer typecheck, pnpm check, and tests over starting dev servers."
+        "prompt": "Repo: afenda-Xerp (pnpm + turbo). Apps: apps/erp (3000), apps/docs (3001). Governance: AGENTS.md + .cursor/rules/ (env: env-workflow.mdc; package CSS dist: package-css-dist-sync.mdc; studio import paths: studio-import-path-aliases.mdc; coding session: afenda-coding-session.mdc). Skills: .cursor/skills/ — attach /coding-consistency-bundle on every coding turn. First line exact: THE AGENT IS USING CODING CONSISTENY BUNDLE.. Hooks auto-record vibe-coding violations to .cursor/audit/vibe-coding-violations.jsonl (local/gitignored — do not commit). Every coding turn: Preflight Receipt → Phase 0 → edits → §11 Completion Report. Use pnpm only. Env: edit .env.config / .env.secret only, then pnpm env:sync && pnpm env:doctor. Package CSS: edit src only, then pnpm sync:package-css-dist (apps import dist/). Studio paths: virtual aliases @/components/ui (not @/components-ui); SSOT packages/shadcn-studio/tsconfig.paths.json; gates pnpm check:studio-paths. Local artifacts: never Write or shell-redirect to paths in scripts/governance/local-artifact-registry.mjs; gate pnpm check:local-artifact-leakage. Prefer typecheck, pnpm check, and tests over starting dev servers."
       }
     ],
     "preToolUse": [
+      {
+        "command": "node .cursor/hooks/guard-local-artifact-write.mjs",
+        "matcher": "Write|StrReplace|EditNotebook|ApplyPatch",
+        "timeout": 5
+      },
       {
         "command": "node .cursor/hooks/guard-bundle-preflight.mjs",
         "matcher": "Write|StrReplace|Delete|EditNotebook|ApplyPatch",

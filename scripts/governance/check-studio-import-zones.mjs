@@ -43,6 +43,19 @@ const FORBIDDEN_ALIAS_PATTERNS = [
     message:
       "Same-package imports must be relative — @afenda/shadcn-studio self-import forbidden",
   },
+  {
+    id: "quarantine-import-in-production",
+    pattern:
+      /from\s+["']@\/components-quarantine(?:\/|["'])|from\s+["']@\/components-quarantine-ui(?:\/|["'])/,
+    zones: [
+      "components-ui",
+      "components-layouts",
+      "components-auth-shell",
+      "components-app-shell",
+    ],
+    message:
+      "Production buckets must not import quarantine install aliases — promote first",
+  },
   ...FORBIDDEN_IMPORT_PATTERNS.map((entry) => ({
     id: entry.id,
     pattern: entry.pattern,
@@ -85,6 +98,22 @@ function zoneForFile(relativePath) {
 
   if (normalized.startsWith("meta-registry/")) {
     return "meta-registry";
+  }
+
+  if (normalized.startsWith("components-ui/")) {
+    return "components-ui";
+  }
+
+  if (normalized.startsWith("components-layouts/")) {
+    return "components-layouts";
+  }
+
+  if (normalized.startsWith("components-auth-shell/")) {
+    return "components-auth-shell";
+  }
+
+  if (normalized.startsWith("components-app-shell/")) {
+    return "components-app-shell";
   }
 
   return "all-src";

@@ -41,9 +41,10 @@ Cursor hooks record violations to `.cursor/audit/vibe-coding-violations.jsonl` a
 - **Session start** — reset preflight session
 - **Read** — track bundle/kernel/session skill reads
 - **Write before bundle Read** — **V002** appended + approval ask
+- **Write to local artifact paths** — **deny** via `guard-local-artifact-write.mjs` (SSOT: `scripts/governance/local-artifact-registry.mjs`; allows only `.cursor/audit/checkpoints/**`)
 - **Stop after coding turn** — missing announcement / §11 → **V001/V007/V010** appended + scorecard followup
 
-See `.cursor/hooks/bundle-preflight-policy.mjs`. Deep transcript audit (optional): subagent `vibe-coding-violation-auditor`.
+See `.cursor/hooks/bundle-preflight-policy.mjs` and `.cursor/hooks/guard-local-artifact-write.mjs`. Deep transcript audit (optional): subagent `vibe-coding-violation-auditor`.
 
 ### Preflight order
 

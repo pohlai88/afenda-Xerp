@@ -153,8 +153,9 @@ pnpm quality:boundaries
 - No `@afenda/kernel` imports in `@afenda/shadcn-studio`
 - No parallel metadata binding registries in ERP
 - No direct imports from `components-quarantine/` in ERP or Storybook — promote per PAS-006B first
-- No custom `@layer components` rules in ERP or Storybook composition CSS
 - No restoration of `@afenda/ui` / appshell without new ADR
+- No custom `@layer components` rules in ERP or Storybook composition CSS
+- No legacy class names from retired packages in ERP TSX
 
 ## References
 

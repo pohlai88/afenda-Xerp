@@ -38,7 +38,7 @@ const GOVERNED_EDIT_RE =
   /^(?:apps[/\\](?:erp|storybook|docs)|packages[/\\]|docs[/\\]PAS[/\\]|\.cursor[/\\](?:skills|rules|agents|hooks)[/\\])/i;
 
 const HOOK_EXEMPT_RE =
-  /^(?:\.cursor[/\\]audit[/\\]|\.cursor[/\\]\.gate-stamps[/\\])/i;
+  /^(?:\.cursor[/\\]audit[/\\]checkpoints[/\\]|\.cursor[/\\]\.gate-stamps[/\\])/i;
 
 function sessionFile(repoRoot) {
   return join(repoRoot, SESSION_PATH);

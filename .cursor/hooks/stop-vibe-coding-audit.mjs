@@ -70,7 +70,7 @@ log(TAG, `recorded ${newViolations} violation(s); session total ${sessionAfter.v
 const lines = [
   "## Vibe coding violation scorecard (automatic hook)",
   "",
-  `Ledger: .cursor/audit/vibe-coding-violations.jsonl`,
+  `Ledger: .cursor/audit/vibe-coding-violations.jsonl (local/gitignored — do not commit)`,
   `New violations this turn: **${newViolations}**`,
   `Session total: **${sessionAfter.violationsThisSession}**`,
   `Ledger all-time: **${ledgerAfter}**`,

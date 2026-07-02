@@ -4,10 +4,13 @@
     "paths": {
       "@/components/ui/*": ["./src/components-ui/*"],
       "@/components/shadcn-studio/*": ["./src/components-layouts/*"],
+      "@/components-quarantine": ["./src/components-quarantine"],
+      "@/components-quarantine/*": ["./src/components-quarantine/*"],
       "@/components-auth-shell/*": ["./src/components-auth-shell/*"],
       "@/components-app-shell/*": ["./src/components-app-shell/*"],
       "@/components-assets/*": ["./src/components-assets/*"],
       "@/lib/utils": ["./src/utils/utils.ts"],
+      "@/utils/utils": ["./src/utils/utils.ts"],
       "@/lib/*": ["./src/lib/*"],
       "@/hooks/*": ["./src/hooks/*"],
       "@/*": ["./src/*"]

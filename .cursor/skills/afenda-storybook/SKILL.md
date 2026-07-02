@@ -201,13 +201,16 @@ After MCP install, run `pnpm storybook generate` then add curated stories if the
 ## 5. MCP block workflow
 
 ```text
-MCP collect → install once (packages/shadcn-studio cwd)
-  → pnpm storybook generate          # auto-stories + manifest
+MCP collect → pnpm studio:shadcn:quarantine (install to components-quarantine/)
+  → review + promote → components-layouts/ | components-ui/
+  → pnpm storybook generate          # auto-stories + manifest (production paths only)
   → optional curated story in shadcn-studio-blocks.stories.tsx
   → pnpm --filter @afenda/storybook typecheck
   → pnpm test:storybook:run
   → pnpm storybook dev               # visual smoke :6006
 ```
+
+**Hard stop:** Storybook and ERP import **production** blocks from `@afenda/shadcn-studio` — never from `components-quarantine/`. Promotion checklist: [`components-quarantine/README.md`](../../../packages/shadcn-studio/src/components-quarantine/README.md).
 
 **shadcn-studio MCP** (`/cui`, `/rui`, …): follow `.cursor/rules/shadcn-studio.instructions.mdc` — collect all blocks before install.
 
