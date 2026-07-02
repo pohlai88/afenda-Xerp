@@ -2,7 +2,7 @@
 
 **Layer:** L2 Product (Zone B) · **Status:** inbox only — not exported from `@afenda/shadcn-studio`
 
-This folder is the **first landing zone** for shadcn/studio MCP and CLI output. Vendor-generated UI must pass through quarantine before it can live in production buckets (`components-ui/`, `components-layouts/`, `components-auth-shell/`).
+This folder is the **first landing zone** for shadcn/studio MCP and CLI output. Vendor-generated UI must pass through quarantine before it can live in production buckets (`components-ui/`, `components-layouts/`, `components-auth-shell/`, `components-assets/`).
 
 ---
 
@@ -48,6 +48,7 @@ Do **not** skip quarantine and install into:
 | Primitives | `src/components-ui/` → `@/components/ui/*` | Each primitive has a governed `{name}.contract.ts` split |
 | Pro blocks | `src/components-layouts/` → `@/components/shadcn-studio/*` | Slot markers, block metadata, and Storybook fixtures depend on stable shapes |
 | Auth shell | `src/components-auth-shell/` | WCAG-adjacent ingress surfaces with acceptance contracts |
+| SVG assets | `src/components-assets/` → `@/components-assets/*` | Icons/illustrations; register in `index.ts` + `pnpm storybook generate` |
 
 **Hard stop:** never run `shadcn add --overwrite` against existing files in those production buckets.
 

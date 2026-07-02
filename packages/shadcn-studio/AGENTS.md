@@ -33,6 +33,8 @@ Afenda borrows **roles, structure, and inline simplicity** from the read-only Ad
 | Multi-shell | Flat bucket; slugs `admincn` (default), `crm-shell`, `ai-shell` (future) |
 | No mappers | **No** `map-*-from-*` files — inline 1–3 lines in shell composer |
 | L2 MCP blocks | Keep registry slug stems (`dialog-search.tsx`, `statistics-card-01.tsx`) |
+| L2 SVG assets | `icon-{name}.tsx` or `illustration-{slug}.tsx` in `components-assets/`; PascalCase re-export in `index.ts` |
+| L2 asset export | **L4 default** — omit from `src/index.ts` unless ERP needs the asset on the public barrel |
 | Settings fields | Keep Afenda names (`sidebarVariant`, `sidebarCollapsible`, `sidebarOpen`) — document reference mapping only |
 
 ### Reference → Afenda mapping
@@ -108,6 +110,19 @@ pnpm studio:promote --block application-shell-02   # preflight first
 - PascalCase filenames under `src/`
 - Direct `components-quarantine/` imports in ERP, Storybook, or production buckets
 - Duplicating ThemeCustomizer or settings context inside shell files — import from `theme/`
+- Duplicating SVG inside `components-layouts/` when `components-assets/` already has the asset — import `@/components-assets/*`
+- Legacy `src/assets/svg/` tree — retired; use `components-assets/` only
+
+### L2 assets pipeline
+
+```text
+quarantine (optional) → normalize in components-assets/ → index.ts export → pnpm storybook generate
+```
+
+1. Normalize vendor SVG to `icon-*.tsx` or `illustration-*.tsx` (kebab-case).
+2. Add `export { default as FooIcon } from "./icon-foo.js"` to `components-assets/index.ts`.
+3. Run `pnpm storybook generate` (regenerates `shadcn-studio-assets.stories.tsx`).
+4. Blocks import `@/components-assets/*` — do not inline duplicate paths.
 
 ---
 

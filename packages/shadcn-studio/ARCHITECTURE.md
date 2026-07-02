@@ -12,8 +12,9 @@ This document is the **maintainer map** for `packages/shadcn-studio/src`. Physic
 L1 AUTHORITY (Zone A)     meta-contracts/  meta-registry/  meta-gates/
         │                      relative imports only — no @/
         ▼
-L2 PRODUCT (Zone B)       components-ui/  components-layouts/  components-auth-shell/  components-quarantine/
-                          lib/  hooks/  assets/  theme/  styles/
+L2 PRODUCT (Zone B)       components-ui/  components-layouts/  components-auth-shell/
+                          components-assets/  components-quarantine/
+                          lib/  hooks/  theme/  styles/
         │                      @/components/ui  @/lib/utils OK
         ▼
 L3 SURFACES (Afenda)      components-app-shell/
@@ -47,7 +48,7 @@ L4 VERIFICATION (internal) storybook/  gate/  *.stories.tsx
 | `lib/` | L2 | 5 | `compose-class-name`, `compute-pagination-range`, `governed-primitive-props`, `_lib-inventory.registry` |
 | `utils/` | L2 | 1 | `cn()` helper (`utils.ts`) |
 | `hooks/` | L2 | 1 | React hooks (`useIsMobile` for sidebar) |
-| `components-assets/` | L2 | 13 | Block illustrations and icons |
+| `components-assets/` | L2 | 10 | SVG icons and illustrations (`icon-*.tsx`, `illustration-*.tsx`) — L4 gallery default |
 | `theme/` | L2 | 10 | Presets, ThemeCustomizer, settings context |
 | `styles/shadcn-studio.css` | L2 | 1 | Theme CSS source → `dist/shadcn-studio.css` |
 | `lab/index.ts` | L4 export | 1 | Public subpath barrel for Storybook parameters |

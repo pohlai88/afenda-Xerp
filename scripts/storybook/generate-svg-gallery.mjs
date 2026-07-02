@@ -1,5 +1,5 @@
 /**
- * Emits shadcn-studio-assets.stories.tsx from assets/svg/index.ts exports.
+ * Emits shadcn-studio-assets.stories.tsx from components-assets/index.ts exports.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
