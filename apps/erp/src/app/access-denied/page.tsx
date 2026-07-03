@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 
-import { ErpErrorPage } from "@/components/presentation/erp-error-page.client";
-import { getErrorPageVariantForPath } from "@/lib/presentation/get-error-page-variant-for-path";
+import { AuthIngressSurfacePage } from "@/components/auth/auth-ingress-surface-page";
+import { loadAuthIngressSurfacePage } from "@/lib/auth/load-auth-ingress-surface-page.server";
 
 export const metadata: Metadata = {
   title: "Access denied",
 };
 
 export default function AccessDeniedPage() {
-  return (
-    <ErpErrorPage variant={getErrorPageVariantForPath("/access-denied")} />
-  );
+  const data = loadAuthIngressSurfacePage("/access-denied");
+
+  return <AuthIngressSurfacePage data={data} />;
 }

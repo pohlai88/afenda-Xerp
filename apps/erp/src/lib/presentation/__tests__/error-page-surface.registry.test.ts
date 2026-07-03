@@ -27,7 +27,7 @@ describe("error-page-surface.registry", () => {
   it("maps canonical paths to variants", () => {
     expect(getErrorPageSurfaceByPath("/access-denied")?.variant).toBe("403");
     expect(getErrorPageSurfaceByPath("/session-expired")?.variant).toBe(
-      "session-expired"
+      "error-session-expired"
     );
     expect(getErrorPageSurfaceByPath("/maintenance")?.variant).toBe(
       "maintenance"

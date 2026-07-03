@@ -1,6 +1,6 @@
 import {
-  resolveAuthShell,
   type AuthShellFormLane,
+  resolveAuthShell,
 } from "./resolve-auth-shell.js";
 
 export interface AuthShellProps {

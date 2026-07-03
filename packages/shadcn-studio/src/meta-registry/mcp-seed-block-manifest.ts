@@ -7,6 +7,8 @@ export interface McpSeedBlockManifestEntry {
   readonly mcpPath: string;
 }
 
+const AUTH_BLOCKS_ROOT =
+  "packages/shadcn-studio/src/components-auth-shell" as const;
 const BLOCKS_ROOT = "packages/shadcn-studio/src/components-layouts" as const;
 
 export const MCP_SEED_BLOCK_MANIFEST = [
@@ -71,7 +73,119 @@ export const MCP_SEED_BLOCK_MANIFEST = [
     mcpPath: `${BLOCKS_ROOT}/error-page-shell.tsx`,
   },
   { blockId: "hero-section-01", mcpPath: `${BLOCKS_ROOT}/hero-section-01` },
+  {
+    blockId: "login-page-04",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/login-page-04.tsx`,
+  },
+  {
+    blockId: "forgot-password-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/forgot-password-page-01.tsx`,
+  },
+  {
+    blockId: "forgot-password-success-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/forgot-password-success-page-01.tsx`,
+  },
   { blockId: "menu-trigger", mcpPath: `${BLOCKS_ROOT}/menu-trigger.tsx` },
+  {
+    blockId: "register-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/register-page-01.tsx`,
+  },
+  {
+    blockId: "reset-password-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/reset-password-page-01.tsx`,
+  },
+  {
+    blockId: "reset-password-success-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/reset-password-success-page-01.tsx`,
+  },
+  {
+    blockId: "verify-email-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/verify-email-page-01.tsx`,
+  },
+  {
+    blockId: "verify-email-sent-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/verify-email-sent-page-01.tsx`,
+  },
+  {
+    blockId: "verify-email-expired-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/verify-email-expired-page-01.tsx`,
+  },
+  {
+    blockId: "verify-email-success-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/verify-email-success-page-01.tsx`,
+  },
+  {
+    blockId: "invite-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/invite-page-01.tsx`,
+  },
+  {
+    blockId: "invite-accept-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/invite-accept-page-01.tsx`,
+  },
+  {
+    blockId: "invite-expired-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/invite-expired-page-01.tsx`,
+  },
+  {
+    blockId: "invite-invalid-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/invite-invalid-page-01.tsx`,
+  },
+  {
+    blockId: "invite-consumed-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/invite-consumed-page-01.tsx`,
+  },
+  {
+    blockId: "invite-email-mismatch-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/invite-email-mismatch-page-01.tsx`,
+  },
+  {
+    blockId: "passkey-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/passkey-page-01.tsx`,
+  },
+  {
+    blockId: "error-passkey-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/error-passkey-page-01.tsx`,
+  },
+  {
+    blockId: "sso-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/sso-page-01.tsx`,
+  },
+  {
+    blockId: "error-sso-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/error-sso-page-01.tsx`,
+  },
+  {
+    blockId: "error-oauth-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/error-oauth-page-01.tsx`,
+  },
+  {
+    blockId: "otp-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/otp-page-01.tsx`,
+  },
+  {
+    blockId: "mfa-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/mfa-page-01.tsx`,
+  },
+  {
+    blockId: "mfa-recovery-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/mfa-recovery-page-01.tsx`,
+  },
+  {
+    blockId: "error-session-expired-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/error-session-expired-page-01.tsx`,
+  },
+  {
+    blockId: "error-access-denied-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/error-access-denied-page-01.tsx`,
+  },
+  {
+    blockId: "security-review-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/security-review-page-01.tsx`,
+  },
+  {
+    blockId: "error-authentication-page-01",
+    mcpPath: `${AUTH_BLOCKS_ROOT}/error-authentication-page-01.tsx`,
+  },
   {
     blockId: "sidebar-user-dropdown",
     mcpPath: `${BLOCKS_ROOT}/sidebar-user-dropdown.tsx`,

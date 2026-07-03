@@ -7,8 +7,7 @@ import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   ALLOWED_QUARANTINE_ROOT_FILES,
-  QUARANTINE_AUTH,
-  QUARANTINE_LAYOUTS,
+  QUARANTINE_BLOCKS,
   QUARANTINE_REGISTRY,
   QUARANTINE_ROOT,
 } from "../studio/quarantine-paths.mjs";
@@ -23,7 +22,7 @@ function rel(path) {
 function scanDiskBlockIds() {
   const ids = new Set();
 
-  for (const bucket of [QUARANTINE_LAYOUTS, QUARANTINE_AUTH]) {
+  for (const bucket of [QUARANTINE_BLOCKS]) {
     if (!existsSync(bucket)) {
       continue;
     }
@@ -95,7 +94,18 @@ if (existsSync(QUARANTINE_ROOT)) {
 
     if (stat.isDirectory() && entry === "ui") {
       violations.push(
-        `legacy ui/ folder forbidden — use components-ui/: ${rel(fullPath)}`
+        `legacy ui/ folder forbidden — use components/: ${rel(fullPath)}`
+      );
+    }
+
+    if (
+      stat.isDirectory() &&
+      (entry === "components-layouts" ||
+        entry === "components-ui" ||
+        entry === "components-auth-shell")
+    ) {
+      violations.push(
+        `retired quarantine bucket forbidden — use blocks/ or components/: ${rel(fullPath)}`
       );
     }
   }

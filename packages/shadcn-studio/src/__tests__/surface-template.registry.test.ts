@@ -38,6 +38,164 @@ describe("surface template registry (PAS-006D P06-009)", () => {
       true
     );
 
+    const registerTemplate = getSurfaceTemplateById(
+      "surface-template.auth-sign-up"
+    );
+    expect(registerTemplate?.blockBindings[0]?.blockId).toBe(
+      "register-page-01"
+    );
+    expect(
+      registerTemplate &&
+        assertSurfaceTemplateBlockDataCoverage(registerTemplate)
+    ).toBe(true);
+
+    const forgotPasswordTemplate = getSurfaceTemplateById(
+      "surface-template.auth-forgot-password"
+    );
+    expect(forgotPasswordTemplate?.blockBindings[0]?.blockId).toBe(
+      "forgot-password-page-01"
+    );
+    expect(
+      forgotPasswordTemplate &&
+        assertSurfaceTemplateBlockDataCoverage(forgotPasswordTemplate)
+    ).toBe(true);
+
+    const forgotPasswordSuccessTemplate = getSurfaceTemplateById(
+      "surface-template.auth-forgot-password-success"
+    );
+    expect(forgotPasswordSuccessTemplate?.blockBindings[0]?.blockId).toBe(
+      "forgot-password-success-page-01"
+    );
+    expect(
+      forgotPasswordSuccessTemplate &&
+        assertSurfaceTemplateBlockDataCoverage(forgotPasswordSuccessTemplate)
+    ).toBe(true);
+
+    const resetPasswordTemplate = getSurfaceTemplateById(
+      "surface-template.auth-reset-password"
+    );
+    expect(resetPasswordTemplate?.blockBindings[0]?.blockId).toBe(
+      "reset-password-page-01"
+    );
+    expect(
+      resetPasswordTemplate &&
+        assertSurfaceTemplateBlockDataCoverage(resetPasswordTemplate)
+    ).toBe(true);
+
+    const resetPasswordSuccessTemplate = getSurfaceTemplateById(
+      "surface-template.auth-reset-password-success"
+    );
+    expect(resetPasswordSuccessTemplate?.blockBindings[0]?.blockId).toBe(
+      "reset-password-success-page-01"
+    );
+    expect(
+      resetPasswordSuccessTemplate &&
+        assertSurfaceTemplateBlockDataCoverage(resetPasswordSuccessTemplate)
+    ).toBe(true);
+
+    const preLoginTemplates = [
+      {
+        blockId: "verify-email-page-01",
+        surfaceTemplateId: "surface-template.auth-verify-email",
+      },
+      {
+        blockId: "verify-email-sent-page-01",
+        surfaceTemplateId: "surface-template.auth-verify-email-sent",
+      },
+      {
+        blockId: "verify-email-expired-page-01",
+        surfaceTemplateId: "surface-template.auth-verify-email-expired",
+      },
+      {
+        blockId: "verify-email-success-page-01",
+        surfaceTemplateId: "surface-template.auth-verify-email-success",
+      },
+      {
+        blockId: "invite-page-01",
+        surfaceTemplateId: "surface-template.auth-invite",
+      },
+      {
+        blockId: "invite-accept-page-01",
+        surfaceTemplateId: "surface-template.auth-invite-accept",
+      },
+      {
+        blockId: "invite-expired-page-01",
+        surfaceTemplateId: "surface-template.auth-invite-expired",
+      },
+      {
+        blockId: "invite-invalid-page-01",
+        surfaceTemplateId: "surface-template.auth-invite-invalid",
+      },
+      {
+        blockId: "invite-consumed-page-01",
+        surfaceTemplateId: "surface-template.auth-invite-consumed",
+      },
+      {
+        blockId: "invite-email-mismatch-page-01",
+        surfaceTemplateId: "surface-template.auth-invite-email-mismatch",
+      },
+      {
+        blockId: "passkey-page-01",
+        surfaceTemplateId: "surface-template.auth-passkey",
+      },
+      {
+        blockId: "error-passkey-page-01",
+        surfaceTemplateId: "surface-template.error-auth-passkey",
+      },
+      {
+        blockId: "sso-page-01",
+        surfaceTemplateId: "surface-template.auth-sso",
+      },
+      {
+        blockId: "error-sso-page-01",
+        surfaceTemplateId: "surface-template.error-auth-sso",
+      },
+      {
+        blockId: "error-oauth-page-01",
+        surfaceTemplateId: "surface-template.error-auth-oauth",
+      },
+      {
+        blockId: "otp-page-01",
+        surfaceTemplateId: "surface-template.auth-otp",
+      },
+      {
+        blockId: "mfa-page-01",
+        surfaceTemplateId: "surface-template.auth-mfa",
+      },
+      {
+        blockId: "mfa-recovery-page-01",
+        surfaceTemplateId: "surface-template.auth-mfa-recovery",
+      },
+      {
+        blockId: "error-session-expired-page-01",
+        surfaceTemplateId: "surface-template.error-auth-session-expired",
+      },
+      {
+        blockId: "error-access-denied-page-01",
+        surfaceTemplateId: "surface-template.error-auth-access-denied",
+      },
+      {
+        blockId: "security-review-page-01",
+        surfaceTemplateId: "surface-template.auth-security-review",
+      },
+      {
+        blockId: "error-authentication-page-01",
+        surfaceTemplateId: "surface-template.error-authentication",
+      },
+    ] as const;
+
+    for (const expectedTemplate of preLoginTemplates) {
+      const template = getSurfaceTemplateById(
+        expectedTemplate.surfaceTemplateId
+      );
+      expect(template?.blockBindings[0]?.blockId).toBe(
+        expectedTemplate.blockId
+      );
+      expect(template && assertSurfaceTemplateBlockDataCoverage(template)).toBe(
+        true
+      );
+    }
+
     const errorTemplate = getSurfaceTemplateById("surface-template.error-page");
     expect(errorTemplate?.blockBindings[0]?.blockId).toBe("error-page-shell");
     expect(

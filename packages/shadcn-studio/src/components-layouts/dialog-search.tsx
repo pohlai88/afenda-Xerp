@@ -301,3 +301,4 @@ const SearchDialog = ({ defaultOpen = false, trigger, className }: Props) => {
 };
 
 export default SearchDialog;
+export { SearchDialog as SearchDialogBlock };

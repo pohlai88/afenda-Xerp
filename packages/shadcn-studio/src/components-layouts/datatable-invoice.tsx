@@ -543,6 +543,7 @@ const InvoiceDatatable = ({ data }: { data: Item[] }) => {
 };
 
 export default InvoiceDatatable;
+export { InvoiceDatatable as DatatableInvoiceBlock };
 
 function Filter({ column }: { column: Column<any, unknown> }) {
   const id = useId();

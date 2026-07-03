@@ -13,9 +13,7 @@
   },
   "dependencies": {
     "@afenda/shadcn-studio": "workspace:*",
-    "lucide-react": "^0.525.0",
     "next": "catalog:",
-    "next-themes": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:"
   },

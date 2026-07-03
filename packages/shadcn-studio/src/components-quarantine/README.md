@@ -4,6 +4,8 @@
 
 This folder is the **first landing zone** for shadcn/studio MCP and CLI output. Vendor-generated UI must pass through quarantine before it can live in production buckets (`components-ui/`, `components-layouts/`, `components-auth-shell/`, `components-assets/`).
 
+**Retired quarantine vocabulary:** `components-layouts/`, `components-ui/`, and `components-auth-shell/` were old inbox buckets. The corrected inbox shape is `blocks/` plus `components/`.
+
 ---
 
 ## Why quarantine first?
@@ -106,22 +108,21 @@ Until those steps complete, the artifact stays in quarantine or is deleted — *
 
 ## Operational rules
 
-### Mirrored inbox layout
+### Corrected inbox layout
 
 ```text
 src/components-quarantine/
   README.md
   quarantine-inbox.registry.json    ← generated (`pnpm studio:quarantine sync`)
-  components-layouts/               ← blocks (flat .tsx or <slug>/ dirs)
-  components-ui/                    ← install-time primitive deps
-  components-auth-shell/            ← auth ingress blocks (e.g. login-page-04)
+  blocks/                           ← all raw MCP blocks, including auth blocks
+  components/                       ← install-time primitive deps
 ```
 
 Install aliases in `components.json`:
 
 ```json
-"components": "@/components-quarantine/components-layouts",
-"ui": "@/components-quarantine/components-ui"
+"components": "@/components-quarantine/blocks",
+"ui": "@/components-quarantine/components"
 ```
 
 ### Command reference
@@ -162,6 +163,12 @@ pnpm studio:promote --block <blockId>
 | Clean slate before new install | — | `pnpm studio:quarantine reset --apply` |
 
 Legacy aliases (`studio:quarantine:sync`, `studio:quarantine:list`, etc.) forward to the same scripts.
+
+### Bucket semantics
+
+- `blocks/` is the only quarantine block inbox. Auth blocks still promote to `components-auth-shell/` in production, but they land in `blocks/` first.
+- `components/` holds primitive dependencies and install-time support files.
+- Do not reintroduce first-level quarantine buckets based on production ownership.
 
 ### Overwrite is OK here
 

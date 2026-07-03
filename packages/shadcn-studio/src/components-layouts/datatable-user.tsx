@@ -480,6 +480,8 @@ const UserDatatable = ({ data }: { data: Item[] }) => {
 };
 
 export default UserDatatable;
+export type { Item as DatatableUserRow };
+export { UserDatatable as DatatableUserBlock };
 
 function Filter({ column }: { column: Column<any, unknown> }) {
   const id = useId();

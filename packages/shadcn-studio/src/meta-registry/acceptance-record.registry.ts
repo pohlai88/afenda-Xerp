@@ -28,7 +28,31 @@ const DEFAULT_CRITERIA_RESULTS = {
   acpa: "pass",
 } as const;
 
-const WCAG_AA_AUTH_ADJACENT_BLOCK_IDS = new Set<GovernedBlockContractId>();
+const WCAG_AA_AUTH_ADJACENT_BLOCK_IDS = new Set<GovernedBlockContractId>([
+  "error-access-denied-page-01",
+  "error-authentication-page-01",
+  "invite-accept-page-01",
+  "invite-consumed-page-01",
+  "invite-email-mismatch-page-01",
+  "invite-expired-page-01",
+  "invite-invalid-page-01",
+  "invite-page-01",
+  "login-page-04",
+  "mfa-page-01",
+  "mfa-recovery-page-01",
+  "error-oauth-page-01",
+  "otp-page-01",
+  "error-passkey-page-01",
+  "passkey-page-01",
+  "security-review-page-01",
+  "error-session-expired-page-01",
+  "error-sso-page-01",
+  "sso-page-01",
+  "verify-email-expired-page-01",
+  "verify-email-page-01",
+  "verify-email-sent-page-01",
+  "verify-email-success-page-01",
+]);
 
 function presentationLabProofForBlock(
   blockId: GovernedBlockContractId

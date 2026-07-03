@@ -47,6 +47,55 @@ export const METADATA_BINDING_OVERRIDE_REGISTRY: readonly MetadataBindingOverrid
       },
       reason: "label-atom-refinement",
     },
+    {
+      blockId: "login-page-04",
+      notes:
+        "Auth sign-in password exposes a help-text atom for WCAG-adjacent metadata hydration.",
+      patch: {
+        fields: [
+          {
+            fieldKey: "brandingTitle",
+            slotId: "login.branding.title",
+            presentationKind: "readonly",
+            labelAtomRef: "atom.auth.branding-title",
+          },
+          {
+            fieldKey: "brandingLead",
+            slotId: "login.branding.lead",
+            presentationKind: "readonly",
+            labelAtomRef: "atom.auth.branding-lead",
+          },
+          {
+            fieldKey: "formTitle",
+            slotId: "login.form.title",
+            presentationKind: "readonly",
+            labelAtomRef: "atom.auth.form-title",
+          },
+          {
+            fieldKey: "formSubtitle",
+            slotId: "login.form.subtitle",
+            presentationKind: "readonly",
+            labelAtomRef: "atom.auth.form-subtitle",
+          },
+          {
+            fieldKey: "email",
+            slotId: "login.email",
+            presentationKind: "text",
+            labelAtomRef: "atom.auth.email",
+            requiredDisplay: true,
+          },
+          {
+            fieldKey: "password",
+            slotId: "login.password",
+            presentationKind: "text",
+            labelAtomRef: "atom.auth.password",
+            helpTextAtomRef: "atom.auth.password.help",
+            requiredDisplay: true,
+          },
+        ],
+      },
+      reason: "label-atom-refinement",
+    },
   ];
 
 export function applyMetadataBindingOverrides(

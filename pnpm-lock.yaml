@@ -33,9 +33,6 @@ catalogs:
     next:
       specifier: ^16.2.9
       version: 16.2.9
-    next-themes:
-      specifier: ^0.4.6
-      version: 0.4.6
     react:
       specifier: ^19.1.0
       version: 19.2.7
@@ -116,15 +113,9 @@ importers:
       '@afenda/shadcn-studio':
         specifier: workspace:*
         version: link:../../packages/shadcn-studio
-      lucide-react:
-        specifier: ^0.525.0
-        version: 0.525.0(react@19.2.7)
       next:
         specifier: 'catalog:'
         version: 16.2.9(@babel/core@7.29.7)(@opentelemetry/api@1.9.0)(@playwright/test@1.61.0)(babel-plugin-macros@3.1.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      next-themes:
-        specifier: 'catalog:'
-        version: 0.4.6(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       react:
         specifier: 'catalog:'
         version: 19.2.7

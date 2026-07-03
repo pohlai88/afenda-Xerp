@@ -22,8 +22,7 @@ import {
 } from "node:fs";
 import { basename, dirname, join, relative } from "node:path";
 import {
-  IMPORT_REWRITE_RULES,
-  PRODUCTION_LAYOUTS,
+  AUTH_SHELL_BLOCK_IDS,
   productionTargetForBlock,
   REPO_ROOT,
   STUDIO_SRC,
@@ -51,12 +50,26 @@ function usage() {
   );
 }
 
-function rewriteImports(source) {
-  let result = source;
-  for (const rule of IMPORT_REWRITE_RULES) {
-    result = result.split(rule.from).join(rule.to);
-  }
-  return result;
+function rewriteImports(source, blockId) {
+  const promotedBlockAlias = AUTH_SHELL_BLOCK_IDS.has(blockId)
+    ? "@/components-auth-shell/"
+    : "@/components/shadcn-studio/";
+
+  return source
+    .split("@/components-quarantine/components/")
+    .join("@/components/ui/")
+    .split("@/components-quarantine/components-ui/")
+    .join("@/components/ui/")
+    .split("@/components-quarantine/ui/")
+    .join("@/components/ui/")
+    .split("@/components-quarantine/blocks/")
+    .join(promotedBlockAlias)
+    .split("@/components-quarantine/components-layouts/")
+    .join(promotedBlockAlias)
+    .split("@/components-quarantine/components-auth-shell/")
+    .join(promotedBlockAlias)
+    .split("@/utils/utils")
+    .join("@/lib/utils");
 }
 
 function collectFilesRecursive(dir, files = []) {
@@ -167,12 +180,11 @@ function printPreflightReport(preflight, { showDiff = true } = {}) {
     const quarantinePath = quarantineAbsolutePath(entry);
     const production = productionTargetForBlock(entry.id);
     if (entry.layout === "directory") {
+      const productionMainDir =
+        production.directoryPath ?? dirname(production.absolutePath);
       simpleDiff(
         join(quarantinePath, `${entry.id}.tsx`),
-        join(
-          production.directoryPath ?? production.absolutePath,
-          `${entry.id}.tsx`
-        )
+        join(productionMainDir, `${entry.id}.tsx`)
       );
     } else {
       simpleDiff(quarantinePath, production.absolutePath);
@@ -186,7 +198,7 @@ function printPreflightReport(preflight, { showDiff = true } = {}) {
       : [abs];
     const rewrites = files.filter(
       (file) =>
-        rewriteImports(readFileSync(file, "utf8")) !==
+        rewriteImports(readFileSync(file, "utf8"), entry.id) !==
         readFileSync(file, "utf8")
     );
     if (rewrites.length > 0) {
@@ -211,20 +223,24 @@ function printPreflightReport(preflight, { showDiff = true } = {}) {
   return { exitCode: verdict.canApply ? 0 : 1, canApply: verdict.canApply };
 }
 
-function copyWithRewrite(source, target) {
+function copyWithRewrite(source, target, blockId) {
   mkdirSync(dirname(target), { recursive: true });
-  writeFileSync(target, rewriteImports(readFileSync(source, "utf8")), "utf8");
+  writeFileSync(
+    target,
+    rewriteImports(readFileSync(source, "utf8"), blockId),
+    "utf8"
+  );
 }
 
-function copyTreeWithRewrite(sourceDir, targetDir) {
+function copyTreeWithRewrite(sourceDir, targetDir, blockId) {
   mkdirSync(targetDir, { recursive: true });
   for (const entry of readdirSync(sourceDir)) {
     const sourcePath = join(sourceDir, entry);
     const targetPath = join(targetDir, entry);
     if (statSync(sourcePath).isDirectory()) {
-      copyTreeWithRewrite(sourcePath, targetPath);
+      copyTreeWithRewrite(sourcePath, targetPath, blockId);
     } else if (TS_TSX_FILE_RE.test(entry)) {
-      copyWithRewrite(sourcePath, targetPath);
+      copyWithRewrite(sourcePath, targetPath, blockId);
     } else {
       copyFileSync(sourcePath, targetPath);
     }
@@ -249,11 +265,11 @@ function applyPromote(preflight) {
 
   if (entry.layout === "directory") {
     const targetDir =
-      production.directoryPath ?? join(PRODUCTION_LAYOUTS, entry.id);
-    copyTreeWithRewrite(quarantinePath, targetDir);
+      production.directoryPath ?? dirname(production.absolutePath);
+    copyTreeWithRewrite(quarantinePath, targetDir, entry.id);
     rmSync(quarantinePath, { recursive: true, force: true });
   } else {
-    copyWithRewrite(quarantinePath, production.absolutePath);
+    copyWithRewrite(quarantinePath, production.absolutePath, entry.id);
     rmSync(quarantinePath, { force: true });
   }
 

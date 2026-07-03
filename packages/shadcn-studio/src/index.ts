@@ -18,6 +18,154 @@ export {
   resolveShell,
   type ShellSlug,
 } from "./components-app-shell/resolve-shell.js";
+export {
+  AUTH_ACCESS_DENIED_PATH,
+  AUTH_BACK_TO_WEBSITE_PATH,
+  AUTH_ERROR_PATH,
+  AUTH_FORGOT_PASSWORD_PATH,
+  AUTH_FORGOT_PASSWORD_SUCCESS_PATH,
+  AUTH_INVITE_ACCEPT_PATH,
+  AUTH_INVITE_CONSUMED_PATH,
+  AUTH_INVITE_EMAIL_MISMATCH_PATH,
+  AUTH_INVITE_EXPIRED_PATH,
+  AUTH_INVITE_INVALID_PATH,
+  AUTH_INVITE_PATH,
+  AUTH_MFA_PATH,
+  AUTH_MFA_RECOVERY_PATH,
+  AUTH_OAUTH_ERROR_PATH,
+  AUTH_OTP_PATH,
+  AUTH_PASSKEY_ERROR_PATH,
+  AUTH_PASSKEY_PATH,
+  AUTH_RESET_PASSWORD_PATH,
+  AUTH_RESET_PASSWORD_SUCCESS_PATH,
+  AUTH_RUNTIME_SYNC_PROFILE,
+  AUTH_SECURITY_REVIEW_PATH,
+  AUTH_SESSION_EXPIRED_PATH,
+  AUTH_SIGN_IN_PATH,
+  AUTH_SIGN_UP_PATH,
+  AUTH_SSO_ERROR_PATH,
+  AUTH_SSO_PATH,
+  AUTH_VERIFY_EMAIL_EXPIRED_PATH,
+  AUTH_VERIFY_EMAIL_PATH,
+  AUTH_VERIFY_EMAIL_SENT_PATH,
+  AUTH_VERIFY_EMAIL_SUCCESS_PATH,
+  type AuthLoginMethodId,
+  type AuthLoginMethodKind,
+  type AuthLoginMethodManifestEntry,
+  type AuthPageBlockId,
+  type AuthShellFormLane,
+  type AuthShellLane,
+  assertCanonicalForgotPasswordForm,
+  assertCanonicalInviteAcceptForm,
+  assertCanonicalLoginForm,
+  assertCanonicalMfaOtpForm,
+  assertCanonicalMfaRecoveryForm,
+  assertCanonicalRegisterForm,
+  assertCanonicalResetPasswordForm,
+  BETTER_AUTH_OAUTH_CALLBACK_PREFIX,
+  BETTER_AUTH_PASSKEY_VERIFY_AUTHENTICATION_ENDPOINT,
+  BETTER_AUTH_REQUEST_PASSWORD_RESET_ENDPOINT,
+  BETTER_AUTH_RESET_PASSWORD_ENDPOINT,
+  BETTER_AUTH_SSO_OIDC_CALLBACK_PREFIX,
+  BETTER_AUTH_SSO_SAML_CALLBACK_PREFIX,
+  BETTER_AUTH_SSO_SIGN_IN_ENDPOINT,
+  CANONICAL_FORGOT_PASSWORD_FORM_ID,
+  CANONICAL_LOGIN_FORM_ID,
+  CANONICAL_MFA_OTP_FORM_ID,
+  CANONICAL_MFA_RECOVERY_FORM_ID,
+  CANONICAL_REGISTER_FORM_ID,
+  CANONICAL_RESET_PASSWORD_FORM_ID,
+  getLoginMethod,
+  getLoginMethods,
+  getLoginPageManifest,
+  getLoginPageMethods,
+  getPreLoginPageManifest,
+  getPreLoginPageMethods,
+  getRegisterPageManifest,
+  getRegisterPageMethods,
+  getRequiredLoginMethod,
+  getResetPasswordPageManifest,
+  getResetPasswordPageMethods,
+  LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP,
+  LOGIN_METHOD_MANIFEST,
+  LOGIN_PAGE_BLOCK_IDS,
+  LOGIN_PAGE_MANIFEST,
+  type LoginPageBlockId,
+  type LoginPageDesignPattern,
+  type LoginPageManifestEntry,
+  PRE_LOGIN_PAGE_BLOCK_IDS,
+  PRE_LOGIN_PAGE_MANIFEST,
+  type PreLoginPageBlockId,
+  type PreLoginPageDesignPattern,
+  type PreLoginPageManifestEntry,
+  REGISTER_PAGE_BLOCK_IDS,
+  REGISTER_PAGE_MANIFEST,
+  RESET_PASSWORD_PAGE_BLOCK_IDS,
+  RESET_PASSWORD_PAGE_MANIFEST,
+  type RegisterPageBlockId,
+  type RegisterPageDesignPattern,
+  type RegisterPageManifestEntry,
+  type ResetPasswordPageBlockId,
+  type ResetPasswordPageDesignPattern,
+  type ResetPasswordPageManifestEntry,
+} from "./components-auth-shell/auth-shell-method-manifest.js";
+export { default as ErrorAccessDeniedPage01 } from "./components-auth-shell/error-access-denied-page-01.js";
+export { default as ErrorAuthenticationPage01 } from "./components-auth-shell/error-authentication-page-01.js";
+export { default as ErrorOauthPage01 } from "./components-auth-shell/error-oauth-page-01.js";
+export { default as ErrorPasskeyPage01 } from "./components-auth-shell/error-passkey-page-01.js";
+export { default as ErrorSessionExpiredPage01 } from "./components-auth-shell/error-session-expired-page-01.js";
+export { default as ErrorSsoPage01 } from "./components-auth-shell/error-sso-page-01.js";
+export {
+  default as ForgotPasswordFormV1,
+  type ForgotPasswordFormV1Props,
+} from "./components-auth-shell/forgot-password-form-v1.js";
+export { default as ForgotPasswordPage01 } from "./components-auth-shell/forgot-password-page-01.js";
+export { default as ForgotPasswordSuccessPage01 } from "./components-auth-shell/forgot-password-success-page-01.js";
+export { default as InviteAcceptPage01 } from "./components-auth-shell/invite-accept-page-01.js";
+export { default as InviteConsumedPage01 } from "./components-auth-shell/invite-consumed-page-01.js";
+export { default as InviteEmailMismatchPage01 } from "./components-auth-shell/invite-email-mismatch-page-01.js";
+export { default as InviteExpiredPage01 } from "./components-auth-shell/invite-expired-page-01.js";
+export { default as InviteInvalidPage01 } from "./components-auth-shell/invite-invalid-page-01.js";
+export { default as InvitePage01 } from "./components-auth-shell/invite-page-01.js";
+export {
+  default as LoginFormV1,
+  type LoginFormV1Props,
+} from "./components-auth-shell/login-form-v1.js";
+export { default as LoginPage01 } from "./components-auth-shell/login-page-01.js";
+export { default as LoginPage02 } from "./components-auth-shell/login-page-02.js";
+export { default as LoginPage03 } from "./components-auth-shell/login-page-03.js";
+export { default as LoginPage04 } from "./components-auth-shell/login-page-04.js";
+export { default as LoginPage05 } from "./components-auth-shell/login-page-05.js";
+export { default as LoginPage06 } from "./components-auth-shell/login-page-06.js";
+export {
+  default as MfaOtpFormV1,
+  type MfaOtpFormV1Props,
+} from "./components-auth-shell/mfa-otp-form-v1.js";
+export { default as MfaPage01 } from "./components-auth-shell/mfa-page-01.js";
+export {
+  default as MfaRecoveryFormV1,
+  type MfaRecoveryFormV1Props,
+} from "./components-auth-shell/mfa-recovery-form-v1.js";
+export { default as MfaRecoveryPage01 } from "./components-auth-shell/mfa-recovery-page-01.js";
+export { default as OtpPage01 } from "./components-auth-shell/otp-page-01.js";
+export { default as PasskeyPage01 } from "./components-auth-shell/passkey-page-01.js";
+export {
+  default as RegisterFormV1,
+  type RegisterFormV1Props,
+} from "./components-auth-shell/register-form-v1.js";
+export { default as RegisterPage01 } from "./components-auth-shell/register-page-01.js";
+export {
+  default as ResetPasswordFormV1,
+  type ResetPasswordFormV1Props,
+} from "./components-auth-shell/reset-password-form-v1.js";
+export { default as ResetPasswordPage01 } from "./components-auth-shell/reset-password-page-01.js";
+export { default as ResetPasswordSuccessPage01 } from "./components-auth-shell/reset-password-success-page-01.js";
+export { default as SecurityReviewPage01 } from "./components-auth-shell/security-review-page-01.js";
+export { default as SsoPage01 } from "./components-auth-shell/sso-page-01.js";
+export { default as VerifyEmailExpiredPage01 } from "./components-auth-shell/verify-email-expired-page-01.js";
+export { default as VerifyEmailPage01 } from "./components-auth-shell/verify-email-page-01.js";
+export { default as VerifyEmailSentPage01 } from "./components-auth-shell/verify-email-sent-page-01.js";
+export { default as VerifyEmailSuccessPage01 } from "./components-auth-shell/verify-email-success-page-01.js";
 export { default as AccountSettings01Block } from "./components-layouts/account-settings-01/account-settings-01.js";
 export { default as ChartEarningReportBlock } from "./components-layouts/chart-earning-report.js";
 export { default as ChartSalesMetricsBlock } from "./components-layouts/chart-sales-metrics.js";

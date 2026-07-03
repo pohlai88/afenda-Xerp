@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Afenda Route Lab - Editorial Proof Chamber</title>
+    <style>
+    :root {
+      --black: #050504;
+      --graphite: #0b0b0a;
+      --graphite-2: #11110f;
+      --milk: #eee9dc;
+      --milk-soft: rgba(238, 233, 220, 0.68);
+      --milk-faint: rgba(238, 233, 220, 0.18);
+      --milk-ghost: rgba(238, 233, 220, 0.08);
+      --gold: #c4a35d;
+      --gold-soft: rgba(196, 163, 93, 0.35);
+      --gold-faint: rgba(196, 163, 93, 0.13);
+      --line: rgba(238, 233, 220, 0.1);
+      --sans:
+        Geist, "Geist Sans", Inter, ui-sans-serif, system-ui, -apple-system,
+        BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --mono:
+        "Geist Mono", "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
+        monospace;
+      --display:
+        Impact, Haettenschweiler, "Arial Narrow Bold", "Arial Black", sans-serif;
+      --mx: 70%;
+      --my: 35%;
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      font-family: var(--sans);
+      color: var(--milk);
+      background: var(--black);
+    }
+
+    body {
+      background:
+        radial-gradient(
+          circle at var(--mx) var(--my),
+          rgba(196, 163, 93, 0.12),
+          transparent 25rem
+        ),
+        radial-gradient(
+          circle at 24% 70%,
+          rgba(255, 255, 255, 0.045),
+          transparent 34rem
+        ),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.028), transparent 38%),
+        var(--black);
+    }
+
+    body::before,
+    body::after {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+    }
+
+    body::before {
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px),
+        linear-gradient(var(--gold-faint) 1px, transparent 1px),
+        linear-gradient(90deg, var(--gold-faint) 1px, transparent 1px);
+      background-position: center;
+      background-size:
+        72px 72px,
+        72px 72px,
+        288px 288px,
+        288px 288px;
+      opacity: 0.62;
+      mask-image: radial-gradient(circle at 50% 48%, black 0%, transparent 82%);
+    }
+
+    body::after {
+      background:
+        linear-gradient(
+          90deg,
+          rgba(0, 0, 0, 0.72),
+          transparent 22%,
+          transparent 76%,
+          rgba(0, 0, 0, 0.82)
+        ),
+        linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.82),
+          transparent 28%,
+          transparent 78%,
+          rgba(0, 0, 0, 0.78)
+        ),
+        repeating-linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 0.035) 0 1px,
+          transparent 1px 4px
+        );
+      box-shadow: inset 0 0 10rem rgba(0, 0, 0, 0.9);
+      opacity: 0.88;
+    }
+
+    .screen {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-rows: 4.6rem minmax(0, 1fr) 8.8rem;
+      width: 100vw;
+      height: 100vh;
+      padding: clamp(1rem, 2.2vw, 2rem);
+      isolation: isolate;
+    }
+
+    .frame {
+      position: fixed;
+      inset: clamp(0.65rem, 1.15vw, 1rem);
+      z-index: 6;
+      pointer-events: none;
+      border: 1px solid var(--gold-faint);
+    }
+
+    .frame::before,
+    .frame::after {
+      position: absolute;
+      width: 8rem;
+      height: 8rem;
+      content: "";
+      border-color: var(--gold-soft);
+      border-style: solid;
+    }
+
+    .frame::before {
+      top: -1px;
+      left: -1px;
+      border-width: 1px 0 0 1px;
+    }
+
+    .frame::after {
+      right: -1px;
+      bottom: -1px;
+      border-width: 0 1px 1px 0;
+    }
+
+    .metadata {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1rem;
+      align-items: start;
+      border-bottom: 1px solid var(--gold-faint);
+    }
+
+    .micro {
+      margin: 0;
+      font-family: var(--mono);
+      font-size: clamp(0.54rem, 0.72vw, 0.68rem);
+      line-height: 1.55;
+      color: var(--milk-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+    }
+
+    .metadata .micro:nth-child(2) {
+      color: var(--gold);
+      text-align: center;
+    }
+
+    .metadata .micro:last-child {
+      text-align: right;
+    }
+
+    .field {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(23rem, 34vw);
+      gap: clamp(1.5rem, 4.5vw, 5.5rem);
+      min-height: 0;
+      padding: clamp(0.8rem, 1.8vw, 1.8rem) 0 0;
+    }
+
+    .phantom {
+      position: absolute;
+      top: 5.8vh;
+      left: clamp(1rem, 2.35vw, 2.7rem);
+      z-index: 0;
+      width: 64vw;
+      font-family: var(--display);
+      font-size: clamp(6.5rem, 13.2vw, 15.8rem);
+      font-weight: 900;
+      line-height: 0.76;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--milk-ghost);
+      text-transform: uppercase;
+      letter-spacing: 0;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.82;
+      transform: scaleX(1.05);
+      transform-origin: left center;
+    }
+
+    .phantom span {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .phantom span:nth-child(2) {
+      color: rgba(238, 233, 220, 0.024);
+      -webkit-text-stroke: 1px rgba(238, 233, 220, 0.12);
+    }
+
+    .phantom span:nth-child(3) {
+      color: rgba(196, 163, 93, 0.055);
+      -webkit-text-stroke: 1px rgba(196, 163, 93, 0.18);
+    }
+
+    .left-layer {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      align-content: end;
+      min-width: 0;
+      padding-bottom: clamp(1rem, 3.6vh, 2.2rem);
+    }
+
+    .doctrine {
+      display: grid;
+      grid-template-columns: 0.65rem minmax(0, 43rem);
+      gap: 1rem;
+      max-width: 48rem;
+      margin: 0;
+      font-size: clamp(1.08rem, 1.55vw, 1.55rem);
+      line-height: 1.22;
+      color: rgba(238, 233, 220, 0.76);
+    }
+
+    .doctrine::before {
+      display: block;
+      width: 0.65rem;
+      min-height: 6.4rem;
+      content: "";
+      background: linear-gradient(var(--gold), transparent);
+    }
+
+    .doctrine span {
+      display: block;
+    }
+
+    .coordinates {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .tick {
+      position: absolute;
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      line-height: 1;
+      color: rgba(238, 233, 220, 0.26);
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+    }
+
+    .tick.a {
+      top: 14%;
+      left: 0;
+      writing-mode: vertical-rl;
+    }
+
+    .tick.b {
+      top: 8%;
+      right: 31%;
+    }
+
+    .tick.c {
+      bottom: 12%;
+      left: 24%;
+    }
+
+    .tick.d {
+      right: 0;
+      bottom: 18%;
+      writing-mode: vertical-rl;
+    }
+
+    .proof-chamber {
+      position: relative;
+      z-index: 4;
+      align-self: center;
+      min-height: min(58vh, 33rem);
+      padding: clamp(1.2rem, 2.4vw, 2.25rem);
+      overflow: hidden;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.08), transparent 31%),
+        linear-gradient(
+          90deg,
+          transparent 0 43%,
+          rgba(196, 163, 93, 0.45) 43.2% 43.7%,
+          transparent 44%
+        ),
+        rgba(15, 15, 13, 0.86);
+      border: 1px solid rgba(196, 163, 93, 0.55);
+      box-shadow:
+        -2rem 2.4rem 7rem rgba(0, 0, 0, 0.62),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.045),
+        inset 0 0 5rem rgba(196, 163, 93, 0.06);
+      clip-path: polygon(
+        2.2rem 0,
+        100% 0,
+        100% calc(100% - 2.2rem),
+        calc(100% - 2.2rem) 100%,
+        0 100%,
+        0 2.2rem
+      );
+    }
+
+    .proof-chamber::before {
+      position: absolute;
+      inset: 1px;
+      pointer-events: none;
+      content: "";
+      border: 1px solid rgba(0, 0, 0, 0.74);
+      clip-path: inherit;
+    }
+
+    .proof-chamber::after {
+      position: absolute;
+      right: -16%;
+      bottom: -30%;
+      width: 72%;
+      aspect-ratio: 1;
+      pointer-events: none;
+      content: "";
+      background:
+        radial-gradient(
+          circle,
+          transparent 0 22%,
+          rgba(196, 163, 93, 0.12) 23% 23.6%,
+          transparent 24% 45%,
+          rgba(238, 233, 220, 0.09) 46% 46.7%,
+          transparent 47%
+        ),
+        linear-gradient(
+          90deg,
+          transparent 49.6%,
+          rgba(238, 233, 220, 0.1) 50%,
+          transparent 50.4%
+        ),
+        linear-gradient(
+          0deg,
+          transparent 49.6%,
+          rgba(238, 233, 220, 0.1) 50%,
+          transparent 50.4%
+        );
+      opacity: 0.82;
+    }
+
+    .chamber-content {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: calc(min(58vh, 33rem) - clamp(2.4rem, 4.8vw, 4.5rem));
+    }
+
+    .chamber-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: start;
+      padding-bottom: clamp(1rem, 2vh, 1.4rem);
+      border-bottom: 1px solid var(--gold-faint);
+    }
+
+    .kicker {
+      margin: 0 0 0.9rem;
+      color: var(--gold);
+    }
+
+    h1 {
+      max-width: 10ch;
+      margin: 0;
+      font-size: clamp(2.25rem, 4.4vw, 4.9rem);
+      font-weight: 900;
+      line-height: 0.88;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .seal {
+      display: grid;
+      place-items: center;
+      width: clamp(4.2rem, 6vw, 5.4rem);
+      aspect-ratio: 1;
+      color: var(--gold);
+      border: 1px solid var(--gold-soft);
+    }
+
+    .seal .micro {
+      font-size: 0.54rem;
+      letter-spacing: 0.12em;
+    }
+
+    .instrument {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 9.6rem;
+      gap: clamp(1rem, 2vw, 1.5rem);
+      align-items: end;
+      padding: clamp(1.1rem, 2.5vh, 1.6rem) 0;
+    }
+
+    .commands {
+      display: grid;
+      gap: 0;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      border-top: 1px solid var(--gold-faint);
+    }
+
+    .command {
+      display: grid;
+      grid-template-columns: 2.3rem 1fr auto;
+      gap: 0.8rem;
+      align-items: center;
+      min-height: 3.15rem;
+      border-bottom: 1px solid var(--gold-faint);
+    }
+
+    .command b,
+    .command span,
+    .command em {
+      font-family: var(--mono);
+      font-size: clamp(0.55rem, 0.72vw, 0.66rem);
+      font-style: normal;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .command b {
+      color: var(--gold);
+    }
+
+    .command span {
+      color: var(--milk-soft);
+    }
+
+    .command em {
+      color: rgba(238, 233, 220, 0.84);
+    }
+
+    .target {
+      position: relative;
+      aspect-ratio: 1;
+      overflow: hidden;
+      background:
+        radial-gradient(
+          circle,
+          transparent 0 22%,
+          rgba(196, 163, 93, 0.18) 23% 24%,
+          transparent 25% 47%,
+          rgba(238, 233, 220, 0.12) 48% 49%,
+          transparent 50%
+        ),
+        linear-gradient(
+          90deg,
+          transparent 49.4%,
+          rgba(238, 233, 220, 0.12) 50%,
+          transparent 50.6%
+        ),
+        linear-gradient(
+          0deg,
+          transparent 49.4%,
+          rgba(238, 233, 220, 0.12) 50%,
+          transparent 50.6%
+        ),
+        rgba(6, 6, 5, 0.68);
+      border: 1px solid var(--gold-faint);
+    }
+
+    .target::before {
+      position: absolute;
+      inset: 12%;
+      content: "";
+      border: 1px solid var(--gold-faint);
+      transform: rotate(45deg);
+    }
+
+    .target::after {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 42%;
+      height: 1px;
+      content: "";
+      background: linear-gradient(90deg, var(--gold), transparent);
+      transform: rotate(var(--radar-angle, 22deg));
+      transform-origin: left center;
+      transition: transform 900ms ease;
+    }
+
+    .target i {
+      position: absolute;
+      width: 0.5rem;
+      height: 0.5rem;
+      background: var(--gold);
+      box-shadow: 0 0 1rem rgba(196, 163, 93, 0.52);
+    }
+
+    .target i:first-child {
+      top: 28%;
+      left: 65%;
+    }
+
+    .target i:nth-child(2) {
+      top: 62%;
+      left: 37%;
+      background: rgba(238, 233, 220, 0.72);
+    }
+
+    .graph {
+      position: relative;
+      min-height: 5.6rem;
+      overflow: hidden;
+      background:
+        linear-gradient(var(--gold-faint) 1px, transparent 1px),
+        linear-gradient(90deg, var(--gold-faint) 1px, transparent 1px),
+        rgba(3, 3, 3, 0.5);
+      background-size: 18px 18px;
+      border: 1px solid var(--gold-faint);
+    }
+
+    .graph svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .graph path {
+      fill: none;
+      stroke: var(--gold);
+      stroke-width: 2;
+      stroke-linecap: square;
+    }
+
+    .graph::after {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: var(--scan-x, 28%);
+      width: 1px;
+      content: "";
+      background: var(--gold);
+      box-shadow: 0 0 1rem rgba(196, 163, 93, 0.72);
+      transition: left 700ms ease;
+    }
+
+    .proof-strip {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: stretch;
+      border-top: 1px solid var(--gold-soft);
+    }
+
+    .proof-item {
+      min-width: 0;
+      padding: clamp(0.85rem, 1.35vw, 1.2rem) clamp(0.7rem, 1.2vw, 1rem);
+      border-right: 1px solid var(--gold-faint);
+    }
+
+    .proof-item:last-child {
+      border-right: 0;
+    }
+
+    .proof-value {
+      display: block;
+      margin-bottom: 0.55rem;
+      font-size: clamp(1.35rem, 2.8vw, 3rem);
+      font-weight: 900;
+      line-height: 0.9;
+      color: var(--milk);
+      letter-spacing: 0;
+    }
+
+    .proof-copy {
+      max-width: 16rem;
+      color: var(--milk-soft);
+    }
+
+    @media (max-width: 980px) {
+      html,
+      body {
+        overflow: auto;
+      }
+
+      .screen {
+        grid-template-rows: auto auto auto;
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .metadata {
+        grid-template-columns: 1fr;
+      }
+
+      .metadata .micro:nth-child(2),
+      .metadata .micro:last-child {
+        text-align: left;
+      }
+
+      .field {
+        grid-template-columns: 1fr;
+        min-height: 42rem;
+      }
+
+      .phantom {
+        width: 94vw;
+        font-size: clamp(5.2rem, 20vw, 12rem);
+      }
+
+      .proof-chamber {
+        min-height: auto;
+      }
+
+      .proof-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .instrument,
+      .proof-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .phantom span {
+        white-space: normal;
+      }
+
+      .doctrine {
+        grid-template-columns: 1fr;
+      }
+
+      .doctrine::before {
+        width: 7rem;
+        height: 1px;
+        min-height: 1px;
+      }
+
+      .proof-item {
+        border-right: 0;
+        border-bottom: 1px solid var(--gold-faint);
+      }
+
+      .proof-item:last-child {
+        border-bottom: 0;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <div aria-hidden="true" class="frame"></div>
+    <main aria-label="Afenda Route Lab editorial proof preview" class="screen">
+      <header class="metadata">
+        <p class="micro">Afenda Route Lab</p>
+        <p class="micro">Veritas Protocol</p>
+        <p class="micro">Private Verification Chamber</p>
+      </header>
+
+      <section aria-label="Layered editorial proof composition" class="field">
+        <div aria-hidden="true" class="coordinates">
+          <span class="tick a">evidence before import</span>
+          <span class="tick b">x:3002 y:veritas</span>
+          <span class="tick c">route proof field</span>
+          <span class="tick d">coordinate ticks</span>
+        </div>
+
+        <div aria-hidden="true" class="phantom">
+          <span>This is</span>
+          <span>not</span>
+          <span>ordinary</span>
+        </div>
+
+        <div class="left-layer">
+          <p class="doctrine">
+            <span>
+              Interface becomes infrastructure only after proof. Evidence before
+              import. Every route is inspected before it reaches ERP.
+            </span>
+          </p>
+        </div>
+
+        <aside aria-label="Route Evidence Chamber" class="proof-chamber">
+          <div class="chamber-content">
+            <div class="chamber-head">
+              <div>
+                <p class="micro kicker">Route Evidence Chamber</p>
+                <h1>Private Verification Console</h1>
+              </div>
+              <div class="seal">
+                <span class="micro">seal</span>
+              </div>
+            </div>
+
+            <div class="instrument">
+              <ol aria-label="Proof command rows" class="commands">
+                <li class="command">
+                  <b>01</b>
+                  <span>Preview route</span>
+                  <em>ready</em>
+                </li>
+                <li class="command">
+                  <b>02</b>
+                  <span>Capture evidence</span>
+                  <em>armed</em>
+                </li>
+                <li class="command">
+                  <b>03</b>
+                  <span>Hold ERP import</span>
+                  <em>sealed</em>
+                </li>
+              </ol>
+
+              <div aria-label="Target proof surface" class="target" role="img">
+                <i aria-hidden="true"></i>
+                <i aria-hidden="true"></i>
+              </div>
+            </div>
+
+            <div aria-label="Minimal proof graph" class="graph" role="img">
+              <svg aria-hidden="true" viewBox="0 0 520 120">
+                <path
+                  d="M0 72 L42 72 L68 59 L98 66 L136 40 L174 52 L214 50 L248 26 L290 86 L330 65 L368 69 L406 42 L444 53 L482 34 L520 48"
+                />
+              </svg>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <footer class="proof-strip">
+        <div class="proof-item">
+          <strong class="proof-value">000</strong>
+          <p class="micro proof-copy">routes promoted without inspection</p>
+        </div>
+        <div class="proof-item">
+          <strong class="proof-value">3x</strong>
+          <p class="micro proof-copy">preview / evidence / promotion review</p>
+        </div>
+        <div class="proof-item">
+          <strong class="proof-value">3002</strong>
+          <p class="micro proof-copy">chamber port</p>
+        </div>
+        <div class="proof-item">
+          <strong class="proof-value">armed</strong>
+          <p class="micro proof-copy">enterprise verification protocol</p>
+        </div>
+      </footer>
+    </main>
+
+    <script>
+    "use strict";
+
+    const root = document.documentElement;
+    const graph = document.querySelector(".graph");
+    const target = document.querySelector(".target");
+
+    const updateInstruments = () => {
+      const now = new Date();
+      const seconds = now.getSeconds();
+      const scanPosition = 12 + ((seconds * 5) % 76);
+      const radarAngle = (seconds * 9) % 360;
+
+      if (graph instanceof HTMLElement) {
+        graph.style.setProperty("--scan-x", `${scanPosition}%`);
+      }
+
+      if (target instanceof HTMLElement) {
+        target.style.setProperty("--radar-angle", `${radarAngle}deg`);
+      }
+    };
+
+    window.addEventListener("pointermove", (event) => {
+      root.style.setProperty(
+        "--mx",
+        `${(event.clientX / window.innerWidth) * 100}%`
+      );
+      root.style.setProperty(
+        "--my",
+        `${(event.clientY / window.innerHeight) * 100}%`
+      );
+    });
+
+    updateInstruments();
+    window.setInterval(updateInstruments, 1000);
+    </script>
+  </body>
+</html>

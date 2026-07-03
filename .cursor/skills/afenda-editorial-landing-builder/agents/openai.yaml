@@ -1,0 +1,4 @@
+interface:
+  display_name: "Afenda Editorial Landing Builder"
+  short_description: "Concept-first Afenda landing workflows"
+  default_prompt: "Use $afenda-editorial-landing-builder to build an Afenda editorial landing page from an approved visual concept."

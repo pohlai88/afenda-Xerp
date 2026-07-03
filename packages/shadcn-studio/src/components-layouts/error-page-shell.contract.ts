@@ -6,7 +6,7 @@ export const ERROR_PAGE_VARIANTS = [
   "404",
   "500",
   "maintenance",
-  "session-expired",
+  "error-session-expired",
 ] as const;
 
 export type ErrorPageVariant = (typeof ERROR_PAGE_VARIANTS)[number];
@@ -110,7 +110,7 @@ export const ERROR_PAGE_COPY_REGISTRY = {
     actionLabel: "Back to home",
     actionHref: "/",
   },
-  "session-expired": {
+  "error-session-expired": {
     headline: "401 - Session expired",
     title: "Your session has ended",
     description: "Sign in again to continue working in Afenda ERP.",

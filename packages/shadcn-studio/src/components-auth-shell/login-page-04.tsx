@@ -1,17 +1,46 @@
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import GithubIcon from "@/components-assets/icon-github.js";
 import GoogleIcon from "@/components-assets/icon-google.js";
 import LogoIcon from "@/components-assets/icon-logo.js";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import LoginPage04Form from "./login-page-04-form.js";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
+import {
+  assertCanonicalLoginForm,
+  getLoginPageManifest,
+  getRequiredLoginMethod,
+} from "./auth-shell-method-manifest.js";
+import LoginFormV1 from "./login-form-v1.js";
+
+const BLOCK_ID = "login-page-04" as const;
+const LOGIN_PAGE_MANIFEST = getLoginPageManifest(BLOCK_ID);
+assertCanonicalLoginForm(LOGIN_PAGE_MANIFEST.blockId);
+
+const googleMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "google"
+);
+const githubMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "github"
+);
+const forgotPasswordMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "forgot-password"
+);
+const signUpMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "sign-up"
+);
 
 /** ERP ingress preview — served from apps/erp/public/auth/ in production. */
 const AUTH_ENTRY_PREVIEW_SRC = "/auth/auth-entry-preview.png";
 
-const LoginPage04 = () => {
+export default function LoginPage04() {
   return (
-    <div className="h-dvh lg:grid lg:grid-cols-2">
+    <div
+      {...blockSlotDomMarkerProps("login-page-04.content")}
+      className="h-dvh lg:grid lg:grid-cols-2"
+    >
       <div
         {...blockSlotDomMarkerProps("login.branding")}
         className="flex flex-col items-center justify-between gap-12 bg-primary p-10 max-lg:hidden xl:p-16"
@@ -66,20 +95,20 @@ const LoginPage04 = () => {
             <Button
               className="grow"
               nativeButton={false}
-              render={<a href="#" />}
+              render={<a href={googleMethod.href} />}
               variant="outline"
             >
               <GoogleIcon className="size-4" variant="brand" />
-              Login with Google
+              {googleMethod.label}
             </Button>
             <Button
               className="grow"
               nativeButton={false}
-              render={<a href="#" />}
+              render={<a href={githubMethod.href} />}
               variant="outline"
             >
               <GithubIcon className="size-4" variant="brand" />
-              Login with GitHub
+              {githubMethod.label}
             </Button>
           </div>
 
@@ -90,12 +119,22 @@ const LoginPage04 = () => {
           </div>
 
           <div className="space-y-4">
-            <LoginPage04Form />
+            <div aria-hidden="true" className="sr-only">
+              <span {...blockSlotDomMarkerProps("login.email")} />
+              <span {...blockSlotDomMarkerProps("login.password")} />
+              <span {...blockSlotDomMarkerProps("login.password.help")} />
+              <span {...blockSlotDomMarkerProps("login.submit")} />
+            </div>
+
+            <LoginFormV1 forgotPasswordHref={forgotPasswordMethod.href} />
 
             <p className="text-center text-muted-foreground">
               Don&apos;t have an account yet?{" "}
-              <a className="text-foreground hover:underline" href="#">
-                Sign Up
+              <a
+                className="text-foreground hover:underline"
+                href={signUpMethod.href}
+              >
+                {signUpMethod.label}
               </a>
             </p>
           </div>
@@ -103,6 +142,4 @@ const LoginPage04 = () => {
       </div>
     </div>
   );
-};
-
-export default LoginPage04;
+}

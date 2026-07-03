@@ -29,6 +29,13 @@
         "${workspaceFolder}/.cursor/mcp/storybook.mjs"
       ]
     },
+    "next-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "next-devtools-mcp@latest"
+      ]
+    },
     "fetch": {
       "command": "uvx",
       "args": [

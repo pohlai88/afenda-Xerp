@@ -71,6 +71,8 @@ function collectQuarantineDeletions() {
     }
 
     if (
+      entry === "blocks" ||
+      entry === "components" ||
       entry === "components-layouts" ||
       entry === "components-ui" ||
       entry === "components-auth-shell"

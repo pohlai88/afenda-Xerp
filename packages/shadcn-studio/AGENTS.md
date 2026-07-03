@@ -115,22 +115,41 @@ Pre-auth **presentation** only — pairs with `components-app-shell/` (post-auth
 | Ecosystem doc | [`docs/auth-ingress-ecosystem.md`](./docs/auth-ingress-ecosystem.md) | Lanes, runtime config, design ecosystems |
 | Barrel | `LoginPage04Block`, `AuthShell`, `resolveAuthShell` | Block export retained for direct ERP wiring |
 
+#### Runtime-sync method rules
+
+`login-method-manifest.ts` is a **manual synchronization layer**, not a runtime import bridge.
+
+1. Read runtime truth before editing auth-shell methods:
+   - `packages/auth/src/auth.sign-in-surface.ts`
+   - `packages/auth/src/auth.social-providers.ts`
+   - `packages/auth/src/auth.config.ts`
+   - `apps/erp/src/lib/auth/auth-path.registry.ts`
+2. Synchronize method ids manually into `login-method-manifest.ts`.
+3. Do **not** import `@afenda/auth` or ERP auth registry files into `@afenda/shadcn-studio`.
+4. Current runtime-backed method classes:
+   - credential: email/password
+   - social OAuth: Google, GitHub only
+   - capabilities: passkey, SSO
+   - navigation: sign-in, sign-up, forgot-password, reset-password-adjacent routes
+5. Do not reintroduce presentation-only method ids like `facebook`, `magic-link`, or demo logins unless auth runtime truth adds them first.
+6. The canonical credential frame stays in `login-form-v1.tsx`; do not add numbered wrapper forms back into `components-auth-shell/`.
+7. For future forgot-password, reset-password, register, invite, and verify screens: update the manifest first, then bind the page shell to those method ids.
+
 #### Flat bucket recipe
 
 ```text
 components-auth-shell/
   auth-shell.tsx              ← composer (lane → block)
-  resolve-auth-shell.tsx      ← lane map SSOT
+  resolve-auth-shell.tsx      ← lane resolver using manifest SSOT
   login-page-04.tsx           ← access lane block
-  login-page-04-form.tsx      ← private form part (optional suffix)
   error-page-02.tsx           ← future promoted blocks (flat files)
 ```
 
 To add a lane block:
 
 1. Install MCP block to quarantine → promote to flat `components-auth-shell/{block-id}.tsx`.
-2. Register block id in `AUTH_SHELL_BLOCK_IDS` ([`scripts/studio/quarantine-paths.mjs`](../../scripts/studio/quarantine-paths.mjs)).
-3. Map lane → block in `resolve-auth-shell.tsx` `AUTH_SHELL_MAP`.
+2. Register the auth block for production routing in `login-method-manifest.ts`.
+3. Map lane → block in `login-method-manifest.ts` `LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP`.
 4. Add Storybook story under **Auth Shell** (production block) or **Auth Pattern Lab** (L4 sign-in explorations).
 5. Wire ERP pathname → lane in `apps/erp/src/lib/auth/auth-path.registry.ts` (runtime boundary — outside this package).
 
@@ -202,6 +221,8 @@ Start from [`.cursor/skills/using-afenda-skills/SKILL.md`](../../.cursor/skills/
 
 Quick reference for agents — full detail in [components-quarantine/README.md](./src/components-quarantine/README.md).
 
+Quarantine naming note: the corrected inbox model is `src/components-quarantine/blocks/` and `src/components-quarantine/components/`. Older quarantine bucket names (`components-layouts`, `components-ui`, `components-auth-shell`) are retired inbox vocabulary and should not be reintroduced.
+
 ### Install → inbox
 
 ```bash
@@ -249,8 +270,8 @@ pnpm studio:quarantine reset --apply               # execute origin restore
 
 ```text
 MCP / CLI (pnpm studio:shadcn:quarantine)
-  → src/components-quarantine/          ← mirrored buckets (overwrite OK)
-      components-layouts/ | components-ui/ | components-auth-shell/
+  → src/components-quarantine/          ← corrected inbox buckets (overwrite OK)
+      blocks/ | components/
   → pnpm studio:promote --block <id>    ← preflight (verdict label)
   → pnpm studio:promote --block <id> --apply   ← only when READY_TO_PROMOTE
   → meta-registry lifecycle + PAS-006C acceptance

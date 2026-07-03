@@ -13,6 +13,7 @@ paths:
   - packages/shadcn-studio/docs/verdant-noir.css
   - apps/storybook/stories/presentation-lab*
   - apps/storybook/stories/erp-workspace-dashboard-*-noir*
+  - apps/developer/src/app/**
 ---
 
 # Afenda Editorial Bundle
@@ -42,6 +43,8 @@ ghost hero
 floating jewel
 gold hairline
 Presentation Lab
+developer landing
+route lab landing
 Auth Login Lab
 sign-in chamber
 operator identity
@@ -63,6 +66,7 @@ If these terms appear together with a code edit request, this bundle is **mandat
 | 6 afenda-presentation-promotion | User explicitly asks to promote, wire into ERP, or make production |
 | 7 package-css-dist-sync | `docs/swiss-noir.css` or `docs/verdant-noir.css` edited |
 | 8 editorial-login-quality | Auth Login Lab, login contracts, sign-in patterns, or login quality |
+| 9 afenda-editorial-landing-builder | Developer route lab, Presentation Lab, or editorial landing pages |
 
 ## Mandatory preflight (before editorial file edit)
 
@@ -108,6 +112,7 @@ Restart from step 1.
 | 6 | afenda-presentation-promotion | `.cursor/skills/afenda-presentation-promotion/SKILL.md` | User says promote / wire ERP sign-in |
 | 7 | package-css-dist-sync | `.cursor/skills/package-css-dist-sync/SKILL.md` | `docs/swiss-noir.css` or `docs/verdant-noir.css` edited |
 | 8 | Editorial login quality | `.cursor/skills/using-afenda-skills/reference/editorial-login-quality.md` | Auth Login Lab / login contract / pattern bridge |
+| 9 | afenda-editorial-landing-builder | `.cursor/skills/afenda-editorial-landing-builder/SKILL.md` | Developer route lab, Presentation Lab, or editorial landing pages |
 
 **Promotion:** row 6 only on explicit trigger (`disable-model-invocation: true` on that skill). A-lab / B-auth-shell must not modify ERP `/sign-in`.
 

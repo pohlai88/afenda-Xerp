@@ -4,23 +4,15 @@
     "paths": {
       "@/components/ui/*": ["./src/components-ui/*"],
       "@/components/shadcn-studio/*": ["./src/components-layouts/*"],
-      "@/components-quarantine/components-layouts": [
-        "./src/components-quarantine/components-layouts"
+      "@/components-quarantine/blocks": ["./src/components-quarantine/blocks"],
+      "@/components-quarantine/blocks/*": [
+        "./src/components-quarantine/blocks/*"
       ],
-      "@/components-quarantine/components-layouts/*": [
-        "./src/components-quarantine/components-layouts/*"
+      "@/components-quarantine/components": [
+        "./src/components-quarantine/components"
       ],
-      "@/components-quarantine/components-ui": [
-        "./src/components-quarantine/components-ui"
-      ],
-      "@/components-quarantine/components-ui/*": [
-        "./src/components-quarantine/components-ui/*"
-      ],
-      "@/components-quarantine/components-auth-shell": [
-        "./src/components-quarantine/components-auth-shell"
-      ],
-      "@/components-quarantine/components-auth-shell/*": [
-        "./src/components-quarantine/components-auth-shell/*"
+      "@/components-quarantine/components/*": [
+        "./src/components-quarantine/components/*"
       ],
       "@/components-quarantine/*": ["./src/components-quarantine/*"],
       "@/components-auth-shell/*": ["./src/components-auth-shell/*"],

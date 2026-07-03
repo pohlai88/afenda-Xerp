@@ -20,16 +20,14 @@ import {
 } from "node:fs";
 import { basename, join } from "node:path";
 import {
-  AUTH_SHELL_BLOCK_IDS,
   CANONICAL_UTILS,
   LEGACY_BLOCKS_ROOT,
   LEGACY_COMPONENTS_ROOT,
   productionTargetForBlock,
-  QUARANTINE_AUTH,
-  QUARANTINE_LAYOUTS,
+  QUARANTINE_BLOCKS,
+  QUARANTINE_COMPONENTS,
   QUARANTINE_LEGACY_UI,
   QUARANTINE_ROOT,
-  QUARANTINE_UI,
   REPO_ROOT,
   STRAY_LIB_UTILS,
   STUDIO_ROOT,
@@ -57,11 +55,8 @@ function blockIdFromEntryName(entry) {
   return entry.replace(TSX_SUFFIX_RE, "");
 }
 
-function targetDirForBlock(blockId) {
-  if (AUTH_SHELL_BLOCK_IDS.has(blockId)) {
-    return QUARANTINE_AUTH;
-  }
-  return QUARANTINE_LAYOUTS;
+function targetDirForBlock(_blockId) {
+  return QUARANTINE_BLOCKS;
 }
 
 function relocateFile(sourcePath, targetPath) {
@@ -150,7 +145,7 @@ function relocateLegacyUiFolder() {
     return [];
   }
 
-  ensureDir(QUARANTINE_UI);
+  ensureDir(QUARANTINE_COMPONENTS);
   const moved = [];
 
   for (const entry of readdirSync(QUARANTINE_LEGACY_UI)) {
@@ -159,9 +154,9 @@ function relocateLegacyUiFolder() {
       continue;
     }
 
-    const targetPath = join(QUARANTINE_UI, entry);
+    const targetPath = join(QUARANTINE_COMPONENTS, entry);
     relocateFile(sourcePath, targetPath);
-    moved.push(`components-quarantine/components-ui/${entry}`);
+    moved.push(`components-quarantine/components/${entry}`);
   }
 
   rmSync(QUARANTINE_LEGACY_UI, { recursive: true, force: true });
@@ -193,11 +188,35 @@ function rewriteQuarantineImportsInTree(rootDir) {
     const next = source
       .replaceAll(
         "@/components-quarantine/ui/",
-        "@/components-quarantine/components-ui/"
+        "@/components-quarantine/components/"
       )
       .replaceAll(
         '@/components-quarantine/ui"',
-        '@/components-quarantine/components-ui"'
+        '@/components-quarantine/components"'
+      )
+      .replaceAll(
+        "@/components-quarantine/components-ui/",
+        "@/components-quarantine/components/"
+      )
+      .replaceAll(
+        "@/components-quarantine/components-layouts/",
+        "@/components-quarantine/blocks/"
+      )
+      .replaceAll(
+        "@/components-quarantine/components-auth-shell/",
+        "@/components-quarantine/blocks/"
+      )
+      .replaceAll(
+        '@/components-quarantine/components-ui"',
+        '@/components-quarantine/components"'
+      )
+      .replaceAll(
+        '@/components-quarantine/components-layouts"',
+        '@/components-quarantine/blocks"'
+      )
+      .replaceAll(
+        '@/components-quarantine/components-auth-shell"',
+        '@/components-quarantine/blocks"'
       );
     if (next !== source) {
       writeFileSync(filePath, next, "utf8");

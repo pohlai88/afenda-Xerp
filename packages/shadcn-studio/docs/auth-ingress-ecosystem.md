@@ -63,6 +63,8 @@ Resolved by [`resolveSignInProviderSurface`](../../../packages/auth/src/auth.sig
 
 Social provider ids SSOT: [`auth.social-providers.ts`](../../../packages/auth/src/auth.social-providers.ts) — `google`, `github` only.
 
+Presentation sync rule: [`login-method-manifest.ts`](../src/components-auth-shell/login-method-manifest.ts) must be **manually synchronized** to the runtime sources above. Do not import `@afenda/auth` into `@afenda/shadcn-studio`; copy the method truth deliberately and keep unsupported ids out of the manifest.
+
 ---
 
 ## Presentation wiring (today)
@@ -84,7 +86,6 @@ components-auth-shell/
   auth-shell.tsx                 ← composer (lane → block)
   resolve-auth-shell.tsx         ← lane map SSOT
   login-page-04.tsx              ← access lane block (50/50 split canvas)
-  login-page-04-form.tsx         ← private form part
   {future-block-id}.tsx          ← promoted MCP blocks (flat kebab-case)
 ```
 
@@ -138,7 +139,7 @@ Storybook:
 
 Login CSS reuses workspace noir files (`swiss-noir.css` / `verdant-noir.css`) — **not** ERP `globals.css`. Login omits hero proof strips; copy stays minimal (one panel line + form).
 
-Shared lab form (OAuth Google/GitHub + fields): [`storybook/auth-access-form-fields.tsx`](../src/storybook/auth-access-form-fields.tsx) — **does not** replace production `login-page-04-form.tsx`. Login Pattern Lab uses presentation-native fields until ERP promotion.
+Shared lab form (OAuth Google/GitHub + fields): [`storybook/auth-access-form-fields.tsx`](../src/storybook/auth-access-form-fields.tsx) — **does not** replace the production canonical login form from [`login-method-manifest.ts`](../src/components-auth-shell/login-method-manifest.ts) and [`login-form-v1.tsx`](../src/components-auth-shell/login-form-v1.tsx). Login Pattern Lab uses presentation-native fields until ERP promotion.
 
 ### Pattern inventory
 
@@ -185,7 +186,7 @@ When promoting a winner:
 ## Gaps (tracked)
 
 1. **21 of 22** auth routes lack a dedicated presentation block — composer falls back to `access`.
-2. OAuth buttons in blocks must match runtime providers (Google + GitHub, not Facebook).
+2. Auth-shell methods must stay synchronized to runtime truth (Google + GitHub only for social OAuth; passkey and SSO are capability surfaces, not ad-hoc page inventions).
 3. Branding panel should use local assets (`/auth/auth-entry-preview.png`, `LogoSvg`) — not CDN PNGs.
 4. Browser icons: canonical paths under `apps/erp/public/icons/` — see [`apps/erp/public/README.md`](../../../apps/erp/public/README.md).
 5. **Verify / recover / error** lanes need dedicated MCP blocks — explicit gap, not Pattern Lab placeholders.
@@ -195,8 +196,8 @@ When promoting a winner:
 ## Promotion checklist (new auth block)
 
 1. `pnpm studio:shadcn:quarantine add @ss-blocks/<id> --overwrite --yes`
-2. Register id in `AUTH_SHELL_BLOCK_IDS` ([`quarantine-paths.mjs`](../../../scripts/studio/quarantine-paths.mjs))
+2. Register the page block and its allowed methods in `login-method-manifest.ts`
 3. Promote to flat `components-auth-shell/<block-id>.tsx`
-4. Map lane in `AUTH_SHELL_MAP`
+4. Map lane in `LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP`
 5. Restore `blockSlotDomMarkerProps`, local OAuth icons, metadata binding
 6. Storybook Pattern Lab or Auth Shell story + gates

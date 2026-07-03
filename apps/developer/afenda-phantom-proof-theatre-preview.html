@@ -1,0 +1,710 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Afenda Phantom Proof Theatre</title>
+    <meta
+      content="A single-screen Afenda sealed enterprise proof scene."
+      name="description"
+    >
+    <style>
+    :root {
+      --black: #030303;
+      --graphite: #0a0a09;
+      --graphite-2: #11100e;
+      --graphite-3: #171510;
+      --milk: #f0eadc;
+      --milk-soft: rgb(240 234 220 / 0.68);
+      --milk-muted: rgb(240 234 220 / 0.42);
+      --milk-faint: rgb(240 234 220 / 0.14);
+      --milk-ghost: rgb(240 234 220 / 0.055);
+      --gold: #b89a59;
+      --gold-soft: rgb(184 154 89 / 0.46);
+      --gold-faint: rgb(184 154 89 / 0.13);
+      --green: #183127;
+      --green-soft: rgb(66 109 87 / 0.18);
+      --line: rgb(240 234 220 / 0.105);
+      --line-strong: rgb(240 234 220 / 0.2);
+      --mono:
+        "SFMono-Regular", "Cascadia Mono", "IBM Plex Mono", Consolas,
+        "Liberation Mono", monospace;
+      --sans:
+        "Helvetica Neue", "Arial Narrow", "Roboto Condensed", Impact,
+        ui-sans-serif, system-ui, sans-serif;
+      --serif: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      font-family: var(--sans);
+      color: var(--milk);
+      background: var(--black);
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 71% 46%, var(--gold-faint), transparent 26rem),
+        radial-gradient(circle at 22% 21%, var(--green-soft), transparent 32rem),
+        linear-gradient(145deg, #060606 0%, #0b0b09 46%, #030303 100%);
+    }
+
+    body::before,
+    body::after {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+    }
+
+    body::before {
+      background-image:
+        linear-gradient(to right, rgb(240 234 220 / 0.035) 1px, transparent 1px),
+        linear-gradient(
+          to bottom,
+          rgb(240 234 220 / 0.028) 1px,
+          transparent 1px
+        ),
+        linear-gradient(to right, rgb(184 154 89 / 0.05) 1px, transparent 1px);
+      background-position:
+        center,
+        center,
+        38px 0;
+      background-size:
+        76px 76px,
+        76px 76px,
+        304px 304px;
+      opacity: 0.7;
+      mask-image: radial-gradient(circle at 57% 48%, black 0%, transparent 79%);
+    }
+
+    body::after {
+      background:
+        linear-gradient(
+          90deg,
+          rgb(0 0 0 / 0.72),
+          transparent 23%,
+          transparent 78%,
+          rgb(0 0 0 / 0.78)
+        ),
+        linear-gradient(
+          0deg,
+          rgb(0 0 0 / 0.78),
+          transparent 24%,
+          transparent 78%,
+          rgb(0 0 0 / 0.72)
+        ),
+        repeating-linear-gradient(
+          0deg,
+          rgb(255 255 255 / 0.028) 0 1px,
+          transparent 1px 4px
+        );
+      box-shadow: inset 0 0 9rem rgb(0 0 0 / 0.82);
+      opacity: 0.74;
+    }
+
+    .scene {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-rows: 4.4rem minmax(0, 1fr) 5.6rem;
+      width: 100vw;
+      height: 100vh;
+      padding: clamp(1rem, 2.4vw, 2.35rem);
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .scene::before {
+      position: absolute;
+      inset: clamp(0.7rem, 1.15vw, 1rem);
+      z-index: 7;
+      pointer-events: none;
+      content: "";
+      border: 1px solid var(--gold-faint);
+      box-shadow: inset 0 0 0 1px rgb(240 234 220 / 0.035);
+    }
+
+    .scene::after {
+      position: absolute;
+      top: 12vh;
+      right: 35.2vw;
+      bottom: 12vh;
+      z-index: 2;
+      width: 1px;
+      content: "";
+      background: linear-gradient(transparent, var(--gold-soft), transparent);
+      opacity: 0.72;
+    }
+
+    .topbar,
+    .footer {
+      position: relative;
+      z-index: 6;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1rem;
+      align-items: start;
+      min-width: 0;
+      font-family: var(--mono);
+      font-size: clamp(0.5rem, 0.62vw, 0.66rem);
+      color: var(--milk-muted);
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .topbar {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .footer {
+      align-items: end;
+      border-top: 1px solid var(--line);
+    }
+
+    .topbar strong,
+    .footer strong {
+      font-weight: 500;
+      color: var(--gold);
+      text-align: center;
+    }
+
+    .topbar span:last-child,
+    .footer span:last-child {
+      text-align: right;
+    }
+
+    .stage {
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(26rem, 36vw);
+      gap: clamp(2rem, 5vw, 5.5rem);
+      align-items: center;
+      min-height: 0;
+      padding-block: clamp(0.8rem, 2vh, 1.7rem);
+    }
+
+    .ghost-word {
+      position: absolute;
+      top: 4.8vh;
+      left: clamp(1rem, 2.2vw, 2.4rem);
+      z-index: 1;
+      max-width: 63vw;
+      margin: 0;
+      font-family: var(--sans);
+      font-size: clamp(6rem, 14.2vw, 15.6rem);
+      font-weight: 950;
+      line-height: 0.74;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--milk-ghost);
+      text-transform: uppercase;
+      letter-spacing: 0;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.68;
+      transform: scaleX(1.04);
+      transform-origin: left center;
+    }
+
+    .ghost-word span {
+      display: block;
+      white-space: nowrap;
+    }
+
+    .ghost-word .ghost-fill {
+      color: rgb(240 234 220 / 0.026);
+      -webkit-text-stroke: 0;
+    }
+
+    .left-caption {
+      position: relative;
+      z-index: 4;
+      align-self: end;
+      max-width: min(43rem, 55vw);
+      padding-left: clamp(1rem, 1.7vw, 1.6rem);
+      margin: 0 0 clamp(0.6rem, 4vh, 2.6rem) clamp(0.2rem, 1vw, 0.8rem);
+      border-left: 1px solid var(--gold-soft);
+    }
+
+    .left-caption b,
+    .chamber-label,
+    .command b,
+    .hup-label,
+    .proof-cell b {
+      display: block;
+      font-family: var(--mono);
+      font-size: clamp(0.5rem, 0.58vw, 0.64rem);
+      font-weight: 500;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .left-caption p {
+      max-width: 34rem;
+      margin: 0.88rem 0 0;
+      font-family: var(--serif);
+      font-size: clamp(1.08rem, 1.45vw, 1.55rem);
+      line-height: 1.32;
+      color: var(--milk-soft);
+    }
+
+    .proof-chamber {
+      position: relative;
+      z-index: 5;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      min-height: min(62vh, 34rem);
+      padding: clamp(1.15rem, 2.3vw, 2.35rem);
+      overflow: hidden;
+      background:
+        linear-gradient(
+          90deg,
+          transparent 0 11%,
+          rgb(184 154 89 / 0.58) 11.18% 11.46%,
+          transparent 11.75%
+        ),
+        linear-gradient(
+          142deg,
+          rgb(255 255 255 / 0.1),
+          rgb(255 255 255 / 0.026) 36%,
+          rgb(0 0 0 / 0.42)
+        ),
+        linear-gradient(180deg, rgb(32 49 40 / 0.22), transparent 42%),
+        rgb(14 13 11 / 0.91);
+      border: 1px solid rgb(240 234 220 / 0.22);
+      box-shadow:
+        0 38px 118px rgb(0 0 0 / 0.68),
+        -30px 22px 96px rgb(0 0 0 / 0.46),
+        inset 0 0 0 1px rgb(255 255 255 / 0.04),
+        inset 0 0 84px rgb(184 154 89 / 0.06);
+      clip-path: polygon(
+        2.6rem 0,
+        100% 0,
+        100% calc(100% - 2.6rem),
+        calc(100% - 2.6rem) 100%,
+        0 100%,
+        0 2.6rem
+      );
+    }
+
+    .proof-chamber::before,
+    .proof-chamber::after {
+      position: absolute;
+      pointer-events: none;
+      content: "";
+    }
+
+    .proof-chamber::before {
+      inset: 0;
+      background:
+        linear-gradient(
+          to right,
+          transparent,
+          rgb(184 154 89 / 0.09),
+          transparent
+        ),
+        linear-gradient(to bottom, rgb(255 255 255 / 0.1), transparent 28%);
+      opacity: 0.56;
+    }
+
+    .proof-chamber::after {
+      right: -18%;
+      bottom: -33%;
+      width: 74%;
+      aspect-ratio: 1;
+      background:
+        radial-gradient(
+          circle,
+          transparent 0 22%,
+          rgb(184 154 89 / 0.15) 22.5% 23.2%,
+          transparent 23.8% 46%,
+          rgb(240 234 220 / 0.09) 46.4% 47%,
+          transparent 47.6%
+        ),
+        linear-gradient(
+          90deg,
+          transparent 49.5%,
+          rgb(240 234 220 / 0.12) 50%,
+          transparent 50.5%
+        ),
+        linear-gradient(
+          0deg,
+          transparent 49.5%,
+          rgb(240 234 220 / 0.12) 50%,
+          transparent 50.5%
+        );
+      opacity: 0.82;
+    }
+
+    .chamber-head,
+    .chamber-body,
+    .chamber-foot {
+      position: relative;
+      z-index: 2;
+    }
+
+    .chamber-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 1rem;
+      align-items: start;
+      padding-bottom: clamp(0.9rem, 1.7vh, 1.3rem);
+      border-bottom: 1px solid var(--gold-faint);
+    }
+
+    .chamber-title {
+      max-width: 9.5ch;
+      margin: 0.75rem 0 0;
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 4.1vw, 4.85rem);
+      font-weight: 500;
+      line-height: 0.91;
+      color: var(--milk);
+      letter-spacing: 0;
+    }
+
+    .seal {
+      display: grid;
+      place-items: center;
+      width: clamp(4rem, 5.7vw, 5.4rem);
+      aspect-ratio: 1;
+      font-family: var(--mono);
+      font-size: 0.54rem;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0;
+      border: 1px solid var(--gold-soft);
+      box-shadow: inset 0 0 2rem rgb(184 154 89 / 0.05);
+    }
+
+    .chamber-body {
+      display: grid;
+      grid-template-columns: 1fr 0.82fr;
+      gap: clamp(0.9rem, 1.7vw, 1.45rem);
+      align-items: end;
+      min-height: 0;
+      padding-block: clamp(1rem, 2vh, 1.55rem);
+    }
+
+    .command-list {
+      display: grid;
+      gap: 0;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      border-top: 1px solid var(--gold-faint);
+    }
+
+    .command {
+      display: grid;
+      grid-template-columns: 2.25rem 1fr auto;
+      gap: 0.7rem;
+      align-items: center;
+      min-height: clamp(2.55rem, 5.7vh, 3.25rem);
+      border-bottom: 1px solid var(--gold-faint);
+    }
+
+    .command span,
+    .command em {
+      font-family: var(--mono);
+      font-size: clamp(0.53rem, 0.62vw, 0.66rem);
+      font-style: normal;
+      color: var(--milk-soft);
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .command em {
+      color: var(--milk);
+    }
+
+    .instrument {
+      position: relative;
+      min-height: clamp(10.8rem, 24vh, 14.2rem);
+      overflow: hidden;
+      background:
+        radial-gradient(
+          circle at 50% 50%,
+          rgb(184 154 89 / 0.18),
+          transparent 17%
+        ),
+        radial-gradient(
+          circle at 50% 50%,
+          transparent 0 30%,
+          rgb(240 234 220 / 0.07) 30.5% 31%,
+          transparent 31.5% 47%,
+          rgb(184 154 89 / 0.08) 47.4% 48%,
+          transparent 48.6%
+        ),
+        linear-gradient(
+          to right,
+          transparent 49.7%,
+          var(--line-strong) 50%,
+          transparent 50.3%
+        ),
+        linear-gradient(
+          to bottom,
+          transparent 49.7%,
+          var(--line-strong) 50%,
+          transparent 50.3%
+        ),
+        rgb(0 0 0 / 0.22);
+      border: 1px solid var(--line);
+    }
+
+    .instrument::before {
+      position: absolute;
+      inset: 16%;
+      content: "";
+      border: 1px solid var(--gold-faint);
+      transform: rotate(45deg);
+    }
+
+    .instrument::after {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 42%;
+      height: 1px;
+      content: "";
+      background: linear-gradient(90deg, var(--gold), transparent);
+      transform: rotate(24deg);
+      transform-origin: left center;
+    }
+
+    .instrument-core {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: clamp(3rem, 5.5vw, 5rem);
+      aspect-ratio: 1;
+      background: radial-gradient(
+        circle,
+        rgb(184 154 89 / 0.3),
+        transparent 64%
+      );
+      border: 1px solid var(--gold-soft);
+      border-radius: 50%;
+      box-shadow: 0 0 4rem rgb(184 154 89 / 0.17);
+      transform: translate(-50%, -50%);
+    }
+
+    .hup-layer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: end;
+      padding: clamp(0.75rem, 1.2vw, 1rem);
+      background:
+        linear-gradient(90deg, rgb(255 255 255 / 0.045), transparent),
+        rgb(255 255 255 / 0.018);
+      border: 1px solid var(--gold-faint);
+    }
+
+    .hup-layer p {
+      margin: 0.45rem 0 0;
+      font-family: var(--mono);
+      font-size: clamp(0.52rem, 0.6vw, 0.64rem);
+      line-height: 1.55;
+      color: var(--milk-muted);
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .hup-mark {
+      font-size: clamp(2.1rem, 3.8vw, 4rem);
+      font-weight: 950;
+      line-height: 0.8;
+      color: rgb(240 234 220 / 0.78);
+      letter-spacing: 0;
+    }
+
+    .proof-row {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.08fr) minmax(0, 0.9fr);
+      min-height: clamp(4.8rem, 9vh, 6.25rem);
+      border-top: 1px solid var(--gold-soft);
+    }
+
+    .proof-cell {
+      display: grid;
+      align-content: center;
+      min-width: 0;
+      padding: clamp(0.7rem, 1.1vw, 1rem);
+      border-right: 1px solid var(--gold-faint);
+    }
+
+    .proof-cell:last-child {
+      border-right: 0;
+    }
+
+    .proof-cell strong {
+      margin-top: 0.35rem;
+      font-size: clamp(1.45rem, 2vw, 2.05rem);
+      font-weight: 950;
+      line-height: 0.84;
+      color: var(--milk);
+      text-transform: lowercase;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .proof-cell span {
+      margin-top: 0.34rem;
+      font-family: var(--mono);
+      font-size: clamp(0.48rem, 0.55vw, 0.6rem);
+      color: var(--milk-muted);
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+
+    .vertical-mark {
+      position: absolute;
+      right: clamp(0.78rem, 1.55vw, 1.45rem);
+      bottom: 15vh;
+      z-index: 6;
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      color: rgb(240 234 220 / 0.24);
+      text-transform: uppercase;
+      letter-spacing: 0;
+      writing-mode: vertical-rl;
+    }
+
+    @media (max-width: 980px) {
+      html,
+      body {
+        overflow: auto;
+      }
+
+      .scene {
+        grid-template-rows: auto auto auto;
+        height: auto;
+        min-height: 100vh;
+      }
+
+      .stage,
+      .chamber-body {
+        grid-template-columns: 1fr;
+      }
+
+      .ghost-word {
+        max-width: 94vw;
+        font-size: clamp(4.8rem, 19vw, 10rem);
+      }
+
+      .left-caption {
+        max-width: 62vw;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <main aria-labelledby="scene-title" class="scene">
+      <div aria-hidden="true" class="vertical-mark">cam fights the bloat</div>
+
+      <header class="topbar">
+        <span>Afenda Phantom Proof Theatre</span>
+        <strong>Primary Ghost</strong>
+        <span>Secondary HUP</span>
+      </header>
+
+      <section aria-label="Sealed enterprise proof scene" class="stage">
+        <h1 class="ghost-word" id="scene-title">
+          <span>Phantom</span>
+          <span class="ghost-fill">Proof</span>
+          <span>Theatre</span>
+        </h1>
+
+        <section aria-label="Scene doctrine" class="left-caption">
+          <b>No landing / no dashboard / no SaaS hero</b>
+          <p>
+            A sealed enterprise proof scene. Silence first. The chamber carries
+            authority; typography stays in the atmosphere.
+          </p>
+        </section>
+
+        <aside aria-label="Phantom Proof Chamber" class="proof-chamber">
+          <header class="chamber-head">
+            <div>
+              <span class="chamber-label">Sealed chamber</span>
+              <h2 class="chamber-title">Proof is the theatre.</h2>
+            </div>
+            <div class="seal">sealed</div>
+          </header>
+
+          <div class="chamber-body">
+            <ol aria-label="Enterprise proof sequence" class="command-list">
+              <li class="command">
+                <b>01</b>
+                <span>Ghost layer observes, never shouts</span>
+                <em>quiet</em>
+              </li>
+              <li class="command">
+                <b>02</b>
+                <span>HUP layer binds human proof to protocol</span>
+                <em>held</em>
+              </li>
+              <li class="command">
+                <b>03</b>
+                <span>Bloat rejected at chamber threshold</span>
+                <em>denied</em>
+              </li>
+            </ol>
+
+            <figure
+              aria-label="Noir proof instrument"
+              class="instrument"
+              role="img"
+            >
+              <div aria-hidden="true" class="instrument-core"></div>
+            </figure>
+          </div>
+
+          <section aria-label="Secondary HUP proof layer" class="hup-layer">
+            <div>
+              <b class="hup-label">Secondary proof layer</b>
+              <p>Human-under-protocol record, visible only inside the seal.</p>
+            </div>
+            <strong class="hup-mark">HUP</strong>
+          </section>
+
+          <section aria-label="Proof chamber metrics" class="proof-row">
+            <article class="proof-cell">
+              <b>Noise</b>
+              <strong>000</strong>
+              <span>decorative claims</span>
+            </article>
+            <article class="proof-cell">
+              <b>State</b>
+              <strong>sealed</strong>
+              <span>enterprise proof</span>
+            </article>
+            <article class="proof-cell">
+              <b>Depth</b>
+              <strong>noir</strong>
+              <span>layered theatre</span>
+            </article>
+          </section>
+        </aside>
+      </section>
+
+      <footer class="footer">
+        <span>Luxury through restraint</span>
+        <strong>Screenshot complete in one viewport</strong>
+        <span>ERP import withheld</span>
+      </footer>
+    </main>
+  </body>
+</html>

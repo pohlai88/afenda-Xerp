@@ -15,11 +15,10 @@ import {
   EMPTY_REGISTRY,
   PRODUCTION_UI,
   productionTargetForBlock,
-  QUARANTINE_AUTH,
-  QUARANTINE_LAYOUTS,
+  QUARANTINE_BLOCKS,
+  QUARANTINE_COMPONENTS,
   QUARANTINE_REGISTRY,
   QUARANTINE_ROOT,
-  QUARANTINE_UI,
   STUDIO_SRC,
 } from "./quarantine-paths.mjs";
 import { resolveSourceRegistry } from "./registry-block-id-map.mjs";
@@ -87,6 +86,7 @@ function productionExistsForBlock(blockId) {
 function collectPrimitiveDeps(source) {
   const deps = new Set();
   const patterns = [
+    /from\s+["']@\/components-quarantine\/components\/([^"']+)["']/g,
     /from\s+["']@\/components-quarantine\/components-ui\/([^"']+)["']/g,
     /from\s+["']@\/components-quarantine\/ui\/([^"']+)["']/g,
   ];
@@ -172,7 +172,7 @@ function buildEntry(blockId, absolutePath, layout) {
       productionPrimitiveExists: existsSync(
         join(PRODUCTION_UI, `${name}.contract.ts`)
       ),
-      quarantinePath: relStudioPath(join(QUARANTINE_UI, `${name}.tsx`)),
+      quarantinePath: relStudioPath(join(QUARANTINE_COMPONENTS, `${name}.tsx`)),
     })),
     checklist,
     nextManualSteps: productionExists
@@ -210,10 +210,7 @@ function scanBlockBucket(bucketRoot) {
 }
 
 function buildRegistry() {
-  const entries = [
-    ...scanBlockBucket(QUARANTINE_LAYOUTS),
-    ...scanBlockBucket(QUARANTINE_AUTH),
-  ];
+  const entries = scanBlockBucket(QUARANTINE_BLOCKS);
 
   return {
     ...EMPTY_REGISTRY,

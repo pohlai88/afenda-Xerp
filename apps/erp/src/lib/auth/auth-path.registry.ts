@@ -16,7 +16,34 @@ export type AuthShellVariant =
   | "login-page-03"
   | "login-page-04"
   | "login-page-05"
-  | "login-page-06";
+  | "login-page-06"
+  | "register-page-01"
+  | "forgot-password-page-01"
+  | "forgot-password-success-page-01"
+  | "reset-password-page-01"
+  | "reset-password-success-page-01"
+  | "verify-email-page-01"
+  | "verify-email-sent-page-01"
+  | "verify-email-expired-page-01"
+  | "verify-email-success-page-01"
+  | "invite-page-01"
+  | "invite-accept-page-01"
+  | "invite-expired-page-01"
+  | "invite-invalid-page-01"
+  | "invite-consumed-page-01"
+  | "invite-email-mismatch-page-01"
+  | "passkey-page-01"
+  | "error-passkey-page-01"
+  | "sso-page-01"
+  | "error-sso-page-01"
+  | "error-oauth-page-01"
+  | "otp-page-01"
+  | "mfa-page-01"
+  | "mfa-recovery-page-01"
+  | "error-session-expired-page-01"
+  | "error-access-denied-page-01"
+  | "security-review-page-01"
+  | "error-authentication-page-01";
 
 export const AUTH_PATHS = {
   signIn: "/sign-in",
@@ -30,7 +57,10 @@ export const AUTH_PATHS = {
     expired: "/verify-email/expired",
     success: "/verify-email/success",
   },
-  forgotPassword: "/forgot-password",
+  forgotPassword: {
+    root: "/forgot-password",
+    success: "/forgot-password/success",
+  },
   resetPassword: {
     root: "/reset-password",
     success: "/reset-password/success",
@@ -39,6 +69,20 @@ export const AUTH_PATHS = {
     root: "/invite",
     accept: "/invite/accept",
     expired: "/invite/expired",
+    invalid: "/invite/invalid",
+    consumed: "/invite/consumed",
+    emailMismatch: "/invite/email-mismatch",
+  },
+  passkey: {
+    root: "/passkey",
+    error: "/passkey/error",
+  },
+  sso: {
+    root: "/sso",
+    error: "/sso/error",
+  },
+  oauth: {
+    error: "/oauth/error",
   },
   workspaceSelect: "/workspace/select",
   organizationSelect: "/organization/select",
@@ -59,12 +103,21 @@ export type AuthPathKey =
   | "verifyEmail.sent"
   | "verifyEmail.expired"
   | "verifyEmail.success"
-  | "forgotPassword"
+  | "forgotPassword.root"
+  | "forgotPassword.success"
   | "resetPassword.root"
   | "resetPassword.success"
   | "invite.root"
   | "invite.accept"
   | "invite.expired"
+  | "invite.invalid"
+  | "invite.consumed"
+  | "invite.emailMismatch"
+  | "passkey.root"
+  | "passkey.error"
+  | "sso.root"
+  | "sso.error"
+  | "oauth.error"
   | "workspaceSelect"
   | "organizationSelect"
   | "sessionExpired"
@@ -84,12 +137,21 @@ export const AUTH_SEGMENT_PATHS = [
   AUTH_PATHS.verifyEmail.sent,
   AUTH_PATHS.verifyEmail.expired,
   AUTH_PATHS.verifyEmail.success,
-  AUTH_PATHS.forgotPassword,
+  AUTH_PATHS.forgotPassword.root,
+  AUTH_PATHS.forgotPassword.success,
   AUTH_PATHS.resetPassword.root,
   AUTH_PATHS.resetPassword.success,
   AUTH_PATHS.invite.root,
   AUTH_PATHS.invite.accept,
   AUTH_PATHS.invite.expired,
+  AUTH_PATHS.invite.invalid,
+  AUTH_PATHS.invite.consumed,
+  AUTH_PATHS.invite.emailMismatch,
+  AUTH_PATHS.passkey.root,
+  AUTH_PATHS.passkey.error,
+  AUTH_PATHS.sso.root,
+  AUTH_PATHS.sso.error,
+  AUTH_PATHS.oauth.error,
   AUTH_PATHS.workspaceSelect,
   AUTH_PATHS.organizationSelect,
   AUTH_PATHS.sessionExpired,
@@ -111,12 +173,21 @@ export const AUTH_PATH_LANE_MAP: Record<
   [AUTH_PATHS.verifyEmail.sent]: "verify",
   [AUTH_PATHS.verifyEmail.expired]: "verify",
   [AUTH_PATHS.verifyEmail.success]: "verify",
-  [AUTH_PATHS.forgotPassword]: "recover",
+  [AUTH_PATHS.forgotPassword.root]: "recover",
+  [AUTH_PATHS.forgotPassword.success]: "recover",
   [AUTH_PATHS.resetPassword.root]: "recover",
   [AUTH_PATHS.resetPassword.success]: "recover",
   [AUTH_PATHS.invite.root]: "invite",
   [AUTH_PATHS.invite.accept]: "invite",
   [AUTH_PATHS.invite.expired]: "invite",
+  [AUTH_PATHS.invite.invalid]: "invite",
+  [AUTH_PATHS.invite.consumed]: "invite",
+  [AUTH_PATHS.invite.emailMismatch]: "invite",
+  [AUTH_PATHS.passkey.root]: "access",
+  [AUTH_PATHS.passkey.error]: "security",
+  [AUTH_PATHS.sso.root]: "access",
+  [AUTH_PATHS.sso.error]: "security",
+  [AUTH_PATHS.oauth.error]: "security",
   [AUTH_PATHS.workspaceSelect]: "workspace",
   [AUTH_PATHS.organizationSelect]: "workspace",
   [AUTH_PATHS.sessionExpired]: "security",
@@ -137,26 +208,35 @@ export const AUTH_PATH_FORM_VARIANT_MAP: Record<
   AuthShellVariant
 > = {
   [AUTH_PATHS.signIn]: "login-page-04",
-  [AUTH_PATHS.signUp]: "login-page-01",
-  [AUTH_PATHS.otp]: "login-page-03",
-  [AUTH_PATHS.mfa]: "login-page-02",
-  [AUTH_PATHS.mfaRecovery]: "login-page-05",
-  [AUTH_PATHS.verifyEmail.root]: "login-page-02",
-  [AUTH_PATHS.verifyEmail.sent]: "login-page-02",
-  [AUTH_PATHS.verifyEmail.expired]: "login-page-06",
-  [AUTH_PATHS.verifyEmail.success]: "login-page-03",
-  [AUTH_PATHS.forgotPassword]: "login-page-05",
-  [AUTH_PATHS.resetPassword.root]: "login-page-05",
-  [AUTH_PATHS.resetPassword.success]: "login-page-03",
-  [AUTH_PATHS.invite.root]: "login-page-01",
-  [AUTH_PATHS.invite.accept]: "login-page-03",
-  [AUTH_PATHS.invite.expired]: "login-page-06",
+  [AUTH_PATHS.signUp]: "register-page-01",
+  [AUTH_PATHS.otp]: "otp-page-01",
+  [AUTH_PATHS.mfa]: "mfa-page-01",
+  [AUTH_PATHS.mfaRecovery]: "mfa-recovery-page-01",
+  [AUTH_PATHS.verifyEmail.root]: "verify-email-page-01",
+  [AUTH_PATHS.verifyEmail.sent]: "verify-email-sent-page-01",
+  [AUTH_PATHS.verifyEmail.expired]: "verify-email-expired-page-01",
+  [AUTH_PATHS.verifyEmail.success]: "verify-email-success-page-01",
+  [AUTH_PATHS.forgotPassword.root]: "forgot-password-page-01",
+  [AUTH_PATHS.forgotPassword.success]: "forgot-password-success-page-01",
+  [AUTH_PATHS.resetPassword.root]: "reset-password-page-01",
+  [AUTH_PATHS.resetPassword.success]: "reset-password-success-page-01",
+  [AUTH_PATHS.invite.root]: "invite-page-01",
+  [AUTH_PATHS.invite.accept]: "invite-accept-page-01",
+  [AUTH_PATHS.invite.expired]: "invite-expired-page-01",
+  [AUTH_PATHS.invite.invalid]: "invite-invalid-page-01",
+  [AUTH_PATHS.invite.consumed]: "invite-consumed-page-01",
+  [AUTH_PATHS.invite.emailMismatch]: "invite-email-mismatch-page-01",
+  [AUTH_PATHS.passkey.root]: "passkey-page-01",
+  [AUTH_PATHS.passkey.error]: "error-passkey-page-01",
+  [AUTH_PATHS.sso.root]: "sso-page-01",
+  [AUTH_PATHS.sso.error]: "error-sso-page-01",
+  [AUTH_PATHS.oauth.error]: "error-oauth-page-01",
   [AUTH_PATHS.workspaceSelect]: "login-page-03",
   [AUTH_PATHS.organizationSelect]: "login-page-03",
-  [AUTH_PATHS.sessionExpired]: "login-page-06",
-  [AUTH_PATHS.accessDenied]: "login-page-06",
-  [AUTH_PATHS.securityReview]: "login-page-02",
-  [AUTH_PATHS.error]: "login-page-06",
+  [AUTH_PATHS.sessionExpired]: "error-session-expired-page-01",
+  [AUTH_PATHS.accessDenied]: "error-access-denied-page-01",
+  [AUTH_PATHS.securityReview]: "security-review-page-01",
+  [AUTH_PATHS.error]: "error-authentication-page-01",
 };
 
 export function resolveAuthShellVariantForPath(
@@ -224,8 +304,10 @@ function resolveAuthPathString(key: AuthPathKey): string {
       return AUTH_PATHS.verifyEmail.expired;
     case "verifyEmail.success":
       return AUTH_PATHS.verifyEmail.success;
-    case "forgotPassword":
-      return AUTH_PATHS.forgotPassword;
+    case "forgotPassword.root":
+      return AUTH_PATHS.forgotPassword.root;
+    case "forgotPassword.success":
+      return AUTH_PATHS.forgotPassword.success;
     case "resetPassword.root":
       return AUTH_PATHS.resetPassword.root;
     case "resetPassword.success":
@@ -236,6 +318,22 @@ function resolveAuthPathString(key: AuthPathKey): string {
       return AUTH_PATHS.invite.accept;
     case "invite.expired":
       return AUTH_PATHS.invite.expired;
+    case "invite.invalid":
+      return AUTH_PATHS.invite.invalid;
+    case "invite.consumed":
+      return AUTH_PATHS.invite.consumed;
+    case "invite.emailMismatch":
+      return AUTH_PATHS.invite.emailMismatch;
+    case "passkey.root":
+      return AUTH_PATHS.passkey.root;
+    case "passkey.error":
+      return AUTH_PATHS.passkey.error;
+    case "sso.root":
+      return AUTH_PATHS.sso.root;
+    case "sso.error":
+      return AUTH_PATHS.sso.error;
+    case "oauth.error":
+      return AUTH_PATHS.oauth.error;
     case "workspaceSelect":
       return AUTH_PATHS.workspaceSelect;
     case "organizationSelect":

@@ -15,6 +15,11 @@
       "import": "./dist/lab/index.js",
       "default": "./dist/lab/index.js"
     },
+    "./metadata": {
+      "types": "./dist/metadata.d.ts",
+      "import": "./dist/metadata.js",
+      "default": "./dist/metadata.js"
+    },
     "./theme": {
       "types": "./dist/theme/index.d.ts",
       "import": "./dist/theme/index.js",

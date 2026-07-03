@@ -1,12 +1,38 @@
 import Logo from "@/assets/svg/logo";
 import LogoVector from "@/assets/svg/logo-vector";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Silk from "@/components/ui/bg-silk";
+import { SilkBackground as Silk } from "@/components/ui/bg-silk";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { blockSlotDomMarkerProps } from "../../../meta-contracts/block-slot-dom-marker.contract.js";
-import LoginForm from "./login-form-06";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
+import {
+  assertCanonicalLoginForm,
+  getLoginPageManifest,
+  getRequiredLoginMethod,
+} from "./auth-shell-method-manifest.js";
+import LoginFormV1 from "./login-form-v1.js";
+
+const BLOCK_ID = "login-page-06" as const;
+const LOGIN_PAGE_MANIFEST = getLoginPageManifest(BLOCK_ID);
+assertCanonicalLoginForm(LOGIN_PAGE_MANIFEST.blockId);
+
+const googleMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "google"
+);
+const githubMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "github"
+);
+const forgotPasswordMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "forgot-password"
+);
+const signUpMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "sign-up"
+);
 
 const avatars = [
   {
@@ -24,9 +50,9 @@ const avatars = [
     fallback: "HR",
     name: "Hallie Richards",
   },
-];
+] as const;
 
-const Login = () => {
+export default function LoginPage06() {
   return (
     <div
       {...blockSlotDomMarkerProps("login-page-06.content")}
@@ -39,9 +65,9 @@ const Login = () => {
           </a>
 
           <div>
-            <h2 className="mb-2 font-semibold text-2xl">Welcome Back</h2>
+            <h2 className="mb-2 font-semibold text-2xl">Welcome back</h2>
             <p className="text-muted-foreground">
-              Welcome back! Select method to login:
+              Select a trusted method to continue.
             </p>
           </div>
 
@@ -49,34 +75,36 @@ const Login = () => {
             <Button
               className="grow"
               nativeButton={false}
-              render={<a href="#" />}
+              render={<a href={googleMethod.href} />}
               variant="outline"
             >
-              Login with Google
+              {googleMethod.label}
             </Button>
             <Button
               className="grow"
               nativeButton={false}
-              render={<a href="#" />}
+              render={<a href={githubMethod.href} />}
               variant="outline"
             >
-              Login with Facebook
+              {githubMethod.label}
             </Button>
           </div>
 
           <div className="flex items-center gap-4">
             <Separator className="flex-1" />
-            <p>Or continue with Email</p>
+            <p>Or continue with email</p>
             <Separator className="flex-1" />
           </div>
 
           <div className="space-y-4">
-            {/* Login Form */}
-            <LoginForm />
+            <LoginFormV1 forgotPasswordHref={forgotPasswordMethod.href} />
             <p className="text-center text-muted-foreground">
               New on our platform?{" "}
-              <a className="text-foreground hover:underline" href="#">
-                Create an account
+              <a
+                className="text-foreground hover:underline"
+                href={signUpMethod.href}
+              >
+                {signUpMethod.label}
               </a>
             </p>
           </div>
@@ -99,11 +127,11 @@ const Login = () => {
 
           <CardHeader className="relative z-10 gap-6 px-8">
             <CardTitle className="font-bold text-4xl text-white xl:text-5xl/15.5">
-              Welcome back!
+              Secure access, cinematic surface
             </CardTitle>
             <p className="text-white text-xl">
-              Thank you for registering! Please check your inbox and click the
-              verification link to activate your account.
+              The page owns the atmosphere; the form remains canonical and
+              predictable.
             </p>
           </CardHeader>
 
@@ -118,7 +146,7 @@ const Login = () => {
             >
               <path
                 d="M0.263672 16.8809C0.263672 8.0443 7.42712 0.880859 16.2637 0.880859H786.394H999.115C1012.37 0.880859 1023.12 11.626 1023.12 24.8808L1023.12 47.3809C1023.12 60.6357 1033.86 71.3809 1047.12 71.3809H1069.6C1082.85 71.3809 1093.6 82.126 1093.6 95.3809L1093.6 232.881C1093.6 241.717 1086.43 248.881 1077.6 248.881H16.2637C7.42716 248.881 0.263672 241.717 0.263672 232.881V16.8809Z"
-                fill="#ffff"
+                fill="#fff"
               />
             </svg>
 
@@ -128,11 +156,10 @@ const Login = () => {
 
             <div className="flex flex-col gap-5 p-6 text-black">
               <p className="line-clamp-2 pr-12 font-bold text-3xl">
-                Please enter your login details
+                Method config stays outside the design.
               </p>
               <p className="line-clamp-2 text-lg">
-                Stay connected with shadcn/studio Subscribe now for the latest
-                updates and news.
+                Six patterns can evolve without forking credential behavior.
               </p>
 
               <div className="flex -space-x-4 self-end">
@@ -159,6 +186,4 @@ const Login = () => {
       </div>
     </div>
   );
-};
-
-export default Login;
+}

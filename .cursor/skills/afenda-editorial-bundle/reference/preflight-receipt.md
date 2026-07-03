@@ -28,6 +28,7 @@ Requires `coding-consistency-bundle` preflight to complete first when editing re
 - [ ] 6 afenda-presentation-promotion (if promotion terms)
 - [ ] 7 package-css-dist-sync (if noir CSS edited)
 - [ ] 8 editorial-login-quality reference (if Auth Login Lab / login contract / pattern bridge)
+- [ ] 9 afenda-editorial-landing-builder (if developer/editorial landing page)
 
 ### Editorial Phase 0 extensions (required)
 

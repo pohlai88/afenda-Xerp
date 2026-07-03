@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 
-import { ErpErrorPage } from "@/components/presentation/erp-error-page.client";
-import { getErrorPageVariantForPath } from "@/lib/presentation/get-error-page-variant-for-path";
+import { AuthIngressSurfacePage } from "@/components/auth/auth-ingress-surface-page";
+import { loadAuthIngressSurfacePage } from "@/lib/auth/load-auth-ingress-surface-page.server";
 
 export const metadata: Metadata = {
   title: "Session expired",
 };
 
 export default function SessionExpiredPage() {
-  return (
-    <ErpErrorPage variant={getErrorPageVariantForPath("/session-expired")} />
-  );
+  const data = loadAuthIngressSurfacePage("/session-expired");
+
+  return <AuthIngressSurfacePage data={data} />;
 }

@@ -15,9 +15,9 @@
   "menuColor": "default",
   "menuAccent": "subtle",
   "aliases": {
-    "components": "@/components-quarantine/components-layouts",
+    "components": "@/components-quarantine/blocks",
     "utils": "@/lib/utils",
-    "ui": "@/components-quarantine/components-ui",
+    "ui": "@/components-quarantine/components",
     "lib": "@/lib",
     "hooks": "@/hooks"
   },

@@ -4,8 +4,34 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { blockSlotDomMarkerProps } from "../../../meta-contracts/block-slot-dom-marker.contract.js";
-import LoginForm from "./login-form-03";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
+import {
+  assertCanonicalLoginForm,
+  getLoginPageManifest,
+  getRequiredLoginMethod,
+} from "./auth-shell-method-manifest.js";
+import LoginFormV1 from "./login-form-v1.js";
+
+const BLOCK_ID = "login-page-03" as const;
+const LOGIN_PAGE_MANIFEST = getLoginPageManifest(BLOCK_ID);
+assertCanonicalLoginForm(LOGIN_PAGE_MANIFEST.blockId);
+
+const googleMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "google"
+);
+const githubMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "github"
+);
+const forgotPasswordMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "forgot-password"
+);
+const signUpMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "sign-up"
+);
 
 const avatars = [
   {
@@ -23,9 +49,9 @@ const avatars = [
     fallback: "HR",
     name: "Hallie Richards",
   },
-];
+] as const;
 
-const Login = () => {
+export default function LoginPage03() {
   return (
     <div
       {...blockSlotDomMarkerProps("login-page-03.content")}
@@ -36,9 +62,9 @@ const Login = () => {
           <Logo className="gap-3" />
 
           <div>
-            <h2 className="mb-2 font-semibold text-2xl">Welcome Back</h2>
+            <h2 className="mb-2 font-semibold text-2xl">Welcome back</h2>
             <p className="text-muted-foreground">
-              Welcome back! Select method to login:
+              Select a trusted method to continue.
             </p>
           </div>
 
@@ -46,34 +72,36 @@ const Login = () => {
             <Button
               className="grow"
               nativeButton={false}
-              render={<a href="#" />}
+              render={<a href={googleMethod.href} />}
               variant="outline"
             >
-              Login with Google
+              {googleMethod.label}
             </Button>
             <Button
               className="grow"
               nativeButton={false}
-              render={<a href="#" />}
+              render={<a href={githubMethod.href} />}
               variant="outline"
             >
-              Login with Facebook
+              {githubMethod.label}
             </Button>
           </div>
 
           <div className="flex items-center gap-4">
             <Separator className="flex-1" />
-            <p>Or continue with Email</p>
+            <p>Or continue with email</p>
             <Separator className="flex-1" />
           </div>
 
           <div className="space-y-4">
-            {/* Login Form */}
-            <LoginForm />
+            <LoginFormV1 forgotPasswordHref={forgotPasswordMethod.href} />
             <p className="text-center text-muted-foreground">
               New on our platform?{" "}
-              <a className="text-foreground hover:underline" href="#">
-                Create an account
+              <a
+                className="text-foreground hover:underline"
+                href={signUpMethod.href}
+              >
+                {signUpMethod.label}
               </a>
             </p>
           </div>
@@ -84,11 +112,11 @@ const Login = () => {
         <Card className="relative h-full justify-between overflow-hidden border-none bg-primary py-8">
           <CardHeader className="gap-6 px-8">
             <CardTitle className="font-bold text-4xl text-primary-foreground xl:text-5xl/15.5">
-              Welcome back! Please sign in to your Shadcn Studio account
+              Secure access for governed workspaces
             </CardTitle>
             <p className="text-primary-foreground text-xl">
-              Thank you for registering! Please check your inbox and click the
-              verification link to activate your account.
+              Continue into Afenda with an approved identity method and a clear
+              operator trail.
             </p>
           </CardHeader>
 
@@ -115,11 +143,10 @@ const Login = () => {
 
             <div className="flex flex-col gap-5 p-6">
               <p className="line-clamp-2 pr-12 font-bold text-3xl">
-                Please enter your login details
+                Identity first. Workspace second.
               </p>
               <p className="line-clamp-2 text-lg">
-                Stay connected with shadcn/studio Subscribe now for the latest
-                updates and news.
+                Auth remains predictable; the page owns the brand theatre.
               </p>
 
               <div className="flex -space-x-4 self-end">
@@ -144,6 +171,4 @@ const Login = () => {
       </div>
     </div>
   );
-};
-
-export default Login;
+}

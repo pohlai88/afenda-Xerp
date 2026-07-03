@@ -39,7 +39,28 @@ function resolveSurfaceTemplateClass(blockId: string): SurfaceTemplateClass {
     return "settings";
   }
 
-  if (blockId === "login-page-04" || blockId === "dialog-activity") {
+  if (
+    blockId === "error-access-denied-page-01" ||
+    blockId === "error-authentication-page-01" ||
+    blockId === "forgot-password-page-01" ||
+    blockId === "forgot-password-success-page-01" ||
+    blockId === "invite-accept-page-01" ||
+    blockId === "invite-expired-page-01" ||
+    blockId === "invite-page-01" ||
+    blockId === "login-page-04" ||
+    blockId === "mfa-page-01" ||
+    blockId === "mfa-recovery-page-01" ||
+    blockId === "otp-page-01" ||
+    blockId === "register-page-01" ||
+    blockId === "reset-password-page-01" ||
+    blockId === "reset-password-success-page-01" ||
+    blockId === "error-session-expired-page-01" ||
+    blockId === "verify-email-expired-page-01" ||
+    blockId === "verify-email-page-01" ||
+    blockId === "verify-email-sent-page-01" ||
+    blockId === "verify-email-success-page-01" ||
+    blockId === "dialog-activity"
+  ) {
     return "form";
   }
 

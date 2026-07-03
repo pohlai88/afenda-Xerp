@@ -1,0 +1,1009 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <title>Afenda Developer Route Lab - Veritas Protocol</title>
+    <style>
+    :root {
+      --void: #050505;
+      --graphite: #0b0b0a;
+      --graphite-2: #11110f;
+      --panel: rgb(14 14 12 / 0.84);
+      --panel-soft: rgb(255 255 255 / 0.045);
+      --paper: #f2eee3;
+      --paper-soft: rgb(242 238 227 / 0.62);
+      --muted: rgb(242 238 227 / 0.42);
+      --muted-2: rgb(242 238 227 / 0.24);
+      --line: rgb(242 238 227 / 0.12);
+      --line-strong: rgb(242 238 227 / 0.2);
+      --gold: #c7a35d;
+      --gold-soft: rgb(199 163 93 / 0.56);
+      --gold-faint: rgb(199 163 93 / 0.16);
+      --danger: #b85f44;
+      --ok: #d8c28a;
+      --mono:
+        "SFMono-Regular", "Cascadia Mono", "IBM Plex Mono", Consolas,
+        "Liberation Mono", monospace;
+      --sans:
+        "Helvetica Neue", "Arial Narrow", "Roboto Condensed", Impact,
+        ui-sans-serif, system-ui, sans-serif;
+      --serif: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--void);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      font-family: var(--sans);
+      color: var(--paper);
+      background: var(--void);
+    }
+
+    body::before,
+    body::after {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      content: "";
+    }
+
+    body::before {
+      z-index: -4;
+      background:
+        radial-gradient(
+          circle at 74% 16%,
+          rgb(199 163 93 / 0.13),
+          transparent 28rem
+        ),
+        radial-gradient(
+          circle at 24% 74%,
+          rgb(111 126 150 / 0.14),
+          transparent 32rem
+        ),
+        linear-gradient(135deg, #0d0d0c 0%, #060606 58%, #10100d 100%);
+    }
+
+    body::after {
+      z-index: -3;
+      background-image:
+        linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+        linear-gradient(
+          to bottom,
+          rgb(255 255 255 / 0.035) 1px,
+          transparent 1px
+        ),
+        linear-gradient(to right, rgb(199 163 93 / 0.065) 1px, transparent 1px);
+      background-position:
+        0 0,
+        0 0,
+        36px 0;
+      background-size:
+        72px 72px,
+        72px 72px,
+        288px 288px;
+      mask-image: linear-gradient(
+        to bottom,
+        transparent,
+        black 8%,
+        black 78%,
+        transparent
+      );
+    }
+
+    .chamber {
+      position: relative;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      min-height: 100vh;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .chamber::before {
+      position: absolute;
+      inset: 7vh 5vw 8vh;
+      z-index: -2;
+      background:
+        linear-gradient(90deg, transparent, rgb(199 163 93 / 0.08), transparent),
+        radial-gradient(
+          circle at 78% 42%,
+          rgb(242 238 227 / 0.06),
+          transparent 26rem
+        );
+      border: 1px solid var(--line);
+      box-shadow:
+        inset 0 0 90px rgb(0 0 0 / 0.55),
+        0 42px 140px rgb(0 0 0 / 0.58);
+      transform: skewY(-1.15deg);
+    }
+
+    .chamber::after {
+      position: absolute;
+      inset: -16rem -10rem auto auto;
+      z-index: -1;
+      width: 48rem;
+      height: 48rem;
+      content: "";
+      background: radial-gradient(
+        circle,
+        rgb(199 163 93 / 0.08),
+        transparent 68%
+      );
+      border: 1px solid rgb(199 163 93 / 0.08);
+      border-radius: 999px;
+      filter: blur(2px);
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1rem;
+      align-items: center;
+      padding: 1.15rem clamp(1rem, 3vw, 3rem) 0;
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.26em;
+    }
+
+    .topbar::before,
+    .topbar::after {
+      display: block;
+      height: 1px;
+      content: "";
+      background: linear-gradient(
+        90deg,
+        transparent,
+        var(--line-strong),
+        transparent
+      );
+    }
+
+    .topbar strong {
+      font-weight: 500;
+      color: var(--gold);
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: minmax(0, 1.18fr) minmax(25rem, 0.82fr);
+      gap: clamp(2rem, 5vw, 5.5rem);
+      align-items: stretch;
+      padding: clamp(1.35rem, 3vw, 3.5rem) clamp(1rem, 4vw, 4.5rem) 1.25rem;
+    }
+
+    .hero {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-width: 0;
+      padding: clamp(1rem, 3vw, 3rem) 0;
+    }
+
+    .coordinate {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: center;
+      max-width: 44rem;
+      margin-bottom: clamp(1.5rem, 3vw, 3rem);
+      font-family: var(--mono);
+      font-size: 0.64rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.26em;
+    }
+
+    .coordinate::after {
+      height: 1px;
+      content: "";
+      background: linear-gradient(90deg, var(--gold-soft), transparent);
+    }
+
+    h1 {
+      max-width: 62rem;
+      margin: 0;
+      font-family: var(--sans);
+      font-size: clamp(5.2rem, 10.4vw, 13rem);
+      font-weight: 900;
+      font-stretch: condensed;
+      line-height: 0.74;
+      text-transform: uppercase;
+      letter-spacing: -0.105em;
+    }
+
+    h1 span {
+      display: block;
+    }
+
+    .hero-muted {
+      color: rgb(242 238 227 / 0.2);
+      -webkit-text-stroke: 1px rgb(242 238 227 / 0.16);
+    }
+
+    .hero-primary {
+      color: var(--paper);
+      text-shadow:
+        0 0 34px rgb(242 238 227 / 0.07),
+        0 1px 0 rgb(199 163 93 / 0.28);
+    }
+
+    .hero-dot {
+      color: var(--gold);
+    }
+
+    .doctrine {
+      display: grid;
+      gap: 0.6rem;
+      max-width: 48rem;
+      margin-top: clamp(1.4rem, 4vw, 3.25rem);
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 1.8vw, 2rem);
+      line-height: 1.28;
+      color: var(--paper-soft);
+    }
+
+    .doctrine p {
+      margin: 0;
+    }
+
+    .micro-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-width: 46rem;
+      margin-top: clamp(1.5rem, 4vw, 3rem);
+      border-top: 1px solid var(--line-strong);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .micro-grid div {
+      min-height: 5rem;
+      padding: 1rem;
+      border-right: 1px solid var(--line);
+    }
+
+    .micro-grid div:last-child {
+      border-right: 0;
+    }
+
+    .micro-grid b,
+    .proof-card b,
+    .console-label,
+    .command-row b,
+    .radar-label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      font-weight: 500;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.28em;
+    }
+
+    .micro-grid span,
+    .proof-card span {
+      display: block;
+      margin-top: 0.65rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      line-height: 1.5;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .console {
+      position: relative;
+      align-self: center;
+      min-height: min(76vh, 47rem);
+      padding: clamp(1rem, 2vw, 1.45rem);
+      background:
+        linear-gradient(180deg, rgb(255 255 255 / 0.055), transparent 32%),
+        linear-gradient(135deg, rgb(199 163 93 / 0.09), transparent 28%),
+        var(--panel);
+      border: 1px solid var(--line-strong);
+      box-shadow:
+        0 42px 130px rgb(0 0 0 / 0.64),
+        inset 0 0 0 1px rgb(255 255 255 / 0.035);
+      backdrop-filter: blur(18px);
+    }
+
+    .console::before,
+    .console::after,
+    .corner-a,
+    .corner-b {
+      position: absolute;
+      width: 2.8rem;
+      height: 2.8rem;
+      pointer-events: none;
+      content: "";
+      border-color: var(--gold-soft);
+    }
+
+    .console::before {
+      top: -1px;
+      left: -1px;
+      border-top: 1px solid;
+      border-left: 1px solid;
+    }
+
+    .console::after {
+      right: -1px;
+      bottom: -1px;
+      border-right: 1px solid;
+      border-bottom: 1px solid;
+    }
+
+    .corner-a {
+      top: -1px;
+      right: -1px;
+      border-top: 1px solid;
+      border-right: 1px solid;
+    }
+
+    .corner-b {
+      bottom: -1px;
+      left: -1px;
+      border-bottom: 1px solid;
+      border-left: 1px solid;
+    }
+
+    .console-inner {
+      display: grid;
+      grid-template-rows: auto auto minmax(12rem, 1fr) auto;
+      gap: 1rem;
+      min-height: inherit;
+    }
+
+    .console-head {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: start;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .console-title {
+      max-width: 22rem;
+      margin: 0.65rem 0 0;
+      font-family: var(--serif);
+      font-size: clamp(2rem, 3.2vw, 3.8rem);
+      font-weight: 400;
+      line-height: 0.93;
+      color: var(--paper);
+      letter-spacing: -0.045em;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      gap: 0.55rem;
+      align-items: center;
+      padding: 0.55rem 0.7rem;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      color: var(--paper);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      background: var(--gold-faint);
+      border: 1px solid var(--gold-soft);
+    }
+
+    .status-pill::before {
+      width: 0.42rem;
+      height: 0.42rem;
+      content: "";
+      background: var(--gold);
+      border-radius: 50%;
+      box-shadow: 0 0 22px var(--gold);
+    }
+
+    .signal {
+      display: grid;
+      grid-template-columns: repeat(16, 1fr);
+      gap: 0.28rem;
+      align-items: end;
+      height: 5.4rem;
+      padding: 0.85rem;
+      background:
+        linear-gradient(to right, rgb(242 238 227 / 0.035) 1px, transparent 1px),
+        linear-gradient(to bottom, rgb(242 238 227 / 0.03) 1px, transparent 1px),
+        rgb(0 0 0 / 0.16);
+      background-size: 24px 24px;
+      border: 1px solid var(--line);
+    }
+
+    .bar {
+      min-height: 0.35rem;
+      background: linear-gradient(180deg, var(--gold), rgb(199 163 93 / 0.16));
+      opacity: 0.74;
+      transform-origin: bottom;
+    }
+
+    .command-stack {
+      display: grid;
+      gap: 0.72rem;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .command-row {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.85rem;
+      align-items: center;
+      padding: 0.85rem;
+      background: rgb(255 255 255 / 0.025);
+      border: 1px solid var(--line);
+    }
+
+    .command-row b {
+      color: var(--muted);
+    }
+
+    .command-row span {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--paper-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .command-row i {
+      display: inline-block;
+      width: 0.5rem;
+      height: 0.5rem;
+      background: var(--gold-faint);
+      border: 1px solid var(--gold);
+      border-radius: 50%;
+    }
+
+    .target-zone {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 14rem;
+      overflow: hidden;
+      background:
+        radial-gradient(
+          circle,
+          transparent 0 22%,
+          rgb(199 163 93 / 0.05) 22.3% 22.8%,
+          transparent 23.2% 38%,
+          rgb(242 238 227 / 0.05) 38.3% 38.8%,
+          transparent 39.2% 55%,
+          rgb(199 163 93 / 0.06) 55.3% 55.8%,
+          transparent 56.2%
+        ),
+        linear-gradient(
+          to right,
+          transparent 49.8%,
+          var(--line) 50%,
+          transparent 50.2%
+        ),
+        linear-gradient(
+          to bottom,
+          transparent 49.8%,
+          var(--line) 50%,
+          transparent 50.2%
+        );
+      border: 1px solid var(--line);
+    }
+
+    .target-zone::before {
+      position: absolute;
+      width: 72%;
+      height: 1px;
+      content: "";
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      animation: scan 4.8s linear infinite;
+    }
+
+    .target-core {
+      width: 6.8rem;
+      height: 6.8rem;
+      background: radial-gradient(
+        circle,
+        rgb(199 163 93 / 0.28),
+        transparent 62%
+      );
+      border: 1px solid var(--gold-soft);
+      border-radius: 50%;
+      box-shadow: 0 0 80px rgb(199 163 93 / 0.18);
+    }
+
+    .target-copy {
+      position: absolute;
+      right: 1rem;
+      bottom: 0.85rem;
+      font-family: var(--mono);
+      font-size: 0.56rem;
+      line-height: 1.6;
+      color: var(--muted);
+      text-align: right;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+    }
+
+    .console-foot {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: end;
+      padding-top: 1rem;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      line-height: 1.6;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      border-top: 1px solid var(--line);
+    }
+
+    .proof-strip {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.5fr);
+      gap: 1px;
+      margin: 0 clamp(1rem, 4vw, 4.5rem) clamp(1rem, 2vw, 2rem);
+      background: var(--line);
+      border: 1px solid var(--line-strong);
+    }
+
+    .proof-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--line);
+    }
+
+    .proof-card {
+      min-height: 8.5rem;
+      padding: 1.1rem;
+      background:
+        linear-gradient(
+          180deg,
+          rgb(255 255 255 / 0.04),
+          rgb(255 255 255 / 0.015)
+        ),
+        var(--graphite);
+    }
+
+    .proof-card strong {
+      display: block;
+      margin-top: 1.2rem;
+      font-family: var(--sans);
+      font-size: clamp(2.2rem, 4vw, 4.8rem);
+      font-weight: 900;
+      line-height: 0.78;
+      color: var(--paper);
+      letter-spacing: -0.095em;
+    }
+
+    .radar {
+      position: relative;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 1rem;
+      align-items: center;
+      min-height: 8.5rem;
+      padding: 1rem;
+      background: var(--graphite-2);
+    }
+
+    .radar svg {
+      width: 8.5rem;
+      height: 8.5rem;
+    }
+
+    .radar text {
+      font-family: var(--mono);
+      font-size: 7px;
+      letter-spacing: 1px;
+      fill: var(--muted);
+    }
+
+    .radar line,
+    .radar circle,
+    .radar polygon {
+      vector-effect: non-scaling-stroke;
+    }
+
+    .radar-copy {
+      font-family: var(--serif);
+      font-size: 1.15rem;
+      line-height: 1.25;
+      color: var(--paper-soft);
+    }
+
+    .radar-copy p {
+      margin: 0.6rem 0 0;
+      font-family: var(--mono);
+      font-size: 0.58rem;
+      line-height: 1.7;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+    }
+
+    .tick-rail {
+      position: absolute;
+      top: 8vh;
+      bottom: 8vh;
+      left: clamp(0.7rem, 2vw, 2rem);
+      display: grid;
+      width: 1px;
+      background: var(--line);
+    }
+
+    .tick-rail span {
+      position: absolute;
+      left: -0.35rem;
+      width: 0.7rem;
+      height: 1px;
+      background: var(--gold-soft);
+    }
+
+    .tick-rail span:nth-child(1) {
+      top: 8%;
+    }
+
+    .tick-rail span:nth-child(2) {
+      top: 28%;
+    }
+
+    .tick-rail span:nth-child(3) {
+      top: 52%;
+    }
+
+    .tick-rail span:nth-child(4) {
+      top: 76%;
+    }
+
+    .vertical-mark {
+      position: absolute;
+      right: clamp(0.85rem, 2vw, 2rem);
+      bottom: 14vh;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      color: var(--muted-2);
+      text-transform: uppercase;
+      letter-spacing: 0.36em;
+      writing-mode: vertical-rl;
+    }
+
+    @keyframes scan {
+      0% {
+        transform: translateY(-7rem) rotate(0deg);
+        opacity: 0;
+      }
+
+      12%,
+      86% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(7rem) rotate(180deg);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 1060px) {
+      .stage,
+      .proof-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .console {
+        min-height: 42rem;
+      }
+
+      .proof-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .topbar {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .topbar::before,
+      .topbar::after {
+        display: none;
+      }
+
+      .stage {
+        padding-inline: 1rem;
+      }
+
+      h1 {
+        font-size: clamp(4.4rem, 24vw, 7.4rem);
+      }
+
+      .micro-grid,
+      .proof-metrics,
+      .console-head,
+      .console-foot,
+      .radar {
+        grid-template-columns: 1fr;
+      }
+
+      .micro-grid div {
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .command-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    </style>
+  </head>
+  <body>
+    <main aria-labelledby="poster-title" class="chamber">
+      <div aria-hidden="true" class="tick-rail">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+
+      <div aria-hidden="true" class="vertical-mark">evidence before import</div>
+
+      <header class="topbar">
+        <span>AFENDA ROUTE LAB</span>
+        <strong>VERITAS PROTOCOL</strong>
+        <span>PRIVATE VERIFICATION CHAMBER</span>
+      </header>
+
+      <section aria-label="Editorial verification preview" class="stage">
+        <div class="hero">
+          <div class="coordinate">
+            <span>DRL-3002 / PAS-006E / PRE-ERP INSPECTION</span>
+          </div>
+
+          <h1 aria-label="THIS IS NOT ORDINARY" id="poster-title">
+            <span class="hero-muted">This is</span>
+            <span class="hero-primary">not</span>
+            <span class="hero-primary"
+              >ordinary<span class="hero-dot">.</span></span
+            >
+          </h1>
+
+          <section aria-label="Doctrine" class="doctrine">
+            <p>Interface becomes infrastructure only after proof.</p>
+            <p>Evidence before import.</p>
+            <p>Every route is inspected before it reaches ERP.</p>
+          </section>
+
+          <section
+            aria-label="Verification doctrine checkpoints"
+            class="micro-grid"
+          >
+            <div>
+              <b>Doctrine 01</b>
+              <span
+                >Inspect first viewport, route frame, density, and command
+                posture.</span
+              >
+            </div>
+            <div>
+              <b>Doctrine 02</b>
+              <span
+                >Reject decorative confidence. Keep only evidence-bearing
+                surface work.</span
+              >
+            </div>
+            <div>
+              <b>Doctrine 03</b>
+              <span
+                >Promote nothing until the interface survives the chamber.</span
+              >
+            </div>
+          </section>
+        </div>
+
+        <aside aria-label="Private verification console" class="console">
+          <span aria-hidden="true" class="corner-a"></span>
+          <span aria-hidden="true" class="corner-b"></span>
+
+          <div class="console-inner">
+            <div class="console-head">
+              <div>
+                <span class="console-label">Private console</span>
+                <h2 class="console-title">Route evidence chamber</h2>
+              </div>
+              <div class="status-pill">Sealed</div>
+            </div>
+
+            <div aria-label="Route signal graph" class="signal" role="img">
+              <span class="bar" style="height: 28%"></span>
+              <span class="bar" style="height: 46%"></span>
+              <span class="bar" style="height: 74%"></span>
+              <span class="bar" style="height: 51%"></span>
+              <span class="bar" style="height: 64%"></span>
+              <span class="bar" style="height: 33%"></span>
+              <span class="bar" style="height: 82%"></span>
+              <span class="bar" style="height: 69%"></span>
+              <span class="bar" style="height: 43%"></span>
+              <span class="bar" style="height: 78%"></span>
+              <span class="bar" style="height: 57%"></span>
+              <span class="bar" style="height: 91%"></span>
+              <span class="bar" style="height: 39%"></span>
+              <span class="bar" style="height: 71%"></span>
+              <span class="bar" style="height: 53%"></span>
+              <span class="bar" style="height: 87%"></span>
+            </div>
+
+            <div
+              aria-label="Target verification diagram: route surface active, import withheld"
+              class="target-zone"
+              role="img"
+            >
+              <div aria-hidden="true" class="target-core"></div>
+              <div class="target-copy">
+                target: route surface<br>
+                chamber: active<br>
+                import: withheld
+              </div>
+            </div>
+
+            <ol aria-label="Verification command rows" class="command-stack">
+              <li class="command-row">
+                <b>01</b>
+                <span>Route inspected before ERP contact</span>
+                <i aria-hidden="true"></i>
+              </li>
+              <li class="command-row">
+                <b>02</b>
+                <span>Evidence packet attached to surface decision</span>
+                <i aria-hidden="true"></i>
+              </li>
+              <li class="command-row">
+                <b>03</b>
+                <span>Ordinary interface patterns rejected at threshold</span>
+                <i aria-hidden="true"></i>
+              </li>
+            </ol>
+
+            <footer class="console-foot">
+              <span>timestamp <span data-clock>--:--:--</span></span>
+              <span>coord 13.7563N / 100.5018E</span>
+            </footer>
+          </div>
+        </aside>
+      </section>
+
+      <section aria-label="Proof strip" class="proof-strip">
+        <div class="proof-metrics">
+          <article class="proof-card">
+            <b>Metric</b>
+            <strong>000</strong>
+            <span>routes promoted without inspection</span>
+          </article>
+          <article class="proof-card">
+            <b>Gate</b>
+            <strong>3x</strong>
+            <span>preview, evidence, promotion review</span>
+          </article>
+          <article class="proof-card">
+            <b>Policy</b>
+            <strong>3002</strong>
+            <span>developer route lab chamber port</span>
+          </article>
+          <article class="proof-card">
+            <b>State</b>
+            <strong data-state>armed</strong>
+            <span>enterprise verification protocol</span>
+          </article>
+        </div>
+
+        <div class="radar">
+          <svg
+            aria-label="Radar diagram for route evidence"
+            role="img"
+            viewBox="0 0 120 120"
+          >
+            <circle
+              cx="60"
+              cy="60"
+              fill="none"
+              r="48"
+              stroke="rgb(242 238 227 / 0.18)"
+            />
+            <circle
+              cx="60"
+              cy="60"
+              fill="none"
+              r="32"
+              stroke="rgb(242 238 227 / 0.13)"
+            />
+            <circle
+              cx="60"
+              cy="60"
+              fill="none"
+              r="16"
+              stroke="rgb(242 238 227 / 0.11)"
+            />
+            <line
+              stroke="rgb(242 238 227 / 0.14)"
+              x1="12"
+              x2="108"
+              y1="60"
+              y2="60"
+            />
+            <line
+              stroke="rgb(242 238 227 / 0.14)"
+              x1="60"
+              x2="60"
+              y1="12"
+              y2="108"
+            />
+            <polygon
+              fill="rgb(199 163 93 / 0.11)"
+              points="60,18 91,48 81,91 38,93 21,52"
+              stroke="rgb(199 163 93 / 0.68)"
+            />
+            <circle cx="60" cy="18" fill="#c7a35d" r="2" />
+            <circle cx="91" cy="48" fill="#c7a35d" r="2" />
+            <circle cx="81" cy="91" fill="#c7a35d" r="2" />
+            <circle cx="38" cy="93" fill="#c7a35d" r="2" />
+            <circle cx="21" cy="52" fill="#c7a35d" r="2" />
+            <text x="8" y="16">PAS</text>
+            <text x="84" y="116">ERP</text>
+          </svg>
+          <div class="radar-copy">
+            Radar locks route intention, surface density, and proof integrity.
+            <p>target diagram / proof strip / promotion chamber</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+    "use strict";
+    (() => {
+      const clock = document.querySelector("[data-clock]");
+      const state = document.querySelector("[data-state]");
+      const states = ["armed", "sealed", "verified", "withheld"];
+      let index = 0;
+
+      const update = () => {
+        const now = new Date();
+        if (clock) {
+          clock.textContent = now.toLocaleTimeString("en-US", {
+            hour12: false,
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          });
+        }
+
+        if (state) {
+          state.textContent = states[index % states.length];
+        }
+
+        index += 1;
+      };
+
+      update();
+      window.setInterval(update, 1800);
+    })();
+    </script>
+  </body>
+</html>

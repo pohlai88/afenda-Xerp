@@ -32,7 +32,7 @@ export const ERROR_PAGE_CANONICAL_SURFACES = [
   },
   {
     path: "/session-expired",
-    variant: "session-expired",
+    variant: "error-session-expired",
     blockId: ERROR_PAGE_SHELL_BLOCK_ID,
   },
   {

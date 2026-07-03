@@ -30,11 +30,20 @@ export const PUBLIC_APP_ROUTER_PATH_PREFIXES = [
   "/sign-in",
   "/sign-up",
   "/forgot-password",
+  "/forgot-password/success",
   "/reset-password",
+  "/reset-password/success",
   "/verify-email",
+  "/invite",
+  "/passkey",
+  "/sso",
+  "/oauth/error",
+  "/otp",
   "/mfa",
   "/session-expired",
   "/access-denied",
+  "/security/review",
+  "/error",
 ] as const;
 
 export function isProtectedAppRouterPath(pathname: string): boolean {

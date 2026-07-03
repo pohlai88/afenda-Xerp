@@ -95,7 +95,7 @@ Skill: [afenda-primitive-contract](../../.cursor/skills/afenda-primitive-contrac
 
 `meta-gates/` must not introduce parallel inventory truth — aggregate from `meta-registry/` + `meta-contracts/`.
 
-**Quarantine:** `components-quarantine/` holds MCP blocks pending promotion review. See [`components-quarantine/README.md`](src/components-quarantine/README.md) for the pipeline.
+**Quarantine:** `components-quarantine/` holds MCP inbox artifacts pending promotion review. Its corrected inbox buckets are `blocks/` and `components/`; older `components-layouts/`, `components-ui/`, and `components-auth-shell/` inbox names are retired. See [`components-quarantine/README.md`](src/components-quarantine/README.md) for the pipeline.
 
 ---
 
@@ -136,8 +136,8 @@ MCP/CLI **writes** land in quarantine only (ADR-0038):
 ```json
 {
   "aliases": {
-    "components": "@/components-quarantine/components-layouts",
-    "ui": "@/components-quarantine/components-ui",
+    "components": "@/components-quarantine/blocks",
+    "ui": "@/components-quarantine/components",
     "utils": "@/lib/utils",
     "lib": "@/lib",
     "hooks": "@/hooks"
@@ -147,7 +147,7 @@ MCP/CLI **writes** land in quarantine only (ADR-0038):
 
 | Install command | Physical path | Overwrite |
 | --- | --- | --- |
-| `pnpm studio:shadcn:quarantine` | `src/components-quarantine/components-{layouts,ui,auth-shell}/` | **OK** (inbox) |
+| `pnpm studio:shadcn:quarantine` | `src/components-quarantine/{blocks,components}/` | **OK** (inbox) |
 | `pnpm studio:shadcn` | `src/components-ui/` (production) | **Blocked** on existing primitives |
 
 Inbox registry: `src/components-quarantine/quarantine-inbox.registry.json` · commands: `studio:quarantine:sync`, `studio:promote`

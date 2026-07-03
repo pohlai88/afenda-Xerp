@@ -9,10 +9,41 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { blockSlotDomMarkerProps } from "../../../meta-contracts/block-slot-dom-marker.contract.js";
-import LoginForm from "./login-form-01";
+import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
+import {
+  assertCanonicalLoginForm,
+  getLoginPageManifest,
+  getRequiredLoginMethod,
+} from "./auth-shell-method-manifest.js";
+import LoginFormV1 from "./login-form-v1.js";
 
-const Login = () => {
+const BLOCK_ID = "login-page-01" as const;
+const LOGIN_PAGE_MANIFEST = getLoginPageManifest(BLOCK_ID);
+assertCanonicalLoginForm(LOGIN_PAGE_MANIFEST.blockId);
+
+const googleMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "google"
+);
+const githubMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "github"
+);
+const passkeyMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "passkey"
+);
+const ssoMethod = getRequiredLoginMethod(LOGIN_PAGE_MANIFEST.blockId, "sso");
+const forgotPasswordMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "forgot-password"
+);
+const signUpMethod = getRequiredLoginMethod(
+  LOGIN_PAGE_MANIFEST.blockId,
+  "sign-up"
+);
+
+export default function LoginPage01() {
   return (
     <div
       {...blockSlotDomMarkerProps("login-page-01.content")}
@@ -28,40 +59,54 @@ const Login = () => {
 
           <div>
             <CardTitle className="mb-2 font-semibold text-2xl">
-              Sign in to Shadcn Studio
+              Sign in to Afenda ERP
             </CardTitle>
             <CardDescription className="text-base">
-              Ship Faster and Focus on Growth.
+              Access your governed operator workspace.
             </CardDescription>
           </div>
         </CardHeader>
 
         <CardContent className="px-6">
           <p className="mb-6 text-base text-muted-foreground">
-            Login with{" "}
-            <a className="text-card-foreground hover:underline" href="#">
-              Magic Link
+            Continue with{" "}
+            <a
+              className="text-card-foreground hover:underline"
+              href={passkeyMethod.href}
+            >
+              {passkeyMethod.label}
             </a>
           </p>
 
-          {/* Quick Login Buttons */}
           <div className="mb-6 flex flex-wrap gap-4 sm:gap-6">
-            <Button className="grow" variant="outline">
-              Login as User
+            <Button
+              className="grow"
+              nativeButton={false}
+              render={<a href={ssoMethod.href} />}
+              variant="outline"
+            >
+              {ssoMethod.label}
             </Button>
-            <Button className="grow" variant="outline">
-              Login as Admin
+            <Button
+              className="grow"
+              nativeButton={false}
+              render={<a href={githubMethod.href} />}
+              variant="outline"
+            >
+              {githubMethod.label}
             </Button>
           </div>
 
-          {/* Login Form */}
           <div className="space-y-4">
-            <LoginForm />
+            <LoginFormV1 forgotPasswordHref={forgotPasswordMethod.href} />
 
             <p className="text-center text-base text-muted-foreground">
               New on our platform?{" "}
-              <a className="text-card-foreground hover:underline" href="#">
-                Create an account
+              <a
+                className="text-card-foreground hover:underline"
+                href={signUpMethod.href}
+              >
+                {signUpMethod.label}
               </a>
             </p>
 
@@ -74,16 +119,14 @@ const Login = () => {
             <Button
               className="w-full"
               nativeButton={false}
-              render={<a href="#" />}
+              render={<a href={googleMethod.href} />}
               variant="ghost"
             >
-              Sign in with google
+              {googleMethod.label}
             </Button>
           </div>
         </CardContent>
       </Card>
     </div>
   );
-};
-
-export default Login;
+}

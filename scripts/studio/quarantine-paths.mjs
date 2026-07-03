@@ -18,9 +18,8 @@ export const QUARANTINE_REGISTRY = join(
   "quarantine-inbox.registry.json"
 );
 
-export const QUARANTINE_LAYOUTS = join(QUARANTINE_ROOT, "components-layouts");
-export const QUARANTINE_UI = join(QUARANTINE_ROOT, "components-ui");
-export const QUARANTINE_AUTH = join(QUARANTINE_ROOT, "components-auth-shell");
+export const QUARANTINE_BLOCKS = join(QUARANTINE_ROOT, "blocks");
+export const QUARANTINE_COMPONENTS = join(QUARANTINE_ROOT, "components");
 
 export const QUARANTINE_LEGACY_UI = join(QUARANTINE_ROOT, "ui");
 
@@ -43,45 +42,22 @@ export const ALLOWED_QUARANTINE_ROOT_FILES = new Set([
   "quarantine-inbox.registry.json",
 ]);
 
-export const MIRRORED_BUCKET_DIRS = [
-  QUARANTINE_LAYOUTS,
-  QUARANTINE_UI,
-  QUARANTINE_AUTH,
-];
+export const MIRRORED_BUCKET_DIRS = [QUARANTINE_BLOCKS, QUARANTINE_COMPONENTS];
 
 export const COMPONENTS_JSON_INSTALL_ALIASES = {
-  components: "@/components-quarantine/components-layouts",
-  ui: "@/components-quarantine/components-ui",
+  components: "@/components-quarantine/blocks",
+  ui: "@/components-quarantine/components",
   utils: "@/lib/utils",
   lib: "@/lib",
   hooks: "@/hooks",
 };
 
 export const INSTALL_ALIAS_PATH_KEYS = [
-  "@/components-quarantine/components-layouts",
-  "@/components-quarantine/components-layouts/*",
-  "@/components-quarantine/components-ui",
-  "@/components-quarantine/components-ui/*",
-  "@/components-quarantine/components-auth-shell",
-  "@/components-quarantine/components-auth-shell/*",
+  "@/components-quarantine/blocks",
+  "@/components-quarantine/blocks/*",
+  "@/components-quarantine/components",
+  "@/components-quarantine/components/*",
   "@/components-quarantine/*",
-];
-
-export const IMPORT_REWRITE_RULES = [
-  {
-    from: "@/components-quarantine/components-ui/",
-    to: "@/components/ui/",
-  },
-  {
-    from: "@/components-quarantine/components-layouts/",
-    to: "@/components/shadcn-studio/",
-  },
-  {
-    from: "@/components-quarantine/components-auth-shell/",
-    to: "@/components-auth-shell/",
-  },
-  { from: "@/components-quarantine/ui/", to: "@/components/ui/" },
-  { from: "@/utils/utils", to: "@/lib/utils" },
 ];
 
 /** Blocks that install into auth-shell bucket (not layouts). */
@@ -128,28 +104,19 @@ export function productionTargetForBlock(blockId) {
 }
 
 export function quarantineTargetForBlock(blockId, layout = "flat") {
-  if (AUTH_SHELL_BLOCK_IDS.has(blockId)) {
-    return {
-      bucket: "components-auth-shell",
-      relativePath: `components-quarantine/components-auth-shell/${blockId}`,
-      absolutePath: join(QUARANTINE_AUTH, blockId),
-      layout: "directory",
-    };
-  }
-
   if (layout === "directory") {
     return {
-      bucket: "components-layouts",
-      relativePath: `components-quarantine/components-layouts/${blockId}`,
-      absolutePath: join(QUARANTINE_LAYOUTS, blockId),
+      bucket: "blocks",
+      relativePath: `components-quarantine/blocks/${blockId}`,
+      absolutePath: join(QUARANTINE_BLOCKS, blockId),
       layout: "directory",
     };
   }
 
   return {
-    bucket: "components-layouts",
-    relativePath: `components-quarantine/components-layouts/${blockId}.tsx`,
-    absolutePath: join(QUARANTINE_LAYOUTS, `${blockId}.tsx`),
+    bucket: "blocks",
+    relativePath: `components-quarantine/blocks/${blockId}.tsx`,
+    absolutePath: join(QUARANTINE_BLOCKS, `${blockId}.tsx`),
     layout: "flat",
   };
 }

@@ -42,7 +42,23 @@ function resolveSurfaceTemplateClass(blockId: string): SurfaceTemplateClass {
     return "settings";
   }
 
-  if (blockId.startsWith("login-page-")) {
+  if (
+    blockId.startsWith("error-access-denied-page-") ||
+    blockId.startsWith("error-authentication-page-") ||
+    blockId.startsWith("forgot-password-") ||
+    blockId.startsWith("invite-") ||
+    blockId.startsWith("login-page-") ||
+    blockId.startsWith("mfa-") ||
+    blockId.startsWith("error-oauth-page-") ||
+    blockId.startsWith("otp-page-") ||
+    blockId.startsWith("passkey-") ||
+    blockId.startsWith("register-page-") ||
+    blockId.startsWith("reset-password-") ||
+    blockId.startsWith("security-review-page-") ||
+    blockId.startsWith("error-session-expired-page-") ||
+    blockId.startsWith("sso-") ||
+    blockId.startsWith("verify-email-")
+  ) {
     return "form";
   }
 

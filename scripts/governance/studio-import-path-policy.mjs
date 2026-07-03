@@ -83,6 +83,7 @@ export function studioImportPathReminder(relativePath) {
   return [
     "Studio import path alias reminder:",
     "- Physical folders (components-ui/) ≠ import aliases (@/components/ui/).",
+    "- Quarantine inbox buckets: components-quarantine/components and components-quarantine/blocks.",
     `- SSOT: ${STUDIO_PATHS_SSOT}`,
     "- Forbidden in source: @/components-ui/, @/components-layouts/",
     "- Gates: pnpm check:studio-tsconfig-paths && pnpm check:studio-import-zones",
