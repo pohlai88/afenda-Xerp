@@ -7,6 +7,29 @@ const metadataRails = [
   { id: "right-bottom", position: "right", text: "SEALED" },
 ] as const;
 
+const apertureTicks = [
+  {
+    className: "top-0 left-1/2 -translate-x-1/2 -translate-y-1/2",
+    id: "north",
+    label: "N",
+  },
+  {
+    className: "top-1/2 right-0 translate-x-1/2 -translate-y-1/2",
+    id: "east",
+    label: "E",
+  },
+  {
+    className: "bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2",
+    id: "south",
+    label: "S",
+  },
+  {
+    className: "top-1/2 left-0 -translate-x-1/2 -translate-y-1/2",
+    id: "west",
+    label: "W",
+  },
+] as const;
+
 export function DeveloperLandingPage() {
   return (
     <section className="dark relative isolate min-h-dvh overflow-hidden bg-[#030303] text-neutral-200 selection:bg-violet-950/50 selection:text-neutral-50 lg:h-dvh">
@@ -20,11 +43,7 @@ export function DeveloperLandingPage() {
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute top-[11%] right-[7%] -z-10 hidden aspect-square w-[40rem] rounded-full bg-violet-500/5 blur-3xl md:block"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute right-[12%] bottom-[20%] -z-10 hidden aspect-square w-[24rem] rounded-full bg-amber-200/4 blur-3xl md:block"
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_74%_48%,rgba(124,58,237,0.1)_0,rgba(124,58,237,0.045)_28%,transparent_54%),radial-gradient(ellipse_at_40%_42%,rgba(245,158,11,0.045)_0,transparent_38%)]"
       />
 
       <div
@@ -84,7 +103,7 @@ export function DeveloperLandingPage() {
               Afenda Shadcn/Studio
             </p>
 
-            <h1 className="font-black text-[#f3efe4] text-[clamp(6rem,13vw,12.6rem)] leading-[0.72] tracking-normal [font-family:Arial_Black,Arial,Helvetica,sans-serif]">
+            <h1 className="font-black text-[#f3efe4] text-[clamp(5.6rem,11.4vw,11.2rem)] leading-[0.72] tracking-normal [font-family:Arial_Black,Arial,Helvetica,sans-serif]">
               LAB
             </h1>
 
@@ -105,23 +124,42 @@ export function DeveloperLandingPage() {
           </main>
 
           <aside
-            className="relative mx-auto flex w-full max-w-[24rem] justify-center md:max-w-[27rem] md:-translate-x-6 md:-translate-y-3"
+            className="relative mx-auto flex w-full max-w-[24rem] justify-center md:max-w-[28rem] md:-translate-x-7 md:-translate-y-3"
             id="proof"
           >
             <div
               aria-hidden="true"
-              className="absolute top-1/2 left-1/2 -z-10 aspect-square w-[145%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-violet-200/[0.045]"
+              className="absolute top-1/2 left-1/2 -z-10 aspect-square w-[152%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-violet-200/[0.045]"
             />
             <div
               aria-hidden="true"
-              className="absolute top-[42%] left-[49%] -z-10 aspect-square w-[92%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-500/[0.09] blur-2xl"
+              className="absolute top-1/2 left-1/2 -z-10 aspect-square w-[113%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-amber-100/[0.04]"
             />
             <div
               aria-hidden="true"
-              className="absolute top-[24%] left-[36%] -z-10 aspect-square w-[44%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-500/[0.09] blur-2xl"
+              className="absolute top-1/2 left-1/2 -z-10 aspect-square w-[74%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-violet-100/[0.07]"
             />
+            {apertureTicks.map((tick) => (
+              <span
+                className={[
+                  "absolute hidden size-7 place-items-center rounded-full border border-neutral-800/80 bg-black/30 text-[0.5rem] text-neutral-600 md:grid",
+                  tick.className,
+                ].join(" ")}
+                key={tick.id}
+              >
+                {tick.label}
+              </span>
+            ))}
 
-            <figure className="relative aspect-[3/4] w-[min(76vw,21.25rem)] bg-[#020202] p-2 shadow-[0_34px_90px_-35px_rgba(0,0,0,1),0_0_52px_-34px_rgba(139,92,246,0.72)] outline outline-1 outline-neutral-800/75">
+            <figure className="relative aspect-[3/4] w-[min(76vw,22rem)] bg-[#020202] p-2.5 shadow-[0_34px_90px_-35px_rgba(0,0,0,1),0_0_52px_-34px_rgba(139,92,246,0.72)] outline outline-1 outline-neutral-800/75">
+              <div
+                aria-hidden="true"
+                className="absolute inset-x-5 top-5 h-px bg-neutral-800/75"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-x-5 bottom-5 h-px bg-neutral-800/75"
+              />
               <span
                 aria-hidden="true"
                 className="absolute top-12 -left-1 h-14 w-1 bg-neutral-800 shadow-[0_0_18px_rgba(139,92,246,0.18)]"
