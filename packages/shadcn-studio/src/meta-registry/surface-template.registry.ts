@@ -22,21 +22,6 @@ export const SURFACE_TEMPLATE_REGISTRY = [
     templateClass: "settings",
   },
   {
-    acceptanceRecordIds: ["acceptance-record:login-page-04"],
-    blockBindings: [
-      {
-        blockId: "login-page-04",
-        slotFills: {
-          "login.email": "login.email",
-          "login.password": "login.password",
-        },
-      },
-    ],
-    metadataBindingId: "metadata-binding.login-page-04",
-    surfaceTemplateId: "surface-template.auth-sign-in",
-    templateClass: "form",
-  },
-  {
     acceptanceRecordIds: ["acceptance-record:datatable-invoice"],
     blockBindings: [
       {

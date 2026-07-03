@@ -1,10 +1,5 @@
+import { DollarSign, ShoppingCart, TrendingUp, Users } from "lucide-react";
 import { ThemeProvider } from "next-themes";
-import {
-  DollarSign,
-  ShoppingCart,
-  TrendingUp,
-  Users,
-} from "lucide-react";
 
 import StatisticsCard01Block from "../components-layouts/statistics-card-01.js";
 import StatisticsCard02Block from "../components-layouts/statistics-card-02.js";

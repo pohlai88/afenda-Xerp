@@ -32,8 +32,12 @@ export function AuthIngressSurfacePage({ data }: AuthIngressSurfacePageProps) {
   }
 
   return (
-    <div data-auth-ingress-surface={surface.surfaceTemplate.surfaceTemplateId}>
+    <div
+      data-auth-ingress-surface={surface.surfaceTemplate.surfaceTemplateId}
+      data-auth-shell-block={data.authShellBlockId}
+    >
       <MetadataBindingSlotHydrationPreview
+        blockIdOverride={data.authShellBlockId}
         slotHydration={surface.slotHydration}
       />
     </div>

@@ -9,13 +9,16 @@
  */
 
 import {
-  buildGovernedBlockMetadataRegistry,
   buildBlockMetadata,
+  buildGovernedBlockMetadataRegistry,
 } from "../meta-contracts/block-metadata.builders.js";
 import type { BlockMetadata } from "../meta-contracts/block-metadata.contract.js";
 import { GOVERNED_BLOCK_CONTRACT_IDS } from "../meta-registry/block-slot.registry.js";
 
-export type { BlockMetadata, BlockContractMetadata } from "../meta-contracts/block-metadata.contract.js";
+export type {
+  BlockContractMetadata,
+  BlockMetadata,
+} from "../meta-contracts/block-metadata.contract.js";
 
 export const BLOCK_METADATA_REGISTRY: readonly BlockMetadata[] =
   buildGovernedBlockMetadataRegistry();

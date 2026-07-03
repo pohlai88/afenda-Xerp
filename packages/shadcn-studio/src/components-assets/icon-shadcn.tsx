@@ -1,7 +1,11 @@
-import type { AssetIconProps } from "./asset-icon.types.js";
 import { cn } from "../utils/utils.js";
+import type { AssetIconProps } from "./asset-icon.types.js";
 
-const ShadcnIcon = ({ variant = "brand", className, ...props }: AssetIconProps) => (
+const ShadcnIcon = ({
+  variant = "brand",
+  className,
+  ...props
+}: AssetIconProps) => (
   <svg
     aria-hidden="true"
     className={cn(

@@ -13,13 +13,13 @@ import {
 
 import {
   applyThemePresetStyles,
-  resolveColorMode,
   type ResolvedColorMode,
+  resolveColorMode,
 } from "./apply-theme-preset.js";
 import { initialSettings, type Settings } from "./settings.contract.js";
 import { readStoredSettings, serializeSettings } from "./settings-storage.js";
-import { syncThemeFontAttribute } from "./theme-font-stacks.js";
 import { themeConfig } from "./theme-config.js";
+import { syncThemeFontAttribute } from "./theme-font-stacks.js";
 import {
   assertThemePresetSlug,
   isThemeFont,

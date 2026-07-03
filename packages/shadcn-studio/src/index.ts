@@ -18,15 +18,6 @@ export {
   resolveShell,
   type ShellSlug,
 } from "./components-app-shell/resolve-shell.js";
-export { default as LoginPage04Block } from "./components-auth-shell/login-page-04.js";
-export {
-  AuthShell,
-  type AuthShellProps,
-} from "./components-auth-shell/auth-shell.js";
-export {
-  resolveAuthShell,
-  type AuthShellFormLane,
-} from "./components-auth-shell/resolve-auth-shell.js";
 export { default as AccountSettings01Block } from "./components-layouts/account-settings-01/account-settings-01.js";
 export { default as ChartEarningReportBlock } from "./components-layouts/chart-earning-report.js";
 export { default as ChartSalesMetricsBlock } from "./components-layouts/chart-sales-metrics.js";
@@ -54,6 +45,9 @@ export {
   MorphingText,
   type MorphingTextProps,
 } from "./components-layouts/morphing-text.js";
+export { ProcurementListToolbarBlock } from "./components-layouts/procurement-list-toolbar-block.js";
+export { ProcurementPurchaseOrdersTableBlock } from "./components-layouts/procurement-purchase-orders-table-block.js";
+export { ProcurementRequisitionsTableBlock } from "./components-layouts/procurement-requisitions-table-block.js";
 export { default as SidebarUserDropdownBlock } from "./components-layouts/sidebar-user-dropdown.js";
 export { default as StatisticsActivityCardBlock } from "./components-layouts/statistics-activity-card.js";
 export { default as StatisticsCard01Block } from "./components-layouts/statistics-card-01.js";
@@ -69,6 +63,15 @@ export { default as StatisticsProfileTrafficCardBlock } from "./components-layou
 export { default as StatisticsRevenueCardBlock } from "./components-layouts/statistics-revenue-card.js";
 export { default as StatisticsSalesOverviewCardBlock } from "./components-layouts/statistics-sales-overview-card.js";
 export { default as StatisticsTrendCardBlock } from "./components-layouts/statistics-trend-card.js";
+export { SystemAdminAuditEventsTableBlock } from "./components-layouts/system-admin-audit-events-table-block.js";
+export { SystemAdminDiagnosticsPanelBlock } from "./components-layouts/system-admin-diagnostics-panel-block.js";
+export { SystemAdminListToolbarBlock } from "./components-layouts/system-admin-list-toolbar-block.js";
+export { SystemAdminMembershipsTableBlock } from "./components-layouts/system-admin-memberships-table-block.js";
+export { SystemAdminPermissionsTableBlock } from "./components-layouts/system-admin-permissions-table-block.js";
+export { SystemAdminRolesTableBlock } from "./components-layouts/system-admin-roles-table-block.js";
+export { SystemAdminSectionHeaderBlock } from "./components-layouts/system-admin-section-header-block.js";
+export { SystemAdminSettingsTableBlock } from "./components-layouts/system-admin-settings-table-block.js";
+export { SystemAdminUsersTableBlock } from "./components-layouts/system-admin-users-table-block.js";
 export {
   default as UserProfileAvatar,
   type UserProfileAvatarProps,
@@ -82,6 +85,7 @@ export { default as WidgetPaymentHistoryBlock } from "./components-layouts/widge
 export { default as WidgetSalesByCountriesBlock } from "./components-layouts/widget-sales-by-countries.js";
 export { default as WidgetTotalEarningBlock } from "./components-layouts/widget-total-earning.js";
 export { default as WidgetTransactionsBlock } from "./components-layouts/widget-transactions.js";
+export { WorkspaceDashboardToolbarBlock } from "./components-layouts/workspace-dashboard-toolbar-block.js";
 export { Button, buttonVariants } from "./components-ui/button.js";
 export {
   Card,

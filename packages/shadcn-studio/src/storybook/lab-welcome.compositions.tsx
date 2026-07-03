@@ -60,8 +60,9 @@ export function LabWelcomeSurface() {
           Afenda Presentation Lab
         </h1>
         <p className="mx-auto max-w-2xl text-balance text-muted-foreground text-sm leading-relaxed">
-          Editorial verification surface for shadcn/studio blocks, theme presets,
-          and governed primitives before ERP promotion. CSS chain mirrors{" "}
+          Editorial verification surface for shadcn/studio blocks, theme
+          presets, and governed primitives before ERP promotion. CSS chain
+          mirrors{" "}
           <code className="rounded bg-muted px-1.5 py-0.5 text-foreground text-xs">
             apps/erp/globals.css
           </code>

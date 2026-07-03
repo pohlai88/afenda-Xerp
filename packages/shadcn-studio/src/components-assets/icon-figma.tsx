@@ -29,11 +29,7 @@ const FigmaIcon = ({ variant = "brand", ...props }: AssetIconProps) => (
     {FIGMA_PATHS.map((path, index) => (
       <path
         d={path}
-        fill={
-          variant === "brand"
-            ? FIGMA_BRAND_COLORS[index]
-            : "currentColor"
-        }
+        fill={variant === "brand" ? FIGMA_BRAND_COLORS[index] : "currentColor"}
         key={path}
       />
     ))}

@@ -1,6 +1,64 @@
 {
+  "chat.mcp.gallery.enabled": true,
+  "chat.instructionsFilesLocations": {
+    ".github/instructions": true,
+    "C:\\Users\\HomePC\\.aitk\\instructions\\": true,
+    "C:\\Users\\dlbja\\.aitk\\instructions\\": true
+  },
+  "editor.minimap.sectionHeaderFontSize": 14,
+  "scm.inputFontSize": 14,
+  "chat.fontSize": 12,
+  "workbench.settings.applyToAllProfiles": [
+    "chat.editor.fontSize"
+  ],
+  "chat.mcp.discovery.enabled": {
+    "cursor-global": true,
+    "cursor-workspace": true
+  },
+  "mssql.connectionGroups": [
+    {
+      "name": "ROOT",
+      "id": "FF438247-5E50-41FF-91DB-C0F369BCC950"
+    }
+  ],
+  "mssql.autoDisableNonTSqlLanguageService": true,
+  "diffEditor.renderSideBySide": false,
+  "editor.linkedEditing": true,
+  "git.openRepositoryInParentFolders": "never",
+  "chat.tools.terminal.autoApprove": {
+    "/^npm run dev$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "pnpm": true,
+    "Test-Path": true,
+    "Get-Item": true,
+    "npx": true,
+    "mkdir": true,
+    "/^cd c:\\\\AI-BOS\\\\NEXUSCANON-AFENDA\\\\packages\\\\db; \\$env:DATABASE_URL_DIRECT = \"postgresql://neondb_owner:npg_ljY4G2SeHrBO@ep-fancy-wildflower-a1o82bpk\\.ap-southeast-1\\.aws\\.neon\\.tech/neondb\\?sslmode=require\"; node --input-type=module check-neon-auth-schema\\.mjs 2\u003e\u00261$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^node tools/scripts/run-gates-parallel\\.mjs --group module 2\u003e\u00261 \\| Out-String$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
+  },
+  "github.copilot.chat.virtualTools.threshold": 0,
+  "gocodeo.hasShownWalkthrough": true,
+  "workbench.experimental.share.enabled": true,
+  "redhat.telemetry.enabled": true,
+  "mcpFigma.aiAssistant": "github-copilot",
+  "mcpFigma.autoStartWebSocket": true,
+  "playwright.showTrace": false,
+  "playwright.reuseBrowser": false,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "files.autoSave": "afterDelay",
+  "files.associations": {
+    "*.md": "chatagent",
+    ".env": "dotenv"
+  },
   "biome.configurationPath": "${workspaceFolder}/biome.lsp.jsonc",
-  "biome.enabled": true,
   "biome.lsp.bin": {
     "darwin-arm64": "${workspaceFolder}/node_modules/@biomejs/cli-darwin-arm64/biome",
     "darwin-x64": "${workspaceFolder}/node_modules/@biomejs/cli-darwin-x64/biome",
@@ -9,73 +67,12 @@
     "win32-arm64": "${workspaceFolder}/node_modules/@biomejs/cli-win32-arm64/biome.exe",
     "win32-x64": "${workspaceFolder}/node_modules/@biomejs/cli-win32-x64/biome.exe"
   },
-  "biome.lsp.trace.server": "off",
+  "biome.enabled": true,
   "biome.lsp.watcher.kind": "none",
   "biome.requireConfiguration": true,
-  "biome.runFromTemporaryLocation": false,
-  "editor.defaultFormatter": "biomejs.biome",
-  "editor.formatOnPaste": false,
-  "editor.formatOnSave": true,
-  "emmet.showExpandedAbbreviation": "never",
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "typescript.tsserver.experimental.enableProjectDiagnostics": false,
-  "typescript.tsserver.useSyntaxServer": "always",
-  "vitest.enable": true,
-  "vitest.rootConfig": "vitest.config.ts",
-  "vitest.nodeExecutable": "C:\\nvm4w\\nodejs\\node.exe",
-  "vitest.ignoreWorkspace": true,
-  "vitest.configSearchPatternInclude": "vitest.config.ts",
-  "vitest.configSearchPatternExclude": "{**/node_modules/**,**/packages/**,**/apps/**,**/templates/**,**/scripts/**}",
-  "vitest.filesWatcherInclude": "{packages/*/src/**,apps/*/src/**,scripts/**}",
-  "vitest.watchOnStartup": false,
-  "typescript.tsserver.watchOptions": {
-    "excludeDirectories": [
-      "**/node_modules",
-      "**/.git",
-      "**/dist",
-      "**/.tsbuild",
-      "**/_reference",
-      "**/docs",
-      "**/.cursor",
-      "**/packages/ai-governance",
-      "**/packages/architecture-authority"
-    ]
-  },
-  "typescript.preferences.includePackageJsonAutoImports": "auto",
-  "typescript.preferences.importModuleSpecifier": "non-relative",
-  "typescript.preferences.preferTypeOnlyAutoImports": true,
-  "typescript.suggest.autoImports": true,
-  "typescript.updateImportsOnFileMove.enabled": "always",
-  "javascript.suggest.autoImports": true,
-  "tailwindCSS.emmetCompletions": true,
-  "tailwindCSS.experimental.configFile": {
-    "apps/erp/src/app/globals.css": [
-      "apps/erp/**",
-      "packages/shadcn-studio/**"
-    ],
-    "apps/storybook/.storybook/preview.css": "apps/storybook/**",
-    "apps/docs/src/app/globals.css": "apps/docs/**"
-  },
-  "errorLens.enabledDiagnosticLevels": ["error", "warning"],
-  "errorLens.excludeBySource": ["cSpell"],
-  "cSpell.enabled": true,
-  "dotenv.enableAutocloaking": true,
-  "[css]": {
-    "biome.enabled": false,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.formatOnSaveMode": "file",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.biome": "never",
-      "source.organizeImports.biome": "never"
-    }
-  },
-  "[graphql]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[html]": {
-    "editor.defaultFormatter": "biomejs.biome"
+  "files.watcherExclude": {
+    "**/docs/**": true,
+    "**/.cursor/**": true
   },
   "[javascript]": {
     "biome.enabled": true,
@@ -83,44 +80,6 @@
   },
   "[javascriptreact]": {
     "biome.enabled": true,
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[json]": {
-    "editor.defaultFormatter": "biomejs.biome"
-  },
-  "[jsonc]": {
-    "biome.enabled": false,
-    "editor.defaultFormatter": "vscode.json-language-features",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.biome": "never",
-      "source.organizeImports.biome": "never"
-    }
-  },
-  "files.associations": {
-    "*.mdc": "markdown"
-  },
-  "[markdown]": {
-    "biome.enabled": false,
-    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
-    "editor.formatOnSave": true,
-    "editor.formatOnSaveMode": "file",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.biome": "never",
-      "source.organizeImports.biome": "never"
-    }
-  },
-  "[mdx]": {
-    "biome.enabled": false,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "editor.formatOnSave": true,
-    "editor.formatOnSaveMode": "file",
-    "editor.codeActionsOnSave": {
-      "source.fixAll.biome": "never",
-      "source.organizeImports.biome": "never"
-    }
-  },
-  "[svelte]": {
     "editor.defaultFormatter": "biomejs.biome"
   },
   "[typescript]": {
@@ -131,58 +90,70 @@
     "biome.enabled": true,
     "editor.defaultFormatter": "biomejs.biome"
   },
-  "[vue]": {
-    "editor.defaultFormatter": "biomejs.biome"
+  "[markdown]": {
+    "biome.enabled": false,
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "never"
+    }
   },
-  "[yaml]": {
-    "editor.defaultFormatter": "biomejs.biome"
+  "[mdx]": {
+    "biome.enabled": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "never"
+    }
   },
-  "css.validate": false,
-  "css.lint.unknownAtRules": "ignore",
-  "scss.lint.unknownAtRules": "ignore",
-  "less.lint.unknownAtRules": "ignore",
-  "editor.codeActionsOnSave": {
-    "source.fixAll.biome": "explicit",
-    "source.organizeImports.biome": "explicit"
+  "[jsonc]": {
+    "biome.enabled": false,
+    "editor.defaultFormatter": "vscode.json-language-features",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "never"
+    }
   },
-  "prettier.requireConfig": true,
-  "prettier.configPath": "./prettier.config.mjs",
-  "prettier.documentSelectors": ["**/*.mdx", "**/*.css"],
-  "files.exclude": {
-    "**/node_modules": true,
-    "**/.next": true,
-    "**/.turbo": true,
-    "**/coverage": true,
-    "**/storybook-static": true,
-    "**/out": true,
-    "**/dist": true
+  "[css]": {
+    "biome.enabled": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.biome": "never"
+    }
   },
-  "files.watcherExclude": {
-    "**/.git/objects/**": true,
-    "**/.git/subtree-cache/**": true,
-    "**/.next/**": true,
-    "**/.turbo/**": true,
-    "**/_reference/**": true,
-    "**/coverage/**": true,
-    "**/dist/**": true,
-    "**/node_modules/**": true,
-    "**/out/**": true,
-    "**/docs/**": true,
-    "**/.cursor/**": true,
-    "**/packages/ai-governance/**": true,
-    "**/packages/architecture-authority/**": true,
-    "**/storybook-static/**": true
+  "terminal.integrated.shellIntegration.enabled": true,
+  "chat.mcp.serverSampling": {
+    "Azure MCP Server Provider: Azure MCP": {
+      "allowedDuringChat": true
+    }
   },
-  "search.exclude": {
-    "**/node_modules": true,
-    "**/.next": true,
-    "**/.turbo": true,
-    "**/coverage": true,
-    "**/storybook-static": true,
-    "**/out": true,
-    "**/dist": true,
-    "**/_reference": true,
-    "**/.cursor": true
+  "terminal.integrated.tabs.location": "left",
+  "powershell.promptToUpdatePowerShell": false,
+  "prettier.useEditorConfig": false,
+  "diffEditor.maxComputationTime": 0,
+  "github.copilot.chat.agentDebugLog.enabled": true,
+  "roo-cline.debug": false,
+  "roo-cline.allowedCommands": [
+    "git log",
+    "git diff",
+    "git show"
+  ],
+  "roo-cline.deniedCommands": [],
+  "json.schemaDownload.trustedDomains": {
+    "https://schemastore.azurewebsites.net/": true,
+    "https://raw.githubusercontent.com/microsoft/vscode/": true,
+    "https://raw.githubusercontent.com/devcontainers/spec/": true,
+    "https://www.schemastore.org/": true,
+    "https://json.schemastore.org/": true,
+    "https://json-schema.org/": true,
+    "https://developer.microsoft.com/json-schemas/": true,
+    "https://biomejs.dev": true
   },
-  "shadcnstudio.telemetry.enabled": false
+  "workbench.statusBar.visible": false,
+  "workbench.sideBar.location": "left",
+  "workbench.secondarySideBar.defaultVisibility": "hidden",
+  "chat.viewSessions.orientation": "sideBySide",
+  "github.copilot.chat.agentDebugLog.fileLogging.enabled": true,
+  "shadcn.licenseEmail": "jackwee2020@gmail.com",
+  "shadcn.licenseKey": "7B05AB33-C4F3-4317-8A6D-1701ADF2D83F",
+  "rest-client.environmentVariables": {
+    "$shared": {}
+  }
 }

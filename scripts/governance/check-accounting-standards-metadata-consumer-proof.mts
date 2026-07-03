@@ -14,10 +14,7 @@ const legacyConsumerDir = join(
   repoRoot,
   "packages/ui-composition/src/accounting-standards"
 );
-const erpConsumerDir = join(
-  repoRoot,
-  "apps/erp/src/lib/accounting-standards"
-);
+const erpConsumerDir = join(repoRoot, "apps/erp/src/lib/accounting-standards");
 const erpWorkflowFile = join(
   erpConsumerDir,
   "run-accounting-standards-validation.server.ts"
@@ -26,16 +23,16 @@ const erpWorkflowFile = join(
 if (existsSync(erpConsumerDir)) {
   const errors: string[] = [];
 
-  if (!existsSync(erpWorkflowFile)) {
-    errors.push("missing run-accounting-standards-validation.server.ts");
-  } else {
+  if (existsSync(erpWorkflowFile)) {
     const workflowSource = readFileSync(erpWorkflowFile, "utf8");
     if (!workflowSource.includes("validatePostingAgainstAccountingStandards")) {
       errors.push(
         "ERP workflow must import validatePostingAgainstAccountingStandards"
       );
     }
-    if (!workflowSource.includes("persistAccountingStandardsEvidenceFromReport")) {
+    if (
+      !workflowSource.includes("persistAccountingStandardsEvidenceFromReport")
+    ) {
       errors.push(
         "ERP workflow must persist evidence snapshots via persistAccountingStandardsEvidenceFromReport"
       );
@@ -43,6 +40,8 @@ if (existsSync(erpConsumerDir)) {
     if (!workflowSource.includes("evidenceSnapshot")) {
       errors.push("ERP workflow must surface evidenceSnapshot payloads");
     }
+  } else {
+    errors.push("missing run-accounting-standards-validation.server.ts");
   }
 
   if (errors.length > 0) {

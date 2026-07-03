@@ -13,81 +13,6 @@ import { SHADCN_STUDIO_BLOCK_PARITY_REGISTRY } from "./studio-block-parity.regis
 export type { BlockSlotEntry, BlockSlotRole } from "./block-slot.types.js";
 
 const BLOCK_SLOT_TEMPLATES: Readonly<Record<string, BlockSlotTemplate>> = {
-  "login-page-04": {
-    slots: [
-      {
-        slotId: "login.branding",
-        role: "branding",
-        label: "Sign-in branding",
-      },
-      {
-        slotId: "login.branding.title",
-        role: "content",
-        label: "Branding headline",
-      },
-      {
-        slotId: "login.branding.lead",
-        role: "content",
-        label: "Branding lead",
-      },
-      {
-        slotId: "login.form.title",
-        role: "content",
-        label: "Form title",
-      },
-      {
-        slotId: "login.form.subtitle",
-        role: "content",
-        label: "Form subtitle",
-      },
-      {
-        slotId: "login.email",
-        role: "form-field",
-        label: "Email field",
-      },
-      {
-        slotId: "login.password",
-        role: "form-field",
-        label: "Password field",
-      },
-      {
-        slotId: "login.password.help",
-        role: "form-field",
-        label: "Password help text",
-      },
-      {
-        slotId: "login.submit",
-        role: "form-action",
-        label: "Submit action",
-      },
-    ],
-    contract: {
-      fields: [
-        {
-          fieldKey: "email",
-          slotId: "login.email",
-          kind: "email",
-          labelAtomRef: "atom.auth.email",
-          requiredDisplay: true,
-        },
-        {
-          fieldKey: "password",
-          slotId: "login.password",
-          kind: "password",
-          labelAtomRef: "atom.auth.password",
-          requiredDisplay: true,
-        },
-      ],
-      actions: [
-        {
-          actionKey: "submit",
-          slotId: "login.submit",
-          kind: "submit",
-          labelAtomRef: "atom.auth.sign-in",
-        },
-      ],
-    },
-  },
   "hero-section-01": {
     slots: [
       { slotId: "hero.title", role: "content", label: "Hero title" },
@@ -262,7 +187,6 @@ const BLOCK_SLOT_TEMPLATES: Readonly<Record<string, BlockSlotTemplate>> = {
 
 /** Blocks with explicit slot templates — governed by block contract lane. */
 export const METADATA_BOUND_BLOCK_TEMPLATE_IDS = [
-  "login-page-04",
   "hero-section-01",
   "statistics-card-01",
   "account-settings-01",

@@ -2,9 +2,6 @@
 
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useState } from "react";
-
-import GithubIcon from "../components-assets/icon-github.js";
-import GoogleIcon from "../components-assets/icon-google.js";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
@@ -15,6 +12,8 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { Separator } from "@/components/ui/separator";
+import GithubIcon from "../components-assets/icon-github.js";
+import GoogleIcon from "../components-assets/icon-google.js";
 
 export type AuthAccessFormFieldsProps = {
   readonly className?: string;

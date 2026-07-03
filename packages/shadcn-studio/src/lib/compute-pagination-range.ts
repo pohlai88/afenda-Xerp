@@ -67,13 +67,10 @@ export function computePaginationRange({
   const firstPage = pages[0] ?? 0;
   const lastPage = pages.at(-1) ?? 0;
 
-  const showLeftEllipsis =
-    pages.length > 0 && firstPage > 1 && firstPage > 2;
+  const showLeftEllipsis = pages.length > 0 && firstPage > 1 && firstPage > 2;
 
   const showRightEllipsis =
-    pages.length > 0 &&
-    lastPage < totalPages &&
-    lastPage < totalPages - 1;
+    pages.length > 0 && lastPage < totalPages && lastPage < totalPages - 1;
 
   return {
     pages,

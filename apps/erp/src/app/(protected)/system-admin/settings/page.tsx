@@ -1,5 +1,7 @@
-import { SystemAdminSectionHeader } from "@/components/system-admin/system-admin-section-header";
-import { SystemAdminSettingsTable } from "@/components/system-admin/system-admin-settings-table";
+import {
+  SystemAdminSectionHeaderBlock as SystemAdminSectionHeader,
+  SystemAdminSettingsTableBlock as SystemAdminSettingsTable,
+} from "@afenda/shadcn-studio";
 import { loadSystemAdminSectionPage } from "@/lib/system-admin/load-system-admin-section-page.server";
 import { listSystemAdminSettings } from "@/server/system-admin/list-system-admin-settings.server";
 

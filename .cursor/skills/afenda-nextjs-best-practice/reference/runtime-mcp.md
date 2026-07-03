@@ -4,7 +4,7 @@
 
 | Item | Value |
 | --- | --- |
-| MCP server | `next-devtools` in `.mcp.json` |
+| MCP server | `next-devtools` in `.cursor/mcp.json` |
 | ERP | port **3000** · `apps/erp` |
 | Docs | port **3001** · `apps/docs` |
 

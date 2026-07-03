@@ -1,9 +1,6 @@
 import type { AssetIconProps } from "./asset-icon.types.js";
 
-const LinkedinIcon = ({
-  variant = "brand",
-  ...props
-}: AssetIconProps) => (
+const LinkedinIcon = ({ variant = "brand", ...props }: AssetIconProps) => (
   <svg
     aria-hidden="true"
     fill="none"

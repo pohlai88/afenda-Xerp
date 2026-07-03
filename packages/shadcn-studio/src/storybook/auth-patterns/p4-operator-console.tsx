@@ -6,7 +6,11 @@ const GOVERNANCE_LINES = [
   { key: "tenant", label: "Tenant context", value: "acme-corp · prod-us-east" },
   { key: "policy", label: "Policy bundle", value: "erp-operator-v3.2" },
   { key: "session", label: "Session mode", value: "governed · mfa-ready" },
-  { key: "audit", label: "Audit stream", value: "enabled · correlation-id pass-through" },
+  {
+    key: "audit",
+    label: "Audit stream",
+    value: "enabled · correlation-id pass-through",
+  },
 ] as const;
 
 const TELEMETRY_ROWS = [
@@ -43,7 +47,9 @@ export function P4OperatorConsole() {
             <p className="text-[0.62rem] text-emerald-400/90 uppercase tracking-[0.32em]">
               System readout
             </p>
-            <h2 className="mt-2 text-xl tracking-tight">Ingress governance panel</h2>
+            <h2 className="mt-2 text-xl tracking-tight">
+              Ingress governance panel
+            </h2>
           </div>
           <span className="inline-flex items-center gap-2 rounded border border-emerald-500/30 bg-emerald-500/10 px-3 py-1.5 text-[0.62rem] text-emerald-300 uppercase tracking-[0.2em]">
             <ShieldCheckIcon aria-hidden className="size-3.5" />

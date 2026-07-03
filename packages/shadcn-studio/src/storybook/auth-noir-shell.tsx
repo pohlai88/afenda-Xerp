@@ -23,12 +23,12 @@ import {
 
 export interface AuthNoirShellProps {
   readonly children: ReactNode;
-  readonly eyebrow: string;
   readonly editorialPresetId?: EditorialLabPresetId;
+  readonly eyebrow: string;
   readonly statusLabel?: string;
+  readonly subtitle?: string;
   readonly titleMuted?: string;
   readonly titlePrimary: string;
-  readonly subtitle?: string;
   readonly variant?: "split" | "floating-jewel";
 }
 
@@ -87,7 +87,9 @@ export function AuthNoirShell({
             <p className={labNoirKickerClassName}>{eyebrow}</p>
             <h1 className={labNoirTitleClassName}>
               <span className={labNoirTitleMutedClassName}>{titleMuted}</span>
-              <span className={labNoirTitlePrimaryClassName}>{titlePrimary}</span>
+              <span className={labNoirTitlePrimaryClassName}>
+                {titlePrimary}
+              </span>
             </h1>
             {subtitle ? (
               <p className={labNoirSubtitleClassName}>{subtitle}</p>

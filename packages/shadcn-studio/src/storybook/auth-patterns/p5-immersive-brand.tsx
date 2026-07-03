@@ -18,7 +18,7 @@ export function P5ImmersiveBrand() {
         className="absolute inset-0 bg-linear-to-t from-black/85 via-black/35 to-black/20"
       />
 
-      <div className="relative z-10 flex min-h-[42vh] flex-col justify-end px-8 pb-32 pt-16 sm:px-12 lg:px-16">
+      <div className="relative z-10 flex min-h-[42vh] flex-col justify-end px-8 pt-16 pb-32 sm:px-12 lg:px-16">
         <p className="font-medium text-[0.68rem] text-white/70 uppercase tracking-[0.36em]">
           Afenda ERP
         </p>
@@ -27,7 +27,9 @@ export function P5ImmersiveBrand() {
         </h1>
         <div className="mt-6 flex items-center gap-3 text-white/90">
           <LogoIcon className="size-9" variant="brand" />
-          <span className="font-medium text-lg">Enterprise workspace access</span>
+          <span className="font-medium text-lg">
+            Enterprise workspace access
+          </span>
         </div>
       </div>
 

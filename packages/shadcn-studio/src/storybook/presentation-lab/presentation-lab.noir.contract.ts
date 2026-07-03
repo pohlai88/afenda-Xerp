@@ -36,7 +36,8 @@ export const labNoirMainClassName =
 export const labNoirLoginMainClassName =
   "relative grid min-h-0 grid-rows-[auto_minmax(0,auto)] items-center gap-8 overflow-hidden py-6 lg:grid-cols-[minmax(0,1fr)_22rem] lg:grid-rows-none lg:gap-12 lg:py-8" as const;
 
-export const labNoirHeroClassName = "relative z-10 min-w-0 max-w-5xl overflow-hidden" as const;
+export const labNoirHeroClassName =
+  "relative z-10 min-w-0 max-w-5xl overflow-hidden" as const;
 
 export const labNoirLoginHeroStackClassName =
   "relative z-10 flex min-w-0 max-w-5xl flex-col gap-4 overflow-hidden lg:gap-6" as const;
@@ -132,7 +133,8 @@ export const labNoirRailTitleClassName =
 export const labNoirRailTitleMutedClassName =
   "block text-muted-foreground/40" as const;
 
-export const labNoirRailTitlePrimaryClassName = "block text-foreground" as const;
+export const labNoirRailTitlePrimaryClassName =
+  "block text-foreground" as const;
 
 export const labNoirRailPanelTitleClassName =
   "lab-noir-serif text-2xl leading-tight text-foreground text-pretty" as const;
@@ -147,7 +149,8 @@ export const labNoirReadoutScanGridClassName = "lab-noir-readout-grid" as const;
 export const labNoirReadoutHeaderClassName =
   "relative z-10 flex shrink-0 flex-wrap items-center justify-between gap-4 border-border/60 border-b pb-4" as const;
 
-export const labNoirReadoutHeaderCopyClassName = "flex min-w-0 flex-col gap-2" as const;
+export const labNoirReadoutHeaderCopyClassName =
+  "flex min-w-0 flex-col gap-2" as const;
 
 export const labNoirReadoutKickerClassName =
   "lab-noir-mono text-[0.62rem] uppercase tracking-[0.32em] text-primary/90" as const;

@@ -16,6 +16,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * Interactive checkbox that validates toggle behavior.
+ *
+ * @summary for interactive boolean toggles
+ */
 export const Toggle: Story = {
   tags: ["lab-smoke"],
   args: {
@@ -29,5 +34,30 @@ export const Toggle: Story = {
     await userEvent.click(checkbox);
     await expect(checkbox).toHaveAttribute("aria-checked", "true");
     await expect(args.onCheckedChange).toHaveBeenCalledTimes(1);
+  },
+};
+
+/**
+ * Pre-checked checkbox for persisted preference defaults.
+ *
+ * @summary for default-on persisted preferences
+ */
+export const Checked: Story = {
+  args: {
+    ...Toggle.args,
+    defaultChecked: true,
+  },
+};
+
+/**
+ * Disabled checked checkbox for non-editable but active policy states.
+ *
+ * @summary for active policy state that users cannot change
+ */
+export const DisabledChecked: Story = {
+  args: {
+    ...Toggle.args,
+    defaultChecked: true,
+    disabled: true,
   },
 };

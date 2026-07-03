@@ -1,8 +1,7 @@
 import type { AssetIconProps } from "./asset-icon.types.js";
 
 const Logo = ({ variant = "brand", className, ...props }: AssetIconProps) => {
-  const markStroke =
-    variant === "brand" ? "var(--background)" : "currentColor";
+  const markStroke = variant === "brand" ? "var(--background)" : "currentColor";
 
   return (
     <svg
@@ -16,7 +15,13 @@ const Logo = ({ variant = "brand", className, ...props }: AssetIconProps) => {
       {...props}
     >
       {variant === "brand" ? (
-        <rect fill="var(--foreground)" height="328" rx="164" width="328" y="0.5" />
+        <rect
+          fill="var(--foreground)"
+          height="328"
+          rx="164"
+          width="328"
+          y="0.5"
+        />
       ) : (
         <rect
           fill="none"

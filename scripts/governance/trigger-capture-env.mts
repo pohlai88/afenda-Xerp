@@ -77,7 +77,7 @@ function parseEnvFile(content: string): Map<string, string> {
 
 function readSourceValue(filePath: string, key: string): string | undefined {
   if (!existsSync(filePath)) {
-    return undefined;
+    return;
   }
 
   return parseEnvFile(readFileSync(filePath, "utf8")).get(key)?.trim();
@@ -167,7 +167,10 @@ function main(): void {
     }
   }
 
-  const devKey = readSourceValue(join(repoRoot, ".env.secret"), "TRIGGER_SECRET_KEY");
+  const devKey = readSourceValue(
+    join(repoRoot, ".env.secret"),
+    "TRIGGER_SECRET_KEY"
+  );
   const prodKey = readSourceValue(
     join(repoRoot, ".env.secret"),
     "TRIGGER_SECRET_KEY_PROD"

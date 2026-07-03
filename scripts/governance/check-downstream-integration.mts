@@ -183,7 +183,11 @@ function checkCssImports(
     }
   }
 
-  if (label === "ERP globals" || label === "Storybook preview" || label === "Developer globals") {
+  if (
+    label === "ERP globals" ||
+    label === "Storybook preview" ||
+    label === "Developer globals"
+  ) {
     const tailwindIdx = imports.indexOf("tailwindcss");
     const animateIdx = imports.indexOf("tw-animate-css");
     const shadcnTailwindIdx = imports.indexOf("shadcn/tailwind.css");
@@ -282,7 +286,11 @@ export function checkDownstreamIntegration(): DownstreamViolation[] {
       APPROVED_ERP_CSS_IMPORTS,
       FORBIDDEN_ERP_CSS_IMPORTS
     );
-    checkNoirCssNotGlobal(violations, STORYBOOK_PREVIEW_CSS, "Storybook preview");
+    checkNoirCssNotGlobal(
+      violations,
+      STORYBOOK_PREVIEW_CSS,
+      "Storybook preview"
+    );
   }
 
   return violations;

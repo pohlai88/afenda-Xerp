@@ -46,7 +46,7 @@ export function computeStudioBlockParitySummary(
     parityPercent: 100,
     deleteBlocked: false,
     canonicalBlockRoot:
-      "packages/shadcn-studio/src/components-layouts",
+      "packages/shadcn-studio/src/components-layouts + src/components-auth-shell",
     legacyBlockRoot: "retired per ADR-0027 (packages/appshell removed)",
   };
 }

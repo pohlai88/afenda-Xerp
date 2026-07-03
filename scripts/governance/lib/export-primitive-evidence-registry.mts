@@ -3,8 +3,8 @@
  * JSON export for .mjs governance gates — do not edit registry here.
  */
 import {
-  PRIMITIVE_EVIDENCE_REGISTRY,
   COMPOUND_PRIMITIVE_SLUGS,
+  PRIMITIVE_EVIDENCE_REGISTRY,
 } from "../../../packages/shadcn-studio/src/meta-gates/primitive-evidence.registry.ts";
 
 console.log(

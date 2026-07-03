@@ -10,7 +10,9 @@ export function P3CenteredMonolith() {
           <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-xl bg-primary/10">
             <LogoIcon className="size-7" variant="brand" />
           </div>
-          <h1 className="font-semibold text-2xl tracking-tight">Welcome back</h1>
+          <h1 className="font-semibold text-2xl tracking-tight">
+            Welcome back
+          </h1>
           <p className="text-muted-foreground text-sm leading-6">
             Sign in to your governed operator workspace.
           </p>

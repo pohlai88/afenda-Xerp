@@ -1,5 +1,8 @@
-import { SystemAdminSectionHeader } from "@/components/system-admin/system-admin-section-header";
-import { SystemAdminUsersTable } from "@/components/system-admin/system-admin-users-table.client";
+import {
+  SystemAdminListToolbarBlock as SystemAdminListToolbar,
+  SystemAdminSectionHeaderBlock as SystemAdminSectionHeader,
+  SystemAdminUsersTableBlock as SystemAdminUsersTable,
+} from "@afenda/shadcn-studio";
 import { loadSystemAdminSectionPage } from "@/lib/system-admin/load-system-admin-section-page.server";
 import { mapUserWireToDatatableRow } from "@/lib/system-admin/map-user-wire-to-datatable-row";
 import { listSystemAdminUsers } from "@/server/system-admin/list-system-admin-users.server";
@@ -20,6 +23,10 @@ export default async function SystemAdminUsersPage() {
       <SystemAdminSectionHeader
         description="System administration user directory backed by internal v1 users list."
         title="Users"
+      />
+      <SystemAdminListToolbar
+        createLabel="Invite user"
+        searchLabel="Search users"
       />
       <SystemAdminUsersTable
         data={users.map((user) => mapUserWireToDatatableRow(user))}

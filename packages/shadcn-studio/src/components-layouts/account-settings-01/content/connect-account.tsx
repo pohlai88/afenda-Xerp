@@ -1,9 +1,7 @@
 "use client";
 
-import { PlusIcon, XIcon as CloseIcon } from "lucide-react";
+import { XIcon as CloseIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
-import GoogleIcon from "@/components-assets/icon-google.js";
-import SlackIcon from "@/components-assets/icon-slack.js";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,6 +14,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import GoogleIcon from "@/components-assets/icon-google.js";
+import SlackIcon from "@/components-assets/icon-slack.js";
 import {
   accountSettingsSectionContentClassName,
   accountSettingsSectionGridClassName,

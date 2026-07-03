@@ -16,7 +16,7 @@ const afendaLabTheme = create({
   colorSecondary: "#737373",
   fontBase:
     'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
-  fontCode: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+  fontCode: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace",
   textColor: "#171717",
   textInverseColor: "#fafafa",
   inputBg: "#ffffff",

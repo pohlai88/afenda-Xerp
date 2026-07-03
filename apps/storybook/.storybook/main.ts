@@ -33,14 +33,15 @@ const storybookAddons = [
   getAbsolutePath("@storybook/addon-docs"),
   getAbsolutePath("@storybook/addon-designs"),
   getAbsolutePath("@storybook/addon-a11y"),
+  getAbsolutePath("@storybook/addon-links"),
+  getAbsolutePath("@storybook/addon-themes"),
   {
     name: getAbsolutePath("@storybook/addon-mcp"),
     options: {
       toolsets: {
         dev: true,
         docs: true,
-        // Vitest addon is dev-excluded (acorn TSX indexing). Tests run via pnpm test:storybook:run.
-        // Enabling test here registers follower panels without a leader → console store errors.
+        // Windows MCP Vitest spawning is unreliable; run local Storybook Vitest gates instead.
         test: false,
       },
     },

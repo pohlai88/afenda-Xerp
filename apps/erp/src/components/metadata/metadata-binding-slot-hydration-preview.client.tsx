@@ -6,6 +6,7 @@ import { useLayoutEffect, useRef } from "react";
 import type { MetadataBindingSlotHydrationWire } from "@/lib/metadata/metadata-binding-slot-hydration.contract";
 
 export interface MetadataBindingSlotHydrationPreviewProps {
+  readonly blockIdOverride?: string;
   readonly slotHydration: MetadataBindingSlotHydrationWire;
 }
 
@@ -39,10 +40,12 @@ function applySlotHydrationTargets(
 
 /** Renders a PAS-006 block and applies runtime slot hydration to `data-afenda-slot` targets. */
 export function MetadataBindingSlotHydrationPreview({
+  blockIdOverride,
   slotHydration,
 }: MetadataBindingSlotHydrationPreviewProps) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const BlockComponent = resolveStudioBlockComponent(slotHydration.blockId);
+  const blockId = blockIdOverride ?? slotHydration.blockId;
+  const BlockComponent = resolveStudioBlockComponent(blockId);
 
   useLayoutEffect(() => {
     const root = rootRef.current;
@@ -63,7 +66,7 @@ export function MetadataBindingSlotHydrationPreview({
   }
 
   return (
-    <div data-metadata-block-preview={slotHydration.blockId} ref={rootRef}>
+    <div data-metadata-block-preview={blockId} ref={rootRef}>
       <BlockComponent />
     </div>
   );

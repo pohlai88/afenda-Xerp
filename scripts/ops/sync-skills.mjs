@@ -6,7 +6,12 @@ import path from "node:path";
 const cwd = process.cwd();
 const cursorRoot = path.join(cwd, ".cursor", "skills");
 const githubRoot = path.join(cwd, ".github", "skills");
-const defaultStateFile = path.join(cwd, ".cursor", ".cache", "skill-sync-state.json");
+const defaultStateFile = path.join(
+  cwd,
+  ".cursor",
+  ".cache",
+  "skill-sync-state.json"
+);
 const trackedRootFiles = ["NATIVE-EVALUATION.md"];
 const rootFileAliases = [
   {
@@ -21,10 +26,14 @@ const apply = args.has("--apply");
 const preferArg = [...args].find((arg) => arg.startsWith("--prefer="));
 const prefer = preferArg ? preferArg.split("=")[1] : "none";
 const stateArg = [...args].find((arg) => arg.startsWith("--state-file="));
-const stateFile = stateArg ? path.resolve(cwd, stateArg.split("=")[1]) : defaultStateFile;
+const stateFile = stateArg
+  ? path.resolve(cwd, stateArg.split("=")[1])
+  : defaultStateFile;
 
 if (!new Set(["none", "cursor", "github", "newer"]).has(prefer)) {
-  console.error("Invalid --prefer value. Use one of: none, cursor, github, newer");
+  console.error(
+    "Invalid --prefer value. Use one of: none, cursor, github, newer"
+  );
   process.exit(1);
 }
 
@@ -38,7 +47,9 @@ const exists = async (targetPath) => {
 };
 
 const readJson = async (targetPath) => {
-  if (!(await exists(targetPath))) return null;
+  if (!(await exists(targetPath))) {
+    return null;
+  }
   const raw = await fs.readFile(targetPath, "utf8");
   return JSON.parse(raw);
 };
@@ -48,7 +59,9 @@ const ensureDir = async (dirPath) => {
 };
 
 const computeFileSnapshot = async (filePath) => {
-  if (!(await exists(filePath))) return null;
+  if (!(await exists(filePath))) {
+    return null;
+  }
 
   const stat = await fs.stat(filePath);
   const content = await fs.readFile(filePath);
@@ -83,7 +96,9 @@ const walkFiles = async (baseDir) => {
 
 const computeSkillSnapshot = async (skillDir) => {
   const files = await walkFiles(skillDir);
-  if (files.length === 0) return null;
+  if (files.length === 0) {
+    return null;
+  }
 
   const hash = createHash("sha256");
   let latestMtimeMs = 0;
@@ -91,7 +106,9 @@ const computeSkillSnapshot = async (skillDir) => {
   for (const absFile of files) {
     const rel = path.relative(skillDir, absFile).replaceAll("\\", "/");
     const stat = await fs.stat(absFile);
-    if (stat.mtimeMs > latestMtimeMs) latestMtimeMs = stat.mtimeMs;
+    if (stat.mtimeMs > latestMtimeMs) {
+      latestMtimeMs = stat.mtimeMs;
+    }
     const content = await fs.readFile(absFile);
     hash.update(rel);
     hash.update("\n");
@@ -107,17 +124,25 @@ const computeSkillSnapshot = async (skillDir) => {
 
 const getSkills = async (rootDir) => {
   const result = new Map();
-  if (!(await exists(rootDir))) return result;
+  if (!(await exists(rootDir))) {
+    return result;
+  }
 
   const entries = await fs.readdir(rootDir, { withFileTypes: true });
   for (const entry of entries) {
-    if (!entry.isDirectory()) continue;
+    if (!entry.isDirectory()) {
+      continue;
+    }
     const skillDir = path.join(rootDir, entry.name);
     const skillFile = path.join(skillDir, "SKILL.md");
-    if (!(await exists(skillFile))) continue;
+    if (!(await exists(skillFile))) {
+      continue;
+    }
 
     const snapshot = await computeSkillSnapshot(skillDir);
-    if (!snapshot) continue;
+    if (!snapshot) {
+      continue;
+    }
 
     result.set(entry.name, {
       dir: skillDir,
@@ -141,50 +166,86 @@ const copyFile = async (fromPath, toPath) => {
 };
 
 const chooseByPreference = (cursorMeta, githubMeta) => {
-  if (prefer === "cursor") return "cursor";
-  if (prefer === "github") return "github";
+  if (prefer === "cursor") {
+    return "cursor";
+  }
+  if (prefer === "github") {
+    return "github";
+  }
   if (prefer === "newer") {
-    return cursorMeta.latestMtimeMs >= githubMeta.latestMtimeMs ? "cursor" : "github";
+    return cursorMeta.latestMtimeMs >= githubMeta.latestMtimeMs
+      ? "cursor"
+      : "github";
   }
   return null;
 };
 
-const formatPlanLine = (status, skill, detail) => `${status.padEnd(10)} ${skill}${detail ? ` (${detail})` : ""}`;
+const formatPlanLine = (status, skill, detail) =>
+  `${status.padEnd(10)} ${skill}${detail ? ` (${detail})` : ""}`;
 
 const main = async () => {
   await ensureDir(path.dirname(stateFile));
-  const previousState = (await readJson(stateFile)) ?? { version: 1, skills: {} };
+  const previousState = (await readJson(stateFile)) ?? {
+    version: 1,
+    skills: {},
+  };
   const nextState = { version: 1, skills: {} };
 
   const cursorSkills = await getSkills(cursorRoot);
   const githubSkills = await getSkills(githubRoot);
-  const allSkillNames = new Set([...cursorSkills.keys(), ...githubSkills.keys()]);
+  const allSkillNames = new Set([
+    ...cursorSkills.keys(),
+    ...githubSkills.keys(),
+  ]);
 
   const plan = [];
   const conflicts = [];
 
-  for (const skillName of [...allSkillNames].sort((a, b) => a.localeCompare(b))) {
+  for (const skillName of [...allSkillNames].sort((a, b) =>
+    a.localeCompare(b)
+  )) {
     const cursorMeta = cursorSkills.get(skillName) ?? null;
     const githubMeta = githubSkills.get(skillName) ?? null;
     const prev = previousState.skills[skillName] ?? null;
 
     if (cursorMeta && !githubMeta) {
-      plan.push({ action: "copy", from: "cursor", skillName, reason: "missing in github" });
-      nextState.skills[skillName] = { cursorHash: cursorMeta.hash, githubHash: cursorMeta.hash };
+      plan.push({
+        action: "copy",
+        from: "cursor",
+        skillName,
+        reason: "missing in github",
+      });
+      nextState.skills[skillName] = {
+        cursorHash: cursorMeta.hash,
+        githubHash: cursorMeta.hash,
+      };
       continue;
     }
 
     if (!cursorMeta && githubMeta) {
-      plan.push({ action: "copy", from: "github", skillName, reason: "missing in cursor" });
-      nextState.skills[skillName] = { cursorHash: githubMeta.hash, githubHash: githubMeta.hash };
+      plan.push({
+        action: "copy",
+        from: "github",
+        skillName,
+        reason: "missing in cursor",
+      });
+      nextState.skills[skillName] = {
+        cursorHash: githubMeta.hash,
+        githubHash: githubMeta.hash,
+      };
       continue;
     }
 
-    if (!cursorMeta || !githubMeta) continue;
+    if (!(cursorMeta && githubMeta)) {
+      continue;
+    }
 
     if (cursorMeta.hash === githubMeta.hash) {
       plan.push({ action: "noop", skillName, reason: "already in sync" });
-      nextState.skills[skillName] = { cursorHash: cursorMeta.hash, githubHash: githubMeta.hash };
+      nextState.skills[skillName] = {
+        cursorHash: cursorMeta.hash,
+        githubHash: githubMeta.hash,
+      };
       continue;
     }
 
@@ -193,35 +254,72 @@ const main = async () => {
       const githubChanged = prev.githubHash !== githubMeta.hash;
 
       if (cursorChanged && !githubChanged) {
-        plan.push({ action: "copy", from: "cursor", skillName, reason: "changed in cursor" });
-        nextState.skills[skillName] = { cursorHash: cursorMeta.hash, githubHash: cursorMeta.hash };
+        plan.push({
+          action: "copy",
+          from: "cursor",
+          skillName,
+          reason: "changed in cursor",
+        });
+        nextState.skills[skillName] = {
+          cursorHash: cursorMeta.hash,
+          githubHash: cursorMeta.hash,
+        };
         continue;
       }
 
       if (githubChanged && !cursorChanged) {
-        plan.push({ action: "copy", from: "github", skillName, reason: "changed in github" });
-        nextState.skills[skillName] = { cursorHash: githubMeta.hash, githubHash: githubMeta.hash };
+        plan.push({
+          action: "copy",
+          from: "github",
+          skillName,
+          reason: "changed in github",
+        });
+        nextState.skills[skillName] = {
+          cursorHash: githubMeta.hash,
+          githubHash: githubMeta.hash,
+        };
         continue;
       }
 
-      if (!cursorChanged && !githubChanged) {
+      if (!(cursorChanged || githubChanged)) {
         const pick = chooseByPreference(cursorMeta, githubMeta);
         if (pick) {
-          const pickedHash = pick === "cursor" ? cursorMeta.hash : githubMeta.hash;
-          plan.push({ action: "copy", from: pick, skillName, reason: "state drift" });
-          nextState.skills[skillName] = { cursorHash: pickedHash, githubHash: pickedHash };
+          const pickedHash =
+            pick === "cursor" ? cursorMeta.hash : githubMeta.hash;
+          plan.push({
+            action: "copy",
+            from: pick,
+            skillName,
+            reason: "state drift",
+          });
+          nextState.skills[skillName] = {
+            cursorHash: pickedHash,
+            githubHash: pickedHash,
+          };
           continue;
         }
       }
 
       const pick = chooseByPreference(cursorMeta, githubMeta);
       if (pick) {
-        const pickedHash = pick === "cursor" ? cursorMeta.hash : githubMeta.hash;
-        plan.push({ action: "copy", from: pick, skillName, reason: "both changed; preference applied" });
-        nextState.skills[skillName] = { cursorHash: pickedHash, githubHash: pickedHash };
+        const pickedHash =
+          pick === "cursor" ? cursorMeta.hash : githubMeta.hash;
+        plan.push({
+          action: "copy",
+          from: pick,
+          skillName,
+          reason: "both changed; preference applied",
+        });
+        nextState.skills[skillName] = {
+          cursorHash: pickedHash,
+          githubHash: pickedHash,
+        };
       } else {
         conflicts.push(skillName);
-        nextState.skills[skillName] = { cursorHash: cursorMeta.hash, githubHash: githubMeta.hash };
+        nextState.skills[skillName] = {
+          cursorHash: cursorMeta.hash,
+          githubHash: githubMeta.hash,
+        };
       }
       continue;
     }
@@ -229,11 +327,22 @@ const main = async () => {
     const pick = chooseByPreference(cursorMeta, githubMeta);
     if (pick) {
       const pickedHash = pick === "cursor" ? cursorMeta.hash : githubMeta.hash;
-      plan.push({ action: "copy", from: pick, skillName, reason: "bootstrap divergence" });
-      nextState.skills[skillName] = { cursorHash: pickedHash, githubHash: pickedHash };
+      plan.push({
+        action: "copy",
+        from: pick,
+        skillName,
+        reason: "bootstrap divergence",
+      });
+      nextState.skills[skillName] = {
+        cursorHash: pickedHash,
+        githubHash: pickedHash,
+      };
     } else {
       conflicts.push(skillName);
-      nextState.skills[skillName] = { cursorHash: cursorMeta.hash, githubHash: githubMeta.hash };
+      nextState.skills[skillName] = {
+        cursorHash: cursorMeta.hash,
+        githubHash: githubMeta.hash,
+      };
     }
   }
 
@@ -246,22 +355,50 @@ const main = async () => {
     const prev = previousState.skills[key] ?? null;
 
     if (cursorMeta && !githubMeta) {
-      plan.push({ action: "copy", kind: "file", from: "cursor", fileName, reason: "missing in github" });
-      nextState.skills[key] = { cursorHash: cursorMeta.hash, githubHash: cursorMeta.hash };
+      plan.push({
+        action: "copy",
+        kind: "file",
+        from: "cursor",
+        fileName,
+        reason: "missing in github",
+      });
+      nextState.skills[key] = {
+        cursorHash: cursorMeta.hash,
+        githubHash: cursorMeta.hash,
+      };
       continue;
     }
 
     if (!cursorMeta && githubMeta) {
-      plan.push({ action: "copy", kind: "file", from: "github", fileName, reason: "missing in cursor" });
-      nextState.skills[key] = { cursorHash: githubMeta.hash, githubHash: githubMeta.hash };
+      plan.push({
+        action: "copy",
+        kind: "file",
+        from: "github",
+        fileName,
+        reason: "missing in cursor",
+      });
+      nextState.skills[key] = {
+        cursorHash: githubMeta.hash,
+        githubHash: githubMeta.hash,
+      };
       continue;
     }
 
-    if (!cursorMeta || !githubMeta) continue;
+    if (!(cursorMeta && githubMeta)) {
+      continue;
+    }
 
     if (cursorMeta.hash === githubMeta.hash) {
-      plan.push({ action: "noop", kind: "file", fileName, reason: "already in sync" });
-      nextState.skills[key] = { cursorHash: cursorMeta.hash, githubHash: githubMeta.hash };
+      plan.push({
+        action: "noop",
+        kind: "file",
+        fileName,
+        reason: "already in sync",
+      });
+      nextState.skills[key] = {
+        cursorHash: cursorMeta.hash,
+        githubHash: githubMeta.hash,
+      };
       continue;
     }
 
@@ -270,35 +407,76 @@ const main = async () => {
       const githubChanged = prev.githubHash !== githubMeta.hash;
 
       if (cursorChanged && !githubChanged) {
-        plan.push({ action: "copy", kind: "file", from: "cursor", fileName, reason: "changed in cursor" });
-        nextState.skills[key] = { cursorHash: cursorMeta.hash, githubHash: cursorMeta.hash };
+        plan.push({
+          action: "copy",
+          kind: "file",
+          from: "cursor",
+          fileName,
+          reason: "changed in cursor",
+        });
+        nextState.skills[key] = {
+          cursorHash: cursorMeta.hash,
+          githubHash: cursorMeta.hash,
+        };
         continue;
       }
 
       if (githubChanged && !cursorChanged) {
-        plan.push({ action: "copy", kind: "file", from: "github", fileName, reason: "changed in github" });
-        nextState.skills[key] = { cursorHash: githubMeta.hash, githubHash: githubMeta.hash };
+        plan.push({
+          action: "copy",
+          kind: "file",
+          from: "github",
+          fileName,
+          reason: "changed in github",
+        });
+        nextState.skills[key] = {
+          cursorHash: githubMeta.hash,
+          githubHash: githubMeta.hash,
+        };
         continue;
       }
 
-      if (!cursorChanged && !githubChanged) {
+      if (!(cursorChanged || githubChanged)) {
         const pick = chooseByPreference(cursorMeta, githubMeta);
         if (pick) {
-          const pickedHash = pick === "cursor" ? cursorMeta.hash : githubMeta.hash;
-          plan.push({ action: "copy", kind: "file", from: pick, fileName, reason: "state drift" });
-          nextState.skills[key] = { cursorHash: pickedHash, githubHash: pickedHash };
+          const pickedHash =
+            pick === "cursor" ? cursorMeta.hash : githubMeta.hash;
+          plan.push({
+            action: "copy",
+            kind: "file",
+            from: pick,
+            fileName,
+            reason: "state drift",
+          });
+          nextState.skills[key] = {
+            cursorHash: pickedHash,
+            githubHash: pickedHash,
+          };
           continue;
         }
       }
 
       const pick = chooseByPreference(cursorMeta, githubMeta);
       if (pick) {
-        const pickedHash = pick === "cursor" ? cursorMeta.hash : githubMeta.hash;
-        plan.push({ action: "copy", kind: "file", from: pick, fileName, reason: "both changed; preference applied" });
-        nextState.skills[key] = { cursorHash: pickedHash, githubHash: pickedHash };
+        const pickedHash =
+          pick === "cursor" ? cursorMeta.hash : githubMeta.hash;
+        plan.push({
+          action: "copy",
+          kind: "file",
+          from: pick,
+          fileName,
+          reason: "both changed; preference applied",
+        });
+        nextState.skills[key] = {
+          cursorHash: pickedHash,
+          githubHash: pickedHash,
+        };
       } else {
         conflicts.push(key);
-        nextState.skills[key] = { cursorHash: cursorMeta.hash, githubHash: githubMeta.hash };
+        nextState.skills[key] = {
+          cursorHash: cursorMeta.hash,
+          githubHash: githubMeta.hash,
+        };
       }
       continue;
     }
@@ -306,22 +484,37 @@ const main = async () => {
     const pick = chooseByPreference(cursorMeta, githubMeta);
     if (pick) {
       const pickedHash = pick === "cursor" ? cursorMeta.hash : githubMeta.hash;
-      plan.push({ action: "copy", kind: "file", from: pick, fileName, reason: "bootstrap divergence" });
-      nextState.skills[key] = { cursorHash: pickedHash, githubHash: pickedHash };
+      plan.push({
+        action: "copy",
+        kind: "file",
+        from: pick,
+        fileName,
+        reason: "bootstrap divergence",
+      });
+      nextState.skills[key] = {
+        cursorHash: pickedHash,
+        githubHash: pickedHash,
+      };
     } else {
       conflicts.push(key);
-      nextState.skills[key] = { cursorHash: cursorMeta.hash, githubHash: githubMeta.hash };
+      nextState.skills[key] = {
+        cursorHash: cursorMeta.hash,
+        githubHash: githubMeta.hash,
+      };
     }
   }
 
   for (const step of plan) {
-    const itemName = step.kind === "file" ? `[file] ${step.fileName}` : step.skillName;
+    const itemName =
+      step.kind === "file" ? `[file] ${step.fileName}` : step.skillName;
     if (step.action === "noop") {
       console.log(formatPlanLine("NOOP", itemName, step.reason));
       continue;
     }
     const to = step.from === "cursor" ? "github" : "cursor";
-    console.log(formatPlanLine("COPY", itemName, `${step.from} -> ${to}; ${step.reason}`));
+    console.log(
+      formatPlanLine("COPY", itemName, `${step.from} -> ${to}; ${step.reason}`)
+    );
   }
 
   const aliasPlan = [];
@@ -330,16 +523,28 @@ const main = async () => {
     const sourcePath = path.join(rootDir, alias.source);
     const targetPath = path.join(rootDir, alias.target);
     const sourceMeta = await computeFileSnapshot(sourcePath);
-    if (!sourceMeta) continue;
+    if (!sourceMeta) {
+      continue;
+    }
 
     const targetMeta = await computeFileSnapshot(targetPath);
     if (!targetMeta || targetMeta.hash !== sourceMeta.hash) {
       aliasPlan.push(alias);
       console.log(
-        formatPlanLine("COPY", `[alias] ${alias.target.replaceAll("\\", "/")}`, `${alias.source} -> ${alias.target.replaceAll("\\", "/")}`),
+        formatPlanLine(
+          "COPY",
+          `[alias] ${alias.target.replaceAll("\\", "/")}`,
+          `${alias.source} -> ${alias.target.replaceAll("\\", "/")}`
+        )
       );
     } else {
-      console.log(formatPlanLine("NOOP", `[alias] ${alias.target.replaceAll("\\", "/")}`, "already in sync"));
+      console.log(
+        formatPlanLine(
+          "NOOP",
+          `[alias] ${alias.target.replaceAll("\\", "/")}`,
+          "already in sync"
+        )
+      );
     }
   }
 
@@ -348,7 +553,9 @@ const main = async () => {
     for (const skillName of conflicts) {
       console.log(`- ${skillName}`);
     }
-    console.log("\nRe-run with one of: --prefer=cursor, --prefer=github, or --prefer=newer");
+    console.log(
+      "\nRe-run with one of: --prefer=cursor, --prefer=github, or --prefer=newer"
+    );
     if (!apply) {
       process.exitCode = 2;
       return;
@@ -362,26 +569,43 @@ const main = async () => {
   }
 
   for (const step of plan) {
-    if (step.action !== "copy") continue;
+    if (step.action !== "copy") {
+      continue;
+    }
     if (step.kind === "file") {
       const fromRoot = step.from === "cursor" ? cursorRoot : githubRoot;
       const toRoot = step.from === "cursor" ? githubRoot : cursorRoot;
-      await copyFile(path.join(fromRoot, step.fileName), path.join(toRoot, step.fileName));
+      await copyFile(
+        path.join(fromRoot, step.fileName),
+        path.join(toRoot, step.fileName)
+      );
       continue;
     }
 
     const fromRoot = step.from === "cursor" ? cursorRoot : githubRoot;
     const toRoot = step.from === "cursor" ? githubRoot : cursorRoot;
-    await copySkill(path.join(fromRoot, step.skillName), path.join(toRoot, step.skillName));
+    await copySkill(
+      path.join(fromRoot, step.skillName),
+      path.join(toRoot, step.skillName)
+    );
   }
 
   for (const alias of aliasPlan) {
     const rootDir = alias.root === "cursor" ? cursorRoot : githubRoot;
-    await copyFile(path.join(rootDir, alias.source), path.join(rootDir, alias.target));
+    await copyFile(
+      path.join(rootDir, alias.source),
+      path.join(rootDir, alias.target)
+    );
   }
 
-  await fs.writeFile(stateFile, `${JSON.stringify(nextState, null, 2)}\n`, "utf8");
-  console.log(`\nSync complete. State saved to ${path.relative(cwd, stateFile).replaceAll('\\\\', '/')}`);
+  await fs.writeFile(
+    stateFile,
+    `${JSON.stringify(nextState, null, 2)}\n`,
+    "utf8"
+  );
+  console.log(
+    `\nSync complete. State saved to ${path.relative(cwd, stateFile).replaceAll("\\\\", "/")}`
+  );
 };
 
 main().catch((error) => {

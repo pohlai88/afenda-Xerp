@@ -1,5 +1,8 @@
-import { SystemAdminRolesTable } from "@/components/system-admin/system-admin-roles-table";
-import { SystemAdminSectionHeader } from "@/components/system-admin/system-admin-section-header";
+import {
+  SystemAdminListToolbarBlock as SystemAdminListToolbar,
+  SystemAdminRolesTableBlock as SystemAdminRolesTable,
+  SystemAdminSectionHeaderBlock as SystemAdminSectionHeader,
+} from "@afenda/shadcn-studio";
 import { loadSystemAdminSectionPage } from "@/lib/system-admin/load-system-admin-section-page.server";
 import { listSystemAdminRoles } from "@/server/system-admin/list-system-admin-roles.server";
 
@@ -18,6 +21,10 @@ export default async function SystemAdminRolesPage() {
       <SystemAdminSectionHeader
         description="Tenant role templates backed by internal v1 roles list."
         title="Roles"
+      />
+      <SystemAdminListToolbar
+        createLabel="Create role"
+        searchLabel="Search roles"
       />
       <SystemAdminRolesTable roles={roles} />
     </section>

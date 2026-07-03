@@ -16,10 +16,18 @@ describe("presentation-lab-login.contract", () => {
   it("uses quiet two-word editorial heroes", () => {
     expect(presentationLoginCopy["swiss-noir"].titleMuted).toBe("Sign");
     expect(presentationLoginCopy["swiss-noir"].titlePrimary).toBe("In");
-    expect(presentationLoginCopy["verdant-milk-noir"].titleMuted).toBe("Performance");
-    expect(presentationLoginCopy["verdant-milk-noir"].titlePrimary).toBe("Access");
-    expect(presentationLoginCopy["verdant-portal-noir"].titleMuted).toBe("Performance");
-    expect(presentationLoginCopy["verdant-portal-noir"].titlePrimary).toBe("Portal");
+    expect(presentationLoginCopy["verdant-milk-noir"].titleMuted).toBe(
+      "Performance"
+    );
+    expect(presentationLoginCopy["verdant-milk-noir"].titlePrimary).toBe(
+      "Access"
+    );
+    expect(presentationLoginCopy["verdant-portal-noir"].titleMuted).toBe(
+      "Performance"
+    );
+    expect(presentationLoginCopy["verdant-portal-noir"].titlePrimary).toBe(
+      "Portal"
+    );
     expect(presentationLoginCopy["swiss-noir-operator-rail"].titleMuted).toBe(
       "Operator"
     );
@@ -51,9 +59,9 @@ describe("presentation-lab-login.contract", () => {
     expect(presentationLoginCopy["verdant-portal-noir"].panelTitle).toMatch(
       /Step through when credentials are set/i
     );
-    expect(presentationLoginCopy["swiss-noir-operator-rail"].panelTitle).toMatch(
-      /Authenticate when credentials are set/i
-    );
+    expect(
+      presentationLoginCopy["swiss-noir-operator-rail"].panelTitle
+    ).toMatch(/Authenticate when credentials are set/i);
     expect("proof" in presentationLoginCopy["swiss-noir"]).toBe(false);
   });
 

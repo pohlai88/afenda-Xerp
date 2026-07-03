@@ -50,7 +50,8 @@ export const AUTH_PATTERN_LAB_REGISTRY = [
     label: "Verdant Centered Portal",
     thesis:
       "Control Room ghost hero beside a gold-hairline portal vault — long-word typographic fill, laptop-fit, no proof strip.",
-    layoutInvariant: "Ghost hero left + portal vault right (laptop-fit, no side jewel)",
+    layoutInvariant:
+      "Ghost hero left + portal vault right (laptop-fit, no side jewel)",
     tone: "Calm threshold, vertical focus, long-hour readable",
     motion: "Vignette depth, portal elevation, hairline threshold ring",
   },
@@ -59,7 +60,8 @@ export const AUTH_PATTERN_LAB_REGISTRY = [
     label: "Swiss Noir Operator Rail",
     thesis:
       "Industrial operator ingress — narrow mono credential rail beside a live governance readout; telemetry is the hero, not a decorative hero word.",
-    layoutInvariant: "Narrow access rail + system readout column (no orb, no jewel)",
+    layoutInvariant:
+      "Narrow access rail + system readout column (no orb, no jewel)",
     tone: "Industrial ERP operator, mono discipline",
     motion: "Scan grid, status ticks, monospace readout rhythm",
   },

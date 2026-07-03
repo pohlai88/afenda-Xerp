@@ -28,9 +28,7 @@ const DEFAULT_CRITERIA_RESULTS = {
   acpa: "pass",
 } as const;
 
-const WCAG_AA_AUTH_ADJACENT_BLOCK_IDS = new Set<GovernedBlockContractId>([
-  "login-page-04",
-]);
+const WCAG_AA_AUTH_ADJACENT_BLOCK_IDS = new Set<GovernedBlockContractId>();
 
 function presentationLabProofForBlock(
   blockId: GovernedBlockContractId

@@ -2,18 +2,17 @@
 /**
  * PAS-004E — code vocabulary coverage gate (module maps + governed surfaces).
  */
-import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-
-import { buildReferenceRegistryBundle } from "./erp-module-foundation-registry.mts";
-import type { VocabularyAllowlist } from "../../packages/enterprise-knowledge/src/vocabulary/knowledge-vocabulary-export.ts";
 import {
   formatVocabularyCoverageViolations,
   hasVocabularyCoverageErrors,
   validateModuleKnowledgeTerms,
   validateSurfaceStrings,
 } from "../../packages/enterprise-knowledge/src/vocabulary/knowledge-vocabulary-coverage.ts";
+import type { VocabularyAllowlist } from "../../packages/enterprise-knowledge/src/vocabulary/knowledge-vocabulary-export.ts";
+import { buildReferenceRegistryBundle } from "./erp-module-foundation-registry.mts";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
 

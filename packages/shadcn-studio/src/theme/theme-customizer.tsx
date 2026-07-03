@@ -4,20 +4,20 @@ import { useTheme } from "next-themes";
 
 import { resolveColorMode } from "./apply-theme-preset.js";
 import { useSettings } from "./settings-context.js";
+import { THEME_FONT_LABELS } from "./theme-font-stacks.js";
 import {
   assertThemePresetSlug,
   NAMED_THEME_PRESET_SLUGS,
   RADIUS_VALUES,
+  THEME_FONTS,
   THEME_LAYOUTS,
   THEME_SIDEBAR_COLLAPSIBLES,
   THEME_SIDEBAR_VARIANTS,
-  THEME_FONTS,
   type ThemeFont,
   type ThemeMode,
   type ThemeRadius,
   type ThemeScale,
 } from "./theme-preset.contract.js";
-import { THEME_FONT_LABELS } from "./theme-font-stacks.js";
 import { themePresets } from "./theme-presets.js";
 
 const MODES: { value: ThemeMode; label: string }[] = [

@@ -55,10 +55,7 @@ export function P6BentoTrust() {
                 className={`rounded-2xl border border-border/60 bg-muted/30 p-6 transition-shadow hover:shadow-md ${tile.span}`}
                 key={tile.id}
               >
-                <Icon
-                  aria-hidden
-                  className="mb-4 size-5 text-primary"
-                />
+                <Icon aria-hidden className="mb-4 size-5 text-primary" />
                 <p className="font-medium text-[0.68rem] text-muted-foreground uppercase tracking-[0.24em]">
                   {tile.label}
                 </p>
@@ -79,7 +76,9 @@ export function P6BentoTrust() {
                 <p className="text-muted-foreground text-xs">Daily sign-ins</p>
               </div>
               <div>
-                <p className="font-semibold text-3xl tracking-tight">&lt;50ms</p>
+                <p className="font-semibold text-3xl tracking-tight">
+                  &lt;50ms
+                </p>
                 <p className="text-muted-foreground text-xs">Auth p95</p>
               </div>
               <div>

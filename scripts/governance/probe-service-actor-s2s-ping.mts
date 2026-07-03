@@ -52,9 +52,7 @@ async function main(): Promise<void> {
 main().catch((error: unknown) => {
   const message = error instanceof Error ? error.message : String(error);
   console.error(`Service-actor S2S ping failed: ${message}`);
-  console.error(
-    useProductionHint(process.argv.includes("--production"))
-  );
+  console.error(useProductionHint(process.argv.includes("--production")));
   process.exit(1);
 });
 

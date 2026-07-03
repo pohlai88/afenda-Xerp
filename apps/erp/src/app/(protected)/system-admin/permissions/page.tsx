@@ -1,5 +1,8 @@
-import { SystemAdminPermissionsTable } from "@/components/system-admin/system-admin-permissions-table";
-import { SystemAdminSectionHeader } from "@/components/system-admin/system-admin-section-header";
+import {
+  SystemAdminListToolbarBlock as SystemAdminListToolbar,
+  SystemAdminPermissionsTableBlock as SystemAdminPermissionsTable,
+  SystemAdminSectionHeaderBlock as SystemAdminSectionHeader,
+} from "@afenda/shadcn-studio";
 import { loadSystemAdminSectionPage } from "@/lib/system-admin/load-system-admin-section-page.server";
 import { listSystemAdminPermissions } from "@/server/system-admin/list-system-admin-permissions.server";
 
@@ -16,6 +19,10 @@ export default async function SystemAdminPermissionsPage() {
       <SystemAdminSectionHeader
         description="Global permission catalog backed by internal v1 permissions list."
         title="Permissions"
+      />
+      <SystemAdminListToolbar
+        createLabel="Create permission"
+        searchLabel="Search permissions"
       />
       <SystemAdminPermissionsTable permissions={permissions} />
     </section>

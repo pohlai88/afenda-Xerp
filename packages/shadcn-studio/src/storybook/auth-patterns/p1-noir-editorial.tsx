@@ -26,7 +26,7 @@ export function P1NoirEditorial({
       <div className="space-y-6 p-8">
         <div>
           <p className={labNoirPanelLabelClassName}>Operator sequence</p>
-          <h2 className="mt-4 lab-noir-serif text-2xl leading-tight text-foreground">
+          <h2 className="lab-noir-serif mt-4 text-2xl text-foreground leading-tight">
             {panelTitle}
           </h2>
           <p className="mt-3 text-muted-foreground text-sm leading-7">

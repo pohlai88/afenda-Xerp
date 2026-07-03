@@ -80,12 +80,14 @@ export const presentationLabProofLabelClassName =
 export const presentationLabFloatBoxClassName =
   "float-focus relative z-20 rounded-[2rem] p-7 sm:p-8 lg:p-9" as const;
 
-export const presentationLabFloatBoxHairlineClassName = "gold-hairline mt-6" as const;
+export const presentationLabFloatBoxHairlineClassName =
+  "gold-hairline mt-6" as const;
 
 export const presentationLabJewelPanelLabelClassName =
   "font-lab-mono text-[0.62rem] uppercase tracking-[0.28em] text-muted-foreground" as const;
 
-export const presentationLabJewelHairlineClassName = "gold-hairline mt-4" as const;
+export const presentationLabJewelHairlineClassName =
+  "gold-hairline mt-4" as const;
 
 export const presentationLabFloatBoxTitleClassName =
   "mt-8 font-editorial text-[clamp(2.5rem,4vw,4.4rem)] leading-[0.96] text-milk" as const;

@@ -14,7 +14,6 @@ export const METADATA_BINDING_MODULE_KV_ID_BY_SLUG = {
 const MODULE_ASSIGNMENT_BY_BLOCK_ID = {
   "datatable-invoice": "inventory",
   "hero-section-01": "inventory",
-  "login-page-04": "hcm",
   "statistics-card-01": "inventory",
 } as const satisfies Readonly<Record<string, string>>;
 

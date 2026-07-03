@@ -1,3 +1,11 @@
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+  WorkspaceDashboardToolbarBlock as WorkspaceDashboardToolbar,
+} from "@afenda/shadcn-studio";
 import { loadProtectedRequestOperatingContext } from "@/lib/context/load-protected-request-operating-context.server";
 import { loadDashboardWidgetRenderContextForRequest } from "@/lib/workspace/load-dashboard-widget-render-context.server";
 import { WorkspaceDashboardCapabilitiesProvider } from "@/lib/workspace/workspace-dashboard-capabilities.context";
@@ -5,7 +13,6 @@ import {
   WORKSPACE_HOME_COPY,
   WORKSPACE_HOME_PAGE_TITLE_ID,
 } from "@/lib/workspace/workspace-home.copy.contract";
-
 import { DashboardLayoutRenderer } from "./_components/dashboard-layout-renderer.client";
 
 export const dynamic = "force-dynamic";
@@ -51,6 +58,40 @@ export default async function WorkspacePage() {
             {WORKSPACE_HOME_COPY.page.description}
           </p>
         </header>
+        <WorkspaceDashboardToolbar
+          canEditLayout={renderContext.capabilities.canEditLayout}
+        />
+        <div className="grid gap-4 md:grid-cols-3">
+          <Card>
+            <CardHeader>
+              <CardTitle>Active widgets</CardTitle>
+              <CardDescription>Current dashboard count</CardDescription>
+            </CardHeader>
+            <CardContent className="text-muted-foreground text-sm">
+              {renderContext.layout.items.length} tile blocks
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Layout source</CardTitle>
+              <CardDescription>Storage binding</CardDescription>
+            </CardHeader>
+            <CardContent className="text-muted-foreground text-sm">
+              {renderContext.layoutSource}
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Permissions</CardTitle>
+              <CardDescription>Layout edit capability</CardDescription>
+            </CardHeader>
+            <CardContent className="text-muted-foreground text-sm">
+              {renderContext.capabilities.canEditLayout
+                ? "Enabled"
+                : "Read-only"}
+            </CardContent>
+          </Card>
+        </div>
         <DashboardLayoutRenderer layout={renderContext.layout} />
       </section>
     </WorkspaceDashboardCapabilitiesProvider>

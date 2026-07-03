@@ -22,61 +22,6 @@ export interface MetadataBindingOverrideWire {
 export const METADATA_BINDING_OVERRIDE_REGISTRY: readonly MetadataBindingOverrideWire[] =
   [
     {
-      blockId: "login-page-04",
-      notes:
-        "Password field renders as text presentation at metadata boundary; help slot pairs with login.password.help DOM marker.",
-      patch: {
-        fields: [
-          {
-            fieldKey: "brandingTitle",
-            slotId: "login.branding.title",
-            presentationKind: "text",
-            labelAtomRef: "atom.auth.branding-title",
-          },
-          {
-            fieldKey: "brandingLead",
-            slotId: "login.branding.lead",
-            presentationKind: "text",
-            labelAtomRef: "atom.auth.branding-lead",
-          },
-          {
-            fieldKey: "formTitle",
-            slotId: "login.form.title",
-            presentationKind: "text",
-            labelAtomRef: "atom.auth.form-title",
-          },
-          {
-            fieldKey: "formSubtitle",
-            slotId: "login.form.subtitle",
-            presentationKind: "text",
-            labelAtomRef: "atom.auth.form-subtitle",
-          },
-          {
-            fieldKey: "email",
-            slotId: "login.email",
-            presentationKind: "text",
-            labelAtomRef: "atom.auth.email",
-            requiredDisplay: true,
-          },
-          {
-            fieldKey: "password",
-            slotId: "login.password",
-            presentationKind: "text",
-            labelAtomRef: "atom.auth.password",
-            helpTextAtomRef: "atom.auth.password.help",
-            requiredDisplay: true,
-          },
-          {
-            fieldKey: "submitLabel",
-            slotId: "login.submit",
-            presentationKind: "text",
-            labelAtomRef: "atom.auth.sign-in",
-          },
-        ],
-      },
-      reason: "presentation-kind-refinement",
-    },
-    {
       blockId: "account-settings-01",
       notes:
         "Profile fields expose help-text atom refs paired with profile.*.help DOM markers.",

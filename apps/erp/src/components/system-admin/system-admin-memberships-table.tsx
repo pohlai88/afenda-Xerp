@@ -1,7 +1,97 @@
+"use client";
+
+import { DatatableUserBlock } from "@afenda/shadcn-studio";
+import type { ComponentProps } from "react";
 import type { SystemAdminMembershipRowDto } from "@/server/api/contracts/system-admin/system-admin.api-contract";
+
+type UserRow = ComponentProps<typeof DatatableUserBlock>["data"][number];
 
 export interface SystemAdminMembershipsTableProps {
   readonly memberships: readonly SystemAdminMembershipRowDto[];
+}
+
+function normalizeStatus(value: string): UserRow["status"] {
+  const status = value.toLowerCase();
+
+  if (status === "inactive" || status === "revoked") {
+    return "inactive";
+  }
+
+  if (status === "pending") {
+    return "pending";
+  }
+
+  return "active";
+}
+
+function mapMembershipRole(value: string): UserRow["role"] {
+  const normalized = value.toLowerCase();
+
+  if (normalized.includes("admin")) {
+    return "admin";
+  }
+
+  if (normalized.includes("editor")) {
+    return "editor";
+  }
+
+  if (normalized.includes("maintainer")) {
+    return "maintainer";
+  }
+
+  return "subscriber";
+}
+
+function mapMembershipPlan(value: string): UserRow["plan"] {
+  const normalized = value.toLowerCase();
+
+  if (normalized.includes("enterprise")) {
+    return "enterprise";
+  }
+
+  if (normalized.includes("company")) {
+    return "company";
+  }
+
+  return "team";
+}
+
+function mapMembershipBilling(status: string): UserRow["billing"] {
+  if (status.toLowerCase() === "inactive") {
+    return "manual-paypal";
+  }
+
+  if (status.toLowerCase() === "pending") {
+    return "manual-cash";
+  }
+
+  return "auto-debit";
+}
+
+function mapMembershipProfileText(value: string): string {
+  const normalized = value.trim();
+
+  if (normalized.length === 0) {
+    return "Membership";
+  }
+
+  return normalized;
+}
+
+function mapMembershipRow(membership: SystemAdminMembershipRowDto): UserRow {
+  return {
+    avatar: "",
+    billing: mapMembershipBilling(membership.membershipStatus),
+    email: membership.email,
+    fallback: mapMembershipProfileText(membership.displayName)
+      .slice(0, 2)
+      .toUpperCase(),
+    id: membership.membershipId,
+    plan: mapMembershipPlan(membership.roleKey),
+    role: mapMembershipRole(membership.roleName),
+    status: normalizeStatus(membership.membershipStatus),
+    user: mapMembershipProfileText(membership.displayName),
+  };
 }
 
 export function SystemAdminMembershipsTable({
@@ -15,44 +105,5 @@ export function SystemAdminMembershipsTable({
     );
   }
 
-  return (
-    <div className="overflow-x-auto rounded-md border">
-      <table className="w-full text-sm">
-        <thead className="border-b bg-muted/40 text-left">
-          <tr>
-            <th className="px-4 py-3 font-medium">Member</th>
-            <th className="px-4 py-3 font-medium">Email</th>
-            <th className="px-4 py-3 font-medium">Role</th>
-            <th className="px-4 py-3 font-medium">Status</th>
-            <th className="px-4 py-3 font-medium">Membership ID</th>
-          </tr>
-        </thead>
-        <tbody>
-          {memberships.map((membership) => (
-            <tr
-              className="border-b last:border-b-0"
-              key={membership.membershipId}
-            >
-              <td className="px-4 py-3 font-medium">
-                {membership.displayName}
-              </td>
-              <td className="px-4 py-3">{membership.email}</td>
-              <td className="px-4 py-3">
-                {membership.roleName}
-                <span className="ml-2 font-mono text-muted-foreground text-xs">
-                  {membership.roleKey}
-                </span>
-              </td>
-              <td className="px-4 py-3 capitalize">
-                {membership.membershipStatus}
-              </td>
-              <td className="px-4 py-3 font-mono text-xs">
-                {membership.membershipId}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
+  return <DatatableUserBlock data={memberships.map(mapMembershipRow)} />;
 }

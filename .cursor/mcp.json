@@ -2,20 +2,41 @@
   "mcpServers": {
     "filesystem": {
       "command": "node",
-      "args": ["${workspaceFolder}/.cursor/mcp/filesystem.mjs"]
+      "args": [
+        "${workspaceFolder}/.cursor/mcp/filesystem.mjs"
+      ]
     },
     "shadcn": {
       "command": "npx",
-      "args": ["-y", "shadcn@latest", "mcp", "-c", "packages/shadcn-studio"]
+      "args": [
+        "-y",
+        "shadcn@latest",
+        "mcp",
+        "-c",
+        "packages/shadcn-studio"
+      ]
     },
     "shadcn-studio": {
       "command": "node",
-      "args": ["${workspaceFolder}/.cursor/mcp/shadcn-studio.mjs"],
+      "args": [
+        "${workspaceFolder}/.cursor/mcp/shadcn-studio.mjs"
+      ],
       "envFile": "${workspaceFolder}/.env"
     },
     "storybook": {
       "command": "node",
-      "args": ["${workspaceFolder}/.cursor/mcp/storybook.mjs"]
+      "args": [
+        "${workspaceFolder}/.cursor/mcp/storybook.mjs"
+      ]
+    },
+    "fetch": {
+      "command": "uvx",
+      "args": [
+        "mcp-server-fetch"
+      ],
+      "env": {
+        "PYTHONIOENCODING": "utf-8"
+      }
     },
     "playwright": {
       "command": "npx",
@@ -23,7 +44,7 @@
         "-y",
         "@playwright/mcp@latest",
         "--config",
-        "apps/app/e2e/playwright-mcp.config.json"
+        "apps/developer/playwright.config.mts"
       ]
     },
     "supabase": {
@@ -44,11 +65,17 @@
     },
     "resend-dev": {
       "command": "node",
-      "args": ["${workspaceFolder}/.cursor/mcp/resend-dev.mjs"]
+      "args": [
+        "${workspaceFolder}/.cursor/mcp/resend-dev.mjs"
+      ]
     },
     "resend-docs": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://resend.com/docs/mcp"]
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://resend.com/docs/mcp"
+      ]
     }
   }
 }

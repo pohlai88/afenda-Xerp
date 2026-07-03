@@ -22,6 +22,7 @@
       "!!**/*.md",
       "!!**/*.mdx",
       "!!**/*.mdc",
+      "!!**/.vscode",
       // Tailwind v4 CSS — Prettier + prettier-plugin-tailwindcss (Biome needs tailwindDirectives opt-in).
       "!!**/*.css",
       "!!**/.cursor",
@@ -34,6 +35,9 @@
       "!!**/*.docx",
       "!!**/*.tsbuildinfo",
       "!!**/templates",
+      "!!**/apps/developer/e2e/playwright-report",
+      "!!**/apps/storybook/public/mockServiceWorker.js",
+      "!!**/apps/storybook/stories/assets",
       // Soft-ignore: scanner can still index types, but linter skips these
       "!**/packages/database/src/migrations/meta"
     ]
@@ -229,6 +233,16 @@
         "actions": {
           "source": {
             "organizeImports": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": [".github/skills/**"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUndeclaredDependencies": "off"
           }
         }
       }

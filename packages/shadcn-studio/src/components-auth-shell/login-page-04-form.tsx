@@ -36,6 +36,7 @@ const LoginPage04Form = () => {
               className="rounded-l-none text-muted-foreground hover:bg-transparent"
               onClick={() => setIsVisible((prevState) => !prevState)}
               size="icon"
+              type="button"
               variant="ghost"
             >
               {isVisible ? <EyeOffIcon /> : <EyeIcon />}

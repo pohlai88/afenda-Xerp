@@ -134,7 +134,11 @@ export const presentationLoginCopy = {
     readoutTitle: "Ingress governance panel",
     readoutStatusLabel: "armed",
     governanceLines: [
-      { key: "tenant", label: "Tenant context", value: "governed · prod surface" },
+      {
+        key: "tenant",
+        label: "Tenant context",
+        value: "governed · prod surface",
+      },
       { key: "policy", label: "Policy bundle", value: "erp-operator · sealed" },
       { key: "session", label: "Session mode", value: "governed · mfa-ready" },
       {
@@ -144,9 +148,24 @@ export const presentationLoginCopy = {
       },
     ],
     telemetryRows: [
-      { key: "ingress", metric: "INGRESS_GATE", reading: "armed", status: "watch" },
-      { key: "rbac", metric: "RBAC_RESOLVE", reading: "ready", status: "nominal" },
-      { key: "audit", metric: "AUDIT_STREAM", reading: "live", status: "nominal" },
+      {
+        key: "ingress",
+        metric: "INGRESS_GATE",
+        reading: "armed",
+        status: "watch",
+      },
+      {
+        key: "rbac",
+        metric: "RBAC_RESOLVE",
+        reading: "ready",
+        status: "nominal",
+      },
+      {
+        key: "audit",
+        metric: "AUDIT_STREAM",
+        reading: "live",
+        status: "nominal",
+      },
     ],
   },
 } as const satisfies Record<PresentationLoginPattern, PresentationLoginCopy>;

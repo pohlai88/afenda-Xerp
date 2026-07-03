@@ -295,3 +295,35 @@ Runbook: [`.cursor/skills/afenda-repo-housekeeping/reference/knip-rollout.md`](.
 ## CSP third-party scripts (ERP)
 
 The ERP skeleton (`apps/erp`) currently runs correlation-id pass-through in `apps/erp/src/proxy.ts` only. **Nonce-based CSP is not wired** until protected routes and third-party scripts return — follow [`.cursor/skills/csp-third-party/SKILL.md`](.cursor/skills/csp-third-party/SKILL.md) and [`.cursor/rules/csp-third-party-scripts.mdc`](.cursor/rules/csp-third-party-scripts.mdc) when reintroducing external scripts.
+
+---
+
+## Storybook MCP (10.4 React / TS)
+
+Storybook AI manifests + MCP are currently React-only preview features. In this repo, the MCP provider name is `storybook` from [`.cursor/mcp.json`](.cursor/mcp.json), bridged by [`.cursor/mcp/storybook.mjs`](.cursor/mcp/storybook.mjs), and backed by `@storybook/addon-mcp` in [apps/storybook/.storybook/main.ts](apps/storybook/.storybook/main.ts).
+
+Agent rule for UI work:
+
+- Always query Storybook MCP docs tools before composing new UI.
+- Never assume component props. Verify via `list-all-documentation`, then `get-documentation` (or `get-documentation-for-story` when needed).
+- Use `get-storybook-story-instructions` before creating/updating stories.
+- Use `preview-stories` to surface generated work for review.
+- Testing toolset policy in this repo: Storybook MCP `test` toolset is intentionally off in addon config; run Storybook verification through `pnpm --filter @afenda/storybook test:storybook:run`, `pnpm --filter @afenda/storybook test:storybook:a11y:run`, and optionally `pnpm --filter @afenda/storybook test:storybook:runner`.
+
+Boot sequence:
+
+1. Start Storybook: `pnpm --filter @afenda/storybook storybook`
+2. Ensure MCP endpoint is reachable: `http://127.0.0.1:6006/mcp`
+3. Run prompts that force docs-first tool usage (example: "List all documented components").
+
+### Manifest operations
+
+- Manifest support is React-only (preview) and schema may change between releases.
+- Components manifest endpoint: `http://127.0.0.1:6006/manifests/components.json`
+- Docs manifest endpoint: `http://127.0.0.1:6006/manifests/docs.json`
+- Manifest debugger: `http://127.0.0.1:6006/manifests/components.html`
+- Curate AI context with tags:
+  - Default stories/docs include `manifest` implicitly.
+  - Use `tags: ["!manifest"]` to exclude instruction-only or deprecated stories/docs from AI context.
+- Keep `typescript.reactDocgen: "react-docgen-typescript"` in Storybook main config unless manifest generation speed becomes a bottleneck.
+- Prefer JSDoc on components, props, and key stories to improve manifest quality for agent tool calls.

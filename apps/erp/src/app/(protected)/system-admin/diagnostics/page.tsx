@@ -1,5 +1,7 @@
-import { SystemAdminDiagnosticsPanel } from "@/components/system-admin/system-admin-diagnostics-panel";
-import { SystemAdminSectionHeader } from "@/components/system-admin/system-admin-section-header";
+import {
+  SystemAdminDiagnosticsPanelBlock as SystemAdminDiagnosticsPanel,
+  SystemAdminSectionHeaderBlock as SystemAdminSectionHeader,
+} from "@afenda/shadcn-studio";
 import { loadSystemAdminSectionPage } from "@/lib/system-admin/load-system-admin-section-page.server";
 import { buildSystemAdminDiagnosticsSnapshot } from "@/server/system-admin/build-system-admin-diagnostics-snapshot.server";
 

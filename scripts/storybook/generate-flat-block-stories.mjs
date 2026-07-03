@@ -91,12 +91,13 @@ export const ${storyName}Dark: Story = {
  * @returns {string}
  */
 function renderStoriesFile(entries, manifestCount) {
-  const sampleImports = [...new Set(entries.map((entry) => entry.sample))].sort();
+  const sampleImports = [
+    ...new Set(entries.map((entry) => entry.sample)),
+  ].sort();
   const layoutImports = [
     ...new Set(
       entries.map(
-        (entry) =>
-          LAYOUT_PARAMETERS[entry.layout] ?? LAYOUT_PARAMETERS.centered
+        (entry) => LAYOUT_PARAMETERS[entry.layout] ?? LAYOUT_PARAMETERS.centered
       )
     ),
   ].sort();

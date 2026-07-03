@@ -6,6 +6,7 @@ import {
   type AuthIngressCanonicalPath,
   getAuthIngressSurfaceByPath,
 } from "./auth-ingress-surface.registry.js";
+import { resolveAuthShellBlockIdForPath } from "./auth-path.registry.js";
 
 export type AuthIngressSurfacePageData =
   | {
@@ -14,6 +15,7 @@ export type AuthIngressSurfacePageData =
       readonly title: string;
     }
   | {
+      readonly authShellBlockId: string;
       readonly description: string;
       readonly kind: "ready";
       readonly surface: MetadataOperatorSurfaceWire;
@@ -49,6 +51,7 @@ export function loadAuthIngressSurfacePage(
   }
 
   return {
+    authShellBlockId: resolveAuthShellBlockIdForPath(path),
     kind: "ready",
     title: "Sign in",
     description: "Access your Afenda ERP operator workspace.",

@@ -10,7 +10,8 @@ const STORYBOOK_MCP_URL =
 
 console.error(
   `Storybook MCP bridge → ${STORYBOOK_MCP_URL}\n` +
-    "Start the dev server first: pnpm storybook dev"
+    "Start the dev server first: pnpm storybook dev\n" +
+    "Story tests are intentionally disabled in MCP; run pnpm test:storybook:run locally."
 );
 
 const command = process.platform === "win32" ? "npx.cmd" : "npx";

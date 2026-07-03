@@ -1,5 +1,7 @@
-import { SystemAdminAuditEventsTable } from "@/components/system-admin/system-admin-audit-events-table";
-import { SystemAdminSectionHeader } from "@/components/system-admin/system-admin-section-header";
+import {
+  SystemAdminAuditEventsTableBlock as SystemAdminAuditEventsTable,
+  SystemAdminSectionHeaderBlock as SystemAdminSectionHeader,
+} from "@afenda/shadcn-studio";
 import { loadSystemAdminSectionPage } from "@/lib/system-admin/load-system-admin-section-page.server";
 import { listSystemAdminAuditEvents } from "@/server/system-admin/list-system-admin-audit-events.server";
 

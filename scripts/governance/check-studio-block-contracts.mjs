@@ -10,7 +10,10 @@ import { fileURLToPath } from "node:url";
 import { GOVERNED_BLOCK_CONTRACT_IDS } from "./studio-block-contract-manifest.mjs";
 
 const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "../..");
-const contractsDir = join(repoRoot, "packages/shadcn-studio/src/meta-contracts");
+const contractsDir = join(
+  repoRoot,
+  "packages/shadcn-studio/src/meta-contracts"
+);
 
 const requiredFiles = [
   "block-metadata.contract.ts",
@@ -69,9 +72,7 @@ const registryPath = join(
   "packages/shadcn-studio/src/meta-gates/block-metadata.registry.ts"
 );
 
-if (!existsSync(registryPath)) {
-  violations.push("missing meta-gates/block-metadata.registry.ts");
-} else {
+if (existsSync(registryPath)) {
   const registrySource = readFileSync(registryPath, "utf8");
 
   if (!registrySource.includes("buildGovernedBlockMetadataRegistry")) {
@@ -79,6 +80,8 @@ if (!existsSync(registryPath)) {
       "block-metadata.registry.ts: must derive from buildGovernedBlockMetadataRegistry()"
     );
   }
+} else {
+  violations.push("missing meta-gates/block-metadata.registry.ts");
 }
 
 if (GOVERNED_BLOCK_CONTRACT_IDS.length === 0) {

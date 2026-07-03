@@ -1,5 +1,8 @@
-import { SystemAdminMembershipsTable } from "@/components/system-admin/system-admin-memberships-table";
-import { SystemAdminSectionHeader } from "@/components/system-admin/system-admin-section-header";
+import {
+  SystemAdminListToolbarBlock as SystemAdminListToolbar,
+  SystemAdminMembershipsTableBlock as SystemAdminMembershipsTable,
+  SystemAdminSectionHeaderBlock as SystemAdminSectionHeader,
+} from "@afenda/shadcn-studio";
 import { loadSystemAdminSectionPage } from "@/lib/system-admin/load-system-admin-section-page.server";
 import { listSystemAdminMemberships } from "@/server/system-admin/list-system-admin-memberships.server";
 
@@ -19,6 +22,10 @@ export default async function SystemAdminMembershipsPage() {
       <SystemAdminSectionHeader
         description="Company-scoped memberships with role assignments for the active legal entity."
         title="Memberships"
+      />
+      <SystemAdminListToolbar
+        createLabel="Create membership"
+        searchLabel="Search memberships"
       />
       <SystemAdminMembershipsTable memberships={memberships} />
     </section>

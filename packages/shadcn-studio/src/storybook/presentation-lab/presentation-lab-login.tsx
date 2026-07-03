@@ -1,14 +1,39 @@
 import { useId } from "react";
-
 import {
-  PRESENTATION_LAB_NOIR_BRAND_SHELL_CLASS,
-  labNoirContainerClassName,
+  PRESENTATION_LAB_THEME_CLASS,
+  presentationLabAuthorityDotClassName,
+  presentationLabAuthorityPillClassName,
+  presentationLabFloatBoxClassName,
+  presentationLabFloatBoxHairlineClassName,
+  presentationLabFloatBoxTitleClassName,
+  presentationLabFooterTextClassName,
+  presentationLabGridClassName,
+  presentationLabJewelHairlineClassName,
+  presentationLabJewelPanelLabelClassName,
+  presentationLabLoginContainerClassName,
+  presentationLabLoginFooterClassName,
+  presentationLabLoginHeroStackClassName,
+  presentationLabLoginKickerClassName,
+  presentationLabLoginMainClassName,
+  presentationLabLoginShellClassName,
+  presentationLabLoginTitleClassName,
+  presentationLabLoginTopbarClassName,
+  presentationLabPortalCardClassName,
+  presentationLabPortalCardTitleClassName,
+  presentationLabPortalFormClassName,
+  presentationLabSystemTextClassName,
+  presentationLabTitleGhostClassName,
+  presentationLabTitleMilkClassName,
+  presentationLabVerticalMarkClassName,
+  presentationLabVignetteClassName,
+} from "./presentation-lab.contract.js";
+import {
+  labNoirAccessRailClassName,
   labNoirFooterMarkClassName,
   labNoirGovernanceCardClassName,
   labNoirGovernanceGridClassName,
   labNoirGovernanceTermClassName,
   labNoirGovernanceValueClassName,
-  labNoirAccessRailClassName,
   labNoirLoginContainerClassName,
   labNoirLoginFooterClassName,
   labNoirLoginHeroStackClassName,
@@ -51,38 +76,14 @@ import {
   labNoirTitleMutedClassName,
   labNoirTitlePrimaryClassName,
   labNoirVerticalMarkClassName,
+  PRESENTATION_LAB_NOIR_BRAND_SHELL_CLASS,
 } from "./presentation-lab.noir.contract.js";
-import {
-  PRESENTATION_LAB_THEME_CLASS,
-  presentationLabAuthorityDotClassName,
-  presentationLabAuthorityPillClassName,
-  presentationLabFloatBoxClassName,
-  presentationLabFloatBoxHairlineClassName,
-  presentationLabFloatBoxTitleClassName,
-  presentationLabFooterTextClassName,
-  presentationLabGridClassName,
-  presentationLabJewelHairlineClassName,
-  presentationLabJewelPanelLabelClassName,
-  presentationLabLoginContainerClassName,
-  presentationLabLoginFooterClassName,
-  presentationLabLoginHeroStackClassName,
-  presentationLabLoginKickerClassName,
-  presentationLabLoginMainClassName,
-  presentationLabLoginShellClassName,
-  presentationLabLoginTitleClassName,
-  presentationLabLoginTopbarClassName,
-  presentationLabPortalCardClassName,
-  presentationLabPortalCardTitleClassName,
-  presentationLabPortalFormClassName,
-  presentationLabSystemTextClassName,
-  presentationLabTitleGhostClassName,
-  presentationLabTitleMilkClassName,
-  presentationLabVerticalMarkClassName,
-  presentationLabVignetteClassName,
-} from "./presentation-lab.contract.js";
 import {
   loginFieldClassName,
   loginFormClassName,
+  type PresentationLoginCopy,
+  type PresentationLoginPattern,
+  type PresentationLoginTelemetryRow,
   presentationLoginCopy,
   swissLoginInputClassName,
   swissLoginLabelClassName,
@@ -92,9 +93,6 @@ import {
   verdantLoginLabelClassName,
   verdantLoginRecoveryClassName,
   verdantLoginSubmitClassName,
-  type PresentationLoginCopy,
-  type PresentationLoginPattern,
-  type PresentationLoginTelemetryRow,
 } from "./presentation-lab-login.contract.js";
 
 export type AfendaPresentationLoginProps = {
@@ -123,11 +121,15 @@ export function SwissNoirLogin() {
   const copy = presentationLoginCopy["swiss-noir"];
 
   return (
-    <main className={`${PRESENTATION_LAB_NOIR_BRAND_SHELL_CLASS} ${labNoirLoginShellClassName}`}>
+    <main
+      className={`${PRESENTATION_LAB_NOIR_BRAND_SHELL_CLASS} ${labNoirLoginShellClassName}`}
+    >
       <div aria-hidden className="lab-noir-orb" />
 
       <div className={labNoirLoginContainerClassName}>
-        <span className={labNoirVerticalMarkClassName}>{copy.verticalMark}</span>
+        <span className={labNoirVerticalMarkClassName}>
+          {copy.verticalMark}
+        </span>
 
         <header className={labNoirLoginTopbarClassName}>
           <p className={labNoirSystemLineClassName}>{copy.systemLine}</p>
@@ -142,8 +144,12 @@ export function SwissNoirLogin() {
             <p className={labNoirLoginKickerClassName}>{copy.eyebrow}</p>
 
             <h1 className={labNoirLoginTitleClassName}>
-              <span className={labNoirTitleMutedClassName}>{copy.titleMuted}</span>
-              <span className={labNoirTitlePrimaryClassName}>{copy.titlePrimary}</span>
+              <span className={labNoirTitleMutedClassName}>
+                {copy.titleMuted}
+              </span>
+              <span className={labNoirTitlePrimaryClassName}>
+                {copy.titlePrimary}
+              </span>
             </h1>
           </div>
 
@@ -178,10 +184,7 @@ export function SwissNoirOperatorRailLogin() {
       className={`${PRESENTATION_LAB_NOIR_BRAND_SHELL_CLASS} ${labNoirRailCanvasClassName}`}
     >
       <div className={labNoirRailGridClassName}>
-        <aside
-          aria-labelledby={titleId}
-          className={labNoirAccessRailClassName}
-        >
+        <aside aria-labelledby={titleId} className={labNoirAccessRailClassName}>
           {copy.panelLabel ? (
             <p className={labNoirRailKickerClassName}>{copy.panelLabel}</p>
           ) : null}
@@ -217,20 +220,30 @@ export function VerdantCenteredPortalLogin() {
   const titleId = useId();
 
   return (
-    <main className={`${PRESENTATION_LAB_THEME_CLASS} ${presentationLabLoginShellClassName}`}>
+    <main
+      className={`${PRESENTATION_LAB_THEME_CLASS} ${presentationLabLoginShellClassName}`}
+    >
       <div aria-hidden className={presentationLabGridClassName} />
       <div aria-hidden className={presentationLabVignetteClassName} />
 
       <div className={presentationLabLoginContainerClassName}>
         <header className={presentationLabLoginTopbarClassName}>
-          <p className={presentationLabSystemTextClassName}>{copy.systemLine}</p>
+          <p className={presentationLabSystemTextClassName}>
+            {copy.systemLine}
+          </p>
           <span className={presentationLabAuthorityPillClassName}>
-            <span aria-hidden className={presentationLabAuthorityDotClassName} />
+            <span
+              aria-hidden
+              className={presentationLabAuthorityDotClassName}
+            />
             {copy.statusLabel}
           </span>
         </header>
 
-        <section aria-labelledby={titleId} className={presentationLabLoginMainClassName}>
+        <section
+          aria-labelledby={titleId}
+          className={presentationLabLoginMainClassName}
+        >
           <div className={presentationLabLoginHeroStackClassName}>
             <p className={presentationLabLoginKickerClassName} translate="no">
               {copy.eyebrow}
@@ -251,7 +264,9 @@ export function VerdantCenteredPortalLogin() {
 
         {copy.footerMark ? (
           <footer className={presentationLabLoginFooterClassName}>
-            <p className={presentationLabFooterTextClassName}>{copy.footerMark}</p>
+            <p className={presentationLabFooterTextClassName}>
+              {copy.footerMark}
+            </p>
           </footer>
         ) : null}
       </div>
@@ -263,7 +278,9 @@ export function VerdantMilkNoirLogin() {
   const copy = presentationLoginCopy["verdant-milk-noir"];
 
   return (
-    <main className={`${PRESENTATION_LAB_THEME_CLASS} ${presentationLabLoginShellClassName}`}>
+    <main
+      className={`${PRESENTATION_LAB_THEME_CLASS} ${presentationLabLoginShellClassName}`}
+    >
       <div aria-hidden className={presentationLabGridClassName} />
       <div aria-hidden className={presentationLabVignetteClassName} />
 
@@ -273,9 +290,14 @@ export function VerdantMilkNoirLogin() {
         </span>
 
         <header className={presentationLabLoginTopbarClassName}>
-          <p className={presentationLabSystemTextClassName}>{copy.systemLine}</p>
+          <p className={presentationLabSystemTextClassName}>
+            {copy.systemLine}
+          </p>
           <span className={presentationLabAuthorityPillClassName}>
-            <span aria-hidden className={presentationLabAuthorityDotClassName} />
+            <span
+              aria-hidden
+              className={presentationLabAuthorityDotClassName}
+            />
             {copy.statusLabel}
           </span>
         </header>
@@ -312,7 +334,9 @@ export function VerdantMilkNoirLogin() {
 
         {copy.footerMark ? (
           <footer className={presentationLabLoginFooterClassName}>
-            <p className={presentationLabFooterTextClassName}>{copy.footerMark}</p>
+            <p className={presentationLabFooterTextClassName}>
+              {copy.footerMark}
+            </p>
           </footer>
         ) : null}
       </div>
@@ -370,7 +394,11 @@ function LoginRailVault({ copy }: { readonly copy: PresentationLoginCopy }) {
   );
 }
 
-function OperatorRailReadout({ copy }: { readonly copy: PresentationLoginCopy }) {
+function OperatorRailReadout({
+  copy,
+}: {
+  readonly copy: PresentationLoginCopy;
+}) {
   const readoutTitleId = useId();
 
   return (
@@ -394,10 +422,7 @@ function OperatorRailReadout({ copy }: { readonly copy: PresentationLoginCopy })
 
         {copy.readoutStatusLabel ? (
           <span className={labNoirReadoutStatusClassName}>
-            <span
-              aria-hidden
-              className={labNoirReadoutStatusDotClassName}
-            />
+            <span aria-hidden className={labNoirReadoutStatusDotClassName} />
             {copy.readoutStatusLabel}
           </span>
         ) : null}
@@ -458,11 +483,16 @@ function LoginPortalVault({ copy }: { readonly copy: PresentationLoginCopy }) {
   const panelTitleId = `${formId}-panel-title`;
 
   return (
-    <aside aria-labelledby={panelTitleId} className={presentationLabPortalCardClassName}>
+    <aside
+      aria-labelledby={panelTitleId}
+      className={presentationLabPortalCardClassName}
+    >
       <div aria-hidden className={presentationLabJewelHairlineClassName} />
 
       {copy.panelLabel ? (
-        <p className={presentationLabJewelPanelLabelClassName}>{copy.panelLabel}</p>
+        <p className={presentationLabJewelPanelLabelClassName}>
+          {copy.panelLabel}
+        </p>
       ) : null}
 
       <h2 className={presentationLabPortalCardTitleClassName} id={panelTitleId}>
@@ -489,7 +519,10 @@ function LoginPortalVault({ copy }: { readonly copy: PresentationLoginCopy }) {
         </div>
 
         <div className={loginFieldClassName}>
-          <label className={verdantLoginLabelClassName} htmlFor={passwordFieldId}>
+          <label
+            className={verdantLoginLabelClassName}
+            htmlFor={passwordFieldId}
+          >
             {copy.passwordLabel}
           </label>
           <input
@@ -551,7 +584,10 @@ function LoginJewel({
 
       <h2 className={titleClassName}>{copy.panelTitle}</h2>
 
-      <form className={loginFormClassName} onSubmit={(event) => event.preventDefault()}>
+      <form
+        className={loginFormClassName}
+        onSubmit={(event) => event.preventDefault()}
+      >
         <div className={loginFieldClassName}>
           <label className={labelClassName} htmlFor={emailFieldId}>
             {copy.emailLabel}

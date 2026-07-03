@@ -40,7 +40,7 @@ function main(): void {
   );
   writeFileSync(outputs.cspellDictionary, cspellDictionary);
 
-  console.log(`✓ export:knowledge-vocabulary`);
+  console.log("✓ export:knowledge-vocabulary");
   console.log(`  allowlist: ${outputs.allowlist}`);
   console.log(`  coverage schema: ${outputs.coverageSchema}`);
   console.log(`  cspell dictionary: ${outputs.cspellDictionary}`);

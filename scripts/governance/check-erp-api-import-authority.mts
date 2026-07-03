@@ -5,7 +5,7 @@
  * `meta-contracts/` is PAS-006 shadcn-studio L1 only.
  * ERP REST runtime and tests must import from `server/api/contracts/`.
  */
-import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -37,7 +37,10 @@ export interface ErpApiImportAuthorityViolation {
 }
 
 function dirname(path: string): string {
-  return path.slice(0, Math.max(path.lastIndexOf("/"), path.lastIndexOf("\\")) + 1);
+  return path.slice(
+    0,
+    Math.max(path.lastIndexOf("/"), path.lastIndexOf("\\")) + 1
+  );
 }
 
 function normalizePath(path: string): string {

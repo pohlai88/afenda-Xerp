@@ -1,7 +1,11 @@
-import type { AssetIconProps } from "./asset-icon.types.js";
 import { cn } from "../utils/utils.js";
+import type { AssetIconProps } from "./asset-icon.types.js";
 
-const NextjsIcon = ({ variant = "brand", className, ...props }: AssetIconProps) => (
+const NextjsIcon = ({
+  variant = "brand",
+  className,
+  ...props
+}: AssetIconProps) => (
   <svg
     aria-hidden="true"
     className={cn(

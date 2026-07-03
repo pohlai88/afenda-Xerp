@@ -6,7 +6,6 @@
 
 import type { ComponentType } from "react";
 
-import LoginPage04Block from "../components-auth-shell/login-page-04.js";
 import AccountSettings01Block from "../components-layouts/account-settings-01/account-settings-01.js";
 import HeroSection01Block from "../components-layouts/hero-section-01/hero-section-01.js";
 import { FLAT_BLOCK_STORY_REGISTRY } from "../storybook/block-flat-story.registry.js";
@@ -40,7 +39,6 @@ export const STUDIO_BLOCK_COMPONENT_REGISTRY = {
   ...buildFlatBlockPreviewRegistry(),
   "account-settings-01": AccountSettings01Block,
   "hero-section-01": HeroSection01Block,
-  "login-page-04": LoginPage04Block,
 } as const satisfies Record<McpSeedBlockId, StudioBlockComponent>;
 
 export type StudioBlockComponentId =

@@ -1,5 +1,5 @@
-import type { AssetIconProps } from "./asset-icon.types.js";
 import { ASSET_BRAND_COLORS } from "./asset-brand-colors.registry.js";
+import type { AssetIconProps } from "./asset-icon.types.js";
 
 const [blue, green, yellow, red] = ASSET_BRAND_COLORS.google;
 
@@ -14,7 +14,12 @@ const GoogleIcon = ({ variant = "brand", ...props }: AssetIconProps) => {
   const fills =
     variant === "brand"
       ? [blue, green, yellow, red]
-      : (["currentColor", "currentColor", "currentColor", "currentColor"] as const);
+      : ([
+          "currentColor",
+          "currentColor",
+          "currentColor",
+          "currentColor",
+        ] as const);
 
   return (
     <svg

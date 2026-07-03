@@ -27,6 +27,8 @@ export default defineConfig({
       "react/jsx-dev-runtime",
       "react-dom",
       "react-dom/client",
+      "@storybook/addon-a11y/preview",
+      "@storybook/react-vite",
       "@afenda/shadcn-studio",
     ],
   },

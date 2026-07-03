@@ -1,6 +1,7 @@
 import type { Settings } from "./settings.contract.js";
 import { themeConfig } from "./theme-config.js";
 import {
+  isThemeFont,
   isThemeLayout,
   isThemeMode,
   isThemePresetSlug,
@@ -8,7 +9,6 @@ import {
   isThemeScale,
   isThemeSidebarCollapsible,
   isThemeSidebarVariant,
-  isThemeFont,
 } from "./theme-preset.contract.js";
 
 /** JSON-safe subset persisted to localStorage (boundary contract). */

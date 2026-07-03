@@ -16,6 +16,11 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+/**
+ * Default input for editable operator email entry.
+ *
+ * @summary for standard editable text entry
+ */
 export const Default: Story = {
   tags: ["lab-smoke"],
   args: {
@@ -29,5 +34,30 @@ export const Default: Story = {
     await userEvent.clear(input);
     await userEvent.type(input, "ada@afenda.lab");
     await expect(input).toHaveValue("ada@afenda.lab");
+  },
+};
+
+/**
+ * Disabled input to show read-only/locked form state.
+ *
+ * @summary for locked fields that remain visible but not editable
+ */
+export const Disabled: Story = {
+  args: {
+    ...Default.args,
+    disabled: true,
+    value: "owner@afenda.lab",
+  },
+};
+
+/**
+ * Placeholder hint for examples where users need format guidance before typing.
+ *
+ * @summary for format-hint input entry
+ */
+export const WithPlaceholderHint: Story = {
+  args: {
+    ...Default.args,
+    placeholder: "name@company.com",
   },
 };

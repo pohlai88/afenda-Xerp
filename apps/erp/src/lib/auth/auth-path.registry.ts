@@ -10,6 +10,13 @@ export const AUTH_LANES = [
 export type AuthLane = (typeof AUTH_LANES)[number];
 
 export type AuthShellFormLane = "access" | "verify" | "recover" | "error";
+export type AuthShellVariant =
+  | "login-page-01"
+  | "login-page-02"
+  | "login-page-03"
+  | "login-page-04"
+  | "login-page-05"
+  | "login-page-06";
 
 export const AUTH_PATHS = {
   signIn: "/sign-in",
@@ -124,6 +131,54 @@ export const AUTH_FORM_LANE_LABEL: Record<AuthShellFormLane, string> = {
   recover: "Recovery",
   error: "Error",
 };
+
+export const AUTH_PATH_FORM_VARIANT_MAP: Record<
+  (typeof AUTH_SEGMENT_PATHS)[number],
+  AuthShellVariant
+> = {
+  [AUTH_PATHS.signIn]: "login-page-04",
+  [AUTH_PATHS.signUp]: "login-page-01",
+  [AUTH_PATHS.otp]: "login-page-03",
+  [AUTH_PATHS.mfa]: "login-page-02",
+  [AUTH_PATHS.mfaRecovery]: "login-page-05",
+  [AUTH_PATHS.verifyEmail.root]: "login-page-02",
+  [AUTH_PATHS.verifyEmail.sent]: "login-page-02",
+  [AUTH_PATHS.verifyEmail.expired]: "login-page-06",
+  [AUTH_PATHS.verifyEmail.success]: "login-page-03",
+  [AUTH_PATHS.forgotPassword]: "login-page-05",
+  [AUTH_PATHS.resetPassword.root]: "login-page-05",
+  [AUTH_PATHS.resetPassword.success]: "login-page-03",
+  [AUTH_PATHS.invite.root]: "login-page-01",
+  [AUTH_PATHS.invite.accept]: "login-page-03",
+  [AUTH_PATHS.invite.expired]: "login-page-06",
+  [AUTH_PATHS.workspaceSelect]: "login-page-03",
+  [AUTH_PATHS.organizationSelect]: "login-page-03",
+  [AUTH_PATHS.sessionExpired]: "login-page-06",
+  [AUTH_PATHS.accessDenied]: "login-page-06",
+  [AUTH_PATHS.securityReview]: "login-page-02",
+  [AUTH_PATHS.error]: "login-page-06",
+};
+
+export function resolveAuthShellVariantForPath(
+  pathname: string
+): AuthShellVariant {
+  const normalized =
+    pathname.length > 1 && pathname.endsWith("/")
+      ? pathname.slice(0, -1)
+      : pathname;
+
+  const entry = AUTH_SEGMENT_PATHS.find((path) => path === normalized);
+
+  if (entry === undefined) {
+    return "login-page-04";
+  }
+
+  return AUTH_PATH_FORM_VARIANT_MAP[entry];
+}
+
+export function resolveAuthShellBlockIdForPath(pathname: string): string {
+  return resolveAuthShellVariantForPath(pathname);
+}
 
 export function authFormEyebrow(lane: AuthShellFormLane, path: string): string {
   return `${AUTH_FORM_LANE_LABEL[lane]} Lane · ${path}`;

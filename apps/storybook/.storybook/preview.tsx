@@ -19,10 +19,10 @@ import { storybookPortalDecorator } from "./portal.decorator";
 // MSW bootstrap runs in parallel before render; mock routes live in parameters.msw (not loaded context).
 import "./preview.css";
 
-type VitestStorybookGlobals = {
+interface VitestStorybookGlobals {
   __AFENDA_VITEST_STORYBOOK__?: string;
   __AFENDA_VITEST_STORYBOOK_A11Y__?: string;
-};
+}
 
 const vitestGlobals = globalThis as unknown as VitestStorybookGlobals;
 const vitestStorybookRun = vitestGlobals.__AFENDA_VITEST_STORYBOOK__ === "true";
