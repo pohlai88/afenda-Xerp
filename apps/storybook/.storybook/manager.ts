@@ -1,6 +1,7 @@
 import { addons } from "storybook/manager-api";
 import { create } from "storybook/theming";
 
+// SB 10.4 manager UI: https://storybook.js.org/docs/configure#configure-storybooks-ui
 const afendaLabTheme = create({
   base: "light",
   brandTitle: "Afenda Presentation Lab",

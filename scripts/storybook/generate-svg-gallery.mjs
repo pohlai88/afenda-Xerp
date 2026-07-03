@@ -21,9 +21,23 @@ const outputPath = join(
  * @returns {string[]}
  */
 function parseSvgExports(source) {
-  return [...source.matchAll(/export \{ default as (\w+) \}/g)].map(
-    (match) => match[1]
-  );
+  /** @type {Set<string>} */
+  const seenModules = new Set();
+  /** @type {string[]} */
+  const names = [];
+
+  for (const match of source.matchAll(
+    /export \{ default as (\w+) \} from "(\.\/[^"]+)"/g
+  )) {
+    const [, name, from] = match;
+    if (seenModules.has(from)) {
+      continue;
+    }
+    seenModules.add(from);
+    names.push(name);
+  }
+
+  return names;
 }
 
 /**
@@ -31,7 +45,7 @@ function parseSvgExports(source) {
  * @returns {"icon" | "card" | "illustration"}
  */
 function classifyAsset(name) {
-  if (name.endsWith("Icon")) {
+  if (name.endsWith("Icon") || name === "LogoSvg") {
     return "icon";
   }
 
@@ -39,25 +53,33 @@ function classifyAsset(name) {
     return "card";
   }
 
-  return "illustration";
+  if (name.endsWith("Illustration")) {
+    return "illustration";
+  }
+
+  return "icon";
 }
 
 /**
  * @param {string[]} names
+ * @param {"brand" | "monochrome"} variant
  * @param {"icon" | "card" | "illustration"} kind
  * @returns {string}
  */
-function renderAssetGrid(names, kind) {
+function renderAssetGrid(names, variant, kind) {
   if (names.length === 0) {
     return `<p className="text-muted-foreground text-sm">No ${kind} assets exported.</p>`;
   }
 
+  const iconProps =
+    variant === "brand"
+      ? `variant="brand" className="size-8"`
+      : `variant="monochrome" className="size-8 text-muted-foreground"`;
+
   const cells = names
     .map(
-      (
-        name
-      ) => `      <figure key="${name}" className="flex flex-col items-center gap-2 rounded-lg border bg-card p-4">
-        <${name} className="text-primary" />
+      (name) => `      <figure key="${name}-${variant}" className="flex flex-col items-center gap-2 rounded-lg border bg-card p-4">
+        <${name} ${kind === "icon" ? iconProps : 'className="size-8 text-primary"'} />
         <figcaption className="text-muted-foreground text-xs">${name}</figcaption>
       </figure>`
     )
@@ -101,7 +123,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "SVG React assets (icons, card illustrations, lab graphics) using theme CSS variables.",
+          "SVG React assets with brand-color and monochrome variants (social icons, logo).",
       },
     },
     a11y: shadcnStudioStoryA11y,
@@ -111,21 +133,27 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const AllIcons: Story = {
+export const AllIconsBrand: Story = {
   render: () => (
-    ${renderAssetGrid(groups.icons, "icon")}
+    ${renderAssetGrid(groups.icons, "brand", "icon")}
+  ),
+};
+
+export const AllIconsMonochrome: Story = {
+  render: () => (
+    ${renderAssetGrid(groups.icons, "monochrome", "icon")}
   ),
 };
 
 export const AllCardIllustrations: Story = {
   render: () => (
-    ${renderAssetGrid(groups.cards, "card")}
+    ${renderAssetGrid(groups.cards, "brand", "card")}
   ),
 };
 
 export const AllIllustrations: Story = {
   render: () => (
-    ${renderAssetGrid(groups.illustrations, "illustration")}
+    ${renderAssetGrid(groups.illustrations, "brand", "illustration")}
   ),
 };
 
@@ -134,16 +162,20 @@ export const AllAssetsDark: Story = {
   render: () => (
     <div className="space-y-8">
       <section>
-        <h3 className="mb-3 font-medium text-sm">Icons</h3>
-        ${renderAssetGrid(groups.icons, "icon")}
+        <h3 className="mb-3 font-medium text-sm">Icons (brand)</h3>
+        ${renderAssetGrid(groups.icons, "brand", "icon")}
+      </section>
+      <section>
+        <h3 className="mb-3 font-medium text-sm">Icons (monochrome)</h3>
+        ${renderAssetGrid(groups.icons, "monochrome", "icon")}
       </section>
       <section>
         <h3 className="mb-3 font-medium text-sm">Card illustrations</h3>
-        ${renderAssetGrid(groups.cards, "card")}
+        ${renderAssetGrid(groups.cards, "brand", "card")}
       </section>
       <section>
         <h3 className="mb-3 font-medium text-sm">Illustrations</h3>
-        ${renderAssetGrid(groups.illustrations, "illustration")}
+        ${renderAssetGrid(groups.illustrations, "brand", "illustration")}
       </section>
     </div>
   ),

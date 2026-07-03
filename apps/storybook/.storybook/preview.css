@@ -1,5 +1,16 @@
 /**
  * Storybook CSS entry — mirrors apps/erp/src/app/globals.css (AdminCN SSOT).
+ *
+ * OSS references:
+ * - Styling and CSS (SB 10.4): https://storybook.js.org/docs/configure/styling-and-css
+ * - Tailwind recipe: https://storybook.js.org/recipes/tailwindcss/
+ *
+ * | SB doc topic | Afenda (@storybook/react-vite) |
+ * | Bundled CSS (recommended) | this file → import in preview.tsx (HMR) |
+ * | preview-head.html | not used — prefer bundled import |
+ * | PostCSS | apps/storybook/postcss.config.mjs — Vite picks it up; no addon-styling-webpack |
+ * | CSS-in-JS context | shadcnStudioThemeDecorator (next-themes) — not @storybook/addon-themes |
+ * | Static assets / fonts | main.ts staticDirs; Geist via token fallbacks in shadcn-studio.css |
  */
 
 @import "tailwindcss";
@@ -23,4 +34,9 @@ body,
 #storybook-root,
 #storybook-docs {
   font-family: var(--font-sans);
+}
+
+#storybook-portal-root {
+  position: relative;
+  z-index: 9999;
 }

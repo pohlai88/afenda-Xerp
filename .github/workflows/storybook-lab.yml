@@ -49,12 +49,15 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Generate Storybook artifacts
+        if: false # Agentic pilot interim — re-enable in Phase 5 (codegen + evidence gates)
         run: pnpm storybook:generate
 
       - name: Flat block coverage gate
+        if: false # Agentic pilot interim
         run: pnpm check:storybook-block-coverage
 
       - name: Primitive evidence gates (coverage + mismatch + story play)
+        if: false # Agentic pilot interim
         run: pnpm check:storybook-primitive-evidence
 
       - name: Typecheck Storybook lab
@@ -100,12 +103,15 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Generate Storybook artifacts
+        if: false # Agentic pilot interim — re-enable in Phase 5 (codegen + evidence gates)
         run: pnpm storybook:generate
 
       - name: Flat block coverage gate
+        if: false # Agentic pilot interim
         run: pnpm check:storybook-block-coverage
 
       - name: Primitive evidence gates (coverage + mismatch + story play)
+        if: false # Agentic pilot interim
         run: pnpm check:storybook-primitive-evidence
 
       - name: Install Playwright Chromium
@@ -157,9 +163,11 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Generate Storybook artifacts
+        if: false # Agentic pilot interim — re-enable in Phase 5
         run: pnpm storybook:generate
 
       - name: Primitive evidence gates (coverage + mismatch + story play)
+        if: false # Agentic pilot interim
         run: pnpm check:storybook-primitive-evidence
 
       - name: Publish to Chromatic

@@ -6,7 +6,7 @@
 
 import type { ComponentType } from "react";
 
-import LoginPage04Block from "../components-auth-shell/login-page-04/login-page-04.js";
+import LoginPage04Block from "../components-auth-shell/login-page-04.js";
 import AccountSettings01Block from "../components-layouts/account-settings-01/account-settings-01.js";
 import HeroSection01Block from "../components-layouts/hero-section-01/hero-section-01.js";
 import { FLAT_BLOCK_STORY_REGISTRY } from "../storybook/block-flat-story.registry.js";

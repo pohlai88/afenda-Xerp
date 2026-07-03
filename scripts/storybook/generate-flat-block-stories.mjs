@@ -1,5 +1,8 @@
 /**
  * Emits shadcn-studio-blocks-flat.stories.tsx from block-flat-story.registry.ts SSOT.
+ *
+ * Story exports must be statically parseable by Storybook's CSF indexer (acorn).
+ * Do not emit spread-of-call patterns like `...storyPair("X").light` — they break dev indexing.
  */
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -22,25 +25,39 @@ const outputPath = join(
 
 const FLAT_BLOCK_SPLIT_RE = /\{\s*\n?\s*slug:/;
 const STORY_NAME_RE = /storyName:\s*"([^"]+)"/;
+const SAMPLE_RE = /sample:\s*(\w+)/;
+const LAYOUT_RE = /layout:\s*"([^"]+)"/;
 const LAB_SMOKE_TRUE_RE = /labSmoke:\s*true/;
+
+/** @type {Record<string, string>} */
+const LAYOUT_PARAMETERS = {
+  centered: "shadcnStudioCenteredLayout",
+  fullscreen: "shadcnStudioFullscreenLayout",
+  padded: "shadcnStudioPaddedLayout",
+};
 
 /**
  * @param {string} source
- * @returns {{ storyName: string; labSmoke: boolean }[]}
+ * @returns {{ storyName: string; sample: string; layout: string; labSmoke: boolean }[]}
  */
 function parseFlatBlockRegistry(source) {
-  /** @type {{ storyName: string; labSmoke: boolean }[]} */
+  /** @type {{ storyName: string; sample: string; layout: string; labSmoke: boolean }[]} */
   const entries = [];
   const blocks = source.split(FLAT_BLOCK_SPLIT_RE).slice(1);
 
   for (const block of blocks) {
     const storyName = block.match(STORY_NAME_RE)?.[1];
-    if (!storyName) {
+    const sample = block.match(SAMPLE_RE)?.[1];
+    const layout = block.match(LAYOUT_RE)?.[1];
+
+    if (!(storyName && sample && layout)) {
       continue;
     }
 
     entries.push({
       storyName,
+      sample,
+      layout,
       labSmoke: LAB_SMOKE_TRUE_RE.test(block),
     });
   }
@@ -49,30 +66,48 @@ function parseFlatBlockRegistry(source) {
 }
 
 /**
- * @param {{ storyName: string; labSmoke: boolean }} entry
+ * @param {{ storyName: string; sample: string; layout: string; labSmoke: boolean }} entry
  * @returns {string}
  */
 function renderStoryExport(entry) {
-  const { storyName, labSmoke } = entry;
+  const { storyName, sample, layout, labSmoke } = entry;
+  const layoutParam = LAYOUT_PARAMETERS[layout] ?? LAYOUT_PARAMETERS.centered;
+  const tagsLine = labSmoke ? '\n  tags: ["autodocs", "lab-smoke"],' : "";
 
-  if (labSmoke) {
-    return `export const ${storyName}: Story = {
-  ...storyPair("${storyName}").light,
-  tags: ["autodocs", "lab-smoke"],
+  return `export const ${storyName}: Story = {
+  render: () => <${sample} />,
+  parameters: ${layoutParam},${tagsLine}
 };
-export const ${storyName}Dark: Story = storyPair("${storyName}").dark;`;
-  }
-
-  return `export const ${storyName}: Story = storyPair("${storyName}").light;
-export const ${storyName}Dark: Story = storyPair("${storyName}").dark;`;
+export const ${storyName}Dark: Story = {
+  render: () => <${sample} />,
+  parameters: ${layoutParam},
+  globals: shadcnStudioDarkThemeGlobals,
+};`;
 }
 
 /**
- * @param {{ storyName: string; labSmoke: boolean }[]} entries
+ * @param {{ storyName: string; sample: string; layout: string; labSmoke: boolean }[]} entries
  * @param {number} manifestCount
  * @returns {string}
  */
 function renderStoriesFile(entries, manifestCount) {
+  const sampleImports = [...new Set(entries.map((entry) => entry.sample))].sort();
+  const layoutImports = [
+    ...new Set(
+      entries.map(
+        (entry) =>
+          LAYOUT_PARAMETERS[entry.layout] ?? LAYOUT_PARAMETERS.centered
+      )
+    ),
+  ].sort();
+
+  const labImports = [
+    "shadcnStudioBlockDocs",
+    "shadcnStudioDarkThemeGlobals",
+    "shadcnStudioStoryA11y",
+    ...layoutImports,
+  ].sort();
+
   const exports = entries.map(renderStoryExport).join("\n\n");
 
   return `/**
@@ -83,12 +118,12 @@ function renderStoriesFile(entries, manifestCount) {
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect } from "storybook/test";
 
-import { createFlatBlockStoryPairs } from "../storybook/block-flat-story.helpers.js";
-import { FLAT_BLOCK_STORY_REGISTRY } from "../storybook/block-flat-story.registry.js";
 import {
-  shadcnStudioBlockDocs,
-  shadcnStudioCenteredLayout,
-  shadcnStudioStoryA11y,
+  ${sampleImports.join(",\n  ")}
+} from "./block-flat-story.compositions.js";
+import { FLAT_BLOCK_STORY_REGISTRY } from "./block-flat-story.registry.js";
+import {
+  ${labImports.join(",\n  ")}
 } from "../lab/index.js";
 
 const meta = {
@@ -108,20 +143,6 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-function storyPair(
-  storyName: (typeof FLAT_BLOCK_STORY_REGISTRY)[number]["storyName"]
-) {
-  const entry = FLAT_BLOCK_STORY_REGISTRY.find(
-    (row) => row.storyName === storyName
-  );
-
-  if (!entry) {
-    throw new Error(\`Missing flat block story registry entry: \${storyName}\`);
-  }
-
-  return createFlatBlockStoryPairs(entry);
-}
 
 ${exports}
 

@@ -111,8 +111,8 @@ export function productionTargetForBlock(blockId) {
   if (AUTH_SHELL_BLOCK_IDS.has(blockId)) {
     return {
       bucket: "components-auth-shell",
-      relativePath: `components-auth-shell/${blockId}`,
-      absolutePath: join(PRODUCTION_AUTH, blockId),
+      relativePath: `components-auth-shell/${blockId}.tsx`,
+      absolutePath: join(PRODUCTION_AUTH, `${blockId}.tsx`),
     };
   }
 

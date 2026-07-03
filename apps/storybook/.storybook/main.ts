@@ -20,12 +20,14 @@ const testingRoot = join(appRoot, "../../packages/testing");
 const nextLinkMock = join(testingRoot, "src/mocks/next-link.tsx");
 const nextImageMock = join(testingRoot, "src/mocks/next-image.tsx");
 const nextDynamicMock = join(testingRoot, "src/mocks/next-dynamic.tsx");
+const nextNavigationMock = join(testingRoot, "src/mocks/next-navigation.tsx");
 const storybookTest = join(
   appRoot,
   "node_modules/storybook/dist/test/index.js"
 );
 
 /** Vitest addon change-detection uses acorn without TS/JSX — breaks dev on .tsx CSF. Tests run via vitest.storybook.config.ts. */
+// SB 10.4 main config: https://storybook.js.org/docs/configure
 const storybookAddons = [
   getAbsolutePath("@chromatic-com/storybook"),
   getAbsolutePath("@storybook/addon-docs"),
@@ -37,16 +39,19 @@ const storybookAddons = [
       toolsets: {
         dev: true,
         docs: true,
-        test: true,
+        // Vitest addon is dev-excluded (acorn TSX indexing). Tests run via pnpm test:storybook:run.
+        // Enabling test here registers follower panels without a leader → console store errors.
+        test: false,
       },
     },
   },
 ];
 
 const config: StorybookConfig = {
+  // Agentic pilot (2026-07-03): scoped catalog — apps/storybook/stories + storybook/agentic only.
   stories: [
     "../stories/**/*.stories.@(ts|tsx)",
-    "../../../packages/shadcn-studio/src/**/*.stories.@(ts|tsx)",
+    "../../../packages/shadcn-studio/src/storybook/agentic/**/*.stories.@(ts|tsx)",
   ],
   staticDirs: [
     join(appRoot, "public"),
@@ -62,6 +67,10 @@ const config: StorybookConfig = {
   },
   docs: {
     defaultName: "Documentation",
+  },
+  tags: {
+    // SB 10.4 custom tags — sidebar filter defaults: writing-stories/tags
+    "ai-generated": { defaultFilterSelection: "exclude" },
   },
   typescript: {
     check: false,
@@ -120,6 +129,7 @@ const config: StorybookConfig = {
       { find: "next/link", replacement: nextLinkMock },
       { find: "next/image", replacement: nextImageMock },
       { find: "next/dynamic", replacement: nextDynamicMock },
+      { find: "next/navigation", replacement: nextNavigationMock },
       { find: "storybook/test", replacement: storybookTest },
     ];
 
@@ -180,6 +190,7 @@ const config: StorybookConfig = {
       "next/link",
       "next/image",
       "next/dynamic",
+      "next/navigation",
     ];
     viteConfig.optimizeDeps.esbuildOptions ??= {};
     viteConfig.optimizeDeps.esbuildOptions.jsx = "automatic";
@@ -203,6 +214,7 @@ const config: StorybookConfig = {
       "next/link": nextLinkMock,
       "next/image": nextImageMock,
       "next/dynamic": nextDynamicMock,
+      "next/navigation": nextNavigationMock,
       "storybook/test": storybookTest,
     };
     viteConfig.optimizeDeps.include = [

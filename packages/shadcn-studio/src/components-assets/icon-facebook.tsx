@@ -1,20 +1,22 @@
-import type { SVGAttributes } from "react";
+import type { AssetIconProps } from "./asset-icon.types.js";
 
-const FacebookIcon = (props: SVGAttributes<SVGElement>) => (
+const FacebookIcon = ({
+  variant = "brand",
+  ...props
+}: AssetIconProps) => (
   <svg
     aria-hidden="true"
     fill="none"
     height="24"
-    stroke="currentColor"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    strokeWidth="2"
     viewBox="0 0 24 24"
     width="24"
     xmlns="http://www.w3.org/2000/svg"
     {...props}
   >
-    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+    <path
+      d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.413c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"
+      fill={variant === "brand" ? "#1877F2" : "currentColor"}
+    />
   </svg>
 );
 

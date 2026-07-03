@@ -42,13 +42,13 @@ L4 VERIFICATION (internal) storybook/  gate/  *.stories.tsx
 | `meta-gates/` | L1 | 4 | **One inventory SSOT** (`_governance.registry.ts`) + runtime aggregators + gate barrel |
 | `components-ui/` | L2 | 252 | Primitives: adapter `{name}.tsx` + `{name}.contract.ts` |
 | `components-layouts/` | L2 | ~70 | MCP Pro blocks (flat or folder per block) |
-| `components-auth-shell/` | L2 | 1+ | Auth ingress blocks (login-page-04) |
+| `components-auth-shell/` | L2 | 3+ | Auth ingress: MCP blocks + `auth-shell.tsx` composer + `resolve-auth-shell.tsx` lane map — see [AGENTS.md § Auth ingress bucket](./AGENTS.md#auth-ingress-bucket-l2) |
 | `components-quarantine/` | L2 | varies | MCP blocks pending promotion — see README |
 | `components-app-shell/` | L3 | 3+ | App shell composers (flat bucket — see Naming) |
 | `lib/` | L2 | 5 | `compose-class-name`, `compute-pagination-range`, `governed-primitive-props`, `_lib-inventory.registry` |
 | `utils/` | L2 | 1 | `cn()` helper (`utils.ts`) |
 | `hooks/` | L2 | 1 | React hooks (`useIsMobile` for sidebar) |
-| `components-assets/` | L2 | 10 | SVG icons and illustrations (`icon-*.tsx`, `illustration-*.tsx`) — L4 gallery default |
+| `components-assets/` | L2 | 7 | Brand/monochrome SVG icons (`icon-*.tsx`, `LogoSvg`) — L4 gallery default |
 | `theme/` | L2 | 10 | Presets, ThemeCustomizer, settings context |
 | `styles/shadcn-studio.css` | L2 | 1 | Theme CSS source → `dist/shadcn-studio.css` |
 | `lab/index.ts` | L4 export | 1 | Public subpath barrel for Storybook parameters |

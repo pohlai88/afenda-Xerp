@@ -22,4 +22,20 @@ export const mswHandlers = {
       })
     ),
   ],
+  /** Auth shell preview — stub sign-in probe for agentic login stories. */
+  authSession: [
+    http.get("/api/auth/session", () =>
+      HttpResponse.json({ authenticated: false }, { status: 200 })
+    ),
+    http.post("/api/auth/sign-in", async ({ request }) => {
+      const body = (await request.json()) as { email?: string };
+      return HttpResponse.json(
+        {
+          ok: true,
+          email: body.email ?? "operator@afenda.lab",
+        },
+        { status: 200 }
+      );
+    }),
+  ],
 };

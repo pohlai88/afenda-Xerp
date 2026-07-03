@@ -98,6 +98,7 @@
 .dark.theme-afenda-swiss-noir,
 .dark .theme-afenda-brand,
 .dark.theme-afenda-brand {
+  color-scheme: dark;
   --background: oklch(0.108 0.006 260);
   --foreground: oklch(0.91 0.012 82);
   --card: oklch(0.145 0.008 260);
@@ -172,13 +173,18 @@
   .lab-noir-canvas {
     position: relative;
     min-height: 100dvh;
-    overflow: hidden;
     isolation: isolate;
     background:
       radial-gradient(circle at 78% 14%, oklch(0.36 0.04 78 / 0.16), transparent 31rem),
       radial-gradient(circle at 14% 8%, oklch(0.27 0.035 250 / 0.25), transparent 34rem),
       radial-gradient(circle at 52% 68%, oklch(0.23 0.015 260 / 0.32), transparent 38rem),
       linear-gradient(180deg, oklch(0.13 0.007 260), oklch(0.085 0.006 260));
+  }
+
+  .lab-noir-login-viewport {
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
   }
 
   .lab-noir-canvas::before {
@@ -294,5 +300,38 @@
   .lab-noir-vertical-word {
     writing-mode: vertical-rl;
     text-orientation: mixed;
+  }
+
+  .lab-noir-readout-grid {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.55;
+    background-image:
+      linear-gradient(to right, oklch(1 0 0 / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, oklch(1 0 0 / 0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .lab-noir-readout-tick {
+    font-size: 0.62rem;
+    line-height: 1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lab-noir-readout-tick--watch {
+      animation: lab-noir-tick-pulse 2.4s ease-in-out infinite;
+    }
+  }
+
+  @keyframes lab-noir-tick-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.35;
+    }
   }
 }

@@ -33,7 +33,7 @@ Afenda borrows **roles, structure, and inline simplicity** from the read-only Ad
 | Multi-shell | Flat bucket; slugs `admincn` (default), `crm-shell`, `ai-shell` (future) |
 | No mappers | **No** `map-*-from-*` files — inline 1–3 lines in shell composer |
 | L2 MCP blocks | Keep registry slug stems (`dialog-search.tsx`, `statistics-card-01.tsx`) |
-| L2 SVG assets | `icon-{name}.tsx` or `illustration-{slug}.tsx` in `components-assets/`; PascalCase re-export in `index.ts` |
+| L2 SVG assets | `icon-{name}.tsx` in `components-assets/`; `variant="brand" \| "monochrome"`; PascalCase re-export in `index.ts` |
 | L2 asset export | **L4 default** — omit from `src/index.ts` unless ERP needs the asset on the public barrel |
 | Settings fields | Keep Afenda names (`sidebarVariant`, `sidebarCollapsible`, `sidebarOpen`) — document reference mapping only |
 
@@ -88,6 +88,60 @@ To add a shell:
 4. Add Storybook story with `parameters.shellSlug: "<slug>"` for L4 lab proof.
 
 Barrel exports: **`AdmincnShell`**, **`AdmincnNav`**, **`resolveShell`**, and **`AppShell`** (alias for default `admincn` slug).
+
+### Auth ingress bucket (L2)
+
+Pre-auth **presentation** only — pairs with `components-app-shell/` (post-auth workspace chrome). **Do not rename** to `components-authentication` (collides with `@afenda/auth` runtime package and ADR-0038 bucket vocabulary).
+
+#### Three-zone boundary
+
+| Zone | Package / path | Owns |
+| --- | --- | --- |
+| **Runtime** | `@afenda/auth` | Sessions, Better Auth, server actions, cookies |
+| **Presentation** | `components-auth-shell/` | MCP login/OTP/error blocks, composer, resolver |
+| **Policy** | `@afenda/permissions` | RBAC, route guards (wired in ERP, not in studio) |
+
+**Hard stop:** no `@afenda/auth` imports inside `@afenda/shadcn-studio` (PAS-006A).
+
+#### Naming
+
+| Concept | Afenda path / export | Notes |
+| --- | --- | --- |
+| Bucket | `components-auth-shell/` | L2 ingress blocks + composer (flat bucket) |
+| Composer | `auth-shell.tsx` | `AuthShell({ lane })` |
+| Resolver | `resolve-auth-shell.tsx` | `resolveAuthShell(lane)` — SSOT map |
+| Form lanes | `AuthShellFormLane` | `access` · `verify` · `recover` · `error` — align with [`apps/erp/src/lib/auth/auth-path.registry.ts`](../../apps/erp/src/lib/auth/auth-path.registry.ts) |
+| MCP block file | `{block-id}.tsx` (+ optional `{block-id}-form.tsx`) | Vendor slug in filename stem — flat bucket only |
+| Ecosystem doc | [`docs/auth-ingress-ecosystem.md`](./docs/auth-ingress-ecosystem.md) | Lanes, runtime config, design ecosystems |
+| Barrel | `LoginPage04Block`, `AuthShell`, `resolveAuthShell` | Block export retained for direct ERP wiring |
+
+#### Flat bucket recipe
+
+```text
+components-auth-shell/
+  auth-shell.tsx              ← composer (lane → block)
+  resolve-auth-shell.tsx      ← lane map SSOT
+  login-page-04.tsx           ← access lane block
+  login-page-04-form.tsx      ← private form part (optional suffix)
+  error-page-02.tsx           ← future promoted blocks (flat files)
+```
+
+To add a lane block:
+
+1. Install MCP block to quarantine → promote to flat `components-auth-shell/{block-id}.tsx`.
+2. Register block id in `AUTH_SHELL_BLOCK_IDS` ([`scripts/studio/quarantine-paths.mjs`](../../scripts/studio/quarantine-paths.mjs)).
+3. Map lane → block in `resolve-auth-shell.tsx` `AUTH_SHELL_MAP`.
+4. Add Storybook story under **Auth Shell** (production block) or **Auth Pattern Lab** (L4 sign-in explorations).
+5. Wire ERP pathname → lane in `apps/erp/src/lib/auth/auth-path.registry.ts` (runtime boundary — outside this package).
+
+Unregistered lanes **fall back** to the `access` block until their MCP block promotes.
+
+#### Anti-patterns (auth bucket)
+
+- Renaming bucket to `components-authentication/` → use `components-auth-shell/`
+- Importing `@afenda/auth` in studio blocks or composer
+- Nested `components-auth-shell/login-page-04/` subfolders → use flat `{block-id}.tsx`
+- Duplicating OAuth SVGs in blocks when `components-assets/` already exports the icon
 
 ### MCP copy / adopt workflow
 
@@ -267,5 +321,6 @@ pnpm --filter @afenda/erp typecheck && pnpm --filter @afenda/erp build
 ## Related
 
 - [README.md](./README.md) — commands and quick start
+- [auth-ingress-ecosystem.md](./docs/auth-ingress-ecosystem.md) — auth lanes, runtime config, design ecosystems
 - [shadcn-studio skill](../../.cursor/skills/shadcn-studio/SKILL.md)
 - [figma-mcp-afenda.md](../../.cursor/skills/shadcn-studio/figma-mcp-afenda.md)

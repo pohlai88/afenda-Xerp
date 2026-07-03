@@ -2,7 +2,7 @@ import "@testing-library/jest-dom/vitest";
 import { render } from "@testing-library/react";
 import { DollarSignIcon } from "lucide-react";
 import { describe, expect, it } from "vitest";
-import LoginPage04 from "../../components-auth-shell/login-page-04/login-page-04.js";
+import LoginPage04 from "../../components-auth-shell/login-page-04.js";
 import AccountSettings01 from "../../components-layouts/account-settings-01/account-settings-01.js";
 import DatatableInvoice from "../../components-layouts/datatable-invoice.js";
 import DatatableProduct from "../../components-layouts/datatable-product.js";

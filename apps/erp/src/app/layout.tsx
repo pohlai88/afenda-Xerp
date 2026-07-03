@@ -11,6 +11,24 @@ export const metadata: Metadata = {
     template: "%s · Afenda ERP",
   },
   description: "Afenda enterprise resource planning platform.",
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      {
+        url: "/icons/afenda-icon-192-transparent.png",
+        sizes: "192x192",
+        type: "image/png",
+      },
+    ],
+    apple: [
+      {
+        url: "/icons/afenda-icon-180-transparent.png",
+        sizes: "180x180",
+        type: "image/png",
+      },
+    ],
+  },
+  manifest: "/site.webmanifest",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

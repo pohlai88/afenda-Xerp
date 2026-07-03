@@ -1,7 +1,9 @@
 "use client";
 
-import { PlusIcon, XIcon } from "lucide-react";
+import { PlusIcon, XIcon as CloseIcon } from "lucide-react";
 import { useState } from "react";
+import GoogleIcon from "@/components-assets/icon-google.js";
+import SlackIcon from "@/components-assets/icon-slack.js";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -21,24 +23,40 @@ import {
 } from "../../_shared/account-settings-page-shell.js";
 
 interface ConnectedAccount {
-  iconUrl: string;
+  iconUrl?: string;
   id: string;
   name: string;
 }
 
 const initialAccounts: ConnectedAccount[] = [
-  {
-    id: "google",
-    name: "Google",
-    iconUrl:
-      "https://cdn.shadcnstudio.com/ss-assets/brand-logo/google-icon.png",
-  },
-  {
-    id: "slack",
-    name: "Slack",
-    iconUrl: "https://cdn.shadcnstudio.com/ss-assets/brand-logo/slack-icon.png",
-  },
+  { id: "google", name: "Google" },
+  { id: "slack", name: "Slack" },
 ];
+
+const renderConnectedAccountIcon = (account: ConnectedAccount) => {
+  switch (account.id) {
+    case "google":
+      return <GoogleIcon className="size-4" variant="brand" />;
+    case "slack":
+      return <SlackIcon className="size-4" variant="brand" />;
+    default:
+      if (account.iconUrl) {
+        return (
+          <img
+            alt={account.name}
+            className="size-4 rounded"
+            src={account.iconUrl}
+          />
+        );
+      }
+
+      return (
+        <div className="flex size-4 items-center justify-center rounded bg-muted-foreground/10 font-medium text-muted-foreground text-sm">
+          {account.name.charAt(0)}
+        </div>
+      );
+  }
+};
 
 const ConnectedAccount = () => {
   const [connectedAccounts, setConnectedAccounts] =
@@ -99,17 +117,7 @@ const ConnectedAccount = () => {
               className="flex h-9 w-fit items-center gap-2 rounded-md border px-2.5 text-sm"
               key={account.id}
             >
-              {account.iconUrl ? (
-                <img
-                  alt={account.name}
-                  className="size-4 rounded"
-                  src={account.iconUrl}
-                />
-              ) : (
-                <div className="flex size-4 items-center justify-center rounded bg-muted-foreground/10 font-medium text-muted-foreground text-sm">
-                  {account.name.charAt(0)}
-                </div>
-              )}
+              {renderConnectedAccountIcon(account)}
 
               <p className="font-medium text-sm">{account.name}</p>
               <Button
@@ -119,7 +127,7 @@ const ConnectedAccount = () => {
                 size="icon-xs"
                 variant="ghost"
               >
-                <XIcon aria-hidden="true" className="size-3" />
+                <CloseIcon aria-hidden="true" className="size-3" />
               </Button>
             </div>
           ))}

@@ -5,6 +5,18 @@ description: Discovers and invokes agent skills. Use when starting a session or 
 
 # Using Agent Skills
 
+## Afenda ERP monorepo (read first)
+
+In **afenda-Xerp**, invoke **`/using-afenda-skills`** before this skill for:
+
+- Bundle routing (`coding-consistency-bundle`, `afenda-editorial-bundle`, PAS authority)
+- Editorial interface rules (Swiss Noir, Verdant, Presentation Lab — not shadcn `/iui`)
+- Phase 0 / completion report contract
+
+Vendor phase skills below still apply for generic engineering workflow. Afenda overlay map: `.cursor/skills/using-afenda-skills/reference/vendor-lifecycle-bridge.md`.
+
+When editorial or "not ordinary" UI appears, **stop** generic `frontend-ui-engineering` routing and follow `afenda-editorial-bundle` per `/using-afenda-skills`.
+
 ## Overview
 
 Agent Skills is a collection of engineering workflow skills organized by development phase. Each skill encodes a specific process that senior engineers follow. This meta-skill helps you discover and apply the right skill for your current task.
@@ -22,6 +34,7 @@ Task arrives
     ├── Have a spec, need tasks? ──────→ planning-and-task-breakdown
     ├── Implementing code? ────────────→ incremental-implementation
     │   ├── UI work? ─────────────────→ frontend-ui-engineering
+    │   │   └── Afenda editorial / noir / not ordinary? → /using-afenda-skills → afenda-editorial-bundle
     │   ├── API work? ────────────────→ api-and-interface-design
     │   ├── Need better context? ─────→ context-engineering
     │   ├── Need doc-verified code? ───→ source-driven-development
@@ -70,6 +83,8 @@ When you encounter inconsistencies, conflicting requirements, or unclear specifi
 
 **Bad:** Silently picking one interpretation and hoping it's right.
 **Good:** "I see X in the spec but Y in the existing code. Which takes precedence?"
+
+**Afenda login example:** Registry says `verdant-milk-identity-vault` but contract slug is `verdant-milk-noir` — map both in the plan; do not pick one silently. See `using-afenda-skills/reference/editorial-login-quality.md`.
 
 ### 3. Push Back When Warranted
 

@@ -18,7 +18,15 @@ export {
   resolveShell,
   type ShellSlug,
 } from "./components-app-shell/resolve-shell.js";
-export { default as LoginPage04Block } from "./components-auth-shell/login-page-04/login-page-04.js";
+export { default as LoginPage04Block } from "./components-auth-shell/login-page-04.js";
+export {
+  AuthShell,
+  type AuthShellProps,
+} from "./components-auth-shell/auth-shell.js";
+export {
+  resolveAuthShell,
+  type AuthShellFormLane,
+} from "./components-auth-shell/resolve-auth-shell.js";
 export { default as AccountSettings01Block } from "./components-layouts/account-settings-01/account-settings-01.js";
 export { default as ChartEarningReportBlock } from "./components-layouts/chart-earning-report.js";
 export { default as ChartSalesMetricsBlock } from "./components-layouts/chart-sales-metrics.js";

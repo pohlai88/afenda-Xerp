@@ -3,7 +3,7 @@
  */
 
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { join } from "node:path";
+import { basename, dirname, join } from "node:path";
 
 import { AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE } from "../meta-contracts/block-slot-dom-marker.contract.js";
 import { getBlockSlotsForBlockId } from "./block-slot.registry.js";
@@ -86,6 +86,33 @@ function findManifestEntry(
   return MCP_SEED_BLOCK_MANIFEST.find((entry) => entry.blockId === blockId);
 }
 
+function collectTsxFilesForManifestEntry(
+  entry: McpSeedBlockManifestEntry,
+  repoRoot: string
+): readonly string[] {
+  const absolutePath = resolveManifestAbsolutePath(entry, repoRoot);
+  const files = new Set(collectTsxFiles(absolutePath));
+
+  if (
+    absolutePath.endsWith(".tsx") &&
+    entry.mcpPath.includes("components-auth-shell/")
+  ) {
+    const blockStem = basename(absolutePath, ".tsx");
+    const blockDir = dirname(absolutePath);
+    const partSuffixPattern = new RegExp(
+      `^${blockStem.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}-.+\\.tsx$`
+    );
+
+    for (const fileName of readdirSync(blockDir)) {
+      if (partSuffixPattern.test(fileName)) {
+        files.add(join(blockDir, fileName));
+      }
+    }
+  }
+
+  return [...files];
+}
+
 function collectFoundSlotIdsForBlock(
   blockId: string,
   repoRoot: string
@@ -96,9 +123,7 @@ function collectFoundSlotIdsForBlock(
     return [];
   }
 
-  const tsxFiles = collectTsxFiles(
-    resolveManifestAbsolutePath(manifestEntry, repoRoot)
-  );
+  const tsxFiles = collectTsxFilesForManifestEntry(manifestEntry, repoRoot);
   const slotIds = new Set<string>();
 
   for (const filePath of tsxFiles) {

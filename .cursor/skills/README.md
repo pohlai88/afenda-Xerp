@@ -12,8 +12,11 @@ Machine-readable index for agents and humans. **Do not load this entire file int
 
 1. User message or `/using-afenda-skills` → read meta-skill discovery tree
 2. Any implementer code edit → `coding-consistency-bundle` (mandatory)
-3. ERP UI/CSS → `afenda-presentation-atlas` (inventory) → `shadcn-studio` + `afenda-presentation-quality` + PAS-006 (ADR-0027)
-4. Full inventory → this file
+3. Editorial / Swiss Noir / Verdant / not ordinary → `afenda-editorial-bundle` (+ `coding-consistency-bundle` for edits)
+   - Login lab quality gates → [using-afenda-skills/reference/editorial-login-quality.md](using-afenda-skills/reference/editorial-login-quality.md)
+   - Vendor phase overlay → [using-afenda-skills/reference/vendor-lifecycle-bridge.md](using-afenda-skills/reference/vendor-lifecycle-bridge.md)
+4. ERP UI/CSS (non-editorial) → `afenda-presentation-atlas` → `shadcn-studio` + `afenda-presentation-quality` + PAS-006 (ADR-0027)
+5. Full inventory → this file
 
 ---
 
@@ -23,8 +26,13 @@ Machine-readable index for agents and humans. **Do not load this entire file int
 | --- | --- | --- | --- | --- |
 | `using-afenda-skills` | Meta | — | Session start, "which skill applies?" | — |
 | `coding-consistency-bundle` | Bundle | `packages/**`, `apps/**`, `scripts/**` | Any implementer file edit | Phase 0 + bundle preflight |
+| `afenda-editorial-bundle` | Bundle | presentation-lab, storybook noir, swiss/verdant CSS | Editorial UI code edit | Auto-route via `paths` + trigger phrases; stacks on coding-consistency-bundle |
 
-Both bundles: `disable-model-invocation: true` — explicit attach or slash only.
+`coding-consistency-bundle`: `disable-model-invocation: true` — explicit attach or slash only.
+
+`afenda-editorial-bundle`: **auto-invokes** when `paths` match or editorial trigger terms appear with a code edit (no `disable-model-invocation`).
+
+`afenda-presentation-promotion`: `disable-model-invocation: true` — explicit promote/wire only.
 
 **Removed (ADR-0027 · 2026-07-02):** `ui-consistency-bundle`, `govern-primitive`, `css-authority`, `afenda-shadcn-components`, `afenda-ui-quality`, `enterprise-frontend-audit` — replacement map in [NATIVE-EVALUATION.md](NATIVE-EVALUATION.md).
 
@@ -88,7 +96,10 @@ All commands: `disable-model-invocation: true`.
 | `package-css-dist-sync` | UI infra | `packages/shadcn-studio/src/styles/**` | shadcn-studio CSS dist sync | `pnpm check:package-css-dist-sync` |
 | `afenda-storybook` | UI | `apps/storybook/**` | shadcn-studio Storybook lab | `pnpm --filter @afenda/storybook storybook:build` |
 | `afenda-presentation-atlas` | Reference | `packages/shadcn-studio/**`, `apps/storybook/**` | `@afenda/shadcn-studio` design system map — primitives, blocks, exports | — |
-| `docs-editorial-design` | Docs UI | `apps/docs/**` | Fumadocs editorial design | — |
+| `afenda-editorial-lab` | UI authority | `packages/shadcn-studio/docs/**`, `storybook/**`, presentation-lab presets | Swiss Noir, Verdant Milk, editorial, cinematic, noir, not ordinary | Read SSOT + [reference/pattern-and-doctrine.md](afenda-editorial-lab/reference/pattern-and-doctrine.md) |
+| `afenda-editorial-compose` | UI workflow | `packages/shadcn-studio/src/storybook/**`, noir CSS, presentation-lab stories | Governed editorial implementation after lab skill | Preview URL mandatory · [reference/workflow-templates.md](afenda-editorial-compose/reference/workflow-templates.md) |
+| `afenda-presentation-promotion` | UI workflow | `apps/erp/**`, `components-auth-shell/**`, auth registries | Explicit promote / wire ERP sign-in only | Stage C gates · [reference/stage-checklists.md](afenda-presentation-promotion/reference/stage-checklists.md) |
+| `docs-editorial-design` | Docs UI (planned) | `apps/docs/**` | Fumadocs prose editorial — **not ERP UI**; ERP editorial = `afenda-editorial-lab` | — |
 | MCP quarantine inbox | Workflow | `packages/shadcn-studio/src/components-quarantine/**` | Raw MCP/CLI landing — promote per PAS-006B before ERP export | — |
 
 ---

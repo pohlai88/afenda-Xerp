@@ -27,6 +27,11 @@ export const shadcnStudioLabViewports = {
     styles: { width: "768px", height: "1024px" },
     type: "tablet" as const,
   },
+  laptop: {
+    name: "Laptop",
+    styles: { width: "1280px", height: "800px" },
+    type: "desktop" as const,
+  },
   desktop: {
     name: "Desktop",
     styles: { width: "1440px", height: "900px" },

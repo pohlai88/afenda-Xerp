@@ -1,6 +1,8 @@
 "use client";
 
 /** PAS-006A L4 — Storybook theme decorator (canonical). Re-exported by `src/lab/index.ts`. */
+/** SB 10.4 context decorator — reads `globals.theme`, `parameters.layout`, `parameters.shadcnStudioPreset`. */
+/** @see https://storybook.js.org/docs/writing-stories/decorators#context-for-mocking */
 
 import type { Decorator } from "@storybook/react";
 import { ThemeProvider } from "next-themes";

@@ -29,7 +29,8 @@
       "storybook/test": ["./node_modules/storybook/dist/test/index.d.ts"],
       "next/link": ["../../packages/testing/src/mocks/next-link.tsx"],
       "next/image": ["../../packages/testing/src/mocks/next-image.tsx"],
-      "next/dynamic": ["../../packages/testing/src/mocks/next-dynamic.tsx"]
+      "next/dynamic": ["../../packages/testing/src/mocks/next-dynamic.tsx"],
+      "next/navigation": ["../../packages/testing/src/mocks/next-navigation.tsx"]
     }
   },
   "include": [

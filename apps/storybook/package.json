@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "generate": "node ../../scripts/storybook/generate.mjs",
-    "prestorybook": "pnpm clean && pnpm generate",
-    "prestorybook:build": "pnpm generate",
+    "prestorybook": "pnpm clean",
+    "prestorybook:build": "pnpm clean",
     "storybook": "storybook dev -p 6006 --ci --no-open --exact-port",
     "storybook:build": "storybook build -o storybook-static",
     "build-storybook": "pnpm storybook:build",

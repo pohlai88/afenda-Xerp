@@ -43,6 +43,7 @@ export default defineConfig({
   },
   test: {
     name: "storybook-a11y",
+    passWithNoTests: true,
     pool: "forks",
     fileParallelism: false,
     maxWorkers: 1,

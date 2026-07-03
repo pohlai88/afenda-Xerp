@@ -48,9 +48,7 @@ describe("MCP live seed inventory (B42c + B42e + B42f + B42g)", () => {
   });
 
   it("installs live MCP auth blocks under src/components-auth-shell/", () => {
-    expect(
-      existsSync(join(authShellDir, "login-page-04/login-page-04.tsx"))
-    ).toBe(true);
+    expect(existsSync(join(authShellDir, "login-page-04.tsx"))).toBe(true);
   });
 
   it("installs live MCP blocks under src/components-layouts/", () => {

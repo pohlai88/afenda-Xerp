@@ -1,7 +1,12 @@
 {
   "version": "0.2",
   "language": "en-US",
-  "dictionaries": ["en_us", "softwareTerms", "enterprise-knowledge", "tech"],
+  "dictionaries": [
+    "en_us",
+    "softwareTerms",
+    "enterprise-knowledge",
+    "tech"
+  ],
   "dictionaryDefinitions": [
     {
       "name": "enterprise-knowledge",
@@ -29,5 +34,11 @@
     "apps/erp/src/server/api/contracts/**",
     "docs/**",
     "apps/docs/content/**"
+  ],
+  "words": [
+    "appshell",
+    "llms",
+    "nextjs",
+    "SSOT"
   ]
 }

@@ -8,10 +8,10 @@ const root = join(scriptDir, "../..");
 const HELP = `Afenda Storybook CLI
 
 Usage:
-  pnpm storybook              Start dev server (port 6006, exact-port) after codegen
+  pnpm storybook              Start dev server (port 6006, exact-port) — empty catalog
   pnpm storybook dev          Same as above
-  pnpm storybook generate     Run Storybook codegen (docs CSS sync, etc.)
-  pnpm storybook build        Production Storybook build after codegen
+  pnpm storybook generate     No-op while catalog is reset (see scripts/storybook/generate.mjs)
+  pnpm storybook build        Production Storybook build (empty catalog)
 
 Legacy aliases: pnpm storybook:ui, pnpm storybook:build
 `;
