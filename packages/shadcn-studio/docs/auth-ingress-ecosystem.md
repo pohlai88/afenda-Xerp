@@ -63,7 +63,8 @@ Resolved by [`resolveSignInProviderSurface`](../../../packages/auth/src/auth.sig
 
 Social provider ids SSOT: [`auth.social-providers.ts`](../../../packages/auth/src/auth.social-providers.ts) — `google`, `github` only.
 
-Presentation sync rule: [`login-method-manifest.ts`](../src/components-auth-shell/login-method-manifest.ts) must be **manually synchronized** to the runtime sources above. Do not import `@afenda/auth` into `@afenda/shadcn-studio`; copy the method truth deliberately and keep unsupported ids out of the manifest.
+Presentation sync rule: [`login-method-manifest.ts`](../src/components-auth-shell/login-method-manifest.ts) must be **manually synchronized** to the runtime sources above. It owns login method configuration and page-block method membership; lane routing remains in [`resolve-auth-shell.tsx`](../src/components-auth-shell/resolve-auth-shell.tsx).
+Do not import `@afenda/auth` into `@afenda/shadcn-studio`; copy the method truth deliberately and keep unsupported ids out of the manifest.
 
 ---
 
@@ -84,12 +85,14 @@ WCAG-adjacent auth blocks: `login-page-04` only ([`auth-wcag-adjacent.registry.t
 ```text
 components-auth-shell/
   auth-shell.tsx                 ← composer (lane → block)
-  resolve-auth-shell.tsx         ← lane map SSOT
+  resolve-auth-shell.tsx         ← lane map SSOT (`AUTH_SHELL_LANE_DEFAULT_PAGE_MAP`)
   login-page-04.tsx              ← access lane block (50/50 split canvas)
   {future-block-id}.tsx          ← promoted MCP blocks (flat kebab-case)
 ```
 
 No nested `login-page-04/` folders — vendor slug is in the **filename stem**, not a subfolder.
+
+Page components own their own design composition and visual hierarchy; the manifest only maps methods to blocks.
 
 ---
 
@@ -139,7 +142,7 @@ Storybook:
 
 Login CSS reuses workspace noir files (`swiss-noir.css` / `verdant-noir.css`) — **not** ERP `globals.css`. Login omits hero proof strips; copy stays minimal (one panel line + form).
 
-Shared lab form (OAuth Google/GitHub + fields): [`storybook/auth-access-form-fields.tsx`](../src/storybook/auth-access-form-fields.tsx) — **does not** replace the production canonical login form from [`login-method-manifest.ts`](../src/components-auth-shell/login-method-manifest.ts) and [`login-form-v1.tsx`](../src/components-auth-shell/login-form-v1.tsx). Login Pattern Lab uses presentation-native fields until ERP promotion.
+Shared lab form (OAuth Google/GitHub + fields): [`storybook/auth-access-form-fields.tsx`](../src/storybook/auth-access-form-fields.tsx) — **does not** replace the production canonical login form from [`login-method-manifest.ts`](../src/components-auth-shell/login-method-manifest.ts) and [`login-form-v1.tsx`](../src/components-auth-shell/login-form-v1.tsx). `login-form-v1.tsx` owns credential-frame behavior; lab form stories are pattern variants only.
 
 ### Pattern inventory
 
@@ -198,6 +201,6 @@ When promoting a winner:
 1. `pnpm studio:shadcn:quarantine add @ss-blocks/<id> --overwrite --yes`
 2. Register the page block and its allowed methods in `login-method-manifest.ts`
 3. Promote to flat `components-auth-shell/<block-id>.tsx`
-4. Map lane in `LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP`
+4. Map lane in `AUTH_SHELL_LANE_DEFAULT_PAGE_MAP`
 5. Restore `blockSlotDomMarkerProps`, local OAuth icons, metadata binding
 6. Storybook Pattern Lab or Auth Shell story + gates

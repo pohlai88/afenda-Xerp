@@ -117,7 +117,7 @@ Pre-auth **presentation** only — pairs with `components-app-shell/` (post-auth
 
 #### Runtime-sync method rules
 
-`login-method-manifest.ts` is a **manual synchronization layer**, not a runtime import bridge.
+`login-method-manifest.ts` is a **manual synchronization layer**, not a runtime import bridge. It owns auth method configuration and governed page block membership; lane-to-page routing is owned by the resolver.
 
 1. Read runtime truth before editing auth-shell methods:
    - `packages/auth/src/auth.sign-in-surface.ts`
@@ -140,7 +140,7 @@ Pre-auth **presentation** only — pairs with `components-app-shell/` (post-auth
 ```text
 components-auth-shell/
   auth-shell.tsx              ← composer (lane → block)
-  resolve-auth-shell.tsx      ← lane resolver using manifest SSOT
+  resolve-auth-shell.tsx      ← lane resolver and SSOT for lane mapping
   login-page-04.tsx           ← access lane block
   error-page-02.tsx           ← future promoted blocks (flat files)
 ```
@@ -149,7 +149,7 @@ To add a lane block:
 
 1. Install MCP block to quarantine → promote to flat `components-auth-shell/{block-id}.tsx`.
 2. Register the auth block for production routing in `login-method-manifest.ts`.
-3. Map lane → block in `login-method-manifest.ts` `LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP`.
+3. Map lane → block in `resolve-auth-shell.tsx` with `AUTH_SHELL_LANE_DEFAULT_PAGE_MAP`.
 4. Add Storybook story under **Auth Shell** (production block) or **Auth Pattern Lab** (L4 sign-in explorations).
 5. Wire ERP pathname → lane in `apps/erp/src/lib/auth/auth-path.registry.ts` (runtime boundary — outside this package).
 
