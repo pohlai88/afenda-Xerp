@@ -664,17 +664,6 @@ export const LOGIN_METHOD_MANIFEST = {
   readonly [TMethodId in AuthLoginMethodId]: AuthLoginMethodManifestEntry<TMethodId>;
 };
 
-/**
- * @deprecated Lane routing is owned by `resolve-auth-shell.tsx`.
- * Compatibility mirror for existing public imports only.
- */
-export const LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP = {
-  access: "login-page-04",
-  verify: "login-page-02",
-  recover: "forgot-password-page-01",
-  error: "login-page-06",
-} as const satisfies Record<AuthShellLane, AuthPageBlockId>;
-
 export const LOGIN_PAGE_MANIFEST = {
   "login-page-01": {
     blockId: "login-page-01",

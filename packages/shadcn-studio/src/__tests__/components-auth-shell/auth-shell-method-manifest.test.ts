@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-
 import {
   AUTH_ACCESS_DENIED_PATH,
   AUTH_ERROR_PATH,
@@ -49,7 +48,6 @@ import {
   getRegisterPageMethods,
   getResetPasswordPageManifest,
   getResetPasswordPageMethods,
-  LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP,
   LOGIN_METHOD_MANIFEST,
   LOGIN_PAGE_BLOCK_IDS,
   type LoginPageBlockId,
@@ -58,6 +56,7 @@ import {
   RESET_PASSWORD_PAGE_BLOCK_IDS,
   type ResetPasswordPageBlockId,
 } from "../../components-auth-shell/auth-shell-method-manifest.js";
+import { AUTH_SHELL_LANE_DEFAULT_PAGE_MAP } from "../../components-auth-shell/resolve-auth-shell.js";
 
 const isLoginPageBlockId = (blockId: string): blockId is LoginPageBlockId =>
   LOGIN_PAGE_BLOCK_IDS.includes(blockId as LoginPageBlockId);
@@ -226,7 +225,7 @@ describe("auth shell method manifest", () => {
   });
 
   it("keeps lane defaults mapped to registered page blocks", () => {
-    for (const blockId of Object.values(LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP)) {
+    for (const blockId of Object.values(AUTH_SHELL_LANE_DEFAULT_PAGE_MAP)) {
       if (isLoginPageBlockId(blockId)) {
         expect(() => getLoginPageManifest(blockId)).not.toThrow();
         continue;

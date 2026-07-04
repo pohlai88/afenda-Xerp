@@ -4,13 +4,16 @@ import { useEffect, useRef, useState } from "react";
 import { AuthShell } from "../../components-auth-shell/auth-shell.js";
 import { AuthShellMotionScene } from "../../components-auth-shell/auth-shell-motion-scene.client.js";
 import { AUTH_SHELL_PIXEL_IMAGE_SOURCES } from "../../components-auth-shell/auth-shell-motion.contract.js";
-import {
-  LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP,
-  type AuthShellFormLane,
-} from "../../components-auth-shell/auth-shell-method-manifest.js";
+import { AUTH_SHELL_LANE_DEFAULT_PAGE_MAP } from "../../components-auth-shell/resolve-auth-shell.js";
+import type { AuthShellFormLane } from "../../components-auth-shell/auth-shell-method-manifest.js";
 import { agenticFullscreenMetaParameters } from "./agentic-story-parameters.js";
 
-const authShellLaneOptions = ["access", "verify", "recover", "error"] as const satisfies readonly AuthShellFormLane[];
+const authShellLaneOptions = [
+  "access",
+  "verify",
+  "recover",
+  "error",
+] as const satisfies readonly AuthShellFormLane[];
 
 const meta = {
   title: "Agentic/Auth Shell/Auth Shell",
@@ -134,7 +137,7 @@ export const Overview: Story = {
   render: () => (
     <div className="space-y-10 bg-background px-4 py-6">
       {authShellLaneOptions.map((lane) => {
-        const blockId = LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP[lane];
+        const blockId = AUTH_SHELL_LANE_DEFAULT_PAGE_MAP[lane];
 
         return (
           <section className="space-y-4" key={lane}>
@@ -146,7 +149,7 @@ export const Overview: Story = {
                 {blockId}
               </h2>
               <p className="text-muted-foreground">
-                Resolved by LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP and rendered
+                Resolved by AUTH_SHELL_LANE_DEFAULT_PAGE_MAP and rendered
                 through AuthShell.
               </p>
             </header>
