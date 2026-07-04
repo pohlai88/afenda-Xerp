@@ -1,12 +1,11 @@
 "use client";
 
-import type { ReactNode } from "react";
-
 import {
   ERROR_PAGE_COPY_REGISTRY,
   ErrorPageShell,
   type ErrorPageVariant,
 } from "@afenda/shadcn-studio/error-ui";
+import type { ReactNode } from "react";
 
 type ErpErrorPageProps = {
   readonly action?: ReactNode;
@@ -14,5 +13,7 @@ type ErpErrorPageProps = {
 };
 
 export function ErpErrorPage({ action, variant }: ErpErrorPageProps) {
-  return <ErrorPageShell {...ERROR_PAGE_COPY_REGISTRY[variant]} action={action} />;
+  return (
+    <ErrorPageShell {...ERROR_PAGE_COPY_REGISTRY[variant]} action={action} />
+  );
 }

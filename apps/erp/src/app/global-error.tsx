@@ -10,14 +10,33 @@ interface GlobalErrorProps {
   readonly reset: () => void;
 }
 
-export default function GlobalError({ error: _error, reset }: GlobalErrorProps) {
+export default function GlobalError({
+  error: _error,
+  reset,
+}: GlobalErrorProps) {
   return (
     <html lang="en">
       <head>
-        <link href="/favicon-light.png" media="(prefers-color-scheme: light)" rel="icon" sizes="192x192" type="image/png" />
-        <link href="/favicon-dark.png" media="(prefers-color-scheme: dark)" rel="icon" sizes="192x192" type="image/png" />
+        <link
+          href="/favicon-light.png"
+          media="(prefers-color-scheme: light)"
+          rel="icon"
+          sizes="192x192"
+          type="image/png"
+        />
+        <link
+          href="/favicon-dark.png"
+          media="(prefers-color-scheme: dark)"
+          rel="icon"
+          sizes="192x192"
+          type="image/png"
+        />
         <link href="/favicon.ico" rel="icon" />
-        <link href="/icons/afenda-icon-180-transparent.png" rel="apple-touch-icon" sizes="180x180" />
+        <link
+          href="/icons/afenda-icon-180-transparent.png"
+          rel="apple-touch-icon"
+          sizes="180x180"
+        />
       </head>
       <body>
         <ErpErrorPage
