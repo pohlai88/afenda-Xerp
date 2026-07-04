@@ -1,6 +1,6 @@
 import type { SVGAttributes } from "react";
 
-const AuthLines = (props: SVGAttributes<SVGElement>) => (
+const BackgroundLines = (props: SVGAttributes<SVGElement>) => (
   <svg
     fill="none"
     height="209"
@@ -514,4 +514,4 @@ const AuthLines = (props: SVGAttributes<SVGElement>) => (
   </svg>
 );
 
-export default AuthLines;
+export default BackgroundLines;

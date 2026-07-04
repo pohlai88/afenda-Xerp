@@ -1,9 +1,9 @@
-import Logo from "@/assets/svg/logo";
-import LogoVector from "@/assets/svg/logo-vector";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import Logo from "@/components-assets/logo.js";
+import LogoVector from "@/components-assets/logo-vector.js";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 import {
   assertCanonicalLoginForm,

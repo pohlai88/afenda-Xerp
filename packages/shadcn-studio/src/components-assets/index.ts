@@ -6,13 +6,14 @@
  * @see AGENTS.md § L2 assets pipeline
  */
 
-export type { AssetBrandColorKey } from "./asset-brand-colors.registry.js";
-export { ASSET_BRAND_COLORS } from "./asset-brand-colors.registry.js";
+export { default as BackgroundShape } from "./background-shape.js";
+export type { AssetBrandColorKey } from "./brand-colors.registry.js";
+export { ASSET_BRAND_COLORS } from "./brand-colors.registry.js";
+export { default as FullBackgroundShape } from "./full-background-shape.js";
 export type {
   AssetIconProps,
   AssetIconVariant,
-} from "./asset-icon.types.js";
-
+} from "./icon.types.js";
 export { default as FacebookIcon } from "./icon-facebook.js";
 export { default as FigmaIcon } from "./icon-figma.js";
 export { default as GitHubIcon } from "./icon-github.js";
@@ -26,3 +27,6 @@ export { default as ShadcnIcon } from "./icon-shadcn.js";
 export { default as SlackIcon } from "./icon-slack.js";
 export { default as TailwindIcon } from "./icon-tailwind.js";
 export { default as XIcon } from "./icon-x.js";
+export { default as BackgroundLines } from "./lines.js";
+export { default as LogoAsset } from "./logo.js";
+export { default as LogoVector } from "./logo-vector.js";

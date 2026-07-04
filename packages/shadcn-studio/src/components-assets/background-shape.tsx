@@ -1,6 +1,6 @@
 import type { SVGAttributes } from "react";
 
-const AuthBackgroundShape = (props: SVGAttributes<SVGElement>) => (
+const BackgroundShape = (props: SVGAttributes<SVGElement>) => (
   <svg
     fill="none"
     height="671"
@@ -28,4 +28,4 @@ const AuthBackgroundShape = (props: SVGAttributes<SVGElement>) => (
   </svg>
 );
 
-export default AuthBackgroundShape;
+export default BackgroundShape;

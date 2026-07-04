@@ -1,4 +1,4 @@
-import type { AssetIconProps } from "./asset-icon.types.js";
+import type { AssetIconProps } from "./icon.types.js";
 
 const FIGMA_BRAND_COLORS = [
   "#F24E1E",

@@ -1,4 +1,4 @@
-import type { AssetIconProps } from "./asset-icon.types.js";
+import type { AssetIconProps } from "./icon.types.js";
 
 const Logo = ({ variant = "brand", className, ...props }: AssetIconProps) => {
   const markStroke = variant === "brand" ? "var(--background)" : "currentColor";

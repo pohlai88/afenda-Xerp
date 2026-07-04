@@ -1,6 +1,4 @@
 import { KeyRoundIcon } from "lucide-react";
-import AuthLines from "@/assets/svg/auth-lines";
-import Logo from "@/assets/svg/logo";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,6 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import BackgroundLines from "@/components-assets/lines.js";
+import Logo from "@/components-assets/logo.js";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 import {
   assertCanonicalLoginForm,
@@ -54,7 +54,7 @@ export default function LoginPage05() {
         <Card className="relative w-full max-w-md gap-6 overflow-hidden border-white/10 bg-background/86 pt-12 pb-6 shadow-2xl shadow-black/20 backdrop-blur-xl">
           <div className="pointer-events-none absolute top-0 h-52 w-full rounded-t-xl bg-linear-to-t from-transparent to-primary/10" />
 
-          <AuthLines className="pointer-events-none absolute inset-x-0 top-0" />
+          <BackgroundLines className="pointer-events-none absolute inset-x-0 top-0" />
 
           <CardHeader className="justify-center gap-6 px-6 text-center">
             <Logo className="justify-center gap-3" />

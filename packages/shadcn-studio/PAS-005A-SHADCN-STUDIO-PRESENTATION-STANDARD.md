@@ -2,8 +2,8 @@
 
 **Role:** Standalone shadcn/studio presentation product — theme surface, preset runtime, MCP install targets, governed blocks and primitives.
 
-Canonical: [docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md](../../docs/PAS/CSS-AUTHORITY/PAS-005A-SHADCN-STUDIO-PRESENTATION-STANDARD.md)
+Canonical: [docs/PAS/PRESENTATION/PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md](../../docs/PAS/PRESENTATION/PAS-006A-SHADCN-STUDIO-PRODUCT-STANDARD.md)
 
-Parent PAS: [PAS-005 — CSS Authority](../../docs/PAS/CSS-AUTHORITY/PAS-005-CSS-AUTHORITY-STANDARD.md)
+Parent PAS: [PAS-006 — shadcn/studio Frontend Standard](../../docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md)
 
 Do not duplicate long-form authority content in this file.

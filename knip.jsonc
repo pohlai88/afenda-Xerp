@@ -1,5 +1,5 @@
 {
-  "$schema": "https://unpkg.com/knip@6/schema-jsonc.json",
+  "$schema": "./node_modules/knip/schema.json",
   // Expand one package per housekeeping slice (see .cursor/skills/afenda-repo-housekeeping/)
   "ignoreWorkspaces": [
     "apps/*",

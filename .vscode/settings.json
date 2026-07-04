@@ -144,12 +144,13 @@
     "https://json.schemastore.org/": true,
     "https://json-schema.org/": true,
     "https://developer.microsoft.com/json-schemas/": true,
-    "https://biomejs.dev": true
+    "https://biomejs.dev": true,
+    "https://ui.shadcn.com/": true
   },
   "workbench.statusBar.visible": false,
   "workbench.sideBar.location": "left",
   "workbench.secondarySideBar.defaultVisibility": "hidden",
-  "chat.viewSessions.orientation": "sideBySide",
+  "chat.viewSessions.orientation": "stacked",
   "github.copilot.chat.agentDebugLog.fileLogging.enabled": true,
   "shadcn.licenseEmail": "jackwee2020@gmail.com",
   "shadcn.licenseKey": "7B05AB33-C4F3-4317-8A6D-1701ADF2D83F",

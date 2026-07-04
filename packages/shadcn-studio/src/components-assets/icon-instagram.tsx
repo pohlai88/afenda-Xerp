@@ -1,6 +1,6 @@
 import { useId } from "react";
 
-import type { AssetIconProps } from "./asset-icon.types.js";
+import type { AssetIconProps } from "./icon.types.js";
 
 const InstagramIcon = ({ variant = "brand", ...props }: AssetIconProps) => {
   const gradientId = useId();

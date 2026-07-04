@@ -1,5 +1,5 @@
 import { cn } from "../utils/utils.js";
-import type { AssetIconProps } from "./asset-icon.types.js";
+import type { AssetIconProps } from "./icon.types.js";
 
 const XIcon = ({ variant = "brand", className, ...props }: AssetIconProps) => (
   <svg

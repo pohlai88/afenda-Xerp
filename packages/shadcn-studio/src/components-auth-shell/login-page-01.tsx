@@ -1,4 +1,3 @@
-import Logo from "@/assets/svg/logo";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import Logo from "@/components-assets/logo.js";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 import {
   assertCanonicalLoginForm,

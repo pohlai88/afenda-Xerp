@@ -1,5 +1,5 @@
-import { ASSET_BRAND_COLORS } from "./asset-brand-colors.registry.js";
-import type { AssetIconProps } from "./asset-icon.types.js";
+import { ASSET_BRAND_COLORS } from "./brand-colors.registry.js";
+import type { AssetIconProps } from "./icon.types.js";
 
 const GitHubIcon = ({ variant = "brand", ...props }: AssetIconProps) => (
   <svg

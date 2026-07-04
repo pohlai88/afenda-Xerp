@@ -1,8 +1,8 @@
 import { ChevronLeftIcon } from "lucide-react";
-import Logo from "@/assets/svg/logo";
 import { BorderBeam } from "@/components/ui/border-beam";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import Logo from "@/components-assets/logo.js";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 import {
   assertCanonicalLoginForm,

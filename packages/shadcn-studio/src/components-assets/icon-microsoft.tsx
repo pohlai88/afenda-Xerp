@@ -1,4 +1,4 @@
-import type { AssetIconProps } from "./asset-icon.types.js";
+import type { AssetIconProps } from "./icon.types.js";
 
 const MicrosoftIcon = ({ variant = "brand", ...props }: AssetIconProps) => {
   const colors =
