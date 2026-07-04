@@ -119,6 +119,9 @@
     }
   },
   "terminal.integrated.shellIntegration.enabled": true,
+  "terminal.integrated.env.windows": {
+    "PATH": "${workspaceFolder}\\node_modules\\.bin;${env:PATH}"
+  },
   "chat.mcp.serverSampling": {
     "Azure MCP Server Provider: Azure MCP": {
       "allowedDuringChat": true
