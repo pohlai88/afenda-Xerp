@@ -27,6 +27,7 @@ import {
   AUTH_VERIFY_EMAIL_PATH,
   AUTH_VERIFY_EMAIL_SENT_PATH,
   AUTH_VERIFY_EMAIL_SUCCESS_PATH,
+  type AuthPageBlockId,
   BETTER_AUTH_OAUTH_CALLBACK_PREFIX,
   BETTER_AUTH_PASSKEY_VERIFY_AUTHENTICATION_ENDPOINT,
   BETTER_AUTH_REQUEST_PASSWORD_RESET_ENDPOINT,
@@ -57,6 +58,7 @@ import {
   type ResetPasswordPageBlockId,
 } from "../../components-auth-shell/auth-shell-method-manifest.js";
 import { AUTH_SHELL_LANE_DEFAULT_PAGE_MAP } from "../../components-auth-shell/resolve-auth-shell.js";
+import { AUTH_SHELL_STORY_PATTERN_LABELS } from "../../storybook/agentic/auth-shell-story-patterns.registry.js";
 
 const isLoginPageBlockId = (blockId: string): blockId is LoginPageBlockId =>
   LOGIN_PAGE_BLOCK_IDS.includes(blockId as LoginPageBlockId);
@@ -65,6 +67,23 @@ const isResetPasswordPageBlockId = (
   blockId: string
 ): blockId is ResetPasswordPageBlockId =>
   RESET_PASSWORD_PAGE_BLOCK_IDS.includes(blockId as ResetPasswordPageBlockId);
+
+const MANAGED_PAGE_BLOCK_IDS: readonly AuthPageBlockId[] = [
+  ...LOGIN_PAGE_BLOCK_IDS,
+  ...REGISTER_PAGE_BLOCK_IDS,
+  ...RESET_PASSWORD_PAGE_BLOCK_IDS,
+  ...PRE_LOGIN_PAGE_BLOCK_IDS,
+];
+
+const assertStoryPatternCoverage = (
+  blockIds: readonly AuthPageBlockId[],
+  managedRegistry = AUTH_SHELL_STORY_PATTERN_LABELS
+): void => {
+  for (const blockId of blockIds) {
+    expect(managedRegistry).toHaveProperty(blockId);
+    expect(managedRegistry[blockId]).toBeTypeOf("string");
+  }
+};
 
 describe("auth shell method manifest", () => {
   it("registers all login-page variants", () => {
@@ -238,6 +257,29 @@ describe("auth shell method manifest", () => {
 
       expect(() => getResetPasswordPageManifest(blockId)).not.toThrow();
     }
+  });
+
+  it("assigns story-owned pattern labels to all login page blocks", () => {
+    assertStoryPatternCoverage(LOGIN_PAGE_BLOCK_IDS);
+  });
+
+  it("assigns story-owned pattern labels to all register page blocks", () => {
+    assertStoryPatternCoverage(REGISTER_PAGE_BLOCK_IDS);
+  });
+
+  it("assigns story-owned pattern labels to all reset-password page blocks", () => {
+    assertStoryPatternCoverage(RESET_PASSWORD_PAGE_BLOCK_IDS);
+  });
+
+  it("assigns story-owned pattern labels to all pre-login page blocks", () => {
+    assertStoryPatternCoverage(PRE_LOGIN_PAGE_BLOCK_IDS);
+  });
+
+  it("does not have extra story-pattern keys outside governed auth blocks", () => {
+    const managedKeys = Object.keys(AUTH_SHELL_STORY_PATTERN_LABELS).sort();
+    const expectedKeys = [...MANAGED_PAGE_BLOCK_IDS].sort();
+
+    expect(managedKeys).toEqual(expectedKeys);
   });
 
   it("binds reset-password pages to canonical reset form ids", () => {

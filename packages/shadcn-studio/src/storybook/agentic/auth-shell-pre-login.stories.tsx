@@ -33,6 +33,7 @@ import {
   type PreLoginPageBlockId,
 } from "../../components-auth-shell/auth-shell-method-manifest.js";
 import { agenticFullscreenMetaParameters } from "./agentic-story-parameters.js";
+import { getAuthShellStoryPatternLabel } from "./auth-shell-story-patterns.registry.js";
 
 const preLoginPageRegistry = {
   "verify-email-page-01": VerifyEmailPage01,
@@ -98,7 +99,7 @@ export const Overview: Story = {
                 {blockId}
               </p>
               <h2 className="font-semibold text-2xl text-foreground">
-                {manifest.designPattern}
+                {getAuthShellStoryPatternLabel(manifest.blockId)}
               </h2>
               <p className="text-muted-foreground">
                 Path: {manifest.path}. Canonical form:{" "}

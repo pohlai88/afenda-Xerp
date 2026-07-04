@@ -118,32 +118,6 @@ export type AuthPageBlockId =
 
 export type AuthShellPageBlockId = AuthPageBlockId;
 
-export type LoginPageDesignPattern =
-  | "centered-card"
-  | "split-dashboard-preview"
-  | "split-brand-panel"
-  | "erp-operator-ingress"
-  | "compact-social-card"
-  | "cinematic-silk-panel";
-
-export type RegisterPageDesignPattern = "invite-first-centered-card";
-
-export type ResetPasswordPageDesignPattern =
-  | "forgot-password-centered-card"
-  | "forgot-password-success-card"
-  | "reset-password-centered-card"
-  | "reset-password-success-card";
-
-export type PreLoginPageDesignPattern =
-  | "email-verification-card"
-  | "invite-card"
-  | "invite-failure-card"
-  | "external-auth-card"
-  | "otp-challenge-card"
-  | "mfa-challenge-card"
-  | "security-review-card"
-  | "auth-boundary-card";
-
 export type AuthLoginMethodId =
   | "email-password"
   | "google"
@@ -374,7 +348,6 @@ export interface AuthLoginMethodManifestEntry<
 export interface LoginPageManifestEntry {
   readonly blockId: LoginPageBlockId;
   readonly defaultLane: AuthShellLane;
-  readonly designPattern: LoginPageDesignPattern;
   readonly formId: typeof CANONICAL_LOGIN_FORM_ID;
   readonly methodIds: readonly AuthLoginMethodId[];
 }
@@ -382,7 +355,6 @@ export interface LoginPageManifestEntry {
 export interface RegisterPageManifestEntry {
   readonly blockId: RegisterPageBlockId;
   readonly defaultLane: "access";
-  readonly designPattern: RegisterPageDesignPattern;
   readonly formId: typeof CANONICAL_REGISTER_FORM_ID;
   readonly inviteFirst: true;
   readonly methodIds: readonly AuthLoginMethodId[];
@@ -391,7 +363,6 @@ export interface RegisterPageManifestEntry {
 export interface ResetPasswordPageManifestEntry {
   readonly blockId: ResetPasswordPageBlockId;
   readonly defaultLane: "recover";
-  readonly designPattern: ResetPasswordPageDesignPattern;
   readonly formId?:
     | typeof CANONICAL_FORGOT_PASSWORD_FORM_ID
     | typeof CANONICAL_RESET_PASSWORD_FORM_ID;
@@ -409,7 +380,6 @@ export interface ResetPasswordPageManifestEntry {
 export interface PreLoginPageManifestEntry {
   readonly blockId: PreLoginPageBlockId;
   readonly defaultLane: AuthShellLane | "invite" | "security";
-  readonly designPattern: PreLoginPageDesignPattern;
   readonly formId?:
     | typeof CANONICAL_MFA_OTP_FORM_ID
     | typeof CANONICAL_MFA_RECOVERY_FORM_ID
@@ -669,7 +639,6 @@ export const LOGIN_PAGE_MANIFEST = {
     blockId: "login-page-01",
     formId: CANONICAL_LOGIN_FORM_ID,
     defaultLane: "access",
-    designPattern: "centered-card",
     methodIds: [
       "email-password",
       "passkey",
@@ -684,7 +653,6 @@ export const LOGIN_PAGE_MANIFEST = {
     blockId: "login-page-02",
     formId: CANONICAL_LOGIN_FORM_ID,
     defaultLane: "verify",
-    designPattern: "split-dashboard-preview",
     methodIds: [
       "email-password",
       "passkey",
@@ -700,7 +668,6 @@ export const LOGIN_PAGE_MANIFEST = {
     blockId: "login-page-03",
     formId: CANONICAL_LOGIN_FORM_ID,
     defaultLane: "access",
-    designPattern: "split-brand-panel",
     methodIds: [
       "email-password",
       "google",
@@ -713,7 +680,6 @@ export const LOGIN_PAGE_MANIFEST = {
     blockId: "login-page-04",
     formId: CANONICAL_LOGIN_FORM_ID,
     defaultLane: "access",
-    designPattern: "erp-operator-ingress",
     methodIds: [
       "email-password",
       "google",
@@ -727,7 +693,6 @@ export const LOGIN_PAGE_MANIFEST = {
     blockId: "login-page-05",
     formId: CANONICAL_LOGIN_FORM_ID,
     defaultLane: "recover",
-    designPattern: "compact-social-card",
     methodIds: [
       "email-password",
       "google",
@@ -741,7 +706,6 @@ export const LOGIN_PAGE_MANIFEST = {
     blockId: "login-page-06",
     formId: CANONICAL_LOGIN_FORM_ID,
     defaultLane: "error",
-    designPattern: "cinematic-silk-panel",
     methodIds: [
       "email-password",
       "google",
@@ -757,7 +721,6 @@ export const REGISTER_PAGE_MANIFEST = {
     blockId: "register-page-01",
     formId: CANONICAL_REGISTER_FORM_ID,
     defaultLane: "access",
-    designPattern: "invite-first-centered-card",
     inviteFirst: true,
     methodIds: [
       "email-password",
@@ -777,7 +740,6 @@ export const RESET_PASSWORD_PAGE_MANIFEST = {
     blockId: "forgot-password-page-01",
     formId: CANONICAL_FORGOT_PASSWORD_FORM_ID,
     defaultLane: "recover",
-    designPattern: "forgot-password-centered-card",
     path: AUTH_FORGOT_PASSWORD_PATH,
     runtimeEndpoint: BETTER_AUTH_REQUEST_PASSWORD_RESET_ENDPOINT,
     methodIds: ["request-password-reset", "sign-in", "back-to-website"],
@@ -785,7 +747,6 @@ export const RESET_PASSWORD_PAGE_MANIFEST = {
   "forgot-password-success-page-01": {
     blockId: "forgot-password-success-page-01",
     defaultLane: "recover",
-    designPattern: "forgot-password-success-card",
     path: AUTH_FORGOT_PASSWORD_SUCCESS_PATH,
     methodIds: ["forgot-password-success", "sign-in", "back-to-website"],
   },
@@ -793,7 +754,6 @@ export const RESET_PASSWORD_PAGE_MANIFEST = {
     blockId: "reset-password-page-01",
     formId: CANONICAL_RESET_PASSWORD_FORM_ID,
     defaultLane: "recover",
-    designPattern: "reset-password-centered-card",
     path: AUTH_RESET_PASSWORD_PATH,
     runtimeEndpoint: BETTER_AUTH_RESET_PASSWORD_ENDPOINT,
     methodIds: ["reset-password", "sign-in"],
@@ -801,7 +761,6 @@ export const RESET_PASSWORD_PAGE_MANIFEST = {
   "reset-password-success-page-01": {
     blockId: "reset-password-success-page-01",
     defaultLane: "recover",
-    designPattern: "reset-password-success-card",
     path: AUTH_RESET_PASSWORD_SUCCESS_PATH,
     methodIds: ["reset-password-success", "sign-in"],
   },
@@ -814,42 +773,36 @@ export const PRE_LOGIN_PAGE_MANIFEST = {
   "verify-email-page-01": {
     blockId: "verify-email-page-01",
     defaultLane: "verify",
-    designPattern: "email-verification-card",
     path: AUTH_VERIFY_EMAIL_PATH,
     methodIds: ["verify-email", "sign-in"],
   },
   "verify-email-sent-page-01": {
     blockId: "verify-email-sent-page-01",
     defaultLane: "verify",
-    designPattern: "email-verification-card",
     path: AUTH_VERIFY_EMAIL_SENT_PATH,
     methodIds: ["verify-email-sent", "sign-in"],
   },
   "verify-email-expired-page-01": {
     blockId: "verify-email-expired-page-01",
     defaultLane: "verify",
-    designPattern: "email-verification-card",
     path: AUTH_VERIFY_EMAIL_EXPIRED_PATH,
     methodIds: ["verify-email-expired", "sign-in"],
   },
   "verify-email-success-page-01": {
     blockId: "verify-email-success-page-01",
     defaultLane: "verify",
-    designPattern: "email-verification-card",
     path: AUTH_VERIFY_EMAIL_SUCCESS_PATH,
     methodIds: ["verify-email-success", "sign-in"],
   },
   "invite-page-01": {
     blockId: "invite-page-01",
     defaultLane: "invite",
-    designPattern: "invite-card",
     path: AUTH_INVITE_PATH,
     methodIds: ["invite", "sign-in"],
   },
   "invite-accept-page-01": {
     blockId: "invite-accept-page-01",
     defaultLane: "invite",
-    designPattern: "invite-card",
     formId: CANONICAL_REGISTER_FORM_ID,
     path: AUTH_INVITE_ACCEPT_PATH,
     methodIds: ["accept-invitation", "sign-in", "back-to-website"],
@@ -857,70 +810,60 @@ export const PRE_LOGIN_PAGE_MANIFEST = {
   "invite-expired-page-01": {
     blockId: "invite-expired-page-01",
     defaultLane: "invite",
-    designPattern: "invite-card",
     path: AUTH_INVITE_EXPIRED_PATH,
     methodIds: ["invitation-expired", "sign-in", "back-to-website"],
   },
   "invite-invalid-page-01": {
     blockId: "invite-invalid-page-01",
     defaultLane: "invite",
-    designPattern: "invite-failure-card",
     path: AUTH_INVITE_INVALID_PATH,
     methodIds: ["invitation-invalid", "sign-in", "back-to-website"],
   },
   "invite-consumed-page-01": {
     blockId: "invite-consumed-page-01",
     defaultLane: "invite",
-    designPattern: "invite-failure-card",
     path: AUTH_INVITE_CONSUMED_PATH,
     methodIds: ["invitation-consumed", "sign-in", "back-to-website"],
   },
   "invite-email-mismatch-page-01": {
     blockId: "invite-email-mismatch-page-01",
     defaultLane: "invite",
-    designPattern: "invite-failure-card",
     path: AUTH_INVITE_EMAIL_MISMATCH_PATH,
     methodIds: ["invitation-email-mismatch", "sign-in", "back-to-website"],
   },
   "passkey-page-01": {
     blockId: "passkey-page-01",
     defaultLane: "access",
-    designPattern: "external-auth-card",
     path: AUTH_PASSKEY_PATH,
     methodIds: ["start-passkey", "sign-in"],
   },
   "error-passkey-page-01": {
     blockId: "error-passkey-page-01",
     defaultLane: "error",
-    designPattern: "external-auth-card",
     path: AUTH_PASSKEY_ERROR_PATH,
     methodIds: ["error-passkey", "sign-in"],
   },
   "sso-page-01": {
     blockId: "sso-page-01",
     defaultLane: "access",
-    designPattern: "external-auth-card",
     path: AUTH_SSO_PATH,
     methodIds: ["start-sso", "sign-in"],
   },
   "error-sso-page-01": {
     blockId: "error-sso-page-01",
     defaultLane: "error",
-    designPattern: "external-auth-card",
     path: AUTH_SSO_ERROR_PATH,
     methodIds: ["error-sso", "sign-in"],
   },
   "error-oauth-page-01": {
     blockId: "error-oauth-page-01",
     defaultLane: "error",
-    designPattern: "external-auth-card",
     path: AUTH_OAUTH_ERROR_PATH,
     methodIds: ["error-oauth", "sign-in"],
   },
   "otp-page-01": {
     blockId: "otp-page-01",
     defaultLane: "access",
-    designPattern: "otp-challenge-card",
     formId: CANONICAL_MFA_OTP_FORM_ID,
     path: AUTH_OTP_PATH,
     methodIds: ["submit-otp", "sign-in"],
@@ -928,7 +871,6 @@ export const PRE_LOGIN_PAGE_MANIFEST = {
   "mfa-page-01": {
     blockId: "mfa-page-01",
     defaultLane: "security",
-    designPattern: "mfa-challenge-card",
     formId: CANONICAL_MFA_OTP_FORM_ID,
     path: AUTH_MFA_PATH,
     methodIds: ["submit-mfa-otp", "sign-in"],
@@ -936,7 +878,6 @@ export const PRE_LOGIN_PAGE_MANIFEST = {
   "mfa-recovery-page-01": {
     blockId: "mfa-recovery-page-01",
     defaultLane: "security",
-    designPattern: "mfa-challenge-card",
     formId: CANONICAL_MFA_RECOVERY_FORM_ID,
     path: AUTH_MFA_RECOVERY_PATH,
     methodIds: ["submit-mfa-recovery", "sign-in"],
@@ -944,28 +885,24 @@ export const PRE_LOGIN_PAGE_MANIFEST = {
   "error-session-expired-page-01": {
     blockId: "error-session-expired-page-01",
     defaultLane: "security",
-    designPattern: "auth-boundary-card",
     path: AUTH_SESSION_EXPIRED_PATH,
     methodIds: ["error-session-expired", "sign-in"],
   },
   "error-access-denied-page-01": {
     blockId: "error-access-denied-page-01",
     defaultLane: "security",
-    designPattern: "auth-boundary-card",
     path: AUTH_ACCESS_DENIED_PATH,
     methodIds: ["error-access-denied", "sign-in"],
   },
   "security-review-page-01": {
     blockId: "security-review-page-01",
     defaultLane: "security",
-    designPattern: "security-review-card",
     path: AUTH_SECURITY_REVIEW_PATH,
     methodIds: ["security-review", "sign-in"],
   },
   "error-authentication-page-01": {
     blockId: "error-authentication-page-01",
     defaultLane: "error",
-    designPattern: "auth-boundary-card",
     path: AUTH_ERROR_PATH,
     methodIds: ["error-authentication", "sign-in"],
   },
