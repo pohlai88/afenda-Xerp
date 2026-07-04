@@ -28,6 +28,11 @@ export interface DeveloperAuthFixture {
   readonly title: string;
 }
 
+/**
+ * Single source of truth (SSOT) for developer auth routes and metadata.
+ *
+ * All auth route identity/path/lane/title metadata must be defined here.
+ */
 const DEVELOPER_AUTH_FIXTURES = [
   {
     ctaLabel: "Continue",
@@ -294,6 +299,12 @@ export function resolveDeveloperAuthFixture(
 
   const path = `/${authRoute.join("/")}`;
 
+  return resolveDeveloperAuthFixtureByPath(path);
+}
+
+export function resolveDeveloperAuthFixtureByPath(
+  path: string
+): DeveloperAuthFixture | undefined {
   return DEVELOPER_AUTH_FIXTURES.find((fixture) => fixture.path === path);
 }
 

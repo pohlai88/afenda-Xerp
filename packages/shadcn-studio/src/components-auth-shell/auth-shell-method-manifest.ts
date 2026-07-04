@@ -16,6 +16,8 @@ export const CANONICAL_LOGIN_FORM_ID = "login-form-v1" as const;
 export const CANONICAL_REGISTER_FORM_ID = "register-form-v1" as const;
 export const CANONICAL_FORGOT_PASSWORD_FORM_ID =
   "forgot-password-form-v1" as const;
+export const CANONICAL_VERIFY_EMAIL_FORM_ID =
+  "verify-email-form-v1" as const;
 export const CANONICAL_MFA_OTP_FORM_ID = "mfa-otp-form-v1" as const;
 export const CANONICAL_MFA_RECOVERY_FORM_ID = "mfa-recovery-form-v1" as const;
 export const CANONICAL_RESET_PASSWORD_FORM_ID =
@@ -190,6 +192,89 @@ export type AuthLoginMethodKind =
   | "sso"
   | "navigation";
 
+export const CANONICAL_CREDENTIAL_METHOD_ID = "email-password" as const;
+
+interface AuthRuntimeAuthPaths {
+  readonly accessDenied: typeof AUTH_ACCESS_DENIED_PATH;
+  readonly backToWebsite: typeof AUTH_BACK_TO_WEBSITE_PATH;
+  readonly error: typeof AUTH_ERROR_PATH;
+  readonly forgotPassword: typeof AUTH_FORGOT_PASSWORD_PATH;
+  readonly forgotPasswordSuccess: typeof AUTH_FORGOT_PASSWORD_SUCCESS_PATH;
+  readonly invite: typeof AUTH_INVITE_PATH;
+  readonly inviteAccept: typeof AUTH_INVITE_ACCEPT_PATH;
+  readonly inviteConsumed: typeof AUTH_INVITE_CONSUMED_PATH;
+  readonly inviteEmailMismatch: typeof AUTH_INVITE_EMAIL_MISMATCH_PATH;
+  readonly inviteExpired: typeof AUTH_INVITE_EXPIRED_PATH;
+  readonly inviteInvalid: typeof AUTH_INVITE_INVALID_PATH;
+  readonly mfa: typeof AUTH_MFA_PATH;
+  readonly mfaRecovery: typeof AUTH_MFA_RECOVERY_PATH;
+  readonly oauthError: typeof AUTH_OAUTH_ERROR_PATH;
+  readonly otp: typeof AUTH_OTP_PATH;
+  readonly passkey: typeof AUTH_PASSKEY_PATH;
+  readonly passkeyError: typeof AUTH_PASSKEY_ERROR_PATH;
+  readonly resetPassword: typeof AUTH_RESET_PASSWORD_PATH;
+  readonly resetPasswordSuccess: typeof AUTH_RESET_PASSWORD_SUCCESS_PATH;
+  readonly securityReview: typeof AUTH_SECURITY_REVIEW_PATH;
+  readonly sessionExpired: typeof AUTH_SESSION_EXPIRED_PATH;
+  readonly signIn: typeof AUTH_SIGN_IN_PATH;
+  readonly signUp: typeof AUTH_SIGN_UP_PATH;
+  readonly sso: typeof AUTH_SSO_PATH;
+  readonly ssoError: typeof AUTH_SSO_ERROR_PATH;
+  readonly verifyEmail: typeof AUTH_VERIFY_EMAIL_PATH;
+  readonly verifyEmailExpired: typeof AUTH_VERIFY_EMAIL_EXPIRED_PATH;
+  readonly verifyEmailSent: typeof AUTH_VERIFY_EMAIL_SENT_PATH;
+  readonly verifyEmailSuccess: typeof AUTH_VERIFY_EMAIL_SUCCESS_PATH;
+}
+
+interface AuthRuntimeBetterAuthEndpoints {
+  readonly oauthCallbackPrefix: typeof BETTER_AUTH_OAUTH_CALLBACK_PREFIX;
+  readonly passkeyVerifyAuthentication: typeof BETTER_AUTH_PASSKEY_VERIFY_AUTHENTICATION_ENDPOINT;
+  readonly requestPasswordReset: typeof BETTER_AUTH_REQUEST_PASSWORD_RESET_ENDPOINT;
+  readonly resetPassword: typeof BETTER_AUTH_RESET_PASSWORD_ENDPOINT;
+  readonly ssoOidcCallbackPrefix: typeof BETTER_AUTH_SSO_OIDC_CALLBACK_PREFIX;
+  readonly ssoSamlCallbackPrefix: typeof BETTER_AUTH_SSO_SAML_CALLBACK_PREFIX;
+  readonly ssoSignIn: typeof BETTER_AUTH_SSO_SIGN_IN_ENDPOINT;
+}
+
+interface AuthRuntimeSyncProfile {
+  readonly authPaths: AuthRuntimeAuthPaths;
+  readonly betterAuthEndpoints: AuthRuntimeBetterAuthEndpoints;
+  readonly canonicalCredentialMethodId: typeof CANONICAL_CREDENTIAL_METHOD_ID;
+  readonly canonicalForgotPasswordFormId: typeof CANONICAL_FORGOT_PASSWORD_FORM_ID;
+  readonly canonicalMfaOtpFormId: typeof CANONICAL_MFA_OTP_FORM_ID;
+  readonly canonicalMfaRecoveryFormId: typeof CANONICAL_MFA_RECOVERY_FORM_ID;
+  readonly canonicalResetPasswordFormId: typeof CANONICAL_RESET_PASSWORD_FORM_ID;
+  readonly invitationBodyTokenField: "invitationToken";
+  readonly invitationGateEnabledDefault: boolean;
+  readonly invitationGateEnv: "AFENDA_AUTH_INVITATION_GATE";
+  readonly inviteOnlySignUp: boolean;
+  readonly mfaAllowPasswordless: boolean;
+  readonly mfaBackupCodeAmount: number;
+  readonly mfaCapability: "active";
+  readonly oauthDisableImplicitSignUp: boolean;
+  readonly passwordlessTwoFactorDefaultMode: "credential-only";
+  readonly passwordlessTwoFactorEnforcedMode: "enforce-all";
+  readonly passwordlessTwoFactorEnv: "AFENDA_AUTH_PASSWORDLESS_TWO_FACTOR";
+  readonly passkeyCapability: "active";
+  readonly passkeyRegistrationRequiresSession: boolean;
+  readonly resetPasswordCapability: "active";
+  readonly resetPasswordRequiresEmailVerification: boolean;
+  readonly resetPasswordRevokesSessions: boolean;
+  readonly socialProviderIds: readonly ["google", "github"];
+  readonly ssoCapability: "active";
+  readonly ssoDisableImplicitSignUp: boolean;
+  readonly synchronizedFrom: {
+    readonly authConfig: "packages/auth/src/auth.config.ts";
+    readonly authPaths: "apps/erp/src/lib/auth/auth-path.registry.ts";
+    readonly invitation: "packages/auth/src/auth.invitation.ts";
+    readonly oauthPolicy: "packages/auth/src/auth.oauth-policy.ts";
+    readonly passwordlessTwoFactorPolicy: "packages/auth/src/auth.passwordless-two-factor-policy.ts";
+    readonly signInSurface: "packages/auth/src/auth.sign-in-surface.ts";
+    readonly socialProviders: "packages/auth/src/auth.social-providers.ts";
+    readonly ssoPolicy: "packages/auth/src/auth.sso-policy.ts";
+  };
+}
+
 export const AUTH_RUNTIME_SYNC_PROFILE = {
   authPaths: {
     backToWebsite: AUTH_BACK_TO_WEBSITE_PATH,
@@ -232,7 +317,7 @@ export const AUTH_RUNTIME_SYNC_PROFILE = {
     ssoOidcCallbackPrefix: BETTER_AUTH_SSO_OIDC_CALLBACK_PREFIX,
     ssoSignIn: BETTER_AUTH_SSO_SIGN_IN_ENDPOINT,
   },
-  canonicalCredentialMethodId: "email-password",
+  canonicalCredentialMethodId: CANONICAL_CREDENTIAL_METHOD_ID,
   canonicalForgotPasswordFormId: CANONICAL_FORGOT_PASSWORD_FORM_ID,
   canonicalMfaOtpFormId: CANONICAL_MFA_OTP_FORM_ID,
   canonicalMfaRecoveryFormId: CANONICAL_MFA_RECOVERY_FORM_ID,
@@ -267,7 +352,7 @@ export const AUTH_RUNTIME_SYNC_PROFILE = {
     socialProviders: "packages/auth/src/auth.social-providers.ts",
     ssoPolicy: "packages/auth/src/auth.sso-policy.ts",
   },
-} as const;
+} as const satisfies AuthRuntimeSyncProfile;
 
 export interface AuthLoginMethodManifestEntry<
   TMethodId extends AuthLoginMethodId = AuthLoginMethodId,

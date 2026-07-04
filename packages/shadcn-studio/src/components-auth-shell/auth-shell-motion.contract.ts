@@ -9,14 +9,14 @@ export type AuthShellMotionVariant =
   | "verify";
 
 export const AUTH_SHELL_PIXEL_IMAGE_PATH =
-  "/afenda-brand/pixel/afenda-lynx-pixel.png" as const;
+  "/afenda-brand/pixel/afenda-lynx-pixel.png";
 export const AUTH_SHELL_PIXEL_STORYBOOK_IMAGE_PATH =
-  "/studio-assets/afenda-brand/pixel/afenda-lynx-pixel.png" as const;
+  "/studio-assets/afenda-brand/pixel/afenda-lynx-pixel.png";
 
 export const AUTH_SHELL_PIXEL_IMAGE_SOURCES = [
   AUTH_SHELL_PIXEL_IMAGE_PATH,
   AUTH_SHELL_PIXEL_STORYBOOK_IMAGE_PATH,
-] as const;
+] satisfies readonly [string, string];
 
 export const AUTH_SHELL_MOTION_VARIANT_BY_BLOCK_ID = {
   "login-page-01": "access",

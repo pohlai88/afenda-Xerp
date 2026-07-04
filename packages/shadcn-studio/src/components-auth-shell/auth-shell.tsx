@@ -7,7 +7,7 @@ export interface AuthShellProps {
   readonly lane?: AuthShellFormLane;
 }
 
-export function AuthShell({ lane = "access" }: AuthShellProps) {
+export function AuthShell({ lane }: AuthShellProps) {
   const ResolvedBlock = resolveAuthShell(lane);
   return <ResolvedBlock />;
 }

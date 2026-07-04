@@ -16,20 +16,18 @@ export interface AuthShellStageProps
   readonly viewportClassName?: string;
 }
 
-const viewportClassNameByVariant: Record<AuthShellMotionVariant, string> = {
+const CENTERED_VIEWPORT_CLASS =
+  "relative z-10 flex min-h-dvh items-center justify-center px-4 py-10 sm:px-6 lg:px-8";
+
+const viewportClassNameByVariant = {
   access:
     "relative z-10 flex min-h-dvh w-full items-stretch px-4 py-4 sm:px-6 sm:py-6 xl:px-8 xl:py-8",
-  recover:
-    "relative z-10 flex min-h-dvh items-center justify-center px-4 py-10 sm:px-6 lg:px-8",
-  verify:
-    "relative z-10 flex min-h-dvh items-center justify-center px-4 py-10 sm:px-6 lg:px-8",
-  invite:
-    "relative z-10 flex min-h-dvh items-center justify-center px-4 py-10 sm:px-6 lg:px-8",
-  security:
-    "relative z-10 flex min-h-dvh items-center justify-center px-4 py-10 sm:px-6 lg:px-8",
-  error:
-    "relative z-10 flex min-h-dvh items-center justify-center px-4 py-10 sm:px-6 lg:px-8",
-};
+  recover: CENTERED_VIEWPORT_CLASS,
+  verify: CENTERED_VIEWPORT_CLASS,
+  invite: CENTERED_VIEWPORT_CLASS,
+  security: CENTERED_VIEWPORT_CLASS,
+  error: CENTERED_VIEWPORT_CLASS,
+} satisfies Record<AuthShellMotionVariant, string>;
 
 export function AuthShellStage({
   children,
@@ -46,17 +44,18 @@ export function AuthShellStage({
         "relative isolate min-h-dvh overflow-hidden bg-background text-foreground",
         className
       )}
+      data-auth-shell-stage="floating-ingress"
       data-auth-shell-motion-variant={variant}
       {...props}
     >
       <AuthShellMotionScene
+        className={cn("opacity-95", sceneClassName)}
         imageSources={imageSources}
         variant={variant}
-        {...(sceneClassName ? { className: sceneClassName } : {})}
       />
-      <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-background/96 via-background/58 to-background/92" />
-      <div className="pointer-events-none absolute inset-0 bg-radial-[circle_at_top_right] from-primary/14 via-transparent to-transparent" />
-      <div className="pointer-events-none absolute inset-0 bg-radial-[circle_at_bottom_left] from-primary/8 via-transparent to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-background/88 via-background/36 to-background/84" />
+      <div className="pointer-events-none absolute inset-0 bg-radial-[circle_at_top_right] from-primary/20 via-transparent to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-radial-[circle_at_bottom_left] from-primary/12 via-transparent to-transparent" />
       <div
         className={cn(viewportClassNameByVariant[variant], viewportClassName)}
       >

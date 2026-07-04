@@ -57,6 +57,10 @@ const config: StorybookConfig = {
   staticDirs: [
     join(appRoot, "public"),
     {
+      from: join(shadcnStudioRoot, "public/afenda-brand"),
+      to: "/afenda-brand",
+    },
+    {
       from: join(shadcnStudioRoot, "public"),
       to: "/studio-assets",
     },

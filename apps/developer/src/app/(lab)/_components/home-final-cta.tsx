@@ -29,12 +29,12 @@ export function HomeFinalCta() {
               Truth.
             </h2>
             <a
-              aria-label="Return to the proof chamber"
+              aria-label="Open sign in"
               className="relative inline-flex items-center gap-8 overflow-hidden rounded-sm border border-neutral-800 bg-black/50 px-12 py-5 font-mono text-[0.62rem] text-neutral-300 uppercase tracking-[0.4em] backdrop-blur-md transition-colors duration-300 hover:border-violet-500/30 hover:text-neutral-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400/60 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
-              href="#proof"
+              href="/sign-in"
             >
               <div className="absolute top-0 left-0 h-full w-[200%] bg-gradient-to-r from-transparent via-violet-500/10 to-transparent" />
-              <span>Authorize Sequence</span>
+              <span>Sign In</span>
               <span className="flex h-6 w-6 items-center justify-center rounded-full border border-neutral-700 text-[0.7rem] text-neutral-500">
                 +
               </span>

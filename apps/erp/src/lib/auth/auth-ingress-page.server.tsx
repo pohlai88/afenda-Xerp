@@ -18,6 +18,28 @@ type RedirectableAuthSearchParams = Promise<{
   readonly next?: string;
 }>;
 
+const AUTH_SESSION_LOOKUP_TIMEOUT_MS = 1500;
+
+function waitForAuthSessionLookup(
+  requestHeaders: Headers
+): Promise<unknown | undefined> {
+  return new Promise((resolve) => {
+    const timeoutId = setTimeout(() => {
+      resolve(undefined);
+    }, AUTH_SESSION_LOOKUP_TIMEOUT_MS);
+
+    void getAfendaAuthSession(requestHeaders)
+      .then((session) => {
+        clearTimeout(timeoutId);
+        resolve(session);
+      })
+      .catch(() => {
+        clearTimeout(timeoutId);
+        resolve(undefined);
+      });
+  });
+}
+
 export function createAuthIngressMetadata(
   path: AuthIngressCanonicalPath
 ): Metadata {
@@ -44,9 +66,9 @@ export async function redirectAuthenticatedAuthIngress(
   searchParams: RedirectableAuthSearchParams
 ): Promise<void> {
   const requestHeaders = await headers();
-  const session = await getAfendaAuthSession(requestHeaders);
+  const session = await waitForAuthSessionLookup(requestHeaders);
 
-  if (session === null) {
+  if (session === undefined || session === null) {
     return;
   }
 

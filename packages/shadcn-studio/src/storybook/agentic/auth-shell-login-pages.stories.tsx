@@ -8,6 +8,7 @@ import {
   LoginPage04,
   LoginPage05,
   LoginPage06,
+  LoginPage07,
   RegisterPage01,
 } from "../../index.js";
 import {
@@ -235,6 +236,23 @@ export const LoginPage06CinematicSilkPanel: Story = {
       description: {
         story:
           "Default lane: error. Pattern: cinematic-silk-panel. Canonical form: login-form-v1.",
+      },
+    },
+  },
+};
+
+/**
+ * Lynx-centered convergence shell combining marketing narrative with ingress chamber.
+ *
+ * @summary for lynx-centered auth ingress
+ */
+export const LoginPage07LynxCenteredConvergence: Story = {
+  render: () => <LoginPage07 />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Lynx-centered convergence surface with centered hero signature and floating canonical login chamber.",
       },
     },
   },

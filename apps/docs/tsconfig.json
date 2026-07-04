@@ -2,6 +2,7 @@
   "extends": "@afenda/typescript-config/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "ignoreDeprecations": "5.0",
     "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo/tsconfig.tsbuildinfo",
     "paths": {
       "@/*": ["./src/*"],

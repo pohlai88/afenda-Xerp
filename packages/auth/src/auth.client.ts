@@ -12,15 +12,10 @@ export {
   parseAfendaAuthDeviceSessions,
   readAfendaAuthSessionTwoFactorEnabled,
 } from "./auth.client.contract.js";
-export { isAuthChangeEmailEnabled } from "./auth.env.js";
 export {
   type PasskeyDisplayLabelInput,
   resolvePasskeyDisplayLabel,
 } from "./auth.passkey-label.js";
-export {
-  resolveSignInProviderSurface,
-  type SignInProviderSurface,
-} from "./auth.sign-in-surface.js";
 export {
   SIGN_IN_SOCIAL_PROVIDER_IDS,
   type SignInSocialProviderId,

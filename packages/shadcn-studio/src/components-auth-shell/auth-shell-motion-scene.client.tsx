@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { cn } from "../utils/utils.js";
 import {
@@ -9,10 +9,12 @@ import {
 } from "./auth-shell-motion.contract.js";
 
 interface AuthShellMotionSceneProps {
-  readonly className?: string;
+  readonly className?: string | undefined;
   readonly imageSources?: readonly string[];
   readonly variant: AuthShellMotionVariant;
 }
+
+type AuthShellMotionPhase = "intro" | "settling" | "ready";
 
 interface PixelParticle {
   readonly alpha: number;
@@ -118,6 +120,33 @@ export function resolveAuthShellMotionRenderMode({
 const MAX_PARTICLES = 4200;
 const SAMPLE_STEP = 4;
 const PARTICLE_THRESHOLD = 54;
+const INTRO_SESSION_KEY = "afenda_auth_shell_intro_seen";
+const INTRO_DURATION_MS = 3400;
+
+function clamp01(value: number): number {
+  return Math.min(1, Math.max(0, value));
+}
+
+function easeOutCubic(value: number): number {
+  return 1 - Math.pow(1 - value, 3);
+}
+
+function resolveIntroPreference() {
+  if (typeof window === "undefined") {
+    return { shouldSkip: false };
+  }
+
+  const params = new URLSearchParams(window.location.search);
+  const forceSkip = params.get("intro") === "0";
+  const forceReplay = params.get("intro") === "1";
+  const seenThisSession =
+    !forceReplay && window.sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  return {
+    shouldSkip: forceSkip || seenThisSession || reducedMotion.matches,
+  };
+}
 
 function buildFallbackParticles(
   width: number,
@@ -224,19 +253,18 @@ async function loadSceneImage(
   imageSources: readonly string[]
 ): Promise<HTMLImageElement | null> {
   for (const source of imageSources) {
-    try {
-      const image = await new Promise<HTMLImageElement>((resolve, reject) => {
-        const nextImage = new Image();
-        nextImage.decoding = "async";
-        nextImage.crossOrigin = "anonymous";
-        nextImage.onload = () => resolve(nextImage);
-        nextImage.onerror = () =>
-          reject(new Error(`Failed to load auth scene image: ${source}`));
-        nextImage.src = source;
-      });
+    const image = await new Promise<HTMLImageElement | null>((resolve) => {
+      const nextImage = new Image();
+      nextImage.decoding = "async";
+      nextImage.crossOrigin = "anonymous";
+      nextImage.onload = () => resolve(nextImage);
+      nextImage.onerror = () => resolve(null);
+      nextImage.src = source;
+    });
 
+    if (image !== null) {
       return image;
-    } catch {}
+    }
   }
 
   return null;
@@ -247,27 +275,40 @@ export function AuthShellMotionScene({
   imageSources = AUTH_SHELL_PIXEL_IMAGE_SOURCES,
   variant,
 }: AuthShellMotionSceneProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const particleCanvasRef = useRef<HTMLCanvasElement>(null);
+  const atmosphereCanvasRef = useRef<HTMLCanvasElement>(null);
+  const [phase, setPhase] = useState<AuthShellMotionPhase>("intro");
+  const [renderMode, setRenderMode] = useState<AuthShellMotionRenderMode>({
+    animate: true,
+    particleSource: "fallback",
+  });
 
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const particleCanvas = particleCanvasRef.current;
+    const atmosphereCanvas = atmosphereCanvasRef.current;
 
-    if (canvas === null) {
+    if (particleCanvas === null || atmosphereCanvas === null) {
       return;
     }
 
-    const context = canvas.getContext("2d");
+    const particleContext = particleCanvas.getContext("2d");
+    const atmosphereContext = atmosphereCanvas.getContext("2d");
 
-    if (context === null) {
+    if (particleContext === null || atmosphereContext === null) {
       return;
     }
+
+    const introPreference = resolveIntroPreference();
+    const shouldPlayIntro = !introPreference.shouldSkip;
+
+    setPhase(shouldPlayIntro ? "intro" : "ready");
 
     const palette = resolveAuthShellMotionPalette(variant);
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     let prefersReducedMotion = mediaQuery.matches;
     let particles = buildFallbackParticles(
-      canvas.clientWidth || 1440,
-      canvas.clientHeight || 900
+      particleCanvas.clientWidth || 1440,
+      particleCanvas.clientHeight || 900
     );
     let animationFrameId = 0;
     let isDisposed = false;
@@ -277,6 +318,13 @@ export function AuthShellMotionScene({
     let pointerY = 0;
     let targetPointerX = 0;
     let targetPointerY = 0;
+    const startTime = performance.now();
+    let hasSettled = !shouldPlayIntro;
+    let hasMarkedReady = !shouldPlayIntro;
+    let activeRenderMode: AuthShellMotionRenderMode = {
+      animate: !prefersReducedMotion,
+      particleSource: "fallback",
+    };
 
     const sceneImagePromise = loadSceneImage(imageSources).then((image) => {
       sceneImage = image;
@@ -285,12 +333,15 @@ export function AuthShellMotionScene({
     });
 
     const resize = async () => {
-      const rect = canvas.getBoundingClientRect();
+      const rect = particleCanvas.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
 
-      canvas.width = Math.max(1, Math.floor(rect.width * dpr));
-      canvas.height = Math.max(1, Math.floor(rect.height * dpr));
-      context.setTransform(dpr, 0, 0, dpr, 0, 0);
+      particleCanvas.width = Math.max(1, Math.floor(rect.width * dpr));
+      particleCanvas.height = Math.max(1, Math.floor(rect.height * dpr));
+      atmosphereCanvas.width = Math.max(1, Math.floor(rect.width * dpr));
+      atmosphereCanvas.height = Math.max(1, Math.floor(rect.height * dpr));
+      particleContext.setTransform(dpr, 0, 0, dpr, 0, 0);
+      atmosphereContext.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       const image = sceneImage ?? (await sceneImagePromise);
 
@@ -308,7 +359,7 @@ export function AuthShellMotionScene({
     };
 
     const handlePointerMove = (event: PointerEvent) => {
-      const rect = canvas.getBoundingClientRect();
+      const rect = particleCanvas.getBoundingClientRect();
 
       targetPointerX =
         (event.clientX - rect.left) / Math.max(1, rect.width) - 0.5;
@@ -321,18 +372,100 @@ export function AuthShellMotionScene({
       targetPointerY = 0;
     };
 
+    const renderAtmosphere = ({
+      timeline,
+      width,
+      height,
+    }: {
+      timeline: number;
+      width: number;
+      height: number;
+    }) => {
+      atmosphereContext.clearRect(0, 0, width, height);
+
+      const atmosphericStrength = 0.15 + timeline * 0.2;
+      const haze = atmosphereContext.createRadialGradient(
+        width * 0.55,
+        height * 0.48,
+        width * 0.08,
+        width * 0.55,
+        height * 0.48,
+        width * 0.56
+      );
+      haze.addColorStop(0, `rgba(179, 225, 255, ${atmosphericStrength})`);
+      haze.addColorStop(0.45, `rgba(96, 153, 193, ${0.1 + timeline * 0.1})`);
+      haze.addColorStop(1, "rgba(0, 0, 0, 0)");
+
+      atmosphereContext.fillStyle = haze;
+      atmosphereContext.fillRect(0, 0, width, height);
+      atmosphereContext.globalCompositeOperation = "lighter";
+      atmosphereContext.lineCap = "round";
+
+      const streakCount = 20;
+      for (let index = 0; index < streakCount; index += 1) {
+        const lane = index / streakCount;
+        const x = width * (0.08 + ((lane * 1.9 + timeline * 0.25) % 1) * 0.84);
+        const y =
+          height * (0.24 + ((lane * 2.4 + timeline * 0.12 + lane) % 1) * 0.46);
+        const length = width * (0.016 + (index % 4) * 0.008);
+
+        atmosphereContext.globalAlpha = 0.04 + timeline * 0.07;
+        atmosphereContext.strokeStyle = "rgb(177 222 255)";
+        atmosphereContext.lineWidth = 0.6;
+        atmosphereContext.beginPath();
+        atmosphereContext.moveTo(x - length, y);
+        atmosphereContext.lineTo(x + length, y);
+        atmosphereContext.stroke();
+      }
+
+      atmosphereContext.globalCompositeOperation = "source-over";
+      atmosphereContext.globalAlpha = 1;
+    };
+
     const drawScene = (timestamp: number) => {
-      const width = canvas.clientWidth;
-      const height = canvas.clientHeight;
-      const renderMode = resolveAuthShellMotionRenderMode({
+      const width = particleCanvas.clientWidth;
+      const height = particleCanvas.clientHeight;
+      const nextRenderMode = resolveAuthShellMotionRenderMode({
         imageLoaded: hasLoadedSceneImage,
         prefersReducedMotion,
       });
 
-      context.clearRect(0, 0, width, height);
+      if (
+        nextRenderMode.animate !== activeRenderMode.animate ||
+        nextRenderMode.particleSource !== activeRenderMode.particleSource
+      ) {
+        activeRenderMode = nextRenderMode;
+        setRenderMode(nextRenderMode);
+      }
 
-      context.fillStyle = "rgba(2, 6, 12, 0.92)";
-      context.fillRect(0, 0, width, height);
+      const elapsed = timestamp - startTime;
+      const introTimeline = shouldPlayIntro
+        ? clamp01(elapsed / INTRO_DURATION_MS)
+        : 1;
+      const revealTimeline = easeOutCubic(introTimeline);
+
+      if (shouldPlayIntro && introTimeline > 0.62 && !hasSettled) {
+        hasSettled = true;
+        setPhase("settling");
+      }
+
+      if (shouldPlayIntro && introTimeline >= 1 && !hasMarkedReady) {
+        hasMarkedReady = true;
+        setPhase("ready");
+        window.sessionStorage.setItem(INTRO_SESSION_KEY, "1");
+      }
+
+      renderAtmosphere({
+        timeline: revealTimeline,
+        width,
+        height,
+      });
+
+      particleContext.clearRect(0, 0, width, height);
+      particleContext.fillStyle = shouldPlayIntro
+        ? `rgba(2, 6, 12, ${0.96 - revealTimeline * 0.2})`
+        : "rgba(2, 6, 12, 0.76)";
+      particleContext.fillRect(0, 0, width, height);
 
       pointerX += (targetPointerX - pointerX) * 0.05;
       pointerY += (targetPointerY - pointerY) * 0.05;
@@ -340,19 +473,19 @@ export function AuthShellMotionScene({
       const time = timestamp * 0.001;
 
       for (const particle of particles) {
-        const pointerOffsetX = renderMode.animate
+        const pointerOffsetX = activeRenderMode.animate
           ? pointerX * palette.pointerWeight * particle.depth
           : 0;
-        const pointerOffsetY = renderMode.animate
+        const pointerOffsetY = activeRenderMode.animate
           ? pointerY * palette.pointerWeight * 0.6 * particle.depth
           : 0;
-        const driftX = renderMode.animate
+        const driftX = activeRenderMode.animate
           ? Math.sin(time * 0.72 + particle.phase) *
             palette.driftAmplitude *
             particle.depth *
             particle.drift
           : 0;
-        const driftY = renderMode.animate
+        const driftY = activeRenderMode.animate
           ? Math.cos(time * 0.54 + particle.phase) *
             (palette.driftAmplitude * 0.34) *
             particle.depth
@@ -360,21 +493,22 @@ export function AuthShellMotionScene({
         const x = particle.x + driftX + pointerOffsetX;
         const y = particle.y + driftY + pointerOffsetY;
         const alpha =
-          palette.ambientAlpha + particle.alpha * palette.accentAlpha;
+          (palette.ambientAlpha + particle.alpha * palette.accentAlpha) *
+          (0.3 + revealTimeline * 0.7);
 
-        context.globalAlpha = alpha;
-        context.shadowBlur = renderMode.animate
+        particleContext.globalAlpha = alpha;
+        particleContext.shadowBlur = activeRenderMode.animate
           ? palette.glowBlur * particle.depth
           : 0;
-        context.shadowColor =
-          renderMode.particleSource === "image"
+        particleContext.shadowColor =
+          activeRenderMode.particleSource === "image"
             ? "rgba(214, 235, 255, 0.75)"
             : "rgba(160, 196, 255, 0.35)";
-        context.fillStyle =
-          renderMode.particleSource === "image"
+        particleContext.fillStyle =
+          activeRenderMode.particleSource === "image"
             ? "rgba(236, 244, 255, 1)"
             : "rgba(196, 214, 255, 0.9)";
-        context.fillRect(
+        particleContext.fillRect(
           x,
           y,
           particle.size * palette.baseScale,
@@ -382,10 +516,10 @@ export function AuthShellMotionScene({
         );
       }
 
-      context.globalAlpha = 1;
-      context.shadowBlur = 0;
+      particleContext.globalAlpha = 1;
+      particleContext.shadowBlur = 0;
 
-      const vignette = context.createRadialGradient(
+      const vignette = particleContext.createRadialGradient(
         width * 0.54,
         height * 0.44,
         Math.min(width, height) * 0.08,
@@ -397,10 +531,10 @@ export function AuthShellMotionScene({
       vignette.addColorStop(0.6, `rgba(3, 7, 12, ${palette.overlayAlpha})`);
       vignette.addColorStop(1, "rgba(0, 0, 0, 0.96)");
 
-      context.fillStyle = vignette;
-      context.fillRect(0, 0, width, height);
+      particleContext.fillStyle = vignette;
+      particleContext.fillRect(0, 0, width, height);
 
-      animationFrameId = renderMode.animate
+      animationFrameId = activeRenderMode.animate
         ? requestAnimationFrame(drawScene)
         : 0;
     };
@@ -409,7 +543,7 @@ export function AuthShellMotionScene({
       void resize();
     });
 
-    resizeObserver.observe(canvas);
+    resizeObserver.observe(particleCanvas);
     mediaQuery.addEventListener("change", handleMotionChange);
     window.addEventListener("pointermove", handlePointerMove);
     window.addEventListener("pointerleave", handlePointerLeave);
@@ -417,6 +551,7 @@ export function AuthShellMotionScene({
     void resize().then(() => {
       if (prefersReducedMotion) {
         drawScene(0);
+        setPhase("ready");
         return;
       }
 
@@ -436,9 +571,20 @@ export function AuthShellMotionScene({
   }, [imageSources, variant]);
 
   return (
-    <canvas
-      className={cn("absolute inset-0 h-full w-full", className)}
-      ref={canvasRef}
-    />
+    <div
+      className={cn("absolute inset-0", className)}
+      data-auth-shell-motion-animate={renderMode.animate ? "true" : "false"}
+      data-auth-shell-motion-phase={phase}
+      data-auth-shell-motion-source={renderMode.particleSource}
+    >
+      <canvas
+        className="absolute inset-0 h-full w-full"
+        ref={atmosphereCanvasRef}
+      />
+      <canvas
+        className="absolute inset-0 h-full w-full"
+        ref={particleCanvasRef}
+      />
+    </div>
   );
 }
