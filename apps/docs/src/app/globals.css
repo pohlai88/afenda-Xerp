@@ -227,7 +227,7 @@
   }
 }
 
-::highlight(fd-feedback-text) {
+:highlight(fd-feedback-text) {
   background-color: var(--docs-feedback-highlight);
   color: inherit;
 }

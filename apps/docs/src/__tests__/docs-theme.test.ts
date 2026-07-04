@@ -195,7 +195,7 @@ describe("@afenda/docs theme", () => {
     const globalsCss = readDocsFile("src/app/globals.css");
 
     expect(globalsCss).toContain("var(--docs-feedback-highlight)");
-    expect(globalsCss).toContain("::highlight(fd-feedback-text)");
+    expect(globalsCss).toContain(":highlight(fd-feedback-text)");
   });
 
   it("maps editorial blocks to fd tokens in docs-editorial-blocks.css", () => {
