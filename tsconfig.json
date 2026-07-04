@@ -1,7 +1,9 @@
 {
   "files": [],
   "references": [
+    { "path": "./apps/developer" },
     { "path": "./apps/erp" },
+    { "path": "./apps/email" },
     { "path": "./apps/docs" },
     { "path": "./apps/storybook" },
     { "path": "./packages/accounting-standards" },
@@ -11,8 +13,10 @@
     { "path": "./packages/database" },
     { "path": "./packages/enterprise-knowledge" },
     { "path": "./packages/entitlements" },
+    { "path": "./packages/erp-module-foundation" },
     { "path": "./packages/execution" },
     { "path": "./packages/feature-flags" },
+    { "path": "./packages/features/erp-modules" },
     { "path": "./packages/kernel" },
     { "path": "./packages/observability" },
     { "path": "./packages/permissions" },
