@@ -1,5 +1,5 @@
-import type { ApiRouteContract } from "../meta-contracts/api-contract";
-import { API_CONTRACTS } from "../meta-contracts/api-contract-registry";
+import type { ApiRouteContract } from "../contracts/api-contract";
+import { API_CONTRACTS } from "../contracts/api-contract-registry";
 
 const contractPathById = new Map<string, string>(
   API_CONTRACTS.map((contract) => [contract.id, contract.path])

@@ -2,7 +2,7 @@ import {
   readApiIdempotencyRecord,
   writeApiIdempotencyRecord,
 } from "@afenda/database";
-import { idempotencyStoredResponseSchema } from "../meta-contracts/idempotency.contract";
+import { idempotencyStoredResponseSchema } from "../contracts/idempotency.contract";
 import type { IdempotencyStore } from "./idempotency";
 
 const IDEMPOTENCY_PAYLOAD_MARKER = "__afendaIdempotencyPayload" as const;

@@ -44,7 +44,7 @@ System Admin area for settings — requires `system_admin.settings_read`.
     "required": true
   },
   "ApiOperations": {
-    "type": "0",
+    "type": "1",
     "description": "Internal v1 OpenAPI operations bound to this admin section.",
     "required": true
   }
@@ -54,14 +54,15 @@ System Admin area for settings — requires `system_admin.settings_read`.
 
 <Files>
   <Folder name="Admin routes" defaultOpen>
-    <File name="/system-admin/settings" />
+    <File name="/system-admin/settings (apps/erp/src/app/(protected)/system-admin/settings/page.tsx)" />
   </Folder>
 </Files>
 
 ## API operations
 
-No internal v1 operations are bound to this manifest yet. Regenerate after OpenAPI tag alignment.
-
+| Operation | Permission | Contract |
+| --- | --- | --- |
+| [GET /system-admin/settings](/docs/integrate/internal-v1/system-admin-settings-get) | `system_admin.modules_manage` | `internal.v1.system-admin.settings.get` |
 ## Traceability
 
 <Steps>

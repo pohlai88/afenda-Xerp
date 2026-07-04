@@ -11,24 +11,65 @@ Machine-synced from `apps/erp/src/app` and product JSON catalogs. Regenerate wit
 
 | Surface | Count |
 | --- | ---: |
-| ERP page routes | 7 |
-| ERP API routes | 19 |
-| Auth route catalog | 21 |
+| ERP page routes | 48 |
+| ERP API routes | 24 |
+| Auth route catalog | 30 |
 | Permission catalog | 35 |
 | Module catalog | 8 |
-| Env variable catalog | 46 |
+| Env variable catalog | 49 |
 
 ## ERP App Router surfaces
 
 <Files>
   <Folder name="apps/erp/src/app — pages" defaultOpen>
     <File name="/ (apps/erp/src/app/page.tsx)" />
+    <File name="/access-denied (apps/erp/src/app/(auth)/access-denied/page.tsx)" />
+    <File name="/auth/complete (apps/erp/src/app/(auth)/auth/complete/page.tsx)" />
+    <File name="/error (apps/erp/src/app/(auth)/error/page.tsx)" />
+    <File name="/forgot-password (apps/erp/src/app/(auth)/forgot-password/page.tsx)" />
+    <File name="/forgot-password/success (apps/erp/src/app/(auth)/forgot-password/success/page.tsx)" />
+    <File name="/invite (apps/erp/src/app/(auth)/invite/page.tsx)" />
+    <File name="/invite/accept (apps/erp/src/app/(auth)/invite/accept/page.tsx)" />
+    <File name="/invite/consumed (apps/erp/src/app/(auth)/invite/consumed/page.tsx)" />
+    <File name="/invite/email-mismatch (apps/erp/src/app/(auth)/invite/email-mismatch/page.tsx)" />
+    <File name="/invite/expired (apps/erp/src/app/(auth)/invite/expired/page.tsx)" />
+    <File name="/invite/invalid (apps/erp/src/app/(auth)/invite/invalid/page.tsx)" />
+    <File name="/maintenance (apps/erp/src/app/maintenance/page.tsx)" />
     <File name="/metadata-workspace (apps/erp/src/app/(protected)/metadata-workspace/page.tsx)" />
+    <File name="/mfa (apps/erp/src/app/(auth)/mfa/page.tsx)" />
+    <File name="/mfa/recovery (apps/erp/src/app/(auth)/mfa/recovery/page.tsx)" />
+    <File name="/modules/[moduleId] (apps/erp/src/app/(protected)/modules/[moduleId]/page.tsx)" />
+    <File name="/modules/accounting/standards-readiness (apps/erp/src/app/(protected)/modules/accounting/standards-readiness/page.tsx)" />
     <File name="/modules/procurement/purchase-orders (apps/erp/src/app/(protected)/modules/procurement/purchase-orders/page.tsx)" />
     <File name="/modules/procurement/readiness (apps/erp/src/app/(protected)/modules/procurement/readiness/page.tsx)" />
     <File name="/modules/procurement/requisitions (apps/erp/src/app/(protected)/modules/procurement/requisitions/page.tsx)" />
-    <File name="/operator/auth/sign-in (apps/erp/src/app/(protected)/operator/auth/sign-in/page.tsx)" />
+    <File name="/oauth/error (apps/erp/src/app/(auth)/oauth/error/page.tsx)" />
+    <File name="/organization/select (apps/erp/src/app/(auth)/organization/select/page.tsx)" />
+    <File name="/otp (apps/erp/src/app/(auth)/otp/page.tsx)" />
+    <File name="/passkey (apps/erp/src/app/(auth)/passkey/page.tsx)" />
+    <File name="/passkey/error (apps/erp/src/app/(auth)/passkey/error/page.tsx)" />
+    <File name="/reset-password (apps/erp/src/app/(auth)/reset-password/page.tsx)" />
+    <File name="/reset-password/success (apps/erp/src/app/(auth)/reset-password/success/page.tsx)" />
+    <File name="/security/review (apps/erp/src/app/(auth)/security/review/page.tsx)" />
+    <File name="/session-expired (apps/erp/src/app/(auth)/session-expired/page.tsx)" />
     <File name="/settings/profile (apps/erp/src/app/(protected)/settings/profile/page.tsx)" />
+    <File name="/sign-in (apps/erp/src/app/(auth)/sign-in/page.tsx)" />
+    <File name="/sign-up (apps/erp/src/app/(auth)/sign-up/page.tsx)" />
+    <File name="/sso (apps/erp/src/app/(auth)/sso/page.tsx)" />
+    <File name="/sso/error (apps/erp/src/app/(auth)/sso/error/page.tsx)" />
+    <File name="/system-admin/audit (apps/erp/src/app/(protected)/system-admin/audit/page.tsx)" />
+    <File name="/system-admin/diagnostics (apps/erp/src/app/(protected)/system-admin/diagnostics/page.tsx)" />
+    <File name="/system-admin/memberships (apps/erp/src/app/(protected)/system-admin/memberships/page.tsx)" />
+    <File name="/system-admin/permissions (apps/erp/src/app/(protected)/system-admin/permissions/page.tsx)" />
+    <File name="/system-admin/roles (apps/erp/src/app/(protected)/system-admin/roles/page.tsx)" />
+    <File name="/system-admin/settings (apps/erp/src/app/(protected)/system-admin/settings/page.tsx)" />
+    <File name="/system-admin/users (apps/erp/src/app/(protected)/system-admin/users/page.tsx)" />
+    <File name="/verify-email (apps/erp/src/app/(auth)/verify-email/page.tsx)" />
+    <File name="/verify-email/expired (apps/erp/src/app/(auth)/verify-email/expired/page.tsx)" />
+    <File name="/verify-email/sent (apps/erp/src/app/(auth)/verify-email/sent/page.tsx)" />
+    <File name="/verify-email/success (apps/erp/src/app/(auth)/verify-email/success/page.tsx)" />
+    <File name="/workspace (apps/erp/src/app/(protected)/workspace/page.tsx)" />
+    <File name="/workspace/select (apps/erp/src/app/(auth)/workspace/select/page.tsx)" />
   </Folder>
   <Folder name="apps/erp/src/app — API routes">
     <File name="/api/auth/[...all] (apps/erp/src/app/api/auth/[...all]/route.ts)" />
@@ -46,12 +87,18 @@ Machine-synced from `apps/erp/src/app` and product JSON catalogs. Regenerate wit
     <File name="/api/internal/v1/storage/tenant-brand-logo (apps/erp/src/app/api/internal/v1/storage/tenant-brand-logo/route.ts)" />
     <File name="/api/internal/v1/system-admin/audit-events (apps/erp/src/app/api/internal/v1/system-admin/audit-events/route.ts)" />
     <File name="/api/internal/v1/system-admin/membership-role-assignments (apps/erp/src/app/api/internal/v1/system-admin/membership-role-assignments/route.ts)" />
+    <File name="/api/internal/v1/system-admin/memberships (apps/erp/src/app/api/internal/v1/system-admin/memberships/route.ts)" />
     <File name="/api/internal/v1/system-admin/memberships/role (apps/erp/src/app/api/internal/v1/system-admin/memberships/role/route.ts)" />
+    <File name="/api/internal/v1/system-admin/permissions (apps/erp/src/app/api/internal/v1/system-admin/permissions/route.ts)" />
+    <File name="/api/internal/v1/system-admin/roles (apps/erp/src/app/api/internal/v1/system-admin/roles/route.ts)" />
+    <File name="/api/internal/v1/system-admin/settings (apps/erp/src/app/api/internal/v1/system-admin/settings/route.ts)" />
     <File name="/api/internal/v1/system-admin/user-invitations (apps/erp/src/app/api/internal/v1/system-admin/user-invitations/route.ts)" />
+    <File name="/api/internal/v1/system-admin/users (apps/erp/src/app/api/internal/v1/system-admin/users/route.ts)" />
     <File name="/api/internal/v1/system-admin/users/invite (apps/erp/src/app/api/internal/v1/system-admin/users/invite/route.ts)" />
     <File name="/api/internal/v1/workspace/dashboard-layout (apps/erp/src/app/api/internal/v1/workspace/dashboard-layout/route.ts)" />
   </Folder>
   <Folder name="apps/erp/src/app — error boundaries">
+    <File name="/error (apps/erp/src/app/(auth)/error.tsx)" />
     <File name="/error.tsx/error (apps/erp/src/app/error.tsx)" />
   </Folder>
 </Files>

@@ -19,19 +19,23 @@ describe("runServiceActorS2sPingProbe (ADR-0036)", () => {
   });
 
   it("calls the governed ping route with verified bearer and actor headers", async () => {
-    const fetchImpl = vi.fn(async () =>
-      Response.json(
-        {
-          ok: true,
-          data: { status: "ok" },
-          meta: {
-            correlationId: TEST_CORRELATION_ID,
-            requestId: "req-probe",
-            timestamp: "2026-06-30T00:00:00.000Z",
+    const fetchImpl = vi.fn(
+      async (
+        _input: Parameters<typeof fetch>[0],
+        _init?: Parameters<typeof fetch>[1]
+      ) =>
+        Response.json(
+          {
+            ok: true,
+            data: { status: "ok" },
+            meta: {
+              correlationId: TEST_CORRELATION_ID,
+              requestId: "req-probe",
+              timestamp: "2026-06-30T00:00:00.000Z",
+            },
           },
-        },
-        { status: 200 }
-      )
+          { status: 200 }
+        )
     );
 
     const result = await runServiceActorS2sPingProbe({

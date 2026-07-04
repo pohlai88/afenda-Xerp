@@ -1,7 +1,7 @@
 {
   "generated": true,
   "version": 3,
-  "exportedAt": "2026-06-30T08:06:31.765Z",
+  "exportedAt": "2026-07-04T19:01:25.730Z",
   "manifests": [
     {
       "id": "accounting",
@@ -99,6 +99,13 @@
           "path": "/system-admin/membership-role-assignments",
           "permission": "system_admin.roles_manage",
           "docSlug": "system-admin-membership-role-assignments-post"
+        },
+        {
+          "id": "internal.v1.system-admin.memberships.get",
+          "method": "get",
+          "path": "/system-admin/memberships",
+          "permission": "system_admin.users_read",
+          "docSlug": "system-admin-memberships-get"
         }
       ]
     },
@@ -118,7 +125,15 @@
       "catalogSources": [
         "system-admin"
       ],
-      "apiOperations": []
+      "apiOperations": [
+        {
+          "id": "internal.v1.system-admin.permissions.get",
+          "method": "get",
+          "path": "/system-admin/permissions",
+          "permission": "system_admin.permissions_manage",
+          "docSlug": "system-admin-permissions-get"
+        }
+      ]
     },
     {
       "id": "admin-roles",
@@ -136,7 +151,15 @@
       "catalogSources": [
         "system-admin"
       ],
-      "apiOperations": []
+      "apiOperations": [
+        {
+          "id": "internal.v1.system-admin.roles.get",
+          "method": "get",
+          "path": "/system-admin/roles",
+          "permission": "system_admin.roles_manage",
+          "docSlug": "system-admin-roles-get"
+        }
+      ]
     },
     {
       "id": "admin-settings",
@@ -154,7 +177,15 @@
       "catalogSources": [
         "system-admin"
       ],
-      "apiOperations": []
+      "apiOperations": [
+        {
+          "id": "internal.v1.system-admin.settings.get",
+          "method": "get",
+          "path": "/system-admin/settings",
+          "permission": "system_admin.modules_manage",
+          "docSlug": "system-admin-settings-get"
+        }
+      ]
     },
     {
       "id": "admin-users",
@@ -186,6 +217,13 @@
           "path": "/system-admin/user-invitations",
           "permission": "system_admin.users_manage",
           "docSlug": "system-admin-user-invitations-post"
+        },
+        {
+          "id": "internal.v1.system-admin.users.get",
+          "method": "get",
+          "path": "/system-admin/users",
+          "permission": "system_admin.users_read",
+          "docSlug": "system-admin-users-get"
         }
       ]
     },
@@ -218,8 +256,10 @@
       "summary": "Sign-in, sign-up, and one-time password entry.",
       "productRoutes": [
         "/otp",
+        "/passkey",
         "/sign-in",
-        "/sign-up"
+        "/sign-up",
+        "/sso"
       ],
       "permissionKeys": [],
       "entitlements": [],
@@ -237,7 +277,10 @@
       "productRoutes": [
         "/invite",
         "/invite/accept",
-        "/invite/expired"
+        "/invite/consumed",
+        "/invite/email-mismatch",
+        "/invite/expired",
+        "/invite/invalid"
       ],
       "permissionKeys": [],
       "entitlements": [],
@@ -254,6 +297,7 @@
       "summary": "Forgot-password and reset-password flows.",
       "productRoutes": [
         "/forgot-password",
+        "/forgot-password/success",
         "/reset-password",
         "/reset-password/success"
       ],
@@ -275,8 +319,11 @@
         "/error",
         "/mfa",
         "/mfa/recovery",
+        "/oauth/error",
+        "/passkey/error",
         "/security/review",
-        "/session-expired"
+        "/session-expired",
+        "/sso/error"
       ],
       "permissionKeys": [],
       "entitlements": [],
@@ -643,49 +690,9 @@
       ]
     }
   ],
-  "coverageWarnings": [
-    "accounting: product route \"/modules/accounting\" not found in ERP app surface scan.",
-    "admin-audit: product route \"/system-admin/audit\" not found in ERP app surface scan.",
-    "admin-diagnostics: product route \"/system-admin/diagnostics\" not found in ERP app surface scan.",
-    "admin-memberships: product route \"/system-admin/memberships\" not found in ERP app surface scan.",
-    "admin-permissions: product route \"/system-admin/permissions\" not found in ERP app surface scan.",
-    "admin-roles: product route \"/system-admin/roles\" not found in ERP app surface scan.",
-    "admin-settings: product route \"/system-admin/settings\" not found in ERP app surface scan.",
-    "admin-users: product route \"/system-admin/users\" not found in ERP app surface scan.",
-    "ai_copilot: product route \"/modules/ai_copilot\" not found in ERP app surface scan.",
-    "auth-lane-access: product route \"/otp\" not found in ERP app surface scan.",
-    "auth-lane-access: product route \"/sign-in\" not found in ERP app surface scan.",
-    "auth-lane-access: product route \"/sign-up\" not found in ERP app surface scan.",
-    "auth-lane-invite: product route \"/invite\" not found in ERP app surface scan.",
-    "auth-lane-invite: product route \"/invite/accept\" not found in ERP app surface scan.",
-    "auth-lane-invite: product route \"/invite/expired\" not found in ERP app surface scan.",
-    "auth-lane-recover: product route \"/forgot-password\" not found in ERP app surface scan.",
-    "auth-lane-recover: product route \"/reset-password\" not found in ERP app surface scan.",
-    "auth-lane-recover: product route \"/reset-password/success\" not found in ERP app surface scan.",
-    "auth-lane-security: product route \"/access-denied\" not found in ERP app surface scan.",
-    "auth-lane-security: product route \"/error\" not found in ERP app surface scan.",
-    "auth-lane-security: product route \"/mfa\" not found in ERP app surface scan.",
-    "auth-lane-security: product route \"/mfa/recovery\" not found in ERP app surface scan.",
-    "auth-lane-security: product route \"/security/review\" not found in ERP app surface scan.",
-    "auth-lane-security: product route \"/session-expired\" not found in ERP app surface scan.",
-    "auth-lane-verify: product route \"/verify-email\" not found in ERP app surface scan.",
-    "auth-lane-verify: product route \"/verify-email/expired\" not found in ERP app surface scan.",
-    "auth-lane-verify: product route \"/verify-email/sent\" not found in ERP app surface scan.",
-    "auth-lane-verify: product route \"/verify-email/success\" not found in ERP app surface scan.",
-    "auth-lane-workspace: product route \"/organization/select\" not found in ERP app surface scan.",
-    "auth-lane-workspace: product route \"/workspace/select\" not found in ERP app surface scan.",
-    "hrm: product route \"/modules/hrm\" not found in ERP app surface scan.",
-    "inventory: product route \"/modules/inventory\" not found in ERP app surface scan.",
-    "manufacturing: product route \"/modules/manufacturing\" not found in ERP app surface scan.",
-    "module route \"/modules/procurement/purchase-orders\" has no module feature manifest.",
-    "module route \"/modules/procurement/readiness\" has no module feature manifest.",
-    "module route \"/modules/procurement/requisitions\" has no module feature manifest.",
-    "mrp: product route \"/modules/mrp\" not found in ERP app surface scan.",
-    "sales: product route \"/modules/sales\" not found in ERP app surface scan.",
-    "workspace: product route \"/modules/workspace\" not found in ERP app surface scan."
-  ],
+  "coverageWarnings": [],
   "coverageErrors": [],
-  "coverageScore": 0.2777777777777778,
+  "coverageScore": 1,
   "coverageThreshold": 0.8,
   "openApiBindingWarnings": [],
   "permissionParityWarnings": [],
@@ -704,23 +711,23 @@
     },
     {
       "id": "admin-memberships",
-      "apiOperationCount": 2
+      "apiOperationCount": 3
     },
     {
       "id": "admin-permissions",
-      "apiOperationCount": 0
+      "apiOperationCount": 1
     },
     {
       "id": "admin-roles",
-      "apiOperationCount": 0
+      "apiOperationCount": 1
     },
     {
       "id": "admin-settings",
-      "apiOperationCount": 0
+      "apiOperationCount": 1
     },
     {
       "id": "admin-users",
-      "apiOperationCount": 2
+      "apiOperationCount": 3
     },
     {
       "id": "ai_copilot",

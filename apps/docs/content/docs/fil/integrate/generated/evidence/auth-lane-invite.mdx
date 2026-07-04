@@ -34,7 +34,7 @@ User invitations and acceptance.
     "required": true
   },
   "Routes": {
-    "type": "3",
+    "type": "6",
     "description": "Auth paths grouped under this lane.",
     "required": true
   }
@@ -44,9 +44,12 @@ User invitations and acceptance.
 
 <Files>
   <Folder name="Auth routes" defaultOpen>
-    <File name="/invite" />
-    <File name="/invite/accept" />
-    <File name="/invite/expired" />
+    <File name="/invite (apps/erp/src/app/(auth)/invite/page.tsx)" />
+    <File name="/invite/accept (apps/erp/src/app/(auth)/invite/accept/page.tsx)" />
+    <File name="/invite/consumed (apps/erp/src/app/(auth)/invite/consumed/page.tsx)" />
+    <File name="/invite/email-mismatch (apps/erp/src/app/(auth)/invite/email-mismatch/page.tsx)" />
+    <File name="/invite/expired (apps/erp/src/app/(auth)/invite/expired/page.tsx)" />
+    <File name="/invite/invalid (apps/erp/src/app/(auth)/invite/invalid/page.tsx)" />
   </Folder>
 </Files>
 

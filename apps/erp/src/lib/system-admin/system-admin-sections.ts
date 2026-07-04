@@ -1,6 +1,6 @@
 import { PERMISSION_REGISTRY } from "@afenda/permissions";
 
-import { SYSTEM_ADMIN_NAV_LABELS } from "@/lib/navigation/operator-nav-label.registry";
+import { SYSTEM_ADMIN_NAV_LABELS } from "../navigation/operator-nav-label.registry";
 
 export interface SystemAdminSectionDefinition {
   readonly href: string;

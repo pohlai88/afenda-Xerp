@@ -4,18 +4,18 @@ import { resolveApiRouteAuthActor } from "@/lib/auth/resolve-api-route-auth-acto
 import { hasServiceActorIngressHeaders } from "@/lib/auth/resolve-service-actor.server";
 import { createServerExecutionContext } from "@/lib/context/create-server-execution-context.server";
 import { runProtectedMutation } from "@/lib/spine/run-protected-mutation";
-import type { ApiRouteContract } from "../meta-contracts/api-contract";
-import type { ApiContractId } from "../meta-contracts/api-contract-registry";
-import { getApiContractById } from "../meta-contracts/api-contract-registry";
-import { isMutationMethod } from "../meta-contracts/api-route-policy.contract";
+import type { ApiRouteContract } from "../contracts/api-contract";
+import type { ApiContractId } from "../contracts/api-contract-registry";
+import { getApiContractById } from "../contracts/api-contract-registry";
+import { isMutationMethod } from "../contracts/api-route-policy.contract";
 import {
   type ApiAuthPolicy,
   requiresSessionAuth,
-} from "../meta-contracts/auth-policy.contract";
-import { acceptsIdempotencyKey } from "../meta-contracts/idempotency.contract";
-import { parseListQuery } from "../meta-contracts/list-query.contract";
-import type { PaginationMeta } from "../meta-contracts/pagination.contract";
-import { mergePaginationIntoMeta } from "../meta-contracts/pagination.contract";
+} from "../contracts/auth-policy.contract";
+import { acceptsIdempotencyKey } from "../contracts/idempotency.contract";
+import { parseListQuery } from "../contracts/list-query.contract";
+import type { PaginationMeta } from "../contracts/pagination.contract";
+import { mergePaginationIntoMeta } from "../contracts/pagination.contract";
 import { createRequestId, resolveCorrelationId } from "./api-correlation";
 import {
   mapUnknownErrorToApiCode,

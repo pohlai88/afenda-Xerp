@@ -1,11 +1,16 @@
 {
   "generated": true,
   "version": 1,
-  "exportedAt": "2026-06-30T08:06:28.930Z",
+  "exportedAt": "2026-07-04T19:01:22.997Z",
   "erpAppSurfaces": [
     {
       "file": "apps/erp/src/app/page.tsx",
       "route": "/",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/access-denied/page.tsx",
+      "route": "/access-denied",
       "kind": "page"
     },
     {
@@ -84,13 +89,38 @@
       "kind": "api"
     },
     {
+      "file": "apps/erp/src/app/api/internal/v1/system-admin/memberships/route.ts",
+      "route": "/api/internal/v1/system-admin/memberships",
+      "kind": "api"
+    },
+    {
       "file": "apps/erp/src/app/api/internal/v1/system-admin/memberships/role/route.ts",
       "route": "/api/internal/v1/system-admin/memberships/role",
       "kind": "api"
     },
     {
+      "file": "apps/erp/src/app/api/internal/v1/system-admin/permissions/route.ts",
+      "route": "/api/internal/v1/system-admin/permissions",
+      "kind": "api"
+    },
+    {
+      "file": "apps/erp/src/app/api/internal/v1/system-admin/roles/route.ts",
+      "route": "/api/internal/v1/system-admin/roles",
+      "kind": "api"
+    },
+    {
+      "file": "apps/erp/src/app/api/internal/v1/system-admin/settings/route.ts",
+      "route": "/api/internal/v1/system-admin/settings",
+      "kind": "api"
+    },
+    {
       "file": "apps/erp/src/app/api/internal/v1/system-admin/user-invitations/route.ts",
       "route": "/api/internal/v1/system-admin/user-invitations",
+      "kind": "api"
+    },
+    {
+      "file": "apps/erp/src/app/api/internal/v1/system-admin/users/route.ts",
+      "route": "/api/internal/v1/system-admin/users",
       "kind": "api"
     },
     {
@@ -104,13 +134,93 @@
       "kind": "api"
     },
     {
+      "file": "apps/erp/src/app/(auth)/auth/complete/page.tsx",
+      "route": "/auth/complete",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/error.tsx",
+      "route": "/error",
+      "kind": "error-boundary"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/error/page.tsx",
+      "route": "/error",
+      "kind": "page"
+    },
+    {
       "file": "apps/erp/src/app/error.tsx",
       "route": "/error.tsx/error",
       "kind": "error-boundary"
     },
     {
+      "file": "apps/erp/src/app/(auth)/forgot-password/page.tsx",
+      "route": "/forgot-password",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/forgot-password/success/page.tsx",
+      "route": "/forgot-password/success",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/invite/page.tsx",
+      "route": "/invite",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/invite/accept/page.tsx",
+      "route": "/invite/accept",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/invite/consumed/page.tsx",
+      "route": "/invite/consumed",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/invite/email-mismatch/page.tsx",
+      "route": "/invite/email-mismatch",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/invite/expired/page.tsx",
+      "route": "/invite/expired",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/invite/invalid/page.tsx",
+      "route": "/invite/invalid",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/maintenance/page.tsx",
+      "route": "/maintenance",
+      "kind": "page"
+    },
+    {
       "file": "apps/erp/src/app/(protected)/metadata-workspace/page.tsx",
       "route": "/metadata-workspace",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/mfa/page.tsx",
+      "route": "/mfa",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/mfa/recovery/page.tsx",
+      "route": "/mfa/recovery",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(protected)/modules/[moduleId]/page.tsx",
+      "route": "/modules/[moduleId]",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(protected)/modules/accounting/standards-readiness/page.tsx",
+      "route": "/modules/accounting/standards-readiness",
       "kind": "page"
     },
     {
@@ -129,20 +239,145 @@
       "kind": "page"
     },
     {
-      "file": "apps/erp/src/app/(protected)/operator/auth/sign-in/page.tsx",
-      "route": "/operator/auth/sign-in",
+      "file": "apps/erp/src/app/(auth)/oauth/error/page.tsx",
+      "route": "/oauth/error",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/organization/select/page.tsx",
+      "route": "/organization/select",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/otp/page.tsx",
+      "route": "/otp",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/passkey/page.tsx",
+      "route": "/passkey",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/passkey/error/page.tsx",
+      "route": "/passkey/error",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/reset-password/page.tsx",
+      "route": "/reset-password",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/reset-password/success/page.tsx",
+      "route": "/reset-password/success",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/security/review/page.tsx",
+      "route": "/security/review",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/session-expired/page.tsx",
+      "route": "/session-expired",
       "kind": "page"
     },
     {
       "file": "apps/erp/src/app/(protected)/settings/profile/page.tsx",
       "route": "/settings/profile",
       "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/sign-in/page.tsx",
+      "route": "/sign-in",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/sign-up/page.tsx",
+      "route": "/sign-up",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/sso/page.tsx",
+      "route": "/sso",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/sso/error/page.tsx",
+      "route": "/sso/error",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(protected)/system-admin/audit/page.tsx",
+      "route": "/system-admin/audit",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(protected)/system-admin/diagnostics/page.tsx",
+      "route": "/system-admin/diagnostics",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(protected)/system-admin/memberships/page.tsx",
+      "route": "/system-admin/memberships",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(protected)/system-admin/permissions/page.tsx",
+      "route": "/system-admin/permissions",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(protected)/system-admin/roles/page.tsx",
+      "route": "/system-admin/roles",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(protected)/system-admin/settings/page.tsx",
+      "route": "/system-admin/settings",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(protected)/system-admin/users/page.tsx",
+      "route": "/system-admin/users",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/verify-email/page.tsx",
+      "route": "/verify-email",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/verify-email/expired/page.tsx",
+      "route": "/verify-email/expired",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/verify-email/sent/page.tsx",
+      "route": "/verify-email/sent",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/verify-email/success/page.tsx",
+      "route": "/verify-email/success",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(protected)/workspace/page.tsx",
+      "route": "/workspace",
+      "kind": "page"
+    },
+    {
+      "file": "apps/erp/src/app/(auth)/workspace/select/page.tsx",
+      "route": "/workspace/select",
+      "kind": "page"
     }
   ],
   "catalogCounts": {
-    "authRoutes": 21,
+    "authRoutes": 30,
     "permissions": 35,
     "modules": 8,
-    "envVariables": 46
+    "envVariables": 49
   }
 }

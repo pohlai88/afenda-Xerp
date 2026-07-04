@@ -44,7 +44,7 @@ System Admin area for memberships — requires `system_admin.users_read`.
     "required": true
   },
   "ApiOperations": {
-    "type": "2",
+    "type": "3",
     "description": "Internal v1 OpenAPI operations bound to this admin section.",
     "required": true
   }
@@ -54,7 +54,7 @@ System Admin area for memberships — requires `system_admin.users_read`.
 
 <Files>
   <Folder name="Admin routes" defaultOpen>
-    <File name="/system-admin/memberships" />
+    <File name="/system-admin/memberships (apps/erp/src/app/(protected)/system-admin/memberships/page.tsx)" />
   </Folder>
 </Files>
 
@@ -64,6 +64,7 @@ System Admin area for memberships — requires `system_admin.users_read`.
 | --- | --- | --- |
 | [POST /system-admin/memberships/role](/docs/integrate/internal-v1/system-admin-memberships-role-post) | `system_admin.roles_manage` | `internal.v1.system-admin.memberships.role.post` |
 | [POST /system-admin/membership-role-assignments](/docs/integrate/internal-v1/system-admin-membership-role-assignments-post) | `system_admin.roles_manage` | `internal.v1.system-admin.membership-role-assignments.post` |
+| [GET /system-admin/memberships](/docs/integrate/internal-v1/system-admin-memberships-get) | `system_admin.users_read` | `internal.v1.system-admin.memberships.get` |
 ## Traceability
 
 <Steps>

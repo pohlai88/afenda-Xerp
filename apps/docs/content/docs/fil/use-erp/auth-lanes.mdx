@@ -31,8 +31,10 @@ Always use your organization's tenant host. Paths below are suffixes such as `/s
 Sign-in, sign-up, at one-time password entry.
 
 - `/otp`
+- `/passkey`
 - `/sign-in`
 - `/sign-up`
+- `/sso`
 
 ### Invite auth lane
 
@@ -40,13 +42,17 @@ Mga imbitasyon ng user at pagtanggap ng imbitasyon.
 
 - `/invite`
 - `/invite/accept`
+- `/invite/consumed`
+- `/invite/email-mismatch`
 - `/invite/expired`
+- `/invite/invalid`
 
 ### Recover auth lane
 
 Forgot-password at reset-password flows.
 
 - `/forgot-password`
+- `/forgot-password/success`
 - `/reset-password`
 - `/reset-password/success`
 
@@ -58,8 +64,11 @@ Multi-factor authentication, session expiry, at access-denied handling.
 - `/error`
 - `/mfa`
 - `/mfa/recovery`
+- `/oauth/error`
+- `/passkey/error`
 - `/security/review`
 - `/session-expired`
+- `/sso/error`
 
 ### Verify auth lane
 

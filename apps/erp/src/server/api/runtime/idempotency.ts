@@ -1,7 +1,7 @@
 import type { UserId } from "@afenda/kernel";
 import type { ZodType } from "zod";
 
-import type { ApiRouteContract } from "../meta-contracts/api-contract";
+import type { ApiRouteContract } from "../contracts/api-contract";
 import {
   computeIdempotencyRequestFingerprint,
   IDEMPOTENCY_KEY_HEADER,
@@ -10,7 +10,7 @@ import {
   idempotencyKeySchema,
   idempotencyStoredResponseSchema,
   requiresIdempotencyKey,
-} from "../meta-contracts/idempotency.contract";
+} from "../contracts/idempotency.contract";
 import { ApiRouteError } from "./api-validation";
 import { createPostgresIdempotencyStore } from "./idempotency-postgres";
 

@@ -1,5 +1,15 @@
 import { describe, expect, it } from "vitest";
 
+import brandManifest from "../styles/afenda-brand.figma-manifest.json" with {
+  type: "json",
+};
+import verdantManifest from "../styles/afenda-verdant.figma-manifest.json" with {
+  type: "json",
+};
+import {
+  afendaBrandPreset,
+  afendaVerdantPreset,
+} from "../styles/presentation-lab-presets.js";
 import {
   getPresentationLabPresetEntry,
   isEditorialLabPresetId,
@@ -7,6 +17,9 @@ import {
   PRESENTATION_LAB_PRESET_REGISTRY,
 } from "../styles/presentation-lab-presets.registry.js";
 import { themePresets } from "../theme/theme-presets.js";
+
+const toKebabCase = (value: string): string =>
+  value.replace(/[A-Z]/g, (letter) => `-${letter.toLowerCase()}`);
 
 describe("presentation lab presets registry", () => {
   it("registry is JSON-serializable for metadata-driven inventory", () => {
@@ -47,5 +60,19 @@ describe("presentation lab presets registry", () => {
   it("keeps editorial presets out of the runtime SettingsProvider registry", () => {
     expect(themePresets).not.toHaveProperty("afenda-brand");
     expect(themePresets).not.toHaveProperty("afenda-verdant");
+  });
+
+  it("keeps editorial Figma manifest token names aligned with preset tokens", () => {
+    expect(brandManifest.tokenNames).toEqual(
+      Object.keys(afendaBrandPreset.tokens.light)
+    );
+    expect(brandManifest.tokenNames).toContain("destructive-foreground");
+
+    expect(verdantManifest.tokenNames).toEqual([
+      ...Object.keys(afendaVerdantPreset.tokens.light),
+      ...Object.keys(afendaVerdantPreset.editorialAnchors.light).map(
+        (tokenName) => `afenda-${toKebabCase(tokenName)}`
+      ),
+    ]);
   });
 });

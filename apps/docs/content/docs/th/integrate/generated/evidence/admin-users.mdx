@@ -44,7 +44,7 @@ System Admin area for users — requires `system_admin.users_read`.
     "required": true
   },
   "ApiOperations": {
-    "type": "2",
+    "type": "3",
     "description": "Internal v1 OpenAPI operations bound to this admin section.",
     "required": true
   }
@@ -54,7 +54,7 @@ System Admin area for users — requires `system_admin.users_read`.
 
 <Files>
   <Folder name="Admin routes" defaultOpen>
-    <File name="/system-admin/users" />
+    <File name="/system-admin/users (apps/erp/src/app/(protected)/system-admin/users/page.tsx)" />
   </Folder>
 </Files>
 
@@ -64,6 +64,7 @@ System Admin area for users — requires `system_admin.users_read`.
 | --- | --- | --- |
 | [POST /system-admin/users/invite](/docs/integrate/internal-v1/system-admin-users-invite-post) | `system_admin.users_manage` | `internal.v1.system-admin.users.invite.post` |
 | [POST /system-admin/user-invitations](/docs/integrate/internal-v1/system-admin-user-invitations-post) | `system_admin.users_manage` | `internal.v1.system-admin.user-invitations.post` |
+| [GET /system-admin/users](/docs/integrate/internal-v1/system-admin-users-get) | `system_admin.users_read` | `internal.v1.system-admin.users.get` |
 ## Traceability
 
 <Steps>

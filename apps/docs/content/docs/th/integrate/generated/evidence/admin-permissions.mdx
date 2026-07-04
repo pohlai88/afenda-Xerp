@@ -44,7 +44,7 @@ System Admin area for permissions — requires `system_admin.permissions_read`.
     "required": true
   },
   "ApiOperations": {
-    "type": "0",
+    "type": "1",
     "description": "Internal v1 OpenAPI operations bound to this admin section.",
     "required": true
   }
@@ -54,14 +54,15 @@ System Admin area for permissions — requires `system_admin.permissions_read`.
 
 <Files>
   <Folder name="Admin routes" defaultOpen>
-    <File name="/system-admin/permissions" />
+    <File name="/system-admin/permissions (apps/erp/src/app/(protected)/system-admin/permissions/page.tsx)" />
   </Folder>
 </Files>
 
 ## API operations
 
-No internal v1 operations are bound to this manifest yet. Regenerate after OpenAPI tag alignment.
-
+| Operation | Permission | Contract |
+| --- | --- | --- |
+| [GET /system-admin/permissions](/docs/integrate/internal-v1/system-admin-permissions-get) | `system_admin.permissions_manage` | `internal.v1.system-admin.permissions.get` |
 ## Traceability
 
 <Steps>

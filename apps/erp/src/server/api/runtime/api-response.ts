@@ -1,14 +1,14 @@
-import type { ApiCachePolicy } from "../meta-contracts/api-contract";
+import type { ApiCachePolicy } from "../contracts/api-contract";
 import type {
   ApiErrorEnvelope,
   ApiResponseMeta,
   ApiSuccessEnvelope,
-} from "../meta-contracts/api-envelope.contract";
-import type { ApiErrorCode } from "../meta-contracts/api-error.contract";
+} from "../contracts/api-envelope.contract";
+import type { ApiErrorCode } from "../contracts/api-error.contract";
 import {
   getApiErrorDefinition,
   projectProblemDetailEnvelopeFields,
-} from "../meta-contracts/api-error.contract";
+} from "../contracts/api-error.contract";
 import { CORRELATION_ID_HEADER, REQUEST_ID_HEADER } from "./api-correlation";
 import type { ApiRateLimitSnapshot } from "./api-rate-limit";
 

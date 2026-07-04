@@ -23,6 +23,7 @@ export const DOCS_FEATURE_COVERAGE_ALLOWLIST = [
   "/appshell-demo",
   "/governance-integration",
   "/metadata-workspace",
+  "/modules/procurement",
 ] as const;
 
 const AUTH_LANE_SUMMARIES: Record<string, string> = {
@@ -232,6 +233,7 @@ function surfaceRoutesMatchProductRoute(
 
   if (productRoute.startsWith("/modules/")) {
     return (
+      [...surfaceRoutes].some((route) => route.startsWith(`${productRoute}/`)) ||
       surfaceRoutes.has("/modules/[moduleId]") ||
       surfaceRoutes.has("/modules/[param]")
     );
@@ -241,6 +243,19 @@ function surfaceRoutesMatchProductRoute(
     (surfaceRoute) =>
       normalizeRouteForMatch(surfaceRoute) ===
       normalizeRouteForMatch(productRoute)
+  );
+}
+
+function moduleManifestMatchesSurfaceRoute(
+  manifest: DocsFeatureManifest,
+  route: string
+): boolean {
+  return (
+    manifest.kind === "module" &&
+    manifest.productRoutes.some(
+      (productRoute) =>
+        route === productRoute || route.startsWith(`${productRoute}/`)
+    )
   );
 }
 
@@ -320,9 +335,7 @@ export function validateFeatureCoverage(input: {
     if (
       surface.route.startsWith("/modules/") &&
       !input.manifests.some(
-        (manifest) =>
-          manifest.kind === "module" &&
-          manifest.productRoutes.includes(surface.route)
+        (manifest) => moduleManifestMatchesSurfaceRoute(manifest, surface.route)
       )
     ) {
       warnings.push(

@@ -7,8 +7,8 @@ import {
   mapAuthorizationDenialToApiErrorCode,
   resolveSafeAuthorizationMessage,
 } from "@/lib/api/api-error-response";
-import type { ApiErrorCode } from "../meta-contracts/api-error.contract";
-import { getApiErrorDefinition } from "../meta-contracts/api-error.contract";
+import type { ApiErrorCode } from "../contracts/api-error.contract";
+import { getApiErrorDefinition } from "../contracts/api-error.contract";
 import { isApiRouteError } from "./api-validation";
 
 export function mapUnknownErrorToApiCode(error: unknown): ApiErrorCode {
