@@ -9,7 +9,9 @@ describe("AuthShellSurfaceV1 drawer interaction", () => {
   it("opens the auth navigation drawer and switches between auth routes", async () => {
     const user = setupUser();
 
-    render(<AuthShellSurfaceV1 mode="drawer" triggerLabel="Open authentication" />);
+    render(
+      <AuthShellSurfaceV1 mode="drawer" triggerLabel="Open authentication" />
+    );
 
     await user.click(
       screen.getByRole("button", { name: "Open authentication" })
