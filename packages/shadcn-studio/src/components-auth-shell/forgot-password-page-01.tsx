@@ -9,13 +9,13 @@ import {
 } from "@/components/ui/card";
 import LogoIcon from "@/components-assets/icon-logo.js";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { AuthShellStage } from "./auth-shell-stage.js";
 import {
   AUTH_RESET_PASSWORD_PATH,
   assertCanonicalForgotPasswordForm,
   getRequiredLoginMethod,
   getResetPasswordPageManifest,
 } from "./auth-shell-method-manifest.js";
+import { AuthShellStage } from "./auth-shell-stage.js";
 import ForgotPasswordFormV1 from "./forgot-password-form-v1.js";
 
 const BLOCK_ID = "forgot-password-page-01" as const;

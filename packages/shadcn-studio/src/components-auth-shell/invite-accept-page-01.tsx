@@ -8,12 +8,12 @@ import {
 } from "@/components/ui/card";
 import LogoIcon from "@/components-assets/icon-logo.js";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { AuthShellStage } from "./auth-shell-stage.js";
 import {
   assertCanonicalInviteAcceptForm,
   getPreLoginPageManifest,
   getRequiredLoginMethod,
 } from "./auth-shell-method-manifest.js";
+import { AuthShellStage } from "./auth-shell-stage.js";
 import RegisterFormV1 from "./register-form-v1.js";
 
 const BLOCK_ID = "invite-accept-page-01" as const;

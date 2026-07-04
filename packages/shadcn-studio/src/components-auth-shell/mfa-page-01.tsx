@@ -8,12 +8,12 @@ import {
 } from "@/components/ui/card";
 import LogoIcon from "@/components-assets/icon-logo.js";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { AuthShellStage } from "./auth-shell-stage.js";
 import {
   assertCanonicalMfaOtpForm,
   getPreLoginPageManifest,
   getRequiredLoginMethod,
 } from "./auth-shell-method-manifest.js";
+import { AuthShellStage } from "./auth-shell-stage.js";
 import MfaOtpFormV1 from "./mfa-otp-form-v1.js";
 
 const BLOCK_ID = "mfa-page-01" as const;

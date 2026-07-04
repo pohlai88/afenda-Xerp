@@ -9,11 +9,11 @@ import {
 } from "@/components/ui/card";
 import LogoIcon from "@/components-assets/icon-logo.js";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
-import { AuthShellStage } from "./auth-shell-stage.js";
 import {
   getPreLoginPageManifest,
   getRequiredLoginMethod,
 } from "./auth-shell-method-manifest.js";
+import { AuthShellStage } from "./auth-shell-stage.js";
 
 const BLOCK_ID = "invite-consumed-page-01" as const;
 const PAGE_MANIFEST = getPreLoginPageManifest(BLOCK_ID);

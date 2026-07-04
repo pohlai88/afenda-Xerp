@@ -22,8 +22,8 @@ export {
 } from "./afenda-verdant.preset.js";
 export {
   type EditorialLabPresetId,
-  type EditorialRuntimeScope,
   type EditorialLabPresetStatus,
+  type EditorialRuntimeScope,
   type EditorialVocab,
   getPresentationLabPresetEntry,
   isEditorialLabPresetId,
