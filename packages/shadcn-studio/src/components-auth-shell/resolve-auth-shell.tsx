@@ -1,8 +1,7 @@
 import type { ComponentType } from "react";
-import {
-  type AuthPageBlockId,
-  type AuthShellFormLane,
-  LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP,
+import type {
+  AuthPageBlockId,
+  AuthShellFormLane,
 } from "./auth-shell-method-manifest.js";
 import ErrorAccessDeniedPage01 from "./error-access-denied-page-01.js";
 import ErrorAuthenticationPage01 from "./error-authentication-page-01.js";
@@ -45,6 +44,13 @@ import VerifyEmailSuccessPage01 from "./verify-email-success-page-01.js";
 export type { AuthShellFormLane };
 
 type AuthShellBlock = ComponentType;
+
+export const AUTH_SHELL_LANE_DEFAULT_PAGE_MAP = {
+  access: "login-page-04",
+  verify: "login-page-02",
+  recover: "forgot-password-page-01",
+  error: "login-page-06",
+} as const satisfies Record<AuthShellFormLane, AuthPageBlockId>;
 
 const AUTH_SHELL_BLOCK_COMPONENTS = {
   "login-page-01": LoginPage01,
@@ -91,5 +97,5 @@ export function resolveAuthShellBlock(
 export function resolveAuthShell(
   lane: AuthShellFormLane = "access"
 ): AuthShellBlock {
-  return resolveAuthShellBlock(LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP[lane]);
+  return resolveAuthShellBlock(AUTH_SHELL_LANE_DEFAULT_PAGE_MAP[lane]);
 }

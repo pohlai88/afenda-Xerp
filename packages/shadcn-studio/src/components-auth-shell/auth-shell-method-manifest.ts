@@ -1,8 +1,9 @@
 /**
  * Auth auth shell method manifest.
  *
- * Owns the configured auth methods and auth-shell page routing only.
- * It must not own page composition, visual layout, or canonical form rendering.
+ * Owns configured auth methods and auth-shell method metadata only.
+ * It must not own page composition, visual layout, lane routing, or canonical
+ * form rendering.
  *
  * Manual sync authority — do not import runtime packages here.
  * Synchronize against:
@@ -16,8 +17,7 @@ export const CANONICAL_LOGIN_FORM_ID = "login-form-v1" as const;
 export const CANONICAL_REGISTER_FORM_ID = "register-form-v1" as const;
 export const CANONICAL_FORGOT_PASSWORD_FORM_ID =
   "forgot-password-form-v1" as const;
-export const CANONICAL_VERIFY_EMAIL_FORM_ID =
-  "verify-email-form-v1" as const;
+export const CANONICAL_VERIFY_EMAIL_FORM_ID = "verify-email-form-v1" as const;
 export const CANONICAL_MFA_OTP_FORM_ID = "mfa-otp-form-v1" as const;
 export const CANONICAL_MFA_RECOVERY_FORM_ID = "mfa-recovery-form-v1" as const;
 export const CANONICAL_RESET_PASSWORD_FORM_ID =
@@ -252,11 +252,11 @@ interface AuthRuntimeSyncProfile {
   readonly mfaBackupCodeAmount: number;
   readonly mfaCapability: "active";
   readonly oauthDisableImplicitSignUp: boolean;
+  readonly passkeyCapability: "active";
+  readonly passkeyRegistrationRequiresSession: boolean;
   readonly passwordlessTwoFactorDefaultMode: "credential-only";
   readonly passwordlessTwoFactorEnforcedMode: "enforce-all";
   readonly passwordlessTwoFactorEnv: "AFENDA_AUTH_PASSWORDLESS_TWO_FACTOR";
-  readonly passkeyCapability: "active";
-  readonly passkeyRegistrationRequiresSession: boolean;
   readonly resetPasswordCapability: "active";
   readonly resetPasswordRequiresEmailVerification: boolean;
   readonly resetPasswordRevokesSessions: boolean;
@@ -664,6 +664,10 @@ export const LOGIN_METHOD_MANIFEST = {
   readonly [TMethodId in AuthLoginMethodId]: AuthLoginMethodManifestEntry<TMethodId>;
 };
 
+/**
+ * @deprecated Lane routing is owned by `resolve-auth-shell.tsx`.
+ * Compatibility mirror for existing public imports only.
+ */
 export const LOGIN_METHOD_LANE_DEFAULT_PAGE_MAP = {
   access: "login-page-04",
   verify: "login-page-02",
