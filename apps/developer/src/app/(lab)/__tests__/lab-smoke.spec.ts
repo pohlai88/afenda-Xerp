@@ -16,8 +16,7 @@ test("@smoke / renders developer landing page", async ({ page }) => {
   await expect(
     page.getByAltText("Afenda sealed verification proof chamber")
   ).toBeVisible();
-  await expect(page.getByRole("link", { name: "Open sign in" })).toHaveAttribute(
-    "href",
-    "/sign-in"
-  );
+  await expect(
+    page.getByRole("link", { name: "Open sign in" })
+  ).toHaveAttribute("href", "/sign-in");
 });

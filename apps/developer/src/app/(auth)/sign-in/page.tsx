@@ -1,6 +1,6 @@
+import { LoginPage04 } from "@afenda/shadcn-studio";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { LoginPage04 } from "@afenda/shadcn-studio";
 import {
   createDeveloperAuthMetadata,
   resolveDeveloperAuthFixtureByPath,

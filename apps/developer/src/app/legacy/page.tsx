@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
-import type { PublicHomeContent } from "./public-home-content";
 import { PublicHomeShell } from "./_components/public-home-shell";
+import type { PublicHomeContent } from "./public-home-content";
 
 interface HomeProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;

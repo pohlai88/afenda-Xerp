@@ -1,6 +1,6 @@
 import type { PublicHomeContent } from "../public-home-content";
-import { LynxPixelReveal } from "./lynx-pixel-reveal.client";
 import styles from "../public-homepage.module.css";
+import { LynxPixelReveal } from "./lynx-pixel-reveal.client";
 
 interface PublicHomeShellProps {
   content: PublicHomeContent;
