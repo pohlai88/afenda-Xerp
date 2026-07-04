@@ -6,7 +6,7 @@ import {
 } from "../auth-protected-surface.registry";
 
 describe("auth-protected-surface.registry path guards", () => {
-  it("treats skeleton protected prefixes as protected", () => {
+  it("treats protected prefixes as protected", () => {
     for (const prefix of PROTECTED_APP_ROUTER_PATH_PREFIXES) {
       expect(isProtectedAppRouterPath(prefix)).toBe(true);
     }
@@ -15,10 +15,19 @@ describe("auth-protected-surface.registry path guards", () => {
   it("allows public home and auth entry paths", () => {
     expect(isProtectedAppRouterPath("/")).toBe(false);
     expect(isProtectedAppRouterPath("/sign-in")).toBe(false);
+    expect(isProtectedAppRouterPath("/auth/complete")).toBe(false);
+    expect(isProtectedAppRouterPath("/workspace/select")).toBe(false);
+    expect(isProtectedAppRouterPath("/organization/select")).toBe(false);
     expect(isProtectedAppRouterPath("/api/auth/session")).toBe(false);
   });
 
-  it("guards metadata workspace nested paths", () => {
+  it("guards protected nested paths", () => {
     expect(isProtectedAppRouterPath("/metadata-workspace/review")).toBe(true);
+    expect(isProtectedAppRouterPath("/workspace")).toBe(true);
+    expect(isProtectedAppRouterPath("/system-admin/users")).toBe(true);
+    expect(isProtectedAppRouterPath("/settings/profile")).toBe(true);
+    expect(isProtectedAppRouterPath("/modules/procurement/readiness")).toBe(
+      true
+    );
   });
 });

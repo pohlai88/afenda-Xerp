@@ -27,7 +27,7 @@ export default defineConfig({
   },
   fullyParallel: true,
   forbidOnly: isCI,
-  outputDir: "e2e/test-results",
+  outputDir: "test-results/artifacts",
   tsconfig: path.join(developerRoot, "tsconfig.playwright.json"),
   ...(isCI ? { workers: 1 } : {}),
   projects: [
@@ -43,10 +43,16 @@ export default defineConfig({
     ? [["blob"], ["github"]]
     : [
         ["list"],
-        ["html", { open: "on-failure", outputFolder: "e2e/playwright-report" }],
+        [
+          "html",
+          {
+            open: "on-failure",
+            outputFolder: "test-results/playwright-report",
+          },
+        ],
       ],
   retries: isCI ? 2 : 0,
-  testDir: "./e2e",
+  testDir: "./src/app",
   timeout: 60_000,
   use: {
     baseURL,

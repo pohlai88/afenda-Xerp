@@ -8,9 +8,15 @@ import {
 
 /** Serializable sign-in surface — safe for Server → Client boundaries (Slice 19). */
 export interface SignInProviderSurface {
+  readonly emailDeliveryEnabled: boolean;
+  readonly invitationGateEnabled: boolean;
   readonly passkeyEnabled: boolean;
   readonly socialProviderIds: readonly AfendaAuthSocialProviderId[];
   readonly ssoEnabled: boolean;
+}
+
+function isEnvFlagEnabled(value: string | undefined): boolean {
+  return value !== "disabled";
 }
 
 /** Resolves which alternate sign-in methods the ERP sign-in page may offer. */
@@ -29,8 +35,10 @@ export function resolveSignInProviderSurface(
   }
 
   return {
-    passkeyEnabled: env["AFENDA_AUTH_PASSKEY"] !== "disabled",
+    emailDeliveryEnabled: Boolean(env["AFENDA_AUTH_EMAIL_API_KEY"]?.trim()),
+    invitationGateEnabled: isEnvFlagEnabled(env["AFENDA_AUTH_INVITATION_GATE"]),
+    passkeyEnabled: isEnvFlagEnabled(env["AFENDA_AUTH_PASSKEY"]),
     socialProviderIds,
-    ssoEnabled: true,
+    ssoEnabled: isEnvFlagEnabled(env["AFENDA_AUTH_SSO"]),
   };
 }

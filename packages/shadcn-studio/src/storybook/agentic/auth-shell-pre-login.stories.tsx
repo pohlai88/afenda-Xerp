@@ -133,6 +133,23 @@ export const VerifyEmailPage: Story = {
 };
 
 /**
+ * Fullscreen proof of the shared verify-lane shell.
+ *
+ * @summary for verify-lane motion baseline review
+ */
+export const VerifyMotionProof: Story = {
+  render: () => <VerifyEmailPage01 />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Fullscreen proof story for the shared verify variant. The motion field remains visible, but the content lane is calmer than the access shell.",
+      },
+    },
+  },
+};
+
+/**
  * Email verification sent notice.
  *
  * @summary for verify-email sent ingress
@@ -310,6 +327,23 @@ export const AccessDeniedPage: Story = {
  */
 export const SecurityReviewPage: Story = {
   render: () => <SecurityReviewPage01 />,
+};
+
+/**
+ * Fullscreen proof of the restrained error/security shell.
+ *
+ * @summary for restrained shell baseline review
+ */
+export const ErrorSecurityMotionProof: Story = {
+  render: () => <ErrorAuthenticationPage01 />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Fullscreen proof story for restrained auth-shell states. Contrast remains strong and motion density is intentionally reduced for security and failure flows.",
+      },
+    },
+  },
 };
 
 /**

@@ -190,6 +190,23 @@ export const LoginPage04ErpOperatorIngress: Story = {
 };
 
 /**
+ * Fullscreen proof of the shared access-lane cinematic shell.
+ *
+ * @summary for access-lane motion baseline review
+ */
+export const AccessMotionProof: Story = {
+  render: () => <LoginPage04 />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Fullscreen proof story for the shared auth-shell access variant. Use this as the primary visual baseline for the lynx pixel field, vignette, and high-intensity staging.",
+      },
+    },
+  },
+};
+
+/**
  * Compact social card with icon-only method affordances and canonical form.
  *
  * @summary for compact social card auth ingress

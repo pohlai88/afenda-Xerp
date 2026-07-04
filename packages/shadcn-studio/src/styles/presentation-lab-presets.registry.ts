@@ -11,11 +11,14 @@ export type EditorialLabPresetId = "afenda-brand" | "afenda-verdant";
 
 export type EditorialVocab = "lab-*" | "afenda-*";
 
+export type EditorialRuntimeScope = "scoped-overlay";
+
 export type PresentationLabPresetRegistryEntry = {
   readonly presetId: EditorialLabPresetId;
   readonly label: string;
   readonly className: string;
   readonly status: EditorialLabPresetStatus;
+  readonly runtimeScope: EditorialRuntimeScope;
   readonly presetSourcePath: string;
   readonly cssMirrorPath: string;
   readonly specPath: string;
@@ -34,6 +37,7 @@ export const PRESENTATION_LAB_PRESET_REGISTRY = [
     label: "Afenda Brand (Swiss Noir DNA)",
     className: "theme-afenda-brand",
     status: "review",
+    runtimeScope: "scoped-overlay",
     presetSourcePath:
       "packages/shadcn-studio/src/styles/afenda-brand.preset.ts",
     cssMirrorPath: "packages/shadcn-studio/docs/swiss-noir.css",
@@ -50,6 +54,7 @@ export const PRESENTATION_LAB_PRESET_REGISTRY = [
     label: "Verdant Milk Noir",
     className: "theme-afenda-verdant-milk-noir",
     status: "review",
+    runtimeScope: "scoped-overlay",
     presetSourcePath:
       "packages/shadcn-studio/src/styles/afenda-verdant.preset.ts",
     cssMirrorPath: "packages/shadcn-studio/docs/verdant-noir.css",

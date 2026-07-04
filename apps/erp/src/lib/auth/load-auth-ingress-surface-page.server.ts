@@ -1,15 +1,17 @@
-import { createMetadataRuntimeContext } from "@/lib/metadata/metadata-runtime.contract.js";
-import type { MetadataOperatorSurfaceWire } from "@/lib/metadata/resolve-metadata-operator-surface.server.js";
-import { resolveMetadataOperatorSurface } from "@/lib/metadata/resolve-metadata-operator-surface.server.js";
+import { createMetadataRuntimeContext } from "@/lib/metadata/metadata-runtime.contract";
+import type { MetadataOperatorSurfaceWire } from "@/lib/metadata/resolve-metadata-operator-surface.server";
+import { resolveMetadataOperatorSurface } from "@/lib/metadata/resolve-metadata-operator-surface.server";
 
 import {
   type AuthIngressCanonicalPath,
   getAuthIngressSurfaceByPath,
-} from "./auth-ingress-surface.registry.js";
+} from "./auth-ingress-surface.registry";
 import {
+  AUTH_PATH_LANE_MAP,
   AUTH_PATHS,
+  type AuthLane,
   resolveAuthShellBlockIdForPath,
-} from "./auth-path.registry.js";
+} from "./auth-path.registry";
 
 export type AuthIngressSurfacePageData =
   | {
@@ -21,6 +23,8 @@ export type AuthIngressSurfacePageData =
       readonly authShellBlockId: string;
       readonly description: string;
       readonly kind: "ready";
+      readonly lane: AuthLane;
+      readonly path: AuthIngressCanonicalPath;
       readonly surface: MetadataOperatorSurfaceWire;
       readonly title: string;
     };
@@ -56,13 +60,17 @@ export function loadAuthIngressSurfacePage(
   return {
     authShellBlockId: resolveAuthShellBlockIdForPath(path),
     kind: "ready",
+    lane: AUTH_PATH_LANE_MAP[path],
+    path,
     title: resolveAuthIngressTitle(path),
     description: resolveAuthIngressDescription(path),
     surface,
   };
 }
 
-function resolveAuthIngressTitle(path: AuthIngressCanonicalPath): string {
+export function resolveAuthIngressTitle(
+  path: AuthIngressCanonicalPath
+): string {
   switch (path) {
     case AUTH_PATHS.signUp:
       return "Accept invitation";
@@ -123,7 +131,9 @@ function resolveAuthIngressTitle(path: AuthIngressCanonicalPath): string {
   }
 }
 
-function resolveAuthIngressDescription(path: AuthIngressCanonicalPath): string {
+export function resolveAuthIngressDescription(
+  path: AuthIngressCanonicalPath
+): string {
   switch (path) {
     case AUTH_PATHS.signUp:
       return "Create credentials for your approved Afenda ERP workspace.";

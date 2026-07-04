@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import LogoIcon from "@/components-assets/icon-logo.js";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
+import { AuthShellStage } from "./auth-shell-stage.js";
 import {
   getPreLoginPageManifest,
   getRequiredLoginMethod,
@@ -20,9 +21,9 @@ const signInMethod = getRequiredLoginMethod(PAGE_MANIFEST.blockId, "sign-in");
 
 export default function InvitePage01() {
   return (
-    <main
+    <AuthShellStage
       {...blockSlotDomMarkerProps("invite-page-01.content")}
-      className="flex min-h-dvh items-center justify-center bg-background px-4 py-10 sm:px-6 lg:px-8"
+      variant="invite"
     >
       <Card className="w-full max-w-md gap-6 py-6">
         <CardHeader className="gap-5 px-6 text-center">
@@ -60,6 +61,6 @@ export default function InvitePage01() {
           </Button>
         </CardContent>
       </Card>
-    </main>
+    </AuthShellStage>
   );
 }

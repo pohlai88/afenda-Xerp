@@ -1,4 +1,3 @@
-import AuthBackgroundShape from "@/assets/svg/auth-background-shape";
 import Logo from "@/assets/svg/logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +14,7 @@ import {
   getLoginPageManifest,
   getRequiredLoginMethod,
 } from "./auth-shell-method-manifest.js";
+import { AuthShellStage } from "./auth-shell-stage.js";
 import LoginFormV1 from "./login-form-v1.js";
 
 const BLOCK_ID = "login-page-01" as const;
@@ -45,88 +45,86 @@ const signUpMethod = getRequiredLoginMethod(
 
 export default function LoginPage01() {
   return (
-    <div
+    <AuthShellStage
       {...blockSlotDomMarkerProps("login-page-01.content")}
-      className="relative flex h-auto min-h-screen items-center justify-center overflow-x-hidden px-4 py-10 sm:px-6 lg:px-8"
+      variant="access"
     >
-      <div className="absolute">
-        <AuthBackgroundShape />
-      </div>
+      <div className="flex w-full items-center justify-center">
+        <Card className="z-1 w-full max-w-lg gap-6 border-white/10 bg-background/86 py-6 shadow-2xl shadow-black/20 backdrop-blur-xl">
+          <CardHeader className="gap-6 px-6">
+            <Logo className="gap-3" />
 
-      <Card className="z-1 w-full gap-6 py-6 sm:max-w-lg">
-        <CardHeader className="gap-6 px-6">
-          <Logo className="gap-3" />
+            <div>
+              <CardTitle className="mb-2 font-semibold text-2xl">
+                Sign in to Afenda ERP
+              </CardTitle>
+              <CardDescription className="text-base">
+                Access your governed operator workspace.
+              </CardDescription>
+            </div>
+          </CardHeader>
 
-          <div>
-            <CardTitle className="mb-2 font-semibold text-2xl">
-              Sign in to Afenda ERP
-            </CardTitle>
-            <CardDescription className="text-base">
-              Access your governed operator workspace.
-            </CardDescription>
-          </div>
-        </CardHeader>
-
-        <CardContent className="px-6">
-          <p className="mb-6 text-base text-muted-foreground">
-            Continue with{" "}
-            <a
-              className="text-card-foreground hover:underline"
-              href={passkeyMethod.href}
-            >
-              {passkeyMethod.label}
-            </a>
-          </p>
-
-          <div className="mb-6 flex flex-wrap gap-4 sm:gap-6">
-            <Button
-              className="grow"
-              nativeButton={false}
-              render={<a href={ssoMethod.href} />}
-              variant="outline"
-            >
-              {ssoMethod.label}
-            </Button>
-            <Button
-              className="grow"
-              nativeButton={false}
-              render={<a href={githubMethod.href} />}
-              variant="outline"
-            >
-              {githubMethod.label}
-            </Button>
-          </div>
-
-          <div className="space-y-4">
-            <LoginFormV1 forgotPasswordHref={forgotPasswordMethod.href} />
-
-            <p className="text-center text-base text-muted-foreground">
-              New on our platform?{" "}
+          <CardContent className="px-6">
+            <p className="mb-6 text-base text-muted-foreground">
+              Continue with{" "}
               <a
                 className="text-card-foreground hover:underline"
-                href={signUpMethod.href}
+                href={passkeyMethod.href}
               >
-                {signUpMethod.label}
+                {passkeyMethod.label}
               </a>
             </p>
 
-            <div className="flex items-center gap-4">
-              <Separator className="flex-1" />
-              <p className="text-base">or</p>
-              <Separator className="flex-1" />
+            <div className="mb-6 flex flex-wrap gap-4 sm:gap-6">
+              <Button
+                className="grow"
+                nativeButton={false}
+                render={<a href={ssoMethod.href} />}
+                variant="outline"
+              >
+                {ssoMethod.label}
+              </Button>
+              <Button
+                className="grow"
+                nativeButton={false}
+                render={<a href={githubMethod.href} />}
+                variant="outline"
+              >
+                {githubMethod.label}
+              </Button>
             </div>
 
-            <Button
-              className="w-full"
-              nativeButton={false}
-              render={<a href={googleMethod.href} />}
-              variant="ghost"
-            >
-              {googleMethod.label}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+            <div className="space-y-4">
+              <LoginFormV1 forgotPasswordHref={forgotPasswordMethod.href} />
+
+              <p className="text-center text-base text-muted-foreground">
+                New on our platform?{" "}
+                <a
+                  className="text-card-foreground hover:underline"
+                  href={signUpMethod.href}
+                >
+                  {signUpMethod.label}
+                </a>
+              </p>
+
+              <div className="flex items-center gap-4">
+                <Separator className="flex-1" />
+                <p className="text-base">or</p>
+                <Separator className="flex-1" />
+              </div>
+
+              <Button
+                className="w-full"
+                nativeButton={false}
+                render={<a href={googleMethod.href} />}
+                variant="ghost"
+              >
+                {googleMethod.label}
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    </AuthShellStage>
   );
 }

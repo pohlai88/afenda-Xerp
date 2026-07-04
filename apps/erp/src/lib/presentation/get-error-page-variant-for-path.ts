@@ -3,7 +3,7 @@ import type { ErrorPageVariant } from "@afenda/shadcn-studio/error-ui";
 import {
   type ErrorPageCanonicalPath,
   getErrorPageSurfaceByPath,
-} from "./error-page-surface.registry.js";
+} from "./error-page-surface.registry";
 
 export function getErrorPageVariantForPath(
   path: ErrorPageCanonicalPath

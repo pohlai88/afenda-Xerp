@@ -3,7 +3,7 @@
  * SSOT for public auth paths ↔ surface templates ↔ presentation blocks.
  */
 
-import type { AuthShellVariant } from "./auth-path.registry.js";
+import type { AuthShellVariant } from "./auth-path.registry";
 
 export type AuthIngressSurfaceEntry = {
   readonly blockId: AuthShellVariant;

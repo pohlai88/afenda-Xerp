@@ -7,7 +7,8 @@
  * CSS mirror: packages/shadcn-studio/docs/verdant-noir.css
  * Spec (quarantine): packages/shadcn-studio/docs/verdant.noir.md
  *
- * Storybook / lab only — not registered in theme-presets.ts or ERP globals.
+ * Scoped editorial overlay only — not registered in theme-presets.ts, not a
+ * replacement for shadcn-studio.css root defaults, and not wired into ERP globals.
  */
 
 export const AFENDA_VERDANT_PRESET_ID = "afenda-verdant" as const;
@@ -131,7 +132,7 @@ export const afendaVerdantPreset = {
   id: AFENDA_VERDANT_PRESET_ID,
   label: "Afenda Verdant Milk Noir",
   description:
-    "Editorial verdant palette: milk wash, deep green ink, gold hairlines. Standard shadcn token names plus --afenda-* editorial anchors — Storybook lab only.",
+    "Editorial verdant palette: milk wash, deep green ink, gold hairlines. Scoped overlay with standard shadcn token names plus derived --afenda-* editorial anchors.",
   className: "theme-afenda-verdant-milk-noir",
   status: "review" as const,
   tokenGroups: afendaVerdantTokenGroups,
@@ -197,7 +198,7 @@ export const afendaVerdantPreset = {
       "accent-foreground": "oklch(0.9 0.012 95)",
       destructive: "oklch(0.62 0.16 28)",
       "destructive-foreground": "oklch(0.96 0.008 95)",
-      border: afendaVerdantPaletteAnchors.hairline,
+      border: "oklch(0.78 0.025 82 / 0.14)",
       input: "oklch(1 0 0 / 0.09)",
       ring: afendaVerdantPaletteAnchors.gold,
       "chart-1": "oklch(0.72 0.08 150)",
@@ -211,7 +212,7 @@ export const afendaVerdantPreset = {
       "sidebar-primary-foreground": afendaVerdantPaletteAnchors.canvas,
       "sidebar-accent": "oklch(0.18 0.012 150)",
       "sidebar-accent-foreground": "oklch(0.9 0.01 95)",
-      "sidebar-border": afendaVerdantPaletteAnchors.hairline,
+      "sidebar-border": "oklch(0.78 0.025 82 / 0.14)",
       "sidebar-ring": afendaVerdantPaletteAnchors.gold,
       info: "hsl(165 50% 68%)",
       "info-foreground": "hsl(160 55% 12%)",

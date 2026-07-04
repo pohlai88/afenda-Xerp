@@ -2,11 +2,14 @@
  * Afenda brand token SSOT — review artifact for expanded Swiss Noir palette.
  *
  * Uses standard shadcn CSS variable names only (no --lab-* / --afenda-* aliases).
+ * Editorial `--lab-*` aliases stay derived inside the scoped CSS mirror rather
+ * than joining the runtime preset contract.
  * Values are derived from Presentation Lab Swiss Noir anchors; numbers marked
  * `review` should be validated on dense surfaces before ERP promotion.
  *
  * CSS mirror: packages/shadcn-studio/docs/swiss-noir.css
- * Storybook / lab only — not registered in theme-presets.ts or ERP globals.
+ * Scoped editorial overlay only — not registered in theme-presets.ts, not a
+ * replacement for shadcn-studio.css root defaults, and not wired into ERP globals.
  */
 
 export const AFENDA_BRAND_PRESET_ID = "afenda-brand" as const;
@@ -92,7 +95,7 @@ export const afendaBrandPreset = {
   id: AFENDA_BRAND_PRESET_ID,
   label: "Afenda Brand (Swiss Noir DNA)",
   description:
-    "Expanded Swiss Noir palette for Afenda brand surfaces: blue-black ink, warm paper, amber gold accent, blueprint whisper. Standard shadcn token names — values only.",
+    "Expanded Swiss Noir palette for Afenda brand surfaces: blue-black ink, warm paper, amber gold accent, blueprint whisper. Scoped overlay with standard shadcn token names only.",
   className: "theme-afenda-brand",
   status: "review" as const,
   figmaFileKey: "LsmtG4KiaTUi3KpjxZXHwH",

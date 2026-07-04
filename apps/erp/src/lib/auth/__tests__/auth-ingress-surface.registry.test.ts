@@ -197,7 +197,7 @@ describe("auth-ingress-surface.registry", () => {
   });
 
   it("maps each canonical ingress surface to an app route page file", () => {
-    const appRoot = join(process.cwd(), "src", "app");
+    const appRoot = join(process.cwd(), "src", "app", "(auth)");
 
     for (const surface of AUTH_INGRESS_CANONICAL_SURFACES) {
       expect(isAuthIngressCanonicalPath(surface.path)).toBe(true);

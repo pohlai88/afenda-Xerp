@@ -1,4 +1,4 @@
-import { AUTH_PATHS } from "./auth-path.registry.js";
+import { AUTH_PATHS } from "./auth-path.registry";
 
 export type UnauthenticatedRedirectPath =
   | typeof AUTH_PATHS.sessionExpired

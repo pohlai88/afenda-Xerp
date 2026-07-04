@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { AUTH_PATHS } from "../auth-path.registry";
+import { AUTH_PATH_LANE_MAP, AUTH_PATHS } from "../auth-path.registry";
 import { AFENDA_AUTH_SESSION_COOKIE_NAME } from "../auth-session-cookie.contract";
 import { loadAuthIngressSurfacePage } from "../load-auth-ingress-surface-page.server";
 
@@ -17,6 +17,8 @@ describe("loadAuthIngressSurfacePage", () => {
     expect(data.surface.surfaceTemplate.surfaceTemplateId).toBe(
       "surface-template.auth-sign-in"
     );
+    expect(data.path).toBe("/sign-in");
+    expect(data.lane).toBe("access");
     expect(data.surface.slotHydration?.blockId).toBe("login-page-04");
   });
 
@@ -32,6 +34,8 @@ describe("loadAuthIngressSurfacePage", () => {
     expect(data.surface.surfaceTemplate.surfaceTemplateId).toBe(
       "surface-template.auth-sign-up"
     );
+    expect(data.path).toBe("/sign-up");
+    expect(data.lane).toBe("access");
     expect(data.surface.slotHydration?.blockId).toBe("register-page-01");
   });
 
@@ -68,6 +72,8 @@ describe("loadAuthIngressSurfacePage", () => {
         continue;
       }
 
+      expect(data.path).toBe(ingress.path);
+      expect(data.lane).toBe(AUTH_PATH_LANE_MAP[ingress.path]);
       expect(data.surface.surfaceTemplate.surfaceTemplateId).toBe(
         ingress.surfaceTemplateId
       );
@@ -199,6 +205,8 @@ describe("loadAuthIngressSurfacePage", () => {
       }
 
       expect(data.authShellBlockId).toBe(ingress.blockId);
+      expect(data.path).toBe(ingress.path);
+      expect(data.lane).toBe(AUTH_PATH_LANE_MAP[ingress.path]);
       expect(data.surface.surfaceTemplate.surfaceTemplateId).toBe(
         ingress.surfaceTemplateId
       );

@@ -6,6 +6,7 @@ import {
   PRESENTATION_LAB_PRESET_IDS,
   PRESENTATION_LAB_PRESET_REGISTRY,
 } from "../styles/presentation-lab-presets.registry.js";
+import { themePresets } from "../theme/theme-presets.js";
 
 describe("presentation lab presets registry", () => {
   it("registry is JSON-serializable for metadata-driven inventory", () => {
@@ -27,10 +28,12 @@ describe("presentation lab presets registry", () => {
     const swiss = getPresentationLabPresetEntry("afenda-brand");
     expect(swiss.cssMirrorPath).toContain("swiss-noir.css");
     expect(swiss.editorialVocab).toBe("lab-*");
+    expect(swiss.runtimeScope).toBe("scoped-overlay");
 
     const verdant = getPresentationLabPresetEntry("afenda-verdant");
     expect(verdant.cssMirrorPath).toContain("verdant-noir.css");
     expect(verdant.editorialVocab).toBe("afenda-*");
+    expect(verdant.runtimeScope).toBe("scoped-overlay");
   });
 
   it("guards preset id lookup", () => {
@@ -39,5 +42,10 @@ describe("presentation lab presets registry", () => {
     expect(() =>
       getPresentationLabPresetEntry("default" as "afenda-brand")
     ).toThrow(/Unknown editorial lab preset/);
+  });
+
+  it("keeps editorial presets out of the runtime SettingsProvider registry", () => {
+    expect(themePresets).not.toHaveProperty("afenda-brand");
+    expect(themePresets).not.toHaveProperty("afenda-verdant");
   });
 });

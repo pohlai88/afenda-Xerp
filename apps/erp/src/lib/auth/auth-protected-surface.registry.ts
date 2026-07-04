@@ -17,6 +17,10 @@ export interface AuthProtectedSurfaceEntry {
 /** App Router paths guarded by proxy session redirect (skeleton minimum). */
 export const PROTECTED_APP_ROUTER_PATH_PREFIXES = [
   "/metadata-workspace",
+  "/modules",
+  "/settings",
+  "/system-admin",
+  "/workspace",
 ] as const;
 
 export type ProtectedAppRouterPathPrefix =
@@ -42,7 +46,10 @@ export const PUBLIC_APP_ROUTER_PATH_PREFIXES = [
   "/mfa",
   "/session-expired",
   "/access-denied",
+  "/auth/complete",
+  "/organization/select",
   "/security/review",
+  "/workspace/select",
   "/error",
 ] as const;
 

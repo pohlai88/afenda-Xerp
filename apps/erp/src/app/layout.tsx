@@ -13,7 +13,36 @@ export const metadata: Metadata = {
   description: "Afenda enterprise resource planning platform.",
   icons: {
     icon: [
+      {
+        media: "(prefers-color-scheme: light)",
+        sizes: "192x192",
+        type: "image/png",
+        url: "/favicon-light.png",
+      },
+      {
+        media: "(prefers-color-scheme: dark)",
+        sizes: "192x192",
+        type: "image/png",
+        url: "/favicon-dark.png",
+      },
       { url: "/favicon.ico" },
+    ],
+    shortcut: [
+      {
+        media: "(prefers-color-scheme: light)",
+        sizes: "192x192",
+        type: "image/png",
+        url: "/favicon-light.png",
+      },
+      {
+        media: "(prefers-color-scheme: dark)",
+        sizes: "192x192",
+        type: "image/png",
+        url: "/favicon-dark.png",
+      },
+      { url: "/favicon.ico" },
+    ],
+    other: [
       {
         url: "/icons/afenda-icon-192-transparent.png",
         sizes: "192x192",

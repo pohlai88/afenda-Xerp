@@ -105,6 +105,23 @@ export const ForgotPasswordPage: Story = {
 };
 
 /**
+ * Fullscreen proof of the shared recover-lane shell.
+ *
+ * @summary for recover-lane motion baseline review
+ */
+export const RecoverMotionProof: Story = {
+  render: () => <ForgotPasswordPage01 />,
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "Fullscreen proof story for the shared recover variant. The pixel field remains atmospheric while the content frame stays calm and legible.",
+      },
+    },
+  },
+};
+
+/**
  * Forgot-password success page for the public `/forgot-password/success` path.
  *
  * @summary for reset link sent confirmation ingress
