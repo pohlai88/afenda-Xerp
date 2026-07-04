@@ -1,7 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 import type { PublicHomeContent } from "../public-home-content";
 import styles from "../public-homepage.module.css";
@@ -11,24 +17,24 @@ const INTRO_SESSION_KEY = "afenda_lynx_intro_seen";
 const PARTICLE_SAMPLE_WIDTH = 260;
 const PARTICLE_DURATION_MS = 3600;
 
-type Particle = {
+interface Particle {
   color: string;
   delay: number;
+  drift: number;
+  isEye: boolean;
   radius: number;
   startX: number;
   startY: number;
   targetX: number;
   targetY: number;
-  drift: number;
-  isEye: boolean;
-};
+}
 
 function brightenChannel(value: number) {
   return Math.min(255, Math.round(value * 1.65 + 34));
 }
 
 function easeOutCubic(value: number) {
-  return 1 - Math.pow(1 - value, 3);
+  return 1 - (1 - value) ** 3;
 }
 
 function clamp01(value: number) {
@@ -60,6 +66,7 @@ function isEyePixel(normalizedX: number, normalizedY: number) {
   );
 }
 
+// biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Legacy cinematic component; complexity refactor is deferred to a dedicated visual-runtime migration slice.
 function buildParticles({
   canvasHeight,
   canvasWidth,
@@ -71,14 +78,18 @@ function buildParticles({
 }) {
   const sampleHeight = Math.max(
     1,
-    Math.round(PARTICLE_SAMPLE_WIDTH * (image.naturalHeight / image.naturalWidth))
+    Math.round(
+      PARTICLE_SAMPLE_WIDTH * (image.naturalHeight / image.naturalWidth)
+    )
   );
   const sampler = document.createElement("canvas");
   sampler.width = PARTICLE_SAMPLE_WIDTH;
   sampler.height = sampleHeight;
 
   const samplerContext = sampler.getContext("2d", { willReadFrequently: true });
-  if (!samplerContext) return [];
+  if (!samplerContext) {
+    return [];
+  }
 
   samplerContext.drawImage(image, 0, 0, PARTICLE_SAMPLE_WIDTH, sampleHeight);
   const pixels = samplerContext.getImageData(
@@ -173,7 +184,7 @@ export function LynxPixelReveal({
   );
   const [instantResolve, setInstantResolve] = useState(initialSkip);
 
-  function resolveIntroInstantly() {
+  const resolveIntroInstantly = useCallback(() => {
     document.documentElement.dataset["afendaIntro"] = "ready";
     window.sessionStorage.setItem(INTRO_SESSION_KEY, "1");
     const instantClassName = styles["heroInstant"];
@@ -182,18 +193,18 @@ export function LynxPixelReveal({
     }
     setInstantResolve(true);
     setPhase("ready");
-  }
+  }, []);
 
   useLayoutEffect(() => {
     const { shouldSkip } = getIntroPreference();
 
-    if (!initialSkip && !shouldSkip) {
-      delete document.documentElement.dataset["afendaIntro"];
+    if (!(initialSkip || shouldSkip)) {
+      document.documentElement.removeAttribute("data-afenda-intro");
       return;
     }
 
     resolveIntroInstantly();
-  }, [initialSkip]);
+  }, [initialSkip, resolveIntroInstantly]);
 
   useEffect(() => {
     const media = mediaRef.current;
@@ -201,7 +212,9 @@ export function LynxPixelReveal({
     const atmosphere = atmosphereRef.current;
     const context = canvas?.getContext("2d");
     const atmosphereContext = atmosphere?.getContext("2d");
-    if (!media || !canvas || !atmosphere || !context || !atmosphereContext) return;
+    if (!(media && canvas && atmosphere && context && atmosphereContext)) {
+      return;
+    }
     const mediaElement = media;
     const canvasElement = canvas;
     const atmosphereElement = atmosphere;
@@ -256,7 +269,10 @@ export function LynxPixelReveal({
         width * 0.48
       );
       haze.addColorStop(0, `rgba(180, 225, 255, ${0.02 + timeline * 0.035})`);
-      haze.addColorStop(0.48, `rgba(92, 152, 190, ${0.018 + timeline * 0.025})`);
+      haze.addColorStop(
+        0.48,
+        `rgba(92, 152, 190, ${0.018 + timeline * 0.025})`
+      );
       haze.addColorStop(1, "rgba(0, 0, 0, 0)");
       atmosphereCanvasContext.fillStyle = haze;
       atmosphereCanvasContext.fillRect(0, 0, width, height);
@@ -266,7 +282,8 @@ export function LynxPixelReveal({
       for (let index = 0; index < streakCount; index += 1) {
         const lane = index / streakCount;
         const x = width * (0.08 + ((lane * 1.83 + timeline * 0.28) % 1) * 0.84);
-        const y = height * (0.24 + ((lane * 2.37 + timeline * 0.12) % 1) * 0.46);
+        const y =
+          height * (0.24 + ((lane * 2.37 + timeline * 0.12) % 1) * 0.46);
         const length = width * (0.018 + (index % 4) * 0.008);
         atmosphereCanvasContext.globalAlpha = 0.05 + timeline * 0.08;
         atmosphereCanvasContext.strokeStyle = "rgb(177 222 255)";
@@ -281,7 +298,9 @@ export function LynxPixelReveal({
     }
 
     image.onload = () => {
-      if (cancelled) return;
+      if (cancelled) {
+        return;
+      }
 
       const { height, width } = resizeCanvas();
       const particles = buildParticles({
@@ -291,8 +310,11 @@ export function LynxPixelReveal({
       });
       const start = performance.now();
 
+      // biome-ignore lint/complexity/noExcessiveCognitiveComplexity: Legacy cinematic animation loop; render refactor is deferred to a dedicated visual-runtime slice.
       function render(now: number) {
-        if (cancelled) return;
+        if (cancelled) {
+          return;
+        }
 
         const elapsed = now - start;
         const timeline = clamp01(elapsed / PARTICLE_DURATION_MS);
@@ -310,23 +332,30 @@ export function LynxPixelReveal({
         canvasContext.globalCompositeOperation = "lighter";
 
         for (const particle of particles) {
-          const local = clamp01((timeline - particle.delay) / (1 - particle.delay));
-          if (local <= 0) continue;
+          const local = clamp01(
+            (timeline - particle.delay) / (1 - particle.delay)
+          );
+          if (local <= 0) {
+            continue;
+          }
 
           const eased = easeOutCubic(local);
           const settle = 1 - eased;
-          const x = particle.startX + (particle.targetX - particle.startX) * eased;
+          const x =
+            particle.startX + (particle.targetX - particle.startX) * eased;
           const y =
             particle.startY +
             (particle.targetY - particle.startY) * eased +
             Math.sin(local * Math.PI * 2 + particle.delay * 10) *
               particle.drift *
               settle;
-          const tailX = x - (particle.targetX - particle.startX) * 0.072 * settle;
+          const tailX =
+            x - (particle.targetX - particle.startX) * 0.072 * settle;
 
           const eyeBoost = particle.isEye ? 1.26 : 1;
           canvasContext.globalAlpha =
-            Math.max(0, globalFade) * Math.min(1, (0.58 + local * 0.72) * eyeBoost);
+            Math.max(0, globalFade) *
+            Math.min(1, (0.58 + local * 0.72) * eyeBoost);
           canvasContext.strokeStyle = particle.color;
           canvasContext.lineWidth = Math.max(0.55, particle.radius * 0.72);
           canvasContext.beginPath();
@@ -365,7 +394,9 @@ export function LynxPixelReveal({
       setPhase("ready");
     };
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key !== "Escape") return;
+      if (event.key !== "Escape") {
+        return;
+      }
       stopAnimation();
       canvasContext.clearRect(0, 0, canvasElement.width, canvasElement.height);
       atmosphereCanvasContext.clearRect(
@@ -387,7 +418,7 @@ export function LynxPixelReveal({
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [initialSkip]);
+  }, [initialSkip, resolveIntroInstantly]);
 
   const imageClassName = `${styles["heroImage"]} ${
     phase === "intro" ? styles["heroImageIntro"] : styles["heroImageReady"]
@@ -399,24 +430,25 @@ export function LynxPixelReveal({
 
   return (
     <section
-      ref={heroRef}
-      className={heroClassName}
       aria-labelledby="public-home-title"
+      className={heroClassName}
+      ref={heroRef}
       suppressHydrationWarning
     >
-      <div ref={mediaRef} className={styles["heroMedia"]} aria-hidden="true">
+      <div aria-hidden="true" className={styles["heroMedia"]} ref={mediaRef}>
+        {/* biome-ignore lint/performance/noImgElement: Legacy cinematic visual asset; Next/Image migration is deferred to a dedicated visual-runtime slice. */}
         <img
-          className={imageClassName}
-          src={LYNX_IMAGE_SRC}
           alt=""
-          width="1672"
+          className={imageClassName}
           height="941"
+          src={LYNX_IMAGE_SRC}
+          width="1672"
         />
-        <canvas ref={atmosphereRef} className={styles["atmosphereCanvas"]} />
-        <canvas ref={canvasRef} className={styles["pixelCanvas"]} />
+        <canvas className={styles["atmosphereCanvas"]} ref={atmosphereRef} />
+        <canvas className={styles["pixelCanvas"]} ref={canvasRef} />
       </div>
       <div className={copyClassName}>
-        <h1 id="public-home-title" className={styles["title"]}>
+        <h1 className={styles["title"]} id="public-home-title">
           {content.title}
         </h1>
         <Link className={styles["heroCta"]} href={content.signInHref}>
