@@ -16,8 +16,7 @@ export const CANONICAL_LOGIN_FORM_ID = "login-form-v1" as const;
 export const CANONICAL_REGISTER_FORM_ID = "register-form-v1" as const;
 export const CANONICAL_FORGOT_PASSWORD_FORM_ID =
   "forgot-password-form-v1" as const;
-export const CANONICAL_VERIFY_EMAIL_FORM_ID =
-  "verify-email-form-v1" as const;
+export const CANONICAL_VERIFY_EMAIL_FORM_ID = "verify-email-form-v1" as const;
 export const CANONICAL_MFA_OTP_FORM_ID = "mfa-otp-form-v1" as const;
 export const CANONICAL_MFA_RECOVERY_FORM_ID = "mfa-recovery-form-v1" as const;
 export const CANONICAL_RESET_PASSWORD_FORM_ID =
@@ -252,11 +251,11 @@ interface AuthRuntimeSyncProfile {
   readonly mfaBackupCodeAmount: number;
   readonly mfaCapability: "active";
   readonly oauthDisableImplicitSignUp: boolean;
+  readonly passkeyCapability: "active";
+  readonly passkeyRegistrationRequiresSession: boolean;
   readonly passwordlessTwoFactorDefaultMode: "credential-only";
   readonly passwordlessTwoFactorEnforcedMode: "enforce-all";
   readonly passwordlessTwoFactorEnv: "AFENDA_AUTH_PASSWORDLESS_TWO_FACTOR";
-  readonly passkeyCapability: "active";
-  readonly passkeyRegistrationRequiresSession: boolean;
   readonly resetPasswordCapability: "active";
   readonly resetPasswordRequiresEmailVerification: boolean;
   readonly resetPasswordRevokesSessions: boolean;

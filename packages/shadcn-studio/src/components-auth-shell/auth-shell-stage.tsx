@@ -44,8 +44,8 @@ export function AuthShellStage({
         "relative isolate min-h-dvh overflow-hidden bg-background text-foreground",
         className
       )}
-      data-auth-shell-stage="floating-ingress"
       data-auth-shell-motion-variant={variant}
+      data-auth-shell-stage="floating-ingress"
       {...props}
     >
       <AuthShellMotionScene

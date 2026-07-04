@@ -1,6 +1,6 @@
-import AuthShellSurfaceV1 from "./prelogin-bundle-01.js";
 import { blockSlotDomMarkerProps } from "../meta-contracts/block-slot-dom-marker.contract.js";
 import { AuthShellStage } from "./auth-shell-stage.js";
+import AuthShellSurfaceV1 from "./prelogin-bundle-01.js";
 
 const LYNX_IMAGE_SRC = "/afenda-brand/pixel/afenda-lynx-pixel.png";
 const LYNX_IMAGE_STORYBOOK_SRC =
@@ -37,7 +37,7 @@ export default function LoginPage07() {
           <div className="flex w-[min(calc(100%-2.5rem),58rem)] -translate-x-[1px] translate-y-[clamp(1.35rem,3.35svh,2.3rem)] flex-col items-center gap-[clamp(0.55rem,1.1svh,0.82rem)] text-center">
             <h1
               {...blockSlotDomMarkerProps("login-page-07.title")}
-              className="translate-y-[4px] font-semibold text-[clamp(2.25rem,4.65vw,4.6875rem)] text-white leading-[0.92] lowercase tracking-normal drop-shadow-[0_10px_42px_rgba(0,0,0,0.58)]"
+              className="translate-y-[4px] font-semibold text-[clamp(2.25rem,4.65vw,4.6875rem)] text-white lowercase leading-[0.92] tracking-normal drop-shadow-[0_10px_42px_rgba(0,0,0,0.58)]"
             >
               acknowledge truth.
             </h1>

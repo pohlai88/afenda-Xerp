@@ -128,7 +128,7 @@ function clamp01(value: number): number {
 }
 
 function easeOutCubic(value: number): number {
-  return 1 - Math.pow(1 - value, 3);
+  return 1 - (1 - value) ** 3;
 }
 
 function resolveIntroPreference() {

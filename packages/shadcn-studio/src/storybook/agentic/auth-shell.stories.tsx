@@ -10,7 +10,12 @@ import {
 } from "../../components-auth-shell/auth-shell-method-manifest.js";
 import { agenticFullscreenMetaParameters } from "./agentic-story-parameters.js";
 
-const authShellLaneOptions = ["access", "verify", "recover", "error"] as const satisfies readonly AuthShellFormLane[];
+const authShellLaneOptions = [
+  "access",
+  "verify",
+  "recover",
+  "error",
+] as const satisfies readonly AuthShellFormLane[];
 
 const meta = {
   title: "Agentic/Auth Shell/Auth Shell",

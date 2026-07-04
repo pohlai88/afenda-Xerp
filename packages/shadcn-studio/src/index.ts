@@ -135,10 +135,6 @@ export { default as LoginPage01 } from "./components-auth-shell/login-page-01.js
 export { default as LoginPage02 } from "./components-auth-shell/login-page-02.js";
 export { default as LoginPage03 } from "./components-auth-shell/login-page-03.js";
 export { default as LoginPage04 } from "./components-auth-shell/login-page-04.js";
-export {
-  default as AuthShellSurfaceV1,
-  type AuthShellSurfaceV1Props,
-} from "./components-auth-shell/prelogin-bundle-01.js";
 export { default as LoginPage05 } from "./components-auth-shell/login-page-05.js";
 export { default as LoginPage06 } from "./components-auth-shell/login-page-06.js";
 export { default as LoginPage07 } from "./components-auth-shell/login-page-07.js";
@@ -155,13 +151,13 @@ export { default as MfaRecoveryPage01 } from "./components-auth-shell/mfa-recove
 export { default as OtpPage01 } from "./components-auth-shell/otp-page-01.js";
 export { default as PasskeyPage01 } from "./components-auth-shell/passkey-page-01.js";
 export {
+  type AuthShellSurfaceV1Props,
+  default as AuthShellSurfaceV1,
+} from "./components-auth-shell/prelogin-bundle-01.js";
+export {
   default as RegisterFormV1,
   type RegisterFormV1Props,
 } from "./components-auth-shell/register-form-v1.js";
-export {
-  default as VerifyEmailFormV1,
-  type VerifyEmailFormV1Props,
-} from "./components-auth-shell/verify-email-form-v1.js";
 export { default as RegisterPage01 } from "./components-auth-shell/register-page-01.js";
 export {
   default as ResetPasswordFormV1,
@@ -172,6 +168,10 @@ export { default as ResetPasswordSuccessPage01 } from "./components-auth-shell/r
 export { default as SecurityReviewPage01 } from "./components-auth-shell/security-review-page-01.js";
 export { default as SsoPage01 } from "./components-auth-shell/sso-page-01.js";
 export { default as VerifyEmailExpiredPage01 } from "./components-auth-shell/verify-email-expired-page-01.js";
+export {
+  default as VerifyEmailFormV1,
+  type VerifyEmailFormV1Props,
+} from "./components-auth-shell/verify-email-form-v1.js";
 export { default as VerifyEmailPage01 } from "./components-auth-shell/verify-email-page-01.js";
 export { default as VerifyEmailSentPage01 } from "./components-auth-shell/verify-email-sent-page-01.js";
 export { default as VerifyEmailSuccessPage01 } from "./components-auth-shell/verify-email-success-page-01.js";

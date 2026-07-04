@@ -73,7 +73,7 @@ export default function LoginPage04() {
               </h1>
               <p
                 {...blockSlotDomMarkerProps("login.branding.lead")}
-                className="max-w-xl text-primary-foreground/80 text-base leading-7"
+                className="max-w-xl text-base text-primary-foreground/80 leading-7"
               >
                 The Lynx field carries product story while the chamber keeps
                 credential entry canonical, governed, and production-ready.
@@ -82,19 +82,23 @@ export default function LoginPage04() {
 
             <div className="grid gap-3 pt-6 text-primary-foreground/75 text-sm sm:grid-cols-3">
               <div className="rounded-xl border border-white/10 bg-black/24 p-3">
-                <p className="text-[0.64rem] uppercase tracking-[0.2em] text-primary/80">
+                <p className="text-[0.64rem] text-primary/80 uppercase tracking-[0.2em]">
                   Promise
                 </p>
-                <p className="mt-2">Fast onboarding with no credential drift.</p>
+                <p className="mt-2">
+                  Fast onboarding with no credential drift.
+                </p>
               </div>
               <div className="rounded-xl border border-white/10 bg-black/24 p-3">
-                <p className="text-[0.64rem] uppercase tracking-[0.2em] text-primary/80">
+                <p className="text-[0.64rem] text-primary/80 uppercase tracking-[0.2em]">
                   Trust
                 </p>
-                <p className="mt-2">Consistent auth method map across all lanes.</p>
+                <p className="mt-2">
+                  Consistent auth method map across all lanes.
+                </p>
               </div>
               <div className="rounded-xl border border-white/10 bg-black/24 p-3">
-                <p className="text-[0.64rem] uppercase tracking-[0.2em] text-primary/80">
+                <p className="text-[0.64rem] text-primary/80 uppercase tracking-[0.2em]">
                   Outcome
                 </p>
                 <p className="mt-2">One surface for campaign and conversion.</p>
