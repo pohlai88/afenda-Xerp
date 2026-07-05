@@ -33,7 +33,9 @@ styling assumptions.
 ## Constraints
 
 * No `--brand-*`, `--afenda-*`, `--surface-*`, `--luxury-*`.
-* No near-canonical token families such as `--primary-2` or `--background-alt`.
+* No near-canonical token families such as `--primary-2`, `--background-alt`,
+  `--card-secondary`, or `--muted-2`.
+* No effect token families such as `--shadow-*` or `--gradient-*`.
 * Named themes must be additive and scoped.
 * Theme files may override only tokens declared in `shadcn-default.css`.
 

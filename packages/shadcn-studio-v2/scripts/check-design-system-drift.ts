@@ -38,6 +38,54 @@ const TEXT_FILE_EXTENSIONS = new Set([
 
 const SOURCE_FILE_EXTENSIONS = new Set([".css", ".ts", ".tsx"]);
 const COMPONENT_FILE_EXTENSIONS = new Set([".ts", ".tsx"]);
+const STYLE_ROOT = path.join(PACKAGE_SRC, "styles");
+
+const REQUIRED_STYLE_FILES = [
+  "shadcn-default.css",
+  "swiss-noir.css",
+  "verdant-noir.css",
+] as const;
+
+const THEME_STYLE_FILES = ["swiss-noir.css", "verdant-noir.css"] as const;
+const DEFAULT_STYLE_FILE = "shadcn-default.css";
+const TOKEN_DECLARATION_PATTERN = /--([a-z0-9-]+)\s*:/gu;
+const SELECTOR_PATTERN = /(^|\})\s*([^{}@][^{}]*)\{/gu;
+
+const CANONICAL_SHADCN_TOKENS = new Set([
+  "background",
+  "foreground",
+  "card",
+  "card-foreground",
+  "popover",
+  "popover-foreground",
+  "primary",
+  "primary-foreground",
+  "secondary",
+  "secondary-foreground",
+  "muted",
+  "muted-foreground",
+  "accent",
+  "accent-foreground",
+  "destructive",
+  "destructive-foreground",
+  "border",
+  "input",
+  "ring",
+  "radius",
+  "chart-1",
+  "chart-2",
+  "chart-3",
+  "chart-4",
+  "chart-5",
+  "sidebar",
+  "sidebar-foreground",
+  "sidebar-primary",
+  "sidebar-primary-foreground",
+  "sidebar-accent",
+  "sidebar-accent-foreground",
+  "sidebar-border",
+  "sidebar-ring",
+]);
 
 const FORBIDDEN_TOKEN_PATTERNS = [
   { label: "--brand-*", pattern: /--brand-[\w-]+/u },
@@ -48,6 +96,8 @@ const FORBIDDEN_TOKEN_PATTERNS = [
   { label: "--background-alt", pattern: /--background-alt\b/u },
   { label: "--card-secondary", pattern: /--card-secondary\b/u },
   { label: "--muted-2", pattern: /--muted-2\b/u },
+  { label: "--shadow-*", pattern: /--shadow-[\w-]+/u },
+  { label: "--gradient-*", pattern: /--gradient-[\w-]+/u },
 ] satisfies ReadonlyArray<{ readonly label: string; readonly pattern: RegExp }>;
 
 const FORBIDDEN_THEME_FILES = [
@@ -173,6 +223,22 @@ const findFirstMatch = (content: string, pattern: RegExp): string | null => {
   return match?.[0] ?? null;
 };
 
+const listTokenNames = (content: string): string[] => {
+  TOKEN_DECLARATION_PATTERN.lastIndex = 0;
+
+  return [...content.matchAll(TOKEN_DECLARATION_PATTERN)].map(
+    (match) => match[1] ?? ""
+  );
+};
+
+const listSelectors = (content: string): string[] => {
+  SELECTOR_PATTERN.lastIndex = 0;
+
+  return [...content.matchAll(SELECTOR_PATTERN)].map((match) =>
+    (match[2] ?? "").trim()
+  );
+};
+
 const checkForbiddenTokens = async (): Promise<DriftViolation[]> => {
   const files = (await collectFiles(PACKAGE_SRC)).filter(isSourceFile);
   const violations: DriftViolation[] = [];
@@ -212,6 +278,166 @@ const checkForbiddenThemeFiles = async (): Promise<DriftViolation[]> => {
       detail:
         "Future theme candidates require taxonomy, export, Storybook, and consumer proof before file creation.",
     }));
+};
+
+const checkRequiredStyleFiles = (styleNames: Set<string>): DriftViolation[] =>
+  REQUIRED_STYLE_FILES.filter((fileName) => !styleNames.has(fileName)).map(
+    (fileName) => ({
+      rule: "missing-required-style-file",
+      file: toRelative(path.join(STYLE_ROOT, fileName)),
+      detail: "Phase 2 requires exactly the approved CSS authority files.",
+    })
+  );
+
+const checkApprovedStyleFile = (file: string): DriftViolation[] => {
+  const fileName = path.basename(file);
+  const requiredNames = new Set(REQUIRED_STYLE_FILES);
+
+  if (requiredNames.has(fileName as (typeof REQUIRED_STYLE_FILES)[number])) {
+    return [];
+  }
+
+  return [
+    {
+      rule: "unapproved-style-file",
+      file: toRelative(file),
+      detail: "New theme files require an explicit taxonomy and export slice.",
+    },
+  ];
+};
+
+const checkCanonicalTokenNames = (
+  file: string,
+  tokenNames: string[]
+): DriftViolation[] =>
+  tokenNames
+    .filter((tokenName) => !CANONICAL_SHADCN_TOKENS.has(tokenName))
+    .map((tokenName) => ({
+      rule: "non-canonical-token",
+      file: toRelative(file),
+      detail: `--${tokenName} is not in the canonical shadcn token list.`,
+    }));
+
+const checkDefaultStyleSelectors = (
+  file: string,
+  selectors: string[]
+): DriftViolation[] => {
+  const selectorSet = new Set(selectors);
+
+  if (selectorSet.has(":root") && selectorSet.has(".dark")) {
+    return [];
+  }
+
+  return [
+    {
+      rule: "default-style-selector",
+      file: toRelative(file),
+      detail:
+        "Default CSS must declare the canonical :root and .dark token layers.",
+    },
+  ];
+};
+
+const isApprovedThemeStyle = (fileName: string): boolean =>
+  THEME_STYLE_FILES.includes(fileName as (typeof THEME_STYLE_FILES)[number]);
+
+const checkThemeStyleSelector = (
+  file: string,
+  expectedSelector: string,
+  selectors: string[]
+): DriftViolation[] => {
+  if (selectors.length === 1 && selectors[0] === expectedSelector) {
+    return [];
+  }
+
+  return [
+    {
+      rule: "theme-selector",
+      file: toRelative(file),
+      detail: `Named theme must use only ${expectedSelector}.`,
+    },
+  ];
+};
+
+const checkThemeTokensDeclaredByDefault = (
+  file: string,
+  tokenNames: string[],
+  defaultTokens: Set<string>
+): DriftViolation[] =>
+  tokenNames
+    .filter((tokenName) => !defaultTokens.has(tokenName))
+    .map((tokenName) => ({
+      rule: "theme-token-not-in-default",
+      file: toRelative(file),
+      detail: `--${tokenName} is not declared by ${DEFAULT_STYLE_FILE}.`,
+    }));
+
+const checkThemeStyle = (
+  file: string,
+  tokenNames: string[],
+  selectors: string[],
+  defaultTokens: Set<string>
+): DriftViolation[] => {
+  const themeName = path.basename(file).replace(".css", "");
+  const expectedSelector = `[data-theme="${themeName}"]`;
+
+  return [
+    ...checkThemeStyleSelector(file, expectedSelector, selectors),
+    ...checkThemeTokensDeclaredByDefault(file, tokenNames, defaultTokens),
+  ];
+};
+
+const checkCssFileAuthority = (
+  file: string,
+  tokenNames: string[],
+  selectors: string[],
+  defaultTokens: Set<string>
+): DriftViolation[] => {
+  const fileName = path.basename(file);
+  const violations = [
+    ...checkApprovedStyleFile(file),
+    ...checkCanonicalTokenNames(file, tokenNames),
+  ];
+
+  if (fileName === DEFAULT_STYLE_FILE) {
+    return [...violations, ...checkDefaultStyleSelectors(file, selectors)];
+  }
+
+  if (isApprovedThemeStyle(fileName)) {
+    return [
+      ...violations,
+      ...checkThemeStyle(file, tokenNames, selectors, defaultTokens),
+    ];
+  }
+
+  return violations;
+};
+
+const checkCssTokenAuthority = async (): Promise<DriftViolation[]> => {
+  const violations: DriftViolation[] = [];
+  const styleFiles = (await collectFiles(STYLE_ROOT)).filter(
+    (file) => path.extname(file) === ".css"
+  );
+  const styleNames = new Set(styleFiles.map((file) => path.basename(file)));
+  const defaultStylePath = path.join(STYLE_ROOT, DEFAULT_STYLE_FILE);
+  const defaultSource = existsSync(defaultStylePath)
+    ? await readText(defaultStylePath)
+    : "";
+  const defaultTokens = new Set(listTokenNames(defaultSource));
+
+  violations.push(...checkRequiredStyleFiles(styleNames));
+
+  for (const file of styleFiles) {
+    const content = await readText(file);
+    const tokenNames = listTokenNames(content);
+    const selectors = listSelectors(content);
+
+    violations.push(
+      ...checkCssFileAuthority(file, tokenNames, selectors, defaultTokens)
+    );
+  }
+
+  return violations;
 };
 
 const checkV2RuntimeImports = async (): Promise<DriftViolation[]> => {
@@ -333,6 +559,7 @@ const checkHardcodedHex = async (): Promise<DriftViolation[]> => {
 };
 
 const checks = [
+  checkCssTokenAuthority,
   checkForbiddenTokens,
   checkForbiddenThemeFiles,
   checkV2RuntimeImports,

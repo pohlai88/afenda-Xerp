@@ -18,7 +18,43 @@ const DEFAULT_STYLE_FILE = "shadcn-default.css";
 const TOKEN_DECLARATION_PATTERN = /--([a-z0-9-]+)\s*:/g;
 const SELECTOR_PATTERN = /(^|})\s*([^{}@][^{}]*)\{/g;
 const FORBIDDEN_TOKEN_FAMILY_PATTERN =
-  /--(?:afenda|brand|luxury|surface)-[a-z0-9-]+/;
+  /--(?:(?:afenda|brand|gradient|luxury|shadow|surface)-[a-z0-9-]+|background-alt|card-secondary|muted-2|primary-2\b)/;
+
+const CANONICAL_SHADCN_TOKENS = new Set([
+  "background",
+  "foreground",
+  "card",
+  "card-foreground",
+  "popover",
+  "popover-foreground",
+  "primary",
+  "primary-foreground",
+  "secondary",
+  "secondary-foreground",
+  "muted",
+  "muted-foreground",
+  "accent",
+  "accent-foreground",
+  "destructive",
+  "destructive-foreground",
+  "border",
+  "input",
+  "ring",
+  "radius",
+  "chart-1",
+  "chart-2",
+  "chart-3",
+  "chart-4",
+  "chart-5",
+  "sidebar",
+  "sidebar-foreground",
+  "sidebar-primary",
+  "sidebar-primary-foreground",
+  "sidebar-accent",
+  "sidebar-accent-foreground",
+  "sidebar-border",
+  "sidebar-ring",
+]);
 
 const ALLOWED_SELECTORS = new Set([
   ":root",
@@ -61,16 +97,23 @@ describe("shadcn-studio-v2 style governance", () => {
   });
 
   it("uses the default layer as the canonical token source", () => {
-    const defaultTokens = new Set(
-      listTokenNames(readStyle(DEFAULT_STYLE_FILE))
-    );
+    const defaultTokenNames = listTokenNames(readStyle(DEFAULT_STYLE_FILE));
+    const defaultTokens = new Set(defaultTokenNames);
 
     expect(defaultTokens.size).toBeGreaterThan(0);
+    expect(
+      defaultTokenNames.every((tokenName) =>
+        CANONICAL_SHADCN_TOKENS.has(tokenName)
+      )
+    ).toBe(true);
 
     for (const themeFile of THEME_STYLE_FILES) {
       const themeTokens = listTokenNames(readStyle(themeFile));
 
       expect(themeTokens.length).toBeGreaterThan(0);
+      expect(
+        themeTokens.every((tokenName) => CANONICAL_SHADCN_TOKENS.has(tokenName))
+      ).toBe(true);
       expect(
         themeTokens.every((tokenName) => defaultTokens.has(tokenName))
       ).toBe(true);
