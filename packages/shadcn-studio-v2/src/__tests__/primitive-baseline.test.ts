@@ -1,10 +1,20 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { createElement } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import { badgeClassName } from "../components/ui/Badge";
-import { buttonClassName } from "../components/ui/Button";
-import { cardClassName } from "../components/ui/Card";
+import { Badge, badgeClassName } from "../components/ui/Badge";
+import { Button, buttonClassName } from "../components/ui/Button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  cardClassName,
+} from "../components/ui/Card";
 import { cn } from "../lib/cn";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
@@ -64,5 +74,46 @@ describe("shadcn-studio-v2 primitive baseline", () => {
     expect(cardSource).toContain('data-slot="card-description"');
     expect(cardSource).toContain('data-slot="card-content"');
     expect(cardSource).toContain('data-slot="card-footer"');
+  });
+
+  it("renders Button, Badge, and Card through semantic HTML with governed slots", () => {
+    const buttonMarkup = renderToStaticMarkup(
+      createElement(Button, { variant: "outline" }, "Save")
+    );
+    const badgeMarkup = renderToStaticMarkup(
+      createElement(Badge, { variant: "secondary" }, "Stable")
+    );
+    const cardMarkup = renderToStaticMarkup(
+      createElement(
+        Card,
+        undefined,
+        createElement(
+          CardHeader,
+          undefined,
+          createElement(CardTitle, undefined, "Revenue"),
+          createElement(CardDescription, undefined, "Trailing twelve months")
+        ),
+        createElement(CardContent, undefined, "128"),
+        createElement(CardFooter, undefined, "Updated now")
+      )
+    );
+
+    expect(buttonMarkup).toContain("<button");
+    expect(buttonMarkup).toContain('type="button"');
+    expect(buttonMarkup).toContain('data-slot="button"');
+    expect(buttonMarkup).toContain("Save");
+
+    expect(badgeMarkup).toContain("<span");
+    expect(badgeMarkup).toContain('data-slot="badge"');
+    expect(badgeMarkup).toContain("Stable");
+
+    expect(cardMarkup).toContain('data-slot="card"');
+    expect(cardMarkup).toContain('data-slot="card-header"');
+    expect(cardMarkup).toContain('data-slot="card-title"');
+    expect(cardMarkup).toContain('data-slot="card-description"');
+    expect(cardMarkup).toContain('data-slot="card-content"');
+    expect(cardMarkup).toContain('data-slot="card-footer"');
+    expect(cardMarkup).toContain("Revenue");
+    expect(cardMarkup).toContain("128");
   });
 });

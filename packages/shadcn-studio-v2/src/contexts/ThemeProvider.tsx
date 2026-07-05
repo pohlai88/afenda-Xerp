@@ -8,6 +8,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { studioThemeConfig } from "../configs/theme-config";
@@ -43,6 +44,10 @@ function resolveSystemMode(): StudioResolvedThemeMode {
 
 function resolveMode(mode: StudioThemeMode): StudioResolvedThemeMode {
   return mode === "system" ? resolveSystemMode() : mode;
+}
+
+function resolveInitialMode(mode: StudioThemeMode): StudioResolvedThemeMode {
+  return mode === "dark" ? "dark" : "light";
 }
 
 function applyTheme(state: StudioThemeState): void {
@@ -116,11 +121,14 @@ function isThemeMode(value: unknown): value is StudioThemeMode {
 
 function createThemeState(
   themeId: StudioThemeId,
-  mode: StudioThemeMode
+  mode: StudioThemeMode,
+  resolveThemeMode: (
+    mode: StudioThemeMode
+  ) => StudioResolvedThemeMode = resolveMode
 ): StudioThemeState {
   return {
     mode,
-    resolvedMode: resolveMode(mode),
+    resolvedMode: resolveThemeMode(mode),
     themeId,
   };
 }
@@ -130,16 +138,56 @@ export function ThemeProvider({
   initialMode = studioThemeConfig.defaultMode,
   initialThemeId = studioThemeConfig.defaultThemeId,
 }: ThemeProviderProps) {
-  const [themeState, setThemeState] = useState<StudioThemeState>(() => {
-    const stored = readStoredTheme();
-
-    return createThemeState(
-      stored.themeId ?? initialThemeId,
-      stored.mode ?? initialMode
-    );
-  });
+  const hasLoadedStoredThemeRef = useRef(false);
+  const [themeState, setThemeState] = useState<StudioThemeState>(() =>
+    createThemeState(initialThemeId, initialMode, resolveInitialMode)
+  );
 
   useEffect(() => {
+    const stored = readStoredTheme();
+    hasLoadedStoredThemeRef.current = true;
+
+    setThemeState((current) => {
+      const nextThemeId = stored.themeId ?? current.themeId;
+      const nextMode = stored.mode ?? current.mode;
+
+      return createThemeState(nextThemeId, nextMode);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (themeState.mode !== "system" || typeof window === "undefined") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+
+    const handleChange = (): void => {
+      setThemeState((current) => {
+        if (current.mode !== "system") {
+          return current;
+        }
+
+        return {
+          ...current,
+          resolvedMode: mediaQuery.matches ? "dark" : "light",
+        };
+      });
+    };
+
+    handleChange();
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, [themeState.mode]);
+
+  useEffect(() => {
+    if (!hasLoadedStoredThemeRef.current) {
+      return;
+    }
+
     applyTheme(themeState);
     persistTheme(themeState);
   }, [themeState]);

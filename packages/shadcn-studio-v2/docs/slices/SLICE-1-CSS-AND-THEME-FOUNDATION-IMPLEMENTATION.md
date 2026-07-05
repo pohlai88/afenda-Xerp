@@ -61,17 +61,19 @@
 
 ## 6) Test and verification commands
 
-- `pnpm quality:css`
-- `pnpm check:studio-ui-gold`
-- `pnpm check:studio-ui-contracts`
+- `pnpm --filter @afenda/shadcn-studio-v2 test`
+- `pnpm --filter @afenda/shadcn-studio-v2 typecheck`
+- `pnpm --filter @afenda/shadcn-studio-v2 build`
+- `pnpm exec biome ci packages/shadcn-studio-v2`
 
 ### Evidence log
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: style governance, taxonomy, and public export tests passed | `packages/shadcn-studio-v2/src/__tests__/style-governance.test.ts` |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: package-local governance tests cover taxonomy, public exports, runtime boundary, and CSS theme constraints | `packages/shadcn-studio-v2/src/__tests__/style-governance.test.ts` |
 | `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS: TypeScript config resolves | `packages/shadcn-studio-v2/tsconfig.json` |
 | `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS: package build completes | `packages/shadcn-studio-v2/dist` |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS: package-local docs and tests are formatted and lint-clean | `packages/shadcn-studio-v2` |
 
 ## 7) Risk register
 
@@ -104,6 +106,7 @@
   - `verdant-noir.css`
 - `TAXONOMY.md` defines `shadcn-default.css` as the canonical default token layer.
 - `TAXONOMY.md` keeps `styles/` CSS-only and rejects parallel structural folders or copied reference-project structure.
+- `style-governance.test.ts` now proves that only `shadcn-default.css` owns canonical root selectors and theme files remain additive `data-theme` overrides.
 
 ### CreateEditorialLayout reference evidence
 - `_reference/CreateEditorialLayout/reference` is reference-only and does not authorize runtime imports.

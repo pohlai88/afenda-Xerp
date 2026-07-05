@@ -7,8 +7,15 @@
     "build": "cross-env AFENDA_DEVELOPER_SANDBOX=true next build",
     "dev": "next dev --port 3002",
     "start": "next start --port 3002",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "check:route-lab-governance": "node ./scripts/check-route-lab-governance.mjs",
+    "check:biome": "pnpm exec biome ci .",
+    "typecheck": "cross-env AFENDA_DEVELOPER_SANDBOX=true next typegen && tsc -p tsconfig.json --noEmit",
+    "verify:route-lab": "pnpm typecheck && pnpm check:route-lab-governance",
+    "verify:greenlight": "node ./scripts/verify-greenlight.mjs",
+    "test": "vitest run --config vitest.config.ts",
+    "test:interaction": "vitest run --config vitest.config.ts .interaction.test",
     "test:e2e:smoke": "playwright test --project=chromium-smoke",
+    "test:e2e:cutover:sales": "playwright test --project=chromium-smoke -g \"Sales route cutover proof\"",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const d of ['.next', 'out']) rmSync(d, { recursive: true, force: true })\""
   },
   "dependencies": {
@@ -19,14 +26,18 @@
     "react-dom": "catalog:"
   },
   "devDependencies": {
+    "@afenda/testing": "workspace:*",
     "@afenda/typescript-config": "workspace:*",
     "@playwright/test": "^1.61.0",
     "@tailwindcss/postcss": "catalog:",
+    "@testing-library/react": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@vitejs/plugin-react": "catalog:",
     "cross-env": "^7.0.3",
     "shadcn": "^4.11.0",
     "tailwindcss": "catalog:",
-    "tw-animate-css": "1.4.0"
+    "tw-animate-css": "1.4.0",
+    "vitest": "catalog:"
   }
 }

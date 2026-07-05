@@ -7,8 +7,8 @@
 - Tracking owner: `V2 migration squad`
 - Slice start date: `2026-07-05`
 - Planned completion date: `2026-07-05`
-- Actual completion date: `Not completed`
-- Current status: `not-started`
+- Actual completion date: `2026-07-05`
+- Current status: `verified`
 
 ## 2) Strategic objective
 
@@ -19,7 +19,6 @@
 - Reusable chrome in `components/layout/`.
 - Non-primitive shared parts in `components/shared/`.
 - Controlled `components/assets/` usage for coupled assets.
-
 
 ### V2-only guardrail
 
@@ -58,17 +57,23 @@ Slice 4 execution and verification stay inside `packages/shadcn-studio-v2/**`. D
 - Normalize folder usage and naming for all reusable non-view chrome.
 - Document quarantine entries with source, reason, destination, and promotion condition.
 - Restrict page composition from landing in `layout`.
+- Keep shared runtime-adjacent behavior on the client boundary only.
 
 ## 6) Test and verification commands
 
 - `pnpm --filter @afenda/shadcn-studio-v2 test`
 - `pnpm --filter @afenda/shadcn-studio-v2 typecheck`
+- `pnpm --filter @afenda/shadcn-studio-v2 build`
+- `pnpm exec biome ci packages/shadcn-studio-v2`
 
 ### Evidence log
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm --filter @afenda/shadcn-studio-v2 test` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-4-LAYOUT-AND-SHARED-PARTS-IMPLEMENTATION.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: layout/shared tests prove governed slots, token-driven class helpers, accessible icon asset behavior, and client-only shared boundary ownership | `packages/shadcn-studio-v2/src/__tests__/layout-shared.test.tsx` |
+| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS: layout/shared public contracts resolve | `packages/shadcn-studio-v2/tsconfig.json` |
+| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS: package emits verified layout/shared declarations | `packages/shadcn-studio-v2/dist` |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS: layout/shared implementation, tests, and docs are format/lint clean | `packages/shadcn-studio-v2` |
 
 ## 7) Risk register
 
@@ -85,6 +90,7 @@ Slice 4 execution and verification stay inside `packages/shadcn-studio-v2/**`. D
 - Decision: Slice 4 must not add new primitive components; primitive expansion remains closed after Slice 3B unless a later amendment creates another primitive slice.
 - Decision: Slice 4 must consume Slice 3A/3B primitives instead of redefining button, card, badge, alert, field, or table behavior.
 - Decision: Slice 4 layout parts may arrange primitives but must not own primitive variants, field validation, table data state, or alert announcement policy.
+- Decision: `ThemeToggle` remains the shared runtime-adjacent helper for Slice 4 and stays client-only.
 
 ## 9) Entry readiness review
 
@@ -119,6 +125,23 @@ Slice 4 execution and verification stay inside `packages/shadcn-studio-v2/**`. D
 
 ## 11) Exit checklist
 
-- Required before verification: layout/shared folders populated with taxonomy-compliant items.
-- Required before verification: quarantine policy and tracking fields are complete for held units.
-- Required before verification: gate evidence attached and no root exports from quarantine.
+- Verified: `components/layout/`, `components/shared/`, and `components/assets/` contain taxonomy-compliant items only.
+- Verified: quarantine policy exists and public entrypoints do not export quarantine.
+- Verified: `ThemeToggle` is exposed from `clients.ts` only and remains absent from neutral/server surfaces.
+- Verified: scoped package gates are attached and clean.
+
+## 12) Implementation summary
+
+- Added reusable chrome under `components/layout/`: `AppShell`, `Sidebar`, and `Topbar`.
+- Kept `ThemeToggle` as the shared runtime-adjacent helper under `components/shared/`.
+- Added `IconMark` under `components/assets/` as the component-coupled accessible asset baseline.
+- Kept quarantine policy document-only through `components/quarantine/README.md`.
+- Exported layout/assets from neutral and client surfaces only where appropriate.
+
+## 13) Post-verification stabilization review
+
+- Review result: `PASS`
+- Layout APIs remain presentational and token-driven.
+- Shared runtime state ownership remains outside the primitive lane and inside the client boundary.
+- Assets remain reusable and accessibility-safe.
+- Slice 5 entry condition is satisfied from verified primitive, layout, shared, and asset lanes.

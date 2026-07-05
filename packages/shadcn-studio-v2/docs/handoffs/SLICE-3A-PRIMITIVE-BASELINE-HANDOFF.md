@@ -22,6 +22,7 @@ Slice 3A is stabilized for downstream Slice 3B work.
 
 - Primitive ownership is serialized through `data-slot` markers.
 - Primitive styling stays inside token-based class variants.
+- Primitive render output is verified through semantic SSR markup checks.
 - Public exports are explicit and package-root owned.
 - Quarantine components are not exported.
 - Slice 3A contains no page logic, ERP module logic, database access, or metadata execution.
@@ -45,7 +46,6 @@ The Slice 3A verification pass completed with:
 - `pnpm --filter @afenda/shadcn-studio-v2 typecheck`
 - `pnpm --filter @afenda/shadcn-studio-v2 build`
 - `pnpm exec biome ci packages/shadcn-studio-v2`
-- `pnpm check:documentation-drift`
 
 No validation commands were rerun during this stabilization edit.
 

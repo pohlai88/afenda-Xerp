@@ -1,0 +1,87 @@
+<svg
+  fill="none"
+  height="720"
+  viewBox="0 0 1280 720"
+  width="1280"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title>Afenda admin users route blueprint</title>
+  <rect fill="#F7F8FC" height="720" rx="40" width="1280" />
+  <rect
+    fill="#FFFFFF"
+    height="624"
+    rx="32"
+    stroke="#D8E2F0"
+    stroke-width="2"
+    width="1184"
+    x="48"
+    y="48"
+  />
+  <rect fill="#0F172A" height="76" rx="24" width="1104" x="88" y="88" />
+  <rect fill="#CBD5E1" height="12" rx="6" width="230" x="120" y="114" />
+  <rect fill="#64748B" height="10" rx="5" width="410" x="120" y="136" />
+  <rect
+    fill="#F8FAFC"
+    height="456"
+    rx="28"
+    stroke="#D8E2F0"
+    stroke-width="2"
+    width="1104"
+    x="88"
+    y="196"
+  />
+  <rect fill="#EEF2FF" height="64" rx="20" width="1040" x="120" y="228" />
+  <rect fill="#4338CA" height="14" rx="7" width="188" x="148" y="254" />
+  <rect
+    fill="#FFFFFF"
+    height="52"
+    rx="16"
+    stroke="#D8E2F0"
+    stroke-width="2"
+    width="1040"
+    x="120"
+    y="324"
+  />
+  <rect
+    fill="#FFFFFF"
+    height="52"
+    rx="16"
+    stroke="#D8E2F0"
+    stroke-width="2"
+    width="1040"
+    x="120"
+    y="394"
+  />
+  <rect
+    fill="#FFFFFF"
+    height="52"
+    rx="16"
+    stroke="#D8E2F0"
+    stroke-width="2"
+    width="1040"
+    x="120"
+    y="464"
+  />
+  <rect
+    fill="#FFFFFF"
+    height="52"
+    rx="16"
+    stroke="#D8E2F0"
+    stroke-width="2"
+    width="1040"
+    x="120"
+    y="534"
+  />
+  <circle cx="160" cy="350" fill="#C7D2FE" r="14" />
+  <circle cx="160" cy="420" fill="#C7D2FE" r="14" />
+  <circle cx="160" cy="490" fill="#C7D2FE" r="14" />
+  <circle cx="160" cy="560" fill="#C7D2FE" r="14" />
+  <rect fill="#94A3B8" height="10" rx="5" width="170" x="190" y="345" />
+  <rect fill="#CBD5E1" height="10" rx="5" width="250" x="470" y="345" />
+  <rect fill="#94A3B8" height="10" rx="5" width="170" x="190" y="415" />
+  <rect fill="#CBD5E1" height="10" rx="5" width="250" x="470" y="415" />
+  <rect fill="#94A3B8" height="10" rx="5" width="170" x="190" y="485" />
+  <rect fill="#CBD5E1" height="10" rx="5" width="250" x="470" y="485" />
+  <rect fill="#94A3B8" height="10" rx="5" width="170" x="190" y="555" />
+  <rect fill="#CBD5E1" height="10" rx="5" width="250" x="470" y="555" />
+</svg>

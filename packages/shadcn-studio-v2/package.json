@@ -27,16 +27,41 @@
       "types": "./dist/metadata.d.ts",
       "import": "./dist/metadata.js",
       "default": "./dist/metadata.js"
+    },
+    "./theme": {
+      "types": "./dist/contexts/theme-boundary.d.ts",
+      "import": "./dist/contexts/theme-boundary.js",
+      "default": "./dist/contexts/theme-boundary.js"
+    },
+    "./shadcn-default.css": {
+      "types": "./dist/shadcn-default.css.d.ts",
+      "import": "./dist/shadcn-default.css",
+      "default": "./dist/shadcn-default.css"
+    },
+    "./themes/swiss-noir.css": {
+      "types": "./dist/themes/swiss-noir.css.d.ts",
+      "import": "./dist/themes/swiss-noir.css",
+      "default": "./dist/themes/swiss-noir.css"
+    },
+    "./themes/verdant-noir.css": {
+      "types": "./dist/themes/verdant-noir.css.d.ts",
+      "import": "./dist/themes/verdant-noir.css",
+      "default": "./dist/themes/verdant-noir.css"
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.json && node --input-type=module -e \"import { copyFileSync, mkdirSync } from 'node:fs'; mkdirSync('dist/themes', { recursive: true }); copyFileSync('src/styles/shadcn-default.css', 'dist/shadcn-default.css'); copyFileSync('src/types/css-export.d.ts', 'dist/shadcn-default.css.d.ts'); copyFileSync('src/styles/swiss-noir.css', 'dist/themes/swiss-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/swiss-noir.css.d.ts'); copyFileSync('src/styles/verdant-noir.css', 'dist/themes/verdant-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/verdant-noir.css.d.ts');\"",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\"",
     "test": "vitest run",
     "test:taxonomy": "vitest run src/__tests__/taxonomy.test.ts",
     "test:watch": "vitest",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
+  "sideEffects": [
+    "./dist/shadcn-default.css",
+    "./dist/themes/swiss-noir.css",
+    "./dist/themes/verdant-noir.css"
+  ],
   "peerDependencies": {
     "next": "^16.0.0",
     "react": "^19.0.0",

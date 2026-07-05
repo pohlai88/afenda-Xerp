@@ -31,6 +31,26 @@ const EXPECTED_EXPORTS = {
     import: "./dist/metadata.js",
     default: "./dist/metadata.js",
   },
+  "./theme": {
+    types: "./dist/contexts/theme-boundary.d.ts",
+    import: "./dist/contexts/theme-boundary.js",
+    default: "./dist/contexts/theme-boundary.js",
+  },
+  "./shadcn-default.css": {
+    types: "./dist/shadcn-default.css.d.ts",
+    import: "./dist/shadcn-default.css",
+    default: "./dist/shadcn-default.css",
+  },
+  "./themes/swiss-noir.css": {
+    types: "./dist/themes/swiss-noir.css.d.ts",
+    import: "./dist/themes/swiss-noir.css",
+    default: "./dist/themes/swiss-noir.css",
+  },
+  "./themes/verdant-noir.css": {
+    types: "./dist/themes/verdant-noir.css.d.ts",
+    import: "./dist/themes/verdant-noir.css",
+    default: "./dist/themes/verdant-noir.css",
+  },
 } as const;
 
 const ROOT_PUBLIC_FILES = [
@@ -69,7 +89,9 @@ describe("shadcn-studio-v2 public export scaffold", () => {
       readFileSync(PACKAGE_JSON_PATH, "utf8")
     ) as PackageJson;
 
-    expect(packageJson.scripts?.build).toBe("tsc -p tsconfig.json");
+    expect(packageJson.scripts?.build).toBe(
+      `tsc -p tsconfig.json && node --input-type=module -e "import { copyFileSync, mkdirSync } from 'node:fs'; mkdirSync('dist/themes', { recursive: true }); copyFileSync('src/styles/shadcn-default.css', 'dist/shadcn-default.css'); copyFileSync('src/types/css-export.d.ts', 'dist/shadcn-default.css.d.ts'); copyFileSync('src/styles/swiss-noir.css', 'dist/themes/swiss-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/swiss-noir.css.d.ts'); copyFileSync('src/styles/verdant-noir.css', 'dist/themes/verdant-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/verdant-noir.css.d.ts');"`
+    );
     expect(packageJson.scripts?.typecheck).toBe(
       "tsc -p tsconfig.json --noEmit"
     );
@@ -95,9 +117,7 @@ describe("shadcn-studio-v2 public export scaffold", () => {
       readFileSync(COMPONENTS_JSON_PATH, "utf8")
     ) as ComponentsJson;
 
-    expect(tsconfig.compilerOptions?.paths?.["@/assets/*"]).toEqual([
-      "./src/assets/*",
-    ]);
+    expect(tsconfig.compilerOptions?.paths?.["@/assets/*"]).toBeUndefined();
     expect(componentsJson.aliases?.utils).toBe("@/lib/cn");
   });
 });

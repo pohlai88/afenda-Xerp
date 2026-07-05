@@ -1,0 +1,104 @@
+<svg
+  fill="none"
+  height="720"
+  viewBox="0 0 1280 720"
+  width="1280"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title>Afenda route-lab module document blueprint</title>
+  <rect fill="#F4F7FB" height="720" rx="40" width="1280" />
+  <rect
+    fill="#FCFDFE"
+    height="624"
+    rx="32"
+    stroke="#D8E2F0"
+    stroke-width="2"
+    width="1184"
+    x="48"
+    y="48"
+  />
+  <rect fill="#0F172A" height="72" rx="24" width="1104" x="88" y="88" />
+  <rect fill="#CBD5E1" height="12" rx="6" width="220" x="120" y="112" />
+  <rect fill="#64748B" height="10" rx="5" width="360" x="120" y="132" />
+  <rect
+    fill="#EEF4FF"
+    height="440"
+    rx="28"
+    stroke="#D4E2FF"
+    stroke-width="2"
+    width="650"
+    x="88"
+    y="192"
+  />
+  <rect fill="#2563EB" height="14" rx="7" width="220" x="120" y="228" />
+  <rect fill="#475569" height="12" rx="6" width="430" x="120" y="256" />
+  <rect
+    fill="#F8FBFF"
+    height="182"
+    rx="24"
+    stroke="#D5E3F4"
+    stroke-width="2"
+    width="586"
+    x="120"
+    y="292"
+  />
+  <rect fill="#64748B" height="14" rx="7" width="150" x="148" y="320" />
+  <rect fill="#E2E8F0" height="52" rx="18" width="220" x="148" y="352" />
+  <rect fill="#E2E8F0" height="52" rx="18" width="220" x="388" y="352" />
+  <rect
+    fill="#FFFFFF"
+    height="108"
+    rx="22"
+    stroke="#D8E2F0"
+    stroke-width="2"
+    width="558"
+    x="148"
+    y="494"
+  />
+  <rect fill="#94A3B8" height="10" rx="5" width="180" x="178" y="524" />
+  <rect fill="#CBD5E1" height="10" rx="5" width="456" x="178" y="548" />
+  <rect
+    fill="#FFF7ED"
+    height="210"
+    rx="28"
+    stroke="#FED7AA"
+    stroke-width="2"
+    width="410"
+    x="782"
+    y="192"
+  />
+  <rect fill="#EA580C" height="14" rx="7" width="166" x="814" y="228" />
+  <rect fill="#7C2D12" height="12" rx="6" width="330" x="814" y="258" />
+  <rect
+    fill="#FFFFFF"
+    height="72"
+    rx="22"
+    stroke="#FED7AA"
+    stroke-width="2"
+    width="346"
+    x="814"
+    y="300"
+  />
+  <rect
+    fill="#F8FAFC"
+    height="210"
+    rx="28"
+    stroke="#D8E2F0"
+    stroke-width="2"
+    width="410"
+    x="782"
+    y="422"
+  />
+  <rect fill="#0F172A" height="14" rx="7" width="210" x="814" y="458" />
+  <rect fill="#64748B" height="12" rx="6" width="346" x="814" y="490" />
+  <rect
+    fill="#EFF6FF"
+    height="72"
+    rx="22"
+    stroke="#BFDBFE"
+    stroke-width="2"
+    width="346"
+    x="814"
+    y="526"
+  />
+</svg>

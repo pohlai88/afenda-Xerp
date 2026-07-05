@@ -6,6 +6,7 @@ import {
   CardTitle,
 } from "@afenda/shadcn-studio";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { getLabNavGroups } from "@/config/nav-config";
 import { labRoutePolicies } from "@/lib/lab/route-policy";
@@ -39,7 +40,7 @@ export default async function HomePage() {
             </p>
             <p className="text-slate-300">Port 3002 · ADR-0039 · PAS-006E</p>
           </div>
-          <div className="grid gap-8 px-6 py-8 lg:grid-cols-[1.25fr_0.75fr] lg:px-8 lg:py-10">
+          <div className="grid gap-8 px-6 py-8 lg:grid-cols-[1.05fr_0.95fr] lg:px-8 lg:py-10">
             <div className="space-y-6">
               <div className="space-y-3">
                 <p className="font-medium text-primary text-xs uppercase tracking-[0.3em]">
@@ -69,26 +70,40 @@ export default async function HomePage() {
                 </Link>
               </div>
             </div>
-            <Card className="border-slate-200/70 bg-slate-950 text-slate-50 dark:border-slate-800 dark:bg-slate-950">
-              <CardHeader>
-                <CardTitle>Controlling doctrine</CardTitle>
-                <CardDescription className="text-slate-300">
-                  Locked architecture boundary for every new route in this app.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3 text-sm">
-                  {doctrine.map((rule) => (
-                    <li
-                      className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3"
-                      key={rule}
-                    >
-                      {rule}
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
+            <div className="space-y-4">
+              <div className="overflow-hidden rounded-[1.75rem] border border-slate-200/70 bg-slate-100 shadow-xl">
+                <Image
+                  alt="Abstract blueprint showing the Afenda route lab shell, route panels, and promotion-ready composition."
+                  className="h-auto w-full"
+                  height={900}
+                  preload
+                  sizes="(min-width: 1024px) 42rem, 100vw"
+                  src="/route-lab-blueprint.svg"
+                  width={1200}
+                />
+              </div>
+              <Card className="border-slate-200/70 bg-slate-950 text-slate-50 dark:border-slate-800 dark:bg-slate-950">
+                <CardHeader>
+                  <CardTitle>Controlling doctrine</CardTitle>
+                  <CardDescription className="text-slate-300">
+                    Locked architecture boundary for every new route in this
+                    app.
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <ul className="space-y-3 text-sm">
+                    {doctrine.map((rule) => (
+                      <li
+                        className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3"
+                        key={rule}
+                      >
+                        {rule}
+                      </li>
+                    ))}
+                  </ul>
+                </CardContent>
+              </Card>
+            </div>
           </div>
         </div>
 
@@ -116,9 +131,20 @@ export default async function HomePage() {
                     boundary:{" "}
                     {policy.requiresLoadingBoundary ? "required" : "optional"}.
                   </p>
+                  <p className="text-muted-foreground text-sm">
+                    Action seam: {policy.actionSeam}
+                  </p>
+                  <p className="text-muted-foreground text-sm">
+                    Query seam: {policy.querySeam}
+                  </p>
+                  {policy.routePath === policy.href ? null : (
+                    <p className="text-muted-foreground text-sm">
+                      Route contract: {policy.routePath}
+                    </p>
+                  )}
                   <div className="flex items-center justify-between gap-4">
                     <code className="rounded-full bg-muted px-3 py-1 text-xs">
-                      {policy.href}
+                      {policy.routePath}
                     </code>
                     <Link
                       className="rounded-full border px-4 py-2 font-medium text-sm"

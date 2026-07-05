@@ -1,6 +1,14 @@
 // biome-ignore lint/performance/noBarrelFile: V2 clients.ts is the explicit client boundary surface.
 export { IconMark, type IconMarkProps } from "./components/assets/IconMark";
 export {
+  AdmincnNav,
+  type AdmincnNavProps,
+} from "./components/layout/AdmincnNav";
+export {
+  AdmincnShell,
+  type AdmincnShellProps,
+} from "./components/layout/AdmincnShell";
+export {
   AppShell,
   type AppShellDensity,
   type AppShellProps,
@@ -87,7 +95,12 @@ export {
   type ThemeProviderProps,
 } from "./contexts/ThemeProvider";
 export { useTheme } from "./hooks/use-theme";
-export type { StudioPackageConfig } from "./types/studio";
+export type {
+  AppShellNavGroupWire,
+  AppShellNavItemWire,
+  AppShellOperatingContextWire,
+  StudioPackageConfig,
+} from "./types/studio";
 export type {
   StudioResolvedThemeMode,
   StudioThemeConfig,
@@ -113,3 +126,13 @@ export {
   type MetricWidgetTone,
   metricWidgetValueClassName,
 } from "./views/widgets/MetricWidget";
+export {
+  type RevenueChartPoint,
+  StatisticsRevenueCardBlock,
+  type StatisticsRevenueCardProps,
+} from "./views/widgets/StatisticsRevenueCardBlock";
+export {
+  StatisticsSalesOverviewCardBlock,
+  type StatisticsSalesOverviewCardProps,
+  type StatisticsSalesOverviewSide,
+} from "./views/widgets/StatisticsSalesOverviewCardBlock";

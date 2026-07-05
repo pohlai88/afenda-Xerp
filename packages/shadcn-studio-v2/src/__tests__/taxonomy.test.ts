@@ -9,7 +9,6 @@ const SRC_ROOT = path.join(PACKAGE_ROOT, "src");
 const NON_STRUCTURAL_SRC_FOLDERS = new Set(["__tests__"]);
 
 const allowedRootFolders = new Set([
-  "assets",
   "components",
   "configs",
   "contexts",
@@ -31,7 +30,6 @@ const requiredRootFiles = new Set([
 ]);
 
 const allowedSecondLevelFolders: Record<string, Set<string>> = {
-  assets: new Set(["brand", "icons", "vectors"]),
   components: new Set(["assets", "layout", "quarantine", "shared", "ui"]),
   metadata: new Set(["builders", "contracts", "gates", "registries"]),
   storybook: new Set(["fixtures", "stories"]),
@@ -186,12 +184,13 @@ describe("shadcn-studio-v2 taxonomy", () => {
 
   it("matches the approved taxonomy tree snapshot", () => {
     expect(buildTree(SRC_ROOT).join("\n")).toMatchInlineSnapshot(`
-      "assets/
-      clients.ts
+      "clients.ts
       components/
         assets/
           IconMark.tsx
         layout/
+          AdmincnNav.tsx
+          AdmincnShell.tsx
           AppShell.tsx
           Sidebar.tsx
           Topbar.tsx
@@ -211,6 +210,7 @@ describe("shadcn-studio-v2 taxonomy", () => {
         theme-config.ts
       contexts/
         ThemeProvider.tsx
+        theme-boundary.ts
       hooks/
         use-theme.ts
       index.ts
@@ -235,6 +235,7 @@ describe("shadcn-studio-v2 taxonomy", () => {
         swiss-noir.css
         verdant-noir.css
       types/
+        css-export.d.ts
         studio.ts
         theme.ts
       utils/
@@ -244,7 +245,9 @@ describe("shadcn-studio-v2 taxonomy", () => {
         pages/
           PageSurface.tsx
         widgets/
-          MetricWidget.tsx"
+          MetricWidget.tsx
+          StatisticsRevenueCardBlock.tsx
+          StatisticsSalesOverviewCardBlock.tsx"
     `);
   });
 });

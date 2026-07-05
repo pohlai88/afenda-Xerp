@@ -64,17 +64,19 @@
 
 ## 6) Test and verification commands
 
-- `pnpm quality:boundaries`
-- `pnpm quality:exports`
-- `pnpm quality:architecture`
+- `pnpm --filter @afenda/shadcn-studio-v2 test`
+- `pnpm --filter @afenda/shadcn-studio-v2 typecheck`
+- `pnpm --filter @afenda/shadcn-studio-v2 build`
+- `pnpm exec biome ci packages/shadcn-studio-v2`
 
 ### Evidence log
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: taxonomy, public exports, style governance, and runtime boundary tests pass | `packages/shadcn-studio-v2/src/__tests__/runtime-boundary.test.ts` |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: package-local governance and runtime tests cover exports, boundaries, and hydration-safe theme initialization | `packages/shadcn-studio-v2/src/__tests__/runtime-boundary.test.ts`; `packages/shadcn-studio-v2/src/__tests__/theme-runtime.test.tsx` |
 | `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS: config/runtime TypeScript resolves | `packages/shadcn-studio-v2/tsconfig.json` |
 | `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS: package emits public boundary files | `packages/shadcn-studio-v2/dist` |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS: package-local runtime/docs/tests are format and lint clean | `packages/shadcn-studio-v2` |
 
 ## 7) Risk register
 
@@ -115,5 +117,6 @@
 - Review result: `PASS`
 - Config remains static and environment-neutral.
 - Runtime state remains in `contexts/`, `hooks/`, and `components/shared/`.
+- Initial theme render is now deterministic and does not read stored client theme data during server-equivalent render.
 - Neutral and server surfaces remain free from client runtime providers.
 - Slice 3A entry condition is satisfied.

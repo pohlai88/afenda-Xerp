@@ -6,7 +6,7 @@
 - Slice name: `Consumer pilot and migration bridge`
 - Tracking owner: `V2 migration squad`
 - Slice start date: `2026-07-05`
-- Planned completion date: `Set during slice kickoff after Slice 7 verification`
+- Planned completion date: `2026-07-05`
 - Actual completion date: `2026-07-05`
 - Current status: `verified`
 
@@ -68,10 +68,11 @@ V2-local verification only. Do not run or repair root governance, legacy studio,
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-8-CONSUMER-PILOT-HANDOFF.md` |
-| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-8-CONSUMER-PILOT-HANDOFF.md` |
-| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-8-CONSUMER-PILOT-HANDOFF.md` |
-| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-8-CONSUMER-PILOT-HANDOFF.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: pilot tests prove rendering through public client/metadata surfaces, metadata serializability, and no deep-import bypass of V2 entrypoints | `packages/shadcn-studio-v2/src/__tests__/consumer-pilot.test.tsx` |
+| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS: pilot fixture resolves through public entrypoints only | `packages/shadcn-studio-v2/tsconfig.json` |
+| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS: package emits verified pilot-facing declarations | `packages/shadcn-studio-v2/dist` |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS: consumer pilot implementation, tests, and docs are format/lint clean | `packages/shadcn-studio-v2` |
+
 ## 7) Risk register
 
 | Risk | Probability / impact | Mitigation | Owner | Status |
@@ -82,10 +83,31 @@ V2-local verification only. Do not run or repair root governance, legacy studio,
 ## 8) Open questions / assumptions
 
 - Assumption: the first pilot will exercise primitives, theme loading, shared/layout parts, and one composed view.
-- Decision needed before verification: select the exact pilot consumer path and owner.
+- Decision: the package-local pilot is `src/storybook/fixtures/consumer-pilot.tsx`.
 
-## 9) Exit checklist
+## 9) Implementation summary
 
-- Required before verification: pilot path migrated through V2 translation.
-- Required before verification: no broad cutover performed for unrelated surfaces.
-- Required before verification: evidence supports go/no-go decision for legacy retirement planning.
+- Added a package-local pilot fixture at `src/storybook/fixtures/consumer-pilot.tsx`.
+- Kept pilot imports constrained to `../../clients` and `../../metadata`.
+- Verified that the pilot renders composed views, layout/shared parts, primitive outputs, and metadata together.
+- Updated migration tracking to reflect translated pilot proof without touching legacy studio or ERP.
+
+## 10) Exit checklist
+
+- Verified: pilot path is translated through V2 entrypoints only.
+- Verified: no broad cutover was performed for unrelated surfaces.
+- Verified: evidence supports Slice 9 retirement planning without approving deletion.
+
+## 11) Post-verification stabilization review
+
+- Review result: `PASS`
+- Pilot proof stays package-local and does not bypass public boundaries.
+- Metadata remains serializable when exercised through the pilot.
+- Legacy studio remains untouched by Slice 8.
+- Slice 9 entry condition is satisfied from verified V2-only pilot proof.
+
+## 12) Slice 9 Preparation Note
+
+- Slice 9 may update retirement planning records from V2 evidence only.
+- Slice 9 must not perform ad hoc legacy deletion outside `MIGRATION-MAP.md`.
+- Replacement proof must remain explicit before any retirement status advances.

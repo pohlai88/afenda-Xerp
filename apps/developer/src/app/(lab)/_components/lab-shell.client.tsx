@@ -33,13 +33,16 @@ export function LabShell({
 
   return (
     <>
-      <div className="lab-demo-banner flex flex-wrap items-center justify-between gap-3 px-4 py-3 text-sm">
-        <p>
-          <strong>Sandbox route lab.</strong> Promotion-ready composition only;
-          runtime authority remains in ERP.
-        </p>
+      <header className="lab-demo-banner flex flex-wrap items-center justify-between gap-3 px-4 py-3 text-sm">
+        <div className="space-y-1">
+          <h2 className="font-semibold text-base">Afenda Route Lab</h2>
+          <p>
+            <strong>Sandbox route lab.</strong> Promotion-ready composition
+            only; runtime authority remains in ERP.
+          </p>
+        </div>
         <p className="text-slate-300">No auth · No BFF · No tenant runtime</p>
-      </div>
+      </header>
       <AdmincnShell
         brandLabel="Afenda Route Lab"
         navGroups={activeNavGroups}

@@ -66,7 +66,6 @@ Only these folders and root files are allowed directly under `src/`.
 
 ```txt
 src/
-  assets/
   components/
   configs/
   contexts/
@@ -128,10 +127,6 @@ Role definitions:
 No additional root public export files are valid unless this document is amended first.
 
 ## Level 1 Folder Roles
-
-`assets`
-
-- package-level icons, vectors, and brand graphics
 
 `components`
 
@@ -246,27 +241,6 @@ This rule does not apply to:
 Reference-project names are not automatically valid in V2. They must be translated into the V2 taxonomy before use.
 
 ## Level 2 Taxonomy
-
-### `assets/`
-
-```txt
-assets/
-  brand/
-  icons/
-  vectors/
-```
-
-`brand`
-
-- Afenda and studio brand graphics
-
-`icons`
-
-- package-level icons
-
-`vectors`
-
-- static vector assets
 
 ### `components/`
 
@@ -535,30 +509,28 @@ Only these deeper structural names are registered initially.
 
 ```txt
 metadata/builders/
-  metadata-builder.ts
+  view-builders.ts
 ```
 
 ### `metadata/contracts/`
 
 ```txt
 metadata/contracts/
-  gate-contract.ts
-  metadata-contract.ts
-  registry-contract.ts
+  view-metadata.ts
 ```
 
 ### `metadata/gates/`
 
 ```txt
 metadata/gates/
-  metadata-gate.ts
+  view-metadata-gates.ts
 ```
 
 ### `metadata/registries/`
 
 ```txt
 metadata/registries/
-  metadata-registry.ts
+  view-metadata-registry.ts
 ```
 
 ### `components/ui/`
@@ -616,8 +588,7 @@ Everything here is temporary. Nothing here is considered stable public structure
 
 ```txt
 views/auth/
-  AuthShellView.tsx
-  LoginView.tsx
+  AuthShell.tsx
 ```
 
 This is the correct destination for old `components-auth-shell`.
@@ -626,14 +597,21 @@ This is the correct destination for old `components-auth-shell`.
 
 ```txt
 views/pages/
-  StudioIndexView.tsx
+  PageSurface.tsx
 ```
 
 ### `views/widgets/`
 
 ```txt
 views/widgets/
-  EvidenceWidget.tsx
+  MetricWidget.tsx
+```
+
+### `storybook/fixtures/`
+
+```txt
+storybook/fixtures/
+  consumer-pilot.tsx
 ```
 
 ## Migration Mapping From Current Studio
@@ -641,7 +619,7 @@ views/widgets/
 Current `packages/shadcn-studio/src` structure must translate into V2 as follows:
 
 - `components-ui -> components/ui`
-- `components-assets -> assets` or `components/assets` depending on asset role
+- `components-assets -> components/assets`
 - `components-quarantine -> components/quarantine`
 - `components-app-shell -> components/layout` or `views/*` when the unit is composed
 - `components-auth-shell -> views/auth`

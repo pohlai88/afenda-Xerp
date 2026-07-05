@@ -1,8 +1,10 @@
+import type { Metadata } from "next";
 import type {
   FinanceDashboardPageData,
   LabPromotionNote,
   LabRouteLoader,
 } from "./contracts";
+import { createRouteLabMetadata } from "./create-route-lab-metadata";
 
 export const financeDashboardPromotionNote = {
   futureErpPath:
@@ -13,9 +15,16 @@ export const financeDashboardPromotionNote = {
 } satisfies LabPromotionNote;
 
 const demoFinanceDashboardPageData = {
+  canonicalHref: "/dashboard/finance",
   title: "Finance readiness view",
   description:
     "Secondary dashboard route proving the same page/load/component law after the canonical sales route is stable.",
+  previewImage: {
+    alt: "Finance route blueprint showing treasury KPIs, focus areas, and promotion seams in the Afenda route lab.",
+    height: 720,
+    src: "/dashboard-finance-blueprint.svg",
+    width: 1280,
+  },
   promotionSummary:
     "Finance keeps the same operator-shell law while its data authority moves to ERP domain inputs later.",
   promotion: financeDashboardPromotionNote,
@@ -56,3 +65,13 @@ const demoFinanceDashboardPageData = {
 export const loadDashboardFinancePage: LabRouteLoader<
   FinanceDashboardPageData
 > = async () => demoFinanceDashboardPageData;
+
+export function createFinanceDashboardMetadata(): Metadata {
+  return createRouteLabMetadata({
+    canonicalHref: demoFinanceDashboardPageData.canonicalHref,
+    description:
+      "Secondary finance dashboard route in the Afenda route lab, proving the same page, loader, and composition law as the canonical sales route.",
+    previewImage: demoFinanceDashboardPageData.previewImage,
+    title: "Finance readiness view",
+  });
+}

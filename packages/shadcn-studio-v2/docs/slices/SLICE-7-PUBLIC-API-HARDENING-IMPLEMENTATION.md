@@ -6,7 +6,7 @@
 - Slice name: `Public API hardening`
 - Tracking owner: `V2 migration squad`
 - Slice start date: `2026-07-05`
-- Planned completion date: `Set during slice kickoff after Slice 6 verification`
+- Planned completion date: `2026-07-05`
 - Actual completion date: `2026-07-05`
 - Current status: `verified`
 
@@ -66,10 +66,11 @@ V2-local verification only. Do not run or repair root governance, legacy studio,
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-7-PUBLIC-API-HARDENING-HANDOFF.md` |
-| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-7-PUBLIC-API-HARDENING-HANDOFF.md` |
-| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-7-PUBLIC-API-HARDENING-HANDOFF.md` |
-| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-7-PUBLIC-API-HARDENING-HANDOFF.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: boundary tests prove no wildcard re-exports, client boundary independence, server config/type-only exports, and metadata surface isolation | `packages/shadcn-studio-v2/src/__tests__/public-api-hardening.test.ts` |
+| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS: public entrypoint contracts resolve by surface | `packages/shadcn-studio-v2/tsconfig.json` |
+| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS: package emits verified boundary declarations | `packages/shadcn-studio-v2/dist` |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS: boundary implementation, tests, and docs are format/lint clean | `packages/shadcn-studio-v2` |
+
 ## 7) Risk register
 
 | Risk | Probability / impact | Mitigation | Owner | Status |
@@ -80,10 +81,31 @@ V2-local verification only. Do not run or repair root governance, legacy studio,
 ## 8) Open questions / assumptions
 
 - Assumption: package build is available by the time this slice is executed; if not, Gate F remains explicitly deferred with owner approval.
-- Decision needed before verification: confirm exact public symbol list for each root surface.
+- Decision: root, client, server, and metadata surfaces stay explicit and symbol-level rather than folder-level.
 
-## 9) Exit checklist
+## 9) Implementation summary
 
-- Required before verification: export maps are strict by surface.
-- Required before verification: leakage tests present for client/server/metadata.
-- Required before verification: Gate D/E/F evidence captured or Gate F deferral is explicitly approved.
+- Kept all public boundary files free of wildcard re-exports.
+- Kept `clients.ts` independent from `index.ts`, `server.ts`, and `metadata.ts`.
+- Kept `server.ts` config/type-only and free of components, views, hooks, contexts, and metadata React surfaces.
+- Kept `metadata.ts` isolated from root/client/server React surfaces.
+
+## 10) Exit checklist
+
+- Verified: export maps are strict by surface.
+- Verified: leakage tests exist for client/server/metadata boundaries.
+- Verified: Gate D/E/F evidence is captured with no deferral required.
+
+## 11) Post-verification stabilization review
+
+- Review result: `PASS`
+- Public surfaces remain explicit and auditable.
+- Client, server, and metadata boundaries remain independently owned.
+- No convenience-barrel behavior re-entered the package boundary.
+- Slice 8 entry condition is satisfied from verified public API hardening.
+
+## 12) Slice 8 Preparation Note
+
+- Slice 8 may prove one package-local consumer pilot through public V2 entrypoints only.
+- Slice 8 must not deep-import components, views, contexts, or metadata internals.
+- Legacy studio and ERP remain out of scope for this package-local pilot proof.

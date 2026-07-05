@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import {
@@ -9,6 +12,13 @@ import {
   Topbar,
   topbarClassName,
 } from "../index";
+
+const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
+const SRC_ROOT = path.resolve(TEST_DIR, "..");
+
+function readSource(...segments: string[]): string {
+  return readFileSync(path.join(SRC_ROOT, ...segments), "utf8");
+}
 
 describe("Slice 4 layout and shared parts", () => {
   it("renders layout components with governed slots", () => {
@@ -55,5 +65,15 @@ describe("Slice 4 layout and shared parts", () => {
     expect(markup).not.toContain("afenda-icon-mark-title");
     expect(markup).toContain("First mark");
     expect(markup).toContain("Second mark");
+  });
+
+  it("keeps the shared ThemeToggle client-only and out of neutral/server surfaces", () => {
+    const sharedSource = readSource("components", "shared", "ThemeToggle.tsx");
+
+    expect(sharedSource).toContain('"use client"');
+    expect(sharedSource).toContain("useTheme()");
+    expect(readSource("clients.ts")).toContain("ThemeToggle");
+    expect(readSource("index.ts")).not.toContain("ThemeToggle");
+    expect(readSource("server.ts")).not.toContain("ThemeToggle");
   });
 });

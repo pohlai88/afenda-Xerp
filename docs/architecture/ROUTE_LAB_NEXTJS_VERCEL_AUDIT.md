@@ -24,6 +24,19 @@ Three kinds of truth apply throughout this audit:
 - `Afenda route-lab law`: additional rules that `apps/developer` must obey because it is a frontend sandbox, not an ERP runtime.
 - `ERP-only future concern`: valid architecture that belongs in `apps/erp`, not in the lab.
 
+### Route Lab Canonical Law
+
+A route-lab page is valid only when:
+
+1. `page.tsx` is a thin async route boundary.
+2. `page.tsx` calls exactly one route loader.
+3. The loader returns typed, serializable page data.
+4. Route-local UI lives under `_components`.
+5. Route-local panels receive data through explicit props.
+6. The route does not import auth, database, kernel, ERP runtime, or server-side domain modules.
+7. The route does not expose `app/api/**`.
+8. The route passes TypeScript, Biome, Playwright smoke verification, and the route-lab governance check.
+
 ## 2. Non-Goals
 
 - This audit does not authorize new runtime files.
@@ -40,6 +53,24 @@ Three kinds of truth apply throughout this audit:
 | `Intentional exclusion` | A generally valid Next.js/Vercel feature is deliberately prohibited by ADR-0039 / PAS-006E route-lab law. |
 | `Deferred placeholder` | Topology exists only to reserve future shape; no runtime implementation is required now. |
 | `Gap` | The baseline expects documentation, tests, topology cleanup, or enforcement that does not yet exist. |
+
+## Best-Practice Status Snapshot
+
+The audit now tracks progress as both governance resolution and implementation accomplishment.
+
+Interpretation:
+
+- `Applicable-now accomplishment %` counts only checks that should be implemented in the route lab today.
+- `Implemented-now %` counts concrete repo-owned implementation rows and treats reserved placeholders as not yet implemented.
+- `Open-gap %` is the percentage of rows that still fail the documented baseline.
+
+| Scope | Pass | Intentional exclusion | Deferred placeholder | Gap | Completion view |
+|---|---|---|---|---|---|
+| Best-Practice Applicability Comparison | 9 | 5 | 2 | 0 | `Applicable-now accomplishment: 100% (9/9)` · `Governance-resolved: 100% (16/16)` |
+| Codebase Comparison Matrix | 26 | 0 | 2 | 0 | `Implemented-now: 93% (26/28)` · `Open-gap: 0% (0/28)` |
+| Combined audit view | 35 | 5 | 4 | 0 | `Applicable-now accomplishment: 100% (35/35 applicable rows)` · `Whole audited surface implemented now: 80% (35/44 total rows)` |
+
+This means the current route lab has no documented baseline failures. Remaining non-pass rows are reserved by doctrine or by placeholder intent, not by missed implementation.
 
 ## 3. Current Route-Lab Filesystem
 
@@ -69,6 +100,9 @@ app/
       finance/
         page.tsx
         loading.tsx
+        _components/
+          finance-focus-panel.tsx
+          finance-revenue-panel.tsx
         _actions/.gitkeep
         _queries/.gitkeep
     admin/
@@ -85,6 +119,7 @@ app/
         loading.tsx
         _actions/.gitkeep
         _components/
+          appearance-guidelines-panel.tsx
           appearance-theme-panel.tsx
         _queries/.gitkeep
     modules/
@@ -94,10 +129,16 @@ app/
         _queries/.gitkeep
         [surface]/
           _actions/.gitkeep
-          _components/.gitkeep
           _queries/.gitkeep
+          _components/.gitkeep
           [documentId]/
-            _components/.gitkeep
+            page.tsx
+            loading.tsx
+            not-found.tsx
+            _components/
+              module-document-overview-panel.tsx
+              module-document-proof-panel.tsx
+              module-document-state-panel.tsx
 ```
 
 Related route-lab support files are:
@@ -105,10 +146,12 @@ Related route-lab support files are:
 - `src/lib/lab/contracts.ts`
 - `src/lib/lab/lab-demo-context.ts`
 - `src/lib/lab/route-policy.ts`
+- `src/lib/lab/route-surface-registry.ts`
 - `src/lib/lab/load-dashboard-sales-page.server.ts`
 - `src/lib/lab/load-dashboard-finance-page.server.ts`
 - `src/lib/lab/load-admin-users-page.server.ts`
 - `src/lib/lab/load-settings-appearance-page.server.ts`
+- `src/lib/lab/load-module-document-page.server.ts`
 - `src/config/nav-config.ts`
 - `src/config/theme-config.ts`
 
@@ -120,9 +163,29 @@ Observed route-law evidence:
 - No repo-owned `src/app/api/**` exists.
 - No repo-owned `generateStaticParams` exists under `app/(lab)/**`.
 
-Notable leftover topology:
+Legacy route topology is no longer present in the current filesystem under `src/app`.
 
-- `src/app/legacy/_components` still exists and remains outside the route-lab target structure.
+### Active Route Ledger
+
+| Route | Loader | Data contract | Panels | Smoke | Status |
+|---|---|---|---|---|---|
+| `/dashboard/sales` | yes | typed serializable | route-local | pass | normalized |
+| `/dashboard/finance` | yes | typed serializable | route-local | pass | normalized |
+| `/admin/users` | yes | typed serializable | route-local | pass | normalized |
+| `/settings/appearance` | yes | typed serializable | route-local | pass | normalized |
+| `/modules/procurement/requisition/REQ-1001` | yes | typed serializable | route-local | pass | normalized |
+
+### Route Surface Registry Control
+
+The active route set is now normalized through one explicit registry:
+
+- `src/lib/lab/route-surface-registry.ts` is the source of truth for active `href`, `routePath`, route heading, smoke marker, rendering posture, nav exposure, and seam metadata.
+- `src/lib/lab/route-policy.ts` derives policy rows from that registry rather than re-declaring route identity.
+- `src/config/nav-config.ts` derives operator navigation groups from that registry.
+- `src/app/__tests__/route-lab-smoke.spec.ts` derives route expectations from that registry.
+- `scripts/check-route-lab-governance.mjs` fails when route policy, nav, or smoke verification drift away from the registry-backed active route set.
+
+This is a route-lab governance hardening move, not a runtime expansion. It reduces duplication and makes active route drift visible at the repo boundary.
 
 ## 4. Placeholder Directory Contract
 
@@ -139,7 +202,7 @@ The placeholder tree reserves future route shape. It does not authorize runtime 
 | `app/(lab)/modules/[moduleSlug]/[surface]/_components/` | Reserved | Future surface-local panels and interaction leaves | Route orchestration, domain fetching, permissions, fake API clients | ERP surface UI |
 | `app/(lab)/modules/[moduleSlug]/[surface]/_actions/` | Reserved | Future surface-local Server Actions if a route needs them | Mock mutation infrastructure, BFF behavior, backend service classes | ERP surface mutation boundary |
 | `app/(lab)/modules/[moduleSlug]/[surface]/_queries/` | Reserved | Future surface-local read helpers | Live data clients, ORM access, fake backend reads | ERP surface loader or BFF reader |
-| `app/(lab)/modules/[moduleSlug]/[surface]/[documentId]/_components/` | Reserved | Future document-surface panels and display helpers | Document authority, live record reads, tenant/document policies | ERP document route presentation |
+| `app/(lab)/modules/[moduleSlug]/[surface]/[documentId]/_components/` | Active for the canonical proving route | Document-surface panels and display helpers for the governed route-lab document family | Document authority, live record reads, tenant/document policies | ERP document route presentation |
 | `.gitkeep` placeholders | Reserved marker | `.gitkeep` only until a governed need exists | Treating the directory as unfinished backend work | Documentation-guided future promotion |
 
 The placeholder tree does not authorize:
@@ -253,7 +316,7 @@ Reference:
 ### Metadata, `layout.tsx`, `loading.tsx`, and `error.tsx`
 
 - `Next.js/Vercel general best practice`: use special route files for layout, loading, and error boundaries; loading states should support streaming and perceived performance.
-- `Afenda route-lab law`: operator routes use `loading.tsx`; `error.tsx` must be client-safe and avoid `@afenda/shadcn-studio` barrel use; layout boundaries must keep route-lab doctrine clear.
+- `Afenda route-lab law`: operator routes use `loading.tsx`; those loading boundaries should expose route-owned status meaning, and `error.tsx` must be client-safe and avoid `@afenda/shadcn-studio` barrel use; layout boundaries must keep route-lab doctrine clear.
 - `ERP-only future concern`: runtime telemetry and tenant-aware incident behavior belong elsewhere.
 
 Reference:
@@ -339,6 +402,19 @@ Reference:
 
 This section normalizes generic best practice into route-lab treatment before comparing it to the codebase. It prevents generic framework advice from overriding ADR-0039 / PAS-006E.
 
+### Status Interpretation
+
+- `Pass` rows in this section are framework practices that the route lab is already implementing now.
+- `Intentional exclusion` rows are not missing work. They are framework features deliberately pushed out to ERP runtime.
+- `Deferred placeholder` rows are reserved route-lab seams that remain sterile until a real frontend need exists.
+
+Current interpretation:
+
+- `Applicable-now accomplishment`: `100% (9/9)`
+- `Excluded by doctrine`: `31% (5/16)`
+- `Deferred by design`: `13% (2/16)`
+- `Open gaps`: `0% (0/16)`
+
 | Guidance area | Framework best-practice status | Route-lab treatment | Current codebase state | Status | Evidence | Action or rationale |
 |---|---|---|---|---|---|---|
 | App Router file conventions | Generally recommended | Applicable now | Active route-lab tree uses `layout.tsx`, `page.tsx`, `loading.tsx`, `error.tsx`, route groups, and dynamic segments | Pass | `src/app`, `src/app/(lab)` | Preserve |
@@ -352,59 +428,74 @@ This section normalizes generic best practice into route-lab treatment before co
 | Server Actions | Generally valid | Deferred placeholder | `_actions/` exists as `.gitkeep` only | Deferred placeholder | `src/app/(lab)/**/_actions/.gitkeep` | Activate only for a concrete frontend need |
 | Query helper layers | Sometimes useful | Deferred placeholder | `_queries/` exists as `.gitkeep` only | Deferred placeholder | `src/app/(lab)/**/_queries/.gitkeep` | Activate only if route complexity justifies it |
 | Caching and revalidation optimization | Generally recommended | Intentionally narrowed | No shared cache strategy is implemented for lab data | Intentional exclusion | route-lab loader pattern, dynamic policy | Cache authority belongs with ERP runtime data |
-| `next/font` | Recommended when a font baseline is committed | Deferred until typography baseline exists | No repo-owned `next/font` usage | Deferred placeholder | repo-owned search under `src` | Revisit only if typography baseline is formalized |
-| `next/image` | Recommended when optimized image rendering is needed | Deferred until image-bearing surfaces exist | No repo-owned `next/image` usage | Deferred placeholder | repo-owned search under `src` | Revisit only if governed image content appears |
+| `next/font` | Recommended for optimized web-font delivery | Applicable now | Root layout provisions `Geist` and `Geist Mono` through `next/font/google`, exposing the `--font-geist-*` variables already expected by the studio theme runtime | Pass | `src/app/layout.tsx`, `packages/shadcn-studio/src/theme-runtime/theme-runtime.font-attribute.ts` | Preserve the root-level font loader and keep route typography aligned to the studio variable contract |
+| `next/image` | Recommended when optimized image rendering is needed | Applicable now | Root route, the four active operator routes, and the canonical module document route use `next/image` with responsive `sizes`; above-the-fold route preview images now declare eager loading explicitly, and `next.config.ts` keeps the optimized local image allowlist explicit | Pass | `src/app/page.tsx`, `src/app/(lab)/**/_components/*.tsx`, `next.config.ts`, `public/*.svg` | Preserve framework-managed image rendering, explicit eager loading for above-the-fold route previews, and the local image allowlist |
 | Vercel function optimization | Generally recommended for server runtime surfaces | ERP-only future concern | No lab API/function surface exists | Intentional exclusion | no `app/api/**`, no route handlers | Function tuning belongs to ERP runtime |
 | Middleware/routing policy | Generally valid | ERP-only unless route-lab routing need emerges | No middleware-based request shaping is present | Intentional exclusion | route topology and config inspection | Auth/request policy belongs outside the lab |
-| Smoke verification | Generally recommended | Applicable now | Repo-owned smoke spec exists for the five documented route-lab routes, and the Playwright harness boots Next directly through the local CLI | Pass | `src/app/__tests__/route-lab-smoke.spec.ts`, `playwright.config.mts`, `package.json` | Preserve and keep the smoke scope route-level only |
+| Smoke verification | Generally recommended | Applicable now | Repo-owned smoke spec exists for the six documented route-lab routes, proves stable route headings plus shell doctrine surfaces, and the Playwright harness boots Next directly through the local CLI | Pass | `src/app/__tests__/route-lab-smoke.spec.ts`, `src/app/(lab)/_components/lab-shell.client.tsx`, `playwright.config.mts`, `package.json` | Preserve and keep the smoke scope route-level only |
 
 ## 8. Codebase Comparison Matrix
 
 | Area | Guideline | Expected state | Actual state | Status | Evidence | Action or rationale |
 |---|---|---|---|---|---|---|
 | Root doctrine | Root route-lab shell states sandbox doctrine clearly | Root surface explains route-lab boundary | Root `page.tsx` states that `apps/developer` proves ERP frontend shape and `apps/erp` owns runtime authority | Pass | `src/app/page.tsx` | Preserve |
-| Route pages | `page.tsx` stays thin and async | Await one loader and pass typed props | Active operator pages follow the thin-loader pattern | Pass | `src/app/(lab)/**/page.tsx`, `src/lib/lab/load-*.server.ts` | Preserve |
-| Route-local UI | Screen-specific UI stays near the route | `_components/` owns route-local panels | Sales, users, and appearance routes use route-local `_components` | Pass | `src/app/(lab)/**/_components/` | Preserve |
+| Route pages | `page.tsx` stays thin and async | Await one loader and pass typed props | Active operator pages follow the thin-loader pattern and derive route-owned metadata from loader-shaped contracts instead of ad-hoc runtime seams | Pass | `src/app/(lab)/**/page.tsx`, `src/lib/lab/load-*.server.ts`, `src/lib/lab/create-route-lab-metadata.ts` | Preserve |
+| Route-local UI | Screen-specific UI stays near the route | `_components/` owns route-local panels | Sales, finance, users, and appearance routes use route-local `_components` | Pass | `src/app/(lab)/**/_components/` | Preserve |
 | Rendering law | Operator surfaces are request-dynamic | `(lab)/layout.tsx` exports `dynamic = "force-dynamic"` | Present | Pass | `src/app/(lab)/layout.tsx` | Preserve |
-| Loading boundaries | Suspending operator routes expose `loading.tsx` | Active operator routes include loading UI | Sales, finance, users, and appearance routes include `loading.tsx` | Pass | `src/app/(lab)/**/loading.tsx` | Preserve |
-| Error boundaries | `error.tsx` is client-safe and independent from runtime authority | Client-safe error boundary with no barrel dependency drift | Current root and lab segment error boundaries are client-safe and local | Pass | `src/app/error.tsx`, `src/app/(lab)/error.tsx`, `src/app/lab-segment-error.client.tsx` | Preserve |
+| Loading boundaries | Suspending operator routes expose `loading.tsx` with stable route-owned meaning | Active operator routes include route-shaped loading UI plus named status semantics | Sales, finance, users, and appearance routes now compose through `LabRouteLoadingState` with route-specific headings, descriptions, and `aria-busy` / `role="status"` semantics | Pass | `src/app/(lab)/**/loading.tsx`, `src/app/(lab)/_components/lab-route-loading-state.tsx` | Preserve the route-owned boundary pattern |
+| Error boundaries | `error.tsx` is client-safe and independent from runtime authority | Client-safe error boundary with clear recovery semantics and frontend-safe navigation | Current root and lab segment error boundaries are client-safe, local, use clear recovery copy, and use frontend navigation back to `/` | Pass | `src/app/error.tsx`, `src/app/(lab)/error.tsx`, `src/app/lab-segment-error.client.tsx` | Preserve the recovery semantics and Next.js-safe navigation |
 | API boundary | No lab runtime APIs | No `src/app/api/**` | None found | Pass | topology check under `src/app` | Keep prohibited |
 | Static params | No prerendered operator dynamic route generation | No `generateStaticParams` under `(lab)/**` | None found | Pass | repo-owned search under `src/app` | Keep prohibited |
 | Server/client split | No client `page.tsx` or `layout.tsx` | Route boundaries stay server-first | No repo-owned `page.tsx` or `layout.tsx` uses `"use client"` | Pass | repo-owned search under `src/app` | Add CI guard later if desired |
 | Loader placement | Route loaders live under `lib/lab` | `load-*-page.server.ts` files own page-data shaping | Present for all active v1 routes | Pass | `src/lib/lab/load-*.server.ts` | Preserve |
 | Demo-data rule | Demo data is a typed fixture, not a fake backend | Plain objects returned by loaders | Sales loader returns typed fixture data and promotion note only | Pass | `src/lib/lab/load-dashboard-sales-page.server.ts` | Preserve |
-| Route policy | Rendering and promotion metadata is explicit | Route metadata lives outside page components | Current policies describe `/`, `/dashboard/sales`, `/dashboard/finance`, `/admin/users`, and `/settings/appearance` | Pass | `src/lib/lab/route-policy.ts` | Preserve |
+| Route policy | Rendering, promotion, and seam metadata are explicit | Route metadata lives outside page components | Current policies describe `/`, `/dashboard/sales`, `/dashboard/finance`, `/admin/users`, `/settings/appearance`, and the canonical module document route with separate `href` and `routePath` support plus explicit `actionSeam` and `querySeam` status | Pass | `src/lib/lab/route-policy.ts` | Preserve |
+| Route surface registry | Active route identity should exist in one source of truth | Route policy, nav, smoke, and governance should derive from one explicit registry | `route-surface-registry.ts` now owns route identity, nav metadata, smoke headings/markers, rendering posture, and seam metadata; policy, nav config, smoke spec, and governance all consume it | Pass | `src/lib/lab/route-surface-registry.ts`, `src/lib/lab/route-policy.ts`, `src/config/nav-config.ts`, `src/app/__tests__/route-lab-smoke.spec.ts`, `scripts/check-route-lab-governance.mjs` | Preserve and update the registry first when adding a governed route |
 | Dependency wall | No prohibited runtime imports | No imports from auth/kernel/database/server or ERP runtime | No repo-owned source import matches were found | Pass | repo-owned import search under `src` | Preserve |
-| Placeholder `_actions` | Server Actions are not implemented speculatively | Placeholder-only unless justified later | Current `_actions/` directories contain `.gitkeep` only | Deferred placeholder | `src/app/(lab)/**/_actions/.gitkeep` | Keep as documentation-only placeholders |
-| Placeholder `_queries` | Query helpers are not implemented speculatively | Placeholder-only unless justified later | Current `_queries/` directories contain `.gitkeep` only | Deferred placeholder | `src/app/(lab)/**/_queries/.gitkeep` | Keep as documentation-only placeholders |
-| Module placeholders | Future module/surface/document route families stay reserved | `modules/[moduleSlug]/**` remains shape-only | Current nested module tree is placeholder-only | Deferred placeholder | `src/app/(lab)/modules/[moduleSlug]/**/.gitkeep` | Keep reserved until a governed module route exists |
-| Fonts | Use `next/font` when the app commits to a font optimization baseline | Either adopted or explicitly deferred | No `next/font` usage exists in repo-owned source | Deferred placeholder | repo-owned search under `src` | Revisit only when typography baseline is committed |
-| Images | Use `next/image` when route surfaces render managed images | Either adopted where needed or explicitly not applicable | No `next/image` usage exists in repo-owned source | Deferred placeholder | repo-owned search under `src` | Revisit only when image-bearing surfaces exist |
+| Placeholder `_actions` | Server Actions are not implemented speculatively | Placeholder-only unless justified later | Current `_actions/` directories contain `.gitkeep` only, and the governance script now fails if a placeholder-only route gains runtime action files without a matching policy change | Deferred placeholder | `src/app/(lab)/**/_actions/.gitkeep`, `scripts/check-route-lab-governance.mjs`, `src/lib/lab/route-policy.ts` | Keep as documentation-only placeholders until a governed route explicitly activates an action seam |
+| Placeholder `_queries` | Query helpers are not implemented speculatively | Placeholder-only unless justified later | Current `_queries/` directories contain `.gitkeep` only, and the governance script now fails if a placeholder-only route gains runtime query files without a matching policy change | Deferred placeholder | `src/app/(lab)/**/_queries/.gitkeep`, `scripts/check-route-lab-governance.mjs`, `src/lib/lab/route-policy.ts` | Keep as documentation-only placeholders until a governed route explicitly activates a query seam |
+| Module document family | The reserved module/surface/document topology should activate only through a governed proving route | One normalized dynamic route proves the document family while `_actions` and `_queries` remain sterile | The canonical route `/modules/procurement/requisition/REQ-1001` now renders through the dynamic module tree with typed params, one loader, route-local panels, route-owned state variants, `generateMetadata`, a local `not-found.tsx`, and a governed image surface | Pass | `src/app/(lab)/modules/[moduleSlug]/[surface]/[documentId]/**`, `src/lib/lab/load-module-document-page.server.ts`, `src/lib/lab/contracts.ts`, `src/lib/lab/route-policy.ts` | Preserve the proving route and keep the remaining placeholder seams sterile |
+| Fonts | Use `next/font` at the root when the app owns a typography baseline | Root layout should provide optimized font variables and the shell should consume them through shared font utilities | Root layout now provisions `Geist` and `Geist Mono` with `next/font/google`, and the body adopts `font-sans antialiased` against the existing studio font-variable contract | Pass | `src/app/layout.tsx`, `packages/shadcn-studio/src/theme-runtime/theme-runtime.font-attribute.ts` | Preserve |
+| Images | Use `next/image` when route surfaces render managed images | Adopt `next/image` for meaningful app-owned image surfaces and keep allowed local paths explicit | Root route, the four active operator routes, and the canonical module document route use `next/image` with responsive `sizes`; above-the-fold route preview images declare eager loading explicitly, and `next.config.ts` restricts optimized local images to named public paths | Pass | `src/app/page.tsx`, `src/app/(lab)/**/_components/*.tsx`, `next.config.ts`, `public/*.svg` | Preserve |
 | Next.js performance | Minimize client JS and keep client leaves small | Client code exists only where interaction is needed | Current route boundaries remain server-first; main client leaf is lab shell | Pass | `src/app/(lab)/_components/lab-shell.client.tsx` and route page audit | Preserve |
-| Build hygiene | Sandbox build is explicit and production guard exists | Build/dev scripts are clear and production mode is gated | Present in package scripts and `next.config.ts` | Pass | `package.json`, `next.config.ts` | Preserve |
+| Build hygiene | Sandbox build is explicit and production guard exists | Build/dev scripts are clear, production mode is gated, and the primary presentation package has a reproducible local rebuild path even when workspace-level `pnpm` install hooks are blocked | Present in package scripts and `next.config.ts`; `@afenda/shadcn-studio` now exposes `build:local` for dist regeneration through package-local binaries | Pass | `apps/developer/package.json`, `apps/developer/next.config.ts`, `packages/shadcn-studio/package.json`, `packages/shadcn-studio/scripts/build-local.mjs` | Preserve the package-local rebuild path until workspace build approval friction is retired |
 | Route-lab authority guard | Production boot should fail unless explicitly allowed | Environment guard exists for lab-lane production mode | Present | Pass | `next.config.ts` | Preserve |
-| Smoke coverage | App-local smoke command should have app-local specs | Playwright smoke script should resolve to repo-owned tests | Repo-owned smoke spec now proves `/`, `/dashboard/sales`, `/dashboard/finance`, `/admin/users`, and `/settings/appearance` | Pass | `src/app/__tests__/route-lab-smoke.spec.ts`, `playwright.config.mts`, `package.json` | Preserve the route-availability-only scope |
+| Smoke coverage | App-local smoke command should have app-local specs | Playwright smoke script should resolve to repo-owned tests | Repo-owned smoke spec now proves `/`, `/dashboard/sales`, `/dashboard/finance`, `/admin/users`, `/settings/appearance`, and `/modules/procurement/requisition/REQ-1001`, including stable route headings, route entry links, and lab-shell doctrine text; the harness runs serially against the local Next dev server and now matches `*.spec.ts` only so Vitest `*.test.*` files cannot bleed into Playwright discovery | Pass | `src/app/__tests__/route-lab-smoke.spec.ts`, `src/app/(lab)/_components/lab-shell.client.tsx`, `playwright.config.mts`, `package.json` | Preserve the route-availability-only scope, the serial dev-server harness, and the spec-only boundary |
+| App-local Vitest hardening | App-local route proof should include fast component-level tests for shell and loading semantics | Repo-owned Vitest config should target app-owned `*.test.*` files only and prove shell accessibility/interaction plus loading boundary semantics without pulling Playwright specs into the unit harness | `apps/developer` now owns a dedicated Vitest config, a local `next/navigation` mock, shell interaction coverage, and loading-state semantics coverage; the harness passes without changing runtime behavior | Pass | `vitest.config.ts`, `src/test/mocks/next-navigation.ts`, `src/app/(lab)/__tests__/lab-shell.interaction.test.tsx`, `src/app/(lab)/__tests__/lab-route-loading-state.test.tsx`, `package.json` | Preserve the app-local test boundary and keep Playwright `*.spec.ts` outside Vitest scope |
+| Green-light verification path | App-local route-lab proof should have one governed verification command | A single app-owned command should run Biome, Vitest, route-law governance, Playwright smoke, and sandbox build in sequence | `apps/developer` now exposes `verify:greenlight` through a dedicated Node runner, so the route lab can declare one reproducible green-light path without depending on workspace-level `pnpm` health | Pass | `package.json`, `scripts/verify-greenlight.mjs`, `README.md` | Preserve the app-local verification contract and extend it only when the route-lab baseline itself changes |
+| Route-law governance guard | Active lab routes should remain structurally normalized | Repo-owned check enforces loader, import, route-local panel law, server-first page/layout boundaries, `(lab)` force-dynamic rendering, and no `generateStaticParams` under lab routes | Governance script now verifies the normalized active route set and reports actionable file-path failures across page, layout, and lab segment drift | Pass | `scripts/check-route-lab-governance.mjs`, `package.json` | Preserve and extend when new active routes are added |
 | Placeholder documentation | Placeholder intent should be explicit | Dedicated audit or contract document exists | This audit now defines the placeholder contract and route-lab evaluation model | Pass | `ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md` | Preserve and update with future route-lab changes |
-| Legacy topology | Route-lab target shape should not rely on `legacy/**` leftovers | Legacy tree retired or documented for removal | `src/app/legacy/_components` still exists and conflicts with normalized route-local `_components` placement | Gap | `src/app/legacy/_components` | This is a filesystem normalization gap, not a runtime behavior gap |
+| Legacy topology | Route-lab target shape should not rely on `legacy/**` leftovers | Legacy tree retired from the current route-lab filesystem | No repo-owned `src/app/legacy/**` files remain in the current filesystem | Pass | current filesystem topology under `src/app` | Preserve the normalized route-only structure |
 
-## 9. Priority Gaps and Recommended Follow-Ups
+### Status Interpretation
 
-### Gap: leftover legacy topology
+- `Implemented-now`: `93% (26/28)` of the audited repo-owned controls are live in the current codebase.
+- `Reserved by placeholder law`: `7% (2/28)` remain intentionally sterile.
+- `Open gaps`: `0% (0/28)`.
 
-`apps/developer/src/app/legacy/_components` remains in the worktree. This conflicts with the normalized route-lab topology because route-specific UI should live under route-local `_components/`.
+This is the correct route-lab posture: the active routes are fully hardened against the current baseline, while placeholder directories stay empty until promotion needs justify them.
 
-This is a filesystem normalization gap, not a runtime behavior gap.
+## 9. Runtime Activation Gate
 
-Recommended follow-up:
+A route-lab surface may graduate into ERP runtime only when:
 
-- Retire or migrate `legacy/_components` only after confirming whether the current legacy surface is still referenced by active routes.
+1. Its domain owner is known.
+2. Its API/data boundary is approved.
+3. Its permission model is declared.
+4. Its audit events are declared.
+5. Its loading, error, forbidden, and empty states are covered.
+6. Its route data contract is backed by real server authority.
+7. Its Playwright smoke test is upgraded into acceptance coverage.
 
-1. Remove or formally retire `src/app/legacy/_components` so the route-lab target structure is not diluted by leftover topology.
-2. Keep placeholder directories empty until a governed need exists. If a future route adds `_actions` or `_queries`, document the reason in the same turn.
-3. Revisit `next/font` only when the route lab adopts a committed typography baseline rather than incidental font usage.
-4. Revisit `next/image` only when a route-lab surface actually renders governed image content.
+Existing route-lab pages prove only the route pattern. They do not prove
+business authority, domain execution, or ERP runtime readiness.
 
-## 10. Verification Appendix
+## 10. Priority Gaps and Recommended Follow-Ups
+
+1. Keep placeholder directories empty until a governed need exists. If a future route adds `_actions` or `_queries`, document the reason in the same turn.
+2. Keep typography aligned to the root `Geist` / `Geist Mono` baseline unless a future governed presentation decision intentionally changes the studio font-variable contract.
+
+## 11. Verification Appendix
 
 These checks are verification aids, not implementation mandates.
 
@@ -430,6 +521,14 @@ Get-ChildItem apps/developer/src/app -Recurse -Include page.tsx,layout.tsx | Sel
 Select-String -Path "apps/developer/src/**/*" -Pattern "@afenda/auth|@afenda/kernel|@afenda/database|@afenda/server|apps/erp" -ErrorAction SilentlyContinue
 ```
 
+```powershell
+node packages/shadcn-studio/scripts/build-local.mjs
+```
+
+```powershell
+node apps/developer/scripts/check-route-lab-governance.mjs
+```
+
 ### POSIX
 
 ```bash
@@ -452,7 +551,11 @@ grep -R "'use client'\|\"use client\"" apps/developer/src/app --include="page.ts
 grep -R "@afenda/auth\|@afenda/kernel\|@afenda/database\|@afenda/server\|apps/erp" apps/developer/src || true
 ```
 
-## 11. Verification Snapshot
+```bash
+node packages/shadcn-studio/scripts/build-local.mjs
+```
+
+## 12. Verification Snapshot
 
 The current audit is based on these repo checks:
 
@@ -464,5 +567,18 @@ The current audit is based on these repo checks:
 - `(lab)/layout.tsx` exports `dynamic = "force-dynamic"`
 - placeholder directories remain `.gitkeep`-only
 - no repo-owned prohibited runtime imports were found
-- Playwright smoke spec exists at `src/app/__tests__/route-lab-smoke.spec.ts`
+- no repo-owned `src/app/legacy/**` files remain in the current filesystem
+- root layout provisions `Geist` and `Geist Mono` through `next/font/google`
+- root route, the four active operator routes, and the canonical module document route use `next/image` for governed local blueprint assets, and the above-the-fold route previews now declare eager loading explicitly
+- Playwright smoke spec exists at `src/app/__tests__/route-lab-smoke.spec.ts`, and `playwright.config.mts` now matches `*.spec.ts` only so app-local Vitest files stay outside e2e discovery
+- App-local Vitest proof now exists at `src/app/(lab)/__tests__/lab-shell.interaction.test.tsx` and `src/app/(lab)/__tests__/lab-route-loading-state.test.tsx`, with `apps/developer/vitest.config.ts` excluding Playwright `*.spec.ts` files from the unit/interaction harness
+- `apps/developer/package.json` now exposes `verify:greenlight`, backed by `apps/developer/scripts/verify-greenlight.mjs`, which runs app-local Biome, Vitest, route-law governance, Playwright smoke, and sandbox build proof in one governed sequence
+- Lab shell now exposes a stable visible `Afenda Route Lab` heading for route-level accessibility and smoke proof
+- Active operator loading boundaries now expose route-specific status semantics through `src/app/(lab)/_components/lab-route-loading-state.tsx`
+- The canonical module document route now renders at `/modules/procurement/requisition/REQ-1001` through the dynamic module tree with a typed param-aware lab loader, route-owned state variants, dynamic metadata, and a local `not-found.tsx` boundary
+- The four active operator routes now derive route-owned metadata from loader-shaped contracts and expose governed local blueprint assets through `next/image`, with eager loading declared on the above-the-fold route previews
+- Route policy now records `_actions` and `_queries` posture explicitly through `actionSeam` and `querySeam`, and governance fails when placeholder-only routes gain runtime seam files
+- Active route identity is centralized in `src/lib/lab/route-surface-registry.ts`, and route policy, nav, smoke, and governance consume the same registry-backed route set
 - Playwright config boots Next directly through the app-local CLI instead of `pnpm dev`
+- `@afenda/shadcn-studio` now has a package-local rebuild path at `packages/shadcn-studio/scripts/build-local.mjs`, so the route lab can verify its governed presentation dependency without depending on blocked workspace-level `pnpm` install hooks
+- Playwright smoke now runs serially against the local route-lab dev server to avoid Fast Refresh contention during route verification

@@ -26,11 +26,13 @@ export default defineConfig({
   expect: {
     timeout: 10_000,
   },
-  fullyParallel: true,
+  // Route-lab smoke runs against a local Next dev server on port 3002.
+  // Serializing the suite avoids Fast Refresh contention across parallel contexts.
+  fullyParallel: false,
   forbidOnly: isCI,
   outputDir: "test-results/artifacts",
   tsconfig: path.join(developerRoot, "tsconfig.playwright.json"),
-  ...(isCI ? { workers: 1 } : {}),
+  workers: 1,
   projects: [
     {
       name: "chromium-smoke",
@@ -53,6 +55,7 @@ export default defineConfig({
         ],
       ],
   retries: isCI ? 2 : 0,
+  testMatch: "**/*.spec.ts",
   testDir: "./src/app",
   timeout: 60_000,
   use: {

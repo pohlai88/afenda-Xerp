@@ -1,8 +1,10 @@
+import type { Metadata } from "next";
 import type {
   LabPromotionNote,
   LabRouteLoader,
   SalesDashboardPageData,
 } from "./contracts";
+import { createRouteLabMetadata } from "./create-route-lab-metadata";
 
 export const salesDashboardPromotionNote = {
   futureErpPath:
@@ -13,9 +15,16 @@ export const salesDashboardPromotionNote = {
 } satisfies LabPromotionNote;
 
 const demoSalesDashboardPageData = {
+  canonicalHref: "/dashboard/sales",
   title: "Sales command surface",
   description:
     "Canonical operator route proving the thin page, typed server loader, route-local panels, and promotion note boundary.",
+  previewImage: {
+    alt: "Sales route blueprint showing KPI cards, route proof notes, and ERP promotion seams in the Afenda route lab.",
+    height: 720,
+    src: "/dashboard-sales-blueprint.svg",
+    width: 1280,
+  },
   promotionSummary:
     "This screen promotes by swapping lab fixtures for the ERP sales domain loader, not by rewriting route composition.",
   promotion: salesDashboardPromotionNote,
@@ -80,3 +89,13 @@ const demoSalesDashboardPageData = {
 export const loadDashboardSalesPage: LabRouteLoader<
   SalesDashboardPageData
 > = async () => demoSalesDashboardPageData;
+
+export function createSalesDashboardMetadata(): Metadata {
+  return createRouteLabMetadata({
+    canonicalHref: demoSalesDashboardPageData.canonicalHref,
+    description:
+      "Canonical sales dashboard route in the Afenda route lab, proving thin page boundaries and promotion-ready ERP page contracts.",
+    previewImage: demoSalesDashboardPageData.previewImage,
+    title: "Sales command surface",
+  });
+}

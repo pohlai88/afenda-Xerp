@@ -1,0 +1,89 @@
+<svg
+  fill="none"
+  height="720"
+  viewBox="0 0 1280 720"
+  width="1280"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title>Afenda finance dashboard route blueprint</title>
+  <rect fill="#F5F8FB" height="720" rx="40" width="1280" />
+  <rect
+    fill="#FFFFFF"
+    height="624"
+    rx="32"
+    stroke="#D8E2F0"
+    stroke-width="2"
+    width="1184"
+    x="48"
+    y="48"
+  />
+  <rect fill="#111827" height="76" rx="24" width="1104" x="88" y="88" />
+  <rect fill="#D1D5DB" height="12" rx="6" width="248" x="120" y="114" />
+  <rect fill="#6B7280" height="10" rx="5" width="370" x="120" y="136" />
+  <rect
+    fill="#ECFDF5"
+    height="224"
+    rx="28"
+    stroke="#A7F3D0"
+    stroke-width="2"
+    width="660"
+    x="88"
+    y="198"
+  />
+  <rect fill="#059669" height="14" rx="7" width="172" x="122" y="230" />
+  <rect
+    fill="#FFFFFF"
+    height="130"
+    rx="22"
+    stroke="#A7F3D0"
+    stroke-width="2"
+    width="610"
+    x="122"
+    y="274"
+  />
+  <rect
+    fill="#FFF7ED"
+    height="454"
+    rx="28"
+    stroke="#FED7AA"
+    stroke-width="2"
+    width="410"
+    x="782"
+    y="198"
+  />
+  <rect fill="#EA580C" height="14" rx="7" width="190" x="816" y="232" />
+  <rect fill="#7C2D12" height="10" rx="5" width="290" x="816" y="260" />
+  <rect
+    fill="#FFFFFF"
+    height="88"
+    rx="20"
+    stroke="#FED7AA"
+    stroke-width="2"
+    width="346"
+    x="816"
+    y="302"
+  />
+  <rect
+    fill="#FFFFFF"
+    height="88"
+    rx="20"
+    stroke="#FED7AA"
+    stroke-width="2"
+    width="346"
+    x="816"
+    y="414"
+  />
+  <rect
+    fill="#FFFFFF"
+    height="88"
+    rx="20"
+    stroke="#FED7AA"
+    stroke-width="2"
+    width="346"
+    x="816"
+    y="526"
+  />
+  <rect fill="#CBD5E1" height="10" rx="5" width="260" x="846" y="334" />
+  <rect fill="#CBD5E1" height="10" rx="5" width="260" x="846" y="446" />
+  <rect fill="#CBD5E1" height="10" rx="5" width="260" x="846" y="558" />
+</svg>

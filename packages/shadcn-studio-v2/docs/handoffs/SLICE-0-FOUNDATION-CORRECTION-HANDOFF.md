@@ -36,7 +36,6 @@
 ### 5.2 Structural integrity
 - `src/` contains only registered top-level folders plus approved root public files.
 - `__tests__` remains a repo test convention and is excluded from structural taxonomy enforcement.
-- `@/assets/*` alias is now present for the registered `assets` taxonomy root.
 
 ### 5.3 Quality signals
 - Package taxonomy test passes.
@@ -77,4 +76,3 @@
 - Engineering lead: `V2 migration squad`
 - Reviewer: `Codex`
 - Date: `2026-07-05`
-

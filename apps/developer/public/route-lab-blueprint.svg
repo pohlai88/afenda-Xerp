@@ -1,0 +1,217 @@
+<svg
+  aria-labelledby="title desc"
+  role="img"
+  viewBox="0 0 1200 900"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title id="title">Afenda route lab blueprint</title>
+  <desc id="desc">
+    Abstract dashboard blueprint showing route composition, shell boundaries,
+    and promotion notes.
+  </desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" x2="100%" y1="0%" y2="100%">
+      <stop offset="0%" stop-color="#f8fafc" />
+      <stop offset="100%" stop-color="#dbeafe" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" x2="100%" y1="0%" y2="0%">
+      <stop offset="0%" stop-color="#0f766e" />
+      <stop offset="100%" stop-color="#1d4ed8" />
+    </linearGradient>
+  </defs>
+  <rect fill="url(#bg)" height="900" rx="48" width="1200" />
+  <rect
+    fill="#ffffff"
+    height="760"
+    opacity="0.92"
+    rx="36"
+    stroke="#cbd5e1"
+    stroke-width="4"
+    width="1060"
+    x="70"
+    y="70"
+  />
+  <rect fill="#0f172a" height="70" rx="24" width="980" x="110" y="110" />
+  <circle cx="150" cy="145" fill="#fb7185" r="10" />
+  <circle cx="180" cy="145" fill="#fbbf24" r="10" />
+  <circle cx="210" cy="145" fill="#34d399" r="10" />
+  <rect
+    fill="#e2e8f0"
+    height="36"
+    opacity="0.18"
+    rx="18"
+    width="270"
+    x="280"
+    y="126"
+  />
+  <rect
+    fill="#f8fafc"
+    height="565"
+    rx="28"
+    stroke="#e2e8f0"
+    stroke-width="3"
+    width="220"
+    x="110"
+    y="215"
+  />
+  <rect fill="#cbd5e1" height="18" rx="9" width="140" x="150" y="255" />
+  <rect
+    fill="#0f766e"
+    height="14"
+    opacity="0.85"
+    rx="7"
+    width="120"
+    x="150"
+    y="305"
+  />
+  <rect fill="#94a3b8" height="14" rx="7" width="110" x="150" y="338" />
+  <rect
+    fill="#0f766e"
+    height="14"
+    opacity="0.85"
+    rx="7"
+    width="120"
+    x="150"
+    y="388"
+  />
+  <rect fill="#94a3b8" height="14" rx="7" width="110" x="150" y="421" />
+  <rect
+    fill="#0f766e"
+    height="14"
+    opacity="0.85"
+    rx="7"
+    width="120"
+    x="150"
+    y="471"
+  />
+  <rect fill="#94a3b8" height="14" rx="7" width="110" x="150" y="504" />
+  <rect
+    fill="#f8fafc"
+    height="185"
+    rx="28"
+    stroke="#e2e8f0"
+    stroke-width="3"
+    width="720"
+    x="370"
+    y="215"
+  />
+  <rect
+    fill="#0f172a"
+    height="18"
+    opacity="0.9"
+    rx="9"
+    width="150"
+    x="410"
+    y="255"
+  />
+  <rect fill="#94a3b8" height="14" rx="7" width="360" x="410" y="290" />
+  <rect fill="url(#accent)" height="18" rx="9" width="290" x="410" y="333" />
+  <rect
+    fill="#ffffff"
+    height="100"
+    rx="24"
+    stroke="#cbd5e1"
+    stroke-width="3"
+    width="220"
+    x="820"
+    y="255"
+  />
+  <rect
+    fill="#0f172a"
+    height="12"
+    opacity="0.7"
+    rx="6"
+    width="90"
+    x="850"
+    y="285"
+  />
+  <rect fill="#94a3b8" height="12" rx="6" width="160" x="850" y="314" />
+  <rect
+    fill="#f8fafc"
+    height="350"
+    rx="28"
+    stroke="#e2e8f0"
+    stroke-width="3"
+    width="430"
+    x="370"
+    y="430"
+  />
+  <rect
+    fill="#0f172a"
+    height="18"
+    opacity="0.9"
+    rx="9"
+    width="170"
+    x="410"
+    y="470"
+  />
+  <path
+    d="M430 690 C500 620, 560 700, 620 610 S720 640, 760 540"
+    fill="none"
+    stroke="url(#accent)"
+    stroke-linecap="round"
+    stroke-width="14"
+  />
+  <circle cx="430" cy="690" fill="#0f766e" r="10" />
+  <circle cx="620" cy="610" fill="#1d4ed8" r="10" />
+  <circle cx="760" cy="540" fill="#0f766e" r="10" />
+  <rect
+    fill="#f8fafc"
+    height="350"
+    rx="28"
+    stroke="#e2e8f0"
+    stroke-width="3"
+    width="260"
+    x="830"
+    y="430"
+  />
+  <rect
+    fill="#0f172a"
+    height="18"
+    opacity="0.9"
+    rx="9"
+    width="150"
+    x="870"
+    y="470"
+  />
+  <rect
+    fill="#ffffff"
+    height="68"
+    rx="22"
+    stroke="#cbd5e1"
+    stroke-width="3"
+    width="180"
+    x="870"
+    y="520"
+  />
+  <rect
+    fill="#0f766e"
+    height="12"
+    opacity="0.85"
+    rx="6"
+    width="95"
+    x="892"
+    y="545"
+  />
+  <rect fill="#94a3b8" height="12" rx="6" width="120" x="892" y="570" />
+  <rect
+    fill="#ffffff"
+    height="68"
+    rx="22"
+    stroke="#cbd5e1"
+    stroke-width="3"
+    width="180"
+    x="870"
+    y="620"
+  />
+  <rect
+    fill="#1d4ed8"
+    height="12"
+    opacity="0.85"
+    rx="6"
+    width="110"
+    x="892"
+    y="645"
+  />
+  <rect fill="#94a3b8" height="12" rx="6" width="126" x="892" y="670" />
+</svg>

@@ -1,0 +1,79 @@
+<svg
+  fill="none"
+  height="720"
+  viewBox="0 0 1280 720"
+  width="1280"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <title>Afenda sales dashboard route blueprint</title>
+  <rect fill="#F6F8FC" height="720" rx="40" width="1280" />
+  <rect
+    fill="#FFFFFF"
+    height="624"
+    rx="32"
+    stroke="#D9E3F1"
+    stroke-width="2"
+    width="1184"
+    x="48"
+    y="48"
+  />
+  <rect fill="#0F172A" height="76" rx="24" width="1104" x="88" y="88" />
+  <rect fill="#CBD5E1" height="12" rx="6" width="240" x="120" y="114" />
+  <rect fill="#64748B" height="10" rx="5" width="400" x="120" y="136" />
+  <rect
+    fill="#EEF6FF"
+    height="238"
+    rx="26"
+    stroke="#CFE1FF"
+    stroke-width="2"
+    width="690"
+    x="88"
+    y="196"
+  />
+  <rect fill="#2563EB" height="14" rx="7" width="170" x="122" y="228" />
+  <rect
+    fill="#FFFFFF"
+    height="138"
+    rx="22"
+    stroke="#BFDBFE"
+    stroke-width="2"
+    width="304"
+    x="122"
+    y="274"
+  />
+  <rect
+    fill="#FFFFFF"
+    height="138"
+    rx="22"
+    stroke="#BFDBFE"
+    stroke-width="2"
+    width="304"
+    x="446"
+    y="274"
+  />
+  <rect
+    fill="#F8FAFC"
+    height="214"
+    rx="28"
+    stroke="#D9E3F1"
+    stroke-width="2"
+    width="370"
+    x="822"
+    y="196"
+  />
+  <rect fill="#0F172A" height="14" rx="7" width="176" x="856" y="228" />
+  <rect fill="#94A3B8" height="10" rx="5" width="290" x="856" y="258" />
+  <rect
+    fill="#F8FBFF"
+    height="196"
+    rx="26"
+    stroke="#D9E3F1"
+    stroke-width="2"
+    width="1104"
+    x="88"
+    y="456"
+  />
+  <rect fill="#64748B" height="14" rx="7" width="212" x="122" y="490" />
+  <rect fill="#CBD5E1" height="12" rx="6" width="1020" x="122" y="526" />
+  <rect fill="#E2E8F0" height="12" rx="6" width="980" x="122" y="554" />
+</svg>

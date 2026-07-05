@@ -6,15 +6,16 @@ import {
   CardTitle,
 } from "@afenda/shadcn-studio";
 import type { Metadata } from "next";
-import { loadDashboardSalesPage } from "@/lib/lab/load-dashboard-sales-page.server";
+import {
+  createSalesDashboardMetadata,
+  loadDashboardSalesPage,
+} from "@/lib/lab/load-dashboard-sales-page.server";
 import { SalesOverviewPanel } from "./_components/sales-overview-panel";
 import { SalesProofPanel } from "./_components/sales-proof-panel";
 
-export const metadata: Metadata = {
-  title: "Sales Command Surface",
-  description:
-    "Canonical sales dashboard route in the Afenda route lab, proving thin page boundaries and promotion-ready ERP page contracts.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return createSalesDashboardMetadata();
+}
 
 export default async function SalesDashboardPage() {
   const pageData = await loadDashboardSalesPage();

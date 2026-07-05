@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect } from "react";
 
 export default function RootError({
@@ -14,12 +15,21 @@ export default function RootError({
   }, [error]);
 
   return (
-    <main className="flex min-h-screen items-center justify-center px-6 py-16">
-      <div className="w-full max-w-lg rounded-3xl border bg-background/95 p-8 shadow-2xl backdrop-blur">
+    <main
+      aria-labelledby="developer-route-lab-error-title"
+      className="flex min-h-screen items-center justify-center px-6 py-16"
+    >
+      <div
+        className="w-full max-w-lg rounded-3xl border bg-background/95 p-8 shadow-2xl backdrop-blur"
+        role="alert"
+      >
         <p className="font-medium text-primary text-xs uppercase tracking-[0.28em]">
           Developer Route Lab
         </p>
-        <h1 className="mt-4 font-semibold text-3xl tracking-tight">
+        <h1
+          className="mt-4 font-semibold text-3xl tracking-tight"
+          id="developer-route-lab-error-title"
+        >
           The route shell failed before the screen could settle.
         </h1>
         <p className="mt-3 text-muted-foreground">
@@ -35,9 +45,9 @@ export default function RootError({
           >
             Retry route
           </button>
-          <a className="rounded-full border px-5 py-2 font-medium" href="/">
+          <Link className="rounded-full border px-5 py-2 font-medium" href="/">
             Back to lab index
-          </a>
+          </Link>
         </div>
       </div>
     </main>

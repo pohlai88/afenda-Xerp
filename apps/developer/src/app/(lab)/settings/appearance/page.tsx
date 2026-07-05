@@ -3,42 +3,54 @@ import {
   CardContent,
   CardDescription,
   CardHeader,
+  CardTitle,
 } from "@afenda/shadcn-studio";
 import type { Metadata } from "next";
-import { loadSettingsAppearancePage } from "@/lib/lab/load-settings-appearance-page.server";
+import {
+  createAppearanceSettingsMetadata,
+  loadSettingsAppearancePage,
+} from "@/lib/lab/load-settings-appearance-page.server";
+import { AppearanceGuidelinesPanel } from "./_components/appearance-guidelines-panel";
 import { AppearanceThemePanel } from "./_components/appearance-theme-panel";
 
-export const metadata: Metadata = {
-  title: "Appearance Settings Review",
-  description:
-    "Theme and appearance route in the Afenda route lab, validating settings composition before any ERP persistence exists.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return createAppearanceSettingsMetadata();
+}
 
 export default async function AppearanceSettingsPage() {
   const pageData = await loadSettingsAppearancePage();
 
   return (
-    <section className="grid gap-6 xl:grid-cols-[0.72fr_1.28fr]">
-      <Card className="h-fit">
-        <CardHeader>
+    <section className="space-y-6">
+      <header className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <div className="space-y-2">
           <p className="font-medium text-primary text-xs uppercase tracking-[0.28em]">
             Theme Surface
           </p>
           <h1 className="font-semibold text-3xl tracking-tight">
             {pageData.title}
           </h1>
-          <CardDescription>{pageData.description}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3 text-sm">
-          {pageData.guidelines.map((item) => (
-            <div className="rounded-2xl bg-muted px-4 py-3" key={item.title}>
-              <p className="font-medium">{item.title}</p>
-              <p className="mt-1 text-muted-foreground">{item.summary}</p>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
-      <AppearanceThemePanel />
+          <p className="max-w-3xl text-muted-foreground">
+            {pageData.description}
+          </p>
+        </div>
+        <Card className="w-full max-w-sm">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base">Future ERP integration</CardTitle>
+            <CardDescription>{pageData.promotionSummary}</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-2 text-sm">
+            <p className="rounded-2xl bg-muted px-3 py-2">
+              ERP target: {pageData.promotion.futureErpPath}
+            </p>
+            <p className="text-muted-foreground">{pageData.promotion.notes}</p>
+          </CardContent>
+        </Card>
+      </header>
+      <div className="grid gap-6 xl:grid-cols-[0.72fr_1.28fr]">
+        <AppearanceGuidelinesPanel pageData={pageData} />
+        <AppearanceThemePanel pageData={pageData} />
+      </div>
     </section>
   );
 }

@@ -6,7 +6,7 @@
 - Slice name: `Legacy retirement plan`
 - Tracking owner: `V2 migration squad`
 - Slice start date: `2026-07-05`
-- Planned completion date: `Set during slice kickoff after Slice 8 verification`
+- Planned completion date: `2026-07-05`
 - Actual completion date: `2026-07-05`
 - Current status: `verified`
 
@@ -65,10 +65,11 @@ V2-local planning only. Do not delete legacy files, run root governance, repair 
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-9-LEGACY-RETIREMENT-HANDOFF.md` |
-| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-9-LEGACY-RETIREMENT-HANDOFF.md` |
-| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-9-LEGACY-RETIREMENT-HANDOFF.md` |
-| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-9-LEGACY-RETIREMENT-HANDOFF.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: retirement tests prove non-pending lane statuses, block `retired` without deletion authority, advance proven lanes to `retirement-candidate`, and keep component-ledger rows beyond pending once pilot proof exists | `packages/shadcn-studio-v2/src/__tests__/legacy-retirement.test.ts` |
+| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS: retirement-planning support files resolve with package-local types | `packages/shadcn-studio-v2/tsconfig.json` |
+| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS: package emits verified retirement-planning-adjacent declarations | `packages/shadcn-studio-v2/dist` |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS: retirement planning docs and tests are format/lint clean | `packages/shadcn-studio-v2` |
+
 ## 7) Risk register
 
 | Risk | Probability / impact | Mitigation | Owner | Status |
@@ -79,10 +80,26 @@ V2-local planning only. Do not delete legacy files, run root governance, repair 
 ## 8) Open questions / assumptions
 
 - Assumption: every retirement candidate has a V2 replacement, quarantine disposition, or explicit blocked status before deletion.
-- Decision needed before verification: confirm final retirement owner for each legacy area.
+- Decision: release-owner cutover remains the required authority before any legacy lane can advance from `retirement-candidate` to `retired`.
 
-## 9) Exit checklist
+## 9) Implementation summary
 
-- Required before verification: migration map reflects all completed statuses.
-- Required before verification: legacy removals have direct V2 replacement proof.
-- Required before verification: no ad-hoc deletions without evidence.
+- Advanced proven legacy lanes in `MIGRATION-MAP.md` from generic `migrated` to `retirement-candidate`.
+- Kept quarantine lanes explicitly `quarantined`.
+- Advanced the `Button` component ledger row to `pilot-proven` because package-local pilot proof now exists.
+- Kept `retired` unused because no release-owner deletion proof exists.
+- Preserved the non-destructive retirement plan in `LEGACY-RETIREMENT-PLAN.md`.
+
+## 10) Exit checklist
+
+- Verified: migration map reflects explicit package-local retirement planning statuses.
+- Verified: legacy removals still require direct replacement and release-owner proof.
+- Verified: no ad hoc deletions or cutover claims were made.
+
+## 11) Post-verification stabilization review
+
+- Review result: `PASS`
+- Retirement planning is now serialized around explicit status vocabulary rather than generic migrated-state placeholders.
+- Proven V2 replacement lanes stop at `retirement-candidate`, not `retired`.
+- Component-ledger proof is aligned to current package-local pilot evidence.
+- Package-local V2 migration implementation is complete; any further work is a separately authorized release/cutover phase.

@@ -14,6 +14,7 @@ const REQUIRED_STYLE_FILES = [
 ] as const;
 
 const THEME_STYLE_FILES = ["swiss-noir.css", "verdant-noir.css"] as const;
+const DEFAULT_STYLE_FILE = "shadcn-default.css";
 const TOKEN_DECLARATION_PATTERN = /--([a-z0-9-]+)\s*:/g;
 const SELECTOR_PATTERN = /(^|})\s*([^{}@][^{}]*)\{/g;
 const FORBIDDEN_TOKEN_FAMILY_PATTERN =
@@ -61,7 +62,7 @@ describe("shadcn-studio-v2 style governance", () => {
 
   it("uses the default layer as the canonical token source", () => {
     const defaultTokens = new Set(
-      listTokenNames(readStyle("shadcn-default.css"))
+      listTokenNames(readStyle(DEFAULT_STYLE_FILE))
     );
 
     expect(defaultTokens.size).toBeGreaterThan(0);
@@ -73,6 +74,26 @@ describe("shadcn-studio-v2 style governance", () => {
       expect(
         themeTokens.every((tokenName) => defaultTokens.has(tokenName))
       ).toBe(true);
+    }
+  });
+
+  it("keeps additive themes out of canonical root selectors", () => {
+    const defaultSelectors = new Set(
+      listSelectors(readStyle(DEFAULT_STYLE_FILE))
+    );
+
+    expect(defaultSelectors.has(":root")).toBe(true);
+    expect(defaultSelectors.has(".dark")).toBe(true);
+
+    for (const themeFile of THEME_STYLE_FILES) {
+      const themeSelectors = listSelectors(readStyle(themeFile));
+
+      expect(themeSelectors.length).toBe(1);
+      expect(
+        themeSelectors.every((selector) => selector.startsWith('[data-theme="'))
+      ).toBe(true);
+      expect(themeSelectors).not.toContain(":root");
+      expect(themeSelectors).not.toContain(".dark");
     }
   });
 

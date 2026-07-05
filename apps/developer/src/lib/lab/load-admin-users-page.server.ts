@@ -1,8 +1,10 @@
+import type { Metadata } from "next";
 import type {
   AdminUsersPageData,
   LabPromotionNote,
   LabRouteLoader,
 } from "./contracts";
+import { createRouteLabMetadata } from "./create-route-lab-metadata";
 
 export const adminUsersPromotionNote = {
   futureErpPath: "apps/erp/src/lib/system-admin/load-users-page.server.ts",
@@ -12,9 +14,16 @@ export const adminUsersPromotionNote = {
 } satisfies LabPromotionNote;
 
 const demoAdminUsersPageData = {
+  canonicalHref: "/admin/users",
   title: "User directory review surface",
   description:
     "List-style route proving table density and operator controls without building a fake sandbox API.",
+  previewImage: {
+    alt: "Admin users route blueprint showing directory controls, table review, and promotion seams in the Afenda route lab.",
+    height: 720,
+    src: "/admin-users-blueprint.svg",
+    width: 1280,
+  },
   promotionSummary:
     "The current table rows are plain fixtures shaped like future ERP records. No mock transport layer is introduced here.",
   promotion: adminUsersPromotionNote,
@@ -91,3 +100,13 @@ const demoAdminUsersPageData = {
 export const loadAdminUsersPage: LabRouteLoader<
   AdminUsersPageData
 > = async () => demoAdminUsersPageData;
+
+export function createAdminUsersMetadata(): Metadata {
+  return createRouteLabMetadata({
+    canonicalHref: demoAdminUsersPageData.canonicalHref,
+    description:
+      "Admin list route in the Afenda route lab, validating operator-list composition and promotion-ready user directory contracts.",
+    previewImage: demoAdminUsersPageData.previewImage,
+    title: "User directory review surface",
+  });
+}

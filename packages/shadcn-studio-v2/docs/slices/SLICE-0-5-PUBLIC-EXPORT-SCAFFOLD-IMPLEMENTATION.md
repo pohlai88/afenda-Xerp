@@ -83,7 +83,6 @@
 
 - Root exports are intentionally empty `export {};` scaffolds until later slices introduce governed symbols.
 - `components.json` now points `utils` at registered `@/lib/cn` instead of unregistered `@/lib/utils`.
-- `tsconfig.json` now includes the registered `@/assets/*` alias.
 
 ## 9) Exit checklist
 

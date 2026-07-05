@@ -6,7 +6,7 @@
 - Slice name: `Metadata lane`
 - Tracking owner: `V2 migration squad`
 - Slice start date: `2026-07-05`
-- Planned completion date: `Set during slice kickoff after Slice 5 verification`
+- Planned completion date: `2026-07-05`
 - Actual completion date: `2026-07-05`
 - Current status: `verified`
 
@@ -66,10 +66,11 @@ V2-local verification only. Do not run or repair root governance, legacy studio,
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-6-METADATA-LANE-HANDOFF.md` |
-| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-6-METADATA-LANE-HANDOFF.md` |
-| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-6-METADATA-LANE-HANDOFF.md` |
-| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-6-METADATA-LANE-HANDOFF.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: metadata tests prove JSON-safe descriptors, deterministic builders, runtime validation gates, registry serializability, and metadata boundary isolation | `packages/shadcn-studio-v2/src/__tests__/metadata-lane.test.ts` |
+| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS: metadata contracts, builders, gates, and registry declarations resolve | `packages/shadcn-studio-v2/tsconfig.json` |
+| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS: package emits verified metadata declarations | `packages/shadcn-studio-v2/dist` |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS: metadata implementation, tests, and docs are format/lint clean | `packages/shadcn-studio-v2` |
+
 ## 7) Risk register
 
 | Risk | Probability / impact | Mitigation | Owner | Status |
@@ -80,10 +81,32 @@ V2-local verification only. Do not run or repair root governance, legacy studio,
 ## 8) Open questions / assumptions
 
 - Assumption: metadata remains isolated behind `metadata.ts`.
-- Decision needed before verification: confirm which metadata registries are required for the first public API hardening pass.
+- Decision: the first metadata registry set is limited to auth, page, and widget view ownership.
 
-## 9) Exit checklist
+## 9) Implementation summary
 
-- Required before verification: metadata folders and contracts are complete and aligned.
-- Required before verification: `metadata.ts` includes only metadata symbols.
-- Required before verification: metadata lane verified before public API hardening.
+- Added explicit metadata contracts for auth, page, and widget descriptors.
+- Added deterministic metadata builders returning plain serializable objects.
+- Added runtime validation gates for known metadata shapes.
+- Added metadata lane registry entries for `auth`, `page`, and `widget`.
+- Kept `metadata.ts` isolated from React, components, and views.
+
+## 10) Exit checklist
+
+- Verified: metadata folders and contracts are complete and aligned.
+- Verified: `metadata.ts` includes metadata symbols only.
+- Verified: metadata lane is isolated before public API hardening.
+
+## 11) Post-verification stabilization review
+
+- Review result: `PASS`
+- Metadata descriptors remain JSON-safe and serialization-stable.
+- Builders remain deterministic and contract-scoped.
+- Validation gates reject unknown metadata shapes without importing UI concerns.
+- Slice 7 entry condition is satisfied from verified metadata isolation.
+
+## 12) Slice 7 Preparation Note
+
+- Slice 7 may harden `index.ts`, `clients.ts`, `server.ts`, and `metadata.ts` only.
+- Slice 7 must not add new features or use public boundary changes as a path to widen package scope.
+- Boundary proof must stay package-local and explicit by surface.

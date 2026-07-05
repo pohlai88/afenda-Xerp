@@ -23,6 +23,12 @@ cutover decision is made.
 V2 has enough package-local proof to classify legacy lanes, but not enough
 authority to delete or redirect production consumers.
 
+The next required bridge for real consumer movement is
+`BRIDGING-R-PHASE-R-READINESS.md`.
+
+`PHASE-R-CONSUMER-CUTOVER-GUIDE.md` becomes executable only after
+`Bridging-R` is cleared.
+
 ## Lane disposition
 
 | Legacy lane | Retirement disposition | Evidence |
@@ -41,6 +47,7 @@ authority to delete or redirect production consumers.
 
 ## Release-owner gates before deletion
 
+- Clear `BRIDGING-R-PHASE-R-READINESS.md` with concrete evidence.
 - Confirm production consumer cutover target.
 - Confirm package export compatibility or migration codemod.
 - Confirm V2 CSS dist and runtime loading in the actual app surface.
@@ -53,4 +60,5 @@ authority to delete or redirect production consumers.
 - Do not redirect ERP imports.
 - Do not run root-wide repair work.
 - Do not treat `migrated` as `retired`.
+- Do not treat `pilot-proven` as `retirement-candidate`.
 - Do not remove blocked/quarantined rows from `MIGRATION-MAP.md`.

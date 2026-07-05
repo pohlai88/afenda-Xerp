@@ -32,7 +32,7 @@ function AdmincnNavItem({ item }: { item: AppShellNavItemWire }) {
 
 export function AdmincnNav({ groups }: AdmincnNavProps) {
   return (
-    <>
+    <nav aria-label="Primary navigation">
       {groups.map((group) => (
         <SidebarGroup key={group.label}>
           <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
@@ -45,6 +45,6 @@ export function AdmincnNav({ groups }: AdmincnNavProps) {
           </SidebarGroupContent>
         </SidebarGroup>
       ))}
-    </>
+    </nav>
   );
 }

@@ -6,9 +6,9 @@
 - Primary status model: `not-started` → `in-progress` → `blocked` → `verified` → `retired`
 - Update cadence: once per slice boundary completion or blocker change
 - Canonical proof locations:
-  - CI gate output from each scoped package run
+  - V2-local package gate output from each scoped package run
   - package-level tests/build logs
-  - review artifacts linked from migration tasks
+  - handoff artifacts under `docs/handoffs/`
 
 ## Purpose
 
@@ -345,6 +345,48 @@ Exit condition:
 
 - legacy retirement becomes a controlled final phase, not a live refactor hazard
 
+### Bridging-R — Phase R readiness
+
+Purpose: convert verified package-local slices into an explicit pre-cutover
+readiness gate.
+
+Rules:
+
+- `Bridging-R` is documentation and readiness work only
+- it must enumerate every backlog item required before real consumer cutover
+- it must keep `retirement-candidate` aligned to the component authority chain:
+  `enterprise-accepted` first, retirement review second
+- it must name one real consumer, validation owner, rollback owner, and release
+  owner before `Phase R` may start
+
+Execution guide:
+
+- `BRIDGING-R-PHASE-R-READINESS.md`
+
+### Phase R — Consumer cutover and release-owner migration
+
+Purpose: move from package-local V2 proof to one real consumer cutover without
+authorizing broad deletion.
+
+Rules:
+
+- execute through one real consumer only
+- use V2 public entrypoints only
+- validate CSS, runtime, metadata, and rollback in the real consumer
+- do not deep-import V2 internals
+- do not treat consumer cutover as automatic legacy retirement
+
+Authority boundary:
+
+- Phase R is a separately authorized release/cutover phase
+- it starts only after `Bridging-R` is cleared
+- it is not part of the package-local slice implementation sequence
+- legacy deletion still requires release-owner proof after cutover validation
+
+Execution guide:
+
+- `PHASE-R-CONSUMER-CUTOVER-GUIDE.md`
+
 ## Execution Tracking
 
 Use this section as a live checkpoint. Keep only concrete proof references.
@@ -354,15 +396,17 @@ Use this section as a live checkpoint. Keep only concrete proof references.
 | Slice 0 | Foundation correction | verified | `pnpm --filter @afenda/shadcn-studio-v2 test:taxonomy`; `test`; `typecheck` | None | 2026-07-05 |
 | Slice 0.5 | Public export scaffold | verified | `pnpm --filter @afenda/shadcn-studio-v2 test`; `typecheck`; `build` | None | 2026-07-05 |
 | Slice 1 | CSS and theme foundation | verified | `pnpm --filter @afenda/shadcn-studio-v2 test`; `typecheck`; `build` | None | 2026-07-05 |
-| Slice 2 | Config and runtime boundary | verified | `pnpm --filter @afenda/shadcn-studio-v2 test`; `typecheck`; `build`; runtime boundary test | None | 2026-07-05 |
-| Slice 3A | Primitive baseline | verified | `pnpm --filter @afenda/shadcn-studio-v2 test`; `typecheck`; `build`; primitive baseline test | None | 2026-07-05 |
-| Slice 3B | Primitive extension | verified | `pnpm --filter @afenda/shadcn-studio-v2 test`; `typecheck`; `build`; `pnpm exec biome ci packages/shadcn-studio-v2` | None | 2026-07-05 |
+| Slice 2 | Config and runtime boundary | verified | `test`; `typecheck`; `build`; Biome CI; handoff report | None | 2026-07-05 |
+| Slice 3A | Primitive baseline | verified | `test`; `typecheck`; `build`; Biome CI; handoff report | None | 2026-07-05 |
+| Slice 3B | Primitive extension | verified | `test`; `typecheck`; `build`; Biome CI; handoff report | None | 2026-07-05 |
 | Slice 4 | Layout and shared package parts | verified | `test`; `typecheck`; `build`; Biome CI; handoff report | None | 2026-07-05 |
 | Slice 5 | First composed views | verified | `test`; `typecheck`; `build`; Biome CI; handoff report | None | 2026-07-05 |
 | Slice 6 | Metadata lane | verified | `test`; `typecheck`; `build`; Biome CI; handoff report | None | 2026-07-05 |
 | Slice 7 | Public API hardening | verified | `test`; `typecheck`; `build`; Biome CI; handoff report | None | 2026-07-05 |
 | Slice 8 | Consumer pilot and migration bridge | verified | `test`; `typecheck`; `build`; Biome CI; handoff report | None | 2026-07-05 |
 | Slice 9 | Legacy retirement plan | verified | `test`; `typecheck`; `build`; Biome CI; non-destructive retirement plan | None | 2026-07-05 |
+| Bridging-R | Phase R readiness | verified | `BRIDGING-R-PHASE-R-READINESS.md`; `docs/bridging-r/evidence/README.md`; `pnpm --filter @afenda/developer typecheck`; `pnpm --filter @afenda/developer build`; `$env:PLAYWRIGHT_PORT='3020'; pnpm --filter @afenda/developer test:e2e:smoke` | None | 2026-07-05 |
+| Phase R | Consumer cutover and release-owner migration | not-started | `PHASE-R-CONSUMER-CUTOVER-GUIDE.md` | Starts only after `Bridging-R` is cleared by concrete evidence and release-owner authorization | 2026-07-05 |
 
 ### Tracking protocol
 
@@ -465,6 +509,21 @@ Slice 9:
 - Gate D
 - Gate G for replacement proof
 
+Phase R:
+
+- Gate D in the real consumer
+- Gate E in the real consumer
+- Gate G with real consumer import proof
+- release-owner rollback proof
+
+Bridging-R:
+
+- authority reconciliation proof
+- first-cutover ledger coverage proof
+- named real-consumer selection
+- CSS/export readiness proof
+- release-owner go/no-go record
+
 ## Core Acceptance
 
 - no unregistered structural names appear in V2
@@ -478,11 +537,16 @@ Slice 9:
 - metadata remains isolated behind `metadata.ts`
 - root export files enforce explicit public boundary intent
 - consumer migration uses V2 translation, not reference-app copying
+- post-slice real cutover starts only after `BRIDGING-R-PHASE-R-READINESS.md`
+  is cleared, then follows `PHASE-R-CONSUMER-CUTOVER-GUIDE.md`
 
 ## Related Documents
 
 - `TAXONOMY.md`
 - `MIGRATION-MAP.md`
+- `BRIDGING-R-PHASE-R-READINESS.md`
+- `PHASE-R-CONSUMER-CUTOVER-GUIDE.md`
+- `handoffs/`
 - `../AGENTS.md`
 - `slices/SLICE-IMPLEMENTATION-INDEX.md`
 - `SLICE-IMPLEMENTATION-DETAIL-TEMPLATE.md`

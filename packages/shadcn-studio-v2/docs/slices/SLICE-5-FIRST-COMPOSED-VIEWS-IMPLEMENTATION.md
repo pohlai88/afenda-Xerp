@@ -6,7 +6,7 @@
 - Slice name: `First composed views`
 - Tracking owner: `V2 migration squad`
 - Slice start date: `2026-07-05`
-- Planned completion date: `Set during slice kickoff after Slice 4 verification`
+- Planned completion date: `2026-07-05`
 - Actual completion date: `2026-07-05`
 - Current status: `verified`
 
@@ -70,10 +70,10 @@
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm --filter @afenda/shadcn-studio-v2 test` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-5-FIRST-COMPOSED-VIEWS-IMPLEMENTATION.md` |
-| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-5-FIRST-COMPOSED-VIEWS-IMPLEMENTATION.md` |
-| `pnpm --filter @afenda/shadcn-studio-v2 build` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-5-FIRST-COMPOSED-VIEWS-IMPLEMENTATION.md` |
-| `pnpm exec biome ci packages/shadcn-studio-v2` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-5-FIRST-COMPOSED-VIEWS-IMPLEMENTATION.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: composed-view tests prove auth, page, and widget lanes render through governed slots without business policy | `packages/shadcn-studio-v2/src/__tests__/composed-views.test.tsx` |
+| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS: composed-view public contracts resolve | `packages/shadcn-studio-v2/tsconfig.json` |
+| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS: package emits verified view declarations | `packages/shadcn-studio-v2/dist` |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS: view implementation, tests, and docs are format/lint clean | `packages/shadcn-studio-v2` |
 
 ## 7) Risk register
 
@@ -85,10 +85,32 @@
 ## 8) Open questions / assumptions
 
 - Assumption: first composed views are package-level UI composition, not ERP workflow ownership.
-- Decision needed before verification: select the minimum auth and generic view examples for proof.
+- Decision: the minimum proof set is `AuthShell`, `PageSurface`, and `MetricWidget`.
 
-## 9) Exit checklist
+## 9) Implementation summary
 
-- Required before verification: at least one auth and one generic composed view exists.
-- Required before verification: no ERP domain logic in `views`.
-- Required before verification: legacy structure mapping to V2 view lanes is recorded.
+- Added `views/auth/AuthShell.tsx` as the generic auth composition surface.
+- Added `views/pages/PageSurface.tsx` as the reusable page composition baseline.
+- Added `views/widgets/MetricWidget.tsx` as the first widget composition surface.
+- Kept view APIs shape-based and presentational only.
+- Exported verified views through neutral and client public surfaces only.
+
+## 10) Exit checklist
+
+- Verified: at least one auth and one generic composed view exists.
+- Verified: no ERP domain logic exists in `views`.
+- Verified: legacy structure mapping to V2 view lanes is recorded by roadmap and migration map alignment tests.
+
+## 11) Post-verification stabilization review
+
+- Review result: `PASS`
+- `AuthShell` remains visual/compositional and owns no auth policy.
+- `PageSurface` composes layout parts without introducing route-specific logic.
+- `MetricWidget` stays token-driven and presentational.
+- Slice 6 entry condition is satisfied from verified primitive, layout/shared, and first composed view lanes.
+
+## 12) Slice 6 Preparation Note
+
+- Slice 6 may start with metadata-only contracts, registries, gates, and builders under `metadata/`.
+- Slice 6 must not move view, layout, primitive, ERP workflow, or general utility logic into `metadata/`.
+- `metadata.ts` must stay isolated from root, client, and server React surfaces.

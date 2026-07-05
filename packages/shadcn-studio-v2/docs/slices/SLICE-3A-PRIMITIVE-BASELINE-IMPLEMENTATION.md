@@ -59,17 +59,19 @@
 
 ## 6) Test and verification commands
 
-- `pnpm quality:exports`
-- `pnpm quality:boundaries`
+- `pnpm --filter @afenda/shadcn-studio-v2 test`
 - `pnpm --filter @afenda/shadcn-studio-v2 typecheck`
+- `pnpm --filter @afenda/shadcn-studio-v2 build`
+- `pnpm exec biome ci packages/shadcn-studio-v2`
 
 ### Evidence log
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: primitive baseline, taxonomy, public exports, style governance, and runtime boundary tests pass | `packages/shadcn-studio-v2/src/__tests__/primitive-baseline.test.ts` |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: primitive baseline tests cover primitive lane placement, token variants, semantic render output, slot serialization, and quarantine isolation | `packages/shadcn-studio-v2/src/__tests__/primitive-baseline.test.ts` |
 | `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS: primitive components and public declarations resolve | `packages/shadcn-studio-v2/tsconfig.json` |
 | `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS: package emits primitive public declarations | `packages/shadcn-studio-v2/dist` |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS: primitive implementation, tests, and docs are format/lint clean | `packages/shadcn-studio-v2` |
 
 ## 7) Risk register
 
@@ -110,6 +112,7 @@
 - Review result: `PASS`
 - Primitive ownership is serialized through stable `data-slot` markers.
 - Primitive class variants remain token-based and aligned to the V2 taxonomy.
+- Primitive render output is proven through semantic SSR markup for `Button`, `Badge`, and `Card`.
 - Public exports remain explicit from `@afenda/shadcn-studio-v2`.
 - Quarantine and reference assets remain isolated from the public API.
 - Slice 3B entry condition remains satisfied by prior scoped verification.

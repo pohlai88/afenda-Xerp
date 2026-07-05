@@ -12,6 +12,11 @@ const BOUNDARY_FILES = {
   root: path.join(SRC_ROOT, "index.ts"),
   server: path.join(SRC_ROOT, "server.ts"),
 } as const;
+const THEME_BOUNDARY_FILE = path.join(
+  SRC_ROOT,
+  "contexts",
+  "theme-boundary.ts"
+);
 
 function readBoundary(name: keyof typeof BOUNDARY_FILES): string {
   return readFileSync(BOUNDARY_FILES[name], "utf8");
@@ -24,6 +29,15 @@ describe("Slice 7 public API hardening", () => {
     )) {
       expect(source).not.toContain("export *");
     }
+  });
+
+  it("keeps the theme surface independent from root, server, and metadata boundaries", () => {
+    const theme = readFileSync(THEME_BOUNDARY_FILE, "utf8");
+
+    expect(theme).not.toContain('from "./index"');
+    expect(theme).not.toContain('from "./server"');
+    expect(theme).not.toContain('from "./metadata"');
+    expect(theme).not.toContain("./metadata/");
   });
 
   it("keeps the client surface independent from root, server, and metadata boundaries", () => {

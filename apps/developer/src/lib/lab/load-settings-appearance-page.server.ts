@@ -1,8 +1,10 @@
+import type { Metadata } from "next";
 import type {
   AppearanceSettingsPageData,
   LabPromotionNote,
   LabRouteLoader,
 } from "./contracts";
+import { createRouteLabMetadata } from "./create-route-lab-metadata";
 
 export const settingsAppearancePromotionNote = {
   futureErpPath:
@@ -13,9 +15,18 @@ export const settingsAppearancePromotionNote = {
 } satisfies LabPromotionNote;
 
 const demoAppearanceSettingsPageData = {
+  canonicalHref: "/settings/appearance",
   title: "Appearance settings review",
   description:
     "Settings surface focused on theme controls, shell density, and route-level UX validation before any user-preference persistence exists.",
+  previewImage: {
+    alt: "Appearance route blueprint showing theme controls, guidance panels, and ERP promotion seams in the Afenda route lab.",
+    height: 720,
+    src: "/appearance-settings-blueprint.svg",
+    width: 1280,
+  },
+  promotionSummary:
+    "Appearance keeps the same route/panel composition while ERP later owns preference persistence and user-specific settings authority.",
   promotion: settingsAppearancePromotionNote,
   guidelines: [
     {
@@ -39,3 +50,13 @@ const demoAppearanceSettingsPageData = {
 export const loadSettingsAppearancePage: LabRouteLoader<
   AppearanceSettingsPageData
 > = async () => demoAppearanceSettingsPageData;
+
+export function createAppearanceSettingsMetadata(): Metadata {
+  return createRouteLabMetadata({
+    canonicalHref: demoAppearanceSettingsPageData.canonicalHref,
+    description:
+      "Theme and appearance route in the Afenda route lab, validating settings composition before any ERP persistence exists.",
+    previewImage: demoAppearanceSettingsPageData.previewImage,
+    title: "Appearance settings review",
+  });
+}

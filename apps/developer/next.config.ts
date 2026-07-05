@@ -27,6 +27,46 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   outputFileTracingRoot: monorepoRoot,
   allowedDevOrigins: ["127.0.0.1"],
+  images: {
+    localPatterns: [
+      {
+        pathname: "/route-lab-blueprint.svg",
+        search: "",
+      },
+      {
+        pathname: "/module-document-blueprint.svg",
+        search: "",
+      },
+      {
+        pathname: "/dashboard-sales-blueprint.svg",
+        search: "",
+      },
+      {
+        pathname: "/dashboard-finance-blueprint.svg",
+        search: "",
+      },
+      {
+        pathname: "/admin-users-blueprint.svg",
+        search: "",
+      },
+      {
+        pathname: "/appearance-settings-blueprint.svg",
+        search: "",
+      },
+      {
+        pathname: "/afenda-brand/**",
+        search: "",
+      },
+      {
+        pathname: "/afenda-reference/**",
+        search: "",
+      },
+      {
+        pathname: "/landing/**",
+        search: "",
+      },
+    ],
+  },
   transpilePackages: ["@afenda/shadcn-studio"],
   turbopack: {
     root: monorepoRoot,
@@ -34,13 +74,6 @@ const nextConfig: NextConfig = {
   webpack: (config) => {
     config.resolve ??= {};
     config.resolve.extensionAlias = { ...extensionAlias };
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      "@afenda/shadcn-studio/theme": path.join(
-        monorepoRoot,
-        "packages/shadcn-studio/src/theme-runtime/index.ts"
-      ),
-    };
     return config;
   },
 };

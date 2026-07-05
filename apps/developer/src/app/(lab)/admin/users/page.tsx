@@ -6,14 +6,15 @@ import {
   CardTitle,
 } from "@afenda/shadcn-studio";
 import type { Metadata } from "next";
-import { loadAdminUsersPage } from "@/lib/lab/load-admin-users-page.server";
+import {
+  createAdminUsersMetadata,
+  loadAdminUsersPage,
+} from "@/lib/lab/load-admin-users-page.server";
 import { UsersDirectoryPanel } from "./_components/users-directory-panel";
 
-export const metadata: Metadata = {
-  title: "User Directory Review Surface",
-  description:
-    "Admin list route in the Afenda route lab, validating operator-list composition and promotion-ready user directory contracts.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return createAdminUsersMetadata();
+}
 
 export default async function AdminUsersPage() {
   const pageData = await loadAdminUsersPage();

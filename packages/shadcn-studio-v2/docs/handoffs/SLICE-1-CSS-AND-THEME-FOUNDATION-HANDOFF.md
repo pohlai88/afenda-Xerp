@@ -36,12 +36,14 @@
 ### 5.2 Structural integrity
 - `src/styles/` contains only registered CSS files.
 - Theme files override canonical tokens from `shadcn-default.css`.
+- Theme files stay additive by selector shape and do not redefine `:root` or `.dark`.
 - No TS/TSX files or component selectors exist in `src/styles/`.
 
 ### 5.3 Quality signals
-- Full package test suite passes: 3 files, 14 tests.
+- Full package test suite passes.
 - Package typecheck passes.
 - Package build passes.
+- Package-local Biome CI passes.
 
 ### 5.4 Docs and tracking hygiene
 - Roadmap tracking row updated: `Yes`
@@ -55,7 +57,7 @@
 - Style governance gate: `pnpm --filter @afenda/shadcn-studio-v2 test`
 - Typecheck gate: `pnpm --filter @afenda/shadcn-studio-v2 typecheck`
 - Build gate: `pnpm --filter @afenda/shadcn-studio-v2 build`
-- Documentation drift gate: `pnpm check:documentation-drift`
+- Package-local format/lint gate: `pnpm exec biome ci packages/shadcn-studio-v2`
 
 ## 7) Deviation and exception log
 
