@@ -1,0 +1,102 @@
+# Phase 2 - Token And CSS Authority Technical Specification
+
+## Overview
+
+This slice establishes the package CSS authority for `@afenda/shadcn-studio-v2`.
+
+It turns the architecture token law into executable CSS files, drift guards, and
+package-export-ready style boundaries.
+
+## Problem
+
+Without a locked token and theme model, later primitives and views can hardcode
+colors, invent token families, or couple reusable components to app-specific
+styling assumptions.
+
+## Goals
+
+* Create the approved CSS files:
+
+  * `src/styles/shadcn-default.css`
+  * `src/styles/swiss-noir.css`
+  * `src/styles/verdant-noir.css`
+* Enforce canonical shadcn token names only.
+* Block unapproved theme files and raw hex usage in reusable TSX.
+* Prepare CSS for package-export consumption.
+
+## Non-goals
+
+* Building component implementations.
+* Theme playground expansion.
+* Adding new named themes.
+
+## Constraints
+
+* No `--brand-*`, `--afenda-*`, `--surface-*`, `--luxury-*`.
+* No near-canonical token families such as `--primary-2` or `--background-alt`.
+* Named themes must be additive and scoped.
+* Theme files may override only tokens declared in `shadcn-default.css`.
+
+## Proposed design
+
+### Base layer
+
+`shadcn-default.css` owns the canonical token declarations for reusable V2
+surfaces.
+
+### Named theme layer
+
+`swiss-noir.css` and `verdant-noir.css` are additive theme layers using
+`[data-theme="..."]` selectors only.
+
+### Drift enforcement
+
+Add or align executable checks for:
+
+* forbidden token families
+* no raw hex values inside reusable component and view TSX
+* no consumer import from internal style source paths
+* no unapproved theme-file growth
+
+## Interfaces / dependencies
+
+* Source docs:
+
+  * `../DESIGN-SYSTEM-ARCHITECTURE.md`
+  * `../DEVELOPMENT-ROADMAP.md`
+  * `../DESIGN-SYSTEM-GUIDELINE.md`
+* Downstream slices:
+
+  * Phase 3 primitive layer
+  * Phase 7 public export contract
+  * Phase 8 proof route
+
+## Risks and mitigations
+
+* Risk: later slices bypass token law with component-local styles.
+
+  * Mitigation: keep drift checks blocking.
+* Risk: named themes become behavior owners.
+
+  * Mitigation: keep themes token-only and additive.
+* Risk: consumers import internal CSS source paths.
+
+  * Mitigation: enforce package-export-only CSS paths.
+
+## Rollout and rollback
+
+### Rollout
+
+1. Create or align the three approved CSS files.
+2. Add or align drift tests for token and style violations.
+3. Verify package build and drift commands.
+
+### Rollback
+
+If a theme or token addition cannot pass the canonical rules, remove it from the
+active slice and keep it as reference-only input until explicitly approved.
+
+## Open questions
+
+* Whether a package-level CSS sync step is needed once dist CSS exports are
+  formalized for V2.

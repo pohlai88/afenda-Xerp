@@ -1,0 +1,115 @@
+# Closing - Synchronization Gate Technical Specification
+
+## Overview
+
+This closing slice synchronizes the package after the implementation phases and
+the acceptance gate.
+
+Its purpose is to prevent the final state from splitting across architecture,
+taxonomy, exports, tests, proof route, and migration ledger.
+
+## Problem
+
+A design-system sequence can finish with locally correct pieces that are still
+out of sync:
+
+* active docs say one thing
+* tests enforce another
+* exports expose more or less than intended
+* consumer proof uses a different surface
+* migration or retirement docs lag behind actual proof
+
+## Goals
+
+* Reconcile active docs with executable package reality.
+* Confirm the final public and CSS surfaces match the proven implementation.
+* Confirm the proof route, migration ledger, and quality bar describe the same
+  package state.
+
+## Non-goals
+
+* New implementation work.
+* New architecture decisions.
+* Legacy deletion.
+
+## Constraints
+
+* Only active docs may be synchronized:
+
+  * `README.md`
+  * `TAXONOMY.md`
+  * `DESIGN-SYSTEM-ARCHITECTURE.md`
+  * `DEVELOPMENT-ROADMAP.md`
+  * `MIGRATION-MAP.md`
+  * `DESIGN-SYSTEM-GUIDELINE.md`
+  * `PRIMITIVE-API-CONSISTENCY.md`
+  * `LEGACY-RETIREMENT-PLAN.md`
+  * `docs/slices/*`
+* Synchronization must reflect executable proof, not preferred narrative.
+
+## Proposed design
+
+### Synchronization checklist
+
+Confirm these surfaces agree:
+
+1. `TAXONOMY.md` and actual `src/` structure
+2. package exports and public import law
+3. CSS exports and active style files
+4. primitive API consistency doc and primitive tests
+5. migration map statuses and real proof route evidence
+6. docs/slices quality bar and actual gate set
+
+### Closing output
+
+The slice closes with:
+
+* synchronized files
+* commands re-run if any sync edits changed proof-relevant surfaces
+* remaining unsynchronized gaps
+* recommendation: hold / proceed
+
+## Interfaces / dependencies
+
+* Source docs:
+
+  * all active package docs
+  * all completed slices
+* Proof surfaces:
+
+  * package tests
+  * drift guard
+  * package exports
+  * consumer proof route
+
+## Risks and mitigations
+
+* Risk: docs are updated optimistically instead of from proof.
+
+  * Mitigation: synchronize from tests, exports, and route evidence only.
+* Risk: migration statuses overstate readiness.
+
+  * Mitigation: require status updates to cite the bounded proof route and gate
+    results.
+* Risk: slice closure leaves stale acceptance assumptions behind.
+
+  * Mitigation: use this slice as the explicit final reconciliation point.
+
+## Rollout and rollback
+
+### Rollout
+
+1. Review active docs against package and consumer proof.
+2. Update only the docs that are out of sync with proven reality.
+3. Re-run any commands needed to confirm synchronization-sensitive changes.
+
+### Rollback
+
+If synchronization reveals a contract mismatch, do not rewrite the docs around
+the mismatch. Reopen the owning implementation slice or acceptance slice and fix
+the underlying proof first.
+
+## Open questions
+
+* Whether the synchronization gate should later become one dedicated docs test
+  plus a short maintainer checklist instead of a full slice spec.
