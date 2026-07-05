@@ -270,6 +270,7 @@ describe("shadcn-studio-v2 taxonomy", () => {
         swiss-noir.css
         verdant-noir.css
       types/
+        app-shell.ts
         css-export.d.ts
         studio.ts
         theme.ts

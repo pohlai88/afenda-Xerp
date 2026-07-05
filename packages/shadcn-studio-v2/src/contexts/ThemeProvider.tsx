@@ -8,7 +8,6 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 import { studioThemeConfig } from "../configs/theme-config";
@@ -46,10 +45,6 @@ function resolveMode(mode: StudioThemeMode): StudioResolvedThemeMode {
   return mode === "system" ? resolveSystemMode() : mode;
 }
 
-function resolveInitialMode(mode: StudioThemeMode): StudioResolvedThemeMode {
-  return mode === "dark" ? "dark" : "light";
-}
-
 function applyTheme(state: StudioThemeState): void {
   if (typeof document === "undefined") {
     return;
@@ -68,13 +63,13 @@ function readStoredTheme(): Partial<StudioThemeState> {
     return {};
   }
 
-  const stored = window.localStorage.getItem(studioThemeConfig.storageKey);
-
-  if (!stored) {
-    return {};
-  }
-
   try {
+    const stored = window.localStorage.getItem(studioThemeConfig.storageKey);
+
+    if (!stored) {
+      return {};
+    }
+
     const parsed: unknown = JSON.parse(stored);
 
     if (
@@ -102,13 +97,17 @@ function persistTheme(state: StudioThemeState): void {
     return;
   }
 
-  window.localStorage.setItem(
-    studioThemeConfig.storageKey,
-    JSON.stringify({
-      mode: state.mode,
-      themeId: state.themeId,
-    })
-  );
+  try {
+    window.localStorage.setItem(
+      studioThemeConfig.storageKey,
+      JSON.stringify({
+        mode: state.mode,
+        themeId: state.themeId,
+      })
+    );
+  } catch {
+    // Storage is optional; DOM theme state still applies.
+  }
 }
 
 function isThemeId(value: unknown): value is StudioThemeId {
@@ -133,27 +132,26 @@ function createThemeState(
   };
 }
 
+function createInitialThemeState(
+  initialThemeId: StudioThemeId,
+  initialMode: StudioThemeMode
+): StudioThemeState {
+  const stored = readStoredTheme();
+
+  return createThemeState(
+    stored.themeId ?? initialThemeId,
+    stored.mode ?? initialMode
+  );
+}
+
 export function ThemeProvider({
   children,
   initialMode = studioThemeConfig.defaultMode,
   initialThemeId = studioThemeConfig.defaultThemeId,
 }: ThemeProviderProps) {
-  const hasLoadedStoredThemeRef = useRef(false);
   const [themeState, setThemeState] = useState<StudioThemeState>(() =>
-    createThemeState(initialThemeId, initialMode, resolveInitialMode)
+    createInitialThemeState(initialThemeId, initialMode)
   );
-
-  useEffect(() => {
-    const stored = readStoredTheme();
-    hasLoadedStoredThemeRef.current = true;
-
-    setThemeState((current) => {
-      const nextThemeId = stored.themeId ?? current.themeId;
-      const nextMode = stored.mode ?? current.mode;
-
-      return createThemeState(nextThemeId, nextMode);
-    });
-  }, []);
 
   useEffect(() => {
     if (themeState.mode !== "system" || typeof window === "undefined") {
@@ -184,21 +182,19 @@ export function ThemeProvider({
   }, [themeState.mode]);
 
   useEffect(() => {
-    if (!hasLoadedStoredThemeRef.current) {
-      return;
-    }
-
     applyTheme(themeState);
     persistTheme(themeState);
   }, [themeState]);
 
   const setTheme = useCallback((update: StudioThemeUpdate) => {
-    setThemeState((current) =>
-      createThemeState(
-        update.themeId ?? current.themeId,
-        update.mode ?? current.mode
-      )
-    );
+    setThemeState((current) => {
+      const nextThemeId = isThemeId(update.themeId)
+        ? update.themeId
+        : current.themeId;
+      const nextMode = isThemeMode(update.mode) ? update.mode : current.mode;
+
+      return createThemeState(nextThemeId, nextMode);
+    });
   }, []);
 
   const value = useMemo<ThemeContextValue>(

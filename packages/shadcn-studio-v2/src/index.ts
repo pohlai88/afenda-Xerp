@@ -89,8 +89,8 @@ export type {
   AppShellNavGroupWire,
   AppShellNavItemWire,
   AppShellOperatingContextWire,
-  StudioPackageConfig,
-} from "./types/studio";
+} from "./types/app-shell";
+export type { StudioPackageConfig } from "./types/studio";
 export type {
   StudioResolvedThemeMode,
   StudioThemeConfig,

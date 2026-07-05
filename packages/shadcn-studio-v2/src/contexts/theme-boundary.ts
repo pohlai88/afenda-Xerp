@@ -1,3 +1,5 @@
+"use client";
+
 import { createElement, type ReactNode } from "react";
 import { ThemeScript as ThemeScriptComponent } from "../components/shared/ThemeScript";
 import { ThemeToggle as ThemeToggleComponent } from "../components/shared/ThemeToggle";
@@ -5,19 +7,31 @@ import { studioThemeConfig as studioThemeConfigValue } from "../configs/theme-co
 import { useStudio as useStudioHook } from "../hooks/use-studio";
 import { useTheme as useThemeHook } from "../hooks/use-theme";
 import { StudioProvider as StudioProviderComponent } from "./StudioProvider";
-import { ThemeProvider as ThemeProviderComponent } from "./ThemeProvider";
+import {
+  ThemeProvider as ThemeProviderComponent,
+  type ThemeProviderProps,
+} from "./ThemeProvider";
 
-export interface ErpPresentationProvidersProps {
+export interface StudioPresentationProvidersProps
+  extends Pick<ThemeProviderProps, "initialMode" | "initialThemeId"> {
   readonly children: ReactNode;
 }
 
-export function ErpPresentationProviders({
+export function StudioPresentationProviders({
   children,
-}: ErpPresentationProvidersProps) {
+  initialMode,
+  initialThemeId,
+}: StudioPresentationProvidersProps) {
+  const themeProviderProps: ThemeProviderProps = {
+    children,
+    ...(initialMode === undefined ? {} : { initialMode }),
+    ...(initialThemeId === undefined ? {} : { initialThemeId }),
+  };
+
   return createElement(
     StudioProviderComponent,
     undefined,
-    createElement(ThemeProviderComponent, undefined, children)
+    createElement(ThemeProviderComponent, themeProviderProps)
   );
 }
 

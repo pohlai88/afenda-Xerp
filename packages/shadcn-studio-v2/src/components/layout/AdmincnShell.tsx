@@ -6,7 +6,7 @@ import { cn } from "../../lib/cn";
 import type {
   AppShellNavGroupWire,
   AppShellOperatingContextWire,
-} from "../../types/studio";
+} from "../../types/app-shell";
 import { IconMark } from "../assets/IconMark";
 import { ThemeToggle } from "../shared/ThemeToggle";
 import { AdmincnNav } from "./AdmincnNav";

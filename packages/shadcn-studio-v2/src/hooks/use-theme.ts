@@ -1,7 +1,10 @@
 "use client";
 
-import { useThemeContext } from "../contexts/ThemeProvider";
+import {
+  type ThemeContextValue,
+  useThemeContext,
+} from "../contexts/ThemeProvider";
 
-export function useTheme() {
+export function useTheme(): ThemeContextValue {
   return useThemeContext();
 }

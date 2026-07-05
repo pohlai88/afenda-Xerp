@@ -3,7 +3,7 @@ import { cn } from "../../lib/cn";
 import type {
   AppShellNavGroupWire,
   AppShellNavItemWire,
-} from "../../types/studio";
+} from "../../types/app-shell";
 
 export interface AdmincnNavProps {
   readonly groups: readonly AppShellNavGroupWire[];
@@ -32,13 +32,13 @@ export function AdmincnNav({ groups }: AdmincnNavProps) {
   return (
     <nav aria-label="Primary navigation" className="space-y-6">
       {groups.map((group) => (
-        <section className="space-y-3" key={group.label}>
+        <section className="space-y-3" key={group.id}>
           <h2 className="px-3 font-medium text-muted-foreground text-xs uppercase tracking-[0.24em]">
             {group.label}
           </h2>
           <ul className="space-y-1">
             {group.items.map((item) => (
-              <AdmincnNavItem item={item} key={item.href} />
+              <AdmincnNavItem item={item} key={item.id} />
             ))}
           </ul>
         </section>

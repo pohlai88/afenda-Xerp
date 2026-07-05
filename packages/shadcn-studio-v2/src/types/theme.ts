@@ -8,7 +8,6 @@ export interface StudioThemeOption {
   readonly description: string;
   readonly id: StudioThemeId;
   readonly label: string;
-  readonly selector: string;
 }
 
 export interface StudioThemeConfig {
@@ -16,7 +15,7 @@ export interface StudioThemeConfig {
   readonly defaultMode: StudioThemeMode;
   readonly defaultThemeId: StudioThemeId;
   readonly storageKey: string;
-  readonly themeAttribute: string;
+  readonly themeAttribute: "data-theme";
   readonly themes: readonly StudioThemeOption[];
 }
 

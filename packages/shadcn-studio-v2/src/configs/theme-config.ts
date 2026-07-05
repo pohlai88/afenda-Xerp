@@ -9,21 +9,18 @@ export const studioThemeConfig = {
   themes: [
     {
       id: "shadcn-default",
-      label: "Shadcn Default",
+      label: "shadcn Default",
       description: "Canonical V2 default token layer.",
-      selector: ":root",
     },
     {
       id: "swiss-noir",
       label: "Swiss Noir",
       description: "Editorial monochrome theme constrained to shadcn tokens.",
-      selector: '[data-theme="swiss-noir"]',
     },
     {
       id: "verdant-noir",
       label: "Verdant Noir",
       description: "Editorial green noir theme constrained to shadcn tokens.",
-      selector: '[data-theme="verdant-noir"]',
     },
   ],
-} satisfies StudioThemeConfig;
+} as const satisfies StudioThemeConfig;

@@ -7,7 +7,7 @@ import { studioThemeConfig } from "../configs/theme-config";
 import type { StudioPackageConfig, StudioRuntimeState } from "../types/studio";
 import type { StudioThemeConfig } from "../types/theme";
 
-export interface StudioContextValue extends StudioRuntimeState {}
+export type StudioContextValue = StudioRuntimeState;
 
 export interface StudioProviderProps {
   readonly children: ReactNode;
@@ -39,7 +39,7 @@ export function useStudioContext(): StudioContextValue {
   const context = useContext(StudioContext);
 
   if (!context) {
-    throw new Error("useStudio must be used within StudioProvider.");
+    throw new Error("useStudioContext must be used within StudioProvider.");
   }
 
   return context;
