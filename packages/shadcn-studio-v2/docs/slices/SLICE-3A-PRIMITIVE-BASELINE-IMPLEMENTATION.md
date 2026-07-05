@@ -6,9 +6,9 @@
 - Slice name: `Primitive baseline`
 - Tracking owner: `V2 migration squad`
 - Slice start date: `2026-07-05`
-- Planned completion date: `Set during slice kickoff after Slice 2 verification`
-- Actual completion date: `Not completed`
-- Current status: `not-started`
+- Planned completion date: `2026-07-05`
+- Actual completion date: `2026-07-05`
+- Current status: `verified`
 
 ## 2) Strategic objective
 
@@ -25,6 +25,8 @@
 ### In scope
 - `components/ui/` primitives listed above
 - `components/quarantine/` handling for unstable or imported work
+- `lib/cn.ts` class merge helper required by primitive implementation
+- explicit public exports for the verified primitive baseline
 
 ### Out of scope
 - layouts, views, metadata, or pilot migration
@@ -65,22 +67,49 @@
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm quality:exports` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-3A-PRIMITIVE-BASELINE-IMPLEMENTATION.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: primitive baseline, taxonomy, public exports, style governance, and runtime boundary tests pass | `packages/shadcn-studio-v2/src/__tests__/primitive-baseline.test.ts` |
+| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS: primitive components and public declarations resolve | `packages/shadcn-studio-v2/tsconfig.json` |
+| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS: package emits primitive public declarations | `packages/shadcn-studio-v2/dist` |
 
 ## 7) Risk register
 
 | Risk | Probability / impact | Mitigation | Owner | Status |
 | --- | --- | --- | --- | --- |
-| Primitive scope expansion before boundary verification | Medium / High | Strict export review before new primitive add | V2 migration squad | Active |
+| Primitive scope expansion before boundary verification | Medium / High | `primitive-baseline.test.ts` locks Slice 3A to `Button`, `Card`, and `Badge` | V2 migration squad | Mitigated |
+| Quarantine leaks into public exports | Low / High | primitive baseline test scans public surfaces for quarantine exports | V2 migration squad | Mitigated |
 
 ## 8) Open questions / assumptions
 
 - Assumption: `Button`, `Card`, and `Badge` are the complete baseline primitive set for first promotion.
 - Assumption: any imported primitive that requires local adaptation starts in `components/quarantine/`.
-- Decision needed before verification: confirm whether Storybook evidence is required for this slice or only optional.
+- Decision: Storybook evidence remains optional for Slice 3A because the slice proves primitive structure, typing, and export safety only.
+- Decision: primitives are server-safe React components unless a future primitive requires client runtime.
 
 ## 9) Exit checklist
 
-- Required before verification: baseline primitive set added in `components/ui/`.
-- Required before verification: no page-level or ERP logic in primitives.
-- Required before verification: quarantine items do not appear in public exports.
+- Verified: baseline primitive set added in `components/ui/`.
+- Verified: no page-level or ERP logic in primitives.
+- Verified: quarantine items do not appear in public exports.
+
+## 10) Implementation summary
+
+- Added `Button`, `Card`, and `Badge` under `components/ui/`.
+- Added `cn` under `lib/` as the minimal package-local class merge helper.
+- Exported verified primitives through neutral and client public surfaces only.
+- Kept server surface config/type-only.
+- Added primitive baseline governance tests.
+
+## 11) Handoff summary
+
+- Completion recommendation: `Go for Slice 3B kickoff`
+- Blocker: `None`
+- Next slice dependency to start: `Slice 3B`
+
+## 12) Post-verification Stabilization Review
+
+- Review result: `PASS`
+- Primitive ownership is serialized through stable `data-slot` markers.
+- Primitive class variants remain token-based and aligned to the V2 taxonomy.
+- Public exports remain explicit from `@afenda/shadcn-studio-v2`.
+- Quarantine and reference assets remain isolated from the public API.
+- Slice 3B entry condition remains satisfied by prior scoped verification.

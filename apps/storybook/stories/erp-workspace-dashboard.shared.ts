@@ -1,10 +1,10 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import { expect } from "storybook/test";
 import {
   ERP_WORKSPACE_DASHBOARD_PAGE_COPY,
   ErpWorkspaceDashboardPageSample,
   STORYBOOK_TIER_A_V1_WIDGET_IDS,
-} from "../../../packages/shadcn-studio/src/storybook/erp-workspace-dashboard.compositions.js";
+} from "@afenda/shadcn-studio/lab";
+import type { Meta, StoryObj } from "@storybook/react";
+import { expect } from "storybook/test";
 
 export const erpWorkspaceDashboardStoryTitle =
   "Presentation Lab/ERP Workspace Dashboard";

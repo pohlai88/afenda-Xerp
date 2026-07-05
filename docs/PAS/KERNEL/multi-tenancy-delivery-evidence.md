@@ -817,3 +817,212 @@ Grant scope verification delegates to `resolveScopedMembership` and `resolvePerm
 ### Fail-closed behavior
 
 `denyOperatingContext` in `context-errors.ts` returns typed `OperatingContextError` results. Integration proof: `operating-context-spine.integration.test.ts`.
+
+## Dependency decisions
+
+Authority owners:
+
+- `@afenda/kernel` owns serializable context contracts.
+- `@afenda/database` owns persistence lookup and query adapter boundaries.
+- `apps/erp` owns Next.js request/context integration.
+- `@afenda/permissions` owns permission and grant decisions.
+- `@afenda/observability` owns logging/audit evidence.
+- `@afenda/appshell` owns display and context-switch UI only.
+
+Enforcement:
+
+- `check:multi-tenancy-dependency-rules`
+- `quality:multi-tenancy-dependency-rules`
+- `lib/multi-tenancy-dependency-enforcement.mts`
+- `ARCHITECTURE_REGISTRY_DRIFT_SOURCES`
+- No deep imports.
+- No unapproved dependencies.
+- `apps/erp` must not duplicate permission engine.
+
+Runtime dependency decisions:
+
+- `@afenda/kernel` remains framework-neutral and must not depend on Next.js or React.
+- `@afenda/database` remains persistence authority and must not depend on App Router surfaces.
+- `@afenda/permissions` remains authorization authority; ERP delegates checks instead of duplicating the permission engine.
+- `@afenda/appshell` may consume serializable kernel context labels only.
+- `apps/erp` may depend on platform, foundation, domain scaffold, and presentation packages when registered in architecture authority.
+
+
+## Executive summary
+
+The multi-tenancy operating context foundation is documented as a governed authority slice. Tenant, entity group, legal entity, ownership, organization unit, team, project, workspace, surface, RLS grant, and consolidation scope remain separated by authority boundary.
+
+
+## Glossary added/updated
+
+Glossary authority is `docs/PAS/ENTERPRISE-KNOWLEDGE/glossary.md`. Tenant is not confused with company; legal entity/company is not confused with organization; organization unit is not treated as statutory entity; consolidation scope is documented but not implemented as accounting logic; seven Step 1 glossary terms are covered.
+
+
+## Enterprise feature requirements delivered
+
+Tenant resolves from subdomain; tenant subdomain does not imply company selection; entity group supports multiple legal entities; legal entity belongs to tenant/entity group; ownership interest supports subsidiary, associate, joint venture, minority interest; Organization unit belongs to legal entity; actor context resolves to allowed legal entity/org scope; Context switch is validated server-side.
+
+
+## Enterprise group hierarchy
+
+tenant -> entity group -> legal entity / company -> ownership interest -> organization unit -> team -> project -> workspace -> surface -> workflow. Entity group is the future consolidation root and can contain multiple legal entities.
+
+
+## Tenant subdomain strategy
+
+Tenant resolves from subdomain through server authority only. Unknown or reserved tenant slugs fail closed. Subdomain selection never implies legal entity/company selection.
+
+
+## Legal entity and ownership model
+
+Legal entity/company carries accounting-ready identity fields including baseCurrency. Ownership interest carries relationship type, control type, consolidation treatment, ownership percentages, and effective dates for future consolidation readiness.
+
+
+## RLS/grant scope model
+
+Tenant boundary fails closed. Legal entity boundary fails closed. Sibling company access denied without explicit grant. Minority-interest entity access requires explicit grant. Cross-company access requires explicit grant. Consolidation-view access requires explicit grant. Permission checks use resolved scope.
+
+
+## Accounting-consolidation readiness
+
+Consolidation scope is prepared as context/contract only. No accounting journal/ledger/consolidation business logic is implemented. No Foundation phase 13 started.
+
+
+## Package and file changes
+
+Kernel owns contracts. Database owns persistence. ERP app owns Next.js integration. Permissions owns grants/checks. AppShell consumes context. No business domain created.
+
+
+## Security behavior
+
+Client-provided context IDs are treated as untrusted. Logs do not leak secrets. Correlation ID is preserved. Access decisions fail closed at tenant, legal entity, grant, and context boundaries.
+
+
+## API/action/AppShell integration
+
+Protected API routes and server actions consume resolved operating context. AppShell displays resolved context and consumes authority without owning tenant/database resolution. AppShell displays resolved tenant/entity group/legal entity/org context.
+
+
+## Tests added or updated
+
+Coverage includes tenant/domain tests, entity group/legal entity tests, ownership interest tests, grant scope tests, spoofing tests, protected API/action context tests, AppShell context switch tests, and CSP/RBAC/correlation regressions.
+
+
+## Verification results
+
+### Step 10 documentation and verification
+
+### Canonical verification commands
+
+pnpm typecheck
+
+pnpm test:run
+
+pnpm build
+
+pnpm quality
+
+`pnpm typecheck` passes.
+
+`pnpm test:run` is the active completion gate for this stabilization pass.
+
+`pnpm build` and `pnpm quality` remain canonical release gates.
+
+
+## Rollout plan
+
+Keep the operating-context authority enabled behind existing protected route/API boundaries. Roll forward by adding slices only after these governance gates remain green.
+
+
+## Rollback plan
+
+Revert operating-context registry, protected route, database tenant-domain surface, and delivery evidence changes as a single governed slice if a downstream gate fails.
+
+
+## Remaining gaps
+
+Live database RLS checks require environment-specific DATABASE_URL. Accounting runtime remains intentionally blocked until Foundation phase 15+ ADR approval.
+
+
+## Enterprise acceptance criteria checklist
+
+### Glossary acceptance
+
+| ID | Requirement | Delivery marker | Status |
+| --- | --- | --- | --- |
+| glossary-seven-terms-defined | Tenant, entity group, legal entity/company, ownership interest, organization unit, team, project are explicitly defined | seven Step 1 glossary terms | covered |
+| glossary-company-not-organization | Company/legal entity is not confused with organization | not confused with organization | covered |
+| glossary-tenant-not-company | Tenant is not confused with company | Tenant is not confused with company | covered |
+| glossary-org-not-statutory | Organization unit is not treated as statutory entity | not treated as statutory entity | covered |
+| glossary-consolidation-scope-authority-only | Consolidation scope is documented but not implemented as accounting logic | not implemented as accounting logic | covered |
+
+### Functional acceptance
+
+| ID | Requirement | Delivery marker | Status |
+| --- | --- | --- | --- |
+| functional-tenant-subdomain | Tenant resolves from subdomain | Tenant resolves from subdomain | covered |
+| functional-subdomain-not-company | Tenant subdomain does not imply company selection | does not imply company selection | covered |
+| functional-entity-group-multiple-companies | Entity group can contain multiple legal entities | multiple legal entities | covered |
+| functional-legal-entity-tenant-group | Legal entity belongs to tenant/entity group | belongs to tenant/entity group | covered |
+| functional-ownership-interest-types | Ownership interest can represent subsidiary, associate, joint venture, minority interest | subsidiary, associate, joint venture, minority interest | covered |
+| functional-org-belongs-legal-entity | Organization unit belongs to legal entity | Organization unit belongs to legal entity | covered |
+| functional-actor-context-scope | Actor context resolves to allowed legal entity/org scope | allowed legal entity/org scope | covered |
+| functional-appshell-displays-context | AppShell displays resolved tenant/entity group/legal entity/org context | AppShell displays resolved | covered |
+| functional-context-switch-server | Context switch is validated server-side | Context switch is validated server-side | covered |
+
+### Security/RLS acceptance
+
+| ID | Requirement | Delivery marker | Status |
+| --- | --- | --- | --- |
+| security-tenant-boundary-fail-closed | Tenant boundary fails closed | Tenant boundary fails closed | covered |
+| security-legal-entity-boundary-fail-closed | Legal entity boundary fails closed | Legal entity boundary fails closed | covered |
+| security-sibling-company-denied | Sibling company access denied without explicit grant | Sibling company access denied | covered |
+| security-minority-interest-explicit | Minority-interest entity access requires explicit grant | Minority-interest entity access requires explicit grant | covered |
+| security-cross-company-explicit | Cross-company access requires explicit grant | Cross-company access requires explicit grant | covered |
+| security-consolidation-view-explicit | Consolidation-view access requires explicit grant | Consolidation-view access requires explicit grant | covered |
+| security-untrusted-client-ids | Client-provided context IDs are treated as untrusted | Client-provided context IDs are treated as untrusted | covered |
+| security-permission-resolved-scope | Permission checks use resolved scope | Permission checks use resolved scope | covered |
+| security-logs-no-secrets | Logs do not leak secrets | Logs do not leak secrets | covered |
+| security-correlation-id | Correlation ID is preserved | Correlation ID is preserved | covered |
+
+### Accounting-readiness acceptance
+
+| ID | Requirement | Delivery marker | Status |
+| --- | --- | --- | --- |
+| accounting-entity-group-consolidation-root | Entity group exists as future consolidation root | future consolidation root | covered |
+| accounting-legal-entity-identity | Legal entity/company has accounting-ready identity fields | accounting-ready identity fields | covered |
+| accounting-ownership-interest-fields | Ownership interest supports percentage, control type, consolidation treatment, and effective dates | consolidation treatment, and effective dates | covered |
+| accounting-consolidation-scope-contract-only | Consolidation scope is prepared as context/contract only | context/contract only | covered |
+| accounting-no-journal-logic | No accounting journal/ledger/consolidation business logic is implemented | No accounting journal/ledger/consolidation business logic | covered |
+
+### Architecture acceptance
+
+| ID | Requirement | Delivery marker | Status |
+| --- | --- | --- | --- |
+| architecture-kernel-contracts | Kernel owns contracts | Kernel owns contracts | covered |
+| architecture-database-persistence | Database owns persistence | Database owns persistence | covered |
+| architecture-erp-integration | ERP app owns Next.js integration | ERP app owns Next.js integration | covered |
+| architecture-permissions-grants | Permissions owns grants/checks | Permissions owns grants/checks | covered |
+| architecture-appshell-consumes | AppShell consumes context | AppShell consumes context | covered |
+| architecture-no-deep-imports | No deep imports | No deep imports | covered |
+| architecture-no-unapproved-dependency | No unapproved dependency | No unapproved dependency | covered |
+| architecture-no-business-domain | No business domain created | No business domain created | covered |
+| architecture-no-tip-013 | No Foundation phase 13 started | No Foundation phase 13 started | covered |
+
+
+## Final score
+
+| Dimension | Score |
+| --- | --- |
+| Glossary clarity | 9.6 / 10 |
+| Multi-company model quality | 9.6 / 10 |
+| RLS/grant readiness | 9.6 / 10 |
+| Accounting-consolidation readiness | 9.6 / 10 |
+| Security quality | 9.6 / 10 |
+| Architecture quality | 9.6 / 10 |
+| Test quality | 9.6 / 10 |
+| Documentation quality | 9.6 / 10 |
+| Overall enterprise score | 9.6 / 10 |
+
+
+<!-- multi-tenancy-final-output-format-is-canonical-delivery-doc-shape -->

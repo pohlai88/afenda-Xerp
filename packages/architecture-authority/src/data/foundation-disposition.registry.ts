@@ -1088,7 +1088,7 @@ const foundationDispositionEntries = [
       "packages/accounting-standards/PAS-003-ACCOUNTING-STANDARDS-TREE.md",
       "apps/erp/src/lib/accounting-standards/run-accounting-standards-validation.server.ts",
       "apps/erp/src/lib/accounting-standards/load-accounting-standards-readiness-page.server.ts",
-      "apps/erp/src/app/(protected)/modules/accounting/standards-readiness/page.tsx",
+      "apps/erp/src/app/(protected)/standards/accounting-readiness/page.tsx",
       "scripts/governance/check-accounting-standards-metadata-consumer-proof.mts",
       ".cursor/skills/accounting-standards-authority/SKILL.md",
       "packages/architecture-authority/src/data/package-registry.data.ts",

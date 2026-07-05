@@ -54,32 +54,38 @@ function discoverWorkspacePackages() {
       continue;
     }
 
-    for (const entry of readdirSync(absoluteSourceRoot, {
-      withFileTypes: true,
-    })) {
-      if (!entry.isDirectory()) {
-        continue;
-      }
+    packages.push(...discoverWorkspacePackagesUnder(absoluteSourceRoot));
+  }
 
-      const packageRoot = join(absoluteSourceRoot, entry.name);
-      const packageJsonPath = join(packageRoot, "package.json");
+  return packages;
+}
 
-      if (!existsSync(packageJsonPath)) {
-        continue;
-      }
+function discoverWorkspacePackagesUnder(directory) {
+  const packages = [];
+  const packageJsonPath = join(directory, "package.json");
 
-      const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8"));
+  if (existsSync(packageJsonPath)) {
+    const packageJson = JSON.parse(readFileSync(packageJsonPath, "utf8"));
 
-      if (typeof packageJson.name !== "string") {
-        continue;
-      }
-
-      packages.push({
-        packageJson,
-        packageJsonPath,
-        root: packageRoot,
-      });
+    if (typeof packageJson.name === "string") {
+      return [
+        {
+          packageJson,
+          packageJsonPath,
+          root: directory,
+        },
+      ];
     }
+  }
+
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    if (!(entry.isDirectory() && !ignoredDirectories.has(entry.name))) {
+      continue;
+    }
+
+    packages.push(
+      ...discoverWorkspacePackagesUnder(join(directory, entry.name))
+    );
   }
 
   return packages;

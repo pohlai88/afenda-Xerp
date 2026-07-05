@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 
 import { describe, expect, it } from "vitest";
+import { ERP_SRC_ROOT } from "@/__tests__/support/erp-test-paths";
 import {
   AUTH_INGRESS_CANONICAL_SURFACES,
   AUTH_INGRESS_PUBLIC_PATH_PREFIXES,
@@ -197,7 +198,7 @@ describe("auth-ingress-surface.registry", () => {
   });
 
   it("maps each canonical ingress surface to an app route page file", () => {
-    const appRoot = join(process.cwd(), "src", "app", "(auth)");
+    const appRoot = join(ERP_SRC_ROOT, "app", "(auth)");
 
     for (const surface of AUTH_INGRESS_CANONICAL_SURFACES) {
       expect(isAuthIngressCanonicalPath(surface.path)).toBe(true);

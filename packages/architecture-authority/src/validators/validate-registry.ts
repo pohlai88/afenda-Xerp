@@ -7,6 +7,8 @@ import {
   packageContract,
 } from "../data/package-registry.data.js";
 
+const SHADOW_VERSION_PACKAGE_PATTERN = /-v\d+$/u;
+
 export function validateRegistry(workspaces: readonly DiscoveredWorkspace[]) {
   const violations: ArchitectureViolation[] = [];
   const discoveredNames = new Set(workspaces.map((ws) => ws.packageJson.name));
@@ -35,8 +37,16 @@ export function validateRegistry(workspaces: readonly DiscoveredWorkspace[]) {
       });
     }
 
+    const allowsExperimentalShadowVersion =
+      registryEntry.lifecycle === "experimental" &&
+      SHADOW_VERSION_PACKAGE_PATTERN.test(workspace.directoryName);
+
     for (const pattern of FORBIDDEN_PACKAGE_NAME_PATTERNS) {
       if (pattern.test(workspace.directoryName)) {
+        if (allowsExperimentalShadowVersion) {
+          continue;
+        }
+
         violations.push({
           gate: "registry",
           packageName: workspace.packageJson.name,

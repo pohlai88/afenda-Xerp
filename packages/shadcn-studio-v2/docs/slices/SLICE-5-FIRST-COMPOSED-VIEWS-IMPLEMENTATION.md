@@ -7,8 +7,8 @@
 - Tracking owner: `V2 migration squad`
 - Slice start date: `2026-07-05`
 - Planned completion date: `Set during slice kickoff after Slice 4 verification`
-- Actual completion date: `Not completed`
-- Current status: `not-started`
+- Actual completion date: `2026-07-05`
+- Current status: `verified`
 
 ## 2) Strategic objective
 
@@ -46,6 +46,7 @@
   - `Gate B: naming`
   - `Gate D: export boundary`
   - `Gate E: typecheck and config resolution`
+  - V2-local verification only; do not run or repair root architecture, legacy studio, ERP, database, or architecture-authority gates during this slice.
 
 ## 5) Implementation plan
 
@@ -60,15 +61,19 @@
 
 ## 6) Test and verification commands
 
-- `pnpm check:studio-composition-contracts`
-- `pnpm quality:architecture`
-- `pnpm quality:exports`
+- `pnpm --filter @afenda/shadcn-studio-v2 test`
+- `pnpm --filter @afenda/shadcn-studio-v2 typecheck`
+- `pnpm --filter @afenda/shadcn-studio-v2 build`
+- `pnpm exec biome ci packages/shadcn-studio-v2`
 
 ### Evidence log
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm check:studio-composition-contracts` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-5-FIRST-COMPOSED-VIEWS-IMPLEMENTATION.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-5-FIRST-COMPOSED-VIEWS-IMPLEMENTATION.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-5-FIRST-COMPOSED-VIEWS-IMPLEMENTATION.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 build` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-5-FIRST-COMPOSED-VIEWS-IMPLEMENTATION.md` |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-5-FIRST-COMPOSED-VIEWS-IMPLEMENTATION.md` |
 
 ## 7) Risk register
 

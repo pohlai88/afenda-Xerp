@@ -1,11 +1,12 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { ERP_SRC_ROOT } from "@/__tests__/support/erp-test-paths";
 
 import { CONTEXT_INTEGRATION_WIRING } from "@/lib/context/context-integration-registry";
 import { OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY } from "@/lib/context/operating-context-protected-surface.registry";
 
-const erpSrcRoot = join(process.cwd(), "src");
+const erpSrcRoot = ERP_SRC_ROOT;
 
 describe("operating-context RSC bridge integration", () => {
   const rscSurfaces = OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY.filter(

@@ -32,17 +32,17 @@ Every migrated unit must:
 
 | Legacy path | V2 destination | Status | Notes |
 | --- | --- | --- | --- |
-| `components-ui` | `components/ui` | `pending` | Translate only governed stable primitives. |
-| `components-assets` | `assets` or `components/assets` | `pending` | Use package asset role to decide destination. |
-| `components-quarantine` | `components/quarantine` | `pending` | Quarantine remains non-public. |
-| `components-app-shell` | `components/layout` or `views/*` | `pending` | Reusable chrome stays in layout; composed surfaces move to views. |
-| `components-auth-shell` | `views/auth` | `pending` | Auth composition belongs in the V2 view layer. |
-| `components-layouts` | `views/*` | `pending` | Translate by composed surface shape, not by legacy folder name. |
-| `theme-config` | `configs` | `pending` | Static config only. |
-| `theme-runtime` | `contexts` plus `components/shared` plus `hooks` | `pending` | Split provider, helper UI, and runtime access concerns. |
-| `meta-contracts` | `metadata/contracts` | `pending` | Metadata-only lane. |
-| `meta-registry` | `metadata/registries` | `pending` | Metadata-only lane. |
-| `meta-gates` | `metadata/gates` | `pending` | Metadata-only lane. |
+| `components-ui` | `components/ui` | `migrated` | Pilot proves governed primitive consumption through `clients.ts`. |
+| `components-assets` | `assets` or `components/assets` | `migrated` | Pilot proves component-coupled asset consumption through `IconMark`. |
+| `components-quarantine` | `components/quarantine` | `quarantined` | Quarantine remains non-public and has V2 README governance. |
+| `components-app-shell` | `components/layout` or `views/*` | `migrated` | Pilot proves reusable layout chrome through `PageSurface` and layout components. |
+| `components-auth-shell` | `views/auth` | `migrated` | Pilot proves auth composition through `AuthShell`. |
+| `components-layouts` | `views/*` | `migrated` | Pilot proves page/widget view composition by shape. |
+| `theme-config` | `configs` | `migrated` | Static theme/studio config is available and tested. |
+| `theme-runtime` | `contexts` plus `components/shared` plus `hooks` | `migrated` | Pilot proves `ThemeProvider` and `ThemeToggle` through `clients.ts`. |
+| `meta-contracts` | `metadata/contracts` | `migrated` | Pilot proves JSON-safe metadata contracts through `metadata.ts`. |
+| `meta-registry` | `metadata/registries` | `migrated` | Slice 6 registry remains metadata-only and serializable. |
+| `meta-gates` | `metadata/gates` | `migrated` | Slice 6 gates validate metadata shapes without UI coupling. |
 
 ## Update Rule
 

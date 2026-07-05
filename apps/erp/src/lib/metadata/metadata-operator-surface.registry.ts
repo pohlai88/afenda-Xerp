@@ -19,15 +19,6 @@ export const METADATA_OPERATOR_SURFACE_REGISTRY = [
     description:
       "Account settings block with metadata binding hydration (PAS-006D).",
   },
-  {
-    id: "operator-auth-sign-in",
-    routePattern: "/metadata-workspace",
-    surfaceTemplateId: "surface-template.auth-sign-in",
-    module: "app/(protected)/metadata-workspace/page.tsx",
-    title: "Sign-in surface preview",
-    description:
-      "Metadata workspace preview of the auth sign-in block (not public ingress).",
-  },
 ] as const satisfies readonly MetadataOperatorSurfaceRouteEntry[];
 
 export type MetadataOperatorSurfaceRouteId =

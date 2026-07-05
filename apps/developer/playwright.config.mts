@@ -7,11 +7,12 @@ const port = process.env["PLAYWRIGHT_PORT"] ?? "3002";
 const baseURL =
   process.env["PLAYWRIGHT_BASE_URL"] ?? `http://127.0.0.1:${port}`;
 const isCI = Boolean(process.env["CI"]);
+const nextCliPath = path.join(developerRoot, "node_modules/next/dist/bin/next");
 
 const webServer = process.env["PLAYWRIGHT_SKIP_WEBSERVER"]
   ? null
   : {
-      command: "pnpm dev",
+      command: `"${process.execPath}" "${nextCliPath}" dev --port ${port}`,
       cwd: developerRoot,
       env: {
         NODE_ENV: "development",

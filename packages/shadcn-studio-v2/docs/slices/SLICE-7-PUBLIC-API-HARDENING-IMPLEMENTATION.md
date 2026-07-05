@@ -7,8 +7,8 @@
 - Tracking owner: `V2 migration squad`
 - Slice start date: `2026-07-05`
 - Planned completion date: `Set during slice kickoff after Slice 6 verification`
-- Actual completion date: `Not completed`
-- Current status: `not-started`
+- Actual completion date: `2026-07-05`
+- Current status: `verified`
 
 ## 2) Strategic objective
 
@@ -19,6 +19,9 @@
 - `index.ts`, `clients.ts`, `server.ts`, `metadata.ts` explicit and intentional.
 - No folder-wide re-exports by default.
 
+## V2-only guardrail
+
+V2-local verification only. Do not run or repair root governance, legacy studio, ERP, database, or architecture-authority gates during this slice.
 ## 3) Scope boundaries
 
 ### In scope
@@ -54,16 +57,19 @@
 
 ## 6) Test and verification commands
 
-- `pnpm quality:exports`
-- `pnpm quality:boundaries`
+- `pnpm --filter @afenda/shadcn-studio-v2 test`
+- `pnpm --filter @afenda/shadcn-studio-v2 typecheck`
 - `pnpm --filter @afenda/shadcn-studio-v2 build`
+- `pnpm exec biome ci packages/shadcn-studio-v2`
 
 ### Evidence log
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm quality:exports` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-7-PUBLIC-API-HARDENING-IMPLEMENTATION.md` |
-
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-7-PUBLIC-API-HARDENING-HANDOFF.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-7-PUBLIC-API-HARDENING-HANDOFF.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-7-PUBLIC-API-HARDENING-HANDOFF.md` |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-7-PUBLIC-API-HARDENING-HANDOFF.md` |
 ## 7) Risk register
 
 | Risk | Probability / impact | Mitigation | Owner | Status |

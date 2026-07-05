@@ -7,6 +7,7 @@ Use this index to open the slice implementation detail document for each roadmap
 - [Slice 0.5 — Public export scaffold](SLICE-0-5-PUBLIC-EXPORT-SCAFFOLD-IMPLEMENTATION.md)
 - [Slice 0.5 — Public export scaffold handoff](SLICE-0-5-PUBLIC-EXPORT-SCAFFOLD-HANDOFF.md)
 - [Slice 1 — CSS and theme foundation](SLICE-1-CSS-AND-THEME-FOUNDATION-IMPLEMENTATION.md)
+- [Slice 1 — CSS and theme foundation handoff](SLICE-1-CSS-AND-THEME-FOUNDATION-HANDOFF.md)
 - [Slice 2 — Config and runtime boundary](SLICE-2-CONFIG-AND-RUNTIME-BOUNDARY-IMPLEMENTATION.md)
 - [Slice 3A — Primitive baseline](SLICE-3A-PRIMITIVE-BASELINE-IMPLEMENTATION.md)
 - [Slice 3B — Primitive extension](SLICE-3B-PRIMITIVE-EXTENSION-IMPLEMENTATION.md)
@@ -21,3 +22,5 @@ Use this index to open the slice implementation detail document for each roadmap
 
 - [Slice Finishing Evaluation and Audit Handoff Template](../SLICE-FINISHING-EVALUATION-AUDIT-HANDOFF.md)
 - [Slice Implementation Detail Template](../SLICE-IMPLEMENTATION-DETAIL-TEMPLATE.md)
+- [Slice 3A — Primitive baseline handoff](SLICE-3A-PRIMITIVE-BASELINE-HANDOFF.md)
+- [Slice 3B — Primitive extension handoff](SLICE-3B-PRIMITIVE-EXTENSION-HANDOFF.md)

@@ -2,6 +2,7 @@ import { existsSync } from "node:fs";
 import { join } from "node:path";
 
 import { describe, expect, it } from "vitest";
+import { ERP_SRC_ROOT } from "@/__tests__/support/erp-test-paths";
 
 import { PUBLIC_APP_ROUTER_PATH_PREFIXES } from "@/lib/auth/auth-protected-surface.registry";
 import {
@@ -53,7 +54,7 @@ describe("error-page-surface.registry", () => {
   });
 
   it("maps each canonical surface to an app route page file", () => {
-    const appRoot = join(process.cwd(), "src", "app");
+    const appRoot = join(ERP_SRC_ROOT, "app");
 
     for (const surface of ERROR_PAGE_CANONICAL_SURFACES) {
       const pagePath = join(

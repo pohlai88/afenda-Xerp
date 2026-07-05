@@ -6,6 +6,7 @@ import type {
 } from "../contracts/workspace.contract.js";
 
 const SOURCE_ROOTS = ["apps", "packages"] as const;
+const IGNORED_DIRECTORIES = new Set(["dist", "node_modules"]);
 
 interface PackageJsonShape {
   dependencies?: unknown;
@@ -85,34 +86,39 @@ export function discoverWorkspaces(
       continue;
     }
 
-    for (const entry of readdirSync(absoluteSourceRoot, {
-      withFileTypes: true,
-    })) {
-      if (!entry.isDirectory()) {
-        continue;
-      }
+    packages.push(...discoverWorkspacesUnder(absoluteSourceRoot));
+  }
 
-      const packageRoot = join(absoluteSourceRoot, entry.name);
-      const packageJsonPath = join(packageRoot, "package.json");
+  return packages;
+}
 
-      if (!existsSync(packageJsonPath)) {
-        continue;
-      }
+function discoverWorkspacesUnder(directory: string): DiscoveredWorkspace[] {
+  const packageJsonPath = join(directory, "package.json");
 
-      const raw: unknown = JSON.parse(readFileSync(packageJsonPath, "utf8"));
-      const packageJson = parseWorkspacePackageJson(raw);
+  if (existsSync(packageJsonPath)) {
+    const raw: unknown = JSON.parse(readFileSync(packageJsonPath, "utf8"));
+    const packageJson = parseWorkspacePackageJson(raw);
 
-      if (!packageJson) {
-        continue;
-      }
-
-      packages.push({
-        packageJson,
-        packageJsonPath,
-        root: packageRoot,
-        directoryName: entry.name,
-      });
+    if (packageJson) {
+      return [
+        {
+          packageJson,
+          packageJsonPath,
+          root: directory,
+          directoryName: directory.split(/[/\\]/u).at(-1) ?? directory,
+        },
+      ];
     }
+  }
+
+  const packages: DiscoveredWorkspace[] = [];
+
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    if (!(entry.isDirectory() && !IGNORED_DIRECTORIES.has(entry.name))) {
+      continue;
+    }
+
+    packages.push(...discoverWorkspacesUnder(join(directory, entry.name)));
   }
 
   return packages;

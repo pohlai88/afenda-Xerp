@@ -7,8 +7,8 @@
 - Tracking owner: `V2 migration squad`
 - Slice start date: `2026-07-05`
 - Planned completion date: `Set during slice kickoff after Slice 5 verification`
-- Actual completion date: `Not completed`
-- Current status: `not-started`
+- Actual completion date: `2026-07-05`
+- Current status: `verified`
 
 ## 2) Strategic objective
 
@@ -19,6 +19,9 @@
 - Folders under `metadata/` and exports in `metadata.ts` are complete and isolated.
 - Metadata contracts/stores do not become general utility plumbing.
 
+## V2-only guardrail
+
+V2-local verification only. Do not run or repair root governance, legacy studio, ERP, database, or architecture-authority gates during this slice.
 ## 3) Scope boundaries
 
 ### In scope
@@ -54,16 +57,19 @@
 
 ## 6) Test and verification commands
 
-- `pnpm check:erp-metadata-pas006-consumer`
-- `pnpm quality:exports`
-- `pnpm check:studio-metadata-binding`
+- `pnpm --filter @afenda/shadcn-studio-v2 test`
+- `pnpm --filter @afenda/shadcn-studio-v2 typecheck`
+- `pnpm --filter @afenda/shadcn-studio-v2 build`
+- `pnpm exec biome ci packages/shadcn-studio-v2`
 
 ### Evidence log
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm quality:exports` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-6-METADATA-LANE-IMPLEMENTATION.md` |
-
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-6-METADATA-LANE-HANDOFF.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-6-METADATA-LANE-HANDOFF.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-6-METADATA-LANE-HANDOFF.md` |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-6-METADATA-LANE-HANDOFF.md` |
 ## 7) Risk register
 
 | Risk | Probability / impact | Mitigation | Owner | Status |

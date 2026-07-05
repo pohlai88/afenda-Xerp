@@ -219,8 +219,8 @@
       "kind": "page"
     },
     {
-      "file": "apps/erp/src/app/(protected)/modules/accounting/standards-readiness/page.tsx",
-      "route": "/modules/accounting/standards-readiness",
+      "file": "apps/erp/src/app/(protected)/standards/accounting-readiness/page.tsx",
+      "route": "/standards/accounting-readiness",
       "kind": "page"
     },
     {

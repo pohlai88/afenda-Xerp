@@ -6,6 +6,8 @@ Authentication is intentionally excluded from this app to avoid review noise. Do
 
 The lab still follows ERP frontend law: App Router first, Server Components by default, route-local `_components` when UI surfaces return, client leaves only for interactivity, and no lowered presentation standard because it is a lab.
 
+See [ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md](./ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md) for route-lab structure, placeholder intent, and Next.js/Vercel compliance.
+
 ## Run
 
 ```bash
@@ -20,4 +22,12 @@ Open `http://127.0.0.1:3002`.
 pnpm exec biome ci apps/developer
 pnpm --filter @afenda/developer typecheck
 pnpm --filter @afenda/developer test:e2e:smoke
+```
+
+If workspace-level `pnpm` commands are blocked by dependency approval / ignored-build enforcement, app-local binary fallbacks are:
+
+```powershell
+.\node_modules\.bin\tsc -p apps\developer\tsconfig.json --noEmit
+.\node_modules\.bin\biome ci apps\developer
+apps\developer\node_modules\.bin\playwright test --project=chromium-smoke
 ```

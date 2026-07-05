@@ -35,11 +35,7 @@ describe("discover-block-stories", () => {
     const { auto } = discoverBlockStories(blocksRoot);
 
     expect(auto.map((entry) => entry.slug)).toEqual(
-      expect.arrayContaining([
-        "account-settings-01",
-        "login-page-04",
-        "hero-section-01",
-      ])
+      expect.arrayContaining(["account-settings-01", "hero-section-01"])
     );
   });
 

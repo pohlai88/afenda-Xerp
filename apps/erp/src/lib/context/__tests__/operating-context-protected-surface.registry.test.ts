@@ -1,13 +1,14 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { ERP_SRC_ROOT } from "@/__tests__/support/erp-test-paths";
 
 import {
   OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY,
   type OperatingContextProtectedSurfaceId,
 } from "../operating-context-protected-surface.registry";
 
-const erpSrcRoot = join(process.cwd(), "src");
+const erpSrcRoot = ERP_SRC_ROOT;
 
 describe("operating-context-protected-surface.registry", () => {
   it("declares unique surface ids", () => {

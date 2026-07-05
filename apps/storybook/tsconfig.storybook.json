@@ -17,6 +17,7 @@
         "../../packages/shadcn-studio/src/styles/shadcn-default.css"
       ],
       "@afenda/shadcn-studio": ["../../packages/shadcn-studio/src/index.ts"],
+      "@afenda/shadcn-studio/lab": ["../../packages/shadcn-studio/src/lab.ts"],
       "@/components/ui/*": ["../../packages/shadcn-studio/src/components-ui/*"],
       "@/components/shadcn-studio/*": [
         "../../packages/shadcn-studio/src/components-layouts/*"

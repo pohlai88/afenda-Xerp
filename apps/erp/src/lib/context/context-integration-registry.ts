@@ -45,7 +45,7 @@ export const CONTEXT_INTEGRATION_WIRING = [
   {
     id: "accounting-standards-readiness-page",
     step: "Protected accounting standards consumer proof RSC ingress (PAS-003 B20)",
-    module: "app/(protected)/modules/accounting/standards-readiness/page.tsx",
+    module: "app/(protected)/standards/accounting-readiness/page.tsx",
     delegate: "loadAccountingStandardsReadinessPage",
   },
   {

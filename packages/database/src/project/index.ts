@@ -13,15 +13,6 @@ export {
   type ProjectWriteInput,
 } from "./project.contract.js";
 export {
-  type InsertProjectInput,
-  insertProject,
-  type ProjectAuditContext,
-  type ProjectMutationResult,
-  ProjectScopeMismatchError,
-  type UpdateProjectInput,
-  updateProject,
-} from "./project.service.js";
-export {
   findProjectByEnterpriseId,
   findProjectById,
   findProjectByTenantAndSlug,

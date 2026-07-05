@@ -75,7 +75,7 @@ describe("shadcn-studio-v2 public export scaffold", () => {
     );
   });
 
-  it("keeps each root boundary file as an explicit non-barrel scaffold", () => {
+  it("keeps each root boundary file explicit without wildcard barrels", () => {
     for (const fileName of ROOT_PUBLIC_FILES) {
       const filePath = path.join(SRC_ROOT, fileName);
 
@@ -83,7 +83,6 @@ describe("shadcn-studio-v2 public export scaffold", () => {
 
       const source = readFileSync(filePath, "utf8").trim();
 
-      expect(source).toBe("export {};");
       expect(source).not.toContain("export *");
     }
   });

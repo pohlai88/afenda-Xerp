@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { ERP_SRC_ROOT } from "@/__tests__/support/erp-test-paths";
 
 import { METADATA_PAS006_CONSUMER_WIRING } from "@/lib/context/context-integration-registry";
 import { OPERATING_CONTEXT_PROTECTED_SURFACE_REGISTRY } from "@/lib/context/operating-context-protected-surface.registry";
@@ -11,7 +12,7 @@ import { resolveMetadataOperatorSurface } from "@/lib/metadata/resolve-metadata-
 import { resolveMetadataUiRenderContextFromTenantContext } from "@/lib/metadata/resolve-metadata-ui-render-context.server";
 import { resolveMetadataWorkspaceSurfaces } from "@/lib/metadata/resolve-metadata-workspace-surfaces.server";
 
-const erpSrcRoot = join(process.cwd(), "src");
+const erpSrcRoot = ERP_SRC_ROOT;
 
 describe("metadata workspace hydration integration (PAS-001A R1c)", () => {
   it("declares metadata-workspace in protected surface registry with spine delegate", () => {

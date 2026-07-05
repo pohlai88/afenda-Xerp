@@ -7,8 +7,8 @@
 - Tracking owner: `V2 migration squad`
 - Slice start date: `2026-07-05`
 - Planned completion date: `Set during slice kickoff after Slice 8 verification`
-- Actual completion date: `Not completed`
-- Current status: `not-started`
+- Actual completion date: `2026-07-05`
+- Current status: `verified`
 
 ## 2) Strategic objective
 
@@ -20,6 +20,9 @@
   - `migrated`, `replaced`, `quarantined`, `retired`, or `blocked`.
 - No legacy removal without replacement and clean gates.
 
+## V2-only guardrail
+
+V2-local planning only. Do not delete legacy files, run root governance, repair ERP, touch database, or modify architecture-authority during this slice without a separate release-owner decision.
 ## 3) Scope boundaries
 
 ### In scope
@@ -53,16 +56,19 @@
 
 ## 6) Test and verification commands
 
-- `pnpm check:legacy-delivery-terminology`
-- `pnpm check:documentation-drift`
-- `pnpm quality:documentation-drift`
+- `pnpm --filter @afenda/shadcn-studio-v2 test`
+- `pnpm --filter @afenda/shadcn-studio-v2 typecheck`
+- `pnpm --filter @afenda/shadcn-studio-v2 build`
+- `pnpm exec biome ci packages/shadcn-studio-v2`
 
 ### Evidence log
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm check:legacy-delivery-terminology` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-9-LEGACY-RETIREMENT-IMPLEMENTATION.md` |
-
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-9-LEGACY-RETIREMENT-HANDOFF.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-9-LEGACY-RETIREMENT-HANDOFF.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-9-LEGACY-RETIREMENT-HANDOFF.md` |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS | `packages/shadcn-studio-v2/docs/handoffs/SLICE-9-LEGACY-RETIREMENT-HANDOFF.md` |
 ## 7) Risk register
 
 | Risk | Probability / impact | Mitigation | Owner | Status |

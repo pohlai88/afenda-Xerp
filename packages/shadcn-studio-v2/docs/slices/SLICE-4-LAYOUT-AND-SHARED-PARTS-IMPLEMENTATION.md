@@ -6,7 +6,7 @@
 - Slice name: `Layout and shared package parts`
 - Tracking owner: `V2 migration squad`
 - Slice start date: `2026-07-05`
-- Planned completion date: `Set during slice kickoff after Slice 3B verification`
+- Planned completion date: `2026-07-05`
 - Actual completion date: `Not completed`
 - Current status: `not-started`
 
@@ -19,6 +19,11 @@
 - Reusable chrome in `components/layout/`.
 - Non-primitive shared parts in `components/shared/`.
 - Controlled `components/assets/` usage for coupled assets.
+
+
+### V2-only guardrail
+
+Slice 4 execution and verification stay inside `packages/shadcn-studio-v2/**`. Do not repair root governance, legacy studio, ERP, database, or architecture-authority drift while executing this slice unless a release owner explicitly changes scope.
 
 ## 3) Scope boundaries
 
@@ -56,14 +61,14 @@
 
 ## 6) Test and verification commands
 
-- `pnpm quality:boundaries`
-- `pnpm quality:exports`
+- `pnpm --filter @afenda/shadcn-studio-v2 test`
+- `pnpm --filter @afenda/shadcn-studio-v2 typecheck`
 
 ### Evidence log
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm quality:boundaries` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-4-LAYOUT-AND-SHARED-PARTS-IMPLEMENTATION.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-4-LAYOUT-AND-SHARED-PARTS-IMPLEMENTATION.md` |
 
 ## 7) Risk register
 
@@ -76,8 +81,43 @@
 
 - Assumption: layout parts are reusable chrome, not route-specific page structures.
 - Decision needed before verification: confirm whether any component-coupled assets require registry entries.
+- Entry blocker: None; Slice 3B verification evidence is attached.
+- Decision: Slice 4 must not add new primitive components; primitive expansion remains closed after Slice 3B unless a later amendment creates another primitive slice.
+- Decision: Slice 4 must consume Slice 3A/3B primitives instead of redefining button, card, badge, alert, field, or table behavior.
+- Decision: Slice 4 layout parts may arrange primitives but must not own primitive variants, field validation, table data state, or alert announcement policy.
 
-## 9) Exit checklist
+## 9) Entry readiness review
+
+- Slice 3B handoff: `PASS`
+- Entry decision: `READY FOR IMPLEMENTATION`
+- Required implementation set after unblock:
+  - reusable chrome under `components/layout/`
+  - reusable non-primitive runtime parts under `components/shared/`
+  - component-coupled assets under `components/assets/`
+  - quarantine records for held units
+- Required first-pass implementation shape:
+  - reusable shell/chrome component
+  - shared runtime-adjacent helper component
+  - quarantine tracking record if imported/reference work is held back
+  - layout/shared governance test before export expansion
+- Prohibited implementation:
+  - page composition
+  - ERP business logic
+  - new primitive expansion
+  - duplicate primitive wrappers
+  - primitive accessibility policy overrides
+  - metadata execution
+  - route-specific layout behavior
+
+## 10) Prepared Kickoff Sequence
+
+1. Add a layout/shared governance test that locks taxonomy placement and export boundaries.
+2. Add the smallest reusable layout chrome component under `components/layout/`.
+3. Add the smallest shared runtime-adjacent component under `components/shared/` only if it is not already covered by Slice 2.
+4. Export only verified layout/shared symbols through the allowed public surfaces.
+5. Keep quarantine records document-only until promotion conditions are explicit.
+
+## 11) Exit checklist
 
 - Required before verification: layout/shared folders populated with taxonomy-compliant items.
 - Required before verification: quarantine policy and tracking fields are complete for held units.

@@ -6,9 +6,9 @@
 - Slice name: `Config and runtime boundary`
 - Tracking owner: `V2 migration squad`
 - Slice start date: `2026-07-05`
-- Planned completion date: `Set during slice kickoff after Slice 1 verification`
-- Actual completion date: `Not completed`
-- Current status: `in-progress`
+- Planned completion date: `2026-07-05`
+- Actual completion date: `2026-07-05`
+- Current status: `verified`
 
 ## 2) Strategic objective
 
@@ -28,6 +28,9 @@
 - `contexts/ThemeProvider.tsx`
 - `components/shared/ThemeToggle.tsx`
 - `hooks/use-theme.ts`
+- `types/theme.ts`
+- `types/studio.ts`
+- root public boundary files for explicit config/runtime exports
 
 ### Out of scope
 - primitive/component implementation
@@ -69,22 +72,48 @@
 
 | Command | Result | Evidence path |
 | --- | --- | --- |
-| `pnpm quality:boundaries` | Not run; required before verification | `packages/shadcn-studio-v2/docs/slices/SLICE-2-CONFIG-AND-RUNTIME-BOUNDARY-IMPLEMENTATION.md` |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS: taxonomy, public exports, style governance, and runtime boundary tests pass | `packages/shadcn-studio-v2/src/__tests__/runtime-boundary.test.ts` |
+| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS: config/runtime TypeScript resolves | `packages/shadcn-studio-v2/tsconfig.json` |
+| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS: package emits public boundary files | `packages/shadcn-studio-v2/dist` |
 
 ## 7) Risk register
 
 | Risk | Probability / impact | Mitigation | Owner | Status |
 | --- | --- | --- | --- | --- |
-| Runtime concerns mistakenly remain in config files | Medium / High | Folder-level ownership checks before merge | V2 migration squad | Active |
+| Runtime concerns mistakenly remain in config files | Medium / High | `runtime-boundary.test.ts` blocks React/browser APIs in `configs/` | V2 migration squad | Mitigated |
+| Client runtime leaks into neutral/server exports | Medium / High | `runtime-boundary.test.ts` verifies provider/toggle stay on `clients.ts` only | V2 migration squad | Mitigated |
 
 ## 8) Open questions / assumptions
 
 - Assumption: `configs/` remains environment-neutral through this slice.
 - Assumption: theme runtime behavior is represented only by provider, hook, and shared component files.
-- Decision needed before verification: confirm whether `ThemeToggle` is public API or internal shared helper.
+- Decision: `ThemeToggle` is client public API through `clients.ts`, not neutral or server public API.
+- Decision: `ThemeProvider` and `useTheme` are client public API through `clients.ts`, not config exports.
 
 ## 9) Exit checklist
 
-- Required before verification: config/runtime separation implemented with file-level ownership.
-- Required before verification: legacy runtime concepts mapped to explicit V2 equivalents.
-- Required before verification: required gates evidence attached and clean.
+- Verified: config/runtime separation implemented with file-level ownership.
+- Verified: legacy runtime concepts mapped to explicit V2 equivalents.
+- Verified: required gates evidence attached and clean.
+
+## 10) Implementation summary
+
+- Static config lives in `configs/theme-config.ts` and `configs/studio-config.ts`.
+- Serializable type contracts live in `types/theme.ts` and `types/studio.ts`.
+- Client runtime lives in `contexts/ThemeProvider.tsx`, `hooks/use-theme.ts`, and `components/shared/ThemeToggle.tsx`.
+- Neutral and server exports expose config/types only.
+- Client exports expose `ThemeProvider`, `useTheme`, and `ThemeToggle`.
+
+## 11) Handoff summary
+
+- Completion recommendation: `Go for Slice 3A kickoff`
+- Blocker: `None`
+- Next slice dependency to start: `Slice 3A`
+
+## 12) Post-verification stabilization review
+
+- Review result: `PASS`
+- Config remains static and environment-neutral.
+- Runtime state remains in `contexts/`, `hooks/`, and `components/shared/`.
+- Neutral and server surfaces remain free from client runtime providers.
+- Slice 3A entry condition is satisfied.

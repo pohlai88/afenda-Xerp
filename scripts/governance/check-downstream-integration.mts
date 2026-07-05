@@ -191,7 +191,9 @@ function checkCssImports(
     const tailwindIdx = imports.indexOf("tailwindcss");
     const animateIdx = imports.indexOf("tw-animate-css");
     const shadcnTailwindIdx = imports.indexOf("shadcn/tailwind.css");
-    const themeIdx = imports.indexOf("@afenda/shadcn-studio/shadcn-default.css");
+    const themeIdx = imports.indexOf(
+      "@afenda/shadcn-studio/shadcn-default.css"
+    );
     const orderOk =
       tailwindIdx > -1 &&
       animateIdx > -1 &&

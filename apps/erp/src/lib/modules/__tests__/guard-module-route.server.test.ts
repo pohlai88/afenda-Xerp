@@ -3,6 +3,7 @@ import { join } from "node:path";
 import type { OperatingContext } from "@afenda/kernel";
 import { createTestEnterpriseId } from "@afenda/kernel";
 import { describe, expect, it } from "vitest";
+import { ERP_SRC_ROOT } from "@/__tests__/support/erp-test-paths";
 
 import { guardModuleRoute } from "../guard-module-route.server";
 
@@ -77,8 +78,8 @@ describe("guardModuleRoute", () => {
 
   it("is referenced as future module route stub on disk", () => {
     const modulePath = join(
-      process.cwd(),
-      "src/lib/modules/guard-module-route.server.ts"
+      ERP_SRC_ROOT,
+      "lib/modules/guard-module-route.server.ts"
     );
     expect(existsSync(modulePath)).toBe(true);
     expect(readFileSync(modulePath, "utf8")).toContain("guardModuleRoute");

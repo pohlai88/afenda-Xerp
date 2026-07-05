@@ -353,16 +353,16 @@ Use this section as a live checkpoint. Keep only concrete proof references.
 | --- | --- | --- | --- | --- | --- |
 | Slice 0 | Foundation correction | verified | `pnpm --filter @afenda/shadcn-studio-v2 test:taxonomy`; `test`; `typecheck` | None | 2026-07-05 |
 | Slice 0.5 | Public export scaffold | verified | `pnpm --filter @afenda/shadcn-studio-v2 test`; `typecheck`; `build` | None | 2026-07-05 |
-| Slice 1 | CSS and theme foundation | not-started | Entry prerequisites verified; CSS implementation not started | None for Slice 1 kickoff | 2026-07-05 |
-| Slice 2 | Config and runtime boundary | in-progress | Folder boundary model defined (`configs`, `contexts`, `hooks`, `components/shared`) | Need explicit migration ownership map for legacy runtime concepts | 2026-07-05 |
-| Slice 3A | Primitive baseline | not-started | Primitive start set (`Button`, `Card`, `Badge`) documented | Awaiting Slice 2 verification and taxonomy gate | 2026-07-05 |
-| Slice 3B | Primitive extension | not-started | Extension set (`Alert`, `Field`, `Table`) defined | Waiting on Slice 3A verification | 2026-07-05 |
-| Slice 4 | Layout and shared package parts | not-started | `components/layout`, `components/shared`, `components/assets` rules finalized | Waiting on Slice 3B verification | 2026-07-05 |
-| Slice 5 | First composed views | not-started | Target view folders (`views/auth`, `views/pages`, `views/widgets`) named | Waiting on Slice 4 verification | 2026-07-05 |
-| Slice 6 | Metadata lane | not-started | Metadata folder structure and boundary contracts declared | Waiting on Slice 5 completion | 2026-07-05 |
-| Slice 7 | Public API hardening | not-started | Explicit root export surfaces specified | Waiting on Slice 6 verification | 2026-07-05 |
-| Slice 8 | Consumer pilot and migration bridge | not-started | Pilot criteria in Slice 8 section | Waiting on Slice 7 verification | 2026-07-05 |
-| Slice 9 | Legacy retirement plan | not-started | Retirement outcomes and `MIGRATION-MAP` categories defined | Waiting on Slice 8 proof and replacement stability | 2026-07-05 |
+| Slice 1 | CSS and theme foundation | verified | `pnpm --filter @afenda/shadcn-studio-v2 test`; `typecheck`; `build` | None | 2026-07-05 |
+| Slice 2 | Config and runtime boundary | verified | `pnpm --filter @afenda/shadcn-studio-v2 test`; `typecheck`; `build`; runtime boundary test | None | 2026-07-05 |
+| Slice 3A | Primitive baseline | verified | `pnpm --filter @afenda/shadcn-studio-v2 test`; `typecheck`; `build`; primitive baseline test | None | 2026-07-05 |
+| Slice 3B | Primitive extension | verified | `pnpm --filter @afenda/shadcn-studio-v2 test`; `typecheck`; `build`; `pnpm exec biome ci packages/shadcn-studio-v2` | None | 2026-07-05 |
+| Slice 4 | Layout and shared package parts | verified | `test`; `typecheck`; `build`; Biome CI; handoff report | None | 2026-07-05 |
+| Slice 5 | First composed views | verified | `test`; `typecheck`; `build`; Biome CI; handoff report | None | 2026-07-05 |
+| Slice 6 | Metadata lane | verified | `test`; `typecheck`; `build`; Biome CI; handoff report | None | 2026-07-05 |
+| Slice 7 | Public API hardening | verified | `test`; `typecheck`; `build`; Biome CI; handoff report | None | 2026-07-05 |
+| Slice 8 | Consumer pilot and migration bridge | verified | `test`; `typecheck`; `build`; Biome CI; handoff report | None | 2026-07-05 |
+| Slice 9 | Legacy retirement plan | verified | `test`; `typecheck`; `build`; Biome CI; non-destructive retirement plan | None | 2026-07-05 |
 
 ### Tracking protocol
 

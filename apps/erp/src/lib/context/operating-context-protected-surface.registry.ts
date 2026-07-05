@@ -19,7 +19,8 @@ export interface OperatingContextProtectedSurfaceEntry {
     | "loadMetadataOperatorSurfacePage"
     | "loadProcurementFoundationReadinessPage"
     | "loadProcurementPurchaseOrdersPage"
-    | "loadProcurementRequisitionsPage";
+    | "loadProcurementRequisitionsPage"
+    | "loadSystemAdminSectionPage";
   readonly id: string;
   readonly kind: OperatingContextProtectedSurfaceKind;
   readonly module: string;

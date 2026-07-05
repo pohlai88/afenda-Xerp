@@ -66,7 +66,7 @@ export async function loadAccountingStandardsReadinessPage(): Promise<Accounting
   return {
     kind: "ready",
     title: "Accounting standards readiness",
-    routePattern: "/modules/accounting/standards-readiness",
+    routePattern: "/standards/accounting-readiness",
     spineDelegate: "loadProtectedRequestOperatingContext",
     tenantId: operatingContext.tenant.tenantId,
     correlationId: operatingContext.correlationId,

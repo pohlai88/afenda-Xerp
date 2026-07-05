@@ -1,0 +1,47 @@
+/**
+ * apps/developer — CSS composition entry for the ADR-0039 route lab.
+ * Keep the same studio import chain as ERP so route compositions promote cleanly.
+ */
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@afenda/shadcn-studio/shadcn-default.css";
+
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top, rgb(59 130 246 / 0.08), transparent 32%),
+    linear-gradient(180deg, rgb(248 250 252) 0%, rgb(241 245 249) 100%);
+}
+
+.dark body {
+  background:
+    radial-gradient(circle at top, rgb(59 130 246 / 0.12), transparent 32%),
+    linear-gradient(180deg, rgb(2 6 23) 0%, rgb(15 23 42) 100%);
+}
+
+.lab-grid {
+  background-image:
+    linear-gradient(rgb(148 163 184 / 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(148 163 184 / 0.08) 1px, transparent 1px);
+  background-position: center;
+  background-size: 2.75rem 2.75rem;
+}
+
+.lab-demo-banner {
+  border-bottom: 1px solid rgb(148 163 184 / 0.2);
+  background: rgb(15 23 42 / 0.94);
+  color: rgb(226 232 240);
+}
+
+.lab-demo-banner strong {
+  color: white;
+}
+
+@source "../**/*.{ts,tsx}";
+@source "../../../../packages/shadcn-studio/src/**/*.{ts,tsx}";

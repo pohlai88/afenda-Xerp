@@ -25,6 +25,11 @@
       "import": "./dist/meta-gates/index.js",
       "default": "./dist/meta-gates/index.js"
     },
+    "./lab": {
+      "types": "./dist/lab.d.ts",
+      "import": "./dist/lab.js",
+      "default": "./dist/lab.js"
+    },
     "./shadcn-default.css": {
       "types": "./dist/shadcn-default.css.d.ts",
       "import": "./dist/shadcn-default.css",

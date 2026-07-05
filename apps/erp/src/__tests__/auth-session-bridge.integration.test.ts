@@ -1,11 +1,12 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import { ERP_SRC_ROOT } from "@/__tests__/support/erp-test-paths";
 
 import { AUTH_PROTECTED_SURFACE_REGISTRY } from "@/lib/auth/auth-protected-surface.registry";
 import { AUTH_SESSION_BRIDGE_WIRING } from "@/lib/context/context-integration-registry";
 
-const erpSrcRoot = join(process.cwd(), "src");
+const erpSrcRoot = ERP_SRC_ROOT;
 
 describe("auth session bridge integration", () => {
   it("declares auth protected surface registry modules on disk", () => {

@@ -38,6 +38,11 @@ const OWNERSHIP_ROWS = [
     authorityLevel: "design",
   },
   {
+    packageName: "@afenda/shadcn-studio-v2",
+    ownerDomain: "Design Authority",
+    authorityLevel: "design",
+  },
+  {
     packageName: "@afenda/docs",
     ownerDomain: "Application Authority",
     authorityLevel: "application",
@@ -49,6 +54,11 @@ const OWNERSHIP_ROWS = [
   },
   {
     packageName: "@afenda/erp",
+    ownerDomain: "Application Authority",
+    authorityLevel: "application",
+  },
+  {
+    packageName: "@afenda/developer",
     ownerDomain: "Application Authority",
     authorityLevel: "application",
   },
@@ -71,6 +81,11 @@ const OWNERSHIP_ROWS = [
     packageName: "@afenda/erp-module-foundation",
     ownerDomain: "Platform Authority",
     authorityLevel: "platform",
+  },
+  {
+    packageName: "@afenda/erp-modules",
+    ownerDomain: "Domain Authority",
+    authorityLevel: "domain",
   },
   {
     packageName: "@afenda/feature-flags",

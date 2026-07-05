@@ -92,6 +92,12 @@ export const METADATA_BINDING_OVERRIDE_REGISTRY: readonly MetadataBindingOverrid
             helpTextAtomRef: "atom.auth.password.help",
             requiredDisplay: true,
           },
+          {
+            fieldKey: "submit",
+            slotId: "login.submit",
+            presentationKind: "readonly",
+            labelAtomRef: "atom.auth.sign-in",
+          },
         ],
       },
       reason: "label-atom-refinement",

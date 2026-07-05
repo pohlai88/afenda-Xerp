@@ -6,7 +6,7 @@ import {
   PROCUREMENT_OWNERSHIP_ATTESTATION,
   PROCUREMENT_PAS006_UI_ATTESTATION,
   PROCUREMENT_PERMISSION_BINDING_ATTESTATION,
-} from "@afenda/erp-modules/procurement";
+} from "@afenda/erp-modules";
 
 import { loadProtectedRequestOperatingContext } from "@/lib/context/load-protected-request-operating-context.server";
 

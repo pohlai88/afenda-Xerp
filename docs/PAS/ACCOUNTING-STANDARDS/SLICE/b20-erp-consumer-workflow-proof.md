@@ -29,7 +29,7 @@ Handoff from: docs/PAS/ACCOUNTING-STANDARDS/SLICE/b20-erp-consumer-workflow-proo
 3. Files        —
    apps/erp/src/lib/accounting-standards/run-accounting-standards-validation.server.ts
    apps/erp/src/lib/accounting-standards/load-accounting-standards-readiness-page.server.ts
-   apps/erp/src/app/(protected)/modules/accounting/standards-readiness/page.tsx
+   apps/erp/src/app/(protected)/standards/accounting-readiness/page.tsx
    scripts/governance/check-accounting-standards-metadata-consumer-proof.mts
 4. Prohibited   — journal posting · @afenda/accounting runtime
 5. Authority    — PAS-003 §11.6 · ADR-0027

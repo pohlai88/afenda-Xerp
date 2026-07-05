@@ -189,19 +189,62 @@ describe("shadcn-studio-v2 taxonomy", () => {
       "assets/
       clients.ts
       components/
+        assets/
+          IconMark.tsx
+        layout/
+          AppShell.tsx
+          Sidebar.tsx
+          Topbar.tsx
+        quarantine/
+          README.md
+        shared/
+          ThemeToggle.tsx
+        ui/
+          Alert.tsx
+          Badge.tsx
+          Button.tsx
+          Card.tsx
+          Field.tsx
+          Table.tsx
       configs/
+        studio-config.ts
+        theme-config.ts
       contexts/
+        ThemeProvider.tsx
       hooks/
+        use-theme.ts
       index.ts
       lib/
+        cn.ts
       metadata/
+        builders/
+          view-builders.ts
+        contracts/
+          view-metadata.ts
+        gates/
+          view-metadata-gates.ts
+        registries/
+          view-metadata-registry.ts
       metadata.ts
       server.ts
       storybook/
+        fixtures/
+          consumer-pilot.tsx
       styles/
+        shadcn-default.css
+        swiss-noir.css
+        verdant-noir.css
       types/
+        studio.ts
+        theme.ts
       utils/
-      views/"
+      views/
+        auth/
+          AuthShell.tsx
+        pages/
+          PageSurface.tsx
+        widgets/
+          MetricWidget.tsx"
     `);
   });
 });

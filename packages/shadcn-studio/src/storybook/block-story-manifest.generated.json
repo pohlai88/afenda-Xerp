@@ -1,7 +1,7 @@
 {
-  "generatedAt": "2026-07-02T22:02:30.440Z",
+  "generatedAt": "2026-07-05T04:10:42.637Z",
   "autoStoryCount": 2,
-  "manualStoryRequiredCount": 36,
+  "manualStoryRequiredCount": 50,
   "autoStories": [
     {
       "slug": "account-settings-01",
@@ -25,11 +25,15 @@
     "datatable-user",
     "dialog-activity",
     "dialog-search",
+    "drawer",
     "dropdown-language",
     "dropdown-notification",
     "dropdown-profile",
     "error-page-shell",
     "menu-trigger",
+    "procurement-list-toolbar-block",
+    "procurement-purchase-orders-table-block",
+    "procurement-requisitions-table-block",
     "sidebar-user-dropdown",
     "statistics-activity-card",
     "statistics-card-01",
@@ -45,11 +49,21 @@
     "statistics-revenue-card",
     "statistics-sales-overview-card",
     "statistics-trend-card",
+    "system-admin-audit-events-table-block",
+    "system-admin-diagnostics-panel-block",
+    "system-admin-list-toolbar-block",
+    "system-admin-memberships-table-block",
+    "system-admin-permissions-table-block",
+    "system-admin-roles-table-block",
+    "system-admin-section-header-block",
+    "system-admin-settings-table-block",
+    "system-admin-users-table-block",
     "user-profile-avatar",
     "user-profile-avatar-picker",
     "widget-payment-history",
     "widget-sales-by-countries",
     "widget-total-earning",
-    "widget-transactions"
+    "widget-transactions",
+    "workspace-dashboard-toolbar-block"
   ]
 }
