@@ -8,6 +8,30 @@ interface DriftViolation {
   readonly rule: string;
 }
 
+interface ComponentsJson {
+  readonly tailwind?: {
+    readonly config?: unknown;
+    readonly css?: unknown;
+    readonly cssVariables?: unknown;
+  };
+}
+
+interface PackageJson {
+  readonly exports?: Record<string, unknown>;
+  readonly sideEffects?: unknown;
+}
+
+interface TokenBlock {
+  readonly selector: string;
+  readonly tokens: ReadonlyMap<string, string>;
+}
+
+interface OklchColor {
+  readonly chroma: number;
+  readonly hue: number;
+  readonly lightness: number;
+}
+
 const PACKAGE_ROOT = process.cwd();
 const REPO_ROOT = path.resolve(PACKAGE_ROOT, "..", "..");
 const PACKAGE_SRC = path.join(PACKAGE_ROOT, "src");
@@ -39,6 +63,8 @@ const TEXT_FILE_EXTENSIONS = new Set([
 const SOURCE_FILE_EXTENSIONS = new Set([".css", ".ts", ".tsx"]);
 const COMPONENT_FILE_EXTENSIONS = new Set([".ts", ".tsx"]);
 const STYLE_ROOT = path.join(PACKAGE_SRC, "styles");
+const COMPONENTS_JSON_PATH = path.join(PACKAGE_ROOT, "components.json");
+const PACKAGE_JSON_PATH = path.join(PACKAGE_ROOT, "package.json");
 
 const REQUIRED_STYLE_FILES = [
   "shadcn-default.css",
@@ -48,8 +74,34 @@ const REQUIRED_STYLE_FILES = [
 
 const THEME_STYLE_FILES = ["swiss-noir.css", "verdant-noir.css"] as const;
 const DEFAULT_STYLE_FILE = "shadcn-default.css";
+const REQUIRED_CSS_EXPORTS = {
+  "./shadcn-default.css": "./dist/shadcn-default.css",
+  "./themes/swiss-noir.css": "./dist/themes/swiss-noir.css",
+  "./themes/verdant-noir.css": "./dist/themes/verdant-noir.css",
+} as const;
+const TEXT_TOKEN_PAIRS = [
+  ["background", "foreground"],
+  ["card", "card-foreground"],
+  ["popover", "popover-foreground"],
+  ["primary", "primary-foreground"],
+  ["secondary", "secondary-foreground"],
+  ["muted", "muted-foreground"],
+  ["accent", "accent-foreground"],
+  ["destructive", "destructive-foreground"],
+  ["sidebar", "sidebar-foreground"],
+  ["sidebar-primary", "sidebar-primary-foreground"],
+  ["sidebar-accent", "sidebar-accent-foreground"],
+] as const;
 const TOKEN_DECLARATION_PATTERN = /--([a-z0-9-]+)\s*:/gu;
+const TOKEN_VALUE_PATTERN = /--([a-z0-9-]+)\s*:\s*([^;]+);/gu;
 const SELECTOR_PATTERN = /(^|\})\s*([^{}@][^{}]*)\{/gu;
+const TOKEN_BLOCK_PATTERN = /(^|\})\s*([^{}@][^{}]*)\{([^{}]*)\}/gu;
+const CSS_COMMENT_PATTERN = /\/\*[\s\S]*?\*\//gu;
+const TAILWIND_CONFIG_FILE_PATTERN =
+  /^tailwind\.config\.(?:cjs|js|mjs|mts|ts)$/u;
+const OKLCH_PATTERN =
+  /oklch\(\s*(?<lightness>[0-9.]+%?)\s+(?<chroma>[0-9.]+)\s+(?<hue>[0-9.]+)(?:deg)?(?:\s*\/\s*[^)]+)?\s*\)/u;
+const MIN_TEXT_CONTRAST_RATIO = 4.5;
 
 const CANONICAL_SHADCN_TOKENS = new Set([
   "background",
@@ -145,6 +197,75 @@ const V2_FORBIDDEN_RUNTIME_IMPORT_PATTERNS = [
 
 const HARDCODED_HEX_PATTERN = /#[0-9a-fA-F]{3,8}\b/u;
 
+const FORBIDDEN_STYLE_AUTHORITY_PATTERNS = [
+  {
+    label: '@import "tailwindcss"',
+    pattern: /@import\s+["']tailwindcss["']/u,
+    detail:
+      "Tailwind app entrypoint imports must not live in package token authority files.",
+  },
+  {
+    label: "@tailwind",
+    pattern: /@tailwind\b/u,
+    detail:
+      "Tailwind v3 directives must not be restored in Phase 2 token authority files.",
+  },
+  {
+    label: "@apply",
+    pattern: /@apply\b/u,
+    detail: "Phase 2 CSS authority files must stay token-only.",
+  },
+  {
+    label: "@theme",
+    pattern: /@theme\b/u,
+    detail:
+      "Tailwind utility mapping belongs at the app/global CSS boundary, not inside token authority files.",
+  },
+  {
+    label: "@plugin",
+    pattern: /@plugin\b/u,
+    detail:
+      "Tailwind plugins belong at the app/global CSS boundary, not inside token authority files.",
+  },
+  {
+    label: "@utility",
+    pattern: /@utility\b/u,
+    detail:
+      "Reusable utilities belong in a utility slice, not Phase 2 token authority files.",
+  },
+  {
+    label: "@custom-variant",
+    pattern: /@custom-variant\b/u,
+    detail:
+      "Tailwind variants belong at the app/global CSS boundary, not inside token authority files.",
+  },
+  {
+    label: "@source",
+    pattern: /@source\b/u,
+    detail:
+      "Tailwind source scanning belongs at the app/global CSS boundary, not inside token authority files.",
+  },
+  {
+    label: "double-wrapped hsl(var())",
+    pattern: /hsl\(\s*var\(\s*--[a-z0-9-]+\s*\)\s*\)/u,
+    detail: "Tailwind v4 shadcn values must not double-wrap CSS variables.",
+  },
+  {
+    label: "double-wrapped oklch(var())",
+    pattern: /oklch\(\s*var\(\s*--[a-z0-9-]+\s*\)\s*\)/u,
+    detail: "Tailwind v4 shadcn values must not double-wrap CSS variables.",
+  },
+  {
+    label: "nested root token layer",
+    pattern: /@layer\s+base\s*\{[\s\S]*(?::root|\.dark)/u,
+    detail: ":root and .dark token declarations must remain top-level.",
+  },
+] satisfies ReadonlyArray<{
+  readonly detail: string;
+  readonly label: string;
+  readonly pattern: RegExp;
+}>;
+
 const toPosix = (filePath: string): string =>
   filePath.split(path.sep).join("/");
 
@@ -223,6 +344,14 @@ const findFirstMatch = (content: string, pattern: RegExp): string | null => {
   return match?.[0] ?? null;
 };
 
+const parseJsonFile = async <T>(filePath: string): Promise<T | null> => {
+  if (!existsSync(filePath)) {
+    return null;
+  }
+
+  return JSON.parse(await readText(filePath)) as T;
+};
+
 const listTokenNames = (content: string): string[] => {
   TOKEN_DECLARATION_PATTERN.lastIndex = 0;
 
@@ -231,12 +360,121 @@ const listTokenNames = (content: string): string[] => {
   );
 };
 
+const stripCssComments = (content: string): string =>
+  content.replace(CSS_COMMENT_PATTERN, "");
+
 const listSelectors = (content: string): string[] => {
+  const source = stripCssComments(content);
   SELECTOR_PATTERN.lastIndex = 0;
 
-  return [...content.matchAll(SELECTOR_PATTERN)].map((match) =>
+  return [...source.matchAll(SELECTOR_PATTERN)].map((match) =>
     (match[2] ?? "").trim()
   );
+};
+
+const listTokenBlocks = (content: string): TokenBlock[] => {
+  const source = stripCssComments(content);
+  TOKEN_BLOCK_PATTERN.lastIndex = 0;
+
+  return [...source.matchAll(TOKEN_BLOCK_PATTERN)].map((match) => {
+    const tokenPairs = [...(match[3] ?? "").matchAll(TOKEN_VALUE_PATTERN)].map(
+      (tokenMatch) =>
+        [tokenMatch[1] ?? "", (tokenMatch[2] ?? "").trim()] as const
+    );
+
+    return {
+      selector: (match[2] ?? "").trim(),
+      tokens: new Map(tokenPairs),
+    };
+  });
+};
+
+const parseOklchColor = (value: string): OklchColor | null => {
+  const match = OKLCH_PATTERN.exec(value);
+
+  if (!match?.groups) {
+    return null;
+  }
+
+  const lightnessSource = match.groups.lightness;
+  const lightness = lightnessSource.endsWith("%")
+    ? Number(lightnessSource.slice(0, -1)) / 100
+    : Number(lightnessSource);
+
+  return {
+    chroma: Number(match.groups.chroma),
+    hue: Number(match.groups.hue),
+    lightness,
+  };
+};
+
+const linearToSrgb = (channel: number): number => {
+  const boundedChannel = Math.min(1, Math.max(0, channel));
+
+  if (boundedChannel <= 0.003_130_8) {
+    return 12.92 * boundedChannel;
+  }
+
+  return 1.055 * boundedChannel ** (1 / 2.4) - 0.055;
+};
+
+const oklchToSrgb = ({ chroma, hue, lightness }: OklchColor): number[] => {
+  const hueRadians = (hue * Math.PI) / 180;
+  const a = chroma * Math.cos(hueRadians);
+  const b = chroma * Math.sin(hueRadians);
+  const lPrime = lightness + 0.396_337_777_4 * a + 0.215_803_757_3 * b;
+  const mPrime = lightness - 0.105_561_345_8 * a - 0.063_854_172_8 * b;
+  const sPrime = lightness - 0.089_484_177_5 * a - 1.291_485_548 * b;
+  const l = lPrime ** 3;
+  const m = mPrime ** 3;
+  const s = sPrime ** 3;
+
+  return [
+    linearToSrgb(
+      4.076_741_662_1 * l - 3.307_711_591_3 * m + 0.230_969_929_2 * s
+    ),
+    linearToSrgb(
+      -1.268_438_004_6 * l + 2.609_757_401_1 * m - 0.341_319_396_5 * s
+    ),
+    linearToSrgb(
+      -0.004_196_086_3 * l - 0.703_418_614_7 * m + 1.707_614_701 * s
+    ),
+  ];
+};
+
+const srgbToRelativeLuminance = (channels: number[]): number => {
+  const [red = 0, green = 0, blue = 0] = channels.map((channel) => {
+    if (channel <= 0.040_45) {
+      return channel / 12.92;
+    }
+
+    return ((channel + 0.055) / 1.055) ** 2.4;
+  });
+
+  return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+};
+
+const getContrastRatio = (
+  background: string,
+  foreground: string
+): number | null => {
+  const backgroundColor = parseOklchColor(background);
+  const foregroundColor = parseOklchColor(foreground);
+
+  if (!(backgroundColor && foregroundColor)) {
+    return null;
+  }
+
+  const backgroundLuminance = srgbToRelativeLuminance(
+    oklchToSrgb(backgroundColor)
+  );
+  const foregroundLuminance = srgbToRelativeLuminance(
+    oklchToSrgb(foregroundColor)
+  );
+  const lighter = Math.max(backgroundLuminance, foregroundLuminance);
+  const darker = Math.min(backgroundLuminance, foregroundLuminance);
+
+  return (lighter + 0.05) / (darker + 0.05);
 };
 
 const checkForbiddenTokens = async (): Promise<DriftViolation[]> => {
@@ -318,6 +556,40 @@ const checkCanonicalTokenNames = (
       detail: `--${tokenName} is not in the canonical shadcn token list.`,
     }));
 
+const checkTokenPairContrast = (
+  file: string,
+  tokenBlocks: TokenBlock[]
+): DriftViolation[] => {
+  const violations: DriftViolation[] = [];
+
+  for (const { selector, tokens } of tokenBlocks) {
+    for (const [backgroundToken, foregroundToken] of TEXT_TOKEN_PAIRS) {
+      const background = tokens.get(backgroundToken);
+      const foreground = tokens.get(foregroundToken);
+
+      if (!(background && foreground)) {
+        continue;
+      }
+
+      const contrastRatio = getContrastRatio(background, foreground);
+
+      if (contrastRatio === null || contrastRatio >= MIN_TEXT_CONTRAST_RATIO) {
+        continue;
+      }
+
+      violations.push({
+        rule: "token-pair-contrast",
+        file: toRelative(file),
+        detail: `${selector} --${foregroundToken} on --${backgroundToken} has ${contrastRatio.toFixed(
+          2
+        )}:1 contrast; expected at least ${MIN_TEXT_CONTRAST_RATIO}:1.`,
+      });
+    }
+  }
+
+  return violations;
+};
+
 const checkDefaultStyleSelectors = (
   file: string,
   selectors: string[]
@@ -336,6 +608,21 @@ const checkDefaultStyleSelectors = (
         "Default CSS must declare the canonical :root and .dark token layers.",
     },
   ];
+};
+
+const checkDefaultStyleTokenCompleteness = (
+  file: string,
+  tokenNames: string[]
+): DriftViolation[] => {
+  const tokenSet = new Set(tokenNames);
+
+  return [...CANONICAL_SHADCN_TOKENS]
+    .filter((tokenName) => !tokenSet.has(tokenName))
+    .map((tokenName) => ({
+      rule: "default-style-token-baseline",
+      file: toRelative(file),
+      detail: `${DEFAULT_STYLE_FILE} must declare --${tokenName} as part of the complete semantic token baseline.`,
+    }));
 };
 
 const isApprovedThemeStyle = (fileName: string): boolean =>
@@ -389,18 +676,36 @@ const checkThemeStyle = (
 
 const checkCssFileAuthority = (
   file: string,
+  content: string,
   tokenNames: string[],
   selectors: string[],
   defaultTokens: Set<string>
 ): DriftViolation[] => {
   const fileName = path.basename(file);
+  const sourceWithoutComments = stripCssComments(content);
   const violations = [
     ...checkApprovedStyleFile(file),
     ...checkCanonicalTokenNames(file, tokenNames),
   ];
 
+  for (const { detail, label, pattern } of FORBIDDEN_STYLE_AUTHORITY_PATTERNS) {
+    const match = findFirstMatch(sourceWithoutComments, pattern);
+
+    if (match) {
+      violations.push({
+        rule: "tailwind-v4-shadcn-style-authority",
+        file: toRelative(file),
+        detail: `${label} matched ${match}; ${detail}`,
+      });
+    }
+  }
+
   if (fileName === DEFAULT_STYLE_FILE) {
-    return [...violations, ...checkDefaultStyleSelectors(file, selectors)];
+    return [
+      ...violations,
+      ...checkDefaultStyleSelectors(file, selectors),
+      ...checkDefaultStyleTokenCompleteness(file, tokenNames),
+    ];
   }
 
   if (isApprovedThemeStyle(fileName)) {
@@ -431,10 +736,135 @@ const checkCssTokenAuthority = async (): Promise<DriftViolation[]> => {
     const content = await readText(file);
     const tokenNames = listTokenNames(content);
     const selectors = listSelectors(content);
+    const tokenBlocks = listTokenBlocks(content);
 
     violations.push(
-      ...checkCssFileAuthority(file, tokenNames, selectors, defaultTokens)
+      ...checkCssFileAuthority(
+        file,
+        content,
+        tokenNames,
+        selectors,
+        defaultTokens
+      ),
+      ...checkTokenPairContrast(file, tokenBlocks)
     );
+  }
+
+  return violations;
+};
+
+const checkTailwindV4ShadcnBoundary = async (): Promise<DriftViolation[]> => {
+  const violations: DriftViolation[] = [];
+  const packageFiles = await collectFiles(PACKAGE_ROOT);
+  const componentsJson =
+    await parseJsonFile<ComponentsJson>(COMPONENTS_JSON_PATH);
+
+  for (const file of packageFiles) {
+    if (TAILWIND_CONFIG_FILE_PATTERN.test(path.basename(file))) {
+      violations.push({
+        rule: "tailwind-v4-config-file",
+        file: toRelative(file),
+        detail:
+          "Tailwind v4 shadcn setup must not restore tailwind.config.* theming.",
+      });
+    }
+  }
+
+  if (!componentsJson) {
+    violations.push({
+      rule: "missing-components-json",
+      file: toRelative(COMPONENTS_JSON_PATH),
+      detail: "shadcn components.json is required for CSS variable setup.",
+    });
+
+    return violations;
+  }
+
+  if (componentsJson.tailwind?.config !== "") {
+    violations.push({
+      rule: "tailwind-v4-components-config",
+      file: toRelative(COMPONENTS_JSON_PATH),
+      detail:
+        'Tailwind v4 shadcn setup requires "tailwind.config" to be empty.',
+    });
+  }
+
+  if (componentsJson.tailwind?.css !== "src/styles/shadcn-default.css") {
+    violations.push({
+      rule: "tailwind-v4-components-css",
+      file: toRelative(COMPONENTS_JSON_PATH),
+      detail:
+        "components.json must point shadcn generation at the Phase 2 default CSS authority file.",
+    });
+  }
+
+  if (componentsJson.tailwind?.cssVariables !== true) {
+    violations.push({
+      rule: "tailwind-v4-components-css-variables",
+      file: toRelative(COMPONENTS_JSON_PATH),
+      detail: "shadcn generation must keep CSS variables enabled.",
+    });
+  }
+
+  return violations;
+};
+
+const getCssExportImport = (value: unknown): string | null => {
+  if (typeof value !== "object" || value === null || !("import" in value)) {
+    return null;
+  }
+
+  const exportValue = value as { readonly import?: unknown };
+
+  return typeof exportValue.import === "string" ? exportValue.import : null;
+};
+
+const checkCssPackageBoundary = async (): Promise<DriftViolation[]> => {
+  const violations: DriftViolation[] = [];
+  const packageJson = await parseJsonFile<PackageJson>(PACKAGE_JSON_PATH);
+
+  if (!packageJson) {
+    return [
+      {
+        rule: "missing-package-json",
+        file: toRelative(PACKAGE_JSON_PATH),
+        detail: "package.json is required to expose Phase 2 CSS authority.",
+      },
+    ];
+  }
+
+  for (const [exportPath, distPath] of Object.entries(REQUIRED_CSS_EXPORTS)) {
+    const actualDistPath = getCssExportImport(
+      packageJson.exports?.[exportPath]
+    );
+
+    if (actualDistPath !== distPath) {
+      violations.push({
+        rule: "css-package-export",
+        file: toRelative(PACKAGE_JSON_PATH),
+        detail: `${exportPath} must import ${distPath}.`,
+      });
+    }
+  }
+
+  if (!Array.isArray(packageJson.sideEffects)) {
+    violations.push({
+      rule: "css-package-side-effects",
+      file: toRelative(PACKAGE_JSON_PATH),
+      detail: "CSS exports must be listed in package sideEffects.",
+    });
+
+    return violations;
+  }
+
+  for (const distPath of Object.values(REQUIRED_CSS_EXPORTS)) {
+    if (!packageJson.sideEffects.includes(distPath)) {
+      violations.push({
+        rule: "css-package-side-effects",
+        file: toRelative(PACKAGE_JSON_PATH),
+        detail: `${distPath} must be preserved as a CSS side effect.`,
+      });
+    }
   }
 
   return violations;
@@ -560,6 +990,8 @@ const checkHardcodedHex = async (): Promise<DriftViolation[]> => {
 
 const checks = [
   checkCssTokenAuthority,
+  checkTailwindV4ShadcnBoundary,
+  checkCssPackageBoundary,
   checkForbiddenTokens,
   checkForbiddenThemeFiles,
   checkV2RuntimeImports,

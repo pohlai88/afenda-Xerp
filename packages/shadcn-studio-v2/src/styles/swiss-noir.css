@@ -1,3 +1,11 @@
+/*
+ * Swiss Noir theme.
+ * Additive token override only.
+ * Do not add imports, @theme, @layer, :root, .dark, component selectors,
+ * layout selectors, or non-canonical token families.
+ */
+
+
 [data-theme="swiss-noir"] {
   --background: oklch(0.13 0.012 255);
   --foreground: oklch(0.96 0.006 255);
@@ -13,7 +21,7 @@
   --muted-foreground: oklch(0.72 0.01 255);
   --accent: oklch(0.3 0.018 255);
   --accent-foreground: oklch(0.96 0.006 255);
-  --destructive: oklch(0.66 0.19 24);
+  --destructive: oklch(0.52 0.19 24);
   --destructive-foreground: oklch(0.98 0.004 255);
   --border: oklch(0.32 0.012 255);
   --input: oklch(0.3 0.012 255);

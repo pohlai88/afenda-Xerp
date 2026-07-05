@@ -1,3 +1,10 @@
+/*
+ * Verdant Noir theme.
+ * Additive token override only.
+ * Do not add imports, @theme, @layer, :root, .dark, component selectors,
+ * layout selectors, app selectors, or non-canonical token families.
+ */
+
 [data-theme="verdant-noir"] {
   --background: oklch(0.14 0.018 156);
   --foreground: oklch(0.96 0.012 120);
@@ -13,7 +20,7 @@
   --muted-foreground: oklch(0.72 0.03 142);
   --accent: oklch(0.33 0.04 144);
   --accent-foreground: oklch(0.96 0.012 120);
-  --destructive: oklch(0.64 0.18 28);
+  --destructive: oklch(0.52 0.18 28);
   --destructive-foreground: oklch(0.98 0.006 120);
   --border: oklch(0.34 0.026 156);
   --input: oklch(0.31 0.024 156);

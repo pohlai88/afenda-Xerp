@@ -38,6 +38,22 @@ styling assumptions.
 * No effect token families such as `--shadow-*` or `--gradient-*`.
 * Named themes must be additive and scoped.
 * Theme files may override only tokens declared in `shadcn-default.css`.
+* `shadcn-default.css` declares the complete canonical semantic baseline.
+* Text-bearing token pairs must maintain at least WCAG AA 4.5:1 contrast.
+* CSS authority files remain consumable only through package CSS exports, and
+  package `sideEffects` preserves those emitted CSS files.
+* Tailwind v4 generation must stay on the shadcn CSS-variable path:
+
+  * `components.json` keeps `"tailwind.config": ""`.
+  * `components.json` points to `src/styles/shadcn-default.css`.
+  * No `tailwind.config.*` file owns package theming.
+  * Phase 2 token files do not use Tailwind app or utility directives such as
+    `@import "tailwindcss"`, `@tailwind`, `@apply`, `@theme`, `@plugin`,
+    `@utility`, or `@custom-variant`.
+  * Phase 2 token files do not use double-wrapped `hsl(var(...))` /
+    `oklch(var(...))` values.
+  * Tailwind `@theme inline` utility mapping belongs at a consuming
+    app/global CSS boundary, not inside these package token authority files.
 
 ## Proposed design
 
