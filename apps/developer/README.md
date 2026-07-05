@@ -6,7 +6,9 @@ Authentication is intentionally excluded from this app to avoid review noise. Do
 
 The lab still follows ERP frontend law: App Router first, Server Components by default, route-local `_components` when UI surfaces return, client leaves only for interactivity, and no lowered presentation standard because it is a lab.
 
-See [ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md](./ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md) for route-lab structure, placeholder intent, and Next.js/Vercel compliance.
+See [ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md](../../docs/architecture/ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md) for route-lab structure, placeholder intent, and Next.js/Vercel compliance.
+
+The current release-grade proof contract is documented in [DEVELOPER_ROUTE_LAB_GREENLIGHT.md](../../docs/architecture/DEVELOPER_ROUTE_LAB_GREENLIGHT.md).
 
 ## Run
 
@@ -20,6 +22,18 @@ Open `http://127.0.0.1:3002`.
 
 ```bash
 pnpm --filter @afenda/developer verify:greenlight
+```
+
+Workspace-level delegate:
+
+```bash
+pnpm check:developer-route-lab-greenlight
+```
+
+Direct workspace-level fallback when root `pnpm` execution is blocked by ignored-build enforcement:
+
+```bash
+node scripts/governance/check-developer-route-lab-greenlight.mjs
 ```
 
 Direct app-local fallback when workspace-level `pnpm` execution is blocked:

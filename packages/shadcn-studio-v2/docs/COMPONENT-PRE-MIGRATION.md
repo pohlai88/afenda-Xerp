@@ -26,6 +26,7 @@ ROADMAP.md decides legal timing.
 COMPONENT-PRE-MIGRATION.md decides legal readiness.
 MIGRATION-MAP.md records legal movement.
 Vitest proves the movement stayed legal.
+check:drift proves the design-system rulebook stayed executable.
 ```
 
 The component migration path is ledger-first and proof-first:
@@ -222,6 +223,7 @@ Completion requirements:
 - V2 package tests pass
 - V2 package typecheck passes
 - V2 package build passes
+- V2 design-system drift guard passes
 - V2 Biome gate passes
 - public export path is verified
 - forbidden imports are absent
@@ -932,6 +934,7 @@ following evidence exists:
 - V2 package build passes.
 - V2 package typecheck passes.
 - V2 package tests pass.
+- V2 design-system drift guard passes.
 - Public export path is verified.
 - Forbidden deep imports are absent.
 - CSS entrypoint order is verified in a real consumer.
@@ -954,6 +957,7 @@ Record this evidence in `MIGRATION-MAP.md` before a component can move from
 - Package build proof:
 - Package typecheck proof:
 - Package test proof:
+- Design-system drift proof:
 - Biome proof:
 - Public export proof:
 - Forbidden import proof:
@@ -1082,6 +1086,7 @@ The test should verify:
 Run these gates after migration work:
 
 ```bash
+pnpm --filter @afenda/shadcn-studio-v2 check:drift
 pnpm --filter @afenda/shadcn-studio-v2 test
 pnpm --filter @afenda/shadcn-studio-v2 typecheck
 pnpm --filter @afenda/shadcn-studio-v2 build

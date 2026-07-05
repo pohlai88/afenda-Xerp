@@ -18,12 +18,15 @@ const MenuTrigger = ({ className, variant = "ghost" }: Props) => {
 
   return (
     <Button
+      aria-label="Toggle Sidebar"
       className={className}
       onClick={toggleSidebar}
       size="icon"
+      title="Toggle Sidebar"
       variant={variant}
     >
       {isOpen ? <PanelLeftCloseIcon /> : <PanelRightCloseIcon />}
+      <span className="sr-only">Toggle Sidebar</span>
     </Button>
   );
 };

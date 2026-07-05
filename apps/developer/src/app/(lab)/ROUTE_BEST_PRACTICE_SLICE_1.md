@@ -3,7 +3,8 @@
 ## Purpose
 
 This document records the completion state of Route Best Practice Slice 1 for
-`apps/developer` and identifies the next highest-ROI move.
+`apps/developer` after the follow-on hardening slices completed the current
+applicable Next.js route-lab baseline.
 
 Slice 1 is not a generic Next.js milestone. It is the first governed route-lab
 baseline for ADR-0039 and PAS-006E.
@@ -53,15 +54,36 @@ Source of truth: `docs/architecture/ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md`
 
 Current audit interpretation:
 
-- `Applicable-now accomplishment`: `100% (31/31 applicable rows)`
-- `Codebase implemented-now`: `88% (22/25 repo-owned control rows)`
-- `Whole audited surface implemented now`: `76% (31/41 total rows)`
-- `Open gaps`: `0%`
+- `Applicable-now accomplishment`: `100% (48/48 applicable rows)`
+- `Codebase implemented-now`: `94% (34/36 repo-owned control rows)`
+- `Whole audited surface implemented now`: `84% (48/57 total rows)`
+- `Open gaps`: `0% (0/57 total rows)`
 
 Interpretation:
 
 - Slice 1 is complete for everything that should exist in the route lab now.
-- Remaining non-pass rows are not misses. They are either intentional runtime exclusions or sterile placeholders.
+- Later hardening slices closed the route-law, acceptance, boundary-state,
+  module-route, green-light verification, root unmatched-route, and metadata
+  file gaps.
+- Accessibility and visual acceptance now prove semantic landmarks, accessible
+  names, image alt attributes, keyboard focus reachability, and mobile/desktop
+  overflow behavior.
+- Legacy topology remains retired and is now protected by the route-lab
+  governance check.
+- Route surface registry invariants now protect active route identity before
+  drift reaches navigation, policy, smoke proof, or filesystem topology.
+- Live route error probing now fails smoke proof when registry-backed routes
+  emit browser `pageerror` or `console.error` during navigation.
+- Error boundary governance now fails if `error.tsx` or `global-error.tsx`
+  loses `"use client"` or imports studio/runtime authority.
+- Client-leaf governance now fails if `"use client"` files import loaders,
+  demo data, route policy, route registry, nav config, theme config, or API
+  surfaces instead of receiving shaped props.
+- Dynamic route params governance now fails if active dynamic App Router routes
+  stop typing `params` as `Promise<T>` or stop awaiting `params` before route
+  value access.
+- The remaining non-pass audit rows are doctrine exclusions or sterile
+  placeholders, not active misses.
 
 ## What Is Complete Now
 
@@ -95,6 +117,8 @@ Interpretation:
 - error boundaries are client-safe
 - root route uses `next/image`
 - root layout provisions `Geist` and `Geist Mono` through `next/font`
+- active routes expose route-owned `generateMetadata`
+- the route lab has one governed green-light verification command
 
 ### Verification
 
@@ -102,6 +126,10 @@ Interpretation:
 - Biome passes for the app-local surface
 - route smoke coverage exists
 - a route-law governance script exists
+- one green-light runner now executes Biome, Vitest, Next typegen, TypeScript,
+  route-law governance, Playwright smoke, and sandbox build in one sequence
+- Playwright smoke now includes desktop and mobile accessibility and visual
+  layout acceptance checks
 
 ## Why Slice 1 Is Considered Complete
 
@@ -138,95 +166,57 @@ These belong either to:
 - ERP runtime later, or
 - future route-lab needs that justify activating placeholders
 
-## Next Highest-ROI Move
+## Completed Follow-On Slices
 
-The next highest ROI is not adding more route code.
+The following route-lab best-practice slices are now complete:
 
-It is strengthening the executable governance guard so the audit’s strongest route-law expectations become automatic regressions checks.
+- Slice 2 — Governance Guard Hardening
+- Slice 3 — Route Acceptance Hardening
+- Boundary State Hardening
+- Module Document Route proving route
+- Module Surface Registry Hardening
+- Action Seam Governance Hardening
+- Query Seam Governance Hardening
+- Green-Light Automation Hardening
+- Root Metadata and Not-Found Hardening
+- Accessibility and Visual Acceptance Hardening
+- Legacy Topology Regression Guard Hardening
+- Route Surface Registry Invariant Hardening
+- Live Route Error Probe Hardening
+- Error Boundary Client Safety Hardening
+- Client Leaf Import Wall Hardening
+- Dynamic Params Promise Hardening
 
-## Recommended Slice 2
+## Current Next Highest-ROI Guidance
 
-### Name
+There is no remaining applicable Next.js route-lab gap that outranks the
+current baseline.
 
-`Slice 2 — Governance Guard Hardening`
+The highest-ROI work now is maintenance and doctrine preservation:
 
-### Why this is next
+- keep the explicit exclusions active in docs and governance
+- preserve green-light proof as new route-lab surfaces are added
+- keep `src/app/legacy/**` prohibited through the governance guard
+- update `src/lib/lab/route-surface-registry.ts` first when route identity changes
+- keep the live route error probe active and run Next.js MCP `get_errors` when
+  the tool surface is available
+- keep the Next.js 16 dynamic params Promise guard active for every future
+  dynamic route
+- keep placeholders sterile until a governed frontend need exists
 
-Slice 1 already has `0%` open gaps. The highest return now is protecting that state.
+If a future frontend need appears, the next topic should be selected from one
+of these categories only:
 
-The best next move is to extend the route-lab governance script so it fails on:
-
-- `"use client"` in any `page.tsx` or `layout.tsx`
-- `generateStaticParams` anywhere under `app/(lab)/**`
-- loss of `dynamic = "force-dynamic"` in `app/(lab)/layout.tsx`
-
-### Why this beats other options
-
-This has higher ROI than:
-
-- adding more placeholder content
-- expanding route inventory
-- rewriting already-normalized route files
-- growing docs again without new enforcement
-
-Reason:
-
-- it reduces future drift
-- it keeps the audit true over time
-- it improves confidence without expanding runtime authority
-
-## Proposed Slice 2 Goal Shape
-
-Use this as the next implementation brief:
-
-```md
-## Objective
-Strengthen the route-lab governance check so executable guards match the route audit.
-
-## Allowed Scope
-- apps/developer/**
-- docs/architecture/ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md
-
-## Out of Scope
-- apps/erp/**
-- apps/developer/src/app/api/**
-- auth
-- database
-- placeholder activation
-
-## Constraints
-- Do not add new routes.
-- Do not introduce runtime authority.
-- Preserve route-lab doctrine and audit terminology.
-
-## Required Deliverables
-- governance script update
-- audit evidence update if the guard surface changes
-
-## Verification
-- .\node_modules\.bin\tsc -p apps\developer\tsconfig.json --noEmit
-- .\node_modules\.bin\biome ci apps\developer
-- node apps\developer\scripts\check-route-lab-governance.mjs
-
-## Done Means
-- the script fails on `use client` in any `page.tsx` or `layout.tsx`
-- the script fails when `(lab)/layout.tsx` loses `dynamic = "force-dynamic"`
-- the script fails when `generateStaticParams` appears under `app/(lab)/**`
-```
-
-## Non-Goals for Slice 2
-
-- do not add APIs
-- do not activate `_actions` or `_queries`
-- do not add ERP runtime imports
-- do not expand the module placeholder tree
-- do not rewrite stable route files unless the guard requires tiny path updates
+- a newly introduced App Router feature that is applicable to `apps/developer`
+- an explicit route-lab regression caught by governance or smoke proof
+- a doctrine-approved seam activation backed by a concrete UI need
 
 ## Acceptance Statement
 
 Slice 1 is complete.
 
-Slice 2 should begin only as regression hardening, not as renewed architecture drift.
+The route lab should now preserve the completed baseline, not expand runtime
+authority or broaden exclusions.
 
 ## Related Docs
 
@@ -234,3 +224,12 @@ Slice 2 should begin only as regression hardening, not as renewed architecture d
 - `apps/developer/src/app/(lab)/CODEX_GOAL_TEMPLATE.md`
 - `apps/developer/src/app/(lab)/GOVERNANCE_GUARD_HARDENING.md`
 - `apps/developer/src/app/(lab)/ROUTE_ACCEPTANCE_HARDENING.md`
+- `apps/developer/src/app/(lab)/GREENLIGHT_AUTOMATION_HARDENING.md`
+- `apps/developer/src/app/(lab)/ROOT_METADATA_AND_NOT_FOUND_HARDENING.md`
+- `apps/developer/src/app/(lab)/ACCESSIBILITY_AND_VISUAL_ACCEPTANCE_HARDENING.md`
+- `apps/developer/src/app/(lab)/LEGACY_TOPOLOGY_REGRESSION_GUARD_HARDENING.md`
+- `apps/developer/src/app/(lab)/ROUTE_SURFACE_REGISTRY_INVARIANT_HARDENING.md`
+- `apps/developer/src/app/(lab)/LIVE_ROUTE_ERROR_PROBE_HARDENING.md`
+- `apps/developer/src/app/(lab)/ERROR_BOUNDARY_CLIENT_SAFETY_HARDENING.md`
+- `apps/developer/src/app/(lab)/CLIENT_LEAF_IMPORT_WALL_HARDENING.md`
+- `apps/developer/src/app/(lab)/DYNAMIC_PARAMS_PROMISE_HARDENING.md`

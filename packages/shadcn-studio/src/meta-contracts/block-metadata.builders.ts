@@ -35,30 +35,28 @@ function resolveSurfaceTemplateClass(blockId: string): SurfaceTemplateClass {
     return "table";
   }
 
-  if (blockId === "account-settings-01") {
+  if (blockId.startsWith("account-settings-")) {
     return "settings";
   }
 
   if (
-    blockId === "error-access-denied-page-01" ||
-    blockId === "error-authentication-page-01" ||
-    blockId === "forgot-password-page-01" ||
-    blockId === "forgot-password-success-page-01" ||
-    blockId === "invite-accept-page-01" ||
-    blockId === "invite-expired-page-01" ||
-    blockId === "invite-page-01" ||
-    blockId === "login-page-04" ||
-    blockId === "mfa-page-01" ||
-    blockId === "mfa-recovery-page-01" ||
-    blockId === "otp-page-01" ||
-    blockId === "register-page-01" ||
-    blockId === "reset-password-page-01" ||
-    blockId === "reset-password-success-page-01" ||
-    blockId === "error-session-expired-page-01" ||
-    blockId === "verify-email-expired-page-01" ||
-    blockId === "verify-email-page-01" ||
-    blockId === "verify-email-sent-page-01" ||
-    blockId === "verify-email-success-page-01" ||
+    blockId.startsWith("error-access-denied-page-") ||
+    blockId.startsWith("error-authentication-page-") ||
+    blockId.startsWith("forgot-password-") ||
+    blockId.startsWith("invite-") ||
+    blockId.startsWith("login-page-") ||
+    blockId.startsWith("mfa-") ||
+    blockId.startsWith("error-oauth-page-") ||
+    blockId.startsWith("error-passkey-page-") ||
+    blockId.startsWith("error-sso-page-") ||
+    blockId.startsWith("otp-page-") ||
+    blockId.startsWith("passkey-") ||
+    blockId.startsWith("register-page-") ||
+    blockId.startsWith("reset-password-") ||
+    blockId.startsWith("security-review-page-") ||
+    blockId.startsWith("error-session-expired-page-") ||
+    blockId.startsWith("sso-") ||
+    blockId.startsWith("verify-email-") ||
     blockId === "dialog-activity"
   ) {
     return "form";

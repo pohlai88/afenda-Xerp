@@ -44,6 +44,7 @@ const requiredCiCommands = [
   "pnpm check:system-admin-mutation-audit",
   "pnpm check:accounting-readiness-gate --structure-only",
   "pnpm check:accounting-domain-contracts",
+  "node scripts/governance/check-developer-route-lab-greenlight.mjs",
   "pnpm quality:pas001a-skeleton-gates",
   "pnpm quality:release-gate",
   "pnpm quality:docs",
@@ -64,6 +65,7 @@ const requiredReleaseVerificationGates = [
   "pnpm check:erp-observability",
   "pnpm check:accounting-readiness-gate",
   "pnpm check:accounting-domain-contracts",
+  "node scripts/governance/check-developer-route-lab-greenlight.mjs",
   "pnpm quality:release-gate",
 ];
 
@@ -86,7 +88,9 @@ const requiredQualityScripts = [
   "check:system-admin-mutation-audit",
   "check:accounting-readiness-gate",
   "check:accounting-domain-contracts",
+  "check:developer-route-lab-greenlight",
   "quality:accounting-domain-contracts",
+  "quality:developer-route-lab",
   "check:docs",
   "ci:biome",
 ];

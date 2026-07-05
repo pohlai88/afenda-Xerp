@@ -46,14 +46,8 @@ jobs:
       - name: Sync shadcn-studio CSS dist
         run: pnpm sync:package-css-dist -- --package @afenda/shadcn-studio
 
-      - name: Typecheck developer lab
-        run: pnpm --filter @afenda/developer typecheck
-
       - name: Install Playwright Chromium
         run: pnpm --filter @afenda/developer exec playwright install chromium --with-deps
 
-      - name: Run Playwright smoke (dev server :3002)
-        run: pnpm --filter @afenda/developer test:e2e:smoke
-
-      - name: Build developer lab (sandbox flag)
-        run: cross-env AFENDA_DEVELOPER_SANDBOX=true pnpm --filter @afenda/developer build
+      - name: Run developer route-lab green-light delegate
+        run: node scripts/governance/check-developer-route-lab-greenlight.mjs

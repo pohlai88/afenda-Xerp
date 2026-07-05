@@ -8,6 +8,8 @@ and migration references used to keep V2 synchronized before the next slice.
 
 - [Roadmap](ROADMAP.md)
 - [Taxonomy](TAXONOMY.md)
+- [Design system guideline](DESIGN-SYSTEM-GUIDELINE.md)
+- [Design system implementation slices](design-system-slices/README.md)
 - [Migration map](MIGRATION-MAP.md)
 - [Component pre-migration guide](COMPONENT-PRE-MIGRATION.md)
 - [Primitive API consistency](PRIMITIVE-API-CONSISTENCY.md)
@@ -20,6 +22,7 @@ and migration references used to keep V2 synchronized before the next slice.
 
 ## Slice implementation tracking
 
+- [Design system implementation slices](design-system-slices/README.md)
 - [Slice implementation index](slices/SLICE-IMPLEMENTATION-INDEX.md)
 - [Slice implementation detail template](SLICE-IMPLEMENTATION-DETAIL-TEMPLATE.md)
 - [Finishing evaluation and audit handoff template](SLICE-FINISHING-EVALUATION-AUDIT-HANDOFF.md)

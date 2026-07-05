@@ -107,7 +107,7 @@ export default async function ModuleDocumentPage({
             <CardDescription>{pageData.promotionSummary}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
-            <p className="rounded-2xl bg-muted px-3 py-2">
+            <p className="rounded-2xl bg-muted px-3 py-2 [overflow-wrap:anywhere]">
               ERP target: {pageData.promotion.futureErpPath}
             </p>
             <p className="text-muted-foreground">{pageData.promotion.notes}</p>

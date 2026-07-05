@@ -31,6 +31,7 @@ Every migrated unit must:
 - keep the public export boundary intact
 - preserve CSS and runtime boundary rules
 - prove the destination slice is ready before movement begins
+- pass the package-local design-system drift guard before status can advance to `migrated`
 
 Component migration must also pass `COMPONENT-PRE-MIGRATION.md`.
 
@@ -121,6 +122,26 @@ new
 | `theme-runtime/theme-runtime.erp-providers.tsx` | Provider surface used by route-lab root layout | `shared` | `contexts/ThemeProvider.tsx` plus `./theme` export or approved equivalent | replace | `preserve` | bounded first-cutover consumer now imports `ErpPresentationProviders` from `@afenda/shadcn-studio-v2/theme` | `public-client` | depends on `shadcn-default.css` ordering | client runtime theme provider | none | none | theme toggle, hydration, and color-scheme behavior | theme/provider stories | route-lab root render parity | runtime/provider tests plus route-lab validation | keep legacy theme runtime contract available for rollback until release-owner retirement review | bounded real-consumer proof exists in `apps/developer` plus `docs/bridging-r/evidence/README.md` | `enterprise-accepted` |
 | `styles/shadcn-default.css` | Canonical package CSS contract for route-lab and ERP consumers | `shared` | `src/styles/shadcn-default.css` plus `./shadcn-default.css` export | migrate | `preserve` | bounded first-cutover consumer now imports the V2 package CSS path directly in app globals | `css-export` | source of canonical tokens | none | none | none | token preview stories | route-lab and ERP CSS parity | export/build validation plus consumer CSS verification | keep legacy CSS import path available for rollback until release-owner retirement review | bounded real-consumer proof exists in `apps/developer` plus `docs/bridging-r/evidence/README.md` | `enterprise-accepted` |
 
+## Active Theme and Drift Status
+
+The accepted V2 theme and CSS migration surface is:
+
+```txt
+shadcn-default.css
+swiss-noir.css
+verdant-noir.css
+```
+
+`ledger-noir`, `phantom-noir`, `executive-noir`, `audit-noir`, `erp-dark`, and `luxury-admin` remain future candidates or rejected names unless a later migration row, taxonomy amendment, export update, Storybook proof, and consumer proof promote one deliberately.
+
+The package-local drift guard is the executable proof that this map has not gained unapproved runtime drift:
+
+```bash
+pnpm --filter @afenda/shadcn-studio-v2 check:drift
+```
+
+It must pass before a migration-map row may move from `approved-for-migration` to `migrated`, and before any `enterprise-accepted` row is used to support release-owner cutover.
+
 ## Enterprise Evidence Record
 
 Record this evidence once a component moves beyond package-local migration proof.
@@ -131,6 +152,7 @@ Record this evidence once a component moves beyond package-local migration proof
 - Package build proof:
 - Package typecheck proof:
 - Package test proof:
+- Design-system drift proof:
 - Biome proof:
 - Public export proof:
 - Forbidden import proof:

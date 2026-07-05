@@ -71,7 +71,12 @@ describe("LabShell interaction", () => {
     expect(salesLink).toHaveAttribute("data-active");
     expect(appearanceLink).not.toHaveAttribute("data-active");
 
-    await user.click(screen.getByRole("button", { name: "Toggle Sidebar" }));
+    const sidebarTrigger = screen
+      .getAllByRole("button", { name: "Toggle Sidebar" })
+      .find((button) => button.getAttribute("data-slot") === "button");
+    expect(sidebarTrigger).toBeDefined();
+
+    await user.click(sidebarTrigger as HTMLButtonElement);
     const sidebarRoot = document.querySelector(
       "[data-slot='sidebar'][data-state]"
     );

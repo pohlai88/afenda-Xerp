@@ -8,15 +8,23 @@ const baseURL =
   process.env["PLAYWRIGHT_BASE_URL"] ?? `http://127.0.0.1:${port}`;
 const isCI = Boolean(process.env["CI"]);
 const nextCliPath = path.join(developerRoot, "node_modules/next/dist/bin/next");
+const webServerMode =
+  process.env["PLAYWRIGHT_WEB_SERVER_MODE"] === "start" ? "start" : "dev";
 
 const webServer = process.env["PLAYWRIGHT_SKIP_WEBSERVER"]
   ? null
   : {
-      command: `"${process.execPath}" "${nextCliPath}" dev --port ${port}`,
+      command: `"${process.execPath}" "${nextCliPath}" ${webServerMode} --port ${port}`,
       cwd: developerRoot,
-      env: {
-        NODE_ENV: "development",
-      },
+      env:
+        webServerMode === "start"
+          ? {
+              AFENDA_DEVELOPER_SANDBOX: "true",
+              NODE_ENV: "production",
+            }
+          : {
+              NODE_ENV: "development",
+            },
       reuseExistingServer: !isCI,
       timeout: 120_000,
       url: baseURL,

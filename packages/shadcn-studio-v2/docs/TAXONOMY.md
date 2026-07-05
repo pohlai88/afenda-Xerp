@@ -702,3 +702,21 @@ Its job is to enforce:
 This package should prefer Vitest governance tests over custom drift scripts for taxonomy enforcement.
 
 `__tests__` is excluded from structural taxonomy enforcement because it follows the repo-wide Vitest convention and does not define package architecture.
+
+The design-system drift guard enforces the non-structural rules from the active design-system guideline:
+
+```bash
+pnpm --filter @afenda/shadcn-studio-v2 check:drift
+```
+
+It blocks forbidden token families, unapproved theme files, V2 runtime imports from references or legacy studio source, consumer deep imports into V2 internals, restored legacy folders under `src/`, and hardcoded hex values inside reusable component or view files.
+
+The active CSS authority remains:
+
+```txt
+src/styles/shadcn-default.css
+src/styles/swiss-noir.css
+src/styles/verdant-noir.css
+```
+
+Do not create new named theme files until the design-system guideline theme promotion gate passes and this taxonomy is amended in the same slice.

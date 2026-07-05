@@ -21,13 +21,13 @@ export function ModuleDocumentProofPanel({
         <CardDescription>{pageData.promotionSummary}</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="rounded-2xl bg-muted px-4 py-3 text-sm">
+        <div className="rounded-2xl bg-muted px-4 py-3 text-sm [overflow-wrap:anywhere]">
           ERP target: {pageData.promotion.futureErpPath}
         </div>
-        <div className="rounded-2xl border border-border/60 px-4 py-3 text-sm">
+        <div className="rounded-2xl border border-border/60 px-4 py-3 text-sm [overflow-wrap:anywhere]">
           Future data source: {pageData.promotion.futureDataSource}
         </div>
-        <div className="rounded-2xl border border-border/60 border-dashed px-4 py-3 text-sm">
+        <div className="rounded-2xl border border-border/60 border-dashed px-4 py-3 text-sm [overflow-wrap:anywhere]">
           Canonical route: {pageData.canonicalHref}
         </div>
         <ul className="space-y-3">

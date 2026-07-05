@@ -1,8 +1,12 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 
-const developerRoot = path.resolve("apps/developer");
+const developerRoot = path.resolve(
+  path.dirname(fileURLToPath(import.meta.url)),
+  ".."
+);
 const appRoot = path.join(developerRoot, "src", "app");
 const routePolicyPath = path.join(
   developerRoot,
@@ -38,6 +42,14 @@ const smokeSpecPath = path.join(
   "__tests__",
   "route-lab-smoke.spec.ts"
 );
+const rootNotFoundPath = path.join(appRoot, "not-found.tsx");
+const legacyRouteRoot = path.join(appRoot, "legacy");
+const metadataFilePaths = [
+  path.join(appRoot, "icon.png"),
+  path.join(appRoot, "apple-icon.png"),
+  path.join(appRoot, "opengraph-image.png"),
+  path.join(appRoot, "twitter-image.png"),
+];
 
 const prohibitedImportPatterns = [
   /@afenda\/auth/,
@@ -47,6 +59,16 @@ const prohibitedImportPatterns = [
   /apps\/erp\//,
   /src\/app\/api\//,
   /@\/app\/api\//,
+];
+const prohibitedClientLeafImportPatterns = [
+  /from\s+"@\/config\/nav-config"/,
+  /from\s+"@\/config\/theme-config"/,
+  /from\s+"@\/lib\/lab\/lab-demo-context"/,
+  /from\s+"@\/lib\/lab\/load-[^"]+"/,
+  /from\s+"@\/lib\/lab\/route-policy"/,
+  /from\s+"@\/lib\/lab\/route-surface-registry"/,
+  /from\s+"@\/app\/api\//,
+  /from\s+"src\/app\/api\//,
 ];
 const useClientDirectivePattern = /["']use client["']/;
 
@@ -75,6 +97,11 @@ const activeRouteQuerySeams = [
 const activeRoutePaths = [
   ...routeSurfaceRegistrySource.matchAll(/routePath:\s*"([^"]+)"/g),
 ].map((match) => match[1]);
+const routeRegistryEntryBlocks = [
+  ...routeSurfaceRegistrySource.matchAll(
+    /\{\s*actionSeam:\s*"[^"]+"[\s\S]*?\n\s{2}\}/g
+  ),
+].map((match) => match[0]);
 
 const activeRoutes = activeRouteHrefs
   .map((href, index) => ({
@@ -146,6 +173,50 @@ const hasSerializableContractEvidence = (loaderSource, contractName) =>
   loaderSource.includes(`satisfies ${contractName}`) ||
   loaderSource.includes(`satisfies readonly ${contractName}`);
 
+const getRegistryStringField = (entryBlock, fieldName) =>
+  entryBlock.match(new RegExp(`${fieldName}:\\s*"([^"]+)"`))?.[1] ?? null;
+
+const getRegistryBooleanField = (entryBlock, fieldName) => {
+  const value = entryBlock.match(
+    new RegExp(`${fieldName}:\\s*(true|false)`)
+  )?.[1];
+
+  if (value === "true") {
+    return true;
+  }
+
+  if (value === "false") {
+    return false;
+  }
+
+  return null;
+};
+
+const recordDuplicateRegistryValues = (fieldName) => {
+  const seenValues = new Map();
+
+  for (const entryBlock of routeRegistryEntryBlocks) {
+    const value = getRegistryStringField(entryBlock, fieldName);
+
+    if (!value) {
+      continue;
+    }
+
+    const existingRouteId = seenValues.get(value);
+    const routeId = getRegistryStringField(entryBlock, "routeId") ?? value;
+
+    if (existingRouteId) {
+      recordFailure(
+        routeSurfaceRegistryPath,
+        `route surface registry ${fieldName} value "${value}" is duplicated by ${existingRouteId} and ${routeId}`
+      );
+      continue;
+    }
+
+    seenValues.set(value, routeId);
+  }
+};
+
 const appApiPath = path.join(appRoot, "api");
 
 if (existsSync(appApiPath)) {
@@ -153,6 +224,29 @@ if (existsSync(appApiPath)) {
     appApiPath,
     "route-lab law forbids repo-owned app/api surfaces under apps/developer/src/app/api"
   );
+}
+
+if (existsSync(legacyRouteRoot)) {
+  recordFailure(
+    legacyRouteRoot,
+    "route-lab law forbids legacy route topology under apps/developer/src/app/legacy; use governed app/(lab) routes with route-local _components"
+  );
+}
+
+if (!existsSync(rootNotFoundPath)) {
+  recordFailure(
+    rootNotFoundPath,
+    "root App Router surface must provide app/not-found.tsx for unmatched route handling"
+  );
+}
+
+for (const metadataFilePath of metadataFilePaths) {
+  if (!existsSync(metadataFilePath)) {
+    recordFailure(
+      metadataFilePath,
+      "root App Router metadata file is missing from the route-lab baseline"
+    );
+  }
 }
 
 if (!routePolicySource.includes("labRouteSurfaceRegistry")) {
@@ -174,6 +268,136 @@ if (!smokeSpecSource.includes("route-surface-registry.ts")) {
     smokeSpecPath,
     "smoke coverage must derive active route expectations from src/lib/lab/route-surface-registry.ts"
   );
+}
+
+if (!smokeSpecSource.includes("Route-lab surface not found")) {
+  recordFailure(
+    smokeSpecPath,
+    "smoke coverage must prove the explicit root not-found surface"
+  );
+}
+
+recordDuplicateRegistryValues("href");
+recordDuplicateRegistryValues("routeId");
+
+for (const entryBlock of routeRegistryEntryBlocks) {
+  const href = getRegistryStringField(entryBlock, "href");
+  const kind = getRegistryStringField(entryBlock, "kind");
+  const navGroupLabel = getRegistryStringField(entryBlock, "navGroupLabel");
+  const navLabel = getRegistryStringField(entryBlock, "navLabel");
+  const rendering = getRegistryStringField(entryBlock, "rendering");
+  const requiresLoadingBoundary = getRegistryBooleanField(
+    entryBlock,
+    "requiresLoadingBoundary"
+  );
+  const routeId = getRegistryStringField(entryBlock, "routeId");
+  const routePath = getRegistryStringField(entryBlock, "routePath");
+  const showInNav = getRegistryBooleanField(entryBlock, "showInNav");
+  const hasNavGroupLabel = Boolean(navGroupLabel?.trim());
+  const hasNavLabel = Boolean(navLabel?.trim());
+  const hasCompleteNavLabels = hasNavGroupLabel && hasNavLabel;
+
+  if (!href?.startsWith("/")) {
+    recordFailure(
+      routeSurfaceRegistryPath,
+      `route surface registry entry ${routeId ?? "<missing routeId>"} must use an absolute href`
+    );
+  }
+
+  if (href && href !== "/" && href.endsWith("/")) {
+    recordFailure(
+      routeSurfaceRegistryPath,
+      `route surface registry entry ${routeId ?? href} must not use a trailing slash in href`
+    );
+  }
+
+  if (!routePath?.startsWith("/")) {
+    recordFailure(
+      routeSurfaceRegistryPath,
+      `route surface registry entry ${routeId ?? href ?? "<unknown>"} must use an absolute routePath`
+    );
+  }
+
+  if (routePath && routePath !== "/" && routePath.endsWith("/")) {
+    recordFailure(
+      routeSurfaceRegistryPath,
+      `route surface registry entry ${routeId ?? routePath} must not use a trailing slash in routePath`
+    );
+  }
+
+  if (href?.includes("[") || href?.includes("]")) {
+    recordFailure(
+      routeSurfaceRegistryPath,
+      `route surface registry entry ${routeId ?? href} must expose a concrete smokable href, not a dynamic route pattern`
+    );
+  }
+
+  if (routeId && !/^[a-z][a-z0-9]*(?:\.[a-z][a-z0-9]*)+$/.test(routeId)) {
+    recordFailure(
+      routeSurfaceRegistryPath,
+      `route surface registry routeId "${routeId}" must use dotted lowercase namespace form`
+    );
+  }
+
+  if (href === "/") {
+    if (rendering !== "auto") {
+      recordFailure(
+        routeSurfaceRegistryPath,
+        "root route registry entry must keep rendering as auto"
+      );
+    }
+
+    if (requiresLoadingBoundary !== false) {
+      recordFailure(
+        routeSurfaceRegistryPath,
+        "root route registry entry must not require a loading boundary"
+      );
+    }
+
+    if (showInNav !== false) {
+      recordFailure(
+        routeSurfaceRegistryPath,
+        "root route registry entry must not appear in lab navigation"
+      );
+    }
+  }
+
+  if (href !== "/") {
+    if (kind === "static-surface") {
+      recordFailure(
+        routeSurfaceRegistryPath,
+        `non-root route ${routeId ?? href} must not use static-surface kind`
+      );
+    }
+
+    if (rendering !== "force-dynamic") {
+      recordFailure(
+        routeSurfaceRegistryPath,
+        `operator route ${routeId ?? href} must use force-dynamic rendering`
+      );
+    }
+
+    if (requiresLoadingBoundary !== true) {
+      recordFailure(
+        routeSurfaceRegistryPath,
+        `operator route ${routeId ?? href} must require a loading boundary`
+      );
+    }
+  }
+
+  if (showInNav === true && !hasCompleteNavLabels) {
+    recordFailure(
+      routeSurfaceRegistryPath,
+      `navigable route ${routeId ?? href ?? "<unknown>"} must define navGroupLabel and navLabel`
+    );
+  }
+
+  if (showInNav === false && (navGroupLabel || navLabel)) {
+    recordFailure(
+      routeSurfaceRegistryPath,
+      `non-navigable route ${routeId ?? href ?? "<unknown>"} must not define navGroupLabel or navLabel`
+    );
+  }
 }
 
 for (const route of activeRoutes) {
@@ -228,6 +452,22 @@ for (const route of activeRoutes) {
       pagePath,
       'page.tsx must remain server-first and must not use "use client"'
     );
+  }
+
+  if (route.routePath.includes("[")) {
+    if (!/params:\s*Promise</.test(pageSource)) {
+      recordFailure(
+        pagePath,
+        "dynamic route page props must type params as Promise<T> for Next.js 16 App Router compatibility"
+      );
+    }
+
+    if (!/await\s+params\b/.test(pageSource)) {
+      recordFailure(
+        pagePath,
+        "dynamic route page must await params before reading route values"
+      );
+    }
   }
 
   if (!/export\s+default\s+async\s+function\s+\w+\s*\(/.test(pageSource)) {
@@ -401,6 +641,8 @@ if (!layoutSource.includes('export const dynamic = "force-dynamic"')) {
 
 const appPageFiles = [];
 const appLayoutFiles = [];
+const appErrorBoundaryFiles = [];
+const appClientLeafFiles = [];
 const labSegmentFiles = [];
 const collectAppSegments = (directoryPath) => {
   for (const entry of readdirSync(directoryPath)) {
@@ -418,6 +660,18 @@ const collectAppSegments = (directoryPath) => {
 
     if (entry === "layout.tsx") {
       appLayoutFiles.push(fullPath);
+    }
+
+    if (entry === "error.tsx" || entry === "global-error.tsx") {
+      appErrorBoundaryFiles.push(fullPath);
+    }
+
+    if (entry.endsWith(".ts") || entry.endsWith(".tsx")) {
+      const source = readFileSync(fullPath, "utf8");
+
+      if (hasUseClientDirective(source)) {
+        appClientLeafFiles.push(fullPath);
+      }
     }
   }
 };
@@ -476,6 +730,46 @@ for (const layoutFile of appLayoutFiles) {
       recordFailure(
         layoutFile,
         `layout.tsx imports a prohibited runtime authority matching ${pattern}`
+      );
+    }
+  }
+}
+
+for (const errorBoundaryFile of appErrorBoundaryFiles) {
+  const errorBoundarySource = readFileSync(errorBoundaryFile, "utf8");
+
+  if (!hasUseClientDirective(errorBoundarySource)) {
+    recordFailure(
+      errorBoundaryFile,
+      'error.tsx and global-error.tsx must be client-safe and must use "use client"'
+    );
+  }
+
+  if (/@afenda\/shadcn-studio/.test(errorBoundarySource)) {
+    recordFailure(
+      errorBoundaryFile,
+      "error.tsx and global-error.tsx must not import @afenda/shadcn-studio; use client-safe native recovery controls"
+    );
+  }
+
+  for (const pattern of prohibitedImportPatterns) {
+    if (pattern.test(errorBoundarySource)) {
+      recordFailure(
+        errorBoundaryFile,
+        `error boundary imports a prohibited runtime authority matching ${pattern}`
+      );
+    }
+  }
+}
+
+for (const clientLeafFile of appClientLeafFiles) {
+  const clientLeafSource = readFileSync(clientLeafFile, "utf8");
+
+  for (const pattern of prohibitedClientLeafImportPatterns) {
+    if (pattern.test(clientLeafSource)) {
+      recordFailure(
+        clientLeafFile,
+        `client components must receive shaped props and must not import loaders, demo data, route policy, route registry, nav/theme config, or API surfaces matching ${pattern}`
       );
     }
   }

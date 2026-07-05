@@ -74,9 +74,9 @@ export function SettingsProvider({ children, initial }: SettingsProviderProps) {
   const { setTheme, resolvedTheme } = useTheme();
   const [settings, setSettings] = useState<Settings>(() => ({
     ...initialSettings,
-    ...readStoredSettings(),
     ...initial,
   }));
+  const [hasLoadedStoredSettings, setHasLoadedStoredSettings] = useState(false);
 
   const updateSettings = useCallback((partial: Partial<Settings>) => {
     if (partial.mode !== undefined && !isThemeMode(partial.mode)) {
@@ -127,6 +127,14 @@ export function SettingsProvider({ children, initial }: SettingsProviderProps) {
   }, []);
 
   useEffect(() => {
+    setSettings((current) => ({
+      ...current,
+      ...readStoredSettings(),
+    }));
+    setHasLoadedStoredSettings(true);
+  }, []);
+
+  useEffect(() => {
     setTheme(settings.mode);
   }, [settings.mode, setTheme]);
 
@@ -143,7 +151,7 @@ export function SettingsProvider({ children, initial }: SettingsProviderProps) {
   }, [settings, resolvedTheme]);
 
   useEffect(() => {
-    if (typeof window === "undefined") {
+    if (!hasLoadedStoredSettings || typeof window === "undefined") {
       return;
     }
 
@@ -151,7 +159,7 @@ export function SettingsProvider({ children, initial }: SettingsProviderProps) {
       themeConfig.settingsStorageKey,
       serializeSettings(settings)
     );
-  }, [settings]);
+  }, [hasLoadedStoredSettings, settings]);
 
   const value = useMemo<SettingsContextValue>(
     () => ({

@@ -11,6 +11,7 @@ const COMPONENT_PRE_MIGRATION_ROOT = path.join(
   DOCS_ROOT,
   "component-pre-migration"
 );
+const DESIGN_SYSTEM_SLICES_ROOT = path.join(DOCS_ROOT, "design-system-slices");
 const SLICES_ROOT = path.join(DOCS_ROOT, "slices");
 const DOCS_README_PATH = path.join(DOCS_ROOT, "README.md");
 const COMPONENT_PRE_MIGRATION_PATH = path.join(
@@ -73,6 +74,37 @@ const BRIDGING_R_WORKSHEET_MARKERS = {
   "BR-6-CUTOVER-VALIDATION-BACKLOG.md": "### Validation record",
   "BR-7-RELEASE-OWNER-GOVERNANCE.md": "### Approval record",
 } as const;
+
+const EXPECTED_DESIGN_SYSTEM_SLICES = [
+  "DSS-0-AUTHORITY-ENFORCEMENT-BASELINE.md",
+  "DSS-1-CSS-TOKEN-THEME-PROOF.md",
+  "DSS-2-TYPOGRAPHY-DENSITY-LAYOUT.md",
+  "DSS-3-PRIMITIVE-COMPONENT-COMPLETENESS.md",
+  "DSS-4-SHELL-CHROME-NAVIGATION.md",
+  "DSS-5-DATA-DISPLAY-WIDGETS-TABLES.md",
+  "DSS-6-FORMS-DIALOGS-SETTINGS-AUTH.md",
+  "DSS-7-STORYBOOK-CONSUMER-CUTOVER-EVIDENCE.md",
+] as const;
+
+const REQUIRED_DESIGN_SYSTEM_SLICE_HEADINGS = [
+  "## Slice metadata",
+  "## Purpose",
+  "## In scope",
+  "## Out of scope",
+  "## Required inputs",
+  "## Implementation tasks",
+  "## Evidence required",
+  "## Acceptance gates",
+  "## Failure modes",
+  "## Completion handoff",
+] as const;
+
+const REQUIRED_DESIGN_SYSTEM_SLICE_GATES = [
+  "pnpm --filter @afenda/shadcn-studio-v2 check:drift",
+  "pnpm --filter @afenda/shadcn-studio-v2 test",
+  "pnpm --filter @afenda/shadcn-studio-v2 typecheck",
+  "pnpm exec biome ci packages/shadcn-studio-v2",
+] as const;
 
 const EXPECTED_SLICES = [
   {
@@ -255,6 +287,8 @@ describe("roadmap, handoff, and taxonomy documentation alignment", () => {
     const requiredLinks = [
       "ROADMAP.md",
       "TAXONOMY.md",
+      "DESIGN-SYSTEM-GUIDELINE.md",
+      "design-system-slices/README.md",
       "MIGRATION-MAP.md",
       "COMPONENT-PRE-MIGRATION.md",
       "BRIDGING-R-PHASE-R-READINESS.md",
@@ -273,6 +307,41 @@ describe("roadmap, handoff, and taxonomy documentation alignment", () => {
 
     for (const link of requiredLinks) {
       expect(docsIndex).toContain(link);
+    }
+  });
+
+  it("keeps design-system implementation slices indexed and structurally aligned", () => {
+    const docsIndex = readFileSync(DOCS_README_PATH, "utf8");
+    const designSystemSliceIndex = readFileSync(
+      path.join(DESIGN_SYSTEM_SLICES_ROOT, "README.md"),
+      "utf8"
+    );
+
+    expect(docsIndex).toContain("design-system-slices/README.md");
+    expect(designSystemSliceIndex).toContain("## Slice contract");
+    expect(designSystemSliceIndex).toContain("No reference becomes runtime.");
+    expect(designSystemSliceIndex).toContain("shadcn-default.css");
+    expect(designSystemSliceIndex).toContain("swiss-noir.css");
+    expect(designSystemSliceIndex).toContain("verdant-noir.css");
+
+    for (const fileName of EXPECTED_DESIGN_SYSTEM_SLICES) {
+      const slicePath = path.join(DESIGN_SYSTEM_SLICES_ROOT, fileName);
+
+      expect(existsSync(slicePath), fileName).toBe(true);
+      expect(designSystemSliceIndex).toContain(fileName);
+
+      const sliceDocument = readFileSync(slicePath, "utf8");
+
+      for (const heading of REQUIRED_DESIGN_SYSTEM_SLICE_HEADINGS) {
+        expect(sliceDocument).toContain(heading);
+      }
+
+      for (const gate of REQUIRED_DESIGN_SYSTEM_SLICE_GATES) {
+        expect(sliceDocument).toContain(gate);
+      }
+
+      expect(sliceDocument).toContain("| Claim target |");
+      expect(sliceDocument).toContain("## Completion handoff");
     }
   });
 
