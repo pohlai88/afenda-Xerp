@@ -222,7 +222,7 @@ const appApiPath = path.join(appRoot, "api");
 if (existsSync(appApiPath)) {
   recordFailure(
     appApiPath,
-    "route-lab law forbids repo-owned app/api surfaces under apps/developer/src/app/api"
+    "route-lab runtime parity keeps app/api guarded until pending slice P1 defines handler contract, tests, and governance allowlist"
   );
 }
 
@@ -506,7 +506,7 @@ for (const route of activeRoutes) {
     if (pattern.test(pageSource)) {
       recordFailure(
         pagePath,
-        `page.tsx imports a prohibited runtime authority matching ${pattern}`
+        `page.tsx imports guarded runtime authority before its pending runtime-parity slice is accepted: ${pattern}`
       );
     }
   }
@@ -709,7 +709,7 @@ for (const pageFile of appPageFiles) {
     if (pattern.test(pageSource)) {
       recordFailure(
         pageFile,
-        `page.tsx imports a prohibited runtime authority matching ${pattern}`
+        `page.tsx imports guarded runtime authority before its pending runtime-parity slice is accepted: ${pattern}`
       );
     }
   }
@@ -729,7 +729,7 @@ for (const layoutFile of appLayoutFiles) {
     if (pattern.test(layoutFileSource)) {
       recordFailure(
         layoutFile,
-        `layout.tsx imports a prohibited runtime authority matching ${pattern}`
+        `layout.tsx imports guarded runtime authority before its pending runtime-parity slice is accepted: ${pattern}`
       );
     }
   }
@@ -756,7 +756,7 @@ for (const errorBoundaryFile of appErrorBoundaryFiles) {
     if (pattern.test(errorBoundarySource)) {
       recordFailure(
         errorBoundaryFile,
-        `error boundary imports a prohibited runtime authority matching ${pattern}`
+        `error boundary imports guarded runtime authority before its pending runtime-parity slice is accepted: ${pattern}`
       );
     }
   }

@@ -6,14 +6,22 @@
 
 ## Constitutional rule
 
-The route lab **must be as good as ERP production frontend** for every Next.js and presentation concern. The **only** intentional differences are **auth noise removal** and **integration spine absence**.
+The route lab **must be as good as ERP production frontend** for every Next.js and presentation concern. Runtime authority is **pending and guarded**, not a lower-standard carve-out.
 
 ```txt
 SAME frontend law as apps/erp
-MINUS auth redirect / session / permissions / OperatingContext spine / BFF / production deploy
+PENDING auth redirect / session / permissions / OperatingContext spine / BFF / production deploy
 ```
 
 **Agents must not** document or implement “ERP cannot, lab can” for page composition, colocation, rendering, loading/error segments, RSC-first boundaries, or MCP verification.
+
+Pending runtime-parity slices:
+
+- Route Handlers / `app/api/**`
+- live Server Actions
+- `cacheComponents` / shared operator-route cache strategy
+- middleware / request-policy runtime surfaces
+- tenant/auth/OperatingContext/BFF runtime authority
 
 ---
 
@@ -35,11 +43,11 @@ MINUS auth redirect / session / permissions / OperatingContext spine / BFF / pro
 | PAS-006A CSS four-import chain | Required | Required | **Same** |
 | Studio AppShell (not reference MCP shell) | Required | Required | **Same** |
 | MCP after App Router edits | port 3000 | port **3002** | **Same sequence** |
-| Auth redirect / session | Better Auth | **None** | **Excluded only** |
-| OperatingContext | PAS-001A spine | `lab-demo-context` wire | **Excluded only** |
-| BFF / `api/internal/v1` | Required where contracted | None | **Excluded only** |
+| Auth redirect / session | Better Auth | Pending guarded runtime slice | **Pending parity** |
+| OperatingContext | PAS-001A spine | `lab-demo-context` wire until governed activation | **Pending parity** |
+| BFF / `api/internal/v1` | Required where contracted | Pending guarded runtime slice | **Pending parity** |
 | `pas006-ui.contract.ts` row | Required at ship | Borrow-map row until promotion | **Promotion step** |
-| Production deploy | Normal | Hard-fail without flag | **Excluded only** |
+| Production deploy | Normal | Hard-fail without flag until governed release posture exists | **Pending parity** |
 
 ---
 
@@ -59,7 +67,7 @@ Data source differs (spine vs fixtures). **Composition law does not.**
 - **Do not** ship fat client pages because “it’s just the lab”
 - **Do not** skip segment `error.tsx` because “ERP doesn’t have them everywhere yet” — lab sets the bar
 - **Do not** put route UI in `src/components/{route}/` — cross-cutting shell only
-- **Do not** import `@afenda/auth`, `@afenda/kernel`, or `_reference` runtime
+- **Do not** import `@afenda/auth`, `@afenda/kernel`, or `_reference` runtime until the matching pending runtime-parity slice is accepted
 
 ---
 

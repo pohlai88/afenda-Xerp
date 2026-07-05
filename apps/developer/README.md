@@ -2,11 +2,13 @@
 
 `@afenda/developer` is the UI/UX review surface for Afenda route and presentation work. It runs on port `3002` and keeps review sessions focused on layout, interaction flow, visual hierarchy, responsive behavior, and presentation quality.
 
-Authentication is intentionally excluded from this app to avoid review noise. Do not add auth redirects, sessions, permissions, operating-context spine, BFF routes, or `@afenda/auth` imports here. Auth-governed flows should be reviewed in their own governed slice before promotion into ERP runtime surfaces.
+Runtime authority is pending, not active. Do not add auth redirects, sessions, permissions, operating-context spine, BFF routes, Route Handlers, live Server Actions, shared cache strategy, middleware, or guarded runtime imports unless the matching pending runtime-parity slice has been accepted with tests and governance updates.
 
 The lab still follows ERP frontend law: App Router first, Server Components by default, route-local `_components` when UI surfaces return, client leaves only for interactivity, and no lowered presentation standard because it is a lab.
 
 See [ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md](../../docs/architecture/ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md) for route-lab structure, placeholder intent, and Next.js/Vercel compliance.
+
+See [DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md](../../docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md) for the pending implementation path for Route Handlers, live Server Actions, cache strategy, middleware/request policy, and tenant/auth/OperatingContext/BFF authority.
 
 The current release-grade proof contract is documented in [DEVELOPER_ROUTE_LAB_GREENLIGHT.md](../../docs/architecture/DEVELOPER_ROUTE_LAB_GREENLIGHT.md).
 

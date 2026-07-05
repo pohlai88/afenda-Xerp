@@ -38,7 +38,7 @@ It covers:
 - root typography and image optimization baseline
 - audit-backed governance status
 
-It does not cover:
+It does not yet activate:
 
 - ERP runtime authority
 - auth
@@ -54,10 +54,10 @@ Source of truth: `docs/architecture/ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md`
 
 Current audit interpretation:
 
-- `Applicable-now accomplishment`: `100% (48/48 applicable rows)`
-- `Codebase implemented-now`: `94% (34/36 repo-owned control rows)`
-- `Whole audited surface implemented now`: `84% (48/57 total rows)`
-- `Open gaps`: `0% (0/57 total rows)`
+- `Applicable-now accomplishment`: `83% (49/59 applicable-or-pending rows)`
+- `Codebase implemented-now`: `85% (33/39 repo-owned control rows)`
+- `Whole audited surface implemented now`: `80% (49/61 total rows)`
+- `Open gaps`: `0% (0/61 total rows)`
 
 Interpretation:
 
@@ -82,8 +82,8 @@ Interpretation:
 - Dynamic route params governance now fails if active dynamic App Router routes
   stop typing `params` as `Promise<T>` or stop awaiting `params` before route
   value access.
-- The remaining non-pass audit rows are doctrine exclusions or sterile
-  placeholders, not active misses.
+- The remaining non-pass audit rows are pending runtime-parity slices or a
+  sterile placeholder, not active misses.
 
 ## What Is Complete Now
 
@@ -151,20 +151,21 @@ baseline that is applicable to a governed frontend-only route lab.
 
 ## What Is Not Missing
 
-These areas are intentionally not treated as incomplete Slice 1 work:
+These areas are now pending runtime-parity work, not completed Slice 1 work:
 
-- Route Handlers
-- `app/api/**`
-- middleware-driven runtime policy
-- real Server Actions
+- Route Handlers / `app/api/**`
+- live Server Actions
+- `cacheComponents` or shared operator-route cache strategy
+- middleware / request-policy runtime surfaces
+- tenant/auth/OperatingContext/BFF runtime authority
 - query helper activation
 - module runtime wiring
-- tenant-aware caching policy
 
-These belong either to:
+They must be activated through:
 
-- ERP runtime later, or
-- future route-lab needs that justify activating placeholders
+- `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md`
+- the matching P1-P5 pending slice
+- code, tests, and governance updates in the same change
 
 ## Completed Follow-On Slices
 
@@ -189,20 +190,19 @@ The following route-lab best-practice slices are now complete:
 
 ## Current Next Highest-ROI Guidance
 
-There is no remaining applicable Next.js route-lab gap that outranks the
-current baseline.
+The next highest-ROI work is the pending runtime-parity track, not more
+frontend route composition.
 
-The highest-ROI work now is maintenance and doctrine preservation:
+The current pending order is:
 
-- keep the explicit exclusions active in docs and governance
-- preserve green-light proof as new route-lab surfaces are added
-- keep `src/app/legacy/**` prohibited through the governance guard
-- update `src/lib/lab/route-surface-registry.ts` first when route identity changes
-- keep the live route error probe active and run Next.js MCP `get_errors` when
-  the tool surface is available
-- keep the Next.js 16 dynamic params Promise guard active for every future
-  dynamic route
-- keep placeholders sterile until a governed frontend need exists
+- P1 Route Handlers / `app/api/**`
+- P2 live Server Actions
+- P3 `cacheComponents` or shared operator-route cache strategy
+- P4 middleware / request-policy runtime surfaces
+- P5 tenant/auth/OperatingContext/BFF runtime authority
+
+Preserve green-light proof, route-surface registry governance, and the live
+route error probe while these slices are implemented.
 
 If a future frontend need appears, the next topic should be selected from one
 of these categories only:
@@ -215,8 +215,8 @@ of these categories only:
 
 Slice 1 is complete.
 
-The route lab should now preserve the completed baseline, not expand runtime
-authority or broaden exclusions.
+The route lab should preserve the completed frontend baseline while pending
+runtime-parity slices are implemented one at a time.
 
 ## Related Docs
 
@@ -233,3 +233,4 @@ authority or broaden exclusions.
 - `apps/developer/src/app/(lab)/ERROR_BOUNDARY_CLIENT_SAFETY_HARDENING.md`
 - `apps/developer/src/app/(lab)/CLIENT_LEAF_IMPORT_WALL_HARDENING.md`
 - `apps/developer/src/app/(lab)/DYNAMIC_PARAMS_PROMISE_HARDENING.md`
+- `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md`

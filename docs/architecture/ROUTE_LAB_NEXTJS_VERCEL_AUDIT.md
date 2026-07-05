@@ -9,19 +9,20 @@ Promotion replaces data authority, not route composition.
 
 This document is a documentation-control artifact for `apps/developer`. It completes the current placeholder tree by documenting intent, not by adding runtime behavior. It also evaluates the current route-lab implementation against Next.js and Vercel best-practice categories, filtered through ADR-0039 and PAS-006E.
 
-This document is descriptive and restrictive. It documents allowed future shape, but it does not authorize implementation of runtime authority inside `apps/developer`.
+This document is descriptive and restrictive. It documents allowed future shape and pending runtime-parity work, but it does not authorize ad hoc runtime authority inside `apps/developer`.
 
-Any new runtime behavior must be justified by a separate ADR/PAS update.
+Any new runtime behavior must be justified by a governed pending slice, with tests and governance evidence updated in the same change.
 
 ```text
 Placeholder means reserved topology.
 Placeholder does not mean missing implementation.
 ```
 
-Three kinds of truth apply throughout this audit:
+Four kinds of truth apply throughout this audit:
 
 - `Next.js/Vercel general best practice`: normal framework guidance for an App Router frontend.
 - `Afenda route-lab law`: additional rules that `apps/developer` must obey because it is a frontend sandbox, not an ERP runtime.
+- `Pending runtime parity`: valid framework guidance now planned for `apps/developer`, but not active until a governed slice implements it.
 - `ERP-only future concern`: valid architecture that belongs in `apps/erp`, not in the lab.
 
 ### Route Lab Canonical Law
@@ -33,16 +34,16 @@ A route-lab page is valid only when:
 3. The loader returns typed, serializable page data.
 4. Route-local UI lives under `_components`.
 5. Route-local panels receive data through explicit props.
-6. The route does not import auth, database, kernel, ERP runtime, or server-side domain modules.
-7. The route does not expose `app/api/**`.
+6. The route does not import auth, database, kernel, ERP runtime, or server-side domain modules unless an approved pending runtime slice has activated that authority.
+7. The route does not expose `app/api/**` unless the Route Handler pending slice has been implemented and accepted.
 8. The route passes TypeScript, Biome, Playwright smoke verification, and the route-lab governance check.
 
 ## 2. Non-Goals
 
-- This audit does not authorize new runtime files.
-- This audit does not require adding Route Handlers to `apps/developer`.
+- This audit does not authorize ad hoc runtime files.
+- This audit does not immediately require adding Route Handlers to `apps/developer`.
 - This audit does not convert `.gitkeep` placeholders into service layers.
-- This audit does not introduce auth, tenant context, database access, kernel imports, or live BFF behavior.
+- This audit does not immediately introduce auth, tenant context, database access, kernel imports, or live BFF behavior.
 - This audit does not override ADR-0039 or PAS-006E.
 
 ## Status Decision Model
@@ -50,7 +51,7 @@ A route-lab page is valid only when:
 | Status | Meaning |
 |---|---|
 | `Pass` | Current codebase satisfies the rule with evidence. |
-| `Intentional exclusion` | A generally valid Next.js/Vercel feature is deliberately prohibited by ADR-0039 / PAS-006E route-lab law. |
+| `Pending` | A generally valid Next.js/Vercel feature is now planned but not yet implemented; it requires a governed slice before code activation. |
 | `Deferred placeholder` | Topology exists only to reserve future shape; no runtime implementation is required now. |
 | `Gap` | The baseline expects documentation, tests, topology cleanup, or enforcement that does not yet exist. |
 
@@ -64,27 +65,29 @@ Interpretation:
 - `Implemented-now %` counts concrete repo-owned implementation rows and treats reserved placeholders as not yet implemented.
 - `Open-gap %` is the percentage of rows that still fail the documented baseline.
 
-| Scope | Pass | Intentional exclusion | Deferred placeholder | Gap | Completion view |
+| Scope | Pass | Pending | Deferred placeholder | Gap | Completion view |
 |---|---|---|---|---|---|
-| Best-Practice Applicability Comparison | 14 | 5 | 2 | 0 | `Applicable-now accomplishment: 100% (14/14)` · `Governance-resolved: 100% (21/21)` |
-| Codebase Comparison Matrix | 34 | 0 | 2 | 0 | `Implemented-now: 94% (34/36)` · `Open-gap: 0% (0/36)` |
-| Combined audit view | 48 | 5 | 4 | 0 | `Applicable-now accomplishment: 100% (48/48 applicable rows)` · `Whole audited surface implemented now: 84% (48/57 total rows)` |
+| Best-Practice Applicability Comparison | 16 | 5 | 1 | 0 | `Applicable-now accomplishment: 76% (16/21)` · `Pending runtime parity: 24% (5/21)` |
+| Codebase Comparison Matrix | 33 | 5 | 1 | 0 | `Implemented-now: 85% (33/39)` · `Pending runtime parity: 13% (5/39)` · `Open-gap: 0% (0/39)` |
+| Combined audit view | 49 | 10 | 2 | 0 | `Applicable-now accomplishment: 83% (49/59 applicable-or-pending rows)` · `Whole audited surface implemented now: 80% (49/61 total rows)` |
 
-This means the route lab is structurally strong, green-lighted, and currently complete against the latest applicable Next.js surface for a governed frontend-only route lab. Remaining non-pass rows are doctrine exclusions or sterile placeholders rather than active misses.
+This means the route lab is structurally strong and green-lighted for the frontend route baseline. The runtime-parity capabilities listed below are no longer doctrine exclusions; they are pending implementation tracks that remain guarded until each slice is explicitly activated.
 
-## Activated Doctrine Exclusions
+## Pending Runtime-Parity Track
 
-These framework capabilities are intentionally excluded in `apps/developer`
-even though they are valid in generic Next.js or Vercel applications.
+These framework capabilities are valid in generic Next.js or Vercel applications and are now tracked as pending route-lab best-practice work.
 
-They are active architectural prohibitions, not postponed implementation tasks.
+Pending means planned but not active. It does not authorize ad hoc runtime code.
 
-| Capability | Route-lab status | Why excluded here | Valid future home |
+Source spec: `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md`
+
+| Capability | Route-lab status | Pending requirement | Activation target |
 |---|---|---|---|
-| Route Handlers / `app/api/**` | Intentionally excluded | The route lab must not grow a live BFF or runtime API surface | `apps/erp/src/app/api/internal/v1/**/route.ts` |
-| Live Server Actions | Intentionally excluded until a governed seam is explicitly activated | The lab may reserve `_actions/`, but it must not own mutation authority by default | ERP mutation seams or explicitly governed route-lab seams later |
-| `cacheComponents` or shared operator-route cache strategies | Intentionally excluded | Operator-route parity favors request-dynamic behavior over static cache optimization in the lab | ERP runtime when authoritative data and cache policy exist |
-| Middleware / request-policy runtime surfaces | Intentionally excluded | Auth, request shaping, tenant policy, and ingress enforcement belong outside the route lab | ERP ingress and runtime boundary |
+| Route Handlers / `app/api/**` | Pending | Define a governed handler contract, cache/runtime posture, and smoke or integration proof before adding `route.ts` | Pending slice P1 |
+| Live Server Actions | Pending | Activate only with a route-local mutation need, `"use server"` boundary, tests, and no fake service layer | Pending slice P2 |
+| `cacheComponents` or shared operator-route cache strategies | Pending | Define correctness-safe cache policy before introducing shared route-data caching | Pending slice P3 |
+| Middleware / request-policy runtime surfaces | Pending | Define request-policy scope, tests, and no auth/tenant shortcut before adding middleware/proxy behavior | Pending slice P4 |
+| Tenant/auth/OperatingContext/BFF runtime authority | Pending | Define authority source, dependency approvals, security proof, and promotion boundary before runtime integration | Pending slice P5 |
 
 ## 3. Current Route-Lab Filesystem
 
@@ -239,7 +242,7 @@ A placeholder may become active only when:
 
 1. the route has a concrete frontend need,
 2. the file type is allowed by the placeholder contract,
-3. the implementation does not cross prohibited package boundaries,
+3. the implementation does not cross guarded package boundaries,
 4. the change preserves ADR-0039 / PAS-006E route-lab law.
 
 ## Import Boundary Table
@@ -248,12 +251,12 @@ A placeholder may become active only when:
 |---|---|---|
 | `@afenda/shadcn-studio` | Allowed | Primary presentation dependency for the route lab. |
 | lower-level presentation packages | Allowed by exception | Direct usage requires a documented presentation reason and must not bypass route-lab law. |
-| `@afenda/auth` | Prohibited | Auth belongs outside the route lab. |
-| `@afenda/kernel` | Prohibited | Operating-context spine belongs outside the route lab. |
+| `@afenda/auth` | Pending guarded | Auth runtime authority is pending and must not be imported until pending slice P5 is accepted. |
+| `@afenda/kernel` | Pending guarded | Operating-context spine integration is pending and must not be imported until pending slice P5 is accepted. |
 | `@afenda/database` | Prohibited | Database authority belongs to ERP or runtime packages. |
-| `@afenda/server` | Prohibited | Server runtime authority does not belong in the route lab. |
-| `apps/erp/**` | Prohibited | The lab must not import ERP runtime authority. |
-| `app/api/**` | Prohibited | Live BFF/API routes are not allowed in `apps/developer`. |
+| `@afenda/server` | Pending guarded | Server runtime authority is pending and must not be imported until an accepted runtime-parity slice requires it. |
+| `apps/erp/**` | Pending guarded | ERP runtime integration is pending and must not be imported until an accepted promotion boundary requires it. |
+| `app/api/**` | Pending guarded | Route Handlers are pending and must not be added until pending slice P1 is accepted. |
 
 ## 5. Next.js Best-Practice Catalogue
 
@@ -263,7 +266,7 @@ This section lists the full best-practice categories relevant to an App Router f
 
 - `Next.js/Vercel general best practice`: use App Router file conventions such as `layout.tsx`, `page.tsx`, `loading.tsx`, `error.tsx`, route groups, and dynamic segments in a file-system route tree.
 - `Afenda route-lab law`: `apps/developer` keeps route UI inside `app/(lab)/**` with route-local `_components` and thin route files.
-- `ERP-only future concern`: advanced runtime surfaces such as `route.ts` belong to ERP when they introduce authority.
+- `Pending runtime-parity concern`: advanced runtime surfaces such as `route.ts` are pending for the route lab and require slice P1 before activation.
 
 Reference:
 - [Next.js App Router](https://nextjs.org/docs/app)
@@ -274,7 +277,7 @@ Reference:
 
 - `Next.js/Vercel general best practice`: Server Components are the default; Client Components should exist only where browser APIs, interactivity, or client state are required.
 - `Afenda route-lab law`: `page.tsx` and `layout.tsx` stay server-first. Client leaves must not import loaders, route policy, demo data, nav config, or future API clients.
-- `ERP-only future concern`: tenant-aware client orchestration remains outside the route lab.
+- `Pending runtime-parity concern`: tenant-aware client orchestration remains inactive until pending slice P5 defines a safe authority model.
 
 Reference:
 - [Next.js Server and Client Components](https://nextjs.org/docs/app/getting-started/server-and-client-components)
@@ -283,7 +286,7 @@ Reference:
 
 - `Next.js/Vercel general best practice`: fetch data on the server and keep route boundaries simple.
 - `Afenda route-lab law`: each route `page.tsx` awaits one route loader and passes typed serializable props downward.
-- `ERP-only future concern`: tenant-scoped loader replacement happens in ERP, not here.
+- `Pending runtime-parity concern`: tenant-scoped loader replacement remains inactive until pending slice P5 defines a safe authority model.
 
 ### Route-local colocation
 
@@ -295,7 +298,7 @@ Reference:
 
 - `Next.js/Vercel general best practice`: choose static or dynamic rendering intentionally; use dynamic segments and request-time rendering only when needed.
 - `Afenda route-lab law`: root `/` remains `auto`; `(lab)/layout.tsx` is `force-dynamic`; operator routes inherit request-dynamic behavior by default; no `generateStaticParams` under `(lab)/**`.
-- `ERP-only future concern`: tenant-driven caching and revalidation strategy belongs in ERP runtime.
+- `Pending runtime-parity concern`: tenant-driven caching and revalidation strategy remains inactive until pending slice P3 defines correctness-safe cache boundaries.
 
 Reference:
 - [Next.js dynamic route segments](https://nextjs.org/docs/app/api-reference/file-conventions/dynamic-routes)
@@ -304,13 +307,13 @@ Reference:
 
 - `Next.js/Vercel general best practice`: prefer server-side data fetching in App Router and pass only the shape needed by the view.
 - `Afenda route-lab law`: `lib/lab/load-*-page.server.ts` returns typed demo fixtures shaped like future ERP contracts.
-- `ERP-only future concern`: live data sources, tenant-scoped domain loaders, and internal BFF readers belong to ERP.
+- `Pending runtime-parity concern`: live data sources, tenant-scoped domain loaders, and internal BFF readers require pending slice P5 before route-lab activation.
 
 ### Route Handlers
 
 - `Next.js/Vercel general best practice`: App Router supports Route Handlers in `app/**/route.ts` for request handling.
-- `Afenda route-lab law`: `apps/developer/src/app/api/**` is prohibited.
-- `ERP-only future concern`: internal API route handlers belong in `apps/erp/src/app/api/internal/v1/**/route.ts`.
+- `Afenda route-lab law`: `apps/developer/src/app/api/**` remains guarded until pending slice P1 is accepted.
+- `Pending runtime-parity concern`: internal API route handlers may be introduced only through a governed route-lab handler contract or ERP promotion boundary.
 
 Reference:
 - [Next.js Route Handlers](https://nextjs.org/docs/app/getting-started/route-handlers)
@@ -318,20 +321,20 @@ Reference:
 ### Server Actions
 
 - `Next.js/Vercel general best practice`: Server Actions can handle user-triggered mutations without building separate REST endpoints.
-- `Afenda route-lab law`: `_actions/` remains placeholder-only until a route-lab screen has a concrete need for a governed mutation seam.
-- `ERP-only future concern`: any real mutation authority belongs to ERP.
+- `Afenda route-lab law`: `_actions/` remains placeholder-only until pending slice P2 accepts a concrete governed mutation seam.
+- `Pending runtime-parity concern`: any real mutation authority must prove server-action boundaries, tests, and no fake service layer before activation.
 
 ### Caching and revalidation
 
 - `Next.js/Vercel general best practice`: apply caching, revalidation, and invalidation deliberately for performance and correctness.
-- `Afenda route-lab law`: no shared `"use cache"` strategy for lab route data; request-dynamic operator routes favor frontend-law parity over cache optimization.
-- `ERP-only future concern`: revalidation and cache policy become runtime concerns when the source is authoritative ERP data.
+- `Afenda route-lab law`: no shared `"use cache"` strategy for lab route data until pending slice P3 defines a correctness-safe cache boundary.
+- `Pending runtime-parity concern`: revalidation and cache policy become active only when the data source and invalidation model are governed.
 
 ### Metadata, `layout.tsx`, `loading.tsx`, and `error.tsx`
 
 - `Next.js/Vercel general best practice`: use special route files for layout, loading, and error boundaries; loading states should support streaming and perceived performance.
 - `Afenda route-lab law`: operator routes use `loading.tsx`; those loading boundaries should expose route-owned status meaning, and `error.tsx` must be client-safe and avoid `@afenda/shadcn-studio` barrel use; layout boundaries must keep route-lab doctrine clear.
-- `ERP-only future concern`: runtime telemetry and tenant-aware incident behavior belong elsewhere.
+- `Pending runtime-parity concern`: runtime telemetry and tenant-aware incident behavior remain inactive until pending slice P5 defines authority and observability scope.
 
 Reference:
 - [Next.js loading UI](https://nextjs.org/docs/app/api-reference/file-conventions/loading)
@@ -340,7 +343,7 @@ Reference:
 
 - `Next.js/Vercel general best practice`: minimize client JavaScript, lazy-load client-only code when useful, use optimized fonts and images where those assets exist, and keep route boundaries stream-friendly.
 - `Afenda route-lab law`: favor server-first routes, route-local UI, typed loaders, and minimal client leaves; `loading.tsx` is part of the performance contract for suspending operator screens.
-- `ERP-only future concern`: cache optimization, CDN strategy, and function-level latency tuning matter more once ERP runtime authority exists.
+- `Pending runtime-parity concern`: cache optimization, CDN strategy, and function-level latency tuning require pending slices P1 and P3 before activation.
 
 Reference:
 - [Next.js lazy loading](https://nextjs.org/docs/app/guides/lazy-loading)
@@ -348,8 +351,8 @@ Reference:
 ### Security
 
 - `Next.js/Vercel general best practice`: keep secrets server-side, avoid unnecessary runtime surfaces, and use framework-safe request boundaries.
-- `Afenda route-lab law`: no auth, database access, operating-context logic, or live BFF/API handlers.
-- `ERP-only future concern`: protected APIs, auth flows, and tenant security policy belong in ERP.
+- `Afenda route-lab law`: auth, database access, operating-context logic, and live BFF/API handlers remain guarded until pending slices P1 and P5 are accepted.
+- `Pending runtime-parity concern`: protected APIs, auth flows, and tenant security policy must be documented, tested, and dependency-approved before route-lab activation.
 
 ## 6. Vercel Best-Practice Catalogue
 
@@ -359,7 +362,7 @@ This section captures the Vercel categories relevant to a Next.js App Router app
 
 - `Next.js/Vercel general best practice`: keep the app compatible with Vercel’s Next.js deployment model and framework expectations.
 - `Afenda route-lab law`: `apps/developer` is allowed to build and run as a sandbox, but production-mode boot is guarded by `AFENDA_DEVELOPER_SANDBOX`.
-- `ERP-only future concern`: production operator runtime belongs to ERP.
+- `Pending runtime-parity concern`: production-like runtime behavior remains inactive until pending slices establish safe authority and deployment boundaries.
 
 Reference:
 - [Next.js on Vercel](https://vercel.com/docs/frameworks/full-stack/nextjs)
@@ -368,13 +371,13 @@ Reference:
 
 - `Next.js/Vercel general best practice`: use dynamic rendering deliberately because request-time execution has cost and latency implications.
 - `Afenda route-lab law`: `force-dynamic` under `(lab)` is intentional to mirror operator-route behavior, not accidental optimization loss.
-- `ERP-only future concern`: production scaling and cost tuning happen in ERP.
+- `Pending runtime-parity concern`: production scaling and cost tuning require accepted runtime surfaces before they are applicable to the route lab.
 
 ### Function and runtime surface
 
 - `Next.js/Vercel general best practice`: every App Router API route becomes a deployed function surface, so runtime exposure should be intentional.
-- `Afenda route-lab law`: no `app/api/**` means no lab function surface.
-- `ERP-only future concern`: serverless function tuning, regions, and runtime controls matter when ERP introduces API surfaces.
+- `Afenda route-lab law`: no `app/api/**` is active until pending slice P1 is accepted.
+- `Pending runtime-parity concern`: serverless function tuning, regions, and runtime controls become applicable when P1 introduces an approved handler surface.
 
 Reference:
 - [Vercel Functions](https://vercel.com/docs/functions)
@@ -384,19 +387,19 @@ Reference:
 
 - `Next.js/Vercel general best practice`: static and cacheable assets should leverage platform caching when correctness allows.
 - `Afenda route-lab law`: operator routes prioritize request-dynamic parity over cache optimization.
-- `ERP-only future concern`: cache topology becomes important when authoritative ERP data and static asset strategy are mixed.
+- `Pending runtime-parity concern`: cache topology becomes applicable when pending slice P3 defines route-lab cache policy.
 
 ### Middleware and routing considerations
 
 - `Next.js/Vercel general best practice`: middleware and routing controls are valid for request shaping when needed.
-- `Afenda route-lab law`: the current lab does not need middleware or auth-oriented routing control.
-- `ERP-only future concern`: auth, tenant routing, and request policy belong in ERP.
+- `Afenda route-lab law`: the current lab has no active middleware or auth-oriented routing control.
+- `Pending runtime-parity concern`: auth, tenant routing, and request policy require pending slice P4 or P5 before activation.
 
 ### Deployment and build hygiene
 
 - `Next.js/Vercel general best practice`: deployments should have deterministic build commands, clear environment usage, and workspace-local validation.
 - `Afenda route-lab law`: `build`, `dev`, `start`, and `typecheck` scripts exist; production build is intentionally gated; `biome ci` and TypeScript remain required validation.
-- `ERP-only future concern`: deployment promotion pipelines and environment hardening belong to ERP operations.
+- `Pending runtime-parity concern`: deployment promotion pipelines and environment hardening become applicable when pending runtime surfaces are activated.
 
 Reference:
 - [Vercel deployments](https://vercel.com/docs/deployments)
@@ -405,8 +408,8 @@ Reference:
 ### Runtime security and secrets posture
 
 - `Next.js/Vercel general best practice`: keep secrets scoped to the server and minimize exposed runtime capability.
-- `Afenda route-lab law`: the app should remain frontend-only and should not grow secret-backed runtime integrations.
-- `ERP-only future concern`: production secret rotation, protected source maps, security headers, and conformance rules matter once the runtime surface expands.
+- `Afenda route-lab law`: the app should not grow secret-backed runtime integrations until pending slice P5 defines authority, secrets, and security posture.
+- `Pending runtime-parity concern`: production secret rotation, protected source maps, security headers, and conformance rules matter once the runtime surface expands.
 
 Reference:
 - [Vercel Conformance](https://vercel.com/docs/conformance)
@@ -419,15 +422,15 @@ This section normalizes generic best practice into route-lab treatment before co
 ### Status Interpretation
 
 - `Pass` rows in this section are framework practices that the route lab is already implementing now.
-- `Intentional exclusion` rows are not missing work. They are framework features deliberately pushed out to ERP runtime.
+- `Pending` rows are planned runtime-parity work. They are not active yet and must be implemented through governed slices.
 - `Deferred placeholder` rows are reserved route-lab seams that remain sterile until a real frontend need exists.
 
 Current interpretation:
 
-- `Applicable-now accomplishment`: `100% (14/14)`
-- `Excluded by doctrine`: `24% (5/21)`
-- `Deferred by design`: `10% (2/21)`
-- `Open gaps`: `0% (0/21)`
+- `Applicable-now accomplishment`: `76% (16/21)`
+- `Pending runtime parity`: `24% (5/21)`
+- `Deferred by design`: `5% (1/22)`
+- `Open gaps`: `0% (0/22)`
 
 | Guidance area | Framework best-practice status | Route-lab treatment | Current codebase state | Status | Evidence | Action or rationale |
 |---|---|---|---|---|---|---|
@@ -438,18 +441,19 @@ Current interpretation:
 | Dynamic route params | Required in Next.js 16 | Applicable now | Dynamic route pages type `params` as `Promise<T>` and await it before use; governance now fails if an active dynamic route regresses to synchronous params access | Pass | `src/app/(lab)/modules/[moduleSlug]/[surface]/[documentId]/page.tsx`, `scripts/check-route-lab-governance.mjs`, `src/app/(lab)/DYNAMIC_PARAMS_PROMISE_HARDENING.md` | Preserve for every future dynamic route |
 | Thin async route pages | Generally recommended | Applicable now | Active pages await loaders and pass shaped props | Pass | `src/app/(lab)/**/page.tsx`, `src/lib/lab/load-*.server.ts` | Preserve |
 | Request-dynamic rendering for operator routes | Valid when request-aware behavior is needed | Applicable now by route-lab law | `(lab)/layout.tsx` forces dynamic rendering | Pass | `src/app/(lab)/layout.tsx` | Preserve |
-| `generateStaticParams` for dynamic routes | Generally valid | Intentionally excluded for `(lab)/**` | None found | Intentional exclusion | repo-owned search under `src/app` | Keep prohibited |
-| Route Handlers | Generally valid | Intentionally excluded | No `app/api/**` exists | Intentional exclusion | route topology check | Future runtime handlers belong in ERP |
-| Server Actions | Generally valid | Deferred placeholder | `_actions/` exists as `.gitkeep` only | Deferred placeholder | `src/app/(lab)/**/_actions/.gitkeep` | Activate only for a concrete frontend need |
+| `generateStaticParams` for dynamic routes | Generally valid | Not used for request-dynamic operator routes | None found | Pass | repo-owned search under `src/app` | Preserve request-dynamic operator posture |
+| Route Handlers | Generally valid | Pending through slice P1 | No `app/api/**` exists | Pending | route topology check, `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md` | Define handler contract, runtime config, tests, and governance allowlist before adding `route.ts` |
+| Server Actions | Generally valid | Pending through slice P2 | `_actions/` exists as `.gitkeep` only | Pending | `src/app/(lab)/**/_actions/.gitkeep`, `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md` | Activate only with a route-local mutation need, `"use server"` boundary, tests, and no fake service layer |
 | Query helper layers | Sometimes useful | Deferred placeholder | `_queries/` exists as `.gitkeep` only | Deferred placeholder | `src/app/(lab)/**/_queries/.gitkeep` | Activate only if route complexity justifies it |
-| Caching and revalidation optimization | Generally recommended | Intentionally narrowed | No shared cache strategy is implemented for lab data | Intentional exclusion | route-lab loader pattern, dynamic policy | Cache authority belongs with ERP runtime data |
+| Caching and revalidation optimization | Generally recommended | Pending through slice P3 | No shared cache strategy is implemented for lab data | Pending | route-lab loader pattern, dynamic policy, `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md` | Define correctness-safe cache policy before adding shared route-data caching |
 | Metadata file conventions | Generally recommended | Applicable now | Root metadata object exists and the app now owns `icon.png`, `apple-icon.png`, `opengraph-image.png`, and `twitter-image.png` under `src/app` | Pass | `src/app/layout.tsx`, `src/app/icon.png`, `src/app/apple-icon.png`, `src/app/opengraph-image.png`, `src/app/twitter-image.png` | Preserve the App Router metadata-file layer and keep assets route-lab branded |
 | Root unmatched-route handling | Generally recommended | Applicable now | Root `app/not-found.tsx` now provides an explicit route-lab unmatched-route surface; module-local `not-found.tsx` remains for the governed document family | Pass | `src/app/not-found.tsx`, `src/app/(lab)/modules/[moduleSlug]/[surface]/[documentId]/not-found.tsx` | Preserve the root fallback surface and keep it route-lab-only |
 | `next/font` | Recommended for optimized web-font delivery | Applicable now | Root layout provisions `Geist` and `Geist Mono` through `next/font/google`, exposing the `--font-geist-*` variables already expected by the studio theme runtime | Pass | `src/app/layout.tsx`, `packages/shadcn-studio/src/theme-runtime/theme-runtime.font-attribute.ts` | Preserve the root-level font loader and keep route typography aligned to the studio variable contract |
 | `next/image` | Recommended when optimized image rendering is needed | Applicable now | Root route, the four active operator routes, and the canonical module document route use `next/image` with responsive `sizes`; above-the-fold route preview images now declare eager loading explicitly, and `next.config.ts` keeps the optimized local image allowlist explicit | Pass | `src/app/page.tsx`, `src/app/(lab)/**/_components/*.tsx`, `next.config.ts`, `public/*.svg` | Preserve framework-managed image rendering, explicit eager loading for above-the-fold route previews, and the local image allowlist |
 | Accessibility and responsive visual acceptance | Generally recommended | Applicable now | Playwright now verifies landmarks, one visible level-one heading, accessible link/button names, image alt attributes, keyboard focus reachability, and no horizontal overflow across desktop and mobile route-lab viewports | Pass | `src/app/__tests__/route-lab-smoke.spec.ts`, `packages/shadcn-studio/src/components-layouts/menu-trigger.tsx`, module document route wrapping fixes | Preserve the acceptance checks and fix route-local UI if they catch drift |
-| Vercel function optimization | Generally recommended for server runtime surfaces | ERP-only future concern | No lab API/function surface exists | Intentional exclusion | no `app/api/**`, no route handlers | Function tuning belongs to ERP runtime |
-| Middleware/routing policy | Generally valid | ERP-only unless route-lab routing need emerges | No middleware-based request shaping is present | Intentional exclusion | route topology and config inspection | Auth/request policy belongs outside the lab |
+| Vercel function optimization | Generally recommended for server runtime surfaces | Not active until P1 creates an approved function surface | No lab API/function surface exists | Pass | no `app/api/**`, no route handlers, `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md` | Preserve zero function surface until P1 is accepted |
+| Middleware/routing policy | Generally valid | Pending through slice P4 | No middleware-based request shaping is present | Pending | route topology and config inspection, `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md` | Define request-policy scope, tests, and no auth/tenant shortcut before adding middleware/proxy behavior |
+| Tenant/auth/OperatingContext/BFF runtime authority | Generally required for production operator runtime | Pending through slice P5 | No auth, tenant, OperatingContext, or BFF runtime authority is active in the lab | Pending | dependency wall scan, `lab-demo-context`, `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md` | Define authority source, dependency approvals, security proof, and promotion boundary before activation |
 | Smoke verification | Generally recommended | Applicable now | Repo-owned smoke spec exists for the six documented route-lab routes, proves stable route headings plus shell doctrine surfaces, and the Playwright harness boots Next directly through the local CLI | Pass | `src/app/__tests__/route-lab-smoke.spec.ts`, `src/app/(lab)/_components/lab-shell.client.tsx`, `playwright.config.mts`, `package.json` | Preserve and keep the smoke scope route-level only |
 | Live route error verification | Generally recommended after App Router edits | Applicable now | Next.js MCP `get_errors` remains the preferred external check when available; the repo-owned Playwright smoke suite now provides executable live-route error probing by failing on browser `pageerror` and `console.error` across the registry-backed route set | Pass | `src/app/__tests__/route-lab-smoke.spec.ts`, `src/app/(lab)/LIVE_ROUTE_ERROR_PROBE_HARDENING.md` | Preserve the probe and still run Next.js MCP verification when the tool surface is available |
 
@@ -463,9 +467,9 @@ Current interpretation:
 | Rendering law | Operator surfaces are request-dynamic | `(lab)/layout.tsx` exports `dynamic = "force-dynamic"` | Present | Pass | `src/app/(lab)/layout.tsx` | Preserve |
 | Loading boundaries | Suspending operator routes expose `loading.tsx` with stable route-owned meaning | Active operator routes include route-shaped loading UI plus named status semantics | Sales, finance, users, and appearance routes now compose through `LabRouteLoadingState` with route-specific headings, descriptions, and `aria-busy` / `role="status"` semantics | Pass | `src/app/(lab)/**/loading.tsx`, `src/app/(lab)/_components/lab-route-loading-state.tsx` | Preserve the route-owned boundary pattern |
 | Error boundaries | `error.tsx` is client-safe and independent from runtime authority | Client-safe error boundary with clear recovery semantics and frontend-safe navigation | Current root and lab segment error boundaries are client-safe, local, use clear recovery copy, and use frontend navigation back to `/` | Pass | `src/app/error.tsx`, `src/app/(lab)/error.tsx`, `src/app/lab-segment-error.client.tsx` | Preserve the recovery semantics and Next.js-safe navigation |
-| Error boundary governance | App Router error boundaries must be client-safe and independent from failing presentation/runtime surfaces | Governance should fail if `error.tsx` or `global-error.tsx` is not a client component or imports studio/runtime authority | Governance now checks every repo-owned `error.tsx` and `global-error.tsx` for `"use client"`, blocks `@afenda/shadcn-studio`, and applies the prohibited runtime import wall | Pass | `apps/developer/scripts/check-route-lab-governance.mjs`, `src/app/error.tsx`, `src/app/(lab)/error.tsx`, `src/app/(lab)/ERROR_BOUNDARY_CLIENT_SAFETY_HARDENING.md` | Preserve because this is a known App Router P0 failure mode |
-| API boundary | No lab runtime APIs | No `src/app/api/**` | None found | Pass | topology check under `src/app` | Keep prohibited |
-| Static params | No prerendered operator dynamic route generation | No `generateStaticParams` under `(lab)/**` | None found | Pass | repo-owned search under `src/app` | Keep prohibited |
+| Error boundary governance | App Router error boundaries must be client-safe and independent from failing presentation/runtime surfaces | Governance should fail if `error.tsx` or `global-error.tsx` is not a client component or imports studio/runtime authority | Governance now checks every repo-owned `error.tsx` and `global-error.tsx` for `"use client"`, blocks `@afenda/shadcn-studio`, and applies the guarded runtime import wall | Pass | `apps/developer/scripts/check-route-lab-governance.mjs`, `src/app/error.tsx`, `src/app/(lab)/error.tsx`, `src/app/(lab)/ERROR_BOUNDARY_CLIENT_SAFETY_HARDENING.md` | Preserve because this is a known App Router P0 failure mode |
+| Route Handler boundary | Route Handlers / `app/api/**` are pending runtime-parity work | No `src/app/api/**` until P1 defines handler contract, runtime config, tests, and governance allowlist | None found | Pending | topology check under `src/app`, `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md` | Keep guarded until pending slice P1 is accepted |
+| Static params | No prerendered operator dynamic route generation | No `generateStaticParams` under `(lab)/**` | None found | Pass | repo-owned search under `src/app` | Keep guarded for request-dynamic operator routes |
 | Server/client split | No client `page.tsx` or `layout.tsx` | Route boundaries stay server-first | No repo-owned `page.tsx` or `layout.tsx` uses `"use client"` | Pass | repo-owned search under `src/app` | Add CI guard later if desired |
 | Client leaf import wall | Client Components should remain interaction/rendering leaves | Client leaves must not import loaders, demo data, route policy, route registry, nav config, theme config, or API surfaces | Governance now scans repo-owned client files and fails if a `"use client"` file imports route-lab authority/config/API paths instead of receiving shaped props | Pass | `apps/developer/scripts/check-route-lab-governance.mjs`, `src/app/(lab)/_components/lab-shell.client.tsx`, `src/app/(lab)/CLIENT_LEAF_IMPORT_WALL_HARDENING.md` | Preserve the RSC-first boundary and shape data in server routes |
 | Loader placement | Route loaders live under `lib/lab` | `load-*-page.server.ts` files own page-data shaping | Present for all active v1 routes | Pass | `src/lib/lab/load-*.server.ts` | Preserve |
@@ -473,9 +477,12 @@ Current interpretation:
 | Route policy | Rendering, promotion, and seam metadata are explicit | Route metadata lives outside page components | Current policies describe `/`, `/dashboard/sales`, `/dashboard/finance`, `/admin/users`, `/settings/appearance`, and the canonical module document route with separate `href` and `routePath` support plus explicit `actionSeam` and `querySeam` status | Pass | `src/lib/lab/route-policy.ts` | Preserve |
 | Route surface registry | Active route identity should exist in one source of truth | Route policy, nav, smoke, and governance should derive from one explicit registry | `route-surface-registry.ts` now owns route identity, nav metadata, smoke headings/markers, rendering posture, and seam metadata; policy, nav config, smoke spec, and governance all consume it | Pass | `src/lib/lab/route-surface-registry.ts`, `src/lib/lab/route-policy.ts`, `src/config/nav-config.ts`, `src/app/__tests__/route-lab-smoke.spec.ts`, `scripts/check-route-lab-governance.mjs` | Preserve and update the registry first when adding a governed route |
 | Route surface registry invariants | Registry-backed route identity should reject invalid states before they reach navigation, policy, or smoke proof | Governance should fail on duplicate route identity, invalid hrefs, missing nav labels, incorrect root posture, and non-dynamic operator route posture | Governance now enforces unique `href` and `routeId`, absolute non-trailing route paths, concrete smoke hrefs, dotted lowercase route IDs, root route constraints, navigable label completeness, and `force-dynamic` loading-boundary posture for non-root routes | Pass | `src/lib/lab/route-surface-registry.ts`, `scripts/check-route-lab-governance.mjs`, `src/app/(lab)/ROUTE_SURFACE_REGISTRY_INVARIANT_HARDENING.md` | Preserve and extend only when new registry fields become route-law critical |
-| Dependency wall | No prohibited runtime imports | No imports from auth/kernel/database/server or ERP runtime | No repo-owned source import matches were found | Pass | repo-owned import search under `src` | Preserve |
-| Placeholder `_actions` | Server Actions are not implemented speculatively | Placeholder-only unless justified later | Current `_actions/` directories contain `.gitkeep` only, and the governance script now fails if a placeholder-only route gains runtime action files without a matching policy change | Deferred placeholder | `src/app/(lab)/**/_actions/.gitkeep`, `scripts/check-route-lab-governance.mjs`, `src/lib/lab/route-policy.ts` | Keep as documentation-only placeholders until a governed route explicitly activates an action seam |
+| Dependency wall | No unaccepted runtime imports | No imports from auth/kernel/database/server or ERP runtime until the relevant pending slice is accepted | No repo-owned source import matches were found | Pass | repo-owned import search under `src` | Preserve the guard until P5 or another runtime slice is accepted |
+| Live Server Actions | Server Actions are pending runtime-parity work | Placeholder-only until P2 accepts a route-local mutation need, `"use server"` boundary, tests, and no fake service layer | Current `_actions/` directories contain `.gitkeep` only, and the governance script now fails if a placeholder-only route gains runtime action files without a matching policy change | Pending | `src/app/(lab)/**/_actions/.gitkeep`, `scripts/check-route-lab-governance.mjs`, `src/lib/lab/route-policy.ts`, `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md` | Keep guarded until pending slice P2 is accepted |
 | Placeholder `_queries` | Query helpers are not implemented speculatively | Placeholder-only unless justified later | Current `_queries/` directories contain `.gitkeep` only, and the governance script now fails if a placeholder-only route gains runtime query files without a matching policy change | Deferred placeholder | `src/app/(lab)/**/_queries/.gitkeep`, `scripts/check-route-lab-governance.mjs`, `src/lib/lab/route-policy.ts` | Keep as documentation-only placeholders until a governed route explicitly activates a query seam |
+| Shared cache strategy | `cacheComponents` / shared operator-route caching is pending runtime-parity work | No shared route-data cache strategy until P3 defines correctness-safe cache policy and invalidation proof | No shared `"use cache"` strategy is present | Pending | route-lab loader pattern, `(lab)` dynamic policy, `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md` | Keep request-dynamic operator posture until pending slice P3 is accepted |
+| Middleware / request policy | Middleware and request-policy runtime surfaces are pending runtime-parity work | No middleware/proxy request shaping until P4 defines scope, tests, and no auth/tenant shortcut | No middleware-based request shaping is active in `apps/developer` | Pending | topology check under `apps/developer`, `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md` | Keep guarded until pending slice P4 is accepted |
+| Tenant/auth/OperatingContext/BFF authority | Runtime authority is pending runtime-parity work | No auth, tenant, OperatingContext, or BFF integration until P5 defines authority source, dependency approvals, security proof, and promotion boundary | Current app uses `lab-demo-context` only and no guarded runtime imports were found | Pending | `src/lib/lab/lab-demo-context.ts`, dependency wall scan, `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md` | Keep guarded until pending slice P5 is accepted |
 | Module document family | The reserved module/surface/document topology should activate only through a governed proving route | One normalized dynamic route proves the document family while `_actions` and `_queries` remain sterile | The canonical route `/modules/procurement/requisition/REQ-1001` now renders through the dynamic module tree with typed params, one loader, route-local panels, route-owned state variants, `generateMetadata`, a local `not-found.tsx`, and a governed image surface | Pass | `src/app/(lab)/modules/[moduleSlug]/[surface]/[documentId]/**`, `src/lib/lab/load-module-document-page.server.ts`, `src/lib/lab/contracts.ts`, `src/lib/lab/route-policy.ts` | Preserve the proving route and keep the remaining placeholder seams sterile |
 | Dynamic params Promise contract | Dynamic App Router pages should use Next.js 16 Promise params | Active dynamic route pages must type `params` as `Promise<T>` and await `params` before reading route values | Governance now fails active dynamic routes that omit `params: Promise<...>` or do not await `params`; the module document route satisfies the rule in both `generateMetadata` and the page boundary | Pass | `src/app/(lab)/modules/[moduleSlug]/[surface]/[documentId]/page.tsx`, `scripts/check-route-lab-governance.mjs`, `src/app/(lab)/DYNAMIC_PARAMS_PROMISE_HARDENING.md` | Preserve and extend when new dynamic routes are registered |
 | Root unmatched-route surface | Root App Router applications should own a stable unmatched-route UI | `src/app/not-found.tsx` or a justified `global-not-found.tsx` should exist | Root `src/app/not-found.tsx` now provides a stable unmatched-route surface with route-lab doctrine and recovery links | Pass | `src/app/not-found.tsx`, `src/app/__tests__/route-lab-smoke.spec.ts` | Preserve and keep under green-light proof |
@@ -496,11 +503,12 @@ Current interpretation:
 
 ### Status Interpretation
 
-- `Implemented-now`: `94% (34/36)` of the audited repo-owned controls are live in the current codebase.
-- `Reserved by placeholder law`: `6% (2/36)` remain intentionally sterile.
-- `Open gaps`: `0% (0/36)`.
+- `Implemented-now`: `85% (33/39)` of the audited repo-owned controls are live in the current codebase.
+- `Pending runtime parity`: `13% (5/39)` is planned but not active.
+- `Reserved by placeholder law`: `3% (1/39)` remains intentionally sterile.
+- `Open gaps`: `0% (0/39)`.
 
-This is the correct route-lab posture: route composition, rendering law, testing, green-light verification, root unmatched-route handling, and metadata-file conventions are hardened, while runtime-authority features remain excluded by doctrine.
+This is the correct route-lab posture for the revised objective: route composition, rendering law, testing, green-light verification, root unmatched-route handling, and metadata-file conventions are hardened, while runtime-authority features are now tracked as pending governed work rather than doctrine exclusions.
 
 ## 9. Runtime Activation Gate
 
@@ -519,9 +527,12 @@ business authority, domain execution, or ERP runtime readiness.
 
 ## 10. Priority Gaps and Recommended Follow-Ups
 
-1. Keep placeholder directories empty until a governed need exists. If a future route adds `_actions` or `_queries`, document the reason in the same turn.
-2. Keep typography aligned to the root `Geist` / `Geist Mono` baseline unless a future governed presentation decision intentionally changes the studio font-variable contract.
-3. Preserve the root `not-found.tsx`, metadata-file layer, and legacy-topology regression guard inside green-light proof when new top-level route surfaces are added.
+1. Implement pending slice P1 for Route Handlers / `app/api/**` only after defining the handler contract, runtime config, tests, and governance allowlist.
+2. Implement pending slice P2 for live Server Actions only after selecting a concrete route-local mutation need and proving the `"use server"` boundary.
+3. Implement pending slice P3 for `cacheComponents` / shared operator-route cache strategy only after defining correctness-safe cache and invalidation rules.
+4. Implement pending slice P4 for middleware / request-policy runtime surfaces only after defining request scope and tests.
+5. Implement pending slice P5 for tenant/auth/OperatingContext/BFF runtime authority only after dependency approvals, security proof, and promotion boundary are documented.
+6. Keep `_queries` placeholder-only until route complexity justifies activation.
 
 ## 11. Verification Appendix
 
@@ -594,12 +605,12 @@ The current audit is based on these repo checks:
 - no repo-owned `app/api/**`
 - no repo-owned `generateStaticParams`
 - no repo-owned `"use client"` in `page.tsx` or `layout.tsx`
-- every repo-owned `error.tsx` / `global-error.tsx` must use `"use client"` and must not import `@afenda/shadcn-studio` or prohibited runtime authority
+- every repo-owned `error.tsx` / `global-error.tsx` must use `"use client"` and must not import `@afenda/shadcn-studio` or guarded runtime authority
 - repo-owned client leaves must not import loaders, demo data, route policy, route registry, nav config, theme config, or API surfaces
 - active dynamic routes must type `params` as `Promise<T>` and await `params` before reading route values
 - `(lab)/layout.tsx` exports `dynamic = "force-dynamic"`
 - placeholder directories remain `.gitkeep`-only
-- no repo-owned prohibited runtime imports were found
+- no repo-owned guarded runtime imports were found
 - no repo-owned `src/app/legacy/**` files remain in the current filesystem
 - route-lab governance fails if `apps/developer/src/app/legacy` reappears
 - root layout provisions `Geist` and `Geist Mono` through `next/font/google`

@@ -17,7 +17,7 @@ paths:
 
 This skill covers **Next.js 16 mechanics** on the Afenda ingress model — it does not invent module layout.
 
-**Route lab (`apps/developer`):** Same frontend law as ERP production — [developer-route-lab-parity.md](reference/developer-route-lab-parity.md). **Only** auth, spine, BFF, and production deploy differ. Do not lower standards because “it’s the lab.”
+**Route lab (`apps/developer`):** Same frontend law as ERP production — [developer-route-lab-parity.md](reference/developer-route-lab-parity.md). Auth, spine, BFF, production deploy, Route Handlers, live Server Actions, shared cache strategy, middleware/request policy, and tenant runtime authority are pending guarded runtime-parity slices. Do not lower standards because “it’s the lab.”
 
 ---
 
@@ -92,7 +92,7 @@ BFF: `api/internal/v1/**` via `createApiHandler` + contract `cache: no-store` �
 | --- | ---- | ---- |
 | ERP | 3000 | Module ingress + BFF |
 | Docs | 3001 | `[lang]/docs/[[...slug]]` — static/MDX reference only |
-| Developer (route lab) | 3002 | **ERP-parity** operator UX — same page law as production · auth/spine/BFF **only** exclusions · [ADR-0039](../../../docs/adr/ADR-0039-developer-presentation-sandbox.md) |
+| Developer (route lab) | 3002 | **ERP-parity** operator UX — same page law as production · auth/spine/BFF/runtime authority pending behind governed slices · [ADR-0039](../../../docs/adr/ADR-0039-developer-presentation-sandbox.md) |
 | Storybook (block lab) | 6006 | Single-block ACPA verification |
 
 ---
