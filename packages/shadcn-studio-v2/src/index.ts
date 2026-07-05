@@ -119,25 +119,44 @@ export type {
 } from "./types/theme";
 export {
   METRIC_WIDGET_SLOTS,
+  type MetricWidgetAdapterProps,
   type MetricWidgetNonReadyProps,
   type MetricWidgetReadyProps,
   type MetricWidgetSlot,
   type MetricWidgetSlotName,
   type MetricWidgetSlotValue,
+  type MetricWidgetValue,
   type NonReadyViewSurfaceState,
   PAGE_SURFACE_SLOTS,
+  type PageSurfaceSidebarProps,
   type PageSurfaceSlot,
   type PageSurfaceSlotName,
   type PageSurfaceSlotValue,
+  type PageSurfaceTopbarProps,
   type ViewStateMessage,
   type ViewStateMessages,
   type ViewStateProps,
   type ViewSurfaceState,
+  type WorkspaceBoardUseCase,
+  type WorkspaceBoardVisibilityRule,
+  type WorkspaceBoardWidgetAdapterProps,
+  type WorkspaceBoardWidgetCategory,
+  type WorkspaceBoardWidgetInstance,
+  type WorkspaceBoardWidgetLayout,
+  type WorkspaceBoardWidgetManifest,
+  type WorkspaceBoardWidgetSize,
 } from "./types/views";
 export {
+  AUTH_SHELL_SLOTS,
   AuthShell,
   type AuthShellProps,
+  type AuthShellSlot,
+  type AuthShellSlotName,
+  type AuthShellSlotValue,
+  type AuthShellState,
+  type AuthShellStateMessages,
   authShellClassName,
+  type NonReadyAuthShellState,
 } from "./views/auth/AuthShell";
 export {
   PageSurface,
@@ -149,14 +168,5 @@ export {
   type MetricWidgetProps,
   type MetricWidgetTone,
   metricWidgetValueClassName,
+  workspaceBoardWidgetAdapterClassName,
 } from "./views/widgets/MetricWidget";
-export {
-  type RevenueChartPoint,
-  StatisticsRevenueCardBlock,
-  type StatisticsRevenueCardProps,
-} from "./views/widgets/StatisticsRevenueCardBlock";
-export {
-  StatisticsSalesOverviewCardBlock,
-  type StatisticsSalesOverviewCardProps,
-  type StatisticsSalesOverviewSide,
-} from "./views/widgets/StatisticsSalesOverviewCardBlock";

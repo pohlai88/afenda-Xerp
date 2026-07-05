@@ -16,6 +16,7 @@ import { PAGE_SURFACE_SLOTS } from "../../types/views";
 export type { PageSurfaceProps } from "../../types/views";
 
 const PAGE_SURFACE_MAIN_CLASS = "flex min-w-0 flex-col gap-4";
+const DEFAULT_PAGE_MAIN_LABEL = "Page content";
 
 const DEFAULT_PAGE_STATE_MESSAGES = {
   empty: {
@@ -76,7 +77,7 @@ function PageSurfaceState({
           <AlertDescription>{message.description}</AlertDescription>
         )}
         {message.action == null ? null : (
-          <div className="mt-3" data-slot="page-surface-state-action">
+          <div className="mt-3" data-slot={PAGE_SURFACE_SLOTS.stateAction}>
             {message.action}
           </div>
         )}
@@ -109,53 +110,59 @@ export function PageSurface({
   children,
   className,
   description,
+  mainLabel = DEFAULT_PAGE_MAIN_LABEL,
   sidebar,
+  sidebarLabel,
+  sidebarProps,
   state,
   stateMessages,
   title,
   toolbar,
+  topbarProps,
   ...props
 }: PageSurfaceProps) {
   const frameStructure = sidebar == null ? "single" : "sidebar";
+  const mainAriaLabel =
+    props["aria-label"] ??
+    (props["aria-labelledby"] == null ? mainLabel : undefined);
+  const sidebarAriaLabel = sidebarProps?.["aria-label"] ?? sidebarLabel;
 
   return (
     <div data-slot={PAGE_SURFACE_SLOTS.root}>
       <AppShellFrame structure={frameStructure}>
-        {sidebar ? <Sidebar>{sidebar}</Sidebar> : null}
-        <div
+        {sidebar == null ? null : (
+          <div data-slot={PAGE_SURFACE_SLOTS.sidebar}>
+            <Sidebar {...sidebarProps} aria-label={sidebarAriaLabel}>
+              {sidebar}
+            </Sidebar>
+          </div>
+        )}
+        <main
           {...props}
+          aria-label={mainAriaLabel}
           className={pageSurfaceClassName({ className })}
           data-slot={PAGE_SURFACE_SLOTS.main}
         >
           <Topbar
+            {...topbarProps}
             actions={
-              toolbar ? (
+              toolbar == null ? null : (
                 <div data-slot={PAGE_SURFACE_SLOTS.toolbar}>{toolbar}</div>
-              ) : null
+              )
             }
             description={
               description == null ? null : (
-                <p
-                  className="text-muted-foreground text-sm"
-                  data-slot={PAGE_SURFACE_SLOTS.description}
-                >
+                <span data-slot={PAGE_SURFACE_SLOTS.description}>
                   {description}
-                </p>
+                </span>
               )
             }
-            heading={
-              <h1
-                className="font-semibold text-lg"
-                data-slot={PAGE_SURFACE_SLOTS.title}
-              >
-                {title}
-              </h1>
-            }
+            heading={<h1 data-slot={PAGE_SURFACE_SLOTS.title}>{title}</h1>}
           />
           <div data-slot={PAGE_SURFACE_SLOTS.content}>
             {renderPageSurfaceContent({ children, state, stateMessages })}
           </div>
-        </div>
+        </main>
       </AppShellFrame>
     </div>
   );

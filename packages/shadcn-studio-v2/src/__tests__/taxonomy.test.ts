@@ -291,9 +291,7 @@ describe("shadcn-studio-v2 taxonomy", () => {
         settings/
           .gitkeep
         widgets/
-          MetricWidget.tsx
-          StatisticsRevenueCardBlock.tsx
-          StatisticsSalesOverviewCardBlock.tsx"
+          MetricWidget.tsx"
     `);
   });
 });

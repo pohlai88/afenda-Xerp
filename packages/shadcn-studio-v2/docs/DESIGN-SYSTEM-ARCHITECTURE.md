@@ -34,6 +34,10 @@ No component becomes public without proof.
 No route imports internals.
 No migration is complete without consumer cutover.
 
+`shadcn-studio-v2` owns presentation contracts only. It does not own tenant
+layout persistence, permissions, drag/resize behavior, board editor state,
+data-source resolution, or dashboard runtime orchestration.
+
 ---
 
 ## Package Structure
@@ -51,7 +55,7 @@ packages/shadcn-studio-v2/
     views/
       auth/            # AuthShell and login presentation surfaces
       pages/           # PageSurface, evidence reading pages
-      widgets/         # metric, revenue, summary, chart evidence blocks
+      widgets/         # WorkspaceBoard-compatible widget render adapters
       datatables/      # table-heavy ERP compositions
       forms/           # governed form compositions
       dialogs/         # governed dialog compositions
@@ -145,11 +149,24 @@ Small, stable, client-safe.
 Layer 4: Views
 AuthShell, PageSurface, MetricWidget, revenue blocks, table/form/dialog/settings surfaces.
 Composed ERP presentation, not primitive bloat.
+Widget views are render adapters, not fixed dashboards or runtime layout owners.
 
 Layer 5: Consumer Routes
 apps/developer and real ERP routes.
 No internal imports. Public package API only.
 ```
+
+WorkspaceBoard doctrine:
+
+```txt
+WorkspaceBoard = saved grid layout + widget instances + approved data bindings + render adapters
+Tenant owns layout. User may own personal arrangement. System owns widget meaning.
+```
+
+Phase 7A widget work must remain compatible with a future WorkspaceBoard
+runtime. Existing ERP dashboard layout contracts remain the current runtime
+authority until a later ADR promotes or extracts a formal WorkspaceBoard
+runtime package.
 
 ---
 
