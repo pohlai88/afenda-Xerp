@@ -229,6 +229,7 @@ describe("shadcn-studio-v2 taxonomy", () => {
         quarantine/
           README.md
         shared/
+          ThemeScript.tsx
           ThemeToggle.tsx
         ui/
           Alert.tsx
@@ -241,9 +242,11 @@ describe("shadcn-studio-v2 taxonomy", () => {
         studio-config.ts
         theme-config.ts
       contexts/
+        StudioProvider.tsx
         ThemeProvider.tsx
         theme-boundary.ts
       hooks/
+        use-studio.ts
         use-theme.ts
       index.ts
       lib/

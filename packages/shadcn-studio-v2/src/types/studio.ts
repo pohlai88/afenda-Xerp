@@ -1,3 +1,5 @@
+import type { StudioThemeConfig } from "./theme";
+
 export interface AppShellNavItemWire {
   readonly href: string;
   readonly isActive?: boolean;
@@ -20,4 +22,9 @@ export interface StudioPackageConfig {
   readonly packageName: "@afenda/shadcn-studio-v2";
   readonly runtimeBoundary: "client-runtime";
   readonly taxonomyVersion: "v2";
+}
+
+export interface StudioRuntimeState {
+  readonly packageConfig: StudioPackageConfig;
+  readonly themeConfig: StudioThemeConfig;
 }

@@ -27,6 +27,10 @@ export {
   topbarClassName,
 } from "./components/layout/Topbar";
 export {
+  ThemeScript,
+  type ThemeScriptProps,
+} from "./components/shared/ThemeScript";
+export {
   ThemeToggle,
   type ThemeToggleProps,
 } from "./components/shared/ThemeToggle";
@@ -91,15 +95,22 @@ export {
 export { studioPackageConfig } from "./configs/studio-config";
 export { studioThemeConfig } from "./configs/theme-config";
 export {
+  type StudioContextValue,
+  StudioProvider,
+  type StudioProviderProps,
+} from "./contexts/StudioProvider";
+export {
   ThemeProvider,
   type ThemeProviderProps,
 } from "./contexts/ThemeProvider";
+export { useStudio } from "./hooks/use-studio";
 export { useTheme } from "./hooks/use-theme";
 export type {
   AppShellNavGroupWire,
   AppShellNavItemWire,
   AppShellOperatingContextWire,
   StudioPackageConfig,
+  StudioRuntimeState,
 } from "./types/studio";
 export type {
   StudioResolvedThemeMode,

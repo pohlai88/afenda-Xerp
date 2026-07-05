@@ -35,9 +35,16 @@ describe("shadcn-studio-v2 config and runtime boundary", () => {
     expect(readSource("contexts", "ThemeProvider.tsx")).toContain(
       '"use client"'
     );
+    expect(readSource("contexts", "StudioProvider.tsx")).toContain(
+      '"use client"'
+    );
     expect(readSource("hooks", "use-theme.ts")).toContain('"use client"');
+    expect(readSource("hooks", "use-studio.ts")).toContain('"use client"');
     expect(readSource("components", "shared", "ThemeToggle.tsx")).toContain(
       '"use client"'
+    );
+    expect(readSource("components", "shared", "ThemeScript.tsx")).toContain(
+      'data-slot="theme-script"'
     );
   });
 
@@ -47,10 +54,16 @@ describe("shadcn-studio-v2 config and runtime boundary", () => {
     const clientSurface = readSource("clients.ts");
 
     expect(neutralSurface).not.toContain("ThemeProvider");
+    expect(neutralSurface).not.toContain("StudioProvider");
     expect(neutralSurface).not.toContain("ThemeToggle");
+    expect(neutralSurface).not.toContain("ThemeScript");
     expect(serverSurface).not.toContain("ThemeProvider");
+    expect(serverSurface).not.toContain("StudioProvider");
     expect(serverSurface).not.toContain("ThemeToggle");
+    expect(serverSurface).not.toContain("ThemeScript");
     expect(clientSurface).toContain("ThemeProvider");
+    expect(clientSurface).toContain("StudioProvider");
     expect(clientSurface).toContain("ThemeToggle");
+    expect(clientSurface).toContain("ThemeScript");
   });
 });
