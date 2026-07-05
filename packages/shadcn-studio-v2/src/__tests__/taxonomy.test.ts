@@ -45,6 +45,20 @@ const allowedSecondLevelFolders: Record<string, Set<string>> = {
   ]),
 };
 
+const requiredSecondLevelFolders: Record<string, Set<string>> = {
+  components: new Set(["assets", "layout", "quarantine", "shared", "ui"]),
+  metadata: new Set(["builders", "contracts", "gates", "registries"]),
+  views: new Set([
+    "auth",
+    "datatables",
+    "dialogs",
+    "forms",
+    "pages",
+    "settings",
+    "widgets",
+  ]),
+};
+
 const forbiddenNames = new Set([
   "blocks",
   "components-auth-shell",
@@ -163,6 +177,24 @@ describe("shadcn-studio-v2 taxonomy", () => {
     expect(violations).toEqual([]);
   });
 
+  it("includes the Phase 1 approved source skeleton folders", () => {
+    const rootNames = new Set(readNames(SRC_ROOT));
+
+    for (const folder of allowedRootFolders) {
+      expect(rootNames.has(folder)).toBe(true);
+    }
+
+    for (const [folder, requiredChildren] of Object.entries(
+      requiredSecondLevelFolders
+    )) {
+      const names = new Set(readNames(path.join(SRC_ROOT, folder)));
+
+      for (const child of requiredChildren) {
+        expect(names.has(child)).toBe(true);
+      }
+    }
+  });
+
   it("keeps hook files in kebab use-* form", () => {
     const violations = readNames(path.join(SRC_ROOT, "hooks")).filter(
       (name) =>
@@ -239,11 +271,20 @@ describe("shadcn-studio-v2 taxonomy", () => {
         studio.ts
         theme.ts
       utils/
+        .gitkeep
       views/
         auth/
           AuthShell.tsx
+        datatables/
+          .gitkeep
+        dialogs/
+          .gitkeep
+        forms/
+          .gitkeep
         pages/
           PageSurface.tsx
+        settings/
+          .gitkeep
         widgets/
           MetricWidget.tsx
           StatisticsRevenueCardBlock.tsx
