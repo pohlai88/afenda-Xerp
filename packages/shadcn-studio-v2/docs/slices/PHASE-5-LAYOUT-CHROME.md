@@ -88,5 +88,5 @@ layer.
 
 ## Open questions
 
-* Whether `AdmincnShell` remains part of this slice or is treated as a later
-  shell-composition extension.
+* Whether additional shell compositions beyond `appshell-01` are needed in a
+  later slice.

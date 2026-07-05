@@ -221,11 +221,10 @@ describe("shadcn-studio-v2 taxonomy", () => {
         assets/
           IconMark.tsx
         layout/
-          AdmincnNav.tsx
-          AdmincnShell.tsx
-          AppShell.tsx
           Sidebar.tsx
           Topbar.tsx
+          appshell-01.tsx
+          appshell-frame.tsx
         quarantine/
           README.md
         shared/
@@ -272,8 +271,10 @@ describe("shadcn-studio-v2 taxonomy", () => {
       types/
         app-shell.ts
         css-export.d.ts
+        layout.ts
         studio.ts
         theme.ts
+        views.ts
       utils/
         .gitkeep
       views/

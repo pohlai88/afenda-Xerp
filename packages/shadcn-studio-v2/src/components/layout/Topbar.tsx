@@ -1,15 +1,10 @@
 // biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
-import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
-
-export type TopbarVariant = "default" | "transparent";
-
-export interface TopbarProps extends ComponentProps<"header"> {
-  readonly variant?: TopbarVariant;
-}
+import type { TopbarProps, TopbarVariant } from "../../types/layout";
+import { TOPBAR_SLOTS } from "../../types/layout";
 
 const TOPBAR_BASE_CLASS =
-  "flex min-h-14 items-center justify-between gap-3 rounded-lg border border-border px-4 py-3";
+  "flex min-h-14 items-center gap-3 rounded-lg border border-border px-4 py-3";
 
 const TOPBAR_VARIANT_CLASSES = {
   default: "bg-card text-card-foreground shadow-sm",
@@ -24,15 +19,76 @@ export function topbarClassName({
 }
 
 export function Topbar({
+  actions,
   className,
+  content,
+  controls,
+  description,
+  heading,
   variant = "default",
   ...props
 }: TopbarProps) {
+  const hasHeadingArea = heading != null || description != null;
+  const hasContentArea = content != null;
+  const hasActionArea = controls != null || actions != null;
+
   return (
     <header
       {...props}
       className={topbarClassName({ className, variant })}
-      data-slot="topbar"
-    />
+      data-slot={TOPBAR_SLOTS.root}
+    >
+      {hasHeadingArea ? (
+        <div className="min-w-0 shrink" data-slot={TOPBAR_SLOTS.headingArea}>
+          {heading == null ? null : (
+            <div
+              className="truncate font-semibold text-base tracking-tight"
+              data-slot={TOPBAR_SLOTS.heading}
+            >
+              {heading}
+            </div>
+          )}
+          {description == null ? null : (
+            <div
+              className="truncate text-muted-foreground text-xs"
+              data-slot={TOPBAR_SLOTS.description}
+            >
+              {description}
+            </div>
+          )}
+        </div>
+      ) : null}
+      {hasContentArea ? (
+        <div
+          className="flex min-w-0 flex-1 items-center gap-2"
+          data-slot={TOPBAR_SLOTS.content}
+        >
+          {content}
+        </div>
+      ) : null}
+      {hasActionArea ? (
+        <div
+          className="ml-auto flex shrink-0 items-center gap-2"
+          data-slot={TOPBAR_SLOTS.actionArea}
+        >
+          {controls == null ? null : (
+            <div
+              className="flex items-center gap-2"
+              data-slot={TOPBAR_SLOTS.controls}
+            >
+              {controls}
+            </div>
+          )}
+          {actions == null ? null : (
+            <div
+              className="flex items-center gap-2"
+              data-slot={TOPBAR_SLOTS.actions}
+            >
+              {actions}
+            </div>
+          )}
+        </div>
+      ) : null}
+    </header>
   );
 }

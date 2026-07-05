@@ -43,7 +43,7 @@ packages/shadcn-studio-v2/
   src/
     components/
       ui/              # primitives: Button, Card, Badge, Alert, Field, Table
-      layout/          # shell chrome: AppShell, Sidebar, Topbar, AdmincnShell
+      layout/          # shell frame/chrome: appshell-frame, appshell-01, Sidebar, Topbar
       shared/          # ThemeToggle, ThemeScript, small shared runtime helpers
       assets/          # IconMark and component-coupled assets
       quarantine/      # temporary, non-public, never consumer imported
@@ -135,8 +135,8 @@ Button, Card, Badge, Alert, Field, Table.
 Small, accessible, variant-based, token-only.
 
 Layer 2: Layout Chrome
-Sidebar, Topbar, AppShell, AdmincnShell.
-Own navigation structure, active state, landmarks, keyboard access.
+appshell-frame, appshell-01, Sidebar, Topbar.
+Own frame structure, navigation structure, active state, landmarks, keyboard access.
 
 Layer 3: Shared Runtime
 ThemeProvider, ThemeToggle, ThemeScript.

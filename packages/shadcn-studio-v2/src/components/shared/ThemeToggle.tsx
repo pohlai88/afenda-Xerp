@@ -4,6 +4,7 @@
 import { studioThemeConfig } from "../../configs/theme-config";
 import { useTheme } from "../../hooks/use-theme";
 import type { StudioThemeMode } from "../../types/theme";
+import { Button } from "../ui/Button";
 
 const THEME_MODE_SEQUENCE: readonly StudioThemeMode[] = [
   "light",
@@ -31,7 +32,7 @@ export function ThemeToggle({
   const nextMode = getNextThemeMode(mode);
 
   return (
-    <button
+    <Button
       aria-label={label}
       className={className}
       data-mode={mode}
@@ -39,8 +40,9 @@ export function ThemeToggle({
       data-theme-id={themeId}
       onClick={() => setTheme({ mode: nextMode })}
       type="button"
+      variant="outline"
     >
       {mode}
-    </button>
+    </Button>
   );
 }

@@ -185,7 +185,8 @@ Structural naming is locked to the following rules:
   * `server.ts`
   * `clients.ts`
   * `metadata.ts`
-* React context and component files use `PascalCase.tsx`
+* React context and component files use `PascalCase.tsx` unless a canonical
+  implementation file stem is explicitly registered in this taxonomy
 * hook files use `use-*.ts` or `use-*.tsx`
 
 Canonical examples:
@@ -554,12 +555,37 @@ Add new primitive components only when they are reusable and governed.
 
 ```txt
 components/layout/
-  AppShell.tsx
+  appshell-frame.tsx
+  appshell-01.tsx
   Sidebar.tsx
   Topbar.tsx
 ```
 
-Use this only for reusable chrome. If it becomes a composed page-like surface, move it to `views`.
+Layout hierarchy:
+
+`appshell-frame.tsx`
+
+* frame-level layout recipe
+* owns the outer grid, spacing, density, background, and root frame slot
+* does not own navigation, operating context, route state, or shell chrome
+
+`appshell-01.tsx`
+
+* composed app shell
+* consumes `appshell-frame.tsx`
+* composes `Sidebar` and `Topbar`
+* accepts typed shell, navigation, and operating-context props
+* does not own route framework, permissions, auth, or business logic
+
+`Sidebar.tsx`
+
+* navigation chrome
+
+`Topbar.tsx`
+
+* heading and action chrome
+
+Use `components/layout` only for reusable chrome and frame/shell composition. If it becomes a composed page-like surface, move it to `views`.
 
 ### `components/shared/`
 

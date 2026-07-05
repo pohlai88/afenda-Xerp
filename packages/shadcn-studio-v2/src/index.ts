@@ -1,28 +1,15 @@
 export { IconMark, type IconMarkProps } from "./components/assets/IconMark";
+export { AppShell01 } from "./components/layout/appshell-01";
 export {
-  AdmincnNav,
-  type AdmincnNavProps,
-} from "./components/layout/AdmincnNav";
-export {
-  AdmincnShell,
-  type AdmincnShellProps,
-} from "./components/layout/AdmincnShell";
-export {
-  AppShell,
-  type AppShellDensity,
-  type AppShellProps,
-  appShellClassName,
-} from "./components/layout/AppShell";
+  AppShellFrame,
+  appShellFrameClassName,
+} from "./components/layout/appshell-frame";
 export {
   Sidebar,
-  type SidebarProps,
-  type SidebarVariant,
   sidebarClassName,
 } from "./components/layout/Sidebar";
 export {
   Topbar,
-  type TopbarProps,
-  type TopbarVariant,
   topbarClassName,
 } from "./components/layout/Topbar";
 export {
@@ -90,6 +77,36 @@ export type {
   AppShellNavItemWire,
   AppShellOperatingContextWire,
 } from "./types/app-shell";
+export {
+  APP_SHELL_01_SLOTS,
+  APP_SHELL_FRAME_SLOTS,
+  type AppShell01MainProps,
+  type AppShell01Props,
+  type AppShell01Slot,
+  type AppShell01SlotName,
+  type AppShell01SlotValue,
+  type AppShellFrameClassNameOptions,
+  type AppShellFrameDensity,
+  type AppShellFrameDensityClassMap,
+  type AppShellFrameProps,
+  type AppShellFrameSlot,
+  type AppShellFrameSlotName,
+  type AppShellFrameSlotValue,
+  type AppShellFrameStructure,
+  type AppShellFrameStructureClassMap,
+  SIDEBAR_SLOTS,
+  type SidebarProps,
+  type SidebarSlot,
+  type SidebarSlotName,
+  type SidebarSlotValue,
+  type SidebarVariant,
+  TOPBAR_SLOTS,
+  type TopbarProps,
+  type TopbarSlot,
+  type TopbarSlotName,
+  type TopbarSlotValue,
+  type TopbarVariant,
+} from "./types/layout";
 export type { StudioPackageConfig } from "./types/studio";
 export type {
   StudioResolvedThemeMode,
@@ -100,6 +117,23 @@ export type {
   StudioThemeState,
   StudioThemeUpdate,
 } from "./types/theme";
+export {
+  METRIC_WIDGET_SLOTS,
+  type MetricWidgetNonReadyProps,
+  type MetricWidgetReadyProps,
+  type MetricWidgetSlot,
+  type MetricWidgetSlotName,
+  type MetricWidgetSlotValue,
+  type NonReadyViewSurfaceState,
+  PAGE_SURFACE_SLOTS,
+  type PageSurfaceSlot,
+  type PageSurfaceSlotName,
+  type PageSurfaceSlotValue,
+  type ViewStateMessage,
+  type ViewStateMessages,
+  type ViewStateProps,
+  type ViewSurfaceState,
+} from "./types/views";
 export {
   AuthShell,
   type AuthShellProps,
