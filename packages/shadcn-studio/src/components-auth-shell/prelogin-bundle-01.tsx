@@ -11,8 +11,6 @@ import {
 import { motion } from "motion/react";
 import type { FormEvent, ReactNode } from "react";
 import { useCallback, useState } from "react";
-
-import LogoSvg from "@/assets/svg/logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -26,6 +24,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import LogoSvg from "@/components-assets/icon-logo.js";
 import { cn } from "@/lib/utils";
 import ForgotPasswordFormV1 from "./forgot-password-form-v1.js";
 import LoginFormV1 from "./login-form-v1.js";

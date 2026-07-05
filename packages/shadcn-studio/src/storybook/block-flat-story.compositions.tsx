@@ -44,7 +44,9 @@ import StatisticsProfileTrafficCardBlock from "../components-layouts/statistics-
 import StatisticsRevenueCardBlock from "../components-layouts/statistics-revenue-card.js";
 import StatisticsSalesOverviewCardBlock from "../components-layouts/statistics-sales-overview-card.js";
 import StatisticsTrendCardBlock from "../components-layouts/statistics-trend-card.js";
-import UserProfileAvatar from "../components-layouts/user-profile-avatar.js";
+import UserProfileAvatar, {
+  DEFAULT_USER_PROFILE_AVATAR_PRESET_ID,
+} from "../components-layouts/user-profile-avatar.js";
 import UserProfileAvatarPicker, {
   type UserProfileAvatarValue,
 } from "../components-layouts/user-profile-avatar-picker.js";
@@ -60,7 +62,6 @@ import {
   SidebarProvider,
   SidebarRail,
 } from "../components-ui/sidebar.js";
-import { DEFAULT_USER_PROFILE_AVATAR_PRESET_ID } from "../lib/user-profile-avatar.policy.js";
 
 import {
   CHART_EARNING_DATA,

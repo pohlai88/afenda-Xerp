@@ -40,7 +40,7 @@
 1. Read [ADR-0027](../../adr/ADR-0027-frontend-presentation-reset.md) — no legacy UI packages.
 2. MCP install cwd: **`packages/shadcn-studio`** ([ADR-0017](../../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md)).
 3. Export blocks via `@afenda/shadcn-studio` public barrel only.
-4. ERP CSS: AdminCN four-import chain in `apps/erp/src/app/globals.css` — `tailwindcss` → `tw-animate-css` → `shadcn/tailwind.css` → `@afenda/shadcn-studio/shadcn-studio.css` (theme last, unlayered).
+4. ERP CSS: AdminCN four-import chain in `apps/erp/src/app/globals.css` — `tailwindcss` → `tw-animate-css` → `shadcn/tailwind.css` → `@afenda/shadcn-studio/shadcn-default.css` (theme last, unlayered).
 5. Run §13 gates before claiming product work done.
 
 **Boundary:** `@afenda/shadcn-studio` **owns** theme presets, stock primitives, MCP-installed blocks, CSS export, public barrel, Storybook lab parameters; **never owns** Acceptance Record enforcement (006C), relational lifecycle registry (006B), metadata templates (006D), kernel, or ERP routes.
@@ -61,11 +61,11 @@ Presentation **product runtime** — the install target for shadcn/studio MCP, t
 | --- | --- | --- |
 | Maintainer architecture | `packages/shadcn-studio/ARCHITECTURE.md` | L1–L4 layer map · contract vocabulary · [ADR-0037](../../adr/ADR-0037-shadcn-studio-src-layered-structure.md) |
 | Public barrel | `packages/shadcn-studio/src/index.ts` | Explicit block + theme exports; no L4 lab exports ([P06-011](SLICE/p06-011-src-structure-clarity.md)) |
-| Theme presets | `src/theme/theme-presets.ts` | JSON-serializable |
-| CSS source | `src/styles/shadcn-studio.css` | Authoring only |
-| CSS dist | `dist/shadcn-studio.css` | App import target |
-| Primitives | `src/components/ui/` | shadcn CLI targets |
-| Blocks | `src/components/shadcn-studio/blocks/` | MCP install targets |
+| Theme presets | `src/theme-config/config.presets.ts` | JSON-serializable |
+| CSS source | `src/styles/shadcn-default.css` | Authoring only |
+| CSS dist | `dist/shadcn-default.css` | App import target |
+| Primitives | `src/components-ui/` | shadcn CLI targets |
+| Blocks | `src/components-layouts/` | MCP install targets |
 | Block parity registry | `src/registry/studio-block-parity.registry.ts` | Inventory seed — extended by 006B |
 | Storybook lab | `apps/storybook` · `packages/shadcn-studio/src/**/*.stories.tsx` | Pre-ERP verification · [P06-012](SLICE/p06-012-storybook-enterprise-lab.md) CI smoke |
 
@@ -88,13 +88,13 @@ Presentation **product runtime** — the install target for shadcn/studio MCP, t
 
 Single sync target per `scripts/governance/package-css-dist-policy.mjs`:
 
-- Source: `packages/shadcn-studio/src/styles/shadcn-studio.css`
-- Dist: `packages/shadcn-studio/dist/shadcn-studio.css`
+- Source: `packages/shadcn-studio/src/styles/shadcn-default.css`
+- Dist: `packages/shadcn-studio/dist/shadcn-default.css`
 
 ERP composition order (immutable without ADR):
 
 ```txt
-1. @afenda/shadcn-studio/shadcn-studio.css
+1. @afenda/shadcn-studio/shadcn-default.css
 2. tailwindcss
 3. shadcn/tailwind.css
 ```
@@ -107,7 +107,7 @@ Tailwind utilities **boost** theme tokens — must not redefine primitive semant
 
 ```text
 MCP / shadcn CLI (cwd: packages/shadcn-studio)
-  → src/components/ui/ | src/components/shadcn-studio/blocks/
+  → src/components-ui/ | src/components-layouts/
   → index.ts export
   → Storybook story
   → (006C) Acceptance Record before ERP route

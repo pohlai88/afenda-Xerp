@@ -6,21 +6,29 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/utils/utils";
-
-import {
-  userProfileAvatarHeroClassName,
-  userProfileAvatarPanelClassName,
-  userProfileAvatarPresetButtonClassName,
-  userProfileAvatarPresetGridClassName,
-  userProfileAvatarPresetIdleClassName,
-  userProfileAvatarPresetSelectedClassName,
-} from "../lib/user-profile-avatar.contract.js";
-import {
+import UserProfileAvatar, {
   DEFAULT_USER_PROFILE_AVATAR_PRESET_ID,
   USER_PROFILE_AVATAR_PRESETS,
   type UserProfileAvatarPresetId,
-} from "../lib/user-profile-avatar.policy.js";
-import UserProfileAvatar from "./user-profile-avatar.js";
+} from "./user-profile-avatar.js";
+
+export const userProfileAvatarHeroClassName =
+  "shadow-sm ring-2 ring-border ring-offset-2 ring-offset-background" as const;
+
+export const userProfileAvatarPresetGridClassName =
+  "grid grid-cols-4 gap-3 sm:grid-cols-8" as const;
+
+export const userProfileAvatarPresetButtonClassName =
+  "relative rounded-full transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" as const;
+
+export const userProfileAvatarPresetSelectedClassName =
+  "ring-2 ring-primary ring-offset-2 ring-offset-background" as const;
+
+export const userProfileAvatarPresetIdleClassName =
+  "ring-1 ring-border hover:ring-primary/50" as const;
+
+export const userProfileAvatarPanelClassName =
+  "rounded-xl border bg-card/60 p-4" as const;
 
 export type UserProfileAvatarValue = {
   readonly customImageUrl?: string | null;

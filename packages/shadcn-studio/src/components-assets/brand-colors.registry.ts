@@ -1,6 +1,6 @@
 /**
  * Third-party brand hex SSOT for `components-assets/` (Simple Icons slugs).
- * Afenda semantic UI colors remain in Figma → shadcn-studio.css — not here.
+ * Afenda semantic UI colors remain in Figma → shadcn-default.css — not here.
  *
  * @see https://simpleicons.org/
  */

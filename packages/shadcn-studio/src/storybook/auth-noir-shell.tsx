@@ -1,7 +1,5 @@
 import type { ReactNode } from "react";
 
-import type { EditorialLabPresetId } from "../styles/presentation-lab-presets.registry.js";
-import { getPresentationLabPresetEntry } from "../styles/presentation-lab-presets.registry.js";
 import {
   labNoirContainerClassName,
   labNoirFooterClassName,
@@ -21,9 +19,16 @@ import {
   labNoirVerticalMarkClassName,
 } from "./presentation-lab/presentation-lab.noir.contract.js";
 
+export type EditorialNoirPresetId = "afenda-brand" | "afenda-verdant";
+
+const EDITORIAL_NOIR_CLASS_BY_ID = {
+  "afenda-brand": "theme-afenda-brand",
+  "afenda-verdant": "theme-afenda-verdant-milk-noir",
+} satisfies Record<EditorialNoirPresetId, string>;
+
 export interface AuthNoirShellProps {
   readonly children: ReactNode;
-  readonly editorialPresetId?: EditorialLabPresetId;
+  readonly editorialPresetId?: EditorialNoirPresetId;
   readonly eyebrow: string;
   readonly statusLabel?: string;
   readonly subtitle?: string;
@@ -33,10 +38,9 @@ export interface AuthNoirShellProps {
 }
 
 function resolveNoirShellClass(
-  editorialPresetId: EditorialLabPresetId = "afenda-brand"
+  editorialPresetId: EditorialNoirPresetId = "afenda-brand"
 ): string {
-  const preset = getPresentationLabPresetEntry(editorialPresetId);
-  return `dark ${preset.className} ${labNoirShellClassName}`;
+  return `dark ${EDITORIAL_NOIR_CLASS_BY_ID[editorialPresetId]} ${labNoirShellClassName}`;
 }
 
 export function AuthNoirShell({

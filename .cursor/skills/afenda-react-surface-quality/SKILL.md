@@ -8,7 +8,7 @@ description: >-
   afenda-primitive-contract. Composes vendor skills only on failure.
 paths:
   - apps/erp/**
-  - packages/shadcn-studio/src/components/shadcn-studio/**
+  - packages/shadcn-studio/src/components-layouts/**
 ---
 
 # Afenda React Surface Quality
@@ -48,7 +48,7 @@ Before scanning, classify the target.
 | Target | Route |
 | --- | --- |
 | `packages/shadcn-studio/src/components-ui/*` primitive | `afenda-primitive-contract` (+ M1–M10 mismatch frame on E0) |
-| `packages/shadcn-studio/src/components/shadcn-studio/*` block | This skill |
+| `packages/shadcn-studio/src/components-layouts/*` block | This skill |
 | `apps/erp/**/page.tsx` | This skill, RSC-first scan |
 | `apps/erp/**/layout.tsx` | This skill, strict client-boundary scan |
 | `apps/erp/**/*.client.tsx` | This skill, interaction/hook scan |

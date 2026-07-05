@@ -61,11 +61,13 @@ Detail: [ARCHITECTURE.md](./ARCHITECTURE.md) · [AGENTS.md](./AGENTS.md)
 | Import | Use |
 | --- | --- |
 | `@afenda/shadcn-studio` | Blocks, primitives, theme types (ERP) |
-| `@afenda/shadcn-studio/shadcn-studio.css` | Theme CSS in `apps/erp/globals.css` |
+| `@afenda/shadcn-studio/shadcn-default.css` | Default theme CSS in `apps/erp/globals.css` |
 | `@afenda/shadcn-studio/governance` | CI/gate assert helpers only |
 | `@afenda/shadcn-studio/lab` | Storybook parameters (not ERP) |
 
 Quarantine contents are **not** exported — promote first.
+
+Theme CSS governance: [src/styles/THEME-GOVERNANCE.md](./src/styles/THEME-GOVERNANCE.md)
 
 ---
 

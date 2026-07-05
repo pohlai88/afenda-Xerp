@@ -1,10 +1,10 @@
-import type { EditorialLabPresetId } from "../../styles/presentation-lab-presets.registry.js";
 import { AuthAccessFormFields } from "../auth-access-form-fields.js";
+import type { EditorialNoirPresetId } from "../auth-noir-shell.js";
 import { AuthNoirShell } from "../auth-noir-shell.js";
 import { labNoirPanelLabelClassName } from "../presentation-lab/presentation-lab.noir.contract.js";
 
 export type P1NoirEditorialProps = {
-  readonly editorialPresetId?: EditorialLabPresetId;
+  readonly editorialPresetId?: EditorialNoirPresetId;
   readonly panelLead?: string;
   readonly panelTitle?: string;
 };

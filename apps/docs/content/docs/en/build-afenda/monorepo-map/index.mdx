@@ -40,9 +40,9 @@ The Afenda monorepo uses **pnpm workspaces** under `apps/` (applications) and `p
 
 | Package | Path | Notes |
 | ------- | ---- | ----- |
-| `@afenda/ui` | `packages/ui` | Governed UI primitives (Governed UI) |
-| `@afenda/shadcn-studio` | `packages/shadcn-studio` | App shell (L3), MCP blocks, theme |
-| `@afenda/design-system` | `packages/design-system` | Tokens — **not** imported by `@afenda/docs` shell |
+| `@afenda/shadcn-studio` | `packages/shadcn-studio` | Sole ERP presentation authority: theme, primitives, blocks, and shell surfaces |
+| `@afenda/ui` | `packages/ui` | Historical primitive package; do not treat as current ERP presentation authority |
+| `@afenda/design-system` | *(retired)* | Historical only; do not restore without new ADR |
 
 </Accordion>
 </Accordions>
@@ -53,7 +53,7 @@ When changing UI or docs:
 
 1. **App wiring first** — `apps/erp/` or `apps/docs/` before shared packages.
 2. **Contract reference** — see [Docs app contracts](/docs/monorepo-map/docs-contracts) for `@afenda/docs` TypeScript surfaces.
-3. **Ask before editing** `packages/ui` primitives — governed by Foundation phase 04.
+3. **ERP presentation authority** — use `packages/shadcn-studio` for ERP UI work; do not route new ERP presentation work through `packages/ui`.
 4. **One slice per session** — database → platform → app dependency order for foundation PAS slices.
 5. **Governance docs** — ADRs and registries live under repo-root `docs/`; link, do not duplicate.
 

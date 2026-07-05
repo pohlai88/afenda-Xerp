@@ -30,7 +30,7 @@ data-afenda-slot="{slotId}"
 | Does R2 add branded cross-package IDs? | **No** — `slotId` is already wire-safe in `BLOCK_SLOT_REGISTRY` | shadcn-studio |
 | Does R2 belong in `@afenda/kernel`? | **No** — DOM rendering hooks are presentation behavior, not platform vocabulary | kernel-authority hard stop |
 | Where does ERP validate slot ↔ binding? | Trust boundary at `apps/erp/src/lib/metadata/metadata-ui-binding.projection.ts` (existing) | PAS-001A consumer |
-| Do `components/ui/*` primitives get markers? | **No** — metadata-agnostic by design (same rule as P06-008-R1) | PAS-006D |
+| Do `components-ui/*` primitives get markers? | **No** — metadata-agnostic by design (same rule as P06-008-R1) | PAS-006D |
 
 **Relationship to P06-008-R1:**
 
@@ -52,10 +52,10 @@ Deliver Presentation NS §3.5 lifecycle step **Metadata-bound** at the DOM layer
 Handoff from: docs/PAS/PRESENTATION/SLICE/p06-008-r2-dom-slot-markers.md
 
 1. Objective    — Add data-afenda-slot DOM markers on all YES-binding MCP blocks; gate slot DOM parity against BLOCK_SLOT_REGISTRY.
-2. Allowed layer— packages/shadcn-studio/src/contracts · components/shadcn-studio/blocks/** · registry · __tests__ · scripts/governance · index.ts · docs/PAS/PRESENTATION
+2. Allowed layer— packages/shadcn-studio/src/contracts · components-layouts/** · registry · __tests__ · scripts/governance · index.ts · docs/PAS/PRESENTATION
 3. Files        —
    packages/shadcn-studio/src/contracts/block-slot-dom-marker.contract.ts
-   packages/shadcn-studio/src/components/shadcn-studio/blocks/** (YES-binding blocks only)
+   packages/shadcn-studio/src/components-layouts/** (YES-binding blocks only)
    packages/shadcn-studio/src/registry/assert-block-slot-dom-marker-coverage.ts
    packages/shadcn-studio/src/__tests__/block-slot-dom-marker-coverage.test.ts
    packages/shadcn-studio/src/index.ts
@@ -64,7 +64,7 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-008-r2-dom-slot-markers.md
    docs/PAS/PRESENTATION/SLICE/p06-008-r2-dom-slot-markers.md
    docs/PAS/PRESENTATION/PAS-006D-METADATA-DRIVEN-SURFACES-STANDARD.md
    docs/PAS/PRESENTATION/SLICE/presentation-slice-catalog.md
-4. Prohibited   — @afenda/kernel in shadcn-studio · components/ui/** edits for markers · waiver blocks (NO path) · ERP route/page changes · metadata value hydration · permission evaluation · foundation-disposition.registry.ts · PAS-001A-R1 scope
+4. Prohibited   — @afenda/kernel in shadcn-studio · components-ui/** edits for markers · waiver blocks (NO path) · ERP route/page changes · metadata value hydration · permission evaluation · foundation-disposition.registry.ts · PAS-001A-R1 scope
 5. Authority    — PAS-006D · Presentation NS §3.5 · P06-008-R1 · kernel-authority (boundary: not kernel) · shadcn-studio skill
 6. Gates        —
    pnpm --filter @afenda/shadcn-studio typecheck
@@ -85,8 +85,8 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-008-r2-dom-slot-markers.md
 ## P06-008-R2 MUST rules
 
 1. Only blocks with a **YES** metadata binding (not waiver) require DOM slot markers.
-2. Every `slotId` declared in `BLOCK_SLOT_REGISTRY` for a YES-binding block MUST appear exactly once as `data-afenda-slot="{slotId}"` in that block's compositional TSX (block folder under `components/shadcn-studio/blocks/**`).
-3. DOM markers MUST NOT be added to `components/ui/**` primitives.
+2. Every `slotId` declared in `BLOCK_SLOT_REGISTRY` for a YES-binding block MUST appear exactly once as `data-afenda-slot="{slotId}"` in that block's compositional TSX (block folder under `components-layouts/**`).
+3. DOM markers MUST NOT be added to `components-ui/**` primitives.
 4. Marker attribute name MUST be centralized in `block-slot-dom-marker.contract.ts` (`AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE = "data-afenda-slot"`).
 5. Marker values MUST match registry `slotId` strings exactly — no invented slot names in TSX.
 6. Waiver blocks (P06-008-R1 NO path) MUST NOT receive markers — gate excludes them explicitly.
@@ -127,7 +127,7 @@ Use the thinnest compositional wrapper that preserves ACPA structure — markers
 METADATA_BINDING_REGISTRY (YES blockIds)
   ∩ BLOCK_SLOT_REGISTRY (slotIds per block)
   → expected marker set per block
-  → static scan of components/shadcn-studio/blocks/<blockId>/**/*.tsx
+  → static scan of components-layouts/<blockId>/**/*.tsx
   → assert parity (expected ⊆ found, no orphan markers)
   → check:studio-block-slot-markers
 ```

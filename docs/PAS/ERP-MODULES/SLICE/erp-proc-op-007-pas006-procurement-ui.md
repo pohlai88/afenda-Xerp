@@ -16,7 +16,7 @@ Deliver PAS-006 procurement operator list surfaces (requisitions table, purchase
 
 | Layer | Path | This slice |
 | --- | --- | --- |
-| Presentation blocks | `packages/shadcn-studio/src/components/shadcn-studio/blocks/` | **Requisitions + PO datatable blocks** |
+| Presentation blocks | `packages/shadcn-studio/src/components-layouts/` | **Requisitions + PO datatable blocks** |
 | Storybook lab | `packages/shadcn-studio/src/*.stories.tsx` | **Curated block stories** |
 | UI declaration | `packages/features/erp-modules/src/procurement/` | **PAS-006 UI contract** |
 | ERP consumer | `apps/erp/src/app/(protected)/modules/procurement/` | **Requisitions + purchase-orders routes** |
@@ -31,9 +31,9 @@ Handoff from: docs/PAS/ERP-MODULES/SLICE/erp-proc-op-007-pas006-procurement-ui.m
 2. Allowed layer— packages/shadcn-studio/** · apps/storybook/** · packages/features/erp-modules/src/procurement/** · apps/erp/src/lib/procurement/** · apps/erp/src/app/(protected)/modules/procurement/requisitions/** · apps/erp/src/app/(protected)/modules/procurement/purchase-orders/** · apps/erp/src/lib/context/context-integration-registry.ts · apps/erp/src/lib/context/operating-context-protected-surface.registry.ts · scripts/governance/** · docs/PAS/ERP-MODULES/** · docs/adr/ADR-0031 (§12) · packages/erp-module-foundation/src/reference/build-procurement-foundation-bundle.ts · package.json · foundation-disposition.registry.ts (delegate foundation-registry-owner only)
 3. Files        —
    docs/PAS/ERP-MODULES/SLICE/erp-proc-op-007-pas006-procurement-ui.md
-   packages/shadcn-studio/src/components/shadcn-studio/blocks/datatable-procurement-requisitions.tsx
-   packages/shadcn-studio/src/components/shadcn-studio/blocks/datatable-procurement-purchase-orders.tsx
-   packages/shadcn-studio/src/components/shadcn-studio/blocks/_internal/procurement-datatable-shell.tsx
+   packages/shadcn-studio/src/components-layouts/datatable-procurement-requisitions.tsx
+   packages/shadcn-studio/src/components-layouts/datatable-procurement-purchase-orders.tsx
+   packages/shadcn-studio/src/components-layouts/_internal/procurement-datatable-shell.tsx
    packages/shadcn-studio/src/registry/mcp-seed-block-manifest.ts
    packages/shadcn-studio/src/registry/block-slot.registry.ts
    packages/shadcn-studio/src/registry/surface-template.registry.ts

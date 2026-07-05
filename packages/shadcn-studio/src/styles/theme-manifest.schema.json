@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "theme-manifest.schema.json",
+  "title": "Afenda shadcn-studio theme manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "tokenContract",
+    "defaultCssPath",
+    "templatePath",
+    "themesDirectory",
+    "allowedPromotionStates",
+    "rules",
+    "canonicalTokens",
+    "themes"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "tokenContract": {
+      "type": "string",
+      "const": "shadcn-ui-tailwind-v4-default"
+    },
+    "defaultCssPath": {
+      "type": "string"
+    },
+    "templatePath": {
+      "type": "string"
+    },
+    "themesDirectory": {
+      "type": "string"
+    },
+    "allowedPromotionStates": {
+      "type": "array",
+      "items": {
+        "enum": ["draft", "review", "approved", "rejected"]
+      },
+      "minItems": 4,
+      "uniqueItems": true
+    },
+    "rules": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "themeCssMayImport",
+        "themeCssMayDeclareThemeInline",
+        "themeCssMayDeclareLayerBase",
+        "themeCssMayUseComponentSelectors",
+        "themeCssMayDeclareExtraTokensByDefault"
+      ],
+      "properties": {
+        "themeCssMayImport": {
+          "type": "boolean",
+          "const": false
+        },
+        "themeCssMayDeclareThemeInline": {
+          "type": "boolean",
+          "const": false
+        },
+        "themeCssMayDeclareLayerBase": {
+          "type": "boolean",
+          "const": false
+        },
+        "themeCssMayUseComponentSelectors": {
+          "type": "boolean",
+          "const": false
+        },
+        "themeCssMayDeclareExtraTokensByDefault": {
+          "type": "boolean",
+          "const": false
+        }
+      }
+    },
+    "canonicalTokens": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "themes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "cssPath",
+          "scope",
+          "status",
+          "extends",
+          "tokenContract",
+          "allowedExtraTokens",
+          "storybookTarget",
+          "erpConsumer",
+          "owner"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+          },
+          "label": {
+            "type": "string"
+          },
+          "cssPath": {
+            "type": "string"
+          },
+          "scope": {
+            "enum": ["scoped-theme", "global-theme"]
+          },
+          "status": {
+            "enum": ["draft", "review", "approved", "rejected"]
+          },
+          "extends": {
+            "type": "string",
+            "const": "shadcn-default"
+          },
+          "tokenContract": {
+            "type": "string",
+            "const": "shadcn-ui-tailwind-v4-default"
+          },
+          "allowedExtraTokens": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "uniqueItems": true
+          },
+          "storybookTarget": {
+            "type": "string"
+          },
+          "erpConsumer": {
+            "type": "string"
+          },
+          "owner": {
+            "type": "string"
+          },
+          "deferred": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

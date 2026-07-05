@@ -10,7 +10,7 @@ const testDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(testDir, "../../..");
 const blocksRoot = join(
   repoRoot,
-  "packages/shadcn-studio/src/components/shadcn-studio/blocks"
+  "packages/shadcn-studio/src/components-layouts"
 );
 const manifestPath = join(
   repoRoot,

@@ -47,7 +47,7 @@ const APPROVED_ERP_CSS_IMPORTS = [
   "tailwindcss",
   "tw-animate-css",
   "shadcn/tailwind.css",
-  "@afenda/shadcn-studio/shadcn-studio.css",
+  "@afenda/shadcn-studio/shadcn-default.css",
 ] as const;
 
 const FORBIDDEN_ERP_CSS_IMPORTS = [
@@ -191,7 +191,7 @@ function checkCssImports(
     const tailwindIdx = imports.indexOf("tailwindcss");
     const animateIdx = imports.indexOf("tw-animate-css");
     const shadcnTailwindIdx = imports.indexOf("shadcn/tailwind.css");
-    const themeIdx = imports.indexOf("@afenda/shadcn-studio/shadcn-studio.css");
+    const themeIdx = imports.indexOf("@afenda/shadcn-studio/shadcn-default.css");
     const orderOk =
       tailwindIdx > -1 &&
       animateIdx > -1 &&
@@ -204,7 +204,7 @@ function checkCssImports(
       violations.push({
         rule: "css-import-order",
         file: rel(cssPath),
-        message: `${label} CSS import order must be tailwindcss → tw-animate-css → shadcn/tailwind.css → @afenda/shadcn-studio/shadcn-studio.css (AdminCN SSOT)`,
+        message: `${label} CSS import order must be tailwindcss → tw-animate-css → shadcn/tailwind.css → @afenda/shadcn-studio/shadcn-default.css`,
       });
     }
   }

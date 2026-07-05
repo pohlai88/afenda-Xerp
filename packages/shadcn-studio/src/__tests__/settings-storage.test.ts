@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { initialSettings } from "../theme/settings.contract.js";
-import { parseStoredSettings } from "../theme/settings-storage.js";
+import { initialSettings } from "../theme-config/config.settings.contract.js";
+import { parseStoredSettings } from "../theme-runtime/theme-runtime.settings-storage.js";
 
 describe("settings storage boundary", () => {
   it("parses valid persisted settings", () => {

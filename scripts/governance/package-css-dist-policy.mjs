@@ -28,8 +28,16 @@ export const PACKAGE_CSS_DIST_PACKAGES = [
     sourcePathPrefix: "packages/shadcn-studio/src/styles/",
     pairs: [
       {
-        src: "packages/shadcn-studio/src/styles/shadcn-studio.css",
-        dist: "packages/shadcn-studio/dist/shadcn-studio.css",
+        src: "packages/shadcn-studio/src/styles/shadcn-default.css",
+        dist: "packages/shadcn-studio/dist/shadcn-default.css",
+      },
+      {
+        src: "packages/shadcn-studio/src/styles/themes/swiss-noir.css",
+        dist: "packages/shadcn-studio/dist/themes/swiss-noir.css",
+      },
+      {
+        src: "packages/shadcn-studio/src/styles/themes/verdant-noir.css",
+        dist: "packages/shadcn-studio/dist/themes/verdant-noir.css",
       },
     ],
   },

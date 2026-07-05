@@ -1,11 +1,10 @@
 import { describe, expect, it } from "vitest";
-
+import { THEME_FONTS } from "../theme-config/config.preset.contract.js";
 import {
   syncThemeFontAttribute,
   THEME_FONT_LABELS,
   THEME_FONT_STACKS,
-} from "../theme/theme-font-stacks.js";
-import { THEME_FONTS } from "../theme/theme-preset.contract.js";
+} from "../theme-runtime/theme-runtime.font-attribute.js";
 
 describe("theme font stacks", () => {
   it("defines a stack for every theme font slug", () => {

@@ -10,13 +10,13 @@
  * | preview-head.html | not used — prefer bundled import |
  * | PostCSS | apps/storybook/postcss.config.mjs — Vite picks it up; no addon-styling-webpack |
  * | CSS-in-JS context | shadcnStudioThemeDecorator (next-themes) — not @storybook/addon-themes |
- * | Static assets / fonts | main.ts staticDirs; Geist via token fallbacks in shadcn-studio.css |
+ * | Static assets / fonts | main.ts staticDirs; Geist via token fallbacks in shadcn-default.css |
  */
 
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@afenda/shadcn-studio/shadcn-studio.css";
+@import "@afenda/shadcn-studio/shadcn-default.css";
 @import "../stories/afenda-expensive-calm.css";
 @import "../stories/lab-welcome-vercel.css";
 

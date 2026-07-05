@@ -18,7 +18,7 @@ const REQUIRED_CSS_IMPORTS = [
   '@import "tailwindcss";',
   '@import "tw-animate-css";',
   '@import "shadcn/tailwind.css";',
-  '@import "@afenda/shadcn-studio/shadcn-studio.css";',
+  '@import "@afenda/shadcn-studio/shadcn-default.css";',
 ] as const;
 
 describe("css preview parity (AdminCN / shadcn studio SSOT)", () => {

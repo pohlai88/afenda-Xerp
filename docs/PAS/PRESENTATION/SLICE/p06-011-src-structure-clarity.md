@@ -58,7 +58,7 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md
      packages/shadcn-studio/src/lab/index.ts (new — lab barrel)
      apps/storybook/** (consumers of story-parameters)
      packages/shadcn-studio/src/index.ts header comment
-     packages/shadcn-studio/src/theme/theme-preset.contract.ts header
+     packages/shadcn-studio/src/theme-config/config.preset.contract.ts header
      packages/shadcn-studio/src/_storybook/story-parameters.ts header
    Phase 2 (delivered):
      .cursor/skills/shadcn-studio/SKILL.md
@@ -84,7 +84,7 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md
      packages/shadcn-studio/README.md
    Phase 4 (deferred — separate approval):
      Physical lab folder consolidation — NOT in initial close
-4. Prohibited   — Rename components/ui/ or components/shadcn-studio/blocks/ · shadcn --overwrite on existing ui/* · @afenda/kernel import · foundation-disposition.registry.ts · ERP route changes · PAS-005 slice re-execution · moving contracts/registry/governance under components/
+4. Prohibited   — Rename components-ui/ or components-layouts/ · shadcn --overwrite on existing ui/* · @afenda/kernel import · foundation-disposition.registry.ts · ERP route changes · PAS-005 slice re-execution · moving contracts/registry/governance under components/
 5. Authority    — ADR-0037 · PAS-006A · ADR-0027 · shadcn-studio skill · afenda-primitive-contract skill
 6. Gates        —
    pnpm --filter @afenda/shadcn-studio typecheck
@@ -107,7 +107,7 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md
 ## P06-011 MUST rules
 
 1. MCP **install** aliases (`components.json`) MUST target `components-quarantine/` — not production buckets (ADR-0038).
-2. Production **import** virtual paths (`@/components/ui/*`, `@/components/shadcn-studio/*`) MUST NOT move or rename.
+2. Production **import** virtual paths (`@/components-ui/*`, `@/components/shadcn-studio/*`) MUST NOT move or rename.
 3. L1 Authority folders (`meta-contracts/`, `meta-registry/`, `meta-gates/`) MUST remain at `src/` root — not nested under `components/`.
 4. Zone A/B import policy MUST remain enforced by `pnpm check:studio-import-zones`.
 5. `ARCHITECTURE.md` MUST define all four contract vocabulary terms (primitive, block, wire, data).

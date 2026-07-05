@@ -80,15 +80,11 @@ const nextConfig: NextConfig = {
       // transpilePackages resolves the package root only — wire subpath exports for webpack.
       "@afenda/shadcn-studio/theme": path.join(
         monorepoRoot,
-        "packages/shadcn-studio/src/theme/index.ts"
+        "packages/shadcn-studio/src/theme-runtime/index.ts"
       ),
       "@afenda/shadcn-studio/governance": path.join(
         monorepoRoot,
         "packages/shadcn-studio/src/meta-gates/index.ts"
-      ),
-      "@afenda/shadcn-studio/error-ui": path.join(
-        monorepoRoot,
-        "packages/shadcn-studio/dist/error-ui/index.js"
       ),
     };
     return config;

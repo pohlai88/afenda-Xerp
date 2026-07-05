@@ -132,7 +132,7 @@ Afenda does **not** use Figma Code Connect (Org/Enterprise). Agents **must** fol
 | Tokens | `tokens-complete.json` + optional `shadcncraft-import-variables` |
 | Figma ↔ implementation QA | Storybook `addon-designs` + `STORYBOOK_FIGMA_*` |
 
-In-repo mapping SSOT: `packages/shadcn-studio/src/styles/shadcn-studio.figma-manifest.json` · `ui-primitive-metadata.registry.ts`.
+In-repo mapping SSOT: curated package docs · presentation-lab presets · `ui-primitive-metadata.registry.ts`.
 
 ---
 

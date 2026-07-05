@@ -8,7 +8,7 @@ import {
   ERROR_PAGE_VARIANTS,
   type ErrorPageCopyWire,
   type ErrorPageVariant,
-} from "@afenda/shadcn-studio/error-ui";
+} from "@afenda/shadcn-studio";
 
 export {
   ERROR_PAGE_SHELL_BLOCK_ID,

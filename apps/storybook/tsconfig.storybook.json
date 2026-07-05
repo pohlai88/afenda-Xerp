@@ -13,11 +13,8 @@
     "sourceMap": false,
     "exactOptionalPropertyTypes": false,
     "paths": {
-      "@afenda/shadcn-studio/shadcn-studio.css": [
-        "../../packages/shadcn-studio/src/styles/shadcn-studio.css"
-      ],
-      "@afenda/shadcn-studio/lab": [
-        "../../packages/shadcn-studio/src/lab/index.ts"
+      "@afenda/shadcn-studio/shadcn-default.css": [
+        "../../packages/shadcn-studio/src/styles/shadcn-default.css"
       ],
       "@afenda/shadcn-studio": ["../../packages/shadcn-studio/src/index.ts"],
       "@/components/ui/*": ["../../packages/shadcn-studio/src/components-ui/*"],

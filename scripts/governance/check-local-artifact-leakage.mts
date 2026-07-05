@@ -24,12 +24,6 @@ export interface LocalArtifactLeakageViolation {
   readonly rule: string;
 }
 
-const FIGMA_MANIFEST_RELATIVE =
-  "packages/shadcn-studio/src/styles/shadcn-studio.figma-manifest.json";
-
-const STATE_LEDGER_PACKAGE_PREFIX =
-  "packages/shadcn-studio/src/styles/dsb-state-";
-
 export function checkGitignoreArtifactLines(
   root = repoRoot
 ): LocalArtifactLeakageViolation[] {
@@ -63,67 +57,11 @@ export function checkGitignoreArtifactLines(
   return violations;
 }
 
-export function checkFigmaManifestStateLedger(
-  root = repoRoot
-): LocalArtifactLeakageViolation[] {
-  const manifestPath = join(root, FIGMA_MANIFEST_RELATIVE);
-
-  try {
-    const raw = readFileSync(manifestPath, "utf8");
-    const parsed = JSON.parse(raw) as { stateLedger?: string };
-    const stateLedger = parsed.stateLedger;
-
-    if (typeof stateLedger !== "string" || stateLedger.trim().length === 0) {
-      return [
-        {
-          path: FIGMA_MANIFEST_RELATIVE,
-          message:
-            "stateLedger must point to packages/shadcn-studio dsb-state JSON",
-          rule: LOCAL_ARTIFACT_SURFACE_RULE,
-        },
-      ];
-    }
-
-    const normalized = stateLedger.replace(/\\/g, "/");
-
-    if (normalized.startsWith(".cursor/")) {
-      return [
-        {
-          path: FIGMA_MANIFEST_RELATIVE,
-          message: `stateLedger must not point under .cursor/ (found: ${stateLedger})`,
-          rule: LOCAL_ARTIFACT_SURFACE_RULE,
-        },
-      ];
-    }
-
-    if (!normalized.startsWith(STATE_LEDGER_PACKAGE_PREFIX)) {
-      return [
-        {
-          path: FIGMA_MANIFEST_RELATIVE,
-          message: `stateLedger must start with ${STATE_LEDGER_PACKAGE_PREFIX} (found: ${stateLedger})`,
-          rule: LOCAL_ARTIFACT_SURFACE_RULE,
-        },
-      ];
-    }
-
-    return [];
-  } catch {
-    return [
-      {
-        path: FIGMA_MANIFEST_RELATIVE,
-        message: "Cannot read or parse shadcn-studio.figma-manifest.json",
-        rule: LOCAL_ARTIFACT_SURFACE_RULE,
-      },
-    ];
-  }
-}
-
 export function checkLocalArtifactLeakage(
   root = repoRoot
 ): LocalArtifactLeakageViolation[] {
   const violations: LocalArtifactLeakageViolation[] = [
     ...checkGitignoreArtifactLines(root),
-    ...checkFigmaManifestStateLedger(root),
   ];
 
   const tracked = execSync("git ls-files", {

@@ -2,7 +2,7 @@
 
 export const SHADCN_STUDIO_PACKAGE_VERSION = "0.0.0" as const;
 export const SHADCN_STUDIO_PACKAGE_NAME = "@afenda/shadcn-studio" as const;
-export const SHADCN_STUDIO_CSS_PATH = "./shadcn-studio.css" as const;
+export const SHADCN_DEFAULT_CSS_PATH = "./shadcn-default.css" as const;
 
 export {
   AdmincnNav,
@@ -187,10 +187,18 @@ export { default as LanguageDropdownBlock } from "./components-layouts/dropdown-
 export { default as NotificationDropdownBlock } from "./components-layouts/dropdown-notification.js";
 export { default as ProfileDropdownBlock } from "./components-layouts/dropdown-profile.js";
 export {
+  assertErrorPageCopyWire,
   ERROR_PAGE_COPY_REGISTRY,
+  ERROR_PAGE_SHELL_BLOCK_ID,
+  ERROR_PAGE_VARIANTS,
   type ErrorPageCopyWire,
+  type ErrorPageVariant,
 } from "./components-layouts/error-page-shell.contract.js";
-export { default as ErrorPageShellBlock } from "./components-layouts/error-page-shell.js";
+export {
+  ErrorPageShell,
+  ErrorPageShellBlock,
+  type ErrorPageShellProps,
+} from "./components-layouts/error-page-shell.js";
 export { default as HeroSection01Block } from "./components-layouts/hero-section-01/hero-section-01.js";
 export { default as MenuTriggerBlock } from "./components-layouts/menu-trigger.js";
 export {
@@ -225,13 +233,27 @@ export { SystemAdminSectionHeaderBlock } from "./components-layouts/system-admin
 export { SystemAdminSettingsTableBlock } from "./components-layouts/system-admin-settings-table-block.js";
 export { SystemAdminUsersTableBlock } from "./components-layouts/system-admin-users-table-block.js";
 export {
+  DEFAULT_USER_PROFILE_AVATAR_PRESET_ID,
   default as UserProfileAvatar,
+  getUserProfileAvatarPreset,
+  resolveUserProfileAvatarFallback,
+  resolveUserProfileAvatarImageSrc,
+  USER_PROFILE_AVATAR_PRESETS,
+  type UserProfileAvatarPreset,
+  type UserProfileAvatarPresetId,
   type UserProfileAvatarProps,
+  userProfileAvatarFallbackClassName,
 } from "./components-layouts/user-profile-avatar.js";
 export {
   default as UserProfileAvatarPicker,
   type UserProfileAvatarPickerProps,
   type UserProfileAvatarValue,
+  userProfileAvatarHeroClassName,
+  userProfileAvatarPanelClassName,
+  userProfileAvatarPresetButtonClassName,
+  userProfileAvatarPresetGridClassName,
+  userProfileAvatarPresetIdleClassName,
+  userProfileAvatarPresetSelectedClassName,
 } from "./components-layouts/user-profile-avatar-picker.js";
 export { default as WidgetPaymentHistoryBlock } from "./components-layouts/widget-payment-history.js";
 export { default as WidgetSalesByCountriesBlock } from "./components-layouts/widget-sales-by-countries.js";
@@ -261,24 +283,6 @@ export {
   type KanbanMoveEvent,
   KanbanOverlay,
 } from "./components-ui/kanban.js";
-export {
-  userProfileAvatarFallbackClassName,
-  userProfileAvatarHeroClassName,
-  userProfileAvatarPanelClassName,
-  userProfileAvatarPresetButtonClassName,
-  userProfileAvatarPresetGridClassName,
-  userProfileAvatarPresetIdleClassName,
-  userProfileAvatarPresetSelectedClassName,
-} from "./lib/user-profile-avatar.contract.js";
-export {
-  DEFAULT_USER_PROFILE_AVATAR_PRESET_ID,
-  getUserProfileAvatarPreset,
-  resolveUserProfileAvatarFallback,
-  resolveUserProfileAvatarImageSrc,
-  USER_PROFILE_AVATAR_PRESETS,
-  type UserProfileAvatarPreset,
-  type UserProfileAvatarPresetId,
-} from "./lib/user-profile-avatar.policy.js";
 export {
   type AcceptanceCriterionResult,
   type AcceptanceRecordWire,
@@ -450,35 +454,9 @@ export {
   SURFACE_TEMPLATE_REGISTRY,
 } from "./meta-registry/surface-template.registry.js";
 export {
-  applyThemePresetStyles,
-  clearThemePresetStyles,
-  type ResolvedColorMode,
-} from "./theme/apply-theme-preset.js";
-export {
-  ErpPresentationProviders,
-  type ErpPresentationProvidersProps,
-} from "./theme/erp-presentation-providers.js";
-export {
-  initialSettings,
-  type Settings,
-} from "./theme/settings.contract.js";
-export {
-  type SettingsContextValue,
-  SettingsProvider,
-  type SettingsProviderProps,
-  useSettings,
-} from "./theme/settings-context.js";
-export {
-  parseStoredSettings,
-  readStoredSettings,
-  type StoredSettings,
-  serializeSettings,
-} from "./theme/settings-storage.js";
-export {
   themeConfig,
   themeConfig as themeConfigValues,
-} from "./theme/theme-config.js";
-export { ThemeCustomizer } from "./theme/theme-customizer.js";
+} from "./theme-config/config.defaults.js";
 export {
   assertThemePresetSlug,
   isNamedThemePresetSlug,
@@ -510,5 +488,31 @@ export {
   type ThemeSidebarVariant,
   type ThemeStyleProps,
   type ThemeStyles,
-} from "./theme/theme-preset.contract.js";
-export { themePresets } from "./theme/theme-presets.js";
+} from "./theme-config/config.preset.contract.js";
+export { themePresets } from "./theme-config/config.presets.js";
+export {
+  initialSettings,
+  type Settings,
+} from "./theme-config/config.settings.contract.js";
+export {
+  applyThemePresetStyles,
+  clearThemePresetStyles,
+  type ResolvedColorMode,
+} from "./theme-runtime/theme-runtime.apply-preset-styles.js";
+export { ThemeCustomizer } from "./theme-runtime/theme-runtime.customizer-panel.js";
+export {
+  ErpPresentationProviders,
+  type ErpPresentationProvidersProps,
+} from "./theme-runtime/theme-runtime.erp-providers.js";
+export {
+  type SettingsContextValue,
+  SettingsProvider,
+  type SettingsProviderProps,
+  useSettings,
+} from "./theme-runtime/theme-runtime.settings-provider.js";
+export {
+  parseStoredSettings,
+  readStoredSettings,
+  type StoredSettings,
+  serializeSettings,
+} from "./theme-runtime/theme-runtime.settings-storage.js";

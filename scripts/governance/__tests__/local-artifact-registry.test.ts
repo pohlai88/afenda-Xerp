@@ -47,12 +47,6 @@ describe("matchForbiddenArtifactRedirect", () => {
     expect(matchForbiddenArtifactRedirect(command)).toBe("skills-lock.json");
   });
 
-  it("allows redirects to package state ledger paths", () => {
-    const command =
-      "echo test > packages/shadcn-studio/src/styles/dsb-state-ds-build-afenda-shadcn-2026-001.json";
-    expect(matchForbiddenArtifactRedirect(command)).toBeNull();
-  });
-
   it("allows redirects to audit checkpoints", () => {
     const command =
       "echo '{}' > .cursor/audit/checkpoints/PAS-004A-gate-13.json";

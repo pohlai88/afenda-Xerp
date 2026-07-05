@@ -11,7 +11,7 @@ import {
   type PresentationInventoryEntry,
 } from "../meta-registry/presentation-inventory.registry.js";
 import { SHADCN_STUDIO_BLOCK_PARITY_REGISTRY } from "../meta-registry/studio-block-parity.registry.js";
-import { NAMED_THEME_PRESET_SLUGS } from "../theme/theme-preset.contract.js";
+import { NAMED_THEME_PRESET_SLUGS } from "../theme-config/config.preset.contract.js";
 
 function isPresentationBlockEntry(
   entry: PresentationInventoryEntry
@@ -63,28 +63,6 @@ describe("presentation inventory registry (PAS-006B P06-002)", () => {
         true
       );
     }
-  });
-
-  it("includes editorial lab preset inventory rows (review-only, not theme-presets.ts)", () => {
-    const editorialEntries = PRESENTATION_INVENTORY_REGISTRY.filter(
-      (entry) => entry.layerKind === "editorial-lab-preset"
-    );
-
-    expect(editorialEntries).toHaveLength(2);
-    expect(
-      editorialEntries.some((entry) => entry.presetId === "afenda-brand")
-    ).toBe(true);
-    expect(
-      editorialEntries.some((entry) => entry.presetId === "afenda-verdant")
-    ).toBe(true);
-    expect(editorialEntries.every((entry) => entry.status === "review")).toBe(
-      true
-    );
-    expect(
-      editorialEntries.every((entry) =>
-        entry.cssMirrorPath.startsWith("packages/shadcn-studio/docs/")
-      )
-    ).toBe(true);
   });
 
   it("validates block lifecycle transitions along NS §8.1 order", () => {

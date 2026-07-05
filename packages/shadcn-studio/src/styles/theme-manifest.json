@@ -1,0 +1,88 @@
+{
+  "$schema": "./theme-manifest.schema.json",
+  "tokenContract": "shadcn-ui-tailwind-v4-default",
+  "defaultCssPath": "src/styles/shadcn-default.css",
+  "templatePath": "src/styles/theme-template.css",
+  "themesDirectory": "src/styles/themes",
+  "allowedPromotionStates": ["draft", "review", "approved", "rejected"],
+  "rules": {
+    "themeCssMayImport": false,
+    "themeCssMayDeclareThemeInline": false,
+    "themeCssMayDeclareLayerBase": false,
+    "themeCssMayUseComponentSelectors": false,
+    "themeCssMayDeclareExtraTokensByDefault": false
+  },
+  "canonicalTokens": [
+    "background",
+    "foreground",
+    "card",
+    "card-foreground",
+    "popover",
+    "popover-foreground",
+    "primary",
+    "primary-foreground",
+    "secondary",
+    "secondary-foreground",
+    "muted",
+    "muted-foreground",
+    "accent",
+    "accent-foreground",
+    "destructive",
+    "destructive-foreground",
+    "border",
+    "input",
+    "ring",
+    "chart-1",
+    "chart-2",
+    "chart-3",
+    "chart-4",
+    "chart-5",
+    "sidebar",
+    "sidebar-foreground",
+    "sidebar-primary",
+    "sidebar-primary-foreground",
+    "sidebar-accent",
+    "sidebar-accent-foreground",
+    "sidebar-border",
+    "sidebar-ring",
+    "radius"
+  ],
+  "themes": [
+    {
+      "id": "swiss-noir",
+      "label": "Swiss Noir",
+      "cssPath": "src/styles/themes/swiss-noir.css",
+      "scope": "scoped-theme",
+      "status": "review",
+      "extends": "shadcn-default",
+      "tokenContract": "shadcn-ui-tailwind-v4-default",
+      "allowedExtraTokens": [],
+      "storybookTarget": "",
+      "erpConsumer": "",
+      "owner": "presentation-system",
+      "deferred": [
+        "Do not add visualization opacity tokens until a real chart component requires them and the token contract is extended deliberately.",
+        "Do not promote to ERP globals until Storybook review covers dense tables, forms, authentication, and evidence surfaces.",
+        "Keep cinematic Swiss Noir effects in page or pattern composition, not in the token layer."
+      ]
+    },
+    {
+      "id": "verdant-noir",
+      "label": "Verdant Noir",
+      "cssPath": "src/styles/themes/verdant-noir.css",
+      "scope": "scoped-theme",
+      "status": "review",
+      "extends": "shadcn-default",
+      "tokenContract": "shadcn-ui-tailwind-v4-default",
+      "allowedExtraTokens": [],
+      "storybookTarget": "",
+      "erpConsumer": "",
+      "owner": "presentation-system",
+      "deferred": [
+        "Do not add --afenda-* editorial anchors until the token contract is extended deliberately.",
+        "Do not promote to ERP globals until Storybook review covers dense tables, forms, authentication, and evidence surfaces.",
+        "Keep verdant atmosphere effects in page or pattern composition, not in the token layer."
+      ]
+    }
+  ]
+}

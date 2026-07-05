@@ -3,7 +3,10 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { ThemeProvider } from "next-themes";
 import { describe, expect, it } from "vitest";
 
-import { SettingsProvider, useSettings } from "../theme/settings-context.js";
+import {
+  SettingsProvider,
+  useSettings,
+} from "../theme-runtime/theme-runtime.settings-provider.js";
 
 function SettingsProbe() {
   const { settings, updateSettings } = useSettings();

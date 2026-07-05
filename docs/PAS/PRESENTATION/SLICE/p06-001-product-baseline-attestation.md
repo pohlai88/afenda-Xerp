@@ -59,4 +59,4 @@ Handoff from: docs/PAS/PRESENTATION/SLICE/p06-001-product-baseline-attestation.m
 | --- | --- |
 | 1 | docs/PAS/PRESENTATION/SLICE/presentation-slice-catalog.md |
 | 2 | docs/PAS/pas-status-index.md |
-| 3 | packages/shadcn-studio/src/styles/shadcn-studio.css |
+| 3 | packages/shadcn-studio/src/styles/shadcn-default.css |

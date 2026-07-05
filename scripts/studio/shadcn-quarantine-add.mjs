@@ -3,7 +3,7 @@
  * PAS-006 — Quarantine shadcn CLI wrapper for @afenda/shadcn-studio.
  *
  * Installs via components.json mirrored quarantine aliases. @ss-blocks registry
- * JSON may still write to legacy src/components/shadcn-studio/blocks/ — this
+ * JSON may still write to legacy production targets — this
  * wrapper relocates into mirrored quarantine buckets after install.
  */
 import { spawnSync } from "node:child_process";

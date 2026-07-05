@@ -30,7 +30,7 @@ import {
   DEFAULT_USER_PROFILE_AVATAR_PRESET_ID,
   resolveUserProfileAvatarFallback,
   resolveUserProfileAvatarImageSrc,
-} from "../lib/user-profile-avatar.policy.js";
+} from "./user-profile-avatar.js";
 
 export interface SidebarUserDropdownProps {
   readonly avatarFallback?: string;

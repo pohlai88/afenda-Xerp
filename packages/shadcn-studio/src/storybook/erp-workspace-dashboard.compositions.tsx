@@ -3,7 +3,7 @@
 import { AppShell } from "../components-app-shell/resolve-shell.js";
 import type { McpSeedBlockId } from "../meta-registry/mcp-seed-block-manifest.js";
 import { resolveStudioBlockComponent } from "../meta-registry/studio-block-component.registry.js";
-import { ErpPresentationProviders } from "../theme/erp-presentation-providers.js";
+import { ErpPresentationProviders } from "../theme-runtime/theme-runtime.erp-providers.js";
 
 /** Keep aligned with apps/erp/src/lib/workspace/dashboard-default-layout.preset.ts */
 export type StorybookDashboardLayoutItem = {

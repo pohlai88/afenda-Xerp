@@ -27,11 +27,6 @@ describe("local-artifact-registry", () => {
       )
     ).toBe(true);
     expect(
-      isForbiddenTrackedArtifactPath(
-        "packages/shadcn-studio/src/styles/dsb-state-ds-build-afenda-shadcn-2026-001.json"
-      )
-    ).toBe(false);
-    expect(
       isForbiddenTrackedArtifactPath(".cursor/audit/checkpoints/PAS-001.json")
     ).toBe(false);
   });

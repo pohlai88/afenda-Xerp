@@ -38,7 +38,7 @@ const nextConfig: NextConfig = {
       ...config.resolve.alias,
       "@afenda/shadcn-studio/theme": path.join(
         monorepoRoot,
-        "packages/shadcn-studio/src/theme/index.ts"
+        "packages/shadcn-studio/src/theme-runtime/index.ts"
       ),
     };
     return config;

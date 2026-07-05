@@ -50,10 +50,6 @@ import {
   TabsTrigger,
 } from "../components-ui/tabs.js";
 import { Textarea } from "../components-ui/textarea.js";
-import {
-  afendaBrandPaletteAnchors,
-  afendaBrandPreset,
-} from "../styles/presentation-lab-presets.js";
 import { cn } from "../utils/utils.js";
 import {
   labNoirProofItemClassName,
@@ -66,19 +62,12 @@ import {
 
 type DashboardSeries = "admincn-light" | "admincn-dark" | "brand-dark";
 
-const BRAND_CLASS = afendaBrandPreset.className;
+const BRAND_CLASS = "theme-afenda-brand";
 
 const SWISS_NOIR_PROOF = [
   { id: "surfaces", value: "06", label: "Surfaces" },
   { id: "presets", value: "12", label: "Presets" },
   { id: "gates", value: "05", label: "Gates" },
-] as const;
-
-const BRAND_ANCHOR_SWATCHES = [
-  { token: "ink", value: afendaBrandPaletteAnchors.ink },
-  { token: "paper", value: afendaBrandPaletteAnchors.paper },
-  { token: "gold", value: afendaBrandPaletteAnchors.gold },
-  { token: "blueprint", value: afendaBrandPaletteAnchors.blueprint },
 ] as const;
 
 const SEMANTIC_SWATCHES = [
@@ -151,19 +140,19 @@ function seriesMeta(series: DashboardSeries) {
     case "admincn-light":
       return {
         title: "Light mode",
-        subtitle: "shadcn-studio.css semantic palette · :root",
+        subtitle: "shadcn-default.css semantic palette · :root",
         badge: "base-vega",
         footer:
-          "packages/shadcn-studio/src/styles/shadcn-studio.css · :root tokens",
+          "packages/shadcn-studio/src/styles/shadcn-default.css · :root tokens",
         modeKey: "light" as const,
       };
     case "admincn-dark":
       return {
         title: "Dark mode",
-        subtitle: "shadcn-studio.css semantic palette · .dark",
+        subtitle: "shadcn-default.css semantic palette · .dark",
         badge: "base-vega",
         footer:
-          "packages/shadcn-studio/src/styles/shadcn-studio.css · .dark tokens",
+          "packages/shadcn-studio/src/styles/shadcn-default.css · .dark tokens",
         modeKey: "dark" as const,
       };
     case "brand-dark":
@@ -318,23 +307,6 @@ function EnterpriseDashboardPanel({ series }: { series: DashboardSeries }) {
         <div className="relative z-10">
           <SwissNoirProofStrip />
         </div>
-      ) : null}
-
-      {isBrand ? (
-        <Section
-          description="Chromatic anchors from afenda-brand.preset.ts — Figma Primitives lineage"
-          title="Swiss Noir anchors"
-        >
-          <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-            {BRAND_ANCHOR_SWATCHES.map((swatch) => (
-              <Swatch
-                key={swatch.token}
-                token={swatch.token}
-                value={swatch.value}
-              />
-            ))}
-          </div>
-        </Section>
       ) : null}
 
       <Section

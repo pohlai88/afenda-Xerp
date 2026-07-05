@@ -1,13 +1,13 @@
 /**
  * apps/erp — CSS composition entry (AdminCN / shadcn studio SSOT).
  * Import order matches _reference/.../src/app/globals.css.
- * Theme + polish: @afenda/shadcn-studio/shadcn-studio.css
+ * Theme + polish: @afenda/shadcn-studio/shadcn-default.css
  */
 
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@afenda/shadcn-studio/shadcn-studio.css";
+@import "@afenda/shadcn-studio/shadcn-default.css";
 
 .auth-pixel-shell {
   position: absolute;

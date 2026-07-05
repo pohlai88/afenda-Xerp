@@ -1,11 +1,11 @@
 import type { StoryObj } from "@storybook/react";
+import type { FlatBlockStoryEntry } from "./block-flat-story.registry.js";
 import {
   shadcnStudioCenteredLayout,
   shadcnStudioDarkThemeGlobals,
   shadcnStudioFullscreenLayout,
   shadcnStudioPaddedLayout,
-} from "../lab/index.js";
-import type { FlatBlockStoryEntry } from "./block-flat-story.registry.js";
+} from "./story-parameters.js";
 
 type FlatStory = StoryObj;
 

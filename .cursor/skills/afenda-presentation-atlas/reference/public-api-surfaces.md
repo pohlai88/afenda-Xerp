@@ -49,7 +49,7 @@ See [blocks-inventory.md](./blocks-inventory.md) for slug mapping.
 | `ERROR_PAGE_COPY_REGISTRY`, `ERROR_PAGE_VARIANTS`, `ErrorPageCopyWire`, `ErrorPageVariant` | `./components-layouts/error-page-shell.contract.js` |
 | `MorphingText`, `MorphingTextProps` | `./components-layouts/morphing-text.js` |
 
-**Client-safe error boundary subpath:** `@afenda/shadcn-studio/error-ui` — `ErrorPageShell`, `MorphingText`, `DotGrid`, `Button`, copy registry (no governance/fs deps).
+**Client-safe error boundary exports:** use `@afenda/shadcn-studio` main barrel for `ErrorPageShell`, copy registry, and error-page contract types. Next.js owns the app error boundary; no separate `error-ui` subpath is maintained.
 
 ---
 

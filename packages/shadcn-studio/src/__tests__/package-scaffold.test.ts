@@ -3,7 +3,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import {
-  SHADCN_STUDIO_CSS_PATH,
+  SHADCN_DEFAULT_CSS_PATH,
   SHADCN_STUDIO_PACKAGE_NAME,
   THEME_PRESET_SLUGS,
 } from "../index.js";
@@ -34,10 +34,10 @@ describe("@afenda/shadcn-studio package scaffold", () => {
   });
 
   it("ships base theme CSS at the documented export path", () => {
-    expect(existsSync(join(packageRoot, "src/styles/shadcn-studio.css"))).toBe(
+    expect(existsSync(join(packageRoot, "src/styles/shadcn-default.css"))).toBe(
       true
     );
-    expect(SHADCN_STUDIO_CSS_PATH).toBe("./shadcn-studio.css");
+    expect(SHADCN_DEFAULT_CSS_PATH).toBe("./shadcn-default.css");
   });
 
   it("does not declare prohibited @afenda runtime packages", () => {

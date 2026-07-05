@@ -5,13 +5,13 @@ import StatisticsCard01Block from "../components-layouts/statistics-card-01.js";
 import StatisticsCard02Block from "../components-layouts/statistics-card-02.js";
 import StatisticsCard03Block from "../components-layouts/statistics-card-03.js";
 import StatisticsCard04Block from "../components-layouts/statistics-card-04.js";
-import { SettingsProvider } from "../theme/settings-context.js";
-import { ThemeCustomizer } from "../theme/theme-customizer.js";
 import {
   THEME_PRESET_SLUGS,
   type ThemePresetSlug,
-} from "../theme/theme-preset.contract.js";
-import { themePresets } from "../theme/theme-presets.js";
+} from "../theme-config/config.preset.contract.js";
+import { themePresets } from "../theme-config/config.presets.js";
+import { ThemeCustomizer } from "../theme-runtime/theme-runtime.customizer-panel.js";
+import { SettingsProvider } from "../theme-runtime/theme-runtime.settings-provider.js";
 
 /** Self-contained preview for Storybook autodocs `meta.component` (docs iframe skips decorators). */
 export function ThemeCustomizerDocumentationPreview() {

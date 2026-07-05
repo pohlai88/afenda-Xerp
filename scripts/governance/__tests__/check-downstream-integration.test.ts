@@ -22,7 +22,7 @@ describe("check-downstream-integration", () => {
       "utf8"
     );
 
-    expect(globals).toContain("@afenda/shadcn-studio/shadcn-studio.css");
+    expect(globals).toContain("@afenda/shadcn-studio/shadcn-default.css");
     expect(globals).toContain('@import "tailwindcss"');
     expect(globals).toContain('@import "tw-animate-css"');
     expect(globals).toContain('@import "shadcn/tailwind.css"');
@@ -37,7 +37,7 @@ describe("check-downstream-integration", () => {
       "utf8"
     );
 
-    expect(globals).toContain("@afenda/shadcn-studio/shadcn-studio.css");
+    expect(globals).toContain("@afenda/shadcn-studio/shadcn-default.css");
     expect(globals).toContain('@import "tailwindcss"');
     expect(globals).not.toContain("presentation-lab");
     expect(globals).not.toContain("swiss-noir.css");
@@ -50,7 +50,7 @@ describe("check-downstream-integration", () => {
       "utf8"
     );
 
-    expect(preview).toContain("@afenda/shadcn-studio/shadcn-studio.css");
+    expect(preview).toContain("@afenda/shadcn-studio/shadcn-default.css");
     expect(preview).not.toContain("swiss-noir.css");
     expect(preview).not.toContain("verdant-noir.css");
     expect(preview).not.toContain("afenda-brand.css");

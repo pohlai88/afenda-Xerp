@@ -258,10 +258,11 @@ Source: [`dependency-registry.data.ts`](../../packages/architecture-authority/sr
 shadcn/studio MCP + CLI (vendor)
         ↓ install cwd: packages/shadcn-studio
 shadcn/studio Presentation box
-        ├── src/components/ui/        (primitives)
-        ├── src/components/shadcn-studio/blocks/  (blocks)
-        ├── src/theme/                (presets · customizer)
-        └── src/styles/shadcn-studio.css → dist/
+        ├── src/components-ui/        (primitives)
+        ├── src/components-layouts/  (blocks)
+        ├── src/theme-runtime/        (runtime facade · providers · customizer)
+        ├── src/theme-config/         (preset contracts · defaults · storage helpers)
+        └── src/styles/shadcn-default.css → dist/
         ↓ compile-time import
 apps/storybook  (block verification lab)
 apps/erp        (product shell + routes)
@@ -286,7 +287,7 @@ apps/erp/src/app/globals.css
   1. @import "tailwindcss"
   2. @import "tw-animate-css"
   3. @import "shadcn/tailwind.css"
-  4. @import "@afenda/shadcn-studio/shadcn-studio.css"   ← theme + @custom-variant (unlayered)
+  4. @import "@afenda/shadcn-studio/shadcn-default.css"   ← theme + @custom-variant (unlayered)
 ```
 
 Storybook `preview.css` mirrors the same four-import order.
@@ -294,8 +295,8 @@ Storybook `preview.css` mirrors the same four-import order.
 Dist sync (single policy target):
 
 ```txt
-packages/shadcn-studio/src/styles/shadcn-studio.css
-  → packages/shadcn-studio/dist/shadcn-studio.css
+packages/shadcn-studio/src/styles/shadcn-default.css
+  → packages/shadcn-studio/dist/shadcn-default.css
 ```
 
 Source: [`package-css-dist-policy.mjs`](../../scripts/governance/package-css-dist-policy.mjs) · [`apps/erp/src/app/globals.css`](../../apps/erp/src/app/globals.css)
@@ -304,7 +305,7 @@ Source: [`package-css-dist-policy.mjs`](../../scripts/governance/package-css-dis
 
 ```text
 MCP install (packages/shadcn-studio cwd)
-  → @afenda/shadcn-studio/src/blocks|components/ui/
+  → @afenda/shadcn-studio/src/blocks|components-ui/
   → import in apps/erp
   → pnpm --filter @afenda/shadcn-studio typecheck
   → pnpm --filter @afenda/erp typecheck && build
@@ -427,12 +428,12 @@ pnpm check:documentation-drift · disposition · boundaries
 | Surface           | Path                                                                  | Role                             |
 | ----------------- | --------------------------------------------------------------------- | -------------------------------- |
 | Public barrel     | `packages/shadcn-studio/src/index.ts`                                 | Block exports · theme · registry |
-| Primitives        | `packages/shadcn-studio/src/components/ui/`                           | shadcn CLI targets               |
-| Blocks            | `packages/shadcn-studio/src/components/shadcn-studio/blocks/`         | MCP-installed blocks             |
-| Theme             | `packages/shadcn-studio/src/theme/theme-presets.ts`                   | JSON-serializable presets        |
+| Primitives        | `packages/shadcn-studio/src/components-ui/`                           | shadcn CLI targets               |
+| Blocks            | `packages/shadcn-studio/src/components-layouts/`         | MCP-installed blocks             |
+| Theme             | `packages/shadcn-studio/src/theme-config/config.presets.ts`                         | JSON-serializable presets        |
 | Block registry    | `packages/shadcn-studio/src/registry/studio-block-parity.registry.ts` | Parity inventory                 |
-| CSS source        | `packages/shadcn-studio/src/styles/shadcn-studio.css`                 | Authoring surface                |
-| CSS dist          | `packages/shadcn-studio/dist/shadcn-studio.css`                       | App import target                |
+| CSS source        | `packages/shadcn-studio/src/styles/shadcn-default.css`                 | Authoring surface                |
+| CSS dist          | `packages/shadcn-studio/dist/shadcn-default.css`                       | App import target                |
 | ERP globals       | `apps/erp/src/app/globals.css`                                        | Composition entry                |
 | Storybook stories | `apps/storybook/stories/shadcn-studio-*.stories.tsx`                  | Block verification               |
 | MCP config        | `.cursor/mcp.json` · `shadcn-studio.config.json`                      | Agent install paths              |

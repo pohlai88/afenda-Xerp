@@ -1,10 +1,4 @@
 import { describe, expect, it } from "vitest";
-
-import {
-  applyThemePresetStyles,
-  clearThemePresetStyles,
-  resolveColorMode,
-} from "../theme/apply-theme-preset.js";
 import {
   assertThemePresetSlug,
   isThemeFont,
@@ -13,8 +7,13 @@ import {
   PRESET_CSS_VARS,
   THEME_FONTS,
   THEME_PRESET_SLUGS,
-} from "../theme/theme-preset.contract.js";
-import { themePresets } from "../theme/theme-presets.js";
+} from "../theme-config/config.preset.contract.js";
+import { themePresets } from "../theme-config/config.presets.js";
+import {
+  applyThemePresetStyles,
+  clearThemePresetStyles,
+  resolveColorMode,
+} from "../theme-runtime/theme-runtime.apply-preset-styles.js";
 
 describe("theme preset registry", () => {
   it("exports all typed preset slugs including default", () => {

@@ -22,21 +22,17 @@ Use when integrating Figma designs via MCP (`get_design_context`, `get_screensho
 
 | Series | Figma collection | Modes | CSS authority | Scoped class |
 |--------|------------------|-------|---------------|--------------|
-| AdminCN default | **Color** | Light, Dark | `packages/shadcn-studio/src/styles/shadcn-studio.css` | `:root` / `.dark` |
-| Brand (Swiss Noir DNA) | **Color Brand** | Brand Light, Brand Dark | `packages/shadcn-studio/docs/swiss-noir.css` | `.theme-afenda-brand` |
-| Lab editorial (Swiss) | — (Storybook per-story) | — | `docs/swiss-noir.css` | `.theme-afenda-swiss-noir` |
-| Lab editorial (Verdant) | — (Storybook per-story) | — | `docs/verdant-noir.css` | `.theme-afenda-verdant-milk-noir` |
+| AdminCN default | **Color** | Light, Dark | `packages/shadcn-studio/src/styles/shadcn-default.css` | `:root` / `.dark` |
+| Swiss Noir | **Color Brand** | Light, Dark | `packages/shadcn-studio/src/styles/themes/swiss-noir.css` | `.theme-swiss-noir` |
+| Verdant Noir | — | Light, Dark | `packages/shadcn-studio/src/styles/themes/verdant-noir.css` | `.theme-verdant-noir` |
 | Raw anchors | **Primitives** | Value | `tokens-complete.json` | future aliasing |
-| Spacing / radius | **Spacing**, **Radius** | Value | `shadcn-studio.css` `@theme` | `--spacing-*`, `--radius-*` |
+| Spacing / radius | **Spacing**, **Radius** | Value | `shadcn-default.css` `@theme` | `--spacing-*`, `--radius-*` |
 
 **SSOT JSON:** `packages/shadcn-studio/tokens-complete.json`
 
 **Manifests:**
 
-- `packages/shadcn-studio/src/styles/shadcn-studio.figma-manifest.json` — master file map
-- `packages/shadcn-studio/src/styles/afenda-brand.figma-manifest.json` — Color Brand ↔ CSS
-
-**Preset (review artifact):** `packages/shadcn-studio/src/styles/afenda-brand.preset.ts` — Swiss Noir anchors (ink, paper, gold, blueprint)
+Figma manifest JSON files are no longer kept under `packages/shadcn-studio/src/styles`; use curated package docs, theme CSS, and Storybook verification surfaces as source evidence instead.
 
 **Figma → code:** Use `get_variable_defs` or import-variables skill; diff against manifests. Never invent hex in components when a semantic token exists.
 
@@ -71,7 +67,7 @@ Use when integrating Figma designs via MCP (`get_design_context`, `get_screensho
 | Next.js | App Router — `apps/erp` |
 | Storybook | `apps/storybook` — visual SSOT for tokens + primitives |
 | Tailwind | v4 via `@import "tailwindcss"` in package/app CSS |
-| shadcn | unprefixed CSS vars; `@afenda/shadcn-studio/shadcn-studio.css` |
+| shadcn | unprefixed CSS vars; `@afenda/shadcn-studio/shadcn-default.css` |
 | Icons | `lucide-react` |
 | Build | pnpm monorepo · Turborepo |
 
@@ -104,19 +100,19 @@ Use when integrating Figma designs via MCP (`get_design_context`, `get_screensho
 
 ```
 apps/storybook/.storybook/preview.css
-  → @afenda/shadcn-studio/shadcn-studio.css   (AdminCN :root / .dark)
+  → @afenda/shadcn-studio/shadcn-default.css   (AdminCN :root / .dark)
 
-Per-story (Presentation Lab — not global preview):
-  → packages/shadcn-studio/docs/swiss-noir.css   (Swiss / brand shell)
-  → packages/shadcn-studio/docs/verdant-noir.css (Verdant Milk Noir)
+Optional scoped theme layers:
+  → @afenda/shadcn-studio/themes/swiss-noir.css
+  → @afenda/shadcn-studio/themes/verdant-noir.css
 
 apps/erp/src/app/globals.css
-  → @afenda/shadcn-studio/shadcn-studio.css   (production default)
+  → @afenda/shadcn-studio/shadcn-default.css   (production default)
 ```
 
 **Methodology:** Tailwind v4 utility classes + CSS custom properties. No CSS Modules for shadcn primitives.
 
-**Theme switching:** `next-themes` `class` strategy; brand surfaces use `.theme-afenda-brand` wrapper + optional `.dark`.
+**Theme switching:** `next-themes` `class` strategy; themed surfaces use a scoped theme class wrapper + optional `.dark`.
 
 **Responsive:** Tailwind breakpoints (`sm`, `lg`, `xl`, `2xl`); Storybook fullscreen layouts via `shadcnStudioFullscreenLayout`.
 
@@ -124,12 +120,12 @@ apps/erp/src/app/globals.css
 
 1. AdminCN Light — `:root` from `shadcn-studio.css` (no wrapper class)
 2. AdminCN Dark — `.dark` on panel wrapper only
-3. Brand Dark — `.dark` + `.theme-afenda-brand` + `.theme-afenda-swiss-noir` + `lab-noir-canvas`
+3. Scoped theme dark — `.dark` + a governed theme class wrapper
 
 **Hard stops (CSS authority):**
 
 - **Never** copy `:root` / `.dark` token blocks into `storybook/*.css` — that creates drift (vibe-coding V011).
-- **Never** put global `:root` or bare `.dark` overrides in lab theme CSS — use scoped classes only (`.theme-afenda-verdant-milk-noir`, `.theme-afenda-brand`).
+- **Never** put global `:root` or bare `.dark` overrides in theme CSS — use scoped classes only.
 - **Never** add new semantic tokens to fix one Storybook story — use existing `--primary`, `--destructive`, etc.
 - Side-by-side columns inherit from `html`; keep story `globals.theme: "light"` so AdminCN Light column reads `:root` SSOT.
 

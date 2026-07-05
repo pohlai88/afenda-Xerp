@@ -1,4 +1,3 @@
-import { shadcnStudioFullscreenLayout } from "@afenda/shadcn-studio/lab";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect } from "storybook/test";
 import {
@@ -15,7 +14,6 @@ export const erpWorkspaceDashboardMeta = {
   component: ErpWorkspaceDashboardPageSample,
   tags: ["autodocs"],
   parameters: {
-    ...shadcnStudioFullscreenLayout,
     docs: {
       description: {
         component:

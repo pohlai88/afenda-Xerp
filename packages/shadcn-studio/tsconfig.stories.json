@@ -13,7 +13,6 @@
     "sourceMap": false,
     "exactOptionalPropertyTypes": false,
     "paths": {
-      "@afenda/shadcn-studio/lab": ["./src/lab/index.ts"],
       "@afenda/shadcn-studio": ["./src/index.ts"],
       "@/components/ui/*": ["./src/components-ui/*"],
       "@/components/shadcn-studio/*": ["./src/components-layouts/*"],
@@ -35,8 +34,6 @@
     "src/**/*.stories.tsx",
     "src/storybook/**/*.ts",
     "src/storybook/**/*.tsx",
-    "src/lab/**/*.ts",
-    "src/lab/**/*.tsx",
     "src/components-ui/**/*.tsx",
     "src/components-layouts/**/*.tsx",
     "src/components-auth-shell/**/*.tsx",

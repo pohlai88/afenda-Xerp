@@ -25,8 +25,8 @@ import type {
   AppShellNavGroupWire,
   AppShellOperatingContextWire,
 } from "../meta-contracts/app-shell.contract.js";
-import { useSettings } from "../theme/settings-context.js";
-import { ThemeCustomizer } from "../theme/theme-customizer.js";
+import { ThemeCustomizer } from "../theme-runtime/theme-runtime.customizer-panel.js";
+import { useSettings } from "../theme-runtime/theme-runtime.settings-provider.js";
 import { AdmincnNav } from "./admincn-nav.js";
 
 export interface AdmincnShellProps {

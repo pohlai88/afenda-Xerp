@@ -9,7 +9,7 @@ import {
   shadcnStudioCenteredLayout,
   shadcnStudioFullscreenLayout,
   shadcnStudioStoryA11y,
-} from "../../lab/index.js";
+} from "../story-parameters.js";
 
 /** Component-level docs prose for all agentic pilot metas. */
 export const agenticAutodocsParameters = {

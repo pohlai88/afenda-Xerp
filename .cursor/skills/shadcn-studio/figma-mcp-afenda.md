@@ -66,13 +66,9 @@ Agents resolve Figma → code using these files **before** generating JSX:
 
 | File | Purpose |
 | --- | --- |
-| `packages/shadcn-studio/src/styles/shadcn-studio.figma-manifest.json` | Master Figma file map: collections, v1 components, node IDs → source paths |
-| `packages/shadcn-studio/src/styles/afenda-brand.figma-manifest.json` | Color Brand collection ↔ `docs/swiss-noir.css` (per-story quarantine) |
-| `packages/shadcn-studio/src/styles/afenda-verdant.figma-manifest.json` | Verdant Milk Noir lab ↔ `docs/verdant-noir.css` (per-story quarantine) |
-| `packages/shadcn-studio/src/styles/dsb-state-ds-build-afenda-shadcn-2026-001.json` | Design-system build ledger (FULL_PASS) |
 | `packages/shadcn-studio/tokens-complete.json` | Token SSOT |
 | `packages/shadcn-studio/src/governance/ui-primitive-metadata.registry.ts` | Governed primitive inventory |
-| `packages/shadcn-studio/src/components/ui/{name}.contract.ts` | Variant axes, slots, cva per primitive |
+| `packages/shadcn-studio/src/components-ui/{name}.contract.ts` | Variant axes, slots, cva per primitive |
 | `.cursor/skills/shadcncraft-generate-code/references/registry-index.json` | Frame name / data-slot → `@shadcncraft/{name}` |
 | `.cursor/skills/shadcncraft-generate-code/references/figma-node-hints.json` | Weak node-id hints only — corroboration, not primary key |
 

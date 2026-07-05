@@ -61,7 +61,7 @@ Afenda is an enterprise resource planning platform for organizations that operat
 - All canonical enterprise wire contracts (IDs, contexts, vocabularies)
 - The accepted meaning of every contested business term (via Enterprise Knowledge)
 - Versioned financial-standard rules (via Accounting Standards)
-- Visual truth — tokens, primitives, UI contracts
+- Visual truth — governed ERP presentation surfaces through `@afenda/shadcn-studio`
 - All ERP domain runtime: accounting, consolidation, inventory, HRM, CRM, procurement
 - Documentation governance: every feature spec lives in a PAS
 
@@ -110,8 +110,7 @@ Each row is a feature area. Each feature area has one governing PAS. When you wa
 | **Kernel & identity** | Canonical IDs, operating contexts, ERP domain vocabulary | PAS-001, PAS-001A, PAS-001B | Live |
 | **Enterprise knowledge** | Accepted meaning of contested business terms | PAS-004 … PAS-004D | Live |
 | **Accounting standards** | IFRS/MFRS/SFRS rules, validation before posting | PAS-003 | Live (B1+ pending) |
-| **CSS & design tokens** | Visual tokens, CSS authority registry | PAS-005 | Live |
-| **UI primitives & presentation** | Governed component primitives, shadcn/studio integration | PAS-005A | Live |
+| **ERP presentation** | Governed operator surfaces, theme binding, studio manufacturing chain | PAS-006, PAS-006A-D | Live |
 | **Accounting runtime** | Journal posting, ledger, chart of accounts | PAS-006+ | Blocked (ADR-0010) |
 | **Consolidation** | Group consolidation calculations | Planned | Planned |
 | **Intercompany** | IC pricing, eliminations, matching | Planned | Planned |
@@ -301,8 +300,7 @@ The complete list of PAS families by layer. Every § 4 surface maps to one row h
 | Platform | Platform governance & registries | `@afenda/architecture-authority` | PAS-002, PAS-002A | Live |
 | Platform | Kernel contracts & ERP vocabulary | `@afenda/kernel` | PAS-001, PAS-001A, PAS-001B | Live |
 | Platform | Enterprise knowledge | `@afenda/enterprise-knowledge` | PAS-004 … PAS-004D | Live |
-| Design | CSS authority & design tokens | `@afenda/css-authority` | PAS-005 | Live |
-| Design | UI primitives & presentation | `@afenda/ui` / `@afenda/shadcn-studio` | PAS-005A, PAS-005B | Live |
+| Design | ERP presentation | `@afenda/shadcn-studio` | PAS-006, PAS-006A-D | Live |
 | Foundation | Accounting standards authority | `@afenda/accounting-standards` | PAS-003 | Live (B1+ pending) |
 | Domain | Accounting runtime (posting, ledger) | `@afenda/accounting` | PAS-006+ | Blocked |
 | Domain | Consolidation | `@afenda/consolidation` | Planned | Planned |

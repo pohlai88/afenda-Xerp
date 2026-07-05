@@ -13,12 +13,12 @@ import {
   THEME_MODULE_FILES,
   THEME_MODULE_REGISTRY,
   THEME_REGISTRY_EXCLUDED_FILES,
-} from "../theme/_theme-inventory.registry.js";
+} from "../theme-config/config.inventory.registry.js";
 
-const themeDir = join(import.meta.dirname, "../theme");
+const themeConfigDir = join(import.meta.dirname, "../theme-config");
 
 function discoverThemeModuleFiles(): string[] {
-  return readdirSync(themeDir, { withFileTypes: true })
+  return readdirSync(themeConfigDir, { withFileTypes: true })
     .filter(
       (entry) =>
         entry.isFile() &&
@@ -54,29 +54,26 @@ describe("theme module inventory registry", () => {
   it("every registry entry maps to an on-disk module", () => {
     for (const entry of THEME_MODULE_REGISTRY) {
       expect(
-        existsSync(join(themeDir, entry.file)),
+        existsSync(join(themeConfigDir, entry.file)),
         `${entry.file} must exist`
       ).toBe(true);
       expect(entry.exports.length).toBeGreaterThan(0);
     }
   });
 
-  it("exports flat-L2-theme series metadata", () => {
-    expect(THEME_INVENTORY_SERIES).toBe("flat-L2-theme");
+  it("exports flat-L2-theme-config series metadata", () => {
+    expect(THEME_INVENTORY_SERIES).toBe("flat-L2-theme-config");
     expect(THEME_INVENTORY_MARKER).toBe("@afenda.theme-inventory");
-    expect(THEME_INVENTORY_REFACTORED).toBe("2026-07-01");
+    expect(THEME_INVENTORY_REFACTORED).toBe("2026-07-05");
   });
 
   it("marks boundary modules as serializable", () => {
     const serializable = listSerializableThemeModules();
     expect(serializable.map((entry) => entry.file)).toEqual([
-      "theme-preset.contract.ts",
-      "theme-presets.ts",
-      "theme-config.ts",
-      "settings.contract.ts",
-      "settings-storage.ts",
-      "apply-theme-preset.ts",
-      "theme-font-stacks.ts",
+      "config.preset.contract.ts",
+      "config.presets.ts",
+      "config.defaults.ts",
+      "config.settings.contract.ts",
     ]);
   });
 });

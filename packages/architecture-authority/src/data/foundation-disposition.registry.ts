@@ -1289,7 +1289,7 @@ const foundationDispositionEntries = [
       "packages/shadcn-studio/package.json",
       "packages/shadcn-studio/src/index.ts",
       "packages/shadcn-studio/src/theme/theme-presets.ts",
-      "packages/shadcn-studio/src/styles/shadcn-studio.css",
+      "packages/shadcn-studio/src/styles/shadcn-default.css",
       "packages/shadcn-studio/src/meta-registry/block-lifecycle-mutation.ts",
       "packages/shadcn-studio/src/meta-registry/block-slot.registry.ts",
       "packages/shadcn-studio/src/meta-registry/surface-template.registry.ts",

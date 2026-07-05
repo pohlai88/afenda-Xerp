@@ -12,13 +12,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DEFAULT_USER_PROFILE_AVATAR_PRESET_ID } from "../../../lib/user-profile-avatar.policy.js";
 import { blockSlotDomMarkerProps } from "../../../meta-contracts/block-slot-dom-marker.contract.js";
 import {
   accountSettingsSectionContentClassName,
   accountSettingsSectionGridClassName,
   accountSettingsSectionHeadingClassName,
 } from "../../_shared/account-settings-page-shell.js";
+import { DEFAULT_USER_PROFILE_AVATAR_PRESET_ID } from "../../user-profile-avatar.js";
 import UserProfileAvatarPicker, {
   type UserProfileAvatarValue,
 } from "../../user-profile-avatar-picker.js";

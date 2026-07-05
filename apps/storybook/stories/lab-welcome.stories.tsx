@@ -2,11 +2,6 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { expect } from "storybook/test";
 
 import {
-  shadcnStudioFullscreenLayout,
-  shadcnStudioLabWelcomeDocs,
-} from "@afenda/shadcn-studio/lab";
-
-import {
   LabAcceptanceGatesPanel,
   LabSectionCatalog,
   LabWelcomeBriefing,
@@ -25,10 +20,11 @@ const meta = {
   component: LabWelcomeSurface,
   tags: ["autodocs"],
   parameters: {
-    ...shadcnStudioFullscreenLayout,
+    layout: "fullscreen",
     docs: {
       description: {
-        component: shadcnStudioLabWelcomeDocs.component,
+        component:
+          "Verification-only Storybook surface for Afenda presentation review. Not an ERP runtime import path.",
       },
     },
   },

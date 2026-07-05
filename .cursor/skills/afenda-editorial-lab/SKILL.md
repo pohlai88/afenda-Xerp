@@ -9,7 +9,7 @@ description: >-
 paths:
   - packages/shadcn-studio/docs/**
   - packages/shadcn-studio/src/storybook/**
-  - packages/shadcn-studio/src/styles/presentation-lab-presets*
+  - packages/shadcn-studio/src/styles/themes/**
   - apps/storybook/stories/presentation-lab*
   - apps/storybook/stories/erp-workspace-dashboard-*-noir*
 ---
@@ -60,14 +60,15 @@ Do **not** say: "Make it beautiful" / "Use Swiss Noir" / "Make it editorial" / "
 
 Stop and report if any source is missing — do not invent doctrine.
 
-1. `packages/shadcn-studio/src/styles/presentation-lab-presets.registry.ts`
-2. `packages/shadcn-studio/src/storybook/auth-pattern-lab.registry.ts`
-3. `packages/shadcn-studio/docs/swiss.noir.md`
-4. `packages/shadcn-studio/docs/verdant.noir.md`
-5. `packages/shadcn-studio/docs/auth-ingress-ecosystem.md`
-6. `packages/shadcn-studio/src/storybook/presentation-lab/presentation-lab.noir.contract.ts`
-7. `packages/shadcn-studio/src/storybook/presentation-lab/presentation-lab.contract.ts`
-8. `packages/shadcn-studio/src/storybook/presentation-lab/presentation-lab-login.contract.ts`
+1. `packages/shadcn-studio/src/storybook/auth-pattern-lab.registry.ts`
+2. `packages/shadcn-studio/docs/swiss.noir.md`
+3. `packages/shadcn-studio/docs/verdant.noir.md`
+4. `packages/shadcn-studio/docs/auth-ingress-ecosystem.md`
+5. `packages/shadcn-studio/src/styles/themes/swiss-noir.css`
+6. `packages/shadcn-studio/src/styles/themes/verdant-noir.css`
+7. `packages/shadcn-studio/src/storybook/presentation-lab/presentation-lab.noir.contract.ts`
+8. `packages/shadcn-studio/src/storybook/presentation-lab/presentation-lab.contract.ts`
+9. `packages/shadcn-studio/src/storybook/presentation-lab/presentation-lab-login.contract.ts`
 
 ## Hard stops
 
