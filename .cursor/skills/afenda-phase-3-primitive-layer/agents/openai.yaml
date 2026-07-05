@@ -1,0 +1,4 @@
+interface:
+  display_name: "Afenda Phase 3 Primitive Layer"
+  short_description: "Govern Phase 3 primitive UI work"
+  default_prompt: "Use $afenda-phase-3-primitive-layer to implement or review a shadcn-studio-v2 primitive."

@@ -14,7 +14,7 @@ const BADGE_BASE_CLASS =
 const BADGE_VARIANT_CLASSES = {
   default: "border-transparent bg-primary text-primary-foreground",
   destructive: "border-transparent bg-destructive text-destructive-foreground",
-  outline: "text-foreground",
+  outline: "border-border text-foreground",
   secondary: "border-transparent bg-secondary text-secondary-foreground",
 } satisfies Record<BadgeVariant, string>;
 

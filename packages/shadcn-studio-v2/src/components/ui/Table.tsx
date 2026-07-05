@@ -2,20 +2,82 @@
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 
+export type TableContainerOverflow = "auto" | "visible";
+
 export interface TableContainerProps extends ComponentProps<"div"> {
-  readonly overflow?: "auto" | "visible";
+  readonly overflow?: TableContainerOverflow;
 }
 
 const TABLE_CONTAINER_CLASSES = {
   auto: "relative w-full overflow-auto",
   visible: "relative w-full overflow-visible",
-} satisfies Record<NonNullable<TableContainerProps["overflow"]>, string>;
+} satisfies Record<TableContainerOverflow, string>;
+
+const TABLE_BASE_CLASS = "w-full caption-bottom text-sm";
+const TABLE_HEADER_CLASS = "[&_tr]:border-b";
+const TABLE_BODY_CLASS = "[&_tr:last-child]:border-0";
+const TABLE_FOOTER_CLASS =
+  "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0";
+const TABLE_ROW_CLASS =
+  "border-border border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted";
+const TABLE_HEAD_CLASS =
+  "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0";
+const TABLE_CELL_CLASS = "p-4 align-middle [&:has([role=checkbox])]:pr-0";
+const TABLE_CAPTION_CLASS = "mt-4 text-muted-foreground text-sm";
 
 export function tableContainerClassName({
   className,
   overflow = "auto",
 }: Pick<TableContainerProps, "className" | "overflow"> = {}): string {
   return cn(TABLE_CONTAINER_CLASSES[overflow], className);
+}
+
+export function tableClassName({
+  className,
+}: Pick<ComponentProps<"table">, "className"> = {}): string {
+  return cn(TABLE_BASE_CLASS, className);
+}
+
+export function tableHeaderClassName({
+  className,
+}: Pick<ComponentProps<"thead">, "className"> = {}): string {
+  return cn(TABLE_HEADER_CLASS, className);
+}
+
+export function tableBodyClassName({
+  className,
+}: Pick<ComponentProps<"tbody">, "className"> = {}): string {
+  return cn(TABLE_BODY_CLASS, className);
+}
+
+export function tableFooterClassName({
+  className,
+}: Pick<ComponentProps<"tfoot">, "className"> = {}): string {
+  return cn(TABLE_FOOTER_CLASS, className);
+}
+
+export function tableRowClassName({
+  className,
+}: Pick<ComponentProps<"tr">, "className"> = {}): string {
+  return cn(TABLE_ROW_CLASS, className);
+}
+
+export function tableHeadClassName({
+  className,
+}: Pick<ComponentProps<"th">, "className"> = {}): string {
+  return cn(TABLE_HEAD_CLASS, className);
+}
+
+export function tableCellClassName({
+  className,
+}: Pick<ComponentProps<"td">, "className"> = {}): string {
+  return cn(TABLE_CELL_CLASS, className);
+}
+
+export function tableCaptionClassName({
+  className,
+}: Pick<ComponentProps<"caption">, "className"> = {}): string {
+  return cn(TABLE_CAPTION_CLASS, className);
 }
 
 export function TableContainer({
@@ -36,7 +98,7 @@ export function Table({ className, ...props }: ComponentProps<"table">) {
   return (
     <table
       {...props}
-      className={cn("w-full caption-bottom text-sm", className)}
+      className={tableClassName({ className })}
       data-slot="table"
     />
   );
@@ -46,7 +108,7 @@ export function TableHeader({ className, ...props }: ComponentProps<"thead">) {
   return (
     <thead
       {...props}
-      className={cn("[&_tr]:border-b", className)}
+      className={tableHeaderClassName({ className })}
       data-slot="table-header"
     />
   );
@@ -56,7 +118,7 @@ export function TableBody({ className, ...props }: ComponentProps<"tbody">) {
   return (
     <tbody
       {...props}
-      className={cn("[&_tr:last-child]:border-0", className)}
+      className={tableBodyClassName({ className })}
       data-slot="table-body"
     />
   );
@@ -66,10 +128,7 @@ export function TableFooter({ className, ...props }: ComponentProps<"tfoot">) {
   return (
     <tfoot
       {...props}
-      className={cn(
-        "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
-        className
-      )}
+      className={tableFooterClassName({ className })}
       data-slot="table-footer"
     />
   );
@@ -79,10 +138,7 @@ export function TableRow({ className, ...props }: ComponentProps<"tr">) {
   return (
     <tr
       {...props}
-      className={cn(
-        "border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted",
-        className
-      )}
+      className={tableRowClassName({ className })}
       data-slot="table-row"
     />
   );
@@ -96,10 +152,7 @@ export function TableHead({
   return (
     <th
       {...props}
-      className={cn(
-        "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0",
-        className
-      )}
+      className={tableHeadClassName({ className })}
       data-slot="table-head"
       scope={scope}
     />
@@ -110,10 +163,7 @@ export function TableCell({ className, ...props }: ComponentProps<"td">) {
   return (
     <td
       {...props}
-      className={cn(
-        "p-4 align-middle [&:has([role=checkbox])]:pr-0",
-        className
-      )}
+      className={tableCellClassName({ className })}
       data-slot="table-cell"
     />
   );
@@ -126,7 +176,7 @@ export function TableCaption({
   return (
     <caption
       {...props}
-      className={cn("mt-4 text-muted-foreground text-sm", className)}
+      className={tableCaptionClassName({ className })}
       data-slot="table-caption"
     />
   );

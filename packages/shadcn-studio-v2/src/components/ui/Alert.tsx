@@ -11,9 +11,9 @@ export interface AlertProps extends ComponentProps<"div"> {
 const ALERT_BASE_CLASS = "relative w-full rounded-lg border px-4 py-3 text-sm";
 
 const ALERT_VARIANT_CLASSES = {
-  default: "bg-background text-foreground",
+  default: "border-border bg-background text-foreground",
   destructive:
-    "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+    "border-destructive/50 text-destructive [&>svg]:text-destructive",
 } satisfies Record<AlertVariant, string>;
 
 export function alertClassName({
@@ -25,7 +25,6 @@ export function alertClassName({
 
 export function Alert({
   className,
-  role,
   variant = "default",
   ...props
 }: AlertProps) {
@@ -34,7 +33,6 @@ export function Alert({
       {...props}
       className={alertClassName({ className, variant })}
       data-slot="alert"
-      role={role ?? (variant === "destructive" ? "alert" : "status")}
     />
   );
 }
@@ -43,7 +41,7 @@ export function AlertTitle({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       {...props}
-      className={cn("font-medium leading-none tracking-tight", className)}
+      className={cn("font-medium leading-none", className)}
       data-slot="alert-title"
     />
   );

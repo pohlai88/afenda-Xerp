@@ -69,8 +69,20 @@ describe("shadcn-studio-v2 primitive API consistency", () => {
     expect(cardSource).toContain("export function CardTitle");
     expect(fieldSource).toContain("export function FieldLabel");
     expect(fieldSource).toContain("export function FieldMessage");
+    expect(fieldSource).toContain("export function FieldError");
+    expect(fieldSource).toContain('data-slot="field-error"');
+    expect(fieldSource).toContain(
+      'data-invalid={state === "invalid" ? "" : undefined}'
+    );
+    expect(fieldSource).toContain("data-state={state}");
+    expect(fieldSource).not.toContain("aria-invalid={ariaInvalid");
     expect(tableSource).toContain("export function TableHead");
     expect(tableSource).toContain("export function TableCell");
+    expect(tableSource).toContain("export function tableClassName");
+    expect(tableSource).toContain("export function tableHeadClassName");
+    expect(readPrimitiveSource("Button.tsx")).toContain(
+      'export type ButtonState = "idle" | "loading"'
+    );
     expect(readPrimitiveSource("Button.tsx")).toContain(
       "satisfies Record<ButtonVariant, string>"
     );

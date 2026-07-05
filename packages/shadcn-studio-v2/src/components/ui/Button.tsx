@@ -11,14 +11,16 @@ export type ButtonVariant =
   | "link";
 
 export type ButtonSize = "default" | "sm" | "lg" | "icon";
+export type ButtonState = "idle" | "loading";
 
 export interface ButtonProps extends ComponentProps<"button"> {
   readonly size?: ButtonSize;
+  readonly state?: ButtonState;
   readonly variant?: ButtonVariant;
 }
 
 const BUTTON_BASE_CLASS =
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors disabled:pointer-events-none disabled:opacity-50 data-[state=loading]:cursor-wait data-[state=loading]:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
 
 const BUTTON_VARIANT_CLASSES = {
   default: "bg-primary text-primary-foreground hover:bg-primary/90",
@@ -27,7 +29,7 @@ const BUTTON_VARIANT_CLASSES = {
   ghost: "hover:bg-accent hover:text-accent-foreground",
   link: "h-auto p-0 text-primary underline-offset-4 hover:underline",
   outline:
-    "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
+    "border border-border bg-background hover:bg-accent hover:text-accent-foreground",
   secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
 } satisfies Record<ButtonVariant, string>;
 
@@ -52,17 +54,26 @@ export function buttonClassName({
 }
 
 export function Button({
+  "aria-busy": ariaBusy,
   className,
+  disabled,
   size = "default",
+  state = "idle",
   type = "button",
   variant = "default",
   ...props
 }: ButtonProps) {
+  const isLoading = state === "loading";
+  const isDisabled = Boolean(disabled) || isLoading;
+
   return (
     <button
       {...props}
+      aria-busy={ariaBusy ?? (isLoading ? true : undefined)}
       className={buttonClassName({ className, size, variant })}
       data-slot="button"
+      data-state={state}
+      disabled={isDisabled}
       type={type}
     />
   );

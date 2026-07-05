@@ -9,7 +9,7 @@ export interface CardProps extends ComponentProps<"div"> {
 }
 
 const CARD_BASE_CLASS =
-  "rounded-xl border bg-card text-card-foreground shadow-sm";
+  "rounded-lg border border-border bg-card text-card-foreground shadow-sm";
 
 const CARD_VARIANT_CLASSES = {
   default: "",
@@ -43,11 +43,11 @@ export function CardHeader({ className, ...props }: ComponentProps<"div">) {
   );
 }
 
-export function CardTitle({ className, ...props }: ComponentProps<"h3">) {
+export function CardTitle({ className, ...props }: ComponentProps<"div">) {
   return (
-    <h3
+    <div
       {...props}
-      className={cn("font-semibold leading-none tracking-tight", className)}
+      className={cn("font-semibold leading-none", className)}
       data-slot="card-title"
     />
   );

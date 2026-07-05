@@ -21,6 +21,8 @@ export interface FieldMessageProps extends ComponentProps<"p"> {
   readonly state?: FieldState;
 }
 
+export type FieldErrorProps = Omit<FieldMessageProps, "state">;
+
 const FIELD_BASE_CLASS = "grid gap-2";
 
 const FIELD_ORIENTATION_CLASSES = {
@@ -56,7 +58,9 @@ export function Field({
     <div
       {...props}
       className={fieldClassName({ className, orientation, state })}
+      data-invalid={state === "invalid" ? "" : undefined}
       data-slot="field"
+      data-state={state}
     />
   );
 }
@@ -76,6 +80,7 @@ export function FieldLabel({
         "font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
         className
       )}
+      data-required={required ? "" : undefined}
       data-slot="field-label"
       htmlFor={htmlFor}
     >
@@ -120,7 +125,19 @@ export function FieldMessage({
       {...props}
       className={cn("text-sm", FIELD_STATE_CLASSES[state], className)}
       data-slot="field-message"
-      role={role ?? (state === "invalid" ? "alert" : undefined)}
+      data-state={state}
+      role={role}
+    />
+  );
+}
+
+export function FieldError({ className, role, ...props }: FieldErrorProps) {
+  return (
+    <p
+      {...props}
+      className={cn("text-sm", FIELD_STATE_CLASSES.invalid, className)}
+      data-slot="field-error"
+      role={role ?? "alert"}
     />
   );
 }
