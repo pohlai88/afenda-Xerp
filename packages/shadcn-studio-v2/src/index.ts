@@ -1,4 +1,4 @@
-export { IconMark, type IconMarkProps } from "./components/assets/IconMark";
+export { IconMark, type IconMarkProps } from "./components/assets/icon-mark";
 export { AppShell01 } from "./components/layout/appshell-01";
 export {
   AppShellFrame,
@@ -7,11 +7,11 @@ export {
 export {
   Sidebar,
   sidebarClassName,
-} from "./components/layout/Sidebar";
+} from "./components/layout/sidebar";
 export {
   Topbar,
   topbarClassName,
-} from "./components/layout/Topbar";
+} from "./components/layout/topbar";
 export {
   ThemeCustomizer,
   type ThemeCustomizerProps,
@@ -22,7 +22,7 @@ export {
   AccordionItem,
   type AccordionProps,
   AccordionTrigger,
-} from "./components/ui/Accordion";
+} from "./components/ui/accordion";
 export {
   Alert,
   AlertDescription,
@@ -30,7 +30,7 @@ export {
   AlertTitle,
   type AlertVariant,
   alertClassName,
-} from "./components/ui/Alert";
+} from "./components/ui/alert";
 export {
   AlertDialog,
   AlertDialogAction,
@@ -44,7 +44,7 @@ export {
   type AlertDialogProps,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "./components/ui/AlertDialog";
+} from "./components/ui/alert-dialog";
 export {
   Avatar,
   AvatarFallback,
@@ -52,13 +52,13 @@ export {
   AvatarImage,
   type AvatarImageProps,
   type AvatarProps,
-} from "./components/ui/Avatar";
+} from "./components/ui/avatar";
 export {
   Badge,
   type BadgeProps,
   type BadgeVariant,
   badgeClassName,
-} from "./components/ui/Badge";
+} from "./components/ui/badge";
 export {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -68,14 +68,14 @@ export {
   BreadcrumbPage,
   type BreadcrumbProps,
   BreadcrumbSeparator,
-} from "./components/ui/Breadcrumb";
+} from "./components/ui/breadcrumb";
 export {
   Button,
   type ButtonProps,
   type ButtonSize,
   type ButtonVariant,
   buttonClassName,
-} from "./components/ui/Button";
+} from "./components/ui/button";
 export {
   Card,
   CardContent,
@@ -86,18 +86,18 @@ export {
   CardTitle,
   type CardVariant,
   cardClassName,
-} from "./components/ui/Card";
+} from "./components/ui/card";
 export {
   Checkbox,
   type CheckboxProps,
   checkboxClassName,
-} from "./components/ui/Checkbox";
+} from "./components/ui/checkbox";
 export {
   Collapsible,
   CollapsibleContent,
   type CollapsibleProps,
   CollapsibleTrigger,
-} from "./components/ui/Collapsible";
+} from "./components/ui/collapsible";
 export {
   Combobox,
   ComboboxContent,
@@ -107,7 +107,7 @@ export {
   ComboboxList,
   type ComboboxProps,
   ComboboxTrigger,
-} from "./components/ui/Combobox";
+} from "./components/ui/combobox";
 export {
   Command,
   CommandEmpty,
@@ -118,7 +118,7 @@ export {
   type CommandProps,
   CommandSeparator,
   CommandShortcut,
-} from "./components/ui/Command";
+} from "./components/ui/command";
 export {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -135,7 +135,7 @@ export {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-} from "./components/ui/ContextMenu";
+} from "./components/ui/context-menu";
 export {
   Dialog,
   DialogClose,
@@ -152,7 +152,7 @@ export {
   DialogTrigger,
   type DialogTriggerProps,
   dialogCloseButtonClassName,
-} from "./components/ui/Dialog";
+} from "./components/ui/dialog";
 export {
   Drawer,
   DrawerClose,
@@ -167,7 +167,7 @@ export {
   DrawerTitle,
   DrawerTrigger,
   type DrawerTriggerProps,
-} from "./components/ui/Drawer";
+} from "./components/ui/drawer";
 export {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -185,7 +185,7 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "./components/ui/DropdownMenu";
+} from "./components/ui/dropdown-menu";
 export {
   Field,
   FieldControl,
@@ -199,7 +199,7 @@ export {
   FieldRequiredIndicator,
   type FieldState,
   fieldClassName,
-} from "./components/ui/Field";
+} from "./components/ui/field";
 export {
   HoverCard,
   HoverCardContent,
@@ -207,24 +207,24 @@ export {
   type HoverCardProps,
   HoverCardTrigger,
   type HoverCardTriggerProps,
-} from "./components/ui/HoverCard";
+} from "./components/ui/hover-card";
 export {
   Input,
   type InputProps,
   inputClassName,
-} from "./components/ui/Input";
+} from "./components/ui/input";
 export {
   InputOtp,
   InputOtpGroup,
   type InputOtpProps,
   InputOtpSeparator,
   InputOtpSlot,
-} from "./components/ui/InputOtp";
+} from "./components/ui/input-otp";
 export {
   Label,
   type LabelProps,
   labelClassName,
-} from "./components/ui/Label";
+} from "./components/ui/label";
 export {
   Menubar,
   MenubarCheckboxItem,
@@ -242,7 +242,7 @@ export {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from "./components/ui/Menubar";
+} from "./components/ui/menubar";
 export {
   NavigationMenu,
   NavigationMenuContent,
@@ -252,7 +252,7 @@ export {
   type NavigationMenuProps,
   NavigationMenuTrigger,
   NavigationMenuViewport,
-} from "./components/ui/NavigationMenu";
+} from "./components/ui/navigation-menu";
 export {
   NumberField,
   NumberFieldDecrement,
@@ -260,7 +260,7 @@ export {
   NumberFieldIncrement,
   NumberFieldInput,
   type NumberFieldProps,
-} from "./components/ui/NumberField";
+} from "./components/ui/number-field";
 export {
   Pagination,
   PaginationContent,
@@ -276,7 +276,7 @@ export {
   type PaginationPreviousProps,
   type PaginationProps,
   paginationLinkCurrentClassName,
-} from "./components/ui/Pagination";
+} from "./components/ui/pagination";
 export {
   Popover,
   PopoverContent,
@@ -285,7 +285,7 @@ export {
   type PopoverProps,
   PopoverTitle,
   PopoverTrigger,
-} from "./components/ui/Popover";
+} from "./components/ui/popover";
 export {
   Progress,
   ProgressIndicator,
@@ -295,7 +295,7 @@ export {
   type ProgressTrackProps,
   ProgressValue,
   type ProgressValueProps,
-} from "./components/ui/Progress";
+} from "./components/ui/progress";
 export {
   RadioGroup,
   RadioGroupItem,
@@ -303,7 +303,7 @@ export {
   type RadioGroupProps,
   radioGroupClassName,
   radioGroupItemClassName,
-} from "./components/ui/RadioGroup";
+} from "./components/ui/radio-group";
 export {
   ScrollArea,
   type ScrollAreaProps,
@@ -315,7 +315,7 @@ export {
   type ScrollCornerProps,
   ScrollThumb,
   type ScrollThumbProps,
-} from "./components/ui/ScrollArea";
+} from "./components/ui/scroll-area";
 export {
   Select,
   SelectContent,
@@ -326,11 +326,11 @@ export {
   SelectSeparator,
   SelectTrigger,
   SelectValue,
-} from "./components/ui/Select";
+} from "./components/ui/select";
 export {
   Separator,
   type SeparatorProps,
-} from "./components/ui/Separator";
+} from "./components/ui/separator";
 export {
   Sheet,
   SheetClose,
@@ -347,16 +347,16 @@ export {
   SheetTrigger,
   type SheetTriggerProps,
   sheetCloseButtonClassName,
-} from "./components/ui/Sheet";
+} from "./components/ui/sheet";
 export {
   Skeleton,
   type SkeletonProps,
-} from "./components/ui/Skeleton";
+} from "./components/ui/skeleton";
 export {
   Switch,
   type SwitchProps,
   switchClassName,
-} from "./components/ui/Switch";
+} from "./components/ui/switch";
 export {
   Table,
   TableBody,
@@ -369,7 +369,7 @@ export {
   TableHeader,
   TableRow,
   tableContainerClassName,
-} from "./components/ui/Table";
+} from "./components/ui/table";
 export {
   Tabs,
   TabsContent,
@@ -378,29 +378,29 @@ export {
   type TabsProps,
   TabsTrigger,
   tabsListClassName,
-} from "./components/ui/Tabs";
+} from "./components/ui/tabs";
 export {
   Textarea,
   type TextareaProps,
   textareaClassName,
-} from "./components/ui/Textarea";
+} from "./components/ui/textarea";
 export {
   Toggle,
   type ToggleProps,
-} from "./components/ui/Toggle";
+} from "./components/ui/toggle";
 export {
   ToggleGroup,
   ToggleGroupItem,
   type ToggleGroupItemProps,
   type ToggleGroupProps,
-} from "./components/ui/ToggleGroup";
+} from "./components/ui/toggle-group";
 export {
   Tooltip,
   TooltipContent,
   type TooltipProps,
   TooltipProvider,
   TooltipTrigger,
-} from "./components/ui/Tooltip";
+} from "./components/ui/tooltip";
 export { studioPackageConfig } from "./configs/studio-config";
 export {
   CANONICAL_THEME_TOKEN_NAMES,
@@ -469,6 +469,16 @@ export {
   type DataTableSurfaceSlot,
   type DataTableSurfaceSlotName,
   type DataTableSurfaceSlotValue,
+  EVIDENCE_WIDGET_SLOTS,
+  type EvidenceWidgetAdapterProps,
+  type EvidenceWidgetItem,
+  type EvidenceWidgetItemStatus,
+  type EvidenceWidgetNonReadyProps,
+  type EvidenceWidgetReadyProps,
+  type EvidenceWidgetSlot,
+  type EvidenceWidgetSlotName,
+  type EvidenceWidgetSlotValue,
+  type EvidenceWidgetSummary,
   FORM_SURFACE_SLOTS,
   type FormSurfaceField,
   type FormSurfaceProps,
@@ -521,32 +531,37 @@ export {
   type AuthShellStateMessages,
   authShellClassName,
   type NonReadyAuthShellState,
-} from "./views/auth/AuthShell";
+} from "./views/auth/auth-shell";
 export {
   DataTableSurface,
   dataTableSurfaceClassName,
-} from "./views/datatables/DataTableSurface";
+} from "./views/datatables/data-table-surface";
 export {
   ConfirmDialogSurface,
   confirmDialogSurfaceClassName,
-} from "./views/dialogs/ConfirmDialogSurface";
+} from "./views/dialogs/confirm-dialog-surface";
 export {
   FormSurface,
   formSurfaceClassName,
-} from "./views/forms/FormSurface";
+} from "./views/forms/form-surface";
 export {
   PageSurface,
   type PageSurfaceProps,
   pageSurfaceClassName,
-} from "./views/pages/PageSurface";
+} from "./views/pages/page-surface";
 export {
   SettingsSurface,
   settingsSurfaceClassName,
-} from "./views/settings/SettingsSurface";
+} from "./views/settings/settings-surface";
+export { workspaceBoardWidgetAdapterClassName } from "./views/widgets/widget-board-adapter";
+export {
+  EvidenceWidget,
+  type EvidenceWidgetProps,
+  evidenceWidgetSummaryClassName,
+} from "./views/widgets/widget-evidence";
 export {
   MetricWidget,
   type MetricWidgetProps,
   type MetricWidgetTone,
   metricWidgetValueClassName,
-  workspaceBoardWidgetAdapterClassName,
-} from "./views/widgets/MetricWidget";
+} from "./views/widgets/widget-metric";

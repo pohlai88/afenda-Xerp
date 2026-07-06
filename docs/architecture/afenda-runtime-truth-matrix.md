@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **As-of date** | 2026-06-30 (PAS-001A R1d / C5 doc sync) |
+| **As-of date** | 2026-07-06 (ADR-0040 · Lane B-15 v2 cutover doc sync) |
 | **Closure registry** | [`pas-status-index.md`](../PAS/pas-status-index.md) — slice delivery SSOT |
 | **Audit** | [`afenda-documentation-drift-audit.md`](afenda-documentation-drift-audit.md) |
 | **Roadmap** | [`pre-accounting-foundation-roadmap.md`](pre-accounting-foundation-roadmap.md) (Phases 0–9 complete) |
@@ -23,9 +23,10 @@
 | **Package Ownership** | `docs/architecture/ownership-registry.md` | — (governance doc) | **implemented** | Registry file + `pnpm architecture:owners` + `check:architecture-ownership-signoff` (ADR-0004 attested 2026-06-28) | — | — |
 | **Dependency Governance** | `docs/architecture/dependency-registry.md`, `packages/architecture-authority/` | PAS-002 §4.8 delivered | **implemented** | Registry + `pnpm quality:boundaries` exit 0 | Re-run `pnpm architecture:dependencies` when adding workspace edges | Update `dependency-registry.data.ts` on drift |
 | **Design System (retired)** | `packages/ui/src/design-authority/` (internalized) · PKG-004 **retired** in package registry | `PKGR05B_DESIGN_RETIREMENT` — amber-lane · [PAS-005B](../PAS/CSS-AUTHORITY/PAS-005B-DESIGN-SYSTEM-RETIREMENT-STANDARD.md) B43 ✓ · B44 handoff authored | **partially-implemented** | `@afenda/design-system` package **removed from workspace**; governed registries live under `@afenda/ui/design-authority`; bridge via `packages/ui/src/governance/design-system.ts`; [ADR-0025](../adr/ADR-0025-design-system-retirement.md) **Accepted** | B44 closure attestation · B48 appshell consolidation · registry-owner PKG004 deprecation row | Execute [B44 handoff](../PAS/CSS-AUTHORITY/SLICE/b44-pas005b-migration-study-readiness-gate.md) when retirement track resumes |
-| **UI Primitives** | `packages/ui/src/components/` | historical `@afenda/ui` primitive package — **not ERP presentation authority** | **implemented** | Package remains on disk for historical and non-ERP purposes; ERP runtime authority has moved to `@afenda/shadcn-studio` | ADR-0008 ref-as-prop migration deferred | Do not treat as ERP frontend authority |
+| **UI Primitives** | `packages/ui/src/components/` | historical `@afenda/ui` primitive package — **not ERP presentation authority** | **implemented** | Package remains on disk for historical and non-ERP purposes; ERP runtime authority has moved to `@afenda/shadcn-studio-v2` | ADR-0008 ref-as-prop migration deferred | Do not treat as ERP frontend authority |
 | **UI Consumption (Governed UI)** | *(retired ADR-0027)* | — | **obsolete** | `ui-guard.mjs` archived; governed-ui hooks removed | — | Use PAS-006 creation gates |
-| **shadcn/studio (ADR-0027 · PAS-006)** | `@afenda/shadcn-studio` · `apps/erp/src/app/globals.css` | `PKG-026` — **sole ERP frontend design authority** · [`ADR-0027`](../adr/ADR-0027-frontend-presentation-reset.md) **Accepted** | **partially-implemented** | MCP product; ERP CSS chain collapsed (tailwind + shadcn-default.css); ERP surfaces import studio blocks and theme providers directly | residual documentation and historical package references still exist | Maintain as sole ERP presentation chain; continue docs and reference cleanup |
+| **shadcn/studio (ADR-0040 · PAS-006)** | `@afenda/shadcn-studio-v2` · `apps/erp/src/app/globals.css` | `PKGR05C_SHADCN_STUDIO_V2` — **sole ERP frontend design authority** · [`ADR-0040`](../adr/ADR-0040-promote-shadcn-studio-v2-and-deprecate-legacy.md) **Accepted** | **implemented** | Lane B consumer cutover complete; ERP/Storybook/developer import v2 public exports; `@afenda/shadcn-studio` (PKGR05A) **archive-lane** | residual PAS slice handoff v1 path references (historical) | Maintain v2 as sole ERP presentation chain |
+| **shadcn/studio v1 (legacy)** | `@afenda/shadcn-studio` · `packages/shadcn-studio/` (stub) | `PKGR05A_SHADCN_STUDIO` — **archive-lane** per ADR-0040 | **obsolete** | Formal deprecation sign-off (Lane B-15); `pnpm check:v1-consumer-imports` blocks consumer imports | filesystem stub may remain until housekeeping D-1 | Do not author new v1 work |
 | **CSS Authority (PAS-005 — archived)** | `@afenda/css-authority` · `packages/css-authority/` | `PKGR05_CSS_AUTHORITY` — **retired for ERP** | **obsolete** for ERP frontend | Package frozen on disk; docs archived | — | Do not execute PAS-005 gates for ERP |
 | **Design System Retirement (PAS-005B — archived)** | *(superseded)* | `PKGR05B` — retired for ERP | **obsolete** for ERP frontend | ADR-0027 cutover supersedes incremental strangler | — | — |
 | **Enterprise Knowledge (PAS-004C → 004D)** | `@afenda/enterprise-knowledge` · `scripts/governance/check-knowledge-*.mts` | `PKGR04_ENTERPRISE_KNOWLEDGE` — PAS-004C (B38–B48 ✓; 58/58); **PAS-004D B49+ proposed** | **implemented** | JSON authority; semantic model North Star; consumer projections; full §13 gate chain | B49 mirror gate + B50–B54 closure queue | Maintain → PAS-004D |
@@ -71,19 +72,19 @@
 
 ---
 
-## shadcn/studio — agent workflow (normalized 2026-06-28)
+## shadcn/studio — agent workflow (normalized 2026-07-06 · ADR-0040)
 
 | Concern | Authority | Implementation model |
 | --- | --- | --- |
-| **MCP product / install cwd** | `@afenda/shadcn-studio` · [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md) | `packages/shadcn-studio` — `/cui`, `/rui`, parity registry |
-| **Governed Afenda blocks** | `packages/shadcn-studio/src/` | Production ERP presentation surfaces now live in the studio package and its governed exports |
-| **Bridge re-exports** | `@afenda/shadcn-studio` public exports | ERP and Storybook consume studio exports directly |
-| **New block promotion** | [`.cursor/skills/afenda-shadcn-components/SKILL.md`](../../.cursor/skills/afenda-shadcn-components/SKILL.md) | Per-block MCP pipeline — install → Q1–Q3 filter → STUDIO-PATTERN-MAP → gates |
-| **Token / CSS bridge** | `@afenda/shadcn-studio/shadcn-default.css` | ERP imports studio CSS directly; do not route ERP through retired CSS authority paths |
-| **Constitutional** | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) · [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md) | Accepted ERP presentation chain = studio only |
-| **Bulk Tailwind migration** | **Not scheduled** | Superseded by decision filter + `ui:guard`; waiver `shell-composition-studio-deferral` permanent |
+| **MCP product / install cwd** | `@afenda/shadcn-studio-v2` · [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md) | `packages/shadcn-studio-v2` — `/cui`, `/rui`, quarantine → promotion |
+| **Governed Afenda blocks** | `packages/shadcn-studio-v2/src/` | Production ERP presentation surfaces live in v2 governed exports |
+| **Bridge re-exports** | `@afenda/shadcn-studio-v2` · `@afenda/shadcn-studio-v2/clients` | ERP, Storybook, and developer lab consume v2 public exports only |
+| **New block promotion** | [`.cursor/skills/shadcn-studio/SKILL.md`](../../.cursor/skills/shadcn-studio/SKILL.md) | MCP install → quarantine → promotion pipeline |
+| **Token / CSS bridge** | `@afenda/shadcn-studio-v2/shadcn-default.css` | ERP imports v2 CSS dist; do not route through retired v1 or CSS authority paths |
+| **Constitutional** | [ADR-0017](../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) · [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md) · [ADR-0040](../adr/ADR-0040-promote-shadcn-studio-v2-and-deprecate-legacy.md) | Accepted ERP presentation chain = v2 only |
+| **Legacy v1** | `@afenda/shadcn-studio` (PKGR05A archive-lane) | **Do not import** — `pnpm check:v1-consumer-imports` |
 
-Future studio blocks: agents follow `afenda-shadcn-components` — not a separate PAS upgrade track.
+Future studio blocks: agents follow `shadcn-studio` skill — not a separate PAS upgrade track.
 
 ---
 
@@ -95,7 +96,8 @@ Future studio blocks: agents follow `afenda-shadcn-components` — not a separat
 | `@afenda/architecture-authority` | `packages/architecture-authority` | Platform | Contracts + validators | Yes |
 | `@afenda/css-authority` | `packages/css-authority` | Design | archived CSS authority package — not ERP frontend authority | Yes |
 | `@afenda/enterprise-knowledge` | `packages/enterprise-knowledge` | Platform | JSON authority + semantic model (PAS-004C) | Yes |
-| `@afenda/shadcn-studio` | `packages/shadcn-studio` | Design | sole ERP presentation package + theme/runtime surfaces (PAS-006 family) | Yes |
+| `@afenda/shadcn-studio-v2` | `packages/shadcn-studio-v2` | Design | sole ERP presentation package + theme/runtime surfaces (PAS-006 · ADR-0040) | Yes |
+| `@afenda/shadcn-studio` | `packages/shadcn-studio` (stub) | Design | **archive-lane** legacy v1 — do not import in consumers | Retired per ADR-0040 |
 | `@afenda/ai-governance` | `packages/ai-governance` | Platform | Governance validators | Yes |
 | `@afenda/appshell` | `packages/appshell` | ERPSpine | historical or retired-for-ERP package; not current ERP presentation authority | Yes |
 | `@afenda/auth` | `packages/auth` | Platform | Auth provider + Better Auth | Yes |

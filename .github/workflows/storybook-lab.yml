@@ -9,11 +9,8 @@ on:
     branches: [main]
     paths:
       - "apps/storybook/**"
-      - "packages/shadcn-studio/**"
+      - "packages/shadcn-studio-v2/**"
       - "scripts/storybook/**"
-      - "scripts/governance/check-storybook-*.mjs"
-      - "scripts/governance/check-primitive-mismatch.mjs"
-      - "scripts/governance/lib/load-primitive-evidence-registry.mjs"
       - ".github/workflows/storybook-lab.yml"
 
 concurrency:
@@ -62,11 +59,11 @@ jobs:
 
       - name: Typecheck Storybook lab
         run: |
-          pnpm --filter @afenda/shadcn-studio typecheck
+          pnpm --filter @afenda/shadcn-studio-v2 typecheck
           pnpm --filter @afenda/storybook typecheck
 
-      - name: Studio path alias gates
-        run: pnpm check:studio-paths
+      - name: V1 consumer import ban (Lane B-13)
+        run: pnpm check:v1-consumer-imports
 
       - name: Build static Storybook
         run: pnpm storybook:build

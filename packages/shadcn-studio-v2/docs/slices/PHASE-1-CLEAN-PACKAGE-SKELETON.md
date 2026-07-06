@@ -1,4 +1,4 @@
-# Phase 1 - Clean Package Skeleton Technical Specification
+# Phase 1 - Clean Package skeleton Technical Specification
 
 ## Overview
 

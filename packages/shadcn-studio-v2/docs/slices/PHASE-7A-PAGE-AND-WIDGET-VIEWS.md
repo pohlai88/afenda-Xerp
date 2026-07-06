@@ -22,7 +22,7 @@ into package presentation components.
 
 ## Goals
 
-- Implement `PageSurface`.
+- Implement `page-surface`.
 - Implement `MetricWidget`.
 - Keep Phase 7A widget implementation limited to the first generic
   `MetricWidget` render adapter.
@@ -54,7 +54,7 @@ into package presentation components.
 
 ### View responsibilities
 
-- `PageSurface` owns page-level presentation structure.
+- `page-surface` owns page-level presentation structure.
 - `MetricWidget` owns compact metric presentation as a render adapter.
 - Additional chart, table, evidence, shortcut, approval, report, or statistics
   widgets require separate adapter contracts and are deferred from Phase 7A.
@@ -173,7 +173,7 @@ pnpm exec biome ci packages/shadcn-studio-v2
 ## Done definition
 
 - Page and widget views exist.
-- `PageSurface` and `MetricWidget` are the only Phase 7A implementation
+- `page-surface` and `MetricWidget` are the only Phase 7A implementation
   surfaces.
 - Typed props exist.
 - State coverage exists.

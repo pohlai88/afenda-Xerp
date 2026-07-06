@@ -7,7 +7,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2/clients";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 

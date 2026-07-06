@@ -76,20 +76,25 @@ Do not treat `__tests__` as a package structure category.
 
 ## Naming Law
 
-Use the V2 naming model exactly:
+**Kebab-only file stems.** See `docs/TAXONOMY.md` → File stem law + Prefix law (IF logic).
 
-- folders: lowercase nouns
-- canonical non-React package files: `kebab-case`
-- React component and context files: `PascalCase.tsx`
-- hooks: `use-*.ts` or `use-*.tsx`
+Summary:
+
+* folders: lowercase nouns
+* file stems: `kebab-case` only (`widget-metric.tsx`, not `MetricWidget.tsx`)
+* **IF** a prefix lane applies → stem starts with that prefix (`use-`, `widget-`, `appshell-`)
+* segment count is not fixed — clarity over syllable groups
+* React export names stay PascalCase in code; filenames do not
 
 Canonical example:
 
 - `configs/theme-config.ts`
+- `views/widgets/widget-metric.tsx`
 
 Rejected example:
 
 - `configs/themeConfig.ts`
+- `views/widgets/widget-metric.tsx`
 
 ## Root Export Boundary
 
@@ -161,11 +166,13 @@ Use it to verify:
 
 ## Biome Suppression Policy
 
-V2 PascalCase React filenames, root boundary barrels, and primitive label patterns are **not** suppressed with per-file `// biome-ignore` comments.
+V2 root boundary barrels and primitive label patterns are **not** suppressed with per-file `// biome-ignore` comments.
 
 Those rules are owned by `biome.project.jsonc` overrides for `packages/shadcn-studio-v2/**`.
 
-After adding or importing PascalCase primitives under `components/ui/` (or other V2 source files):
+Kebab-only file stems are enforced in `src/__tests__/taxonomy.test.ts`. Legacy non-kebab paths shrink via explicit migration slices — do not add new PascalCase/camelCase stems.
+
+After adding source files under `components/ui/` or other V2 paths:
 
 ```bash
 pnpm studio:v2:normalize-biome
@@ -179,7 +186,7 @@ pnpm --filter @afenda/shadcn-studio-v2 check:drift
 pnpm --filter @afenda/shadcn-studio-v2 quality
 ```
 
-Do not reintroduce file-level `useFilenamingConvention`, `noBarrelFile`, or `noLabelWithoutControl` ignores in V2 source.
+Do not reintroduce file-level `useFilenamingConvention`, `noBarrelFile`, or `nolabelWithoutControl` ignores in V2 source.
 
 ## Editing Rule
 

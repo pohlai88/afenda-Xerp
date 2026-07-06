@@ -2,8 +2,8 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, expectTypeOf, it } from "vitest";
 import { studioPackageConfig } from "../configs/studio-config";
 import { studioThemeConfig } from "../configs/theme-config";
-import type { StudioContextValue } from "../contexts/StudioProvider";
-import { StudioProvider, useStudioContext } from "../contexts/StudioProvider";
+import type { StudioContextValue } from "../contexts/studio-provider";
+import { StudioProvider, useStudioContext } from "../contexts/studio-provider";
 import type { StudioRuntimeState } from "../types/studio";
 import type { StudioThemeConfig } from "../types/theme";
 

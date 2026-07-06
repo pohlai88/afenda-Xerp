@@ -4,8 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  WorkspaceDashboardToolbarBlock as WorkspaceDashboardToolbar,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2";
 import { loadProtectedRequestOperatingContext } from "@/lib/context/load-protected-request-operating-context.server";
 import { loadDashboardWidgetRenderContextForRequest } from "@/lib/workspace/load-dashboard-widget-render-context.server";
 import { WorkspaceDashboardCapabilitiesProvider } from "@/lib/workspace/workspace-dashboard-capabilities.context";
@@ -13,7 +12,7 @@ import {
   WORKSPACE_HOME_COPY,
   WORKSPACE_HOME_PAGE_TITLE_ID,
 } from "@/lib/workspace/workspace-home.copy.contract";
-import { DashboardLayoutRenderer } from "./_components/dashboard-layout-renderer.client";
+import { WorkspaceDashboardBoard } from "./_components/workspace-dashboard-board.client";
 
 export const dynamic = "force-dynamic";
 
@@ -58,9 +57,6 @@ export default async function WorkspacePage() {
             {WORKSPACE_HOME_COPY.page.description}
           </p>
         </header>
-        <WorkspaceDashboardToolbar
-          canEditLayout={renderContext.capabilities.canEditLayout}
-        />
         <div className="grid gap-4 md:grid-cols-3">
           <Card>
             <CardHeader>
@@ -92,7 +88,10 @@ export default async function WorkspacePage() {
             </CardContent>
           </Card>
         </div>
-        <DashboardLayoutRenderer layout={renderContext.layout} />
+        <WorkspaceDashboardBoard
+          canEditLayout={renderContext.capabilities.canEditLayout}
+          initialLayout={renderContext.layout}
+        />
       </section>
     </WorkspaceDashboardCapabilitiesProvider>
   );

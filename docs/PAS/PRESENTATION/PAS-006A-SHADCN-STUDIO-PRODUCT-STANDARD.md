@@ -6,10 +6,10 @@
 | **Document class** | `package_authority_standard` |
 | **Document role** | `presentation_product_runtime` |
 | **Parent charter** | [PAS-006](PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) |
-| **Package** | `@afenda/shadcn-studio` |
+| **Package** | `@afenda/shadcn-studio-v2` |
 | **Layer** | Design |
 | **Blueprint box** | shadcn/studio Presentation |
-| **Registry lane** | `PKGR05A_SHADCN_STUDIO` |
+| **Registry lane** | `PKGR05C_SHADCN_STUDIO_V2` |
 | **Agent skill** | `shadcn-studio` · `.cursor/skills/shadcn-studio/SKILL.md` |
 | **Maturity** | Production Candidate |
 | **Runtime status** | Theme presets, MCP block seed, CSS dist chain, Storybook lab, ERP globals composition live |
@@ -21,12 +21,12 @@
 
 | # | Gate command |
 | --- | --- |
-| 1 | `pnpm --filter @afenda/shadcn-studio typecheck` |
-| 2 | `pnpm --filter @afenda/shadcn-studio test:run` |
-| 3 | `pnpm --filter @afenda/shadcn-studio build` |
+| 1 | `pnpm --filter @afenda/shadcn-studio-v2 typecheck` |
+| 2 | `pnpm --filter @afenda/shadcn-studio-v2 test:run` |
+| 3 | `pnpm --filter @afenda/shadcn-studio-v2 build` |
 | 4 | `pnpm --filter @afenda/erp typecheck` |
 | 5 | `pnpm --filter @afenda/erp build` |
-| 6 | `pnpm sync:package-css-dist -- --package @afenda/shadcn-studio` |
+| 6 | `pnpm sync:package-css-dist -- --package @afenda/shadcn-studio-v2` |
 | 7 | `pnpm check:package-css-dist-sync` |
 | 8 | `pnpm quality:boundaries` |
 | 9 | `pnpm check:foundation-disposition` |
@@ -39,11 +39,11 @@
 
 1. Read [ADR-0027](../../adr/ADR-0027-frontend-presentation-reset.md) — no legacy UI packages.
 2. MCP install cwd: **`packages/shadcn-studio`** ([ADR-0017](../../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md)).
-3. Export blocks via `@afenda/shadcn-studio` public barrel only.
-4. ERP CSS: AdminCN four-import chain in `apps/erp/src/app/globals.css` — `tailwindcss` → `tw-animate-css` → `shadcn/tailwind.css` → `@afenda/shadcn-studio/shadcn-default.css` (theme last, unlayered).
+3. Export blocks via `@afenda/shadcn-studio-v2` public barrel only.
+4. ERP CSS: AdminCN four-import chain in `apps/erp/src/app/globals.css` — `tailwindcss` → `tw-animate-css` → `shadcn/tailwind.css` → `@afenda/shadcn-studio-v2/shadcn-default.css` (theme last, unlayered).
 5. Run §13 gates before claiming product work done.
 
-**Boundary:** `@afenda/shadcn-studio` **owns** theme presets, stock primitives, MCP-installed blocks, CSS export, public barrel, Storybook lab parameters; **never owns** Acceptance Record enforcement (006C), relational lifecycle registry (006B), metadata templates (006D), kernel, or ERP routes.
+**Boundary:** `@afenda/shadcn-studio-v2` **owns** theme presets, stock primitives, MCP-installed blocks, CSS export, public barrel, Storybook lab parameters; **never owns** Acceptance Record enforcement (006C), relational lifecycle registry (006B), metadata templates (006D), kernel, or ERP routes.
 
 **Hard stops:** no kernel import · no legacy UI · sync CSS dist after `src/styles/` edits · no ERP wiring of **Imported** blocks as Accepted (006C).
 

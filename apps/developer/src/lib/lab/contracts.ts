@@ -1,7 +1,16 @@
-import type {
-  AppShellOperatingContextWire,
-  DatatableUserRow,
-} from "@afenda/shadcn-studio";
+import type { AppShellOperatingContextWire } from "@afenda/shadcn-studio-v2";
+
+export interface LabUserRow {
+  readonly avatar: string;
+  readonly billing: string;
+  readonly email: string;
+  readonly fallback: string;
+  readonly id: string;
+  readonly plan: string;
+  readonly role: string;
+  readonly status: string;
+  readonly user: string;
+}
 
 export type LabRouteLoader<TPageData, TParams = never> = [TParams] extends [
   never,
@@ -86,7 +95,7 @@ export interface AdminUsersPageData extends LabRoutePresentationData {
   promotion: LabPromotionNote;
   promotionSummary: string;
   title: string;
-  users: readonly DatatableUserRow[];
+  users: readonly LabUserRow[];
 }
 
 export interface AppearanceSettingsPageData extends LabRoutePresentationData {
@@ -97,6 +106,7 @@ export interface AppearanceSettingsPageData extends LabRoutePresentationData {
   }[];
   promotion: LabPromotionNote;
   promotionSummary: string;
+  reviewNote: string | null;
   title: string;
 }
 
@@ -150,3 +160,66 @@ export type ModuleDocumentRouteLoadResult =
     };
 
 export type LabDemoContext = AppShellOperatingContextWire;
+
+export interface IntegrationGraphNodeWire {
+  readonly id: string;
+  readonly label: string;
+  readonly metadata?: Readonly<Record<string, unknown>>;
+  readonly type: string;
+}
+
+export interface IntegrationGraphEdgeWire {
+  readonly source: string;
+  readonly target: string;
+  readonly type: string;
+}
+
+export interface IntegrationGraphSliceWire {
+  readonly id: string;
+  readonly priority: string;
+  readonly status: "delivered" | "in-progress" | "planned";
+  readonly summary: string;
+}
+
+export interface IntegrationGraphSnapshotWire {
+  readonly edges: readonly IntegrationGraphEdgeWire[];
+  readonly fingerprint: string;
+  readonly generatedAt: string;
+  readonly nodes: readonly IntegrationGraphNodeWire[];
+  readonly slices: readonly IntegrationGraphSliceWire[];
+  readonly version: string;
+}
+
+export interface IntegrationPostureGapWire {
+  readonly advice: string;
+  readonly current: string;
+  readonly id: string;
+  readonly nodeIds: readonly string[];
+  readonly severity: "high" | "medium";
+  readonly sliceId: string;
+  readonly target: string;
+}
+
+export interface IntegrationPostureCountsWire {
+  readonly gaps: number;
+  readonly labRoutes: number;
+  readonly moduleSurfaces: number;
+  readonly slicesDelivered: number;
+}
+
+export interface IntegrationPostureWire {
+  readonly counts: IntegrationPostureCountsWire;
+  readonly gaps: readonly IntegrationPostureGapWire[];
+}
+
+export interface ArchitectureMapPageData extends LabRoutePresentationData {
+  readonly description: string;
+  readonly generatedAtLabel: string;
+  readonly graph: IntegrationGraphSnapshotWire;
+  readonly posture: IntegrationPostureWire;
+  readonly promotion: LabPromotionNote;
+  readonly promotionSummary: string;
+  readonly slices: readonly IntegrationGraphSliceWire[];
+  readonly targetIngressMermaid: string;
+  readonly title: string;
+}

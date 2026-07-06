@@ -2,7 +2,11 @@ import type { OperatingContext } from "@afenda/kernel";
 import type {
   AppShellNavGroupWire,
   AppShellNavItemWire,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2/clients";
+import {
+  toNavGroupId,
+  toNavItemId,
+} from "@/lib/presentation/app-shell-nav-wire";
 import {
   ERP_ACCOUNT_NAV_GROUP,
   ERP_PLATFORM_NAV_GROUP,
@@ -21,11 +25,14 @@ async function filterNavItems(
   const visible: AppShellNavItemWire[] = [];
 
   for (const item of items) {
+    const navItem = {
+      href: item.href,
+      id: toNavItemId(item.href),
+      label: resolveOperatorNavLabel({ label: item.label }),
+    };
+
     if (item.readPermissionKey === undefined) {
-      visible.push({
-        href: item.href,
-        label: resolveOperatorNavLabel({ label: item.label }),
-      });
+      visible.push(navItem);
       continue;
     }
 
@@ -35,10 +42,7 @@ async function filterNavItems(
     });
 
     if (granted) {
-      visible.push({
-        href: item.href,
-        label: resolveOperatorNavLabel({ label: item.label }),
-      });
+      visible.push(navItem);
     }
   }
 
@@ -59,8 +63,9 @@ async function buildNavGroup(
   }
 
   return {
-    label: group.label,
+    id: toNavGroupId(group.label),
     items: [...items],
+    label: group.label,
   };
 }
 
@@ -78,6 +83,7 @@ async function buildSystemAdminNavGroup(
     if (granted) {
       items.push({
         href: section.href,
+        id: section.sectionId,
         label: section.label,
       });
     }
@@ -87,9 +93,12 @@ async function buildSystemAdminNavGroup(
     return null;
   }
 
+  const label = resolveOperatorNavLabel(OPERATOR_NAV_LABELS.systemAdminGroup);
+
   return {
-    label: resolveOperatorNavLabel(OPERATOR_NAV_LABELS.systemAdminGroup),
+    id: toNavGroupId(label),
     items,
+    label,
   };
 }
 

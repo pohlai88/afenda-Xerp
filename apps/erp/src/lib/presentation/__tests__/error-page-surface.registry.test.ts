@@ -56,22 +56,29 @@ describe("error-page-surface.registry", () => {
   it("maps each canonical surface to an app route page file", () => {
     const appRoot = join(ERP_SRC_ROOT, "app");
 
+    function findAppPageFile(routePath: string): string | undefined {
+      const leaf = join(routePath.replace(/^\//, ""), "page.tsx");
+      const direct = join(appRoot, leaf);
+      if (existsSync(direct)) {
+        return direct;
+      }
+
+      for (const routeGroup of ["(auth)", "(protected)", "(public)"] as const) {
+        const grouped = join(appRoot, routeGroup, leaf);
+        if (existsSync(grouped)) {
+          return grouped;
+        }
+      }
+
+      return undefined;
+    }
+
     for (const surface of ERROR_PAGE_CANONICAL_SURFACES) {
-      const pagePath = join(
-        appRoot,
-        surface.path.replace(/^\//, ""),
-        "page.tsx"
-      );
-      expect(existsSync(pagePath)).toBe(true);
+      expect(findAppPageFile(surface.path)).toBeDefined();
     }
 
     for (const alias of ERROR_PAGE_REDIRECT_ALIASES) {
-      const pagePath = join(
-        appRoot,
-        alias.source.replace(/^\//, ""),
-        "page.tsx"
-      );
-      expect(existsSync(pagePath)).toBe(false);
+      expect(findAppPageFile(alias.source)).toBeUndefined();
     }
   });
 });

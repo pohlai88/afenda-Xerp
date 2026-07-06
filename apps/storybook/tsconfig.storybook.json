@@ -13,17 +13,20 @@
     "sourceMap": false,
     "exactOptionalPropertyTypes": false,
     "paths": {
-      "@afenda/shadcn-studio/shadcn-default.css": [
-        "../../packages/shadcn-studio/src/styles/shadcn-default.css"
+      "@afenda/shadcn-studio-v2/shadcn-default.css": [
+        "../../packages/shadcn-studio-v2/src/styles/shadcn-default.css"
       ],
-      "@afenda/shadcn-studio": ["../../packages/shadcn-studio/src/index.ts"],
-      "@afenda/shadcn-studio/lab": ["../../packages/shadcn-studio/src/lab.ts"],
-      "@/components/ui/*": ["../../packages/shadcn-studio/src/components-ui/*"],
-      "@/components/shadcn-studio/*": [
-        "../../packages/shadcn-studio/src/components-layouts/*"
+      "@afenda/shadcn-studio-v2/lab": [
+        "../../packages/shadcn-studio-v2/src/storybook/lab.ts"
       ],
-      "@/lib/utils": ["../../packages/shadcn-studio/src/utils/utils.ts"],
-      "@/*": ["../../packages/shadcn-studio/src/*"],
+      "@afenda/shadcn-studio-v2": [
+        "../../packages/shadcn-studio-v2/src/index.ts"
+      ],
+      "@/components/ui/*": [
+        "../../packages/shadcn-studio-v2/src/components/ui/*"
+      ],
+      "@/lib/utils": ["../../packages/shadcn-studio-v2/src/lib/cn.ts"],
+      "@/*": ["../../packages/shadcn-studio-v2/src/*"],
       "@storybook/react": ["./node_modules/@storybook/react"],
       "storybook/test": ["./node_modules/storybook/dist/test/index.d.ts"],
       "next/link": ["../../packages/testing/src/mocks/next-link.tsx"],
@@ -45,14 +48,12 @@
     "vitest.storybook-a11y.config.ts",
     "../../packages/testing/src/mocks/*.tsx",
     "../../packages/testing/src/mocks/*.ts",
-    "../../packages/shadcn-studio/src/**/*.ts",
-    "../../packages/shadcn-studio/src/**/*.tsx",
-    "../../packages/shadcn-studio/src/**/*.stories.ts",
-    "../../packages/shadcn-studio/src/**/*.stories.tsx"
+    "../../packages/shadcn-studio-v2/src/**/*.ts",
+    "../../packages/shadcn-studio-v2/src/**/*.tsx"
   ],
   "exclude": [
-    "../../packages/shadcn-studio/src/**/__tests__/**",
-    "../../packages/shadcn-studio/src/**/*.test.ts",
-    "../../packages/shadcn-studio/src/**/*.test.tsx"
+    "../../packages/shadcn-studio-v2/src/**/__tests__/**",
+    "../../packages/shadcn-studio-v2/src/**/*.test.ts",
+    "../../packages/shadcn-studio-v2/src/**/*.test.tsx"
   ]
 }

@@ -4,9 +4,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2";
 
 import { MetadataBindingSlotHydrationPreview } from "@/components/metadata/metadata-binding-slot-hydration-preview.client";
+import { MetadataWorkspaceBoardPreview } from "./_components/metadata-workspace-board-preview.client";
 import { loadProtectedRequestOperatingContext } from "@/lib/context/load-protected-request-operating-context.server";
 import { resolveMetadataActorUserIdFromOperatingContext } from "@/lib/metadata/resolve-metadata-auth-actor.server";
 import { resolveMetadataUiRenderContextFromTenantContext } from "@/lib/metadata/resolve-metadata-ui-render-context.server";
@@ -52,6 +53,10 @@ export default async function MetadataWorkspacePage() {
           Surface templates bound to studio metadata contracts (PAS-006D).
         </p>
       </header>
+
+      <section className="overflow-x-auto rounded-md border bg-background p-4">
+        <MetadataWorkspaceBoardPreview />
+      </section>
 
       <section className="grid gap-4">
         {surfaces.map((surface) => (

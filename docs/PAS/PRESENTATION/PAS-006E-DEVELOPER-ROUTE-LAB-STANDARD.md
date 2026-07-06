@@ -9,11 +9,11 @@
 | **Package** | `@afenda/developer` (lab-lane) |
 | **Layer** | Application (lab) |
 | **Blueprint box** | Developer Route Lab · [developer-sandbox-blueprint.md](../../BLUEPRINT/developer-sandbox-blueprint.md) |
-| **Authority ADR** | [ADR-0039](../../adr/ADR-0039-developer-presentation-sandbox.md) |
+| **Authority ADR** | [ADR-0039](../../adr/ADR-0039-developer-presentation-sandbox.md) · [ADR-0044](../../adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md) |
 | **Port** | **3002** |
 | **Maturity** | Delivered (P06-014–P06-016) |
 | **Consumers** | Local developers only — **no production deploy** |
-| **Upstream dependency** | `@afenda/shadcn-studio` only |
+| **Upstream dependency** | `@afenda/shadcn-studio-v2` only |
 | **Slice directory** | `docs/PAS/PRESENTATION/SLICE/` |
 
 #### Required gates (post-scaffold — P06-014+)
@@ -79,7 +79,7 @@ Application-layer **route lab** — full operator chrome and multi-block screens
 | Demo context | `apps/developer/src/lib/lab/lab-demo-context.ts` | **Not** `OperatingContext` |
 | Nav config | `apps/developer/src/config/nav-config.ts` | Serializable nav groups |
 | Theme config | `apps/developer/src/config/theme-config.ts` | Theme provider wiring |
-| Error boundary | `apps/developer/src/app/error.tsx` | Client-safe — **no** `@afenda/shadcn-studio` import |
+| Error boundary | `apps/developer/src/app/error.tsx` | Client-safe — **no** `@afenda/shadcn-studio-v2` import |
 
 ---
 
@@ -87,7 +87,7 @@ Application-layer **route lab** — full operator chrome and multi-block screens
 
 ## 3.1 Allowed
 
-- `@afenda/shadcn-studio` (blocks, theme, CSS)
+- `@afenda/shadcn-studio-v2` (blocks, theme, CSS)
 - Next.js 16 · React 19 · Tailwind (via same four-import CSS chain as ERP — PAS-006A)
 
 ## 3.2 Prohibited imports
@@ -154,7 +154,7 @@ Mandatory page law for all route lab surfaces (P06-014+).
 page.tsx (thin RSC)
   → await load{Surface}Page() from lib/lab/
   → pass serializable props to _components/
-  → _components/ compose @afenda/shadcn-studio blocks
+  → _components/ compose @afenda/shadcn-studio-v2 blocks
 ```
 
 ## 7.3 Layout law
@@ -167,7 +167,7 @@ page.tsx (thin RSC)
 
 - `error.tsx` at **app root and each operator segment** that can fail (`(lab)/`, `dashboard/`, `admin/`, `settings/`)
 - Client component only; shared recovery UI via `lab-segment-error.client.tsx`
-- **Must not** import `@afenda/shadcn-studio` — same hard stop as ERP
+- **Must not** import `@afenda/shadcn-studio-v2` — same hard stop as ERP
 
 ## 7.5 RSC-first composition
 

@@ -6,7 +6,7 @@
 | **Document role** | `presentation_lab_specification` |
 | **Domain** | Developer Route Lab — full-screen operator UX prototyping |
 | **Parent** | [shadcn/studio Presentation North Star](shadcn-studio-presentation-north-star.md) |
-| **Authority ADR** | [ADR-0039](../adr/ADR-0039-developer-presentation-sandbox.md) |
+| **Authority ADR** | [ADR-0039](../adr/ADR-0039-developer-presentation-sandbox.md) · [ADR-0044](../adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md) (runtime authority boundary — Accepted) |
 | **Derived document** | [Developer Sandbox Blueprint](../BLUEPRINT/developer-sandbox-blueprint.md) |
 | **Maturity** | Production Candidate (docs) — app scaffold Planned (P06-014) |
 | **Runtime stance** | Documentation only until P06-014 |

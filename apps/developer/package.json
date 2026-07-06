@@ -22,12 +22,14 @@
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const d of ['.next', 'out']) rmSync(d, { recursive: true, force: true })\""
   },
   "dependencies": {
-    "@afenda/shadcn-studio": "workspace:*",
     "@afenda/shadcn-studio-v2": "workspace:*",
+    "d3-force": "^3.0.0",
     "geist": "^1.7.2",
+    "mermaid": "^11.12.0",
     "next": "catalog:",
     "react": "catalog:",
-    "react-dom": "catalog:"
+    "react-dom": "catalog:",
+    "react-force-graph-2d": "^1.29.1"
   },
   "devDependencies": {
     "@afenda/testing": "workspace:*",
@@ -35,6 +37,7 @@
     "@playwright/test": "^1.61.0",
     "@tailwindcss/postcss": "catalog:",
     "@testing-library/react": "catalog:",
+    "@types/d3-force": "^3.0.10",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",

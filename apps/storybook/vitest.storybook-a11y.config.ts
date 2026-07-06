@@ -29,7 +29,7 @@ export default defineConfig({
       "react-dom/client",
       "@storybook/addon-a11y/preview",
       "@storybook/react-vite",
-      "@afenda/shadcn-studio",
+      "@afenda/shadcn-studio-v2",
     ],
   },
   define: {

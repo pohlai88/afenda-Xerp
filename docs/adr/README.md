@@ -47,6 +47,18 @@ See [`docs/PAS/README.md`](../PAS/README.md).
 | [ADR-0030](ADR-0030-erp-rest-api-contract-standard.md) | ERP REST API Contract Standard | Accepted |
 | [ADR-0031](ADR-0031-procurement-runtime-authority-boundary.md) | Procurement Runtime Authority Boundary (PKG-R05) | Accepted |
 | [ADR-0032](ADR-0032-fiscal-domain-id-authority.md) | Fiscal Domain ID Authority (Calendar and Period) | Accepted |
+| [ADR-0033](ADR-0033-service-actor-s2s-token-verification-deferred.md) | Service Actor S2S Token Verification Deferred | Accepted |
+| [ADR-0034](ADR-0034-service-actor-production-policy-attestation.md) | Service Actor Production Policy Attestation | Accepted |
+| [ADR-0035](ADR-0035-internal-v1-service-actor-bearer-verification.md) | Internal v1 Service Actor Bearer Verification | Accepted |
+| [ADR-0036](ADR-0036-machine-s2s-production-activation.md) | Machine S2S Production Activation | Accepted |
+| [ADR-0037](ADR-0037-shadcn-studio-src-layered-structure.md) | shadcn-studio src Layered Structure (historical v1) | Accepted |
+| [ADR-0038](ADR-0038-shadcn-studio-prefixed-folder-layout.md) | shadcn-studio Prefixed Folder Layout (historical v1) | Accepted |
+| [ADR-0039](ADR-0039-developer-presentation-sandbox.md) | Developer Presentation Sandbox | Accepted |
+| [ADR-0040](ADR-0040-promote-shadcn-studio-v2-and-deprecate-legacy.md) | Promote shadcn-studio-v2 and Deprecate Legacy shadcn-studio | Accepted |
+| [ADR-0041](ADR-0041-headless-workspaceboard-widget-grid.md) | Headless WorkspaceBoard Widget Grid | Accepted |
+| [ADR-0042](ADR-0042-workspaceboard-drag-resize-runtime.md) | WorkspaceBoard Drag/Resize Runtime | Accepted |
+| [ADR-0043](ADR-0043-erp-datatable-headless-composer.md) | ERP Datatable Headless Composer | Accepted |
+| [ADR-0044](ADR-0044-developer-route-lab-runtime-authority-boundary.md) | Developer Route Lab Runtime Authority Boundary | Accepted |
 
 ## Process
 

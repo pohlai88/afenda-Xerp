@@ -9,7 +9,7 @@ import {
   AlertDescription,
   AlertTitle,
   alertClassName,
-} from "../components/ui/Alert";
+} from "../components/ui/alert";
 import {
   Field,
   FieldControl,
@@ -18,7 +18,7 @@ import {
   FieldLabel,
   FieldMessage,
   fieldClassName,
-} from "../components/ui/Field";
+} from "../components/ui/field";
 import {
   Table,
   TableBody,
@@ -38,7 +38,7 @@ import {
   tableHeadClassName,
   tableHeaderClassName,
   tableRowClassName,
-} from "../components/ui/Table";
+} from "../components/ui/table";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -273,14 +273,14 @@ describe("shadcn-studio-v2 primitive extension", () => {
   });
 
   it("keeps extension primitives out of the server public surface", () => {
-    expect(readSource("index.ts")).toContain("./components/ui/Alert");
-    expect(readSource("index.ts")).toContain("./components/ui/Field");
-    expect(readSource("index.ts")).toContain("./components/ui/Table");
+    expect(readSource("index.ts")).toContain("./components/ui/alert");
+    expect(readSource("index.ts")).toContain("./components/ui/field");
+    expect(readSource("index.ts")).toContain("./components/ui/table");
     expect(readSource("clients.ts")).toContain("Alert");
     expect(readSource("clients.ts")).toContain("Field");
     expect(readSource("clients.ts")).toContain("Table");
-    expect(readSource("server.ts")).not.toContain("./components/ui/Alert");
-    expect(readSource("server.ts")).not.toContain("./components/ui/Field");
-    expect(readSource("server.ts")).not.toContain("./components/ui/Table");
+    expect(readSource("server.ts")).not.toContain("./components/ui/alert");
+    expect(readSource("server.ts")).not.toContain("./components/ui/field");
+    expect(readSource("server.ts")).not.toContain("./components/ui/table");
   });
 });

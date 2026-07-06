@@ -1,1 +1,0 @@
-# Shared non-wire TypeScript types\n

@@ -4,6 +4,7 @@ import type {
   LabPromotionNote,
   LabRouteLoader,
 } from "./contracts";
+import { createCachedLabLoader } from "./create-cached-lab-loader.server";
 import { createRouteLabMetadata } from "./create-route-lab-metadata";
 
 export const financeDashboardPromotionNote = {
@@ -62,9 +63,13 @@ const demoFinanceDashboardPageData = {
   ],
 } satisfies FinanceDashboardPageData;
 
-export const loadDashboardFinancePage: LabRouteLoader<
+const loadDashboardFinancePageUncached: LabRouteLoader<
   FinanceDashboardPageData
 > = async () => demoFinanceDashboardPageData;
+
+export const loadDashboardFinancePage = createCachedLabLoader(
+  loadDashboardFinancePageUncached
+);
 
 export function createFinanceDashboardMetadata(): Metadata {
   return createRouteLabMetadata({

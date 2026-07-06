@@ -1,5 +1,5 @@
-import type { MetadataBindingContractWire } from "@afenda/shadcn-studio";
-import { getMetadataBindingByBlockId } from "@afenda/shadcn-studio";
+import type { MetadataBindingContractWire } from "../metadata-studio.contract";
+import { getMetadataBindingByBlockId } from "../metadata-binding.registry";
 import { describe, expect, it } from "vitest";
 import { hydrateMetadataBindingSlots } from "../hydrate-metadata-binding-slots.server";
 import { createMetadataRuntimeContext } from "../metadata-runtime.contract";

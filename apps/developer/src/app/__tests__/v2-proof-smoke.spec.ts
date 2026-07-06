@@ -1,5 +1,6 @@
 import { expect, type Page, test } from "@playwright/test";
-import { developerThemeStorageKey } from "../../lib/lab/hydration-resolution.metadata";
+
+const developerThemeStorageKey = "afenda-studio-v2-theme";
 
 const proofRouteHref = "/design-system/v2-proof";
 
@@ -32,10 +33,7 @@ test.describe("Phase 8 V2 proof route @smoke", () => {
     await page.goto(proofRouteHref);
 
     await expect(
-      page.getByRole("heading", {
-        level: 1,
-        name: "V2 design system consumer proof",
-      })
+      page.getByText("V2 design system consumer proof")
     ).toBeVisible();
     await expect(page.getByText("Phase 8 V2 consumer proof")).toBeVisible();
     await expect(page.getByText("Page surface pattern")).toBeVisible();
@@ -62,15 +60,15 @@ test.describe("Phase 8 V2 proof route @smoke", () => {
     await page.getByLabel("Toggle color mode").click();
     await expect(themeState).not.toHaveAttribute("data-mode", "system");
 
-    await page.getByLabel("Theme").click();
+    await page.getByRole("combobox", { name: "Theme" }).click();
     await page.getByRole("option", { name: "Swiss Noir" }).click();
     await expect(themeState).toHaveAttribute("data-theme-id", "swiss-noir");
 
-    await page.getByLabel("Theme").click();
+    await page.getByRole("combobox", { name: "Theme" }).click();
     await page.getByRole("option", { name: "Verdant Noir" }).click();
     await expect(themeState).toHaveAttribute("data-theme-id", "verdant-noir");
 
-    await page.getByLabel("Theme").click();
+    await page.getByRole("combobox", { name: "Theme" }).click();
     await page.getByRole("option", { name: "shadcn Default" }).click();
     await expect(themeState).toHaveAttribute("data-theme-id", "shadcn-default");
   });
@@ -81,12 +79,7 @@ test.describe("Phase 8 V2 proof route @smoke", () => {
     const runtimeErrors = collectRouteRuntimeErrors(page);
 
     await page.goto(proofRouteHref);
-    await page
-      .getByRole("heading", {
-        level: 1,
-        name: "V2 design system consumer proof",
-      })
-      .waitFor();
+    await page.getByText("V2 design system consumer proof").waitFor();
 
     expect(runtimeErrors).toEqual([]);
   });

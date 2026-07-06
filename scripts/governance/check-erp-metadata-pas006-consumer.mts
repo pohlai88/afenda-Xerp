@@ -16,7 +16,10 @@ const repoRoot = fileURLToPath(new URL("../../", import.meta.url)).replace(
   ""
 );
 
-const SHADCN_STUDIO_DIST_ROOT = join(repoRoot, "packages/shadcn-studio/dist");
+const SHADCN_STUDIO_DIST_ROOT = join(
+  repoRoot,
+  "packages/shadcn-studio-v2/dist"
+);
 
 const UNRESOLVED_DIST_ALIAS_PATTERN = /from\s+["']@\//;
 
@@ -68,7 +71,7 @@ function ensureShadcnStudioDistReady(): {
 
   const build = spawnSync(
     "pnpm",
-    ["--filter", "@afenda/shadcn-studio", "build"],
+    ["--filter", "@afenda/shadcn-studio-v2", "build"],
     { cwd: repoRoot, stdio: "inherit", shell: true }
   );
 
@@ -76,7 +79,7 @@ function ensureShadcnStudioDistReady(): {
     return {
       ok: false,
       message:
-        "pnpm --filter @afenda/shadcn-studio build failed — dist must resolve @/* path aliases via tsc-alias",
+        "pnpm --filter @afenda/shadcn-studio-v2 build failed — dist must resolve @/* path aliases via tsc-alias",
     };
   }
 
@@ -88,7 +91,7 @@ function ensureShadcnStudioDistReady(): {
 
   return {
     ok: false,
-    message: `Unresolved @/* imports remain in shadcn-studio dist: ${unresolved.slice(0, 5).join(", ")}${unresolved.length > 5 ? " …" : ""}`,
+    message: `Unresolved @/* imports remain in shadcn-studio-v2 dist: ${unresolved.slice(0, 5).join(", ")}${unresolved.length > 5 ? " …" : ""}`,
   };
 }
 

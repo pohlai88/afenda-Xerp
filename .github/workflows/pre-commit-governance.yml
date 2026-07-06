@@ -1,0 +1,84 @@
+name: Pre-commit governance
+
+# Mirrors the local Husky chain in CI so hook/policy drift cannot merge unnoticed.
+# Fast path-filter on PRs; full run on main push and manual dispatch.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    paths:
+      - ".husky/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "prettier.config.mjs"
+      - "biome.jsonc"
+      - "biome.lsp.jsonc"
+      - "biome.project.jsonc"
+      - ".vscode/settings.json"
+      - ".cursor/settings.json"
+      - "_reference/.vscode/settings.json"
+      - "scripts/governance/**"
+      - "packages/shadcn-studio-v2/src/styles/**"
+      - "packages/shadcn-studio-v2/dist/**"
+      - ".github/workflows/pre-commit-governance.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: pre-commit-governance-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  parity:
+    name: Husky · lint-staged · CSS dist parity
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Husky hooks (prepare)
+        run: pnpm prepare
+
+      - name: Verify Husky hooksPath
+        run: |
+          hooks_path="$(git config --get core.hooksPath)"
+          if [ "$hooks_path" != ".husky/_" ]; then
+            echo "core.hooksPath must be .husky/_ after prepare (found: ${hooks_path:-<unset>})"
+            exit 1
+          fi
+
+      - name: Pre-commit parity (editor sync + package CSS dist)
+        run: pnpm check:pre-commit-parity
+
+      - name: Summarise
+        if: always()
+        run: |
+          {
+            echo "## Pre-commit governance"
+            echo ""
+            echo "Local chain: \`.husky/pre-commit\` → \`pnpm precommit\` → \`check-biome-editor-sync\` + \`lint-staged\`."
+            echo ""
+            echo "CI parity: \`pnpm check:pre-commit-parity\` (no staged-file mutation)."
+            echo ""
+            echo "Fix loop: \`pnpm prepare && pnpm check:husky-sync && pnpm sync:package-css-dist\`"
+          } >> "$GITHUB_STEP_SUMMARY"

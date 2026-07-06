@@ -43,7 +43,23 @@ export interface StudioMetricWidgetMetadata {
   readonly widget: "metric";
 }
 
+export interface StudioEvidenceWidgetItemMetadata {
+  readonly id: string;
+  readonly label: string;
+  readonly status?: "complete" | "missing" | "pending";
+}
+
+export interface StudioEvidenceWidgetMetadata {
+  readonly description?: string;
+  readonly items?: readonly StudioEvidenceWidgetItemMetadata[];
+  readonly kind: "widget";
+  readonly label: string;
+  readonly summary: string;
+  readonly widget: "evidence";
+}
+
 export type StudioViewMetadata =
   | StudioAuthViewMetadata
+  | StudioEvidenceWidgetMetadata
   | StudioMetricWidgetMetadata
   | StudioPageViewMetadata;

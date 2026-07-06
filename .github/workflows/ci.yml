@@ -220,6 +220,9 @@ jobs:
       - name: Gate 2 · biome (format + lint + imports + editor sync)
         run: pnpm ci:biome
 
+      - name: Gate 2b · pre-commit parity (Husky contract + package CSS dist)
+        run: pnpm check:pre-commit-parity
+
       - name: Gate 3cov · phase-1 coverage
         run: pnpm test:coverage:phase1
 
@@ -231,11 +234,11 @@ jobs:
         run: pnpm check:downstream-integration
 
       # ── Gate 3c · PAS-006 presentation type safety ───────────────────────
-      - name: Gate 3c · shadcn-studio typecheck (PAS-006)
-        run: pnpm --filter @afenda/shadcn-studio typecheck
+      - name: Gate 3c · shadcn-studio-v2 typecheck (PAS-006)
+        run: pnpm --filter @afenda/shadcn-studio-v2 typecheck
 
-      - name: Gate 3c2 · shadcn-studio path aliases (PAS-006 / ADR-0038)
-        run: pnpm check:studio-paths
+      - name: Gate 3c2 · v1 consumer import ban (Lane B-13)
+        run: pnpm check:v1-consumer-imports
 
       - name: Gate 3d · ERP API contract governance (ADR-0030)
         run: pnpm check:api-contracts

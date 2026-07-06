@@ -20,7 +20,7 @@
     { "path": "./packages/kernel" },
     { "path": "./packages/observability" },
     { "path": "./packages/permissions" },
-    { "path": "./packages/shadcn-studio" },
+    { "path": "./packages/shadcn-studio-v2" },
     { "path": "./packages/storage" },
     { "path": "./packages/testing" }
   ]

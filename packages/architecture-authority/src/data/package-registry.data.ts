@@ -293,14 +293,14 @@ const ACTIVE_PACKAGES = [
   {
     registryId: "PKG-026",
     packageName: "@afenda/shadcn-studio",
-    path: "packages/shadcn-studio",
+    path: "_retired/packages/shadcn-studio",
     layer: "Design",
-    lifecycle: "active",
+    lifecycle: "retired",
     purpose:
-      "shadcn/studio presentation product — theme surface, MCP install targets (PAS-006)",
+      "Retired per ADR-0040 — legacy shadcn/studio v1 filesystem removed (Lane B-15 Slice D-1); canonical presentation via @afenda/shadcn-studio-v2 (PAS-006)",
     publicApiOwner: "Design Authority",
     layerDepExempt: false,
-    filesystemRequired: true,
+    filesystemRequired: false,
   },
   {
     registryId: "PKG-027",
@@ -343,11 +343,9 @@ const ACTIVE_PACKAGES = [
     packageName: "@afenda/shadcn-studio-v2",
     path: "packages/shadcn-studio-v2",
     layer: "Design",
-    lifecycle: "experimental",
-    experimentalExpiresAt: "2026-09-24T00:00:00.000Z",
-    experimentalStartedAt: "2026-06-27T00:00:00.000Z",
+    lifecycle: "active",
     purpose:
-      "Shadow V2 shadcn/studio presentation package for governed taxonomy migration",
+      "Canonical shadcn/studio ERP presentation package — theme surface, components, MCP install targets (PAS-006 · ADR-0040)",
     publicApiOwner: "Design Authority",
     layerDepExempt: false,
     filesystemRequired: true,

@@ -86,6 +86,34 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 ---
 
+## Full-Stack Integration (FSI) — Active track
+
+| Field | Value |
+| --- | --- |
+| **Track** | Full-Stack Integration — cross-layer alignment and materialization |
+| **Authority** | [full-stack-integration North Star](../NORTHSTAR/full-stack-integration-north-star.md) · [Blueprint](../BLUEPRINT/full-stack-integration-blueprint.md) · [ADR-0044](../adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md) |
+| **Status** | Documentation + machine graph **Delivered** (FSI-S10) · remaining slices Planned |
+| **Dashboard** | Developer Route Lab `/architecture` — Integration Map (lab-only, ADR-0044) |
+| **Machine SSOT** | `docs/architecture/integration-graph.snapshot.json` via `pnpm export:integration-graph` |
+| **Gates** | `pnpm check:integration-graph-drift` · `pnpm check:documentation-drift` · `pnpm check:route-lab-governance` |
+
+| Slice | Priority | Status | Summary |
+| --- | --- | --- | --- |
+| FSI-S10 | P1 | **Delivered** | Integration graph export + dashboard |
+| FSI-S7 | P0 | Planned | Module surface registry materialization |
+| FSI-S8 | P0 | Planned | Rendering matrix (`force-dynamic`, BFF cache mirror) |
+| FSI-S3 | P1 | Planned | Lab→ERP promotion attestation |
+| FSI-S1 | P1 | Planned | Consumer envelope discipline |
+| FSI-S6 | P1 | **Delivered** | v1→v2 presentation cutover ([ADR-0040](../adr/ADR-0040-promote-shadcn-studio-v2-and-deprecate-legacy.md) · Lane B-15) |
+| FSI-S9 | P1 | Planned | MCP route verification |
+| FSI-S2 | P1 | Planned | Wire→UI mapper registry |
+| FSI-S4 | P2 | Planned | Metadata binding materialization |
+| FSI-S5 | P2 | Planned | OpenAPI↔permission parity |
+
+**Next sequence item (FSI):** FSI-S7 module surface registry materialization.
+
+---
+
 ## PAS-API-001 — Platform API Contract Authority — Production Accepted (family doctrine)
 
 | Field | Value |
@@ -227,23 +255,23 @@ Lightweight closure registry for Package Authority Standards. Runtime evidence l
 
 ---
 
-## PAS-006 shadcn/studio Presentation Family — **Active**
+## PAS-006 shadcn/studio Presentation Family — **Active** (v2 canonical)
 
 | Field | Value |
 | --- | --- |
-| **Status** | **Active** — sole ERP frontend presentation authority (2026-06-29) |
-| **Authority** | PAS-006 family · PKG-026 · `@afenda/shadcn-studio` |
+| **Status** | **Active** — sole ERP frontend presentation authority ([ADR-0040](../adr/ADR-0040-promote-shadcn-studio-v2-and-deprecate-legacy.md) · Lane B-15 **Delivered** 2026-07-06) |
+| **Authority** | PAS-006 family · PKG-030 · `@afenda/shadcn-studio-v2` · registry lane `PKGR05C_SHADCN_STUDIO_V2` |
 | **Family index** | [`PRESENTATION/README.md`](PRESENTATION/README.md) |
-| **Maturity** | **Enterprise Accepted** — PKGR05A promoted (P06-010 + foundation-registry-owner) |
-| **Runtime authority today** | PAS-006 family slices P06-001–P06-016 delivered; **P06-008-R1 + P06-008-R2** metadata binding + DOM slot enforcement; **PAS-006E** route lab app `@afenda/developer` :3002 (ADR-0039) |
+| **Maturity** | **Enterprise Accepted** — PKGR05C active presentation owner; PKGR05A (`@afenda/shadcn-studio`) **archive-lane** |
+| **Runtime authority today** | PAS-006 family slices P06-001–P06-016 delivered on v2; **P06-008-R1 + P06-008-R2** metadata binding + DOM slot enforcement; **PAS-006E** route lab `@afenda/developer` :3002 ([ADR-0039](../adr/ADR-0039-developer-presentation-sandbox.md) · [ADR-0044](../adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md)) |
 | **Proposed extensions** | — |
-| **Runtime status** | ERP skeleton + metadata/context wire + studio registries; **`apps/developer` route lab live** (v1 borrow map 5/5 routes) |
-| **Remaining slices** | — (PAS-006E v1 complete) |
-| **Runtime evidence** | [PAS family](PRESENTATION/README.md), [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md), [ADR-0039](../adr/ADR-0039-developer-presentation-sandbox.md), [North star](../NORTHSTAR/shadcn-studio-presentation-north-star.md), [Developer sandbox NS](../NORTHSTAR/developer-sandbox-north-star.md), [Blueprint](../BLUEPRINT/shadcn-studio-presentation-blueprint.md), [Developer sandbox Blueprint](../BLUEPRINT/developer-sandbox-blueprint.md), `packages/shadcn-studio/`, `apps/developer/`, `apps/erp/src/lib/metadata/`, `apps/erp/src/lib/auth/` |
-| **Gates (006 family live)** | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm --filter @afenda/erp typecheck`, `pnpm check:studio-inventory-lifecycle`, `pnpm check:studio-block-acpa-acceptance`, `pnpm check:studio-auth-surface-wcag-aa`, `pnpm check:studio-metadata-binding`, `pnpm check:studio-block-slot-markers`, `pnpm check:package-css-dist-sync`, `pnpm quality:boundaries`, `pnpm check:documentation-drift`, `pnpm check:foundation-disposition` |
-| **Result** | Five-PAS manufacturing family; single CSS chain; metadata-driven UI path operational (PAS-006D) |
+| **Runtime status** | ERP + Storybook + developer lab consume `@afenda/shadcn-studio-v2`; zero consumer v1 imports (`pnpm check:v1-consumer-imports`) |
+| **Remaining slices** | — (PAS-006E + Lane B complete) |
+| **Runtime evidence** | [PAS family](PRESENTATION/README.md), [ADR-0027](../adr/ADR-0027-frontend-presentation-reset.md), [ADR-0040](../adr/ADR-0040-promote-shadcn-studio-v2-and-deprecate-legacy.md), [ADR-0039](../adr/ADR-0039-developer-presentation-sandbox.md), [ADR-0044](../adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md), [North star](../NORTHSTAR/shadcn-studio-presentation-north-star.md), [Developer sandbox NS](../NORTHSTAR/developer-sandbox-north-star.md), [Blueprint](../BLUEPRINT/shadcn-studio-presentation-blueprint.md), [Developer sandbox Blueprint](../BLUEPRINT/developer-sandbox-blueprint.md), `packages/shadcn-studio-v2/`, [Lane B-15 sign-off](../../packages/shadcn-studio-v2/docs/slices/LANE-B-15-V1-FORMAL-DEPRECATION-SIGN-OFF.md), `apps/developer/`, `apps/erp/src/lib/metadata/`, `apps/erp/src/lib/auth/` |
+| **Gates (006 family live)** | `pnpm --filter @afenda/shadcn-studio-v2 typecheck`, `pnpm --filter @afenda/shadcn-studio-v2 test:run`, `pnpm --filter @afenda/shadcn-studio-v2 build`, `pnpm check:v1-consumer-imports`, `pnpm --filter @afenda/erp typecheck`, `pnpm check:studio-inventory-lifecycle`, `pnpm check:studio-block-acpa-acceptance`, `pnpm check:studio-auth-surface-wcag-aa`, `pnpm check:studio-metadata-binding`, `pnpm check:studio-block-slot-markers`, `pnpm check:package-css-dist-sync`, `pnpm quality:boundaries`, `pnpm check:documentation-drift`, `pnpm check:foundation-disposition` |
+| **Result** | Five-PAS manufacturing family on v2; single CSS chain; metadata-driven UI path operational (PAS-006D); v1 formally deprecated |
 
-**Next sequence item:** — (PAS-006E v1 route lab delivered; extend borrow map via ADR amendment if needed).
+**Next sequence item:** — (Lane B + PAS-006E complete; extend route lab borrow map via ADR amendment if needed).
 
 ---
 

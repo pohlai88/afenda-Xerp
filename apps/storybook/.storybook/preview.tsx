@@ -4,7 +4,7 @@ import {
   shadcnStudioLabPreviewParameters,
   shadcnStudioStoryA11y,
   shadcnStudioThemeDecorator,
-} from "@afenda/shadcn-studio/lab";
+} from "@afenda/shadcn-studio-v2/lab";
 import type { Preview } from "@storybook/react";
 import { initialize, mswLoader } from "msw-storybook-addon";
 import React from "react";

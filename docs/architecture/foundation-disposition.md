@@ -5,7 +5,7 @@
 | **Authority** | ADR-0014 |
 | **Workflow** | [`foundation-delivery-authority.md`](foundation-delivery-authority.md) — **read before implementation** |
 | **Source of truth** | [`foundation-disposition.registry.ts`](../../packages/architecture-authority/src/data/foundation-disposition.registry.ts) |
-| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-07-02-v40` |
+| **Fingerprint** | `FOUNDATION-DISPOSITION-2026-07-06-v43` |
 | **Enforcement** | `pnpm check:foundation-disposition` |
 
 > **Read-only view.** This document is synced from the typed registry. Do not treat this file as authority — edit the registry (via `foundation-registry-owner`) and re-sync this view.
@@ -65,7 +65,8 @@
 | PKGR03_ACCOUNTING_STANDARDS | `@afenda/accounting-standards` | green-lane | no | B0–B20 delivered · Enterprise Accepted (2026-06-30) |
 | PKGR04_ENTERPRISE_KNOWLEDGE | `@afenda/enterprise-knowledge` | green-lane | no | see PAS-004D |
 | PKGR05_CSS_AUTHORITY | `@afenda/css-authority` | archive-lane | no | retired for ERP frontend — ADR-0027 |
-| PKGR05A_SHADCN_STUDIO | `@afenda/shadcn-studio` | green-lane | no | sole ERP frontend design authority — PAS-006 · PKG-026 |
+| PKGR05A_SHADCN_STUDIO | `@afenda/shadcn-studio` | archive-lane | no | retired — v1 filesystem removed (Lane B-15 Slice D-1 · ADR-0040) · runtimeOwner `docs/adr` · PKG-026 retired |
+| PKGR05C_SHADCN_STUDIO_V2 | `@afenda/shadcn-studio-v2` | green-lane | no | canonical PAS-006 presentation owner (ADR-0040) · PKG-030 active |
 | PAS_AUTHORITY | `docs/PAS` | archive-lane | no | — |
 
 > Registry `knownGaps` deprecated (always `[]`). Gap detail lives in PAS slice handoffs under [`docs/PAS/`](../PAS/README.md).

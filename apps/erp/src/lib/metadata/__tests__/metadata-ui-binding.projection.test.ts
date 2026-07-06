@@ -1,4 +1,4 @@
-import { getMetadataBindingByBlockId } from "@afenda/shadcn-studio";
+import { getMetadataBindingByBlockId } from "../metadata-binding.registry";
 import { describe, expect, it } from "vitest";
 import { createMetadataRuntimeContext } from "../metadata-runtime.contract";
 import {

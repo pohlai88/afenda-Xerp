@@ -41,7 +41,7 @@ Before any file edit, read:
 | Coding session | `.cursor/skills/afenda-coding-session/SKILL.md` | Phase 0 contract, §0.1 hard stops, layer order, §11 Completion Report |
 | TypeScript patterns | `.cursor/skills/afenda-coding-session/PATTERNS.md` | Branded IDs, `unknown` catches, `satisfies`, discriminated unions |
 | Verification gates | `.cursor/skills/afenda-coding-session/VERIFICATION.md` | Changed-files → gate matrix |
-| ERP presentation (PAS-006) | `.cursor/skills/shadcn-studio/SKILL.md` | ERP UI, CSS, Storybook, `@afenda/shadcn-studio` |
+| ERP presentation (PAS-006) | `.cursor/skills/shadcn-studio/SKILL.md` | ERP UI, CSS, Storybook, `@afenda/shadcn-studio-v2` |
 | Metadata runtime wire (B111) | `apps/erp/src/lib/metadata/**` | Kernel → serializable metadata context only — no `@afenda/metadata-ui` |
 
 **Removed (ADR-0027):** pre-PAS-006 presentation skills (`govern-primitive`, `ui-consistency-bundle`, `afenda-ui-quality`, etc.) and `packages/ui` — deleted from disk. Use `shadcn-studio` + `afenda-presentation-quality`. Replacement map: [NATIVE-EVALUATION.md](../skills/NATIVE-EVALUATION.md).

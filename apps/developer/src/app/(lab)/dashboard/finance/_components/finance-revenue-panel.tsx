@@ -1,4 +1,6 @@
-import { StatisticsRevenueCardBlock } from "@afenda/shadcn-studio";
+"use client";
+
+import { MetricWidget } from "@afenda/shadcn-studio-v2/clients";
 import type { FinanceDashboardPageData } from "@/lib/lab/contracts";
 
 interface FinanceRevenuePanelProps {
@@ -7,12 +9,11 @@ interface FinanceRevenuePanelProps {
 
 export function FinanceRevenuePanel({ pageData }: FinanceRevenuePanelProps) {
   return (
-    <StatisticsRevenueCardBlock
-      amount={pageData.revenue.amount}
-      changePercentage={pageData.revenue.changePercentage}
-      chartData={pageData.revenue.chartData}
-      periodLabel={pageData.revenue.periodLabel}
-      title={pageData.revenue.title}
+    <MetricWidget
+      description={`${pageData.revenue.periodLabel} · ${pageData.revenue.changePercentage}% change`}
+      label={pageData.revenue.title}
+      tone="success"
+      value={pageData.revenue.amount}
     />
   );
 }

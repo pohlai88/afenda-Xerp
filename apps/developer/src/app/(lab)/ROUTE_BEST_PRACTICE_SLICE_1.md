@@ -26,6 +26,7 @@ Slice 1 is the route-law baseline for the active route-lab surfaces:
 - `/dashboard/finance`
 - `/admin/users`
 - `/settings/appearance`
+- `/architecture`
 
 It covers:
 
@@ -149,23 +150,20 @@ The active route-lab surfaces now satisfy the current Next.js/Vercel best-practi
 baseline that is applicable to a governed frontend-only route lab.
 ```
 
-## What Is Not Missing
+## Post-ADR-0044 Tracks (Defer Removed)
 
-These areas are now pending runtime-parity work, not completed Slice 1 work:
+| Track | Status |
+| --- | --- |
+| Query seam (`_queries`) | **Activated** on appearance (ADR-0044); additional routes follow registry + `lab-query-route-registry.ts` |
+| ERP promotion | **Authorized** for registry `promotionTarget: "erp-route"` routes — implement in `apps/erp`, not the sandbox |
 
-- Route Handlers / `app/api/**`
-- live Server Actions
-- `cacheComponents` or shared operator-route cache strategy
-- middleware / request-policy runtime surfaces
-- tenant/auth/OperatingContext/BFF runtime authority
-- query helper activation
-- module runtime wiring
+## Completed Runtime-Parity Track (P1–P5)
 
-They must be activated through:
-
-- `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md`
-- the matching P1-P5 pending slice
-- code, tests, and governance updates in the same change
+- Route Handlers / `app/api/**` — **P1 accepted** (`GET /api/lab/v1/health`)
+- live Server Actions — **P2 accepted** (`/settings/appearance` review-note action)
+- `cacheComponents` or shared operator-route cache strategy — **P3 accepted** (per-request React.cache dedupe)
+- middleware / request-policy runtime surfaces — **P4 accepted** (`src/proxy.ts` correlation-id pass-through)
+- tenant/auth/OperatingContext/BFF runtime authority — **P5 + ADR-0044 accepted** (demo-fixture resolver; ERP promotion path)
 
 ## Completed Follow-On Slices
 
@@ -186,37 +184,35 @@ The following route-lab best-practice slices are now complete:
 - Live Route Error Probe Hardening
 - Error Boundary Client Safety Hardening
 - Client Leaf Import Wall Hardening
-- Dynamic Params Promise Hardening
+- Server Action Runtime Parity P2 Hardening
+- Route Handler Runtime Parity P1 Hardening
+- Cache Strategy Runtime Parity P3 Hardening
+- Middleware Request Policy Runtime Parity P4 Hardening
+- Runtime Authority Runtime Parity P5 Hardening
+- ADR-0044 runtime authority boundary acceptance
+- Runtime Parity Track Completion
 
 ## Current Next Highest-ROI Guidance
 
-The next highest-ROI work is the pending runtime-parity track, not more
-frontend route composition.
+The P1–P5 runtime-parity track is complete. The next highest-ROI work is **ERP promotion** of proven route patterns—not additional sandbox runtime authority.
 
-The current pending order is:
+Preserve green-light proof, route-surface registry governance, and the live route error probe.
 
-- P1 Route Handlers / `app/api/**`
-- P2 live Server Actions
-- P3 `cacheComponents` or shared operator-route cache strategy
-- P4 middleware / request-policy runtime surfaces
-- P5 tenant/auth/OperatingContext/BFF runtime authority
+If a future frontend need appears, select from:
 
-Preserve green-light proof, route-surface registry governance, and the live
-route error probe while these slices are implemented.
-
-If a future frontend need appears, the next topic should be selected from one
-of these categories only:
-
-- a newly introduced App Router feature that is applicable to `apps/developer`
+- a newly introduced App Router feature applicable to `apps/developer`
 - an explicit route-lab regression caught by governance or smoke proof
-- a doctrine-approved seam activation backed by a concrete UI need
+- a doctrine-approved seam activation backed by a concrete UI need (`_queries` only when justified)
+- ERP promotion when live auth, kernel, or BFF authority is required (supersedes ADR-0044 only via new ADR)
 
 ## Acceptance Statement
 
-Slice 1 is complete.
+Slice 1 is complete. The P1–P5 runtime-parity track is complete per
+`docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md` and
+[ADR-0044](../../../docs/adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md).
 
-The route lab should preserve the completed frontend baseline while pending
-runtime-parity slices are implemented one at a time.
+The route lab should preserve the completed frontend baseline and accepted
+runtime-parity posture while deferring live spine work to ERP promotion.
 
 ## Related Docs
 
@@ -232,5 +228,6 @@ runtime-parity slices are implemented one at a time.
 - `apps/developer/src/app/(lab)/LIVE_ROUTE_ERROR_PROBE_HARDENING.md`
 - `apps/developer/src/app/(lab)/ERROR_BOUNDARY_CLIENT_SAFETY_HARDENING.md`
 - `apps/developer/src/app/(lab)/CLIENT_LEAF_IMPORT_WALL_HARDENING.md`
+- `apps/developer/src/app/(lab)/ROUTE_HANDLER_RUNTIME_PARITY_P1_HARDENING.md`
 - `apps/developer/src/app/(lab)/DYNAMIC_PARAMS_PROMISE_HARDENING.md`
 - `docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md`

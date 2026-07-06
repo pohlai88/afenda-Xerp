@@ -1,4 +1,4 @@
-import type { ErrorPageVariant } from "@afenda/shadcn-studio";
+import type { ErrorPageVariant } from "@/lib/presentation/error-page.contract";
 
 import {
   type ErrorPageCanonicalPath,

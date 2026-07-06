@@ -5,7 +5,7 @@ import {
 } from "lucide-react";
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
-import { buttonClassName } from "./Button";
+import { buttonClassName } from "./button";
 
 export interface PaginationProps extends ComponentProps<"nav"> {}
 export interface PaginationContentProps extends ComponentProps<"ul"> {}

@@ -2,7 +2,7 @@
 
 `@afenda/developer` is the UI/UX review surface for Afenda route and presentation work. It runs on port `3002` and keeps review sessions focused on layout, interaction flow, visual hierarchy, responsive behavior, and presentation quality.
 
-Runtime authority is pending, not active. Do not add auth redirects, sessions, permissions, operating-context spine, BFF routes, Route Handlers, live Server Actions, shared cache strategy, middleware, or guarded runtime imports unless the matching pending runtime-parity slice has been accepted with tests and governance updates.
+Runtime authority for the route lab is governed through P5 demo-fixture operating-context resolution (`resolveLabShellOperatingContext`), with an empty BFF allowlist and continued prohibition on `@afenda/auth`, `@afenda/kernel`, `@afenda/database`, and `@afenda/server` imports. **[ADR-0044](../../docs/adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md) (Accepted)** amends ADR-0039 to make this promotion-only posture terminal unless explicitly superseded.
 
 The lab still follows ERP frontend law: App Router first, Server Components by default, route-local `_components` when UI surfaces return, client leaves only for interactivity, and no lowered presentation standard because it is a lab.
 

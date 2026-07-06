@@ -2,6 +2,8 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { expect, type Page, test } from "@playwright/test";
 
+// Smoke SSOT: src/lib/lab/route-surface-registry.ts
+
 interface SmokableRoute {
   heading: string;
   href: string;
@@ -18,27 +20,21 @@ const registryPath = path.resolve(
   "lab",
   "route-surface-registry.ts"
 );
-const registrySource = readFileSync(registryPath, "utf8");
-
-const parseRegistryField = (fieldName: "heading" | "href" | "marker") =>
-  [
-    ...registrySource.matchAll(new RegExp(`${fieldName}:\\s*"([^"]+)"`, "g")),
-  ].map((match) => match[1]);
 
 const readSmokableRouteRegistry = (): readonly SmokableRoute[] => {
-  const headings = parseRegistryField("heading");
-  const hrefs = parseRegistryField("href");
-  const markers = parseRegistryField("marker");
+  const registrySource = readFileSync(registryPath, "utf8");
 
-  return hrefs.map((href, index) => ({
-    heading: headings[index] ?? "",
-    href,
-    marker: markers[index] ?? "",
+  return [
+    ...registrySource.matchAll(
+      /heading:\s*"([^"]+)"[\s\S]*?href:\s*"([^"]+)"[\s\S]*?marker:\s*"([^"]+)"/g
+    ),
+  ].map((match) => ({
+    heading: match[1] ?? "",
+    href: match[2] ?? "",
+    marker: match[3] ?? "",
   }));
 };
 
-const shellBannerText =
-  "Sandbox route lab. Promotion-ready composition only; runtime authority remains in ERP.";
 const routeExpectations = readSmokableRouteRegistry();
 const rootRoute = routeExpectations[0];
 const rootRouteLinkLabel = "Open canonical route";
@@ -130,6 +126,8 @@ const collectRouteRuntimeErrors = (page: Page) => {
   return runtimeErrors;
 };
 
+const shellBannerText =
+  "Sandbox route lab. Promotion-ready composition only; runtime authority remains in ERP.";
 test.describe("Developer route lab acceptance @smoke", () => {
   for (const route of routeExpectations) {
     test(`proves route acceptance for ${route.href}`, async ({ page }) => {
@@ -231,6 +229,33 @@ test.describe("Developer route lab acceptance @smoke", () => {
     }
 
     expect(runtimeErrors).toEqual([]);
+  });
+
+  test("exposes the appearance lab review-note Server Action surface", async ({
+    page,
+  }) => {
+    await page.goto("/settings/appearance");
+
+    await expect(
+      page.getByText("Lab review note", { exact: true })
+    ).toBeVisible();
+    await expect(page.getByLabel("Review note")).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Save review note" })
+    ).toBeVisible();
+  });
+
+  test("returns the governed lab health Route Handler contract", async ({
+    request,
+  }) => {
+    const response = await request.get("/api/lab/v1/health");
+
+    expect(response.ok()).toBe(true);
+    await expect(response.json()).resolves.toEqual({
+      doctrine: "frontend-shape-only",
+      service: "developer-route-lab",
+      status: "ok",
+    });
   });
 
   test("renders the explicit root not-found surface for unmatched URLs", async ({

@@ -113,14 +113,14 @@ Use the default 4px-based scale (`p-1` … `p-12`, `gap-2`, `gap-4`) as the voca
 
 ### Foundation — one owner file per primitive
 
-V2 uses `src/components/ui/Button.tsx` (PascalCase per `docs/TAXONOMY.md`). Variants live in one typed map — CVA is optional, not required:
+V2 uses `src/components/ui/button.tsx` (PascalCase per `docs/TAXONOMY.md`). Variants live in one typed map — CVA is optional, not required:
 
 ```tsx
 const BUTTON_VARIANT_CLASSES = {
   default: "bg-primary text-primary-foreground hover:bg-primary/90",
   destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
   outline: "border border-border bg-background hover:bg-accent hover:text-accent-foreground",
-} satisfies Record<ButtonVariant, string>;
+} satisfies Record<buttonVariant, string>;
 ```
 
 **Why it works:** `destructive` exists once. Extensions add a key to this object — never a new inline ternary in a view.
@@ -146,9 +146,9 @@ const BUTTON_VARIANT_CLASSES = {
 | loading | yes (async) | `state="loading"`, `aria-busy`, disabled while pending |
 
 ```tsx
-<Button state={isPending ? "loading" : "idle"} disabled={isPending}>
+<button state={isPending ? "loading" : "idle"} disabled={isPending}>
   Save
-</Button>
+</button>
 ```
 
 ---
@@ -207,7 +207,7 @@ pnpm sync:package-css-dist -- --package @afenda/shadcn-studio-v2  # after CSS ed
 | | Weak / ordinary | Foundation layer |
 | --- | --- | --- |
 | Unit of decision | a value (`#4338ca`, `13px`) | a token + role (`bg-primary`, `text-sm caption`) |
-| Where variants live | wherever someone last needed one | one `Button.tsx` (or CVA) per primitive |
+| Where variants live | wherever someone last needed one | one `button.tsx` (or CVA) per primitive |
 | How correctness is checked | eyeballing / never | `check:drift`, `check:apca`, taxonomy tests |
 | When unsure | invents a plausible value | picks from a closed, named set |
 | Failure mode | silent visual entropy | loud violations at diff/CI time |

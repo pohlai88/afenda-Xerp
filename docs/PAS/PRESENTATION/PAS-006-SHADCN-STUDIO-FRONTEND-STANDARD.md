@@ -12,17 +12,17 @@
 | **Document class** | `package_authority_standard` |
 | **Document role** | `constitutional_charter` |
 | **Canonical filename** | `PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md` |
-| **Package** | `@afenda/shadcn-studio` |
+| **Package** | `@afenda/shadcn-studio-v2` |
 | **Layer** | Design |
 | **Blueprint box** | shadcn/studio Presentation |
-| **Registry lane** | `PKGR05A_SHADCN_STUDIO` |
+| **Registry lane** | `PKGR05C_SHADCN_STUDIO_V2` (active) · `PKGR05A_SHADCN_STUDIO` (v1 archive-lane) |
 | **Agent skill** | `shadcn-studio` · `.cursor/skills/shadcn-studio/SKILL.md` |
 | **Maturity** | MVP Authority (`mvp_authority`) |
 | **Runtime status** | Charter §1–§4 only — implementation in PAS-006A–006D |
 | **Remaining slices** | none — superseded by PAS-006A–006D family |
 | **Consumers** | `apps/erp`, `apps/storybook` |
 | **Change model** | `serialized-slices` via PAS-006A–006D |
-| **ADR prerequisites** | [ADR-0027](../../adr/ADR-0027-frontend-presentation-reset.md) · [ADR-0017](../../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) |
+| **ADR prerequisites** | [ADR-0027](../../adr/ADR-0027-frontend-presentation-reset.md) · [ADR-0017](../../adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) · [ADR-0040](../../adr/ADR-0040-promote-shadcn-studio-v2-and-deprecate-legacy.md) |
 
 #### Required gates (charter hygiene)
 
@@ -72,7 +72,7 @@ PAS-006 encodes the **frontend manufacturing doctrine** for Afenda ERP:
 
 # 2. One-Sentence Boundary
 
-**@afenda/shadcn-studio owns governed operator-surface manufacturing** (blocks, theme, inventory, acceptance evidence); **it never owns** kernel vocabulary, enterprise meaning, permission decisions, metadata schema, or domain business runtime.
+**@afenda/shadcn-studio-v2 owns governed operator-surface manufacturing** (blocks, theme, inventory, acceptance evidence); **it never owns** kernel vocabulary, enterprise meaning, permission decisions, metadata schema, or domain business runtime.
 
 ---
 
@@ -109,7 +109,7 @@ One Blueprint box · one package · **five PAS documents**:
 # 5. Prohibited (family-wide)
 
 - Dual-stack presentation (ui, appshell, metadata-ui, css-authority).
-- Kernel imports in `@afenda/shadcn-studio`.
+- Kernel imports in `@afenda/shadcn-studio-v2`.
 - ERP route wiring without Acceptance Record (once PAS-006C live).
 - Customization before stabilization (NS §8.1).
 - `pnpm ui:guard*` and legacy PAS-005 ERP gates.

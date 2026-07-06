@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2/clients";
 import Image from "next/image";
 import type { SalesDashboardPageData } from "@/lib/lab/contracts";
 

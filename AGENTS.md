@@ -174,7 +174,7 @@ Read in order:
 10. Target presentation standard: [`docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md`](docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) — ERP frontend ([ADR-0027](docs/adr/ADR-0027-frontend-presentation-reset.md))
 11. Platform API contract: [`docs/NORTHSTAR/api-contract-north-star.md`](docs/NORTHSTAR/api-contract-north-star.md) · [ADR-0030](docs/adr/ADR-0030-erp-rest-api-contract-standard.md) · [`docs/BLUEPRINT/api-contract-blueprint.md`](docs/BLUEPRINT/api-contract-blueprint.md) · [PAS-API-001](docs/PAS/API-CONTRACT/PAS-API-001-PLATFORM-API-CONTRACT-AUTHORITY-STANDARD.md) · [PAS-API-REST-001](docs/PAS/API-CONTRACT/REST/PAS-API-REST-001-REST-OPENAPI-BINDING-STANDARD.md) · R3a–R3d Planned ([handoff](docs/PAS/API-CONTRACT/REST/SLICE/pas-001a-r3-api-contract-runtime.md)) · [`.cursor/skills/afenda-openapi/SKILL.md`](.cursor/skills/afenda-openapi/SKILL.md)
 
-**Frontend presentation (PAS-006):** [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md) · [`docs/NORTHSTAR/shadcn-studio-presentation-north-star.md`](docs/NORTHSTAR/shadcn-studio-presentation-north-star.md) · [`docs/BLUEPRINT/shadcn-studio-presentation-blueprint.md`](docs/BLUEPRINT/shadcn-studio-presentation-blueprint.md) · `@afenda/shadcn-studio` — stock shadcn/studio via MCP; unprefixed CSS vars; **no** `ui:guard` or PAS-005 slice execution for ERP.
+**Frontend presentation (PAS-006):** [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md) · [`docs/NORTHSTAR/shadcn-studio-presentation-north-star.md`](docs/NORTHSTAR/shadcn-studio-presentation-north-star.md) · [`docs/BLUEPRINT/shadcn-studio-presentation-blueprint.md`](docs/BLUEPRINT/shadcn-studio-presentation-blueprint.md) · `@afenda/shadcn-studio-v2` — canonical ERP presentation owner ([ADR-0040](docs/adr/ADR-0040-promote-shadcn-studio-v2-and-deprecate-legacy.md)); stock shadcn/studio via MCP; unprefixed CSS vars; **no** `ui:guard` or PAS-005 slice execution for ERP.
 
 **Retired for ERP frontend:** PAS-005/CSS-AUTHORITY — historical audit only; **do not parallel** with Kernel or PAS-006 work. See [`docs/PAS/DEVELOPMENT-LANE-BOUNDARIES.md`](docs/PAS/DEVELOPMENT-LANE-BOUNDARIES.md) · [`docs/PAS/CSS-AUTHORITY/README.md`](docs/PAS/CSS-AUTHORITY/README.md).
 
@@ -231,11 +231,11 @@ Always-on rule: [`.cursor/rules/agent-orchestration.mdc`](.cursor/rules/agent-or
 
 **MCP vendor approval (retained from ADR-0017):** [`docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md`](docs/adr/ADR-0017-shadcn-studio-ui-delivery-acceleration.md) — Pro license, `_reference/` catalog, MCP servers.
 
-**Agent operational authority:** [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md) — MCP workflows, install cwd `packages/shadcn-studio`, ERP import from `@afenda/shadcn-studio`. MCP raw installs land in `components-quarantine/` first ([promotion pipeline](packages/shadcn-studio/src/components-quarantine/README.md)).
+**Agent operational authority:** [`.cursor/skills/shadcn-studio/SKILL.md`](.cursor/skills/shadcn-studio/SKILL.md) — MCP workflows, install cwd `packages/shadcn-studio-v2`, ERP import from `@afenda/shadcn-studio-v2`. MCP raw installs land in `components/quarantine/` first ([promotion pipeline](packages/shadcn-studio-v2/src/components/quarantine/README.md)).
 
 **Removed skills (2026-07-02):** legacy UI bundle tree — replacement map in [`.cursor/skills/NATIVE-EVALUATION.md`](.cursor/skills/NATIVE-EVALUATION.md).
 
-**Creation gates:** `pnpm --filter @afenda/shadcn-studio typecheck` · `pnpm --filter @afenda/erp typecheck` · `pnpm --filter @afenda/erp build`
+**Creation gates:** `pnpm --filter @afenda/shadcn-studio-v2 typecheck` · `pnpm check:v1-consumer-imports` · `pnpm --filter @afenda/erp typecheck` · `pnpm --filter @afenda/erp build`
 
 **Retired for ERP:** Governed UI (`ui:guard*`), appshell promotion pipeline, PAS-005 slice execution.
 
@@ -251,13 +251,13 @@ Always-on rule: [`.cursor/rules/agent-orchestration.mdc`](.cursor/rules/agent-or
 
 ## Package CSS dist sync
 
-Apps import presentation CSS from package **`dist/`** exports, not from `src/`. After editing `@afenda/shadcn-studio` CSS sources, sync before ERP or Storybook visual verification.
+Apps import presentation CSS from package **`dist/`** exports, not from `src/`. After editing `@afenda/shadcn-studio-v2` CSS sources, sync before ERP or Storybook visual verification.
 
 ```bash
-pnpm sync:package-css-dist                                    # fast CSS copy
-pnpm sync:package-css-dist -- --package @afenda/shadcn-studio # scoped
-pnpm check:package-css-dist-sync                              # verification gate
-pnpm --filter @afenda/shadcn-studio build                     # full TS + CSS build
+pnpm sync:package-css-dist                                       # fast CSS copy
+pnpm sync:package-css-dist -- --package @afenda/shadcn-studio-v2 # scoped
+pnpm check:package-css-dist-sync                                 # verification gate
+pnpm --filter @afenda/shadcn-studio-v2 build                     # full TS + CSS build
 ```
 
 | Layer | Enforcement |

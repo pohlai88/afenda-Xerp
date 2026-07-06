@@ -413,3 +413,75 @@ export interface MetricWidgetNonReadyProps extends MetricWidgetBaseProps {
 export type MetricWidgetProps =
   | MetricWidgetNonReadyProps
   | MetricWidgetReadyProps;
+
+export type EvidenceWidgetAdapterProps = Omit<
+  WorkspaceBoardWidgetAdapterProps,
+  "adapterKind"
+>;
+
+export type EvidenceWidgetItemStatus = "complete" | "missing" | "pending";
+
+export interface EvidenceWidgetItem {
+  readonly id: string;
+  readonly label: string;
+  readonly status?: EvidenceWidgetItemStatus;
+}
+
+export type EvidenceWidgetSummary = Exclude<
+  ReactNode,
+  boolean | null | undefined
+>;
+
+export type EvidenceWidgetSlotName =
+  | "content"
+  | "description"
+  | "item"
+  | "list"
+  | "root"
+  | "state"
+  | "stateAction"
+  | "summary"
+  | "title";
+
+export type EvidenceWidgetSlotValue =
+  | "evidence-widget"
+  | `evidence-widget-${string}`;
+
+export const EVIDENCE_WIDGET_SLOTS = {
+  content: "evidence-widget-content",
+  description: "evidence-widget-description",
+  item: "evidence-widget-item",
+  list: "evidence-widget-list",
+  root: "evidence-widget",
+  state: "evidence-widget-state",
+  stateAction: "evidence-widget-state-action",
+  summary: "evidence-widget-summary",
+  title: "evidence-widget-title",
+} as const satisfies Record<EvidenceWidgetSlotName, EvidenceWidgetSlotValue>;
+
+export type EvidenceWidgetSlot =
+  (typeof EVIDENCE_WIDGET_SLOTS)[keyof typeof EVIDENCE_WIDGET_SLOTS];
+
+interface EvidenceWidgetBaseProps
+  extends Omit<ComponentProps<"article">, "title">,
+    EvidenceWidgetAdapterProps {
+  readonly description?: ReactNode;
+  readonly items?: readonly EvidenceWidgetItem[];
+  readonly label: ReactNode;
+  readonly stateMessages?: ViewStateMessages;
+}
+
+export interface EvidenceWidgetReadyProps extends EvidenceWidgetBaseProps {
+  readonly state?: "ready";
+  readonly summary: EvidenceWidgetSummary;
+}
+
+export interface EvidenceWidgetNonReadyProps extends EvidenceWidgetBaseProps {
+  readonly items?: never;
+  readonly state: NonReadyViewSurfaceState;
+  readonly summary?: never;
+}
+
+export type EvidenceWidgetProps =
+  | EvidenceWidgetNonReadyProps
+  | EvidenceWidgetReadyProps;

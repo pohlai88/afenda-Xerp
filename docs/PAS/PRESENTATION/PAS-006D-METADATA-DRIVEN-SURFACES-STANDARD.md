@@ -6,7 +6,7 @@
 | **Document class** | `package_authority_standard` |
 | **Document role** | `metadata_driven_surface_composition` |
 | **Parent charter** | [PAS-006](PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) |
-| **Package** | `@afenda/shadcn-studio` (contracts) · `apps/erp` (wiring — consumer) |
+| **Package** | `@afenda/shadcn-studio-v2` (contracts) · `apps/erp` (wiring — consumer) |
 | **Blueprint box** | shadcn/studio Presentation |
 | **Maturity** | Production Candidate |
 | **Runtime status** | Metadata binding contract + surface template registry live; **P06-008-R1 + P06-008-R2 enforcement gates active** |
@@ -17,7 +17,7 @@
 
 | # | Gate command |
 | --- | --- |
-| 1 | `pnpm --filter @afenda/shadcn-studio typecheck` |
+| 1 | `pnpm --filter @afenda/shadcn-studio-v2 typecheck` |
 | 2 | `pnpm check:studio-metadata-binding` *(P06-008-R1 — active)* |
 | 3 | `pnpm check:studio-block-slot-markers` *(P06-008-R2 — active)* |
 | 4 | `pnpm check:studio-surface-template-registry` *(P06-009 — active)* |

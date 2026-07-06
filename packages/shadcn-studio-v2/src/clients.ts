@@ -1,5 +1,5 @@
 "use client";
-export { IconMark, type IconMarkProps } from "./components/assets/IconMark";
+export { IconMark, type IconMarkProps } from "./components/assets/icon-mark";
 export { AppShell01 } from "./components/layout/appshell-01";
 export {
   AppShellFrame,
@@ -8,23 +8,23 @@ export {
 export {
   Sidebar,
   sidebarClassName,
-} from "./components/layout/Sidebar";
+} from "./components/layout/sidebar";
 export {
   Topbar,
   topbarClassName,
-} from "./components/layout/Topbar";
-export {
-  ThemeScript,
-  type ThemeScriptProps,
-} from "./components/shared/ThemeScript";
-export {
-  ThemeToggle,
-  type ThemeToggleProps,
-} from "./components/shared/ThemeToggle";
+} from "./components/layout/topbar";
 export {
   ThemeCustomizer,
   type ThemeCustomizerProps,
 } from "./components/shared/theme-customizer";
+export {
+  ThemeScript,
+  type ThemeScriptProps,
+} from "./components/shared/theme-script";
+export {
+  ThemeToggle,
+  type ThemeToggleProps,
+} from "./components/shared/theme-toggle";
 export {
   Alert,
   AlertDescription,
@@ -32,20 +32,20 @@ export {
   AlertTitle,
   type AlertVariant,
   alertClassName,
-} from "./components/ui/Alert";
+} from "./components/ui/alert";
 export {
   Badge,
   type BadgeProps,
   type BadgeVariant,
   badgeClassName,
-} from "./components/ui/Badge";
+} from "./components/ui/badge";
 export {
   Button,
   type ButtonProps,
   type ButtonSize,
   type ButtonVariant,
   buttonClassName,
-} from "./components/ui/Button";
+} from "./components/ui/button";
 export {
   Card,
   CardContent,
@@ -56,7 +56,7 @@ export {
   CardTitle,
   type CardVariant,
   cardClassName,
-} from "./components/ui/Card";
+} from "./components/ui/card";
 export {
   Field,
   FieldControl,
@@ -69,7 +69,33 @@ export {
   type FieldProps,
   type FieldState,
   fieldClassName,
-} from "./components/ui/Field";
+} from "./components/ui/field";
+export {
+  Input,
+  type InputProps,
+  inputClassName,
+} from "./components/ui/input";
+export { Label, type LabelProps, labelClassName } from "./components/ui/label";
+export {
+  ScrollArea,
+  type ScrollAreaProps,
+  ScrollAreaViewport,
+  type ScrollAreaViewportProps,
+  ScrollBar,
+  scrollAreaClassName,
+} from "./components/ui/scroll-area";
+export {
+  Tabs,
+  TabsContent,
+  tabsContentClassName,
+  TabsList,
+  type TabsListProps,
+  tabsListClassName,
+  type TabsProps,
+  TabsTrigger,
+  type TabsTriggerProps,
+  tabsTriggerClassName,
+} from "./components/ui/tabs";
 export {
   Table,
   TableBody,
@@ -82,7 +108,7 @@ export {
   TableHeader,
   TableRow,
   tableContainerClassName,
-} from "./components/ui/Table";
+} from "./components/ui/table";
 export { studioPackageConfig } from "./configs/studio-config";
 export {
   CANONICAL_THEME_TOKEN_NAMES,
@@ -92,15 +118,15 @@ export {
   type StudioContextValue,
   StudioProvider,
   type StudioProviderProps,
-} from "./contexts/StudioProvider";
-export {
-  ThemeProvider,
-  type ThemeProviderProps,
-} from "./contexts/ThemeProvider";
+} from "./contexts/studio-provider";
 export {
   StudioPresentationProviders,
   type StudioPresentationProvidersProps,
 } from "./contexts/theme-boundary";
+export {
+  ThemeProvider,
+  type ThemeProviderProps,
+} from "./contexts/theme-provider";
 export { useStudio } from "./hooks/use-studio";
 export { useTheme } from "./hooks/use-theme";
 export type {
@@ -169,6 +195,16 @@ export {
   type DataTableSurfaceSlot,
   type DataTableSurfaceSlotName,
   type DataTableSurfaceSlotValue,
+  EVIDENCE_WIDGET_SLOTS,
+  type EvidenceWidgetAdapterProps,
+  type EvidenceWidgetItem,
+  type EvidenceWidgetItemStatus,
+  type EvidenceWidgetNonReadyProps,
+  type EvidenceWidgetReadyProps,
+  type EvidenceWidgetSlot,
+  type EvidenceWidgetSlotName,
+  type EvidenceWidgetSlotValue,
+  type EvidenceWidgetSummary,
   FORM_SURFACE_SLOTS,
   type FormSurfaceField,
   type FormSurfaceProps,
@@ -221,32 +257,37 @@ export {
   type AuthShellStateMessages,
   authShellClassName,
   type NonReadyAuthShellState,
-} from "./views/auth/AuthShell";
+} from "./views/auth/auth-shell";
 export {
   DataTableSurface,
   dataTableSurfaceClassName,
-} from "./views/datatables/DataTableSurface";
+} from "./views/datatables/data-table-surface";
 export {
   ConfirmDialogSurface,
   confirmDialogSurfaceClassName,
-} from "./views/dialogs/ConfirmDialogSurface";
+} from "./views/dialogs/confirm-dialog-surface";
 export {
   FormSurface,
   formSurfaceClassName,
-} from "./views/forms/FormSurface";
+} from "./views/forms/form-surface";
 export {
   PageSurface,
   type PageSurfaceProps,
   pageSurfaceClassName,
-} from "./views/pages/PageSurface";
+} from "./views/pages/page-surface";
 export {
   SettingsSurface,
   settingsSurfaceClassName,
-} from "./views/settings/SettingsSurface";
+} from "./views/settings/settings-surface";
+export { workspaceBoardWidgetAdapterClassName } from "./views/widgets/widget-board-adapter";
+export {
+  EvidenceWidget,
+  type EvidenceWidgetProps,
+  evidenceWidgetSummaryClassName,
+} from "./views/widgets/widget-evidence";
 export {
   MetricWidget,
   type MetricWidgetProps,
   type MetricWidgetTone,
   metricWidgetValueClassName,
-  workspaceBoardWidgetAdapterClassName,
-} from "./views/widgets/MetricWidget";
+} from "./views/widgets/widget-metric";

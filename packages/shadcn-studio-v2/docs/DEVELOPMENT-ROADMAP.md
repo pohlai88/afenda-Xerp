@@ -115,9 +115,9 @@ DoD status
 
 ---
 
-# 2. Phase A — Create Clean Package Skeleton
+# 2. Phase A — Create Clean Package skeleton
 
-## Codex Command
+## Codex command
 
 ```txt
 Create the clean package skeleton for packages/shadcn-studio-v2 using the approved Afenda enterprise design-system architecture.
@@ -179,7 +179,7 @@ Biome passes
 
 # 3. Phase B — Establish Token And CSS Authority
 
-## Codex Command
+## Codex command
 
 ```txt
 Implement the Afenda shadcn/Tailwind v4 CSS authority.
@@ -226,19 +226,19 @@ drift test passes
 
 # 4. Phase C — Build Primitive Layer
 
-## Codex Command
+## Codex command
 
 ```txt
 Build the primitive UI layer in src/components/ui.
 
 Implement:
 
-Button.tsx
-Badge.tsx
-Card.tsx
-Alert.tsx
-Field.tsx
-Table.tsx
+button.tsx
+badge.tsx
+card.tsx
+alert.tsx
+field.tsx
+table.tsx
 
 Rules:
 
@@ -263,12 +263,12 @@ Return changed files and proof commands only.
 ## DoD
 
 ```txt
-Button implemented
-Badge implemented
-Card implemented
-Alert implemented
-Field implemented
-Table implemented
+button implemented
+badge implemented
+card implemented
+alert implemented
+field implemented
+table implemented
 typed props exported
 semantic variants exist
 focus-visible state exists
@@ -283,19 +283,19 @@ primitive API tests pass
 
 # 5. Phase D — Build Runtime Boundary
 
-## Codex Command
+## Codex command
 
 ```txt
 Build the design-system runtime boundary.
 
 Implement:
 
-src/contexts/ThemeProvider.tsx
-src/contexts/StudioProvider.tsx
+src/contexts/theme-provider.tsx
+src/contexts/studio-provider.tsx
 src/hooks/use-theme.ts
 src/hooks/use-studio.ts
-src/components/shared/ThemeToggle.tsx
-src/components/shared/ThemeScript.tsx
+src/components/shared/theme-toggle.tsx
+src/components/shared/theme-script.tsx
 src/configs/theme-config.ts
 src/configs/studio-config.ts
 src/types/theme.ts
@@ -318,10 +318,10 @@ Return changed files and proof commands only.
 ## DoD
 
 ```txt
-ThemeProvider exists
-StudioProvider exists
-ThemeToggle exists
-ThemeScript exists
+theme-provider exists
+studio-provider exists
+theme-toggle exists
+theme-script exists
 use-theme exists
 use-studio exists
 theme config exists
@@ -335,7 +335,7 @@ no client-only runtime in server export
 
 # 6. Phase E — Build Layout Chrome
 
-## Codex Command
+## Codex command
 
 ```txt
 Build the enterprise layout chrome.
@@ -343,8 +343,8 @@ Build the enterprise layout chrome.
 Implement:
 
 src/components/layout/AppShell.tsx
-src/components/layout/Sidebar.tsx
-src/components/layout/Topbar.tsx
+src/components/layout/sidebar.tsx
+src/components/layout/topbar.tsx
 
 Rules:
 
@@ -352,8 +352,8 @@ Use primitives from src/components/ui.
 Use semantic HTML.
 Navigation must expose accessible labels.
 Active navigation state must support aria-current.
-Topbar must support product title, actions, and optional user/control slot.
-Sidebar must support groups and items.
+topbar must support product title, actions, and optional user/control slot.
+sidebar must support groups and items.
 No business logic.
 No app router dependency.
 No hardcoded route assumptions.
@@ -366,8 +366,8 @@ Return changed files and proof commands only.
 
 ```txt
 AppShell exists
-Sidebar exists
-Topbar exists
+sidebar exists
+topbar exists
 navigation groups supported
 active state supported
 aria-current supported
@@ -381,21 +381,21 @@ layout tests pass
 
 # 7. Phase F — Build View Layer
 
-## Codex Command
+## Codex command
 
 ```txt
 Build the first enterprise view layer.
 
 Implement:
 
-src/views/pages/PageSurface.tsx
-src/views/auth/AuthShell.tsx
-src/views/widgets/MetricWidget.tsx
-src/views/widgets/EvidenceWidget.tsx
-src/views/datatables/DataTableSurface.tsx
-src/views/forms/FormSurface.tsx
-src/views/dialogs/ConfirmDialogSurface.tsx
-src/views/settings/SettingsSurface.tsx
+src/views/pages/page-surface.tsx
+src/views/auth/auth-shell.tsx
+src/views/widgets/widget-metric.tsx
+src/views/widgets/widget-evidence.tsx
+src/views/datatables/data-table-surface.tsx
+src/views/forms/form-surface.tsx
+src/views/dialogs/confirm-dialog-surface.tsx
+src/views/settings/settings-surface.tsx
 
 Rules:
 
@@ -415,14 +415,14 @@ Return changed files and proof commands only.
 ## DoD
 
 ```txt
-PageSurface exists
-AuthShell exists
+page-surface exists
+auth-shell exists
 MetricWidget exists
 EvidenceWidget exists
-DataTableSurface exists
-FormSurface exists
-ConfirmDialogSurface exists
-SettingsSurface exists
+data-table-surface exists
+form-surface exists
+confirm-dialog-surface exists
+settings-surface exists
 typed props exist
 state coverage exists
 a11y labels exist
@@ -434,7 +434,7 @@ view tests pass
 
 # 8. Phase G — Public Export Contract
 
-## Codex Command
+## Codex command
 
 ```txt
 Create the public export contract for the greenfield design system.
@@ -480,7 +480,7 @@ package build proves exports
 
 # 9. Phase H — Verification App / Proof Route
 
-## Codex Command
+## Codex command
 
 ```txt
 Create a greenfield proof route that consumes the design system only through public package exports.
@@ -490,16 +490,16 @@ Use one real consumer app route.
 The route must render:
 
 AppShell
-Sidebar
-Topbar
-PageSurface
+sidebar
+topbar
+page-surface
 MetricWidget
 EvidenceWidget
-DataTableSurface
-FormSurface
-ConfirmDialogSurface
-SettingsSurface
-ThemeToggle
+data-table-surface
+form-surface
+confirm-dialog-surface
+settings-surface
+theme-toggle
 
 Rules:
 
@@ -531,7 +531,7 @@ route smoke test passes
 
 # 10. Phase I — Enterprise Acceptance Gate
 
-## Codex Command
+## Codex command
 
 ```txt
 Run the full enterprise acceptance gate for the greenfield Afenda design system.
@@ -578,6 +578,43 @@ rollback unnecessary because this is greenfield proof
 ## Status
 
 **ACCEPTANCE GRANTED** — 2026-07-06. See `docs/slices/PHASE-9-ENTERPRISE-ACCEPTANCE-GATE.md`.
+
+---
+
+# Post-acceptance priority (Lane A vs Lane B)
+
+Phase 9 proves the greenfield package can be consumed. **Lane A is complete** (A-11
+**PROCEED**, 2026-07-06). **Lane B is active** — B-01–B-14 **Complete**; B-15 formal
+deprecation sign-off remains.
+
+| Lane | Scope | Status |
+| --- | --- | --- |
+| **A — V2 internal** | Package taxonomy, primitives, metadata, widgets, drift gates, developer proof route | **Complete** (A-11 PROCEED) |
+| **B — V1 / ERP migration** | Consumer cutover, ERP surfaces, Storybook, v1 formal deprecation | **B-01–B-14 Complete** — B-15 sign-off pending |
+
+Lane B program index: `docs/slices/LANE-B-V1-MIGRATION-AND-RETIREMENT-INDEX.md`.
+
+Lane A examples (historical — complete):
+
+- manifest registry + widget adapter follow-ons (package-only)
+- kebab stem law + `normalize:kebab-stems` enforcement
+- proof-route and test coverage for new surfaces
+- Storybook or route proof for additional primitives
+
+Lane B examples (complete through B-14):
+
+- B-01 consumer v1 import inventory + CI ratchet (zero imports)
+- B-02 ADR drag library + ERP `WorkspaceBoardWidgetFrame` ownership
+- B-03–B-08 ERP CSS, shell, surface waves (system admin, metadata, procurement)
+- B-09 workflow board runtime; B-10 manifest kind promotion (A-09 HOLD lifted)
+- B-04/B-12 developer lab cutover and v1 dependency removal
+- B-11 Storybook v2 alignment; B-13 v1 import freeze
+- B-14 doc/runtime synchronization (`lane-b-synchronization.test.ts`)
+- B-15 formal deprecation sign-off — **next**
+
+Authority: `docs/MIGRATION-MAP.md` execution priority section ·
+`docs/slices/LANE-A-INTERNAL-STABILIZATION-INDEX.md` ·
+`docs/slices/LANE-B-V1-MIGRATION-AND-RETIREMENT-INDEX.md`.
 
 ---
 

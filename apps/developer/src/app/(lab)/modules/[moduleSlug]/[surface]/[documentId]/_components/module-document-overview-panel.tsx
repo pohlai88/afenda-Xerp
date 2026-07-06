@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2/clients";
 import Image from "next/image";
 import type { ModuleDocumentPageData } from "@/lib/lab/contracts";
 
@@ -16,7 +16,7 @@ export function ModuleDocumentOverviewPanel({
   pageData,
 }: ModuleDocumentOverviewPanelProps) {
   return (
-    <Card className="border-border/60 bg-background/92 backdrop-blur">
+    <Card className="min-w-0 overflow-hidden border-border/60 bg-background/92 backdrop-blur">
       <CardHeader>
         <CardTitle>Document route overview</CardTitle>
         <CardDescription>{pageData.routeSummary}</CardDescription>
@@ -63,7 +63,9 @@ export function ModuleDocumentOverviewPanel({
               <dt className="text-muted-foreground text-xs uppercase tracking-[0.22em]">
                 {fact.label}
               </dt>
-              <dd className="font-medium text-sm">{fact.value}</dd>
+              <dd className="font-medium text-sm [overflow-wrap:anywhere]">
+                {fact.value}
+              </dd>
             </div>
           ))}
         </dl>

@@ -2,7 +2,7 @@
 
 | Field | Value |
 |-------|-------|
-| **Status** | Proposed |
+| **Status** | Accepted |
 | **Date** | 2026-07-06 |
 | **Owner** | Architecture Authority |
 | **Supersedes** | ADR-0027 |

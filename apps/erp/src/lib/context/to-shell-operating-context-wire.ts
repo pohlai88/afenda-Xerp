@@ -1,5 +1,5 @@
 import type { OperatingContext } from "@afenda/kernel";
-import type { AppShellOperatingContextWire } from "@afenda/shadcn-studio";
+import type { AppShellOperatingContextWire } from "@afenda/shadcn-studio-v2/clients";
 
 /** PAS-006 protected shell context labels — not @afenda/appshell. */
 export interface PresentationShellOperatingContext {
@@ -25,7 +25,7 @@ export function toPresentationShellOperatingContext(
   };
 }
 
-/** Kernel operating context → L1 `AppShellOperatingContextWire` for `@afenda/shadcn-studio` shells. */
+/** Kernel operating context → v2 `AppShellOperatingContextWire` for ERP shell chrome. */
 export function toShellOperatingContextWire(
   context: OperatingContext
 ): AppShellOperatingContextWire {

@@ -84,22 +84,42 @@ function stopProcessTree(child) {
   child.kill("SIGTERM");
 }
 
-async function runProductionPlaywrightSmoke() {
-  console.log("\n[route-lab greenlight] Production smoke server");
+async function isHttpResponsive(url) {
+  try {
+    const response = await fetch(url, { signal: AbortSignal.timeout(5_000) });
+    return response.status < 500;
+  } catch {
+    return false;
+  }
+}
 
-  const server = spawn(appBin("next"), ["start", "--port", playwrightPort], {
-    cwd: developerRoot,
-    env: {
-      ...process.env,
-      AFENDA_DEVELOPER_SANDBOX: "true",
-      NODE_ENV: "production",
-    },
-    shell: isWindows,
-    stdio: "inherit",
-  });
+async function runProductionPlaywrightSmoke() {
+  const alreadyServing = await isHttpResponsive(playwrightBaseUrl);
+  let server = null;
+  let ownsServer = false;
+
+  if (alreadyServing) {
+    console.log(
+      `\n[route-lab greenlight] Reusing server at ${playwrightBaseUrl} (port ${playwrightPort} already in use)`
+    );
+  } else {
+    console.log("\n[route-lab greenlight] Production smoke server");
+
+    server = spawn(appBin("next"), ["start", "--port", playwrightPort], {
+      cwd: developerRoot,
+      env: {
+        ...process.env,
+        AFENDA_DEVELOPER_SANDBOX: "true",
+        NODE_ENV: "production",
+      },
+      shell: isWindows,
+      stdio: "inherit",
+    });
+    ownsServer = true;
+    await waitForHttpReady(playwrightBaseUrl);
+  }
 
   try {
-    await waitForHttpReady(playwrightBaseUrl);
     runStep(
       "Playwright smoke",
       appBin("playwright"),
@@ -114,7 +134,9 @@ async function runProductionPlaywrightSmoke() {
       }
     );
   } finally {
-    stopProcessTree(server);
+    if (ownsServer && server) {
+      stopProcessTree(server);
+    }
   }
 }
 

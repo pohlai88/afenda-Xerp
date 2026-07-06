@@ -18,7 +18,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from "./DropdownMenu";
+} from "./dropdown-menu";
 
 export interface MenubarProps
   extends Omit<ComponentProps<typeof MenubarPrimitive>, "className"> {

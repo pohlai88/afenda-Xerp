@@ -227,68 +227,69 @@ describe("shadcn-studio-v2 taxonomy", () => {
       "clients.ts
       components/
         assets/
-          IconMark.tsx
+          icon-mark.tsx
         layout/
-          Sidebar.tsx
-          Topbar.tsx
           appshell-01.tsx
           appshell-frame.tsx
+          sidebar.tsx
+          topbar.tsx
         quarantine/
           README.md
+          inventory.baseline.json
         shared/
-          ThemeScript.tsx
-          ThemeToggle.tsx
           theme-customizer.tsx
+          theme-script.tsx
+          theme-toggle.tsx
         ui/
-          Accordion.tsx
-          Alert.tsx
-          AlertDialog.tsx
-          Avatar.tsx
-          Badge.tsx
-          Breadcrumb.tsx
-          Button.tsx
-          Card.tsx
-          Checkbox.tsx
-          Collapsible.tsx
-          Combobox.tsx
-          Command.tsx
-          ContextMenu.tsx
-          Dialog.tsx
-          Drawer.tsx
-          DropdownMenu.tsx
-          Field.tsx
-          HoverCard.tsx
-          Input.tsx
-          InputOtp.tsx
-          Label.tsx
-          Menubar.tsx
-          NavigationMenu.tsx
-          NumberField.tsx
-          Pagination.tsx
-          Popover.tsx
-          Progress.tsx
-          RadioGroup.tsx
-          ScrollArea.tsx
-          Select.tsx
-          Separator.tsx
-          Sheet.tsx
-          Skeleton.tsx
-          Switch.tsx
-          Table.tsx
-          Tabs.tsx
-          Textarea.tsx
-          Toggle.tsx
-          ToggleGroup.tsx
-          Tooltip.tsx
+          accordion.tsx
+          alert-dialog.tsx
+          alert.tsx
+          avatar.tsx
+          badge.tsx
+          breadcrumb.tsx
+          button.tsx
+          card.tsx
+          checkbox.tsx
+          collapsible.tsx
+          combobox.tsx
+          command.tsx
+          context-menu.tsx
+          dialog.tsx
+          drawer.tsx
+          dropdown-menu.tsx
+          field.tsx
+          hover-card.tsx
+          input-otp.tsx
+          input.tsx
+          label.tsx
+          menubar.tsx
+          navigation-menu.tsx
+          number-field.tsx
+          pagination.tsx
+          popover.tsx
+          progress.tsx
+          radio-group.tsx
+          scroll-area.tsx
+          select.tsx
+          separator.tsx
+          sheet.tsx
+          skeleton.tsx
+          switch.tsx
+          table.tsx
+          tabs.tsx
+          textarea.tsx
+          toggle-group.tsx
+          toggle.tsx
+          tooltip.tsx
       configs/
         admincn-theme-presets.ts
         editorial-theme-presets.ts
         studio-config.ts
         theme-config.ts
       contexts/
-        StudioProvider.tsx
-        ThemeProvider.tsx
+        studio-provider.tsx
         theme-boundary.ts
+        theme-provider.tsx
       hooks/
         use-studio.ts
         use-theme.ts
@@ -304,11 +305,19 @@ describe("shadcn-studio-v2 taxonomy", () => {
           view-metadata-gates.ts
         registries/
           view-metadata-registry.ts
+          workflow-board-host-mapping.ts
+          workflow-board-manifest-resolution.ts
+          workspace-board-manifest-registry.ts
       metadata.ts
       server.ts
       storybook/
+        erp-workspace-dashboard.compositions.tsx
         fixtures/
           consumer-pilot.tsx
+        lab.ts
+        resolve-storybook-theme-id.ts
+        story-parameters.ts
+        theme.decorator.tsx
       styles/
         afenda-brand.css
         shadcn-default.css
@@ -325,19 +334,21 @@ describe("shadcn-studio-v2 taxonomy", () => {
         .gitkeep
       views/
         auth/
-          AuthShell.tsx
+          auth-shell.tsx
         datatables/
-          DataTableSurface.tsx
+          data-table-surface.tsx
         dialogs/
-          ConfirmDialogSurface.tsx
+          confirm-dialog-surface.tsx
         forms/
-          FormSurface.tsx
+          form-surface.tsx
         pages/
-          PageSurface.tsx
+          page-surface.tsx
         settings/
-          SettingsSurface.tsx
+          settings-surface.tsx
         widgets/
-          MetricWidget.tsx"
+          widget-board-adapter.ts
+          widget-evidence.tsx
+          widget-metric.tsx"
     `);
   });
 });

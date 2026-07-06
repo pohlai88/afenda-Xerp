@@ -66,11 +66,18 @@ const nextConfig: NextConfig = {
     "@afenda/auth",
     "@afenda/database",
     "@afenda/observability",
-    "@afenda/shadcn-studio",
     "@afenda/shadcn-studio-v2",
   ],
   turbopack: {
     root: monorepoRoot,
+    resolveAlias: {
+      "@afenda/shadcn-studio-v2/clients":
+        "../../packages/shadcn-studio-v2/src/clients.ts",
+      "@afenda/shadcn-studio-v2/metadata":
+        "../../packages/shadcn-studio-v2/src/metadata.ts",
+      "@afenda/shadcn-studio-v2/theme":
+        "../../packages/shadcn-studio-v2/src/contexts/theme-boundary.ts",
+    },
   },
   webpack: (config) => {
     config.resolve ??= {};
@@ -78,17 +85,17 @@ const nextConfig: NextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       // transpilePackages resolves the package root only — wire subpath exports for webpack.
-      "@afenda/shadcn-studio/theme": path.join(
-        monorepoRoot,
-        "packages/shadcn-studio/src/theme-runtime/index.ts"
-      ),
       "@afenda/shadcn-studio-v2/theme": path.join(
         monorepoRoot,
         "packages/shadcn-studio-v2/src/contexts/theme-boundary.ts"
       ),
-      "@afenda/shadcn-studio/governance": path.join(
+      "@afenda/shadcn-studio-v2/clients": path.join(
         monorepoRoot,
-        "packages/shadcn-studio/src/meta-gates/index.ts"
+        "packages/shadcn-studio-v2/src/clients.ts"
+      ),
+      "@afenda/shadcn-studio-v2/metadata": path.join(
+        monorepoRoot,
+        "packages/shadcn-studio-v2/src/metadata.ts"
       ),
     };
     return config;

@@ -8,12 +8,29 @@ const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
 const UI_ROOT = path.join(PACKAGE_ROOT, "src", "components", "ui");
 
 const PRIMITIVE_FILES = [
-  "Alert.tsx",
-  "Badge.tsx",
-  "Button.tsx",
-  "Card.tsx",
-  "Field.tsx",
-  "Table.tsx",
+  "alert.tsx",
+  "alert-dialog.tsx",
+  "badge.tsx",
+  "breadcrumb.tsx",
+  "button.tsx",
+  "card.tsx",
+  "checkbox.tsx",
+  "dialog.tsx",
+  "drawer.tsx",
+  "field.tsx",
+  "input.tsx",
+  "label.tsx",
+  "popover.tsx",
+  "pagination.tsx",
+  "select.tsx",
+  "scroll-area.tsx",
+  "separator.tsx",
+  "sheet.tsx",
+  "switch.tsx",
+  "table.tsx",
+  "tabs.tsx",
+  "textarea.tsx",
+  "tooltip.tsx",
 ] as const;
 
 const BOOLEAN_PROP_PATTERN = /readonly\s+([A-Za-z0-9_]+)\??:\s*boolean\b/g;
@@ -42,11 +59,11 @@ describe("shadcn-studio-v2 primitive API consistency", () => {
   });
 
   it("keeps semantic boolean flags narrowly scoped", () => {
-    const fieldSource = readPrimitiveSource("Field.tsx");
+    const fieldSource = readPrimitiveSource("field.tsx");
 
     expect(listBooleanProps(fieldSource)).toEqual(["required"]);
     for (const fileName of PRIMITIVE_FILES) {
-      if (fileName === "Field.tsx") {
+      if (fileName === "field.tsx") {
         continue;
       }
 
@@ -61,9 +78,9 @@ describe("shadcn-studio-v2 primitive API consistency", () => {
   });
 
   it("keeps primitive composition explicit through exported parts and variants", () => {
-    const cardSource = readPrimitiveSource("Card.tsx");
-    const fieldSource = readPrimitiveSource("Field.tsx");
-    const tableSource = readPrimitiveSource("Table.tsx");
+    const cardSource = readPrimitiveSource("card.tsx");
+    const fieldSource = readPrimitiveSource("field.tsx");
+    const tableSource = readPrimitiveSource("table.tsx");
 
     expect(cardSource).toContain("export function CardHeader");
     expect(cardSource).toContain("export function CardTitle");
@@ -80,14 +97,47 @@ describe("shadcn-studio-v2 primitive API consistency", () => {
     expect(tableSource).toContain("export function TableCell");
     expect(tableSource).toContain("export function tableClassName");
     expect(tableSource).toContain("export function tableHeadClassName");
-    expect(readPrimitiveSource("Button.tsx")).toContain(
+    expect(readPrimitiveSource("button.tsx")).toContain(
       'export type ButtonState = "idle" | "loading"'
     );
-    expect(readPrimitiveSource("Button.tsx")).toContain(
+    expect(readPrimitiveSource("button.tsx")).toContain(
       "satisfies Record<ButtonVariant, string>"
     );
-    expect(readPrimitiveSource("Badge.tsx")).toContain(
+    expect(readPrimitiveSource("badge.tsx")).toContain(
       "satisfies Record<BadgeVariant, string>"
+    );
+    expect(readPrimitiveSource("input.tsx")).toContain(
+      "export function inputClassName"
+    );
+    expect(readPrimitiveSource("select.tsx")).toContain(
+      "export function SelectTrigger"
+    );
+    expect(readPrimitiveSource("select.tsx")).toContain(
+      "export function SelectItem"
+    );
+    expect(readPrimitiveSource("checkbox.tsx")).toContain(
+      'data-slot="checkbox-indicator"'
+    );
+    expect(readPrimitiveSource("dialog.tsx")).toContain(
+      "export function dialogContentClassName"
+    );
+    expect(readPrimitiveSource("alert-dialog.tsx")).toContain(
+      "export function AlertDialogAction"
+    );
+    expect(readPrimitiveSource("sheet.tsx")).toContain(
+      'data-slot="sheet-content"'
+    );
+    expect(readPrimitiveSource("tooltip.tsx")).toContain(
+      'data-slot="tooltip-content"'
+    );
+    expect(readPrimitiveSource("tabs.tsx")).toContain(
+      "export function TabsTrigger"
+    );
+    expect(readPrimitiveSource("breadcrumb.tsx")).toContain(
+      'data-slot="breadcrumb-list"'
+    );
+    expect(readPrimitiveSource("pagination.tsx")).toContain(
+      "export function paginationLinkClassName"
     );
   });
 });

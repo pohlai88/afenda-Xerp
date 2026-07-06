@@ -8,7 +8,7 @@ import {
   ERROR_PAGE_VARIANTS,
   type ErrorPageCopyWire,
   type ErrorPageVariant,
-} from "@afenda/shadcn-studio";
+} from "@/lib/presentation/error-page.contract";
 
 export {
   ERROR_PAGE_SHELL_BLOCK_ID,
@@ -23,7 +23,7 @@ export type ErrorPageSurfaceEntry = {
   readonly blockId: typeof ERROR_PAGE_SHELL_BLOCK_ID;
 };
 
-/** Routable semantic pages with rich ErrorPageShell UI. */
+/** Routable semantic pages with rich error page UI. */
 export const ERROR_PAGE_CANONICAL_SURFACES = [
   {
     path: "/access-denied",

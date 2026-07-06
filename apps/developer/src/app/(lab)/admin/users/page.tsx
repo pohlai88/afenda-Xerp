@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2/clients";
 import type { Metadata } from "next";
 import {
   createAdminUsersMetadata,
@@ -20,7 +20,7 @@ export default async function AdminUsersPage() {
   const pageData = await loadAdminUsersPage();
 
   return (
-    <section className="space-y-6">
+    <section className="min-w-0 space-y-6">
       <header className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-2">
           <p className="font-medium text-primary text-xs uppercase tracking-[0.28em]">
@@ -39,7 +39,7 @@ export default async function AdminUsersPage() {
             <CardDescription>{pageData.promotionSummary}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-2 text-sm">
-            <p className="rounded-2xl bg-muted px-3 py-2">
+            <p className="break-all rounded-2xl bg-muted px-3 py-2">
               {pageData.promotion.futureErpPath}
             </p>
             <p className="text-muted-foreground">{pageData.promotion.notes}</p>

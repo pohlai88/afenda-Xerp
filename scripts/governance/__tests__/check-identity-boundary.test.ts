@@ -106,7 +106,7 @@ describe("check:identity-boundary", () => {
       expect.arrayContaining([
         "apps/erp/src",
         "packages/database/src",
-        "packages/shadcn-studio/src",
+        "packages/shadcn-studio-v2/src",
       ])
     );
     expect(IDENTITY_BOUNDARY_SCAN_ROOTS).not.toEqual(

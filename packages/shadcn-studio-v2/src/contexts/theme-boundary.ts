@@ -1,17 +1,17 @@
 "use client";
 
 import { createElement, type ReactNode } from "react";
-import { ThemeScript as ThemeScriptComponent } from "../components/shared/ThemeScript";
-import { ThemeToggle as ThemeToggleComponent } from "../components/shared/ThemeToggle";
 import { ThemeCustomizer as ThemeCustomizerComponent } from "../components/shared/theme-customizer";
+import { ThemeScript as ThemeScriptComponent } from "../components/shared/theme-script";
+import { ThemeToggle as ThemeToggleComponent } from "../components/shared/theme-toggle";
 import { studioThemeConfig as studioThemeConfigValue } from "../configs/theme-config";
 import { useStudio as useStudioHook } from "../hooks/use-studio";
 import { useTheme as useThemeHook } from "../hooks/use-theme";
-import { StudioProvider as StudioProviderComponent } from "./StudioProvider";
+import { StudioProvider as StudioProviderComponent } from "./studio-provider";
 import {
   ThemeProvider as ThemeProviderComponent,
   type ThemeProviderProps,
-} from "./ThemeProvider";
+} from "./theme-provider";
 
 export interface StudioPresentationProvidersProps
   extends Pick<
@@ -43,9 +43,9 @@ export function StudioPresentationProviders({
   );
 }
 
-export type { ThemeScriptProps } from "../components/shared/ThemeScript";
-export type { ThemeToggleProps } from "../components/shared/ThemeToggle";
 export type { ThemeCustomizerProps } from "../components/shared/theme-customizer";
+export type { ThemeScriptProps } from "../components/shared/theme-script";
+export type { ThemeToggleProps } from "../components/shared/theme-toggle";
 export type {
   StudioResolvedThemeMode,
   StudioThemeConfig,
@@ -61,8 +61,8 @@ export type {
 export type {
   StudioContextValue,
   StudioProviderProps,
-} from "./StudioProvider";
-export type { ThemeProviderProps } from "./ThemeProvider";
+} from "./studio-provider";
+export type { ThemeProviderProps } from "./theme-provider";
 
 export const ThemeCustomizer = ThemeCustomizerComponent;
 export const ThemeScript = ThemeScriptComponent;

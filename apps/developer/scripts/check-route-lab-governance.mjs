@@ -22,6 +22,62 @@ const routeSurfaceRegistryPath = path.join(
   "lab",
   "route-surface-registry.ts"
 );
+const labActionRouteRegistryPath = path.join(
+  developerRoot,
+  "src",
+  "lib",
+  "lab",
+  "lab-action-route-registry.ts"
+);
+const labQueryRouteRegistryPath = path.join(
+  developerRoot,
+  "src",
+  "lib",
+  "lab",
+  "lab-query-route-registry.ts"
+);
+const labApiRouteRegistryPath = path.join(
+  developerRoot,
+  "src",
+  "lib",
+  "lab",
+  "lab-api-route-registry.ts"
+);
+const labCacheRouteRegistryPath = path.join(
+  developerRoot,
+  "src",
+  "lib",
+  "lab",
+  "lab-cache-route-registry.ts"
+);
+const labRequestPolicyRegistryPath = path.join(
+  developerRoot,
+  "src",
+  "lib",
+  "lab",
+  "lab-request-policy-registry.ts"
+);
+const labRuntimeAuthorityRegistryPath = path.join(
+  developerRoot,
+  "src",
+  "lib",
+  "lab",
+  "lab-runtime-authority-registry.ts"
+);
+const labBffRouteRegistryPath = path.join(
+  developerRoot,
+  "src",
+  "lib",
+  "lab",
+  "lab-bff-route-registry.ts"
+);
+const labRuntimeAuthorityPolicyPath = path.join(
+  developerRoot,
+  "src",
+  "lib",
+  "lab",
+  "lab-runtime-authority-policy.ts"
+);
 const contractsPath = path.join(
   developerRoot,
   "src",
@@ -77,40 +133,76 @@ const routeSurfaceRegistrySource = readFileSync(
   routeSurfaceRegistryPath,
   "utf8"
 );
+const labApiRouteRegistrySource = readFileSync(labApiRouteRegistryPath, "utf8");
+const labCacheRouteRegistrySource = readFileSync(
+  labCacheRouteRegistryPath,
+  "utf8"
+);
+const labActionRouteRegistrySource = readFileSync(
+  labActionRouteRegistryPath,
+  "utf8"
+);
+const labQueryRouteRegistrySource = readFileSync(
+  labQueryRouteRegistryPath,
+  "utf8"
+);
+const labRuntimeAuthorityRegistrySource = readFileSync(
+  labRuntimeAuthorityRegistryPath,
+  "utf8"
+);
+const labBffRouteRegistrySource = readFileSync(labBffRouteRegistryPath, "utf8");
+const labRuntimeAuthorityPolicySource = readFileSync(
+  labRuntimeAuthorityPolicyPath,
+  "utf8"
+);
+const labActionRegistryEntryBlocks = [
+  ...labActionRouteRegistrySource.matchAll(/\{\s*actionId:[\s\S]*?\n\s{2}\}/g),
+].map((match) => match[0]);
+const labQueryRegistryEntryBlocks = [
+  ...labQueryRouteRegistrySource.matchAll(/\{[\s\S]*?queryId:[\s\S]*?\n\s{2}\}/g),
+].map((match) => match[0]);
+const labCacheRegistryEntryBlocks = [
+  ...labCacheRouteRegistrySource.matchAll(/\{\s*cacheKind:[\s\S]*?\n\s{2}\}/g),
+].map((match) => match[0]);
+
+const getRegisteredActionFilePathsForRoute = (routeId) =>
+  labActionRegistryEntryBlocks
+    .filter(
+      (entryBlock) => getRegistryStringField(entryBlock, "routeId") === routeId
+    )
+    .map((entryBlock) =>
+      getRegistryStringField(entryBlock, "filePath")?.replaceAll("\\", "/")
+    )
+    .filter(Boolean);
+
+const getRegisteredQueryFilePathsForRoute = (routeId) =>
+  labQueryRegistryEntryBlocks
+    .filter(
+      (entryBlock) => getRegistryStringField(entryBlock, "routeId") === routeId
+    )
+    .map((entryBlock) =>
+      getRegistryStringField(entryBlock, "filePath")?.replaceAll("\\", "/")
+    )
+    .filter(Boolean);
+
+const getRegisteredCacheLoaderPathForRoute = (routeId) =>
+  labCacheRegistryEntryBlocks
+    .filter(
+      (entryBlock) => getRegistryStringField(entryBlock, "routeId") === routeId
+    )
+    .map((entryBlock) =>
+      getRegistryStringField(entryBlock, "loaderPath")?.replaceAll("\\", "/")
+    )
+    .filter(Boolean)[0] ?? null;
 const contractsSource = readFileSync(contractsPath, "utf8");
 const navConfigSource = readFileSync(navConfigPath, "utf8");
 const smokeSpecSource = readFileSync(smokeSpecPath, "utf8");
 
-const activeRouteHrefs = [
-  ...routeSurfaceRegistrySource.matchAll(/href:\s*"([^"]+)"/g),
-].map((match) => match[1]);
-const activeRouteActionSeams = [
-  ...routeSurfaceRegistrySource.matchAll(
-    /actionSeam:\s*"(governed-active|placeholder-only)"/g
-  ),
-].map((match) => match[1]);
-const activeRouteQuerySeams = [
-  ...routeSurfaceRegistrySource.matchAll(
-    /querySeam:\s*"(governed-active|placeholder-only)"/g
-  ),
-].map((match) => match[1]);
-const activeRoutePaths = [
-  ...routeSurfaceRegistrySource.matchAll(/routePath:\s*"([^"]+)"/g),
-].map((match) => match[1]);
 const routeRegistryEntryBlocks = [
   ...routeSurfaceRegistrySource.matchAll(
     /\{\s*actionSeam:\s*"[^"]+"[\s\S]*?\n\s{2}\}/g
   ),
 ].map((match) => match[0]);
-
-const activeRoutes = activeRouteHrefs
-  .map((href, index) => ({
-    actionSeam: activeRouteActionSeams[index] ?? "placeholder-only",
-    href,
-    querySeam: activeRouteQuerySeams[index] ?? "placeholder-only",
-    routePath: activeRoutePaths[index] ?? href,
-  }))
-  .filter((route) => route.href !== "/");
 
 const failures = [];
 
@@ -192,6 +284,23 @@ const getRegistryBooleanField = (entryBlock, fieldName) => {
   return null;
 };
 
+const activeRoutes = routeRegistryEntryBlocks
+  .map((entryBlock) => ({
+    actionSeam:
+      getRegistryStringField(entryBlock, "actionSeam") ?? "placeholder-only",
+    cacheSeam:
+      getRegistryStringField(entryBlock, "cacheSeam") ?? "placeholder-only",
+    href: getRegistryStringField(entryBlock, "href") ?? "",
+    querySeam:
+      getRegistryStringField(entryBlock, "querySeam") ?? "placeholder-only",
+    routeId: getRegistryStringField(entryBlock, "routeId") ?? "",
+    routePath: getRegistryStringField(entryBlock, "routePath") ?? "",
+    runtimeAuthoritySeam:
+      getRegistryStringField(entryBlock, "runtimeAuthoritySeam") ??
+      "placeholder-only",
+  }))
+  .filter((route) => route.href && route.href !== "/");
+
 const recordDuplicateRegistryValues = (fieldName) => {
   const seenValues = new Map();
 
@@ -218,12 +327,94 @@ const recordDuplicateRegistryValues = (fieldName) => {
 };
 
 const appApiPath = path.join(appRoot, "api");
+const allowedApiRouteFilePaths = [
+  ...labApiRouteRegistrySource.matchAll(/filePath:\s*"([^"]+)"/g),
+].map((match) => match[1].replaceAll("\\", "/"));
 
-if (existsSync(appApiPath)) {
-  recordFailure(
-    appApiPath,
-    "route-lab runtime parity keeps app/api guarded until pending slice P1 defines handler contract, tests, and governance allowlist"
-  );
+const collectRouteHandlerRelativePaths = (
+  directoryPath,
+  relativePrefix = ""
+) => {
+  const routeHandlerPaths = [];
+
+  if (!existsSync(directoryPath)) {
+    return routeHandlerPaths;
+  }
+
+  for (const entry of readdirSync(directoryPath)) {
+    const fullPath = path.join(directoryPath, entry);
+    const relativePath = relativePrefix ? `${relativePrefix}/${entry}` : entry;
+    const stats = statSync(fullPath);
+
+    if (stats.isDirectory()) {
+      routeHandlerPaths.push(
+        ...collectRouteHandlerRelativePaths(fullPath, relativePath)
+      );
+      continue;
+    }
+
+    if (entry === "route.ts") {
+      routeHandlerPaths.push(relativePath.replaceAll("\\", "/"));
+    }
+  }
+
+  return routeHandlerPaths;
+};
+
+const discoveredApiRouteFilePaths = collectRouteHandlerRelativePaths(
+  appApiPath,
+  "api"
+);
+const appInternalApiPath = path.join(appApiPath, "internal");
+const discoveredBffRouteFilePaths = collectRouteHandlerRelativePaths(
+  appInternalApiPath,
+  "api/internal"
+);
+const allowedApiRouteFilePathSet = new Set(allowedApiRouteFilePaths);
+const allowedBffRouteFilePaths = [
+  ...labBffRouteRegistrySource.matchAll(/filePath:\s*"([^"]+)"/g),
+].map((match) => match[1].replaceAll("\\", "/"));
+const allowedBffRouteFilePathSet = new Set(allowedBffRouteFilePaths);
+
+for (const registryFilePath of allowedApiRouteFilePaths) {
+  const absoluteRegistryFilePath = path.join(appRoot, registryFilePath);
+
+  if (!existsSync(absoluteRegistryFilePath)) {
+    recordFailure(
+      absoluteRegistryFilePath,
+      `lab API route registry entry is missing its route handler file: ${registryFilePath}`
+    );
+  }
+}
+
+for (const discoveredRouteFilePath of discoveredApiRouteFilePaths) {
+  if (!allowedApiRouteFilePathSet.has(discoveredRouteFilePath)) {
+    recordFailure(
+      path.join(appRoot, discoveredRouteFilePath),
+      "unregistered route handler under src/app/api/**; add it to lab-api-route-registry.ts or remove the file"
+    );
+  }
+}
+
+for (const discoveredRouteFilePath of discoveredApiRouteFilePaths) {
+  const routeHandlerPath = path.join(appRoot, discoveredRouteFilePath);
+  const routeHandlerSource = readFileSync(routeHandlerPath, "utf8");
+
+  for (const pattern of prohibitedImportPatterns) {
+    if (pattern.test(routeHandlerSource)) {
+      recordFailure(
+        routeHandlerPath,
+        `route handler imports guarded runtime authority: ${pattern}`
+      );
+    }
+  }
+
+  if (!routeHandlerSource.includes('export const runtime = "nodejs"')) {
+    recordFailure(
+      routeHandlerPath,
+      'governed route handlers must export runtime = "nodejs"'
+    );
+  }
 }
 
 if (existsSync(legacyRouteRoot)) {
@@ -398,6 +589,170 @@ for (const entryBlock of routeRegistryEntryBlocks) {
       `non-navigable route ${routeId ?? href ?? "<unknown>"} must not define navGroupLabel or navLabel`
     );
   }
+}
+
+for (const entryBlock of labCacheRegistryEntryBlocks) {
+  const cacheKind = getRegistryStringField(entryBlock, "cacheKind");
+  const loaderPath = getRegistryStringField(entryBlock, "loaderPath");
+  const routeId = getRegistryStringField(entryBlock, "routeId");
+
+  if (!loaderPath) {
+    recordFailure(
+      labCacheRouteRegistryPath,
+      `lab cache registry entry ${routeId ?? "<missing routeId>"} must declare loaderPath`
+    );
+    continue;
+  }
+
+  const normalizedLoaderPath = loaderPath.replaceAll("\\", "/");
+  const absoluteLoaderPath = path.join(
+    developerRoot,
+    "src",
+    normalizedLoaderPath
+  );
+
+  if (!existsSync(absoluteLoaderPath)) {
+    recordFailure(
+      absoluteLoaderPath,
+      `lab cache registry entry is missing its loader or handler file: ${loaderPath}`
+    );
+  }
+
+  if (cacheKind === "lab-health-revalidate" && existsSync(absoluteLoaderPath)) {
+    const handlerSource = readFileSync(absoluteLoaderPath, "utf8");
+
+    if (!handlerSource.includes("export const revalidate = 30")) {
+      recordFailure(
+        absoluteLoaderPath,
+        "lab health handler must export revalidate = 30 for governed cache posture"
+      );
+    }
+  }
+
+  if (
+    cacheKind === "operator-request-dynamic" &&
+    existsSync(absoluteLoaderPath)
+  ) {
+    const loaderSource = readFileSync(absoluteLoaderPath, "utf8");
+
+    if (!loaderSource.includes("createCachedLabLoader")) {
+      recordFailure(
+        absoluteLoaderPath,
+        "operator-request-dynamic loaders must wrap exports with createCachedLabLoader for per-request dedupe"
+      );
+    }
+  }
+}
+
+for (const discoveredBffRouteFilePath of discoveredBffRouteFilePaths) {
+  if (!allowedBffRouteFilePathSet.has(discoveredBffRouteFilePath)) {
+    recordFailure(
+      path.join(appRoot, discoveredBffRouteFilePath),
+      "unregistered BFF route handler under src/app/api/internal/**; add it to lab-bff-route-registry.ts or remove the file"
+    );
+  }
+}
+
+for (const registryFilePath of allowedBffRouteFilePaths) {
+  const absoluteRegistryFilePath = path.join(appRoot, registryFilePath);
+
+  if (!existsSync(absoluteRegistryFilePath)) {
+    recordFailure(
+      absoluteRegistryFilePath,
+      `lab BFF route registry entry is missing its route handler file: ${registryFilePath}`
+    );
+  }
+}
+
+for (const entryBlock of [
+  ...labRuntimeAuthorityRegistrySource.matchAll(
+    /\{\s*authorityId:[\s\S]*?\n\s{2}\}/g
+  ),
+].map((match) => match[0])) {
+  const authorityKind = getRegistryStringField(entryBlock, "authorityKind");
+  const filePath = getRegistryStringField(entryBlock, "filePath");
+  const authorityId = getRegistryStringField(entryBlock, "authorityId");
+
+  if (!filePath) {
+    recordFailure(
+      labRuntimeAuthorityRegistryPath,
+      `lab runtime authority registry entry ${authorityId ?? "<missing authorityId>"} must declare filePath`
+    );
+    continue;
+  }
+
+  const absoluteAuthorityFilePath = path.join(
+    developerRoot,
+    "src",
+    filePath.replaceAll("\\", "/")
+  );
+
+  if (!existsSync(absoluteAuthorityFilePath)) {
+    recordFailure(
+      absoluteAuthorityFilePath,
+      `lab runtime authority registry entry is missing its resolver file: ${filePath}`
+    );
+    continue;
+  }
+
+  const authoritySource = readFileSync(absoluteAuthorityFilePath, "utf8");
+
+  if (authorityKind === "demo-fixture") {
+    if (!authoritySource.includes("createCachedLabLoader")) {
+      recordFailure(
+        absoluteAuthorityFilePath,
+        "demo-fixture runtime authority resolver must use createCachedLabLoader"
+      );
+    }
+
+    if (!authoritySource.includes("labDemoContextFixture")) {
+      recordFailure(
+        absoluteAuthorityFilePath,
+        "demo-fixture runtime authority resolver must source the static lab demo context fixture"
+      );
+    }
+  }
+
+  for (const pattern of prohibitedImportPatterns) {
+    if (pattern.test(authoritySource)) {
+      recordFailure(
+        absoluteAuthorityFilePath,
+        `runtime authority resolver imports guarded packages: ${pattern}`
+      );
+    }
+  }
+}
+
+if (
+  !(
+    labRuntimeAuthorityPolicySource.includes("LAB_RUNTIME_AUTHORITY_ADR_ID") &&
+    labRuntimeAuthorityPolicySource.includes("ADR-0044")
+  )
+) {
+  recordFailure(
+    labRuntimeAuthorityPolicyPath,
+    "lab runtime authority policy must cite ADR-0044 via LAB_RUNTIME_AUTHORITY_ADR_ID"
+  );
+}
+
+if (
+  !labRuntimeAuthorityPolicySource.includes('authorityKind: "demo-fixture"')
+) {
+  recordFailure(
+    labRuntimeAuthorityPolicyPath,
+    "ADR-0044 requires terminal demo-fixture authorityKind in lab runtime authority policy"
+  );
+}
+
+if (
+  !/export const labBffRouteRegistry[^=]*=\s*\[\s*];/.test(
+    labBffRouteRegistrySource
+  )
+) {
+  recordFailure(
+    labBffRouteRegistryPath,
+    "ADR-0044 requires lab BFF route registry to remain an empty allowlist"
+  );
 }
 
 for (const route of activeRoutes) {
@@ -607,6 +962,59 @@ for (const route of activeRoutes) {
     }
   }
 
+  if (route.actionSeam === "governed-active") {
+    const registeredActionFilePaths = getRegisteredActionFilePathsForRoute(
+      route.routeId
+    );
+
+    if (registeredActionFilePaths.length === 0) {
+      recordFailure(
+        labActionRouteRegistryPath,
+        `governed-active route ${route.href} must have a matching lab-action-route-registry entry`
+      );
+    }
+
+    for (const registeredActionFilePath of registeredActionFilePaths) {
+      const absoluteActionFilePath = path.join(
+        appRoot,
+        registeredActionFilePath
+      );
+
+      if (!existsSync(absoluteActionFilePath)) {
+        recordFailure(
+          absoluteActionFilePath,
+          `lab action registry entry is missing its server action file: ${registeredActionFilePath}`
+        );
+        continue;
+      }
+
+      const actionSource = readFileSync(absoluteActionFilePath, "utf8");
+
+      if (!actionSource.includes('"use server"')) {
+        recordFailure(
+          absoluteActionFilePath,
+          'governed server action files must include "use server"'
+        );
+      }
+
+      if (hasUseClientDirective(actionSource)) {
+        recordFailure(
+          absoluteActionFilePath,
+          'server action files must not use "use client"'
+        );
+      }
+
+      for (const pattern of prohibitedImportPatterns) {
+        if (pattern.test(actionSource)) {
+          recordFailure(
+            absoluteActionFilePath,
+            `server action imports guarded runtime authority: ${pattern}`
+          );
+        }
+      }
+    }
+  }
+
   if (route.querySeam === "placeholder-only" && queriesDir) {
     const allowedQueryEntries = new Set([".gitkeep"]);
     const unexpectedQueryEntries = readdirSync(queriesDir).filter(
@@ -617,6 +1025,86 @@ for (const route of activeRoutes) {
       recordFailure(
         queriesDir,
         `route policy marks _queries as placeholder-only for ${route.href}, but found runtime entries: ${unexpectedQueryEntries.join(", ")}`
+      );
+    }
+  }
+
+  if (route.querySeam === "governed-active") {
+    const registeredQueryFilePaths = getRegisteredQueryFilePathsForRoute(
+      route.routeId
+    );
+
+    if (registeredQueryFilePaths.length === 0) {
+      recordFailure(
+        labQueryRouteRegistryPath,
+        `governed-active route ${route.href} must have a matching lab-query-route-registry entry`
+      );
+    }
+
+    for (const registeredQueryFilePath of registeredQueryFilePaths) {
+      const absoluteQueryFilePath = path.join(appRoot, registeredQueryFilePath);
+
+      if (!existsSync(absoluteQueryFilePath)) {
+        recordFailure(
+          absoluteQueryFilePath,
+          `lab query registry entry is missing its query file: ${registeredQueryFilePath}`
+        );
+        continue;
+      }
+
+      const querySource = readFileSync(absoluteQueryFilePath, "utf8");
+
+      if (querySource.includes('"use server"')) {
+        recordFailure(
+          absoluteQueryFilePath,
+          'query read helpers must not use "use server"; mutations belong in _actions'
+        );
+      }
+
+      if (hasUseClientDirective(querySource)) {
+        recordFailure(
+          absoluteQueryFilePath,
+          'query read helpers must not use "use client"'
+        );
+      }
+
+      for (const pattern of prohibitedImportPatterns) {
+        if (pattern.test(querySource)) {
+          recordFailure(
+            absoluteQueryFilePath,
+            `query read helper imports guarded runtime authority: ${pattern}`
+          );
+        }
+      }
+    }
+  }
+
+  if (route.cacheSeam === "governed-active") {
+    const registeredLoaderPath = getRegisteredCacheLoaderPathForRoute(
+      route.routeId
+    );
+
+    if (registeredLoaderPath) {
+      const absoluteLoaderPath = path.join(
+        developerRoot,
+        "src",
+        registeredLoaderPath.replaceAll("\\", "/")
+      );
+
+      if (existsSync(absoluteLoaderPath)) {
+        const loaderSource = readFileSync(absoluteLoaderPath, "utf8");
+
+        if (!loaderSource.includes("createCachedLabLoader")) {
+          recordFailure(
+            absoluteLoaderPath,
+            `governed-active cache seam for ${route.href} must use createCachedLabLoader`
+          );
+        }
+      }
+    } else {
+      recordFailure(
+        labCacheRouteRegistryPath,
+        `governed-active cache seam for ${route.href} must have a matching lab-cache-route-registry entry`
       );
     }
   }
@@ -637,6 +1125,134 @@ if (!layoutSource.includes('export const dynamic = "force-dynamic"')) {
     layoutPath,
     'active lab routes require export const dynamic = "force-dynamic" at the (lab) layout boundary'
   );
+}
+
+if (!layoutSource.includes("resolveLabShellOperatingContext")) {
+  recordFailure(
+    layoutPath,
+    "(lab)/layout.tsx must resolve operating context through resolveLabShellOperatingContext (P5)"
+  );
+}
+
+if (/from\s+"@\/lib\/lab\/lab-demo-context"/.test(layoutSource)) {
+  recordFailure(
+    layoutPath,
+    "(lab)/layout.tsx must not import lab-demo-context directly; use resolveLabShellOperatingContext"
+  );
+}
+
+if (!/await\s+resolveLabShellOperatingContext\s*\(/.test(layoutSource)) {
+  recordFailure(
+    layoutPath,
+    "(lab)/layout.tsx must await resolveLabShellOperatingContext before rendering LabShell"
+  );
+}
+
+const governedRuntimeAuthorityRoutes = activeRoutes.filter(
+  (route) => route.runtimeAuthoritySeam === "governed-active"
+);
+
+if (governedRuntimeAuthorityRoutes.length === 0) {
+  recordFailure(
+    routeSurfaceRegistryPath,
+    "route surface registry must mark operator routes with runtimeAuthoritySeam: governed-active"
+  );
+}
+
+const proxyPath = path.join(developerRoot, "src", "proxy.ts");
+const middlewarePath = path.join(developerRoot, "src", "middleware.ts");
+const labRequestPolicyRegistrySource = readFileSync(
+  labRequestPolicyRegistryPath,
+  "utf8"
+);
+const registeredProxyFilePaths = [
+  ...labRequestPolicyRegistrySource.matchAll(/filePath:\s*"([^"]+)"/g),
+].map((match) => match[1].replaceAll("\\", "/"));
+const proxyForbiddenPatterns = [
+  /better-auth/,
+  /getSessionCookie/,
+  /isProtectedAppRouterPath/,
+  /NextResponse\.redirect/,
+  /@afenda\/auth/,
+];
+
+if (existsSync(middlewarePath)) {
+  recordFailure(
+    middlewarePath,
+    "route-lab request policy uses src/proxy.ts only; middleware.ts is not allowed"
+  );
+}
+
+if (!existsSync(proxyPath)) {
+  recordFailure(
+    proxyPath,
+    "governed route-lab request policy requires src/proxy.ts (runtime-parity slice P4)"
+  );
+}
+
+for (const registeredProxyFilePath of registeredProxyFilePaths) {
+  const absoluteProxyFilePath = path.join(
+    developerRoot,
+    "src",
+    registeredProxyFilePath
+  );
+
+  if (!existsSync(absoluteProxyFilePath)) {
+    recordFailure(
+      absoluteProxyFilePath,
+      `lab request-policy registry entry is missing its proxy file: ${registeredProxyFilePath}`
+    );
+  }
+}
+
+if (existsSync(proxyPath)) {
+  const proxySource = readFileSync(proxyPath, "utf8");
+
+  if (!proxySource.includes("export function proxy")) {
+    recordFailure(
+      proxyPath,
+      "proxy.ts must export function proxy(request: NextRequest)"
+    );
+  }
+
+  if (!proxySource.includes("lab-request-policy")) {
+    recordFailure(
+      proxyPath,
+      "proxy.ts must derive request policy from src/lib/lab/lab-request-policy.ts"
+    );
+  }
+
+  if (!proxySource.includes("stripForbiddenSpoofHeaders")) {
+    recordFailure(
+      proxyPath,
+      "proxy.ts must strip forbidden spoof headers before NextResponse.next"
+    );
+  }
+
+  if (!proxySource.includes("export const config")) {
+    recordFailure(
+      proxyPath,
+      "proxy.ts must export matcher config for governed edge coverage"
+    );
+  }
+
+  for (const pattern of proxyForbiddenPatterns) {
+    if (pattern.test(proxySource)) {
+      recordFailure(
+        proxyPath,
+        `proxy.ts must not implement forbidden request policy behavior matching ${pattern}`
+      );
+    }
+  }
+
+  for (const pattern of prohibitedImportPatterns) {
+    if (pattern.test(proxySource)) {
+      recordFailure(
+        proxyPath,
+        `proxy.ts imports guarded runtime authority: ${pattern}`
+      );
+    }
+  }
 }
 
 const appPageFiles = [];
@@ -782,6 +1398,30 @@ for (const segmentFile of labSegmentFiles) {
     recordFailure(
       segmentFile,
       "generateStaticParams is prohibited anywhere under apps/developer/src/app/(lab)"
+    );
+  }
+
+  if (/\buse cache\b/.test(segmentSource)) {
+    recordFailure(
+      segmentFile,
+      '"use cache" is prohibited under apps/developer/src/app/(lab); operator routes stay request-dynamic'
+    );
+  }
+}
+
+const labLibPath = path.join(developerRoot, "src", "lib", "lab");
+const labLibFiles = readdirSync(labLibPath).filter(
+  (entry) => entry.endsWith(".ts") && entry !== "lab-cache-policy.ts"
+);
+
+for (const labLibFile of labLibFiles) {
+  const labLibFilePath = path.join(labLibPath, labLibFile);
+  const labLibSource = readFileSync(labLibFilePath, "utf8");
+
+  if (/\buse cache\b/.test(labLibSource)) {
+    recordFailure(
+      labLibFilePath,
+      '"use cache" is prohibited in route-lab lib code; use React.cache per-request dedupe via createCachedLabLoader'
     );
   }
 }

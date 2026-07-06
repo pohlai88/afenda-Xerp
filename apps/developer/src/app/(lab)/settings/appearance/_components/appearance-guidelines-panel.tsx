@@ -3,7 +3,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2/clients";
 import Image from "next/image";
 import type { AppearanceSettingsPageData } from "@/lib/lab/contracts";
 

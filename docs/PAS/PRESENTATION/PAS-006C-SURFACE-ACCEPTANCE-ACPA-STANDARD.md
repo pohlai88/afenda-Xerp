@@ -6,7 +6,7 @@
 | **Document class** | `package_authority_standard` |
 | **Document role** | `surface_acceptance_acpa_governance` |
 | **Parent charter** | [PAS-006](PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) |
-| **Package** | `@afenda/shadcn-studio` (+ Storybook lab + ERP auth routes consumer proof) |
+| **Package** | `@afenda/shadcn-studio-v2` (+ Storybook lab + ERP auth routes consumer proof) |
 | **Blueprint box** | shadcn/studio Presentation |
 | **Maturity** | Production Candidate |
 | **Runtime status** | P06-005–P06-007 delivered — Acceptance Record schema, ACPA gate suite, auth WCAG AA pack live |
@@ -17,7 +17,7 @@
 
 | # | Gate command |
 | --- | --- |
-| 1 | `pnpm --filter @afenda/shadcn-studio test:run` |
+| 1 | `pnpm --filter @afenda/shadcn-studio-v2 test:run` |
 | 2 | `pnpm check:studio-block-acpa-acceptance` |
 | 3 | `pnpm check:studio-auth-surface-wcag-aa` |
 | 4 | `pnpm test:interaction` *(auth + block interaction subsets)* |

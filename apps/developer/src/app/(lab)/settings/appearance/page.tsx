@@ -4,13 +4,14 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2/clients";
 import type { Metadata } from "next";
 import {
   createAppearanceSettingsMetadata,
   loadSettingsAppearancePage,
 } from "@/lib/lab/load-settings-appearance-page.server";
 import { AppearanceGuidelinesPanel } from "./_components/appearance-guidelines-panel";
+import { AppearanceReviewNotePanel } from "./_components/appearance-review-note-panel.client";
 import { AppearanceThemePanel } from "./_components/appearance-theme-panel";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -21,7 +22,7 @@ export default async function AppearanceSettingsPage() {
   const pageData = await loadSettingsAppearancePage();
 
   return (
-    <section className="space-y-6">
+    <section className="min-w-0 space-y-6">
       <header className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-2">
           <p className="font-medium text-primary text-xs uppercase tracking-[0.28em]">
@@ -47,8 +48,11 @@ export default async function AppearanceSettingsPage() {
           </CardContent>
         </Card>
       </header>
-      <div className="grid gap-6 xl:grid-cols-[0.72fr_1.28fr]">
-        <AppearanceGuidelinesPanel pageData={pageData} />
+      <div className="grid min-w-0 gap-6 xl:grid-cols-[0.72fr_1.28fr]">
+        <div className="space-y-6">
+          <AppearanceGuidelinesPanel pageData={pageData} />
+          <AppearanceReviewNotePanel initialNote={pageData.reviewNote} />
+        </div>
         <AppearanceThemePanel pageData={pageData} />
       </div>
     </section>

@@ -5,6 +5,7 @@ import { describe, expect, it } from "vitest";
 import {
   assertStudioViewMetadata,
   defineAuthViewMetadata,
+  defineEvidenceWidgetMetadata,
   defineMetricWidgetMetadata,
   definePageViewMetadata,
   isStudioViewMetadata,
@@ -38,6 +39,14 @@ describe("Slice 6 metadata lane", () => {
         value: "128",
         widget: "metric",
       }),
+      defineEvidenceWidgetMetadata({
+        description: "Audit checkpoint.",
+        items: [{ id: "a", label: "Control A", status: "complete" }],
+        kind: "widget",
+        label: "Evidence",
+        summary: "3 of 3 satisfied",
+        widget: "evidence",
+      }),
     ];
 
     expect(JSON.parse(JSON.stringify(descriptors))).toEqual(descriptors);
@@ -55,6 +64,16 @@ describe("Slice 6 metadata lane", () => {
     expect(isStudioViewMetadata({ kind: "widget", widget: "chart" })).toBe(
       false
     );
+    expect(
+      isStudioViewMetadata(
+        defineEvidenceWidgetMetadata({
+          kind: "widget",
+          label: "Evidence",
+          summary: "Ready",
+          widget: "evidence",
+        })
+      )
+    ).toBe(true);
     expect(() => assertStudioViewMetadata(metadata)).not.toThrow();
     expect(() => assertStudioViewMetadata({ kind: "unknown" })).toThrow(
       "Invalid shadcn-studio-v2 view metadata."

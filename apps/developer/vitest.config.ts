@@ -52,6 +52,10 @@ export default defineConfig({
     ],
   },
   test: {
+    environmentMatchGlobs: [
+      ["**/v2-proof-import-boundary.test.ts", "node"],
+      ["**/derive-integration-posture.test.ts", "node"],
+    ],
     coverage: {
       exclude: [
         "src/**/__tests__/**",

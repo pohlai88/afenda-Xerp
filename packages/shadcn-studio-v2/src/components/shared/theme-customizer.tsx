@@ -3,16 +3,16 @@
 import { studioThemeConfig } from "../../configs/theme-config";
 import { useTheme } from "../../hooks/use-theme";
 import type { StudioThemeId, StudioThemeMode } from "../../types/theme";
-import { Button } from "../ui/Button";
-import { Field, FieldDescription, FieldLabel } from "../ui/Field";
-import { RadioGroup, RadioGroupItem } from "../ui/RadioGroup";
+import { Button } from "../ui/button";
+import { Field, FieldDescription, FieldLabel } from "../ui/field";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/Select";
+} from "../ui/select";
 
 const THEME_MODES: readonly {
   readonly label: string;

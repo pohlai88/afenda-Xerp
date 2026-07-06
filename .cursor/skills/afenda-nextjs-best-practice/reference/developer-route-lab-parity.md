@@ -1,6 +1,6 @@
 # Developer route lab — ERP production parity
 
-**Authority:** [ADR-0039](../../../../docs/adr/ADR-0039-developer-presentation-sandbox.md) · [PAS-006E §0.1](../../../../docs/PAS/PRESENTATION/PAS-006E-DEVELOPER-ROUTE-LAB-STANDARD.md) · `@afenda/developer` port **3002**.
+**Authority:** [ADR-0039](../../../../docs/adr/ADR-0039-developer-presentation-sandbox.md) · [ADR-0044](../../../../docs/adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md) · [PAS-006E §0.1](../../../../docs/PAS/PRESENTATION/PAS-006E-DEVELOPER-ROUTE-LAB-STANDARD.md) · `@afenda/developer` port **3002**.
 
 ---
 
@@ -36,7 +36,7 @@ MINUS auth redirect / session / permissions / OperatingContext spine / BFF / pro
 | Studio AppShell (not reference MCP shell) | Required | Required | **Same** |
 | MCP after App Router edits | port 3000 | port **3002** | **Same sequence** |
 | Auth redirect / session | Better Auth | **None** | **Excluded only** |
-| OperatingContext | PAS-001A spine | `lab-demo-context` wire | **Excluded only** |
+| OperatingContext | PAS-001A spine | `resolveLabShellOperatingContext()` demo-fixture wire ([ADR-0044](../../../../docs/adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md)) | **Excluded only** |
 | BFF / `api/internal/v1` | Required where contracted | None | **Excluded only** |
 | `pas006-ui.contract.ts` row | Required at ship | Borrow-map row until promotion | **Promotion step** |
 | Production deploy | Normal | Hard-fail without flag | **Excluded only** |
@@ -47,7 +47,7 @@ MINUS auth redirect / session / permissions / OperatingContext spine / BFF / pro
 
 ```text
 ERP:     proxy → (protected)/layout → modules/layout → page → lib/{domain}/load-* → _components/ → studio
-Route lab: root layout (demo banner) → (lab)/layout → page → lib/lab/load-* → _components/ → studio
+Route lab: proxy (correlation-id) → (lab)/layout (resolveLabShellOperatingContext) → page → lib/lab/load-* → _components/ → studio
 ```
 
 Data source differs (spine vs fixtures). **Composition law does not.**
@@ -59,7 +59,7 @@ Data source differs (spine vs fixtures). **Composition law does not.**
 - **Do not** ship fat client pages because “it’s just the lab”
 - **Do not** skip segment `error.tsx` because “ERP doesn’t have them everywhere yet” — lab sets the bar
 - **Do not** put route UI in `src/components/{route}/` — cross-cutting shell only
-- **Do not** import `@afenda/auth`, `@afenda/kernel`, or `_reference` runtime
+- **Do not** wire live auth, kernel spine, or `api/internal/v1` BFF in the route lab ([ADR-0044](../../../../docs/adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md))
 
 ---
 

@@ -11,7 +11,7 @@
     "!packages/permissions",
     "!packages/entitlements",
     "!packages/feature-flags",
-    "!packages/shadcn-studio",
+    "!packages/shadcn-studio-v2",
     "!packages/database",
     "!packages/ai-governance",
     "!packages/execution",
@@ -47,14 +47,12 @@
         "scripts/scaffold-package.mjs",
         "templates/package-scaffold/**/*.{ts,tsx,mjs}",
         "scripts/storybook/generate.mjs",
-        "scripts/storybook/generate-*.mjs",
         "scripts/storybook/discard-blocks-without-consumer.mjs",
         "scripts/docs/run-catalog-export.mts",
         "scripts/ops/supabase-auth-redirects.mjs",
         "scripts/ops/supabase-preview-branch.mjs",
         "scripts/governance/erp-domain-foundation-module-specs.mts",
-        "scripts/governance/erp-domain-vocabulary-module-specs.mts",
-        "scripts/governance/lib/export-primitive-evidence-registry.mts"
+        "scripts/governance/erp-domain-vocabulary-module-specs.mts"
       ],
       "project": [
         "scripts/**/*.{mjs,mts,ts}",
@@ -100,14 +98,14 @@
       "entry": ["src/**/*.test.ts"],
       "project": ["src/**/*.ts"]
     },
-    "packages/shadcn-studio": {
+    "packages/shadcn-studio-v2": {
       "entry": [
         "src/**/index.ts",
         "src/__tests__/**/*.{test,spec}.{ts,tsx}",
         "src/**/*.stories.tsx"
       ],
       "project": ["src/**/*.{ts,tsx}"],
-      "ignore": ["src/components-quarantine/**"],
+      "ignore": ["src/components/quarantine/**"],
       "ignoreDependencies": ["next", "shadcn", "tw-animate-css"],
       "ignoreIssues": {
         "src/**/*.{ts,tsx}": ["exports", "types"]

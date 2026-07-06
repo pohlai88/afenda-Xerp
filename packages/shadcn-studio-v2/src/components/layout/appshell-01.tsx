@@ -1,10 +1,10 @@
 import { cn } from "../../lib/cn";
 import type { AppShell01Props } from "../../types/layout";
 import { APP_SHELL_01_SLOTS } from "../../types/layout";
-import { IconMark } from "../assets/IconMark";
+import { IconMark } from "../assets/icon-mark";
 import { AppShellFrame } from "./appshell-frame";
-import { Sidebar } from "./Sidebar";
-import { Topbar } from "./Topbar";
+import { Sidebar } from "./sidebar";
+import { Topbar } from "./topbar";
 
 const DEFAULT_BRAND_LABEL = "Afenda ERP";
 const DEFAULT_MAIN_LABEL = "Workspace content";

@@ -2,7 +2,7 @@
  * Package CSS dist sync policy — apps import CSS from package dist/, not src/.
  *
  * ADR-0027: legacy appshell/ui/metadata-ui/css-authority packages removed.
- * Only @afenda/shadcn-studio remains in the presentation CSS sync chain.
+ * Presentation CSS sync: @afenda/shadcn-studio-v2.
  */
 import { createHash } from "node:crypto";
 import { copyFileSync, existsSync, mkdirSync, readFileSync } from "node:fs";
@@ -21,23 +21,27 @@ import { dirname, join } from "node:path";
 /** @type {PackageCssDistPackage[]} */
 export const PACKAGE_CSS_DIST_PACKAGES = [
   {
-    name: "@afenda/shadcn-studio",
-    buildCommand: "pnpm --filter @afenda/shadcn-studio build",
+    name: "@afenda/shadcn-studio-v2",
+    buildCommand: "pnpm --filter @afenda/shadcn-studio-v2 build",
     syncCommand:
-      "pnpm sync:package-css-dist -- --package @afenda/shadcn-studio",
-    sourcePathPrefix: "packages/shadcn-studio/src/styles/",
+      "pnpm sync:package-css-dist -- --package @afenda/shadcn-studio-v2",
+    sourcePathPrefix: "packages/shadcn-studio-v2/src/styles/",
     pairs: [
       {
-        src: "packages/shadcn-studio/src/styles/shadcn-default.css",
-        dist: "packages/shadcn-studio/dist/shadcn-default.css",
+        src: "packages/shadcn-studio-v2/src/styles/shadcn-default.css",
+        dist: "packages/shadcn-studio-v2/dist/shadcn-default.css",
       },
       {
-        src: "packages/shadcn-studio/src/styles/themes/swiss-noir.css",
-        dist: "packages/shadcn-studio/dist/themes/swiss-noir.css",
+        src: "packages/shadcn-studio-v2/src/styles/swiss-noir.css",
+        dist: "packages/shadcn-studio-v2/dist/themes/swiss-noir.css",
       },
       {
-        src: "packages/shadcn-studio/src/styles/themes/verdant-noir.css",
-        dist: "packages/shadcn-studio/dist/themes/verdant-noir.css",
+        src: "packages/shadcn-studio-v2/src/styles/verdant-noir.css",
+        dist: "packages/shadcn-studio-v2/dist/themes/verdant-noir.css",
+      },
+      {
+        src: "packages/shadcn-studio-v2/src/styles/afenda-brand.css",
+        dist: "packages/shadcn-studio-v2/dist/themes/afenda-brand.css",
       },
     ],
   },

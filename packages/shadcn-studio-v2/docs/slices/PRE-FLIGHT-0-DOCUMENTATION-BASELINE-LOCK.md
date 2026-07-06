@@ -19,8 +19,7 @@ historically expanded intent:
 * `TAXONOMY.md`
 * restored legacy governance documents under `archive/`
 * newly restored runtime-facing docs such as `README.md`, `MIGRATION-MAP.md`,
-  `DESIGN-SYSTEM-GUIDELINE.md`, `PRIMITIVE-API-CONSISTENCY.md`, and
-  `LEGACY-RETIREMENT-PLAN.md`
+  `DESIGN-SYSTEM-GUIDELINE.md`, and `PRIMITIVE-API-CONSISTENCY.md`
 
 Without a baseline lock, contributors can keep adding or editing docs without a
 clear rule about which documents remain active, which are archive-only, and
@@ -63,8 +62,10 @@ Keep these documents active:
 * `MIGRATION-MAP.md`
 * `DESIGN-SYSTEM-GUIDELINE.md`
 * `PRIMITIVE-API-CONSISTENCY.md`
-* `LEGACY-RETIREMENT-PLAN.md`
 * `docs/slices/*`
+
+Legacy package retirement status lives in `MIGRATION-MAP.md` only — no
+separate retirement plan document is required or tracked.
 
 ### Archive rule
 

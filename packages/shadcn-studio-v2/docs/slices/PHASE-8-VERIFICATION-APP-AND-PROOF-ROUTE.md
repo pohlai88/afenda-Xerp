@@ -13,7 +13,7 @@ unproven.
 
 ## Goals
 
-* Select one real consumer route.
+* select one real consumer route.
 * Render the required V2 surfaces through public imports only.
 * Prove base and named-theme behavior in the consumer environment.
 
@@ -109,15 +109,15 @@ exports.
 | `apps/developer/src/app/design-system/v2-proof/` | Proof route (page + client panel + tests) |
 | `apps/developer/src/lib/v2-proof/fixtures.ts` | Static fixture data |
 | `apps/developer/src/app/globals.css` | Package CSS stack (`shadcn-default`, `afenda-brand`, app `@theme`) |
-| `apps/developer/src/app/layout.tsx` | V2 `StudioPresentationProviders` + `ThemeScript` |
+| `apps/developer/src/app/layout.tsx` | V2 `StudioPresentationProviders` + `theme-script` |
 | `apps/developer/src/app/__tests__/v2-proof-smoke.spec.ts` | Playwright smoke + hydration/runtime error probe |
 | `apps/developer/scripts/check-developer-presentation-runtime.mjs` | Provider import boundary |
 | `apps/developer/scripts/check-developer-hydration-governance.mjs` | Hydration prevention |
 | `apps/developer/vitest.config.ts` | V2 subpath aliases for unit tests |
 
-## Commands Run
+## commands Run
 
-| Command | Result |
+| command | Result |
 | --- | --- |
 | `pnpm --filter @afenda/developer verify:v2-proof` | PASS |
 | `pnpm --filter @afenda/developer build` | PASS |
@@ -128,7 +128,7 @@ exports.
 - [x] Consumer route renders (`/design-system/v2-proof`)
 - [x] Public imports only (`v2-proof-import-boundary.test.ts`)
 - [x] CSS package import only (globals.css + boundary test)
-- [x] Required surfaces visible (AppShell01, PageSurface, MetricWidget ×2 stand-in for EvidenceWidget, DataTableSurface, FormSurface, ConfirmDialogSurface, SettingsSurface, ThemeToggle, ThemeCustomizer)
+- [x] Required surfaces visible (AppShell01, page-surface, MetricWidget ×2 stand-in for EvidenceWidget, data-table-surface, form-surface, confirm-dialog-surface, settings-surface, theme-toggle, ThemeCustomizer)
 - [x] Theme switching works (light/dark + `shadcn-default`, `swiss-noir`, `verdant-noir`, `afenda-brand`)
 - [x] No internal `src/*` imports in proof sources
 - [x] Consumer typecheck passes

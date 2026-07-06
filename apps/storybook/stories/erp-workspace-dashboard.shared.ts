@@ -2,7 +2,7 @@ import {
   ERP_WORKSPACE_DASHBOARD_PAGE_COPY,
   ErpWorkspaceDashboardPageSample,
   STORYBOOK_TIER_A_V1_WIDGET_IDS,
-} from "@afenda/shadcn-studio/lab";
+} from "@afenda/shadcn-studio-v2/lab";
 import type { Meta, StoryObj } from "@storybook/react";
 import { expect } from "storybook/test";
 
@@ -12,12 +12,12 @@ export const erpWorkspaceDashboardStoryTitle =
 export const erpWorkspaceDashboardMeta = {
   title: erpWorkspaceDashboardStoryTitle,
   component: ErpWorkspaceDashboardPageSample,
-  tags: ["autodocs"],
+  tags: ["autodocs", "deprecated"],
   parameters: {
     docs: {
       description: {
         component:
-          "Full ERP workspace home with AppShell and Tier A v1 dashboard grid (six MCP blocks). Compare AdminCN baseline vs scoped noir CSS staging.",
+          "V2 workspace home with AppShell01 and MetricWidget/EvidenceWidget adapters (Lane B-11). Tier A v1 MCP block grid retired — smoke ids preserved for lab continuity.",
       },
     },
     globals: {

@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2";
 
 import { loadProcurementFoundationReadinessPage } from "@/lib/procurement/load-procurement-foundation-readiness-page.server";
 

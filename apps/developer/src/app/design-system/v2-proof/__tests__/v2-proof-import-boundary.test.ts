@@ -4,16 +4,9 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
+const APP_ROOT = path.resolve(TEST_DIR, "../../../..");
 const PROOF_ROOT = path.resolve(TEST_DIR, "..");
-const FIXTURE_ROOT = path.resolve(
-  TEST_DIR,
-  "..",
-  "..",
-  "..",
-  "..",
-  "lib",
-  "v2-proof"
-);
+const FIXTURE_ROOT = path.resolve(APP_ROOT, "lib/v2-proof");
 
 const V2_INTERNAL_IMPORT_PATTERN =
   /@afenda\/shadcn-studio-v2\/(?:components|views|contexts|styles|src)(?:\/|["'])/u;
@@ -55,7 +48,7 @@ describe("Phase 8 V2 proof route import boundary", () => {
 
     for (const filePath of proofFiles) {
       const source = readFileSync(filePath, "utf8");
-      const relativePath = path.relative(process.cwd(), filePath);
+      const relativePath = path.relative(APP_ROOT, filePath);
 
       if (V2_INTERNAL_IMPORT_PATTERN.test(source)) {
         violations.push(`${relativePath}: forbidden V2 internal import`);
@@ -74,7 +67,7 @@ describe("Phase 8 V2 proof route import boundary", () => {
   });
 
   it("uses package CSS exports in app globals rather than proof TS imports", () => {
-    const globalsPath = path.resolve(TEST_DIR, "..", "..", "..", "globals.css");
+    const globalsPath = path.resolve(APP_ROOT, "app/globals.css");
     const globals = readFileSync(globalsPath, "utf8");
 
     expect(globals).toContain("@afenda/shadcn-studio-v2/shadcn-default.css");

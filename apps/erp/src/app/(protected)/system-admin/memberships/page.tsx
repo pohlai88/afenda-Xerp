@@ -1,8 +1,7 @@
-import {
-  SystemAdminListToolbarBlock as SystemAdminListToolbar,
-  SystemAdminMembershipsTableBlock as SystemAdminMembershipsTable,
-  SystemAdminSectionHeaderBlock as SystemAdminSectionHeader,
-} from "@afenda/shadcn-studio";
+import { SystemAdminListToolbar } from "@/components/system-admin/system-admin-list-toolbar.client";
+import { SystemAdminMembershipsComposer } from "@/components/system-admin/system-admin-memberships-composer.client";
+import { SystemAdminSectionHeader } from "@/components/system-admin/system-admin-section-header";
+import { mapMembershipWireToTableRow } from "@/lib/system-admin/map-membership-wire-to-table-row";
 import { loadSystemAdminSectionPage } from "@/lib/system-admin/load-system-admin-section-page.server";
 import { listSystemAdminMemberships } from "@/server/system-admin/list-system-admin-memberships.server";
 
@@ -27,7 +26,9 @@ export default async function SystemAdminMembershipsPage() {
         createLabel="Create membership"
         searchLabel="Search memberships"
       />
-      <SystemAdminMembershipsTable memberships={memberships} />
+      <SystemAdminMembershipsComposer
+        data={memberships.map(mapMembershipWireToTableRow)}
+      />
     </section>
   );
 }

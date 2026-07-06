@@ -390,10 +390,10 @@ describe("Phase 5 layout chrome", () => {
   });
 
   it("keeps the shared ThemeToggle client-only and out of neutral/server surfaces", () => {
-    const sharedSource = readSource("components", "shared", "ThemeToggle.tsx");
+    const sharedSource = readSource("components", "shared", "theme-toggle.tsx");
 
     expect(sharedSource).toContain('"use client"');
-    expect(sharedSource).toContain('import { Button } from "../ui/Button"');
+    expect(sharedSource).toContain('import { Button } from "../ui/button"');
     expect(sharedSource).toContain("useTheme()");
     expect(readSource("clients.ts")).toContain("ThemeToggle");
     expect(readSource("index.ts")).not.toContain("ThemeToggle");

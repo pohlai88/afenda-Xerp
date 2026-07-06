@@ -24,4 +24,23 @@ describe("Phase 8 V2 proof route", () => {
     expect(screen.getByLabelText("Theme customizer")).toBeTruthy();
     expect(screen.getByLabelText("Toggle color mode")).toBeTruthy();
   });
+
+  it("keeps auth shell hidden by default", () => {
+    render(
+      <StudioPresentationProviders storageKey={null}>
+        <V2ProofRoute />
+      </StudioPresentationProviders>
+    );
+
+    expect(screen.queryByText("Sign in to workspace")).toBeNull();
+    expect(
+      document.querySelector('[data-proof="auth-shell-preview"]')
+    ).toBeNull();
+    expect(
+      screen.queryByRole("heading", { name: "Sign in to workspace" })
+    ).toBeNull();
+    expect(
+      screen.getByRole("switch", { name: "Auth shell preview" })
+    ).toHaveAttribute("aria-checked", "false");
+  });
 });

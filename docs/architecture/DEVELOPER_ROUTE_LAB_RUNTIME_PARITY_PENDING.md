@@ -1,6 +1,6 @@
 # Developer Route-Lab Runtime Parity Pending Technical Specification
 
-- Status: Pending
+- Status: **Complete** (P1–P5 accepted; live auth/kernel/BFF excluded per [ADR-0044](../adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md))
 - Date: 2026-07-05
 - Audience: engineers maintaining `apps/developer`
 - Source of truth: `docs/architecture/ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md`
@@ -62,13 +62,13 @@ The requested target state is:
 
 The pending runtime-parity track is split into five slices.
 
-| Slice | Capability | Activation target | Required evidence before Pass |
-|---|---|---|---|
-| P1 | Route Handlers / `app/api/**` | A minimal governed internal lab API contract or health-style handler, if route-lab authority approves it | route handler file, cache/runtime config, smoke or integration proof, governance allowlist |
-| P2 | Live Server Actions | One route-local action seam tied to a concrete UI mutation | `"use server"` action file, client/server boundary proof, no fake service layer, tests |
-| P3 | Cache strategy | Explicit route-data cache policy where correctness allows it | documented cache boundary, no cross-operator leakage, build/runtime proof |
-| P4 | Middleware / request policy | Minimal request-policy surface if route-lab routing requires it | middleware/proxy file, request tests, no tenant spoofing, no auth shortcut |
-| P5 | Tenant/auth/OperatingContext/BFF authority | Demo-safe runtime authority model or ERP-backed promotion path | ADR/PAS authority, dependency approvals, security tests, audit update |
+| Slice | Capability | Activation target | Required evidence before Pass | Status |
+|---|---|---|---|---|
+| P1 | Route Handlers / `app/api/**` | `GET /api/lab/v1/health` | route handler file, allowlist registry, Vitest + Playwright proof, governance allowlist | **Accepted** |
+| P2 | Live Server Actions | `/settings/appearance` review-note action | `"use server"` action file, client/server boundary proof, no fake service layer, tests | **Accepted** |
+| P3 | Cache strategy | Explicit route-data cache policy where correctness allows it | documented cache boundary, no cross-operator leakage, build/runtime proof | **Accepted** |
+| P4 | Middleware / request policy | Minimal request-policy surface if route-lab routing requires it | middleware/proxy file, request tests, no tenant spoofing, no auth shortcut | **Accepted** |
+| P5 | Tenant/auth/OperatingContext/BFF authority | Demo-safe runtime authority model or ERP-backed promotion path | ADR/PAS authority, dependency approvals, security tests, audit update | **Accepted** |
 
 ## Interfaces / Dependencies
 
@@ -106,12 +106,14 @@ Rollback:
 
 ## Open Questions
 
-- Which pending slice should be activated first: Route Handlers or Server Actions?
-- Should route-lab runtime authority remain demo-safe and local, or should it
-  always point to ERP-owned runtime code?
-- What minimum auth/tenant demonstration is acceptable without undermining
-  ADR-0039?
+- ~~Should route-lab runtime authority remain demo-safe and local, or should it always point to ERP-owned runtime code?~~ **Resolved — [ADR-0044](../adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md) (Accepted): promotion-only; ERP owns live spine.**
+- ~~What minimum auth/tenant demonstration is acceptable without undermining ADR-0039?~~ **Resolved — demo-fixture wire only (P5 + ADR-0044).**
+- ~~Which pending slice should be activated next?~~ **Resolved — P1–P5 complete.**
 
 ## Current Status
 
-Pending. No runtime authority is active from this document alone.
+- **P1 Route Handlers:** Accepted — `GET /api/lab/v1/health` with governed allowlist, tests, and governance enforcement.
+- **P2 Live Server Actions:** Accepted — `/settings/appearance` review-note action with registry, `"use server"` boundary, and tests.
+- **P3 Cache strategy:** Accepted — per-request `React.cache` dedupe on operator loaders, cache policy/registry, governance enforcement, and tests.
+- **P4 Middleware / request policy:** Accepted — `src/proxy.ts` correlation-id pass-through, spoof-header stripping, governance enforcement, and tests.
+- **P5 Runtime authority:** Accepted — demo-fixture operating context resolver, empty BFF allowlist, governance enforcement, and tests. Terminal posture in [ADR-0044](../adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md) (Accepted).

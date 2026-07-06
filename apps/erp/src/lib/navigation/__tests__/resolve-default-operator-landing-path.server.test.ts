@@ -14,14 +14,23 @@ describe("resolveDefaultOperatorLandingPath", () => {
   it("returns the first nav item href across permission-filtered groups", async () => {
     vi.mocked(resolveShellNavGroups).mockResolvedValue([
       {
+        id: "platform",
         label: "Platform",
-        items: [{ href: "/metadata-workspace", label: "Metadata Workspace" }],
+        items: [
+          {
+            href: "/metadata-workspace",
+            id: "metadata-workspace",
+            label: "Metadata Workspace",
+          },
+        ],
       },
       {
+        id: "procurement",
         label: "Procurement",
         items: [
           {
             href: "/modules/procurement/readiness",
+            id: "modules.procurement.readiness",
             label: "Foundation Readiness",
           },
         ],

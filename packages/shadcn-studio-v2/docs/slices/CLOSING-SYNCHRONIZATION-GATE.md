@@ -43,7 +43,6 @@ out of sync:
   * `MIGRATION-MAP.md`
   * `DESIGN-SYSTEM-GUIDELINE.md`
   * `PRIMITIVE-API-CONSISTENCY.md`
-  * `LEGACY-RETIREMENT-PLAN.md`
   * `docs/slices/*`
 * Synchronization must reflect executable proof, not preferred narrative.
 
@@ -141,9 +140,9 @@ gate commands.
 - [x] Migration map cites `/design-system/v2-proof` and Phase 9 gates
 - [x] Slice index + architecture list same package gate commands
 
-## Commands re-run
+## commands re-run
 
-| Command | Result |
+| command | Result |
 | --- | --- |
 | `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS (includes `roadmap-doc-alignment.test.ts`) |
 | `pnpm --filter @afenda/developer verify:v2-proof` | PASS |
@@ -152,10 +151,10 @@ gate commands.
 
 | Gap | Disposition |
 | --- | --- |
-| `DESIGN-SYSTEM-GUIDELINE.md` | Not created — gates live in tests + drift scripts per architecture retirement policy |
-| `PRIMITIVE-API-CONSISTENCY.md` | Not on disk — enforced by `primitive-api-consistency.test.ts` |
-| `LEGACY-RETIREMENT-PLAN.md` | Not on disk — tracked in `MIGRATION-MAP.md` legacy section |
-| ERP broad migration | Out of closing scope — row remains `pending` in ledger |
+| `DESIGN-SYSTEM-GUIDELINE.md` | **Created** — gates + quality law; tests win on conflict |
+| `PRIMITIVE-API-CONSISTENCY.md` | **Created** — human mirror of `primitive-*` test suite |
+| ERP broad migration | Out of closing scope — row remains `pending` in `MIGRATION-MAP.md` |
+| v1 package retirement | Tracked in `MIGRATION-MAP.md` legacy section only |
 
 ## Decision
 

@@ -109,6 +109,17 @@ export const BIOME_EDITOR_POLICY = {
       "_reference/.vscode/settings.json",
       "scripts/governance/biome-editor-policy.mjs",
     ],
+    /** Full lint-staged contract — every key must match exactly (Husky regression guard). */
+    additionalPaths: [
+      {
+        glob: "packages/shadcn-studio-v2/src/**/*.css",
+        command: "node scripts/governance/sync-package-css-dist.mjs",
+      },
+      {
+        glob: "apps/erp/src/server/api/contracts/**/*.ts",
+        command: "node scripts/api-contract/sync-api-route-catalog.mjs",
+      },
+    ],
   },
   prettierDocumentSelectors: ["**/*.mdx", "**/*.css"],
   huskyPreCommitPath: ".husky/pre-commit",
@@ -384,6 +395,36 @@ export function checkBiomeEditorSync(repoRoot) {
       violations.push(
         `lint-staged["${stagedPath}"] must be "${policy.lintStaged.biomeEditorSyncCommand}"`
       );
+    }
+  }
+
+  for (const { glob, command } of policy.lintStaged.additionalPaths) {
+    if (lintStaged[glob] !== command) {
+      violations.push(
+        `lint-staged["${glob}"] must be "${command}"`
+      );
+    }
+  }
+
+  const expectedLintStagedKeys = new Set([
+    policy.lintStaged.ultraciteGlob,
+    policy.lintStaged.prettierMdxGlob,
+    policy.lintStaged.prettierCssGlob,
+    ...policy.lintStaged.biomeEditorSyncPaths,
+    ...policy.lintStaged.additionalPaths.map((entry) => entry.glob),
+  ]);
+
+  for (const key of Object.keys(lintStaged)) {
+    if (!expectedLintStagedKeys.has(key)) {
+      violations.push(
+        `lint-staged has unexpected key "${key}" — register in BIOME_EDITOR_POLICY.lintStaged or remove`
+      );
+    }
+  }
+
+  for (const key of expectedLintStagedKeys) {
+    if (!Object.hasOwn(lintStaged, key)) {
+      violations.push(`lint-staged is missing required key "${key}"`);
     }
   }
 

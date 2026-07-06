@@ -1,19 +1,25 @@
 "use client";
 
 import {
+  AUTH_SHELL_SLOTS,
   CONFIRM_DIALOG_SURFACE_SLOTS,
   DATA_TABLE_SURFACE_SLOTS,
+  EVIDENCE_WIDGET_SLOTS,
   FORM_SURFACE_SLOTS,
   Input,
+  Label,
   METRIC_WIDGET_SLOTS,
   PAGE_SURFACE_SLOTS,
   SETTINGS_SURFACE_SLOTS,
+  Switch,
 } from "@afenda/shadcn-studio-v2";
 import {
   AppShell01,
+  AuthShell,
   Button,
   ConfirmDialogSurface,
   DataTableSurface,
+  EvidenceWidget,
   FormSurface,
   MetricWidget,
   PageSurface,
@@ -25,6 +31,7 @@ import {
 import { useMounted } from "@/lib/lab/use-mounted.client";
 import {
   V2_PROOF_ROUTE_MARKER,
+  v2ProofAuthFixture,
   v2ProofDialogFixture,
   v2ProofEvidenceFixture,
   v2ProofFormFixture,
@@ -35,6 +42,17 @@ import {
   v2ProofSettingsFixture,
   v2ProofTableFixture,
 } from "@/lib/v2-proof/fixtures";
+import type { V2ProofSurfaceVisibility } from "@/lib/v2-proof/surface-visibility";
+import { useV2ProofSurfaceVisibility } from "@/lib/v2-proof/use-v2-proof-surface-visibility.client";
+import { V2ProofStateMatrix } from "./v2-proof-state-matrix.client";
+
+const AUTH_SHELL_PREVIEW_CLASS =
+  "mx-auto flex min-h-0 w-full max-w-md items-stretch justify-start bg-transparent px-0 py-0 text-foreground";
+
+interface V2ProofRouteProps {
+  readonly initialSurfaceVisibility?: Partial<V2ProofSurfaceVisibility>;
+  readonly testSurfaceOverrides?: Partial<V2ProofSurfaceVisibility>;
+}
 
 function ThemeStateProbe() {
   const { mode, resolvedMode, themeId } = useTheme();
@@ -79,7 +97,85 @@ function RequiredThemeChecklist() {
   );
 }
 
-export function V2ProofRoute() {
+function VerificationPanel({
+  authShellEnabled,
+  onAuthShellChange,
+}: {
+  readonly authShellEnabled: boolean;
+  readonly onAuthShellChange: (enabled: boolean) => void;
+}) {
+  return (
+    <section
+      className="rounded-lg border border-border border-dashed bg-muted/20 p-4"
+      data-proof="verification-panel"
+    >
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="space-y-1">
+          <h2 className="font-medium text-sm">Verification surfaces</h2>
+          <p className="text-muted-foreground text-xs">
+            Optional previews for auth and other heavy surfaces. Off by default
+            — enable via toggle or <code className="font-mono">?verify=1</code>.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Switch
+            checked={authShellEnabled}
+            data-proof="auth-shell-toggle"
+            id="v2-proof-auth-shell"
+            onCheckedChange={onAuthShellChange}
+          />
+          <Label htmlFor="v2-proof-auth-shell">Auth shell preview</Label>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AuthShellPreview() {
+  return (
+    <section
+      className="overflow-hidden rounded-lg border border-border border-dashed bg-muted/10 p-4"
+      data-proof="auth-shell-preview"
+      data-v2-proof-surface="auth-shell"
+    >
+      <AuthShell
+        className={AUTH_SHELL_PREVIEW_CLASS}
+        description={v2ProofAuthFixture.description}
+        footer={
+          <p
+            className="text-center text-muted-foreground text-xs"
+            data-slot={AUTH_SHELL_SLOTS.footer}
+          >
+            Static fixture — no session or OAuth
+          </p>
+        }
+        title={v2ProofAuthFixture.title}
+      >
+        <div className="flex flex-col gap-3">
+          <Input
+            aria-label="Email"
+            defaultValue={v2ProofAuthFixture.email}
+            readOnly
+            type="email"
+          />
+          <Button disabled type="button">
+            Continue (fixture)
+          </Button>
+        </div>
+      </AuthShell>
+    </section>
+  );
+}
+
+export function V2ProofRoute({
+  initialSurfaceVisibility,
+  testSurfaceOverrides,
+}: V2ProofRouteProps = {}) {
+  const { setSurface, visibility } = useV2ProofSurfaceVisibility({
+    fromUrl: initialSurfaceVisibility,
+    testOverrides: testSurfaceOverrides,
+  });
+
   return (
     <div
       className="min-h-screen bg-background text-foreground"
@@ -98,6 +194,15 @@ export function V2ProofRoute() {
         topbarHeading="V2 design system consumer proof"
       >
         <div className="flex flex-col gap-10">
+          <VerificationPanel
+            authShellEnabled={visibility.authShell}
+            onAuthShellChange={(enabled) => {
+              setSurface("authShell", enabled);
+            }}
+          />
+
+          {visibility.authShell ? <AuthShellPreview /> : null}
+
           <section className="space-y-4" data-proof="page-surface">
             <PageSurface
               description="PageSurface pattern with toolbar slot and ready content."
@@ -124,15 +229,17 @@ export function V2ProofRoute() {
                 value={v2ProofMetricFixture.value}
               />
             </div>
-            <div data-proof="evidence-widget-stand-in">
-              <MetricWidget
+            <div data-slot={EVIDENCE_WIDGET_SLOTS.root}>
+              <EvidenceWidget
                 description={v2ProofEvidenceFixture.description}
+                items={v2ProofEvidenceFixture.items}
                 label={v2ProofEvidenceFixture.label}
-                tone={v2ProofEvidenceFixture.tone}
-                value={v2ProofEvidenceFixture.value}
+                summary={v2ProofEvidenceFixture.summary}
               />
             </div>
           </section>
+
+          <V2ProofStateMatrix />
 
           <section
             data-proof="data-table"
@@ -250,3 +357,5 @@ export function V2ProofRoute() {
     </div>
   );
 }
+
+export { V2ProofRoute as V2ProofRouteClient };

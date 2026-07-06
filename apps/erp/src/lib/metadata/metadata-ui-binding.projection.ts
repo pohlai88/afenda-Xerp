@@ -3,8 +3,8 @@ import {
   ERP_DOMAIN_MODULES,
   type ErpDomainModule,
 } from "@afenda/kernel/erp-domain/catalog";
-import type { MetadataBindingContractWire } from "@afenda/shadcn-studio";
-import { getBlockDataContractForBlockId } from "@afenda/shadcn-studio";
+import type { MetadataBindingContractWire } from "./metadata-studio.contract";
+import { getBlockDataContractForBlockId } from "./metadata-block-data.registry";
 
 import type { MetadataRuntimeContext } from "./metadata-runtime.contract";
 

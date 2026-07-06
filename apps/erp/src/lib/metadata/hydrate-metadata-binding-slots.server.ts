@@ -1,5 +1,5 @@
-import type { MetadataBindingContractWire } from "@afenda/shadcn-studio";
-import { AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE } from "@afenda/shadcn-studio";
+import type { MetadataBindingContractWire } from "./metadata-studio.contract";
+import { METADATA_BINDING_SLOT_DOM_ATTRIBUTE } from "./metadata-binding-slot-hydration.contract";
 import type {
   MetadataBindingSlotHydrationTargetWire,
   MetadataBindingSlotHydrationWire,
@@ -98,7 +98,7 @@ function buildFieldHelpTextTarget(
   }
 
   return {
-    domAttribute: AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE,
+    domAttribute: METADATA_BINDING_SLOT_DOM_ATTRIBUTE,
     slotId: `${field.slotId}${METADATA_BINDING_HELP_SLOT_SUFFIX}`,
     fieldKey: `${field.fieldKey}.helpText`,
     presentationKind: "help-text",
@@ -116,7 +116,7 @@ export function hydrateMetadataBindingSlots(
 
   for (const field of binding.fields) {
     fieldTargets.push({
-      domAttribute: AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE,
+      domAttribute: METADATA_BINDING_SLOT_DOM_ATTRIBUTE,
       slotId: field.slotId,
       fieldKey: field.fieldKey,
       presentationKind: field.presentationKind,
@@ -136,7 +136,7 @@ export function hydrateMetadataBindingSlots(
 
   const tableColumnTargets: MetadataBindingSlotHydrationTargetWire[] =
     binding.tableColumns?.map((column) => ({
-      domAttribute: AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE,
+      domAttribute: METADATA_BINDING_SLOT_DOM_ATTRIBUTE,
       slotId: column.slotId,
       fieldKey: column.columnKey,
       value: resolveSlotPreviewValue(
@@ -148,7 +148,7 @@ export function hydrateMetadataBindingSlots(
 
   const stateTemplateTargets: MetadataBindingSlotHydrationTargetWire[] =
     binding.stateTemplates?.map((template) => ({
-      domAttribute: AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE,
+      domAttribute: METADATA_BINDING_SLOT_DOM_ATTRIBUTE,
       slotId: template.slotId,
       presentationKind: "state-message",
       value:

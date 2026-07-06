@@ -3,7 +3,7 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, describe, expect, it } from "vitest";
 import { ThemeCustomizer } from "../components/shared/theme-customizer";
-import { ThemeProvider } from "../contexts/ThemeProvider";
+import { ThemeProvider } from "../contexts/theme-provider";
 import type { StudioThemeId } from "../types/theme";
 
 const ACT_GLOBAL = globalThis as typeof globalThis & {

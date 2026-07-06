@@ -5,8 +5,10 @@
  * owned by biome.project.jsonc package overrides — not per-file biome-ignore.
  */
 import { readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
-import { REPO_ROOT } from "./quarantine-paths.mjs";
+import { dirname, join, relative } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
 export const PACKAGE_SRC = join(REPO_ROOT, "packages/shadcn-studio-v2/src");
 
@@ -14,7 +16,7 @@ const SOURCE_EXTENSIONS = new Set([".ts", ".tsx"]);
 
 /** Suppressions covered by biome.project.jsonc shadcn-studio-v2 overrides. */
 export const REMOVABLE_SUPPRESSION_RE =
-  /^\s*\/\/ biome-ignore lint\/(?:style\/useFilenamingConvention|performance\/noBarrelFile|a11y\/noLabelWithoutControl):[^\n]*\n/gm;
+  /^\s*\/\/ biome-ignore lint\/(?:style\/useFilenamingConvention|performance\/noBarrelFile|a11y\/nolabelWithoutControl):[^\n]*\n/gm;
 
 const LEADING_NEWLINES_RE = /^\n+/;
 const MULTIPLE_BLANK_LINES_RE = /\n{3,}/g;

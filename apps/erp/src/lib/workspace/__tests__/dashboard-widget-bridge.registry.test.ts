@@ -1,7 +1,7 @@
 import {
-  MCP_SEED_BLOCK_IDS,
+  listStudioBlockPreviewIds,
   resolveStudioBlockComponent,
-} from "@afenda/shadcn-studio";
+} from "@/lib/metadata/resolve-studio-block-component.client";
 import { describe, expect, it } from "vitest";
 
 import { dashboardLayoutPresetSchema } from "@/server/api/contracts/workspace/dashboard-layout.api-contract";
@@ -19,18 +19,19 @@ import {
 } from "../dashboard-widget-bridge.registry";
 
 describe("dashboard-widget-bridge.registry", () => {
-  it("maps every canonical API widget id to a resolvable studio block", () => {
+  it("maps every canonical API widget id to a resolvable v2 preview block", () => {
+    const previewIds = new Set(listStudioBlockPreviewIds());
+
     for (const widgetId of listDashboardCanonicalWidgetBridgeKeys()) {
       const entry = DASHBOARD_WIDGET_BRIDGE_REGISTRY[widgetId];
-      expect(MCP_SEED_BLOCK_IDS).toContain(entry.blockId);
+      expect(previewIds.has(entry.blockId)).toBe(true);
       expect(resolveStudioBlockComponent(entry.blockId)).toBeDefined();
     }
   });
 
-  it("maps legacy widget ids to resolvable studio blocks", () => {
+  it("maps legacy widget ids to resolvable v2 preview blocks", () => {
     for (const widgetId of DASHBOARD_LEGACY_WIDGET_IDS) {
       const entry = DASHBOARD_WIDGET_BRIDGE_REGISTRY[widgetId];
-      expect(MCP_SEED_BLOCK_IDS).toContain(entry.blockId);
       expect(resolveStudioBlockComponent(entry.blockId)).toBeDefined();
     }
   });

@@ -21,9 +21,9 @@ const GATE = "check:code-vocabulary-coverage" as const;
 const SCAN_ROOTS = [
   "apps/erp/src",
   "packages/features",
-  "packages/shadcn-studio/src/components-app-shell",
-  "packages/shadcn-studio/src/components-auth-shell",
-  "packages/shadcn-studio/src/components-layouts",
+  "packages/shadcn-studio-v2/src/components",
+  "packages/shadcn-studio-v2/src/views",
+  "packages/shadcn-studio-v2/src/layouts",
 ] as const;
 
 const SKIP_DIRS = new Set([

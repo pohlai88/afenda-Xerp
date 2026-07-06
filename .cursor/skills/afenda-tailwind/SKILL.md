@@ -10,13 +10,14 @@ paths:
   - apps/erp/**/*.css
   - apps/erp/**/*.{ts,tsx}
   - apps/storybook/**/*.css
-  - packages/shadcn-studio/**/*.css
-  - packages/shadcn-studio/**/*.{ts,tsx}
+  - apps/developer/**/*.css
+  - packages/shadcn-studio-v2/**/*.css
+  - packages/shadcn-studio-v2/**/*.{ts,tsx}
 ---
 
 # Afenda Tailwind v4 (PAS-006 Phase 1)
 
-Single Tailwind entry for **ADR-0027 ERP presentation**. Scoped to `@afenda/shadcn-studio`, `apps/erp`, `apps/storybook`.
+Single Tailwind entry for **ADR-0027 / ADR-0040 ERP presentation**. Scoped to `@afenda/shadcn-studio-v2`, `apps/erp`, `apps/storybook`, `apps/developer`.
 
 **Removed scope:** `packages/ui`, `packages/appshell`, `packages/css-authority`, governed-ui layered model — deleted per ADR-0027. Do not apply those rules to ERP.
 
@@ -40,7 +41,7 @@ Single Tailwind entry for **ADR-0027 ERP presentation**. Scoped to `@afenda/shad
 
 1. **Composition CSS = imports only** — no bespoke visual rules in app entries.
 2. **Styling = Tailwind `className`** on ERP routes and studio blocks/components.
-3. **Theme tokens = `shadcn-studio.css`** — unprefixed shadcn `--*` vars; sync dist after edits.
+3. **Theme tokens = `shadcn-default.css`** — unprefixed shadcn `--*` vars; sync dist after edits.
 4. **Stock shadcn primitives** (`Button`, `Card`, etc.) over one-off CSS.
 5. **Stabilize first** — do not extract CSS modules, refactor tokens, or add `@layer components` shortcuts.
 
@@ -54,10 +55,11 @@ Single Tailwind entry for **ADR-0027 ERP presentation**. Scoped to `@afenda/shad
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@afenda/shadcn-studio/shadcn-studio.css";
+@import "@afenda/shadcn-studio-v2/shadcn-default.css";
+@import "@afenda/shadcn-studio-v2/themes/afenda-brand.css";
 
 @source "../**/*.{ts,tsx}";
-@source "../../../../packages/shadcn-studio/src/**/*.{ts,tsx}";
+@source "../../../../packages/shadcn-studio-v2/src/**/*.{ts,tsx}";
 ```
 
 ### Storybook — `apps/storybook/.storybook/preview.css`
@@ -79,13 +81,13 @@ Gate: `pnpm check:downstream-integration`
 
 | Surface | Path |
 | --- | --- |
-| CSS source (authoring) | `packages/shadcn-studio/src/styles/shadcn-studio.css` |
-| CSS dist (app import) | `packages/shadcn-studio/dist/shadcn-studio.css` |
+| CSS source (authoring) | `packages/shadcn-studio-v2/src/styles/shadcn-default.css` |
+| CSS dist (app import) | `packages/shadcn-studio-v2/dist/shadcn-default.css` |
 
 After editing source:
 
 ```bash
-pnpm sync:package-css-dist -- --package @afenda/shadcn-studio
+pnpm sync:package-css-dist -- --package @afenda/shadcn-studio-v2
 pnpm check:package-css-dist-sync
 ```
 
@@ -101,7 +103,7 @@ pnpm check:package-css-dist-sync
 
 - Semantic utilities: `bg-background`, `text-foreground`, `border-border`, `bg-card`, `text-muted-foreground`
 - Layout: flex/grid/gap/padding via utilities (`flex min-h-dvh flex-col items-center gap-4 p-6`)
-- shadcn components: `Button`, `Card`, `Alert` from `@afenda/shadcn-studio`
+- shadcn components: `Button`, `Card`, `Alert` from `@afenda/shadcn-studio-v2`
 - Stock block `className` during stabilization (PAS-006C acceptance later)
 
 **Forbidden in ERP TSX:**
@@ -110,7 +112,7 @@ pnpm check:package-css-dist-sync
 - Raw palette utilities when semantic tokens exist (`bg-gray-900` → `bg-background`)
 - Hex/OKLCH literals in TSX (use CSS vars via utilities)
 
-**Forbidden in `@afenda/shadcn-studio`:**
+**Forbidden in `@afenda/shadcn-studio-v2`:**
 
 - `@afenda/kernel` or any `@afenda/*` runtime dependency
 - Business logic in presentation components
@@ -124,7 +126,7 @@ pnpm check:package-css-dist-sync
 | `@tailwind base/components/utilities` | `@import "tailwindcss"` |
 | `tailwind.config.js` theme.extend | `@theme` / `@theme inline` in CSS |
 | Multi-package CSS import chains | AdminCN four-import composition only |
-| `@afenda/css-authority` imports | `@afenda/shadcn-studio/shadcn-studio.css` |
+| `@afenda/css-authority` imports | `@afenda/shadcn-studio-v2/shadcn-default.css` |
 | `pnpm ui:guard*` | `pnpm check:downstream-integration` |
 
 Extended v3 banlist reference: [reference/v3-banlist.md](./reference/v3-banlist.md)
@@ -133,7 +135,7 @@ Extended v3 banlist reference: [reference/v3-banlist.md](./reference/v3-banlist.
 
 ## Fix workflow
 
-1. **Wrong color/token** → fix in `shadcn-studio.css`, sync dist
+1. **Wrong color/token** → fix in `shadcn-default.css`, sync dist
 2. **Missing utility** → add `@theme inline` mapping in theme CSS if token-backed; otherwise use existing semantic utility
 3. **Page layout** → Tailwind `className` in route/component TSX, or install shadcn block via MCP
 4. **globals.css temptation** → **stop** — composition entry is not a styling escape hatch
@@ -146,9 +148,9 @@ Extended v3 banlist reference: [reference/v3-banlist.md](./reference/v3-banlist.
 ```bash
 pnpm check:downstream-integration
 pnpm quality:css
-pnpm --filter @afenda/shadcn-studio typecheck
+pnpm --filter @afenda/shadcn-studio-v2 typecheck
 pnpm --filter @afenda/erp typecheck
-pnpm sync:package-css-dist -- --package @afenda/shadcn-studio
+pnpm sync:package-css-dist -- --package @afenda/shadcn-studio-v2
 pnpm check:package-css-dist-sync
 ```
 
@@ -156,7 +158,7 @@ Manual checks:
 
 - [ ] `globals.css` and `preview.css` have no bespoke `@layer components` rules
 - [ ] ERP TSX uses Tailwind + shadcn, not legacy BEM class names
-- [ ] Theme edits reflected in `dist/shadcn-studio.css`
+- [ ] Theme edits reflected in `dist/shadcn-default.css`
 
 ---
 

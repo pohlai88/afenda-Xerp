@@ -1,6 +1,6 @@
 "use client";
 
-import { resolveStudioBlockComponent } from "@afenda/shadcn-studio";
+import { resolveStudioBlockComponent } from "@/lib/metadata/resolve-studio-block-component.client";
 import { useLayoutEffect, useRef } from "react";
 
 import type { MetadataBindingSlotHydrationWire } from "@/lib/metadata/metadata-binding-slot-hydration.contract";

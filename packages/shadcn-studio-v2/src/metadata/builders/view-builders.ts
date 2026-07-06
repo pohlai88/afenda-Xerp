@@ -1,5 +1,6 @@
 import type {
   StudioAuthViewMetadata,
+  StudioEvidenceWidgetMetadata,
   StudioMetricWidgetMetadata,
   StudioPageViewMetadata,
 } from "../contracts/view-metadata";
@@ -19,5 +20,11 @@ export function definePageViewMetadata(
 export function defineMetricWidgetMetadata(
   metadata: StudioMetricWidgetMetadata
 ): StudioMetricWidgetMetadata {
+  return metadata;
+}
+
+export function defineEvidenceWidgetMetadata(
+  metadata: StudioEvidenceWidgetMetadata
+): StudioEvidenceWidgetMetadata {
   return metadata;
 }

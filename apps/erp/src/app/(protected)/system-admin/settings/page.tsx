@@ -1,7 +1,5 @@
-import {
-  SystemAdminSectionHeaderBlock as SystemAdminSectionHeader,
-  SystemAdminSettingsTableBlock as SystemAdminSettingsTable,
-} from "@afenda/shadcn-studio";
+import { SystemAdminSectionHeader } from "@/components/system-admin/system-admin-section-header";
+import { SystemAdminSettingsPanel } from "@/components/system-admin/system-admin-settings-panel.client";
 import { loadSystemAdminSectionPage } from "@/lib/system-admin/load-system-admin-section-page.server";
 import { listSystemAdminSettings } from "@/server/system-admin/list-system-admin-settings.server";
 
@@ -19,7 +17,7 @@ export default async function SystemAdminSettingsPage() {
         description="Module domain summaries derived from the governed permission catalog."
         title="Settings"
       />
-      <SystemAdminSettingsTable modules={modules} />
+      <SystemAdminSettingsPanel modules={modules} />
     </section>
   );
 }

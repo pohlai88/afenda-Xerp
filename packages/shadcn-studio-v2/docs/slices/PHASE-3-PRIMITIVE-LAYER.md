@@ -14,7 +14,7 @@ inherits inconsistent variants, unsafe props, or runtime coupling.
 
 ## Goals
 
-* Implement `Button`, `Badge`, `Card`, `Alert`, `Field`, and `Table`.
+* Implement `button`, `badge`, `card`, `alert`, `field`, and `table`.
 * Keep primitive APIs explicit and stable.
 * Prove accessibility and token safety through package-local tests.
 

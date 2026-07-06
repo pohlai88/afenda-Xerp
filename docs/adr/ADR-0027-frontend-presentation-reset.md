@@ -6,7 +6,7 @@
 | **Date** | 2026-06-29 |
 | **Owner** | Architecture Authority |
 | **Supersedes** | Governed UI pipeline (`@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui`, PAS-005 CSS authority chain for ERP) |
-| **Superseded by** | — |
+| **Superseded by** | [ADR-0040](ADR-0040-promote-shadcn-studio-v2-and-deprecate-legacy.md) (presentation chain — v2 canonical) |
 
 ---
 
@@ -22,13 +22,17 @@ Operational cost and architectural drift exceeded delivery value. ADR-0017 MCP v
 
 ### 1. Sole ERP presentation chain
 
+> **Amended 2026-07-06 (Lane B-15):** Presentation chain ownership transferred to
+> [ADR-0040](ADR-0040-promote-shadcn-studio-v2-and-deprecate-legacy.md). v1
+> `@afenda/shadcn-studio` is **retired** (`archive-lane`); v2 is canonical.
+
 ```txt
-MCP / shadcn CLI  →  @afenda/shadcn-studio  →  apps/erp
+MCP / shadcn CLI  →  @afenda/shadcn-studio-v2  →  apps/erp
 ```
 
-- **Install cwd:** `packages/shadcn-studio`
-- **ERP CSS entry:** `apps/erp/src/app/globals.css` (AdminCN four-import chain — see PAS-006A)
-- **Storybook:** `@afenda/shadcn-studio` blocks only
+- **Install cwd:** `packages/shadcn-studio-v2` (MCP quarantine → v2 promotion pipeline)
+- **ERP CSS entry:** `apps/erp/src/app/globals.css` (v2 dist CSS chain — see PAS-006A)
+- **Storybook:** `@afenda/shadcn-studio-v2/lab` exports only
 
 ### 2. Deleted packages (filesystem removed)
 

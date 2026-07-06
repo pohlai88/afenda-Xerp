@@ -1,15 +1,10 @@
 /**
- * Removes MCP block files/folders with no Storybook or ERP consumer.
- * Default: dry-run. Pass --apply to delete on disk.
+ * v2 quarantine orphan scan — files under components/quarantine/ not listed in
+ * inventory.baseline.json. Default: dry-run. Pass --apply to delete on disk.
  */
-import { existsSync, readFileSync, rmSync, statSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { existsSync, readFileSync, readdirSync, rmSync, statSync } from "node:fs";
+import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
-
-import {
-  isProtectedBlockSlug,
-  resolveBlockConsumerSlugs,
-} from "./lib/resolve-block-consumers.mjs";
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 const repoRoot = join(scriptDir, "../..");
@@ -17,45 +12,87 @@ const args = process.argv.slice(2);
 const apply = args.includes("--apply");
 const dryRun = !apply;
 
-const blocksRoot = join(
+const quarantineRoot = join(
   repoRoot,
-  "packages/shadcn-studio/src/components-layouts"
+  "packages/shadcn-studio-v2/src/components/quarantine"
 );
-const manifestPath = join(
-  repoRoot,
-  "packages/shadcn-studio/src/storybook/block-story-manifest.generated.json"
-);
+const baselinePath = join(quarantineRoot, "inventory.baseline.json");
+
+const KEEP_NAMES = new Set(["README.md", "inventory.baseline.json"]);
 
 /**
- * @param {string} slug
- * @returns {string | null}
+ * @param {unknown} baseline
+ * @returns {Set<string>}
  */
-function resolveBlockPath(slug) {
-  const tsx = join(blocksRoot, `${slug}.tsx`);
-  if (existsSync(tsx)) {
-    return tsx;
+function readBaselinePaths(baseline) {
+  const files = Array.isArray(baseline?.files) ? baseline.files : [];
+  const paths = new Set();
+
+  for (const entry of files) {
+    if (typeof entry === "string") {
+      paths.add(entry.replace(/\\/g, "/"));
+      continue;
+    }
+
+    if (entry && typeof entry === "object" && "path" in entry) {
+      const pathValue = entry.path;
+      if (typeof pathValue === "string") {
+        paths.add(pathValue.replace(/\\/g, "/"));
+      }
+    }
   }
 
-  const dir = join(blocksRoot, slug);
-  if (existsSync(dir) && statSync(dir).isDirectory()) {
-    return dir;
+  return paths;
+}
+
+/**
+ * @param {string} dir
+ * @param {string[]} acc
+ */
+function collectImplementationFiles(dir, acc) {
+  if (!existsSync(dir)) {
+    return;
   }
 
-  return null;
+  for (const name of readdirSync(dir)) {
+    if (KEEP_NAMES.has(name)) {
+      continue;
+    }
+
+    const absolute = join(dir, name);
+
+    if (statSync(absolute).isDirectory()) {
+      collectImplementationFiles(absolute, acc);
+      continue;
+    }
+
+    if (/\.(tsx?|jsx?|css)$/.test(name)) {
+      acc.push(relative(quarantineRoot, absolute).replace(/\\/g, "/"));
+    }
+  }
 }
 
 function main() {
-  const manifest = JSON.parse(readFileSync(manifestPath, "utf8"));
-  const consumers = resolveBlockConsumerSlugs(manifest, repoRoot);
-  const allSlugs = [
-    ...new Set([
-      ...(manifest.autoStories ?? []).map((entry) => entry.slug),
-      ...(manifest.manualStoryRequired ?? []),
-    ]),
-  ];
-  const discard = allSlugs.filter(
-    (slug) => !isProtectedBlockSlug(slug, consumers)
-  );
+  if (!existsSync(baselinePath)) {
+    console.log(
+      "discard-blocks-without-consumer — skipped (no v2 quarantine baseline)"
+    );
+    return;
+  }
+
+  const baseline = JSON.parse(readFileSync(baselinePath, "utf8"));
+  const inventoryPaths = readBaselinePaths(baseline);
+  const onDisk = [];
+  collectImplementationFiles(quarantineRoot, onDisk);
+
+  const orphans = onDisk.filter((path) => !inventoryPaths.has(path));
+
+  if (orphans.length === 0) {
+    console.log(
+      `discard-blocks-without-consumer — no orphan quarantine file(s) (${onDisk.length} inventoried on disk)`
+    );
+    return;
+  }
 
   if (dryRun) {
     console.log(
@@ -63,33 +100,21 @@ function main() {
     );
   }
 
-  let removed = 0;
-  for (const slug of discard) {
-    const target = resolveBlockPath(slug);
-    if (!target) {
-      console.warn(`discard-blocks-without-consumer — skip missing: ${slug}`);
-      continue;
-    }
-
-    if (target.endsWith("logo.tsx")) {
-      console.log("discard-blocks-without-consumer — keep shared: logo.tsx");
-      continue;
-    }
+  for (const orphan of orphans) {
+    const absolute = join(quarantineRoot, orphan);
 
     if (dryRun) {
-      console.log(`discard-blocks-without-consumer — would remove: ${slug}`);
+      console.log(`discard-blocks-without-consumer — would remove: ${orphan}`);
       continue;
     }
 
-    rmSync(target, { recursive: true, force: true });
-    console.log(`discard-blocks-without-consumer — removed: ${slug}`);
-    removed += 1;
+    rmSync(absolute, { force: true, recursive: true });
+    console.log(`discard-blocks-without-consumer — removed: ${orphan}`);
   }
 
   const verb = dryRun ? "would remove" : "removed";
-  const count = dryRun ? discard.length : removed;
   console.log(
-    `discard-blocks-without-consumer — ${verb} ${count} of ${discard.length} orphan block(s)`
+    `discard-blocks-without-consumer — ${verb} ${orphans.length} orphan quarantine file(s)`
   );
 }
 

@@ -74,7 +74,7 @@ All commands: `disable-model-invocation: true`.
 | `kernel-authority` | Authority | `packages/kernel/**`, `docs/PAS/PAS-001*.md` | Kernel boundary | kernel gates |
 | `erp-module-foundation-authority` | Authority | `packages/erp-module-foundation/**`, `docs/PAS/KERNEL/PAS-001C*.md`, `scripts/governance/check-erp-module-*` | PAS-001C module identity, readiness bundles | `pnpm check:erp-module-*` |
 | `accounting-standards-authority` | Authority | `packages/accounting-standards/**`, `docs/PAS/ACCOUNTING-STANDARDS/**` | Accounting standards | — |
-| `shadcn-studio` | Authority | `packages/shadcn-studio/**`, `docs/PAS/PRESENTATION/**`, `apps/erp/**` | PAS-006 ERP presentation (ADR-0027) | `pnpm check:downstream-integration` |
+| `shadcn-studio` | Authority | `packages/shadcn-studio-v2/**`, `docs/PAS/PRESENTATION/**`, `apps/erp/**` | PAS-006 ERP presentation (ADR-0027 · ADR-0040) | `pnpm check:downstream-integration`, `pnpm check:v1-consumer-imports` |
 | `enterprise-knowledge` | Enterprise | `packages/enterprise-knowledge/**`, `docs/PAS/ENTERPRISE-KNOWLEDGE/**` | Knowledge atoms, PAS-004 | `pnpm check:knowledge-conformance` |
 | `enterprise-erp-standards` | Enterprise | `packages/**`, `apps/erp/**` | SAP/Oracle red-amber gates | — |
 
@@ -86,26 +86,26 @@ All commands: `disable-model-invocation: true`.
 
 | Skill | Class | `paths` | Trigger | Gates |
 | --- | --- | --- | --- | --- |
-| `shadcn-studio` | UI MCP | `packages/shadcn-studio/**`, `apps/erp/**`, `apps/storybook/**` | MCP install, blocks, ERP wiring | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm check:studio-metadata-binding` |
-| `afenda-primitive-contract` | UI authority | `packages/shadcn-studio/src/components-ui/**` | Primitive contract + M1–M10 mismatch E0 · `pnpm studio:shadcn` | `pnpm check:studio-primitive-contracts` |
+| `shadcn-studio` | UI MCP | `packages/shadcn-studio-v2/**`, `apps/erp/**`, `apps/storybook/**`, `apps/developer/**` | MCP install, blocks, ERP wiring | `pnpm --filter @afenda/shadcn-studio-v2 typecheck`, `pnpm check:v1-consumer-imports` |
+| `afenda-primitive-contract` | UI authority | `packages/shadcn-studio-v2/src/components/ui/**` | V2 primitive contract · typed props | `pnpm --filter @afenda/shadcn-studio-v2 test:run` |
 | `afenda-react-surface-quality` | UI review (redirect) | `apps/erp/**` | Redirect → `afenda-erp-design-system` surface-quality-scan | — |
-| `afenda-presentation-quality` | UI composer | `apps/erp/**`, `packages/shadcn-studio/**` | PAS-006 gate bundle · Phase 1 CSS doctrine · replaces retired ui-consistency-bundle | PAS-006 gates (see skill) |
-| `afenda-tailwind` | Afenda domain | `**/*.css`, `apps/erp/**`, `packages/shadcn-studio/**` | PAS-006 Phase 1 Tailwind · import-only globals.css | `pnpm quality:css`, `pnpm check:downstream-integration` |
+| `afenda-presentation-quality` | UI composer | `apps/erp/**`, `packages/shadcn-studio-v2/**` | PAS-006 gate bundle · Phase 1 CSS doctrine · replaces retired ui-consistency-bundle | PAS-006 gates (see skill) |
+| `afenda-tailwind` | Afenda domain | `**/*.css`, `apps/erp/**`, `packages/shadcn-studio-v2/**` | PAS-006 Phase 1 Tailwind · import-only globals.css | `pnpm quality:css`, `pnpm check:downstream-integration` |
 | `afenda-erp-design-system` | Afenda domain | `packages/shadcn-studio-v2/**`, `apps/erp/**`, `apps/developer/**`, `apps/storybook/**` | V2 design system · composition · react-best-practices · surface B/A/C/Y/T · operator UI | — |
 | `afenda-phase-3-primitive-layer` | Afenda domain | `packages/shadcn-studio-v2/src/components/ui/**` | Phase 3 V2 primitives (Button, Badge, Card, Alert, Field, Table) — typed props, token-safe, test-proven | `pnpm --filter @afenda/shadcn-studio-v2 test:run` |
-| `afenda-shadcn-performance` | Afenda domain | `apps/erp/**`, `packages/shadcn-studio/**`, `apps/storybook/**` | Bundle, lazy-load, CVA, Tailwind JIT + React perf synergy | `pnpm --filter @afenda/erp analyze`, typecheck, build |
-| `package-css-dist-sync` | UI infra | `packages/shadcn-studio/src/styles/**` | shadcn-studio CSS dist sync | `pnpm check:package-css-dist-sync` |
-| `afenda-storybook` | UI | `apps/storybook/**` | shadcn-studio Storybook lab | `pnpm --filter @afenda/storybook storybook:build` |
-| `afenda-storybook-agentic-setup` | UI | `apps/storybook/**`, `packages/shadcn-studio/**` | Storybook 10.4 agentic pilot rebuild · MSW · ≤10-story batches | `pnpm --filter @afenda/storybook test:storybook:run` |
-| `shadcncraft-generate-code` | UI MCP | `packages/shadcn-studio/**`, Figma MCP | Figma frame → React via shadcncraft registry + `@shadcncraft/*` | `pnpm studio:shadcn:quarantine` |
-| `shadcncraft-import-variables` | UI MCP | `**/*.css`, `packages/shadcn-studio/**` | Figma variables → shadcn token `globals.css` managed region | `pnpm check:package-css-dist-sync` |
-| `afenda-presentation-atlas` | Reference | `packages/shadcn-studio/**`, `apps/storybook/**` | `@afenda/shadcn-studio` design system map — primitives, blocks, exports | — |
-| `afenda-editorial-lab` | UI authority | `packages/shadcn-studio/docs/**`, `storybook/**`, presentation-lab presets | Swiss Noir, Verdant Milk, editorial, cinematic, noir, not ordinary | Read SSOT + [reference/pattern-and-doctrine.md](afenda-editorial-lab/reference/pattern-and-doctrine.md) |
-| `afenda-editorial-compose` | UI workflow | `packages/shadcn-studio/src/storybook/**`, noir CSS, presentation-lab stories | Governed editorial implementation after lab skill | Preview URL mandatory · [reference/workflow-templates.md](afenda-editorial-compose/reference/workflow-templates.md) |
+| `afenda-shadcn-performance` | Afenda domain | `apps/erp/**`, `packages/shadcn-studio-v2/**`, `apps/storybook/**` | Bundle, lazy-load, CVA, Tailwind JIT + React perf synergy | `pnpm --filter @afenda/erp analyze`, typecheck, build |
+| `package-css-dist-sync` | UI infra | `packages/shadcn-studio-v2/src/styles/**` | shadcn-studio-v2 CSS dist sync | `pnpm check:package-css-dist-sync` |
+| `afenda-storybook` | UI | `apps/storybook/**` | shadcn-studio-v2 Storybook lab | `pnpm --filter @afenda/storybook storybook:build` |
+| `afenda-storybook-agentic-setup` | UI | `apps/storybook/**`, `packages/shadcn-studio-v2/**` | Storybook 10.4 agentic pilot rebuild · MSW · ≤10-story batches | `pnpm --filter @afenda/storybook test:storybook:run` |
+| `shadcncraft-generate-code` | UI MCP | `packages/shadcn-studio-v2/**`, Figma MCP | Figma frame → React via shadcncraft registry + `@shadcncraft/*` | `pnpm --filter @afenda/shadcn-studio-v2 typecheck` |
+| `shadcncraft-import-variables` | UI MCP | `**/*.css`, `packages/shadcn-studio-v2/**` | Figma variables → shadcn token `globals.css` managed region | `pnpm check:package-css-dist-sync` |
+| `afenda-presentation-atlas` | Reference | `packages/shadcn-studio-v2/**`, `apps/storybook/**` | `@afenda/shadcn-studio-v2` design system map — primitives, blocks, exports | — |
+| `afenda-editorial-lab` | UI authority | `packages/shadcn-studio-v2/docs/**`, `storybook/**`, presentation-lab presets | Swiss Noir, Verdant Milk, editorial, cinematic, noir, not ordinary | Read SSOT + [reference/pattern-and-doctrine.md](afenda-editorial-lab/reference/pattern-and-doctrine.md) |
+| `afenda-editorial-compose` | UI workflow | `packages/shadcn-studio-v2/src/storybook/**`, noir CSS, presentation-lab stories | Governed editorial implementation after lab skill | Preview URL mandatory · [reference/workflow-templates.md](afenda-editorial-compose/reference/workflow-templates.md) |
 | `afenda-editorial-landing-builder` | UI workflow | `apps/developer/**`, presentation-lab routes | Concept-first editorial landing pages (auth-free lab surfaces) | Browser screenshot + fidelity ledger |
 | `afenda-presentation-promotion` | UI workflow | `apps/erp/**`, `components-auth-shell/**`, auth registries | Explicit promote / wire ERP sign-in only | Stage C gates · [reference/stage-checklists.md](afenda-presentation-promotion/reference/stage-checklists.md) |
 | `docs-editorial-design` | Docs UI (planned) | `apps/docs/**` | Fumadocs prose editorial — **not ERP UI**; ERP editorial = `afenda-editorial-lab` | — |
-| MCP quarantine inbox | Workflow | `packages/shadcn-studio/src/components-quarantine/**` | Raw MCP/CLI landing — promote per PAS-006B before ERP export | — |
+| MCP install inbox | Workflow | `packages/shadcn-studio-v2/src/**` | Governed V2 package source — consumer export boundary only | `pnpm check:v1-consumer-imports` |
 
 ---
 

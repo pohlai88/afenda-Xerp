@@ -99,9 +99,9 @@ Phase 9 enterprise acceptance gate executed 2026-07-06. All required package and
 consumer gates are **green**. Acceptance **granted** for the current greenfield
 V2 baseline.
 
-## Commands Run
+## commands Run
 
-| Command | Result |
+| command | Result |
 | --- | --- |
 | `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS — 156 tests |
 | `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS |
@@ -114,7 +114,7 @@ V2 baseline.
 ## DoD
 
 - [x] Full required package gate set run
-- [x] Selected consumer gate set run (developer proof route)
+- [x] selected consumer gate set run (developer proof route)
 - [x] Pass/fail acceptance decision recorded
 - [x] Failed files resolved (Biome export sort in `packages/shadcn-studio-v2`; Vitest V2 subpath aliases in `apps/developer/vitest.config.ts`)
 - [x] Remaining gaps named (see below)

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@afenda/shadcn-studio";
+import { Button } from "@afenda/shadcn-studio-v2/clients";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
 

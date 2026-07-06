@@ -13,8 +13,8 @@ consumers.
 
 ## Goals
 
-* Implement `ThemeProvider`, `StudioProvider`, `use-theme`, `use-studio`,
-  `ThemeToggle`, `ThemeScript`, `theme-config.ts`, `studio-config.ts`, and the
+* Implement `theme-provider`, `studio-provider`, `use-theme`, `use-studio`,
+  `theme-toggle`, `theme-script`, `theme-config.ts`, `studio-config.ts`, and the
   matching type files.
 * Keep runtime ownership small and explicit.
 * Separate neutral, client, and server-safe exports.
@@ -88,5 +88,5 @@ out of V2 and keep the package runtime generic.
 
 ## Open questions
 
-* Whether `ThemeScript` belongs in the first runtime slice or the later public
+* Whether `theme-script` belongs in the first runtime slice or the later public
   export and proof-route slices.

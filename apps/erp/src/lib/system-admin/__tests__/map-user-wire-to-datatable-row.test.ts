@@ -22,7 +22,6 @@ describe("mapUserWireToDatatableRow", () => {
       email: "jordan.lee@example.com",
       role: "admin",
       status: "active",
-      fallback: "JL",
     });
   });
 });

@@ -1,10 +1,10 @@
 "use client";
 
+import { ErpErrorPageShell } from "@/components/presentation/erp-error-page-shell.client";
 import {
   ERROR_PAGE_COPY_REGISTRY,
-  ErrorPageShell,
   type ErrorPageVariant,
-} from "@afenda/shadcn-studio";
+} from "@/lib/presentation/error-page.contract";
 import type { ReactNode } from "react";
 
 type ErpErrorPageProps = {
@@ -14,6 +14,9 @@ type ErpErrorPageProps = {
 
 export function ErpErrorPage({ action, variant }: ErpErrorPageProps) {
   return (
-    <ErrorPageShell {...ERROR_PAGE_COPY_REGISTRY[variant]} action={action} />
+    <ErpErrorPageShell
+      {...ERROR_PAGE_COPY_REGISTRY[variant]}
+      action={action}
+    />
   );
 }

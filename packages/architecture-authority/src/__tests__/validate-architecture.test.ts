@@ -17,7 +17,7 @@ function workspace(
   };
 }
 
-/** ADR-0027 baseline — matches dependency-registry.data.ts (2026-06-29). */
+/** Lane B-13 baseline — matches dependency-registry.data.ts (2026-07-06). */
 function baselineWorkspaces(): DiscoveredWorkspace[] {
   return [
     workspace("@afenda/accounting-standards", {
@@ -28,7 +28,10 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
       "@afenda/kernel": "workspace:*",
     }),
     workspace("@afenda/database", { "@afenda/observability": "workspace:*" }),
-    workspace("@afenda/shadcn-studio"),
+    workspace("@afenda/developer", {
+      "@afenda/shadcn-studio-v2": "workspace:*",
+    }),
+    workspace("@afenda/shadcn-studio-v2"),
     workspace("@afenda/docs", {
       "@afenda/enterprise-knowledge": "workspace:*",
     }),
@@ -36,19 +39,23 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
     workspace("@afenda/enterprise-knowledge"),
     workspace("@afenda/entitlements", { "@afenda/database": "workspace:*" }),
     workspace("@afenda/erp", {
+      "@afenda/accounting-standards": "workspace:*",
       "@afenda/auth": "workspace:*",
       "@afenda/database": "workspace:*",
       "@afenda/enterprise-knowledge": "workspace:*",
+      "@afenda/erp-modules": "workspace:*",
+      "@afenda/execution": "workspace:*",
       "@afenda/kernel": "workspace:*",
       "@afenda/observability": "workspace:*",
       "@afenda/permissions": "workspace:*",
-      "@afenda/shadcn-studio": "workspace:*",
+      "@afenda/shadcn-studio-v2": "workspace:*",
     }),
     workspace("@afenda/execution", {
       "@afenda/kernel": "workspace:*",
       "@afenda/observability": "workspace:*",
     }),
     workspace("@afenda/erp-module-foundation"),
+    workspace("@afenda/erp-modules"),
     workspace("@afenda/feature-flags", {
       "@afenda/entitlements": "workspace:*",
     }),
@@ -60,7 +67,7 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
       "@afenda/kernel": "workspace:*",
     }),
     workspace("@afenda/storybook", {
-      "@afenda/shadcn-studio": "workspace:*",
+      "@afenda/shadcn-studio-v2": "workspace:*",
     }),
     workspace("@afenda/storage"),
     workspace("@afenda/testing"),
@@ -73,7 +80,7 @@ function baselineWorkspaces(): DiscoveredWorkspace[] {
 }
 
 describe("validateArchitecture", () => {
-  it("passes for the ADR-0027 baseline workspace graph", () => {
+  it("passes for the Lane B-13 baseline workspace graph", () => {
     const result = validateArchitecture(baselineWorkspaces());
     expect(result.ok).toBe(true);
     expect(result.violations).toHaveLength(0);
@@ -101,7 +108,7 @@ describe("validateArchitecture", () => {
         "@afenda/auth": "workspace:*",
         "@afenda/database": "workspace:*",
         "@afenda/observability": "workspace:*",
-        "@afenda/shadcn-studio": "workspace:*",
+        "@afenda/shadcn-studio-v2": "workspace:*",
       }),
       workspace("@afenda/feature-flags", {
         "@afenda/entitlements": "workspace:*",
@@ -114,7 +121,7 @@ describe("validateArchitecture", () => {
       workspace("@afenda/storage"),
       workspace("@afenda/testing"),
       workspace("@afenda/typescript-config"),
-      workspace("@afenda/shadcn-studio"),
+      workspace("@afenda/shadcn-studio-v2"),
       workspace("@afenda/architecture-authority"),
     ]);
     expect(result.ok).toBe(false);

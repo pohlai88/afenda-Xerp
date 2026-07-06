@@ -1,5 +1,6 @@
 import type {
   StudioAuthViewMetadata,
+  StudioEvidenceWidgetMetadata,
   StudioMetricWidgetMetadata,
   StudioPageViewMetadata,
   StudioViewMetadata,
@@ -37,13 +38,26 @@ function isMetricWidgetMetadata(
   );
 }
 
+function isEvidenceWidgetMetadata(
+  value: unknown
+): value is StudioEvidenceWidgetMetadata {
+  return (
+    isRecord(value) &&
+    value["kind"] === "widget" &&
+    value["widget"] === "evidence" &&
+    isString(value["label"]) &&
+    isString(value["summary"])
+  );
+}
+
 export function isStudioViewMetadata(
   value: unknown
 ): value is StudioViewMetadata {
   return (
     isAuthMetadata(value) ||
     isPageMetadata(value) ||
-    isMetricWidgetMetadata(value)
+    isMetricWidgetMetadata(value) ||
+    isEvidenceWidgetMetadata(value)
   );
 }
 

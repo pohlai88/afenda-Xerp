@@ -1,8 +1,6 @@
-import type { SurfaceTemplateContractWire } from "@afenda/shadcn-studio";
-import {
-  getMetadataBindingById,
-  SURFACE_TEMPLATE_REGISTRY,
-} from "@afenda/shadcn-studio";
+import type { SurfaceTemplateContractWire } from "./metadata-studio.contract";
+import { getMetadataBindingById } from "./metadata-binding.registry";
+import { SURFACE_TEMPLATE_REGISTRY } from "./metadata-surface-template.registry";
 
 import {
   hydrateMetadataBindingSlots,

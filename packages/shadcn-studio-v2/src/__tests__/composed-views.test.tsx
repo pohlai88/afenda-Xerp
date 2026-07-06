@@ -13,6 +13,9 @@ import {
   DATA_TABLE_SURFACE_SLOTS,
   DataTableSurface,
   dataTableSurfaceClassName,
+  EVIDENCE_WIDGET_SLOTS,
+  EvidenceWidget,
+  evidenceWidgetSummaryClassName,
   FORM_SURFACE_SLOTS,
   FormSurface,
   formSurfaceClassName,
@@ -829,6 +832,58 @@ describe("Phase 7A page and widget views", () => {
     expect(markup).not.toContain("draggable");
     expect(markup).not.toContain("resize");
     expect(markup).not.toContain("DashboardCanvasClient");
+  });
+
+  it("locks EvidenceWidget to evidence adapter semantics", () => {
+    const markup = renderToStaticMarkup(
+      <EvidenceWidget
+        items={[{ id: "a", label: "Control A", status: "complete" }]}
+        label="Evidence checkpoint"
+        summary="3 of 3 controls satisfied"
+      />
+    );
+    const viewTypes = readFileSync(
+      path.join(SRC_ROOT, "types", "views.ts"),
+      "utf8"
+    );
+
+    expect(markup).toContain('data-adapter-kind="evidence"');
+    expect(markup).toContain(`data-slot="${EVIDENCE_WIDGET_SLOTS.summary}"`);
+    expect(markup).toContain(`data-slot="${EVIDENCE_WIDGET_SLOTS.item}"`);
+    expect(viewTypes).toContain("readonly summary: EvidenceWidgetSummary;");
+    expect(viewTypes).toContain("readonly summary?: never;");
+    expect(evidenceWidgetSummaryClassName()).toContain("font-semibold");
+  });
+
+  it.each(
+    VIEW_SURFACE_STATES
+  )("renders EvidenceWidget %s state with accessible semantics", (state) => {
+    const markup = renderToStaticMarkup(
+      <EvidenceWidget
+        label="Evidence checkpoint"
+        state={state}
+        stateMessages={{
+          [state]: {
+            action: <button type="button">Review</button>,
+            description: `${state} evidence description`,
+            title: `${state} evidence title`,
+          },
+        }}
+      />
+    );
+
+    expect(markup).toContain(`data-slot="${EVIDENCE_WIDGET_SLOTS.state}"`);
+    expect(markup).toContain(
+      `data-slot="${EVIDENCE_WIDGET_SLOTS.stateAction}"`
+    );
+    expect(markup).toContain(`data-state="${state}"`);
+    expect(markup).toContain(
+      state === "error" ? 'role="alert"' : 'role="status"'
+    );
+    expect(markup).toContain(`${state} evidence title`);
+    expect(markup).not.toContain(
+      `data-slot="${EVIDENCE_WIDGET_SLOTS.summary}"`
+    );
   });
 
   it.each(

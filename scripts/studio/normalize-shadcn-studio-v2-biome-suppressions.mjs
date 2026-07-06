@@ -6,13 +6,15 @@
  *   node scripts/studio/normalize-shadcn-studio-v2-biome-suppressions.mjs [--check|--write]
  */
 import { readFileSync, writeFileSync } from "node:fs";
-import { relative } from "node:path";
-import { REPO_ROOT } from "./quarantine-paths.mjs";
+import { dirname, join, relative } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   findRedundantV2BiomeSuppressions,
   normalizeV2BiomeSuppressions,
   walkV2SourceFiles,
 } from "./shadcn-studio-v2-biome-suppression-policy.mjs";
+
+const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
 const args = process.argv.slice(2);
 const writeMode = args.includes("--write");

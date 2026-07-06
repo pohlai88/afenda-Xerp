@@ -28,7 +28,7 @@ describe("legacy retirement boundary", () => {
   it("keeps legacy shadcn-studio deprecation behind ADR acceptance and registry proof", () => {
     const adr = readFileSync(ADR_0040_PATH, "utf8");
 
-    expect(adr).toContain("| **Status** | Proposed |");
+    expect(adr).toContain("| **Status** | Accepted |");
     expect(adr).toContain("Deprecate legacy `@afenda/shadcn-studio`");
     expect(adr).toContain("Promote `@afenda/shadcn-studio-v2`");
     expect(adr).toContain("Registry and package truth updates");

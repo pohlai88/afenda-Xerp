@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2/clients";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { ModuleDocumentRouteParams } from "@/lib/lab/contracts";
@@ -85,7 +85,7 @@ export default async function ModuleDocumentPage({
   const { pageData } = routeResult;
 
   return (
-    <section className="space-y-6">
+    <section className="min-w-0 space-y-6">
       <header className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-2">
           <p className="font-medium text-primary text-xs uppercase tracking-[0.28em]">
@@ -115,9 +115,9 @@ export default async function ModuleDocumentPage({
         </Card>
       </header>
 
-      <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+      <div className="grid min-w-0 gap-6 xl:grid-cols-[1.1fr_0.9fr]">
         <ModuleDocumentOverviewPanel pageData={pageData} />
-        <div className="space-y-6">
+        <div className="min-w-0 space-y-6">
           <ModuleDocumentStatePanel pageData={pageData} />
           <ModuleDocumentProofPanel pageData={pageData} />
         </div>

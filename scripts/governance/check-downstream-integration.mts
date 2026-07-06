@@ -3,7 +3,7 @@
  * ADR-0027 presentation-chain integration gate.
  *
  * Verifies the post-nuclear frontend stack:
- *   @afenda/shadcn-studio → apps/erp | apps/storybook
+ *   @afenda/shadcn-studio-v2 → apps/erp | apps/storybook | apps/developer
  *
  * Legacy packages (@afenda/ui, appshell, metadata-ui, css-authority) must not
  * exist on disk or appear in ERP/Storybook dependency graphs.
@@ -47,7 +47,7 @@ const APPROVED_ERP_CSS_IMPORTS = [
   "tailwindcss",
   "tw-animate-css",
   "shadcn/tailwind.css",
-  "@afenda/shadcn-studio/shadcn-default.css",
+  "@afenda/shadcn-studio-v2/shadcn-default.css",
 ] as const;
 
 const FORBIDDEN_ERP_CSS_IMPORTS = [
@@ -62,7 +62,6 @@ const FORBIDDEN_ERP_CSS_IMPORTS = [
 const FORBIDDEN_GLOBAL_NOIR_CSS = [
   "swiss-noir.css",
   "verdant-noir.css",
-  "afenda-brand.css",
   "presentation-lab.noir.css",
   "presentation-lab.visual.css",
   "presentation-lab.theme.css",
@@ -192,7 +191,7 @@ function checkCssImports(
     const animateIdx = imports.indexOf("tw-animate-css");
     const shadcnTailwindIdx = imports.indexOf("shadcn/tailwind.css");
     const themeIdx = imports.indexOf(
-      "@afenda/shadcn-studio/shadcn-default.css"
+      "@afenda/shadcn-studio-v2/shadcn-default.css"
     );
     const orderOk =
       tailwindIdx > -1 &&
@@ -206,7 +205,7 @@ function checkCssImports(
       violations.push({
         rule: "css-import-order",
         file: rel(cssPath),
-        message: `${label} CSS import order must be tailwindcss → tw-animate-css → shadcn/tailwind.css → @afenda/shadcn-studio/shadcn-default.css`,
+        message: `${label} CSS import order must be tailwindcss → tw-animate-css → shadcn/tailwind.css → @afenda/shadcn-studio-v2/shadcn-default.css`,
       });
     }
   }
@@ -227,7 +226,7 @@ function checkNoirCssNotGlobal(
       violations.push({
         rule: "noir-css-global-forbidden",
         file: rel(cssPath),
-        message: `${label} must not import scoped noir lab CSS "${forbidden}" — use per-story import from packages/shadcn-studio/docs/*-noir.css`,
+        message: `${label} must not import scoped noir lab CSS "${forbidden}" — use per-story import from packages/shadcn-studio-v2/dist/themes/*-noir.css`,
       });
     }
   }
@@ -248,16 +247,16 @@ export function checkDownstreamIntegration(): DownstreamViolation[] {
     "@afenda/kernel",
     "@afenda/observability",
     "@afenda/permissions",
-    "@afenda/shadcn-studio",
+    "@afenda/shadcn-studio-v2",
   ]);
 
   checkConsumerDependencies(violations, "apps/storybook", "apps/storybook", [
-    "@afenda/shadcn-studio",
+    "@afenda/shadcn-studio-v2",
     "@afenda/testing",
   ]);
 
   checkConsumerDependencies(violations, "apps/developer", "apps/developer", [
-    "@afenda/shadcn-studio",
+    "@afenda/shadcn-studio-v2",
   ]);
 
   checkCssImports(

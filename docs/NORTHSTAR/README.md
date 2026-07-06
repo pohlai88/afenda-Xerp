@@ -34,6 +34,9 @@ HTTP contract governance spans Kernel integration spine, Platform API Contract f
 | --- | --- | --- | --- | --- | --- |
 | Platform API Contract | [api-contract-north-star.md](api-contract-north-star.md) | *How does the platform expose governed, auditable API contracts across styles?* | [ADR-0030](../adr/ADR-0030-erp-rest-api-contract-standard.md) | [api-contract-blueprint.md](../BLUEPRINT/api-contract-blueprint.md) | Enterprise **10 / 10** |
 | ERP Runtime Module Foundation | [erp-module-runtime-north-star.md](erp-module-runtime-north-star.md) | *How does every line-of-business capability enter production with provable authority, ownership alignment, and integration discipline?* | [PAS-001C](../PAS/KERNEL/PAS-001C-ERP-MODULE-FOUNDATION-STANDARD.md) | [Blueprint](../BLUEPRINT/erp-module-runtime-blueprint.md) · [template](../PAS/ERP-MODULES/erp-runtime-module-foundation.template.md) | Production Candidate **9.2/10** |
+| Full-Stack Integration | [full-stack-integration-north-star.md](full-stack-integration-north-star.md) | *How does the platform keep frontend, API, domain, and UI configuration aligned and materialized?* | FSI track · [pas-status-index § FSI](../PAS/pas-status-index.md) | [full-stack-integration-blueprint.md](../BLUEPRINT/full-stack-integration-blueprint.md) | Active — FSI-S10 delivered |
+
+**Read order — Full-Stack Integration:** after Platform Kernel and sibling cross-cutting NS when touching registry materialization, lab promotion, or Integration Map dashboard.
 
 **Read order — API Contract:** after Platform Kernel North Star when touching API exposure, internal v1 REST, OpenAPI publication, or PAS-API-REST-001 R3 slices.
 

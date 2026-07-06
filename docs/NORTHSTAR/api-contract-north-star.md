@@ -31,6 +31,8 @@
 
 **Read order:** [Platform Constitutional Laws](../CONSTITUTION/platform-constitutional-laws.md) (context) → [Platform North Star](../architecture/afenda-platform-north-star.md) → this document §1–§12 → [Kernel Blueprint](../BLUEPRINT/kernel-blueprint.md) §4 boxes → target PAS → Slice → Code.
 
+**Consumer / UI materialization:** For cross-layer alignment (registry → loader → page → presentation), read [Full-Stack Integration North Star](full-stack-integration-north-star.md) after this document when wiring UI consumers to governed API operations — HTTP exposure stays here; materialization integrity stays there.
+
 **This document answers:** why governed API exposure exists forever, what permanent capabilities the platform must provide at API boundaries, and how those capabilities map to Blueprint boxes.
 
 **This document never answers:** registry file paths, OpenAPI generator modules, `.proto` layout, gate commands, slice order, or package npm names.

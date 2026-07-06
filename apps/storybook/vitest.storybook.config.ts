@@ -27,7 +27,7 @@ export default defineConfig({
       "react/jsx-dev-runtime",
       "react-dom",
       "react-dom/client",
-      "@afenda/shadcn-studio",
+      "@afenda/shadcn-studio-v2",
     ],
   },
   define: {
@@ -75,7 +75,7 @@ export default defineConfig({
       provider: "v8",
       reportsDirectory: "./coverage/storybook",
       reporter: ["text", "json-summary", "lcov"],
-      include: ["../../packages/shadcn-studio/src/**/*.{ts,tsx}"],
+      include: ["../../packages/shadcn-studio-v2/src/**/*.{ts,tsx}"],
       exclude: [
         "**/*.stories.tsx",
         "**/storybook/**",

@@ -15,7 +15,7 @@ This is an internal architecture and maintenance guide. It is not an ADR, a migr
 
 Use this document with:
 
-* `ROADMAP.md` for slice order and gate sequencing
+* `DEVELOPMENT-ROADMAP.md` for slice order and gate sequencing
 * `MIGRATION-MAP.md` for legacy translation tracking
 
 ## Adoption Principle
@@ -51,12 +51,12 @@ A path is valid only if every structural segment in that path is registered here
 
 Examples:
 
-* `src/views/auth/LoginView.tsx` is valid because `views` and `auth` are registered structural segments, and `LoginView.tsx` is an implementation file inside an approved folder.
-* `src/blocks/auth/LoginBlock.tsx` is invalid because `blocks` is not a registered structural segment.
-* `src/features/auth/LoginView.tsx` is invalid because `features` is not a registered structural segment.
-* `src/theme-runtime/ThemeProvider.tsx` is invalid because `theme-runtime` is not a registered structural segment.
+* `src/views/auth/login-shell.tsx` is valid because `views` and `auth` are registered structural segments, and the file stem follows kebab law inside an approved folder.
+* `src/blocks/auth/login-block.tsx` is invalid because `blocks` is not a registered structural segment.
+* `src/features/auth/login-view.tsx` is invalid because `features` is not a registered structural segment.
+* `src/theme-runtime/theme-provider.tsx` is invalid because `theme-runtime` is not a registered structural segment.
 
-Implementation files may use descriptive names only inside approved taxonomy folders.
+Implementation file stems use kebab-case only (see Naming Conventions). React export names may stay PascalCase in code; file names do not.
 
 Global repo test convention may still use `src/**/__tests__/**`. That path is a test harness convention, not a V2 taxonomy segment.
 
@@ -175,25 +175,67 @@ No additional root public export files are valid unless this document is amended
 
 ## Naming Conventions
 
-Structural naming is locked to the following rules:
+### File stem law (kebab-only)
+
+All implementation file stems under `src/**` use **lowercase kebab-case** only:
+
+```txt
+^[a-z0-9]+(?:-[a-z0-9]+)*$
+```
+
+Rules:
+
+* **No** `PascalCase`, **no** `camelCase`, **no** mixed-case file stems.
+* Hyphen segment count is **not** fixed — name for clarity (`widget-metric`, `workspace-board-manifest-registry`, `theme-config` are all valid).
+* React/context **export names** stay PascalCase in TypeScript; **file stems** do not mirror export casing.
+* Approved root barrels are the only exceptions: `index.ts`, `clients.ts`, `server.ts`, `metadata.ts`.
+* `src/**/__tests__/**` follows repo Vitest convention and is excluded from stem law.
+
+Rejected stems:
+
+```txt
+MetricWidget.tsx      # PascalCase file stem
+themeConfig.ts        # camelCase file stem
+Sidebar.tsx           # PascalCase file stem
+```
+
+Accepted stems:
+
+```txt
+widget-metric.tsx
+page-surface.tsx
+theme-config.ts
+button.tsx
+```
+
+### Prefix law (IF logic)
+
+**IF** a registered prefix lane applies to the file path, the stem **must** start with that prefix.
+
+| IF path matches | THEN stem must start with | Example |
+| --- | --- | --- |
+| `src/hooks/**` | `use-` | `use-theme.ts` |
+| `src/views/widgets/**` | `widget-` | `widget-evidence.tsx` |
+| `src/components/layout/appshell-*` or registered appshell stems | `appshell-` | `appshell-01.tsx`, `appshell-frame.tsx` |
+
+**IF** no prefix lane applies, use descriptive kebab only — do not invent PascalCase because the export is a React component.
+
+**IF** adding a new prefix lane, amend this document and add a Vitest/drift gate in the same slice.
+
+### Folder and config stems
 
 * folders use lowercase nouns
-* structural non-React canonical package files use `kebab-case.ts`
-* approved root public export files may use stable noun filenames:
-
-  * `index.ts`
-  * `server.ts`
-  * `clients.ts`
-  * `metadata.ts`
-* React context and component files use `PascalCase.tsx` unless a canonical
-  implementation file stem is explicitly registered in this taxonomy
-* hook files use `use-*.ts` or `use-*.tsx`
+* `configs/**` stems use kebab-case (often `{domain}-config.ts` when config-shaped)
+* `metadata/**`, `types/**`, `lib/**`, `utils/**` use kebab-case stems
 
 Canonical examples:
 
 ```txt
 configs/theme-config.ts
 configs/studio-config.ts
+hooks/use-theme.ts
+views/widgets/widget-metric.tsx
+components/layout/appshell-frame.tsx
 ```
 
 Rejected examples:
@@ -201,9 +243,27 @@ Rejected examples:
 ```txt
 themeConfig.ts
 studioConfig.ts
+MetricWidget.tsx
+Sidebar.tsx
 ```
 
-Canonical structural file stems must stay stable once introduced. Convenience renaming is not allowed.
+### Bulk stem normalization
+
+All `src/**` implementation file stems were normalized in one deterministic pass:
+
+```bash
+pnpm --filter @afenda/shadcn-studio-v2 normalize:kebab-stems -- --write
+```
+
+The script (`scripts/normalize-kebab-stems.ts`) rewrites **import paths only** — never TypeScript export names. Widget lane overrides map `MetricWidget` → `widget-metric.tsx` and `EvidenceWidget` → `widget-evidence.tsx`.
+
+Before closing slices that add or rename implementation files, run:
+
+```bash
+pnpm --filter @afenda/shadcn-studio-v2 normalize:kebab-stems -- --check
+```
+
+New files must follow kebab-only + prefix IF law. Do not add PascalCase file stems.
 
 ## Registered Taxonomy Authority
 
@@ -305,15 +365,15 @@ configs/
 
 ```txt
 contexts/
-  StudioProvider.tsx
-  ThemeProvider.tsx
+  studio-provider.tsx
+  theme-provider.tsx
 ```
 
-`ThemeProvider.tsx`
+`theme-provider.tsx`
 
 * theme runtime boundary provider
 
-`StudioProvider.tsx`
+`studio-provider.tsx`
 
 * studio-level runtime provider
 
@@ -546,6 +606,8 @@ metadata/gates/
 ```txt
 metadata/registries/
   view-metadata-registry.ts
+  workflow-board-host-mapping.ts
+  workspace-board-manifest-registry.ts
 ```
 
 ### `components/ui/`
@@ -554,15 +616,18 @@ Approved primitive component files:
 
 ```txt
 components/ui/
-  Alert.tsx
-  Badge.tsx
-  Button.tsx
-  Card.tsx
-  Field.tsx
-  Table.tsx
+  alert.tsx
+  badge.tsx
+  button.tsx
+  card.tsx
+  field.tsx
+  table.tsx
+  …
 ```
 
-Add new primitive components only when they are reusable and governed.
+Additional shadcn parity primitives live under `components/ui/` (see
+`src/__tests__/taxonomy.test.ts` tree snapshot). Contract-tested primitives:
+`PRIMITIVE-API-CONSISTENCY.md` + `pnpm test:primitives`.
 
 ### `components/layout/`
 
@@ -570,8 +635,8 @@ Add new primitive components only when they are reusable and governed.
 components/layout/
   appshell-frame.tsx
   appshell-01.tsx
-  Sidebar.tsx
-  Topbar.tsx
+  sidebar.tsx
+  topbar.tsx
 ```
 
 Layout hierarchy:
@@ -586,15 +651,15 @@ Layout hierarchy:
 
 * composed app shell
 * consumes `appshell-frame.tsx`
-* composes `Sidebar` and `Topbar`
+* composes `sidebar` and `topbar`
 * accepts typed shell, navigation, and operating-context props
 * does not own route framework, permissions, auth, or business logic
 
-`Sidebar.tsx`
+`sidebar.tsx`
 
 * navigation chrome
 
-`Topbar.tsx`
+`topbar.tsx`
 
 * heading and action chrome
 
@@ -604,15 +669,15 @@ Use `components/layout` only for reusable chrome and frame/shell composition. If
 
 ```txt
 components/shared/
-  ThemeScript.tsx
-  ThemeToggle.tsx
+  theme-script.tsx
+  theme-toggle.tsx
 ```
 
 ### `components/assets/`
 
 ```txt
 components/assets/
-  IconMark.tsx
+  icon-mark.tsx
 ```
 
 ### `components/quarantine/`
@@ -620,15 +685,17 @@ components/assets/
 ```txt
 components/quarantine/
   README.md
+  inventory.baseline.json
 ```
 
 Everything here is temporary. Nothing here is considered stable public structure.
+Promotion policy: `README.md` (Lane A-07).
 
 ### `views/auth/`
 
 ```txt
 views/auth/
-  AuthShell.tsx
+  auth-shell.tsx
 ```
 
 This is the correct destination for old `components-auth-shell`.
@@ -637,14 +704,16 @@ This is the correct destination for old `components-auth-shell`.
 
 ```txt
 views/pages/
-  PageSurface.tsx
+  page-surface.tsx
 ```
 
 ### `views/widgets/`
 
 ```txt
 views/widgets/
-  MetricWidget.tsx
+  widget-board-adapter.ts
+  widget-evidence.tsx
+  widget-metric.tsx
 ```
 
 ### `storybook/fixtures/`
@@ -716,7 +785,7 @@ The taxonomy governs structure. It does not require every ordinary implementatio
 
 This document defines where V2 structure is allowed to exist.
 
-`ROADMAP.md` defines when each structural lane should be implemented.
+`DEVELOPMENT-ROADMAP.md` defines when each structural lane should be implemented.
 
 `MIGRATION-MAP.md` defines how legacy `packages/shadcn-studio` areas translate into this taxonomy.
 
@@ -743,7 +812,9 @@ This package should prefer Vitest governance tests over custom drift scripts for
 
 `__tests__` is excluded from structural taxonomy enforcement because it follows the repo-wide Vitest convention and does not define package architecture.
 
-Biome suppressions for V2 PascalCase filenames and root boundary barrels are owned by `biome.project.jsonc` — not per-file `// biome-ignore` comments. After primitive imports, run `pnpm studio:v2:normalize-biome`. Drift guard rule `redundant-biome-suppression` blocks regressions.
+Biome suppressions for V2 root boundary barrels and primitive label patterns are owned by `biome.project.jsonc` — not per-file `// biome-ignore` comments. After primitive imports, run `pnpm studio:v2:normalize-biome`. Drift guard rule `redundant-biome-suppression` blocks regressions.
+
+File stem enforcement lives in `src/__tests__/taxonomy.test.ts` (kebab-only + prefix IF lanes). Legacy PascalCase stems are an explicit shrinking allowlist until migrated.
 
 The design-system drift guard enforces the non-structural rules from the active design-system guideline:
 

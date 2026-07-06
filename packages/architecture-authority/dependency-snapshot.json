@@ -1,6 +1,6 @@
 {
   "fingerprint": "ARCH-BASELINE-2026-06-29-v5",
-  "generatedAt": "2026-06-29T15:49:18.021Z",
+  "generatedAt": "2026-07-06T15:44:16.138Z",
   "runtimeEdges": [
     {
       "from": "@afenda/accounting-standards",
@@ -23,12 +23,20 @@
       "to": "@afenda/observability"
     },
     {
+      "from": "@afenda/developer",
+      "to": "@afenda/shadcn-studio-v2"
+    },
+    {
       "from": "@afenda/docs",
       "to": "@afenda/enterprise-knowledge"
     },
     {
       "from": "@afenda/entitlements",
       "to": "@afenda/database"
+    },
+    {
+      "from": "@afenda/erp",
+      "to": "@afenda/accounting-standards"
     },
     {
       "from": "@afenda/erp",
@@ -44,6 +52,14 @@
     },
     {
       "from": "@afenda/erp",
+      "to": "@afenda/erp-modules"
+    },
+    {
+      "from": "@afenda/erp",
+      "to": "@afenda/execution"
+    },
+    {
+      "from": "@afenda/erp",
       "to": "@afenda/kernel"
     },
     {
@@ -56,7 +72,7 @@
     },
     {
       "from": "@afenda/erp",
-      "to": "@afenda/shadcn-studio"
+      "to": "@afenda/shadcn-studio-v2"
     },
     {
       "from": "@afenda/execution",
@@ -84,7 +100,7 @@
     },
     {
       "from": "@afenda/storybook",
-      "to": "@afenda/shadcn-studio"
+      "to": "@afenda/shadcn-studio-v2"
     }
   ]
 }

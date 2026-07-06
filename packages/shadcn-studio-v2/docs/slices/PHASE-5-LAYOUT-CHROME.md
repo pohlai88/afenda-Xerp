@@ -13,7 +13,7 @@ enter early if the layout layer is not bounded.
 
 ## Goals
 
-* Implement `AppShell`, `Sidebar`, and `Topbar`.
+* Implement `AppShell`, `sidebar`, and `topbar`.
 * Keep shell components reusable, accessible, and route-framework-independent.
 * Provide the structural layer required for later composed views and proof
   routes.
@@ -36,8 +36,8 @@ enter early if the layout layer is not bounded.
 ### Layout responsibilities
 
 * `AppShell` owns outer frame structure
-* `Sidebar` owns grouped navigation chrome
-* `Topbar` owns title and action areas
+* `sidebar` owns grouped navigation chrome
+* `topbar` owns title and action areas
 
 ### Verification posture
 

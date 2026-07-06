@@ -1,10 +1,10 @@
-import { getBlockSlotsForBlockId } from "@afenda/shadcn-studio";
 import { describe, expect, it } from "vitest";
 import {
   AUTH_ADJACENT_AUTH_BLOCK_IDS,
   AUTH_ADJACENT_SURFACE_PATHS,
   AUTH_ADJACENT_WCAG_REQUIRED_SLOTS,
 } from "@/lib/auth/auth-wcag-adjacent.registry";
+import { getAuthBlockSlotsForBlockId } from "@/lib/auth/auth-block-slot.registry";
 
 describe("auth-adjacent WCAG AA contract (PAS-006C P06-007)", () => {
   it("declares auth-adjacent surface paths", () => {
@@ -40,7 +40,7 @@ describe("auth-adjacent WCAG AA contract (PAS-006C P06-007)", () => {
 
   it("maps login block slots required for WCAG form labels", () => {
     for (const blockId of AUTH_ADJACENT_AUTH_BLOCK_IDS) {
-      const slots = getBlockSlotsForBlockId(blockId);
+      const slots = getAuthBlockSlotsForBlockId(blockId);
       expect(slots.length).toBeGreaterThan(0);
 
       for (const requiredSlotId of AUTH_ADJACENT_WCAG_REQUIRED_SLOTS[blockId] ??

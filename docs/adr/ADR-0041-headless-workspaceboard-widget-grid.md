@@ -5,7 +5,7 @@
 | **Status** | Proposed |
 | **Date** | 2026-07-06 |
 | **Owner** | Architecture Authority |
-| **Related** | [ADR-0027](ADR-0027-frontend-presentation-reset.md), [PAS-006](../PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md), [Phase 7A](../../packages/shadcn-studio-v2/docs/slices/PHASE-7A-PAGE-AND-WIDGET-VIEWS.md) |
+| **Related** | [ADR-0027](ADR-0027-frontend-presentation-reset.md), [ADR-0042](ADR-0042-workspaceboard-drag-resize-runtime.md), [PAS-006](../PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md), [Phase 7A](../../packages/shadcn-studio-v2/docs/slices/PHASE-7A-PAGE-AND-WIDGET-VIEWS.md) |
 | **Implementation authorization** | Documentation and contract direction only |
 
 ---
@@ -299,8 +299,8 @@ Negative:
 
 - Naming remains mixed while existing ERP runtime files still use dashboard
   terms.
-- A later ADR is required before implementing drag/resize, persistence changes,
-  or package extraction.
+- A later ADR is required before implementing persistence changes or package
+  extraction. **Drag/resize library and frame ownership:** [ADR-0042](ADR-0042-workspaceboard-drag-resize-runtime.md) (Accepted).
 - Widget manifests and schema validation are not implemented by this ADR.
 
 ## Acceptance Criteria

@@ -4,10 +4,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  ProcurementListToolbarBlock as ProcurementListToolbar,
-  ProcurementRequisitionsTableBlock as ProcurementRequisitionsTable,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2/clients";
+import { ProcurementListToolbar } from "@/components/procurement/procurement-list-toolbar.client";
+import { ProcurementRequisitionsComposer } from "@/components/procurement/procurement-requisitions-composer.client";
 import { loadProcurementRequisitionsPage } from "@/lib/procurement/load-procurement-requisitions-page.server";
+import { mapRequisitionWireToTableRow } from "@/lib/procurement/map-requisition-wire-to-table-row";
 
 export const metadata = {
   title: "Requisitions",
@@ -30,8 +31,8 @@ export default async function ProcurementRequisitionsPage() {
       <div className="flex flex-col gap-1">
         <h1 className="font-semibold text-2xl">{data.title}</h1>
         <p className="text-muted-foreground text-sm">
-          Requisition workflow is now routed through governed presentation
-          blocks.
+          Requisition workflow is now routed through v2 DataTableSurface and the
+          ERP TanStack composer.
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-3">
@@ -67,7 +68,9 @@ export default async function ProcurementRequisitionsPage() {
         createLabel="Create requisition"
         searchLabel="Search requisitions"
       />
-      <ProcurementRequisitionsTable rows={data.rows} />
+      <ProcurementRequisitionsComposer
+        data={data.rows.map(mapRequisitionWireToTableRow)}
+      />
       <p className="text-muted-foreground text-xs">
         blockId {data.blockId} · correlation {data.correlationId}
       </p>

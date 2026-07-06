@@ -3,7 +3,7 @@
 import {
   type StudioContextValue,
   useStudioContext,
-} from "../contexts/StudioProvider";
+} from "../contexts/studio-provider";
 
 export function useStudio(): StudioContextValue {
   return useStudioContext();

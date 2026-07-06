@@ -4,7 +4,7 @@ import { Drawer as DrawerPrimitive } from "@base-ui/react/drawer";
 import { XIcon } from "lucide-react";
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
-import { buttonClassName } from "./Button";
+import { buttonClassName } from "./button";
 
 export interface SheetProps
   extends ComponentProps<typeof DrawerPrimitive.Root> {}

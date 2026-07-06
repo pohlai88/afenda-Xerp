@@ -1,0 +1,16 @@
+{
+  "policy": "LANE-B-01",
+  "recordedAt": "2026-07-06",
+  "scanRoots": [
+    "apps/developer/src",
+    "apps/erp/src",
+    "apps/storybook"
+  ],
+  "totals": {
+    "all": 0,
+    "developer": 0,
+    "erp": 0,
+    "storybook": 0
+  },
+  "imports": []
+}

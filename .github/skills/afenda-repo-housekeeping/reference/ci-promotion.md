@@ -9,7 +9,7 @@ Use **promote** mode to assess readiness. All criteria must pass before moving t
 1. **Zero findings per enabled workspace** — each package in `knip.jsonc` `workspaces` reports no unused files, exports, or deps for its configured globs
 2. **Strict turbo green on main** — `pnpm housekeeping:knip:turbo` exit 0 on `main` for 2 consecutive weeks **or** 10 consecutive green PRs
 3. **No open align debt** — no unresolved `registry-drift` or `catalog-drift` in enabled workspaces
-4. **Storybook orphan safety** — [`resolve-block-consumers.test.ts`](../../../scripts/storybook/__tests__/resolve-block-consumers.test.ts) passing in CI
+4. **Storybook orphan safety** — [`quarantine-orphan-scan.test.ts`](../../../scripts/storybook/__tests__/quarantine-orphan-scan.test.ts) passing in CI
 5. **Vocabulary / presentation packages export noise** — `@afenda/kernel`, `@afenda/architecture-authority`, `@afenda/enterprise-knowledge`, and `@afenda/shadcn-studio` may report unused exports/types when consumed only outside the workspace; **do not** require zero export findings — require zero **unused files** + zero **unused dependencies** instead
 
 ## promote mode output template

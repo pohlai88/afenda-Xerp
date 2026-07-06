@@ -24,7 +24,7 @@ export const IDENTITY_BOUNDARY_SCAN_ROOTS = [
   "packages/database/src",
   "packages/execution/src",
   "packages/permissions/src",
-  "packages/shadcn-studio/src",
+  "packages/shadcn-studio-v2/src",
 ] as const;
 
 export const IDENTITY_BOUNDARY_ALLOWLIST_PREFIXES = [

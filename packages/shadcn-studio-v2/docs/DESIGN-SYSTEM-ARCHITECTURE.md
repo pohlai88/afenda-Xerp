@@ -46,15 +46,15 @@ data-source resolution, or dashboard runtime orchestration.
 packages/shadcn-studio-v2/
   src/
     components/
-      ui/              # primitives: Button, Card, Badge, Alert, Field, Table
-      layout/          # shell frame/chrome: appshell-frame, appshell-01, Sidebar, Topbar
-      shared/          # ThemeToggle, ThemeScript, small shared runtime helpers
-      assets/          # IconMark and component-coupled assets
+      ui/              # primitives: button, card, badge, alert, field, table
+      layout/          # shell frame/chrome: appshell-frame, appshell-01, sidebar, topbar
+      shared/          # theme-toggle, theme-script, small shared runtime helpers
+      assets/          # icon-mark and component-coupled assets
       quarantine/      # temporary, non-public, never consumer imported
 
     views/
-      auth/            # AuthShell and login presentation surfaces
-      pages/           # PageSurface, evidence reading pages
+      auth/            # auth-shell and login presentation surfaces
+      pages/           # page-surface, evidence reading pages
       widgets/         # WorkspaceBoard-compatible widget render adapters
       datatables/      # table-heavy ERP compositions
       forms/           # governed form compositions
@@ -62,7 +62,7 @@ packages/shadcn-studio-v2/
       settings/        # settings surfaces
 
     configs/           # studio-config.ts, theme-config.ts
-    contexts/          # ThemeProvider, StudioProvider
+    contexts/          # theme-provider, studio-provider
     hooks/             # use-theme, use-studio
     metadata/          # contracts, registries, gates, builders
     styles/            # shadcn-default.css (canonical); swiss/verdant editorial preset overlays
@@ -136,19 +136,19 @@ Not from new token families.
 
 ```txt
 Layer 1: Primitives
-Button, Card, Badge, Alert, Field, Table.
+button, card, badge, alert, field, table.
 Small, accessible, variant-based, token-only.
 
 Layer 2: Layout Chrome
-appshell-frame, appshell-01, Sidebar, Topbar.
+appshell-frame, appshell-01, sidebar, topbar.
 Own frame structure, navigation structure, active state, landmarks, keyboard access.
 
 Layer 3: Shared Runtime
-ThemeProvider, ThemeToggle, ThemeScript.
+theme-provider, theme-toggle, theme-script.
 Small, stable, client-safe.
 
 Layer 4: Views
-AuthShell, PageSurface, MetricWidget, revenue blocks, table/form/dialog/settings surfaces.
+auth-shell, page-surface, MetricWidget, revenue blocks, table/form/dialog/settings surfaces.
 Composed ERP presentation, not primitive bloat.
 Widget views are render adapters, not fixed dashboards or runtime layout owners.
 
@@ -176,8 +176,8 @@ runtime package.
 Consumers may import only:
 
 ```ts
-import { Button, Card, PageSurface } from "@afenda/shadcn-studio-v2";
-import { ThemeProvider } from "@afenda/shadcn-studio-v2/clients";
+import { button, card, page-surface } from "@afenda/shadcn-studio-v2";
+import { theme-provider } from "@afenda/shadcn-studio-v2/clients";
 import type { ViewMetadata } from "@afenda/shadcn-studio-v2/metadata";
 ```
 
@@ -287,7 +287,8 @@ Deprecate documentation into four surviving files only:
 README.md                  # how to install, import, verify
 TAXONOMY.md                # structural law
 MIGRATION-MAP.md           # migration and retirement ledger
-DESIGN-SYSTEM-GUIDELINE.md # only if reduced to gates and quality law
+DESIGN-SYSTEM-GUIDELINE.md # gates and quality law (active)
+PRIMITIVE-API-CONSISTENCY.md # Phase 3 primitive contract mirror (active)
 ```
 
 Everything else should become one of:

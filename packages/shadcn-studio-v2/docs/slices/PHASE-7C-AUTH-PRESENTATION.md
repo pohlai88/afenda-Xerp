@@ -2,7 +2,7 @@
 
 ## Document Status
 
-- Status: Planned implementation slice
+- Status: Package complete · consumer proof complete (Lane A-03, 2026-07-06)
 - Audience: Engineers implementing auth presentation surfaces
 - Authority: `../DESIGN-SYSTEM-ARCHITECTURE.md` and `../TAXONOMY.md`
 - Action enabled: Build auth UI presentation without owning authentication behavior
@@ -19,7 +19,7 @@ route handling remain outside the design system.
 
 ## Goals
 
-- Implement `AuthShell`.
+- Implement `auth-shell`.
 - Provide typed props for labels, actions, and supporting content.
 - Represent loading, error, unavailable, and disabled states.
 - Keep auth presentation accessible and token-safe.
@@ -36,14 +36,14 @@ route handling remain outside the design system.
 ## Constraints
 
 - Auth surfaces are presentational.
-- Inputs and actions must be labeled.
+- inputs and actions must be labeled.
 - State is passed in through props.
 - No hardcoded provider logic.
 - No route-framework dependency.
 
 ## Proposed design
 
-### AuthShell responsibilities
+### auth-shell responsibilities
 
 - Owns auth page frame and visual hierarchy.
 - Accepts title, description, form/action slots, secondary actions, and state.
@@ -53,10 +53,13 @@ route handling remain outside the design system.
 
 The slice must prove:
 
-- `AuthShell` renders with accessible labels
+- `auth-shell` renders with accessible labels
 - state variants are representable
 - no auth provider dependency exists
 - no app route import exists
+
+**Consumer proof (Lane A-03):** `@afenda/developer` `/design-system/v2-proof` renders
+`AuthShell` behind verification toggle or `?verify=1`; static fixture only.
 
 ## Interfaces / dependencies
 
@@ -82,7 +85,7 @@ The slice must prove:
 
 ### Rollout
 
-1. Implement `AuthShell`.
+1. Implement `auth-shell`.
 2. Add render, state, and accessibility tests.
 3. Run package gates.
 
@@ -103,12 +106,12 @@ pnpm exec biome ci packages/shadcn-studio-v2
 
 ## Done definition
 
-- `AuthShell` exists.
+- `auth-shell` exists.
 - Typed props exist.
 - Auth states are testable.
 - No authentication behavior is implemented inside the package.
 
 ## Open questions
 
-- Whether social/provider button composition belongs in `AuthShell` props or a
+- Whether social/provider button composition belongs in `auth-shell` props or a
   later auth-extension component.

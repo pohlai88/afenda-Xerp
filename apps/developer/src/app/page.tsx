@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2/clients";
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,8 +30,8 @@ export default async function HomePage() {
   );
 
   return (
-    <main className="lab-grid min-h-screen px-6 py-10 lg:px-10">
-      <section className="mx-auto flex max-w-6xl flex-col gap-8">
+    <main className="lab-grid box-border min-h-screen w-full max-w-full overflow-x-clip px-4 py-10 sm:px-6 lg:px-10">
+      <section className="mx-auto flex min-w-0 max-w-6xl flex-col gap-8">
         <div className="overflow-hidden rounded-[2rem] border bg-background/95 shadow-2xl backdrop-blur">
           <div className="lab-demo-banner flex flex-wrap items-center justify-between gap-3 px-6 py-3 text-sm">
             <p>
@@ -148,8 +148,8 @@ export default async function HomePage() {
                       Route contract: {policy.routePath}
                     </p>
                   )}
-                  <div className="flex items-center justify-between gap-4">
-                    <code className="rounded-full bg-muted px-3 py-1 text-xs">
+                  <div className="flex min-w-0 flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <code className="max-w-full break-all rounded-full bg-muted px-3 py-1 text-xs">
                       {policy.routePath}
                     </code>
                     <Link

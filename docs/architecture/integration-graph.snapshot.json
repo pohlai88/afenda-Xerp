@@ -1,0 +1,1814 @@
+{
+  "edges": [
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.health.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.health.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.health.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.auth.memberships.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.auth.memberships.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.auth.memberships.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.auth.service-actor.ping.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.auth.service-actor.ping.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.auth.service-actor.ping.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.client-error.post",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.client-error.post",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.client-error.post",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.workspace.dashboard-layout.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.workspace.dashboard-layout.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.workspace.dashboard-layout.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.workspace.dashboard-layout.put",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.workspace.dashboard-layout.put",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.workspace.dashboard-layout.put",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.workspace.dashboard-layout.delete",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.workspace.dashboard-layout.delete",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.workspace.dashboard-layout.delete",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.inventory.products.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.inventory.products.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.inventory.products.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.inventory.products.post",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.inventory.products.post",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.inventory.products.post",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.inventory.products.patch",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.inventory.products.patch",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.inventory.products.patch",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.inventory.stock-levels.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.inventory.stock-levels.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.inventory.stock-levels.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.inventory.stock-movements.post",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.inventory.stock-movements.post",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.inventory.stock-movements.post",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.inventory.warehouses.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.inventory.warehouses.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.inventory.warehouses.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.inventory.warehouses.post",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.inventory.warehouses.post",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.inventory.warehouses.post",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.inventory.warehouses.patch",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.inventory.warehouses.patch",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.inventory.warehouses.patch",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.system-admin.users.invite.post",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.system-admin.users.invite.post",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.system-admin.users.invite.post",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.system-admin.user-invitations.post",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.system-admin.user-invitations.post",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.system-admin.user-invitations.post",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.system-admin.memberships.role.post",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.system-admin.memberships.role.post",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.system-admin.memberships.role.post",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.system-admin.membership-role-assignments.post",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.system-admin.membership-role-assignments.post",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.system-admin.membership-role-assignments.post",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.system-admin.audit-events.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.system-admin.audit-events.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.system-admin.audit-events.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.system-admin.users.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.system-admin.users.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.system-admin.users.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.system-admin.roles.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.system-admin.roles.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.system-admin.roles.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.system-admin.permissions.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.system-admin.permissions.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.system-admin.permissions.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.system-admin.memberships.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.system-admin.memberships.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.system-admin.memberships.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.system-admin.settings.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.system-admin.settings.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.system-admin.settings.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.storage.tenant-brand-logo.post",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.storage.tenant-brand-logo.post",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.storage.tenant-brand-logo.post",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.docs.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.docs.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.docs.get",
+      "type": "materializes"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "api:internal.v1.openapi.json.get",
+      "type": "validates"
+    },
+    {
+      "source": "pkg:PKG007_ADMIN",
+      "target": "api:internal.v1.openapi.json.get",
+      "type": "materializes"
+    },
+    {
+      "source": "pkg:PKG007_CONTEXT",
+      "target": "api:internal.v1.openapi.json.get",
+      "type": "materializes"
+    },
+    {
+      "source": "surface:procurement.requisitions.list",
+      "target": "gate:check:procurement-pas006-ui-contract",
+      "type": "validates"
+    },
+    {
+      "source": "surface:procurement.requisitions.list",
+      "target": "spine:procurement-foundation-readiness-page",
+      "type": "consumes"
+    },
+    {
+      "source": "surface:procurement.purchase_orders.list",
+      "target": "gate:check:procurement-pas006-ui-contract",
+      "type": "validates"
+    },
+    {
+      "source": "surface:procurement.purchase_orders.list",
+      "target": "spine:procurement-foundation-readiness-page",
+      "type": "consumes"
+    },
+    {
+      "source": "lab-api:lab.v1.health.get",
+      "target": "gate:check:route-lab-governance",
+      "type": "validates"
+    },
+    {
+      "source": "lab-page:dashboard.sales",
+      "target": "gate:check:route-lab-governance",
+      "type": "validates"
+    },
+    {
+      "source": "lab-page:dashboard.finance",
+      "target": "gate:check:route-lab-governance",
+      "type": "validates"
+    },
+    {
+      "source": "lab-page:admin.users",
+      "target": "gate:check:route-lab-governance",
+      "type": "validates"
+    },
+    {
+      "source": "lab-page:settings.appearance",
+      "target": "gate:check:route-lab-governance",
+      "type": "validates"
+    },
+    {
+      "source": "lab-page:architecture.integration.map",
+      "target": "gate:check:route-lab-governance",
+      "type": "validates"
+    },
+    {
+      "source": "lab-page:modules.procurement.requisition.document",
+      "target": "gate:check:route-lab-governance",
+      "type": "validates"
+    },
+    {
+      "source": "gate:check:foundation-disposition",
+      "target": "FSI-CCP-001",
+      "type": "validates"
+    },
+    {
+      "source": "gate:check:erp-module-readiness",
+      "target": "FSI-CCP-002",
+      "type": "validates"
+    },
+    {
+      "source": "gate:check:procurement-pas006-ui-contract",
+      "target": "FSI-CCP-003",
+      "type": "validates"
+    },
+    {
+      "source": "gate:check:api-contracts",
+      "target": "FSI-CCP-004",
+      "type": "validates"
+    },
+    {
+      "source": "gate:check:openapi-drift",
+      "target": "FSI-CCP-005",
+      "type": "validates"
+    },
+    {
+      "source": "gate:quality:kernel-context-surface",
+      "target": "FSI-CCP-006",
+      "type": "validates"
+    },
+    {
+      "source": "gate:check:route-lab-governance",
+      "target": "FSI-CCP-007",
+      "type": "validates"
+    },
+    {
+      "source": "gate:check:route-lab-governance",
+      "target": "FSI-CCP-008",
+      "type": "validates"
+    },
+    {
+      "source": "gate:quality:erp-metadata-pas006-consumer",
+      "target": "FSI-CCP-009",
+      "type": "validates"
+    },
+    {
+      "source": "gate:check:integration-graph-drift",
+      "target": "FSI-CCP-010",
+      "type": "validates"
+    },
+    {
+      "source": "gate:check:documentation-drift",
+      "target": "FSI-CCP-011",
+      "type": "validates"
+    },
+    {
+      "source": "gate:check:developer-route-lab-greenlight",
+      "target": "FSI-CCP-012",
+      "type": "validates"
+    },
+    {
+      "source": "gate:check:procurement-context-spine-consumer",
+      "target": "FSI-CCP-013",
+      "type": "validates"
+    },
+    {
+      "source": "gate:filter:@afenda/erp:typecheck",
+      "target": "FSI-CCP-014",
+      "type": "validates"
+    }
+  ],
+  "fingerprint": "FOUNDATION-DISPOSITION-2026-07-06-v43",
+  "generatedAt": "2026-07-06T17:39:48.766Z",
+  "nodes": [
+    {
+      "id": "pkg:PKG007_ADMIN",
+      "label": "@afenda/erp",
+      "metadata": {
+        "domain": "system-admin",
+        "lane": "green-lane",
+        "packageId": "PKG-007",
+        "runtimeOwner": "apps/erp"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG007_CONTEXT",
+      "label": "@afenda/erp",
+      "metadata": {
+        "domain": "operating-context",
+        "lane": "green-lane",
+        "packageId": "PKG-007",
+        "runtimeOwner": "apps/erp"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG013_AUDIT",
+      "label": "@afenda/observability",
+      "metadata": {
+        "domain": "audit-coverage",
+        "lane": "green-lane",
+        "packageId": "PKG-013",
+        "runtimeOwner": "packages/observability"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG013_LOGGING",
+      "label": "@afenda/observability",
+      "metadata": {
+        "domain": "logging-tracing",
+        "lane": "green-lane",
+        "packageId": "PKG-013",
+        "runtimeOwner": "packages/observability"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG003_DATABASE",
+      "label": "@afenda/database",
+      "metadata": {
+        "domain": "persistence",
+        "lane": "green-lane",
+        "packageId": "PKG-003",
+        "runtimeOwner": "packages/database"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG010_KERNEL",
+      "label": "@afenda/kernel",
+      "metadata": {
+        "domain": "operating-context-contracts",
+        "lane": "green-lane",
+        "packageId": "PKG-010",
+        "runtimeOwner": "packages/kernel"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG014_PERMISSIONS",
+      "label": "@afenda/permissions",
+      "metadata": {
+        "domain": "rbac",
+        "lane": "green-lane",
+        "packageId": "PKG-014",
+        "runtimeOwner": "packages/permissions"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG015_STORAGE",
+      "label": "@afenda/storage",
+      "metadata": {
+        "domain": "tenant-storage",
+        "lane": "green-lane",
+        "packageId": "PKG-015",
+        "runtimeOwner": "packages/storage"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG008_EXECUTION",
+      "label": "@afenda/execution",
+      "metadata": {
+        "domain": "outbox-jobs",
+        "lane": "green-lane",
+        "packageId": "PKG-008",
+        "runtimeOwner": "packages/execution"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG018_UI",
+      "label": "@afenda/ui",
+      "metadata": {
+        "domain": "governed-primitives",
+        "lane": "archive-lane",
+        "packageId": "PKG-018",
+        "runtimeOwner": "docs/adr"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG001_APPSHELL",
+      "label": "@afenda/appshell",
+      "metadata": {
+        "domain": "shell-composition",
+        "lane": "archive-lane",
+        "packageId": "PKG-001",
+        "runtimeOwner": "docs/adr"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG002_AUTH",
+      "label": "@afenda/auth",
+      "metadata": {
+        "domain": "auth",
+        "lane": "amber-lane",
+        "packageId": "PKG-002",
+        "runtimeOwner": "packages/auth"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG009_FEATURE_FLAGS",
+      "label": "@afenda/feature-flags",
+      "metadata": {
+        "domain": "rollout-flags",
+        "lane": "blue-lane",
+        "packageId": "PKG-009",
+        "runtimeOwner": "packages/feature-flags"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKGR01_ACCOUNTING",
+      "label": "@afenda/kernel",
+      "metadata": {
+        "domain": "accounting-contracts",
+        "lane": "green-lane",
+        "packageId": "PKG-R01",
+        "runtimeOwner": "packages/kernel/src/erp-domain/accounting"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKGR01B_ERP_DOMAIN_CATALOG",
+      "label": "@afenda/kernel",
+      "metadata": {
+        "domain": "erp-domain-vocabulary-catalog",
+        "lane": "green-lane",
+        "packageId": "PKG-010",
+        "runtimeOwner": "packages/kernel/src/erp-domain"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKGR01C_ERP_MODULE_FOUNDATION",
+      "label": "@afenda/erp-module-foundation",
+      "metadata": {
+        "domain": "erp-module-foundation",
+        "lane": "green-lane",
+        "packageId": "PKG-027",
+        "runtimeOwner": "packages/erp-module-foundation"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKGR05_PROCUREMENT",
+      "label": "@afenda/procurement",
+      "metadata": {
+        "domain": "procurement-runtime-authority",
+        "lane": "amber-lane",
+        "packageId": "PKG-R05",
+        "runtimeOwner": "packages/procurement"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKGR02_INVENTORY",
+      "label": "@afenda/database",
+      "metadata": {
+        "domain": "inventory-master-data",
+        "lane": "green-lane",
+        "packageId": "PKG-R02",
+        "runtimeOwner": "packages/database"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG005_DOCS",
+      "label": "@afenda/docs",
+      "metadata": {
+        "domain": "docs-app",
+        "lane": "blue-lane",
+        "packageId": "PKG-005",
+        "runtimeOwner": "apps/docs"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG006_ENTITLEMENTS",
+      "label": "@afenda/entitlements",
+      "metadata": {
+        "domain": "entitlements",
+        "lane": "green-lane",
+        "packageId": "PKG-006",
+        "runtimeOwner": "packages/entitlements"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG006_FEATURE_MANIFEST",
+      "label": "@afenda/entitlements",
+      "metadata": {
+        "domain": "feature-manifest",
+        "lane": "green-lane",
+        "packageId": "PKG-006",
+        "runtimeOwner": "packages/entitlements/src/evaluation"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG011_METADATA",
+      "label": "@afenda/ui-composition",
+      "metadata": {
+        "domain": "metadata-authority",
+        "lane": "archive-lane",
+        "packageId": "PKG-011",
+        "runtimeOwner": "docs/adr"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG012_METADATA_UI",
+      "label": "@afenda/metadata-ui",
+      "metadata": {
+        "domain": "metadata-renderers",
+        "lane": "archive-lane",
+        "packageId": "PKG-012",
+        "runtimeOwner": "docs/adr"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG016_TESTING",
+      "label": "@afenda/testing",
+      "metadata": {
+        "domain": "test-utilities",
+        "lane": "blue-lane",
+        "packageId": "PKG-016",
+        "runtimeOwner": "packages/testing"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG017_TS_CONFIG",
+      "label": "@afenda/typescript-config",
+      "metadata": {
+        "domain": "ts-config",
+        "lane": "blue-lane",
+        "packageId": "PKG-017",
+        "runtimeOwner": "packages/typescript-config"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG004_DESIGN",
+      "label": "@afenda/ui",
+      "metadata": {
+        "domain": "design-authority",
+        "lane": "archive-lane",
+        "packageId": "PKG-004",
+        "runtimeOwner": "docs/adr"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG020_AI_GOVERNANCE",
+      "label": "@afenda/ai-governance",
+      "metadata": {
+        "domain": "ai-governance",
+        "lane": "green-lane",
+        "packageId": "PKG-020",
+        "runtimeOwner": "packages/ai-governance"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG021_STORYBOOK",
+      "label": "@afenda/storybook",
+      "metadata": {
+        "domain": "storybook-app",
+        "lane": "blue-lane",
+        "packageId": "PKG-021",
+        "runtimeOwner": "apps/storybook"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG028_DEVELOPER",
+      "label": "@afenda/developer",
+      "metadata": {
+        "domain": "developer-route-lab",
+        "lane": "lab-lane",
+        "packageId": "PKG-028",
+        "runtimeOwner": "apps/developer"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKG022_EMAIL",
+      "label": "@afenda/email",
+      "metadata": {
+        "domain": "email-preview",
+        "lane": "blue-lane",
+        "packageId": "PKG-022",
+        "runtimeOwner": "apps/email"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKGR02_ARCHITECTURE_AUTHORITY",
+      "label": "@afenda/architecture-authority",
+      "metadata": {
+        "domain": "architecture-authority",
+        "lane": "green-lane",
+        "packageId": "PKG-019",
+        "runtimeOwner": "packages/architecture-authority"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKGR03_ACCOUNTING_STANDARDS",
+      "label": "@afenda/accounting-standards",
+      "metadata": {
+        "domain": "accounting-standards-authority",
+        "lane": "green-lane",
+        "packageId": "PKG-023",
+        "runtimeOwner": "packages/accounting-standards"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKGR04_ENTERPRISE_KNOWLEDGE",
+      "label": "@afenda/enterprise-knowledge",
+      "metadata": {
+        "domain": "enterprise-knowledge-authority",
+        "lane": "green-lane",
+        "packageId": "PKG-024",
+        "runtimeOwner": "packages/enterprise-knowledge"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKGR05_CSS_AUTHORITY",
+      "label": "@afenda/css-authority",
+      "metadata": {
+        "domain": "css-authority",
+        "lane": "archive-lane",
+        "packageId": "PKG-025",
+        "runtimeOwner": "docs/adr"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKGR05A_SHADCN_STUDIO",
+      "label": "@afenda/shadcn-studio",
+      "metadata": {
+        "domain": "shadcn-studio-presentation",
+        "lane": "archive-lane",
+        "packageId": "PKG-026",
+        "runtimeOwner": "docs/adr"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKGR05C_SHADCN_STUDIO_V2",
+      "label": "@afenda/shadcn-studio-v2",
+      "metadata": {
+        "domain": "shadcn-studio-presentation-v2",
+        "lane": "green-lane",
+        "packageId": "PKG-030",
+        "runtimeOwner": "packages/shadcn-studio-v2"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PKGR05B_DESIGN_RETIREMENT",
+      "label": "@afenda/design-system",
+      "metadata": {
+        "domain": "design-system-retirement",
+        "lane": "archive-lane",
+        "packageId": "PKG-004",
+        "runtimeOwner": "docs/adr"
+      },
+      "type": "package"
+    },
+    {
+      "id": "pkg:PAS_AUTHORITY",
+      "label": "docs/PAS",
+      "metadata": {
+        "domain": "package-authority-standards",
+        "lane": "archive-lane",
+        "packageId": "PAS-001",
+        "runtimeOwner": "docs/PAS"
+      },
+      "type": "package"
+    },
+    {
+      "id": "api:internal.v1.health.get",
+      "label": "internal.v1.health.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/health"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.auth.memberships.get",
+      "label": "internal.v1.auth.memberships.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/auth/memberships"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.auth.service-actor.ping.get",
+      "label": "internal.v1.auth.service-actor.ping.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/auth/service-actor/ping"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.client-error.post",
+      "label": "internal.v1.client-error.post",
+      "metadata": {
+        "method": "POST",
+        "path": "/api/internal/v1/client-error"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.workspace.dashboard-layout.get",
+      "label": "internal.v1.workspace.dashboard-layout.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/workspace/dashboard-layout"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.workspace.dashboard-layout.put",
+      "label": "internal.v1.workspace.dashboard-layout.put",
+      "metadata": {
+        "method": "PUT",
+        "path": "/api/internal/v1/workspace/dashboard-layout"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.workspace.dashboard-layout.delete",
+      "label": "internal.v1.workspace.dashboard-layout.delete",
+      "metadata": {
+        "method": "DELETE",
+        "path": "/api/internal/v1/workspace/dashboard-layout"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.inventory.products.get",
+      "label": "internal.v1.inventory.products.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/inventory/products"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.inventory.products.post",
+      "label": "internal.v1.inventory.products.post",
+      "metadata": {
+        "method": "POST",
+        "path": "/api/internal/v1/inventory/products"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.inventory.products.patch",
+      "label": "internal.v1.inventory.products.patch",
+      "metadata": {
+        "method": "PATCH",
+        "path": "/api/internal/v1/inventory/products"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.inventory.stock-levels.get",
+      "label": "internal.v1.inventory.stock-levels.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/inventory/stock-levels"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.inventory.stock-movements.post",
+      "label": "internal.v1.inventory.stock-movements.post",
+      "metadata": {
+        "method": "POST",
+        "path": "/api/internal/v1/inventory/stock-movements"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.inventory.warehouses.get",
+      "label": "internal.v1.inventory.warehouses.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/inventory/warehouses"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.inventory.warehouses.post",
+      "label": "internal.v1.inventory.warehouses.post",
+      "metadata": {
+        "method": "POST",
+        "path": "/api/internal/v1/inventory/warehouses"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.inventory.warehouses.patch",
+      "label": "internal.v1.inventory.warehouses.patch",
+      "metadata": {
+        "method": "PATCH",
+        "path": "/api/internal/v1/inventory/warehouses"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.system-admin.users.invite.post",
+      "label": "internal.v1.system-admin.users.invite.post",
+      "metadata": {
+        "method": "POST",
+        "path": "/api/internal/v1/system-admin/users/invite"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.system-admin.user-invitations.post",
+      "label": "internal.v1.system-admin.user-invitations.post",
+      "metadata": {
+        "method": "POST",
+        "path": "/api/internal/v1/system-admin/user-invitations"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.system-admin.memberships.role.post",
+      "label": "internal.v1.system-admin.memberships.role.post",
+      "metadata": {
+        "method": "POST",
+        "path": "/api/internal/v1/system-admin/memberships/role"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.system-admin.membership-role-assignments.post",
+      "label": "internal.v1.system-admin.membership-role-assignments.post",
+      "metadata": {
+        "method": "POST",
+        "path": "/api/internal/v1/system-admin/membership-role-assignments"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.system-admin.audit-events.get",
+      "label": "internal.v1.system-admin.audit-events.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/system-admin/audit-events"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.system-admin.users.get",
+      "label": "internal.v1.system-admin.users.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/system-admin/users"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.system-admin.roles.get",
+      "label": "internal.v1.system-admin.roles.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/system-admin/roles"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.system-admin.permissions.get",
+      "label": "internal.v1.system-admin.permissions.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/system-admin/permissions"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.system-admin.memberships.get",
+      "label": "internal.v1.system-admin.memberships.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/system-admin/memberships"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.system-admin.settings.get",
+      "label": "internal.v1.system-admin.settings.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/system-admin/settings"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.storage.tenant-brand-logo.post",
+      "label": "internal.v1.storage.tenant-brand-logo.post",
+      "metadata": {
+        "method": "POST",
+        "path": "/api/internal/v1/storage/tenant-brand-logo"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.docs.get",
+      "label": "internal.v1.docs.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/docs"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "api:internal.v1.openapi.json.get",
+      "label": "internal.v1.openapi.json.get",
+      "metadata": {
+        "method": "GET",
+        "path": "/api/internal/v1/openapi.json"
+      },
+      "type": "api-operation"
+    },
+    {
+      "id": "surface:procurement.requisitions.list",
+      "label": "procurement.requisitions.list",
+      "metadata": {
+        "blockId": "datatable-procurement-requisitions",
+        "loaderPath": "apps/erp/src/lib/procurement/load-procurement-requisitions-page.server.ts",
+        "pagePath": "apps/erp/src/app/(protected)/modules/procurement/requisitions/page.tsx",
+        "routePattern": "/modules/procurement/requisitions",
+        "surfaceTemplateId": "surface-template.procurement-requisitions-table"
+      },
+      "type": "module-surface"
+    },
+    {
+      "id": "surface:procurement.purchase_orders.list",
+      "label": "procurement.purchase_orders.list",
+      "metadata": {
+        "blockId": "datatable-procurement-purchase-orders",
+        "loaderPath": "apps/erp/src/lib/procurement/load-procurement-purchase-orders-page.server.ts",
+        "pagePath": "apps/erp/src/app/(protected)/modules/procurement/purchase-orders/page.tsx",
+        "routePattern": "/modules/procurement/purchase-orders",
+        "surfaceTemplateId": "surface-template.procurement-purchase-orders-table"
+      },
+      "type": "module-surface"
+    },
+    {
+      "id": "spine:operating-context-spine",
+      "label": "operating-context-spine",
+      "metadata": {
+        "delegate": "resolveOperatingContext",
+        "module": "lib/context/resolve-operating-context.server.ts",
+        "step": "Canonical operating context assembly entry"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:protected-request-operating-context",
+      "label": "protected-request-operating-context",
+      "metadata": {
+        "delegate": "loadProtectedRequestOperatingContext",
+        "module": "lib/context/load-protected-request-operating-context.server.ts",
+        "step": "Request-scoped protected RSC operating context assembly (INV-001)"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:metadata-operator-surface-page-loader",
+      "label": "metadata-operator-surface-page-loader",
+      "metadata": {
+        "delegate": "loadMetadataOperatorSurfacePage",
+        "module": "lib/metadata/load-metadata-operator-surface-page.server.ts",
+        "step": "Operator metadata routes consume request-scoped spine assembly"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:procurement-foundation-readiness-loader",
+      "label": "procurement-foundation-readiness-loader",
+      "metadata": {
+        "delegate": "loadProcurementFoundationReadinessPage",
+        "module": "lib/procurement/load-procurement-foundation-readiness-page.server.ts",
+        "step": "Procurement foundation readiness route consumes request-scoped spine assembly"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:procurement-foundation-readiness-page",
+      "label": "procurement-foundation-readiness-page",
+      "metadata": {
+        "delegate": "loadProcurementFoundationReadinessPage",
+        "module": "app/(protected)/modules/procurement/readiness/page.tsx",
+        "step": "Protected procurement foundation readiness RSC ingress (ERP-PROC-OP-005)"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:accounting-standards-readiness-loader",
+      "label": "accounting-standards-readiness-loader",
+      "metadata": {
+        "delegate": "loadAccountingStandardsReadinessPage",
+        "module": "lib/accounting-standards/load-accounting-standards-readiness-page.server.ts",
+        "step": "Accounting standards readiness route consumes PAS-003 validation workflow"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:accounting-standards-readiness-page",
+      "label": "accounting-standards-readiness-page",
+      "metadata": {
+        "delegate": "loadAccountingStandardsReadinessPage",
+        "module": "app/(protected)/standards/accounting-readiness/page.tsx",
+        "step": "Protected accounting standards consumer proof RSC ingress (PAS-003 B20)"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:procurement-requisitions-list-loader",
+      "label": "procurement-requisitions-list-loader",
+      "metadata": {
+        "delegate": "loadProcurementRequisitionsPage",
+        "module": "lib/procurement/load-procurement-requisitions-page.server.ts",
+        "step": "Procurement requisitions list route consumes request-scoped spine assembly"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:procurement-requisitions-list-page",
+      "label": "procurement-requisitions-list-page",
+      "metadata": {
+        "delegate": "loadProcurementRequisitionsPage",
+        "module": "app/(protected)/modules/procurement/requisitions/page.tsx",
+        "step": "Protected procurement requisitions PAS-006 list RSC ingress (ERP-PROC-OP-007)"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:procurement-purchase-orders-list-loader",
+      "label": "procurement-purchase-orders-list-loader",
+      "metadata": {
+        "delegate": "loadProcurementPurchaseOrdersPage",
+        "module": "lib/procurement/load-procurement-purchase-orders-page.server.ts",
+        "step": "Procurement purchase orders list route consumes request-scoped spine assembly"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:procurement-purchase-orders-list-page",
+      "label": "procurement-purchase-orders-list-page",
+      "metadata": {
+        "delegate": "loadProcurementPurchaseOrdersPage",
+        "module": "app/(protected)/modules/procurement/purchase-orders/page.tsx",
+        "step": "Protected procurement purchase orders PAS-006 list RSC ingress (ERP-PROC-OP-007)"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:protected-rsc-metadata-workspace",
+      "label": "protected-rsc-metadata-workspace",
+      "metadata": {
+        "delegate": "loadProtectedRequestOperatingContext",
+        "module": "app/(protected)/metadata-workspace/page.tsx",
+        "step": "Resolve operating context for metadata workspace RSC"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:protected-rsc-layout",
+      "label": "protected-rsc-layout",
+      "metadata": {
+        "delegate": "loadProtectedRequestOperatingContext",
+        "module": "app/(protected)/layout.tsx",
+        "step": "Resolve operating context for protected layout RSC ingress"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:presentation-shell-context",
+      "label": "presentation-shell-context",
+      "metadata": {
+        "delegate": "toShellOperatingContextWire",
+        "module": "app/(protected)/layout.tsx",
+        "step": "Pass allowed contexts to PAS-006 protected shell"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:permission-checks",
+      "label": "permission-checks",
+      "metadata": {
+        "delegate": "checkPermission",
+        "module": "lib/api/authorize-api-route.ts",
+        "step": "Feed resolved context into permission checks"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:protected-server-actions",
+      "label": "protected-server-actions",
+      "metadata": {
+        "delegate": "resolveActionOperatingContext",
+        "module": "lib/server-actions/resolve-action-operating-context.server.ts",
+        "step": "Wire protected server actions"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:protected-api-routes",
+      "label": "protected-api-routes",
+      "metadata": {
+        "delegate": "createApiHandler",
+        "module": "server/api/runtime/create-api-handler.ts",
+        "step": "Wire protected API routes"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:protected-api-operating-context",
+      "label": "protected-api-operating-context",
+      "metadata": {
+        "delegate": "resolveApiRouteOperatingContext",
+        "module": "lib/api/resolve-api-route-operating-context.ts",
+        "step": "Resolve operating context for protected internal API routes"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "spine:context-switch",
+      "label": "context-switch",
+      "metadata": {
+        "delegate": "switchOperatingContextAction",
+        "module": "lib/context/context-switch.action.ts",
+        "step": "Validate context switch server-side"
+      },
+      "type": "spine-wiring"
+    },
+    {
+      "id": "lab-api:lab.v1.health.get",
+      "label": "/api/lab/v1/health",
+      "metadata": {
+        "dynamic": "auto",
+        "method": "GET",
+        "summary": "Route-lab liveness probe — frontend-only; no auth, tenant, or ERP runtime authority."
+      },
+      "type": "lab-route"
+    },
+    {
+      "id": "lab-page:dashboard.sales",
+      "label": "/dashboard/sales",
+      "metadata": {
+        "kind": "operator-dashboard",
+        "promotionTarget": "erp-route",
+        "routePath": "/dashboard/sales"
+      },
+      "type": "lab-route"
+    },
+    {
+      "id": "lab-page:dashboard.finance",
+      "label": "/dashboard/finance",
+      "metadata": {
+        "kind": "operator-dashboard",
+        "promotionTarget": "erp-route",
+        "routePath": "/dashboard/finance"
+      },
+      "type": "lab-route"
+    },
+    {
+      "id": "lab-page:admin.users",
+      "label": "/admin/users",
+      "metadata": {
+        "kind": "operator-list",
+        "promotionTarget": "erp-route",
+        "routePath": "/admin/users"
+      },
+      "type": "lab-route"
+    },
+    {
+      "id": "lab-page:settings.appearance",
+      "label": "/settings/appearance",
+      "metadata": {
+        "kind": "operator-settings",
+        "promotionTarget": "erp-route",
+        "routePath": "/settings/appearance"
+      },
+      "type": "lab-route"
+    },
+    {
+      "id": "lab-page:architecture.integration.map",
+      "label": "/architecture",
+      "metadata": {
+        "kind": "operator-dashboard",
+        "promotionTarget": "retire",
+        "routePath": "/architecture"
+      },
+      "type": "lab-route"
+    },
+    {
+      "id": "lab-page:modules.procurement.requisition.document",
+      "label": "/modules/procurement/requisition/REQ-1001",
+      "metadata": {
+        "kind": "module-document",
+        "promotionTarget": "erp-route",
+        "routePath": "/modules/[moduleSlug]/[surface]/[documentId]"
+      },
+      "type": "lab-route"
+    },
+    {
+      "id": "FSI-CCP-001",
+      "label": "FSI-CCP-001",
+      "metadata": {
+        "control": "Triple proof — registry + delegate + gate",
+        "gateCommand": "check:foundation-disposition",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "gate:check:foundation-disposition",
+      "label": "check:foundation-disposition",
+      "metadata": {
+        "command": "pnpm check:foundation-disposition"
+      },
+      "type": "gate"
+    },
+    {
+      "id": "FSI-CCP-002",
+      "label": "FSI-CCP-002",
+      "metadata": {
+        "control": "Registry-before-filesystem for ERP pages",
+        "gateCommand": "check:erp-module-readiness",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "gate:check:erp-module-readiness",
+      "label": "check:erp-module-readiness",
+      "metadata": {
+        "command": "pnpm check:erp-module-readiness"
+      },
+      "type": "gate"
+    },
+    {
+      "id": "FSI-CCP-003",
+      "label": "FSI-CCP-003",
+      "metadata": {
+        "control": "pas006-ui contract materialization",
+        "gateCommand": "check:procurement-pas006-ui-contract",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "gate:check:procurement-pas006-ui-contract",
+      "label": "check:procurement-pas006-ui-contract",
+      "metadata": {
+        "command": "pnpm check:procurement-pas006-ui-contract"
+      },
+      "type": "gate"
+    },
+    {
+      "id": "FSI-CCP-004",
+      "label": "FSI-CCP-004",
+      "metadata": {
+        "control": "API operation registry completeness",
+        "gateCommand": "check:api-contracts",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "gate:check:api-contracts",
+      "label": "check:api-contracts",
+      "metadata": {
+        "command": "pnpm check:api-contracts"
+      },
+      "type": "gate"
+    },
+    {
+      "id": "FSI-CCP-005",
+      "label": "FSI-CCP-005",
+      "metadata": {
+        "control": "OpenAPI publication drift",
+        "gateCommand": "check:openapi-drift",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "gate:check:openapi-drift",
+      "label": "check:openapi-drift",
+      "metadata": {
+        "command": "pnpm check:openapi-drift"
+      },
+      "type": "gate"
+    },
+    {
+      "id": "FSI-CCP-006",
+      "label": "FSI-CCP-006",
+      "metadata": {
+        "control": "Spine consumer wiring",
+        "gateCommand": "quality:kernel-context-surface",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "gate:quality:kernel-context-surface",
+      "label": "quality:kernel-context-surface",
+      "metadata": {
+        "command": "pnpm quality:kernel-context-surface"
+      },
+      "type": "gate"
+    },
+    {
+      "id": "FSI-CCP-007",
+      "label": "FSI-CCP-007",
+      "metadata": {
+        "control": "Lab route surface registry",
+        "gateCommand": "check:route-lab-governance",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "gate:check:route-lab-governance",
+      "label": "check:route-lab-governance",
+      "metadata": {
+        "command": "pnpm check:route-lab-governance"
+      },
+      "type": "gate"
+    },
+    {
+      "id": "FSI-CCP-008",
+      "label": "FSI-CCP-008",
+      "metadata": {
+        "control": "Lab runtime authority boundary",
+        "gateCommand": "check:route-lab-governance",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "FSI-CCP-009",
+      "label": "FSI-CCP-009",
+      "metadata": {
+        "control": "Presentation v2 consumer imports",
+        "gateCommand": "quality:erp-metadata-pas006-consumer",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "gate:quality:erp-metadata-pas006-consumer",
+      "label": "quality:erp-metadata-pas006-consumer",
+      "metadata": {
+        "command": "pnpm quality:erp-metadata-pas006-consumer"
+      },
+      "type": "gate"
+    },
+    {
+      "id": "FSI-CCP-010",
+      "label": "FSI-CCP-010",
+      "metadata": {
+        "control": "Integration graph export freshness",
+        "gateCommand": "check:integration-graph-drift",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "gate:check:integration-graph-drift",
+      "label": "check:integration-graph-drift",
+      "metadata": {
+        "command": "pnpm check:integration-graph-drift"
+      },
+      "type": "gate"
+    },
+    {
+      "id": "FSI-CCP-011",
+      "label": "FSI-CCP-011",
+      "metadata": {
+        "control": "Documentation authority sync",
+        "gateCommand": "check:documentation-drift",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "gate:check:documentation-drift",
+      "label": "check:documentation-drift",
+      "metadata": {
+        "command": "pnpm check:documentation-drift"
+      },
+      "type": "gate"
+    },
+    {
+      "id": "FSI-CCP-012",
+      "label": "FSI-CCP-012",
+      "metadata": {
+        "control": "Developer lab greenlight",
+        "gateCommand": "check:developer-route-lab-greenlight",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "gate:check:developer-route-lab-greenlight",
+      "label": "check:developer-route-lab-greenlight",
+      "metadata": {
+        "command": "pnpm check:developer-route-lab-greenlight"
+      },
+      "type": "gate"
+    },
+    {
+      "id": "FSI-CCP-013",
+      "label": "FSI-CCP-013",
+      "metadata": {
+        "control": "Module context spine consumer",
+        "gateCommand": "check:procurement-context-spine-consumer",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "gate:check:procurement-context-spine-consumer",
+      "label": "check:procurement-context-spine-consumer",
+      "metadata": {
+        "command": "pnpm check:procurement-context-spine-consumer"
+      },
+      "type": "gate"
+    },
+    {
+      "id": "FSI-CCP-014",
+      "label": "FSI-CCP-014",
+      "metadata": {
+        "control": "ERP typecheck on surface change",
+        "gateCommand": "filter:@afenda/erp:typecheck",
+        "owner": "full-stack-integration"
+      },
+      "type": "ccp"
+    },
+    {
+      "id": "gate:filter:@afenda/erp:typecheck",
+      "label": "filter:@afenda/erp:typecheck",
+      "metadata": {
+        "command": "pnpm filter:@afenda/erp:typecheck"
+      },
+      "type": "gate"
+    }
+  ],
+  "slices": [
+    {
+      "id": "FSI-S7",
+      "priority": "P0",
+      "status": "planned",
+      "summary": "Module surface registry materialization"
+    },
+    {
+      "id": "FSI-S8",
+      "priority": "P0",
+      "status": "planned",
+      "summary": "Rendering matrix (force-dynamic, BFF cache mirror)"
+    },
+    {
+      "id": "FSI-S3",
+      "priority": "P1",
+      "status": "planned",
+      "summary": "Lab→ERP promotion attestation"
+    },
+    {
+      "id": "FSI-S1",
+      "priority": "P1",
+      "status": "planned",
+      "summary": "Consumer envelope discipline"
+    },
+    {
+      "id": "FSI-S6",
+      "priority": "P1",
+      "status": "in-progress",
+      "summary": "v1→v2 presentation cutover"
+    },
+    {
+      "id": "FSI-S9",
+      "priority": "P1",
+      "status": "planned",
+      "summary": "MCP route verification"
+    },
+    {
+      "id": "FSI-S2",
+      "priority": "P1",
+      "status": "planned",
+      "summary": "Wire→UI mapper registry"
+    },
+    {
+      "id": "FSI-S4",
+      "priority": "P2",
+      "status": "planned",
+      "summary": "Metadata binding materialization"
+    },
+    {
+      "id": "FSI-S5",
+      "priority": "P2",
+      "status": "planned",
+      "summary": "OpenAPI↔permission parity"
+    },
+    {
+      "id": "FSI-S10",
+      "priority": "P1",
+      "status": "delivered",
+      "summary": "Integration graph export + dashboard"
+    }
+  ],
+  "version": "1.0.0"
+}

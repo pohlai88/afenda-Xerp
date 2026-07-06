@@ -13,4 +13,4 @@ export {
   SheetTitle as DrawerTitle,
   SheetTrigger as DrawerTrigger,
   type SheetTriggerProps as DrawerTriggerProps,
-} from "./Sheet";
+} from "./sheet";

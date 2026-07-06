@@ -17,10 +17,7 @@ export const INTEGRATION_TEST_PATTERN = "**/*.integration.test.{ts,tsx}";
 export const INTERACTION_CLI_PATH_FILTER = ".interaction.test";
 
 /** Vitest project names that host interaction suites. */
-export const INTERACTION_VITEST_PROJECTS = [
-  "@afenda/testing",
-  "@afenda/shadcn-studio",
-] as const;
+export const INTERACTION_VITEST_PROJECTS = ["@afenda/testing"] as const;
 
 const NODE_SETUP = resolve(MONOREPO_ROOT, "packages/testing/src/setup/node.ts");
 const REACT_SETUP = resolve(
@@ -128,40 +125,12 @@ export function createReactProject(
   options: ReactProjectOptions = {}
 ) {
   const root = dirname(fileURLToPath(importMetaUrl));
-  const shadcnStudioSrcRoot = resolve(
-    MONOREPO_ROOT,
-    "packages/shadcn-studio/src"
-  );
 
   return defineProject({
     root,
     plugins: [react()],
     resolve: {
       alias: [
-        {
-          find: "@/components/shadcn-studio",
-          replacement: resolve(shadcnStudioSrcRoot, "components-layouts"),
-        },
-        {
-          find: "@/components-auth-shell",
-          replacement: resolve(shadcnStudioSrcRoot, "components-auth-shell"),
-        },
-        {
-          find: "@/components/ui",
-          replacement: resolve(shadcnStudioSrcRoot, "components-ui"),
-        },
-        {
-          find: "@/lib/utils",
-          replacement: resolve(shadcnStudioSrcRoot, "utils/utils.ts"),
-        },
-        {
-          find: "@afenda/shadcn-studio",
-          replacement: resolve(
-            MONOREPO_ROOT,
-            "packages/shadcn-studio/src/index.ts"
-          ),
-        },
-        { find: "@", replacement: shadcnStudioSrcRoot },
         { find: "next/link", replacement: NEXT_LINK_MOCK },
         { find: "next/image", replacement: NEXT_IMAGE_MOCK },
         ...Object.entries(options.alias ?? {}).map(([find, replacement]) => ({

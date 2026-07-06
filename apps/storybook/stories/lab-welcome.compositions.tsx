@@ -13,14 +13,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import {
-  Timeline,
-  TimelineContent,
-  TimelineDot,
-  TimelineHeading,
-  TimelineItem,
-  TimelineLine,
-} from "@/components/ui/timeline";
 
 import { afendaExpensiveCalmPreset } from "./afenda-expensive-calm.preset";
 import { vercelLabPreset } from "./lab-welcome-vercel.preset";
@@ -252,34 +244,34 @@ function AcceptancePipeline() {
       >
         Acceptance gates
       </h2>
-      <Timeline className="mt-8 max-w-2xl">
+      <ol className="mt-8 max-w-2xl space-y-0">
         {acceptanceGates.map((gate, index) => {
           const isLast = index === acceptanceGates.length - 1;
           return (
-            <TimelineItem className="gap-x-3" key={gate.command} status="done">
-              <TimelineDot
-                className="size-5 border-none bg-primary"
-                status="custom"
-              >
-                <span className="font-mono text-[9px] text-primary-foreground">
+            <li className="flex gap-3" key={gate.command}>
+              <div className="flex flex-col items-center">
+                <span className="flex size-5 items-center justify-center rounded-full bg-primary font-mono text-[9px] text-primary-foreground">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-              </TimelineDot>
-              {isLast ? null : (
-                <TimelineLine className="min-h-8 bg-border/80" done />
-              )}
-              <TimelineHeading className="pt-0.5 font-medium text-foreground text-sm">
-                {gate.label}
-              </TimelineHeading>
-              <TimelineContent className="pb-6 pl-0">
+                {isLast ? null : (
+                  <span
+                    aria-hidden
+                    className="min-h-8 w-px flex-1 bg-border/80"
+                  />
+                )}
+              </div>
+              <div className={isLast ? "pb-0" : "pb-6"}>
+                <p className="pt-0.5 font-medium text-foreground text-sm">
+                  {gate.label}
+                </p>
                 <code className="font-mono text-[11px] text-muted-foreground">
                   {gate.command}
                 </code>
-              </TimelineContent>
-            </TimelineItem>
+              </div>
+            </li>
           );
         })}
-      </Timeline>
+      </ol>
     </section>
   );
 }

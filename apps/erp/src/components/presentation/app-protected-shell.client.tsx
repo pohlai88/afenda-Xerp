@@ -1,15 +1,13 @@
 "use client";
 
 import {
+  AppShell01,
   type AppShellNavGroupWire,
   type AppShellOperatingContextWire,
-  resolveShell,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2/clients";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { useMemo } from "react";
-
-import { resolveShellSlugFromPathname } from "@/lib/presentation/resolve-shell-slug";
 
 export interface AppProtectedShellProps {
   readonly children: ReactNode;
@@ -22,10 +20,11 @@ function annotateActiveNavGroups(
   pathname: string
 ): AppShellNavGroupWire[] {
   return groups.map((group) => ({
-    label: group.label,
+    ...group,
     items: group.items.map((item) => ({
       ...item,
-      isActive: pathname === item.href || pathname.startsWith(`${item.href}/`),
+      isActive:
+        pathname === item.href || pathname.startsWith(`${item.href}/`),
     })),
   }));
 }
@@ -35,17 +34,19 @@ export function AppProtectedShell({
   navGroups,
   operatingContext,
 }: AppProtectedShellProps) {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
   const activeNavGroups = useMemo(
     () => annotateActiveNavGroups(navGroups, pathname),
     [navGroups, pathname]
   );
-  const shellSlug = resolveShellSlugFromPathname(pathname);
-  const Shell = resolveShell(shellSlug);
 
   return (
-    <Shell navGroups={activeNavGroups} operatingContext={operatingContext}>
+    <AppShell01
+      brandLabel="Afenda ERP"
+      navGroups={activeNavGroups}
+      operatingContext={operatingContext}
+    >
       {children}
-    </Shell>
+    </AppShell01>
   );
 }

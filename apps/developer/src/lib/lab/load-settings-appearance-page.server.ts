@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { readAppearanceReviewNoteQuery } from "@/app/(lab)/settings/appearance/_queries/read-appearance-review-note.server";
 import type {
   AppearanceSettingsPageData,
   LabPromotionNote,
   LabRouteLoader,
 } from "./contracts";
+import { createCachedLabLoader } from "./create-cached-lab-loader.server";
 import { createRouteLabMetadata } from "./create-route-lab-metadata";
 
 export const settingsAppearancePromotionNote = {
@@ -28,11 +30,17 @@ const demoAppearanceSettingsPageData = {
   promotionSummary:
     "Appearance keeps the same route/panel composition while ERP later owns preference persistence and user-specific settings authority.",
   promotion: settingsAppearancePromotionNote,
+  reviewNote: null,
   guidelines: [
     {
-      title: "No local persistence contract",
+      title: "Governed query read seam",
       summary:
-        "This screen validates layout and control grouping only. Durable preference writes belong to ERP runtime later.",
+        "Review notes load through a route-local _queries read helper — lab proof only, paired with the P2 Server Action.",
+    },
+    {
+      title: "Governed Server Action seam",
+      summary:
+        "Review notes save through a route-local Server Action and httpOnly cookie — lab proof only, not ERP preference persistence.",
     },
     {
       title: "Promotion-safe composition",
@@ -47,9 +55,20 @@ const demoAppearanceSettingsPageData = {
   ],
 } satisfies AppearanceSettingsPageData;
 
-export const loadSettingsAppearancePage: LabRouteLoader<
+const loadSettingsAppearancePageUncached: LabRouteLoader<
   AppearanceSettingsPageData
-> = async () => demoAppearanceSettingsPageData;
+> = async () => {
+  const reviewNote = await readAppearanceReviewNoteQuery();
+
+  return {
+    ...demoAppearanceSettingsPageData,
+    reviewNote,
+  } satisfies AppearanceSettingsPageData;
+};
+
+export const loadSettingsAppearancePage = createCachedLabLoader(
+  loadSettingsAppearancePageUncached
+);
 
 export function createAppearanceSettingsMetadata(): Metadata {
   return createRouteLabMetadata({

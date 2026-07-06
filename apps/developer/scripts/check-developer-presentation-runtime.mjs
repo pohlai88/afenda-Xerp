@@ -7,6 +7,7 @@ const developerRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   ".."
 );
+const packageJsonPath = path.join(developerRoot, "package.json");
 const nextConfigPath = path.join(developerRoot, "next.config.ts");
 const rootLayoutPath = path.join(developerRoot, "src", "app", "layout.tsx");
 const labShellPath = path.join(
@@ -43,6 +44,7 @@ const readSource = (filePath) => {
 };
 
 const nextConfigSource = readSource(nextConfigPath);
+const packageJsonSource = readSource(packageJsonPath);
 const rootLayoutSource = readSource(rootLayoutPath);
 const labShellSource = readSource(labShellPath);
 const v2ProofClientSource = readSource(v2ProofClientPath);
@@ -71,10 +73,20 @@ if (
   );
 }
 
-if (!labShellSource.includes("SettingsProvider")) {
+const FORBIDDEN_V1_LAB_SHELL_IMPORT =
+  /from\s+["']@afenda\/shadcn-studio(?:\/(?!v2)|["'])/u;
+
+if (!labShellSource.includes("AppShell01")) {
   recordFailure(
     labShellPath,
-    "lab shell must wrap AdmincnShell with v1 SettingsProvider (@afenda/shadcn-studio/theme)"
+    "lab shell must render v2 AppShell01 from @afenda/shadcn-studio-v2/clients (Lane B-04)"
+  );
+}
+
+if (FORBIDDEN_V1_LAB_SHELL_IMPORT.test(labShellSource)) {
+  recordFailure(
+    labShellPath,
+    "lab shell must not import @afenda/shadcn-studio (Lane B-04)"
   );
 }
 
@@ -92,6 +104,20 @@ if (!nextConfigSource.includes("transpilePackages")) {
   recordFailure(
     nextConfigPath,
     "must transpile @afenda/shadcn-studio-v2 so /clients resolves from package source"
+  );
+}
+
+if (FORBIDDEN_V1_LAB_SHELL_IMPORT.test(nextConfigSource)) {
+  recordFailure(
+    nextConfigPath,
+    "next.config must not transpile or alias @afenda/shadcn-studio (Lane B-12)"
+  );
+}
+
+if (packageJsonSource.includes('"@afenda/shadcn-studio"')) {
+  recordFailure(
+    packageJsonPath,
+    "developer package.json must not depend on @afenda/shadcn-studio (Lane B-12)"
   );
 }
 

@@ -7,7 +7,7 @@ export const ARCHITECTURE_BASELINE_FINGERPRINT =
 
 /** Deterministic lifecycle/exception validation reference for CI gates (matches baseline date). */
 export const ARCHITECTURE_VALIDATION_REFERENCE_ISO =
-  "2026-06-27T00:00:00.000Z" as const;
+  "2026-07-06T00:00:00.000Z" as const;
 
 export function resolveArchitectureValidationReferenceMs(
   options: { referenceDateMs?: number; referenceIso?: string } = {}

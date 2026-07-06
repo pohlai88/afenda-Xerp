@@ -1,4 +1,5 @@
-import type { McpSeedBlockId } from "@afenda/shadcn-studio";
+/** Dashboard widget block ids resolved through the ERP v2 preview bridge. */
+export type DashboardWidgetBlockId = string;
 
 /** Canonical widget keys from dashboard-layout.api-contract.ts */
 export const DASHBOARD_CANONICAL_WIDGET_IDS = [
@@ -43,7 +44,7 @@ export interface DashboardWidgetDefaultLayoutHint {
 
 export interface DashboardWidgetBridgeEntry {
   readonly bindingId?: string;
-  readonly blockId: McpSeedBlockId;
+  readonly blockId: DashboardWidgetBlockId;
   readonly defaultLayout: DashboardWidgetDefaultLayoutHint;
 }
 
@@ -161,7 +162,7 @@ export function resolveDashboardWidgetBridgeEntry(
 
 export function resolveDashboardWidgetBlockId(
   widgetKey: string
-): McpSeedBlockId | undefined {
+): DashboardWidgetBlockId | undefined {
   return resolveDashboardWidgetBridgeEntry(widgetKey)?.blockId;
 }
 

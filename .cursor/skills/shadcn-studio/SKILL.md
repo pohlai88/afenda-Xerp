@@ -5,9 +5,10 @@ description: >-
   presets, toolbar, and install paths. Use when using shadcn/studio MCP, PAS-006
   ERP frontend work, generating blocks, or running the studio toolbar.
 paths:
-  - packages/shadcn-studio/**
+  - packages/shadcn-studio-v2/**
   - apps/erp/**
   - apps/storybook/**
+  - apps/developer/**
 ---
 
 # shadcn/studio
@@ -16,9 +17,9 @@ paths:
 
 **Retired for ERP:** PAS-005 family (historical audit only), appshell bridge, `ui:guard*`, governed-ui strip pipeline — **do not parallel** with Kernel PAS-001A work.
 
-**Surface map:** [`afenda-presentation-atlas`](../afenda-presentation-atlas/SKILL.md) — `/afenda-presentation-atlas` · what exists in `@afenda/shadcn-studio` before MCP install or ERP import.
+**Surface map:** [`afenda-presentation-atlas`](../afenda-presentation-atlas/SKILL.md) — `/afenda-presentation-atlas` · what exists in `@afenda/shadcn-studio-v2` before MCP install or ERP import.
 
-**Source architecture (L1–L4):** [`packages/shadcn-studio/ARCHITECTURE.md`](../../packages/shadcn-studio/ARCHITECTURE.md) · [ADR-0037](../../docs/adr/ADR-0037-shadcn-studio-src-layered-structure.md) · [P06-011](../../docs/PAS/PRESENTATION/SLICE/p06-011-src-structure-clarity.md)
+**Source architecture:** [`packages/shadcn-studio-v2/docs/DESIGN-SYSTEM-ARCHITECTURE.md`](../../packages/shadcn-studio-v2/docs/DESIGN-SYSTEM-ARCHITECTURE.md) · [ADR-0040](../../docs/adr/ADR-0040-promote-shadcn-studio-v2-and-deprecate-legacy.md)
 
 **Install reference:** [reference/base-vega-install.md](./reference/base-vega-install.md) · [reference/credentials-env.md](./reference/credentials-env.md)
 
@@ -29,39 +30,34 @@ paths:
 ## Doctrine (ADR-0027)
 
 ```text
-MCP / CLI install (packages/shadcn-studio cwd, base-vega)
-  → src/components-quarantine/** (inbox — components.json install aliases)
-  → normalize + promote → components-ui/ | components-layouts/ | components-auth-shell/
-  → restore P06-008-R2 DOM markers (git) + Base UI render props after promotion
-  → seam imports to meta-contracts/meta-registry: **relative only** (never `@/contracts` or `@/registry`)
-  → pnpm storybook generate
-  → import in apps/erp via @afenda/shadcn-studio barrel only
-  → pnpm --filter @afenda/shadcn-studio typecheck
-  → pnpm check:studio-install-paths && pnpm check:studio-quarantine-isolation
-  → pnpm check:studio-import-zones && pnpm check:studio-metadata-binding && pnpm check:studio-block-slot-markers
+MCP / CLI install (packages/shadcn-studio-v2 cwd)
+  → governed package source under packages/shadcn-studio-v2/src/**
+  → pnpm --filter @afenda/shadcn-studio-v2 typecheck && build && test
+  → import in apps/erp | apps/storybook | apps/developer via @afenda/shadcn-studio-v2 exports only
+  → pnpm check:v1-consumer-imports && pnpm check:downstream-integration
   → pnpm --filter @afenda/erp typecheck && build
 ```
 
-**Quarantine inbox:** [`components-quarantine/README.md`](../../packages/shadcn-studio/src/components-quarantine/README.md) — raw vendor output is **not** public API until promoted (PAS-006B).
+**Quarantine inbox:** [`components/quarantine/README.md`](../../packages/shadcn-studio-v2/src/components/quarantine/README.md) — raw vendor output is **not** public API until promoted (LANE-A-07).
 
-**Two-zone import policy (PAS-006):**
+**Import policy (v2):**
 
 | Zone | Paths | Allowed | Forbidden |
 | --- | --- | --- | --- |
-| **A — Afenda authority** | `src/meta-contracts/**`, `src/meta-registry/**`, generators | Relative (`../meta-contracts/...`) | `@/`, `@afenda/shadcn-studio` self-import |
-| **B — MCP / shadcn UI** | `src/components-ui/**`, `src/components-layouts/**`, `src/components-quarantine/**` (inbox only), `lib/**`, `hooks/**` | `@/components/ui/*`, `@/components/shadcn-studio/*`, `@/lib/utils` | `@/components-ui/*`, `@/components-layouts/*`, `@/components-quarantine/*` in production buckets, `@/contracts/*`, `@/registry/*` |
-| **C — Cross-package** | `apps/erp`, Storybook lab | `@afenda/shadcn-studio` barrel · `@afenda/shadcn-studio/lab` (L4 only) | Deep `@afenda/shadcn-studio/src/...` · lab on ERP routes |
+| **Package authority** | `src/metadata/**`, `src/types/**`, contract tests | Relative imports within package | Quarantine paths in public exports |
+| **MCP / shadcn UI** | `src/components/ui/**`, `src/components/quarantine/**` (inbox only), `src/lib/**`, `src/hooks/**` | Relative `./` / `../` within package | `@/` aliases in shipped `dist/` |
+| **Cross-package** | `apps/erp`, `apps/storybook`, `apps/developer` | `@afenda/shadcn-studio-v2` · `@afenda/shadcn-studio-v2/clients` · `@afenda/shadcn-studio-v2/lab` (Storybook only) | Deep `@afenda/shadcn-studio-v2/src/...` · quarantine imports |
 
 **Public exports (ADR-0037):**
 
 | Subpath | Layer | Consumer |
 | --- | --- | --- |
-| `@afenda/shadcn-studio` | L2 + L3 + selective L1 | ERP, metadata gates |
-| `@afenda/shadcn-studio/lab` | L4 verification | Storybook only — never ERP |
-| `@afenda/shadcn-studio/governance` | L1 gate helpers | CI scripts |
-| `@afenda/shadcn-studio/shadcn-studio.css` | L2 theme | ERP + Storybook `preview.css` |
+| `@afenda/shadcn-studio-v2` | Server-safe surfaces, slot constants | ERP, metadata gates |
+| `@afenda/shadcn-studio-v2/clients` | Client runtime (providers, hooks, views) | ERP client islands, Storybook |
+| `@afenda/shadcn-studio-v2/shadcn-default.css` | Base theme CSS | ERP + Storybook `preview.css` |
+| `@afenda/shadcn-studio-v2/themes/*` | Scoped theme overlays | Per-route or per-story |
 
-Gate: `pnpm check:studio-import-zones` · dist must have no unresolved `@/` after `pnpm --filter @afenda/shadcn-studio build` (ERP consumer gate).
+Gate: `pnpm check:v1-consumer-imports` · dist must have no unresolved `@/` after `pnpm --filter @afenda/shadcn-studio-v2 build`.
 
 **Stack (AdminCN SSOT):**
 
@@ -80,7 +76,8 @@ apps/erp/src/app/globals.css
   1. tailwindcss
   2. tw-animate-css
   3. shadcn/tailwind.css
-  4. @afenda/shadcn-studio/shadcn-studio.css
+  4. @afenda/shadcn-studio-v2/shadcn-default.css
+  5. @afenda/shadcn-studio-v2/themes/afenda-brand.css (ERP production brand overlay)
 ```
 
 Composition entries are **imports + `@source` only** in Phase 1. Detail: [`afenda-tailwind`](../afenda-tailwind/SKILL.md) · [`afenda-presentation-quality`](../afenda-presentation-quality/SKILL.md).
@@ -94,20 +91,16 @@ Composition entries are **imports + `@source` only** in Phase 1. Detail: [`afend
 | Item | Path / command |
 | --- | --- |
 | MCP workflow rule | `.cursor/rules/shadcn-studio.instructions.mdc` |
-| shadcn CLI + registry MCP | `.cursor/mcp.json` → `shadcn` (`-c packages/shadcn-studio`) |
+| shadcn CLI + registry MCP | `.cursor/mcp.json` → `shadcn` (`-c packages/shadcn-studio-v2`) |
 | Studio MCP wrapper | `.cursor/mcp/shadcn-studio.mjs` |
 | Studio toolbar config | `shadcn-studio.config.json` |
-| **Install cwd** | **`packages/shadcn-studio`** |
-| Package | `@afenda/shadcn-studio` |
-| **Architecture map** | [`packages/shadcn-studio/ARCHITECTURE.md`](../../packages/shadcn-studio/ARCHITECTURE.md) |
-| Theme presets | `packages/shadcn-studio/src/theme/theme-presets.ts` |
-| Quarantine inbox | `packages/shadcn-studio/src/components-quarantine/` |
-| Primitives (production) | `packages/shadcn-studio/src/components-ui/` |
-| Blocks (production) | `packages/shadcn-studio/src/components-layouts/` |
-| Curated lab stories | `packages/shadcn-studio/src/shadcn-studio-blocks.stories.tsx` |
-| Auto block stories | `packages/shadcn-studio/src/stories/shadcn-studio-blocks-auto.stories.tsx` (codegen) |
-| Theme / primitive stories | `packages/shadcn-studio/src/shadcn-studio-{theme-lab,primitives}.stories.tsx` |
-| Lab welcome | `apps/storybook/stories/` |
+| **Install cwd** | **`packages/shadcn-studio-v2`** |
+| Package | `@afenda/shadcn-studio-v2` |
+| **Architecture map** | [`packages/shadcn-studio-v2/docs/DESIGN-SYSTEM-ARCHITECTURE.md`](../../packages/shadcn-studio-v2/docs/DESIGN-SYSTEM-ARCHITECTURE.md) |
+| Theme CSS source | `packages/shadcn-studio-v2/src/styles/shadcn-default.css` |
+| Primitives | `packages/shadcn-studio-v2/src/components/ui/` |
+| Composed views | `packages/shadcn-studio-v2/src/views/` |
+| Storybook lab stories | `apps/storybook/stories/` |
 
 Toolbar:
 
@@ -128,7 +121,7 @@ Afenda does **not** use Figma Code Connect (Org/Enterprise). Agents **must** fol
 | --- | --- |
 | Studio block | `/ftc` or `@ss-blocks/*` install |
 | shadcncraft kit frame | `registry-index.json` → `@shadcncraft/*` |
-| Custom frame | Figma MCP + `shadcncraft-generate-code` + `@afenda/shadcn-studio` primitives |
+| Custom frame | Figma MCP + `shadcncraft-generate-code` + `@afenda/shadcn-studio-v2` primitives |
 | Tokens | `tokens-complete.json` + optional `shadcncraft-import-variables` |
 | Figma ↔ implementation QA | Storybook `addon-designs` + `STORYBOOK_FIGMA_*` |
 
@@ -140,7 +133,7 @@ In-repo mapping SSOT: curated package docs · presentation-lab presets · `ui-pr
 
 | Server | Role |
 | --- | --- |
-| `shadcn` | Registry search, `shadcn add` — `-c packages/shadcn-studio` |
+| `shadcn` | Registry search, `shadcn add` — `-c packages/shadcn-studio-v2` |
 | `shadcn-studio` | `/cui`, `/rui`, `/iui`, `/ftc` via `.cursor/mcp/shadcn-studio.mjs` |
 | `figma` / `figma-desktop` | `get_design_context`, `get_variable_defs`, `get_screenshot` — **not** Code Connect |
 
@@ -160,40 +153,38 @@ In-repo mapping SSOT: curated package docs · presentation-lab presets · `ui-pr
 
 ## CLI install (primitives + blocks)
 
-### Install layers (three-layer model)
+### Install layers (v2)
 
 | Layer | SSOT | Role |
 | --- | --- | --- |
-| **Install** | `components.json` aliases | MCP/CLI **write** targets → `@/components-quarantine` (physical `src/components-quarantine/`) |
-| **Production** | `tsconfig.paths.json` | Source **read** aliases → `@/components/ui/*` → `components-ui/`, `@/components/shadcn-studio/*` → `components-layouts/` |
-| **Vite runtime** | `apps/storybook/.storybook/main.ts` | Must mirror `tsconfig.paths.json` — never production-only drift |
+| **Install** | `packages/shadcn-studio-v2/components.json` | MCP/CLI **write** targets → `src/components/quarantine/` |
+| **Production** | `src/components/ui/` | Promoted primitives only — kebab-case stems |
+| **Consumers** | `@afenda/shadcn-studio-v2` exports | ERP · Storybook · developer — never quarantine paths |
 
-Rule: [`.cursor/rules/studio-import-path-aliases.mdc`](../../.cursor/rules/studio-import-path-aliases.mdc) · gates: `pnpm check:studio-install-paths` · `pnpm check:studio-quarantine-isolation`
+Rule: [`.cursor/rules/studio-import-path-aliases.mdc`](../../.cursor/rules/studio-import-path-aliases.mdc) · gate: `pnpm check:v1-consumer-imports`
 
-### Primitives — production bucket (`components-ui/`)
+### Primitives — production bucket (`components/ui/`)
 
-**Never** use `--overwrite` on existing `components-ui/*` — it destroys Afenda contract/adapter splits.
+**Never** use `--overwrite` on existing promoted primitives without an explicit promotion slice.
 
 ```powershell
-# From repo root — safe wrapper blocks --overwrite on production primitives
-pnpm studio:shadcn add button --yes
-cd packages/shadcn-studio
+cd packages/shadcn-studio-v2
+pnpm dlx shadcn@latest add button --yes
 pnpm dlx shadcn@latest info
 ```
 
-For bulk refresh of **existing** primitives, edit `{name}.contract.ts` + `{name}.tsx` manually — do not overwrite.
+Promote from quarantine per [`components/quarantine/README.md`](../../packages/shadcn-studio-v2/src/components/quarantine/README.md).
 
-### MCP / blocks — quarantine inbox (`components-quarantine/`)
+### MCP / blocks — quarantine inbox (`components/quarantine/`)
 
 Raw vendor output lands in quarantine first. Overwrite is **allowed** in the inbox only.
 
 ```powershell
-# From repo root — quarantine wrapper (allows --overwrite; targets components.json install aliases)
-pnpm studio:shadcn:quarantine add @ss-blocks/statistics-component-01 --overwrite --yes
-pnpm studio:shadcn:quarantine add @shadcncraft/<name> --yes
+cd packages/shadcn-studio-v2
+pnpm dlx shadcn@latest add @ss-blocks/statistics-component-01 --overwrite --yes
 ```
 
-After install: review diff → promote per [`components-quarantine/README.md`](../../packages/shadcn-studio/src/components-quarantine/README.md) — **do not** import from quarantine in ERP or Storybook.
+After install: review diff → promote per quarantine README — **do not** import from quarantine in ERP or Storybook.
 
 Skill: [`afenda-primitive-contract`](../afenda-primitive-contract/SKILL.md) · E0: [mismatch-inspection-frame.md](../afenda-primitive-contract/reference/mismatch-inspection-frame.md)
 
@@ -204,7 +195,8 @@ $repoRoot = git rev-parse --show-toplevel
 $secret = Join-Path $repoRoot ".env.secret"
 $env:EMAIL = (Select-String -Path $secret -Pattern '^SHADCN_STUDIO_ACCOUNT_EMAIL=').Line.Split('=', 2)[1]
 $env:LICENSE_KEY = (Select-String -Path $secret -Pattern '^SHADCN_STUDIO_LICENSE_KEY=').Line.Split('=', 2)[1]
-pnpm studio:shadcn:quarantine add @ss-blocks/statistics-component-01 --overwrite --yes
+cd packages/shadcn-studio-v2
+pnpm dlx shadcn@latest add @ss-blocks/statistics-component-01 --overwrite --yes
 ```
 
 Full env/MCP/CLI mapping: [reference/credentials-env.md](./reference/credentials-env.md).
@@ -227,16 +219,13 @@ git checkout HEAD -- @files
 ## Gates (creation only)
 
 ```bash
-pnpm check:studio-install-paths
-pnpm check:studio-quarantine-isolation
-pnpm --filter @afenda/shadcn-studio typecheck
-pnpm --filter @afenda/shadcn-studio test:run
-pnpm check:studio-metadata-binding
-pnpm check:studio-block-slot-markers
-pnpm storybook generate
+pnpm --filter @afenda/shadcn-studio-v2 typecheck
+pnpm --filter @afenda/shadcn-studio-v2 test
+pnpm --filter @afenda/shadcn-studio-v2 build
+pnpm check:v1-consumer-imports
+pnpm check:downstream-integration
 pnpm --filter @afenda/erp typecheck
 pnpm --filter @afenda/erp build
-pnpm check:downstream-integration
 ```
 
 **Do not run:** `pnpm ui:guard*`, PAS-005 slice gates, css-authority consumption gates.
@@ -269,7 +258,7 @@ Browse **Shadcn Studio/Blocks Auto** for every installed block entry; add curate
 
 ```bash
 pnpm check:downstream-integration
-pnpm --filter @afenda/shadcn-studio typecheck && pnpm --filter @afenda/shadcn-studio build
+pnpm check:v1-consumer-imports
+pnpm --filter @afenda/shadcn-studio-v2 typecheck && pnpm --filter @afenda/shadcn-studio-v2 build
 pnpm --filter @afenda/erp typecheck && pnpm --filter @afenda/erp build
-pnpm check:studio-metadata-binding && pnpm check:studio-block-slot-markers
 ```

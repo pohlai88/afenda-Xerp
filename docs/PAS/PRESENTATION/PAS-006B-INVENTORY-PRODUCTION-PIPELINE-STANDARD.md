@@ -6,7 +6,7 @@
 | **Document class** | `package_authority_standard` |
 | **Document role** | `relational_inventory_production_pipeline` |
 | **Parent charter** | [PAS-006](PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md) |
-| **Package** | `@afenda/shadcn-studio` |
+| **Package** | `@afenda/shadcn-studio-v2` |
 | **Blueprint box** | shadcn/studio Presentation |
 | **Maturity** | Production Candidate |
 | **Runtime status** | P06-002–P06-004 delivered — relational inventory, slot map, block data contracts, lifecycle registry live |
@@ -17,8 +17,8 @@
 
 | # | Gate command |
 | --- | --- |
-| 1 | `pnpm --filter @afenda/shadcn-studio typecheck` |
-| 2 | `pnpm --filter @afenda/shadcn-studio test:run` |
+| 1 | `pnpm --filter @afenda/shadcn-studio-v2 typecheck` |
+| 2 | `pnpm --filter @afenda/shadcn-studio-v2 test:run` |
 | 3 | `pnpm check:studio-inventory-lifecycle` |
 | 4 | `pnpm check:foundation-disposition` |
 

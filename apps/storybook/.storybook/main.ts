@@ -14,8 +14,8 @@ const shadcnTailwindCss = join(
   appRoot,
   "node_modules/shadcn/dist/tailwind.css"
 );
-const shadcnStudioRoot = join(appRoot, "../../packages/shadcn-studio");
-const shadcnStudioSrcRoot = join(shadcnStudioRoot, "src");
+const shadcnStudioV2Root = join(appRoot, "../../packages/shadcn-studio-v2");
+const shadcnStudioV2SrcRoot = join(shadcnStudioV2Root, "src");
 const testingRoot = join(appRoot, "../../packages/testing");
 const nextLinkMock = join(testingRoot, "src/mocks/next-link.tsx");
 const nextImageMock = join(testingRoot, "src/mocks/next-image.tsx");
@@ -50,21 +50,8 @@ const storybookAddons = [
 
 const config: StorybookConfig = {
   // Agentic pilot (2026-07-03): scoped catalog — apps/storybook/stories + storybook/agentic only.
-  stories: [
-    "../stories/**/*.stories.@(ts|tsx)",
-    "../../../packages/shadcn-studio/src/storybook/agentic/**/*.stories.@(ts|tsx)",
-  ],
-  staticDirs: [
-    join(appRoot, "public"),
-    {
-      from: join(shadcnStudioRoot, "public/afenda-brand"),
-      to: "/afenda-brand",
-    },
-    {
-      from: join(shadcnStudioRoot, "public"),
-      to: "/studio-assets",
-    },
-  ],
+  stories: ["../stories/**/*.stories.@(ts|tsx)"],
+  staticDirs: [join(appRoot, "public")],
   addons: storybookAddons,
   framework: {
     name: getAbsolutePath("@storybook/react-vite"),
@@ -99,38 +86,30 @@ const config: StorybookConfig = {
         replacement: shadcnTailwindCss,
       },
       {
-        find: "@afenda/shadcn-studio/shadcn-studio.css",
-        replacement: join(shadcnStudioRoot, "src/styles/shadcn-studio.css"),
+        find: "@afenda/shadcn-studio-v2/shadcn-default.css",
+        replacement: join(shadcnStudioV2SrcRoot, "styles/shadcn-default.css"),
       },
       {
-        find: "@afenda/shadcn-studio/lab",
-        replacement: join(shadcnStudioSrcRoot, "lab/index.ts"),
+        find: "@afenda/shadcn-studio-v2/lab",
+        replacement: join(shadcnStudioV2SrcRoot, "storybook/lab.ts"),
       },
       {
-        find: "@afenda/shadcn-studio",
-        replacement: join(shadcnStudioRoot, "src/index.ts"),
+        find: "@afenda/shadcn-studio-v2",
+        replacement: join(shadcnStudioV2SrcRoot, "index.ts"),
       },
       {
         find: "@/components/ui",
-        replacement: join(shadcnStudioSrcRoot, "components-ui"),
-      },
-      {
-        find: "@/components/shadcn-studio",
-        replacement: join(shadcnStudioSrcRoot, "components-layouts"),
-      },
-      {
-        find: "@/components-auth-shell",
-        replacement: join(shadcnStudioSrcRoot, "components-auth-shell"),
+        replacement: join(shadcnStudioV2SrcRoot, "components/ui"),
       },
       {
         find: "@/lib/utils",
-        replacement: join(shadcnStudioSrcRoot, "utils/utils.ts"),
+        replacement: join(shadcnStudioV2SrcRoot, "lib/cn.ts"),
       },
       {
         find: "@/hooks",
-        replacement: join(shadcnStudioSrcRoot, "hooks"),
+        replacement: join(shadcnStudioV2SrcRoot, "hooks"),
       },
-      { find: "@", replacement: shadcnStudioSrcRoot },
+      { find: "@", replacement: shadcnStudioV2SrcRoot },
       { find: "next/link", replacement: nextLinkMock },
       { find: "next/image", replacement: nextImageMock },
       { find: "next/dynamic", replacement: nextDynamicMock },
@@ -203,19 +182,14 @@ const config: StorybookConfig = {
     viteConfig.optimizeDeps.esbuildOptions.alias = {
       ...(viteConfig.optimizeDeps.esbuildOptions.alias ?? {}),
       "@storybook/addon-docs/blocks": addonDocsBlocks,
-      "@/components/ui": join(shadcnStudioSrcRoot, "components-ui"),
-      "@/components/shadcn-studio": join(
-        shadcnStudioSrcRoot,
-        "components-layouts"
+      "@/components/ui": join(shadcnStudioV2SrcRoot, "components/ui"),
+      "@/lib/utils": join(shadcnStudioV2SrcRoot, "lib/cn.ts"),
+      "@/hooks": join(shadcnStudioV2SrcRoot, "hooks"),
+      "@": shadcnStudioV2SrcRoot,
+      "@afenda/shadcn-studio-v2/lab": join(
+        shadcnStudioV2SrcRoot,
+        "storybook/lab.ts"
       ),
-      "@/components-auth-shell": join(
-        shadcnStudioSrcRoot,
-        "components-auth-shell"
-      ),
-      "@/lib/utils": join(shadcnStudioSrcRoot, "utils/utils.ts"),
-      "@/hooks": join(shadcnStudioSrcRoot, "hooks"),
-      "@": shadcnStudioSrcRoot,
-      "@afenda/shadcn-studio/lab": join(shadcnStudioSrcRoot, "lab/index.ts"),
       "next/link": nextLinkMock,
       "next/image": nextImageMock,
       "next/dynamic": nextDynamicMock,
@@ -227,8 +201,8 @@ const config: StorybookConfig = {
         (dep) => dep !== "next/link"
       ),
       "@storybook/addon-docs/blocks",
-      "@afenda/shadcn-studio/lab",
-      "@afenda/shadcn-studio",
+      "@afenda/shadcn-studio-v2/lab",
+      "@afenda/shadcn-studio-v2",
       "next-themes",
       "react",
       "react-dom",

@@ -4,10 +4,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  ProcurementListToolbarBlock as ProcurementListToolbar,
-  ProcurementPurchaseOrdersTableBlock as ProcurementPurchaseOrdersTable,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2/clients";
+import { ProcurementListToolbar } from "@/components/procurement/procurement-list-toolbar.client";
+import { ProcurementPurchaseOrdersComposer } from "@/components/procurement/procurement-purchase-orders-composer.client";
 import { loadProcurementPurchaseOrdersPage } from "@/lib/procurement/load-procurement-purchase-orders-page.server";
+import { mapPurchaseOrderWireToTableRow } from "@/lib/procurement/map-purchase-order-wire-to-table-row";
 
 export const metadata = {
   title: "Purchase orders",
@@ -30,8 +31,8 @@ export default async function ProcurementPurchaseOrdersPage() {
       <div className="flex flex-col gap-1">
         <h1 className="font-semibold text-2xl">{data.title}</h1>
         <p className="text-muted-foreground text-sm">
-          Purchase-order workflow is now routed through governed presentation
-          blocks.
+          Purchase-order workflow is now routed through v2 DataTableSurface and
+          the ERP TanStack composer.
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-3">
@@ -67,7 +68,9 @@ export default async function ProcurementPurchaseOrdersPage() {
         createLabel="Create purchase order"
         searchLabel="Search purchase orders"
       />
-      <ProcurementPurchaseOrdersTable rows={data.rows} />
+      <ProcurementPurchaseOrdersComposer
+        data={data.rows.map(mapPurchaseOrderWireToTableRow)}
+      />
       <p className="text-muted-foreground text-xs">
         blockId {data.blockId} · correlation {data.correlationId}
       </p>

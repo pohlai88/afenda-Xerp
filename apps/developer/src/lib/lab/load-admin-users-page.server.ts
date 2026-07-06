@@ -4,6 +4,7 @@ import type {
   LabPromotionNote,
   LabRouteLoader,
 } from "./contracts";
+import { createCachedLabLoader } from "./create-cached-lab-loader.server";
 import { createRouteLabMetadata } from "./create-route-lab-metadata";
 
 export const adminUsersPromotionNote = {
@@ -97,9 +98,13 @@ const demoAdminUsersPageData = {
   ],
 } satisfies AdminUsersPageData;
 
-export const loadAdminUsersPage: LabRouteLoader<
+const loadAdminUsersPageUncached: LabRouteLoader<
   AdminUsersPageData
 > = async () => demoAdminUsersPageData;
+
+export const loadAdminUsersPage = createCachedLabLoader(
+  loadAdminUsersPageUncached
+);
 
 export function createAdminUsersMetadata(): Metadata {
   return createRouteLabMetadata({

@@ -1,13 +1,13 @@
 ---
 name: package-css-dist-sync
 description: >-
-  Package CSS dist sync workflow for @afenda/shadcn-studio. Use after editing
+  Package CSS dist sync workflow for @afenda/shadcn-studio-v2. Use after editing
   package CSS sources, before ERP or Storybook visual verification, when debugging
   missing styles, or when setting Phase 0 gates for studio CSS work. Apps import
   CSS from dist/, not src/.
 disable-model-invocation: true
 paths:
-  - packages/shadcn-studio/src/styles/**
+  - packages/shadcn-studio-v2/src/styles/**
 ---
 
 # Package CSS dist sync
@@ -20,7 +20,7 @@ paths:
 
 | Trigger | Action |
 |---------|--------|
-| Edited `packages/shadcn-studio/src/styles/**` | Sync before ERP/Storybook visual check |
+| Edited `packages/shadcn-studio-v2/src/styles/**` | Sync before ERP/Storybook visual check |
 | Agent stop hook failed `package-css-dist-sync` | Run sync, re-run check |
 | Pre-commit staged package CSS | lint-staged auto-syncs (still verify in Completion Report) |
 
@@ -31,10 +31,10 @@ paths:
 pnpm sync:package-css-dist
 
 # One package
-pnpm sync:package-css-dist -- --package @afenda/shadcn-studio
+pnpm sync:package-css-dist -- --package @afenda/shadcn-studio-v2
 
 # Full build (TS + CSS) — use when TS and CSS both changed
-pnpm --filter @afenda/shadcn-studio build
+pnpm --filter @afenda/shadcn-studio-v2 build
 
 # Verification gate (required in Completion Report for CSS edits)
 pnpm check:package-css-dist-sync
@@ -51,7 +51,7 @@ pnpm check:package-css-dist-sync
 ## Phase 0 gate line (copy when CSS sources change)
 
 ```txt
-Acceptance gates: pnpm sync:package-css-dist -- --package @afenda/shadcn-studio && pnpm check:package-css-dist-sync && pnpm --filter @afenda/erp typecheck
+Acceptance gates: pnpm sync:package-css-dist -- --package @afenda/shadcn-studio-v2 && pnpm check:package-css-dist-sync && pnpm --filter @afenda/erp typecheck
 ```
 
 Adjust the package filter to match the layer you edited.
@@ -71,7 +71,7 @@ Adjust the package filter to match the layer you edited.
 ## Related authority
 
 - PAS-006 presentation: `docs/PAS/PRESENTATION/PAS-006-SHADCN-STUDIO-FRONTEND-STANDARD.md`
-- Studio CSS: `packages/shadcn-studio/src/styles/shadcn-studio.css`
+- Studio CSS: `packages/shadcn-studio-v2/src/styles/shadcn-default.css`
 - Presentation skill: `.cursor/skills/shadcn-studio/SKILL.md`
 
 ## Do not

@@ -158,18 +158,18 @@ describe("shadcn-studio-v2 config and runtime boundary", () => {
   });
 
   it("keeps React runtime behavior in contexts, hooks, and shared components", () => {
-    expect(readSource("contexts", "ThemeProvider.tsx")).toContain(
+    expect(readSource("contexts", "theme-provider.tsx")).toContain(
       '"use client"'
     );
-    expect(readSource("contexts", "StudioProvider.tsx")).toContain(
+    expect(readSource("contexts", "studio-provider.tsx")).toContain(
       '"use client"'
     );
     expect(readSource("hooks", "use-theme.ts")).toContain('"use client"');
     expect(readSource("hooks", "use-studio.ts")).toContain('"use client"');
-    expect(readSource("components", "shared", "ThemeToggle.tsx")).toContain(
+    expect(readSource("components", "shared", "theme-toggle.tsx")).toContain(
       '"use client"'
     );
-    expect(readSource("components", "shared", "ThemeScript.tsx")).toContain(
+    expect(readSource("components", "shared", "theme-script.tsx")).toContain(
       'data-slot="theme-script"'
     );
   });

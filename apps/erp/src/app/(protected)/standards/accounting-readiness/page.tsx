@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2";
 
 import { loadAccountingStandardsReadinessPage } from "@/lib/accounting-standards/load-accounting-standards-readiness-page.server";
 

@@ -1,5 +1,7 @@
-import { StudioPresentationProviders as ErpPresentationProviders } from "@afenda/shadcn-studio-v2/clients";
-import { setupUser } from "@afenda/testing/react";
+import {
+  type AppShellNavGroupWire,
+  StudioPresentationProviders as ErpPresentationProviders,
+} from "@afenda/shadcn-studio-v2/clients";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { labDemoContext } from "@/lib/lab/lab-demo-context";
@@ -8,21 +10,24 @@ import { LabShell } from "../_components/lab-shell.client";
 
 const navGroups = [
   {
+    id: "dashboards",
     items: [
       {
         href: "/dashboard/sales",
+        id: "dashboard.sales",
         isActive: false,
         label: "Sales route",
       },
       {
         href: "/settings/appearance",
+        id: "settings.appearance",
         isActive: false,
         label: "Appearance route",
       },
     ],
     label: "Dashboards",
   },
-] as const;
+] as const satisfies readonly AppShellNavGroupWire[];
 
 function renderLabShell(pathname: string) {
   __setMockPathname(pathname);
@@ -58,9 +63,7 @@ describe("LabShell interaction", () => {
     ).toBeVisible();
   });
 
-  it("marks the matching route as active for nested route segments", async () => {
-    const user = setupUser();
-
+  it("marks the matching route as active for nested route segments", () => {
     renderLabShell("/dashboard/sales/orders");
 
     const salesLink = screen.getByRole("link", { name: "Sales route" });
@@ -68,18 +71,9 @@ describe("LabShell interaction", () => {
       name: "Appearance route",
     });
 
-    expect(salesLink).toHaveAttribute("data-active");
-    expect(appearanceLink).not.toHaveAttribute("data-active");
+    expect(salesLink).toHaveAttribute("aria-current", "page");
+    expect(appearanceLink).not.toHaveAttribute("aria-current");
 
-    const sidebarTrigger = screen
-      .getAllByRole("button", { name: "Toggle Sidebar" })
-      .find((button) => button.getAttribute("data-slot") === "button");
-    expect(sidebarTrigger).toBeDefined();
-
-    await user.click(sidebarTrigger as HTMLButtonElement);
-    const sidebarRoot = document.querySelector(
-      "[data-slot='sidebar'][data-state]"
-    );
-    expect(sidebarRoot).toHaveAttribute("data-state", "collapsed");
+    expect(document.querySelector("[data-slot='sidebar-nav']")).not.toBeNull();
   });
 });

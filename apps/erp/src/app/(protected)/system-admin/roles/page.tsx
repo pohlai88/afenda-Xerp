@@ -1,8 +1,7 @@
-import {
-  SystemAdminListToolbarBlock as SystemAdminListToolbar,
-  SystemAdminRolesTableBlock as SystemAdminRolesTable,
-  SystemAdminSectionHeaderBlock as SystemAdminSectionHeader,
-} from "@afenda/shadcn-studio";
+import { SystemAdminListToolbar } from "@/components/system-admin/system-admin-list-toolbar.client";
+import { SystemAdminRolesComposer } from "@/components/system-admin/system-admin-roles-composer.client";
+import { SystemAdminSectionHeader } from "@/components/system-admin/system-admin-section-header";
+import { mapRoleWireToTableRow } from "@/lib/system-admin/map-role-wire-to-table-row";
 import { loadSystemAdminSectionPage } from "@/lib/system-admin/load-system-admin-section-page.server";
 import { listSystemAdminRoles } from "@/server/system-admin/list-system-admin-roles.server";
 
@@ -19,14 +18,14 @@ export default async function SystemAdminRolesPage() {
   return (
     <section className="flex flex-col gap-4">
       <SystemAdminSectionHeader
-        description="Tenant role templates backed by internal v1 roles list."
+        description="Tenant role templates backed by internal roles list."
         title="Roles"
       />
       <SystemAdminListToolbar
         createLabel="Create role"
         searchLabel="Search roles"
       />
-      <SystemAdminRolesTable roles={roles} />
+      <SystemAdminRolesComposer data={roles.map(mapRoleWireToTableRow)} />
     </section>
   );
 }

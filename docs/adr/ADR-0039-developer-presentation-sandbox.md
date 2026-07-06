@@ -7,6 +7,7 @@
 | **Owner** | Architecture Authority |
 | **Supersedes** | — |
 | **Superseded by** | — |
+| **Amended by** | [ADR-0044](ADR-0044-developer-route-lab-runtime-authority-boundary.md) (runtime authority boundary — Accepted) |
 
 ---
 
@@ -42,7 +43,7 @@ Port **3001** is reserved for `apps/docs`. Developer sandbox uses **3002**.
 
 - PAS-006 consumer — studio blocks, theme, AppShell patterns
 - Visual UX prototypes that **feed ERP** after acceptance (promotion remaps `lib/lab/load-*` → ERP domain loaders; `_components/` → ERP route tree — separate PAS-001A slices)
-- Static demo fixtures in `lib/lab/` — **not** `OperatingContext`
+- Static demo fixtures in `lib/lab/` — **not** `OperatingContext` (terminal posture reaffirmed by [ADR-0044](ADR-0044-developer-route-lab-runtime-authority-boundary.md))
 - Demo banner on all routes — no auth redirect
 
 **Non-goals (explicit):**
@@ -139,4 +140,5 @@ P06-013 (docs) is complete when **all** rows pass before any `apps/developer` co
 - [Developer Sandbox Blueprint](../BLUEPRINT/developer-sandbox-blueprint.md)
 - [PAS-006E](../PAS/PRESENTATION/PAS-006E-DEVELOPER-ROUTE-LAB-STANDARD.md)
 - [P06-013 handoff](../PAS/PRESENTATION/SLICE/p06-013-developer-route-lab-docs.md)
+- [ADR-0044](ADR-0044-developer-route-lab-runtime-authority-boundary.md) — runtime authority boundary (amends §2; Accepted)
 - [DEVELOPMENT-LANE-BOUNDARIES](../PAS/DEVELOPMENT-LANE-BOUNDARIES.md)

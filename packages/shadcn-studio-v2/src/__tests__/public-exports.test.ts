@@ -31,6 +31,11 @@ const EXPECTED_EXPORTS = {
     import: "./dist/metadata.js",
     default: "./dist/metadata.js",
   },
+  "./lab": {
+    types: "./dist/storybook/lab.d.ts",
+    import: "./dist/storybook/lab.js",
+    default: "./dist/storybook/lab.js",
+  },
   "./theme": {
     types: "./dist/contexts/theme-boundary.d.ts",
     import: "./dist/contexts/theme-boundary.js",

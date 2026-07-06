@@ -47,7 +47,7 @@ export const hydrationResolutionMethods = [
     description:
       "ThemeScript runs before paint to align DOM tokens/class with persisted theme (pairs with ThemeProvider).",
     referencePaths: [
-      "packages/shadcn-studio-v2/src/components/shared/ThemeScript.tsx",
+      "packages/shadcn-studio-v2/src/components/shared/theme-script.tsx",
     ],
   },
   {
@@ -60,7 +60,7 @@ export const hydrationResolutionMethods = [
       "Defer storage- or viewport-backed UI until after mount via useMounted() from @/lib/lab/use-mounted.client.",
     referencePaths: [
       "apps/developer/src/lib/lab/use-mounted.client.ts",
-      "packages/shadcn-studio/src/hooks/use-mobile.ts",
+      "packages/shadcn-studio-v2/src/hooks/use-mobile.ts",
       "apps/developer/src/app/design-system/v2-proof/_components/v2-proof-route.client.tsx",
     ],
   },
@@ -73,7 +73,7 @@ export const hydrationResolutionMethods = [
     description:
       "Optional suppressHydrationWarning on the specific element that intentionally changes post-mount.",
     referencePaths: [
-      "packages/shadcn-studio-v2/src/components/shared/ThemeScript.tsx",
+      "packages/shadcn-studio-v2/src/components/shared/theme-script.tsx",
     ],
   },
 ] as const satisfies readonly HydrationResolutionMethod[];

@@ -15,6 +15,21 @@ const ACTIVE_AUTHORITY_DOCS = [
   "MIGRATION-MAP.md",
 ] as const;
 
+const LANE_A_SLICE_DOCS = [
+  "LANE-A-INTERNAL-STABILIZATION-INDEX.md",
+  "LANE-A-01-KEBAB-STEM-NORMALIZATION.md",
+  "LANE-A-02-WIDGET-MANIFEST-AND-EVIDENCE-ADAPTER.md",
+  "LANE-A-03-AUTH-SHELL-PROOF-INTEGRATION.md",
+  "LANE-A-04-PRIMITIVE-CONTRACT-FORM-CONTROLS.md",
+  "LANE-A-05-PRIMITIVE-CONTRACT-OVERLAYS.md",
+  "LANE-A-06-PRIMITIVE-CONTRACT-NAV-DATA.md",
+  "LANE-A-07-QUARANTINE-PROMOTION-GOVERNANCE.md",
+  "LANE-A-08-PROOF-ROUTE-STATE-MATRIX.md",
+  "LANE-A-09-MANIFEST-WORKFLOW-KINDS.md",
+  "LANE-A-10-SYNCHRONIZATION-GATE.md",
+  "LANE-A-11-INTERNAL-SIGN-OFF-GATE.md",
+] as const;
+
 const ACTIVE_SLICE_DOCS = [
   "PRE-FLIGHT-0-DOCUMENTATION-BASELINE-LOCK.md",
   "PRE-FLIGHT-1-EXECUTABLE-GATE-ALIGNMENT.md",
@@ -81,8 +96,29 @@ describe("active roadmap, slice, and taxonomy documentation alignment", () => {
     }
   });
 
+  it("keeps the Lane A slice index linked to every executable Lane A slice", () => {
+    const sliceIndex = readFileSync(
+      path.join(SLICES_ROOT, "README.md"),
+      "utf8"
+    );
+    const laneAIndex = readFileSync(
+      path.join(SLICES_ROOT, "LANE-A-INTERNAL-STABILIZATION-INDEX.md"),
+      "utf8"
+    );
+
+    for (const fileName of LANE_A_SLICE_DOCS) {
+      expect(existsSync(path.join(SLICES_ROOT, fileName)), fileName).toBe(true);
+      expect(sliceIndex + laneAIndex).toContain(`](${fileName})`);
+    }
+  });
+
   it("keeps active slice documents on the shared technical-spec structure", () => {
-    for (const fileName of ACTIVE_SLICE_DOCS) {
+    for (const fileName of [
+      ...ACTIVE_SLICE_DOCS,
+      ...LANE_A_SLICE_DOCS.filter(
+        (name) => name !== "LANE-A-INTERNAL-STABILIZATION-INDEX.md"
+      ),
+    ]) {
       const sliceDocument = readFileSync(
         path.join(SLICES_ROOT, fileName),
         "utf8"
@@ -120,9 +156,9 @@ describe("active roadmap, slice, and taxonomy documentation alignment", () => {
       "view-metadata.ts",
       "view-metadata-gates.ts",
       "view-metadata-registry.ts",
-      "AuthShell.tsx",
-      "PageSurface.tsx",
-      "MetricWidget.tsx",
+      "auth-shell.tsx",
+      "page-surface.tsx",
+      "widget-metric.tsx",
       "consumer-pilot.tsx",
     ]) {
       expect(taxonomy).toContain(fileName);

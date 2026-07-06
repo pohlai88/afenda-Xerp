@@ -8,13 +8,13 @@ import {
   Badge,
   type BadgeVariant,
   badgeClassName,
-} from "../components/ui/Badge";
+} from "../components/ui/badge";
 import {
   Button,
   type ButtonSize,
   type ButtonVariant,
   buttonClassName,
-} from "../components/ui/Button";
+} from "../components/ui/button";
 import {
   Card,
   CardContent,
@@ -24,14 +24,14 @@ import {
   CardTitle,
   type CardVariant,
   cardClassName,
-} from "../components/ui/Card";
+} from "../components/ui/card";
 import { cn } from "../lib/cn";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
 const SRC_ROOT = path.join(PACKAGE_ROOT, "src");
 
-const REQUIRED_PRIMITIVES = ["Badge.tsx", "Button.tsx", "Card.tsx"] as const;
+const REQUIRED_PRIMITIVES = ["badge.tsx", "button.tsx", "card.tsx"] as const;
 const BADGE_VARIANTS = [
   "default",
   "secondary",
@@ -168,7 +168,7 @@ describe("shadcn-studio-v2 primitive baseline", () => {
   });
 
   it("serializes primitive ownership through stable data-slot markers", () => {
-    expect(readSource("components", "ui", "Button.tsx")).toContain(
+    expect(readSource("components", "ui", "button.tsx")).toContain(
       'data-slot="button"'
     );
     expect(readSource("components", "ui", "Badge.tsx")).toContain(

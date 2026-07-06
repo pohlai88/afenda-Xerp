@@ -1,4 +1,4 @@
-import type { AppShellNavGroupWire } from "@afenda/shadcn-studio";
+import type { AppShellNavGroupWire } from "@afenda/shadcn-studio-v2/clients";
 import { labRoutePolicies } from "@/lib/lab/route-policy";
 import { labRouteSurfaceRegistry } from "@/lib/lab/route-surface-registry";
 
@@ -7,13 +7,18 @@ const findPolicy = (href: string) =>
 
 const navGroupOrder = ["Dashboards", "Operations", "Modules"] as const;
 
+const toNavGroupId = (groupLabel: string) =>
+  groupLabel.toLowerCase().replace(/\s+/g, "-");
+
 export const labNavGroups: readonly AppShellNavGroupWire[] = navGroupOrder
   .map((groupLabel) => ({
+    id: toNavGroupId(groupLabel),
     label: groupLabel,
     items: labRouteSurfaceRegistry
       .filter((entry) => entry.showInNav && entry.navGroupLabel === groupLabel)
       .map((entry) => ({
         href: entry.href,
+        id: entry.routeId,
         label: entry.navLabel ?? entry.routeId,
       })),
   }))

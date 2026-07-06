@@ -6,6 +6,7 @@ import type {
   ModuleDocumentRouteParams,
   ModuleDocumentRouteState,
 } from "./contracts";
+import { createCachedLabLoader } from "./create-cached-lab-loader.server";
 
 export const moduleDocumentPromotionNote = {
   futureErpPath:
@@ -145,7 +146,11 @@ export const resolveModuleDocumentRoute = (
   } satisfies ModuleDocumentRouteLoadResult;
 };
 
-export const loadModuleDocumentPage: LabRouteLoader<
+const loadModuleDocumentPageUncached: LabRouteLoader<
   ModuleDocumentRouteLoadResult,
   ModuleDocumentRouteParams
 > = async (params) => resolveModuleDocumentRoute(params);
+
+export const loadModuleDocumentPage = createCachedLabLoader(
+  loadModuleDocumentPageUncached
+);

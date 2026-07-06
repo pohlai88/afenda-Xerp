@@ -13,7 +13,7 @@
         "shadcn@latest",
         "mcp",
         "-c",
-        "packages/shadcn-studio"
+        "packages/shadcn-studio-v2"
       ]
     },
     "shadcn-studio": {

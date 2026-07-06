@@ -28,6 +28,11 @@
       "import": "./dist/metadata.js",
       "default": "./dist/metadata.js"
     },
+    "./lab": {
+      "types": "./dist/storybook/lab.d.ts",
+      "import": "./dist/storybook/lab.js",
+      "default": "./dist/storybook/lab.js"
+    },
     "./theme": {
       "types": "./dist/contexts/theme-boundary.d.ts",
       "import": "./dist/contexts/theme-boundary.js",
@@ -64,11 +69,15 @@
     "check:drift": "tsx scripts/check-design-system-drift.ts",
     "check:biome-suppressions": "node ../../scripts/studio/normalize-shadcn-studio-v2-biome-suppressions.mjs --check",
     "normalize:biome": "node ../../scripts/studio/normalize-shadcn-studio-v2-biome-suppressions.mjs --write",
+    "normalize:kebab-stems": "tsx scripts/normalize-kebab-stems.ts",
+    "scan:v1-consumer-imports": "tsx scripts/scan-v1-consumer-imports.ts",
+    "sync:v1-consumer-import-baseline": "tsx scripts/scan-v1-consumer-imports.ts -- --write",
+    "check:v1-consumer-imports": "tsx scripts/scan-v1-consumer-imports.ts -- --check",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\"",
     "quality": "pnpm check:biome-suppressions && pnpm check:drift && pnpm check:apca && pnpm test && pnpm typecheck && pnpm build",
     "test": "vitest run",
     "test:taxonomy": "vitest run src/__tests__/taxonomy.test.ts",
-    "test:primitives": "vitest run src/__tests__/primitive-baseline.test.ts src/__tests__/primitive-api-consistency.test.ts src/__tests__/primitive-extension.test.ts",
+    "test:primitives": "vitest run src/__tests__/primitive-baseline.test.ts src/__tests__/primitive-api-consistency.test.ts src/__tests__/primitive-extension.test.ts src/__tests__/primitive-form-controls.test.ts src/__tests__/primitive-overlays.test.ts src/__tests__/primitive-nav-data.test.ts",
     "test:watch": "vitest",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
