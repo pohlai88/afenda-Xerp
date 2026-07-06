@@ -1,10 +1,14 @@
 import { describe, expect, it } from "vitest";
 
+import { assertDeliveredDomainVocabularyRegistry } from "../../__tests__/domain-vocabulary-registry.harness.js";
 import {
   ANALYTICS_AUDIT_ACTIONS,
+  ANALYTICS_DOMAIN_AUDIT_VOCABULARY,
   ANALYTICS_DOMAIN_BRANDED_ID_TYPE_NAMES,
   ANALYTICS_DOMAIN_CLOSED_VOCABULARIES,
+  ANALYTICS_DOMAIN_PERMISSION_VOCABULARY,
   ANALYTICS_DOMAIN_VOCABULARY_POLICY,
+  ANALYTICS_DOMAIN_VOCABULARY_REGISTRY,
   ANALYTICS_DOMAIN_VOCABULARY_REGISTRY_ID,
   type assertAnalyticsDomainVocabularyRegistryIntegrity,
   isAggregationGrain,
@@ -15,6 +19,23 @@ import {
 } from "../index.js";
 
 describe("PAS-001B analytics domain vocabulary registry", () => {
+  it("satisfies delivered domain vocabulary registry harness", () => {
+    assertDeliveredDomainVocabularyRegistry({
+      registryId: ANALYTICS_DOMAIN_VOCABULARY_REGISTRY_ID,
+      registry: ANALYTICS_DOMAIN_VOCABULARY_REGISTRY,
+      closedVocabularyIds: [
+        "query-status",
+        "aggregation-grain",
+        "metric-category",
+        "dashboard-visibility",
+      ],
+      brandedIdTypeNames: ANALYTICS_DOMAIN_BRANDED_ID_TYPE_NAMES,
+      auditActionCount: ANALYTICS_DOMAIN_AUDIT_VOCABULARY.valueCount,
+      permissionKeyCount: ANALYTICS_DOMAIN_PERMISSION_VOCABULARY.keyCount,
+      currentLifecycle: "contracts-only",
+    });
+  });
+
   it("declares registry identity", () => {
     expect(ANALYTICS_DOMAIN_VOCABULARY_REGISTRY_ID).toBe(
       "PAS-001B-4.8-ANALYTICS"

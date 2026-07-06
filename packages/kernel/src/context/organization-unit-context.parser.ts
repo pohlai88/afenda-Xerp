@@ -6,7 +6,7 @@ import {
   parseOptionalOrganizationId,
   parseOrganizationId,
   parseTenantId,
-} from "../identity/index.js";
+} from "../identity/families/tenant-hierarchy-id.contract.js";
 import { assertWireOrganizationUnitContext } from "./organization-unit-context.assert.js";
 import type {
   OrganizationUnitContext,

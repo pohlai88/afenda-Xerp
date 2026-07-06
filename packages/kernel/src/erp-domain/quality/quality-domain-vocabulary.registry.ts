@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { DISPOSITION_CODES } from "./disposition-code.contract.js";
+
 import { INSPECTION_RESULT_STATUSES } from "./inspection-result-status.contract.js";
 import { INSPECTION_TYPES } from "./inspection-type.contract.js";
 import {
@@ -18,24 +24,9 @@ import {
 export const QUALITY_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-QUALITY" as const;
 
-export type QualityDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type QualityDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface QualityDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type QualityDomainClosedVocabularyEntry = ErpDomainClosedVocabularyEntry;
 
 export const QUALITY_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +71,7 @@ export const QUALITY_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly QualityDomainClosedVocabularyEntry[];
 
-export interface QualityDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type QualityDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const QUALITY_DOMAIN_BRANDED_IDS = [
   {

@@ -1,27 +1,15 @@
+import type { AssertJsonSerializable } from "../contracts/json-wire.contract.js";
+import { assertWireIsoCalendarDate } from "./_internal/wire-date.assert.js";
+import { assertWireRequiredText } from "./_internal/wire-text.assert.js";
 import type {
   ConsolidationEntityScopeWire,
   ConsolidationScopeWireContext,
 } from "./consolidation-scope-context.contract.js";
 import {
   assertOwnershipInterestPercentage,
-  assertOwnershipInterestText,
   isConsolidationTreatment,
 } from "./ownership-interest-context.assert.js";
 import { CONSOLIDATION_TREATMENTS } from "./ownership-interest-context.contract.js";
-
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
 
 type _ConsolidationScopeWireSerializable =
   AssertJsonSerializable<ConsolidationScopeWireContext>;
@@ -36,27 +24,15 @@ const WIRE_CONSOLIDATION_SCOPE_STRING_KEYS = [
   "reportingDate",
 ] as const satisfies readonly (keyof ConsolidationScopeWireContext)[];
 
-/** Format guard only — not calendar-validity. Promote to date primitive when needed. */
-const ISO_CALENDAR_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
-
 function assertConsolidationScopeReportingDate(value: string): void {
-  assertOwnershipInterestText(value, "reportingDate");
-
-  if (!ISO_CALENDAR_DATE_PATTERN.test(value)) {
-    throw new Error(
-      "reportingDate must be an ISO calendar date in YYYY-MM-DD format."
-    );
-  }
+  assertWireIsoCalendarDate(value, "reportingDate");
 }
 
 function assertConsolidationEntityScopeWire(
   value: ConsolidationEntityScopeWire,
   index: number
 ): void {
-  assertOwnershipInterestText(
-    value.companyId,
-    `legalEntities[${index}].companyId`
-  );
+  assertWireRequiredText(value.companyId, `legalEntities[${index}].companyId`);
 
   if (!isConsolidationTreatment(value.consolidationTreatment)) {
     throw new Error(
@@ -73,8 +49,8 @@ function assertConsolidationEntityScopeWire(
 function assertConsolidationScopeWireContext(
   value: ConsolidationScopeWireContext
 ): void {
-  assertOwnershipInterestText(value.tenantId, "tenantId");
-  assertOwnershipInterestText(value.entityGroupId, "entityGroupId");
+  assertWireRequiredText(value.tenantId, "tenantId");
+  assertWireRequiredText(value.entityGroupId, "entityGroupId");
   assertConsolidationScopeReportingDate(value.reportingDate);
 
   if (!Array.isArray(value.legalEntities)) {
@@ -104,7 +80,7 @@ export function assertWireConsolidationScopeContext(
       throw new Error(`${key} must be a string.`);
     }
 
-    assertOwnershipInterestText(record[key], key);
+    assertWireRequiredText(record[key], key);
   }
 
   if (!Array.isArray(record["legalEntities"])) {
@@ -125,7 +101,7 @@ export function assertWireConsolidationScopeContext(
       throw new Error(`${companyIdLabel} must be a string.`);
     }
 
-    assertOwnershipInterestText(entity["companyId"], companyIdLabel);
+    assertWireRequiredText(entity["companyId"], companyIdLabel);
 
     if (typeof entity["consolidationTreatment"] !== "string") {
       throw new Error(`${treatmentLabel} must be a string.`);

@@ -6,7 +6,7 @@ import {
   parseOrganizationId,
   parseProjectId,
   parseTenantId,
-} from "../identity/index.js";
+} from "../identity/families/tenant-hierarchy-id.contract.js";
 import {
   normalizeConsolidationScopeContextForWire,
   parseConsolidationScopeContext,

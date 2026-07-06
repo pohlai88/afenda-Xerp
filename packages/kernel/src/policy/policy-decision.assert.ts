@@ -1,3 +1,4 @@
+import type { AssertJsonSerializable } from "../contracts/json-wire.contract.js";
 import type {
   PolicyDecision,
   PolicyWireDecision,
@@ -7,20 +8,6 @@ import {
   isPolicyDecisionKind,
 } from "./policy-decision.contract.js";
 import { isPolicyDenialReason } from "./policy-denial-reason.contract.js";
-
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
 
 type _PolicyWireSerializable = AssertJsonSerializable<PolicyWireDecision>;
 

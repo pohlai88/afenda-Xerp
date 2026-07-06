@@ -1,23 +1,25 @@
 import {
+  normalizeMembershipIdForWire,
+  normalizeRoleIdForWire,
+  parseMembershipId,
+  parseRoleId,
+} from "../identity/families/identity-access-id.contract.js";
+import {
   normalizeCompanyIdForWire,
   normalizeEntityGroupIdForWire,
-  normalizeMembershipIdForWire,
   normalizeOrganizationIdForWire,
   normalizeProjectIdForWire,
-  normalizeRoleIdForWire,
   normalizeTenantIdForWire,
-  parseMembershipId,
   parseOptionalCompanyId,
   parseOptionalEntityGroupId,
   parseOptionalOrganizationId,
   parseOptionalProjectId,
   parseOrganizationId,
-  parseRoleId,
   parseTeamId,
   parseTenantId,
   toOrganizationId,
   toTeamId,
-} from "../identity/index.js";
+} from "../identity/families/tenant-hierarchy-id.contract.js";
 import { assertWirePermissionScopeContext } from "./permission-scope-context.assert.js";
 import type {
   PermissionScopeContext,
@@ -42,11 +44,11 @@ function parseOptionalTeamAuthorityId(
     return null;
   }
 
-  try {
-    return parseTeamId(value);
-  } catch {
+  if (value.startsWith("org_")) {
     return parseOrganizationId(value);
   }
+
+  return parseTeamId(value);
 }
 
 function normalizeTeamAuthorityIdForWire(value: TeamAuthorityId): string {

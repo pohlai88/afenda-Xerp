@@ -19,6 +19,9 @@
       "@afenda/shadcn-studio-v2/lab": [
         "../../packages/shadcn-studio-v2/src/storybook/lab.ts"
       ],
+      "@afenda/shadcn-studio-v2/clients": [
+        "../../packages/shadcn-studio-v2/src/clients.ts"
+      ],
       "@afenda/shadcn-studio-v2": [
         "../../packages/shadcn-studio-v2/src/index.ts"
       ],

@@ -1,3 +1,8 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import {
   CONSOLIDATION_AUDIT_ACTIONS,
   type isConsolidationAuditAction,
@@ -18,24 +23,10 @@ import { REPORTING_CURRENCY_METHODS } from "./reporting-currency-method.contract
 export const CONSOLIDATION_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-CONSOLIDATION" as const;
 
-export type ConsolidationDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type ConsolidationDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface ConsolidationDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type ConsolidationDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
 export const CONSOLIDATION_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +71,7 @@ export const CONSOLIDATION_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly ConsolidationDomainClosedVocabularyEntry[];
 
-export interface ConsolidationDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type ConsolidationDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const CONSOLIDATION_DOMAIN_BRANDED_IDS = [
   {

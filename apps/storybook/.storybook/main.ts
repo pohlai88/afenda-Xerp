@@ -94,6 +94,10 @@ const config: StorybookConfig = {
         replacement: join(shadcnStudioV2SrcRoot, "storybook/lab.ts"),
       },
       {
+        find: "@afenda/shadcn-studio-v2/clients",
+        replacement: join(shadcnStudioV2SrcRoot, "clients.ts"),
+      },
+      {
         find: "@afenda/shadcn-studio-v2",
         replacement: join(shadcnStudioV2SrcRoot, "index.ts"),
       },
@@ -190,6 +194,10 @@ const config: StorybookConfig = {
         shadcnStudioV2SrcRoot,
         "storybook/lab.ts"
       ),
+      "@afenda/shadcn-studio-v2/clients": join(
+        shadcnStudioV2SrcRoot,
+        "clients.ts"
+      ),
       "next/link": nextLinkMock,
       "next/image": nextImageMock,
       "next/dynamic": nextDynamicMock,
@@ -202,6 +210,7 @@ const config: StorybookConfig = {
       ),
       "@storybook/addon-docs/blocks",
       "@afenda/shadcn-studio-v2/lab",
+      "@afenda/shadcn-studio-v2/clients",
       "@afenda/shadcn-studio-v2",
       "next-themes",
       "react",

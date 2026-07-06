@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { assertDeliveredDomainVocabularyRegistry } from "../../__tests__/domain-vocabulary-registry.harness.js";
 import {
   type assertPosDomainVocabularyRegistryIntegrity,
   isPosAuditAction,
@@ -8,13 +9,33 @@ import {
   isTenderType,
   isTransactionType,
   POS_AUDIT_ACTIONS,
+  POS_DOMAIN_AUDIT_VOCABULARY,
   POS_DOMAIN_BRANDED_ID_TYPE_NAMES,
   POS_DOMAIN_CLOSED_VOCABULARIES,
+  POS_DOMAIN_PERMISSION_VOCABULARY,
   POS_DOMAIN_VOCABULARY_POLICY,
+  POS_DOMAIN_VOCABULARY_REGISTRY,
   POS_DOMAIN_VOCABULARY_REGISTRY_ID,
 } from "../index.js";
 
 describe("PAS-001B pos domain vocabulary registry", () => {
+  it("satisfies delivered domain vocabulary registry harness", () => {
+    assertDeliveredDomainVocabularyRegistry({
+      registryId: POS_DOMAIN_VOCABULARY_REGISTRY_ID,
+      registry: POS_DOMAIN_VOCABULARY_REGISTRY,
+      closedVocabularyIds: [
+        "pos-session-status",
+        "tender-type",
+        "transaction-type",
+        "shift-status",
+      ],
+      brandedIdTypeNames: POS_DOMAIN_BRANDED_ID_TYPE_NAMES,
+      auditActionCount: POS_DOMAIN_AUDIT_VOCABULARY.valueCount,
+      permissionKeyCount: POS_DOMAIN_PERMISSION_VOCABULARY.keyCount,
+      currentLifecycle: "contracts-only",
+    });
+  });
+
   it("declares registry identity", () => {
     expect(POS_DOMAIN_VOCABULARY_REGISTRY_ID).toBe("PAS-001B-4.8-POS");
   });

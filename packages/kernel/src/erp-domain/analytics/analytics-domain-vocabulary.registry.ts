@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { AGGREGATION_GRAINS } from "./aggregation-grain.contract.js";
+
 import {
   ANALYTICS_AUDIT_ACTIONS,
   type isAnalyticsAuditAction,
@@ -18,24 +24,10 @@ import { QUERY_STATUSES } from "./query-status.contract.js";
 export const ANALYTICS_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-ANALYTICS" as const;
 
-export type AnalyticsDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type AnalyticsDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface AnalyticsDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type AnalyticsDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
 export const ANALYTICS_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +72,7 @@ export const ANALYTICS_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly AnalyticsDomainClosedVocabularyEntry[];
 
-export interface AnalyticsDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type AnalyticsDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const ANALYTICS_DOMAIN_BRANDED_IDS = [
   {

@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { APPROVAL_DECISIONS } from "./approval-decision.contract.js";
+
 import { ESCALATION_REASONS } from "./escalation-reason.contract.js";
 import { TASK_PRIORITIES } from "./task-priority.contract.js";
 import {
@@ -18,24 +24,10 @@ import { WORKFLOW_STATUSES } from "./workflow-status.contract.js";
 export const WORKFLOW_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-WORKFLOW" as const;
 
-export type WorkflowDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type WorkflowDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface WorkflowDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type WorkflowDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
 export const WORKFLOW_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +72,7 @@ export const WORKFLOW_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly WorkflowDomainClosedVocabularyEntry[];
 
-export interface WorkflowDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type WorkflowDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const WORKFLOW_DOMAIN_BRANDED_IDS = [
   {

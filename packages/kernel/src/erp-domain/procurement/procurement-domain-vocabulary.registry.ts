@@ -3,6 +3,11 @@
  * Contracts-only registry — no PO posting, GR/IR matching, or ID_FAMILIES promotion.
  */
 
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import {
   type isProcurementAuditAction,
   PROCUREMENT_AUDIT_ACTIONS,
@@ -23,24 +28,10 @@ import { SOURCING_METHODS } from "./sourcing-method.contract.js";
 export const PROCUREMENT_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-PROCUREMENT" as const;
 
-export type ProcurementDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type ProcurementDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface ProcurementDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type ProcurementDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
 export const PROCUREMENT_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -85,12 +76,7 @@ export const PROCUREMENT_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly ProcurementDomainClosedVocabularyEntry[];
 
-export interface ProcurementDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type ProcurementDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const PROCUREMENT_DOMAIN_BRANDED_IDS = [
   {

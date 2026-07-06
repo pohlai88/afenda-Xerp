@@ -30,6 +30,17 @@ import {
   settingsSurfaceClassName,
   workspaceBoardWidgetAdapterClassName,
 } from "../index";
+import {
+  getL4ViewStateDefaultViolations,
+  type AUTH_SHELL_STATES as INVENTORY_AUTH_SHELL_STATES,
+  type VIEW_SURFACE_STATES as INVENTORY_VIEW_SURFACE_STATES,
+  L4_VIEW_COUNT,
+  L4_VIEW_EXPORTS,
+  L4_VIEW_FILES,
+  L4_VIEW_STATE_MATRIX,
+  type L4ViewStateCase,
+  listL4ViewFilesFromDisk,
+} from "./helpers/l4-view-inventory";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const SRC_ROOT = path.resolve(TEST_DIR, "..");
@@ -983,5 +994,147 @@ describe("Phase 7A page and widget views", () => {
     }
 
     expect(violations).toEqual([]);
+  });
+});
+
+function renderL4ViewStateMarkup({
+  exportName,
+  state,
+}: Pick<L4ViewStateCase, "exportName" | "state">): string {
+  const action = <button type="button">Retry</button>;
+  const stateMessages = {
+    [state]: {
+      action,
+      description: `${state} ${exportName} description`,
+      title: `${state} ${exportName} title`,
+    },
+  };
+
+  switch (exportName) {
+    case "AuthShell":
+      return renderToStaticMarkup(
+        <AuthShell
+          state={state as (typeof INVENTORY_AUTH_SHELL_STATES)[number]}
+          stateMessages={stateMessages}
+          title="Sign in"
+        >
+          Ready auth content
+        </AuthShell>
+      );
+    case "ConfirmDialogSurface":
+      return renderToStaticMarkup(
+        <ConfirmDialogSurface
+          state={state as (typeof INVENTORY_VIEW_SURFACE_STATES)[number]}
+          stateMessages={stateMessages}
+          title="Confirm"
+        />
+      );
+    case "DataTableSurface":
+      return renderToStaticMarkup(
+        <DataTableSurface
+          columns={[{ header: "Name", id: "name" }]}
+          state={state as (typeof INVENTORY_VIEW_SURFACE_STATES)[number]}
+          stateMessages={stateMessages}
+          title="Records"
+        />
+      );
+    case "EvidenceWidget":
+      return renderToStaticMarkup(
+        <EvidenceWidget
+          label="Evidence checkpoint"
+          state={state as (typeof INVENTORY_VIEW_SURFACE_STATES)[number]}
+          stateMessages={stateMessages}
+        />
+      );
+    case "FormSurface":
+      return renderToStaticMarkup(
+        <FormSurface
+          fields={[
+            {
+              control: <input id="name" name="name" />,
+              id: "name",
+              label: "Name",
+            },
+          ]}
+          state={state as (typeof INVENTORY_VIEW_SURFACE_STATES)[number]}
+          stateMessages={stateMessages}
+          title="Record form"
+        />
+      );
+    case "MetricWidget":
+      return renderToStaticMarkup(
+        <MetricWidget
+          label="Open records"
+          state={state as (typeof INVENTORY_VIEW_SURFACE_STATES)[number]}
+          stateMessages={stateMessages}
+        />
+      );
+    case "PageSurface":
+      return renderToStaticMarkup(
+        <PageSurface
+          state={state as (typeof INVENTORY_VIEW_SURFACE_STATES)[number]}
+          stateMessages={stateMessages}
+          title="Records"
+        >
+          Ready page content
+        </PageSurface>
+      );
+    case "SettingsSurface":
+      return renderToStaticMarkup(
+        <SettingsSurface
+          sections={[
+            {
+              id: "general",
+              items: [{ id: "name", label: "Name" }],
+              title: "General",
+            },
+          ]}
+          state={state as (typeof INVENTORY_VIEW_SURFACE_STATES)[number]}
+          stateMessages={stateMessages}
+          title="Settings"
+        />
+      );
+    default: {
+      const unreachable: never = exportName;
+      throw new Error(`Unhandled L4 view export: ${unreachable}`);
+    }
+  }
+}
+
+describe("F3 L4 view state matrix", () => {
+  it("matches canonical L4 inventory to on-disk view stems (8 views)", () => {
+    const diskFiles = listL4ViewFilesFromDisk();
+    expect(diskFiles).toEqual([...L4_VIEW_FILES].sort());
+    expect(L4_VIEW_COUNT).toBe(8);
+    expect(L4_VIEW_EXPORTS.map((view) => view.file).sort()).toEqual(
+      [...L4_VIEW_FILES].sort()
+    );
+  });
+
+  it("requires default state messages for every applicable non-ready state", () => {
+    for (const view of L4_VIEW_EXPORTS) {
+      expect(
+        getL4ViewStateDefaultViolations(view.file, view.states),
+        view.exportName
+      ).toEqual([]);
+    }
+  });
+
+  it.each(
+    L4_VIEW_STATE_MATRIX
+  )("renders $exportName in $state state with governed slot and accessible semantics", ({
+    exportName,
+    state,
+    stateSlot,
+  }) => {
+    const markup = renderL4ViewStateMarkup({ exportName, state });
+    const isError = state === "error";
+
+    expect(markup).toContain(`data-slot="${stateSlot}"`);
+    expect(markup).toContain(`data-state="${state}"`);
+    expect(markup).toContain(isError ? 'role="alert"' : 'role="status"');
+    expect(markup).toContain(`${state} ${exportName} title`);
+    expect(markup).toContain(`${state} ${exportName} description`);
+    expect(markup).toContain("Retry");
   });
 });

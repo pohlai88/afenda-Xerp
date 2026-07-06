@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { DISPATCH_PRIORITIES } from "./dispatch-priority.contract.js";
+
 import {
   FIELD_SERVICE_AUDIT_ACTIONS,
   type isFieldServiceAuditAction,
@@ -18,24 +24,10 @@ import { WORK_ORDER_STATUSES } from "./work-order-status.contract.js";
 export const FIELD_SERVICE_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-FIELD_SERVICE" as const;
 
-export type FieldServiceDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type FieldServiceDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface FieldServiceDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type FieldServiceDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
 export const FIELD_SERVICE_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +72,7 @@ export const FIELD_SERVICE_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly FieldServiceDomainClosedVocabularyEntry[];
 
-export interface FieldServiceDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type FieldServiceDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const FIELD_SERVICE_DOMAIN_BRANDED_IDS = [
   {

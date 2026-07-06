@@ -1,11 +1,13 @@
-import type { MetadataBindingContractWire } from "./metadata-studio.contract";
-import { METADATA_BINDING_SLOT_DOM_ATTRIBUTE } from "./metadata-binding-slot-hydration.contract";
 import type {
   MetadataBindingSlotHydrationTargetWire,
   MetadataBindingSlotHydrationWire,
 } from "./metadata-binding-slot-hydration.contract";
-import { METADATA_BINDING_HELP_SLOT_SUFFIX } from "./metadata-binding-slot-hydration.contract";
+import {
+  METADATA_BINDING_HELP_SLOT_SUFFIX,
+  METADATA_BINDING_SLOT_DOM_ATTRIBUTE,
+} from "./metadata-binding-slot-hydration.contract";
 import type { MetadataRuntimeContext } from "./metadata-runtime.contract";
+import type { MetadataBindingContractWire } from "./metadata-studio.contract";
 import type { MetadataUiBindingProjectionWire } from "./metadata-ui-binding.projection";
 import {
   resolveMetadataKnowledgeHelpTextFromAtomRef,
@@ -20,6 +22,7 @@ export type {
 } from "./metadata-binding-slot-hydration.contract";
 
 export {
+  AFENDA_BLOCK_SLOT_DOM_ATTRIBUTE,
   METADATA_BINDING_HELP_SLOT_SUFFIX,
   METADATA_BINDING_SLOT_DOM_ATTRIBUTE,
 } from "./metadata-binding-slot-hydration.contract";

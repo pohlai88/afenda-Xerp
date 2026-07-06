@@ -70,6 +70,8 @@ const preview: Preview = {
           "Agentic",
           "Afenda",
           ["Lab"],
+          "Shadcn Studio V2",
+          ["Theme", "Primitives", "Views"],
           "Presentation Lab",
           ["Swiss Noir Control Room", "Verdant Milk Noir"],
           "Shadcn Studio",

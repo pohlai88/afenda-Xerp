@@ -3,7 +3,13 @@
  * Contracts-only registry — no IC matching, settlement posting, or ID_FAMILIES promotion.
  */
 
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { IC_BILLING_DIRECTIONS } from "./ic-billing-direction.contract.js";
+
 import { IC_MATCHING_STATUSES } from "./ic-matching-status.contract.js";
 import { IC_SETTLEMENT_METHODS } from "./ic-settlement-method.contract.js";
 import { IC_TRANSACTION_TYPES } from "./ic-transaction-type.contract.js";
@@ -23,24 +29,10 @@ import {
 export const INTERCOMPANY_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-INTERCOMPANY" as const;
 
-export type IntercompanyDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type IntercompanyDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface IntercompanyDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type IntercompanyDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
 export const INTERCOMPANY_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -85,12 +77,7 @@ export const INTERCOMPANY_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly IntercompanyDomainClosedVocabularyEntry[];
 
-export interface IntercompanyDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type IntercompanyDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const INTERCOMPANY_DOMAIN_BRANDED_IDS = [
   {

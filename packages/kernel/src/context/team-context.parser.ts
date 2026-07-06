@@ -9,7 +9,7 @@ import {
   parseTenantId,
   toOrganizationId,
   toTeamId,
-} from "../identity/index.js";
+} from "../identity/families/tenant-hierarchy-id.contract.js";
 import { assertWireTeamContext } from "./team-context.assert.js";
 import type {
   TeamAuthorityId,

@@ -1,12 +1,16 @@
 import type { JsonObject } from "../contracts/json-wire.contract.js";
 import {
   normalizeCorrelationIdForWire,
-  normalizeTenantIdForWire,
   parseCorrelationId,
-  parseInternalEntityPk,
+} from "../identity/families/audit-execution-id.contract.js";
+import {
+  normalizeTenantIdForWire,
   parseTenantId,
+} from "../identity/families/tenant-hierarchy-id.contract.js";
+import {
+  parseInternalEntityPk,
   toInternalEntityPk,
-} from "../identity/index.js";
+} from "../identity/wire/internal-entity-pk.contract.js";
 import {
   assertDomainEvent,
   assertWireDomainEvent,
@@ -82,7 +86,5 @@ export function normalizeDomainEventForWire<
 export function serializeDomainEvent<TPayload extends JsonObject = JsonObject>(
   value: DomainEvent<TPayload>
 ): WireDomainEvent<TPayload> {
-  const wire = normalizeDomainEventForWire(value);
-  assertWireDomainEvent(wire);
-  return wire;
+  return normalizeDomainEventForWire(value);
 }

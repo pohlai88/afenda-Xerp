@@ -1,15 +1,19 @@
 import {
   normalizeCompanyIdForWire,
-  normalizeCountryCodeForWire,
-  normalizeCurrencyCodeForWire,
   normalizeEntityGroupIdForWire,
   normalizeTenantIdForWire,
   parseCompanyId,
-  parseCountryCode,
-  parseCurrencyCode,
   parseOptionalEntityGroupId,
   parseTenantId,
-} from "../identity/index.js";
+} from "../identity/families/tenant-hierarchy-id.contract.js";
+import {
+  normalizeCountryCodeForWire,
+  parseCountryCode,
+} from "../identity/primitives/country-code.contract.js";
+import {
+  normalizeCurrencyCodeForWire,
+  parseCurrencyCode,
+} from "../identity/primitives/currency-code.contract.js";
 import { assertWireLegalEntityContext } from "./legal-entity-context.assert.js";
 import type {
   LegalEntityContext,

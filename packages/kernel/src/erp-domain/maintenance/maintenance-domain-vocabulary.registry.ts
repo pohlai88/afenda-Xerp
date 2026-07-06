@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { DOWNTIME_CATEGORIES } from "./downtime-category.contract.js";
+
 import {
   type isMaintenanceAuditAction,
   MAINTENANCE_AUDIT_ACTIONS,
@@ -18,24 +24,10 @@ import { MAINTENANCE_PRIORITIES } from "./maintenance-priority.contract.js";
 export const MAINTENANCE_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-MAINTENANCE" as const;
 
-export type MaintenanceDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type MaintenanceDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface MaintenanceDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type MaintenanceDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
 export const MAINTENANCE_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +72,7 @@ export const MAINTENANCE_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly MaintenanceDomainClosedVocabularyEntry[];
 
-export interface MaintenanceDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type MaintenanceDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const MAINTENANCE_DOMAIN_BRANDED_IDS = [
   {

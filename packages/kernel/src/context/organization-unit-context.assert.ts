@@ -1,3 +1,5 @@
+import type { AssertJsonSerializable } from "../contracts/json-wire.contract.js";
+import { assertWireOptionalText } from "./_internal/wire-text.assert.js";
 import { assertLegalEntityEffectiveDateRange } from "./legal-entity-context.assert.js";
 import {
   PLATFORM_LIFECYCLE_STATUSES,
@@ -8,20 +10,6 @@ import type {
   OrganizationUnitWireContext,
 } from "./organization-unit-context.contract.js";
 import { ORGANIZATION_UNIT_TYPES } from "./organization-unit-context.contract.js";
-
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
 
 type _OrganizationUnitWireSerializable =
   AssertJsonSerializable<OrganizationUnitWireContext>;
@@ -57,9 +45,7 @@ export function assertOrganizationUnitContextOptionalText(
   value: string | null,
   label: string
 ): void {
-  if (value !== null && !value.trim()) {
-    throw new Error(`${label} must be null or a non-empty string.`);
-  }
+  assertWireOptionalText(value, label);
 }
 
 export function assertOrganizationUnitContextSlug(value: string): void {

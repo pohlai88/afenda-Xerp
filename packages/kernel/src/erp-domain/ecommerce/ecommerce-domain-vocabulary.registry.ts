@@ -3,7 +3,13 @@
  * Contracts-only registry — no checkout execution, payment capture, or ID_FAMILIES promotion.
  */
 
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { CART_STATUSES } from "./cart-status.contract.js";
+
 import { CHANNEL_TYPES } from "./channel-type.contract.js";
 import { CHECKOUT_STEPS } from "./checkout-step.contract.js";
 import {
@@ -23,24 +29,10 @@ import { WEB_ORDER_STATUSES } from "./web-order-status.contract.js";
 export const ECOMMERCE_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-ECOMMERCE" as const;
 
-export type EcommerceDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type EcommerceDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface EcommerceDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type EcommerceDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
 export const ECOMMERCE_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -85,12 +77,7 @@ export const ECOMMERCE_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly EcommerceDomainClosedVocabularyEntry[];
 
-export interface EcommerceDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type EcommerceDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const ECOMMERCE_DOMAIN_BRANDED_IDS = [
   {

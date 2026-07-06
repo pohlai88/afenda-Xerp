@@ -1,22 +1,10 @@
+import type { AssertJsonSerializable } from "../contracts/json-wire.contract.js";
+import { assertWireOptionalText } from "./_internal/wire-text.assert.js";
 import type { EntityGroupWireContext } from "./entity-group-context.contract.js";
 import {
   PLATFORM_LIFECYCLE_STATUSES,
   type PlatformLifecycleStatus,
 } from "./lifecycle.contract.js";
-
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
 
 type _EntityGroupWireSerializable =
   AssertJsonSerializable<EntityGroupWireContext>;
@@ -46,9 +34,7 @@ export function assertEntityGroupContextOptionalText(
   value: string | null,
   label: string
 ): void {
-  if (value !== null && !value.trim()) {
-    throw new Error(`${label} must be null or a non-empty string.`);
-  }
+  assertWireOptionalText(value, label);
 }
 
 export function assertEntityGroupContextSlug(value: string): void {

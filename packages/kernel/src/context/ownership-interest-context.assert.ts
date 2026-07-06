@@ -1,3 +1,9 @@
+import type { AssertJsonSerializable } from "../contracts/json-wire.contract.js";
+import { assertIsoCalendarDateOrNull } from "./_internal/wire-date.assert.js";
+import {
+  assertWireOptionalText,
+  assertWireRequiredText,
+} from "./_internal/wire-text.assert.js";
 import {
   PLATFORM_LIFECYCLE_STATUSES,
   type PlatformLifecycleStatus,
@@ -11,29 +17,12 @@ import {
   type PercentageNumber,
 } from "./ownership-interest-context.contract.js";
 
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
-
 type _OwnershipInterestWireSerializable =
   AssertJsonSerializable<OwnershipInterestWireContext>;
 
 /** Compile-time guard — ownership interest wire context must remain JSON-serializable. */
 export type assertOwnershipInterestContextWireSerializable =
   _OwnershipInterestWireSerializable extends true ? true : never;
-
-/** Format guard only — not calendar-validity. Promote to date primitive when needed. */
-const ISO_CALENDAR_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 export function isOwnershipControlType(
   value: string
@@ -53,22 +42,11 @@ function isPlatformLifecycleStatus(
   return (PLATFORM_LIFECYCLE_STATUSES as readonly string[]).includes(value);
 }
 
-export function assertOwnershipInterestText(
-  value: string,
-  label: string
-): void {
-  if (!value.trim()) {
-    throw new Error(`${label} is required.`);
-  }
-}
-
 export function assertOwnershipInterestOptionalText(
   value: string | null,
   label: string
 ): void {
-  if (value !== null && !value.trim()) {
-    throw new Error(`${label} must be null or a non-empty string.`);
-  }
+  assertWireOptionalText(value, label);
 }
 
 export function assertOwnershipInterestPercentage(
@@ -87,21 +65,6 @@ export function brandPercentageNumber(
 ): PercentageNumber {
   assertOwnershipInterestPercentage(value, label);
   return value as PercentageNumber;
-}
-
-export function assertIsoCalendarDateOrNull(
-  value: string | null,
-  label: string
-): void {
-  if (value === null) {
-    return;
-  }
-
-  if (!ISO_CALENDAR_DATE_PATTERN.test(value)) {
-    throw new Error(
-      `${label} must be an ISO calendar date in YYYY-MM-DD format.`
-    );
-  }
 }
 
 export function assertOwnershipInterestEffectiveDateRange(
@@ -132,11 +95,11 @@ export function assertDistinctLegalEntityIds(
 function assertOwnershipInterestWireContext(
   value: OwnershipInterestWireContext
 ): void {
-  assertOwnershipInterestText(value.ownershipInterestId, "ownershipInterestId");
-  assertOwnershipInterestText(value.tenantId, "tenantId");
-  assertOwnershipInterestText(value.entityGroupId, "entityGroupId");
-  assertOwnershipInterestText(value.parentLegalEntityId, "parentLegalEntityId");
-  assertOwnershipInterestText(value.childLegalEntityId, "childLegalEntityId");
+  assertWireRequiredText(value.ownershipInterestId, "ownershipInterestId");
+  assertWireRequiredText(value.tenantId, "tenantId");
+  assertWireRequiredText(value.entityGroupId, "entityGroupId");
+  assertWireRequiredText(value.parentLegalEntityId, "parentLegalEntityId");
+  assertWireRequiredText(value.childLegalEntityId, "childLegalEntityId");
 
   assertDistinctLegalEntityIds(
     value.parentLegalEntityId,
@@ -186,7 +149,7 @@ export function assertWireOwnershipInterestContext(
       throw new Error(`${key} must be a string.`);
     }
 
-    assertOwnershipInterestText(record[key], key);
+    assertWireRequiredText(record[key], key);
   }
 
   if (typeof record["controlType"] !== "string") {

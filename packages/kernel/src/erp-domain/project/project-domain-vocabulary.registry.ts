@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { BILLING_METHODS } from "./billing-method.contract.js";
+
 import {
   type isProjectAuditAction,
   PROJECT_AUDIT_ACTIONS,
@@ -18,24 +24,9 @@ import { TIMESHEET_STATUSES } from "./timesheet-status.contract.js";
 export const PROJECT_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-PROJECT" as const;
 
-export type ProjectDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type ProjectDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface ProjectDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type ProjectDomainClosedVocabularyEntry = ErpDomainClosedVocabularyEntry;
 
 export const PROJECT_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +71,7 @@ export const PROJECT_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly ProjectDomainClosedVocabularyEntry[];
 
-export interface ProjectDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type ProjectDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const PROJECT_DOMAIN_BRANDED_IDS = [
   {

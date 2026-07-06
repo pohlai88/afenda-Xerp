@@ -1,6 +1,3 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import {
   alertDialogContentClassName,
@@ -17,10 +14,11 @@ import {
   sheetOverlayClassName,
 } from "../components/ui/sheet";
 import { tooltipContentClassName } from "../components/ui/tooltip";
-
-const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
-const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
-const SRC_ROOT = path.join(PACKAGE_ROOT, "src");
+import {
+  getUiLaneSafetyViolations,
+  readPackageSrcFile,
+  readUiPrimitiveSource,
+} from "./helpers/ui-primitive-inventory";
 
 const OVERLAY_PRIMITIVES = [
   "dialog.tsx",
@@ -31,19 +29,12 @@ const OVERLAY_PRIMITIVES = [
   "tooltip.tsx",
 ] as const;
 
-function readSource(...segments: string[]): string {
-  return readFileSync(path.join(SRC_ROOT, ...segments), "utf8");
-}
-
 describe("shadcn-studio-v2 overlay primitives", () => {
   it("keeps Lane A-05 overlay primitives in the registered ui lane", () => {
     for (const fileName of OVERLAY_PRIMITIVES) {
-      const source = readSource("components", "ui", fileName);
+      const source = readUiPrimitiveSource(fileName);
 
-      expect(source).toContain("export ");
-      expect(source).not.toContain("window.");
-      expect(source).not.toContain("document.");
-      expect(source).not.toContain("localStorage");
+      expect(getUiLaneSafetyViolations(source)).toEqual([]);
       expect(source).not.toContain("draggable");
       expect(source).not.toMatch(/\bresize\b/);
     }
@@ -53,24 +44,19 @@ describe("shadcn-studio-v2 overlay primitives", () => {
         continue;
       }
 
-      expect(readSource("components", "ui", fileName)).toContain(
-        '"use client"'
-      );
+      expect(readUiPrimitiveSource(fileName)).toContain('"use client"');
     }
 
-    const dialogSource = readSource("components", "ui", "dialog.tsx");
-    const alertDialogSource = readSource(
-      "components",
-      "ui",
-      "alert-dialog.tsx"
-    );
-    const sheetSource = readSource("components", "ui", "sheet.tsx");
+    const dialogSource = readUiPrimitiveSource("dialog.tsx");
+    const alertDialogSource = readUiPrimitiveSource("alert-dialog.tsx");
+    const sheetSource = readUiPrimitiveSource("sheet.tsx");
 
     expect(dialogSource).toContain('from "./button"');
     expect(alertDialogSource).toContain('from "./button"');
     expect(sheetSource).toContain('from "./button"');
-    expect(dialogSource).not.toContain("useState");
-    expect(dialogSource).not.toContain("useEffect");
+    expect(
+      getUiLaneSafetyViolations(dialogSource, { forbidClientHooks: true })
+    ).toEqual([]);
   });
 
   it("uses canonical semantic token utilities in overlay class helpers", () => {
@@ -105,7 +91,7 @@ describe("shadcn-studio-v2 overlay primitives", () => {
   });
 
   it("serializes overlay ownership through data-slot markers", () => {
-    const dialogSource = readSource("components", "ui", "dialog.tsx");
+    const dialogSource = readUiPrimitiveSource("dialog.tsx");
     expect(dialogSource).toContain('data-slot="dialog"');
     expect(dialogSource).toContain('data-slot="dialog-content"');
     expect(dialogSource).toContain('data-slot="dialog-title"');
@@ -114,32 +100,28 @@ describe("shadcn-studio-v2 overlay primitives", () => {
     expect(dialogSource).toContain("export function DialogContent");
     expect(dialogSource).toContain("export function dialogOverlayClassName");
 
-    const alertDialogSource = readSource(
-      "components",
-      "ui",
-      "alert-dialog.tsx"
-    );
+    const alertDialogSource = readUiPrimitiveSource("alert-dialog.tsx");
     expect(alertDialogSource).toContain('data-slot="alert-dialog"');
     expect(alertDialogSource).toContain('data-slot="alert-dialog-content"');
     expect(alertDialogSource).toContain('data-slot="alert-dialog-action"');
     expect(alertDialogSource).toContain('data-slot="alert-dialog-cancel"');
 
-    const sheetSource = readSource("components", "ui", "sheet.tsx");
+    const sheetSource = readUiPrimitiveSource("sheet.tsx");
     expect(sheetSource).toContain('data-slot="sheet"');
     expect(sheetSource).toContain('data-slot="sheet-content"');
     expect(sheetSource).toContain('data-slot="sheet-title"');
     expect(sheetSource).toContain("export function sheetContentClassName");
 
-    const drawerSource = readSource("components", "ui", "drawer.tsx");
+    const drawerSource = readUiPrimitiveSource("drawer.tsx");
     expect(drawerSource).toContain('from "./sheet"');
     expect(drawerSource).toContain("Sheet as Drawer");
 
-    const popoverSource = readSource("components", "ui", "popover.tsx");
+    const popoverSource = readUiPrimitiveSource("popover.tsx");
     expect(popoverSource).toContain('data-slot="popover"');
     expect(popoverSource).toContain('data-slot="popover-content"');
     expect(popoverSource).toContain('data-slot="popover-trigger"');
 
-    const tooltipSource = readSource("components", "ui", "tooltip.tsx");
+    const tooltipSource = readUiPrimitiveSource("tooltip.tsx");
     expect(tooltipSource).toContain('data-slot="tooltip"');
     expect(tooltipSource).toContain('data-slot="tooltip-content"');
     expect(tooltipSource).toContain('data-slot="tooltip-provider"');
@@ -147,8 +129,8 @@ describe("shadcn-studio-v2 overlay primitives", () => {
   });
 
   it("keeps overlay exports on neutral index and off server surface", () => {
-    const indexSource = readSource("index.ts");
-    const serverSource = readSource("server.ts");
+    const indexSource = readPackageSrcFile("index.ts");
+    const serverSource = readPackageSrcFile("server.ts");
 
     for (const stem of [
       "dialog",
@@ -164,7 +146,7 @@ describe("shadcn-studio-v2 overlay primitives", () => {
   });
 
   it("keeps drawer as a sheet alias without duplicating implementation", () => {
-    const drawerSource = readSource("components", "ui", "drawer.tsx");
+    const drawerSource = readUiPrimitiveSource("drawer.tsx");
 
     expect(drawerSource).not.toContain("DrawerPrimitive");
     expect(drawerSource).toContain("SheetContent as DrawerContent");

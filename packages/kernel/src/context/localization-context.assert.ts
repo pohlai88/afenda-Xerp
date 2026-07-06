@@ -1,18 +1,6 @@
+import type { AssertJsonSerializable } from "../contracts/json-wire.contract.js";
+import { assertWireRequiredText } from "./_internal/wire-text.assert.js";
 import type { WireLocalizationContext } from "./localization-context.contract.js";
-
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
 
 type _LocalizationWireSerializable =
   AssertJsonSerializable<WireLocalizationContext>;
@@ -30,9 +18,7 @@ const WIRE_LOCALIZATION_KEYS = [
 
 /** Non-empty trimmed wire text — semantic validation defers to identity parse*. */
 export function assertLocalizationText(value: string, label: string): void {
-  if (!value.trim()) {
-    throw new Error(`${label} is required.`);
-  }
+  assertWireRequiredText(value, label);
 }
 
 /**

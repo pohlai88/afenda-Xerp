@@ -1,3 +1,5 @@
+import type { AssertJsonSerializable } from "../contracts/json-wire.contract.js";
+import { assertWireRequiredText } from "./_internal/wire-text.assert.js";
 import { assertLegalEntitySlug } from "./legal-entity-context.assert.js";
 import {
   PLATFORM_LIFECYCLE_STATUSES,
@@ -5,20 +7,6 @@ import {
 } from "./lifecycle.contract.js";
 import type { TenantWireContext } from "./tenant-context.contract.js";
 import { isTenantSaasLifecyclePhase } from "./tenant-saas-lifecycle.contract.js";
-
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
 
 type _TenantWireSerializable = AssertJsonSerializable<TenantWireContext>;
 
@@ -32,16 +20,10 @@ function isPlatformLifecycleStatus(
   return (PLATFORM_LIFECYCLE_STATUSES as readonly string[]).includes(value);
 }
 
-export function assertTenantContextText(value: string, label: string): void {
-  if (!value.trim()) {
-    throw new Error(`${label} is required.`);
-  }
-}
-
 function assertTenantWireContext(value: TenantWireContext): void {
-  assertTenantContextText(value.tenantId, "tenantId");
+  assertWireRequiredText(value.tenantId, "tenantId");
   assertLegalEntitySlug(value.slug);
-  assertTenantContextText(value.displayName, "displayName");
+  assertWireRequiredText(value.displayName, "displayName");
 
   if (!isPlatformLifecycleStatus(value.status)) {
     throw new Error(

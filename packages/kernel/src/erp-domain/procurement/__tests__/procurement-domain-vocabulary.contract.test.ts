@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { assertDeliveredDomainVocabularyRegistry } from "../../__tests__/domain-vocabulary-registry.harness.js";
 import {
   type assertProcurementDomainVocabularyRegistryIntegrity,
   isProcurementAuditAction,
@@ -27,6 +28,24 @@ import {
 } from "../index.js";
 
 describe("PAS-001B procurement domain vocabulary registry", () => {
+  it("satisfies delivered domain vocabulary registry harness", () => {
+    assertDeliveredDomainVocabularyRegistry({
+      registryId: PROCUREMENT_DOMAIN_VOCABULARY_REGISTRY_ID,
+      registry: PROCUREMENT_DOMAIN_VOCABULARY_REGISTRY,
+      closedVocabularyIds: [
+        "purchase-requisition-status",
+        "purchase-order-status",
+        "procurement-document-type",
+        "sourcing-method",
+      ],
+      brandedIdTypeNames: PROCUREMENT_DOMAIN_BRANDED_ID_TYPE_NAMES,
+      excludedBrandedIdTypeNames: ["SupplierId", "ProductId"],
+      auditActionCount: PROCUREMENT_DOMAIN_AUDIT_VOCABULARY.valueCount,
+      permissionKeyCount: PROCUREMENT_DOMAIN_PERMISSION_VOCABULARY.keyCount,
+      currentLifecycle: "contracts-only",
+    });
+  });
+
   it("declares registry identity", () => {
     expect(PROCUREMENT_DOMAIN_VOCABULARY_REGISTRY_ID).toBe(
       "PAS-001B-4.8-PROCUREMENT"

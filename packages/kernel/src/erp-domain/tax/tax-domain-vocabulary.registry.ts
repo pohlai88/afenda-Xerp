@@ -1,3 +1,8 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import {
   type isTaxAuditAction,
   TAX_AUDIT_ACTIONS,
@@ -17,24 +22,9 @@ import { WITHHOLDING_TYPES } from "./withholding-type.contract.js";
 
 export const TAX_DOMAIN_VOCABULARY_REGISTRY_ID = "PAS-001B-4.8-TAX" as const;
 
-export type TaxDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type TaxDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface TaxDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type TaxDomainClosedVocabularyEntry = ErpDomainClosedVocabularyEntry;
 
 export const TAX_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -79,12 +69,7 @@ export const TAX_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly TaxDomainClosedVocabularyEntry[];
 
-export interface TaxDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type TaxDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const TAX_DOMAIN_BRANDED_IDS = [
   {

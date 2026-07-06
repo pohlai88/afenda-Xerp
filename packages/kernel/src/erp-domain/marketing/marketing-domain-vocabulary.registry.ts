@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { ATTRIBUTION_MODELS } from "./attribution-model.contract.js";
+
 import { CAMPAIGN_CHANNELS } from "./campaign-channel.contract.js";
 import { CAMPAIGN_STATUSES } from "./campaign-status.contract.js";
 import {
@@ -18,24 +24,10 @@ import { SEGMENT_TYPES } from "./segment-type.contract.js";
 export const MARKETING_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-MARKETING" as const;
 
-export type MarketingDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type MarketingDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface MarketingDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type MarketingDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
 export const MARKETING_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +72,7 @@ export const MARKETING_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly MarketingDomainClosedVocabularyEntry[];
 
-export interface MarketingDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type MarketingDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const MARKETING_DOMAIN_BRANDED_IDS = [
   {

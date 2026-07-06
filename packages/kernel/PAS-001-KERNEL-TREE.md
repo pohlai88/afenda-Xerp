@@ -86,6 +86,9 @@ packages/kernel/
     │   ├── hierarchy-id-boundary.parser.ts         # ✅ Wire triad — parser (B68)
     │   ├── permission-grant-vocabulary.contract.ts # ✅ §8 grant scope words (not evaluation)
     │   │
+    │   ├── _internal/                              # package-private — not exported
+    │   │   └── wire-text.assert.ts                 # shared assertWireRequiredText / assertWireOptionalText
+    │   │
     │   └── __tests__/                                # 🧪 localization-context tests
     │
     ├── identity/                         # ✅ CANON §4.1 — enterprise ID authority floor
@@ -163,7 +166,7 @@ packages/kernel/
     │   ├── result.contract.ts            # ✅ §4.2 Result type
     │   ├── app-error.contract.ts         # ✅ §4.2 App error surface
     │   ├── problem-detail.contract.ts    # ✅ RFC 9457 problem detail
-    │   ├── json-wire.contract.ts         # ✅ JsonValue wire types
+    │   ├── json-wire.contract.ts         # ✅ JsonValue wire types + AssertJsonSerializable compile-time guard
     │   ├── execution-context.contract.ts # ✅ §4.3 execution context shape
     │   ├── execution-context.policy.contract.ts
     │   ├── kernel-package-layout.contract.ts  # 📋 §6.1 layout + context/contracts boundary
@@ -174,6 +177,14 @@ packages/kernel/
     │
     ├── erp-domain/                         # ✅ §4.8 · PAS-001B ERP domain vocabulary catalog
     │   ├── erp-domain-layout.contract.ts   # 📋 28-slug catalog + maturity (PAS-001B B77)
+    │   ├── _internal/                      # package-private — not exported
+    │   │   ├── domain-id-brand.helpers.ts  # brandTrimRequired bridge → identity/primitives
+    │   │   └── domain-vocabulary.types.ts  # shared ErpDomainVocabularyRegistryShape types
+    │   ├── __tests__/
+    │   │   └── domain-vocabulary-registry.harness.ts  # shared delivered-vocabulary test harness
+    │   ├── catalog/                        # ✅ @afenda/kernel/erp-domain/catalog
+    │   │   ├── erp-domain-permission-vocabulary.registry.ts  # ERP_DOMAIN_PERMISSION_KEY_VOCABULARIES
+    │   │   └── index.ts
     │   ├── accounting/                     # ✅ delivered — @afenda/kernel/erp-domain/accounting
     │   │   ├── accounting-authority.contract.ts
     │   │   ├── accounting-domain-vocabulary.registry.ts
@@ -251,7 +262,7 @@ packages/kernel/
     ├── events/                           # ✅ CANON — domain event wire shape
     │   ├── domain-event.contract.ts
     │   ├── domain-event.assert.ts
-    │   ├── domain-event.parser.ts
+    │   ├── domain-event.parser.ts      # egress re-assert removed for triad parity; fail-closed boundary is ingress assertWireDomainEvent + semantic assertDomainEvent on normalize
     │   └── index.ts                    # @afenda/kernel/events
     │
     └── __tests__/                        # 🧪 package-level acceptance (~35 files)
@@ -295,8 +306,41 @@ Machine authority: [`src/contracts/kernel-package-layout.contract.ts`](src/contr
 
 Gates: `pnpm check:kernel-subpath-exports` · `pnpm check:kernel-package-structure`
 
-## Pending drift (still in kernel — scheduled slices)
+## Pre-adoption subpaths (approved export keys — adoption guidance)
 
-| Path | Target |
-|------|--------|
-| `erp-domain/accounting/accounting-id.contract.ts` | **Closed** — permanent KV-ACCT quarantine ([ADR-0032](../../docs/adr/ADR-0032-fiscal-domain-id-authority.md)) |
+These subpaths are **registered and gate-enforced** but have **limited or zero ERP runtime consumers** today. Kernel owns wire vocabulary; evaluation, transport, and resolver behavior live in sibling packages or `apps/erp`.
+
+| Subpath | Kernel owns | Consumer today | Prefer for new code |
+| --- | --- | --- | --- |
+| `@afenda/kernel/governance` | PAS self-governance metadata (`kernel-boundary-drift.registry.ts`, decision matrix) | Governance gates + kernel tests only | Governance scripts and PAS slice authors — not ERP feature code |
+| `@afenda/kernel/propagation` | Context frame wire shape (`kernel-context-frame.contract.ts`) | Kernel tests; route-lab parity track | Durable workflow / request propagation when ADR-0042 adoption lands |
+| `@afenda/kernel/policy` | Policy decision vocabulary (denial reasons, wire shapes) | Kernel tests | Wire contracts at API ingress — evaluation stays outside kernel |
+| `@afenda/kernel/permission` | Permission model vocabulary (actions, scopes, wire keys) | Kernel + `@afenda/permissions` parity tests | Import `@afenda/permissions` for evaluation; kernel for wire key literals only |
+| `@afenda/kernel/events` | Domain event wire triad (contract · assert · parser) | Kernel tests | Event egress/ingress wire validation — not event bus execution |
+
+**Import guidance:** Prefer `@afenda/kernel/context` and `@afenda/kernel/erp-domain/{slug}` over the root barrel for new ERP code. Use `import type` where possible. Context **parsers** import granular `identity/families/*.contract.js` paths; context **contracts** may still use `identity/index.js` type-only imports.
+
+**Internal folders (`_internal/`):** Package-private deduplication helpers under `context/_internal/` and `erp-domain/_internal/`. Not subpath-exported; do not import from outside `@afenda/kernel`.
+
+## Deferred optimizations (intentional)
+
+The following items were evaluated during kernel optimization (PR-A / PR-B). Each is **closed as documented policy** — not pending work. Do not reopen without profiling evidence or a serialized PAS slice.
+
+| Item | Policy | Reopen trigger |
+| --- | --- | --- |
+| **Canonical ID parse fast-path** | Keep current parse/validate path. No `skipValidation` flag or regex short-circuit until bulk ID parse appears in top CPU frames under production load. | Flamegraph or APM shows canonical ID parse in hot path during bulk ingress. Implementation must use `buildCanonicalEnterpriseIdRegex` family path — no validation bypass. |
+| **Context contract `import type` from `identity/index.js`** | Intentional. Type-only imports from the identity barrel in context **contracts** carry zero runtime cost; parsers already use granular `identity/families/*.contract.js` paths. | Never for runtime cost alone. Revisit only if identity barrel export graph causes measurable bundle bloat in a consumer build audit. |
+| **Vocabulary registry factories** (`createClosedVocabulary()`, `defineErpDomainVocabularyRegistry()`) | YAGNI. Per-domain registry objects remain explicit until a third distinct registry shape variant appears. | Third registry shape variant is delivered and duplicated boilerplate is proven by gate or audit. |
+| **Per-domain vocabulary type alias removal** | Cosmetic churn across 28 ERP domain modules with export-breakage risk. Aliases are stable public surface on subpath exports. | Serialized PAS slice with consumer audit and semver policy for subpath export changes. |
+
+## Drift registry status
+
+All **13** entries in [`kernel-boundary-drift.registry.ts`](src/governance/kernel-boundary-drift.registry.ts) are `refactorStatus: "completed"`. Relocated paths are listed under [Relocated out of kernel](#relocated-out-of-kernel-completed--drift-registry) above.
+
+| Entry | Disposition | Notes |
+| --- | --- | --- |
+| `accounting-id-forbidden-floor-symbols` | quarantine_subpath_only | **Permanent** — `FiscalCalendarId` / `FiscalPeriodId` on `@afenda/kernel/erp-domain/accounting` only ([ADR-0032](../../docs/adr/ADR-0032-fiscal-domain-id-authority.md)) |
+| `permission-scope-context-transitional` | relocate | Kernel keeps OperatingContext slot + grant vocabulary; `@afenda/permissions` owns evaluation. Projection uses explicit `org_` prefix discriminator (no catch-all try/catch). |
+| `contracts-brand-shim` | remove_after_migration | Removed — canonical surface is `identity/brand/` only |
+
+Do not delete drift-tracked paths or flip registry status without a serialized PAS slice and consumer audit.

@@ -1,3 +1,8 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import {
   INVENTORY_AUDIT_ACTIONS,
   type isInventoryAuditAction,
@@ -18,31 +23,12 @@ import { VALUATION_METHODS } from "./valuation-method.contract.js";
 export const INVENTORY_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-INVENTORY" as const;
 
-export type InventoryDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type InventoryDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface InventoryDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type InventoryDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
-export interface InventoryDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type InventoryDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const INVENTORY_DOMAIN_CLOSED_VOCABULARIES = [
   {

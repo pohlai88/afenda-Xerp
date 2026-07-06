@@ -77,7 +77,7 @@
     "quality": "pnpm check:biome-suppressions && pnpm normalize:kebab-stems -- --check && pnpm check:drift && pnpm check:apca && pnpm test && pnpm typecheck && pnpm build",
     "test": "vitest run",
     "test:taxonomy": "vitest run src/__tests__/taxonomy.test.ts",
-    "test:primitives": "vitest run src/__tests__/primitive-baseline.test.ts src/__tests__/primitive-api-consistency.test.ts src/__tests__/primitive-extension.test.ts src/__tests__/primitive-form-controls.test.ts src/__tests__/primitive-overlays.test.ts src/__tests__/primitive-nav-data.test.ts",
+    "test:primitives": "vitest run src/__tests__/primitive-baseline.test.ts src/__tests__/primitive-api-consistency.test.ts src/__tests__/primitive-extension.test.ts src/__tests__/primitive-form-controls.test.ts src/__tests__/primitive-overlays.test.ts src/__tests__/primitive-nav-data.test.ts src/__tests__/primitive-inventory-coverage.test.ts",
     "test:watch": "vitest",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },

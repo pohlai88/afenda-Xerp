@@ -1,13 +1,15 @@
 import {
+  normalizeOwnershipInterestIdForWire,
+  parseOwnershipInterestId,
+} from "../identity/families/enterprise-hierarchy-id.contract.js";
+import {
   normalizeCompanyIdForWire,
   normalizeEntityGroupIdForWire,
-  normalizeOwnershipInterestIdForWire,
   normalizeTenantIdForWire,
   parseCompanyId,
   parseEntityGroupId,
-  parseOwnershipInterestId,
   parseTenantId,
-} from "../identity/index.js";
+} from "../identity/families/tenant-hierarchy-id.contract.js";
 import {
   assertWireOwnershipInterestContext,
   brandPercentageNumber,

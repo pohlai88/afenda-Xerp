@@ -1,18 +1,6 @@
 import type { Brand } from "../../identity/brand/index.js";
 import { unbrand } from "../../identity/brand/index.js";
-
-function brandTrimRequired<T extends string>(
-  value: string | Brand<string, T>,
-  label: string
-): Brand<string, T> {
-  const raw = typeof value === "string" ? value : (value as string);
-
-  if (!raw.trim()) {
-    throw new Error(`${label} is required.`);
-  }
-
-  return raw as Brand<string, T>;
-}
+import { brandTrimRequired } from "../_internal/domain-id-brand.helpers.js";
 
 export type WorkflowInstanceId = Brand<string, "WorkflowInstanceId">;
 

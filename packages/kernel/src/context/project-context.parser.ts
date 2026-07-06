@@ -7,7 +7,7 @@ import {
   parseOptionalOrganizationId,
   parseProjectId,
   parseTenantId,
-} from "../identity/index.js";
+} from "../identity/families/tenant-hierarchy-id.contract.js";
 import { assertWireProjectContext } from "./project-context.assert.js";
 import type {
   ProjectContext,

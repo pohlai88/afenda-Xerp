@@ -1,6 +1,3 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
@@ -39,32 +36,29 @@ import {
   tableHeaderClassName,
   tableRowClassName,
 } from "../components/ui/table";
-
-const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
-const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
-const SRC_ROOT = path.join(PACKAGE_ROOT, "src");
+import {
+  getUiLaneSafetyViolations,
+  readPackageSrcFile,
+  readUiPrimitiveSource,
+} from "./helpers/ui-primitive-inventory";
 
 const REQUIRED_EXTENSION_PRIMITIVES = [
-  "Alert.tsx",
-  "Field.tsx",
-  "Table.tsx",
+  "alert.tsx",
+  "field.tsx",
+  "table.tsx",
 ] as const;
-
-function readSource(...segments: string[]): string {
-  return readFileSync(path.join(SRC_ROOT, ...segments), "utf8");
-}
 
 describe("shadcn-studio-v2 primitive extension", () => {
   it("keeps Slice 3B primitives in the registered ui lane", () => {
     for (const fileName of REQUIRED_EXTENSION_PRIMITIVES) {
-      const source = readSource("components", "ui", fileName);
+      const source = readUiPrimitiveSource(fileName);
 
-      expect(source).toContain("export function");
-      expect(source).not.toContain("window.");
-      expect(source).not.toContain("document.");
-      expect(source).not.toContain("localStorage");
-      expect(source).not.toContain("useState");
-      expect(source).not.toContain("useEffect");
+      expect(
+        getUiLaneSafetyViolations(source, {
+          requireExportFunction: true,
+          forbidClientHooks: true,
+        })
+      ).toEqual([]);
     }
   });
 
@@ -112,9 +106,9 @@ describe("shadcn-studio-v2 primitive extension", () => {
   });
 
   it("serializes extension primitive ownership through data-slot markers", () => {
-    const alertSource = readSource("components", "ui", "Alert.tsx");
-    const fieldSource = readSource("components", "ui", "Field.tsx");
-    const tableSource = readSource("components", "ui", "Table.tsx");
+    const alertSource = readUiPrimitiveSource("alert.tsx");
+    const fieldSource = readUiPrimitiveSource("field.tsx");
+    const tableSource = readUiPrimitiveSource("table.tsx");
 
     expect(alertSource).toContain('data-slot="alert"');
     expect(alertSource).toContain('data-slot="alert-title"');
@@ -137,9 +131,9 @@ describe("shadcn-studio-v2 primitive extension", () => {
   });
 
   it("keeps extension primitive contracts simple and boundary-safe", () => {
-    const alertSource = readSource("components", "ui", "Alert.tsx");
-    const fieldSource = readSource("components", "ui", "Field.tsx");
-    const tableSource = readSource("components", "ui", "Table.tsx");
+    const alertSource = readUiPrimitiveSource("alert.tsx");
+    const fieldSource = readUiPrimitiveSource("field.tsx");
+    const tableSource = readUiPrimitiveSource("table.tsx");
 
     expect(alertSource).not.toContain('"destructive" ? "alert" : "status"');
     expect(alertSource).not.toContain("role={role ??");
@@ -273,14 +267,20 @@ describe("shadcn-studio-v2 primitive extension", () => {
   });
 
   it("keeps extension primitives out of the server public surface", () => {
-    expect(readSource("index.ts")).toContain("./components/ui/alert");
-    expect(readSource("index.ts")).toContain("./components/ui/field");
-    expect(readSource("index.ts")).toContain("./components/ui/table");
-    expect(readSource("clients.ts")).toContain("Alert");
-    expect(readSource("clients.ts")).toContain("Field");
-    expect(readSource("clients.ts")).toContain("Table");
-    expect(readSource("server.ts")).not.toContain("./components/ui/alert");
-    expect(readSource("server.ts")).not.toContain("./components/ui/field");
-    expect(readSource("server.ts")).not.toContain("./components/ui/table");
+    expect(readPackageSrcFile("index.ts")).toContain("./components/ui/alert");
+    expect(readPackageSrcFile("index.ts")).toContain("./components/ui/field");
+    expect(readPackageSrcFile("index.ts")).toContain("./components/ui/table");
+    expect(readPackageSrcFile("clients.ts")).toContain("Alert");
+    expect(readPackageSrcFile("clients.ts")).toContain("Field");
+    expect(readPackageSrcFile("clients.ts")).toContain("Table");
+    expect(readPackageSrcFile("server.ts")).not.toContain(
+      "./components/ui/alert"
+    );
+    expect(readPackageSrcFile("server.ts")).not.toContain(
+      "./components/ui/field"
+    );
+    expect(readPackageSrcFile("server.ts")).not.toContain(
+      "./components/ui/table"
+    );
   });
 });

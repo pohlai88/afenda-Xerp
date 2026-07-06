@@ -1,6 +1,3 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
@@ -13,10 +10,11 @@ import {
 } from "../components/ui/select";
 import { switchClassName } from "../components/ui/switch";
 import { Textarea, textareaClassName } from "../components/ui/textarea";
-
-const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
-const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
-const SRC_ROOT = path.join(PACKAGE_ROOT, "src");
+import {
+  getUiLaneSafetyViolations,
+  readPackageSrcFile,
+  readUiPrimitiveSource,
+} from "./helpers/ui-primitive-inventory";
 
 const SERVER_SAFE_FORM_PRIMITIVES = [
   "input.tsx",
@@ -35,27 +33,23 @@ const FORM_CONTROL_PRIMITIVES = [
   ...CLIENT_FORM_PRIMITIVES,
 ] as const;
 
-function readSource(...segments: string[]): string {
-  return readFileSync(path.join(SRC_ROOT, ...segments), "utf8");
-}
-
 describe("shadcn-studio-v2 form-control primitives", () => {
   it("keeps Lane A-04 form primitives in the registered ui lane", () => {
     for (const fileName of FORM_CONTROL_PRIMITIVES) {
-      const source = readSource("components", "ui", fileName);
+      const source = readUiPrimitiveSource(fileName);
 
-      expect(source).toContain("export function");
-      expect(source).not.toContain("window.");
-      expect(source).not.toContain("document.");
-      expect(source).not.toContain("localStorage");
+      expect(
+        getUiLaneSafetyViolations(source, { requireExportFunction: true })
+      ).toEqual([]);
     }
 
     for (const fileName of CLIENT_FORM_PRIMITIVES) {
-      const source = readSource("components", "ui", fileName);
+      const source = readUiPrimitiveSource(fileName);
 
       expect(source).toContain('"use client"');
-      expect(source).not.toContain("useState");
-      expect(source).not.toContain("useEffect");
+      expect(
+        getUiLaneSafetyViolations(source, { forbidClientHooks: true })
+      ).toEqual([]);
     }
   });
 
@@ -99,25 +93,21 @@ describe("shadcn-studio-v2 form-control primitives", () => {
   });
 
   it("serializes form-control ownership through data-slot markers", () => {
-    expect(readSource("components", "ui", "input.tsx")).toContain(
-      'data-slot="input"'
-    );
-    expect(readSource("components", "ui", "label.tsx")).toContain(
-      'data-slot="label"'
-    );
-    expect(readSource("components", "ui", "textarea.tsx")).toContain(
+    expect(readUiPrimitiveSource("input.tsx")).toContain('data-slot="input"');
+    expect(readUiPrimitiveSource("label.tsx")).toContain('data-slot="label"');
+    expect(readUiPrimitiveSource("textarea.tsx")).toContain(
       'data-slot="textarea"'
     );
 
-    const checkboxSource = readSource("components", "ui", "checkbox.tsx");
+    const checkboxSource = readUiPrimitiveSource("checkbox.tsx");
     expect(checkboxSource).toContain('data-slot="checkbox"');
     expect(checkboxSource).toContain('data-slot="checkbox-indicator"');
 
-    const switchSource = readSource("components", "ui", "switch.tsx");
+    const switchSource = readUiPrimitiveSource("switch.tsx");
     expect(switchSource).toContain('data-slot="switch"');
     expect(switchSource).toContain('data-slot="switch-thumb"');
 
-    const selectSource = readSource("components", "ui", "select.tsx");
+    const selectSource = readUiPrimitiveSource("select.tsx");
     expect(selectSource).toContain('data-slot="select"');
     expect(selectSource).toContain('data-slot="select-trigger"');
     expect(selectSource).toContain('data-slot="select-content"');
@@ -162,8 +152,8 @@ describe("shadcn-studio-v2 form-control primitives", () => {
   });
 
   it("keeps form-control exports on neutral index and off server surface", () => {
-    const indexSource = readSource("index.ts");
-    const serverSource = readSource("server.ts");
+    const indexSource = readPackageSrcFile("index.ts");
+    const serverSource = readPackageSrcFile("server.ts");
 
     expect(indexSource).toContain("./components/ui/input");
     expect(indexSource).toContain("./components/ui/label");

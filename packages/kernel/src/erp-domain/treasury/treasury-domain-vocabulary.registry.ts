@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { HEDGE_ACCOUNTING_METHODS } from "./hedge-accounting-method.contract.js";
+
 import { LIQUIDITY_STATUSES } from "./liquidity-status.contract.js";
 import { PAYMENT_RUN_STATUSES } from "./payment-run-status.contract.js";
 import {
@@ -18,24 +24,10 @@ import {
 export const TREASURY_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-TREASURY" as const;
 
-export type TreasuryDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type TreasuryDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface TreasuryDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type TreasuryDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
 export const TREASURY_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +72,7 @@ export const TREASURY_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly TreasuryDomainClosedVocabularyEntry[];
 
-export interface TreasuryDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type TreasuryDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const TREASURY_DOMAIN_BRANDED_IDS = [
   {

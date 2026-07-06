@@ -5,7 +5,7 @@ import {
   parseOptionalEntityGroupId,
   parseOptionalTenantId,
   type TenantId,
-} from "../identity/index.js";
+} from "../identity/families/tenant-hierarchy-id.contract.js";
 import type {
   DeriveConsolidationScopeTrustInput,
   DeriveConsolidationScopeWireInput,
@@ -23,7 +23,7 @@ import {
 export {
   normalizeEntityGroupIdForWire,
   normalizeTenantIdForWire,
-} from "../identity/index.js";
+} from "../identity/families/tenant-hierarchy-id.contract.js";
 
 export function brandDeriveConsolidationScopeTrustInput(
   input: DeriveConsolidationScopeWireInput

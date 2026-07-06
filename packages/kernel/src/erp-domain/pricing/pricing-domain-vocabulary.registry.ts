@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { DISCOUNT_TYPES } from "./discount-type.contract.js";
+
 import { PRICE_APPROVAL_STATUSES } from "./price-approval-status.contract.js";
 import { PRICE_LIST_STATUSES } from "./price-list-status.contract.js";
 import {
@@ -18,24 +24,9 @@ import {
 export const PRICING_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-PRICING" as const;
 
-export type PricingDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type PricingDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface PricingDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type PricingDomainClosedVocabularyEntry = ErpDomainClosedVocabularyEntry;
 
 export const PRICING_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +71,7 @@ export const PRICING_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly PricingDomainClosedVocabularyEntry[];
 
-export interface PricingDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type PricingDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const PRICING_DOMAIN_BRANDED_IDS = [
   {

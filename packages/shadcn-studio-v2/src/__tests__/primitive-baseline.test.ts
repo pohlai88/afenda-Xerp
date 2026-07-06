@@ -1,6 +1,3 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
@@ -26,10 +23,12 @@ import {
   cardClassName,
 } from "../components/ui/card";
 import { cn } from "../lib/cn";
-
-const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
-const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
-const SRC_ROOT = path.join(PACKAGE_ROOT, "src");
+import {
+  readPackageSrcFile,
+  readUiPrimitiveSource,
+  UI_PRIMITIVE_COUNT,
+  UI_PRIMITIVE_FILES,
+} from "./helpers/ui-primitive-inventory";
 
 const REQUIRED_PRIMITIVES = ["badge.tsx", "button.tsx", "card.tsx"] as const;
 const BADGE_VARIANTS = [
@@ -49,14 +48,17 @@ const BUTTON_VARIANTS = [
 const BUTTON_SIZES = ["default", "sm", "lg", "icon"] satisfies ButtonSize[];
 const CARD_VARIANTS = ["default", "muted"] satisfies CardVariant[];
 
-function readSource(...segments: string[]): string {
-  return readFileSync(path.join(SRC_ROOT, ...segments), "utf8");
-}
-
 describe("shadcn-studio-v2 primitive baseline", () => {
+  it("aligns Slice 3A coverage with the forty-primitive inventory SSOT", () => {
+    expect(UI_PRIMITIVE_COUNT).toBe(40);
+    for (const fileName of REQUIRED_PRIMITIVES) {
+      expect(UI_PRIMITIVE_FILES).toContain(fileName);
+    }
+  });
+
   it("keeps Slice 3A primitives in the registered ui lane", () => {
     for (const fileName of REQUIRED_PRIMITIVES) {
-      const source = readSource("components", "ui", fileName);
+      const source = readUiPrimitiveSource(fileName);
 
       expect(source).toContain("export function");
       expect(source).not.toContain("window.");
@@ -162,20 +164,16 @@ describe("shadcn-studio-v2 primitive baseline", () => {
   });
 
   it("does not expose quarantine through public surfaces", () => {
-    expect(readSource("index.ts")).not.toContain("quarantine");
-    expect(readSource("clients.ts")).not.toContain("quarantine");
-    expect(readSource("server.ts")).not.toContain("quarantine");
+    expect(readPackageSrcFile("index.ts")).not.toContain("quarantine");
+    expect(readPackageSrcFile("clients.ts")).not.toContain("quarantine");
+    expect(readPackageSrcFile("server.ts")).not.toContain("quarantine");
   });
 
   it("serializes primitive ownership through stable data-slot markers", () => {
-    expect(readSource("components", "ui", "button.tsx")).toContain(
-      'data-slot="button"'
-    );
-    expect(readSource("components", "ui", "Badge.tsx")).toContain(
-      'data-slot="badge"'
-    );
+    expect(readUiPrimitiveSource("button.tsx")).toContain('data-slot="button"');
+    expect(readUiPrimitiveSource("badge.tsx")).toContain('data-slot="badge"');
 
-    const cardSource = readSource("components", "ui", "Card.tsx");
+    const cardSource = readUiPrimitiveSource("card.tsx");
 
     expect(cardSource).toContain('data-slot="card"');
     expect(cardSource).toContain('data-slot="card-header"');

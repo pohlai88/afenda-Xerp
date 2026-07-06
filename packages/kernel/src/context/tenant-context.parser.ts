@@ -1,4 +1,7 @@
-import { normalizeTenantIdForWire, parseTenantId } from "../identity/index.js";
+import {
+  normalizeTenantIdForWire,
+  parseTenantId,
+} from "../identity/families/tenant-hierarchy-id.contract.js";
 import { assertWireTenantContext } from "./tenant-context.assert.js";
 import type {
   TenantContext,

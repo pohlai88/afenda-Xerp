@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { PRICING_CONTEXTS } from "./pricing-context.contract.js";
+
 import { QUOTE_STATUSES } from "./quote-status.contract.js";
 import {
   type isSalesAuditAction,
@@ -18,24 +24,9 @@ import {
 export const SALES_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-SALES" as const;
 
-export type SalesDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type SalesDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface SalesDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type SalesDomainClosedVocabularyEntry = ErpDomainClosedVocabularyEntry;
 
 export const SALES_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +71,7 @@ export const SALES_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly SalesDomainClosedVocabularyEntry[];
 
-export interface SalesDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type SalesDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const SALES_DOMAIN_BRANDED_IDS = [
   {

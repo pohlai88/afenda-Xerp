@@ -1,3 +1,8 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import {
   type isPosAuditAction,
   POS_AUDIT_ACTIONS,
@@ -17,24 +22,9 @@ import { TRANSACTION_TYPES } from "./transaction-type.contract.js";
 
 export const POS_DOMAIN_VOCABULARY_REGISTRY_ID = "PAS-001B-4.8-POS" as const;
 
-export type PosDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type PosDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface PosDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type PosDomainClosedVocabularyEntry = ErpDomainClosedVocabularyEntry;
 
 export const POS_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -79,12 +69,7 @@ export const POS_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly PosDomainClosedVocabularyEntry[];
 
-export interface PosDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type PosDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const POS_DOMAIN_BRANDED_IDS = [
   {

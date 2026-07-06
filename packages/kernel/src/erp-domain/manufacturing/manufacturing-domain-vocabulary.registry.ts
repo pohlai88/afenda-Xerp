@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { CAPACITY_PLANNING_METHODS } from "./capacity-planning-method.contract.js";
+
 import {
   type isManufacturingAuditAction,
   MANUFACTURING_AUDIT_ACTIONS,
@@ -18,24 +24,10 @@ import { SHOP_FLOOR_EVENT_TYPES } from "./shop-floor-event-type.contract.js";
 export const MANUFACTURING_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-MANUFACTURING" as const;
 
-export type ManufacturingDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type ManufacturingDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface ManufacturingDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type ManufacturingDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
 export const MANUFACTURING_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +72,7 @@ export const MANUFACTURING_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly ManufacturingDomainClosedVocabularyEntry[];
 
-export interface ManufacturingDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type ManufacturingDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const MANUFACTURING_DOMAIN_BRANDED_IDS = [
   {

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { assertDeliveredDomainVocabularyRegistry } from "../../__tests__/domain-vocabulary-registry.harness.js";
 import {
   type assertSalesDomainVocabularyRegistryIntegrity,
   isPricingContext,
@@ -27,6 +28,23 @@ import {
 } from "../index.js";
 
 describe("PAS-001B sales domain vocabulary registry", () => {
+  it("satisfies delivered domain vocabulary registry harness", () => {
+    assertDeliveredDomainVocabularyRegistry({
+      registryId: SALES_DOMAIN_VOCABULARY_REGISTRY_ID,
+      registry: SALES_DOMAIN_VOCABULARY_REGISTRY,
+      closedVocabularyIds: [
+        "order-status",
+        "quote-status",
+        "sales-document-type",
+        "pricing-context",
+      ],
+      brandedIdTypeNames: SALES_DOMAIN_BRANDED_ID_TYPE_NAMES,
+      auditActionCount: SALES_DOMAIN_AUDIT_VOCABULARY.valueCount,
+      permissionKeyCount: SALES_DOMAIN_PERMISSION_VOCABULARY.keyCount,
+      currentLifecycle: "contracts-only",
+    });
+  });
+
   it("declares registry identity", () => {
     expect(SALES_DOMAIN_VOCABULARY_REGISTRY_ID).toBe("PAS-001B-4.8-SALES");
     expect(SALES_DOMAIN_VOCABULARY_REGISTRY.id).toBe("PAS-001B-4.8-SALES");

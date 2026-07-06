@@ -1,3 +1,9 @@
+import type { AssertJsonSerializable } from "../contracts/json-wire.contract.js";
+import { assertIsoCalendarDateOrNull } from "./_internal/wire-date.assert.js";
+import {
+  assertWireOptionalText,
+  assertWireRequiredText,
+} from "./_internal/wire-text.assert.js";
 import {
   LEGAL_ENTITY_COMPANY_TYPES,
   type LegalEntityCompanyType,
@@ -10,20 +16,6 @@ import {
   type PlatformLifecycleStatus,
 } from "./lifecycle.contract.js";
 
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
-
 type _LegalEntityWireSerializable =
   AssertJsonSerializable<LegalEntityWireContext>;
 
@@ -31,8 +23,6 @@ type _LegalEntityWireSerializable =
 export type assertLegalEntityContextWireSerializable =
   _LegalEntityWireSerializable extends true ? true : never;
 
-/** Format guard only — not calendar-validity (e.g. 2026-02-31). Promote to date primitive when needed. */
-const ISO_CALENDAR_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export function isLegalEntityCompanyType(
@@ -56,18 +46,14 @@ function isPlatformLifecycleStatus(
 }
 
 export function assertLegalEntityText(value: string, label: string): void {
-  if (!value.trim()) {
-    throw new Error(`${label} is required.`);
-  }
+  assertWireRequiredText(value, label);
 }
 
 export function assertLegalEntityOptionalText(
   value: string | null,
   label: string
 ): void {
-  if (value !== null && !value.trim()) {
-    throw new Error(`${label} must be null or a non-empty string.`);
-  }
+  assertWireOptionalText(value, label);
 }
 
 export function assertLegalEntitySlug(value: string): void {
@@ -78,21 +64,6 @@ export function assertLegalEntitySlug(value: string): void {
   if (!SLUG_PATTERN.test(value)) {
     throw new Error(
       "slug must use lowercase letters, numbers, and single hyphen separators."
-    );
-  }
-}
-
-export function assertIsoCalendarDateOrNull(
-  value: string | null,
-  label: string
-): void {
-  if (value === null) {
-    return;
-  }
-
-  if (!ISO_CALENDAR_DATE_PATTERN.test(value)) {
-    throw new Error(
-      `${label} must be an ISO calendar date in YYYY-MM-DD format.`
     );
   }
 }

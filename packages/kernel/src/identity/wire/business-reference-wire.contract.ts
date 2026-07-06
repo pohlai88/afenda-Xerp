@@ -4,6 +4,8 @@
  * Wire interfaces keep plain string ids for JSON serialization.
  * Parse ids at explicit trust boundaries via family `parse*` helpers.
  */
+
+import type { AssertJsonSerializable } from "../../contracts/json-wire.contract.js";
 import {
   type AssetId,
   type CustomerId,
@@ -110,20 +112,6 @@ export type BusinessMasterDataWireReference =
   | WarehouseWireReference
   | DocumentWireReference
   | AssetWireReference;
-
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
 
 type _CustomerWireSerializable = AssertJsonSerializable<CustomerWireReference>;
 type _SupplierWireSerializable = AssertJsonSerializable<SupplierWireReference>;

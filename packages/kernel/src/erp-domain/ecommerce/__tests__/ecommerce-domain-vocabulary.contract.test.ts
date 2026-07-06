@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { assertDeliveredDomainVocabularyRegistry } from "../../__tests__/domain-vocabulary-registry.harness.js";
 import {
   type assertEcommerceDomainVocabularyRegistryIntegrity,
   CART_STATUSES,
@@ -27,6 +28,24 @@ import {
 } from "../index.js";
 
 describe("PAS-001B ecommerce domain vocabulary registry", () => {
+  it("satisfies delivered domain vocabulary registry harness", () => {
+    assertDeliveredDomainVocabularyRegistry({
+      registryId: ECOMMERCE_DOMAIN_VOCABULARY_REGISTRY_ID,
+      registry: ECOMMERCE_DOMAIN_VOCABULARY_REGISTRY,
+      closedVocabularyIds: [
+        "cart-status",
+        "checkout-step",
+        "web-order-status",
+        "channel-type",
+      ],
+      brandedIdTypeNames: ECOMMERCE_DOMAIN_BRANDED_ID_TYPE_NAMES,
+      excludedBrandedIdTypeNames: ["CustomerId", "ProductId"],
+      auditActionCount: ECOMMERCE_DOMAIN_AUDIT_VOCABULARY.valueCount,
+      permissionKeyCount: ECOMMERCE_DOMAIN_PERMISSION_VOCABULARY.keyCount,
+      currentLifecycle: "contracts-only",
+    });
+  });
+
   it("declares registry identity", () => {
     expect(ECOMMERCE_DOMAIN_VOCABULARY_REGISTRY_ID).toBe(
       "PAS-001B-4.8-ECOMMERCE"

@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { DELIVERY_PRIORITIES } from "./delivery-priority.contract.js";
+
 import { FULFILLMENT_EVENT_TYPES } from "./fulfillment-event-type.contract.js";
 import { SHIPMENT_STATUSES } from "./shipment-status.contract.js";
 import {
@@ -18,24 +24,10 @@ import { TRANSPORT_MODES } from "./transport-mode.contract.js";
 export const SUPPLY_CHAIN_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-SUPPLY_CHAIN" as const;
 
-export type SupplyChainDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type SupplyChainDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface SupplyChainDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type SupplyChainDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
 export const SUPPLY_CHAIN_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +72,7 @@ export const SUPPLY_CHAIN_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly SupplyChainDomainClosedVocabularyEntry[];
 
-export interface SupplyChainDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type SupplyChainDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const SUPPLY_CHAIN_DOMAIN_BRANDED_IDS = [
   {

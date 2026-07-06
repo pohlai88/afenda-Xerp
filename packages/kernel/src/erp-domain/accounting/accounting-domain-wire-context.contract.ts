@@ -1,4 +1,5 @@
 import type { LegalEntityCompanyType } from "../../context/legal-entity-context.contract.js";
+import type { AssertJsonSerializable } from "../../contracts/json-wire.contract.js";
 
 export interface AccountingDomainWireContext {
   readonly baseCurrency: string;
@@ -11,21 +12,6 @@ export interface AccountingDomainWireContext {
   readonly reportingCurrency: string;
   readonly tenantId: string;
 }
-
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? { [K in keyof T]: AssertJsonSerializable<T[K]> } extends Record<
-          keyof T,
-          true
-        >
-        ? true
-        : false
-      : false;
 
 type _AccountingDomainWireSerializable =
   AssertJsonSerializable<AccountingDomainWireContext>;

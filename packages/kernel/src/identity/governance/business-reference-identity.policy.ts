@@ -5,6 +5,7 @@
  * Domain packages own record lifecycle, validation, persistence, CRUD, and UI.
  */
 
+import type { AssertJsonSerializable } from "../../contracts/json-wire.contract.js";
 import {
   type EnterpriseIdFamily,
   getEnterpriseIdFamiliesByCategory,
@@ -65,22 +66,6 @@ export const BUSINESS_REFERENCE_IDENTITY_POLICY = {
   readonly recordOwners: typeof BUSINESS_REFERENCE_RECORD_OWNERS;
   readonly families: readonly BusinessReferenceIdentityFamily[];
 };
-
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends infer Mapped
-        ? Mapped extends Record<string, true>
-          ? true
-          : never
-        : never
-      : never;
 
 type _AssertBusinessReferenceIdentityPolicySerializable =
   AssertJsonSerializable<typeof BUSINESS_REFERENCE_IDENTITY_POLICY>;

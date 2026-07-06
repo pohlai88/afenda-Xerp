@@ -70,7 +70,7 @@ describe("error-page-surface.registry", () => {
         }
       }
 
-      return undefined;
+      return;
     }
 
     for (const surface of ERROR_PAGE_CANONICAL_SURFACES) {

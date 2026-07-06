@@ -1,20 +1,10 @@
-import type { JsonObject, JsonValue } from "../contracts/json-wire.contract.js";
+import type {
+  AssertJsonSerializable,
+  JsonObject,
+  JsonValue,
+} from "../contracts/json-wire.contract.js";
 import type { DomainEvent, WireDomainEvent } from "./domain-event.contract.js";
 import { isDomainEvent } from "./domain-event.contract.js";
-
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
 
 type _WireDomainEventSerializable = AssertJsonSerializable<
   WireDomainEvent<{ readonly probe: string }>

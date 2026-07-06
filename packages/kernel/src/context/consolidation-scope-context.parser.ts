@@ -5,7 +5,7 @@ import {
   parseCompanyId,
   parseEntityGroupId,
   parseTenantId,
-} from "../identity/index.js";
+} from "../identity/families/tenant-hierarchy-id.contract.js";
 import { assertWireConsolidationScopeContext } from "./consolidation-scope-context.assert.js";
 import type {
   ConsolidationEntityScope,

@@ -207,7 +207,6 @@ export {
   type assertOwnershipInterestContextWireSerializable,
   assertOwnershipInterestEffectiveDateRange,
   assertOwnershipInterestPercentage,
-  assertOwnershipInterestText,
   assertWireOwnershipInterestContext,
   brandPercentageNumber,
   isConsolidationTreatment,
@@ -321,7 +320,6 @@ export {
   serializeTeamContext,
 } from "./team-context.parser.js";
 export {
-  assertTenantContextText,
   type assertTenantContextWireSerializable,
   assertWireTenantContext,
 } from "./tenant-context.assert.js";

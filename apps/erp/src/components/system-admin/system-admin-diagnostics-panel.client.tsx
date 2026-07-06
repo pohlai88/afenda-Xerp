@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@afenda/shadcn-studio-v2/clients";
+import { EvidenceWidget, MetricWidget } from "@afenda/shadcn-studio-v2/clients";
 import type { SystemAdminDiagnosticsSnapshotDto } from "@/server/api/contracts/system-admin/system-admin.api-contract";
 
 export interface SystemAdminDiagnosticsPanelProps {
@@ -16,69 +11,89 @@ export function SystemAdminDiagnosticsPanel({
   snapshot,
 }: SystemAdminDiagnosticsPanelProps) {
   return (
-    <div className="grid gap-4 md:grid-cols-2">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-sm">Operating scope</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <dl className="space-y-2 text-sm">
-            <div className="flex justify-between gap-4">
-              <dt className="text-muted-foreground">Tenant</dt>
-              <dd className="font-mono text-xs">{snapshot.tenantId}</dd>
-            </div>
-            <div className="flex justify-between gap-4">
-              <dt className="text-muted-foreground">Company</dt>
-              <dd className="font-mono text-xs">{snapshot.companyId}</dd>
-            </div>
-            <div className="flex justify-between gap-4">
-              <dt className="text-muted-foreground">Workspace scope</dt>
-              <dd className="font-mono text-xs">{snapshot.workspaceId}</dd>
-            </div>
-            <div className="flex justify-between gap-4">
-              <dt className="text-muted-foreground">Correlation</dt>
-              <dd className="font-mono text-xs">{snapshot.correlationId}</dd>
-            </div>
-          </dl>
-        </CardContent>
-      </Card>
+    <div className="flex flex-col gap-6">
+      <div className="grid gap-4 md:grid-cols-3">
+        <MetricWidget
+          description="Governed API route contracts"
+          label="API contracts"
+          state="ready"
+          useCase="erp-workspace"
+          value={snapshot.apiContractCount}
+        />
+        <MetricWidget
+          description="Registered protected operating-context surfaces"
+          label="Protected surfaces"
+          state="ready"
+          useCase="erp-workspace"
+          value={snapshot.protectedSurfaceCount}
+        />
+        <MetricWidget
+          description="Recent audit events for the active tenant"
+          label="Recent audit events"
+          state="ready"
+          tone="success"
+          useCase="audit"
+          value={snapshot.recentAuditEventCount}
+        />
+      </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-sm">Platform health</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <dl className="space-y-2 text-sm">
-            <div className="flex justify-between gap-4">
-              <dt className="text-muted-foreground">API contracts</dt>
-              <dd>{snapshot.apiContractCount}</dd>
-            </div>
-            <div className="flex justify-between gap-4">
-              <dt className="text-muted-foreground">Protected surfaces</dt>
-              <dd>{snapshot.protectedSurfaceCount}</dd>
-            </div>
-            <div className="flex justify-between gap-4">
-              <dt className="text-muted-foreground">Recent audit events</dt>
-              <dd>{snapshot.recentAuditEventCount}</dd>
-            </div>
-          </dl>
-        </CardContent>
-      </Card>
+      <EvidenceWidget
+        description="Operating scope identifiers for the active request."
+        items={[
+          {
+            id: "tenant",
+            label: "Tenant",
+            status: "complete",
+          },
+          {
+            id: "company",
+            label: "Company",
+            status: "complete",
+          },
+          {
+            id: "workspace",
+            label: "Workspace scope",
+            status: "complete",
+          },
+          {
+            id: "correlation",
+            label: "Correlation",
+            status: "complete",
+          },
+        ]}
+        label="Operating scope"
+        state="ready"
+        summary={`${snapshot.tenantId.slice(0, 8)}… · ${snapshot.correlationId.slice(0, 12)}…`}
+        useCase="audit"
+      />
 
-      <Card className="md:col-span-2">
-        <CardHeader>
-          <CardTitle className="text-sm">Spine delegates</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ul className="grid gap-2 text-sm md:grid-cols-2">
-            {snapshot.spineDelegateIds.map((delegateId) => (
-              <li className="font-mono text-xs" key={delegateId}>
-                {delegateId}
-              </li>
-            ))}
-          </ul>
-        </CardContent>
-      </Card>
+      {snapshot.spineDelegateIds.length === 0 ? (
+        <EvidenceWidget
+          description="Spine delegate identifiers resolved for this operating context."
+          label="Spine delegates"
+          state="empty"
+          stateMessages={{
+            empty: {
+              description: "No spine delegates are registered for this scope.",
+              title: "No spine delegates",
+            },
+          }}
+          useCase="erp-workspace"
+        />
+      ) : (
+        <EvidenceWidget
+          description="Spine delegate identifiers resolved for this operating context."
+          items={snapshot.spineDelegateIds.map((delegateId) => ({
+            id: delegateId,
+            label: delegateId,
+            status: "complete" as const,
+          }))}
+          label="Spine delegates"
+          state="ready"
+          summary={`${snapshot.spineDelegateIds.length} delegates`}
+          useCase="erp-workspace"
+        />
+      )}
     </div>
   );
 }

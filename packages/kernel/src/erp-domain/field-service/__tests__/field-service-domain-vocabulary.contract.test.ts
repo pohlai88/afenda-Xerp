@@ -1,11 +1,15 @@
 import { describe, expect, it } from "vitest";
 
+import { assertDeliveredDomainVocabularyRegistry } from "../../__tests__/domain-vocabulary-registry.harness.js";
 import {
   type assertFieldServiceDomainVocabularyRegistryIntegrity,
   FIELD_SERVICE_AUDIT_ACTIONS,
+  FIELD_SERVICE_DOMAIN_AUDIT_VOCABULARY,
   FIELD_SERVICE_DOMAIN_BRANDED_ID_TYPE_NAMES,
   FIELD_SERVICE_DOMAIN_CLOSED_VOCABULARIES,
+  FIELD_SERVICE_DOMAIN_PERMISSION_VOCABULARY,
   FIELD_SERVICE_DOMAIN_VOCABULARY_POLICY,
+  FIELD_SERVICE_DOMAIN_VOCABULARY_REGISTRY,
   FIELD_SERVICE_DOMAIN_VOCABULARY_REGISTRY_ID,
   isDispatchPriority,
   isFieldServiceAuditAction,
@@ -15,6 +19,23 @@ import {
 } from "../index.js";
 
 describe("PAS-001B field-service domain vocabulary registry", () => {
+  it("satisfies delivered domain vocabulary registry harness", () => {
+    assertDeliveredDomainVocabularyRegistry({
+      registryId: FIELD_SERVICE_DOMAIN_VOCABULARY_REGISTRY_ID,
+      registry: FIELD_SERVICE_DOMAIN_VOCABULARY_REGISTRY,
+      closedVocabularyIds: [
+        "work-order-status",
+        "dispatch-priority",
+        "visit-outcome",
+        "route-status",
+      ],
+      brandedIdTypeNames: FIELD_SERVICE_DOMAIN_BRANDED_ID_TYPE_NAMES,
+      auditActionCount: FIELD_SERVICE_DOMAIN_AUDIT_VOCABULARY.valueCount,
+      permissionKeyCount: FIELD_SERVICE_DOMAIN_PERMISSION_VOCABULARY.keyCount,
+      currentLifecycle: "contracts-only",
+    });
+  });
+
   it("declares registry identity", () => {
     expect(FIELD_SERVICE_DOMAIN_VOCABULARY_REGISTRY_ID).toBe(
       "PAS-001B-4.8-FIELD_SERVICE"

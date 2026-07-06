@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { DEDUCTION_TYPES } from "./deduction-type.contract.js";
+
 import { EARNINGS_TYPES } from "./earnings-type.contract.js";
 import { PAY_FREQUENCIES } from "./pay-frequency.contract.js";
 import {
@@ -18,24 +24,9 @@ import { PAYROLL_RUN_STATUSES } from "./payroll-run-status.contract.js";
 export const PAYROLL_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-PAYROLL" as const;
 
-export type PayrollDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type PayrollDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface PayrollDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type PayrollDomainClosedVocabularyEntry = ErpDomainClosedVocabularyEntry;
 
 export const PAYROLL_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +71,7 @@ export const PAYROLL_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly PayrollDomainClosedVocabularyEntry[];
 
-export interface PayrollDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type PayrollDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const PAYROLL_DOMAIN_BRANDED_IDS = [
   {

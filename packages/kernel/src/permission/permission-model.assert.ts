@@ -1,3 +1,4 @@
+import type { AssertJsonSerializable } from "../contracts/json-wire.contract.js";
 import { isPermissionAction } from "./permission-action.contract.js";
 import type {
   PermissionModelDescriptor,
@@ -5,20 +6,6 @@ import type {
 } from "./permission-model.contract.js";
 import { isPermissionModelDescriptor } from "./permission-model.contract.js";
 import { isPermissionModelScope } from "./permission-model-scope.contract.js";
-
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
 
 type _PermissionModelWireSerializable =
   AssertJsonSerializable<PermissionModelWireDescriptor>;

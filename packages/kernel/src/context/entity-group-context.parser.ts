@@ -5,7 +5,7 @@ import {
   parseEntityGroupId,
   parseOptionalCompanyId,
   parseTenantId,
-} from "../identity/index.js";
+} from "../identity/families/tenant-hierarchy-id.contract.js";
 import { assertWireEntityGroupContext } from "./entity-group-context.assert.js";
 import type {
   EntityGroupContext,

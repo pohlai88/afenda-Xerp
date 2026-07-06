@@ -90,3 +90,19 @@ export const shadcnStudioLabGlobalTypes = {
 export const shadcnStudioLabInitialGlobals = {
   theme: "light" as const,
 } as const;
+
+export const shadcnStudioDarkThemeGlobals = {
+  theme: "dark" as const,
+} as const;
+
+export const shadcnStudioCenteredLayout = {
+  layout: "centered" as const,
+} as const;
+
+export const shadcnStudioPaddedLayout = {
+  layout: "padded" as const,
+} as const;
+
+export const shadcnStudioFullscreenLayout = {
+  layout: "fullscreen" as const,
+} as const;

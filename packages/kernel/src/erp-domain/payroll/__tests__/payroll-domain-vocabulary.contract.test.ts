@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { assertDeliveredDomainVocabularyRegistry } from "../../__tests__/domain-vocabulary-registry.harness.js";
 import {
   type assertPayrollDomainVocabularyRegistryIntegrity,
   isDeductionType,
@@ -8,13 +9,33 @@ import {
   isPayrollAuditAction,
   isPayrollRunStatus,
   PAYROLL_AUDIT_ACTIONS,
+  PAYROLL_DOMAIN_AUDIT_VOCABULARY,
   PAYROLL_DOMAIN_BRANDED_ID_TYPE_NAMES,
   PAYROLL_DOMAIN_CLOSED_VOCABULARIES,
+  PAYROLL_DOMAIN_PERMISSION_VOCABULARY,
   PAYROLL_DOMAIN_VOCABULARY_POLICY,
+  PAYROLL_DOMAIN_VOCABULARY_REGISTRY,
   PAYROLL_DOMAIN_VOCABULARY_REGISTRY_ID,
 } from "../index.js";
 
 describe("PAS-001B payroll domain vocabulary registry", () => {
+  it("satisfies delivered domain vocabulary registry harness", () => {
+    assertDeliveredDomainVocabularyRegistry({
+      registryId: PAYROLL_DOMAIN_VOCABULARY_REGISTRY_ID,
+      registry: PAYROLL_DOMAIN_VOCABULARY_REGISTRY,
+      closedVocabularyIds: [
+        "payroll-run-status",
+        "pay-frequency",
+        "earnings-type",
+        "deduction-type",
+      ],
+      brandedIdTypeNames: PAYROLL_DOMAIN_BRANDED_ID_TYPE_NAMES,
+      auditActionCount: PAYROLL_DOMAIN_AUDIT_VOCABULARY.valueCount,
+      permissionKeyCount: PAYROLL_DOMAIN_PERMISSION_VOCABULARY.keyCount,
+      currentLifecycle: "contracts-only",
+    });
+  });
+
   it("declares registry identity", () => {
     expect(PAYROLL_DOMAIN_VOCABULARY_REGISTRY_ID).toBe("PAS-001B-4.8-PAYROLL");
   });

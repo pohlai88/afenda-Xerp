@@ -1,6 +1,3 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
@@ -34,10 +31,11 @@ import {
   tabsListClassName,
   tabsTriggerClassName,
 } from "../components/ui/tabs";
-
-const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
-const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
-const SRC_ROOT = path.join(PACKAGE_ROOT, "src");
+import {
+  getUiLaneSafetyViolations,
+  readPackageSrcFile,
+  readUiPrimitiveSource,
+} from "./helpers/ui-primitive-inventory";
 
 const SERVER_SAFE_NAV_PRIMITIVES = [
   "breadcrumb.tsx",
@@ -55,31 +53,24 @@ const NAV_DATA_PRIMITIVES = [
   ...CLIENT_NAV_PRIMITIVES,
 ] as const;
 
-function readSource(...segments: string[]): string {
-  return readFileSync(path.join(SRC_ROOT, ...segments), "utf8");
-}
-
 describe("shadcn-studio-v2 nav and data chrome primitives", () => {
   it("keeps Lane A-06 nav/data primitives in the registered ui lane", () => {
     for (const fileName of NAV_DATA_PRIMITIVES) {
-      const source = readSource("components", "ui", fileName);
+      const source = readUiPrimitiveSource(fileName);
 
-      expect(source).toContain("export function");
-      expect(source).not.toContain("window.");
-      expect(source).not.toContain("document.");
-      expect(source).not.toContain("localStorage");
-      expect(source).not.toContain("useRouter");
-      expect(source).not.toContain('from "next/link"');
-      expect(source).not.toContain("next/navigation");
+      expect(
+        getUiLaneSafetyViolations(source, {
+          requireExportFunction: true,
+          forbidRouter: true,
+        })
+      ).toEqual([]);
     }
 
     for (const fileName of CLIENT_NAV_PRIMITIVES) {
-      expect(readSource("components", "ui", fileName)).toContain(
-        '"use client"'
-      );
+      expect(readUiPrimitiveSource(fileName)).toContain('"use client"');
     }
 
-    expect(readSource("components", "ui", "pagination.tsx")).toContain(
+    expect(readUiPrimitiveSource("pagination.tsx")).toContain(
       'from "./button"'
     );
   });
@@ -119,7 +110,7 @@ describe("shadcn-studio-v2 nav and data chrome primitives", () => {
   });
 
   it("serializes nav/data ownership through data-slot markers", () => {
-    const tabsSource = readSource("components", "ui", "tabs.tsx");
+    const tabsSource = readUiPrimitiveSource("tabs.tsx");
     expect(tabsSource).toContain('data-slot="tabs"');
     expect(tabsSource).toContain('data-slot="tabs-list"');
     expect(tabsSource).toContain('data-slot="tabs-trigger"');
@@ -127,22 +118,22 @@ describe("shadcn-studio-v2 nav and data chrome primitives", () => {
     expect(tabsSource).toContain("satisfies Record");
     expect(tabsSource).toContain("TabsPrimitive.Tab");
 
-    const breadcrumbSource = readSource("components", "ui", "breadcrumb.tsx");
+    const breadcrumbSource = readUiPrimitiveSource("breadcrumb.tsx");
     expect(breadcrumbSource).toContain('data-slot="breadcrumb"');
     expect(breadcrumbSource).toContain('data-slot="breadcrumb-list"');
     expect(breadcrumbSource).toContain('data-slot="breadcrumb-link"');
     expect(breadcrumbSource).toContain('data-slot="breadcrumb-page"');
 
-    const paginationSource = readSource("components", "ui", "pagination.tsx");
+    const paginationSource = readUiPrimitiveSource("pagination.tsx");
     expect(paginationSource).toContain('data-slot="pagination"');
     expect(paginationSource).toContain('data-slot="pagination-link"');
     expect(paginationSource).toContain('data-slot="pagination-link-current"');
     expect(paginationSource).toContain("export function PaginationLink");
 
-    const separatorSource = readSource("components", "ui", "separator.tsx");
+    const separatorSource = readUiPrimitiveSource("separator.tsx");
     expect(separatorSource).toContain('data-slot="separator"');
 
-    const scrollAreaSource = readSource("components", "ui", "scroll-area.tsx");
+    const scrollAreaSource = readUiPrimitiveSource("scroll-area.tsx");
     expect(scrollAreaSource).toContain('data-slot="scroll-area"');
     expect(scrollAreaSource).toContain('data-slot="scroll-area-viewport"');
     expect(scrollAreaSource).toContain('data-slot="scroll-area-thumb"');
@@ -205,8 +196,8 @@ describe("shadcn-studio-v2 nav and data chrome primitives", () => {
   });
 
   it("keeps nav/data exports on neutral index and off server surface", () => {
-    const indexSource = readSource("index.ts");
-    const serverSource = readSource("server.ts");
+    const indexSource = readPackageSrcFile("index.ts");
+    const serverSource = readPackageSrcFile("server.ts");
 
     for (const stem of [
       "tabs",

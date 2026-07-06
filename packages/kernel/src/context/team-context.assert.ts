@@ -1,22 +1,13 @@
+import type { AssertJsonSerializable } from "../contracts/json-wire.contract.js";
+import {
+  assertWireOptionalText,
+  assertWireRequiredText,
+} from "./_internal/wire-text.assert.js";
 import {
   PLATFORM_LIFECYCLE_STATUSES,
   type PlatformLifecycleStatus,
 } from "./lifecycle.contract.js";
 import type { TeamWireContext } from "./team-context.contract.js";
-
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
 
 type _TeamWireSerializable = AssertJsonSerializable<TeamWireContext>;
 
@@ -33,18 +24,14 @@ function isPlatformLifecycleStatus(
 }
 
 export function assertTeamContextText(value: string, label: string): void {
-  if (!value.trim()) {
-    throw new Error(`${label} is required.`);
-  }
+  assertWireRequiredText(value, label);
 }
 
 export function assertTeamContextOptionalText(
   value: string | null,
   label: string
 ): void {
-  if (value !== null && !value.trim()) {
-    throw new Error(`${label} must be null or a non-empty string.`);
-  }
+  assertWireOptionalText(value, label);
 }
 
 export function assertTeamContextSlug(value: string): void {

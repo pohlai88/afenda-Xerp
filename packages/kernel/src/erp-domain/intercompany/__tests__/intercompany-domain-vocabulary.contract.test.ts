@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 
+import { assertDeliveredDomainVocabularyRegistry } from "../../__tests__/domain-vocabulary-registry.harness.js";
 import {
   type assertIntercompanyDomainVocabularyRegistryIntegrity,
   IC_BILLING_DIRECTIONS,
@@ -27,6 +28,23 @@ import {
 } from "../index.js";
 
 describe("PAS-001B intercompany domain vocabulary registry", () => {
+  it("satisfies delivered domain vocabulary registry harness", () => {
+    assertDeliveredDomainVocabularyRegistry({
+      registryId: INTERCOMPANY_DOMAIN_VOCABULARY_REGISTRY_ID,
+      registry: INTERCOMPANY_DOMAIN_VOCABULARY_REGISTRY,
+      closedVocabularyIds: [
+        "ic-transaction-type",
+        "ic-matching-status",
+        "ic-settlement-method",
+        "ic-billing-direction",
+      ],
+      brandedIdTypeNames: INTERCOMPANY_DOMAIN_BRANDED_ID_TYPE_NAMES,
+      auditActionCount: INTERCOMPANY_DOMAIN_AUDIT_VOCABULARY.valueCount,
+      permissionKeyCount: INTERCOMPANY_DOMAIN_PERMISSION_VOCABULARY.keyCount,
+      currentLifecycle: "contracts-only",
+    });
+  });
+
   it("declares registry identity", () => {
     expect(INTERCOMPANY_DOMAIN_VOCABULARY_REGISTRY_ID).toBe(
       "PAS-001B-4.8-INTERCOMPANY"

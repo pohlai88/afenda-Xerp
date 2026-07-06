@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 
+import { assertDeliveredDomainVocabularyRegistry } from "../../__tests__/domain-vocabulary-registry.harness.js";
 import {
   ACCOUNTING_AUDIT_ACTIONS,
+  ACCOUNTING_DOMAIN_AUDIT_VOCABULARY,
   ACCOUNTING_DOMAIN_BRANDED_ID_TYPE_NAMES,
   ACCOUNTING_DOMAIN_CLOSED_VOCABULARIES,
   ACCOUNTING_DOMAIN_FORBIDDEN_PLATFORM_FLOOR_BRANDED_IDS,
+  ACCOUNTING_DOMAIN_PERMISSION_VOCABULARY,
   ACCOUNTING_DOMAIN_VOCABULARY_POLICY,
   ACCOUNTING_DOMAIN_VOCABULARY_REGISTRY,
   ACCOUNTING_DOMAIN_VOCABULARY_REGISTRY_ID,
@@ -18,6 +21,24 @@ import {
 } from "../index.js";
 
 describe("PAS-001B accounting domain vocabulary registry", () => {
+  it("satisfies delivered domain vocabulary registry harness", () => {
+    assertDeliveredDomainVocabularyRegistry({
+      registryId: ACCOUNTING_DOMAIN_VOCABULARY_REGISTRY_ID,
+      registry: ACCOUNTING_DOMAIN_VOCABULARY_REGISTRY,
+      closedVocabularyIds: [
+        "account-type",
+        "posting-status",
+        "fiscal-period-state",
+        "journal-document-type",
+        "consolidation-method",
+      ],
+      brandedIdTypeNames: ACCOUNTING_DOMAIN_BRANDED_ID_TYPE_NAMES,
+      auditActionCount: ACCOUNTING_DOMAIN_AUDIT_VOCABULARY.valueCount,
+      permissionKeyCount: ACCOUNTING_DOMAIN_PERMISSION_VOCABULARY.keyCount,
+      currentLifecycle: "contracts-only",
+    });
+  });
+
   it("declares registry identity", () => {
     expect(ACCOUNTING_DOMAIN_VOCABULARY_REGISTRY_ID).toBe(
       "PAS-001B-4.8-ACCOUNTING"

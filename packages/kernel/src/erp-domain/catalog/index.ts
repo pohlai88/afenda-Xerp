@@ -24,3 +24,7 @@ export {
   type ErpDomainModuleMaturity,
   type ErpDomainModuleMetadata,
 } from "../erp-domain-layout.contract.js";
+export {
+  type assertErpDomainPermissionKeyVocabularyCatalogParity,
+  ERP_DOMAIN_PERMISSION_KEY_VOCABULARIES,
+} from "./erp-domain-permission-vocabulary.registry.js";

@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { EMPLOYMENT_TYPES } from "./employment-type.contract.js";
+
 import {
   HCM_AUDIT_ACTIONS,
   type isHcmAuditAction,
@@ -17,24 +23,9 @@ import { REVIEW_CYCLE_STATUSES } from "./review-cycle-status.contract.js";
 
 export const HCM_DOMAIN_VOCABULARY_REGISTRY_ID = "PAS-001B-4.8-HCM" as const;
 
-export type HcmDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type HcmDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface HcmDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type HcmDomainClosedVocabularyEntry = ErpDomainClosedVocabularyEntry;
 
 export const HCM_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -79,12 +70,7 @@ export const HCM_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly HcmDomainClosedVocabularyEntry[];
 
-export interface HcmDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type HcmDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const HCM_DOMAIN_BRANDED_IDS = [
   {

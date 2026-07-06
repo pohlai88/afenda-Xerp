@@ -6,39 +6,12 @@
  * Metadata resolves whether a wire key is registered for runtime authorization.
  */
 
-import { ACCOUNTING_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/accounting";
-import { ANALYTICS_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/analytics";
-import { ASSETS_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/assets";
 import {
   ERP_DOMAIN_DELIVERED_MODULES,
   ERP_DOMAIN_MODULE_KV_IDS,
+  ERP_DOMAIN_PERMISSION_KEY_VOCABULARIES,
   type ErpDomainModule,
 } from "@afenda/kernel/erp-domain/catalog";
-import { CONSOLIDATION_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/consolidation";
-import { CONTROLLING_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/controlling";
-import { CRM_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/crm";
-import { DOCUMENT_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/document";
-import { ECOMMERCE_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/ecommerce";
-import { FIELD_SERVICE_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/field-service";
-import { HCM_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/hcm";
-import { INTERCOMPANY_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/intercompany";
-import { INVENTORY_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/inventory";
-import { MAINTENANCE_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/maintenance";
-import { MANUFACTURING_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/manufacturing";
-import { MARKETING_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/marketing";
-import { PAYROLL_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/payroll";
-import { POS_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/pos";
-import { PRICING_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/pricing";
-import { PROCUREMENT_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/procurement";
-import { PROJECT_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/project";
-import { QUALITY_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/quality";
-import { SALES_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/sales";
-import { SERVICE_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/service";
-import { SUBSCRIPTION_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/subscription";
-import { SUPPLY_CHAIN_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/supply-chain";
-import { TAX_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/tax";
-import { TREASURY_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/treasury";
-import { WORKFLOW_PERMISSION_KEY_VOCABULARY } from "@afenda/kernel/erp-domain/workflow";
 import {
   isRegisteredPermissionKey,
   PERMISSION_REGISTRY,
@@ -58,36 +31,8 @@ export interface MetadataErpDomainPermissionRegistryBridgeEntry {
   readonly wirePermissionKeys: readonly string[];
 }
 
-const ERP_DOMAIN_PERMISSION_VOCABULARY_BY_MODULE = {
-  accounting: ACCOUNTING_PERMISSION_KEY_VOCABULARY,
-  analytics: ANALYTICS_PERMISSION_KEY_VOCABULARY,
-  assets: ASSETS_PERMISSION_KEY_VOCABULARY,
-  consolidation: CONSOLIDATION_PERMISSION_KEY_VOCABULARY,
-  controlling: CONTROLLING_PERMISSION_KEY_VOCABULARY,
-  crm: CRM_PERMISSION_KEY_VOCABULARY,
-  document: DOCUMENT_PERMISSION_KEY_VOCABULARY,
-  ecommerce: ECOMMERCE_PERMISSION_KEY_VOCABULARY,
-  "field-service": FIELD_SERVICE_PERMISSION_KEY_VOCABULARY,
-  hcm: HCM_PERMISSION_KEY_VOCABULARY,
-  intercompany: INTERCOMPANY_PERMISSION_KEY_VOCABULARY,
-  inventory: INVENTORY_PERMISSION_KEY_VOCABULARY,
-  maintenance: MAINTENANCE_PERMISSION_KEY_VOCABULARY,
-  manufacturing: MANUFACTURING_PERMISSION_KEY_VOCABULARY,
-  marketing: MARKETING_PERMISSION_KEY_VOCABULARY,
-  payroll: PAYROLL_PERMISSION_KEY_VOCABULARY,
-  pos: POS_PERMISSION_KEY_VOCABULARY,
-  pricing: PRICING_PERMISSION_KEY_VOCABULARY,
-  procurement: PROCUREMENT_PERMISSION_KEY_VOCABULARY,
-  project: PROJECT_PERMISSION_KEY_VOCABULARY,
-  quality: QUALITY_PERMISSION_KEY_VOCABULARY,
-  sales: SALES_PERMISSION_KEY_VOCABULARY,
-  service: SERVICE_PERMISSION_KEY_VOCABULARY,
-  subscription: SUBSCRIPTION_PERMISSION_KEY_VOCABULARY,
-  "supply-chain": SUPPLY_CHAIN_PERMISSION_KEY_VOCABULARY,
-  tax: TAX_PERMISSION_KEY_VOCABULARY,
-  treasury: TREASURY_PERMISSION_KEY_VOCABULARY,
-  workflow: WORKFLOW_PERMISSION_KEY_VOCABULARY,
-} as const satisfies Record<ErpDomainModule, readonly string[]>;
+const ERP_DOMAIN_PERMISSION_VOCABULARY_BY_MODULE =
+  ERP_DOMAIN_PERMISSION_KEY_VOCABULARIES;
 
 /** Modules with full kernel wire vocabulary ↔ PERMISSION_REGISTRY parity gates. */
 export const METADATA_ERP_DOMAIN_PERMISSION_REGISTRY_PARITY_MODULES = [

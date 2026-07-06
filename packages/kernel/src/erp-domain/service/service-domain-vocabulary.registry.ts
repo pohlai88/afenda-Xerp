@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { CASE_PRIORITIES } from "./case-priority.contract.js";
+
 import { CASE_STATUSES } from "./case-status.contract.js";
 import { RESOLUTION_TYPES } from "./resolution-type.contract.js";
 import {
@@ -18,24 +24,9 @@ import {
 export const SERVICE_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-SERVICE" as const;
 
-export type ServiceDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type ServiceDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface ServiceDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type ServiceDomainClosedVocabularyEntry = ErpDomainClosedVocabularyEntry;
 
 export const SERVICE_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +71,7 @@ export const SERVICE_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly ServiceDomainClosedVocabularyEntry[];
 
-export interface ServiceDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type ServiceDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const SERVICE_DOMAIN_BRANDED_IDS = [
   {

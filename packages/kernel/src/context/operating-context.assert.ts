@@ -1,3 +1,8 @@
+import type { AssertJsonSerializable } from "../contracts/json-wire.contract.js";
+import {
+  assertWireOptionalText,
+  assertWireRequiredText,
+} from "./_internal/wire-text.assert.js";
 import { assertWireConsolidationScopeContext } from "./consolidation-scope-context.assert.js";
 import { assertWireEntityGroupContext } from "./entity-group-context.assert.js";
 import { assertWireLegalEntityContext } from "./legal-entity-context.assert.js";
@@ -15,20 +20,6 @@ import { assertWireProjectContext } from "./project-context.assert.js";
 import { assertWireTeamContext } from "./team-context.assert.js";
 import { assertWireTenantContext } from "./tenant-context.assert.js";
 
-type JsonPrimitive = string | number | boolean | null;
-
-type AssertJsonSerializable<T> = T extends JsonPrimitive
-  ? true
-  : T extends readonly (infer U)[]
-    ? AssertJsonSerializable<U>
-    : T extends object
-      ? {
-          [K in keyof T]: AssertJsonSerializable<T[K]>;
-        } extends Record<keyof T, true>
-        ? true
-        : false
-      : false;
-
 type _OperatingContextWireSerializable =
   AssertJsonSerializable<OperatingContextWireContext>;
 
@@ -37,18 +28,14 @@ export type assertOperatingContextWireSerializable =
   _OperatingContextWireSerializable extends true ? true : never;
 
 export function assertOperatingContextText(value: string, label: string): void {
-  if (!value.trim()) {
-    throw new Error(`${label} is required.`);
-  }
+  assertWireRequiredText(value, label);
 }
 
 export function assertOperatingContextOptionalText(
   value: string | null,
   label: string
 ): void {
-  if (value !== null && !value.trim()) {
-    throw new Error(`${label} must be null or a non-empty string.`);
-  }
+  assertWireOptionalText(value, label);
 }
 
 function assertOperatingContextActor(value: OperatingContextActor): void {

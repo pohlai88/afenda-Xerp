@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { ACCOUNT_TYPES } from "./account-type.contract.js";
+
 import {
   ACCOUNTING_AUDIT_ACTIONS,
   type isAccountingAuditAction,
@@ -19,31 +25,12 @@ import { POSTING_STATUSES } from "./posting-status.contract.js";
 export const ACCOUNTING_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-ACCOUNTING" as const;
 
-export type AccountingDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type AccountingDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface AccountingDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type AccountingDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
-export interface AccountingDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type AccountingDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const ACCOUNTING_DOMAIN_CLOSED_VOCABULARIES = [
   {

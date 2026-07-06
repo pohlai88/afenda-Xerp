@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { ALLOCATION_METHODS } from "./allocation-method.contract.js";
+
 import {
   CONTROLLING_AUDIT_ACTIONS,
   type isControllingAuditAction,
@@ -18,24 +24,10 @@ import { VARIANCE_CATEGORIES } from "./variance-category.contract.js";
 export const CONTROLLING_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-CONTROLLING" as const;
 
-export type ControllingDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type ControllingDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface ControllingDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type ControllingDomainClosedVocabularyEntry =
+  ErpDomainClosedVocabularyEntry;
 
 export const CONTROLLING_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +72,7 @@ export const CONTROLLING_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly ControllingDomainClosedVocabularyEntry[];
 
-export interface ControllingDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type ControllingDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const CONTROLLING_DOMAIN_BRANDED_IDS = [
   {

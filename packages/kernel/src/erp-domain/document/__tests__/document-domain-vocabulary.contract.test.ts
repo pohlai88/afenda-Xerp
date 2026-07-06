@@ -1,11 +1,15 @@
 import { describe, expect, it } from "vitest";
 
+import { assertDeliveredDomainVocabularyRegistry } from "../../__tests__/domain-vocabulary-registry.harness.js";
 import {
   type assertDocumentDomainVocabularyRegistryIntegrity,
   DOCUMENT_AUDIT_ACTIONS,
+  DOCUMENT_DOMAIN_AUDIT_VOCABULARY,
   DOCUMENT_DOMAIN_BRANDED_ID_TYPE_NAMES,
   DOCUMENT_DOMAIN_CLOSED_VOCABULARIES,
+  DOCUMENT_DOMAIN_PERMISSION_VOCABULARY,
   DOCUMENT_DOMAIN_VOCABULARY_POLICY,
+  DOCUMENT_DOMAIN_VOCABULARY_REGISTRY,
   DOCUMENT_DOMAIN_VOCABULARY_REGISTRY_ID,
   isAttachmentRole,
   isDocumentAuditAction,
@@ -15,6 +19,23 @@ import {
 } from "../index.js";
 
 describe("PAS-001B document domain vocabulary registry", () => {
+  it("satisfies delivered domain vocabulary registry harness", () => {
+    assertDeliveredDomainVocabularyRegistry({
+      registryId: DOCUMENT_DOMAIN_VOCABULARY_REGISTRY_ID,
+      registry: DOCUMENT_DOMAIN_VOCABULARY_REGISTRY,
+      closedVocabularyIds: [
+        "document-class",
+        "retention-policy",
+        "document-lifecycle-status",
+        "attachment-role",
+      ],
+      brandedIdTypeNames: DOCUMENT_DOMAIN_BRANDED_ID_TYPE_NAMES,
+      auditActionCount: DOCUMENT_DOMAIN_AUDIT_VOCABULARY.valueCount,
+      permissionKeyCount: DOCUMENT_DOMAIN_PERMISSION_VOCABULARY.keyCount,
+      currentLifecycle: "contracts-only",
+    });
+  });
+
   it("declares registry identity", () => {
     expect(DOCUMENT_DOMAIN_VOCABULARY_REGISTRY_ID).toBe(
       "PAS-001B-4.8-DOCUMENT"

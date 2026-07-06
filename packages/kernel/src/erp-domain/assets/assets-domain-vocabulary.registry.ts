@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { ASSET_CLASSES } from "./asset-class.contract.js";
+
 import { ASSET_STATUSES } from "./asset-status.contract.js";
 import {
   ASSETS_AUDIT_ACTIONS,
@@ -18,24 +24,9 @@ import { TRANSFER_TYPES } from "./transfer-type.contract.js";
 export const ASSETS_DOMAIN_VOCABULARY_REGISTRY_ID =
   "PAS-001B-4.8-ASSETS" as const;
 
-export type AssetsDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type AssetsDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface AssetsDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type AssetsDomainClosedVocabularyEntry = ErpDomainClosedVocabularyEntry;
 
 export const ASSETS_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -80,12 +71,7 @@ export const ASSETS_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly AssetsDomainClosedVocabularyEntry[];
 
-export interface AssetsDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type AssetsDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const ASSETS_DOMAIN_BRANDED_IDS = [
   {

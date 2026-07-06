@@ -1,4 +1,10 @@
+import type {
+  ErpDomainBrandedIdEntry,
+  ErpDomainClosedVocabularyEntry,
+  ErpDomainVocabularyKind,
+} from "../_internal/domain-vocabulary.types.js";
 import { ACCOUNT_TIERS } from "./account-tier.contract.js";
+
 import { ACTIVITY_TYPES } from "./activity-type.contract.js";
 import {
   CRM_AUDIT_ACTIONS,
@@ -17,24 +23,9 @@ import { OPPORTUNITY_STAGES } from "./opportunity-stage.contract.js";
 
 export const CRM_DOMAIN_VOCABULARY_REGISTRY_ID = "PAS-001B-4.8-CRM" as const;
 
-export type CrmDomainVocabularyKind =
-  | "closed-vocabulary"
-  | "branded-id"
-  | "wire-context"
-  | "audit-vocabulary"
-  | "permission-vocabulary"
-  | "authority-metadata";
+export type CrmDomainVocabularyKind = ErpDomainVocabularyKind;
 
-export interface CrmDomainClosedVocabularyEntry {
-  readonly constantExport: string;
-  readonly contractFile: string;
-  readonly id: string;
-  readonly kind: "closed-vocabulary";
-  readonly narrowerExport: string;
-  readonly pasSection: "4.8";
-  readonly typeExport: string;
-  readonly valueCount: number;
-}
+export type CrmDomainClosedVocabularyEntry = ErpDomainClosedVocabularyEntry;
 
 export const CRM_DOMAIN_CLOSED_VOCABULARIES = [
   {
@@ -79,12 +70,7 @@ export const CRM_DOMAIN_CLOSED_VOCABULARIES = [
   },
 ] as const satisfies readonly CrmDomainClosedVocabularyEntry[];
 
-export interface CrmDomainBrandedIdEntry {
-  readonly brandFunction: string;
-  readonly forbiddenOnPlatformFloor: boolean;
-  readonly toFunction: string;
-  readonly typeName: string;
-}
+export type CrmDomainBrandedIdEntry = ErpDomainBrandedIdEntry;
 
 export const CRM_DOMAIN_BRANDED_IDS = [
   {
