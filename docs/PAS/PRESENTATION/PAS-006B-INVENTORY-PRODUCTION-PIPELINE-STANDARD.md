@@ -19,7 +19,7 @@
 | --- | --- |
 | 1 | `pnpm --filter @afenda/shadcn-studio-v2 typecheck` |
 | 2 | `pnpm --filter @afenda/shadcn-studio-v2 test:run` |
-| 3 | `pnpm check:studio-inventory-lifecycle` |
+| 3 | `pnpm --filter @afenda/shadcn-studio-v2 check:drift` |
 | 4 | `pnpm check:foundation-disposition` |
 
 > **Maturity is part of authority.** Do not claim block **Accepted** until PAS-006C Acceptance Record exists. This PAS owns **structure and lifecycle**, not ACPA proof.

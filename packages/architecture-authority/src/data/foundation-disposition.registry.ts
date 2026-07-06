@@ -929,7 +929,7 @@ const foundationDispositionEntries = [
       "pnpm --filter @afenda/storybook typecheck",
       "pnpm test:storybook:run",
       "pnpm storybook:build",
-      "pnpm check:studio-import-zones",
+      "pnpm check:v1-consumer-imports",
     ],
     legacyTipEvidence: [],
   },

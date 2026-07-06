@@ -18,8 +18,8 @@
 | # | Gate command |
 | --- | --- |
 | 1 | `pnpm --filter @afenda/shadcn-studio-v2 test:run` |
-| 2 | `pnpm check:studio-block-acpa-acceptance` |
-| 3 | `pnpm check:studio-auth-surface-wcag-aa` |
+| 2 | `pnpm --filter @afenda/shadcn-studio-v2 check:apca` |
+| 3 | `pnpm --filter @afenda/shadcn-studio-v2 test:run` *(auth + primitive interaction coverage in package suite)* |
 | 4 | `pnpm test:interaction` *(auth + block interaction subsets)* |
 
 > **Maturity is part of authority.** ACPA is the **primary** operator-surface profile. WCAG 2.2 AA is an **additional mandatory floor** on Authorization-adjacent surfaces only — not a replacement for ACPA elsewhere.
@@ -65,13 +65,13 @@ Lifecycle: NS §8.2 — Open → Evidence attached → Profile verified → Seal
 | 1 | Presentation lab story exists | Registry + story file gate |
 | 2 | Keyboard navigation verified | interaction test |
 | 3 | Screen reader labels verified | a11y contract test |
-| 4 | **ACPA** contrast satisfied | `check:studio-block-acpa-acceptance` |
+| 4 | **ACPA** contrast satisfied | `pnpm --filter @afenda/shadcn-studio-v2 check:apca` |
 | 5 | Responsive / density verified | story + viewport test |
 | 6 | Empty/loading/error/forbidden states | story variants |
 | 7 | No embedded business logic | static scan + review |
 | 8 | No route-local primitive fork | boundary check |
 | 9 | Metadata contract binding | 006D gate when applicable |
-| 10 | **WCAG 2.2 AA** on auth-adjacent | `check:studio-auth-surface-wcag-aa` |
+| 10 | **WCAG 2.2 AA** on auth-adjacent | `pnpm --filter @afenda/shadcn-studio-v2 test:run` + `pnpm test:interaction` |
 
 ---
 

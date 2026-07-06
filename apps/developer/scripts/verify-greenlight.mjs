@@ -1,4 +1,5 @@
 import { spawn, spawnSync } from "node:child_process";
+import fs from "node:fs";
 import net from "node:net";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -11,6 +12,26 @@ const repoRoot = path.resolve(developerRoot, "../..");
 const isWindows = process.platform === "win32";
 const preferredPlaywrightPort = process.env["PLAYWRIGHT_PORT"] ?? "3002";
 const explicitPlaywrightBaseUrl = process.env["PLAYWRIGHT_BASE_URL"];
+
+function clearStaleNextBuildLock() {
+  const lockPath = path.join(developerRoot, ".next", "lock");
+
+  if (!fs.existsSync(lockPath)) {
+    return;
+  }
+
+  fs.unlinkSync(lockPath);
+}
+
+function assertProductionBuildReady() {
+  const buildIdPath = path.join(developerRoot, ".next", "BUILD_ID");
+
+  if (!fs.existsSync(buildIdPath)) {
+    throw new Error(
+      "next build did not produce .next/BUILD_ID — cannot run production smoke"
+    );
+  }
+}
 
 function workspaceBin(commandName) {
   return path.join(
@@ -58,20 +79,6 @@ async function isHttpResponsive(url) {
   } catch {
     return false;
   }
-}
-
-async function waitForDeveloperLabReady(url, timeoutMs = 120_000) {
-  const startedAt = Date.now();
-
-  while (Date.now() - startedAt < timeoutMs) {
-    if (await isDeveloperRouteLabServer(url)) {
-      return;
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, 500));
-  }
-
-  throw new Error(`Timed out waiting for developer-route-lab health at ${url}`);
 }
 
 function stopProcessTree(child) {
@@ -141,6 +148,68 @@ function reservePort(preferredPort) {
   });
 }
 
+async function findUnusedSmokePort() {
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    const port = await findEphemeralPort();
+    const baseUrl = `http://127.0.0.1:${port}`;
+
+    if (await isDeveloperRouteLabServer(baseUrl)) {
+      return {
+        baseUrl,
+        port,
+        reuseExisting: true,
+      };
+    }
+
+    if (!(await isHttpResponsive(baseUrl))) {
+      return {
+        baseUrl,
+        port,
+        reuseExisting: false,
+      };
+    }
+  }
+
+  throw new Error("Unable to find an unused port for production smoke");
+}
+
+async function waitForSpawnedProductionServer(
+  child,
+  baseUrl,
+  timeoutMs = 120_000
+) {
+  const startedAt = Date.now();
+  let exitedEarly = null;
+
+  const onExit = (code) => {
+    exitedEarly = code ?? 1;
+  };
+
+  child.once("exit", onExit);
+
+  try {
+    while (Date.now() - startedAt < timeoutMs) {
+      if (exitedEarly !== null) {
+        throw new Error(
+          `next start exited with code ${exitedEarly} before developer-route-lab health was ready at ${baseUrl}`
+        );
+      }
+
+      if (await isDeveloperRouteLabServer(baseUrl)) {
+        return;
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
+
+    throw new Error(
+      `Timed out waiting for developer-route-lab health at ${baseUrl}`
+    );
+  } finally {
+    child.off("exit", onExit);
+  }
+}
+
 async function resolveProductionSmokeTarget() {
   if (explicitPlaywrightBaseUrl) {
     return {
@@ -160,25 +229,32 @@ async function resolveProductionSmokeTarget() {
     };
   }
 
-  let port;
-
   if (await isHttpResponsive(preferredBaseUrl)) {
-    port = await findEphemeralPort();
     console.log(
-      `\n[route-lab greenlight] Port ${preferredPlaywrightPort} is occupied by a non-developer app; using ${port}`
+      `\n[route-lab greenlight] Port ${preferredPlaywrightPort} is occupied by a non-developer app`
     );
-  } else {
-    port = await reservePort(preferredPlaywrightPort);
+    return findUnusedSmokePort();
+  }
 
-    if (port !== preferredPlaywrightPort) {
-      console.log(
-        `\n[route-lab greenlight] Port ${preferredPlaywrightPort} unavailable; using ${port}`
-      );
-    }
+  const port = await reservePort(preferredPlaywrightPort);
+  const baseUrl = `http://127.0.0.1:${port}`;
+
+  if (port !== preferredPlaywrightPort) {
+    console.log(
+      `\n[route-lab greenlight] Port ${preferredPlaywrightPort} unavailable; using ${port}`
+    );
+  }
+
+  if (await isDeveloperRouteLabServer(baseUrl)) {
+    return {
+      baseUrl,
+      port,
+      reuseExisting: true,
+    };
   }
 
   return {
-    baseUrl: `http://127.0.0.1:${port}`,
+    baseUrl,
     port,
     reuseExisting: false,
   };
@@ -212,7 +288,7 @@ async function runProductionPlaywrightSmoke() {
       }
     );
 
-    await waitForDeveloperLabReady(smokeTarget.baseUrl);
+    await waitForSpawnedProductionServer(server, smokeTarget.baseUrl);
   }
 
   try {
@@ -262,10 +338,13 @@ runStep("Presentation runtime boundary", process.execPath, [
 runStep("Hydration governance", process.execPath, [
   "apps/developer/scripts/check-developer-hydration-governance.mjs",
 ]);
+clearStaleNextBuildLock();
 runStep("Next build", appBin("next"), ["build"], {
   cwd: developerRoot,
   env: {
     AFENDA_DEVELOPER_SANDBOX: "true",
   },
 });
+clearStaleNextBuildLock();
+assertProductionBuildReady();
 await runProductionPlaywrightSmoke();
