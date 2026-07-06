@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 "use client";
 
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog";
@@ -16,24 +15,60 @@ export interface DialogPortalProps
 export interface DialogCloseProps
   extends ComponentProps<typeof DialogPrimitive.Close> {}
 export interface DialogOverlayProps
-  extends ComponentProps<typeof DialogPrimitive.Backdrop> {}
+  extends Omit<ComponentProps<typeof DialogPrimitive.Backdrop>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface DialogContentProps
-  extends ComponentProps<typeof DialogPrimitive.Popup> {
-  readonly showCloseButton?: boolean;
+  extends Omit<ComponentProps<typeof DialogPrimitive.Popup>, "className"> {
+  readonly className?: string | undefined;
+}
+export interface DialogCloseButtonProps
+  extends Omit<ComponentProps<typeof DialogPrimitive.Close>, "className"> {
+  readonly className?: string | undefined;
 }
 export interface DialogHeaderProps extends ComponentProps<"div"> {}
 export interface DialogFooterProps extends ComponentProps<"div"> {}
 export interface DialogTitleProps
-  extends ComponentProps<typeof DialogPrimitive.Title> {}
+  extends Omit<ComponentProps<typeof DialogPrimitive.Title>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface DialogDescriptionProps
-  extends ComponentProps<typeof DialogPrimitive.Description> {}
+  extends Omit<
+    ComponentProps<typeof DialogPrimitive.Description>,
+    "className"
+  > {
+  readonly className?: string | undefined;
+}
 
 const DIALOG_OVERLAY_CLASS =
   "fixed inset-0 z-50 bg-black/50 backdrop-blur-[1px]";
 const DIALOG_VIEWPORT_CLASS =
   "fixed inset-0 z-50 flex items-center justify-center p-4";
 const DIALOG_CONTENT_CLASS =
-  "relative grid w-full max-w-lg gap-4 rounded-lg border border-border bg-background p-6 shadow-lg";
+  "relative grid w-full max-w-lg gap-4 rounded-lg border border-border bg-background p-6 text-foreground shadow-lg outline-none";
+const DIALOG_CLOSE_BUTTON_CLASS = "absolute top-4 right-4 size-8 p-0";
+
+export function dialogOverlayClassName({
+  className,
+}: Pick<DialogOverlayProps, "className"> = {}): string {
+  return cn(DIALOG_OVERLAY_CLASS, className);
+}
+
+export function dialogContentClassName({
+  className,
+}: Pick<DialogContentProps, "className"> = {}): string {
+  return cn(DIALOG_CONTENT_CLASS, className);
+}
+
+export function dialogCloseButtonClassName({
+  className,
+}: Pick<DialogCloseButtonProps, "className"> = {}): string {
+  return buttonClassName({
+    className: cn(DIALOG_CLOSE_BUTTON_CLASS, className),
+    size: "icon",
+    variant: "ghost",
+  });
+}
 
 export function Dialog({ ...props }: DialogProps) {
   return <DialogPrimitive.Root {...props} data-slot="dialog" />;
@@ -55,7 +90,7 @@ export function DialogOverlay({ className, ...props }: DialogOverlayProps) {
   return (
     <DialogPrimitive.Backdrop
       {...props}
-      className={cn(DIALOG_OVERLAY_CLASS, className)}
+      className={dialogOverlayClassName({ className })}
       data-slot="dialog-overlay"
     />
   );
@@ -64,7 +99,6 @@ export function DialogOverlay({ className, ...props }: DialogOverlayProps) {
 export function DialogContent({
   children,
   className,
-  showCloseButton = true,
   ...props
 }: DialogContentProps) {
   return (
@@ -73,26 +107,29 @@ export function DialogContent({
       <div className={DIALOG_VIEWPORT_CLASS} data-slot="dialog-viewport">
         <DialogPrimitive.Popup
           {...props}
-          className={cn(DIALOG_CONTENT_CLASS, className)}
+          className={dialogContentClassName({ className })}
           data-slot="dialog-content"
         >
           {children}
-          {showCloseButton ? (
-            <DialogPrimitive.Close
-              aria-label="Close"
-              className={buttonClassName({
-                className: "absolute top-4 right-4 size-8 p-0",
-                size: "icon",
-                variant: "ghost",
-              })}
-              data-slot="dialog-close"
-            >
-              <XIcon className="size-4" />
-            </DialogPrimitive.Close>
-          ) : null}
         </DialogPrimitive.Popup>
       </div>
     </DialogPortal>
+  );
+}
+
+export function DialogCloseButton({
+  className,
+  ...props
+}: DialogCloseButtonProps) {
+  return (
+    <DialogPrimitive.Close
+      {...props}
+      aria-label={props["aria-label"] ?? "Close"}
+      className={dialogCloseButtonClassName({ className })}
+      data-slot="dialog-close-button"
+    >
+      <XIcon aria-hidden="true" className="size-4" />
+    </DialogPrimitive.Close>
   );
 }
 

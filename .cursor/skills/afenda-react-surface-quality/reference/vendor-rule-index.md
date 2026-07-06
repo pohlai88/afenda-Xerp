@@ -1,12 +1,14 @@
 # Vendor rule index — read on failure only
 
+**V2 + ERP surfaces:** use [afenda-erp-design-system/references/surface-quality-scan.md](../../afenda-erp-design-system/references/surface-quality-scan.md) and sibling refs — not this file first.
+
 Do not preload vendor skills. Read the row that matches the failed Afenda ID.
 
 | Afenda ID | Vendor skill | Path |
 | --- | --- | --- |
 | B1–B8 | typescript-react-reviewer | `~/.claude/skills/typescript-react-reviewer/SKILL.md` |
-| A1–A3, A7 | react-best-practices | `vercel-react-best-practices/react-best-practices` |
-| A8–A10 | vercel-composition-patterns | `~/.claude/skills/vercel-composition-patterns/SKILL.md` |
+| A1–A3, A7 | react-best-practices | [afenda-erp-design-system/references/react-best-practices.md](../../afenda-erp-design-system/references/react-best-practices.md) |
+| A8–A10 | vercel-composition-patterns | [afenda-erp-design-system/references/react-composition-patterns.md](../../afenda-erp-design-system/references/react-composition-patterns.md) |
 | A2, bundle | afenda-shadcn-performance | `.cursor/skills/afenda-shadcn-performance/SKILL.md` |
 | C1–C6 | coding-standards | `AGENTS.md` + Biome |
 | Y1–Y7 | web-accessibility | `~/.claude/skills/web-accessibility/SKILL.md` (on failure only) |

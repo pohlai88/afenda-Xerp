@@ -139,6 +139,8 @@ export {
 export {
   Dialog,
   DialogClose,
+  DialogCloseButton,
+  type DialogCloseButtonProps,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -149,10 +151,12 @@ export {
   DialogTitle,
   DialogTrigger,
   type DialogTriggerProps,
+  dialogCloseButtonClassName,
 } from "./components/ui/Dialog";
 export {
   Drawer,
   DrawerClose,
+  DrawerCloseButton,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -192,6 +196,7 @@ export {
   type FieldMessageProps,
   type FieldOrientation,
   type FieldProps,
+  FieldRequiredIndicator,
   type FieldState,
   fieldClassName,
 } from "./components/ui/Field";
@@ -262,12 +267,15 @@ export {
   PaginationEllipsis,
   PaginationItem,
   PaginationLink,
+  PaginationLinkCurrent,
+  type PaginationLinkCurrentProps,
   type PaginationLinkProps,
   PaginationNext,
   type PaginationNextProps,
   PaginationPrevious,
   type PaginationPreviousProps,
   type PaginationProps,
+  paginationLinkCurrentClassName,
 } from "./components/ui/Pagination";
 export {
   Popover,
@@ -326,6 +334,8 @@ export {
 export {
   Sheet,
   SheetClose,
+  SheetCloseButton,
+  type SheetCloseButtonProps,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -336,6 +346,7 @@ export {
   SheetTitle,
   SheetTrigger,
   type SheetTriggerProps,
+  sheetCloseButtonClassName,
 } from "./components/ui/Sheet";
 export {
   Skeleton,

@@ -126,6 +126,22 @@
       }
     },
     {
+      "includes": ["**/packages/shadcn-studio-v2/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useFilenamingConvention": "off"
+          },
+          "performance": {
+            "noBarrelFile": "off"
+          },
+          "a11y": {
+            "noLabelWithoutControl": "off"
+          }
+        }
+      }
+    },
+    {
       "includes": ["**/packages/shadcn-studio/**"],
       "linter": {
         "rules": {
@@ -332,6 +348,7 @@
         "**/packages/database/**",
         "**/packages/kernel/**",
         "**/packages/shadcn-studio/**",
+        "**/packages/shadcn-studio-v2/**",
         "**/packages/permissions/**",
         "**/packages/testing/**",
         "**/packages/entitlements/**",

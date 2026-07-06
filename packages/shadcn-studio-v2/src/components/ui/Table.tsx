@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 
@@ -13,7 +12,7 @@ const TABLE_CONTAINER_CLASSES = {
   visible: "relative w-full overflow-visible",
 } satisfies Record<TableContainerOverflow, string>;
 
-const TABLE_BASE_CLASS = "w-full caption-bottom text-sm";
+const TABLE_BASE_CLASS = "w-full caption-bottom text-sm tabular-nums";
 const TABLE_HEADER_CLASS = "[&_tr]:border-b";
 const TABLE_BODY_CLASS = "[&_tr:last-child]:border-0";
 const TABLE_FOOTER_CLASS =
@@ -21,8 +20,8 @@ const TABLE_FOOTER_CLASS =
 const TABLE_ROW_CLASS =
   "border-border border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted";
 const TABLE_HEAD_CLASS =
-  "h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0";
-const TABLE_CELL_CLASS = "p-4 align-middle [&:has([role=checkbox])]:pr-0";
+  "h-9 px-3 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0";
+const TABLE_CELL_CLASS = "px-3 py-2 align-middle [&:has([role=checkbox])]:pr-0";
 const TABLE_CAPTION_CLASS = "mt-4 text-muted-foreground text-sm";
 
 export function tableContainerClassName({

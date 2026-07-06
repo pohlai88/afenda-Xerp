@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 "use client";
 
 import { studioThemeConfig } from "../../configs/theme-config";

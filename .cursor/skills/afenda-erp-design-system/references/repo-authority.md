@@ -167,6 +167,8 @@ Choose the narrowest gates covering the change.
 ### V2 package gates
 
 ```bash
+pnpm studio:v2:primitives   # primitive baseline + API consistency + extension (preferred for ui/**)
+pnpm --filter @afenda/shadcn-studio-v2 test:primitives
 pnpm --filter @afenda/shadcn-studio-v2 test
 pnpm --filter @afenda/shadcn-studio-v2 test:taxonomy
 pnpm --filter @afenda/shadcn-studio-v2 typecheck
@@ -174,6 +176,8 @@ pnpm --filter @afenda/shadcn-studio-v2 build
 pnpm --filter @afenda/shadcn-studio-v2 check:drift
 pnpm --filter @afenda/shadcn-studio-v2 check:apca
 pnpm --filter @afenda/shadcn-studio-v2 quality   # drift + apca + test + typecheck + build
+pnpm studio:v2:check-biome
+pnpm studio:v2:normalize-biome   # after MCP bulk ui imports
 pnpm exec biome ci packages/shadcn-studio-v2
 ```
 

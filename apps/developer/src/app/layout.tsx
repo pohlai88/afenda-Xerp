@@ -1,17 +1,21 @@
-import { StudioPresentationProviders as ErpPresentationProviders } from "@afenda/shadcn-studio-v2/theme";
+import {
+  StudioPresentationProviders,
+  ThemeScript,
+} from "@afenda/shadcn-studio-v2/clients";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import type { ReactNode } from "react";
+import { developerThemeConfig } from "@/config/theme-config";
 import "./globals.css";
 
-const routeLabSansFont = Geist({
+const routeLabSansFont = Inter({
   subsets: ["latin"],
-  variable: "--font-geist-sans",
+  variable: "--font-inter",
 });
 
-const routeLabMonoFont = Geist_Mono({
+const routeLabMonoFont = JetBrains_Mono({
   subsets: ["latin"],
-  variable: "--font-geist-mono",
+  variable: "--font-jetbrains-mono",
 });
 
 const routeLabMetadataBase =
@@ -39,7 +43,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
     >
       <body className="font-sans antialiased">
-        <ErpPresentationProviders>{children}</ErpPresentationProviders>
+        <ThemeScript
+          initialThemeId={developerThemeConfig.defaultThemeId}
+          storageKey={developerThemeConfig.storageKey}
+        />
+        <StudioPresentationProviders
+          initialThemeId={developerThemeConfig.defaultThemeId}
+          storageKey={developerThemeConfig.storageKey}
+        >
+          {children}
+        </StudioPresentationProviders>
       </body>
     </html>
   );

@@ -279,19 +279,27 @@ components/
 
 ```txt
 configs/
+  admincn-theme-presets.ts
+  editorial-theme-presets.ts
   studio-config.ts
   theme-config.ts
 ```
 
 `theme-config.ts`
 
-* canonical theme configuration
+* canonical theme configuration registry (`kind`: default | reference | editorial)
+
+`admincn-theme-presets.ts`
+
+* AdminCN reference catalog presets merged onto shadcn-default (`kind: reference`)
+
+`editorial-theme-presets.ts`
+
+* Swiss Noir and Verdant Noir editorial presets (`kind: editorial`); static CSS overlays remain under `styles/`
 
 `studio-config.ts`
 
 * package-level studio defaults
-
-Only these two canonical config stems are registered initially. Add more only by amending this document first.
 
 ### `contexts/`
 
@@ -399,13 +407,18 @@ styles/
 
 `swiss-noir.css`
 
-* Swiss Noir static root/dark token override
+* Swiss Noir **editorial theme preset** static `:root` / `.dark` overlay (runtime SSOT: `configs/editorial-theme-presets.ts`)
 
 `verdant-noir.css`
 
-* Verdant Noir static root/dark token override
+* Verdant Noir **editorial theme preset** static `:root` / `.dark` overlay (runtime SSOT: `configs/editorial-theme-presets.ts`)
 
 CSS only. No TS. No React.
+
+`reference/pattern-globals.css` (package root, not under `styles/`)
+
+* Non-authoritative app-layer CSS reference — Tailwind entry, `@theme inline`, calm operator overrides
+* Import via `@afenda/shadcn-studio-v2/reference/pattern-globals.css`; consumers add `@source` locally
 
 ### `types/`
 
@@ -729,6 +742,8 @@ Its job is to enforce:
 This package should prefer Vitest governance tests over custom drift scripts for taxonomy enforcement.
 
 `__tests__` is excluded from structural taxonomy enforcement because it follows the repo-wide Vitest convention and does not define package architecture.
+
+Biome suppressions for V2 PascalCase filenames and root boundary barrels are owned by `biome.project.jsonc` — not per-file `// biome-ignore` comments. After primitive imports, run `pnpm studio:v2:normalize-biome`. Drift guard rule `redundant-biome-suppression` blocks regressions.
 
 The design-system drift guard enforces the non-structural rules from the active design-system guideline:
 

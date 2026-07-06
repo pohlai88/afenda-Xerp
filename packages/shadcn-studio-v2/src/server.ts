@@ -1,4 +1,3 @@
-// biome-ignore lint/performance/noBarrelFile: V2 root public files are explicit package boundary surfaces, not convenience barrels.
 export { studioPackageConfig } from "./configs/studio-config";
 export {
   CANONICAL_THEME_TOKEN_NAMES,

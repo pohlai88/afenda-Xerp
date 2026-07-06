@@ -6,7 +6,7 @@ import {
   CardTitle,
   ThemeCustomizer,
 } from "@afenda/shadcn-studio-v2";
-import { StudioPresentationProviders as ErpPresentationProviders } from "@afenda/shadcn-studio-v2/theme";
+import { StudioPresentationProviders as ErpPresentationProviders } from "@afenda/shadcn-studio-v2/clients";
 import type { AppearanceSettingsPageData } from "@/lib/lab/contracts";
 
 interface AppearanceThemePanelProps {

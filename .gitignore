@@ -73,6 +73,8 @@ temp-docx/
 temp-docx.zip
 master-plan-excerpt.txt
 *.docx
+.phase-0r-*.patch
+.tmp-install-*.log
 
 # Reference-only material (external templates; not part of the monorepo)
 _reference/

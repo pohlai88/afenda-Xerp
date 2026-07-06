@@ -393,13 +393,15 @@ Required tests:
 Run the package-local gates after changes:
 
 ```bash
-pnpm --filter @afenda/shadcn-studio-v2 test:taxonomy
-pnpm --filter @afenda/shadcn-studio-v2 test
+pnpm studio:v2:primitives
+pnpm --filter @afenda/shadcn-studio-v2 check:biome-suppressions
 pnpm --filter @afenda/shadcn-studio-v2 typecheck
 pnpm --filter @afenda/shadcn-studio-v2 build
 pnpm --filter @afenda/shadcn-studio-v2 check:drift
 pnpm exec biome ci packages/shadcn-studio-v2
 ```
+
+After adding a new PascalCase primitive file, run `pnpm studio:v2:normalize-biome` if MCP or copy-paste introduced per-file `biome-ignore` headers. V2 owns those suppressions in `biome.project.jsonc`, not in source.
 
 ## Completion Note
 

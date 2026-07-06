@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 "use client";
 
 import { Radio as RadioPrimitive } from "@base-ui/react/radio";
@@ -7,18 +6,22 @@ import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 
 export interface RadioGroupProps
-  extends ComponentProps<typeof RadioGroupPrimitive> {}
+  extends Omit<ComponentProps<typeof RadioGroupPrimitive>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface RadioGroupItemProps
-  extends ComponentProps<typeof RadioPrimitive.Root> {}
+  extends Omit<ComponentProps<typeof RadioPrimitive.Root>, "className"> {
+  readonly className?: string | undefined;
+}
 
 const RADIO_GROUP_BASE_CLASS = "grid gap-3";
 const RADIO_GROUP_ITEM_BASE_CLASS =
-  "aspect-square size-4 rounded-full border border-primary text-primary shadow-xs outline-none transition-shadow focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
+  "aspect-square size-4 rounded-full border border-primary text-primary shadow-xs outline-none transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
 
 export function radioGroupClassName({
   className,
 }: {
-  readonly className?: string;
+  readonly className?: string | undefined;
 } = {}): string {
   return cn(RADIO_GROUP_BASE_CLASS, className);
 }
@@ -26,7 +29,7 @@ export function radioGroupClassName({
 export function radioGroupItemClassName({
   className,
 }: {
-  readonly className?: string;
+  readonly className?: string | undefined;
 } = {}): string {
   return cn(RADIO_GROUP_ITEM_BASE_CLASS, className);
 }

@@ -138,7 +138,7 @@ When handoff is under `docs/PAS/<DOMAIN-FOLDER>/SLICE/` (e.g. `docs/PAS/KERNEL/S
 | Enterprise SAP/Oracle gates | `.cursor/skills/enterprise-erp-standards/SKILL.md` |
 | shadcn/studio ERP frontend (PAS-006) | `.cursor/skills/shadcn-studio/SKILL.md` |
 | Primitive 2-file contracts (components-ui/*) | `.cursor/skills/afenda-primitive-contract/SKILL.md` + mismatch + react-best-practices-bridge + react-testing-patterns-bridge |
-| ERP React/TS surface quality (B/A/T) | `.cursor/skills/afenda-react-surface-quality/SKILL.md` |
+| ERP React/TS surface quality (B/A/T) | `.cursor/skills/afenda-erp-design-system/references/surface-quality-scan.md` |
 | ERP presentation quality composer | `.cursor/skills/afenda-presentation-quality/SKILL.md` |
 | Editorial UI (Swiss/Verdant/Presentation Lab) | `.cursor/skills/afenda-editorial-bundle/SKILL.md` |
 | ERP Tailwind / Phase 1 CSS | `.cursor/skills/afenda-tailwind/SKILL.md` |

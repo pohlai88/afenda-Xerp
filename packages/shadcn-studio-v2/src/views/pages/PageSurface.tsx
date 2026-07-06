@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 import type { ReactNode } from "react";
 import { AppShellFrame } from "../../components/layout/appshell-frame";
 import { Sidebar } from "../../components/layout/Sidebar";

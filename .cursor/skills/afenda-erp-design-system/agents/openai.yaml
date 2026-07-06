@@ -1,4 +1,4 @@
 interface:
   display_name: "Afenda ERP Design System"
-  short_description: "Guides pragmatic ERP design-system work"
-  default_prompt: "Use $afenda-erp-design-system to plan or implement a shadcn and Tailwind v4 ERP design-system change in Afenda."
+  short_description: "V2 design system, React perf, and ERP surface quality"
+  default_prompt: "Use $afenda-erp-design-system for Afenda ERP presentation work. Load references for the target layer — primitives (composition + react-best-practices P1–P8), ERP surfaces (surface-quality-scan B/A/C/Y/T), operator UI quality. Stay PAS-006 aligned; no retired UI stacks."

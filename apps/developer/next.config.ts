@@ -76,6 +76,10 @@ const nextConfig: NextConfig = {
     config.resolve.extensionAlias = { ...extensionAlias };
     config.resolve.alias = {
       ...config.resolve.alias,
+      "@afenda/shadcn-studio/theme": path.join(
+        monorepoRoot,
+        "packages/shadcn-studio/src/theme-runtime/index.ts"
+      ),
       "@afenda/shadcn-studio-v2/theme": path.join(
         monorepoRoot,
         "packages/shadcn-studio-v2/src/contexts/theme-boundary.ts"

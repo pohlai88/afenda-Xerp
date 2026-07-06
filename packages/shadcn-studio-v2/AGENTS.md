@@ -43,6 +43,9 @@ If a lower source conflicts with `docs/TAXONOMY.md`, `docs/TAXONOMY.md` wins for
 Use these local package documents together:
 
 - `docs/TAXONOMY.md` for structure and naming authority
+- `docs/DESIGN-SYSTEM-ARCHITECTURE.md` for code-first architecture law
+- `docs/DESIGN-SYSTEM-FOUNDATION.md` for agent constraint pedagogy (non-authoritative; PHASE-2 wins on tokens)
+- `reference/pattern-globals.css` for app-layer globals reference (calm operator stack)
 - `docs/ROADMAP.md` for slice sequencing and gates
 - `docs/MIGRATION-MAP.md` for legacy-to-V2 translation tracking
 
@@ -154,6 +157,29 @@ Use it to verify:
 - naming-law compliance
 - root export file presence
 - structural snapshot drift
+- no redundant per-file `biome-ignore` for package-owned rules
+
+## Biome Suppression Policy
+
+V2 PascalCase React filenames, root boundary barrels, and primitive label patterns are **not** suppressed with per-file `// biome-ignore` comments.
+
+Those rules are owned by `biome.project.jsonc` overrides for `packages/shadcn-studio-v2/**`.
+
+After adding or importing PascalCase primitives under `components/ui/` (or other V2 source files):
+
+```bash
+pnpm studio:v2:normalize-biome
+```
+
+Drift and quality gates fail if redundant suppressions return:
+
+```bash
+pnpm --filter @afenda/shadcn-studio-v2 check:biome-suppressions
+pnpm --filter @afenda/shadcn-studio-v2 check:drift
+pnpm --filter @afenda/shadcn-studio-v2 quality
+```
+
+Do not reintroduce file-level `useFilenamingConvention`, `noBarrelFile`, or `noLabelWithoutControl` ignores in V2 source.
 
 ## Editing Rule
 

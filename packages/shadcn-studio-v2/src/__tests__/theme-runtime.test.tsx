@@ -227,7 +227,7 @@ describe("shadcn-studio-v2 theme runtime stabilization", () => {
     const output = readProbe(container);
 
     expect(output.dataset.mode).toBe("system");
-    expect(output.dataset.themeId).toBe("shadcn-default");
+    expect(output.dataset.themeId).toBe(studioThemeConfig.defaultThemeId);
   });
 
   it("throws when useTheme is called outside ThemeProvider", () => {
@@ -269,7 +269,10 @@ describe("shadcn-studio-v2 theme runtime stabilization", () => {
     );
     expect(setItem).not.toHaveBeenCalledWith(
       studioThemeConfig.storageKey,
-      JSON.stringify({ mode: "system", themeId: "shadcn-default" })
+      JSON.stringify({
+        mode: "system",
+        themeId: studioThemeConfig.defaultThemeId,
+      })
     );
   });
 
@@ -285,11 +288,14 @@ describe("shadcn-studio-v2 theme runtime stabilization", () => {
     const output = readProbe(container);
 
     expect(output.dataset.mode).toBe("system");
-    expect(output.dataset.themeId).toBe("shadcn-default");
+    expect(output.dataset.themeId).toBe(studioThemeConfig.defaultThemeId);
     expect(document.documentElement.dataset.theme).toBeUndefined();
     expect(setItem).toHaveBeenCalledWith(
       studioThemeConfig.storageKey,
-      JSON.stringify({ mode: "system", themeId: "shadcn-default" })
+      JSON.stringify({
+        mode: "system",
+        themeId: studioThemeConfig.defaultThemeId,
+      })
     );
   });
 
@@ -302,7 +308,9 @@ describe("shadcn-studio-v2 theme runtime stabilization", () => {
       </ThemeProvider>
     );
 
-    expect(readProbe(container).dataset.themeId).toBe("shadcn-default");
+    expect(readProbe(container).dataset.themeId).toBe(
+      studioThemeConfig.defaultThemeId
+    );
   });
 
   it("does not crash when localStorage setItem throws while still applying DOM theme", () => {
@@ -369,7 +377,10 @@ describe("shadcn-studio-v2 theme runtime stabilization", () => {
     document.documentElement.style.setProperty("--primary", "oklch(0 0 0)");
 
     renderClient(
-      <ThemeProvider initialMode="light" initialThemeId="shadcn-default">
+      <ThemeProvider
+        initialMode="light"
+        initialThemeId={studioThemeConfig.defaultThemeId}
+      >
         <ThemeProbe />
       </ThemeProvider>
     );
@@ -473,7 +484,7 @@ describe("shadcn-studio-v2 theme runtime stabilization", () => {
     );
 
     expect(markup).toContain('data-package="@afenda/shadcn-studio-v2"');
-    expect(markup).toContain("shadcn-default");
+    expect(markup).toContain("afenda-brand");
   });
 
   it("renders a deterministic theme bootstrap script without entering neutral exports", () => {

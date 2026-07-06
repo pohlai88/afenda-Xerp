@@ -85,3 +85,9 @@ Every slice closes with:
 - `HOLD`
 - `REJECT`
 ```
+
+## Greenfield baseline status (2026-07-06)
+
+Phases 1–9 and the closing synchronization gate are **complete** for the
+current `@afenda/shadcn-studio-v2` package. Consumer proof:
+`/design-system/v2-proof` in `@afenda/developer`. Ledger: `../MIGRATION-MAP.md`.

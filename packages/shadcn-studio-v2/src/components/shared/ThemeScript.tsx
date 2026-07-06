@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 import type { ComponentProps } from "react";
 import {
   CANONICAL_THEME_TOKEN_NAMES,

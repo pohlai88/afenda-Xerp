@@ -22,6 +22,7 @@ const PACKAGE_ROOT = process.cwd();
 const STYLE_ROOT = path.join(PACKAGE_ROOT, "src", "styles");
 const REQUIRED_STYLE_FILES = [
   "shadcn-default.css",
+  "afenda-brand.css",
   "swiss-noir.css",
   "verdant-noir.css",
 ] as const;

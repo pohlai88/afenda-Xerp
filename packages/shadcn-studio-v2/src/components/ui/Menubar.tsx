@@ -1,84 +1,148 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 "use client";
 
+import { Menu as MenuPrimitive } from "@base-ui/react/menu";
 import { Menubar as MenubarPrimitive } from "@base-ui/react/menubar";
 import { CheckIcon, ChevronRightIcon } from "lucide-react";
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "./DropdownMenu";
 
 export interface MenubarProps
-  extends ComponentProps<typeof MenubarPrimitive.Root> {}
-export interface MenubarMenuProps
-  extends ComponentProps<typeof MenubarPrimitive.Menu> {}
+  extends Omit<ComponentProps<typeof MenubarPrimitive>, "className"> {
+  readonly className?: string | undefined;
+}
+export interface MenubarMenuProps extends ComponentProps<typeof DropdownMenu> {}
 export interface MenubarTriggerProps
-  extends ComponentProps<typeof MenubarPrimitive.Trigger> {}
+  extends Omit<ComponentProps<typeof DropdownMenuTrigger>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface MenubarContentProps
-  extends ComponentProps<typeof MenubarPrimitive.Popup>,
-    Pick<
-      ComponentProps<typeof MenubarPrimitive.Positioner>,
-      "align" | "alignOffset" | "side" | "sideOffset"
-    > {}
+  extends Omit<ComponentProps<typeof DropdownMenuContent>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface MenubarItemProps
-  extends ComponentProps<typeof MenubarPrimitive.Item> {
+  extends Omit<ComponentProps<typeof DropdownMenuItem>, "className"> {
+  readonly className?: string | undefined;
   readonly inset?: boolean;
 }
 export interface MenubarCheckboxItemProps
-  extends ComponentProps<typeof MenubarPrimitive.CheckboxItem> {
+  extends Omit<ComponentProps<typeof MenuPrimitive.CheckboxItem>, "className"> {
+  readonly className?: string | undefined;
   readonly inset?: boolean;
 }
 export interface MenubarRadioGroupProps
-  extends ComponentProps<typeof MenubarPrimitive.RadioGroup> {}
+  extends ComponentProps<typeof DropdownMenuRadioGroup> {}
 export interface MenubarRadioItemProps
-  extends ComponentProps<typeof MenubarPrimitive.RadioItem> {
+  extends Omit<ComponentProps<typeof MenuPrimitive.RadioItem>, "className"> {
+  readonly className?: string | undefined;
   readonly inset?: boolean;
 }
 export interface MenubarLabelProps
-  extends ComponentProps<typeof MenubarPrimitive.GroupLabel> {
+  extends Omit<ComponentProps<typeof DropdownMenuLabel>, "className"> {
+  readonly className?: string | undefined;
   readonly inset?: boolean;
 }
 export interface MenubarSeparatorProps
-  extends ComponentProps<typeof MenubarPrimitive.Separator> {}
-export interface MenubarShortcutProps extends ComponentProps<"span"> {}
+  extends Omit<ComponentProps<typeof DropdownMenuSeparator>, "className"> {
+  readonly className?: string | undefined;
+}
+export interface MenubarShortcutProps
+  extends Omit<ComponentProps<typeof DropdownMenuShortcut>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface MenubarGroupProps
-  extends ComponentProps<typeof MenubarPrimitive.Group> {}
+  extends ComponentProps<typeof DropdownMenuGroup> {}
 export interface MenubarSubProps
-  extends ComponentProps<typeof MenubarPrimitive.SubmenuRoot> {}
+  extends ComponentProps<typeof DropdownMenuSub> {}
 export interface MenubarSubTriggerProps
-  extends ComponentProps<typeof MenubarPrimitive.SubmenuTrigger> {
+  extends Omit<ComponentProps<typeof DropdownMenuSubTrigger>, "className"> {
+  readonly className?: string | undefined;
   readonly inset?: boolean;
 }
-export interface MenubarSubContentProps extends MenubarContentProps {}
+export interface MenubarSubContentProps
+  extends Omit<ComponentProps<typeof DropdownMenuSubContent>, "className"> {
+  readonly className?: string | undefined;
+}
 
-const CONTENT_CLASS =
-  "z-50 min-w-[12rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md";
-const ITEM_CLASS =
-  "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
+const MENUBAR_BASE_CLASS =
+  "flex h-10 items-center space-x-1 rounded-md border border-border bg-background p-1";
+const MENUBAR_TRIGGER_CLASS =
+  "flex cursor-default select-none items-center rounded-sm px-3 py-1.5 font-medium text-sm outline-none transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 data-[popup-open]:bg-accent data-[popup-open]:text-accent-foreground disabled:pointer-events-none disabled:opacity-50";
+const MENUBAR_CONTENT_CLASS =
+  "z-50 min-w-[12rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md outline-none";
+const MENUBAR_ITEM_CLASS =
+  "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus-visible:bg-accent focus-visible:text-accent-foreground data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50";
+const MENUBAR_LABEL_CLASS = "px-2 py-1.5 font-medium text-sm";
+const MENUBAR_SEPARATOR_CLASS = "-mx-1 my-1 h-px bg-border";
+const MENUBAR_SHORTCUT_CLASS =
+  "ml-auto text-muted-foreground text-xs tracking-widest";
+
+export function menubarClassName({
+  className,
+}: {
+  readonly className?: string | undefined;
+} = {}): string {
+  return cn(MENUBAR_BASE_CLASS, className);
+}
+
+export function menubarTriggerClassName({
+  className,
+}: {
+  readonly className?: string | undefined;
+} = {}): string {
+  return cn(MENUBAR_TRIGGER_CLASS, className);
+}
+
+export function menubarContentClassName({
+  className,
+}: {
+  readonly className?: string | undefined;
+} = {}): string {
+  return cn(MENUBAR_CONTENT_CLASS, className);
+}
+
+export function menubarItemClassName({
+  className,
+  inset,
+}: {
+  readonly className?: string | undefined;
+  readonly inset?: boolean | undefined;
+} = {}): string {
+  return cn(MENUBAR_ITEM_CLASS, inset && "pl-8", className);
+}
 
 export function Menubar({ className, ...props }: MenubarProps) {
   return (
-    <MenubarPrimitive.Root
+    <MenubarPrimitive
       {...props}
-      className={cn(
-        "flex h-10 items-center space-x-1 rounded-md border border-border bg-background p-1",
-        typeof className === "string" ? className : undefined
-      )}
+      className={menubarClassName({ className })}
       data-slot="menubar"
     />
   );
 }
 
 export function MenubarMenu({ ...props }: MenubarMenuProps) {
-  return <MenubarPrimitive.Menu {...props} data-slot="menubar-menu" />;
+  return <DropdownMenu {...props} data-slot="menubar-menu" />;
 }
 
 export function MenubarTrigger({ className, ...props }: MenubarTriggerProps) {
   return (
-    <MenubarPrimitive.Trigger
+    <DropdownMenuTrigger
       {...props}
-      className={cn(
-        "flex cursor-default select-none items-center rounded-sm px-3 py-1.5 font-medium text-sm outline-none data-[popup-open]:bg-accent data-[popup-open]:text-accent-foreground",
-        typeof className === "string" ? className : undefined
-      )}
+      className={menubarTriggerClassName({ className })}
       data-slot="menubar-trigger"
     />
   );
@@ -93,37 +157,23 @@ export function MenubarContent({
   ...props
 }: MenubarContentProps) {
   return (
-    <MenubarPrimitive.Portal data-slot="menubar-portal">
-      <MenubarPrimitive.Positioner
-        align={align}
-        alignOffset={alignOffset}
-        className="z-50 outline-none"
-        data-slot="menubar-positioner"
-        side={side}
-        sideOffset={sideOffset}
-      >
-        <MenubarPrimitive.Popup
-          {...props}
-          className={cn(
-            CONTENT_CLASS,
-            typeof className === "string" ? className : undefined
-          )}
-          data-slot="menubar-content"
-        />
-      </MenubarPrimitive.Positioner>
-    </MenubarPrimitive.Portal>
+    <DropdownMenuContent
+      {...props}
+      align={align}
+      alignOffset={alignOffset}
+      className={menubarContentClassName({ className })}
+      data-slot="menubar-content"
+      side={side}
+      sideOffset={sideOffset}
+    />
   );
 }
 
 export function MenubarItem({ className, inset, ...props }: MenubarItemProps) {
   return (
-    <MenubarPrimitive.Item
+    <DropdownMenuItem
       {...props}
-      className={cn(
-        ITEM_CLASS,
-        inset ? "pl-8" : undefined,
-        typeof className === "string" ? className : undefined
-      )}
+      className={menubarItemClassName({ className, inset })}
       data-slot="menubar-item"
     />
   );
@@ -136,29 +186,23 @@ export function MenubarCheckboxItem({
   ...props
 }: MenubarCheckboxItemProps) {
   return (
-    <MenubarPrimitive.CheckboxItem
+    <MenuPrimitive.CheckboxItem
       {...props}
-      className={cn(
-        ITEM_CLASS,
-        inset ? "pl-10" : "pl-8",
-        typeof className === "string" ? className : undefined
-      )}
+      className={cn(MENUBAR_ITEM_CLASS, "pl-8", inset && "pl-10", className)}
       data-slot="menubar-checkbox-item"
     >
       <span className="absolute left-2 flex size-4 items-center justify-center">
-        <MenubarPrimitive.CheckboxItemIndicator data-slot="menubar-checkbox-indicator">
-          <CheckIcon className="size-4" />
-        </MenubarPrimitive.CheckboxItemIndicator>
+        <MenuPrimitive.CheckboxItemIndicator data-slot="menubar-checkbox-indicator">
+          <CheckIcon aria-hidden="true" className="size-4" />
+        </MenuPrimitive.CheckboxItemIndicator>
       </span>
       {children}
-    </MenubarPrimitive.CheckboxItem>
+    </MenuPrimitive.CheckboxItem>
   );
 }
 
 export function MenubarRadioGroup({ ...props }: MenubarRadioGroupProps) {
-  return (
-    <MenubarPrimitive.RadioGroup {...props} data-slot="menubar-radio-group" />
-  );
+  return <DropdownMenuRadioGroup {...props} data-slot="menubar-radio-group" />;
 }
 
 export function MenubarRadioItem({
@@ -168,22 +212,18 @@ export function MenubarRadioItem({
   ...props
 }: MenubarRadioItemProps) {
   return (
-    <MenubarPrimitive.RadioItem
+    <MenuPrimitive.RadioItem
       {...props}
-      className={cn(
-        ITEM_CLASS,
-        inset ? "pl-10" : "pl-8",
-        typeof className === "string" ? className : undefined
-      )}
+      className={cn(MENUBAR_ITEM_CLASS, "pl-8", inset && "pl-10", className)}
       data-slot="menubar-radio-item"
     >
       <span className="absolute left-2 flex size-4 items-center justify-center">
-        <MenubarPrimitive.RadioItemIndicator data-slot="menubar-radio-indicator">
-          <CheckIcon className="size-4" />
-        </MenubarPrimitive.RadioItemIndicator>
+        <MenuPrimitive.RadioItemIndicator data-slot="menubar-radio-indicator">
+          <CheckIcon aria-hidden="true" className="size-4" />
+        </MenuPrimitive.RadioItemIndicator>
       </span>
       {children}
-    </MenubarPrimitive.RadioItem>
+    </MenuPrimitive.RadioItem>
   );
 }
 
@@ -193,13 +233,9 @@ export function MenubarLabel({
   ...props
 }: MenubarLabelProps) {
   return (
-    <MenubarPrimitive.GroupLabel
+    <DropdownMenuLabel
       {...props}
-      className={cn(
-        "px-2 py-1.5 font-medium text-sm",
-        inset ? "pl-8" : undefined,
-        typeof className === "string" ? className : undefined
-      )}
+      className={cn(MENUBAR_LABEL_CLASS, inset && "pl-8", className)}
       data-slot="menubar-label"
     />
   );
@@ -210,12 +246,9 @@ export function MenubarSeparator({
   ...props
 }: MenubarSeparatorProps) {
   return (
-    <MenubarPrimitive.Separator
+    <DropdownMenuSeparator
       {...props}
-      className={cn(
-        "-mx-1 my-1 h-px bg-border",
-        typeof className === "string" ? className : undefined
-      )}
+      className={cn(MENUBAR_SEPARATOR_CLASS, className)}
       data-slot="menubar-separator"
     />
   );
@@ -223,23 +256,20 @@ export function MenubarSeparator({
 
 export function MenubarShortcut({ className, ...props }: MenubarShortcutProps) {
   return (
-    <span
+    <DropdownMenuShortcut
       {...props}
-      className={cn(
-        "ml-auto text-muted-foreground text-xs tracking-widest",
-        className
-      )}
+      className={cn(MENUBAR_SHORTCUT_CLASS, className)}
       data-slot="menubar-shortcut"
     />
   );
 }
 
 export function MenubarGroup({ ...props }: MenubarGroupProps) {
-  return <MenubarPrimitive.Group {...props} data-slot="menubar-group" />;
+  return <DropdownMenuGroup {...props} data-slot="menubar-group" />;
 }
 
 export function MenubarSub({ ...props }: MenubarSubProps) {
-  return <MenubarPrimitive.SubmenuRoot {...props} data-slot="menubar-sub" />;
+  return <DropdownMenuSub {...props} data-slot="menubar-sub" />;
 }
 
 export function MenubarSubTrigger({
@@ -249,18 +279,14 @@ export function MenubarSubTrigger({
   ...props
 }: MenubarSubTriggerProps) {
   return (
-    <MenubarPrimitive.SubmenuTrigger
+    <DropdownMenuSubTrigger
       {...props}
-      className={cn(
-        ITEM_CLASS,
-        inset ? "pl-8" : undefined,
-        typeof className === "string" ? className : undefined
-      )}
+      className={menubarItemClassName({ className, inset })}
       data-slot="menubar-sub-trigger"
     >
       {children}
-      <ChevronRightIcon className="ml-auto size-4" />
-    </MenubarPrimitive.SubmenuTrigger>
+      <ChevronRightIcon aria-hidden="true" className="ml-auto size-4" />
+    </DropdownMenuSubTrigger>
   );
 }
 
@@ -273,11 +299,12 @@ export function MenubarSubContent({
   ...props
 }: MenubarSubContentProps) {
   return (
-    <MenubarContent
+    <DropdownMenuSubContent
       {...props}
       align={align}
       alignOffset={alignOffset}
-      className={className}
+      className={menubarContentClassName({ className })}
+      data-slot="menubar-sub-content"
       side={side}
       sideOffset={sideOffset}
     />

@@ -1,13 +1,146 @@
 /**
  * apps/erp — CSS composition entry (AdminCN / shadcn studio SSOT).
- * Import order matches _reference/.../src/app/globals.css.
- * Theme + polish: @afenda/shadcn-studio-v2/shadcn-default.css
+ * Brand tokens: shadcn-default + afenda-brand overlay.
+ * App-layer reference: @afenda/shadcn-studio-v2/reference/pattern-globals.css
  */
 
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 @import "@afenda/shadcn-studio-v2/shadcn-default.css";
+@import "@afenda/shadcn-studio-v2/themes/afenda-brand.css";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --radius: 0.625rem;
+
+  --success: oklch(0.5 0.1 155);
+  --success-foreground: oklch(0.98 0.005 155);
+  --warning: oklch(0.7 0.12 80);
+  --warning-foreground: oklch(0.25 0.02 80);
+
+  --font-sans: var(--font-geist-sans, ui-sans-serif, system-ui, sans-serif);
+  --font-mono: var(--font-geist-mono, ui-monospace, monospace);
+
+  --leading-tight: 1.3;
+  --leading-normal: 1.6;
+  --leading-relaxed: 1.75;
+
+  --shadow-2xs: 0 1px 1px oklch(0.26 0.007 250 / 0.03);
+  --shadow-xs: 0 1px 2px oklch(0.26 0.007 250 / 0.04);
+  --shadow-sm: 0 1px 3px oklch(0.26 0.007 250 / 0.06), 0 1px 2px oklch(0.26 0.007 250 / 0.04);
+  --shadow-md: 0 4px 8px oklch(0.26 0.007 250 / 0.06), 0 2px 4px oklch(0.26 0.007 250 / 0.04);
+  --shadow-lg: 0 12px 24px oklch(0.26 0.007 250 / 0.08), 0 4px 8px oklch(0.26 0.007 250 / 0.04);
+  --shadow-xl: 0 24px 48px oklch(0.26 0.007 250 / 0.1), 0 8px 16px oklch(0.26 0.007 250 / 0.05);
+  --shadow-2xl: 0 32px 64px oklch(0.26 0.007 250 / 0.12), 0 12px 24px oklch(0.26 0.007 250 / 0.06);
+
+  --duration-fast: 120ms;
+  --duration-base: 220ms;
+  --duration-slow: 320ms;
+  --ease-calm: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.dark {
+  --success: oklch(0.65 0.11 155);
+  --success-foreground: oklch(0.15 0.02 155);
+  --warning: oklch(0.75 0.12 80);
+  --warning-foreground: oklch(0.2 0.02 80);
+
+  --shadow-2xs: 0 1px 1px oklch(0 0 0 / 0.15);
+  --shadow-xs: 0 1px 2px oklch(0 0 0 / 0.2);
+  --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.28), 0 1px 2px oklch(0 0 0 / 0.2);
+  --shadow-md: 0 4px 8px oklch(0 0 0 / 0.3), 0 2px 4px oklch(0 0 0 / 0.2);
+  --shadow-lg: 0 12px 24px oklch(0 0 0 / 0.35), 0 4px 8px oklch(0 0 0 / 0.2);
+  --shadow-xl: 0 24px 48px oklch(0 0 0 / 0.4), 0 8px 16px oklch(0 0 0 / 0.25);
+  --shadow-2xl: 0 32px 64px oklch(0 0 0 / 0.45), 0 12px 24px oklch(0 0 0 / 0.3);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --shadow-2xs: var(--shadow-2xs);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+
+  --ease-calm: var(--ease-calm);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: color-mix(in oklch, var(--ring) 50%, transparent);
+  }
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    line-height: var(--leading-normal);
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    line-height: var(--leading-tight);
+    letter-spacing: -0.01em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
 
 .auth-pixel-shell {
   position: absolute;

@@ -32,6 +32,28 @@ pnpm check:package-css-dist-sync
 
 Import order matters: Tailwind and shadcn base first, then package token sheet, then optional theme overlay.
 
+## Theme tiers
+
+| Tier | Artifacts | ERP default? |
+| --- | --- | --- |
+| **L0 Canonical** | `shadcn-default.css` + `theme-config` `shadcn-default` (`kind: default`) | Yes |
+| **L1 Reference presets** | `admincn-theme-presets.ts` → `ThemeProvider` (`kind: reference`) | No |
+| **L1 Editorial presets** | `editorial-theme-presets.ts` + optional `themes/swiss-noir.css` / `verdant-noir.css` (`kind: editorial`) | No — opt-in for lab/editorial |
+
+ERP [`globals.css`](../../../apps/erp/src/app/globals.css) imports **shadcn-default only**. Developer lab imports [`reference/pattern-globals.css`](../../../packages/shadcn-studio-v2/reference/pattern-globals.css).
+
+## App-layer reference (`pattern-globals.css`)
+
+Non-authoritative calm-operator stack at `packages/shadcn-studio-v2/reference/pattern-globals.css`:
+
+```css
+@import "@afenda/shadcn-studio-v2/reference/pattern-globals.css";
+@source "../**/*.{ts,tsx}";
+@source "../../../../packages/shadcn-studio-v2/src/**/*.{ts,tsx}";
+```
+
+Includes: canonical import, value overrides, `@theme inline`, base comfort rules. Apps add `@source` locally — do not fork token architecture.
+
 ## Theme Config (TypeScript)
 
 Theme IDs, preset metadata, and canonical token name lists live in:
@@ -42,10 +64,12 @@ packages/shadcn-studio-v2/src/configs/theme-config.ts
 
 Runtime theme switching uses `ThemeProvider` (`@afenda/shadcn-studio-v2/clients`): toggles `.dark`, injects inline tokens for non-default themes. Storage key: `afenda-studio-v2-theme`.
 
-CSS overlays for brand themes:
+CSS overlays for **editorial** presets (static import after default):
 
-- `src/styles/swiss-noir.css`
-- `src/styles/verdant-noir.css`
+- `src/styles/swiss-noir.css` — runtime SSOT: `configs/editorial-theme-presets.ts`
+- `src/styles/verdant-noir.css` — same
+
+Reference presets use `configs/admincn-theme-presets.ts` (runtime only, no CSS export).
 
 Do not use legacy `theme-manifest.json` — V2 registers themes in `theme-config.ts` plus CSS files under `src/styles/`.
 
@@ -91,6 +115,7 @@ Avoid duplicating `@source` in package CSS — keep detection at the consuming a
 | Change | Gate |
 | --- | --- |
 | Token or theme CSS | `pnpm --filter @afenda/shadcn-studio-v2 check:drift` |
+| Biome suppressions (PascalCase / barrels) | `pnpm --filter @afenda/shadcn-studio-v2 check:biome-suppressions` · fix: `pnpm studio:v2:normalize-biome` |
 | Contrast-sensitive tokens | `pnpm --filter @afenda/shadcn-studio-v2 check:apca` |
 | Any package CSS edit | `pnpm sync:package-css-dist` + `pnpm check:package-css-dist-sync` |
 | Full package | `pnpm --filter @afenda/shadcn-studio-v2 quality` |

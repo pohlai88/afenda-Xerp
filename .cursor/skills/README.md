@@ -88,10 +88,10 @@ All commands: `disable-model-invocation: true`.
 | --- | --- | --- | --- | --- |
 | `shadcn-studio` | UI MCP | `packages/shadcn-studio/**`, `apps/erp/**`, `apps/storybook/**` | MCP install, blocks, ERP wiring | `pnpm --filter @afenda/shadcn-studio typecheck`, `pnpm check:studio-metadata-binding` |
 | `afenda-primitive-contract` | UI authority | `packages/shadcn-studio/src/components-ui/**` | Primitive contract + M1–M10 mismatch E0 · `pnpm studio:shadcn` | `pnpm check:studio-primitive-contracts` |
-| `afenda-react-surface-quality` | UI review | `apps/erp/**`, `packages/shadcn-studio/**` | ERP React/TS B→A→T scan · refactor proof | `pnpm typecheck`, `pnpm test:interaction` |
+| `afenda-react-surface-quality` | UI review (redirect) | `apps/erp/**` | Redirect → `afenda-erp-design-system` surface-quality-scan | — |
 | `afenda-presentation-quality` | UI composer | `apps/erp/**`, `packages/shadcn-studio/**` | PAS-006 gate bundle · Phase 1 CSS doctrine · replaces retired ui-consistency-bundle | PAS-006 gates (see skill) |
 | `afenda-tailwind` | Afenda domain | `**/*.css`, `apps/erp/**`, `packages/shadcn-studio/**` | PAS-006 Phase 1 Tailwind · import-only globals.css | `pnpm quality:css`, `pnpm check:downstream-integration` |
-| `afenda-erp-design-system` | Afenda domain | `packages/shadcn-studio-v2/**`, `apps/erp/**`, `apps/developer/**`, `apps/storybook/**` | V2 design-system strategy · layers · KISS/DRY · ERP operator UI foundations (ADR-0027) | — |
+| `afenda-erp-design-system` | Afenda domain | `packages/shadcn-studio-v2/**`, `apps/erp/**`, `apps/developer/**`, `apps/storybook/**` | V2 design system · composition · react-best-practices · surface B/A/C/Y/T · operator UI | — |
 | `afenda-phase-3-primitive-layer` | Afenda domain | `packages/shadcn-studio-v2/src/components/ui/**` | Phase 3 V2 primitives (Button, Badge, Card, Alert, Field, Table) — typed props, token-safe, test-proven | `pnpm --filter @afenda/shadcn-studio-v2 test:run` |
 | `afenda-shadcn-performance` | Afenda domain | `apps/erp/**`, `packages/shadcn-studio/**`, `apps/storybook/**` | Bundle, lazy-load, CVA, Tailwind JIT + React perf synergy | `pnpm --filter @afenda/erp analyze`, typecheck, build |
 | `package-css-dist-sync` | UI infra | `packages/shadcn-studio/src/styles/**` | shadcn-studio CSS dist sync | `pnpm check:package-css-dist-sync` |

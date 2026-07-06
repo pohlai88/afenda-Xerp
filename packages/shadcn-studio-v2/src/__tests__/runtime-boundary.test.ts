@@ -39,6 +39,7 @@ describe("shadcn-studio-v2 config and runtime boundary", () => {
   it("keeps the public theme contract identity-only", () => {
     expectTypeOf<StudioThemeId>().toEqualTypeOf<
       | "shadcn-default"
+      | "afenda-brand"
       | "caffeine"
       | "claude"
       | "corporate"
@@ -108,6 +109,7 @@ describe("shadcn-studio-v2 config and runtime boundary", () => {
   it("keeps theme config defaults valid without selector authority", () => {
     const approvedThemeIds = [
       "shadcn-default",
+      "afenda-brand",
       "caffeine",
       "claude",
       "corporate",
@@ -124,7 +126,7 @@ describe("shadcn-studio-v2 config and runtime boundary", () => {
     ] as const;
     const themeIds = studioThemeConfig.themes.map((theme) => theme.id);
 
-    expect(studioThemeConfig.defaultThemeId).toBe("shadcn-default");
+    expect(studioThemeConfig.defaultThemeId).toBe("afenda-brand");
     expect(Object.hasOwn(studioThemeConfig, "themeAttribute")).toBe(false);
     expect(studioThemeConfig.defaultMode).toBe("system");
     expect(studioThemeConfig.darkClassName).toBe("dark");

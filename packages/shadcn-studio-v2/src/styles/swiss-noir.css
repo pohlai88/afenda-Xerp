@@ -1,8 +1,7 @@
 /*
- * Swiss Noir theme.
- * Static token override only.
- * Import this file after shadcn-default.css and do not import another
- * noir theme file in the same CSS entry.
+ * Swiss Noir editorial theme preset — static CSS overlay.
+ * Runtime SSOT: src/configs/editorial-theme-presets.ts (swiss-noir).
+ * Import after shadcn-default.css; do not import another noir theme in the same entry.
  * Do not add imports, @theme, @layer, component selectors,
  * layout selectors, or non-canonical token families.
  */

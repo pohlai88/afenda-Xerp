@@ -38,7 +38,9 @@ Run on interactive primitives during E0 or gold promotion.
 | **P7** | `rerender-memo-with-default-value` | Default non-primitive props (`[]`, `{}`, `() => {}`) hoisted to module constants | — |
 | **P8** | `rendering-hoist-jsx` | Optional: module-scope static decorative nodes if profiling shows cost — not required for gold | — |
 
-**Not in scope for primitive adapters:** `async-*`, `server-*`, `client-swr-*` — route to `afenda-react-surface-quality` for ERP pages.
+**Not in scope for primitive adapters:** `async-*`, `server-*`, `client-swr-*` — route to [afenda-erp-design-system/references/surface-quality-scan.md](../../afenda-erp-design-system/references/surface-quality-scan.md) for ERP pages.
+
+**V2 (`@afenda/shadcn-studio-v2`):** authoritative guide is [afenda-erp-design-system/references/react-best-practices.md](../../afenda-erp-design-system/references/react-best-practices.md). This bridge remains for v1 `afenda-primitive-contract` adapters.
 
 ---
 
@@ -137,4 +139,4 @@ Read `react-best-practices` when:
 - Inline styles appear in primitive TSX
 - ERP bundle audit flags `@afenda/shadcn-studio` barrel on hot routes
 
-Do **not** replace `afenda-primitive-contract` or `afenda-react-surface-quality` — this bridge covers **adapter micro-patterns** only.
+Do **not** replace `afenda-primitive-contract` — v1 adapter micro-patterns only. V2 + ERP surfaces: `afenda-erp-design-system`.

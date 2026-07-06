@@ -138,6 +138,12 @@ runStep("TypeScript", workspaceBin("tsc"), [
 runStep("Route-lab governance", process.execPath, [
   "apps/developer/scripts/check-route-lab-governance.mjs",
 ]);
+runStep("Presentation runtime boundary", process.execPath, [
+  "apps/developer/scripts/check-developer-presentation-runtime.mjs",
+]);
+runStep("Hydration governance", process.execPath, [
+  "apps/developer/scripts/check-developer-hydration-governance.mjs",
+]);
 runStep("Next build", appBin("next"), ["build"], {
   cwd: developerRoot,
   env: {

@@ -214,6 +214,14 @@ describe("shadcn-studio-v2 taxonomy", () => {
     expect(configs).not.toContain("studioConfig.ts");
   });
 
+  it("does not use per-file biome-ignore for package-owned suppressions", async () => {
+    const policy = await import(
+      "../../../../scripts/studio/shadcn-studio-v2-biome-suppression-policy.mjs"
+    );
+
+    expect(policy.findRedundantV2BiomeSuppressions()).toEqual([]);
+  });
+
   it("matches the approved taxonomy tree snapshot", () => {
     expect(buildTree(SRC_ROOT).join("\n")).toMatchInlineSnapshot(`
       "clients.ts
@@ -232,26 +240,49 @@ describe("shadcn-studio-v2 taxonomy", () => {
           ThemeToggle.tsx
           theme-customizer.tsx
         ui/
+          Accordion.tsx
           Alert.tsx
+          AlertDialog.tsx
+          Avatar.tsx
           Badge.tsx
+          Breadcrumb.tsx
           Button.tsx
           Card.tsx
           Checkbox.tsx
+          Collapsible.tsx
+          Combobox.tsx
+          Command.tsx
+          ContextMenu.tsx
           Dialog.tsx
+          Drawer.tsx
           DropdownMenu.tsx
           Field.tsx
+          HoverCard.tsx
           Input.tsx
+          InputOtp.tsx
           Label.tsx
+          Menubar.tsx
+          NavigationMenu.tsx
+          NumberField.tsx
+          Pagination.tsx
           Popover.tsx
+          Progress.tsx
           RadioGroup.tsx
+          ScrollArea.tsx
           Select.tsx
+          Separator.tsx
+          Sheet.tsx
+          Skeleton.tsx
           Switch.tsx
           Table.tsx
           Tabs.tsx
           Textarea.tsx
+          Toggle.tsx
+          ToggleGroup.tsx
           Tooltip.tsx
       configs/
         admincn-theme-presets.ts
+        editorial-theme-presets.ts
         studio-config.ts
         theme-config.ts
       contexts/
@@ -279,6 +310,7 @@ describe("shadcn-studio-v2 taxonomy", () => {
         fixtures/
           consumer-pilot.tsx
       styles/
+        afenda-brand.css
         shadcn-default.css
         swiss-noir.css
         verdant-noir.css

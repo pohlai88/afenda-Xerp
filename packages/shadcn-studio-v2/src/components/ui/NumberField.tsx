@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 "use client";
 
 import { NumberField as NumberFieldPrimitive } from "@base-ui/react/number-field";
@@ -6,25 +5,64 @@ import { MinusIcon, PlusIcon } from "lucide-react";
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 import { buttonClassName } from "./Button";
+import { inputClassName } from "./Input";
 
 export interface NumberFieldProps
-  extends ComponentProps<typeof NumberFieldPrimitive.Root> {}
+  extends Omit<ComponentProps<typeof NumberFieldPrimitive.Root>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface NumberFieldGroupProps extends ComponentProps<"div"> {}
 export interface NumberFieldInputProps
-  extends ComponentProps<typeof NumberFieldPrimitive.Input> {}
+  extends Omit<ComponentProps<typeof NumberFieldPrimitive.Input>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface NumberFieldIncrementProps
-  extends ComponentProps<typeof NumberFieldPrimitive.Increment> {}
+  extends Omit<
+    ComponentProps<typeof NumberFieldPrimitive.Increment>,
+    "className"
+  > {
+  readonly className?: string | undefined;
+}
 export interface NumberFieldDecrementProps
-  extends ComponentProps<typeof NumberFieldPrimitive.Decrement> {}
+  extends Omit<
+    ComponentProps<typeof NumberFieldPrimitive.Decrement>,
+    "className"
+  > {
+  readonly className?: string | undefined;
+}
+
+const NUMBER_FIELD_BASE_CLASS = "grid gap-2";
+const NUMBER_FIELD_GROUP_CLASS = "flex items-center";
+
+export function numberFieldClassName({
+  className,
+}: {
+  readonly className?: string | undefined;
+} = {}): string {
+  return cn(NUMBER_FIELD_BASE_CLASS, className);
+}
+
+export function numberFieldGroupClassName({
+  className,
+}: {
+  readonly className?: string | undefined;
+} = {}): string {
+  return cn(NUMBER_FIELD_GROUP_CLASS, className);
+}
+
+export function numberFieldInputClassName({
+  className,
+}: {
+  readonly className?: string | undefined;
+} = {}): string {
+  return inputClassName({ className });
+}
 
 export function NumberField({ className, ...props }: NumberFieldProps) {
   return (
     <NumberFieldPrimitive.Root
       {...props}
-      className={cn(
-        "grid gap-2",
-        typeof className === "string" ? className : undefined
-      )}
+      className={numberFieldClassName({ className })}
       data-slot="number-field"
     />
   );
@@ -37,7 +75,7 @@ export function NumberFieldGroup({
   return (
     <div
       {...props}
-      className={cn("flex items-center", className)}
+      className={numberFieldGroupClassName({ className })}
       data-slot="number-field-group"
     />
   );
@@ -50,10 +88,7 @@ export function NumberFieldInput({
   return (
     <NumberFieldPrimitive.Input
       {...props}
-      className={cn(
-        "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        typeof className === "string" ? className : undefined
-      )}
+      className={numberFieldInputClassName({ className })}
       data-slot="number-field-input"
     />
   );
@@ -68,16 +103,13 @@ export function NumberFieldIncrement({
     <NumberFieldPrimitive.Increment
       {...props}
       className={buttonClassName({
-        className: cn(
-          "ml-2 size-10 p-0",
-          typeof className === "string" ? className : undefined
-        ),
+        className: cn("ml-2 size-10 p-0", className),
         size: "icon",
         variant: "outline",
       })}
       data-slot="number-field-increment"
     >
-      {children ?? <PlusIcon className="size-4" />}
+      {children ?? <PlusIcon aria-hidden="true" className="size-4" />}
     </NumberFieldPrimitive.Increment>
   );
 }
@@ -91,16 +123,13 @@ export function NumberFieldDecrement({
     <NumberFieldPrimitive.Decrement
       {...props}
       className={buttonClassName({
-        className: cn(
-          "mr-2 size-10 p-0",
-          typeof className === "string" ? className : undefined
-        ),
+        className: cn("mr-2 size-10 p-0", className),
         size: "icon",
         variant: "outline",
       })}
       data-slot="number-field-decrement"
     >
-      {children ?? <MinusIcon className="size-4" />}
+      {children ?? <MinusIcon aria-hidden="true" className="size-4" />}
     </NumberFieldPrimitive.Decrement>
   );
 }

@@ -46,8 +46,8 @@ Filesystem deleted: `.cursor/skills/_retired/legacy-ui/` tree, `.cursor/skills/u
 | `afenda-shadcn-components` | `shadcn-studio` |
 | `css-authority` | `afenda-tailwind` + PAS-006 presentation docs |
 | `afenda-accessibility` | vendor `web-accessibility` |
-| `react-erp-quality` | `afenda-react-surface-quality` |
-| `enterprise-frontend-audit` | `afenda-presentation-quality` + `afenda-react-surface-quality` + `/afenda-webperf` |
+| `react-erp-quality` | `afenda-erp-design-system` (surface-quality-scan) |
+| `enterprise-frontend-audit` | `afenda-presentation-quality` + `afenda-erp-design-system` + `/afenda-webperf` |
 | `shadcn-studio-authority` | `shadcn-studio` |
 | `ui-primitive-refactor` agent | `afenda-primitive-contract` + `@afenda-governed-implementer` |
 | `@afenda/ui`, `@afenda/appshell`, `@afenda/metadata-ui` | `@afenda/shadcn-studio` (ADR-0027) |
@@ -83,7 +83,7 @@ Retained for coding reference even without heavy Afenda wiring:
 | Skill / agent | Status | Added |
 | --- | --- | --- |
 | `afenda-tailwind` | **keep** | 2026-06-29 consolidated; **reinstated PAS-006 Phase 1** 2026-06-30 (replaces retired legacy-ui copy) |
-| `afenda-erp-design-system` | **keep** | 2026-07-06 — V2 design-system strategy · layers · fundamentals/playbook references · auto-route via `paths` on studio-v2 + ERP surfaces |
+| `afenda-erp-design-system` | **keep** | 2026-07-06 — V2 design system · composition · react-best-practices · surface-quality-scan (consolidates afenda-react-surface-quality) · operator-ui-quality |
 | `afenda-phase-3-primitive-layer` | **keep** | 2026-07-06 — Phase 3 V2 primitives (Button–Table); pairs with `afenda-erp-design-system` |
 | `erp-module-foundation-authority` | **keep** | 2026-06-30 — PAS-001C module foundation authority |
 | `afenda-storybook-agentic-setup` | **keep** | 2026-07-03 — Storybook 10.4 agentic pilot rebuild |
@@ -92,7 +92,7 @@ Retained for coding reference even without heavy Afenda wiring:
 | `shadcncraft-import-variables` | **keep** | 2026-07-06 — Figma variables → globals.css managed region |
 | `afenda-presentation-quality` | **keep** | 2026-06-30 — PAS-006 composer; Phase 1 CSS doctrine; replaces ui-consistency-bundle |
 | `afenda-primitive-contract` | **keep** | 2026-07-02 — components-ui 2-file contract + M1–M10 mismatch frame + `check:studio-primitive-contracts` |
-| `afenda-react-surface-quality` | **keep** | 2026-06-30 — ERP React B→A→T scan; vendor index on failure |
+| `afenda-react-surface-quality` | **redirect** | 2026-07-06 — consolidated into `afenda-erp-design-system`; stub only |
 | `afenda-shadcn-performance` | **keep** | 2026-06-30 — shadcn + Tailwind v4 + React synergy; bundle analyze wired in apps/erp |
 | `enterprise-architecture-audit` | **keep** | 2026-06-28 — read-only full-stack platform audit |
 | `enterprise-architecture-auditor` | **keep** | 2026-06-28 — phase worker agent |

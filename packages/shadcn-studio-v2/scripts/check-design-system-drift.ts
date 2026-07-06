@@ -1,6 +1,7 @@
 import { existsSync } from "node:fs";
 import { readdir, readFile, stat } from "node:fs/promises";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
 
 interface DriftViolation {
   readonly detail: string;
@@ -68,14 +69,20 @@ const PACKAGE_JSON_PATH = path.join(PACKAGE_ROOT, "package.json");
 
 const REQUIRED_STYLE_FILES = [
   "shadcn-default.css",
+  "afenda-brand.css",
   "swiss-noir.css",
   "verdant-noir.css",
 ] as const;
 
-const THEME_STYLE_FILES = ["swiss-noir.css", "verdant-noir.css"] as const;
+const THEME_STYLE_FILES = [
+  "afenda-brand.css",
+  "swiss-noir.css",
+  "verdant-noir.css",
+] as const;
 const DEFAULT_STYLE_FILE = "shadcn-default.css";
 const REQUIRED_CSS_EXPORTS = {
   "./shadcn-default.css": "./dist/shadcn-default.css",
+  "./themes/afenda-brand.css": "./dist/themes/afenda-brand.css",
   "./themes/swiss-noir.css": "./dist/themes/swiss-noir.css",
   "./themes/verdant-noir.css": "./dist/themes/verdant-noir.css",
 } as const;
@@ -990,6 +997,25 @@ const checkHardcodedHex = async (): Promise<DriftViolation[]> => {
   return violations;
 };
 
+const checkRedundantBiomeSuppressions = async (): Promise<DriftViolation[]> => {
+  const policyPath = path.join(
+    REPO_ROOT,
+    "scripts/studio/shadcn-studio-v2-biome-suppression-policy.mjs"
+  );
+  const policy = (await import(pathToFileURL(policyPath).href)) as {
+    findRedundantV2BiomeSuppressions: () => Array<{
+      detail: string;
+      file: string;
+    }>;
+  };
+
+  return policy.findRedundantV2BiomeSuppressions().map((violation) => ({
+    rule: "redundant-biome-suppression",
+    file: violation.file,
+    detail: violation.detail,
+  }));
+};
+
 const checks = [
   checkCssTokenAuthority,
   checkTailwindV4ShadcnBoundary,
@@ -1000,6 +1026,7 @@ const checks = [
   checkConsumerDeepImports,
   checkLegacyFolders,
   checkHardcodedHex,
+  checkRedundantBiomeSuppressions,
 ] satisfies ReadonlyArray<() => Promise<DriftViolation[]>>;
 
 const main = async (): Promise<void> => {

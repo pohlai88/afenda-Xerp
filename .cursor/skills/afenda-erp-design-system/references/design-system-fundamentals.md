@@ -33,7 +33,7 @@ Every promoted primitive or view should meet:
 
 - **Accessible** — keyboard, focus, ARIA, and reduced-motion respect.
 - **Token-bound** — semantic CSS variables (`bg-primary`, `text-muted-foreground`); no ad-hoc hex in components.
-- **Composable** — slots and variants explicit; business data passed as props at the app layer.
+- **Composable** — slots and variants explicit; compound named exports over boolean behavior props; see [react-composition-patterns.md](react-composition-patterns.md).
 - **Tested** — unit or interaction tests when behavior is non-trivial; Storybook for visual states.
 - **Exported** — only through `index.ts`, `clients.ts`, `server.ts`, or `metadata.ts` root boundaries.
 - **Taxonomy-clean** — folder and file names match `docs/TAXONOMY.md`; no legacy `components-ui`, `blocks`, or unregistered folders.
@@ -76,6 +76,7 @@ Stop and escalate before:
 | MCP install, promotion, PAS-006 manufacturing | `shadcn-studio` |
 | Phase 1 `globals.css`, `@source`, `@theme inline` | `afenda-tailwind` |
 | Full ERP presentation gate bundle | `afenda-presentation-quality` |
+| ERP React surface scan (B/A/C/Y/T) | `afenda-erp-design-system` → [surface-quality-scan.md](surface-quality-scan.md) |
 | CSS dist sync policy | `package-css-dist-sync` |
 | Editorial / Swiss Noir / Verdant | `afenda-editorial-bundle` |
 | Implementer file edits | `coding-consistency-bundle` + `afenda-coding-session` |

@@ -47,23 +47,36 @@
       "types": "./dist/themes/verdant-noir.css.d.ts",
       "import": "./dist/themes/verdant-noir.css",
       "default": "./dist/themes/verdant-noir.css"
+    },
+    "./themes/afenda-brand.css": {
+      "types": "./dist/themes/afenda-brand.css.d.ts",
+      "import": "./dist/themes/afenda-brand.css",
+      "default": "./dist/themes/afenda-brand.css"
+    },
+    "./reference/pattern-globals.css": {
+      "import": "./reference/pattern-globals.css",
+      "default": "./reference/pattern-globals.css"
     }
   },
   "scripts": {
-    "build": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.json && node --input-type=module -e \"import { copyFileSync, mkdirSync } from 'node:fs'; mkdirSync('dist/themes', { recursive: true }); copyFileSync('src/styles/shadcn-default.css', 'dist/shadcn-default.css'); copyFileSync('src/types/css-export.d.ts', 'dist/shadcn-default.css.d.ts'); copyFileSync('src/styles/swiss-noir.css', 'dist/themes/swiss-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/swiss-noir.css.d.ts'); copyFileSync('src/styles/verdant-noir.css', 'dist/themes/verdant-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/verdant-noir.css.d.ts');\"",
+    "build": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.json && node --input-type=module -e \"import { copyFileSync, mkdirSync } from 'node:fs'; mkdirSync('dist/themes', { recursive: true }); copyFileSync('src/styles/shadcn-default.css', 'dist/shadcn-default.css'); copyFileSync('src/types/css-export.d.ts', 'dist/shadcn-default.css.d.ts'); copyFileSync('src/styles/swiss-noir.css', 'dist/themes/swiss-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/swiss-noir.css.d.ts'); copyFileSync('src/styles/verdant-noir.css', 'dist/themes/verdant-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/verdant-noir.css.d.ts'); copyFileSync('src/styles/afenda-brand.css', 'dist/themes/afenda-brand.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/afenda-brand.css.d.ts');\"",
     "check:apca": "tsx scripts/check-theme-apca.ts",
     "check:drift": "tsx scripts/check-design-system-drift.ts",
+    "check:biome-suppressions": "node ../../scripts/studio/normalize-shadcn-studio-v2-biome-suppressions.mjs --check",
+    "normalize:biome": "node ../../scripts/studio/normalize-shadcn-studio-v2-biome-suppressions.mjs --write",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\"",
-    "quality": "pnpm check:drift && pnpm check:apca && pnpm test && pnpm typecheck && pnpm build",
+    "quality": "pnpm check:biome-suppressions && pnpm check:drift && pnpm check:apca && pnpm test && pnpm typecheck && pnpm build",
     "test": "vitest run",
     "test:taxonomy": "vitest run src/__tests__/taxonomy.test.ts",
+    "test:primitives": "vitest run src/__tests__/primitive-baseline.test.ts src/__tests__/primitive-api-consistency.test.ts src/__tests__/primitive-extension.test.ts",
     "test:watch": "vitest",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "sideEffects": [
     "./dist/shadcn-default.css",
     "./dist/themes/swiss-noir.css",
-    "./dist/themes/verdant-noir.css"
+    "./dist/themes/verdant-noir.css",
+    "./dist/themes/afenda-brand.css"
   ],
   "dependencies": {
     "@base-ui/react": "^1.6.0",

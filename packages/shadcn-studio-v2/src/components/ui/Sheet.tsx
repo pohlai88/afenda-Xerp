@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 "use client";
 
 import { Drawer as DrawerPrimitive } from "@base-ui/react/drawer";
@@ -16,18 +15,31 @@ export interface SheetPortalProps
 export interface SheetCloseProps
   extends ComponentProps<typeof DrawerPrimitive.Close> {}
 export interface SheetOverlayProps
-  extends ComponentProps<typeof DrawerPrimitive.Backdrop> {}
+  extends Omit<ComponentProps<typeof DrawerPrimitive.Backdrop>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface SheetContentProps
-  extends ComponentProps<typeof DrawerPrimitive.Popup> {
-  readonly showCloseButton?: boolean;
+  extends Omit<ComponentProps<typeof DrawerPrimitive.Popup>, "className"> {
+  readonly className?: string | undefined;
   readonly side?: "bottom" | "left" | "right" | "top";
+}
+export interface SheetCloseButtonProps
+  extends Omit<ComponentProps<typeof DrawerPrimitive.Close>, "className"> {
+  readonly className?: string | undefined;
 }
 export interface SheetHeaderProps extends ComponentProps<"div"> {}
 export interface SheetFooterProps extends ComponentProps<"div"> {}
 export interface SheetTitleProps
-  extends ComponentProps<typeof DrawerPrimitive.Title> {}
+  extends Omit<ComponentProps<typeof DrawerPrimitive.Title>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface SheetDescriptionProps
-  extends ComponentProps<typeof DrawerPrimitive.Description> {}
+  extends Omit<
+    ComponentProps<typeof DrawerPrimitive.Description>,
+    "className"
+  > {
+  readonly className?: string | undefined;
+}
 
 const SHEET_SIDE_CLASSES = {
   bottom: "inset-x-0 bottom-0 border-t",
@@ -35,6 +47,39 @@ const SHEET_SIDE_CLASSES = {
   right: "inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm",
   top: "inset-x-0 top-0 border-b",
 } as const;
+const SHEET_CLOSE_BUTTON_CLASS = "absolute top-4 right-4 size-8 p-0";
+
+export function sheetOverlayClassName({
+  className,
+}: {
+  readonly className?: string | undefined;
+} = {}): string {
+  return cn("fixed inset-0 z-50 bg-black/50", className);
+}
+
+export function sheetContentClassName({
+  className,
+  side = "right",
+}: {
+  readonly className?: string | undefined;
+  readonly side?: SheetContentProps["side"];
+} = {}): string {
+  return cn(
+    "fixed z-50 gap-4 bg-background p-6 shadow-lg",
+    SHEET_SIDE_CLASSES[side],
+    className
+  );
+}
+
+export function sheetCloseButtonClassName({
+  className,
+}: Pick<SheetCloseButtonProps, "className"> = {}): string {
+  return buttonClassName({
+    className: cn(SHEET_CLOSE_BUTTON_CLASS, className),
+    size: "icon",
+    variant: "ghost",
+  });
+}
 
 export function Sheet({ ...props }: SheetProps) {
   return <DrawerPrimitive.Root {...props} data-slot="sheet" />;
@@ -56,10 +101,7 @@ export function SheetOverlay({ className, ...props }: SheetOverlayProps) {
   return (
     <DrawerPrimitive.Backdrop
       {...props}
-      className={cn(
-        "fixed inset-0 z-50 bg-black/50",
-        typeof className === "string" ? className : undefined
-      )}
+      className={sheetOverlayClassName({ className })}
       data-slot="sheet-overlay"
     />
   );
@@ -68,7 +110,6 @@ export function SheetOverlay({ className, ...props }: SheetOverlayProps) {
 export function SheetContent({
   children,
   className,
-  showCloseButton = true,
   side = "right",
   ...props
 }: SheetContentProps) {
@@ -77,30 +118,29 @@ export function SheetContent({
       <SheetOverlay />
       <DrawerPrimitive.Popup
         {...props}
-        className={cn(
-          "fixed z-50 gap-4 bg-background p-6 shadow-lg",
-          SHEET_SIDE_CLASSES[side],
-          typeof className === "string" ? className : undefined
-        )}
+        className={sheetContentClassName({ className, side })}
         data-side={side}
         data-slot="sheet-content"
       >
         {children}
-        {showCloseButton ? (
-          <DrawerPrimitive.Close
-            aria-label="Close"
-            className={buttonClassName({
-              className: "absolute top-4 right-4 size-8 p-0",
-              size: "icon",
-              variant: "ghost",
-            })}
-            data-slot="sheet-close"
-          >
-            <XIcon className="size-4" />
-          </DrawerPrimitive.Close>
-        ) : null}
       </DrawerPrimitive.Popup>
     </SheetPortal>
+  );
+}
+
+export function SheetCloseButton({
+  className,
+  ...props
+}: SheetCloseButtonProps) {
+  return (
+    <DrawerPrimitive.Close
+      {...props}
+      aria-label={props["aria-label"] ?? "Close"}
+      className={sheetCloseButtonClassName({ className })}
+      data-slot="sheet-close-button"
+    >
+      <XIcon aria-hidden="true" className="size-4" />
+    </DrawerPrimitive.Close>
   );
 }
 
@@ -131,10 +171,7 @@ export function SheetTitle({ className, ...props }: SheetTitleProps) {
   return (
     <DrawerPrimitive.Title
       {...props}
-      className={cn(
-        "font-semibold text-foreground",
-        typeof className === "string" ? className : undefined
-      )}
+      className={cn("font-semibold text-foreground", className)}
       data-slot="sheet-title"
     />
   );
@@ -147,10 +184,7 @@ export function SheetDescription({
   return (
     <DrawerPrimitive.Description
       {...props}
-      className={cn(
-        "text-muted-foreground text-sm",
-        typeof className === "string" ? className : undefined
-      )}
+      className={cn("text-muted-foreground text-sm", className)}
       data-slot="sheet-description"
     />
   );

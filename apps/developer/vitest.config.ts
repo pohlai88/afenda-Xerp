@@ -17,6 +17,27 @@ export default defineConfig({
         replacement: resolve(appRoot, "src"),
       },
       {
+        find: "@afenda/shadcn-studio-v2/clients",
+        replacement: resolve(
+          monorepoRoot,
+          "packages/shadcn-studio-v2/src/clients.ts"
+        ),
+      },
+      {
+        find: "@afenda/shadcn-studio-v2/theme",
+        replacement: resolve(
+          monorepoRoot,
+          "packages/shadcn-studio-v2/src/contexts/theme-boundary.ts"
+        ),
+      },
+      {
+        find: "@afenda/shadcn-studio-v2",
+        replacement: resolve(
+          monorepoRoot,
+          "packages/shadcn-studio-v2/src/index.ts"
+        ),
+      },
+      {
         find: "next/link",
         replacement: resolve(testingRoot, "mocks/next-link.tsx"),
       },

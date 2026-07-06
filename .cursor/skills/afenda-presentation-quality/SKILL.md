@@ -24,7 +24,7 @@ Thin composer — **does not duplicate** PAS-006 authority. Read child skills in
 | --- | --- |
 | MCP block install / studio package edit | `shadcn-studio/SKILL.md` |
 | `components-ui/**` primitive edit | `afenda-primitive-contract/SKILL.md` + mismatch frame on E0 |
-| ERP refactor / AI-generated TSX review | `afenda-react-surface-quality/SKILL.md` |
+| ERP refactor / AI-generated TSX review | `afenda-erp-design-system` → [surface-quality-scan.md](../afenda-erp-design-system/references/surface-quality-scan.md) |
 | ERP `globals.css`, `preview.css`, or Tailwind in TSX | `afenda-tailwind/SKILL.md` |
 | ERP metadata operator route | `shadcn-studio/SKILL.md` + IS-003 consumer gate |
 | Storybook presentation lab | `afenda-storybook/SKILL.md` |

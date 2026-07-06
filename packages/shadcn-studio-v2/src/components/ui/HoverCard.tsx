@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 "use client";
 
 import { PreviewCard as PreviewCardPrimitive } from "@base-ui/react/preview-card";
@@ -10,11 +9,23 @@ export interface HoverCardProps
 export interface HoverCardTriggerProps
   extends ComponentProps<typeof PreviewCardPrimitive.Trigger> {}
 export interface HoverCardContentProps
-  extends ComponentProps<typeof PreviewCardPrimitive.Popup>,
+  extends Omit<ComponentProps<typeof PreviewCardPrimitive.Popup>, "className">,
     Pick<
       ComponentProps<typeof PreviewCardPrimitive.Positioner>,
       "align" | "alignOffset" | "side" | "sideOffset"
-    > {}
+    > {
+  readonly className?: string | undefined;
+}
+
+const HOVER_CARD_POSITIONER_CLASS = "z-50 outline-none";
+const HOVER_CARD_CONTENT_CLASS =
+  "z-50 w-64 rounded-md border border-border bg-popover p-4 text-popover-foreground shadow-md outline-none";
+
+export function hoverCardContentClassName({
+  className,
+}: Pick<HoverCardContentProps, "className"> = {}): string {
+  return cn(HOVER_CARD_CONTENT_CLASS, className);
+}
 
 export function HoverCard({ ...props }: HoverCardProps) {
   return <PreviewCardPrimitive.Root {...props} data-slot="hover-card" />;
@@ -39,17 +50,14 @@ export function HoverCardContent({
       <PreviewCardPrimitive.Positioner
         align={align}
         alignOffset={alignOffset}
-        className="z-50 outline-none"
+        className={HOVER_CARD_POSITIONER_CLASS}
         data-slot="hover-card-positioner"
         side={side}
         sideOffset={sideOffset}
       >
         <PreviewCardPrimitive.Popup
           {...props}
-          className={cn(
-            "z-50 w-64 rounded-md border border-border bg-popover p-4 text-popover-foreground shadow-md outline-none",
-            typeof className === "string" ? className : undefined
-          )}
+          className={hoverCardContentClassName({ className })}
           data-slot="hover-card-content"
         />
       </PreviewCardPrimitive.Positioner>

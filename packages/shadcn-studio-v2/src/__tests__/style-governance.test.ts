@@ -15,19 +15,26 @@ const PACKAGE_JSON_PATH = path.join(PACKAGE_ROOT, "package.json");
 
 const REQUIRED_STYLE_FILES = [
   "shadcn-default.css",
+  "afenda-brand.css",
   "swiss-noir.css",
   "verdant-noir.css",
 ] as const;
 
-const THEME_STYLE_FILES = ["swiss-noir.css", "verdant-noir.css"] as const;
+const THEME_STYLE_FILES = [
+  "afenda-brand.css",
+  "swiss-noir.css",
+  "verdant-noir.css",
+] as const;
 const DEFAULT_STYLE_FILE = "shadcn-default.css";
 const STYLE_FILE_THEME_IDS = {
   "shadcn-default.css": "shadcn-default",
+  "afenda-brand.css": "afenda-brand",
   "swiss-noir.css": "swiss-noir",
   "verdant-noir.css": "verdant-noir",
 } as const;
 const REQUIRED_CSS_EXPORTS = {
   "./shadcn-default.css": "./dist/shadcn-default.css",
+  "./themes/afenda-brand.css": "./dist/themes/afenda-brand.css",
   "./themes/swiss-noir.css": "./dist/themes/swiss-noir.css",
   "./themes/verdant-noir.css": "./dist/themes/verdant-noir.css",
 } as const;

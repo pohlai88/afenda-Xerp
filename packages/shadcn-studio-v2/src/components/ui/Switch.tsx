@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 "use client";
 
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch";
@@ -6,15 +5,17 @@ import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 
 export interface SwitchProps
-  extends ComponentProps<typeof SwitchPrimitive.Root> {}
+  extends Omit<ComponentProps<typeof SwitchPrimitive.Root>, "className"> {
+  readonly className?: string | undefined;
+}
 
 const SWITCH_BASE_CLASS =
-  "peer inline-flex h-5 w-9 shrink-0 items-center rounded-full border border-transparent bg-input shadow-xs transition-colors outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[checked]:bg-primary";
+  "peer inline-flex h-5 w-9 shrink-0 items-center rounded-full border border-transparent bg-input shadow-xs transition-colors outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[checked]:bg-primary";
 
 export function switchClassName({
   className,
 }: {
-  readonly className?: string;
+  readonly className?: string | undefined;
 } = {}): string {
   return cn(SWITCH_BASE_CLASS, className);
 }

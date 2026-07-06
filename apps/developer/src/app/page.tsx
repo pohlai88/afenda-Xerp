@@ -64,6 +64,12 @@ export default async function HomePage() {
                 </Link>
                 <Link
                   className="rounded-full border px-5 py-2.5 font-medium"
+                  href="/design-system/v2-proof"
+                >
+                  Open V2 proof route
+                </Link>
+                <Link
+                  className="rounded-full border px-5 py-2.5 font-medium"
                   href="/settings/appearance"
                 >
                   Review theme surface

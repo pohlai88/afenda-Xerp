@@ -575,6 +575,10 @@ accessibility states present
 rollback unnecessary because this is greenfield proof
 ```
 
+## Status
+
+**ACCEPTANCE GRANTED** — 2026-07-06. See `docs/slices/PHASE-9-ENTERPRISE-ACCEPTANCE-GATE.md`.
+
 ---
 
 # Final Acceptance Standard
@@ -584,5 +588,8 @@ The design system is accepted only when this statement is true:
 ```txt
 Afenda shadcn-studio-v2 can be installed, imported, themed, rendered, tested, and consumed through public entrypoints without internal imports, forbidden tokens, app-specific logic, or undocumented runtime assumptions.
 ```
+
+**Verified 2026-07-06** — Phase 9 acceptance granted; consumer proof at
+`/design-system/v2-proof`; ledger in `docs/MIGRATION-MAP.md`.
 
 Anything else is rejected.

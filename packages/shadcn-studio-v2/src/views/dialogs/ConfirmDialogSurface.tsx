@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 import { useId } from "react";
 import { Alert, AlertDescription, AlertTitle } from "../../components/ui/Alert";
 import { Button } from "../../components/ui/Button";

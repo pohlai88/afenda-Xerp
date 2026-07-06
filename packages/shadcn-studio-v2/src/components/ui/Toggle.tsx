@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 "use client";
 
 import { Toggle as TogglePrimitive } from "@base-ui/react/toggle";
@@ -9,10 +8,14 @@ export type ToggleVariant = "default" | "outline";
 export type ToggleSize = "default" | "lg" | "sm";
 
 export interface ToggleProps
-  extends ComponentProps<typeof TogglePrimitive.Root> {
+  extends Omit<ComponentProps<typeof TogglePrimitive>, "className"> {
+  readonly className?: string | undefined;
   readonly size?: ToggleSize;
   readonly variant?: ToggleVariant;
 }
+
+const TOGGLE_BASE_CLASS =
+  "inline-flex items-center justify-center gap-2 rounded-md font-medium text-sm transition-colors outline-none hover:bg-muted hover:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[pressed]:bg-accent data-[pressed]:text-accent-foreground";
 
 const VARIANT_CLASSES = {
   default: "bg-transparent",
@@ -26,6 +29,23 @@ const SIZE_CLASSES = {
   sm: "h-9 px-2.5 min-w-9",
 } satisfies Record<ToggleSize, string>;
 
+export function toggleClassName({
+  className,
+  size = "default",
+  variant = "default",
+}: {
+  readonly className?: string | undefined;
+  readonly size?: ToggleSize;
+  readonly variant?: ToggleVariant;
+} = {}): string {
+  return cn(
+    TOGGLE_BASE_CLASS,
+    VARIANT_CLASSES[variant],
+    SIZE_CLASSES[size],
+    className
+  );
+}
+
 export function Toggle({
   className,
   size = "default",
@@ -33,14 +53,9 @@ export function Toggle({
   ...props
 }: ToggleProps) {
   return (
-    <TogglePrimitive.Root
+    <TogglePrimitive
       {...props}
-      className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-md font-medium text-sm transition-colors hover:bg-muted hover:text-muted-foreground disabled:pointer-events-none disabled:opacity-50 data-[pressed]:bg-accent data-[pressed]:text-accent-foreground",
-        VARIANT_CLASSES[variant],
-        SIZE_CLASSES[size],
-        typeof className === "string" ? className : undefined
-      )}
+      className={toggleClassName({ className, size, variant })}
       data-slot="toggle"
     />
   );

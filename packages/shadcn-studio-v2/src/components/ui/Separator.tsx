@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 "use client";
 
 import { Separator as SeparatorPrimitive } from "@base-ui/react/separator";
@@ -6,7 +5,25 @@ import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 
 export interface SeparatorProps
-  extends ComponentProps<typeof SeparatorPrimitive> {}
+  extends Omit<ComponentProps<typeof SeparatorPrimitive>, "className"> {
+  readonly className?: string | undefined;
+}
+
+const SEPARATOR_BASE_CLASS = "shrink-0 bg-border";
+
+export function separatorClassName({
+  className,
+  orientation = "horizontal",
+}: {
+  readonly className?: string | undefined;
+  readonly orientation?: SeparatorProps["orientation"];
+} = {}): string {
+  return cn(
+    SEPARATOR_BASE_CLASS,
+    orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
+    className
+  );
+}
 
 export function Separator({
   className,
@@ -16,11 +33,7 @@ export function Separator({
   return (
     <SeparatorPrimitive
       {...props}
-      className={cn(
-        "shrink-0 bg-border",
-        orientation === "horizontal" ? "h-px w-full" : "h-full w-px",
-        typeof className === "string" ? className : undefined
-      )}
+      className={separatorClassName({ className, orientation })}
       data-orientation={orientation}
       data-slot="separator"
       orientation={orientation}

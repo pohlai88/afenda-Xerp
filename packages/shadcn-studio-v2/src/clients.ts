@@ -1,6 +1,4 @@
 "use client";
-
-// biome-ignore lint/performance/noBarrelFile: V2 clients.ts is the explicit client boundary surface.
 export { IconMark, type IconMarkProps } from "./components/assets/IconMark";
 export { AppShell01 } from "./components/layout/appshell-01";
 export {

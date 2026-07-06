@@ -90,3 +90,43 @@ the smallest prior slice that owns them.
 
 * Whether route smoke proof should live in the consumer app or package-owned
   verification harness long-term.
+
+---
+
+## Summary
+
+Phase 9 enterprise acceptance gate executed 2026-07-06. All required package and
+consumer gates are **green**. Acceptance **granted** for the current greenfield
+V2 baseline.
+
+## Commands Run
+
+| Command | Result |
+| --- | --- |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS — 156 tests |
+| `pnpm --filter @afenda/shadcn-studio-v2 typecheck` | PASS |
+| `pnpm --filter @afenda/shadcn-studio-v2 build` | PASS |
+| `pnpm --filter @afenda/shadcn-studio-v2 check:drift` | PASS |
+| `pnpm exec biome ci packages/shadcn-studio-v2` | PASS (after export-order fix on 20 files) |
+| `pnpm --filter @afenda/developer verify:v2-proof` | PASS — typecheck, presentation-runtime, hydration-governance, 3 unit tests |
+| `pnpm --filter @afenda/developer build` | PASS |
+
+## DoD
+
+- [x] Full required package gate set run
+- [x] Selected consumer gate set run (developer proof route)
+- [x] Pass/fail acceptance decision recorded
+- [x] Failed files resolved (Biome export sort in `packages/shadcn-studio-v2`; Vitest V2 subpath aliases in `apps/developer/vitest.config.ts`)
+- [x] Remaining gaps named (see below)
+
+## Remaining gaps (non-blocking)
+
+| Gap | Disposition |
+| --- | --- |
+| `EvidenceWidget` deferred on proof route | Documented Phase 8 stand-in; not an acceptance blocker |
+| ERP app not in consumer gate set | Phase 8 scoped developer proof only; ERP wiring is post-acceptance migration |
+| Playwright v2-proof smoke | Covered in `verify:greenlight` production harness; optional with live dev server |
+
+## Decision
+
+**`ACCEPTANCE GRANTED`** — Proceed to [Closing Synchronization Gate](CLOSING-SYNCHRONIZATION-GATE.md).

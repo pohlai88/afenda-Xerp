@@ -113,3 +113,51 @@ the underlying proof first.
 
 * Whether the synchronization gate should later become one dedicated docs test
   plus a short maintainer checklist instead of a full slice spec.
+
+---
+
+## Summary
+
+Closing synchronization executed **2026-07-06** after Phase 9 acceptance.
+Active docs now match package exports, CSS surfaces, proof route evidence, and
+gate commands.
+
+## Synchronized files
+
+| File | Change |
+| --- | --- |
+| `docs/MIGRATION-MAP.md` | **Created** — ledger with proof-route rows and status vocabulary |
+| `README.md` | Install/import/verify commands; Phase 9 status; `MIGRATION-MAP` authority |
+| `docs/TAXONOMY.md` | Added `afenda-brand.css` to approved `styles/` list |
+| `docs/DEVELOPMENT-ROADMAP.md` | Phase H/I status blocks; final acceptance verified date |
+| `docs/slices/PHASE-8-*.md` | Already signed off (prior turn) |
+| `docs/slices/PHASE-9-*.md` | Already signed off (prior turn) |
+
+## Checklist
+
+- [x] `TAXONOMY.md` matches `src/` (including `afenda-brand.css`)
+- [x] Package exports match `package.json` and `public-exports.test.ts`
+- [x] CSS exports match drift guard and consumer `globals.css`
+- [x] Migration map cites `/design-system/v2-proof` and Phase 9 gates
+- [x] Slice index + architecture list same package gate commands
+
+## Commands re-run
+
+| Command | Result |
+| --- | --- |
+| `pnpm --filter @afenda/shadcn-studio-v2 test` | PASS (includes `roadmap-doc-alignment.test.ts`) |
+| `pnpm --filter @afenda/developer verify:v2-proof` | PASS |
+
+## Remaining unsynchronized gaps
+
+| Gap | Disposition |
+| --- | --- |
+| `DESIGN-SYSTEM-GUIDELINE.md` | Not created — gates live in tests + drift scripts per architecture retirement policy |
+| `PRIMITIVE-API-CONSISTENCY.md` | Not on disk — enforced by `primitive-api-consistency.test.ts` |
+| `LEGACY-RETIREMENT-PLAN.md` | Not on disk — tracked in `MIGRATION-MAP.md` legacy section |
+| ERP broad migration | Out of closing scope — row remains `pending` in ledger |
+
+## Decision
+
+**`PROCEED`** — Greenfield V2 baseline documentation synchronized. Safe to plan
+ERP surface migration from `MIGRATION-MAP.md` without reopening Phases 1–9.

@@ -1,5 +1,6 @@
 export type StudioThemeId =
   | "shadcn-default"
+  | "afenda-brand"
   | "caffeine"
   | "claude"
   | "corporate"
@@ -60,9 +61,12 @@ export type StudioThemeTokenModeMap = Readonly<
   Record<StudioResolvedThemeMode, StudioThemeTokenMap>
 >;
 
+export type StudioThemeKind = "brand" | "default" | "editorial" | "reference";
+
 export interface StudioThemeOption {
   readonly description: string;
   readonly id: StudioThemeId;
+  readonly kind?: StudioThemeKind;
   readonly label: string;
   readonly tokens: StudioThemeTokenModeMap;
 }

@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React context filenames.
 "use client";
 
 import { createContext, type ReactNode, useContext, useMemo } from "react";

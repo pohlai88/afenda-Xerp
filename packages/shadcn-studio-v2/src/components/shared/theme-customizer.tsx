@@ -41,20 +41,20 @@ function ThemeRadioGrid<T extends string>({
       <legend className="font-medium">{legend}</legend>
       <RadioGroup
         className="grid grid-cols-3 gap-1"
-        onValueChange={(nextValue: string) => onChange(nextValue as T)}
+        name={name}
+        onValueChange={(nextValue) => {
+          if (typeof nextValue === "string") {
+            onChange(nextValue as T);
+          }
+        }}
         value={value}
       >
         {options.map((option) => (
-          // biome-ignore lint/a11y/noLabelWithoutControl: RadioGroupItem is nested inside label for custom radio styling.
           <label
             className="flex cursor-pointer items-center justify-center rounded-md border border-border px-2 py-2 has-checked:bg-accent"
             key={option.value}
           >
-            <RadioGroupItem
-              className="sr-only"
-              name={name}
-              value={option.value}
-            />
+            <RadioGroupItem className="sr-only" value={option.value} />
             <span>{option.label}</span>
           </label>
         ))}
@@ -120,8 +120,8 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
             style={{ background: activePrimary }}
           />
           <Select
-            onValueChange={(nextThemeId: string) => {
-              if (!isThemeId(nextThemeId)) {
+            onValueChange={(nextThemeId) => {
+              if (typeof nextThemeId !== "string" || !isThemeId(nextThemeId)) {
                 return;
               }
 
@@ -130,7 +130,12 @@ export function ThemeCustomizer({ className }: ThemeCustomizerProps) {
             value={themeId}
           >
             <SelectTrigger className="w-full" id="theme-customizer-select">
-              <SelectValue />
+              <SelectValue>
+                {(value) =>
+                  studioThemeConfig.themes.find((theme) => theme.id === value)
+                    ?.label ?? (typeof value === "string" ? value : "")
+                }
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               {studioThemeConfig.themes.map((theme) => (

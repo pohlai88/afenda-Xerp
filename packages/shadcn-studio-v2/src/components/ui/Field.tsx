@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 import type { ComponentProps } from "react";
 import { cn } from "../../lib/cn";
 
@@ -86,11 +85,26 @@ export function FieldLabel({
     >
       {children}
       {required ? (
-        <span aria-hidden="true" className="ml-1 text-destructive">
-          {requiredIndicator}
-        </span>
+        <FieldRequiredIndicator>{requiredIndicator}</FieldRequiredIndicator>
       ) : null}
     </label>
+  );
+}
+
+export function FieldRequiredIndicator({
+  children = "*",
+  className,
+  ...props
+}: ComponentProps<"span">) {
+  return (
+    <span
+      {...props}
+      aria-hidden="true"
+      className={cn("ml-1 text-destructive", className)}
+      data-slot="field-required-indicator"
+    >
+      {children}
+    </span>
   );
 }
 

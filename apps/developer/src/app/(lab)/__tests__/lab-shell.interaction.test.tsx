@@ -1,4 +1,4 @@
-import { StudioPresentationProviders as ErpPresentationProviders } from "@afenda/shadcn-studio-v2/theme";
+import { StudioPresentationProviders as ErpPresentationProviders } from "@afenda/shadcn-studio-v2/clients";
 import { setupUser } from "@afenda/testing/react";
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it } from "vitest";

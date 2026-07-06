@@ -1,5 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
-
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -13,19 +11,57 @@ export interface PaginationProps extends ComponentProps<"nav"> {}
 export interface PaginationContentProps extends ComponentProps<"ul"> {}
 export interface PaginationItemProps extends ComponentProps<"li"> {}
 export interface PaginationLinkProps extends ComponentProps<"a"> {
-  readonly isActive?: boolean;
   readonly size?: "default" | "icon";
 }
+export interface PaginationLinkCurrentProps extends PaginationLinkProps {}
 export interface PaginationPreviousProps extends PaginationLinkProps {}
 export interface PaginationNextProps extends PaginationLinkProps {}
 export interface PaginationEllipsisProps extends ComponentProps<"span"> {}
+
+const PAGINATION_BASE_CLASS = "mx-auto flex w-full justify-center";
+const PAGINATION_CONTENT_CLASS = "flex flex-row items-center gap-1";
+const PAGINATION_ELLIPSIS_CLASS = "flex size-9 items-center justify-center";
+
+export function paginationClassName({
+  className,
+}: Pick<PaginationProps, "className"> = {}): string {
+  return cn(PAGINATION_BASE_CLASS, className);
+}
+
+export function paginationContentClassName({
+  className,
+}: Pick<PaginationContentProps, "className"> = {}): string {
+  return cn(PAGINATION_CONTENT_CLASS, className);
+}
+
+export function paginationLinkClassName({
+  className,
+  size = "icon",
+}: Pick<PaginationLinkProps, "className" | "size"> = {}): string {
+  return buttonClassName({
+    className: cn(size === "default" ? "gap-1 px-2.5" : "", className),
+    size,
+    variant: "ghost",
+  });
+}
+
+export function paginationLinkCurrentClassName({
+  className,
+  size = "icon",
+}: Pick<PaginationLinkCurrentProps, "className" | "size"> = {}): string {
+  return buttonClassName({
+    className: cn(size === "default" ? "gap-1 px-2.5" : "", className),
+    size,
+    variant: "outline",
+  });
+}
 
 export function Pagination({ className, ...props }: PaginationProps) {
   return (
     <nav
       {...props}
       aria-label={props["aria-label"] ?? "Pagination"}
-      className={cn("mx-auto flex w-full justify-center", className)}
+      className={paginationClassName({ className })}
       data-slot="pagination"
     />
   );
@@ -38,7 +74,7 @@ export function PaginationContent({
   return (
     <ul
       {...props}
-      className={cn("flex flex-row items-center gap-1", className)}
+      className={paginationContentClassName({ className })}
       data-slot="pagination-content"
     />
   );
@@ -50,20 +86,29 @@ export function PaginationItem({ ...props }: PaginationItemProps) {
 
 export function PaginationLink({
   className,
-  isActive = false,
   size = "icon",
   ...props
 }: PaginationLinkProps) {
   return (
     <a
       {...props}
-      aria-current={isActive ? "page" : undefined}
-      className={buttonClassName({
-        className: cn(size === "default" ? "gap-1 px-2.5" : "", className),
-        size,
-        variant: isActive ? "outline" : "ghost",
-      })}
+      className={paginationLinkClassName({ className, size })}
       data-slot="pagination-link"
+    />
+  );
+}
+
+export function PaginationLinkCurrent({
+  className,
+  size = "icon",
+  ...props
+}: PaginationLinkCurrentProps) {
+  return (
+    <a
+      {...props}
+      aria-current="page"
+      className={paginationLinkCurrentClassName({ className, size })}
+      data-slot="pagination-link-current"
     />
   );
 }
@@ -78,7 +123,7 @@ export function PaginationPrevious({
       className={cn("gap-1 pl-2.5", className)}
       size="default"
     >
-      <ChevronLeftIcon className="size-4" />
+      <ChevronLeftIcon aria-hidden="true" className="size-4" />
       <span>Previous</span>
     </PaginationLink>
   );
@@ -92,7 +137,7 @@ export function PaginationNext({ className, ...props }: PaginationNextProps) {
       size="default"
     >
       <span>Next</span>
-      <ChevronRightIcon className="size-4" />
+      <ChevronRightIcon aria-hidden="true" className="size-4" />
     </PaginationLink>
   );
 }
@@ -105,10 +150,10 @@ export function PaginationEllipsis({
     <span
       {...props}
       aria-hidden="true"
-      className={cn("flex size-9 items-center justify-center", className)}
+      className={cn(PAGINATION_ELLIPSIS_CLASS, className)}
       data-slot="pagination-ellipsis"
     >
-      <MoreHorizontalIcon className="size-4" />
+      <MoreHorizontalIcon aria-hidden="true" className="size-4" />
       <span className="sr-only">More pages</span>
     </span>
   );

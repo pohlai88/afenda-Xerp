@@ -39,6 +39,10 @@ Re-check docs when a task depends on library versions, CLI behavior, browser sup
 | <https://vercel.com/font> | Geist Sans, Mono, and Pixel typography direction |
 | <https://storybook.js.org/docs> | Storybook as isolated UI development/testing/documentation environment |
 | <https://github.com/storybookjs/design-system> | OSS design-system repository pattern: central reusable components shared by multiple apps |
+| Vercel `vercel-composition-patterns` agent skill | Compound components, avoid boolean behavior props, explicit variants, React 19 — adapted in `references/react-composition-patterns.md` |
+| Vercel `react-best-practices` / `vercel-react-best-practices` | P1–P8 primitive perf, ERP async/bundle rules — adapted in `references/react-best-practices.md` |
+| Agent skills `frontend-ui-engineering` | Operator composition, states, anti-AI aesthetic, a11y baseline — adapted in `references/operator-ui-quality.md` |
+| Former `afenda-react-surface-quality` | B/A/C/Y/T scan, RSC playbook, surface testing — consolidated in `references/surface-quality-scan.md` and siblings |
 
 ## Mature Design-System Benchmarks
 

@@ -51,7 +51,7 @@ Any code edit? ───────────→ coding-consistency-bundle (m
 Editorial / cinematic / not ordinary UI? → afenda-editorial-bundle (stacks on coding-consistency-bundle)
 Promote lab pattern to ERP? ─→ afenda-presentation-promotion (explicit trigger; included in editorial bundle row 6)
 Design system inventory? ─→ afenda-presentation-atlas (read-only · /afenda-presentation-atlas)
-Design system strategy / V2 layers / ERP foundations? ─→ afenda-erp-design-system
+Design system strategy / V2 layers / ERP foundations / composition / surface scan? ─→ afenda-erp-design-system
 V2 Phase 3 primitives (Button, Badge, Card, Alert, Field, Table)? ─→ afenda-phase-3-primitive-layer
 UI/CSS/visual (ERP, non-editorial)? → afenda-presentation-quality + shadcn-studio (PAS-006 · ADR-0027)
 Figma → code (shadcncraft kit)? ─→ shadcncraft-generate-code + shadcn-studio quarantine pipeline
@@ -59,7 +59,7 @@ Figma tokens → globals.css? ─→ shadcncraft-import-variables
 Storybook agentic rebuild / pilot catalog? → afenda-storybook-agentic-setup + afenda-storybook
 MCP block / CLI install? ─→ shadcn-studio (`/cui` `/rui`) → `components-quarantine/` first → promotion pipeline ([`components-quarantine/README.md`](../../../packages/shadcn-studio/src/components-quarantine/README.md))
 components-ui primitive? ─→ afenda-primitive-contract + ui-primitive-mismatch-frame rule (+ studio:shadcn — no overwrite)
-ERP React/TS refactor? ───→ afenda-react-surface-quality (B→A→T scan)
+ERP React/TS refactor? ───→ afenda-erp-design-system (surface-quality-scan; was afenda-react-surface-quality)
 ERP bundle / lazy-load / perf? → afenda-shadcn-performance (+ /afenda-webperf for audit)
 Kernel boundary? ─────────→ kernel-authority
 Dead code / Knip / housekeeping? → afenda-repo-housekeeping (removal → afenda-monorepo-refactor Slice D)
@@ -100,7 +100,7 @@ Platform audit? ──────────→ enterprise-architecture-audit 
 | `afenda-presentation-quality` + `shadcn-studio` | ERP UI, CSS, Storybook, or `@afenda/shadcn-studio` changes (non-editorial Phase 1) |
 | `afenda-presentation-promotion` | Explicit lab → auth-shell → ERP promotion only (row 6 inside editorial bundle when triggered) |
 | `afenda-primitive-contract` | `packages/shadcn-studio/src/components/ui/**` edits or shadcn primitive install |
-| `afenda-react-surface-quality` | ERP React refactor, AI TSX review, perf/structure/a11y before merge |
+| ERP React/TS refactor, AI TSX review, surface scan | `afenda-erp-design-system` → `references/surface-quality-scan.md` |
 | `afenda-tailwind` | ERP `globals.css`, theme CSS, Tailwind `className` edits |
 | `afenda-shadcn-performance` | Bundle size, `next/dynamic`, CVA trim, lazy-load, perf regression on studio/ERP UI |
 
@@ -146,7 +146,7 @@ From [orchestration-patterns.md](../references/orchestration-patterns.md):
 | Governed implementation | `@afenda-governed-implementer` |
 | Architecture / registries | `architecture-authority` |
 | `@afenda/shadcn-studio` inventory / imports | `afenda-presentation-atlas` |
-| Design system strategy, V2 taxonomy, ERP operator foundations | `afenda-erp-design-system` |
+| Design system strategy, V2 taxonomy, ERP operator foundations, surface quality | `afenda-erp-design-system` |
 | V2 Phase 3 primitives | `afenda-phase-3-primitive-layer` |
 | Figma shadcncraft codegen / token import | `shadcncraft-generate-code` · `shadcncraft-import-variables` |
 | ERP presentation (ADR-0027) | `afenda-presentation-quality` + `shadcn-studio` |

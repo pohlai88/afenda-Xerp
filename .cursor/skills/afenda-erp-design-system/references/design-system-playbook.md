@@ -90,6 +90,10 @@ See [design-system-fundamentals.md](design-system-fundamentals.md) for the full 
 4. Use Tailwind classes for route layout; do not invent local tokens.
 5. Verify app gates after package gates.
 
+For primitive API work, load [react-composition-patterns.md](react-composition-patterns.md) and [react-best-practices.md](react-best-practices.md).
+
+For ERP route review/repair, load [surface-quality-scan.md](surface-quality-scan.md) and [operator-ui-quality.md](operator-ui-quality.md).
+
 ## Agent Prompt Pattern
 
 Use prompts that constrain authority and evidence:
@@ -99,6 +103,8 @@ Use $afenda-erp-design-system and the repo PAS-006 authority chain.
 Goal: <specific operator workflow>.
 Allowed layer: <one layer — e.g. packages/shadcn-studio-v2/src/views/** or apps/erp/**>.
 Prefer existing @afenda/shadcn-studio-v2 primitives/views and Tailwind v4 semantic tokens.
+Composition: compound parts and explicit variant components — no new show*/is* behavior booleans on primitives.
+ERP surfaces: run surface-quality-scan (B/A/C/Y/T) before merge; R3 splits per rsc-refactor-playbook.
 Paths: components/ui/, views/, src/styles/, configs/theme-config.ts.
 Do not add local tokens, restore retired packages, or wire quarantine output.
 Show the KISS/DRY decision, files to change, and narrow gates before edits.

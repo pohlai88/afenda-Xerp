@@ -65,7 +65,8 @@ packages/shadcn-studio-v2/
     contexts/          # ThemeProvider, StudioProvider
     hooks/             # use-theme, use-studio
     metadata/          # contracts, registries, gates, builders
-    styles/            # shadcn-default.css, swiss-noir.css, verdant-noir.css
+    styles/            # shadcn-default.css (canonical); swiss/verdant editorial preset overlays
+    reference/         # pattern-globals.css — app-layer CSS reference (not package token authority)
     types/             # public package type shapes
     utils/             # tiny reusable helpers only
     lib/               # cn.ts only unless strongly proven
@@ -356,4 +357,17 @@ No proof, no export.
 No export, no consumer.
 No consumer, no production claim.
 No rollback, no retirement.
+```
+
+---
+
+## Current package status
+
+```txt
+Greenfield baseline: enterprise-accepted (Phase 9, 2026-07-06)
+Consumer proof:      apps/developer /design-system/v2-proof (Phase 8)
+Migration ledger:    docs/MIGRATION-MAP.md
+Closing sync:        complete (2026-07-06)
+ERP broad migration: pending — see MIGRATION-MAP.md
+Legacy retirement:   pending — no deletion in this baseline
 ```

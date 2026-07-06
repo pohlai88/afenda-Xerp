@@ -1,4 +1,3 @@
-// biome-ignore lint/performance/noBarrelFile: V2 metadata.ts is the explicit package metadata boundary surface.
 export {
   defineAuthViewMetadata,
   defineMetricWidgetMetadata,

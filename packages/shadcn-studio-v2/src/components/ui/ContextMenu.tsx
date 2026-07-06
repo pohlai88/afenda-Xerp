@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 "use client";
 
 import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu";
@@ -11,46 +10,84 @@ export interface ContextMenuProps
 export interface ContextMenuTriggerProps
   extends ComponentProps<typeof ContextMenuPrimitive.Trigger> {}
 export interface ContextMenuContentProps
-  extends ComponentProps<typeof ContextMenuPrimitive.Popup>,
+  extends Omit<ComponentProps<typeof ContextMenuPrimitive.Popup>, "className">,
     Pick<
       ComponentProps<typeof ContextMenuPrimitive.Positioner>,
       "align" | "alignOffset" | "side" | "sideOffset"
-    > {}
+    > {
+  readonly className?: string | undefined;
+}
 export interface ContextMenuItemProps
-  extends ComponentProps<typeof ContextMenuPrimitive.Item> {
+  extends Omit<ComponentProps<typeof ContextMenuPrimitive.Item>, "className"> {
+  readonly className?: string | undefined;
   readonly inset?: boolean;
 }
 export interface ContextMenuCheckboxItemProps
-  extends ComponentProps<typeof ContextMenuPrimitive.CheckboxItem> {
+  extends Omit<
+    ComponentProps<typeof ContextMenuPrimitive.CheckboxItem>,
+    "className"
+  > {
+  readonly className?: string | undefined;
   readonly inset?: boolean;
 }
 export interface ContextMenuRadioGroupProps
   extends ComponentProps<typeof ContextMenuPrimitive.RadioGroup> {}
 export interface ContextMenuRadioItemProps
-  extends ComponentProps<typeof ContextMenuPrimitive.RadioItem> {
+  extends Omit<
+    ComponentProps<typeof ContextMenuPrimitive.RadioItem>,
+    "className"
+  > {
+  readonly className?: string | undefined;
   readonly inset?: boolean;
 }
 export interface ContextMenuLabelProps
-  extends ComponentProps<typeof ContextMenuPrimitive.GroupLabel> {
+  extends Omit<
+    ComponentProps<typeof ContextMenuPrimitive.GroupLabel>,
+    "className"
+  > {
+  readonly className?: string | undefined;
   readonly inset?: boolean;
 }
 export interface ContextMenuSeparatorProps
-  extends ComponentProps<typeof ContextMenuPrimitive.Separator> {}
+  extends Omit<
+    ComponentProps<typeof ContextMenuPrimitive.Separator>,
+    "className"
+  > {
+  readonly className?: string | undefined;
+}
 export interface ContextMenuShortcutProps extends ComponentProps<"span"> {}
 export interface ContextMenuGroupProps
   extends ComponentProps<typeof ContextMenuPrimitive.Group> {}
 export interface ContextMenuSubProps
   extends ComponentProps<typeof ContextMenuPrimitive.SubmenuRoot> {}
 export interface ContextMenuSubTriggerProps
-  extends ComponentProps<typeof ContextMenuPrimitive.SubmenuTrigger> {
+  extends Omit<
+    ComponentProps<typeof ContextMenuPrimitive.SubmenuTrigger>,
+    "className"
+  > {
+  readonly className?: string | undefined;
   readonly inset?: boolean;
 }
 export interface ContextMenuSubContentProps extends ContextMenuContentProps {}
 
-const CONTENT_CLASS =
+const CONTEXT_MENU_POSITIONER_CLASS = "z-50 outline-none";
+const CONTEXT_MENU_CONTENT_CLASS =
   "z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md";
-const ITEM_CLASS =
-  "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
+const CONTEXT_MENU_ITEM_CLASS =
+  "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50";
+
+export function contextMenuContentClassName({
+  className,
+}: Pick<ContextMenuContentProps, "className"> = {}): string {
+  return cn(CONTEXT_MENU_CONTENT_CLASS, className);
+}
+
+export function contextMenuItemClassName(
+  className?: string | undefined,
+  inset?: boolean
+): string {
+  return cn(CONTEXT_MENU_ITEM_CLASS, inset && "pl-8", className);
+}
 
 export function ContextMenu({ ...props }: ContextMenuProps) {
   return <ContextMenuPrimitive.Root {...props} data-slot="context-menu" />;
@@ -75,17 +112,14 @@ export function ContextMenuContent({
       <ContextMenuPrimitive.Positioner
         align={align}
         alignOffset={alignOffset}
-        className="z-50 outline-none"
+        className={CONTEXT_MENU_POSITIONER_CLASS}
         data-slot="context-menu-positioner"
         side={side}
         sideOffset={sideOffset}
       >
         <ContextMenuPrimitive.Popup
           {...props}
-          className={cn(
-            CONTENT_CLASS,
-            typeof className === "string" ? className : undefined
-          )}
+          className={contextMenuContentClassName({ className })}
           data-slot="context-menu-content"
         />
       </ContextMenuPrimitive.Positioner>
@@ -101,11 +135,7 @@ export function ContextMenuItem({
   return (
     <ContextMenuPrimitive.Item
       {...props}
-      className={cn(
-        ITEM_CLASS,
-        inset ? "pl-8" : undefined,
-        typeof className === "string" ? className : undefined
-      )}
+      className={contextMenuItemClassName(className, inset)}
       data-slot="context-menu-item"
     />
   );
@@ -121,15 +151,15 @@ export function ContextMenuCheckboxItem({
     <ContextMenuPrimitive.CheckboxItem
       {...props}
       className={cn(
-        ITEM_CLASS,
+        CONTEXT_MENU_ITEM_CLASS,
         inset ? "pl-10" : "pl-8",
-        typeof className === "string" ? className : undefined
+        className
       )}
       data-slot="context-menu-checkbox-item"
     >
       <span className="absolute left-2 flex size-4 items-center justify-center">
         <ContextMenuPrimitive.CheckboxItemIndicator data-slot="context-menu-checkbox-indicator">
-          <CheckIcon className="size-4" />
+          <CheckIcon aria-hidden="true" className="size-4" />
         </ContextMenuPrimitive.CheckboxItemIndicator>
       </span>
       {children}
@@ -158,15 +188,15 @@ export function ContextMenuRadioItem({
     <ContextMenuPrimitive.RadioItem
       {...props}
       className={cn(
-        ITEM_CLASS,
+        CONTEXT_MENU_ITEM_CLASS,
         inset ? "pl-10" : "pl-8",
-        typeof className === "string" ? className : undefined
+        className
       )}
       data-slot="context-menu-radio-item"
     >
       <span className="absolute left-2 flex size-4 items-center justify-center">
         <ContextMenuPrimitive.RadioItemIndicator data-slot="context-menu-radio-indicator">
-          <CheckIcon className="size-4" />
+          <CheckIcon aria-hidden="true" className="size-4" />
         </ContextMenuPrimitive.RadioItemIndicator>
       </span>
       {children}
@@ -184,8 +214,8 @@ export function ContextMenuLabel({
       {...props}
       className={cn(
         "px-2 py-1.5 font-medium text-sm",
-        inset ? "pl-8" : undefined,
-        typeof className === "string" ? className : undefined
+        inset && "pl-8",
+        className
       )}
       data-slot="context-menu-label"
     />
@@ -199,10 +229,7 @@ export function ContextMenuSeparator({
   return (
     <ContextMenuPrimitive.Separator
       {...props}
-      className={cn(
-        "-mx-1 my-1 h-px bg-border",
-        typeof className === "string" ? className : undefined
-      )}
+      className={cn("-mx-1 my-1 h-px bg-border", className)}
       data-slot="context-menu-separator"
     />
   );
@@ -245,15 +272,11 @@ export function ContextMenuSubTrigger({
   return (
     <ContextMenuPrimitive.SubmenuTrigger
       {...props}
-      className={cn(
-        ITEM_CLASS,
-        inset ? "pl-8" : undefined,
-        typeof className === "string" ? className : undefined
-      )}
+      className={contextMenuItemClassName(className, inset)}
       data-slot="context-menu-sub-trigger"
     >
       {children}
-      <ChevronRightIcon className="ml-auto size-4" />
+      <ChevronRightIcon aria-hidden="true" className="ml-auto size-4" />
     </ContextMenuPrimitive.SubmenuTrigger>
   );
 }

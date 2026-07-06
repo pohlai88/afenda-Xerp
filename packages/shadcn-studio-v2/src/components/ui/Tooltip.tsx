@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 "use client";
 
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip";
@@ -14,11 +13,24 @@ export interface TooltipProps
 export interface TooltipTriggerProps
   extends ComponentProps<typeof TooltipPrimitive.Trigger> {}
 export interface TooltipContentProps
-  extends ComponentProps<typeof TooltipPrimitive.Popup>,
+  extends Omit<ComponentProps<typeof TooltipPrimitive.Popup>, "className">,
     Pick<
       ComponentProps<typeof TooltipPrimitive.Positioner>,
       "align" | "alignOffset" | "side" | "sideOffset"
-    > {}
+    > {
+  readonly className?: string | undefined;
+}
+
+const TOOLTIP_CONTENT_BASE_CLASS =
+  "z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-primary-foreground text-xs shadow-md";
+
+export function tooltipContentClassName({
+  className,
+}: {
+  readonly className?: string | undefined;
+} = {}): string {
+  return cn(TOOLTIP_CONTENT_BASE_CLASS, className);
+}
 
 export function TooltipProvider({ delay = 0, ...props }: TooltipProviderProps) {
   return (
@@ -52,17 +64,14 @@ export function TooltipContent({
       <TooltipPrimitive.Positioner
         align={align}
         alignOffset={alignOffset}
-        className="z-50 outline-none"
+        className="z-50 outline-none focus-visible:outline-none"
         data-slot="tooltip-positioner"
         side={side}
         sideOffset={sideOffset}
       >
         <TooltipPrimitive.Popup
           {...props}
-          className={cn(
-            "z-50 overflow-hidden rounded-md bg-primary px-3 py-1.5 text-primary-foreground text-xs shadow-md",
-            className
-          )}
+          className={tooltipContentClassName({ className })}
           data-slot="tooltip-content"
         >
           {children}

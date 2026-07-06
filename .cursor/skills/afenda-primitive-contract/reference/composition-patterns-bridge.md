@@ -4,6 +4,8 @@
 
 **Afenda mapping:** PAS-006 primitive + contract + recipe — not monolithic `@afenda/ui` governance.
 
+**V2 (`@afenda/shadcn-studio-v2`):** use [react-composition-patterns.md](../../afenda-erp-design-system/references/react-composition-patterns.md) — authoritative for `packages/shadcn-studio-v2/src/components/ui/**`. This bridge remains for v1 `afenda-primitive-contract` + recipes.
+
 ---
 
 ## What we adopt

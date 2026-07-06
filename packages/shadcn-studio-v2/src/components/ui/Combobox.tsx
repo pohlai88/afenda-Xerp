@@ -1,4 +1,3 @@
-// biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
 "use client";
 
 import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox";
@@ -9,20 +8,71 @@ import { cn } from "../../lib/cn";
 export interface ComboboxProps
   extends ComponentProps<typeof ComboboxPrimitive.Root> {}
 export interface ComboboxTriggerProps
-  extends ComponentProps<typeof ComboboxPrimitive.Trigger> {}
+  extends Omit<ComponentProps<typeof ComboboxPrimitive.Trigger>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface ComboboxInputProps
-  extends ComponentProps<typeof ComboboxPrimitive.Input> {}
+  extends Omit<ComponentProps<typeof ComboboxPrimitive.Input>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface ComboboxContentProps
-  extends ComponentProps<typeof ComboboxPrimitive.Popup>,
+  extends Omit<ComponentProps<typeof ComboboxPrimitive.Popup>, "className">,
     Pick<
       ComponentProps<typeof ComboboxPrimitive.Positioner>,
       "align" | "alignOffset" | "side" | "sideOffset"
-    > {}
+    > {
+  readonly className?: string | undefined;
+}
 export interface ComboboxListProps
-  extends ComponentProps<typeof ComboboxPrimitive.List> {}
+  extends Omit<ComponentProps<typeof ComboboxPrimitive.List>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface ComboboxItemProps
-  extends ComponentProps<typeof ComboboxPrimitive.Item> {}
+  extends Omit<ComponentProps<typeof ComboboxPrimitive.Item>, "className"> {
+  readonly className?: string | undefined;
+}
 export interface ComboboxEmptyProps extends ComponentProps<"div"> {}
+
+const COMBOBOX_TRIGGER_CLASS =
+  "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground shadow-xs outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[popup-open]:ring-2 data-[popup-open]:ring-ring data-[popup-open]:ring-offset-2";
+const COMBOBOX_INPUT_CLASS =
+  "flex h-10 w-full bg-transparent px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50";
+const COMBOBOX_POSITIONER_CLASS = "z-50 outline-none";
+const COMBOBOX_CONTENT_CLASS =
+  "z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md";
+const COMBOBOX_LIST_CLASS = "max-h-72 overflow-y-auto overflow-x-hidden";
+const COMBOBOX_ITEM_CLASS =
+  "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50";
+
+export function comboboxTriggerClassName({
+  className,
+}: Pick<ComboboxTriggerProps, "className"> = {}): string {
+  return cn(COMBOBOX_TRIGGER_CLASS, className);
+}
+
+export function comboboxInputClassName({
+  className,
+}: Pick<ComboboxInputProps, "className"> = {}): string {
+  return cn(COMBOBOX_INPUT_CLASS, className);
+}
+
+export function comboboxContentClassName({
+  className,
+}: Pick<ComboboxContentProps, "className"> = {}): string {
+  return cn(COMBOBOX_CONTENT_CLASS, className);
+}
+
+export function comboboxListClassName({
+  className,
+}: Pick<ComboboxListProps, "className"> = {}): string {
+  return cn(COMBOBOX_LIST_CLASS, className);
+}
+
+export function comboboxItemClassName({
+  className,
+}: Pick<ComboboxItemProps, "className"> = {}): string {
+  return cn(COMBOBOX_ITEM_CLASS, className);
+}
 
 export function Combobox({ ...props }: ComboboxProps) {
   return <ComboboxPrimitive.Root {...props} data-slot="combobox" />;
@@ -36,14 +86,14 @@ export function ComboboxTrigger({
   return (
     <ComboboxPrimitive.Trigger
       {...props}
-      className={cn(
-        "flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm shadow-xs outline-none",
-        typeof className === "string" ? className : undefined
-      )}
+      className={comboboxTriggerClassName({ className })}
       data-slot="combobox-trigger"
     >
       {children}
-      <ChevronDownIcon className="size-4 shrink-0 opacity-50" />
+      <ChevronDownIcon
+        aria-hidden="true"
+        className="size-4 shrink-0 opacity-50"
+      />
     </ComboboxPrimitive.Trigger>
   );
 }
@@ -52,10 +102,7 @@ export function ComboboxInput({ className, ...props }: ComboboxInputProps) {
   return (
     <ComboboxPrimitive.Input
       {...props}
-      className={cn(
-        "flex h-10 w-full bg-transparent px-3 py-2 text-sm outline-none placeholder:text-muted-foreground",
-        typeof className === "string" ? className : undefined
-      )}
+      className={comboboxInputClassName({ className })}
       data-slot="combobox-input"
     />
   );
@@ -74,17 +121,14 @@ export function ComboboxContent({
       <ComboboxPrimitive.Positioner
         align={align}
         alignOffset={alignOffset}
-        className="z-50 outline-none"
+        className={COMBOBOX_POSITIONER_CLASS}
         data-slot="combobox-positioner"
         side={side}
         sideOffset={sideOffset}
       >
         <ComboboxPrimitive.Popup
           {...props}
-          className={cn(
-            "z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md",
-            typeof className === "string" ? className : undefined
-          )}
+          className={comboboxContentClassName({ className })}
           data-slot="combobox-content"
         />
       </ComboboxPrimitive.Positioner>
@@ -96,10 +140,7 @@ export function ComboboxList({ className, ...props }: ComboboxListProps) {
   return (
     <ComboboxPrimitive.List
       {...props}
-      className={cn(
-        "max-h-72 overflow-y-auto overflow-x-hidden",
-        typeof className === "string" ? className : undefined
-      )}
+      className={comboboxListClassName({ className })}
       data-slot="combobox-list"
     />
   );
@@ -113,15 +154,12 @@ export function ComboboxItem({
   return (
     <ComboboxPrimitive.Item
       {...props}
-      className={cn(
-        "relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none data-[disabled]:pointer-events-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:opacity-50",
-        typeof className === "string" ? className : undefined
-      )}
+      className={comboboxItemClassName({ className })}
       data-slot="combobox-item"
     >
       <span className="flex size-4 items-center justify-center">
         <ComboboxPrimitive.ItemIndicator data-slot="combobox-item-indicator">
-          <CheckIcon className="size-4" />
+          <CheckIcon aria-hidden="true" className="size-4" />
         </ComboboxPrimitive.ItemIndicator>
       </span>
       {children}

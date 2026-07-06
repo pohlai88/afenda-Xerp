@@ -8,6 +8,8 @@ export const LOCAL_ARTIFACT_SURFACE_RULE =
 
 /** Exact repo-relative paths that must never appear in `git ls-files`. */
 export const LOCAL_ARTIFACT_FORBIDDEN_TRACKED_PATHS = [
+  ".phase-0r-staged-safety.patch",
+  ".phase-0r-worktree-safety.patch",
   ".cursor-biome-report.json",
   "skills-lock.json",
   ".cursor/brand-hex-map.json",
@@ -32,6 +34,7 @@ export const LOCAL_ARTIFACT_FORBIDDEN_TRACKED_PREFIXES = [
  * Keep in sync with forbidden paths above.
  */
 export const LOCAL_ARTIFACT_REDIRECT_PREFIXES = [
+  ".phase-0r-",
   ".cursor-biome-report.json",
   "skills-lock.json",
   ".cursor/brand-hex-map.json",
