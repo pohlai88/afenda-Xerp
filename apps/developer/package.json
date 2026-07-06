@@ -18,7 +18,6 @@
     "test": "vitest run --config vitest.config.ts",
     "test:interaction": "vitest run --config vitest.config.ts .interaction.test",
     "test:e2e:smoke": "playwright test --project=chromium-smoke",
-    "test:e2e:cutover:sales": "playwright test --project=chromium-smoke -g \"Sales route cutover proof\"",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const d of ['.next', 'out']) rmSync(d, { recursive: true, force: true })\""
   },
   "dependencies": {

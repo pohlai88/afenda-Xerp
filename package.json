@@ -22,7 +22,7 @@
     "test:coverage": "vitest run --coverage",
     "test:coverage:phase1": "vitest run --coverage --project \"@afenda/auth\" --project \"@afenda/permissions\" --project \"@afenda/observability\" --project \"@afenda/database\"",
     "check:coverage-summary": "node scripts/governance/check-coverage-summary.mjs",
-    "test:interaction": "vitest run --project \"@afenda/testing\" .interaction.test",
+    "test:interaction": "vitest run --project \"@afenda/testing\" --project \"@afenda/developer\" --project \"@afenda/erp\" .interaction.test",
     "test:run:interaction": "pnpm test:interaction",
     "test:ui": "vitest --ui",
     "format": "ultracite fix",

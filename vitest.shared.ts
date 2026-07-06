@@ -17,7 +17,11 @@ export const INTEGRATION_TEST_PATTERN = "**/*.integration.test.{ts,tsx}";
 export const INTERACTION_CLI_PATH_FILTER = ".interaction.test";
 
 /** Vitest project names that host interaction suites. */
-export const INTERACTION_VITEST_PROJECTS = ["@afenda/testing"] as const;
+export const INTERACTION_VITEST_PROJECTS = [
+  "@afenda/testing",
+  "@afenda/developer",
+  "@afenda/erp",
+] as const;
 
 const NODE_SETUP = resolve(MONOREPO_ROOT, "packages/testing/src/setup/node.ts");
 const REACT_SETUP = resolve(

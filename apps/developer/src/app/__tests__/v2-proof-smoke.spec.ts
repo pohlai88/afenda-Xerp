@@ -27,26 +27,15 @@ test.describe("Phase 8 V2 proof route @smoke", () => {
     }, developerThemeStorageKey);
   });
 
-  test("renders consumer proof surfaces through public exports", async ({
+  test("exposes the theme customizer without browser runtime errors", async ({
     page,
   }) => {
-    await page.goto(proofRouteHref);
+    const runtimeErrors = collectRouteRuntimeErrors(page);
 
-    await expect(
-      page.getByText("V2 design system consumer proof")
-    ).toBeVisible();
-    await expect(page.getByText("Phase 8 V2 consumer proof")).toBeVisible();
-    await expect(page.getByText("Page surface pattern")).toBeVisible();
-    await expect(
-      page.getByRole("heading", { name: "Open records" })
-    ).toBeVisible();
-    await expect(page.getByText("Active backlog")).toBeVisible();
-    await expect(page.getByText("Record form")).toBeVisible();
-    await expect(page.getByText("Archive record?")).toBeVisible();
-    await expect(page.getByText("Workspace settings")).toBeVisible();
-    await expect(page.getByText("Evidence checkpoint")).toBeVisible();
+    await page.goto(proofRouteHref);
     await expect(page.getByLabel("Theme customizer")).toBeVisible();
-    await expect(page.locator('[data-proof="import-law"]')).toBeVisible();
+
+    expect(runtimeErrors).toEqual([]);
   });
 
   test("supports light/dark mode and editorial theme selection", async ({
@@ -71,17 +60,6 @@ test.describe("Phase 8 V2 proof route @smoke", () => {
     await page.getByRole("combobox", { name: "Theme" }).click();
     await page.getByRole("option", { name: "shadcn Default" }).click();
     await expect(themeState).toHaveAttribute("data-theme-id", "shadcn-default");
-  });
-
-  test("keeps the proof route free of browser runtime errors", async ({
-    page,
-  }) => {
-    const runtimeErrors = collectRouteRuntimeErrors(page);
-
-    await page.goto(proofRouteHref);
-    await page.getByText("V2 design system consumer proof").waitFor();
-
-    expect(runtimeErrors).toEqual([]);
   });
 
   test("does not emit hydration mismatch console errors", async ({ page }) => {

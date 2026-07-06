@@ -56,7 +56,7 @@ Vitest is for unit and integration only. Never write full browser E2E in vitest.
 - **Setup:** `packages/testing/src/setup/react.ts` + `@afenda/testing/react`
 - **API:** `setupUser()` (not `fireEvent`), helpers `openMenu`, `openDialog`, `openListbox`, …
 - **File naming:** `*.interaction.test.tsx` for click-to-open / keyboard flows; governance render tests stay in `*.test.tsx`
-- **Run:** `pnpm test:interaction` (monorepo) or `pnpm --filter @afenda/ui test:run -- interaction`
+- **Run:** `pnpm test:interaction` (monorepo — `@afenda/testing`, `@afenda/developer`, `@afenda/erp`) or `pnpm --filter @afenda/<app> test:interaction`
 - **Timeout:** `INTERACTION_TEST_TIMEOUT_MS` from `@afenda/testing/react`; set per suite with `vi.setConfig({ testTimeout })` when needed
 
 ---

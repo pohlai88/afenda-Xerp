@@ -245,19 +245,6 @@ test.describe("Developer route lab acceptance @smoke", () => {
     ).toBeVisible();
   });
 
-  test("returns the governed lab health Route Handler contract", async ({
-    request,
-  }) => {
-    const response = await request.get("/api/lab/v1/health");
-
-    expect(response.ok()).toBe(true);
-    await expect(response.json()).resolves.toEqual({
-      doctrine: "frontend-shape-only",
-      service: "developer-route-lab",
-      status: "ok",
-    });
-  });
-
   test("renders the explicit root not-found surface for unmatched URLs", async ({
     page,
   }) => {

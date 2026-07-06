@@ -43,7 +43,7 @@ function renderLabShell(pathname: string) {
   );
 }
 
-describe("LabShell interaction", () => {
+describe("LabShell", () => {
   it("renders the route-lab doctrine and labeled primary navigation", () => {
     renderLabShell("/dashboard/sales");
 

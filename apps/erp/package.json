@@ -12,6 +12,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest --config vitest.config.ts",
     "test:run": "vitest run --config vitest.config.ts",
+    "test:interaction": "vitest run --config vitest.config.ts .interaction.test",
     "test:e2e:smoke": "playwright test --project=chromium-smoke --pass-with-no-tests",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; for (const d of ['.next', 'out']) rmSync(d, { recursive: true, force: true })\""
   },
