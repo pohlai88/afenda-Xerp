@@ -159,7 +159,9 @@ const labActionRegistryEntryBlocks = [
   ...labActionRouteRegistrySource.matchAll(/\{\s*actionId:[\s\S]*?\n\s{2}\}/g),
 ].map((match) => match[0]);
 const labQueryRegistryEntryBlocks = [
-  ...labQueryRouteRegistrySource.matchAll(/\{[\s\S]*?queryId:[\s\S]*?\n\s{2}\}/g),
+  ...labQueryRouteRegistrySource.matchAll(
+    /\{[\s\S]*?queryId:[\s\S]*?\n\s{2}\}/g
+  ),
 ].map((match) => match[0]);
 const labCacheRegistryEntryBlocks = [
   ...labCacheRouteRegistrySource.matchAll(/\{\s*cacheKind:[\s\S]*?\n\s{2}\}/g),
