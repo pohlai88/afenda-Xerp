@@ -281,15 +281,15 @@ describe("shadcn-studio-v2 taxonomy", () => {
         auth/
           AuthShell.tsx
         datatables/
-          .gitkeep
+          DataTableSurface.tsx
         dialogs/
-          .gitkeep
+          ConfirmDialogSurface.tsx
         forms/
-          .gitkeep
+          FormSurface.tsx
         pages/
           PageSurface.tsx
         settings/
-          .gitkeep
+          SettingsSurface.tsx
         widgets/
           MetricWidget.tsx"
     `);

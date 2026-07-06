@@ -7,12 +7,24 @@ import {
   AUTH_SHELL_SLOTS,
   AuthShell,
   authShellClassName,
+  CONFIRM_DIALOG_SURFACE_SLOTS,
+  ConfirmDialogSurface,
+  confirmDialogSurfaceClassName,
+  DATA_TABLE_SURFACE_SLOTS,
+  DataTableSurface,
+  dataTableSurfaceClassName,
+  FORM_SURFACE_SLOTS,
+  FormSurface,
+  formSurfaceClassName,
   METRIC_WIDGET_SLOTS,
   MetricWidget,
   metricWidgetValueClassName,
   PAGE_SURFACE_SLOTS,
   PageSurface,
   pageSurfaceClassName,
+  SETTINGS_SURFACE_SLOTS,
+  SettingsSurface,
+  settingsSurfaceClassName,
   workspaceBoardWidgetAdapterClassName,
 } from "../index";
 
@@ -178,6 +190,437 @@ describe("Phase 7C auth presentation", () => {
 
       if (FORBIDDEN_VIEW_IMPORT_PATTERN.test(source)) {
         violations.push(`${relativePath}: forbidden runtime import`);
+      }
+    }
+
+    expect(violations).toEqual([]);
+  });
+});
+
+describe("Phase 7B workflow views", () => {
+  it("renders DataTableSurface with native table semantics and empty state", () => {
+    const readyMarkup = renderToStaticMarkup(
+      <DataTableSurface
+        caption="Two open operational records."
+        columns={[
+          { header: "Name", id: "name" },
+          { align: "end", header: "Amount", id: "amount" },
+        ]}
+        description="Workflow table description."
+        rows={[
+          {
+            cells: { amount: "$128.00", name: "Invoice 1001" },
+            id: "row-1",
+          },
+          {
+            cells: { amount: "$256.00", name: "Invoice 1002" },
+            id: "row-2",
+          },
+        ]}
+        title="Open records"
+      />
+    );
+    const emptyMarkup = renderToStaticMarkup(
+      <DataTableSurface
+        columns={[{ header: "Name", id: "name" }]}
+        title="Open records"
+      />
+    );
+
+    expect(readyMarkup).toContain(
+      `data-slot="${DATA_TABLE_SURFACE_SLOTS.root}"`
+    );
+    expect(readyMarkup).toContain(
+      `data-slot="${DATA_TABLE_SURFACE_SLOTS.title}"`
+    );
+    expect(readyMarkup).toContain(
+      `data-slot="${DATA_TABLE_SURFACE_SLOTS.description}"`
+    );
+    expect(readyMarkup).toContain(
+      `data-slot="${DATA_TABLE_SURFACE_SLOTS.table}"`
+    );
+    expect(readyMarkup).toContain("<table");
+    expect(readyMarkup).toContain("<thead");
+    expect(readyMarkup).toContain("<tbody");
+    expect(readyMarkup).toContain('scope="col"');
+    expect(readyMarkup).toContain("Invoice 1001");
+    expect(readyMarkup).toContain("Two open operational records.");
+    expect(readyMarkup).toMatch(/aria-labelledby="[^"]+-title"/);
+    expect(emptyMarkup).toContain('data-state="empty"');
+    expect(emptyMarkup).toContain("No rows");
+    expect(emptyMarkup).not.toContain("<table");
+  });
+
+  it("renders FormSurface as presentational fields without submit ownership", () => {
+    const markup = renderToStaticMarkup(
+      <FormSurface
+        actions={<button type="button">Save draft</button>}
+        description="Review fields before consumer-owned submit wiring."
+        fields={[
+          {
+            control: <input id="record-name" name="recordName" />,
+            description: "Visible to operators.",
+            id: "record-name",
+            label: "Record name",
+            required: true,
+          },
+          {
+            control: <input aria-invalid="true" id="limit" name="limit" />,
+            id: "limit",
+            label: "Limit",
+            message: "Limit is required.",
+            state: "invalid",
+          },
+        ]}
+        title="Record form"
+      />
+    );
+
+    expect(markup).toContain(`data-slot="${FORM_SURFACE_SLOTS.root}"`);
+    expect(markup).toContain(`data-slot="${FORM_SURFACE_SLOTS.title}"`);
+    expect(markup).toContain(`data-slot="${FORM_SURFACE_SLOTS.field}"`);
+    expect(markup).toContain(`data-slot="${FORM_SURFACE_SLOTS.fieldControl}"`);
+    expect(markup).toContain(`data-slot="${FORM_SURFACE_SLOTS.fieldMessage}"`);
+    expect(markup).toContain(`data-slot="${FORM_SURFACE_SLOTS.actions}"`);
+    expect(markup).toContain('for="record-name"');
+    expect(markup).toContain('role="alert"');
+    expect(markup).toContain("Save draft");
+    expect(markup).not.toContain("<form");
+    expect(markup).not.toContain("onSubmit");
+  });
+
+  it("renders ConfirmDialogSurface with dialog semantics and safe buttons", () => {
+    const markup = renderToStaticMarkup(
+      <ConfirmDialogSurface
+        description="This is a consumer-owned confirmation prompt."
+        intent="destructive"
+        title="Archive record?"
+      />
+    );
+
+    expect(markup).toContain(
+      `data-slot="${CONFIRM_DIALOG_SURFACE_SLOTS.root}"`
+    );
+    expect(markup).toContain('role="dialog"');
+    expect(markup).toContain('aria-modal="true"');
+    expect(markup).toContain('data-intent="destructive"');
+    expect(markup).toContain(
+      `data-slot="${CONFIRM_DIALOG_SURFACE_SLOTS.confirmAction}"`
+    );
+    expect(markup).toContain(
+      `data-slot="${CONFIRM_DIALOG_SURFACE_SLOTS.cancelAction}"`
+    );
+    expect(markup).toContain('type="button"');
+    expect(markup).toContain("Archive record?");
+    expect(markup).toContain("Confirm");
+    expect(markup).toContain("Cancel");
+    expect(markup).toMatch(/aria-labelledby="[^"]+-title"/);
+    expect(markup).toMatch(/aria-describedby="[^"]+-description"/);
+  });
+
+  it("preserves ConfirmDialogSurface modal semantics override", () => {
+    const markup = renderToStaticMarkup(
+      <ConfirmDialogSurface aria-modal={false} title="Inline confirmation" />
+    );
+
+    expect(markup).toContain('role="dialog"');
+    expect(markup).toContain('aria-modal="false"');
+  });
+
+  it("renders SettingsSurface as grouped presentation rows", () => {
+    const markup = renderToStaticMarkup(
+      <SettingsSurface
+        description="Presentation-only settings groups."
+        sections={[
+          {
+            description: "Controls are supplied by consumers.",
+            id: "general",
+            items: [
+              {
+                control: <button type="button">Edit</button>,
+                description: "Shown in the workspace header.",
+                id: "workspace-name",
+                label: "Workspace name",
+              },
+            ],
+            title: "General",
+          },
+        ]}
+        title="Workspace settings"
+      />
+    );
+
+    expect(markup).toContain(`data-slot="${SETTINGS_SURFACE_SLOTS.root}"`);
+    expect(markup).toContain(`data-slot="${SETTINGS_SURFACE_SLOTS.title}"`);
+    expect(markup).toContain(`data-slot="${SETTINGS_SURFACE_SLOTS.section}"`);
+    expect(markup).toContain(
+      `data-slot="${SETTINGS_SURFACE_SLOTS.itemControl}"`
+    );
+    expect(markup).toContain("Workspace settings");
+    expect(markup).toContain("Workspace name");
+    expect(markup).toContain("Edit");
+    expect(markup).toMatch(/aria-labelledby="[^"]+-title"/);
+  });
+
+  it("preserves workflow surface native props while keeping governed slots", () => {
+    const dataTableMarkup = renderToStaticMarkup(
+      <DataTableSurface
+        aria-describedby="external-description"
+        aria-label="External table label"
+        className="custom-data-table"
+        columns={[{ header: "Name", id: "name" }]}
+        data-slot="consumer-slot"
+        rows={[{ cells: { name: "Record" }, id: "row-1" }]}
+        title="Records"
+      />
+    );
+    const formMarkup = renderToStaticMarkup(
+      <FormSurface
+        aria-describedby="external-form-description"
+        aria-labelledby="external-form-title"
+        className="custom-form"
+        data-slot="consumer-slot"
+        fields={[
+          {
+            control: <input id="name" name="name" />,
+            id: "name",
+            label: "Name",
+          },
+        ]}
+        title="Record form"
+      />
+    );
+    const dialogMarkup = renderToStaticMarkup(
+      <ConfirmDialogSurface
+        aria-label="External dialog label"
+        className="custom-dialog"
+        data-slot="consumer-slot"
+        title="Confirm"
+      />
+    );
+    const settingsMarkup = renderToStaticMarkup(
+      <SettingsSurface
+        aria-describedby="external-settings-description"
+        className="custom-settings"
+        data-slot="consumer-slot"
+        sections={[
+          {
+            id: "general",
+            items: [{ id: "name", label: "Name" }],
+            title: "General",
+          },
+        ]}
+        title="Settings"
+      />
+    );
+
+    expect(dataTableMarkup).toContain('aria-label="External table label"');
+    expect(dataTableMarkup).toContain(
+      'aria-describedby="external-description"'
+    );
+    expect(dataTableMarkup).toContain("custom-data-table");
+    expect(dataTableMarkup).toContain(
+      `data-slot="${DATA_TABLE_SURFACE_SLOTS.root}"`
+    );
+    expect(dataTableMarkup).not.toContain('data-slot="consumer-slot"');
+    expect(formMarkup).toContain('aria-labelledby="external-form-title"');
+    expect(formMarkup).toContain(
+      'aria-describedby="external-form-description"'
+    );
+    expect(formMarkup).toContain("custom-form");
+    expect(formMarkup).toContain(`data-slot="${FORM_SURFACE_SLOTS.root}"`);
+    expect(formMarkup).not.toContain('data-slot="consumer-slot"');
+    expect(dialogMarkup).toContain('aria-label="External dialog label"');
+    expect(dialogMarkup).toContain("custom-dialog");
+    expect(dialogMarkup).toContain(
+      `data-slot="${CONFIRM_DIALOG_SURFACE_SLOTS.root}"`
+    );
+    expect(dialogMarkup).not.toContain('data-slot="consumer-slot"');
+    expect(settingsMarkup).toContain(
+      'aria-describedby="external-settings-description"'
+    );
+    expect(settingsMarkup).toContain("custom-settings");
+    expect(settingsMarkup).toContain(
+      `data-slot="${SETTINGS_SURFACE_SLOTS.root}"`
+    );
+    expect(settingsMarkup).not.toContain('data-slot="consumer-slot"');
+  });
+
+  it("supports workflow label props as explicit accessible-name overrides", () => {
+    const dataTableMarkup = renderToStaticMarkup(
+      <DataTableSurface
+        columns={[{ header: "Name", id: "name" }]}
+        label="Metric source records"
+        rows={[{ cells: { name: "Record" }, id: "row-1" }]}
+        title="Records"
+      />
+    );
+    const formMarkup = renderToStaticMarkup(
+      <FormSurface
+        fields={[
+          {
+            control: <input id="name" name="name" />,
+            id: "name",
+            label: "Name",
+          },
+        ]}
+        label="Record edit controls"
+        title="Record form"
+      />
+    );
+    const dialogMarkup = renderToStaticMarkup(
+      <ConfirmDialogSurface label="Archive confirmation" title="Confirm" />
+    );
+    const settingsMarkup = renderToStaticMarkup(
+      <SettingsSurface
+        label="Workspace preference groups"
+        sections={[
+          {
+            id: "general",
+            items: [{ id: "name", label: "Name" }],
+            title: "General",
+          },
+        ]}
+        title="Settings"
+      />
+    );
+
+    expect(dataTableMarkup).toContain('aria-label="Metric source records"');
+    expect(dataTableMarkup).not.toMatch(
+      /<section[^>]+aria-labelledby="[^"]+-title"/
+    );
+    expect(formMarkup).toContain('aria-label="Record edit controls"');
+    expect(formMarkup).not.toMatch(
+      /<section[^>]+aria-labelledby="[^"]+-title"/
+    );
+    expect(dialogMarkup).toContain('aria-label="Archive confirmation"');
+    expect(dialogMarkup).not.toMatch(
+      /<section[^>]+aria-labelledby="[^"]+-title"/
+    );
+    expect(settingsMarkup).toContain(
+      'aria-label="Workspace preference groups"'
+    );
+    expect(settingsMarkup).not.toMatch(
+      /<section[^>]+aria-labelledby="[^"]+-title"/
+    );
+  });
+
+  it.each(
+    VIEW_SURFACE_STATES
+  )("renders workflow %s states with accessible semantics", (state) => {
+    const action = <button type="button">Retry</button>;
+    const stateMessages = {
+      [state]: {
+        action,
+        description: `${state} workflow description`,
+        title: `${state} workflow title`,
+      },
+    };
+    const surfaces = [
+      {
+        markup: renderToStaticMarkup(
+          <DataTableSurface
+            columns={[{ header: "Name", id: "name" }]}
+            state={state}
+            stateMessages={stateMessages}
+            title="Records"
+          />
+        ),
+        slot: DATA_TABLE_SURFACE_SLOTS.state,
+      },
+      {
+        markup: renderToStaticMarkup(
+          <FormSurface
+            fields={[
+              {
+                control: <input id="name" name="name" />,
+                id: "name",
+                label: "Name",
+              },
+            ]}
+            state={state}
+            stateMessages={stateMessages}
+            title="Record form"
+          />
+        ),
+        slot: FORM_SURFACE_SLOTS.state,
+      },
+      {
+        markup: renderToStaticMarkup(
+          <ConfirmDialogSurface
+            state={state}
+            stateMessages={stateMessages}
+            title="Confirm"
+          />
+        ),
+        slot: CONFIRM_DIALOG_SURFACE_SLOTS.state,
+      },
+      {
+        markup: renderToStaticMarkup(
+          <SettingsSurface
+            sections={[
+              {
+                id: "general",
+                items: [{ id: "name", label: "Name" }],
+                title: "General",
+              },
+            ]}
+            state={state}
+            stateMessages={stateMessages}
+            title="Settings"
+          />
+        ),
+        slot: SETTINGS_SURFACE_SLOTS.state,
+      },
+    ];
+
+    for (const surface of surfaces) {
+      expect(surface.markup).toContain(`data-slot="${surface.slot}"`);
+      expect(surface.markup).toContain(`data-state="${state}"`);
+      expect(surface.markup).toContain(
+        state === "error" ? 'role="alert"' : 'role="status"'
+      );
+      expect(surface.markup).toContain(`${state} workflow title`);
+      expect(surface.markup).toContain(`${state} workflow description`);
+      expect(surface.markup).toContain("Retry");
+      expect(surface.markup).toMatch(
+        new RegExp(
+          `role="${state === "error" ? "alert" : "status"}"[\\s\\S]*</div><div class="mt-3" data-slot="[^"]+state-action"`
+        )
+      );
+    }
+  });
+
+  it("keeps workflow class helpers deterministic", () => {
+    expect(confirmDialogSurfaceClassName()).toContain("grid");
+    expect(dataTableSurfaceClassName()).toContain("grid");
+    expect(formSurfaceClassName()).toContain("grid");
+    expect(settingsSurfaceClassName()).toContain("grid");
+  });
+
+  it("keeps Phase 7B views token-safe and free of app runtime imports", () => {
+    const viewFiles = [
+      ...collectSourceFiles(path.join(SRC_ROOT, "views", "datatables")),
+      ...collectSourceFiles(path.join(SRC_ROOT, "views", "dialogs")),
+      ...collectSourceFiles(path.join(SRC_ROOT, "views", "forms")),
+      ...collectSourceFiles(path.join(SRC_ROOT, "views", "settings")),
+    ];
+    const violations: string[] = [];
+
+    for (const filePath of viewFiles) {
+      const source = readFileSync(filePath, "utf8");
+      const relativePath = path.relative(SRC_ROOT, filePath);
+
+      if (RAW_COLOR_PATTERN.test(source)) {
+        violations.push(`${relativePath}: raw color`);
+      }
+
+      if (FORBIDDEN_VIEW_IMPORT_PATTERN.test(source)) {
+        violations.push(`${relativePath}: forbidden runtime import`);
+      }
+
+      if (FORBIDDEN_DASHBOARD_CANVAS_NAME_PATTERN.test(source)) {
+        violations.push(`${relativePath}: forbidden dashboard canvas name`);
       }
     }
 

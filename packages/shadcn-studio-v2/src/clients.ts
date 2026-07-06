@@ -143,6 +143,26 @@ export type {
   StudioThemeUpdate,
 } from "./types/theme";
 export {
+  CONFIRM_DIALOG_SURFACE_SLOTS,
+  type ConfirmDialogSurfaceIntent,
+  type ConfirmDialogSurfaceProps,
+  type ConfirmDialogSurfaceSlot,
+  type ConfirmDialogSurfaceSlotName,
+  type ConfirmDialogSurfaceSlotValue,
+  DATA_TABLE_SURFACE_SLOTS,
+  type DataTableSurfaceColumn,
+  type DataTableSurfaceColumnAlign,
+  type DataTableSurfaceProps,
+  type DataTableSurfaceRow,
+  type DataTableSurfaceSlot,
+  type DataTableSurfaceSlotName,
+  type DataTableSurfaceSlotValue,
+  FORM_SURFACE_SLOTS,
+  type FormSurfaceField,
+  type FormSurfaceProps,
+  type FormSurfaceSlot,
+  type FormSurfaceSlotName,
+  type FormSurfaceSlotValue,
   METRIC_WIDGET_SLOTS,
   type MetricWidgetAdapterProps,
   type MetricWidgetNonReadyProps,
@@ -158,6 +178,13 @@ export {
   type PageSurfaceSlotName,
   type PageSurfaceSlotValue,
   type PageSurfaceTopbarProps,
+  SETTINGS_SURFACE_SLOTS,
+  type SettingsSurfaceItem,
+  type SettingsSurfaceProps,
+  type SettingsSurfaceSection,
+  type SettingsSurfaceSlot,
+  type SettingsSurfaceSlotName,
+  type SettingsSurfaceSlotValue,
   type ViewStateMessage,
   type ViewStateMessages,
   type ViewStateProps,
@@ -184,10 +211,26 @@ export {
   type NonReadyAuthShellState,
 } from "./views/auth/AuthShell";
 export {
+  DataTableSurface,
+  dataTableSurfaceClassName,
+} from "./views/datatables/DataTableSurface";
+export {
+  ConfirmDialogSurface,
+  confirmDialogSurfaceClassName,
+} from "./views/dialogs/ConfirmDialogSurface";
+export {
+  FormSurface,
+  formSurfaceClassName,
+} from "./views/forms/FormSurface";
+export {
   PageSurface,
   type PageSurfaceProps,
   pageSurfaceClassName,
 } from "./views/pages/PageSurface";
+export {
+  SettingsSurface,
+  settingsSurfaceClassName,
+} from "./views/settings/SettingsSurface";
 export {
   MetricWidget,
   type MetricWidgetProps,
