@@ -565,6 +565,22 @@ export const SURFACE_TEMPLATE_REGISTRY = [
     templateClass: "form",
   },
   {
+    acceptanceRecordIds: ["acceptance-record:login-page-03"],
+    blockBindings: [
+      {
+        blockId: "login-page-03",
+        slotFills: {
+          "workspace-select.title": "workspace-select.title",
+          "workspace-select.description": "workspace-select.description",
+          "workspace-select.action": "workspace-select.action",
+        },
+      },
+    ],
+    metadataBindingId: "metadata-binding.login-page-03-workspace-select",
+    surfaceTemplateId: "surface-template.auth-workspace-select",
+    templateClass: "form",
+  },
+  {
     acceptanceRecordIds: ["acceptance-record:error-authentication-page-01"],
     blockBindings: [
       {

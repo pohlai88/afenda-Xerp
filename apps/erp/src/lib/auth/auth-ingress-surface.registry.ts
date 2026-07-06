@@ -149,6 +149,16 @@ export const AUTH_INGRESS_CANONICAL_SURFACES = [
     surfaceTemplateId: "surface-template.error-auth-access-denied",
   },
   {
+    blockId: "login-page-03",
+    path: "/workspace/select",
+    surfaceTemplateId: "surface-template.auth-workspace-select",
+  },
+  {
+    blockId: "login-page-03",
+    path: "/organization/select",
+    surfaceTemplateId: "surface-template.auth-workspace-select",
+  },
+  {
     blockId: "security-review-page-01",
     path: "/security/review",
     surfaceTemplateId: "surface-template.auth-security-review",

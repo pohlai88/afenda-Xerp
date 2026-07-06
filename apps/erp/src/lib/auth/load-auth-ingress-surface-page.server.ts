@@ -122,6 +122,10 @@ export function resolveAuthIngressTitle(
       return "Session expired";
     case AUTH_PATHS.accessDenied:
       return "Access denied";
+    case AUTH_PATHS.workspaceSelect:
+      return "Select workspace";
+    case AUTH_PATHS.organizationSelect:
+      return "Select organization";
     case AUTH_PATHS.securityReview:
       return "Security review required";
     case AUTH_PATHS.error:
@@ -185,6 +189,10 @@ export function resolveAuthIngressDescription(
       return "Sign in again after the previous session expired.";
     case AUTH_PATHS.accessDenied:
       return "Use an approved account before accessing this workspace.";
+    case AUTH_PATHS.workspaceSelect:
+      return "Choose the workspace scope for this sign-in session.";
+    case AUTH_PATHS.organizationSelect:
+      return "Choose the organization scope for this sign-in session.";
     case AUTH_PATHS.securityReview:
       return "Complete the required security review before workspace access.";
     case AUTH_PATHS.error:

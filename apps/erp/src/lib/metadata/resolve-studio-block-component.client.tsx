@@ -239,6 +239,11 @@ const STUDIO_BLOCK_PREVIEW_DEFINITIONS = {
     title: "Sign in",
     viewKind: "auth-shell",
   },
+  "login-page-03": {
+    create: createAuthShellPreview,
+    title: "Select workspace",
+    viewKind: "auth-shell",
+  },
   "mfa-page-01": {
     create: createAuthShellPreview,
     title: "MFA",

@@ -193,6 +193,16 @@ describe("loadAuthIngressSurfacePage", () => {
         path: "/error",
         surfaceTemplateId: "surface-template.error-authentication",
       },
+      {
+        blockId: "login-page-03",
+        path: "/workspace/select",
+        surfaceTemplateId: "surface-template.auth-workspace-select",
+      },
+      {
+        blockId: "login-page-03",
+        path: "/organization/select",
+        surfaceTemplateId: "surface-template.auth-workspace-select",
+      },
     ] as const;
 
     for (const ingress of expected) {

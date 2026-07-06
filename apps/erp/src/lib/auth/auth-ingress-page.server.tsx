@@ -4,9 +4,12 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { AuthIngressSurfacePage } from "@/components/auth/auth-ingress-surface-page";
+import { AuthWorkspaceSelectIngressSurface } from "@/components/auth/auth-workspace-select-ingress.client";
 
 import type { AuthIngressCanonicalPath } from "./auth-ingress-surface.registry";
+import type { AUTH_PATHS } from "./auth-path.registry";
 import { resolveAuthSurfaceConfig } from "./auth-surface-config.server";
+import type { AuthWorkspaceSelectionKind } from "./auth-workspace-selection.helpers";
 import {
   loadAuthIngressSurfacePage,
   resolveAuthIngressDescription,
@@ -60,6 +63,16 @@ export function renderAuthIngressPage(
       runtimeConfig={resolveAuthSurfaceConfig(input)}
     />
   );
+}
+
+export function renderAuthWorkspaceSelectIngressPage(
+  path:
+    | typeof AUTH_PATHS.workspaceSelect
+    | typeof AUTH_PATHS.organizationSelect,
+  kind: AuthWorkspaceSelectionKind
+): React.JSX.Element {
+  const data = loadAuthIngressSurfacePage(path);
+  return <AuthWorkspaceSelectIngressSurface data={data} kind={kind} />;
 }
 
 export async function redirectAuthenticatedAuthIngress(

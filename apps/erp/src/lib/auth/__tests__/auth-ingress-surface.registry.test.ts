@@ -10,7 +10,13 @@ import {
   getAuthIngressSurfaceByPath,
   isAuthIngressCanonicalPath,
 } from "../auth-ingress-surface.registry";
+import { AUTH_PATHS } from "../auth-path.registry";
 import { PUBLIC_APP_ROUTER_PATH_PREFIXES } from "../auth-protected-surface.registry";
+
+const POST_AUTH_WORKSPACE_SELECTION_PATHS = new Set<string>([
+  AUTH_PATHS.workspaceSelect,
+  AUTH_PATHS.organizationSelect,
+]);
 
 describe("auth-ingress-surface.registry", () => {
   it("registers serializable canonical auth ingress surfaces", () => {
@@ -177,9 +183,28 @@ describe("auth-ingress-surface.registry", () => {
     }
   });
 
+  it("maps post-auth workspace selection paths to login-page-03 ingress templates", () => {
+    expect(
+      getAuthIngressSurfaceByPath(AUTH_PATHS.workspaceSelect)
+    ).toMatchObject({
+      blockId: "login-page-03",
+      surfaceTemplateId: "surface-template.auth-workspace-select",
+    });
+    expect(
+      getAuthIngressSurfaceByPath(AUTH_PATHS.organizationSelect)
+    ).toMatchObject({
+      blockId: "login-page-03",
+      surfaceTemplateId: "surface-template.auth-workspace-select",
+    });
+  });
+
   it("does not map pre-login ingress paths to login fallbacks", () => {
     for (const surface of AUTH_INGRESS_CANONICAL_SURFACES) {
       if (surface.path === "/sign-in") {
+        continue;
+      }
+
+      if (POST_AUTH_WORKSPACE_SELECTION_PATHS.has(surface.path)) {
         continue;
       }
 
