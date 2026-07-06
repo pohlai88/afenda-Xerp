@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { assertSliceDocumentsComplete } from "./helpers/lane-slice-doc-status";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -52,14 +53,7 @@ function readRepoFile(relativePath: string): string {
 
 describe("Lane A-10 synchronization gate", () => {
   it("marks Lane A-01 through A-09 slices complete in slice documents", () => {
-    for (const fileName of LANE_A_COMPLETE_SLICE_FILES) {
-      const sliceDocument = readFileSync(
-        path.join(SLICES_ROOT, fileName),
-        "utf8"
-      );
-
-      expect(sliceDocument, fileName).toMatch(/Status: \*\*Complete\*\*/u);
-    }
+    assertSliceDocumentsComplete(SLICES_ROOT, LANE_A_COMPLETE_SLICE_FILES);
   });
 
   it("keeps Lane A index and slice README statuses aligned through A-09", () => {

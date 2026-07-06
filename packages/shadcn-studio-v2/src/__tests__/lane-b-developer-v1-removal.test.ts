@@ -2,6 +2,8 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { assertNoV1ConsumerImport } from "./helpers/forbidden-v1-import-patterns";
+import { assertSliceDocumentComplete } from "./helpers/lane-slice-doc-status";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -25,9 +27,6 @@ const B12_SLICE_PATH = path.join(
   DOCS_SLICES_ROOT,
   "LANE-B-12-DEVELOPER-LAB-V1-REMOVAL.md"
 );
-
-const FORBIDDEN_V1_IMPORT =
-  /from\s+["']@afenda\/shadcn-studio(?:\/(?!v2)|["'])/u;
 
 function collectSourceFiles(directory: string): string[] {
   const entries = readdirSync(directory);
@@ -56,9 +55,7 @@ describe("Lane B-12 developer lab v1 dependency removal", () => {
 
     for (const file of files) {
       const source = readFileSync(file, "utf8");
-      expect(source, path.relative(REPO_ROOT, file)).not.toMatch(
-        FORBIDDEN_V1_IMPORT
-      );
+      assertNoV1ConsumerImport(source, path.relative(REPO_ROOT, file));
     }
   });
 
@@ -69,7 +66,7 @@ describe("Lane B-12 developer lab v1 dependency removal", () => {
     expect(packageJson).not.toContain('"@afenda/shadcn-studio"');
     expect(packageJson).toContain('"@afenda/shadcn-studio-v2"');
     expect(nextConfig).toContain("@afenda/shadcn-studio-v2");
-    expect(nextConfig).not.toMatch(FORBIDDEN_V1_IMPORT);
+    assertNoV1ConsumerImport(nextConfig);
   });
 
   it("enforces B-12 v1 removal in developer presentation runtime check", () => {
@@ -84,7 +81,10 @@ describe("Lane B-12 developer lab v1 dependency removal", () => {
   it("records B-12 slice completion", () => {
     const slice = readFileSync(B12_SLICE_PATH, "utf8");
 
-    expect(slice).toContain("Status: **Complete**");
+    assertSliceDocumentComplete(
+      DOCS_SLICES_ROOT,
+      "LANE-B-12-DEVELOPER-LAB-V1-REMOVAL.md"
+    );
     expect(slice).toContain("DataTableSurface");
     expect(slice).toContain("MetricWidget");
   });

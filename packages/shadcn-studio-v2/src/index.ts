@@ -196,7 +196,6 @@ export {
   type FieldMessageProps,
   type FieldOrientation,
   type FieldProps,
-  FieldRequiredIndicator,
   type FieldState,
   fieldClassName,
 } from "./components/ui/field";

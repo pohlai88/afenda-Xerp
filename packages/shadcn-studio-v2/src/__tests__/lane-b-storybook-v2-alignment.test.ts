@@ -2,6 +2,8 @@ import { readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { assertNoV1ConsumerImport } from "./helpers/forbidden-v1-import-patterns";
+import { assertSliceDocumentComplete } from "./helpers/lane-slice-doc-status";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -17,9 +19,6 @@ const B11_SLICE_PATH = path.join(
   DOCS_SLICES_ROOT,
   "LANE-B-11-STORYBOOK-V2-ALIGNMENT.md"
 );
-
-const FORBIDDEN_V1_IMPORT =
-  /from\s+["']@afenda\/shadcn-studio(?:\/(?!v2)|["'])/u;
 
 function collectSourceFiles(directory: string): string[] {
   const entries = readdirSync(directory);
@@ -52,12 +51,9 @@ describe("Lane B-11 Storybook v2 alignment", () => {
 
     for (const file of files) {
       const source = readFileSync(file, "utf8");
-      expect(source, path.relative(REPO_ROOT, file)).not.toMatch(
-        FORBIDDEN_V1_IMPORT
-      );
-      expect(source, path.relative(REPO_ROOT, file)).not.toContain(
-        '"@afenda/shadcn-studio"'
-      );
+      const label = path.relative(REPO_ROOT, file);
+      assertNoV1ConsumerImport(source, label);
+      expect(source, label).not.toContain('"@afenda/shadcn-studio"');
       expect(source, path.relative(REPO_ROOT, file)).not.toContain(
         "@afenda/shadcn-studio/shadcn-default.css"
       );
@@ -87,13 +83,16 @@ describe("Lane B-11 Storybook v2 alignment", () => {
     expect(labExport).toContain('"./lab"');
     expect(labBoundary).toContain("shadcnStudioThemeDecorator");
     expect(labBoundary).toContain("ErpWorkspaceDashboardPageSample");
-    expect(labBoundary).not.toMatch(FORBIDDEN_V1_IMPORT);
+    assertNoV1ConsumerImport(labBoundary);
   });
 
   it("records B-11 slice completion", () => {
     const slice = readFileSync(B11_SLICE_PATH, "utf8");
 
-    expect(slice).toContain("Status: **Complete**");
+    assertSliceDocumentComplete(
+      DOCS_SLICES_ROOT,
+      "LANE-B-11-STORYBOOK-V2-ALIGNMENT.md"
+    );
     expect(slice).toContain("AppShell01");
     expect(slice).toContain("MetricWidget");
   });

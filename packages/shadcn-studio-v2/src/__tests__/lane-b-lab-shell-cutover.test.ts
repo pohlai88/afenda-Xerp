@@ -2,6 +2,8 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { assertNoV1ConsumerImport } from "./helpers/forbidden-v1-import-patterns";
+import { assertSliceDocumentComplete } from "./helpers/lane-slice-doc-status";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -25,16 +27,13 @@ const B04_SLICE_PATH = path.join(
   "LANE-B-04-DEVELOPER-LAB-SHELL-CUTOVER.md"
 );
 
-const FORBIDDEN_V1_LAB_SHELL_IMPORT =
-  /from\s+["']@afenda\/shadcn-studio(?:\/(?!v2)|["'])/u;
-
 describe("Lane B-04 developer lab shell cutover", () => {
   it("uses AppShell01 from v2 clients without v1 shell or theme providers", () => {
     const labShell = readFileSync(LAB_SHELL_PATH, "utf8");
 
     expect(labShell).toContain("AppShell01");
     expect(labShell).toContain("@afenda/shadcn-studio-v2/clients");
-    expect(labShell).not.toMatch(FORBIDDEN_V1_LAB_SHELL_IMPORT);
+    assertNoV1ConsumerImport(labShell);
     expect(labShell).not.toContain("AdmincnShell");
     expect(labShell).not.toContain("SettingsProvider");
   });
@@ -43,7 +42,7 @@ describe("Lane B-04 developer lab shell cutover", () => {
     const navConfig = readFileSync(NAV_CONFIG_PATH, "utf8");
 
     expect(navConfig).toContain("@afenda/shadcn-studio-v2/clients");
-    expect(navConfig).not.toMatch(FORBIDDEN_V1_LAB_SHELL_IMPORT);
+    assertNoV1ConsumerImport(navConfig);
   });
 
   it("enforces v2 lab shell wiring in developer presentation runtime check", () => {
@@ -58,7 +57,10 @@ describe("Lane B-04 developer lab shell cutover", () => {
   it("records B-04 slice completion", () => {
     const slice = readFileSync(B04_SLICE_PATH, "utf8");
 
-    expect(slice).toContain("Status: **Complete**");
+    assertSliceDocumentComplete(
+      DOCS_SLICES_ROOT,
+      "LANE-B-04-DEVELOPER-LAB-SHELL-CUTOVER.md"
+    );
     expect(slice).toContain("AppShell01");
   });
 });

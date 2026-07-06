@@ -2,6 +2,8 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { assertNoV1ConsumerImport } from "./helpers/forbidden-v1-import-patterns";
+import { assertSliceDocumentComplete } from "./helpers/lane-slice-doc-status";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -25,16 +27,13 @@ const B06_SLICE_PATH = path.join(
   "LANE-B-06-ERP-APP-SHELL-NAV-CUTOVER.md"
 );
 
-const FORBIDDEN_V1_SHELL_IMPORT =
-  /from\s+["']@afenda\/shadcn-studio(?:\/(?!v2)|["'])/u;
-
 describe("Lane B-06 ERP app shell and nav cutover", () => {
   it("uses AppShell01 from v2 clients in the protected shell", () => {
     const shell = readFileSync(PROTECTED_SHELL_PATH, "utf8");
 
     expect(shell).toContain("AppShell01");
     expect(shell).toContain("@afenda/shadcn-studio-v2/clients");
-    expect(shell).not.toMatch(FORBIDDEN_V1_SHELL_IMPORT);
+    assertNoV1ConsumerImport(shell);
     expect(shell).not.toContain("resolveShell");
   });
 
@@ -43,15 +42,18 @@ describe("Lane B-06 ERP app shell and nav cutover", () => {
     const contextWire = readFileSync(CONTEXT_WIRE_PATH, "utf8");
 
     expect(nav).toContain("@afenda/shadcn-studio-v2/clients");
-    expect(nav).not.toMatch(FORBIDDEN_V1_SHELL_IMPORT);
+    assertNoV1ConsumerImport(nav);
     expect(contextWire).toContain("@afenda/shadcn-studio-v2/clients");
-    expect(contextWire).not.toMatch(FORBIDDEN_V1_SHELL_IMPORT);
+    assertNoV1ConsumerImport(contextWire);
   });
 
   it("records B-06 slice completion", () => {
     const slice = readFileSync(B06_SLICE_PATH, "utf8");
 
-    expect(slice).toContain("Status: **Complete**");
+    assertSliceDocumentComplete(
+      DOCS_SLICES_ROOT,
+      "LANE-B-06-ERP-APP-SHELL-NAV-CUTOVER.md"
+    );
     expect(slice).toContain("AppShell01");
   });
 });

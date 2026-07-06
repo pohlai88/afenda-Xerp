@@ -14,18 +14,6 @@ export {
   topbarClassName,
 } from "./components/layout/topbar";
 export {
-  ThemeCustomizer,
-  type ThemeCustomizerProps,
-} from "./components/shared/theme-customizer";
-export {
-  ThemeScript,
-  type ThemeScriptProps,
-} from "./components/shared/theme-script";
-export {
-  ThemeToggle,
-  type ThemeToggleProps,
-} from "./components/shared/theme-toggle";
-export {
   Alert,
   AlertDescription,
   type AlertProps,
@@ -85,18 +73,6 @@ export {
   scrollAreaClassName,
 } from "./components/ui/scroll-area";
 export {
-  Tabs,
-  TabsContent,
-  tabsContentClassName,
-  TabsList,
-  type TabsListProps,
-  tabsListClassName,
-  type TabsProps,
-  TabsTrigger,
-  type TabsTriggerProps,
-  tabsTriggerClassName,
-} from "./components/ui/tabs";
-export {
   Table,
   TableBody,
   TableCaption,
@@ -109,26 +85,48 @@ export {
   TableRow,
   tableContainerClassName,
 } from "./components/ui/table";
-export { studioPackageConfig } from "./configs/studio-config";
 export {
-  CANONICAL_THEME_TOKEN_NAMES,
-  studioThemeConfig,
-} from "./configs/theme-config";
+  Tabs,
+  TabsContent,
+  TabsList,
+  type TabsListProps,
+  type TabsProps,
+  TabsTrigger,
+  type TabsTriggerProps,
+  tabsContentClassName,
+  tabsListClassName,
+  tabsTriggerClassName,
+} from "./components/ui/tabs";
+export { studioPackageConfig } from "./configs/studio-config";
+export { CANONICAL_THEME_TOKEN_NAMES } from "./configs/theme-config";
 export {
   type StudioContextValue,
-  StudioProvider,
-  type StudioProviderProps,
-} from "./contexts/studio-provider";
-export {
   StudioPresentationProviders,
   type StudioPresentationProvidersProps,
-} from "./contexts/theme-boundary";
-export {
+  StudioProvider,
+  type StudioProviderProps,
+  type StudioResolvedThemeMode,
+  type StudioThemeConfig,
+  type StudioThemeId,
+  type StudioThemeMode,
+  type StudioThemeOption,
+  type StudioThemeState,
+  type StudioThemeTokenMap,
+  type StudioThemeTokenModeMap,
+  type StudioThemeTokenName,
+  type StudioThemeUpdate,
+  studioThemeConfig,
+  ThemeCustomizer,
+  type ThemeCustomizerProps,
   ThemeProvider,
   type ThemeProviderProps,
-} from "./contexts/theme-provider";
-export { useStudio } from "./hooks/use-studio";
-export { useTheme } from "./hooks/use-theme";
+  ThemeScript,
+  type ThemeScriptProps,
+  ThemeToggle,
+  type ThemeToggleProps,
+  useStudio,
+  useTheme,
+} from "./contexts/theme-boundary";
 export type {
   AppShellNavGroupWire,
   AppShellNavItemWire,
@@ -168,18 +166,6 @@ export type {
   StudioPackageConfig,
   StudioRuntimeState,
 } from "./types/studio";
-export type {
-  StudioResolvedThemeMode,
-  StudioThemeConfig,
-  StudioThemeId,
-  StudioThemeMode,
-  StudioThemeOption,
-  StudioThemeState,
-  StudioThemeTokenMap,
-  StudioThemeTokenModeMap,
-  StudioThemeTokenName,
-  StudioThemeUpdate,
-} from "./types/theme";
 export {
   CONFIRM_DIALOG_SURFACE_SLOTS,
   type ConfirmDialogSurfaceIntent,

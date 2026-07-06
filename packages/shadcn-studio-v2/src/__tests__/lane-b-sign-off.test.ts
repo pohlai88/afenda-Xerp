@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { assertSliceDocumentsComplete } from "./helpers/lane-slice-doc-status";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -56,14 +57,7 @@ describe("Lane B-15 v1 formal deprecation sign-off gate", () => {
   });
 
   it("marks every Lane B slice document complete through B-15", () => {
-    for (const fileName of LANE_B_SLICE_FILES) {
-      const sliceDocument = readFileSync(
-        path.join(SLICES_ROOT, fileName),
-        "utf8"
-      );
-
-      expect(sliceDocument, fileName).toMatch(/Status: \*\*Complete\*\*/u);
-    }
+    assertSliceDocumentsComplete(SLICES_ROOT, LANE_B_SLICE_FILES);
   });
 
   it("names v2 as sole ERP presentation chain in ADR authority", () => {

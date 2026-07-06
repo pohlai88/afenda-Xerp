@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { assertSliceDocumentsComplete } from "./helpers/lane-slice-doc-status";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -48,14 +49,7 @@ describe("Lane A-11 internal sign-off gate", () => {
   });
 
   it("marks every Lane A slice document complete", () => {
-    for (const fileName of LANE_A_SLICE_FILES) {
-      const sliceDocument = readFileSync(
-        path.join(SLICES_ROOT, fileName),
-        "utf8"
-      );
-
-      expect(sliceDocument, fileName).toMatch(/Status: \*\*Complete\*\*/u);
-    }
+    assertSliceDocumentsComplete(SLICES_ROOT, LANE_A_SLICE_FILES);
   });
 
   it("documents explicit Lane B execution blockers that remain after sign-off", () => {

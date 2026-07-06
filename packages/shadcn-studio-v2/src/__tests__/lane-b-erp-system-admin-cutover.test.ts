@@ -2,6 +2,8 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { assertNoV1ConsumerImport } from "./helpers/forbidden-v1-import-patterns";
+import { assertSliceDocumentComplete } from "./helpers/lane-slice-doc-status";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -33,18 +35,15 @@ const B07_SLICE_PATH = path.join(
   "LANE-B-07-ERP-SURFACE-WAVE-SYSTEM-ADMIN.md"
 );
 
-const FORBIDDEN_V1_IMPORT =
-  /from\s+["']@afenda\/shadcn-studio(?:\/(?!v2)|["'])/u;
-
 describe("Lane B-07 ERP system-admin surface wave", () => {
   it("routes memberships and users through v2 composers without v1 blocks", () => {
     const membershipsPage = readFileSync(MEMBERSHIPS_PAGE_PATH, "utf8");
     const usersPage = readFileSync(USERS_PAGE_PATH, "utf8");
 
     expect(membershipsPage).toContain("SystemAdminMembershipsComposer");
-    expect(membershipsPage).not.toMatch(FORBIDDEN_V1_IMPORT);
+    assertNoV1ConsumerImport(membershipsPage);
     expect(usersPage).toContain("SystemAdminUsersComposer");
-    expect(usersPage).not.toMatch(FORBIDDEN_V1_IMPORT);
+    assertNoV1ConsumerImport(usersPage);
   });
 
   it("uses v2 toolbar and ErpDataTableComposer for system-admin wave", () => {
@@ -54,7 +53,7 @@ describe("Lane B-07 ERP system-admin surface wave", () => {
 
     expect(toolbar).toContain("@afenda/shadcn-studio-v2/clients");
     expect(toolbar).toContain("@afenda/shadcn-studio-v2");
-    expect(toolbar).not.toMatch(FORBIDDEN_V1_IMPORT);
+    assertNoV1ConsumerImport(toolbar);
     expect(membershipsComposer).toContain("ErpDataTableComposer");
     expect(usersComposer).toContain("ErpDataTableComposer");
   });
@@ -62,7 +61,10 @@ describe("Lane B-07 ERP system-admin surface wave", () => {
   it("records B-07 slice completion", () => {
     const slice = readFileSync(B07_SLICE_PATH, "utf8");
 
-    expect(slice).toContain("Status: **Complete**");
+    assertSliceDocumentComplete(
+      DOCS_SLICES_ROOT,
+      "LANE-B-07-ERP-SURFACE-WAVE-SYSTEM-ADMIN.md"
+    );
     expect(slice).toContain("ErpDataTableComposer");
   });
 });

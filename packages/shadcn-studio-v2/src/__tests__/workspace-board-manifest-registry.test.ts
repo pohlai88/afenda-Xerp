@@ -2,18 +2,17 @@ import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import {
-  getWorkflowBoardHostMapping,
-  listBoardHostedWorkflowSurfaces,
-  WORKFLOW_BOARD_MANIFEST_DECISION,
-  workflowBoardHostMappingRegistry,
-} from "../metadata/registries/workflow-board-host-mapping";
-import { resolveWorkflowBoardLayoutHint } from "../metadata/registries/workflow-board-manifest-resolution";
+import { listBoardHostedWorkflowSurfaces } from "../metadata/registries/workflow-board-host-mapping";
 import {
   getWorkspaceBoardManifestByKind,
   listWorkspaceBoardManifestKinds,
   workspaceBoardManifestRegistry,
 } from "../metadata/registries/workspace-board-manifest-registry";
+import {
+  assertLiftedWorkflowManifestDecision,
+  assertWorkflowBoardHostMappings,
+  assertWorkflowLayoutHintsFromManifestKind,
+} from "./helpers/workflow-board-manifest-assertions";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const SRC_ROOT = path.resolve(TEST_DIR, "..");
@@ -36,7 +35,8 @@ describe("workspace board manifest registry", () => {
     const metric = getWorkspaceBoardManifestByKind("metric");
     const evidence = getWorkspaceBoardManifestByKind("evidence");
     const workflowTable = getWorkspaceBoardManifestByKind("workflow-table");
-    const workflowApproval = getWorkspaceBoardManifestByKind("workflow-approval");
+    const workflowApproval =
+      getWorkspaceBoardManifestByKind("workflow-approval");
 
     expect(metric?.category).toBe("metric");
     expect(metric?.defaultSize).toEqual({ h: 2, w: 2 });
@@ -75,44 +75,14 @@ describe("workspace board manifest registry", () => {
 
 describe("Lane A-09 workflow board host mapping (B-10 lifted)", () => {
   it("records Option A LIFTED with canonical manifest kind rows", () => {
-    expect(WORKFLOW_BOARD_MANIFEST_DECISION.option).toBe("A");
-    expect(WORKFLOW_BOARD_MANIFEST_DECISION.status).toBe("LIFTED");
-    expect(WORKFLOW_BOARD_MANIFEST_DECISION.liftedBy).toBe("LANE-B-10");
-
-    for (const mapping of workflowBoardHostMappingRegistry) {
-      if (mapping.boardHosted) {
-        expect(mapping.manifestKind).not.toBeNull();
-        continue;
-      }
-
-      expect(mapping.manifestKind).toBeNull();
-    }
+    assertLiftedWorkflowManifestDecision();
 
     expect(listWorkspaceBoardManifestKinds()).toContain("workflow-table");
     expect(listWorkspaceBoardManifestKinds()).toContain("workflow-approval");
   });
 
   it("maps board-hosted workflow surfaces to manifest kinds and categories", () => {
-    expect(
-      JSON.parse(JSON.stringify(workflowBoardHostMappingRegistry))
-    ).toEqual(workflowBoardHostMappingRegistry);
-
-    expect(getWorkflowBoardHostMapping("data-table-surface")).toMatchObject({
-      boardCategory: "table",
-      boardHosted: true,
-      gridDefault: { h: 4, w: 12 },
-      manifestKind: "workflow-table",
-      viewExport: "DataTableSurface",
-    });
-
-    expect(getWorkflowBoardHostMapping("form-surface")).toMatchObject({
-      boardCategory: "approval",
-      boardHosted: true,
-      gridDefault: { h: 3, w: 4 },
-      manifestKind: "workflow-approval",
-      viewExport: "FormSurface",
-    });
-
+    assertWorkflowBoardHostMappings();
     expect(listBoardHostedWorkflowSurfaces()).toEqual([
       "data-table-surface",
       "form-surface",
@@ -120,13 +90,7 @@ describe("Lane A-09 workflow board host mapping (B-10 lifted)", () => {
   });
 
   it("resolves layout hints from manifest kinds via dual-read helper", () => {
-    const tableHint = resolveWorkflowBoardLayoutHint("data-table-surface");
-    const formHint = resolveWorkflowBoardLayoutHint("form-surface");
-
-    expect(tableHint?.source).toBe("manifest-kind");
-    expect(tableHint?.kind).toBe("workflow-table");
-    expect(formHint?.source).toBe("manifest-kind");
-    expect(formHint?.kind).toBe("workflow-approval");
+    assertWorkflowLayoutHintsFromManifestKind();
   });
 
   it("keeps a single workspace board manifest registry file", () => {

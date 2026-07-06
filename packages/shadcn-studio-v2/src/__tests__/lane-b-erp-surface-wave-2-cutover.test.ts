@@ -2,6 +2,11 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import {
+  assertNoV1ConsumerImport,
+  assertSourcesFreeOfV1Imports,
+} from "./helpers/forbidden-v1-import-patterns";
+import { assertSliceDocumentComplete } from "./helpers/lane-slice-doc-status";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -82,9 +87,6 @@ const WAVE_2_TOUCHPOINTS = {
   ),
 } as const;
 
-const FORBIDDEN_V1_IMPORT =
-  /from\s+["']@afenda\/shadcn-studio(?:\/(?!v2)|["'])/u;
-
 function readTouchpoint(relativePath: string): string {
   return readFileSync(path.join(ERP_SRC_ROOT, relativePath), "utf8");
 }
@@ -96,7 +98,10 @@ describe("Lane B-07-ext ERP surface wave 2", () => {
       WAVE_2_TOUCHPOINTS.permissionsPage,
       "utf8"
     );
-    const rolesComposer = readFileSync(WAVE_2_TOUCHPOINTS.rolesComposer, "utf8");
+    const rolesComposer = readFileSync(
+      WAVE_2_TOUCHPOINTS.rolesComposer,
+      "utf8"
+    );
     const permissionsComposer = readFileSync(
       WAVE_2_TOUCHPOINTS.permissionsComposer,
       "utf8"
@@ -106,12 +111,15 @@ describe("Lane B-07-ext ERP surface wave 2", () => {
     expect(permissionsPage).toContain("SystemAdminPermissionsComposer");
     expect(rolesComposer).toContain("ErpDataTableComposer");
     expect(permissionsComposer).toContain("ErpDataTableComposer");
-    expect(rolesPage).not.toMatch(FORBIDDEN_V1_IMPORT);
-    expect(permissionsPage).not.toMatch(FORBIDDEN_V1_IMPORT);
+    assertNoV1ConsumerImport(rolesPage);
+    assertNoV1ConsumerImport(permissionsPage);
   });
 
   it("migrates workspace, auth, and error surfaces to v2-only imports", () => {
-    const workspacePage = readFileSync(WAVE_2_TOUCHPOINTS.workspacePage, "utf8");
+    const workspacePage = readFileSync(
+      WAVE_2_TOUCHPOINTS.workspacePage,
+      "utf8"
+    );
     const dashboardRenderer = readFileSync(
       WAVE_2_TOUCHPOINTS.dashboardRenderer,
       "utf8"
@@ -134,22 +142,23 @@ describe("Lane B-07-ext ERP surface wave 2", () => {
     expect(authWorkspaceSelect).toContain("@afenda/shadcn-studio-v2/clients");
     expect(erpErrorPage).toContain("ErpErrorPageShell");
 
-    for (const source of [
-      workspacePage,
-      dashboardRenderer,
-      workspaceToolbar,
-      authComplete,
-      authWorkspaceSelect,
-      erpErrorPage,
-    ]) {
-      expect(source).not.toMatch(FORBIDDEN_V1_IMPORT);
-    }
+    assertSourcesFreeOfV1Imports([
+      { label: "workspacePage", source: workspacePage },
+      { label: "dashboardRenderer", source: dashboardRenderer },
+      { label: "workspaceToolbar", source: workspaceToolbar },
+      { label: "authComplete", source: authComplete },
+      { label: "authWorkspaceSelect", source: authWorkspaceSelect },
+      { label: "erpErrorPage", source: erpErrorPage },
+    ]);
   });
 
   it("records B-07-ext slice completion", () => {
     const slice = readFileSync(B07_EXT_SLICE_PATH, "utf8");
 
-    expect(slice).toContain("Status: **Complete**");
+    assertSliceDocumentComplete(
+      DOCS_SLICES_ROOT,
+      "LANE-B-07-EXT-ERP-SURFACE-WAVE-2.md"
+    );
     expect(slice).toContain("ErpDataTableComposer");
   });
 
@@ -176,7 +185,7 @@ describe("Lane B-07-ext ERP surface wave 2", () => {
 
     for (const relativePath of baselineRelativePaths) {
       const source = readTouchpoint(relativePath);
-      expect(source, relativePath).not.toMatch(FORBIDDEN_V1_IMPORT);
+      assertNoV1ConsumerImport(source, relativePath);
     }
   });
 });

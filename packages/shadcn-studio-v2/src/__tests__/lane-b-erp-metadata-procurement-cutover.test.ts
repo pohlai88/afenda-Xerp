@@ -2,6 +2,8 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { assertNoV1ConsumerImport } from "./helpers/forbidden-v1-import-patterns";
+import { assertSliceDocumentComplete } from "./helpers/lane-slice-doc-status";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -33,9 +35,6 @@ const B08_SLICE_PATH = path.join(
   "LANE-B-08-ERP-SURFACE-WAVE-METADATA-PROCUREMENT.md"
 );
 
-const FORBIDDEN_V1_IMPORT =
-  /from\s+["']@afenda\/shadcn-studio(?:\/(?!v2)|["'])/u;
-
 describe("Lane B-08 ERP metadata and procurement cutover", () => {
   it("routes metadata workspace and procurement pages without v1 imports", () => {
     const metadataPage = readFileSync(METADATA_WORKSPACE_PAGE_PATH, "utf8");
@@ -43,11 +42,11 @@ describe("Lane B-08 ERP metadata and procurement cutover", () => {
     const requisitionsPage = readFileSync(REQUISITIONS_PAGE_PATH, "utf8");
 
     expect(metadataPage).toContain("@afenda/shadcn-studio-v2");
-    expect(metadataPage).not.toMatch(FORBIDDEN_V1_IMPORT);
+    assertNoV1ConsumerImport(metadataPage);
     expect(purchaseOrdersPage).toContain("ProcurementPurchaseOrdersComposer");
-    expect(purchaseOrdersPage).not.toMatch(FORBIDDEN_V1_IMPORT);
+    assertNoV1ConsumerImport(purchaseOrdersPage);
     expect(requisitionsPage).toContain("ProcurementRequisitionsComposer");
-    expect(requisitionsPage).not.toMatch(FORBIDDEN_V1_IMPORT);
+    assertNoV1ConsumerImport(requisitionsPage);
   });
 
   it("uses ErpDataTableComposer and v2 block resolver for wave-2 surfaces", () => {
@@ -56,13 +55,16 @@ describe("Lane B-08 ERP metadata and procurement cutover", () => {
 
     expect(composer).toContain("ErpDataTableComposer");
     expect(resolver).toContain("@afenda/shadcn-studio-v2/clients");
-    expect(resolver).not.toMatch(FORBIDDEN_V1_IMPORT);
+    assertNoV1ConsumerImport(resolver);
   });
 
   it("records B-08 slice completion", () => {
     const slice = readFileSync(B08_SLICE_PATH, "utf8");
 
-    expect(slice).toContain("Status: **Complete**");
+    assertSliceDocumentComplete(
+      DOCS_SLICES_ROOT,
+      "LANE-B-08-ERP-SURFACE-WAVE-METADATA-PROCUREMENT.md"
+    );
     expect(slice).toContain("ErpDataTableComposer");
   });
 });

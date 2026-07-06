@@ -2,6 +2,7 @@ import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import { assertSliceDocumentsComplete } from "./helpers/lane-slice-doc-status";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -58,14 +59,7 @@ function readRepoFile(relativePath: string): string {
 
 describe("Lane B-14 synchronization gate", () => {
   it("marks Lane B-01 through B-13 slices complete in slice documents", () => {
-    for (const fileName of LANE_B_COMPLETE_SLICE_FILES) {
-      const sliceDocument = readFileSync(
-        path.join(SLICES_ROOT, fileName),
-        "utf8"
-      );
-
-      expect(sliceDocument, fileName).toMatch(/Status: \*\*Complete\*\*/u);
-    }
+    assertSliceDocumentsComplete(SLICES_ROOT, LANE_B_COMPLETE_SLICE_FILES);
   });
 
   it("keeps Lane B index and slice README statuses aligned through B-13", () => {
@@ -104,9 +98,7 @@ describe("Lane B-14 synchronization gate", () => {
       );
     }
 
-    expect(laneBIndex).toMatch(
-      /B-07-ext[^\n]*\|\s*\*\*Complete\*\*/u
-    );
+    expect(laneBIndex).toMatch(/B-07-ext[^\n]*\|\s*\*\*Complete\*\*/u);
   });
 
   it("keeps MIGRATION-MAP.md aligned to Lane B deliverables without deferred consumer rows", () => {
@@ -131,9 +123,7 @@ describe("Lane B-14 synchronization gate", () => {
       expect(rowLine, row).toMatch(/migrated|pilot-proven/u);
     }
 
-    expect(migrationMap).not.toMatch(
-      /\| `apps\/developer`[^\n]*deferred/u
-    );
+    expect(migrationMap).not.toMatch(/\| `apps\/developer`[^\n]*deferred/u);
     expect(migrationMap).not.toMatch(/\| `apps\/erp`[^\n]*deferred/u);
     expect(migrationMap).not.toMatch(/\| `apps\/storybook`[^\n]*deferred/u);
   });
@@ -173,10 +163,10 @@ describe("Lane B-14 synchronization gate", () => {
     );
 
     expect(roadmap).toContain("Lane B");
-    expect(roadmap).toContain(
-      "LANE-B-V1-MIGRATION-AND-RETIREMENT-INDEX.md"
+    expect(roadmap).toContain("LANE-B-V1-MIGRATION-AND-RETIREMENT-INDEX.md");
+    expect(roadmap).not.toContain(
+      "B-03 ERP CSS v2 chain; B-06 ERP shell/nav cutover"
     );
-    expect(roadmap).not.toContain("B-03 ERP CSS v2 chain; B-06 ERP shell/nav cutover");
     expect(laneBIndex).toContain("B-14");
     expect(laneBIndex).toMatch(/B-14[^\n]*\*\*Complete\*\*/u);
   });

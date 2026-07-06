@@ -3,9 +3,9 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 import {
-  resolveBaselinePath,
-  type V1ConsumerImportBaseline,
-} from "../../scripts/scan-v1-consumer-imports";
+  assertZeroV1ConsumerImportBaseline,
+  readV1ConsumerImportBaseline,
+} from "./helpers/v1-baseline-zero";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -22,7 +22,6 @@ const B13_SLICE_PATH = path.join(
   "slices",
   "LANE-B-13-V1-IMPORT-FREEZE-AND-RETIREMENT-CANDIDATE.md"
 );
-const BASELINE_PATH = resolveBaselinePath(PACKAGE_ROOT);
 
 const CONSUMER_PACKAGE_JSON_PATHS = [
   path.join(REPO_ROOT, "apps/erp/package.json"),
@@ -37,15 +36,8 @@ const V1_PACKAGE_JSON_PATH = path.join(
 
 describe("Lane B-13 v1 import freeze", () => {
   it("ratchets v1 consumer import baseline at zero", () => {
-    const baseline = JSON.parse(
-      readFileSync(BASELINE_PATH, "utf8")
-    ) as V1ConsumerImportBaseline;
-
-    expect(baseline.policy).toBe("LANE-B-01");
-    expect(baseline.totals.all).toBe(0);
-    expect(baseline.totals.developer).toBe(0);
-    expect(baseline.totals.erp).toBe(0);
-    expect(baseline.totals.storybook).toBe(0);
+    const baseline = readV1ConsumerImportBaseline(PACKAGE_ROOT);
+    assertZeroV1ConsumerImportBaseline(baseline);
     expect(baseline.imports).toEqual([]);
   });
 
@@ -68,9 +60,10 @@ describe("Lane B-13 v1 import freeze", () => {
     for (const packageJsonPath of CONSUMER_PACKAGE_JSON_PATHS) {
       const packageJson = readFileSync(packageJsonPath, "utf8");
 
-      expect(packageJson, path.relative(REPO_ROOT, packageJsonPath)).not.toContain(
-        '"@afenda/shadcn-studio"'
-      );
+      expect(
+        packageJson,
+        path.relative(REPO_ROOT, packageJsonPath)
+      ).not.toContain('"@afenda/shadcn-studio"');
       expect(packageJson).toContain('"@afenda/shadcn-studio-v2"');
     }
   });

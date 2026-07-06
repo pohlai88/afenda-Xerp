@@ -10,6 +10,10 @@ import {
   scanV1ConsumerImports,
   type V1ConsumerImportBaseline,
 } from "../../scripts/scan-v1-consumer-imports";
+import {
+  assertZeroV1ConsumerImportBaseline,
+  readV1ConsumerImportBaseline,
+} from "./helpers/v1-baseline-zero";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -19,40 +23,28 @@ const BASELINE_PATH = resolveBaselinePath(PACKAGE_ROOT);
 
 describe("Lane B-01 v1 consumer import baseline", () => {
   it("records zero v1 consumer imports after Wave 2 (B-07-ext + B-11 + B-12)", () => {
+    const baseline = readV1ConsumerImportBaseline(PACKAGE_ROOT);
+    assertZeroV1ConsumerImportBaseline(baseline);
+  });
+
+  it("matches the live workspace scan exactly (no new or removed v1 imports)", async () => {
     const baseline = JSON.parse(
       readFileSync(BASELINE_PATH, "utf8")
     ) as V1ConsumerImportBaseline;
+    const current = await scanV1ConsumerImports(REPO_ROOT);
+    const comparison = compareImportsToBaseline(current, baseline.imports);
 
-    expect(baseline.policy).toBe("LANE-B-01");
-    expect(baseline.totals.all).toBe(0);
-    expect(baseline.totals.developer).toBe(0);
-    expect(baseline.totals.erp).toBe(0);
-    expect(baseline.totals.storybook).toBe(0);
-    expect(baseline.imports.length).toBe(0);
-  });
-
-  it(
-    "matches the live workspace scan exactly (no new or removed v1 imports)",
-    async () => {
-      const baseline = JSON.parse(
-        readFileSync(BASELINE_PATH, "utf8")
-      ) as V1ConsumerImportBaseline;
-      const current = await scanV1ConsumerImports(REPO_ROOT);
-      const comparison = compareImportsToBaseline(current, baseline.imports);
-
-      expect(
-        comparison.newImports,
-        comparison.newImports.map((entry) => importEntryKey(entry)).join("\n")
-      ).toEqual([]);
-      expect(
-        comparison.missingFromBaseline,
-        comparison.missingFromBaseline
-          .map((entry) => importEntryKey(entry))
-          .join("\n")
-      ).toEqual([]);
-    },
-    60_000
-  );
+    expect(
+      comparison.newImports,
+      comparison.newImports.map((entry) => importEntryKey(entry)).join("\n")
+    ).toEqual([]);
+    expect(
+      comparison.missingFromBaseline,
+      comparison.missingFromBaseline
+        .map((entry) => importEntryKey(entry))
+        .join("\n")
+    ).toEqual([]);
+  }, 60_000);
 
   it("documents B-01 completion in migration ledger and slice spec", () => {
     const migrationMap = readFileSync(
@@ -70,8 +62,14 @@ describe("Lane B-01 v1 consumer import baseline", () => {
   });
 
   it("does not overlap drift guard scope (v2 package-only legacy ban)", () => {
-    const driftSource = readFileSync(
+    const entrySource = readFileSync(
       path.join(PACKAGE_ROOT, "scripts", "check-design-system-drift.ts"),
+      "utf8"
+    );
+    expect(entrySource).toContain("runDesignSystemDriftGuard");
+
+    const driftSource = readFileSync(
+      path.join(PACKAGE_ROOT, "scripts", "drift", "export-boundary-rules.ts"),
       "utf8"
     );
 
