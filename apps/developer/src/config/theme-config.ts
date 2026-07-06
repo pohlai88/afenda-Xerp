@@ -1,7 +1,7 @@
-import { initialSettings, themeConfig } from "@afenda/shadcn-studio";
+import { studioThemeConfig } from "@afenda/shadcn-studio-v2/theme";
 
 export const developerThemeConfig = {
-  defaultSettings: initialSettings,
-  defaultThemePreset: themeConfig.themePreset,
-  layoutMode: themeConfig.layout,
+  defaultMode: studioThemeConfig.defaultMode,
+  defaultThemeId: studioThemeConfig.defaultThemeId,
+  storageKey: studioThemeConfig.storageKey,
 } as const;

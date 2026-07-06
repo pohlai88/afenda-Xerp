@@ -36,7 +36,7 @@ styling assumptions.
 * No near-canonical token families such as `--primary-2`, `--background-alt`,
   `--card-secondary`, or `--muted-2`.
 * No effect token families such as `--shadow-*` or `--gradient-*`.
-* Named themes must be additive and scoped.
+* Noir theme files must be static root/dark override sheets and imported one at a time.
 * Theme files may override only tokens declared in `shadcn-default.css`.
 * `shadcn-default.css` declares the complete canonical semantic baseline.
 * Text-bearing token pairs must maintain at least WCAG AA 4.5:1 contrast.
@@ -64,8 +64,9 @@ surfaces.
 
 ### Named theme layer
 
-`swiss-noir.css` and `verdant-noir.css` are additive theme layers using
-`[data-theme="..."]` selectors only.
+`swiss-noir.css` and `verdant-noir.css` are static token override sheets using
+`:root` and `.dark` selectors only. Consumers import one noir theme file after
+`shadcn-default.css`.
 
 ### Drift enforcement
 
@@ -96,7 +97,7 @@ Add or align executable checks for:
   * Mitigation: keep drift checks blocking.
 * Risk: named themes become behavior owners.
 
-  * Mitigation: keep themes token-only and additive.
+  * Mitigation: keep themes token-only and static.
 * Risk: consumers import internal CSS source paths.
 
   * Mitigation: enforce package-export-only CSS paths.

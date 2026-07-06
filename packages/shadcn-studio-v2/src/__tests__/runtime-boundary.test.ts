@@ -3,13 +3,18 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, expectTypeOf, it } from "vitest";
 import { studioPackageConfig } from "../configs/studio-config";
-import { studioThemeConfig } from "../configs/theme-config";
+import {
+  CANONICAL_THEME_TOKEN_NAMES,
+  studioThemeConfig,
+} from "../configs/theme-config";
 import type { StudioPackageConfig, StudioRuntimeState } from "../types/studio";
 import type {
   StudioResolvedThemeMode,
   StudioThemeId,
   StudioThemeMode,
   StudioThemeOption,
+  StudioThemeTokenMap,
+  StudioThemeTokenName,
   StudioThemeUpdate,
 } from "../types/theme";
 
@@ -33,15 +38,31 @@ function readSource(...segments: string[]): string {
 describe("shadcn-studio-v2 config and runtime boundary", () => {
   it("keeps the public theme contract identity-only", () => {
     expectTypeOf<StudioThemeId>().toEqualTypeOf<
-      "shadcn-default" | "swiss-noir" | "verdant-noir"
+      | "shadcn-default"
+      | "caffeine"
+      | "claude"
+      | "corporate"
+      | "ghibli-studio"
+      | "marvel"
+      | "material-design"
+      | "modern-minimal"
+      | "nature"
+      | "perplexity"
+      | "slack"
+      | "pastel-dreams"
+      | "swiss-noir"
+      | "verdant-noir"
     >();
     expectTypeOf<StudioThemeMode>().toEqualTypeOf<
       "light" | "dark" | "system"
     >();
     expectTypeOf<StudioResolvedThemeMode>().toEqualTypeOf<"light" | "dark">();
     expectTypeOf<keyof StudioThemeOption>().toEqualTypeOf<
-      "description" | "id" | "label"
+      "description" | "id" | "label" | "tokens"
     >();
+    expectTypeOf<
+      keyof StudioThemeTokenMap
+    >().toEqualTypeOf<StudioThemeTokenName>();
     expectTypeOf<keyof StudioThemeUpdate>().toEqualTypeOf<"mode" | "themeId">();
   });
 
@@ -87,13 +108,24 @@ describe("shadcn-studio-v2 config and runtime boundary", () => {
   it("keeps theme config defaults valid without selector authority", () => {
     const approvedThemeIds = [
       "shadcn-default",
+      "caffeine",
+      "claude",
+      "corporate",
+      "ghibli-studio",
+      "marvel",
+      "material-design",
+      "modern-minimal",
+      "nature",
+      "perplexity",
+      "slack",
+      "pastel-dreams",
       "swiss-noir",
       "verdant-noir",
     ] as const;
     const themeIds = studioThemeConfig.themes.map((theme) => theme.id);
 
     expect(studioThemeConfig.defaultThemeId).toBe("shadcn-default");
-    expect(studioThemeConfig.themeAttribute).toBe("data-theme");
+    expect(Object.hasOwn(studioThemeConfig, "themeAttribute")).toBe(false);
     expect(studioThemeConfig.defaultMode).toBe("system");
     expect(studioThemeConfig.darkClassName).toBe("dark");
     expect(approvedThemeIds).toContain(studioThemeConfig.defaultThemeId);
@@ -104,6 +136,12 @@ describe("shadcn-studio-v2 config and runtime boundary", () => {
     for (const theme of studioThemeConfig.themes) {
       expect(approvedThemeIds).toContain(theme.id);
       expect(Object.hasOwn(theme, "selector")).toBe(false);
+      expect(Object.keys(theme.tokens.light)).toEqual([
+        ...CANONICAL_THEME_TOKEN_NAMES,
+      ]);
+      expect(Object.keys(theme.tokens.dark)).toEqual([
+        ...CANONICAL_THEME_TOKEN_NAMES,
+      ]);
     }
   });
 
@@ -147,6 +185,8 @@ describe("shadcn-studio-v2 config and runtime boundary", () => {
     expect(themeBoundary).toContain("StudioPresentationProviders");
     expect(themeBoundary).toContain("initialMode");
     expect(themeBoundary).toContain("initialThemeId");
+    expect(themeBoundary).toContain("lockedThemeId");
+    expect(themeBoundary).toContain("storageKey");
     expect(themeBoundary).not.toContain("ErpPresentationProviders");
   });
 

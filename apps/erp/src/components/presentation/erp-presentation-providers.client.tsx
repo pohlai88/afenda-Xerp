@@ -1,3 +1,3 @@
 "use client";
 
-export { ErpPresentationProviders } from "@afenda/shadcn-studio/theme";
+export { StudioPresentationProviders as ErpPresentationProviders } from "@afenda/shadcn-studio-v2/theme";

@@ -90,7 +90,7 @@ describe("shadcn-studio-v2 public export scaffold", () => {
     ) as PackageJson;
 
     expect(packageJson.scripts?.build).toBe(
-      `tsc -p tsconfig.json && node --input-type=module -e "import { copyFileSync, mkdirSync } from 'node:fs'; mkdirSync('dist/themes', { recursive: true }); copyFileSync('src/styles/shadcn-default.css', 'dist/shadcn-default.css'); copyFileSync('src/types/css-export.d.ts', 'dist/shadcn-default.css.d.ts'); copyFileSync('src/styles/swiss-noir.css', 'dist/themes/swiss-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/swiss-noir.css.d.ts'); copyFileSync('src/styles/verdant-noir.css', 'dist/themes/verdant-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/verdant-noir.css.d.ts');"`
+      `node --input-type=module -e "import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })" && tsc -p tsconfig.json && node --input-type=module -e "import { copyFileSync, mkdirSync } from 'node:fs'; mkdirSync('dist/themes', { recursive: true }); copyFileSync('src/styles/shadcn-default.css', 'dist/shadcn-default.css'); copyFileSync('src/types/css-export.d.ts', 'dist/shadcn-default.css.d.ts'); copyFileSync('src/styles/swiss-noir.css', 'dist/themes/swiss-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/swiss-noir.css.d.ts'); copyFileSync('src/styles/verdant-noir.css', 'dist/themes/verdant-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/verdant-noir.css.d.ts');"`
     );
     expect(packageJson.scripts?.typecheck).toBe(
       "tsc -p tsconfig.json --noEmit"

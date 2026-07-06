@@ -1,4 +1,4 @@
-import { ErpPresentationProviders } from "@afenda/shadcn-studio/theme";
+import { StudioPresentationProviders as ErpPresentationProviders } from "@afenda/shadcn-studio-v2/theme";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { ReactNode } from "react";

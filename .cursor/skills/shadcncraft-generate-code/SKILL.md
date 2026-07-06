@@ -12,6 +12,11 @@ description: >-
   Prefer this skill over generic design-to-code because it reuses the matching
   shadcncraft registry block, keeps output on the project's design tokens, and
   emits icons from the project's configured library.
+disable-model-invocation: true
+paths:
+  - packages/shadcn-studio/**
+  - apps/erp/**
+  - apps/storybook/**
 ---
 
 # shadcncraft: generate code from Figma

@@ -95,7 +95,7 @@ const TEXT_TOKEN_PAIRS = [
 const TOKEN_DECLARATION_PATTERN = /--([a-z0-9-]+)\s*:/gu;
 const TOKEN_VALUE_PATTERN = /--([a-z0-9-]+)\s*:\s*([^;]+);/gu;
 const SELECTOR_PATTERN = /(^|\})\s*([^{}@][^{}]*)\{/gu;
-const TOKEN_BLOCK_PATTERN = /(^|\})\s*([^{}@][^{}]*)\{([^{}]*)\}/gu;
+const TOKEN_BLOCK_PATTERN = /(?:^|(?<=\}))\s*([^{}@][^{}]*)\{([^{}]*)\}/gu;
 const CSS_COMMENT_PATTERN = /\/\*[\s\S]*?\*\//gu;
 const TAILWIND_CONFIG_FILE_PATTERN =
   /^tailwind\.config\.(?:cjs|js|mjs|mts|ts)$/u;
@@ -123,7 +123,6 @@ const CANONICAL_SHADCN_TOKENS = new Set([
   "border",
   "input",
   "ring",
-  "radius",
   "chart-1",
   "chart-2",
   "chart-3",
@@ -377,13 +376,13 @@ const listTokenBlocks = (content: string): TokenBlock[] => {
   TOKEN_BLOCK_PATTERN.lastIndex = 0;
 
   return [...source.matchAll(TOKEN_BLOCK_PATTERN)].map((match) => {
-    const tokenPairs = [...(match[3] ?? "").matchAll(TOKEN_VALUE_PATTERN)].map(
+    const tokenPairs = [...(match[2] ?? "").matchAll(TOKEN_VALUE_PATTERN)].map(
       (tokenMatch) =>
         [tokenMatch[1] ?? "", (tokenMatch[2] ?? "").trim()] as const
     );
 
     return {
-      selector: (match[2] ?? "").trim(),
+      selector: (match[1] ?? "").trim(),
       tokens: new Map(tokenPairs),
     };
   });
@@ -633,7 +632,11 @@ const checkThemeStyleSelector = (
   expectedSelector: string,
   selectors: string[]
 ): DriftViolation[] => {
-  if (selectors.length === 1 && selectors[0] === expectedSelector) {
+  if (
+    selectors.length === 2 &&
+    selectors[0] === expectedSelector &&
+    selectors[1] === ".dark"
+  ) {
     return [];
   }
 
@@ -641,7 +644,7 @@ const checkThemeStyleSelector = (
     {
       rule: "theme-selector",
       file: toRelative(file),
-      detail: `Named theme must use only ${expectedSelector}.`,
+      detail: `Named theme must use only ${expectedSelector} followed by .dark.`,
     },
   ];
 };
@@ -665,8 +668,7 @@ const checkThemeStyle = (
   selectors: string[],
   defaultTokens: Set<string>
 ): DriftViolation[] => {
-  const themeName = path.basename(file).replace(".css", "");
-  const expectedSelector = `[data-theme="${themeName}"]`;
+  const expectedSelector = ":root";
 
   return [
     ...checkThemeStyleSelector(file, expectedSelector, selectors),

@@ -67,6 +67,7 @@ const nextConfig: NextConfig = {
     "@afenda/database",
     "@afenda/observability",
     "@afenda/shadcn-studio",
+    "@afenda/shadcn-studio-v2",
   ],
   // Turbopack: root only — extensionAlias is webpack-only until Next honors it in turbopack.
   turbopack: {
@@ -81,6 +82,10 @@ const nextConfig: NextConfig = {
       "@afenda/shadcn-studio/theme": path.join(
         monorepoRoot,
         "packages/shadcn-studio/src/theme-runtime/index.ts"
+      ),
+      "@afenda/shadcn-studio-v2/theme": path.join(
+        monorepoRoot,
+        "packages/shadcn-studio-v2/src/contexts/theme-boundary.ts"
       ),
       "@afenda/shadcn-studio/governance": path.join(
         monorepoRoot,

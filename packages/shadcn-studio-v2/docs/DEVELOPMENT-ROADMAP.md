@@ -198,7 +198,7 @@ Do not create --afenda-* tokens.
 Do not create --surface-* tokens.
 Do not create --luxury-* tokens.
 Do not create near-canonical tokens such as --primary-2 or --background-alt.
-Named themes must be scoped using data-theme selectors.
+Noir theme files must use static :root and .dark selectors and be imported one at a time.
 Named themes must override only tokens declared by shadcn-default.css.
 No component selectors in theme files.
 No layout selectors in theme files.
@@ -214,7 +214,7 @@ Return changed files and proof commands only.
 ```txt
 base CSS exists
 two named themes exist
-theme files are scoped
+theme files are static root/dark override sheets
 only canonical tokens are used
 no forbidden token family exists
 no raw hex appears inside reusable components or views

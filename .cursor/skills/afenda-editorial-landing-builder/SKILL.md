@@ -6,6 +6,10 @@ description: >-
   afenda-editorial-bundle when creating or improving landing pages that need an
   approved visual concept, design-system extraction, fidelity ledger, browser
   screenshot verification, and no auth or ERP runtime noise.
+disable-model-invocation: true
+paths:
+  - apps/developer/**
+  - packages/shadcn-studio/docs/**
 ---
 
 # Afenda Editorial Landing Builder

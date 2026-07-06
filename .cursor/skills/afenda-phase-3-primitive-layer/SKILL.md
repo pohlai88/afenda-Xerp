@@ -1,6 +1,10 @@
 ---
 name: afenda-phase-3-primitive-layer
 description: Govern implementation and review of Phase 3 primitive UI components in packages/shadcn-studio-v2/src/components/ui. Use when Codex creates, changes, tests, or reviews Button, Badge, Card, Alert, Field, or Table primitives for typed props, explicit variants, token-safe classes, accessible semantics, runtime-light behavior, and package-local proof.
+disable-model-invocation: true
+paths:
+  - packages/shadcn-studio-v2/src/components/ui/**
+  - packages/shadcn-studio-v2/src/__tests__/**
 ---
 
 # Afenda Phase 3 Primitive Layer

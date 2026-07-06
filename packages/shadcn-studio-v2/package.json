@@ -50,10 +50,11 @@
     }
   },
   "scripts": {
-    "build": "tsc -p tsconfig.json && node --input-type=module -e \"import { copyFileSync, mkdirSync } from 'node:fs'; mkdirSync('dist/themes', { recursive: true }); copyFileSync('src/styles/shadcn-default.css', 'dist/shadcn-default.css'); copyFileSync('src/types/css-export.d.ts', 'dist/shadcn-default.css.d.ts'); copyFileSync('src/styles/swiss-noir.css', 'dist/themes/swiss-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/swiss-noir.css.d.ts'); copyFileSync('src/styles/verdant-noir.css', 'dist/themes/verdant-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/verdant-noir.css.d.ts');\"",
+    "build": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\" && tsc -p tsconfig.json && node --input-type=module -e \"import { copyFileSync, mkdirSync } from 'node:fs'; mkdirSync('dist/themes', { recursive: true }); copyFileSync('src/styles/shadcn-default.css', 'dist/shadcn-default.css'); copyFileSync('src/types/css-export.d.ts', 'dist/shadcn-default.css.d.ts'); copyFileSync('src/styles/swiss-noir.css', 'dist/themes/swiss-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/swiss-noir.css.d.ts'); copyFileSync('src/styles/verdant-noir.css', 'dist/themes/verdant-noir.css'); copyFileSync('src/types/css-export.d.ts', 'dist/themes/verdant-noir.css.d.ts');\"",
+    "check:apca": "tsx scripts/check-theme-apca.ts",
     "check:drift": "tsx scripts/check-design-system-drift.ts",
     "clean": "node --input-type=module -e \"import { rmSync } from 'node:fs'; rmSync('dist', { recursive: true, force: true })\"",
-    "quality": "pnpm check:drift && pnpm test && pnpm typecheck && pnpm build",
+    "quality": "pnpm check:drift && pnpm check:apca && pnpm test && pnpm typecheck && pnpm build",
     "test": "vitest run",
     "test:taxonomy": "vitest run src/__tests__/taxonomy.test.ts",
     "test:watch": "vitest",
@@ -64,6 +65,10 @@
     "./dist/themes/swiss-noir.css",
     "./dist/themes/verdant-noir.css"
   ],
+  "dependencies": {
+    "@base-ui/react": "^1.6.0",
+    "lucide-react": "^0.525.0"
+  },
   "peerDependencies": {
     "next": "^16.0.0",
     "react": "^19.0.0",
@@ -73,6 +78,7 @@
     "@afenda/typescript-config": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "apca-w3": "^0.1.9",
     "next": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",

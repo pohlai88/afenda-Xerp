@@ -14,7 +14,7 @@ When creating or editing a skill under `.cursor/skills/`:
 4. **`disable-model-invocation: true`** — meta (`using-*`), bundles (`*-bundle`), commands (`afenda-ship`, `afenda-review`, …), ERP (`*-erp`), platform (`platform-*`), reference catalog skills. Omit on authority skills so `paths` can auto-surface them.
 5. **Rules vs skills** — always-on conventions live in `.cursor/rules/` (short). Multi-step workflows live in skills. Do not duplicate the same instruction in both.
 6. **Anatomy** — keep `SKILL.md` under ~500 lines; depth in `reference/`; validators in `scripts/`; end with `## Verification` (commands + bundles required).
-7. **Catalog** — register in [`.cursor/skills/README.md`](../skills/README.md) and [NATIVE-EVALUATION.md](../skills/NATIVE-EVALUATION.md).
+7. **Catalog** — register in [`.cursor/skills/README.md`](../skills/README.md) and [NATIVE-EVALUATION.md](../skills/NATIVE-EVALUATION.md); verify with `pnpm check:skills-registration`.
 8. **OSS skills** — install under `vendor/` only after [EVALUATION.md](../skills/vendor/EVALUATION.md) scoring; never copy unvetted OSS into native root.
 
 Routing entry point: [`using-afenda-skills`](../skills/using-afenda-skills/SKILL.md). Personas stay in `.cursor/agents/`.

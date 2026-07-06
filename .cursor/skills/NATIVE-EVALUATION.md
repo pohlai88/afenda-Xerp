@@ -6,27 +6,21 @@ Decisions recorded 2026-06-28. Vendor eval: `.cursor/skills/vendor/EVALUATION.md
 
 ---
 
-## Executed removals
+## Executed removals (historical)
 
 | Skill / agent | Decision | Reason |
 | --- | --- | --- |
-| `pas-slice-planner` | **remove** | Superseded by PAS; TIP lane retired |
 | `pas-slice-planner-slice` | **remove** | Superseded by `pas-slice-planner` + `pas-slice-template` |
-| `pas-slice-planner` / `pas-slice-planner` | **retired stub** | Redirect to `pas-slice-planner` |
 | `tip-slice-implementer` | **retired stub** | Redirect to `afenda-governed-implementer` |
-| `afenda-governed-implementer` / `pas-slice-planner` | **retired stub** | Redirect to `afenda-governed-implementer` |
-| `afenda-orchestrator` | **retired stub** | Redirect to `afenda-orchestrator` |
-| `afenda-batch` | **retired stub** | Redirect to `/afenda-batch` |
-| `afenda-fumadocs` | **remove** | No effect; use `docs-editorial-design` |
+| `afenda-fumadocs` | **remove** | No effect; planned replacement `docs-editorial-design` (catalog only) |
 | `csp` | **merged → `csp-third-party`** | Single ERP CSP skill |
 | `xforge-nextjs-vercel` | **remove** | Stale `apps/app` paths; no repo wiring |
-| `afenda-implementation-health` | **remove** | Merged into `@afenda-governed-implementer`; monorepo-refactor updated |
-| `write-arch-slice` | **remove** | Deprecated; superseded by PAS slice workflow (`pas-slice-planner`, `afenda-governed-implementer`) |
-| `afenda-batch` | **remove** | Deprecated; superseded by `/afenda-batch` + `@afenda-orchestrator` |
+| `afenda-implementation-health` | **remove** | Merged into `@afenda-governed-implementer` |
+| `write-arch-slice` | **remove** | Superseded by PAS slice workflow |
 | `afenda-css-tailwind-stylelint` | **merged → `afenda-tailwind`** | Consolidated Afenda Tailwind authority |
-| `tailwindcss-v4` | **merged → `afenda-tailwind`** | v4 API moved to `reference/v4-api.md` |
+| `tailwindcss-v4` | **merged → `afenda-tailwind`** | v4 API in `reference/v4-api.md` |
 | `tailwind-validator` | **merged → `afenda-tailwind`** | Script at `scripts/validate-tailwind-v4.py` |
-| `frontend-tailwind-best-practices` | **remove** | Stale patterns (`v-stack`, wrong paths); not Afenda-aligned |
+| `frontend-tailwind-best-practices` | **remove** | Stale patterns; not Afenda-aligned |
 | `tailwind-utility-classes` | **remove** | Generic v3 tutorial; conflicts with governed UI |
 | `error-handling` | **rename → `platform-error-handling`** | Platform class prefix (2026-06-29) |
 | `type-safety` | **rename → `platform-type-safety`** | Platform class prefix (2026-06-29) |
@@ -35,7 +29,8 @@ Decisions recorded 2026-06-28. Vendor eval: `.cursor/skills/vendor/EVALUATION.md
 | `observability-usage` | **rename → `platform-observability-usage`** | Platform class prefix (2026-06-29) |
 | `cross-boundary-anti-pattern-scan` | **rename → `platform-cross-boundary-anti-pattern-scan`** | Platform class prefix (2026-06-29) |
 | `api-contract` | **rename → `platform-api-contract`** | Platform class prefix (2026-06-29) |
-| `afenda-css-tailwind-stylelint` | **remove** (re-run) | Stale copy; merged into `afenda-tailwind` |
+| `css-architecture` | **remove from native root** | Never installed; external reference only (2026-07-06) |
+| `afenda-coding-session/NATIVE-EVALUATION.md` | **remove** | Duplicate of root `NATIVE-EVALUATION.md` (2026-07-06) |
 
 ---
 
@@ -67,7 +62,7 @@ Retained for coding reference even without heavy Afenda wiring:
 
 | Skill | Status |
 | --- | --- |
-| `css-architecture` | keep |
+| `css-architecture` | **not installed** | External reference — install to `vendor/` via eval if needed |
 | `supabase` | keep |
 | `supabase-postgres-best-practices` | keep |
 
@@ -89,6 +84,12 @@ Retained for coding reference even without heavy Afenda wiring:
 | --- | --- | --- |
 | `afenda-tailwind` | **keep** | 2026-06-29 consolidated; **reinstated PAS-006 Phase 1** 2026-06-30 (replaces retired legacy-ui copy) |
 | `afenda-erp-design-system` | **keep** | 2026-07-06 — V2 design-system strategy · layers · fundamentals/playbook references · auto-route via `paths` on studio-v2 + ERP surfaces |
+| `afenda-phase-3-primitive-layer` | **keep** | 2026-07-06 — Phase 3 V2 primitives (Button–Table); pairs with `afenda-erp-design-system` |
+| `erp-module-foundation-authority` | **keep** | 2026-06-30 — PAS-001C module foundation authority |
+| `afenda-storybook-agentic-setup` | **keep** | 2026-07-03 — Storybook 10.4 agentic pilot rebuild |
+| `afenda-editorial-landing-builder` | **keep** | 2026-07-03 — editorial landing workflow (row 9 in `afenda-editorial-bundle`) |
+| `shadcncraft-generate-code` | **keep** | 2026-07-06 — Figma → React via shadcncraft registry; wired from `shadcn-studio` |
+| `shadcncraft-import-variables` | **keep** | 2026-07-06 — Figma variables → globals.css managed region |
 | `afenda-presentation-quality` | **keep** | 2026-06-30 — PAS-006 composer; Phase 1 CSS doctrine; replaces ui-consistency-bundle |
 | `afenda-primitive-contract` | **keep** | 2026-07-02 — components-ui 2-file contract + M1–M10 mismatch frame + `check:studio-primitive-contracts` |
 | `afenda-react-surface-quality` | **keep** | 2026-06-30 — ERP React B→A→T scan; vendor index on failure |

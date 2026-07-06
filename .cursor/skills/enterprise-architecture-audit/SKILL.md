@@ -267,7 +267,7 @@ Every conclusion must cite concrete code evidence. If evidence does not exist, s
 2. **`npx skills find <query>`** — discover OSS agent skill patterns (optional)
 3. **GitHub MCP** — search upstream reference implementations
 4. Vendor [security-and-hardening](../vendor/agent-skills/skills/security-and-hardening/SKILL.md) — STRIDE lens for Phase 3 security
-5. Vendor [documentation-and-adrs](../vendor/agent-skills/skills/documentation-and-adrs/SKILL.md) — ADR evidence for Phase 8
+5. [`afenda-docs-writing`](../afenda-docs-writing/SKILL.md) — PAS/ADR prose evidence for Phase 8
 
 Link skills and queries only — do not embed full tutorials in audit output.
 

@@ -4,9 +4,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  ErpPresentationProviders,
   ThemeCustomizer,
-} from "@afenda/shadcn-studio";
+} from "@afenda/shadcn-studio-v2";
+import { StudioPresentationProviders as ErpPresentationProviders } from "@afenda/shadcn-studio-v2/theme";
 import type { AppearanceSettingsPageData } from "@/lib/lab/contracts";
 
 interface AppearanceThemePanelProps {

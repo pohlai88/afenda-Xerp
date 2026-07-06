@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@afenda/shadcn-studio": "workspace:*",
+    "@afenda/shadcn-studio-v2": "workspace:*",
     "geist": "^1.7.2",
     "next": "catalog:",
     "react": "catalog:",

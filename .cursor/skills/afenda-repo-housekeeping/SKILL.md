@@ -89,6 +89,7 @@ pnpm housekeeping:knip:workspace packages/<name>   # single package
 pnpm housekeeping:knip:turbo                       # all enabled workspaces (strict)
 pnpm housekeeping:knip:advisory:turbo              # CI signal — exit 0, logs findings
 pnpm housekeeping:storybook-orphans                  # dry-run orphan MCP blocks only
+pnpm check:skills-registration                     # native skills ↔ README catalog
 ```
 
 Knip and storybook-orphan output stays in the terminal — do not commit captures under `.cursor/audit/` (see `pnpm check:local-artifact-leakage`).

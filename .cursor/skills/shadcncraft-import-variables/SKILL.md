@@ -13,6 +13,12 @@ description: >-
   Prefer this over hand-editing globals.css because it keeps the shadcn token set
   complete across :root and .dark and preserves everything outside the managed
   block.
+disable-model-invocation: true
+paths:
+  - packages/shadcn-studio/**
+  - apps/erp/**
+  - apps/storybook/**
+  - apps/developer/**
 ---
 
 # shadcncraft: import design variables

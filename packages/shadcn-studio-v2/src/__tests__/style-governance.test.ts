@@ -2,6 +2,10 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
+import {
+  CANONICAL_THEME_TOKEN_NAMES,
+  studioThemeConfig,
+} from "../configs/theme-config";
 
 const TEST_DIR = path.dirname(fileURLToPath(import.meta.url));
 const PACKAGE_ROOT = path.resolve(TEST_DIR, "..", "..");
@@ -17,6 +21,11 @@ const REQUIRED_STYLE_FILES = [
 
 const THEME_STYLE_FILES = ["swiss-noir.css", "verdant-noir.css"] as const;
 const DEFAULT_STYLE_FILE = "shadcn-default.css";
+const STYLE_FILE_THEME_IDS = {
+  "shadcn-default.css": "shadcn-default",
+  "swiss-noir.css": "swiss-noir",
+  "verdant-noir.css": "verdant-noir",
+} as const;
 const REQUIRED_CSS_EXPORTS = {
   "./shadcn-default.css": "./dist/shadcn-default.css",
   "./themes/swiss-noir.css": "./dist/themes/swiss-noir.css",
@@ -38,7 +47,7 @@ const TEXT_TOKEN_PAIRS = [
 const TOKEN_DECLARATION_PATTERN = /--([a-z0-9-]+)\s*:/g;
 const TOKEN_VALUE_PATTERN = /--([a-z0-9-]+)\s*:\s*([^;]+);/g;
 const SELECTOR_PATTERN = /(^|})\s*([^{}@][^{}]*)\{/g;
-const TOKEN_BLOCK_PATTERN = /(^|})\s*([^{}@][^{}]*)\{([^{}]*)\}/g;
+const TOKEN_BLOCK_PATTERN = /(?:^|(?<=}))\s*([^{}@][^{}]*)\{([^{}]*)\}/g;
 const CSS_COMMENT_PATTERN = /\/\*[\s\S]*?\*\//g;
 const TAILWIND_CONFIG_FILE_PATTERN =
   /^tailwind\.config\.(?:cjs|js|mjs|mts|ts)$/;
@@ -70,7 +79,6 @@ const CANONICAL_SHADCN_TOKENS = new Set([
   "border",
   "input",
   "ring",
-  "radius",
   "chart-1",
   "chart-2",
   "chart-3",
@@ -86,12 +94,7 @@ const CANONICAL_SHADCN_TOKENS = new Set([
   "sidebar-ring",
 ]);
 
-const ALLOWED_SELECTORS = new Set([
-  ":root",
-  ".dark",
-  '[data-theme="swiss-noir"]',
-  '[data-theme="verdant-noir"]',
-]);
+const ALLOWED_SELECTORS = new Set([":root", ".dark"]);
 
 interface ComponentsJson {
   tailwind?: {
@@ -145,18 +148,42 @@ function listTokenBlocks(source: string): TokenBlock[] {
   return [...stripCssComments(source).matchAll(TOKEN_BLOCK_PATTERN)].map(
     (match) => {
       const tokens = new Map(
-        [...(match[3] ?? "").matchAll(TOKEN_VALUE_PATTERN)].map(
+        [...(match[2] ?? "").matchAll(TOKEN_VALUE_PATTERN)].map(
           (tokenMatch) =>
             [tokenMatch[1] ?? "", (tokenMatch[2] ?? "").trim()] as const
         )
       );
 
       return {
-        selector: (match[2] ?? "").trim(),
+        selector: (match[1] ?? "").trim(),
         tokens,
       };
     }
   );
+}
+
+function getTokenBlock(
+  source: string,
+  selector: ":root" | ".dark"
+): TokenBlock {
+  const block = listTokenBlocks(source).find(
+    (candidate) => candidate.selector === selector
+  );
+
+  if (!block) {
+    throw new Error(`Token block not found: ${selector}`);
+  }
+
+  return block;
+}
+
+function toCanonicalTokenRecord(tokens: Map<string, string>) {
+  const entries = CANONICAL_THEME_TOKEN_NAMES.map((tokenName) => [
+    tokenName,
+    tokens.get(tokenName),
+  ]);
+
+  return Object.fromEntries(entries);
 }
 
 function parseOklchColor(value: string): OklchColor {
@@ -268,6 +295,9 @@ describe("shadcn-studio-v2 style governance", () => {
     const defaultTokenNames = listTokenNames(readStyle(DEFAULT_STYLE_FILE));
     const defaultTokens = new Set(defaultTokenNames);
 
+    expect([...CANONICAL_SHADCN_TOKENS]).toEqual([
+      ...CANONICAL_THEME_TOKEN_NAMES,
+    ]);
     expect(defaultTokens.size).toBeGreaterThan(0);
     expect(defaultTokens).toEqual(CANONICAL_SHADCN_TOKENS);
     expect(
@@ -289,7 +319,25 @@ describe("shadcn-studio-v2 style governance", () => {
     }
   });
 
-  it("keeps additive themes out of canonical root selectors", () => {
+  it("keeps the runtime token mirror equal to CSS source values", () => {
+    for (const fileName of REQUIRED_STYLE_FILES) {
+      const themeId = STYLE_FILE_THEME_IDS[fileName];
+      const theme = studioThemeConfig.themes.find(
+        (candidate) => candidate.id === themeId
+      );
+      const source = readStyle(fileName);
+
+      expect(theme).toBeDefined();
+      expect(theme?.tokens.light).toEqual(
+        toCanonicalTokenRecord(getTokenBlock(source, ":root").tokens)
+      );
+      expect(theme?.tokens.dark).toEqual(
+        toCanonicalTokenRecord(getTokenBlock(source, ".dark").tokens)
+      );
+    }
+  });
+
+  it("keeps noir theme exports as static root and dark override sheets", () => {
     const defaultSelectors = new Set(
       listSelectors(readStyle(DEFAULT_STYLE_FILE))
     );
@@ -300,12 +348,7 @@ describe("shadcn-studio-v2 style governance", () => {
     for (const themeFile of THEME_STYLE_FILES) {
       const themeSelectors = listSelectors(readStyle(themeFile));
 
-      expect(themeSelectors.length).toBe(1);
-      expect(
-        themeSelectors.every((selector) => selector.startsWith('[data-theme="'))
-      ).toBe(true);
-      expect(themeSelectors).not.toContain(":root");
-      expect(themeSelectors).not.toContain(".dark");
+      expect(themeSelectors).toEqual([":root", ".dark"]);
     }
   });
 

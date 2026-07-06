@@ -1,6 +1,11 @@
 ---
 name: erp-module-foundation-authority
 description: ERP module foundation authority for PAS-001C — governed LoB module identity, readiness bundles, and check:erp-module-* gates. Use when scaffolding module runtime, defining foundation bundles, or touching packages/erp-module-foundation.
+paths:
+  - packages/erp-module-foundation/**
+  - docs/PAS/KERNEL/PAS-001C*
+  - docs/PAS/ERP-MODULES/**
+  - scripts/governance/check-erp-module-*
 ---
 
 # @afenda/erp-module-foundation — Authority Skill (PAS-001C)

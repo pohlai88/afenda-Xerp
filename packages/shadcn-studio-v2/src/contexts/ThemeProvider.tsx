@@ -10,11 +10,15 @@ import {
   useMemo,
   useState,
 } from "react";
-import { studioThemeConfig } from "../configs/theme-config";
+import {
+  CANONICAL_THEME_TOKEN_NAMES,
+  studioThemeConfig,
+} from "../configs/theme-config";
 import type {
   StudioResolvedThemeMode,
   StudioThemeId,
   StudioThemeMode,
+  StudioThemeOption,
   StudioThemeState,
   StudioThemeUpdate,
 } from "../types/theme";
@@ -27,6 +31,8 @@ export interface ThemeProviderProps {
   readonly children: ReactNode;
   readonly initialMode?: StudioThemeMode;
   readonly initialThemeId?: StudioThemeId;
+  readonly lockedThemeId?: StudioThemeId;
+  readonly storageKey?: string | null;
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
@@ -45,26 +51,54 @@ function resolveMode(mode: StudioThemeMode): StudioResolvedThemeMode {
   return mode === "system" ? resolveSystemMode() : mode;
 }
 
+function findThemeOption(themeId: StudioThemeId): StudioThemeOption {
+  const theme = studioThemeConfig.themes.find(
+    (option) => option.id === themeId
+  );
+
+  return theme ?? studioThemeConfig.themes[0];
+}
+
+function clearThemeTokenStyles(root: HTMLElement): void {
+  for (const tokenName of CANONICAL_THEME_TOKEN_NAMES) {
+    root.style.removeProperty(`--${tokenName}`);
+  }
+}
+
 function applyTheme(state: StudioThemeState): void {
   if (typeof document === "undefined") {
     return;
   }
 
   const root = document.documentElement;
-  root.setAttribute(studioThemeConfig.themeAttribute, state.themeId);
   root.classList.toggle(
     studioThemeConfig.darkClassName,
     state.resolvedMode === "dark"
   );
+  clearThemeTokenStyles(root);
+
+  if (state.themeId === studioThemeConfig.defaultThemeId) {
+    return;
+  }
+
+  const theme = findThemeOption(state.themeId);
+  const tokens = theme.tokens[state.resolvedMode];
+
+  for (const tokenName of CANONICAL_THEME_TOKEN_NAMES) {
+    root.style.setProperty(`--${tokenName}`, tokens[tokenName]);
+  }
 }
 
-function readStoredTheme(): Partial<StudioThemeState> {
-  if (typeof window === "undefined") {
+function readStoredTheme(
+  storageKey: string | null,
+  lockedThemeId: StudioThemeId | undefined
+): Partial<StudioThemeState> {
+  if (typeof window === "undefined" || storageKey === null) {
     return {};
   }
 
   try {
-    const stored = window.localStorage.getItem(studioThemeConfig.storageKey);
+    const stored = window.localStorage.getItem(storageKey);
 
     if (!stored) {
       return {};
@@ -75,14 +109,19 @@ function readStoredTheme(): Partial<StudioThemeState> {
     if (
       typeof parsed === "object" &&
       parsed !== null &&
-      "themeId" in parsed &&
       "mode" in parsed &&
-      isThemeId(parsed.themeId) &&
       isThemeMode(parsed.mode)
     ) {
+      const themeId =
+        lockedThemeId === undefined &&
+        "themeId" in parsed &&
+        isThemeId(parsed.themeId)
+          ? parsed.themeId
+          : undefined;
+
       return {
         mode: parsed.mode,
-        themeId: parsed.themeId,
+        ...(themeId === undefined ? {} : { themeId }),
       };
     }
   } catch {
@@ -92,19 +131,27 @@ function readStoredTheme(): Partial<StudioThemeState> {
   return {};
 }
 
-function persistTheme(state: StudioThemeState): void {
-  if (typeof window === "undefined") {
+function persistTheme(
+  state: StudioThemeState,
+  storageKey: string | null,
+  lockedThemeId: StudioThemeId | undefined
+): void {
+  if (typeof window === "undefined" || storageKey === null) {
     return;
   }
 
   try {
-    window.localStorage.setItem(
-      studioThemeConfig.storageKey,
-      JSON.stringify({
-        mode: state.mode,
-        themeId: state.themeId,
-      })
-    );
+    const payload =
+      lockedThemeId === undefined
+        ? {
+            mode: state.mode,
+            themeId: state.themeId,
+          }
+        : {
+            mode: state.mode,
+          };
+
+    window.localStorage.setItem(storageKey, JSON.stringify(payload));
   } catch {
     // Storage is optional; DOM theme state still applies.
   }
@@ -134,12 +181,14 @@ function createThemeState(
 
 function createInitialThemeState(
   initialThemeId: StudioThemeId,
-  initialMode: StudioThemeMode
+  initialMode: StudioThemeMode,
+  storageKey: string | null,
+  lockedThemeId: StudioThemeId | undefined
 ): StudioThemeState {
-  const stored = readStoredTheme();
+  const stored = readStoredTheme(storageKey, lockedThemeId);
 
   return createThemeState(
-    stored.themeId ?? initialThemeId,
+    lockedThemeId ?? stored.themeId ?? initialThemeId,
     stored.mode ?? initialMode
   );
 }
@@ -148,10 +197,31 @@ export function ThemeProvider({
   children,
   initialMode = studioThemeConfig.defaultMode,
   initialThemeId = studioThemeConfig.defaultThemeId,
+  lockedThemeId,
+  storageKey = studioThemeConfig.storageKey,
 }: ThemeProviderProps) {
   const [themeState, setThemeState] = useState<StudioThemeState>(() =>
-    createInitialThemeState(initialThemeId, initialMode)
+    createInitialThemeState(
+      initialThemeId,
+      initialMode,
+      storageKey,
+      lockedThemeId
+    )
   );
+
+  useEffect(() => {
+    if (lockedThemeId === undefined) {
+      return;
+    }
+
+    setThemeState((current) => {
+      if (current.themeId === lockedThemeId) {
+        return current;
+      }
+
+      return createThemeState(lockedThemeId, current.mode);
+    });
+  }, [lockedThemeId]);
 
   useEffect(() => {
     if (themeState.mode !== "system" || typeof window === "undefined") {
@@ -183,19 +253,22 @@ export function ThemeProvider({
 
   useEffect(() => {
     applyTheme(themeState);
-    persistTheme(themeState);
-  }, [themeState]);
+    persistTheme(themeState, storageKey, lockedThemeId);
+  }, [lockedThemeId, storageKey, themeState]);
 
-  const setTheme = useCallback((update: StudioThemeUpdate) => {
-    setThemeState((current) => {
-      const nextThemeId = isThemeId(update.themeId)
-        ? update.themeId
-        : current.themeId;
-      const nextMode = isThemeMode(update.mode) ? update.mode : current.mode;
+  const setTheme = useCallback(
+    (update: StudioThemeUpdate) => {
+      setThemeState((current) => {
+        const nextThemeId =
+          lockedThemeId ??
+          (isThemeId(update.themeId) ? update.themeId : current.themeId);
+        const nextMode = isThemeMode(update.mode) ? update.mode : current.mode;
 
-      return createThemeState(nextThemeId, nextMode);
-    });
-  }, []);
+        return createThemeState(nextThemeId, nextMode);
+      });
+    },
+    [lockedThemeId]
+  );
 
   const value = useMemo<ThemeContextValue>(
     () => ({

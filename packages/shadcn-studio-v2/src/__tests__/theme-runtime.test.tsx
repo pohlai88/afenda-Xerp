@@ -11,7 +11,10 @@ import {
   useStudio,
   useTheme,
 } from "../clients";
-import { studioThemeConfig } from "../configs/theme-config";
+import {
+  CANONICAL_THEME_TOKEN_NAMES,
+  studioThemeConfig,
+} from "../configs/theme-config";
 import { StudioPresentationProviders } from "../contexts/theme-boundary";
 import type { StudioThemeUpdate } from "../types/theme";
 
@@ -41,6 +44,27 @@ let mediaMatches = false;
 
 ACT_GLOBAL.IS_REACT_ACT_ENVIRONMENT = true;
 
+function clearRootThemeState(): void {
+  document.documentElement.removeAttribute("data-theme");
+  document.documentElement.classList.remove(studioThemeConfig.darkClassName);
+
+  for (const tokenName of CANONICAL_THEME_TOKEN_NAMES) {
+    document.documentElement.style.removeProperty(`--${tokenName}`);
+  }
+}
+
+function getThemeToken(themeId: string, mode: "light" | "dark", token: string) {
+  const theme = studioThemeConfig.themes.find(
+    (option) => option.id === themeId
+  );
+
+  if (!theme) {
+    throw new Error(`Theme not found: ${themeId}`);
+  }
+
+  return theme.tokens[mode][token as keyof (typeof theme.tokens)[typeof mode]];
+}
+
 function installBrowserThemeRuntime({
   getItemThrows = false,
   mediaMatches: nextMediaMatches = false,
@@ -49,8 +73,7 @@ function installBrowserThemeRuntime({
 }: BrowserThemeRuntimeOptions = {}) {
   mediaListener = undefined;
   mediaMatches = nextMediaMatches;
-  document.documentElement.removeAttribute(studioThemeConfig.themeAttribute);
-  document.documentElement.classList.remove(studioThemeConfig.darkClassName);
+  clearRootThemeState();
 
   const getItem = vi.fn(() => {
     if (getItemThrows) {
@@ -176,8 +199,7 @@ afterEach(() => {
   });
 
   document.body.replaceChildren();
-  document.documentElement.removeAttribute(studioThemeConfig.themeAttribute);
-  document.documentElement.classList.remove(studioThemeConfig.darkClassName);
+  clearRootThemeState();
   mediaListener = undefined;
 
   if (ORIGINAL_LOCAL_STORAGE) {
@@ -220,7 +242,7 @@ describe("shadcn-studio-v2 theme runtime stabilization", () => {
     );
   });
 
-  it("applies data-theme, dark class, and persisted state from valid stored values", () => {
+  it("applies dark class, token overrides, and persisted state from valid stored values", () => {
     const storedTheme = JSON.stringify({
       mode: "dark",
       themeId: "verdant-noir",
@@ -236,8 +258,11 @@ describe("shadcn-studio-v2 theme runtime stabilization", () => {
     expect(output.dataset.mode).toBe("dark");
     expect(output.dataset.resolvedMode).toBe("dark");
     expect(output.dataset.themeId).toBe("verdant-noir");
-    expect(document.documentElement.dataset.theme).toBe("verdant-noir");
+    expect(document.documentElement.dataset.theme).toBeUndefined();
     expect(document.documentElement.classList.contains("dark")).toBe(true);
+    expect(document.documentElement.style.getPropertyValue("--primary")).toBe(
+      getThemeToken("verdant-noir", "dark", "primary")
+    );
     expect(setItem).toHaveBeenCalledWith(
       studioThemeConfig.storageKey,
       storedTheme
@@ -261,6 +286,7 @@ describe("shadcn-studio-v2 theme runtime stabilization", () => {
 
     expect(output.dataset.mode).toBe("system");
     expect(output.dataset.themeId).toBe("shadcn-default");
+    expect(document.documentElement.dataset.theme).toBeUndefined();
     expect(setItem).toHaveBeenCalledWith(
       studioThemeConfig.storageKey,
       JSON.stringify({ mode: "system", themeId: "shadcn-default" })
@@ -289,8 +315,11 @@ describe("shadcn-studio-v2 theme runtime stabilization", () => {
     );
 
     expect(readProbe(container).dataset.resolvedMode).toBe("dark");
-    expect(document.documentElement.dataset.theme).toBe("swiss-noir");
+    expect(document.documentElement.dataset.theme).toBeUndefined();
     expect(document.documentElement.classList.contains("dark")).toBe(true);
+    expect(document.documentElement.style.getPropertyValue("--primary")).toBe(
+      getThemeToken("swiss-noir", "dark", "primary")
+    );
   });
 
   it("resolves system mode from matchMedia and updates when media changes", () => {
@@ -326,11 +355,71 @@ describe("shadcn-studio-v2 theme runtime stabilization", () => {
 
     expect(readProbe(container).dataset.mode).toBe("dark");
     expect(readProbe(container).dataset.themeId).toBe("verdant-noir");
+    expect(document.documentElement.style.getPropertyValue("--primary")).toBe(
+      getThemeToken("verdant-noir", "dark", "primary")
+    );
 
     clickButton(container, "Set invalid theme");
 
     expect(readProbe(container).dataset.mode).toBe("dark");
     expect(readProbe(container).dataset.themeId).toBe("verdant-noir");
+  });
+
+  it("clears inline token overrides when the default theme is active", () => {
+    document.documentElement.style.setProperty("--primary", "oklch(0 0 0)");
+
+    renderClient(
+      <ThemeProvider initialMode="light" initialThemeId="shadcn-default">
+        <ThemeProbe />
+      </ThemeProvider>
+    );
+
+    expect(document.documentElement.dataset.theme).toBeUndefined();
+    expect(document.documentElement.style.getPropertyValue("--primary")).toBe(
+      ""
+    );
+  });
+
+  it("locks theme id while persisting user mode only", () => {
+    const storedTheme = JSON.stringify({
+      mode: "dark",
+      themeId: "verdant-noir",
+    });
+    const { setItem } = installBrowserThemeRuntime({ storedTheme });
+    const { container } = renderClient(
+      <ThemeProvider lockedThemeId="swiss-noir">
+        <ThemeProbe />
+      </ThemeProvider>
+    );
+
+    expect(readProbe(container).dataset.mode).toBe("dark");
+    expect(readProbe(container).dataset.themeId).toBe("swiss-noir");
+    expect(document.documentElement.style.getPropertyValue("--primary")).toBe(
+      getThemeToken("swiss-noir", "dark", "primary")
+    );
+    expect(setItem).toHaveBeenCalledWith(
+      studioThemeConfig.storageKey,
+      JSON.stringify({ mode: "dark" })
+    );
+
+    clickButton(container, "Set valid theme");
+
+    expect(readProbe(container).dataset.themeId).toBe("swiss-noir");
+  });
+
+  it("disables storage when storageKey is null", () => {
+    const { getItem, setItem } = installBrowserThemeRuntime({
+      storedTheme: JSON.stringify({ mode: "dark", themeId: "verdant-noir" }),
+    });
+
+    renderClient(
+      <ThemeProvider storageKey={null}>
+        <ThemeProbe />
+      </ThemeProvider>
+    );
+
+    expect(getItem).not.toHaveBeenCalled();
+    expect(setItem).not.toHaveBeenCalled();
   });
 
   it("still honors explicit initial props when no stored theme exists", () => {
@@ -359,8 +448,11 @@ describe("shadcn-studio-v2 theme runtime stabilization", () => {
     expect(output.dataset.mode).toBe("dark");
     expect(output.dataset.resolvedMode).toBe("dark");
     expect(output.dataset.themeId).toBe("verdant-noir");
-    expect(document.documentElement.dataset.theme).toBe("verdant-noir");
+    expect(document.documentElement.dataset.theme).toBeUndefined();
     expect(document.documentElement.classList.contains("dark")).toBe(true);
+    expect(document.documentElement.style.getPropertyValue("--primary")).toBe(
+      getThemeToken("verdant-noir", "dark", "primary")
+    );
   });
 
   it("exposes static studio runtime config through the studio provider", () => {
@@ -393,6 +485,7 @@ describe("shadcn-studio-v2 theme runtime stabilization", () => {
     expect(markup).toContain("afenda-studio-v2-theme");
     expect(markup).toContain("verdant-noir");
     expect(markup).toContain("swiss-noir");
-    expect(markup).toContain("data-theme");
+    expect(markup).toContain("themeTokenNames");
+    expect(markup).not.toContain("data-theme");
   });
 });

@@ -26,6 +26,7 @@
     "@afenda/observability": "workspace:*",
     "@afenda/permissions": "workspace:*",
     "@afenda/shadcn-studio": "workspace:*",
+    "@afenda/shadcn-studio-v2": "workspace:*",
     "better-auth": "^1.6.19",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.2",

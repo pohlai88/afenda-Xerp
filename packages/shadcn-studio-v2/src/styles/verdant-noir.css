@@ -1,23 +1,25 @@
 /*
  * Verdant Noir theme.
- * Additive token override only.
- * Do not add imports, @theme, @layer, :root, .dark, component selectors,
+ * Static token override only.
+ * Import this file after shadcn-default.css and do not import another
+ * noir theme file in the same CSS entry.
+ * Do not add imports, @theme, @layer, component selectors,
  * layout selectors, app selectors, or non-canonical token families.
  */
 
-[data-theme="verdant-noir"] {
+:root {
   --background: oklch(0.14 0.018 156);
   --foreground: oklch(0.96 0.012 120);
   --card: oklch(0.19 0.02 156);
   --card-foreground: oklch(0.96 0.012 120);
   --popover: oklch(0.17 0.018 156);
   --popover-foreground: oklch(0.96 0.012 120);
-  --primary: oklch(0.82 0.13 144);
-  --primary-foreground: oklch(0.12 0.018 156);
+  --primary: oklch(0.85 0.12 144);
+  --primary-foreground: oklch(0.06 0.014 156);
   --secondary: oklch(0.26 0.022 156);
   --secondary-foreground: oklch(0.94 0.012 120);
   --muted: oklch(0.24 0.02 156);
-  --muted-foreground: oklch(0.72 0.03 142);
+  --muted-foreground: oklch(0.86 0.022 142);
   --accent: oklch(0.33 0.04 144);
   --accent-foreground: oklch(0.96 0.012 120);
   --destructive: oklch(0.52 0.18 28);
@@ -32,10 +34,45 @@
   --chart-5: oklch(0.74 0.13 28);
   --sidebar: oklch(0.17 0.018 156);
   --sidebar-foreground: oklch(0.96 0.012 120);
-  --sidebar-primary: oklch(0.82 0.13 144);
-  --sidebar-primary-foreground: oklch(0.12 0.018 156);
+  --sidebar-primary: oklch(0.85 0.12 144);
+  --sidebar-primary-foreground: oklch(0.06 0.014 156);
   --sidebar-accent: oklch(0.26 0.022 156);
   --sidebar-accent-foreground: oklch(0.94 0.012 120);
   --sidebar-border: oklch(0.34 0.026 156);
   --sidebar-ring: oklch(0.78 0.09 144);
+}
+
+.dark {
+  --background: oklch(0.105 0.016 156);
+  --foreground: oklch(0.97 0.01 120);
+  --card: oklch(0.145 0.018 156);
+  --card-foreground: oklch(0.97 0.01 120);
+  --popover: oklch(0.13 0.017 156);
+  --popover-foreground: oklch(0.97 0.01 120);
+  --primary: oklch(0.84 0.12 144);
+  --primary-foreground: oklch(0.105 0.016 156);
+  --secondary: oklch(0.21 0.02 156);
+  --secondary-foreground: oklch(0.95 0.012 120);
+  --muted: oklch(0.2 0.018 156);
+  --muted-foreground: oklch(0.86 0.024 142);
+  --accent: oklch(0.29 0.038 144);
+  --accent-foreground: oklch(0.97 0.01 120);
+  --destructive: oklch(0.55 0.17 28);
+  --destructive-foreground: oklch(0.985 0.006 120);
+  --border: oklch(0.29 0.024 156);
+  --input: oklch(0.25 0.022 156);
+  --ring: oklch(0.8 0.085 144);
+  --chart-1: oklch(0.78 0.13 144);
+  --chart-2: oklch(0.72 0.115 178);
+  --chart-3: oklch(0.82 0.095 98);
+  --chart-4: oklch(0.74 0.115 62);
+  --chart-5: oklch(0.78 0.12 28);
+  --sidebar: oklch(0.13 0.016 156);
+  --sidebar-foreground: oklch(0.97 0.01 120);
+  --sidebar-primary: oklch(0.84 0.12 144);
+  --sidebar-primary-foreground: oklch(0.105 0.016 156);
+  --sidebar-accent: oklch(0.21 0.02 156);
+  --sidebar-accent-foreground: oklch(0.95 0.012 120);
+  --sidebar-border: oklch(0.29 0.024 156);
+  --sidebar-ring: oklch(0.8 0.085 144);
 }

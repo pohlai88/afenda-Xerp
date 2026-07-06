@@ -5,7 +5,13 @@
     "ignoreDeprecations": "5.0",
     "tsBuildInfoFile": "./node_modules/.cache/tsbuildinfo/tsconfig.tsbuildinfo",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@afenda/shadcn-studio-v2": [
+        "../../packages/shadcn-studio-v2/src/index.ts"
+      ],
+      "@afenda/shadcn-studio-v2/theme": [
+        "../../packages/shadcn-studio-v2/src/contexts/theme-boundary.ts"
+      ]
     }
   },
   "include": [

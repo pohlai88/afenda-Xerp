@@ -67,13 +67,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  transpilePackages: ["@afenda/shadcn-studio"],
+  transpilePackages: ["@afenda/shadcn-studio", "@afenda/shadcn-studio-v2"],
   turbopack: {
     root: monorepoRoot,
   },
   webpack: (config) => {
     config.resolve ??= {};
     config.resolve.extensionAlias = { ...extensionAlias };
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "@afenda/shadcn-studio-v2/theme": path.join(
+        monorepoRoot,
+        "packages/shadcn-studio-v2/src/contexts/theme-boundary.ts"
+      ),
+    };
     return config;
   },
 };

@@ -399,11 +399,11 @@ styles/
 
 `swiss-noir.css`
 
-* Swiss Noir scoped theme
+* Swiss Noir static root/dark token override
 
 `verdant-noir.css`
 
-* Verdant Noir scoped theme
+* Verdant Noir static root/dark token override
 
 CSS only. No TS. No React.
 

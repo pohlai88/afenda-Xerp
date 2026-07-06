@@ -91,7 +91,7 @@ Only this token model is allowed:
 ```txt
 Tailwind CSS v4
 + shadcn semantic CSS variables
-+ scoped Afenda theme values
++ static Afenda noir theme values
 ```
 
 Allowed CSS:
@@ -184,7 +184,9 @@ CSS must come only from package exports:
 
 ```css
 @import "@afenda/shadcn-studio-v2/shadcn-default.css";
+/* Choose one noir theme override after the default sheet. */
 @import "@afenda/shadcn-studio-v2/themes/swiss-noir.css";
+/* or */
 @import "@afenda/shadcn-studio-v2/themes/verdant-noir.css";
 ```
 

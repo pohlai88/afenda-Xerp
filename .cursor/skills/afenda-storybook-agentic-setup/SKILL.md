@@ -1,6 +1,10 @@
 ---
 name: afenda-storybook-agentic-setup
 description: Executes Storybook 10.4 agentic setup for Afenda PAS-006 lab on @storybook/react-vite — preview hardening, MSW, portal roots, ≤10 pilot stories with ai-generated tags, and Vitest lab-smoke verification. Use when rebuilding Storybook for AI agents, closing agentic setup gaps, or authoring fresh pilot catalogs after a lab reset.
+disable-model-invocation: true
+paths:
+  - apps/storybook/**
+  - packages/shadcn-studio/**
 ---
 
 # Afenda Storybook Agentic Setup

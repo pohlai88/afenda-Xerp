@@ -6,7 +6,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@afenda/shadcn-studio/shadcn-default.css";
+@import "@afenda/shadcn-studio-v2/shadcn-default.css";
 
 :root {
   color-scheme: light dark;
@@ -44,4 +44,4 @@ body {
 }
 
 @source "../**/*.{ts,tsx}";
-@source "../../../../packages/shadcn-studio/src/**/*.{ts,tsx}";
+@source "../../../../packages/shadcn-studio-v2/src/**/*.{ts,tsx}";

@@ -1,13 +1,70 @@
-export type StudioThemeId = "shadcn-default" | "swiss-noir" | "verdant-noir";
+export type StudioThemeId =
+  | "shadcn-default"
+  | "caffeine"
+  | "claude"
+  | "corporate"
+  | "ghibli-studio"
+  | "marvel"
+  | "material-design"
+  | "modern-minimal"
+  | "nature"
+  | "perplexity"
+  | "slack"
+  | "pastel-dreams"
+  | "swiss-noir"
+  | "verdant-noir";
 
 export type StudioThemeMode = "light" | "dark" | "system";
 
 export type StudioResolvedThemeMode = Exclude<StudioThemeMode, "system">;
 
+export type StudioThemeTokenName =
+  | "background"
+  | "foreground"
+  | "card"
+  | "card-foreground"
+  | "popover"
+  | "popover-foreground"
+  | "primary"
+  | "primary-foreground"
+  | "secondary"
+  | "secondary-foreground"
+  | "muted"
+  | "muted-foreground"
+  | "accent"
+  | "accent-foreground"
+  | "destructive"
+  | "destructive-foreground"
+  | "border"
+  | "input"
+  | "ring"
+  | "chart-1"
+  | "chart-2"
+  | "chart-3"
+  | "chart-4"
+  | "chart-5"
+  | "sidebar"
+  | "sidebar-foreground"
+  | "sidebar-primary"
+  | "sidebar-primary-foreground"
+  | "sidebar-accent"
+  | "sidebar-accent-foreground"
+  | "sidebar-border"
+  | "sidebar-ring";
+
+export type StudioThemeTokenMap = Readonly<
+  Record<StudioThemeTokenName, string>
+>;
+
+export type StudioThemeTokenModeMap = Readonly<
+  Record<StudioResolvedThemeMode, StudioThemeTokenMap>
+>;
+
 export interface StudioThemeOption {
   readonly description: string;
   readonly id: StudioThemeId;
   readonly label: string;
+  readonly tokens: StudioThemeTokenModeMap;
 }
 
 export interface StudioThemeConfig {
@@ -15,7 +72,6 @@ export interface StudioThemeConfig {
   readonly defaultMode: StudioThemeMode;
   readonly defaultThemeId: StudioThemeId;
   readonly storageKey: string;
-  readonly themeAttribute: "data-theme";
   readonly themes: readonly StudioThemeOption[];
 }
 

@@ -230,14 +230,28 @@ describe("shadcn-studio-v2 taxonomy", () => {
         shared/
           ThemeScript.tsx
           ThemeToggle.tsx
+          theme-customizer.tsx
         ui/
           Alert.tsx
           Badge.tsx
           Button.tsx
           Card.tsx
+          Checkbox.tsx
+          Dialog.tsx
+          DropdownMenu.tsx
           Field.tsx
+          Input.tsx
+          Label.tsx
+          Popover.tsx
+          RadioGroup.tsx
+          Select.tsx
+          Switch.tsx
           Table.tsx
+          Tabs.tsx
+          Textarea.tsx
+          Tooltip.tsx
       configs/
+        admincn-theme-presets.ts
         studio-config.ts
         theme-config.ts
       contexts/

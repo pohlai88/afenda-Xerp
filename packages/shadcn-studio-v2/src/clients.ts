@@ -24,6 +24,10 @@ export {
   type ThemeToggleProps,
 } from "./components/shared/ThemeToggle";
 export {
+  ThemeCustomizer,
+  type ThemeCustomizerProps,
+} from "./components/shared/theme-customizer";
+export {
   Alert,
   AlertDescription,
   type AlertProps,
@@ -82,7 +86,10 @@ export {
   tableContainerClassName,
 } from "./components/ui/Table";
 export { studioPackageConfig } from "./configs/studio-config";
-export { studioThemeConfig } from "./configs/theme-config";
+export {
+  CANONICAL_THEME_TOKEN_NAMES,
+  studioThemeConfig,
+} from "./configs/theme-config";
 export {
   type StudioContextValue,
   StudioProvider,
@@ -92,6 +99,10 @@ export {
   ThemeProvider,
   type ThemeProviderProps,
 } from "./contexts/ThemeProvider";
+export {
+  StudioPresentationProviders,
+  type StudioPresentationProvidersProps,
+} from "./contexts/theme-boundary";
 export { useStudio } from "./hooks/use-studio";
 export { useTheme } from "./hooks/use-theme";
 export type {
@@ -140,6 +151,9 @@ export type {
   StudioThemeMode,
   StudioThemeOption,
   StudioThemeState,
+  StudioThemeTokenMap,
+  StudioThemeTokenModeMap,
+  StudioThemeTokenName,
   StudioThemeUpdate,
 } from "./types/theme";
 export {
