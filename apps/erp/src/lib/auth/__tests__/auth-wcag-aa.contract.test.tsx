@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
+import { getAuthBlockSlotsForBlockId } from "@/lib/auth/auth-block-slot.registry";
 import {
   AUTH_ADJACENT_AUTH_BLOCK_IDS,
   AUTH_ADJACENT_SURFACE_PATHS,
   AUTH_ADJACENT_WCAG_REQUIRED_SLOTS,
 } from "@/lib/auth/auth-wcag-adjacent.registry";
-import { getAuthBlockSlotsForBlockId } from "@/lib/auth/auth-block-slot.registry";
 
 describe("auth-adjacent WCAG AA contract (PAS-006C P06-007)", () => {
   it("declares auth-adjacent surface paths", () => {
@@ -31,6 +31,9 @@ describe("auth-adjacent WCAG AA contract (PAS-006C P06-007)", () => {
         "/mfa/recovery",
         "/session-expired",
         "/access-denied",
+        "/auth/complete",
+        "/workspace/select",
+        "/organization/select",
         "/error",
         "/maintenance",
         "/security/review",

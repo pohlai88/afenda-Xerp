@@ -26,6 +26,9 @@ export const AUTH_ADJACENT_SURFACE_PATHS = [
   "/mfa/recovery",
   "/session-expired",
   "/access-denied",
+  "/auth/complete",
+  "/workspace/select",
+  "/organization/select",
   "/error",
   "/security/review",
   ...ERROR_PAGE_PUBLIC_PATH_PREFIXES.filter(
@@ -38,6 +41,7 @@ export type AuthAdjacentSurfacePath =
 
 /** Presentation blocks wired to auth-adjacent ERP routes. */
 export const AUTH_ADJACENT_AUTH_BLOCK_IDS = [
+  "login-page-03",
   "login-page-04",
   "verify-email-page-01",
   "verify-email-sent-page-01",
@@ -70,6 +74,11 @@ export type AuthAdjacentAuthBlockId =
 export const AUTH_ADJACENT_WCAG_REQUIRED_SLOTS: Readonly<
   Record<AuthAdjacentAuthBlockId, readonly string[]>
 > = {
+  "login-page-03": [
+    "workspace-select.title",
+    "workspace-select.description",
+    "workspace-select.action",
+  ],
   "login-page-04": [
     "login.branding.title",
     "login.form.title",

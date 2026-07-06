@@ -3,35 +3,15 @@
 import { Button } from "@afenda/shadcn-studio-v2/clients";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, useTransition } from "react";
-
 import { fetchAuthMembershipResolution } from "@/lib/auth/auth-membership-resolution.client";
+import { persistAuthMembershipTarget } from "@/lib/auth/auth-membership-switch.helpers";
 import { AUTH_PATHS } from "@/lib/auth/auth-path.registry";
-import { switchOperatingContextAction } from "@/lib/context/context-switch.action";
-import type { AuthMembershipSwitchTargetDto } from "@/server/api/contracts/auth/auth-memberships.api-contract";
+import { shouldRedirectToPostLoginEntryPath } from "@/lib/auth/auth-post-login-entry-path.helpers";
+import { resolveSafeInternalPath } from "@/lib/auth/resolve-safe-internal-path";
 
 type AuthCompleteState =
   | { readonly kind: "resolving" }
   | { readonly kind: "error"; readonly message: string };
-
-function resolveNextPath(params: URLSearchParams): string {
-  const next = params.get("next");
-  return next?.startsWith("/") && !next.startsWith("//") ? next : "/workspace";
-}
-
-async function persistSingleTarget(
-  target: AuthMembershipSwitchTargetDto
-): Promise<void> {
-  const result = await switchOperatingContextAction({
-    companySlug: target.companySlug,
-    ...(target.organizationSlug === undefined
-      ? {}
-      : { organizationSlug: target.organizationSlug }),
-  });
-
-  if (!result.ok) {
-    throw new Error(result.userMessage);
-  }
-}
 
 export function AuthCompleteResolver() {
   const router = useRouter();
@@ -51,33 +31,20 @@ export function AuthCompleteResolver() {
           return;
         }
 
-        if (
-          resolution.requiresWorkspaceSelect ||
-          resolution.entryPath === AUTH_PATHS.workspaceSelect
-        ) {
-          router.replace(AUTH_PATHS.workspaceSelect);
-          return;
-        }
-
-        if (
-          resolution.requiresOrganizationSelect ||
-          resolution.entryPath === AUTH_PATHS.organizationSelect
-        ) {
-          router.replace(AUTH_PATHS.organizationSelect);
-          return;
-        }
-
-        if (resolution.entryPath === AUTH_PATHS.accessDenied) {
+        if (shouldRedirectToPostLoginEntryPath(resolution)) {
           router.replace(resolution.entryPath);
           return;
         }
 
         const [singleTarget] = resolution.targets;
         if (singleTarget !== undefined) {
-          await persistSingleTarget(singleTarget);
+          await persistAuthMembershipTarget(singleTarget);
         }
 
-        const destination = resolveNextPath(searchParams);
+        const destination = resolveSafeInternalPath(
+          searchParams.get("next"),
+          "/workspace"
+        );
         startTransition(() => {
           router.replace(destination);
           router.refresh();
@@ -109,7 +76,11 @@ export function AuthCompleteResolver() {
       <div className="flex w-full max-w-md flex-col gap-4">
         <h1 className="font-semibold text-2xl">Completing sign-in</h1>
         {state.kind === "resolving" ? (
-          <p className="text-muted-foreground text-sm">
+          <p
+            aria-live="polite"
+            className="text-muted-foreground text-sm"
+            role="status"
+          >
             Resolving your workspace access...
           </p>
         ) : (
