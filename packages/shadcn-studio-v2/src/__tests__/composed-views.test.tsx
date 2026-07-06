@@ -90,7 +90,10 @@ describe("Phase 7C auth presentation", () => {
       `data-slot="${AUTH_SHELL_SLOTS.secondaryActions}"`
     );
     expect(markup).toContain(`data-slot="${AUTH_SHELL_SLOTS.footer}"`);
-    expect(markup).toContain('aria-label="Authentication"');
+    expect(markup).toMatch(/aria-labelledby="[^"]+-title"/);
+    expect(markup).toMatch(/aria-describedby="[^"]+-description"/);
+    expect(markup).toMatch(/id="[^"]+-title"/);
+    expect(markup).toMatch(/id="[^"]+-description"/);
     expect(markup).toContain("Form slot");
     expect(markup).toContain("Continue");
     expect(markup).toContain("Recover access");
@@ -119,6 +122,17 @@ describe("Phase 7C auth presentation", () => {
     expect(markup).toContain(`data-slot="${AUTH_SHELL_SLOTS.content}"`);
     expect(markup).toContain("<section");
     expect(markup).toContain("<h1");
+  });
+
+  it("supports AuthShell label as an explicit accessible-name override", () => {
+    const markup = renderToStaticMarkup(
+      <AuthShell label="Workspace sign-in" title="Sign in">
+        Form slot
+      </AuthShell>
+    );
+
+    expect(markup).toContain('aria-label="Workspace sign-in"');
+    expect(markup).not.toMatch(/<section[^>]+aria-labelledby="[^"]+-title"/);
   });
 
   it.each(
@@ -151,6 +165,11 @@ describe("Phase 7C auth presentation", () => {
     expect(markup).toContain(`${state} auth title`);
     expect(markup).toContain(`${state} auth description`);
     expect(markup).toContain("View status");
+    expect(markup).toMatch(
+      new RegExp(
+        `role="${state === "error" ? "alert" : "status"}"[\\s\\S]*</div></div><div class="mt-3" data-slot="${AUTH_SHELL_SLOTS.stateAction}"`
+      )
+    );
     expect(markup).not.toContain("Auth form");
     expect(markup).not.toContain("Submit");
   });

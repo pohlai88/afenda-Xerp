@@ -1,5 +1,5 @@
 // biome-ignore lint/style/useFilenamingConvention: V2 taxonomy requires PascalCase React component filenames.
-import type { ComponentProps, ReactNode } from "react";
+import { type ComponentProps, type ReactNode, useId } from "react";
 import { Alert, AlertDescription, AlertTitle } from "../../components/ui/Alert";
 import {
   Card,
@@ -72,7 +72,6 @@ export interface AuthShellProps
 
 const AUTH_SHELL_BASE_CLASS =
   "mx-auto flex min-h-svh w-full max-w-md items-center justify-center bg-background px-6 py-12 text-foreground";
-const DEFAULT_AUTH_SHELL_LABEL = "Authentication";
 
 const DEFAULT_AUTH_STATE_MESSAGES = {
   disabled: {
@@ -120,49 +119,41 @@ function AuthShellStateMessage({
   const isError = state === "error";
 
   return (
-    <div
-      data-disabled={state === "disabled" ? "" : undefined}
-      data-slot={AUTH_SHELL_SLOTS.state}
-      data-state={state}
-    >
-      <Alert
-        aria-busy={state === "loading" ? true : undefined}
-        aria-live={isError ? "assertive" : "polite"}
+    <>
+      <div
+        data-disabled={state === "disabled" ? "" : undefined}
+        data-slot={AUTH_SHELL_SLOTS.state}
         data-state={state}
-        role={isError ? "alert" : "status"}
-        variant={isError ? "destructive" : "default"}
       >
-        <AlertTitle>{message.title}</AlertTitle>
-        {message.description == null ? null : (
-          <AlertDescription>{message.description}</AlertDescription>
-        )}
-        {message.action == null ? null : (
-          <div className="mt-3" data-slot={AUTH_SHELL_SLOTS.stateAction}>
-            {message.action}
-          </div>
-        )}
-      </Alert>
-    </div>
+        <Alert
+          aria-busy={state === "loading" ? true : undefined}
+          aria-live={isError ? "assertive" : "polite"}
+          data-state={state}
+          role={isError ? "alert" : "status"}
+          variant={isError ? "destructive" : "default"}
+        >
+          <AlertTitle>{message.title}</AlertTitle>
+          {message.description == null ? null : (
+            <AlertDescription>{message.description}</AlertDescription>
+          )}
+        </Alert>
+      </div>
+      {message.action == null ? null : (
+        <div className="mt-3" data-slot={AUTH_SHELL_SLOTS.stateAction}>
+          {message.action}
+        </div>
+      )}
+    </>
   );
 }
 
-function renderAuthShellContent({
+function AuthShellReadyContent({
   actions,
   children,
-  state,
-  stateMessages,
 }: {
   readonly actions: ReactNode;
   readonly children: ReactNode;
-  readonly state: AuthShellState;
-  readonly stateMessages: AuthShellProps["stateMessages"];
-}): ReactNode {
-  if (state !== "ready") {
-    return (
-      <AuthShellStateMessage state={state} stateMessages={stateMessages} />
-    );
-  }
-
+}) {
   return (
     <>
       {children}
@@ -178,13 +169,89 @@ function renderAuthShellContent({
   );
 }
 
+function AuthShellContent({
+  actions,
+  children,
+  state,
+  stateMessages,
+}: {
+  readonly actions: ReactNode;
+  readonly children: ReactNode;
+  readonly state: AuthShellState;
+  readonly stateMessages: AuthShellProps["stateMessages"];
+}) {
+  if (state !== "ready") {
+    return (
+      <AuthShellStateMessage state={state} stateMessages={stateMessages} />
+    );
+  }
+
+  return (
+    <AuthShellReadyContent actions={actions}>{children}</AuthShellReadyContent>
+  );
+}
+
+function AuthShellFooter({
+  footer,
+  secondaryActions,
+}: {
+  readonly footer: AuthShellProps["footer"];
+  readonly secondaryActions: AuthShellProps["secondaryActions"];
+}) {
+  if (footer == null && secondaryActions == null) {
+    return null;
+  }
+
+  return (
+    <CardFooter>
+      <div className="flex w-full flex-col gap-3">
+        {secondaryActions == null ? null : (
+          <div data-slot={AUTH_SHELL_SLOTS.secondaryActions}>
+            {secondaryActions}
+          </div>
+        )}
+        {footer == null ? null : (
+          <div data-slot={AUTH_SHELL_SLOTS.footer}>{footer}</div>
+        )}
+      </div>
+    </CardFooter>
+  );
+}
+
+function AuthShellHeader({
+  description,
+  descriptionId,
+  title,
+  titleId,
+}: {
+  readonly description: AuthShellProps["description"];
+  readonly descriptionId: string | undefined;
+  readonly title: AuthShellProps["title"];
+  readonly titleId: string;
+}) {
+  return (
+    <CardHeader>
+      <CardTitle>
+        <h1 data-slot={AUTH_SHELL_SLOTS.title} id={titleId}>
+          {title}
+        </h1>
+      </CardTitle>
+      {description == null ? null : (
+        <div data-slot={AUTH_SHELL_SLOTS.description} id={descriptionId}>
+          <CardDescription>{description}</CardDescription>
+        </div>
+      )}
+    </CardHeader>
+  );
+}
+
 export function AuthShell({
   actions,
   children,
   className,
   description,
   footer,
-  label = DEFAULT_AUTH_SHELL_LABEL,
+  label,
   secondaryActions,
   state,
   stateMessages,
@@ -192,55 +259,52 @@ export function AuthShell({
   ...props
 }: AuthShellProps) {
   const resolvedState = state ?? "ready";
-  const sectionAriaLabel =
-    props["aria-label"] ??
-    (props["aria-labelledby"] == null ? label : undefined);
-  const hasFooter = footer != null || secondaryActions != null;
+  const authShellId = useId();
+  const titleId = `${authShellId}-title`;
+  const descriptionId =
+    description == null ? undefined : `${authShellId}-description`;
+  const consumerAriaLabel = props["aria-label"];
+  const consumerDescribedBy = props["aria-describedby"];
+  const consumerLabelledBy = props["aria-labelledby"];
+  const ariaLabelledBy =
+    consumerLabelledBy ??
+    (consumerAriaLabel == null && label == null ? titleId : undefined);
 
   return (
     <section
       {...props}
-      aria-label={sectionAriaLabel}
+      aria-describedby={consumerDescribedBy ?? descriptionId}
+      aria-label={
+        consumerAriaLabel ?? (consumerLabelledBy == null ? label : undefined)
+      }
+      aria-labelledby={ariaLabelledBy}
       className={authShellClassName({ className })}
       data-slot={AUTH_SHELL_SLOTS.root}
       data-state={resolvedState}
     >
       <div className="w-full" data-slot={AUTH_SHELL_SLOTS.card}>
         <Card data-state={resolvedState}>
-          <CardHeader>
-            <CardTitle>
-              <h1 data-slot={AUTH_SHELL_SLOTS.title}>{title}</h1>
-            </CardTitle>
-            {description == null ? null : (
-              <div data-slot={AUTH_SHELL_SLOTS.description}>
-                <CardDescription>{description}</CardDescription>
-              </div>
-            )}
-          </CardHeader>
+          <AuthShellHeader
+            description={description}
+            descriptionId={descriptionId}
+            title={title}
+            titleId={titleId}
+          />
           <CardContent>
             <div data-slot={AUTH_SHELL_SLOTS.content}>
-              {renderAuthShellContent({
-                actions,
-                children,
-                state: resolvedState,
-                stateMessages,
-              })}
+              <AuthShellContent
+                actions={actions}
+                state={resolvedState}
+                stateMessages={stateMessages}
+              >
+                {children}
+              </AuthShellContent>
             </div>
           </CardContent>
-          {hasFooter ? (
-            <CardFooter>
-              <div className="flex w-full flex-col gap-3">
-                {secondaryActions == null ? null : (
-                  <div data-slot={AUTH_SHELL_SLOTS.secondaryActions}>
-                    {secondaryActions}
-                  </div>
-                )}
-                {footer == null ? null : (
-                  <div data-slot={AUTH_SHELL_SLOTS.footer}>{footer}</div>
-                )}
-              </div>
-            </CardFooter>
-          ) : null}
+          <AuthShellFooter
+            footer={footer}
+            secondaryActions={secondaryActions}
+          />
         </Card>
       </div>
     </section>
