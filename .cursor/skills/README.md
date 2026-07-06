@@ -72,6 +72,7 @@ All commands: `disable-model-invocation: true`.
 | --- | --- | --- | --- | --- |
 | `architecture-authority` | Authority | `packages/architecture-authority/**`, `packages/architecture-authority/src/data/foundation-disposition.registry.ts` | Registries, layer rules, disposition | `pnpm quality:architecture` |
 | `kernel-authority` | Authority | `packages/kernel/**`, `docs/PAS/PAS-001*.md` | Kernel boundary | kernel gates |
+| `erp-module-foundation-authority` | Authority | `packages/erp-module-foundation/**`, `docs/PAS/KERNEL/PAS-001C*.md`, `scripts/governance/check-erp-module-*` | PAS-001C module identity, readiness bundles | `pnpm check:erp-module-*` |
 | `accounting-standards-authority` | Authority | `packages/accounting-standards/**`, `docs/PAS/ACCOUNTING-STANDARDS/**` | Accounting standards | — |
 | `shadcn-studio` | Authority | `packages/shadcn-studio/**`, `docs/PAS/PRESENTATION/**`, `apps/erp/**` | PAS-006 ERP presentation (ADR-0027) | `pnpm check:downstream-integration` |
 | `enterprise-knowledge` | Enterprise | `packages/enterprise-knowledge/**`, `docs/PAS/ENTERPRISE-KNOWLEDGE/**` | Knowledge atoms, PAS-004 | `pnpm check:knowledge-conformance` |
@@ -90,14 +91,18 @@ All commands: `disable-model-invocation: true`.
 | `afenda-react-surface-quality` | UI review | `apps/erp/**`, `packages/shadcn-studio/**` | ERP React/TS B→A→T scan · refactor proof | `pnpm typecheck`, `pnpm test:interaction` |
 | `afenda-presentation-quality` | UI composer | `apps/erp/**`, `packages/shadcn-studio/**` | PAS-006 gate bundle · Phase 1 CSS doctrine · replaces retired ui-consistency-bundle | PAS-006 gates (see skill) |
 | `afenda-tailwind` | Afenda domain | `**/*.css`, `apps/erp/**`, `packages/shadcn-studio/**` | PAS-006 Phase 1 Tailwind · import-only globals.css | `pnpm quality:css`, `pnpm check:downstream-integration` |
+| `afenda-erp-design-system` | Afenda domain | `packages/shadcn-studio-v2/**`, `apps/erp/**`, `apps/developer/**`, `apps/storybook/**` | V2 design-system strategy · layers · KISS/DRY · ERP operator UI foundations (ADR-0027) | — |
+| `afenda-phase-3-primitive-layer` | Afenda domain | `packages/shadcn-studio-v2/src/components/ui/**` | Phase 3 V2 primitives (Button, Badge, Card, Alert, Field, Table) — typed props, token-safe, test-proven | `pnpm --filter @afenda/shadcn-studio-v2 test:run` |
 | `afenda-shadcn-performance` | Afenda domain | `apps/erp/**`, `packages/shadcn-studio/**`, `apps/storybook/**` | Bundle, lazy-load, CVA, Tailwind JIT + React perf synergy | `pnpm --filter @afenda/erp analyze`, typecheck, build |
-| `afenda-primitive-contract` | Afenda domain | `packages/shadcn-studio/src/components-ui/**` | 2-file contract + adapter; mismatch frame; no shadcn overwrite | `pnpm check:studio-primitive-contracts` |
-| `afenda-react-surface-quality` | Afenda domain | `apps/erp/**`, studio blocks | B/A/C/T React/TS scan for ERP surfaces | typecheck, `pnpm test:interaction` |
 | `package-css-dist-sync` | UI infra | `packages/shadcn-studio/src/styles/**` | shadcn-studio CSS dist sync | `pnpm check:package-css-dist-sync` |
 | `afenda-storybook` | UI | `apps/storybook/**` | shadcn-studio Storybook lab | `pnpm --filter @afenda/storybook storybook:build` |
+| `afenda-storybook-agentic-setup` | UI | `apps/storybook/**`, `packages/shadcn-studio/**` | Storybook 10.4 agentic pilot rebuild · MSW · ≤10-story batches | `pnpm --filter @afenda/storybook test:storybook:run` |
+| `shadcncraft-generate-code` | UI MCP | `packages/shadcn-studio/**`, Figma MCP | Figma frame → React via shadcncraft registry + `@shadcncraft/*` | `pnpm studio:shadcn:quarantine` |
+| `shadcncraft-import-variables` | UI MCP | `**/*.css`, `packages/shadcn-studio/**` | Figma variables → shadcn token `globals.css` managed region | `pnpm check:package-css-dist-sync` |
 | `afenda-presentation-atlas` | Reference | `packages/shadcn-studio/**`, `apps/storybook/**` | `@afenda/shadcn-studio` design system map — primitives, blocks, exports | — |
 | `afenda-editorial-lab` | UI authority | `packages/shadcn-studio/docs/**`, `storybook/**`, presentation-lab presets | Swiss Noir, Verdant Milk, editorial, cinematic, noir, not ordinary | Read SSOT + [reference/pattern-and-doctrine.md](afenda-editorial-lab/reference/pattern-and-doctrine.md) |
 | `afenda-editorial-compose` | UI workflow | `packages/shadcn-studio/src/storybook/**`, noir CSS, presentation-lab stories | Governed editorial implementation after lab skill | Preview URL mandatory · [reference/workflow-templates.md](afenda-editorial-compose/reference/workflow-templates.md) |
+| `afenda-editorial-landing-builder` | UI workflow | `apps/developer/**`, presentation-lab routes | Concept-first editorial landing pages (auth-free lab surfaces) | Browser screenshot + fidelity ledger |
 | `afenda-presentation-promotion` | UI workflow | `apps/erp/**`, `components-auth-shell/**`, auth registries | Explicit promote / wire ERP sign-in only | Stage C gates · [reference/stage-checklists.md](afenda-presentation-promotion/reference/stage-checklists.md) |
 | `docs-editorial-design` | Docs UI (planned) | `apps/docs/**` | Fumadocs prose editorial — **not ERP UI**; ERP editorial = `afenda-editorial-lab` | — |
 | MCP quarantine inbox | Workflow | `packages/shadcn-studio/src/components-quarantine/**` | Raw MCP/CLI landing — promote per PAS-006B before ERP export | — |
@@ -160,11 +165,14 @@ All commands: `disable-model-invocation: true`.
 
 | Skill | Class | Notes |
 | --- | --- | --- |
-| `css-architecture` | Reference | BEM/SMACSS patterns; not Afenda authority |
 | `supabase` | Reference | Supabase OSS; use when touching Supabase |
 | `supabase-postgres-best-practices` | Reference | Postgres via Supabase lens |
 
+**External (not installed):** `css-architecture` — BEM/SMACSS reference only; install via `npx skills find css-architecture` into `vendor/` after [EVALUATION.md](vendor/EVALUATION.md) if needed.
+
 Install OSS skills via `npx skills find <query>` — add to `vendor/` only after [`vendor/EVALUATION.md`](vendor/EVALUATION.md) scoring. Never copy OSS into native root without eval.
+
+**Registration gate:** `pnpm check:skills-registration` — every native skill directory must have `SKILL.md`, matching YAML `name`, and a row in this catalog.
 
 ---
 
@@ -215,4 +223,4 @@ Personas live in [`.cursor/agents/`](../agents/) — orchestration layer, not sk
 
 ---
 
-Last updated: 2026-06-29 — platform-* renames, rule trim, Verification anatomy on bundles/commands.
+Last updated: 2026-07-06 — skills registration gate, V2/storybook/shadcncraft catalog rows, duplicate UI rows trimmed, nested NATIVE-EVALUATION forbidden.

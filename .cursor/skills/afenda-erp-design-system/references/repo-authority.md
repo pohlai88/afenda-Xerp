@@ -1,6 +1,6 @@
 # Afenda Repo Authority
 
-Use this reference for work inside `C:\JackProject\afenda-bolt\afenda-Xerp`.
+Use this reference for work inside this monorepo (afenda-Xerp).
 
 ## Source Hierarchy
 
@@ -10,84 +10,111 @@ Follow this order for presentation work:
 2. `docs/adr/ADR-0027-frontend-presentation-reset.md`
 3. `docs/PAS/PRESENTATION/README.md`
 4. `docs/PAS/PRESENTATION/PAS-006*.md`
-5. `packages/shadcn-studio/AGENTS.md`
-6. `packages/shadcn-studio/docs/ARCHITECTURE.md`
-7. `packages/shadcn-studio/src/components-quarantine/README.md`
+5. `packages/shadcn-studio-v2/AGENTS.md` and `packages/shadcn-studio-v2/docs/TAXONOMY.md`
+6. `packages/shadcn-studio-v2/docs/DESIGN-SYSTEM-ARCHITECTURE.md`
+7. Legacy `packages/shadcn-studio/**` (migration source only — do not extend)
 8. Current code and package manifests
-9. External official docs
+9. External official docs (Context7 MCP or primary URLs)
 
-When guidance conflicts, current package manifests and PAS-006A/current package-local docs outrank older skill prose.
+When guidance conflicts, current V2 package manifests and PAS-006 docs outrank older skill prose or legacy v1 paths.
 
 ## Current Repo Shape
 
-`@afenda/shadcn-studio` is the sole ERP presentation product. `apps/erp` and `apps/storybook` consume it.
+**V2 target:** `@afenda/shadcn-studio-v2` — governed presentation package with closed taxonomy, explicit export boundaries, and executable gates.
 
-Important files:
+**Legacy v1:** `@afenda/shadcn-studio` — migration source; do not add new features unless a slice explicitly requires it.
 
-| Surface | Current path |
+Consumers: `apps/erp`, `apps/developer`, `apps/storybook`.
+
+### V2 Important Files
+
+| Surface | Path |
 | --- | --- |
-| Package manifest | `packages/shadcn-studio/package.json` |
-| shadcn config | `packages/shadcn-studio/components.json` |
-| Package architecture map | `packages/shadcn-studio/docs/ARCHITECTURE.md` |
-| Package agent guide | `packages/shadcn-studio/AGENTS.md` |
-| Quarantine guide | `packages/shadcn-studio/src/components-quarantine/README.md` |
-| CSS source | `packages/shadcn-studio/src/styles/shadcn-default.css` |
-| CSS dist | `packages/shadcn-studio/dist/shadcn-default.css` |
-| Theme manifest | `packages/shadcn-studio/src/styles/theme-manifest.json` |
+| Package manifest | `packages/shadcn-studio-v2/package.json` |
+| shadcn config | `packages/shadcn-studio-v2/components.json` |
+| Architecture | `packages/shadcn-studio-v2/docs/DESIGN-SYSTEM-ARCHITECTURE.md` |
+| Taxonomy law | `packages/shadcn-studio-v2/docs/TAXONOMY.md` |
+| Package agent guide | `packages/shadcn-studio-v2/AGENTS.md` |
+| Quarantine guide | `packages/shadcn-studio-v2/src/components/quarantine/README.md` |
+| CSS source | `packages/shadcn-studio-v2/src/styles/shadcn-default.css` |
+| CSS dist | `packages/shadcn-studio-v2/dist/shadcn-default.css` |
+| Theme overlays | `packages/shadcn-studio-v2/src/styles/swiss-noir.css`, `verdant-noir.css` |
+| Theme config | `packages/shadcn-studio-v2/src/configs/theme-config.ts` |
 | ERP CSS entry | `apps/erp/src/app/globals.css` |
+| Developer lab CSS | `apps/developer/src/app/globals.css` |
 | Storybook CSS entry | `apps/storybook/.storybook/preview.css` |
-| Public barrel | `packages/shadcn-studio/src/index.ts` |
+| Public barrels | `src/index.ts`, `clients.ts`, `server.ts`, `metadata.ts` |
 
-Current package exports include `@afenda/shadcn-studio/shadcn-default.css`, `@afenda/shadcn-studio/themes/swiss-noir.css`, and `@afenda/shadcn-studio/themes/verdant-noir.css`. Some older guidance says `shadcn-studio.css`; verify actual package exports before giving commands.
+### V2 Package Exports
 
-## Runtime Model
+| Export path | Purpose |
+| --- | --- |
+| `@afenda/shadcn-studio-v2` | Full public API (primitives, views, types, configs) |
+| `@afenda/shadcn-studio-v2/clients` | Client-safe React (`ThemeProvider`, `ThemeToggle`, `ThemeScript`, `ThemeCustomizer`) |
+| `@afenda/shadcn-studio-v2/server` | Server-safe config and theme types only |
+| `@afenda/shadcn-studio-v2/metadata` | View metadata contracts, builders, gates, registries |
+| `@afenda/shadcn-studio-v2/theme` | Theme boundary re-exports |
+| `@afenda/shadcn-studio-v2/shadcn-default.css` | Canonical OKLCH token sheet |
+| `@afenda/shadcn-studio-v2/themes/swiss-noir.css` | Swiss Noir theme overlay |
+| `@afenda/shadcn-studio-v2/themes/verdant-noir.css` | Verdant Noir theme overlay |
 
-`packages/shadcn-studio/components.json` currently uses:
+### V2 Public Import Law
 
-- `style: "base-vega"`
-- Tailwind CSS source: `src/styles/shadcn-default.css`
-- `cssVariables: true`
-- `iconLibrary: "lucide"`
-- install aliases to `@/components-quarantine/blocks` and `@/components-quarantine/components`
-
-`apps/erp/src/app/globals.css` currently composes:
+```ts
+import { Button, PageSurface, DataTableSurface } from "@afenda/shadcn-studio-v2";
+import { ThemeProvider } from "@afenda/shadcn-studio-v2/clients";
+import { studioThemeConfig } from "@afenda/shadcn-studio-v2/server";
+import type { ViewMetadata } from "@afenda/shadcn-studio-v2/metadata";
+```
 
 ```css
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@afenda/shadcn-studio/shadcn-default.css";
+@import "@afenda/shadcn-studio-v2/shadcn-default.css";
+/* optional theme overlay after default */
+@import "@afenda/shadcn-studio-v2/themes/swiss-noir.css";
 
 @source "../**/*.{ts,tsx}";
-@source "../../../../packages/shadcn-studio/src/**/*.{ts,tsx}";
+@source "../../../../packages/shadcn-studio-v2/src/**/*.{ts,tsx}";
 ```
 
-This file currently also contains auth pixel-shell CSS. Treat that as existing state, not permission to add new bespoke app-local styling.
+Forbidden imports:
 
-## Package Layers
+```ts
+@afenda/shadcn-studio-v2/src/*
+@afenda/shadcn-studio-v2/components/*
+@afenda/shadcn-studio-v2/views/*
+packages/shadcn-studio-v2/src/components/quarantine/*
+packages/shadcn-studio/src/*   // legacy internals
+```
 
-`packages/shadcn-studio/docs/ARCHITECTURE.md` defines:
+### V2 Runtime Layers
 
 | Layer | Paths | Role |
 | --- | --- | --- |
-| L1 Authority | `src/meta-contracts/`, `src/meta-registry/`, `src/meta-gates/` | Wire contracts, registries, gates |
-| L2 Product | `src/components-ui/`, `src/components-layouts/`, `src/components-auth-shell/`, `src/components-assets/`, `src/components-quarantine/`, `src/lib/`, `src/hooks/`, `src/theme*/`, `src/styles/` | Primitives, blocks, theme, utilities |
-| L3 Surfaces | `src/components-app-shell/` | App shell composition |
-| L4 Verification | `src/storybook/`, `src/__tests__/`, `src/*.stories.tsx` | Stories and tests |
+| L1 Primitives | `src/components/ui/` | 40 Base UI–style components; token-only styling |
+| L2 Layout chrome | `src/components/layout/` | AppShell, Sidebar, Topbar |
+| L3 Shared runtime | `src/components/shared/`, `src/contexts/` | ThemeProvider, ThemeToggle, ThemeScript |
+| L4 Views | `src/views/` | AuthShell, PageSurface, DataTableSurface, FormSurface, etc. |
+| L5 Metadata | `src/metadata/` | Contracts, registries, gates, builders |
+| L6 Verification | `src/__tests__/`, Storybook | Tests, taxonomy, drift, APCA |
 
-Consumers may use `@afenda/shadcn-studio`, `@afenda/shadcn-studio/theme`, `@afenda/shadcn-studio/governance` for gates, `@afenda/shadcn-studio/lab` for Storybook-only lab use, and CSS exports. Consumers must not deep-import `src/**`.
+Only four root export boundary files under `src/`: `index.ts`, `clients.ts`, `server.ts`, `metadata.ts`.
 
-## Quarantine and Promotion
+## Legacy V1 Reference (Migration Only)
 
-Raw MCP or shadcn CLI output goes to:
+Use when tracing migration rows in `docs/MIGRATION-MAP.md` or promoting legacy blocks. Do not add new v1 features.
 
-```text
-packages/shadcn-studio/src/components-quarantine/
-  blocks/
-  components/
-```
+| Surface | Legacy path |
+| --- | --- |
+| Package manifest | `packages/shadcn-studio/package.json` |
+| Architecture | `packages/shadcn-studio/docs/ARCHITECTURE.md` |
+| Quarantine | `packages/shadcn-studio/src/components-quarantine/` |
+| CSS source | `packages/shadcn-studio/src/styles/shadcn-default.css` |
+| Public barrel | `packages/shadcn-studio/src/index.ts` |
 
-Use quarantine commands from repo root:
+Legacy quarantine commands (v1 only):
 
 ```bash
 pnpm studio:shadcn:quarantine add @ss-blocks/<registry-name> --overwrite --yes
@@ -96,21 +123,30 @@ pnpm studio:promote --block <blockId>
 pnpm studio:promote --block <blockId> --apply
 ```
 
-Run `--apply` only when the preflight verdict is `READY_TO_PROMOTE`.
+Run `--apply` only when preflight verdict is `READY_TO_PROMOTE`.
 
-Never import from quarantine in ERP, Storybook, production buckets, or public barrels.
+## CSS Composition Model
 
-## Theme and Typography
+Package CSS (`shadcn-default.css`) owns `:root` / `.dark` OKLCH variables only — no Tailwind directives.
 
-Theme defaults live in `packages/shadcn-studio/src/theme-config/config.defaults.ts`. The current default font is `geist`.
+App CSS owns Tailwind entry, `@source`, and optional `@theme inline` mapping. See [shadcn-tailwind-v4.md](shadcn-tailwind-v4.md).
 
-`packages/shadcn-studio/src/theme-runtime/theme-runtime.font-attribute.ts` maps:
+After editing V2 package CSS:
 
-- `geist` to `--font-geist-sans` and `--font-geist-mono` with fallbacks
-- `inter`
-- `system`
+```bash
+pnpm --filter @afenda/shadcn-studio-v2 build
+pnpm check:package-css-dist-sync
+```
 
-Theme CSS overlays live under `src/styles/themes/**` and must be token-only, scoped, registered in `theme-manifest.json`, and imported after `shadcn-default.css` only when approved for the target surface.
+## Theme System (V2)
+
+- **14 theme IDs**: `shadcn-default` + 11 AdminCN presets + `swiss-noir` + `verdant-noir`
+- **32 canonical tokens**: `CANONICAL_THEME_TOKEN_NAMES` in `theme-config.ts`
+- **Runtime**: `ThemeProvider` toggles `.dark`, injects inline tokens for non-default themes
+- **Storage key**: `afenda-studio-v2-theme`
+- **Contrast gate**: `pnpm --filter @afenda/shadcn-studio-v2 check:apca` (APCA-W3)
+
+Forbidden token families in any CSS: `--brand-*`, `--afenda-*`, `--surface-*`, `--luxury-*`.
 
 ## PAS-006 Work Type Picker
 
@@ -126,34 +162,54 @@ Do not implement from Blueprint prose alone. Read target PAS and slice handoff w
 
 ## Gate Menu
 
-Choose the narrowest gates covering the change:
+Choose the narrowest gates covering the change.
+
+### V2 package gates
 
 ```bash
-pnpm check:studio-install-paths
-pnpm check:studio-quarantine-isolation
-pnpm check:studio-tsconfig-paths
-pnpm check:studio-import-zones
-pnpm check:studio-paths
-pnpm check:quarantine-registry-sync
-pnpm check:studio-metadata-binding
-pnpm check:studio-block-slot-markers
-pnpm check:studio-primitive-contracts
-pnpm check:studio-blocks
-pnpm --filter @afenda/shadcn-studio typecheck
-pnpm --filter @afenda/shadcn-studio test:run
-pnpm --filter @afenda/shadcn-studio build
-pnpm sync:package-css-dist -- --package @afenda/shadcn-studio
+pnpm --filter @afenda/shadcn-studio-v2 test
+pnpm --filter @afenda/shadcn-studio-v2 test:taxonomy
+pnpm --filter @afenda/shadcn-studio-v2 typecheck
+pnpm --filter @afenda/shadcn-studio-v2 build
+pnpm --filter @afenda/shadcn-studio-v2 check:drift
+pnpm --filter @afenda/shadcn-studio-v2 check:apca
+pnpm --filter @afenda/shadcn-studio-v2 quality   # drift + apca + test + typecheck + build
+pnpm exec biome ci packages/shadcn-studio-v2
+```
+
+### CSS sync
+
+```bash
+pnpm sync:package-css-dist -- --package @afenda/shadcn-studio-v2
 pnpm check:package-css-dist-sync
-pnpm check:erp-metadata-pas006-consumer
+```
+
+### Consumer gates
+
+```bash
 pnpm --filter @afenda/erp typecheck
 pnpm --filter @afenda/erp build
+pnpm --filter @afenda/developer typecheck
+pnpm check:erp-metadata-pas006-consumer
 pnpm storybook generate
 pnpm --filter @afenda/storybook test:storybook:run
 pnpm --filter @afenda/storybook test:storybook:a11y:run
 ```
 
+### Legacy v1 gates (when touching migration source)
+
+```bash
+pnpm check:studio-install-paths
+pnpm check:studio-quarantine-isolation
+pnpm check:studio-import-zones
+pnpm --filter @afenda/shadcn-studio typecheck
+pnpm --filter @afenda/shadcn-studio test:run
+pnpm --filter @afenda/shadcn-studio build
+```
+
 ## Known Drift to Watch
 
-- `.cursor/skills/afenda-tailwind/SKILL.md` still mentions `shadcn-studio.css` in places. Current package/PAS-006A use `shadcn-default.css`.
-- Some docs link `packages/shadcn-studio/ARCHITECTURE.md`; current observed architecture doc is `packages/shadcn-studio/docs/ARCHITECTURE.md`.
+- Some docs and skills still reference `@afenda/shadcn-studio` as the active package; V2 is `@afenda/shadcn-studio-v2`.
+- Older guidance may say `shadcn-studio.css`; current export is `shadcn-default.css`.
+- Figma rules (`.cursor/rules/figma-design-system-rules.mdc`) still cite v1 paths — verify against V2 manifests when implementing.
 - Root worktree may be dirty. Do not revert unrelated changes.

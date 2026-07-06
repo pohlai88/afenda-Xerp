@@ -88,6 +88,7 @@ Retained for coding reference even without heavy Afenda wiring:
 | Skill / agent | Status | Added |
 | --- | --- | --- |
 | `afenda-tailwind` | **keep** | 2026-06-29 consolidated; **reinstated PAS-006 Phase 1** 2026-06-30 (replaces retired legacy-ui copy) |
+| `afenda-erp-design-system` | **keep** | 2026-07-06 — V2 design-system strategy · layers · fundamentals/playbook references · auto-route via `paths` on studio-v2 + ERP surfaces |
 | `afenda-presentation-quality` | **keep** | 2026-06-30 — PAS-006 composer; Phase 1 CSS doctrine; replaces ui-consistency-bundle |
 | `afenda-primitive-contract` | **keep** | 2026-07-02 — components-ui 2-file contract + M1–M10 mismatch frame + `check:studio-primitive-contracts` |
 | `afenda-react-surface-quality` | **keep** | 2026-06-30 — ERP React B→A→T scan; vendor index on failure |

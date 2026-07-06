@@ -51,6 +51,7 @@ Any code edit? ───────────→ coding-consistency-bundle (m
 Editorial / cinematic / not ordinary UI? → afenda-editorial-bundle (stacks on coding-consistency-bundle)
 Promote lab pattern to ERP? ─→ afenda-presentation-promotion (explicit trigger; included in editorial bundle row 6)
 Design system inventory? ─→ afenda-presentation-atlas (read-only · /afenda-presentation-atlas)
+Design system strategy / V2 layers / ERP foundations? ─→ afenda-erp-design-system
 UI/CSS/visual (ERP, non-editorial)? → afenda-presentation-quality + shadcn-studio (PAS-006 · ADR-0027)
 Storybook agentic rebuild / pilot catalog? → afenda-storybook-agentic-setup + afenda-storybook
 MCP block / CLI install? ─→ shadcn-studio (`/cui` `/rui`) → `components-quarantine/` first → promotion pipeline ([`components-quarantine/README.md`](../../../packages/shadcn-studio/src/components-quarantine/README.md))
@@ -142,6 +143,7 @@ From [orchestration-patterns.md](../references/orchestration-patterns.md):
 | Governed implementation | `@afenda-governed-implementer` |
 | Architecture / registries | `architecture-authority` |
 | `@afenda/shadcn-studio` inventory / imports | `afenda-presentation-atlas` |
+| Design system strategy, V2 taxonomy, ERP operator foundations | `afenda-erp-design-system` |
 | ERP presentation (ADR-0027) | `afenda-presentation-quality` + `shadcn-studio` |
 | Storybook agentic pilot / lab reset | `afenda-storybook-agentic-setup` + `afenda-storybook` |
 | Route lab (`apps/developer`) | `afenda-nextjs-best-practice` + [developer-route-lab-parity](../afenda-nextjs-best-practice/reference/developer-route-lab-parity.md) — ERP-parity frontend; auth/spine only |

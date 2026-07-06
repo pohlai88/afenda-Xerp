@@ -1,6 +1,6 @@
 # Design-System Playbook
 
-This is a pragmatic enterprise SaaS ERP playbook for this repo. It borrows from mature OSS systems without copying their scale.
+Pragmatic enterprise SaaS ERP workflows for this repo. For concepts, layers, quality bar, and ERP interface defaults, read [design-system-fundamentals.md](design-system-fundamentals.md) first.
 
 ## External Lessons to Apply
 
@@ -13,41 +13,21 @@ This is a pragmatic enterprise SaaS ERP playbook for this repo. It borrows from 
 
 ## Minimum Viable Enterprise System
 
-Build only enough system to make repeated ERP work faster and safer.
+Build only enough system to make repeated ERP work faster and safer. Stop at the first ring that solves the actual problem.
 
-1. Foundations
-   - Theme tokens: background/foreground pairs, border/input/ring, destructive, sidebar, chart tokens, radius.
-   - Typography: UI, mono, optional display. Keep long-form editorial fonts outside dense ERP workflow screens.
-   - Density: table, form, card, dashboard, and settings density rules.
-   - Motion: reduced-motion support and purposeful transitions only.
-
-2. Primitives
-   - Button, input, label, select, checkbox, radio, switch, tabs, dialog, dropdown, table, card, badge, alert, toast, sidebar.
-   - Each primitive owns accessibility behavior, slots, variants, and class composition.
-   - Do not add business meaning to primitives.
-
-3. Blocks and patterns
-   - Tables, filters, page headers, settings sections, metric cards, dashboards, auth screens, activity/audit panels.
-   - Blocks own layout and replaceable slots, not database queries or permissions.
-   - Each block should expose typed props or wire contracts for real data states.
-
-4. Templates
-   - Dashboard, table/list, detail, form/edit, settings, approval, auth, error/forbidden.
-   - Prefer metadata binding and surface templates for repeated LoB screens.
-
-5. Evidence
-   - Storybook stories for default, dense, empty, loading, error, forbidden, long text, mobile, dark mode, and reduced motion.
-   - Tests for contract, accessibility, keyboard interaction, registry coverage, and import boundaries.
-
-Stop at the first ring that solves the actual problem.
+1. **Foundations** — theme tokens, typography, density, motion (see fundamentals).
+2. **Primitives** — `src/components/ui/`; accessibility, slots, variants; no business meaning.
+3. **Views and patterns** — `src/views/` compositions (tables, filters, page headers, settings, auth); typed props or metadata contracts; no database queries in the package.
+4. **Templates** — dashboard, table/list, detail, form/edit, settings, approval, auth, error/forbidden at the app or metadata layer.
+5. **Evidence** — Storybook stories and gates for default, dense, empty, loading, error, forbidden, long text, mobile, dark mode, and reduced motion.
 
 ## KISS Rules
 
 - Prefer Tailwind utilities over custom CSS.
 - Prefer semantic tokens over raw palette utilities.
 - Prefer existing shadcn primitives over wrapper components.
-- Prefer one explicit block over a generic builder until three real surfaces repeat the same shape.
-- Prefer co-located primitive contracts over a broad registry if only one primitive needs the rule.
+- Prefer one explicit view over a generic builder until three real surfaces repeat the same shape.
+- Prefer typed props and variants co-located in PascalCase components over parallel contract files when a single primitive owns the rule.
 - Prefer Storybook proof over screenshots hidden in docs.
 - Prefer package public exports over path aliases in consumers.
 - Prefer deleting unused experiments over supporting multiple futures.
@@ -72,58 +52,41 @@ Do not extract when:
 
 ## ERP Interface Defaults
 
-Use quiet, work-focused composition:
-
-- Dense but not cramped tables and forms.
-- Stable headers, filters, row actions, pagination, and bulk-action zones.
-- Clear empty/loading/error/forbidden states.
-- Strong focus rings and keyboard flows.
-- `tabular-nums` and mono for money, IDs, timestamps, counters, and command-like data.
-- Reserved color semantics for status and risk; avoid decorative color churn.
-- Visual hierarchy from type, spacing, borders, and density before gradients or illustrations.
-- Cards only for repeated items, dialogs, tools, and real framed content.
-
-Avoid:
-
-- Marketing hero layouts for operator tools.
-- Global CSS selectors for one route.
-- Per-module brand palettes.
-- Overly generic schema-driven UI before metadata contracts exist.
-- Premature theme marketplace, token alias explosion, or design-token build pipeline if CSS variables are sufficient.
+See [design-system-fundamentals.md](design-system-fundamentals.md) for the full operator-surface quality bar, typography, density, state patterns, and anti-patterns. Do not duplicate those lists here.
 
 ## Workflows
 
 ### Theme or Token Change
 
 1. Confirm the need is shared, not one component polish.
-2. Edit `shadcn-default.css` for canonical token contract changes, or a scoped theme file for a theme overlay.
-3. Register theme overlays in `theme-manifest.json`.
-4. Sync package CSS dist.
-5. Verify Storybook and ERP composition imports.
-6. Run CSS/package gates.
+2. Edit `packages/shadcn-studio-v2/src/styles/shadcn-default.css` for canonical token contract changes, or a scoped theme file (`swiss-noir.css`, `verdant-noir.css`) for a theme overlay.
+3. Register theme overlays in `packages/shadcn-studio-v2/src/configs/theme-config.ts` (`CANONICAL_THEME_TOKEN_NAMES`, theme IDs).
+4. Sync package CSS dist (`pnpm sync:package-css-dist -- --package @afenda/shadcn-studio-v2`).
+5. Verify Storybook and ERP/developer composition imports.
+6. Run CSS/package gates (`check:drift`, `check:apca` when contrast-relevant).
 
 ### Primitive Change
 
-1. Search existing `components-ui` primitive and contract.
-2. Preserve `{name}.contract.ts` + `{name}.tsx` split.
+1. Search existing `src/components/ui/` primitive before adding.
+2. Keep typed props, variants, and class composition in the PascalCase component file; do not split a parallel `{name}.contract.ts` unless PAS-006B explicitly requires it.
 3. Do not overwrite existing primitives with shadcn CLI.
-4. Keep accessibility semantics in the primitive, business meaning outside it.
-5. Add/adjust tests and Storybook stories when behavior or variants change.
+4. Keep accessibility semantics in the primitive; business meaning stays in views or app layers.
+5. Add or adjust tests and Storybook stories when behavior or variants change.
 
-### New Block
+### New View (from quarantine)
 
-1. Install raw output to quarantine.
-2. Replace demo data with typed props or wire shapes.
-3. Restore slot markers and data-slot markers.
-4. Promote only after preflight says ready.
-5. Add lifecycle, block data contract, metadata binding or waiver, acceptance record if applicable, barrel export, and story.
-6. Wire ERP only from public exports after acceptance criteria pass.
+1. Install raw MCP/CLI output to `src/components/quarantine/`.
+2. Replace demo data with typed props or metadata wire shapes.
+3. Restore slot markers and `data-slot` markers.
+4. Promote to `src/views/**` only after preflight says ready.
+5. Add lifecycle review, view metadata binding or waiver, acceptance record when PAS-006C applies, barrel export, and story.
+6. Wire ERP or developer lab only from `@afenda/shadcn-studio-v2` public exports after acceptance criteria pass.
 
 ### ERP Surface
 
-1. Select an accepted block or surface template.
-2. Bind route data at the app layer.
-3. Keep design-system decisions in `@afenda/shadcn-studio`.
+1. Select an accepted view or surface template from the public barrel.
+2. Bind route data at the app layer (`apps/erp/**`, `apps/developer/**`).
+3. Keep design-system decisions in `@afenda/shadcn-studio-v2`; consumers do not fork tokens or primitives.
 4. Use Tailwind classes for route layout; do not invent local tokens.
 5. Verify app gates after package gates.
 
@@ -134,8 +97,9 @@ Use prompts that constrain authority and evidence:
 ```text
 Use $afenda-erp-design-system and the repo PAS-006 authority chain.
 Goal: <specific operator workflow>.
-Allowed layer: <one layer>.
-Prefer existing @afenda/shadcn-studio primitives/blocks and Tailwind v4 semantic tokens.
+Allowed layer: <one layer — e.g. packages/shadcn-studio-v2/src/views/** or apps/erp/**>.
+Prefer existing @afenda/shadcn-studio-v2 primitives/views and Tailwind v4 semantic tokens.
+Paths: components/ui/, views/, src/styles/, configs/theme-config.ts.
 Do not add local tokens, restore retired packages, or wire quarantine output.
 Show the KISS/DRY decision, files to change, and narrow gates before edits.
 ```
