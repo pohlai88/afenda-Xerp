@@ -2,12 +2,12 @@ import { getAfendaAuthSession } from "@afenda/auth";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-
+import { AuthCompleteIngressSurface } from "@/components/auth/auth-complete-ingress.client";
 import { AuthIngressSurfacePage } from "@/components/auth/auth-ingress-surface-page";
 import { AuthWorkspaceSelectIngressSurface } from "@/components/auth/auth-workspace-select-ingress.client";
 
 import type { AuthIngressCanonicalPath } from "./auth-ingress-surface.registry";
-import type { AUTH_PATHS } from "./auth-path.registry";
+import { AUTH_PATHS } from "./auth-path.registry";
 import { resolveAuthSurfaceConfig } from "./auth-surface-config.server";
 import type { AuthWorkspaceSelectionKind } from "./auth-workspace-selection.helpers";
 import {
@@ -73,6 +73,11 @@ export function renderAuthWorkspaceSelectIngressPage(
 ): React.JSX.Element {
   const data = loadAuthIngressSurfacePage(path);
   return <AuthWorkspaceSelectIngressSurface data={data} kind={kind} />;
+}
+
+export function renderAuthCompleteIngressPage(): React.JSX.Element {
+  const data = loadAuthIngressSurfacePage(AUTH_PATHS.postAuthComplete);
+  return <AuthCompleteIngressSurface data={data} />;
 }
 
 export async function redirectAuthenticatedAuthIngress(

@@ -203,6 +203,11 @@ describe("loadAuthIngressSurfacePage", () => {
         path: "/organization/select",
         surfaceTemplateId: "surface-template.auth-workspace-select",
       },
+      {
+        blockId: "login-page-03",
+        path: "/auth/complete",
+        surfaceTemplateId: "surface-template.auth-workspace-select",
+      },
     ] as const;
 
     for (const ingress of expected) {

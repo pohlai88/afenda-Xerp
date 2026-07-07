@@ -126,6 +126,8 @@ export function resolveAuthIngressTitle(
       return "Select workspace";
     case AUTH_PATHS.organizationSelect:
       return "Select organization";
+    case AUTH_PATHS.postAuthComplete:
+      return "Completing sign-in";
     case AUTH_PATHS.securityReview:
       return "Security review required";
     case AUTH_PATHS.error:
@@ -193,6 +195,8 @@ export function resolveAuthIngressDescription(
       return "Choose the workspace scope for this sign-in session.";
     case AUTH_PATHS.organizationSelect:
       return "Choose the organization scope for this sign-in session.";
+    case AUTH_PATHS.postAuthComplete:
+      return "Resolve workspace access before continuing to your destination.";
     case AUTH_PATHS.securityReview:
       return "Complete the required security review before workspace access.";
     case AUTH_PATHS.error:

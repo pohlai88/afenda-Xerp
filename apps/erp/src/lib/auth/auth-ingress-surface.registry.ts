@@ -159,6 +159,11 @@ export const AUTH_INGRESS_CANONICAL_SURFACES = [
     surfaceTemplateId: "surface-template.auth-workspace-select",
   },
   {
+    blockId: "login-page-03",
+    path: "/auth/complete",
+    surfaceTemplateId: "surface-template.auth-workspace-select",
+  },
+  {
     blockId: "security-review-page-01",
     path: "/security/review",
     surfaceTemplateId: "surface-template.auth-security-review",

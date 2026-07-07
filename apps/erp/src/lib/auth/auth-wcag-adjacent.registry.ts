@@ -78,6 +78,9 @@ export const AUTH_ADJACENT_WCAG_REQUIRED_SLOTS: Readonly<
     "workspace-select.title",
     "workspace-select.description",
     "workspace-select.action",
+    "auth-complete.title",
+    "auth-complete.description",
+    "auth-complete.status",
   ],
   "login-page-04": [
     "login.branding.title",

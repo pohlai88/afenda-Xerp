@@ -20,6 +20,7 @@ import type { AuthIngressSurfacePageData } from "@/lib/auth/load-auth-ingress-su
 import { switchOperatingContextAction } from "@/lib/context/context-switch.action";
 import type { AuthMembershipSwitchTargetDto } from "@/server/api/contracts/auth/auth-memberships.api-contract";
 
+import { AuthIngressSurfaceFallback } from "./auth-ingress-surface-fallback.client";
 import { AuthPixelMotionShell } from "./auth-pixel-motion-shell";
 
 type AuthWorkspaceSelectionState =
@@ -42,18 +43,7 @@ function AuthWorkspaceSelectIngressFallback({
   readonly message: string;
   readonly title: string;
 }) {
-  return (
-    <main
-      aria-live="polite"
-      className="flex min-h-dvh flex-col items-center justify-center gap-4 bg-background p-6 text-foreground"
-      data-auth-ingress-state="error"
-    >
-      <h1 className="font-semibold text-xl">{title}</h1>
-      <p className="max-w-md text-center text-muted-foreground text-sm">
-        {message}
-      </p>
-    </main>
-  );
+  return <AuthIngressSurfaceFallback message={message} title={title} />;
 }
 
 function resolveIngressShellState(

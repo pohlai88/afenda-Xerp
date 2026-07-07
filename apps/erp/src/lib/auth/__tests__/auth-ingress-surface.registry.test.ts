@@ -16,6 +16,7 @@ import { PUBLIC_APP_ROUTER_PATH_PREFIXES } from "../auth-protected-surface.regis
 const POST_AUTH_WORKSPACE_SELECTION_PATHS = new Set<string>([
   AUTH_PATHS.workspaceSelect,
   AUTH_PATHS.organizationSelect,
+  AUTH_PATHS.postAuthComplete,
 ]);
 
 describe("auth-ingress-surface.registry", () => {
@@ -192,6 +193,12 @@ describe("auth-ingress-surface.registry", () => {
     });
     expect(
       getAuthIngressSurfaceByPath(AUTH_PATHS.organizationSelect)
+    ).toMatchObject({
+      blockId: "login-page-03",
+      surfaceTemplateId: "surface-template.auth-workspace-select",
+    });
+    expect(
+      getAuthIngressSurfaceByPath(AUTH_PATHS.postAuthComplete)
     ).toMatchObject({
       blockId: "login-page-03",
       surfaceTemplateId: "surface-template.auth-workspace-select",

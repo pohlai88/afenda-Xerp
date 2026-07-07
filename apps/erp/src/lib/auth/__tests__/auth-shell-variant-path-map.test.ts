@@ -90,6 +90,9 @@ describe("auth shell variant path map", () => {
     expect(resolveAuthShellVariantForPath(AUTH_PATHS.organizationSelect)).toBe(
       "login-page-03"
     );
+    expect(resolveAuthShellVariantForPath(AUTH_PATHS.postAuthComplete)).toBe(
+      "login-page-03"
+    );
     expect(resolveAuthShellVariantForPath(AUTH_PATHS.error)).toBe(
       "error-authentication-page-01"
     );
