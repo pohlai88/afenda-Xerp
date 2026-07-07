@@ -90,29 +90,8 @@ export function useV2ProofSurfaceVisibility({
     [persistPreference]
   );
 
-  const setVerificationMode = useCallback(
-    (enabled: boolean) => {
-      setVisibilityState(() => {
-        const next = {
-          authShell: enabled,
-        } satisfies V2ProofSurfaceVisibility;
-
-        if (persistPreference) {
-          window.localStorage.setItem(
-            V2_PROOF_SURFACE_VISIBILITY_STORAGE_KEY,
-            serializeSurfaceVisibility(next)
-          );
-        }
-
-        return next;
-      });
-    },
-    [persistPreference]
-  );
-
   return {
     setSurface,
-    setVerificationMode,
     visibility,
   };
 }

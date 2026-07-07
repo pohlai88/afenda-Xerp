@@ -137,7 +137,7 @@ All commands: `disable-model-invocation: true`.
 | `platform-error-handling` | Platform | `packages/**`, `apps/**` | Error taxonomy |
 | `platform-type-safety` | Platform | `**/*.{ts,tsx}` | TypeScript discipline |
 | `platform-schema-validation` | Platform | `**/*.{ts,tsx}` | Zod schemas |
-| `platform-test-coverage` | Platform | `**/*.{test,spec}.{ts,tsx}` | Coverage gaps |
+| `platform-test-coverage` | Platform | `**/*.{test,spec}.{ts,tsx}` | Vitest thresholds, mocking |
 | `platform-observability-usage` | Platform | `packages/observability/**`, `apps/erp/**` | Logs, metrics |
 | `platform-cross-boundary-anti-pattern-scan` | Platform | `packages/**` | Cross-package anti-patterns |
 | `afenda-monorepo-refactor` | Refactor | `packages/**` | Stabilize → implementer |
@@ -149,7 +149,7 @@ All commands: `disable-model-invocation: true`.
 
 | Skill | Class | `paths` | Trigger |
 | --- | --- | --- | --- |
-| `afenda-test` | Command | — | `/afenda-test` |
+| `afenda-test` | Command | `**/*.{test,spec}.{ts,tsx}`, `apps/**/e2e/**` | `/afenda-test` + `afenda-test-engineer` pair |
 | `enterprise-architecture-audit` | Audit | — | Full platform audit (read-only) |
 | `afenda-governance-audit-repair` | Audit+Repair | `packages/**`, `apps/**`, `docs/PAS/**` | Governance audit loop until PASS |
 | `pas-kernel-audit-orchestrator` | Audit+Repair | `docs/PAS/KERNEL/audit/**`, `packages/kernel/**` | PAS-001 / 001A / 001B AUD-XX catalog waves |

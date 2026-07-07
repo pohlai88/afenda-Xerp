@@ -109,4 +109,18 @@ describe("AuthCompleteIngressSurface interaction", () => {
     });
     expect(mockPersistTarget).not.toHaveBeenCalled();
   });
+
+  it("surfaces resolution fetch failure in the auth shell error state", async () => {
+    mockFetchResolution.mockRejectedValue(
+      new Error("Membership resolution unavailable.")
+    );
+
+    render(<AuthCompleteIngressSurface data={readyIngressData()} />);
+
+    expect(
+      await screen.findByText(/Membership resolution unavailable/i)
+    ).toBeInTheDocument();
+    expect(mockReplace).not.toHaveBeenCalled();
+    expect(mockPersistTarget).not.toHaveBeenCalled();
+  });
 });

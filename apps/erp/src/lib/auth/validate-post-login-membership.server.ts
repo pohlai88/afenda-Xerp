@@ -1,10 +1,5 @@
-import { findTenantBySlug } from "@afenda/database";
-import { isMembershipActive } from "@afenda/permissions";
-
-import { loadActorMemberships } from "@/lib/context/load-actor-memberships.server";
-import { resolveAllowedContextOptions } from "@/lib/context/resolve-allowed-context-options.server";
-
 import { AUTH_PATHS, buildAuthPath } from "./auth-path.registry";
+import { loadPostLoginMembershipTargets } from "./load-post-login-membership-targets.server";
 import { DEFAULT_SAFE_INTERNAL_PATH } from "./resolve-safe-internal-path";
 
 export type PostLoginMembershipValidation = {
@@ -15,17 +10,10 @@ export type PostLoginMembershipValidation = {
   readonly workspaceTargetCount: number;
 };
 
-/**
- * Validates platform memberships after authentication and resolves the post-login entry path.
- * Uses the same membership reads as system-admin membership management.
- */
-export async function validatePostLoginMembership(input: {
-  readonly actorUserId: string;
-  readonly tenantSlug: string;
-}): Promise<PostLoginMembershipValidation> {
-  const tenant = await findTenantBySlug(input.tenantSlug);
-
-  if (tenant === null) {
+export function computePostLoginMembershipValidation(
+  targets: Awaited<ReturnType<typeof loadPostLoginMembershipTargets>>
+): PostLoginMembershipValidation {
+  if (targets.tenant === null) {
     return {
       activeMembershipCount: 0,
       entryPath: AUTH_PATHS.accessDenied,
@@ -35,14 +23,7 @@ export async function validatePostLoginMembership(input: {
     };
   }
 
-  const memberships = await loadActorMemberships({
-    actorUserId: input.actorUserId,
-    tenantId: tenant.id,
-  });
-
-  const activeMembershipCount = memberships.filter(isMembershipActive).length;
-
-  if (activeMembershipCount === 0) {
+  if (targets.activeMembershipCount === 0) {
     return {
       activeMembershipCount: 0,
       entryPath: buildAuthPath("accessDenied", { reason: "unlinked" }),
@@ -52,19 +33,11 @@ export async function validatePostLoginMembership(input: {
     };
   }
 
-  const allowedOptions = await resolveAllowedContextOptions({
-    actorUserId: input.actorUserId,
-    memberships,
-    selectedCompanySlug: "",
-    selectedOrganizationSlug: null,
-    tenantId: tenant.id,
-  });
-
-  const workspaceTargetCount = allowedOptions.targets.length;
+  const workspaceTargetCount = targets.allowedOptions.targets.length;
 
   if (workspaceTargetCount <= 1) {
     return {
-      activeMembershipCount,
+      activeMembershipCount: targets.activeMembershipCount,
       entryPath: DEFAULT_SAFE_INTERNAL_PATH,
       requiresOrganizationSelect: false,
       requiresWorkspaceSelect: false,
@@ -73,15 +46,15 @@ export async function validatePostLoginMembership(input: {
   }
 
   const companyCount = new Set(
-    allowedOptions.targets.map((target) => target.companySlug)
+    targets.allowedOptions.targets.map((target) => target.companySlug)
   ).size;
-  const organizationTargetCount = allowedOptions.targets.filter(
+  const organizationTargetCount = targets.allowedOptions.targets.filter(
     (target) => target.organizationSlug !== undefined
   ).length;
 
   if (companyCount === 1 && organizationTargetCount > 1) {
     return {
-      activeMembershipCount,
+      activeMembershipCount: targets.activeMembershipCount,
       entryPath: AUTH_PATHS.organizationSelect,
       requiresOrganizationSelect: true,
       requiresWorkspaceSelect: false,
@@ -90,10 +63,22 @@ export async function validatePostLoginMembership(input: {
   }
 
   return {
-    activeMembershipCount,
+    activeMembershipCount: targets.activeMembershipCount,
     entryPath: AUTH_PATHS.workspaceSelect,
     requiresOrganizationSelect: false,
     requiresWorkspaceSelect: true,
     workspaceTargetCount,
   };
+}
+
+/**
+ * Validates platform memberships after authentication and resolves the post-login entry path.
+ * Uses the same membership reads as system-admin membership management.
+ */
+export async function validatePostLoginMembership(input: {
+  readonly actorUserId: string;
+  readonly tenantSlug: string;
+}): Promise<PostLoginMembershipValidation> {
+  const targets = await loadPostLoginMembershipTargets(input);
+  return computePostLoginMembershipValidation(targets);
 }

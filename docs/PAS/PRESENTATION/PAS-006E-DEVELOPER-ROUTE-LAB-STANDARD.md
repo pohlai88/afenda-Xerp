@@ -202,6 +202,24 @@ apps/developer/src/
 
 ---
 
+## 7.8 Surface profiles (unified developer app)
+
+All routes under `@afenda/developer` share one registry ([`route-surface-registry.ts`](../../../apps/developer/src/lib/lab/route-surface-registry.ts)) with **`routeProfile`**-specific policy:
+
+| Profile | Purpose | Loader | Import law |
+| --- | --- | --- | --- |
+| `index` | Route-lab doctrine entry | none | `lab-runtime-ceiling` |
+| `operator-lab` | ERP route-shape proof in `(lab)` | required `lib/lab/load-*` | `lab-runtime-ceiling` |
+| `consumer-proof` | `@afenda/shadcn-studio-v2` export proof | fixtures in `lib/v2-proof/` | `public-v2-exports-only` |
+
+**Verification:** one canonical gate — `pnpm --filter @afenda/developer verify:greenlight` — plus profile-aware `check-developer-app-governance.mjs`.
+
+Agent checklist: [developer-app-surfaces.md](../../../.cursor/skills/afenda-nextjs-best-practice/reference/developer-app-surfaces.md)
+
+Phase 8 consumer proof (`/design-system/v2-proof`) is **`consumer-proof`** profile — not a parallel doctrine tree.
+
+---
+
 # 8. Slice Queue
 
 | Slice | Title | Status |

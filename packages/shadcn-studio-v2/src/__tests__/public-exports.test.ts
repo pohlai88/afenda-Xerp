@@ -123,6 +123,17 @@ describe("shadcn-studio-v2 public export scaffold", () => {
     }
   });
 
+  it("keeps auth shell block map exports on clients boundary", () => {
+    const clientsSource = readFileSync(
+      path.join(SRC_ROOT, "clients.ts"),
+      "utf8"
+    );
+
+    expect(clientsSource).toContain("AUTH_SHELL_ERP_BLOCK_IDS");
+    expect(clientsSource).toContain("resolveAuthShellBlockPreset");
+    expect(clientsSource).toContain("resolveAuthShellBlockPresetOrSignIn");
+  });
+
   it("keeps V2 package aliases aligned to registered taxonomy roots", () => {
     const tsconfig = JSON.parse(
       readFileSync(TSCONFIG_PATH, "utf8")

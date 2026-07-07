@@ -330,7 +330,7 @@ runStep("TypeScript", workspaceBin("tsc"), [
   "--noEmit",
 ]);
 runStep("Route-lab governance", process.execPath, [
-  "apps/developer/scripts/check-route-lab-governance.mjs",
+  "apps/developer/scripts/check-developer-app-governance.mjs",
 ]);
 runStep("Presentation runtime boundary", process.execPath, [
   "apps/developer/scripts/check-developer-presentation-runtime.mjs",

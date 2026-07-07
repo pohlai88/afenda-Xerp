@@ -55,7 +55,7 @@ const WAVE_2_TOUCHPOINTS = {
   ),
   authWorkspaceSelect: path.join(
     ERP_SRC_ROOT,
-    "components/auth/auth-workspace-selection.client.tsx"
+    "components/auth/auth-workspace-select-ingress.client.tsx"
   ),
   erpErrorPage: path.join(
     ERP_SRC_ROOT,
@@ -172,8 +172,6 @@ describe("Lane B-07-ext ERP surface wave 2", () => {
       "app/(protected)/workspace/page.tsx",
       "app/(protected)/workspace/_components/dashboard-layout-renderer.client.tsx",
       "components/workspace/workspace-dashboard-toolbar.client.tsx",
-      "components/auth/auth-complete-resolver.client.tsx",
-      "components/auth/auth-workspace-selection.client.tsx",
       "components/presentation/erp-error-page.client.tsx",
       "lib/presentation/error-page-surface.registry.ts",
       "lib/presentation/get-error-page-variant-for-path.ts",

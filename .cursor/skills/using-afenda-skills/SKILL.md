@@ -76,7 +76,8 @@ Library API uncertain? ───→ Context7 MCP (resolve ID → query docs)
 ### Verify / Review / Ship
 
 ```
-Tests / coverage? ────────→ /afenda-test (+ vendor test-driven-development)
+Tests / coverage? ────────→ /afenda-test (+ platform-test-coverage + vendor test-driven-development)
+Playwright L4 / @smoke / auth spine E2E? → /afenda-test → afenda-test-engineer + afenda-test/reference/
 Accessibility audit? ───→ vendor `web-accessibility` (+ Storybook addon-a11y on changed stories)
 Editorial login / Auth Login Lab verify? → Storybook MCP preview URL + [editorial-login-quality.md](reference/editorial-login-quality.md) checklist
 Pre-merge review? ────────→ /afenda-review

@@ -1,16 +1,20 @@
-# Afenda Developer Route Lab
+# Afenda Developer App
 
-`@afenda/developer` is the UI/UX review surface for Afenda route and presentation work. It runs on port `3002` and keeps review sessions focused on layout, interaction flow, visual hierarchy, responsive behavior, and presentation quality.
+`@afenda/developer` is the UI/UX review surface for Afenda route and presentation work. It runs on port `3002` and hosts **one governed surface system** with profile-specific policy:
 
-Runtime authority for the route lab is governed through P5 demo-fixture operating-context resolution (`resolveLabShellOperatingContext`), with an empty BFF allowlist and continued prohibition on `@afenda/auth`, `@afenda/kernel`, `@afenda/database`, and `@afenda/server` imports. **[ADR-0044](../../docs/adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md) (Accepted)** amends ADR-0039 to make this promotion-only posture terminal unless explicitly superseded.
+| Profile | Example routes | Purpose |
+| --- | --- | --- |
+| `index` | `/` | Route-lab doctrine index |
+| `operator-lab` | `/dashboard/sales`, `/settings/appearance` | ERP route-shape proof under `(lab)` |
+| `consumer-proof` | `/design-system/v2-proof` | `@afenda/shadcn-studio-v2` public export proof |
 
-The lab still follows ERP frontend law: App Router first, Server Components by default, route-local `_components` when UI surfaces return, client leaves only for interactivity, and no lowered presentation standard because it is a lab.
+**SSOT:** [`src/lib/lab/route-surface-registry.ts`](src/lib/lab/route-surface-registry.ts) — route identity, profile, import law, smoke headings.
 
-See [ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md](../../docs/architecture/ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md) for route-lab structure, placeholder intent, and Next.js/Vercel compliance.
+Runtime authority uses P5 demo-fixture operating context (`resolveLabShellOperatingContext`), an empty BFF allowlist, and prohibition on `@afenda/auth`, `@afenda/kernel`, `@afenda/database`, and `@afenda/server`. See [ADR-0044](../../docs/adr/ADR-0044-developer-route-lab-runtime-authority-boundary.md).
 
-See [DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md](../../docs/architecture/DEVELOPER_ROUTE_LAB_RUNTIME_PARITY_PENDING.md) for the pending implementation path for Route Handlers, live Server Actions, cache strategy, middleware/request policy, and tenant/auth/OperatingContext/BFF authority.
+Agent checklist: [`.cursor/skills/afenda-nextjs-best-practice/reference/developer-app-surfaces.md`](../../.cursor/skills/afenda-nextjs-best-practice/reference/developer-app-surfaces.md)
 
-The current release-grade proof contract is documented in [DEVELOPER_ROUTE_LAB_GREENLIGHT.md](../../docs/architecture/DEVELOPER_ROUTE_LAB_GREENLIGHT.md).
+Audit: [ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md](../../docs/architecture/ROUTE_LAB_NEXTJS_VERCEL_AUDIT.md) · Green-light: [DEVELOPER_ROUTE_LAB_GREENLIGHT.md](../../docs/architecture/DEVELOPER_ROUTE_LAB_GREENLIGHT.md)
 
 ## Run
 
@@ -20,46 +24,30 @@ pnpm --filter @afenda/developer dev
 
 Open `http://127.0.0.1:3002`.
 
-## Verification
+## Verification (canonical)
+
+One release-grade path covers **all** surface profiles:
 
 ```bash
 pnpm --filter @afenda/developer verify:greenlight
 ```
 
-Workspace-level delegate:
+Fast inner loops:
+
+```bash
+pnpm --filter @afenda/developer verify:route-lab   # typecheck + governance
+pnpm --filter @afenda/developer verify:v2-proof    # v2-proof unit tests + presentation/hydration gates
+```
+
+Workspace delegate:
 
 ```bash
 pnpm check:developer-route-lab-greenlight
 ```
 
-Direct workspace-level fallback when root `pnpm` execution is blocked by ignored-build enforcement:
-
-```bash
-node scripts/governance/check-developer-route-lab-greenlight.mjs
-```
-
-Direct app-local fallback when workspace-level `pnpm` execution is blocked:
+Direct fallback:
 
 ```bash
 node apps/developer/scripts/verify-greenlight.mjs
-```
-
-Expanded app-local sequence:
-
-```bash
-pnpm --dir apps/developer check:biome
-pnpm --dir apps/developer test
-pnpm --dir apps/developer verify:route-lab
-pnpm --dir apps/developer test:e2e:smoke
-pnpm --dir apps/developer build
-```
-
-If workspace-level `pnpm` commands are blocked by dependency approval / ignored-build enforcement, app-local binary fallbacks are:
-
-```powershell
-.\node_modules\.bin\tsc -p apps\developer\tsconfig.json --noEmit
-.\node_modules\.bin\biome ci apps\developer
-.\node_modules\.bin\vitest.CMD run --config apps\developer\vitest.config.ts
-apps\developer\node_modules\.bin\playwright test --project=chromium-smoke
-$env:AFENDA_DEVELOPER_SANDBOX='true'; Push-Location apps\developer; node ..\..\node_modules\next\dist\bin\next build; Pop-Location
+node apps/developer/scripts/check-developer-app-governance.mjs
 ```

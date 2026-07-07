@@ -1,10 +1,8 @@
 import { isAfendaAuthSessionLinked } from "@afenda/auth";
-import { findTenantBySlug } from "@afenda/database";
+import { loadPostLoginMembershipTargets } from "@/lib/auth/load-post-login-membership-targets.server";
 import { resolvePostAuthTenantSlugFromRequest } from "@/lib/auth/resolve-post-auth-tenant-slug.server";
 import { resolveProtectedPathActorUserIdFromSession } from "@/lib/auth/resolve-protected-path-actor.server";
-import { validatePostLoginMembership } from "@/lib/auth/validate-post-login-membership.server";
-import { loadActorMemberships } from "@/lib/context/load-actor-memberships.server";
-import { resolveAllowedContextOptions } from "@/lib/context/resolve-allowed-context-options.server";
+import { computePostLoginMembershipValidation } from "@/lib/auth/validate-post-login-membership.server";
 import { authMembershipsGetContract } from "@/server/api/contracts/auth/auth-memberships.contract";
 import { ApiRouteError } from "@/server/api/runtime/api-validation";
 import { createApiHandler } from "@/server/api/runtime/create-api-handler";
@@ -38,14 +36,13 @@ export const GET = createApiHandler({
     const actorUserId = resolveProtectedPathActorUserIdFromSession(
       context.session
     );
-    const validation = await validatePostLoginMembership({
+    const targets = await loadPostLoginMembershipTargets({
       actorUserId,
       tenantSlug,
     });
+    const validation = computePostLoginMembershipValidation(targets);
 
-    const tenant = await findTenantBySlug(tenantSlug);
-
-    if (tenant === null) {
+    if (targets.tenant === null) {
       return {
         activeMembershipCount: validation.activeMembershipCount,
         entryPath: validation.entryPath,
@@ -56,25 +53,12 @@ export const GET = createApiHandler({
       };
     }
 
-    const memberships = await loadActorMemberships({
-      actorUserId,
-      tenantId: tenant.id,
-    });
-
-    const allowedOptions = await resolveAllowedContextOptions({
-      actorUserId,
-      memberships,
-      selectedCompanySlug: "",
-      selectedOrganizationSlug: null,
-      tenantId: tenant.id,
-    });
-
     return {
       activeMembershipCount: validation.activeMembershipCount,
       entryPath: validation.entryPath,
       requiresOrganizationSelect: validation.requiresOrganizationSelect,
       requiresWorkspaceSelect: validation.requiresWorkspaceSelect,
-      targets: allowedOptions.targets.map((target) => ({
+      targets: targets.allowedOptions.targets.map((target) => ({
         companySlug: target.companySlug,
         isSelected: target.isSelected,
         label: target.label,

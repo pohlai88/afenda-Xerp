@@ -1,5 +1,11 @@
+// @vitest-environment jsdom
+
+import { render, screen } from "@afenda/testing/react";
 import { describe, expect, it } from "vitest";
+
+import { AuthBlockFormPreview } from "@/components/auth/auth-block-form-preview.client";
 import { getAuthBlockSlotsForBlockId } from "@/lib/auth/auth-block-slot.registry";
+import { AUTH_ROUTE_CATALOG } from "@/lib/auth/auth-route-catalog";
 import {
   AUTH_ADJACENT_AUTH_BLOCK_IDS,
   AUTH_ADJACENT_SURFACE_PATHS,
@@ -7,38 +13,32 @@ import {
 } from "@/lib/auth/auth-wcag-adjacent.registry";
 
 describe("auth-adjacent WCAG AA contract (PAS-006C P06-007)", () => {
-  it("declares auth-adjacent surface paths", () => {
-    expect(AUTH_ADJACENT_SURFACE_PATHS).toEqual(
-      expect.arrayContaining([
-        "/sign-in",
-        "/verify-email",
-        "/verify-email/sent",
-        "/verify-email/expired",
-        "/verify-email/success",
-        "/invite",
-        "/invite/accept",
-        "/invite/expired",
-        "/invite/invalid",
-        "/invite/consumed",
-        "/invite/email-mismatch",
-        "/passkey",
-        "/passkey/error",
-        "/sso",
-        "/sso/error",
-        "/oauth/error",
-        "/otp",
-        "/mfa",
-        "/mfa/recovery",
-        "/session-expired",
-        "/access-denied",
-        "/auth/complete",
-        "/workspace/select",
-        "/organization/select",
-        "/error",
-        "/maintenance",
-        "/security/review",
-      ])
-    );
+  it("includes catalog paths that declare WCAG slots in auth-adjacent surfaces", () => {
+    for (const entry of AUTH_ROUTE_CATALOG.filter(
+      (route) => route.wcagRequiredSlots.length > 0
+    )) {
+      expect(AUTH_ADJACENT_SURFACE_PATHS).toContain(entry.path);
+    }
+  });
+
+  it("renders login-page-04 form slots and accessible controls for runtime bridge", () => {
+    render(<AuthBlockFormPreview blockId="login-page-04" />);
+
+    expect(document.getElementById("login-form-v1")).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-afenda-slot="login.email"]')
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-afenda-slot="login.password"]')
+    ).toBeInTheDocument();
+    expect(
+      document.querySelector('[data-afenda-slot="login.submit"]')
+    ).toBeInTheDocument();
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/password/i)).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: /sign in/i })
+    ).toBeInTheDocument();
   });
 
   it("maps login block slots required for WCAG form labels", () => {

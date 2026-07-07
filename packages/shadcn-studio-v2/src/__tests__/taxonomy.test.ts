@@ -334,6 +334,7 @@ describe("shadcn-studio-v2 taxonomy", () => {
         .gitkeep
       views/
         auth/
+          auth-shell-block-map.ts
           auth-shell-variants.ts
           auth-shell.tsx
         datatables/

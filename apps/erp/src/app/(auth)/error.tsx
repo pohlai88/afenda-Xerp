@@ -1,6 +1,6 @@
 "use client";
 
-import { ClientSafeRetryButton } from "@/components/client-safe-retry-button.client";
+import { AuthIngressChrome } from "@/components/auth/auth-ingress-chrome.client";
 
 import { AuthSegmentShell } from "./_components/auth-segment-shell";
 
@@ -13,22 +13,19 @@ export default function AuthSegmentError({
   error,
   reset,
 }: AuthSegmentErrorProps) {
+  const message =
+    process.env.NODE_ENV === "development" && error.message.length > 0
+      ? `${error.message} Please try again.`
+      : "We could not load this auth route. Please try again.";
+
   return (
     <AuthSegmentShell>
-      <main className="flex min-h-dvh items-center justify-center p-6">
-        <div className="flex w-full max-w-md flex-col items-center gap-4 rounded-xl border bg-card p-8 text-center">
-          <h1 className="font-semibold text-foreground text-xl">
-            Authentication surface error
-          </h1>
-          <p className="text-muted-foreground text-sm">
-            We could not load this auth route. Please try again.
-          </p>
-          {process.env.NODE_ENV === "development" && error.message ? (
-            <p className="text-muted-foreground text-sm">{error.message}</p>
-          ) : null}
-          <ClientSafeRetryButton onClick={reset} />
-        </div>
-      </main>
+      <AuthIngressChrome
+        message={message}
+        onRetry={reset}
+        state="error"
+        title="Authentication surface error"
+      />
     </AuthSegmentShell>
   );
 }

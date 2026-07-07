@@ -7,9 +7,11 @@ import {
   EvidenceWidget,
   MetricWidget,
   PageSurface,
+  resolveAuthShellBlockPresetOrSignIn,
   SettingsSurface,
 } from "@afenda/shadcn-studio-v2/clients";
 import type { ComponentType } from "react";
+import { AuthBlockFormPreview } from "@/components/auth/auth-block-form-preview.client";
 
 export type StudioBlockPreviewComponent = ComponentType<Record<string, never>>;
 
@@ -26,7 +28,10 @@ export const STUDIO_BLOCK_VIEW_KINDS = [
 
 export type StudioBlockViewKind = (typeof STUDIO_BLOCK_VIEW_KINDS)[number];
 
-function createMetricPreview(label: string): StudioBlockPreviewComponent {
+function createMetricPreview(
+  _blockId: string,
+  label: string
+): StudioBlockPreviewComponent {
   return function MetricPreview() {
     return (
       <MetricWidget
@@ -40,7 +45,10 @@ function createMetricPreview(label: string): StudioBlockPreviewComponent {
   };
 }
 
-function createDataTablePreview(title: string): StudioBlockPreviewComponent {
+function createDataTablePreview(
+  _blockId: string,
+  title: string
+): StudioBlockPreviewComponent {
   return function DataTablePreview() {
     return (
       <DataTableSurface
@@ -53,13 +61,19 @@ function createDataTablePreview(title: string): StudioBlockPreviewComponent {
   };
 }
 
-function createPagePreview(title: string): StudioBlockPreviewComponent {
+function createPagePreview(
+  _blockId: string,
+  title: string
+): StudioBlockPreviewComponent {
   return function PagePreview() {
     return <PageSurface state="ready" title={title} />;
   };
 }
 
-function createEvidencePreview(title: string): StudioBlockPreviewComponent {
+function createEvidencePreview(
+  _blockId: string,
+  title: string
+): StudioBlockPreviewComponent {
   return function EvidencePreview() {
     return (
       <EvidenceWidget label={title} state="empty" useCase="erp-workspace" />
@@ -67,7 +81,10 @@ function createEvidencePreview(title: string): StudioBlockPreviewComponent {
   };
 }
 
-function createSettingsPreview(title: string): StudioBlockPreviewComponent {
+function createSettingsPreview(
+  _blockId: string,
+  title: string
+): StudioBlockPreviewComponent {
   return function SettingsPreview() {
     return (
       <SettingsSurface
@@ -86,6 +103,7 @@ function createSettingsPreview(title: string): StudioBlockPreviewComponent {
 }
 
 function createConfirmDialogPreview(
+  _blockId: string,
   title: string
 ): StudioBlockPreviewComponent {
   return function ConfirmDialogPreview() {
@@ -101,14 +119,30 @@ function createConfirmDialogPreview(
   };
 }
 
-function createAuthShellPreview(title: string): StudioBlockPreviewComponent {
+function createAuthShellPreview(
+  blockId: string,
+  title: string
+): StudioBlockPreviewComponent {
   return function AuthShellPreview() {
-    return <AuthShell state="ready" title={title} />;
+    const preset = resolveAuthShellBlockPresetOrSignIn(blockId);
+
+    return (
+      <AuthShell
+        description={preset.description ?? title}
+        state="ready"
+        title={preset.title ?? title}
+      >
+        <AuthBlockFormPreview blockId={blockId} />
+      </AuthShell>
+    );
   };
 }
 
 type StudioBlockPreviewDefinition = {
-  readonly create: (title: string) => StudioBlockPreviewComponent;
+  readonly create: (
+    blockId: string,
+    title: string
+  ) => StudioBlockPreviewComponent;
   readonly title: string;
   readonly viewKind: StudioBlockViewKind;
 };
@@ -378,7 +412,10 @@ const STUDIO_BLOCK_PREVIEW_DEFINITIONS = {
 
 const STUDIO_BLOCK_PREVIEW_REGISTRY = Object.fromEntries(
   Object.entries(STUDIO_BLOCK_PREVIEW_DEFINITIONS).map(
-    ([blockId, definition]) => [blockId, definition.create(definition.title)]
+    ([blockId, definition]) => [
+      blockId,
+      definition.create(blockId, definition.title),
+    ]
   )
 ) as Record<
   keyof typeof STUDIO_BLOCK_PREVIEW_DEFINITIONS,

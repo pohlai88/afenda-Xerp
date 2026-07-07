@@ -77,6 +77,7 @@ P0: `get_errors` clean on touched routes.
 
 | Task | Entry |
 | ---- | ----- |
-| Route lab UI / structure | This doc + [component-composition.md](component-composition.md) |
+| Developer app surfaces | [developer-app-surfaces.md](reference/developer-app-surfaces.md) |
+| Route lab UI / ERP parity detail | [developer-route-lab-parity.md](reference/developer-route-lab-parity.md) |
 | PAS charter | [PAS-006E](../../../../docs/PAS/PRESENTATION/PAS-006E-DEVELOPER-ROUTE-LAB-STANDARD.md) |
 | Promotion to ERP | Remap loaders + `_components/`; add spine in PAS-001A slices |

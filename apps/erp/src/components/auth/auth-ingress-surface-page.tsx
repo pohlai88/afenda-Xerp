@@ -1,40 +1,17 @@
+import { resolveAuthShellBlockPresetOrSignIn } from "@afenda/shadcn-studio-v2";
+import { AuthShell } from "@afenda/shadcn-studio-v2/clients";
 import { MetadataBindingSlotHydrationPreview } from "@/components/metadata/metadata-binding-slot-hydration-preview.client";
 import type { AuthSurfaceConfig } from "@/lib/auth/auth-surface-config.server";
 import type { AuthIngressSurfacePageData } from "@/lib/auth/load-auth-ingress-surface-page.server";
 
+import { AuthBlockFormPreview } from "./auth-block-form-preview.client";
+import { AuthIngressChrome } from "./auth-ingress-chrome.client";
 import { AuthPixelMotionShell } from "./auth-pixel-motion-shell";
 import { AuthRuntimeBridge } from "./auth-runtime-bridge.client";
 
 export interface AuthIngressSurfacePageProps {
   readonly data: AuthIngressSurfacePageData;
   readonly runtimeConfig: AuthSurfaceConfig;
-}
-
-type AuthIngressSurfaceState = "error" | "missing-slot-hydration" | "ready";
-
-interface AuthIngressFallbackProps {
-  readonly message: string;
-  readonly state: Exclude<AuthIngressSurfaceState, "ready">;
-  readonly title: string;
-}
-
-function AuthIngressFallback({
-  message,
-  state,
-  title,
-}: AuthIngressFallbackProps) {
-  return (
-    <main
-      aria-live="polite"
-      className="flex min-h-dvh flex-col items-center justify-center gap-4 bg-background p-6 text-foreground"
-      data-auth-ingress-state={state}
-    >
-      <h1 className="font-semibold text-xl">{title}</h1>
-      <p className="max-w-md text-center text-muted-foreground text-sm">
-        {message}
-      </p>
-    </main>
-  );
 }
 
 /** Full-bleed public auth ingress — renders metadata-hydrated PAS-006 auth blocks. */
@@ -44,7 +21,7 @@ export function AuthIngressSurfacePage({
 }: AuthIngressSurfacePageProps) {
   if (data.kind === "error") {
     return (
-      <AuthIngressFallback
+      <AuthIngressChrome
         message={data.message}
         state="error"
         title={data.title}
@@ -56,13 +33,17 @@ export function AuthIngressSurfacePage({
 
   if (surface.slotHydration === undefined) {
     return (
-      <AuthIngressFallback
+      <AuthIngressChrome
         message={`${data.description} Presentation slot hydration is unavailable.`}
         state="missing-slot-hydration"
         title={data.title}
       />
     );
   }
+
+  const shellPreset = resolveAuthShellBlockPresetOrSignIn(
+    data.authShellBlockId
+  );
 
   return (
     <main
@@ -80,10 +61,18 @@ export function AuthIngressSurfacePage({
         title={data.title}
       />
       <div className="relative z-10">
-        <MetadataBindingSlotHydrationPreview
-          blockIdOverride={data.authShellBlockId}
-          slotHydration={surface.slotHydration}
-        />
+        <AuthShell
+          className="min-h-dvh"
+          description={shellPreset.description ?? data.description}
+          state="ready"
+          title={shellPreset.title ?? data.title}
+        >
+          <AuthBlockFormPreview blockId={data.authShellBlockId} />
+          <MetadataBindingSlotHydrationPreview
+            blockIdOverride={data.authShellBlockId}
+            slotHydration={surface.slotHydration}
+          />
+        </AuthShell>
       </div>
       <AuthRuntimeBridge config={runtimeConfig} path={data.path} />
     </main>

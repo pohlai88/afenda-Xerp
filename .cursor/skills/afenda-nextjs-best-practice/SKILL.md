@@ -17,7 +17,7 @@ paths:
 
 This skill covers **Next.js 16 mechanics** on the Afenda ingress model — it does not invent module layout.
 
-**Route lab (`apps/developer`):** Same frontend law as ERP production — [developer-route-lab-parity.md](reference/developer-route-lab-parity.md). **Only** auth, spine, BFF, and production deploy differ. Do not lower standards because “it’s the lab.”
+**Route lab (`apps/developer`):** Same frontend law as ERP production — [developer-app-surfaces.md](reference/developer-app-surfaces.md) (unified registry + profiles). **Only** auth, spine, BFF, and production deploy differ.
 
 ---
 

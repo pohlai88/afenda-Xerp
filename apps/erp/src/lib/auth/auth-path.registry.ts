@@ -1,3 +1,5 @@
+import { AUTH_ROUTE_CATALOG } from "./auth-route-catalog";
+
 export const AUTH_LANES = [
   "access",
   "verify",
@@ -205,42 +207,9 @@ export const AUTH_FORM_LANE_LABEL: Record<AuthShellFormLane, string> = {
   error: "Error",
 };
 
-export const AUTH_PATH_FORM_VARIANT_MAP: Record<
-  (typeof AUTH_SEGMENT_PATHS)[number],
-  AuthShellVariant
-> = {
-  [AUTH_PATHS.signIn]: "login-page-04",
-  [AUTH_PATHS.signUp]: "register-page-01",
-  [AUTH_PATHS.otp]: "otp-page-01",
-  [AUTH_PATHS.mfa]: "mfa-page-01",
-  [AUTH_PATHS.mfaRecovery]: "mfa-recovery-page-01",
-  [AUTH_PATHS.verifyEmail.root]: "verify-email-page-01",
-  [AUTH_PATHS.verifyEmail.sent]: "verify-email-sent-page-01",
-  [AUTH_PATHS.verifyEmail.expired]: "verify-email-expired-page-01",
-  [AUTH_PATHS.verifyEmail.success]: "verify-email-success-page-01",
-  [AUTH_PATHS.forgotPassword.root]: "forgot-password-page-01",
-  [AUTH_PATHS.forgotPassword.success]: "forgot-password-success-page-01",
-  [AUTH_PATHS.resetPassword.root]: "reset-password-page-01",
-  [AUTH_PATHS.resetPassword.success]: "reset-password-success-page-01",
-  [AUTH_PATHS.invite.root]: "invite-page-01",
-  [AUTH_PATHS.invite.accept]: "invite-accept-page-01",
-  [AUTH_PATHS.invite.expired]: "invite-expired-page-01",
-  [AUTH_PATHS.invite.invalid]: "invite-invalid-page-01",
-  [AUTH_PATHS.invite.consumed]: "invite-consumed-page-01",
-  [AUTH_PATHS.invite.emailMismatch]: "invite-email-mismatch-page-01",
-  [AUTH_PATHS.passkey.root]: "passkey-page-01",
-  [AUTH_PATHS.passkey.error]: "error-passkey-page-01",
-  [AUTH_PATHS.sso.root]: "sso-page-01",
-  [AUTH_PATHS.sso.error]: "error-sso-page-01",
-  [AUTH_PATHS.oauth.error]: "error-oauth-page-01",
-  [AUTH_PATHS.workspaceSelect]: "login-page-03",
-  [AUTH_PATHS.organizationSelect]: "login-page-03",
-  [AUTH_PATHS.postAuthComplete]: "login-page-03",
-  [AUTH_PATHS.sessionExpired]: "error-session-expired-page-01",
-  [AUTH_PATHS.accessDenied]: "error-access-denied-page-01",
-  [AUTH_PATHS.securityReview]: "security-review-page-01",
-  [AUTH_PATHS.error]: "error-authentication-page-01",
-};
+export const AUTH_PATH_FORM_VARIANT_MAP = Object.fromEntries(
+  AUTH_ROUTE_CATALOG.map((entry) => [entry.path, entry.blockId])
+) as Record<(typeof AUTH_SEGMENT_PATHS)[number], AuthShellVariant>;
 
 export function resolveAuthShellVariantForPath(
   pathname: string
@@ -261,10 +230,6 @@ export function resolveAuthShellVariantForPath(
 
 export function resolveAuthShellBlockIdForPath(pathname: string): string {
   return resolveAuthShellVariantForPath(pathname);
-}
-
-export function authFormEyebrow(lane: AuthShellFormLane, path: string): string {
-  return `${AUTH_FORM_LANE_LABEL[lane]} Lane · ${path}`;
 }
 
 export function buildAuthPath(

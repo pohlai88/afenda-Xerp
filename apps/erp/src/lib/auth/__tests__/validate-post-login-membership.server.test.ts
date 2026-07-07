@@ -3,7 +3,10 @@ import { describe, expect, it, vi } from "vitest";
 
 import { AUTH_PATHS, buildAuthPath } from "@/lib/auth/auth-path.registry";
 import { DEFAULT_SAFE_INTERNAL_PATH } from "@/lib/auth/resolve-safe-internal-path";
-import { validatePostLoginMembership } from "@/lib/auth/validate-post-login-membership.server";
+import {
+  computePostLoginMembershipValidation,
+  validatePostLoginMembership,
+} from "@/lib/auth/validate-post-login-membership.server";
 
 const ACTOR_USER_ID = "user-001";
 const TENANT_ID = "tenant-001";
@@ -198,6 +201,30 @@ describe("validatePostLoginMembership", () => {
       requiresOrganizationSelect: false,
       requiresWorkspaceSelect: true,
       workspaceTargetCount: 2,
+    });
+  });
+});
+
+describe("computePostLoginMembershipValidation", () => {
+  it("continues directly when memberships exist but context targets are empty", () => {
+    expect(
+      computePostLoginMembershipValidation({
+        activeMembershipCount: 1,
+        allowedOptions: { targets: [] },
+        memberships: [activeMembership],
+        tenant: {
+          id: TENANT_ID,
+          slug: TENANT_SLUG,
+          displayName: "Acme Tenant",
+          status: "active",
+        },
+      })
+    ).toEqual({
+      activeMembershipCount: 1,
+      entryPath: DEFAULT_SAFE_INTERNAL_PATH,
+      requiresOrganizationSelect: false,
+      requiresWorkspaceSelect: false,
+      workspaceTargetCount: 0,
     });
   });
 });

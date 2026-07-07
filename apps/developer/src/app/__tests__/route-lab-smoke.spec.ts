@@ -8,6 +8,7 @@ interface SmokableRoute {
   heading: string;
   href: string;
   marker: string;
+  routeProfile: "index" | "operator-lab" | "consumer-proof";
 }
 
 const appRoot = process.cwd().endsWith(path.join("apps", "developer"))
@@ -20,23 +21,63 @@ const registryPath = path.resolve(
   "lab",
   "route-surface-registry.ts"
 );
+const developerThemeStorageKey = "afenda-studio-v2-theme";
 
 const readSmokableRouteRegistry = (): readonly SmokableRoute[] => {
   const registrySource = readFileSync(registryPath, "utf8");
+  const entryBlocks = [
+    ...registrySource.matchAll(/\{\s*actionSeam:\s*"[^"]+"[\s\S]*?\n\s{2}\}/g),
+  ];
 
-  return [
-    ...registrySource.matchAll(
-      /heading:\s*"([^"]+)"[\s\S]*?href:\s*"([^"]+)"[\s\S]*?marker:\s*"([^"]+)"/g
-    ),
-  ].map((match) => ({
-    heading: match[1] ?? "",
-    href: match[2] ?? "",
-    marker: match[3] ?? "",
-  }));
+  return entryBlocks
+    .map((match) => {
+      const block = match[0];
+
+      return {
+        heading: block.match(/heading:\s*"([^"]+)"/)?.[1] ?? "",
+        href: block.match(/href:\s*"([^"]+)"/)?.[1] ?? "",
+        marker: block.match(/marker:\s*"([^"]+)"/)?.[1] ?? "",
+        routeProfile:
+          (block.match(/routeProfile:\s*"([^"]+)"/)?.[1] as
+            | SmokableRoute["routeProfile"]
+            | undefined) ?? "operator-lab",
+      };
+    })
+    .filter((route) => route.href.length > 0);
+};
+
+const assertRouteSurfaceVisible = async (page: Page, route: SmokableRoute) => {
+  if (route.routeProfile === "consumer-proof") {
+    await expect(page.getByText(route.heading, { exact: true })).toBeVisible();
+    await expect(page.getByText(route.marker, { exact: true })).toBeVisible();
+    return;
+  }
+
+  await expect(
+    page.getByRole("heading", {
+      level: 1,
+      name: route.heading,
+    })
+  ).toBeVisible();
+  await expect(page.getByText(route.marker, { exact: true })).toBeVisible();
+};
+
+const waitForRouteSurface = async (page: Page, route: SmokableRoute) => {
+  if (route.routeProfile === "consumer-proof") {
+    await page.getByText(route.heading, { exact: true }).waitFor();
+    return;
+  }
+
+  await page.getByRole("heading", { level: 1, name: route.heading }).waitFor();
 };
 
 const routeExpectations = readSmokableRouteRegistry();
-const rootRoute = routeExpectations[0];
+const rootRoute =
+  routeExpectations.find((route) => route.routeProfile === "index") ??
+  routeExpectations[0];
+const consumerProofRoutes = routeExpectations.filter(
+  (route) => route.routeProfile === "consumer-proof"
+);
 const rootRouteLinkLabel = "Open canonical route";
 const routeAcceptanceViewports = [
   { height: 900, label: "desktop", width: 1440 },
@@ -128,20 +169,14 @@ const collectRouteRuntimeErrors = (page: Page) => {
 
 const shellBannerText =
   "Sandbox route lab. Promotion-ready composition only; runtime authority remains in ERP.";
-test.describe("Developer route lab acceptance @smoke", () => {
+test.describe("Developer app surface acceptance @smoke", () => {
   for (const route of routeExpectations) {
     test(`proves route acceptance for ${route.href}`, async ({ page }) => {
       await page.goto(route.href);
 
-      await expect(
-        page.getByRole("heading", {
-          level: 1,
-          name: route.heading,
-        })
-      ).toBeVisible();
-      await expect(page.getByText(route.marker, { exact: true })).toBeVisible();
+      await assertRouteSurfaceVisible(page, route);
 
-      if (route.href !== "/") {
+      if (route.routeProfile === "operator-lab") {
         await expect(
           page.getByRole("heading", {
             level: 2,
@@ -210,7 +245,7 @@ test.describe("Developer route lab acceptance @smoke", () => {
       await expect(page.getByText("Something went wrong")).toHaveCount(0);
       await expect(
         page.getByText("runtime authority remains in ERP")
-      ).toHaveCount(route.href === "/" ? 0 : 1);
+      ).toHaveCount(route.routeProfile === "operator-lab" ? 1 : 0);
     }
   });
 
@@ -223,9 +258,7 @@ test.describe("Developer route lab acceptance @smoke", () => {
 
     for (const route of routeExpectations) {
       await page.goto(route.href);
-      await page
-        .getByRole("heading", { level: 1, name: route.heading })
-        .waitFor();
+      await waitForRouteSurface(page, route);
     }
 
     expect(runtimeErrors).toEqual([]);
@@ -281,8 +314,18 @@ test.describe("Developer route lab acceptance @smoke", () => {
       for (const route of routeExpectations) {
         await page.goto(route.href);
 
-        await expect(page.locator("main").first()).toBeVisible();
-        await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+        if (route.routeProfile === "consumer-proof") {
+          await expect(
+            page.locator('[data-proof="v2-proof-root"]')
+          ).toBeVisible();
+        } else {
+          await expect(page.locator("main").first()).toBeVisible();
+        }
+
+        if (route.routeProfile !== "consumer-proof") {
+          await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
+        }
+
         await assertAccessibleInteractiveNames(page);
         await assertImagesHaveAltText(page);
         await assertNoHorizontalOverflow(page);
@@ -290,4 +333,57 @@ test.describe("Developer route lab acceptance @smoke", () => {
       }
     });
   }
+
+  test.describe("Consumer-proof profile", () => {
+    test.beforeEach(async ({ page }) => {
+      await page.addInitScript((storageKey) => {
+        window.localStorage.removeItem(storageKey);
+      }, developerThemeStorageKey);
+    });
+
+    for (const route of consumerProofRoutes) {
+      test(`exposes theme customizer without runtime errors on ${route.href}`, async ({
+        page,
+      }) => {
+        const runtimeErrors = collectRouteRuntimeErrors(page);
+
+        await page.goto(route.href);
+        await expect(page.getByLabel("Theme customizer")).toBeVisible();
+
+        expect(runtimeErrors).toEqual([]);
+      });
+
+      test(`supports theme selection on ${route.href}`, async ({ page }) => {
+        await page.goto(route.href);
+
+        const themeState = page.locator('[data-proof="theme-state"]');
+        await expect(themeState).toHaveAttribute(
+          "data-theme-id",
+          "afenda-brand"
+        );
+
+        await page.getByLabel("Toggle color mode").click();
+        await expect(themeState).not.toHaveAttribute("data-mode", "system");
+
+        await page.getByRole("combobox", { name: "Theme" }).click();
+        await page.getByRole("option", { name: "Swiss Noir" }).click();
+        await expect(themeState).toHaveAttribute("data-theme-id", "swiss-noir");
+      });
+
+      test(`does not emit hydration mismatch console errors on ${route.href}`, async ({
+        page,
+      }) => {
+        const runtimeErrors = collectRouteRuntimeErrors(page);
+
+        await page.goto(route.href);
+        await page.locator('[data-proof="theme-state"]').waitFor();
+
+        const hydrationErrors = runtimeErrors.filter((entry) =>
+          /hydration/i.test(entry)
+        );
+
+        expect(hydrationErrors).toEqual([]);
+      });
+    }
+  });
 });

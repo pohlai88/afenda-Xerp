@@ -245,6 +245,20 @@ export {
   type NonReadyAuthShellState,
 } from "./views/auth/auth-shell";
 export {
+  AUTH_SHELL_ERP_BLOCK_IDS,
+  type AuthShellBlockPreset,
+  type AuthShellErpBlockId,
+  resolveAuthShellBlockPreset,
+  resolveAuthShellBlockPresetOrSignIn,
+} from "./views/auth/auth-shell-block-map";
+export {
+  AUTH_SHELL_CANONICAL_VARIANT_IDS,
+  AUTH_SHELL_VARIANT_PRESETS,
+  type AuthShellVariantPreset,
+  type AuthShellVariantPresetId,
+  getAuthShellVariantPreset,
+} from "./views/auth/auth-shell-variants";
+export {
   DataTableSurface,
   dataTableSurfaceClassName,
 } from "./views/datatables/data-table-surface";

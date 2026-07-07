@@ -1,24 +1,28 @@
+import { AuthIngressChrome } from "./auth-ingress-chrome.client";
+
+export type { AuthIngressChromeState } from "./auth-ingress-chrome.client";
+export { AuthIngressChrome } from "./auth-ingress-chrome.client";
+
 interface AuthIngressSurfaceFallbackProps {
   readonly message: string;
+  readonly onRetry?: () => void;
   readonly state?: "error" | "missing-slot-hydration";
   readonly title: string;
 }
 
+/** @deprecated Use AuthIngressChrome — retained as thin alias for transitional imports. */
 export function AuthIngressSurfaceFallback({
   message,
+  onRetry,
   state = "error",
   title,
 }: AuthIngressSurfaceFallbackProps) {
   return (
-    <main
-      aria-live="polite"
-      className="flex min-h-dvh flex-col items-center justify-center gap-4 bg-background p-6 text-foreground"
-      data-auth-ingress-state={state}
-    >
-      <h1 className="font-semibold text-xl">{title}</h1>
-      <p className="max-w-md text-center text-muted-foreground text-sm">
-        {message}
-      </p>
-    </main>
+    <AuthIngressChrome
+      message={message}
+      {...(onRetry === undefined ? {} : { onRetry })}
+      state={state}
+      title={title}
+    />
   );
 }
