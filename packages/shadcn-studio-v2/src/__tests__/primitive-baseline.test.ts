@@ -152,8 +152,8 @@ describe("shadcn-studio-v2 primitive baseline", () => {
     expect(cardMarkup).toContain('data-slot="card-description"');
     expect(cardMarkup).toContain('data-slot="card-content"');
     expect(cardMarkup).toContain('data-slot="card-footer"');
-    expect(cardMarkup).toContain("<div");
-    expect(cardMarkup).not.toContain("<h3");
+    expect(cardMarkup).toContain("<h3");
+    expect(cardMarkup).not.toContain('data-slot="card-title"><div');
     expect(cardMarkup).toContain("Revenue");
   });
 
@@ -177,7 +177,7 @@ describe("shadcn-studio-v2 primitive baseline", () => {
 
     expect(cardSource).toContain('data-slot="card"');
     expect(cardSource).toContain('data-slot="card-header"');
-    expect(cardSource).toContain('data-slot="card-title"');
+    expect(cardSource).toContain('"card-title"');
     expect(cardSource).toContain('data-slot="card-description"');
     expect(cardSource).toContain('data-slot="card-content"');
     expect(cardSource).toContain('data-slot="card-footer"');

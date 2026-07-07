@@ -174,9 +174,9 @@ export function FormSurface({
     >
       <Card>
         <CardHeader>
-          <div data-slot={FORM_SURFACE_SLOTS.title} id={titleId}>
-            <CardTitle>{title}</CardTitle>
-          </div>
+          <CardTitle data-slot={FORM_SURFACE_SLOTS.title} id={titleId}>
+            {title}
+          </CardTitle>
           {description == null ? null : (
             <div data-slot={FORM_SURFACE_SLOTS.description} id={descriptionId}>
               <CardDescription>{description}</CardDescription>

@@ -141,9 +141,13 @@ export function EvidenceWidget({
     >
       <Card className="flex h-full min-h-0 flex-col" data-state={resolvedState}>
         <CardHeader>
-          <div data-slot={EVIDENCE_WIDGET_SLOTS.title} id={titleId}>
-            <CardTitle className="text-sm">{label}</CardTitle>
-          </div>
+          <CardTitle
+            className="text-sm"
+            data-slot={EVIDENCE_WIDGET_SLOTS.title}
+            id={titleId}
+          >
+            {label}
+          </CardTitle>
           {description == null ? null : (
             <div
               data-slot={EVIDENCE_WIDGET_SLOTS.description}

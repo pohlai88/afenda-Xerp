@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import type { ComponentProps, ElementType } from "react";
 import { cn } from "../../lib/cn";
 
 export type CardVariant = "default" | "muted";
@@ -42,12 +42,27 @@ export function CardHeader({ className, ...props }: ComponentProps<"div">) {
   );
 }
 
-export function CardTitle({ className, ...props }: ComponentProps<"div">) {
+export type CardTitleElement = "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
+
+export interface CardTitleProps
+  extends Omit<ComponentProps<"h3">, "data-slot"> {
+  readonly as?: CardTitleElement;
+  readonly "data-slot"?: string;
+}
+
+export function CardTitle({
+  as: TitleTag = "h3",
+  className,
+  "data-slot": dataSlot = "card-title",
+  ...props
+}: CardTitleProps) {
+  const Tag = TitleTag as ElementType;
+
   return (
-    <div
+    <Tag
       {...props}
       className={cn("font-semibold leading-none", className)}
-      data-slot="card-title"
+      data-slot={dataSlot}
     />
   );
 }

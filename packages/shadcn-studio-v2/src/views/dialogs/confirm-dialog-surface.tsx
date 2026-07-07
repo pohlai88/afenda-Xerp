@@ -160,9 +160,13 @@ export function ConfirmDialogSurface({
     >
       <Card>
         <CardHeader>
-          <div data-slot={CONFIRM_DIALOG_SURFACE_SLOTS.title} id={titleId}>
-            <CardTitle>{title}</CardTitle>
-          </div>
+          <CardTitle
+            as="h2"
+            data-slot={CONFIRM_DIALOG_SURFACE_SLOTS.title}
+            id={titleId}
+          >
+            {title}
+          </CardTitle>
           {description == null ? null : (
             <div
               data-slot={CONFIRM_DIALOG_SURFACE_SLOTS.description}

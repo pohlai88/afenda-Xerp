@@ -90,6 +90,14 @@ const config: StorybookConfig = {
         replacement: join(shadcnStudioV2SrcRoot, "styles/shadcn-default.css"),
       },
       {
+        find: "@afenda/shadcn-studio-v2/themes/swiss-noir.css",
+        replacement: join(shadcnStudioV2SrcRoot, "styles/swiss-noir.css"),
+      },
+      {
+        find: "@afenda/shadcn-studio-v2/themes/verdant-noir.css",
+        replacement: join(shadcnStudioV2SrcRoot, "styles/verdant-noir.css"),
+      },
+      {
         find: "@afenda/shadcn-studio-v2/lab",
         replacement: join(shadcnStudioV2SrcRoot, "storybook/lab.ts"),
       },

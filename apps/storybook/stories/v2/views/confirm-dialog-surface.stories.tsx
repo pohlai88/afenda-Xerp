@@ -36,11 +36,29 @@ export const ReadyDefault: Story = {
       canvas.getByRole("dialog", { name: "Archive workspace?" })
     ).toBeVisible();
     await expect(canvas.getByRole("button", { name: "Archive" })).toBeVisible();
+    await expect(
+      canvas.getByRole("button", { name: "Keep workspace" })
+    ).toBeVisible();
   },
 };
 
 export const ReadyDestructive: Story = {
-  args: { state: "ready", intent: "destructive", confirmLabel: "Delete" },
+  args: {
+    state: "ready",
+    intent: "destructive",
+    confirmLabel: "Delete",
+    title: "Delete workspace?",
+    description: "This action permanently removes the workspace and all data.",
+  },
+  play: async ({ canvas }) => {
+    await expect(
+      canvas.getByRole("dialog", { name: "Delete workspace?" })
+    ).toBeVisible();
+    await expect(canvas.getByRole("button", { name: "Delete" })).toBeVisible();
+    await expect(
+      canvas.getByRole("button", { name: "Keep workspace" })
+    ).toBeVisible();
+  },
 };
 
 export const Loading: Story = {

@@ -230,10 +230,8 @@ function AuthShellHeader({
 }) {
   return (
     <CardHeader>
-      <CardTitle>
-        <h1 data-slot={AUTH_SHELL_SLOTS.title} id={titleId}>
-          {title}
-        </h1>
+      <CardTitle as="h1" data-slot={AUTH_SHELL_SLOTS.title} id={titleId}>
+        {title}
       </CardTitle>
       {description == null ? null : (
         <div data-slot={AUTH_SHELL_SLOTS.description} id={descriptionId}>

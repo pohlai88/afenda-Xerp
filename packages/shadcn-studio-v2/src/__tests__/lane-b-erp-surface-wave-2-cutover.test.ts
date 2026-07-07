@@ -51,7 +51,7 @@ const WAVE_2_TOUCHPOINTS = {
   ),
   authComplete: path.join(
     ERP_SRC_ROOT,
-    "components/auth/auth-complete-resolver.client.tsx"
+    "components/auth/auth-complete-ingress.client.tsx"
   ),
   authWorkspaceSelect: path.join(
     ERP_SRC_ROOT,

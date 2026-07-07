@@ -311,6 +311,8 @@ describe("Phase 7B workflow views", () => {
 
     expect(markup).toContain(`data-slot="${FORM_SURFACE_SLOTS.root}"`);
     expect(markup).toContain(`data-slot="${FORM_SURFACE_SLOTS.title}"`);
+    expect(markup).toContain("<h3");
+    expect(markup).toContain("Record form");
     expect(markup).toContain(`data-slot="${FORM_SURFACE_SLOTS.field}"`);
     expect(markup).toContain(`data-slot="${FORM_SURFACE_SLOTS.fieldControl}"`);
     expect(markup).toContain(`data-slot="${FORM_SURFACE_SLOTS.fieldMessage}"`);
@@ -861,6 +863,9 @@ describe("Phase 7A page and widget views", () => {
     expect(markup).toContain('data-adapter-kind="evidence"');
     expect(markup).toContain(`data-slot="${EVIDENCE_WIDGET_SLOTS.summary}"`);
     expect(markup).toContain(`data-slot="${EVIDENCE_WIDGET_SLOTS.item}"`);
+    expect(markup).toContain(`data-slot="${EVIDENCE_WIDGET_SLOTS.title}"`);
+    expect(markup).toContain("<h3");
+    expect(markup).toContain("Evidence checkpoint");
     expect(viewTypes).toContain("readonly summary: EvidenceWidgetSummary;");
     expect(viewTypes).toContain("readonly summary?: never;");
     expect(evidenceWidgetSummaryClassName()).toContain("font-semibold");

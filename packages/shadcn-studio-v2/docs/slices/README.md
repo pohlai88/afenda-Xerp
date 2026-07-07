@@ -134,4 +134,19 @@ B-01–B-14 **Complete** (2026-07-06). Formal v1 deprecation only at B-15 **PROC
 | B-12 | [Developer lab v1 dependency removal](LANE-B-12-DEVELOPER-LAB-V1-REMOVAL.md) | Complete |
 | B-13 | [v1 import freeze and retirement candidate](LANE-B-13-V1-IMPORT-FREEZE-AND-RETIREMENT-CANDIDATE.md) | Complete |
 | B-14 | [Lane B synchronization gate](LANE-B-14-LANE-B-SYNCHRONIZATION-GATE.md) | Complete |
-| B-15 | [v1 formal deprecation sign-off](LANE-B-15-V1-FORMAL-DEPRECATION-SIGN-OFF.md) | Planned |
+| B-15 | [v1 formal deprecation sign-off](LANE-B-15-V1-FORMAL-DEPRECATION-SIGN-OFF.md) | Complete |
+
+## Wave V2 — post-foundation consumer readiness (complete)
+
+**Authority:** [Wave V2 post-foundation index](WAVE-V2-POST-FOUNDATION-INDEX.md)
+
+Execute after Lane B **PROCEED**. Package and Storybook only — no ERP route wiring in this wave.
+
+| Slice | Title | Status |
+| --- | --- | --- |
+| V2-W1 | L4 catalog — EvidenceWidget | Complete |
+| V2-W2 | Title semantics hardening | Complete |
+| V2-W3 | AuthShell variant presets | Complete |
+| V2-W4 | ConfirmDialog interaction proof | Complete |
+| V2-W5 | Editorial theme Storybook | Complete |
+| V2-W6 | MCP quarantine promotion pilot | Deferred |
